@@ -1,0 +1,696 @@
+:: clothTest [nobr]
+
+<<nobr>>
+<center>
+@@.head1;Clothing Generator Test@@
+</center><br><br>
+The clothing generator consists of a function (twine: widget) for each clothing type. I have built the functions with 6 arguments to allow easy customization of the clothing selection, so that different stores can pass different arguments and easily have differentiated clothing selections without needing multiple clothing generators.<br><br>
+@@.head3;<<-"Arguments:">>@@<br>
+@@.head4;<<-"0:">>@@ ''Number'' - The number of clothing items to generate.<br>
+@@.head4;<<-"1:">>@@ ''Style'' - An argument that sets the available styles, and the relative odds of encountering those styles. (The odds will likely need tuning in the future.) A store can sell very sexy or fetish styles exclusively, or predominantly conservative clothing, based on this setting. Potential substyles are based on the style.<br>
+@@.head4;<<-"2:">>@@ ''Fabric'' - An argument that sets the available fabrics, and the relative odds of those fabrics, which is further based on the actual style/substyle of the garment so far. Functions similar to Style, and controls how sexy/sheer/etc a garment's fabric can be.<br>
+@@.head4;<<-"3:">>@@ ''Color'' - A setting that allows control over the types of colors available for a garment. Could be set to more formal colors, or for cute colors, etc.<br>
+@@.head4;<<-"4:">>@@ ''Quality'' - A simple setting that allows modification of the clothing's overall attractiveness (and potentially sexiness/cuteness in the future) This lets us differentiate between stores that are lower-end or more generic, and stores that are expensive and fashionable.<br>
+@@.head4;<<-"5:">>@@ ''Name'' - Sets the name of the store into the clothing array, which can be used in several ways in addition to reminding a player where they bought a certain clothing item. 
+<br><br>
+The stats or attributes of a piece of clothing are based on its style, substyle, fabric, and to a lesser degree color. However, these stats are not always the same. The style, substyle, fabric, and color do not add or subtract a fixed amount from clothing stat values. Instead, each has a weighted random range of values to add or subtract. This means that two otherwise identical clothing items are very unlikely to have the same stats. This mimics clothing in real life, where small differences in style/design impact how good it looks. (Basically, not all black satin demi-cup bras look the same.)
+<br><br>
+The price of clothing is based on the type of clothing and its attributes, and there is a multiplier to change the price based on the store. Pricing is done outside the clothing generator to allow for things like sales. Currently, the price of clothing is based entirely on its stats, with no randomness, meaning that better clothing costs more. It's always possible to add some randomness later if desired.
+<br><br>
+I ended up doing a decent amount of work on the clothes shopping system in order to display clothing to you. I figured it was preferable to writing stuff for a demo that wouldn't be used again. Clothing isn't purchased immediately (though this is much easier to do), and is instead placed in "your cart" as if you were actually shopping. I did this because it will allow additional possibilities for fitting rooms, as well as the possibility of shoplifting and some other "unusual" ways of getting clothes/items for free. 
+<br><br>
+@@.head2;Anatomy of a Clothing Variable@@<br>
+Each clothing item--except for bags/purses and accessories--has 11 values in its array when created, and then 12 when purchased. (The 12th being the purchase price.) This gives us rich information about the clothing that can be used during play in a number of ways.
+<br>@@.head4;Example@@<br>
+@@.ident;Some Bra @@ <<-"[">>@@.note;String-Name of Bra, Attractiveness, Cuteness/Sexyness, Casual/Formal, Exposure, Status, Style #, Substyle #, Fabric #, Store String, Price@@<<-"]">>
+<br><br>
+The most interesting to you is likely @@.exp;Exposure@@ and @@.exp;Status@@.<br>
+@@.ident;''Exposure''@@ is a numerical value representing how exposed relevant body parts are. In the case of a bras, blouses, and overwear, this is how exposed the breasts are. The scale goes from 0-completely covered, to 5-completely exposed. The areas inbetween allow for different levels of exposure. a low value may allow people to detect hard nipples, while a high value may be thin and sheer so that it hardly hides anything. Exposure is also affected by the "protection" a garment gives. An ultrasheer shirt may allow you to see everything, but wouldn't let you touch it directly, so doesn't have an exposure value of 5. In addition, exposure works based on the cumulative level of exposure for all the garments covering that part of the body. You can be wearing a cupless bra, and a tranparent latex shirt, but your exposure level would still be extremely low if you were wearing a sweatshirt over those. (Unless you pulled the sweatshirt off, or hiked it up over your chest.)<br>
+@@.ident;''Status''@@ is a coded value, and is probably the neatest or most original mechanic when it comes to clothes in AW. Each clothing item has a range of possible status values based on the style, substyle, and fabric values. The status of a garment affects its primary stats. For example, a thin cotton tee-shirt would normally have a relatively-low exposure value, but could have that modified to be higher by being wet. A skirt could be hiked up, a shirt could be unbuttoned, panties can be pulled aside, or jeans could be unbuttoned, unzipped, and worn quite low. The value is coded to allow multiple status effects at the same time, such as being wet, torn, and unfastened all at once.
+<br><br>
+<center>
+@@.big;[[Refresh Clothes|clothTest]] | [[Back to Start Page|Start][$showDebug = false]]@@
+</center>
+<br><br>
+@@.note;These clothes are generated using "everything equally" setting arguments so that you can see a wider range of potential clothing.@@ @@.import;This will mean seeing a few strange clothing items (and not see some fetish items)@@ @@.note;because fabric/style/etc combinations that would normally not happen are possible with these settings. Use the Refresh link above to generate new clothes. Thanks to combinations of style, substyle, and fabric, there are hundreds to thousands of different clothing items possible in each category. If you include color and attributes, it's far far more. The idea is to make it more interesting to search for an "even better" piece of clothing.@@
+<br>
+<<genPanties 10 0 0 0 0 "Demo">>
+<<genBra 10 0 0 0 0 "Demo">>
+<<genStocking 10 0 0 0 0 "Demo">>
+<<genDress 10 0 0 0 0 "Demo">>
+<<genOverWear 10 0 0 0 0 "Demo">>
+<<genUpperBody 10 0 0 0 0 "Demo">>
+<<genLowerBody 15 0 0 0 0 "Demo">>
+
+<br>
+<center>
+@@.head2;Panties@@
+</center>
+<<set _number = 10>>
+/*change price based on the store*/
+<<set _storeMod = 1>>
+/*sets the price baseline to accommodate different clothing types 8=panties, 30=bra, */
+<<set _basePrice = 8>>
+/*inits arrays that line up with displayed clothes */
+<<set _prices = []>>
+<<set _buyControl = []>>
+<<for _i to 0; _i < _number; _i++>>
+	<<run _buyControl.push(false)>>
+	<<run _prices.push(0)>>
+<</for>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $shopP[_i]>>
+	<<set _workPrice = _basePrice>>
+	<<set _tempAtr = _tempArray[1] + 3>>
+	<<set _workPrice += (_basePrice / 10) * _tempAtr>>
+	<<if _tempArray[3] > 0>>
+		<<set _workPrice += (_basePrice / 10) * _tempArray[3]>>
+	<<elseif _tempArray[3] < 0>>
+		<<set _workPrice += (_basePrice / 20) * _tempArray[3]>>
+	<</if>>
+	<<set _workPrice += (_basePrice / 15) * (_tempArray[4] + _tempArray[2])>>
+	<<set _workPrice *= _storeMod>>
+	<<set _workPrice = Math.round(_workPrice)>>
+	<<set _prices[_i] = _workPrice>>
+	<<run _tempArray.push(_workPrice)>>
+	<tr><td width="60%">
+	@@.head4;<<print _tempArray[0]>>@@
+	<br>
+	<<silently>>
+	<<set _output = "Attractiveness: ">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += ", Sexiness: ">>
+		<<set _output += _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += ", Cuteness: ">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += " Exposure: ">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	@@.exp;<<print _output>><<print _tempExposeB>><<print _outputB>>@@
+	/*<<print "     ">>*/
+	/*<<link "information">><<replace "#styleguide">>*/
+	</td><td width="20%">
+	<center>
+	@@.exp;_tempArray[10] price:@@
+	<br>
+	@@.money;<<mon>>_prices[_i]@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<checkbox "_buyControl[_i]" 0 1>>@@.exp;Select@@
+	</center>
+	</td></tr>
+<</for>>
+<tr><td colspan="2">
+@@.note;<span id="styleguide">Style information will be displayed here.</span>@@
+</td><td>
+<<button "Add to Cart">>
+<<set $cartP = []>>
+<<for _i to 0; _i < _number; _i++>>
+	<<if _buyControl[_i] == 1>>
+		<<run $cartP.push($shopP[_i])>>
+	<</if>>
+<</for>>
+<<replace "#cart">>
+Added!
+<</replace>>
+<</button>>
+@@.note;<span id="cart"></span>@@
+</td></tr>
+</table>
+<center>
+@@.head2;Bras@@
+</center>
+<<set _number = 10>>
+/*change price based on the store*/
+<<set _storeMod = 1>>
+/*sets the price baseline to accommodate different clothing types 5=panties, 30=bra, */
+<<set _basePrice = 30>>
+/*inits arrays that line up with displayed clothes */
+<<set _prices = []>>
+<<set _buyControl = []>>
+<<for _i to 0; _i < _number; _i++>>
+	<<run _buyControl.push(false)>>
+	<<run _prices.push(0)>>
+<</for>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $shopB[_i]>>
+	<<set _workPrice = _basePrice>>
+	<<set _tempAtr = _tempArray[1] + 3>>
+	<<set _workPrice += (_basePrice / 10) * _tempAtr>>
+	<<if _tempArray[3] > 0>>
+		<<set _workPrice += (_basePrice / 10) * _tempArray[3]>>
+	<<elseif _tempArray[3] < 0>>
+		<<set _workPrice += (_basePrice / 20) * _tempArray[3]>>
+	<</if>>
+	<<set _workPrice += (_basePrice / 15) * (_tempArray[4] + _tempArray[2])>>
+	<<set _workPrice *= _storeMod>>
+	<<set _workPrice = Math.round(_workPrice)>>
+	<<set _prices[_i] = _workPrice>>
+	<<run _tempArray.push(_workPrice)>>
+	<tr><td width="60%">
+	@@.head4;<<print _tempArray[0]>>@@
+	<br>
+	<<silently>>
+	<<set _output = "Attractiveness: ">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += ", Sexiness: ">>
+		<<set _output += _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += ", Cuteness: ">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += " Exposure: ">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	@@.exp;<<print _output>><<print _tempExposeB>><<print _outputB>>@@
+	/*<<print "     ">>*/
+	/*<<link "information">><<replace "#styleguide">>*/
+	</td><td width="20%">
+	<center>
+	@@.exp;_tempArray[10] price:@@
+	<br>
+	@@.money;<<mon>>_prices[_i]@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<checkbox "_buyControl[_i]" 0 1>>@@.exp;Select@@
+	</center>
+	</td></tr>
+<</for>>
+<tr><td colspan="2">
+@@.note;<span id="styleguide">Style information will be displayed here.</span>@@
+</td><td>
+<<button "Add to Cart">>
+<<set $cartB = []>>
+<<for _i to 0; _i < _number; _i++>>
+	<<if _buyControl[_i] == 1>>
+		<<run $cartB.push($shopB[_i])>>
+	<</if>>
+<</for>>
+<<replace "#cart">>
+Added!
+<</replace>>
+<</button>>
+@@.note;<span id="cart"></span>@@
+</td></tr>
+</table>
+<center>
+@@.head2;Stockings@@
+</center>
+<<set _number = 10>>
+/*change price based on the store*/
+<<set _storeMod = 1>>
+/*sets the price baseline to accommodate different clothing types 5=panties, 30=bra, */
+<<set _basePrice = 12>>
+/*inits arrays that line up with displayed clothes */
+<<set _prices = []>>
+<<set _buyControl = []>>
+<<for _i to 0; _i < _number; _i++>>
+	<<run _buyControl.push(false)>>
+	<<run _prices.push(0)>>
+<</for>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $shopLeg[_i]>>
+	<<set _workPrice = _basePrice>>
+	<<set _tempAtr = _tempArray[1] + 3>>
+	<<set _workPrice += (_basePrice / 10) * _tempAtr>>
+	<<if _tempArray[3] > 0>>
+		<<set _workPrice += (_basePrice / 10) * _tempArray[3]>>
+	<<elseif _tempArray[3] < 0>>
+		<<set _workPrice += (_basePrice / 20) * _tempArray[3]>>
+	<</if>>
+	<<set _workPrice += (_basePrice / 15) * (_tempArray[4] + _tempArray[2])>>
+	<<set _workPrice *= _storeMod>>
+	<<set _workPrice = Math.round(_workPrice)>>
+	<<set _prices[_i] = _workPrice>>
+	<<run _tempArray.push(_workPrice)>>
+	<tr><td width="60%">
+	@@.head4;<<print _tempArray[0]>>@@
+	<br>
+	<<silently>>
+	<<set _output = "Attractiveness: ">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += ", Sexiness: ">>
+		<<set _output += _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += ", Cuteness: ">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += " Exposure: ">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	@@.exp;<<print _output>><<print _tempExposeB>><<print _outputB>>@@
+	</td><td width="20%">
+	<center>
+	@@.exp;_tempArray[10] price:@@
+	<br>
+	@@.money;<<mon>>_prices[_i]@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<checkbox "_buyControl[_i]" 0 1>>@@.exp;Select@@
+	</center>
+	</td></tr>
+<</for>>
+<tr><td colspan="2">
+@@.note;<span id="styleguide">Style information will be displayed here.</span>@@
+</td><td>
+<<button "Add to Cart">>
+<<set $cartLeg = []>>
+<<for _i to 0; _i < _number; _i++>>
+	<<if _buyControl[_i] == 1>>
+		<<run $cartLeg.push($shopLeg[_i])>>
+	<</if>>
+<</for>>
+<<replace "#cart">>
+Added!
+<</replace>>
+<</button>>
+@@.note;<span id="cart"></span>@@
+</td></tr>
+</table>
+<center>
+@@.head2;Dresses@@
+</center>
+/*sets the number of clothing items*/
+<<set _number = 10>>
+/*change price based on the store*/
+<<set _storeMod = 1>>
+/*sets the price baseline to accommodate different clothing types 8=panties, 30=bra, */
+<<set _basePrice = 65>>
+/*inits arrays that line up with displayed clothes */
+<<set _prices = []>>
+<<set _buyControl = []>>
+<<for _i to 0; _i < _number; _i++>>
+	<<run _buyControl.push(false)>>
+	<<run _prices.push(0)>>
+<</for>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $shopD[_i]>>
+	<<set _workPrice = _basePrice>>
+	<<set _tempAtr = _tempArray[1] + 3>>
+	<<set _workPrice += (_basePrice / 10) * _tempAtr>>
+	<<if _tempArray[3] > 0>>
+		<<set _workPrice += (_basePrice / 10) * _tempArray[3]>>
+	<<elseif _tempArray[3] < 0>>
+		<<set _workPrice += (_basePrice / 20) * _tempArray[3]>>
+	<</if>>
+	<<set _workPrice += (_basePrice / 15) * (_tempArray[4] + _tempArray[2])>>
+	<<set _workPrice *= _storeMod>>
+	<<set _workPrice = Math.round(_workPrice)>>
+	<<set _prices[_i] = _workPrice>>
+	<<run _tempArray.push(_workPrice)>>
+	<tr><td width="60%">
+	@@.head4;<<print _tempArray[0]>>@@
+	<br>
+	<<silently>>
+	<<set _output = "Attractiveness: ">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += ", Sexiness: ">>
+		<<set _output += _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += ", Cuteness: ">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += " Exposure: ">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	@@.exp;<<print _output>><<print _tempExposeB>><<print _outputB>>@@
+	/*<<print "     ">>*/
+	/*<<link "information">><<replace "#styleguide">>*/
+	</td><td width="20%">
+	<center>
+	@@.exp;_tempArray[10] price:@@
+	<br>
+	@@.money;<<mon>>_prices[_i]@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<checkbox "_buyControl[_i]" 0 1>>@@.exp;Select@@
+	</center>
+	</td></tr>
+<</for>>
+<tr><td colspan="2">
+@@.note;<span id="styleguide">Style information will be displayed here.</span>@@
+</td><td>
+<<button "Add to Cart">>
+<<set $cartD = []>>
+<<for _i to 0; _i < _number; _i++>>
+	<<if _buyControl[_i] == 1>>
+		<<run $cartD.push($shopD[_i])>>
+	<</if>>
+<</for>>
+<<replace "#cart">>
+Added!
+<</replace>>
+<</button>>
+@@.note;<span id="cart"></span>@@
+</td></tr>
+</table>
+<center>
+@@.head2;Overwear@@
+</center>
+/*sets the number of clothing items*/
+<<set _number = 10>>
+/*change price based on the store*/
+<<set _storeMod = 1>>
+/*sets the price baseline to accommodate different clothing types 8=panties, 30=bra, */
+<<set _basePrice = 70>>
+/*inits arrays that line up with displayed clothes */
+<<set _prices = []>>
+<<set _buyControl = []>>
+<<for _i to 0; _i < _number; _i++>>
+	<<run _buyControl.push(false)>>
+	<<run _prices.push(0)>>
+<</for>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $shopOW[_i]>>
+	<<set _workPrice = _basePrice>>
+	<<set _tempAtr = _tempArray[1] + 3>>
+	<<set _workPrice += (_basePrice / 10) * _tempAtr>>
+	<<if _tempArray[3] > 0>>
+		<<set _workPrice += (_basePrice / 10) * _tempArray[3]>>
+	<<elseif _tempArray[3] < 0>>
+		<<set _workPrice += (_basePrice / 20) * _tempArray[3]>>
+	<</if>>
+	<<set _workPrice += (_basePrice / 15) * (_tempArray[4] + _tempArray[2])>>
+	<<set _workPrice *= _storeMod>>
+	<<set _workPrice = Math.round(_workPrice)>>
+	<<set _prices[_i] = _workPrice>>
+	<<run _tempArray.push(_workPrice)>>
+	<tr><td width="60%">
+	@@.head4;<<print _tempArray[0]>>@@
+	<br>
+	<<silently>>
+	<<set _output = "Attractiveness: ">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += ", Sexiness: ">>
+		<<set _output += _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += ", Cuteness: ">>
+		<<set _output += _temp>>
+	<</if>>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	@@.exp;<<print _output>>@@
+	/*<<print "     ">>*/
+	/*<<link "information">><<replace "#styleguide">>*/
+	</td><td width="20%">
+	<center>
+	@@.exp;_tempArray[10] price:@@
+	<br>
+	@@.money;<<mon>>_prices[_i]@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<checkbox "_buyControl[_i]" 0 1>>@@.exp;Select@@
+	</center>
+	</td></tr>
+<</for>>
+<tr><td colspan="2">
+@@.note;<span id="styleguide">Style information will be displayed here.</span>@@
+</td><td>
+<<button "Add to Cart">>
+<<set $cartOW = []>>
+<<for _i to 0; _i < _number; _i++>>
+	<<if _buyControl[_i] == 1>>
+		<<run $cartOW.push($shopOW[_i])>>
+	<</if>>
+<</for>>
+<<replace "#cart">>
+Added!
+<</replace>>
+<</button>>
+@@.note;<span id="cart"></span>@@
+</td></tr>
+</table>
+<center>
+@@.head2;Tops@@
+</center>
+/*sets the number of clothing items*/
+<<set _number = 10>>
+/*change price based on the store*/
+<<set _storeMod = 1>>
+/*sets the price baseline to accommodate different clothing types 8=panties, 30=bra, */
+<<set _basePrice = 25>>
+/*inits arrays that line up with displayed clothes */
+<<set _prices = []>>
+<<set _buyControl = []>>
+<<for _i to 0; _i < _number; _i++>>
+	<<run _buyControl.push(false)>>
+	<<run _prices.push(0)>>
+<</for>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $shopUB[_i]>>
+	<<set _workPrice = _basePrice>>
+	<<set _tempAtr = _tempArray[1] + 3>>
+	<<set _workPrice += (_basePrice / 10) * _tempAtr>>
+	<<if _tempArray[3] > 0>>
+		<<set _workPrice += (_basePrice / 10) * _tempArray[3]>>
+	<<elseif _tempArray[3] < 0>>
+		<<set _workPrice += (_basePrice / 20) * _tempArray[3]>>
+	<</if>>
+	<<set _workPrice += (_basePrice / 15) * (_tempArray[4] + _tempArray[2])>>
+	<<set _workPrice *= _storeMod>>
+	<<set _workPrice = Math.round(_workPrice)>>
+	<<set _prices[_i] = _workPrice>>
+	<<run _tempArray.push(_workPrice)>>
+	<tr><td width="60%">
+	@@.head4;<<print _tempArray[0]>>@@
+	<br>
+	<<silently>>
+	<<set _output = "Attractiveness: ">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += ", Sexiness: ">>
+		<<set _output += _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += ", Cuteness: ">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += " Exposure: ">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	@@.exp;<<print _output>><<print _tempExposeB>><<print _outputB>>@@
+	/*<<print "     ">>*/
+	/*<<link "information">><<replace "#styleguide">>*/
+	</td><td width="20%">
+	<center>
+	@@.exp;_tempArray[10] price:@@
+	<br>
+	@@.money;<<mon>>_prices[_i]@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<checkbox "_buyControl[_i]" 0 1>>@@.exp;Select@@
+	</center>
+	</td></tr>
+<</for>>
+<tr><td colspan="2">
+@@.note;<span id="styleguide">Style information will be displayed here.</span>@@
+</td><td>
+<<button "Add to Cart">>
+<<set $cartUB = []>>
+<<for _i to 0; _i < _number; _i++>>
+	<<if _buyControl[_i] == 1>>
+		<<run $cartUB.push($shopUB[_i])>>
+	<</if>>
+<</for>>
+<<replace "#cart">>
+Added!
+<</replace>>
+<</button>>
+@@.note;<span id="cart"></span>@@
+</td></tr>
+</table>
+<center>
+@@.head2;Lower Body@@
+</center>
+<<set _number = 15>>
+/*change price based on the store*/
+<<set _storeMod = 1>>
+/*sets the price baseline to accommodate different clothing types 8=panties, 30=bra, */
+<<set _basePrice = 35>>
+/*inits arrays that line up with displayed clothes */
+<<set _prices = []>>
+<<set _buyControl = []>>
+<<for _i to 0; _i < _number; _i++>>
+	<<run _buyControl.push(false)>>
+	<<run _prices.push(0)>>
+<</for>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $shopLB[_i]>>
+	<<set _workPrice = _basePrice>>
+	<<set _tempAtr = _tempArray[1] + 3>>
+	<<set _workPrice += (_basePrice / 10) * _tempAtr>>
+	<<if _tempArray[3] > 0>>
+		<<set _workPrice += (_basePrice / 10) * _tempArray[3]>>
+	<<elseif _tempArray[3] < 0>>
+		<<set _workPrice += (_basePrice / 20) * _tempArray[3]>>
+	<</if>>
+	<<set _workPrice += (_basePrice / 15) * (_tempArray[4] + _tempArray[2])>>
+	<<set _workPrice *= _storeMod>>
+	<<set _workPrice = Math.round(_workPrice)>>
+	<<set _prices[_i] = _workPrice>>
+	<<run _tempArray.push(_workPrice)>>
+	<tr><td width="60%">
+	@@.head4;<<print _tempArray[0]>>@@
+	<br>
+	<<silently>>
+	<<set _output = "Attractiveness: ">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += ", Sexiness: ">>
+		<<set _output += _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += ", Cuteness: ">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += " Exposure: ">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	@@.exp;<<print _output>><<print _tempExposeB>><<print _outputB>>@@
+	/*<<print "     ">>*/
+	/*<<link "information">><<replace "#styleguide">>*/
+	</td><td width="20%">
+	<center>
+	@@.exp;_tempArray[10] price:@@
+	<br>
+	@@.money;<<mon>>_prices[_i]@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<checkbox "_buyControl[_i]" 0 1>>@@.exp;Select@@
+	</center>
+	</td></tr>
+<</for>>
+<tr><td colspan="2">
+@@.note;<span id="styleguide">Style information will be displayed here.</span>@@
+</td><td>
+<<button "Add to Cart">>
+<<set $cartLB = []>>
+<<for _i to 0; _i < _number; _i++>>
+	<<if _buyControl[_i] == 1>>
+		<<run $cartLB.push($shopLB[_i])>>
+	<</if>>
+<</for>>
+<<replace "#cart">>
+Added!
+<</replace>>
+<</button>>
+@@.note;<span id="cart"></span>@@
+</td></tr>
+</table>
+<br>
+@@.big;[[Refresh Clothes|clothTest]] | [[Back to Start Page|Start][$showDebug = false]]@@
+<</nobr>>

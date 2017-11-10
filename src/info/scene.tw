@@ -1,0 +1,43 @@
+:: scene [nobr]
+
+<<nobr>>
+/*<<if $prevPassage != "character" && $prevPassage != "scene" && $prevPassage != "relationships" && $prevPassage != "cheatMenu" && $prevPassage != "gameGuide" && $prevPassage != "debugPage">>*/
+	/*<<set $returnTo = $prevPassage>>*/
+/*<</if>>*/
+/*<br>*/
+@@.head1;Room View@@
+<br><br>
+<<if ndef $sceneA || ndef $sceneB || ndef $sceneC || ndef $sceneD >>
+	@@.big;There was a big problem! It seems that the scene data was unset, and the scene function wasn't run.@@
+	<br><br>
+	@@.yellow;Please report this bug. If you can, click the debug button on the sidebar for debug data and instructions. Thanks so much!@@
+	<<set $showDebug = true>>
+	<br><br>
+<</if>>
+@@.head3;Your Situation: @@
+<<if $sceneA == 0>>
+	@@font-size:120%;is unknown@@
+<<else>>
+	@@font-size:120%;<<= $sceneA>>@@
+<</if>>
+<br><br>
+<<if $sceneB != 0>>
+	@@.head3;$activeNPC.name@@ @@font-size:120%;$sceneB@@
+	<br><br>
+<</if>>
+<<if $sceneC != 0>>
+	@@.head3;Everyone: @@ @@font-size:120%;$sceneC@@
+	<br><br>
+<</if>>
+@@.head3;Your Location: @@
+<<if $sceneA == 0>>
+	@@font-size:120%;is unknown@@
+<<else>>
+	@@font-size:120%;$sceneD @@
+<</if>>
+<br><br>
+@@.head2;People@@
+<br><br>
+/*@@.big;[[Return|returner]]@@*/
+
+<</nobr>>

@@ -1,0 +1,1008 @@
+:: wardrobeInv [nobr]
+
+<center>
+<br>
+@@.head2;Your Clothing Inventory@@
+<br><br>
+<<button "Panties">><<replace "#wardspan">>
+<<if ndef $wardrobeP || $wardrobeP.length < 1>>
+	<<set $wardrobeP = []>>
+	<<set _tempItem = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,69,-1]>>
+	<<set $wardrobeP.push(_tempItem)>>
+<</if>>
+<<set _number = $wardrobeP.length>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $wardrobeP[_i]>>
+	<tr><td width="60%">
+	@@.gab;font-size:115%;<<print _tempArray[0]>>@@<br>
+	<<silently>>
+	<<set _output = "Attractiveness: @@.monospace;.white;">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += "@@, Sexiness: @@.monospace;.white;">>
+		<<set _output +=  _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += "@@, Cuteness: @@.monospace;.white;">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += "@@, Exposure: @@.monospace;.white;">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<set _output += _tempExposeB>>
+	<<set _output += "@@">>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	<<print _output>><<print _outputB>>
+	</td><td width="20%">
+	<center>
+	@@.quest;Bought From@@<br>@@.quest;.white;<<print _tempArray[10]>>@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<if ndef _tempArray[12]>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _tempArray[12] > 0>>
+		<<set _chk = false>>
+	<<else>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _chk>>
+		<<set _addcmd = "<span id='delcmd" + _i + "'><<button 'Donate'>><<set $wardrobeP.deleteAt(" + _i + ")>><<replace '#delcmd" + _i + "'>>@@.ident;Deleted!@@<</replace>><</button>></span>">>
+		<<print _addcmd>>
+	<<elseif _tempArray[0] == "none">>
+		<i>Can't donate a nonexistant item!</i>
+	<<else>>
+		<i>Used in <<print _tempArray[12]>> outfits. Can't Donate.</i>
+	<</if>>
+	</center>
+	</td></tr>
+<</for>>
+</table>
+<</replace>><</button>>
+<<button "Brassiers">><<replace "#wardspan">>
+<<if ndef $wardrobeB || $wardrobeB.length < 1>>
+	<<set $wardrobeB = []>>
+	<<set _tempItem = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,69,-1]>>
+	<<set $wardrobeB.push(_tempItem)>>
+<</if>>
+<<set _number = $wardrobeB.length>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $wardrobeB[_i]>>
+	<tr><td width="60%">
+	@@.gab;font-size:115%;<<print _tempArray[0]>>@@<br>
+	<<silently>>
+	<<set _output = "Attractiveness: @@.monospace;.white;">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += "@@, Sexiness: @@.monospace;.white;">>
+		<<set _output +=  _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += "@@, Cuteness: @@.monospace;.white;">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += "@@, Exposure: @@.monospace;.white;">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<set _output += _tempExposeB>>
+	<<set _output += "@@">>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	<<print _output>><<print _outputB>>
+	</td><td width="20%">
+	<center>
+	@@.quest;Bought From@@<br>@@.quest;.white;<<print _tempArray[10]>>@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<if ndef _tempArray[12]>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _tempArray[12] > 0>>
+		<<set _chk = false>>
+	<<else>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _chk>>
+		<<set _addcmd = "<span id='delcmd" + _i + "'><<button 'Donate'>><<set $wardrobeB.deleteAt(" + _i + ")>><<replace '#delcmd" + _i + "'>>@@.ident;Deleted!@@<</replace>><</button>></span>">>
+		<<print _addcmd>>
+	<<elseif _tempArray[0] == "none">>
+		<i>Can't donate a nonexistant item!</i>
+	<<else>>
+		<i>Used in <<print _tempArray[12]>> outfits. Can't Donate.</i>
+	<</if>>
+	</center>
+	</td></tr>
+<</for>>
+</table>
+<</replace>><</button>>
+<<button "Legwear">><<replace "#wardspan">>
+<<if ndef $wardrobeLeg || $wardrobeLeg.length < 1>>
+	<<set $wardrobeLeg = []>>
+	<<set _tempItem = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,69,-1]>>
+	<<set $wardrobeLeg.push(_tempItem)>>
+<</if>>
+@@.head3;Upper Body@@
+<<set _number = $wardrobeLeg.length>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $wardrobeLeg[_i]>>
+	<tr><td width="60%">
+	@@.gab;font-size:115%;<<print _tempArray[0]>>@@<br>
+	<<silently>>
+	<<set _output = "Attractiveness: @@.monospace;.white;">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += "@@, Sexiness: @@.monospace;.white;">>
+		<<set _output +=  _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += "@@, Cuteness: @@.monospace;.white;">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += "@@, Exposure: @@.monospace;.white;">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<set _output += _tempExposeB>>
+	<<set _output += "@@">>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	<<print _output>><<print _outputB>>
+	</td><td width="20%">
+	<center>
+	@@.quest;Bought From@@<br>@@.quest;.white;<<print _tempArray[10]>>@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<if ndef _tempArray[12]>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _tempArray[12] > 0>>
+		<<set _chk = false>>
+	<<else>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _chk>>
+		<<set _addcmd = "<span id='delcmd" + _i + "'><<button 'Donate'>><<set $wardrobeLeg.deleteAt(" + _i + ")>><<replace '#delcmd" + _i + "'>>@@.ident;Deleted!@@<</replace>><</button>></span>">>
+		<<print _addcmd>>
+	<<elseif _tempArray[0] == "none">>
+		<i>Can't donate a nonexistant item!</i>
+	<<else>>
+		<i>Used in <<print _tempArray[12]>> outfits. Can't Donate.</i>
+	<</if>>
+	</center>
+	</td></tr>
+<</for>>
+</table>
+<</replace>><</button>>
+<<button "Swimwear">><<replace "#wardspan">>
+<<if ndef $wardrobeSU || $wardrobeSU.length < 1>>
+	<<set $wardrobeSU = []>>
+	<<set _tempItem = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,69,-1]>>
+	<<set $wardrobeSU.push(_tempItem)>>
+<</if>>
+@@.head3;Upper Body@@
+<<set _number = $wardrobeSU.length>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $wardrobeSU[_i]>>
+	<tr><td width="60%">
+	@@.gab;font-size:115%;<<print _tempArray[0]>>@@<br>
+	<<silently>>
+	<<set _output = "Attractiveness: @@.monospace;.white;">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += "@@, Sexiness: @@.monospace;.white;">>
+		<<set _output +=  _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += "@@, Cuteness: @@.monospace;.white;">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += "@@, Exposure: @@.monospace;.white;">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<set _output += _tempExposeB>>
+	<<set _output += "@@">>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	<<print _output>><<print _outputB>>
+	</td><td width="20%">
+	<center>
+	@@.quest;Bought From@@<br>@@.quest;.white;<<print _tempArray[10]>>@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<if ndef _tempArray[12]>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _tempArray[12] > 0>>
+		<<set _chk = false>>
+	<<else>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _chk>>
+		<<set _addcmd = "<span id='delcmd" + _i + "'><<button 'Donate'>><<set $wardrobeSU.deleteAt(" + _i + ")>><<replace '#delcmd" + _i + "'>>@@.ident;Deleted!@@<</replace>><</button>></span>">>
+		<<print _addcmd>>
+	<<elseif _tempArray[0] == "none">>
+		<i>Can't donate a nonexistant item!</i>
+	<<else>>
+		<i>Used in <<print _tempArray[12]>> outfits. Can't Donate.</i>
+	<</if>>
+	</center>
+	</td></tr>
+<</for>>
+</table>
+<<if ndef $wardrobeSL || $wardrobeSL.length < 1>>
+	<<set $wardrobeSL = []>>
+	<<set _tempItem = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,69,-1]>>
+	<<set $wardrobeSL.push(_tempItem)>>
+<</if>>
+@@.head3;Lower Body@@
+<<set _number = $wardrobeSL.length>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $wardrobeSL[_i]>>
+	<tr><td width="60%">
+	@@.gab;font-size:115%;<<print _tempArray[0]>>@@<br>
+	<<silently>>
+	<<set _output = "Attractiveness: @@.monospace;.white;">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += "@@, Sexiness: @@.monospace;.white;">>
+		<<set _output +=  _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += "@@, Cuteness: @@.monospace;.white;">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += "@@, Exposure: @@.monospace;.white;">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<set _output += _tempExposeB>>
+	<<set _output += "@@">>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	<<print _output>><<print _outputB>>
+	</td><td width="20%">
+	<center>
+	@@.quest;Bought From@@<br>@@.quest;.white;<<print _tempArray[10]>>@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<if ndef _tempArray[12]>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _tempArray[12] > 0>>
+		<<set _chk = false>>
+	<<else>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _chk>>
+		<<set _addcmd = "<span id='delcmd" + _i + "'><<button 'Donate'>><<set $wardrobeSL.deleteAt(" + _i + ")>><<replace '#delcmd" + _i + "'>>@@.ident;Deleted!@@<</replace>><</button>></span>">>
+		<<print _addcmd>>
+	<<elseif _tempArray[0] == "none">>
+		<i>Can't donate a nonexistant item!</i>
+	<<else>>
+		<i>Used in <<print _tempArray[12]>> outfits. Can't Donate.</i>
+	<</if>>
+	</center>
+	</td></tr>
+<</for>>
+</table>
+<</replace>><</button>>
+<<button "Sleepwear">><<replace "#wardspan">>
+<<if ndef $wardrobeNiteU || $wardrobeNiteU.length < 1>>
+	<<set $wardrobeNiteU = []>>
+	<<set _tempItem = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,69,-1]>>
+	<<set $wardrobeNiteU.push(_tempItem)>>
+<</if>>
+@@.head3;Upper Body@@
+<<set _number = $wardrobeNiteU.length>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $wardrobeNiteU[_i]>>
+	<tr><td width="60%">
+	@@.gab;font-size:115%;<<print _tempArray[0]>>@@<br>
+	<<silently>>
+	<<set _output = "Attractiveness: @@.monospace;.white;">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += "@@, Sexiness: @@.monospace;.white;">>
+		<<set _output +=  _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += "@@, Cuteness: @@.monospace;.white;">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += "@@, Exposure: @@.monospace;.white;">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<set _output += _tempExposeB>>
+	<<set _output += "@@">>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	<<print _output>><<print _outputB>>
+	</td><td width="20%">
+	<center>
+	@@.quest;Bought From@@<br>@@.quest;.white;<<print _tempArray[10]>>@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<if ndef _tempArray[12]>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _tempArray[12] > 0>>
+		<<set _chk = false>>
+	<<else>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _chk>>
+		<<set _addcmd = "<span id='delcmd" + _i + "'><<button 'Donate'>><<set $wardrobeNiteU.deleteAt(" + _i + ")>><<replace '#delcmd" + _i + "'>>@@.ident;Deleted!@@<</replace>><</button>></span>">>
+		<<print _addcmd>>
+	<<elseif _tempArray[0] == "none">>
+		<i>Can't donate a nonexistant item!</i>
+	<<else>>
+		<i>Used in <<print _tempArray[12]>> outfits. Can't Donate.</i>
+	<</if>>
+	</center>
+	</td></tr>
+<</for>>
+</table>
+<<if ndef $wardrobeNiteL || $wardrobeNiteL.length < 1>>
+	<<set $wardrobeNiteL = []>>
+	<<set _tempItem = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,69,-1]>>
+	<<set $wardrobeNiteL.push(_tempItem)>>
+<</if>>
+@@.head3;Lower Body@@
+<<set _number = $wardrobeNiteL.length>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $wardrobeNiteL[_i]>>
+	<tr><td width="60%">
+	@@.gab;font-size:115%;<<print _tempArray[0]>>@@<br>
+	<<silently>>
+	<<set _output = "Attractiveness: @@.monospace;.white;">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += "@@, Sexiness: @@.monospace;.white;">>
+		<<set _output +=  _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += "@@, Cuteness: @@.monospace;.white;">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += "@@, Exposure: @@.monospace;.white;">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<set _output += _tempExposeB>>
+	<<set _output += "@@">>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	<<print _output>><<print _outputB>>
+	</td><td width="20%">
+	<center>
+	@@.quest;Bought From@@<br>@@.quest;.white;<<print _tempArray[10]>>@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<if ndef _tempArray[12]>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _tempArray[12] > 0>>
+		<<set _chk = false>>
+	<<else>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _chk>>
+		<<set _addcmd = "<span id='delcmd" + _i + "'><<button 'Donate'>><<set $wardrobeNiteL.deleteAt(" + _i + ")>><<replace '#delcmd" + _i + "'>>@@.ident;Deleted!@@<</replace>><</button>></span>">>
+		<<print _addcmd>>
+	<<elseif _tempArray[0] == "none">>
+		<i>Can't donate a nonexistant item!</i>
+	<<else>>
+		<i>Used in <<print _tempArray[12]>> outfits. Can't Donate.</i>
+	<</if>>
+	</center>
+	</td></tr>
+<</for>>
+</table>
+<</replace>><</button>>
+<<button "Accessories">><<replace "#wardspan">>
+<<if ndef $wardrobeA || $wardrobeA.length < 1>>
+	<<set $wardrobeA = []>>
+	<<set _tempItem = ["none",0,0,0,0,0,69]>>
+	<<set $wardrobeA.push(_tempItem)>>
+<</if>>
+<<set _number = $wardrobeA.length>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $wardrobeA[_i]>>
+	<tr><td width="60%">
+	@@.gab;font-size:115%;<<print _tempArray[0]>>@@<br>
+	<<silently>>
+	<<set _output = "Worn Location: ">>
+	<<switch _tempArray[1]>>
+	<<case "A">>
+		<<set _output += "@@.monospace;.white;Anus@@">>
+	<<case "V">>
+		<<set _output += "@@.monospace;.white;Vagina@@">>
+	<<case "N">>
+		<<set _output += "@@.monospace;.white;Nipples@@">>
+	<<case "F">>
+		<<set _output += "@@.monospace;.white;Face@@">>
+	<<case "H">>
+		<<set _output += "@@.monospace;.white;Head@@">>
+	<<case default>>
+		<<set _output += "@@.monospace;.white;Other@@">>
+	<</switch>>
+	<</silently>>
+	<<print _output>>
+	</td><td width="20%">
+	<center>
+	@@.quest;Bought From@@<br>@@.quest;.white;<<print _tempArray[10]>>@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<if ndef _tempArray[6]>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _tempArray[6] > 0>>
+		<<set _chk = false>>
+	<<else>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _chk>>
+		<<set _addcmd = "<span id='delcmd" + _i + "'><<button 'Donate'>><<set $wardrobeA.deleteAt(" + _i + ")>><<replace '#delcmd" + _i + "'>>@@.ident;Deleted!@@<</replace>><</button>></span>">>
+		<<print _addcmd>>
+	<<elseif _tempArray[0] == "none">>
+		<i>Can't donate a nonexistant item!</i>
+	<<else>>
+		<i>Used in <<print _tempArray[12]>> outfits. Can't Donate.</i>
+	<</if>>
+	</center>
+	</td></tr>
+<</for>>
+</table>
+<</replace>><</button>>
+<hr width=50%>
+<<button "Upper Body">><<replace "#wardspan">>
+<<if ndef $wardrobeUB || $wardrobeUB.length < 1>>
+	<<set $wardrobeUB = []>>
+	<<set _tempItem = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,69,-1]>>
+	<<set $wardrobeUB.push(_tempItem)>>
+<</if>>
+<<set _number = $wardrobeUB.length>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $wardrobeUB[_i]>>
+	<tr><td width="60%">
+	@@.gab;font-size:115%;<<print _tempArray[0]>>@@<br>
+	<<silently>>
+	<<set _output = "Attractiveness: @@.monospace;.white;">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += "@@, Sexiness: @@.monospace;.white;">>
+		<<set _output +=  _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += "@@, Cuteness: @@.monospace;.white;">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += "@@, Exposure: @@.monospace;.white;">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<set _output += _tempExposeB>>
+	<<set _output += "@@">>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	<<print _output>><<print _outputB>>
+	</td><td width="20%">
+	<center>
+	@@.quest;Bought From@@<br>@@.quest;.white;<<print _tempArray[10]>>@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<if ndef _tempArray[12]>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _tempArray[12] > 0>>
+		<<set _chk = false>>
+	<<else>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _chk>>
+		<<set _addcmd = "<span id='delcmd" + _i + "'><<button 'Donate'>><<set $wardrobeUB.deleteAt(" + _i + ")>><<replace '#delcmd" + _i + "'>>@@.ident;Deleted!@@<</replace>><</button>></span>">>
+		<<print _addcmd>>
+	<<elseif _tempArray[0] == "none">>
+		<i>Can't donate a nonexistant item!</i>
+	<<else>>
+		<i>Used in <<print _tempArray[12]>> outfits. Can't Donate.</i>
+	<</if>>
+	</center>
+	</td></tr>
+<</for>>
+</table>
+<</replace>><</button>>
+<<button "Lower Body">><<replace "#wardspan">>
+<<if ndef $wardrobeLB || $wardrobeLB.length < 1>>
+	<<set $wardrobeLB = []>>
+	<<set _tempItem = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,69,-1]>>
+	<<set $wardrobeLB.push(_tempItem)>>
+<</if>>
+<<set _number = $wardrobeLB.length>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $wardrobeLB[_i]>>
+	<tr><td width="60%">
+	@@.gab;font-size:115%;<<print _tempArray[0]>>@@<br>
+	<<silently>>
+	<<set _output = "Attractiveness: @@.monospace;.white;">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += "@@, Sexiness: @@.monospace;.white;">>
+		<<set _output +=  _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += "@@, Cuteness: @@.monospace;.white;">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += "@@, Exposure: @@.monospace;.white;">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<set _output += _tempExposeB>>
+	<<set _output += "@@">>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	<<print _output>><<print _outputB>>
+	</td><td width="20%">
+	<center>
+	@@.quest;Bought From@@<br>@@.quest;.white;<<print _tempArray[10]>>@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<if ndef _tempArray[12]>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _tempArray[12] > 0>>
+		<<set _chk = false>>
+	<<else>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _chk>>
+		<<set _addcmd = "<span id='delcmd" + _i + "'><<button 'Donate'>><<set $wardrobeLB.deleteAt(" + _i + ")>><<replace '#delcmd" + _i + "'>>@@.ident;Deleted!@@<</replace>><</button>></span>">>
+		<<print _addcmd>>
+	<<elseif _tempArray[0] == "none">>
+		<i>Can't donate a nonexistant item!</i>
+	<<else>>
+		<i>Used in <<print _tempArray[12]>> outfits. Can't Donate.</i>
+	<</if>>
+	</center>
+	</td></tr>
+<</for>>
+</table>
+<</replace>><</button>>
+<<button "Dresses">><<replace "#wardspan">>
+<<if ndef $wardrobeD || $wardrobeD.length < 1>>
+	<<set $wardrobeD = []>>
+	<<set _tempItem = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,69,-1]>>
+	<<set $wardrobeD.push(_tempItem)>>
+<</if>>
+<<set _number = $wardrobeD.length>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $wardrobeD[_i]>>
+	<tr><td width="60%">
+	@@.gab;font-size:115%;<<print _tempArray[0]>>@@<br>
+	<<silently>>
+	<<set _output = "Attractiveness: @@.monospace;.white;">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += "@@, Sexiness: @@.monospace;.white;">>
+		<<set _output +=  _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += "@@, Cuteness: @@.monospace;.white;">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += "@@, Exposure: @@.monospace;.white;">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<set _output += _tempExposeB>>
+	<<set _output += "@@">>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	<<print _output>><<print _outputB>>
+	</td><td width="20%">
+	<center>
+	@@.quest;Bought From@@<br>@@.quest;.white;<<print _tempArray[10]>>@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<if ndef _tempArray[12]>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _tempArray[12] > 0>>
+		<<set _chk = false>>
+	<<else>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _chk>>
+		<<set _addcmd = "<span id='delcmd" + _i + "'><<button 'Donate'>><<set $wardrobeD.deleteAt(" + _i + ")>><<replace '#delcmd" + _i + "'>>@@.ident;Deleted!@@<</replace>><</button>></span>">>
+		<<print _addcmd>>
+	<<elseif _tempArray[0] == "none">>
+		<i>Can't donate a nonexistant item!</i>
+	<<else>>
+		<i>Used in <<print _tempArray[12]>> outfits. Can't Donate.</i>
+	<</if>>
+	</center>
+	</td></tr>
+<</for>>
+</table>
+<</replace>><</button>>
+<<button "Overwear">><<replace "#wardspan">>
+<<if ndef $wardrobeOW || $wardrobeOW.length < 1>>
+	<<set $wardrobeOW = []>>
+	<<set _tempItem = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,69,-1]>>
+	<<set $wardrobeOW.push(_tempItem)>>
+<</if>>
+<<set _number = $wardrobeOW.length>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $wardrobeOW[_i]>>
+	<tr><td width="60%">
+	@@.gab;font-size:115%;<<print _tempArray[0]>>@@<br>
+	<<silently>>
+	<<set _output = "Attractiveness: @@.monospace;.white;">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += "@@, Sexiness: @@.monospace;.white;">>
+		<<set _output +=  _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += "@@, Cuteness: @@.monospace;.white;">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += "@@, Exposure: @@.monospace;.white;">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<set _output += _tempExposeB>>
+	<<set _output += "@@">>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	<<print _output>><<print _outputB>>
+	</td><td width="20%">
+	<center>
+	@@.quest;Bought From@@<br>@@.quest;.white;<<print _tempArray[10]>>@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<if ndef _tempArray[12]>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _tempArray[12] > 0>>
+		<<set _chk = false>>
+	<<else>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _chk>>
+		<<set _addcmd = "<span id='delcmd" + _i + "'><<button 'Donate'>><<set $wardrobeOW.deleteAt(" + _i + ")>><<replace '#delcmd" + _i + "'>>@@.ident;Deleted!@@<</replace>><</button>></span>">>
+		<<print _addcmd>>
+	<<elseif _tempArray[0] == "none">>
+		<i>Can't donate a nonexistant item!</i>
+	<<else>>
+		<i>Set as default, can't Donate.</i>
+	<</if>>
+	</center>
+	</td></tr>
+<</for>>
+</table>
+<</replace>><</button>>
+<<button "Athletic">><<replace "#wardspan">>
+<<if ndef $wardrobeAthU || $wardrobeAthU.length < 1>>
+	<<set $wardrobeAthU = []>>
+	<<set _tempItem = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,69,-1]>>
+	<<set $wardrobeAthU.push(_tempItem)>>
+<</if>>
+@@.head3;Upper Body@@
+<<set _number = $wardrobeAthU.length>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $wardrobeAthU[_i]>>
+	<tr><td width="60%">
+	@@.gab;font-size:115%;<<print _tempArray[0]>>@@<br>
+	<<silently>>
+	<<set _output = "Attractiveness: @@.monospace;.white;">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += "@@, Sexiness: @@.monospace;.white;">>
+		<<set _output +=  _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += "@@, Cuteness: @@.monospace;.white;">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += "@@, Exposure: @@.monospace;.white;">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<set _output += _tempExposeB>>
+	<<set _output += "@@">>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	<<print _output>><<print _outputB>>
+	</td><td width="20%">
+	<center>
+	@@.quest;Bought From@@<br>@@.quest;.white;<<print _tempArray[10]>>@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<if ndef _tempArray[12]>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _tempArray[12] > 0>>
+		<<set _chk = false>>
+	<<else>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _chk>>
+		<<set _addcmd = "<span id='delcmd" + _i + "'><<button 'Donate'>><<set $wardrobeAthU.deleteAt(" + _i + ")>><<replace '#delcmd" + _i + "'>>@@.ident;Deleted!@@<</replace>><</button>></span>">>
+		<<print _addcmd>>
+	<<elseif _tempArray[0] == "none">>
+		<i>Can't donate a nonexistant item!</i>
+	<<else>>
+		<i>Used in <<print _tempArray[12]>> outfits. Can't Donate.</i>
+	<</if>>
+	</center>
+	</td></tr>
+<</for>>
+</table>
+<<if ndef $wardrobeAthL || $wardrobeAthL.length < 1>>
+	<<set $wardrobeAthL = []>>
+	<<set _tempItem = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,69,-1]>>
+	<<set $wardrobeAthL.push(_tempItem)>>
+<</if>>
+@@.head3;Lower Body@@
+<<set _number = $wardrobeAthL.length>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $wardrobeAthL[_i]>>
+	<tr><td width="60%">
+	@@.gab;font-size:115%;<<print _tempArray[0]>>@@<br>
+	<<silently>>
+	<<set _output = "Attractiveness: @@.monospace;.white;">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += "@@, Sexiness: @@.monospace;.white;">>
+		<<set _output +=  _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += "@@, Cuteness: @@.monospace;.white;">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += "@@, Exposure: @@.monospace;.white;">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<set _output += _tempExposeB>>
+	<<set _output += "@@">>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	<<print _output>><<print _outputB>>
+	</td><td width="20%">
+	<center>
+	@@.quest;Bought From@@<br>@@.quest;.white;<<print _tempArray[10]>>@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<if ndef _tempArray[12]>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _tempArray[12] > 0>>
+		<<set _chk = false>>
+	<<else>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _chk>>
+		<<set _addcmd = "<span id='delcmd" + _i + "'><<button 'Donate'>><<set $wardrobeAthL.deleteAt(" + _i + ")>><<replace '#delcmd" + _i + "'>>@@.ident;Deleted!@@<</replace>><</button>></span>">>
+		<<print _addcmd>>
+	<<elseif _tempArray[0] == "none">>
+		<i>Can't donate a nonexistant item!</i>
+	<<else>>
+		<i>Used in <<print _tempArray[12]>> outfits. Can't Donate.</i>
+	<</if>>
+	</center>
+	</td></tr>
+<</for>>
+</table>
+<</replace>><</button>>
+<<button "Purses">><<replace "#wardspan">>
+<<if ndef $wardrobeBag || $wardrobeBag.length < 1>>
+	<<set $wardrobeBag = []>>
+	<<set _tempItem = ["none",0,0,0,0,0,69]>>
+	<<set $wardrobeBag.push(_tempItem)>>
+<</if>>
+<<set _number = $wardrobeBag.length>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $wardrobeBag[_i]>>
+	<tr><td width="60%">
+	@@.gab;font-size:115%;<<print _tempArray[0]>>@@<br>
+	<<silently>>
+	<<set _output = "Type: none">>
+	<</silently>>
+	<<print _output>>
+	</td><td width="20%">
+	<center>
+	@@.quest;Bought From@@<br>@@.quest;.white;<<print _tempArray[10]>>@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<if ndef _tempArray[6]>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _tempArray[6] > 0>>
+		<<set _chk = false>>
+	<<else>>
+		<<set _chk = true>>
+	<</if>>
+	<<if _chk>>
+		<<set _addcmd = "<span id='delcmd" + _i + "'><<button 'Donate'>><<set $wardrobeBag.deleteAt(" + _i + ")>><<replace '#delcmd" + _i + "'>>@@.ident;Deleted!@@<</replace>><</button>></span>">>
+		<<print _addcmd>>
+	<<elseif _tempArray[0] == "none">>
+		<i>Can't donate a nonexistant item!</i>
+	<<else>>
+		<i>Set as default, can't Donate.</i>
+	<</if>>
+	</center>
+	</td></tr>
+<</for>>
+</table>
+<</replace>><</button>>
+</center>
+<br>
+<span id="wardspan">Waiting...</span>

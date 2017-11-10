@@ -1,0 +1,45 @@
+:: ResidentialRecreation [nobr map]
+
+<div id="topbar"><center>
+<table id="navigation">
+<tr id="navigation">
+<td id="navigation">
+<img data-passage="IMGresidentialMap" usemap="#image-map2"><map name="image-map2">
+    <area data-passage="TOResidentialCommonArea" alt="Apartment Common Area" title="Apartment Common Area" coords="100,110,189,110,190,192,100,191" shape="poly">
+    <area data-passage="ResidentialGoHome" alt="Go Home" title="Go Home" coords="99,247,99,195,189,195,189,248,164,247,123,247" shape="poly" class="map-green-area">
+    <area data-passage="TOResidentialParkingLot" alt="Take a Drive" title="Take a Drive" coords="196,246,195,71,247,71,247,138,221,138,221,246" shape="poly" class="map-red-area">
+    <area data-passage="TOResidentialCornerExterior" alt="Corner Store" title="Corner Store" coords="1,103,34,103,33,29,23,20,0,20" shape="poly" class="map-green-area">
+    <area data-passage="TOResidentialVisitFriends" alt="Visit Friends" title="Visit Friends" coords="34,248,34,106,0,106,0,248" shape="poly" class="map-blue-area">
+    <area data-passage="ResidentialGoDowntown" alt="Walk Downtown" title="Walk Downtown" coords="5,0,248,0,248,24,35,24,21,14,-1,14,2,8" shape="poly" class="map-red-area">
+    <area data-passage="TOResidentialJogging" alt="Go Jogging" title="Walking/Jogging/Bicycling"  coords="70,78,97,246" shape="rect" class="mapclass">
+</map>
+</td>
+<td id="navigation"><<link [img[$locImageName]]>><<dialog 'A cyclist gets ready for a ride'>>[img[IMGresidentialNudeBicycle]]<</dialog>><</link>></td>
+</tr>
+</table></center></div>
+<div id="mainshits"><center>
+@@.head2;<<=$locName>>@@</center>
+<br><br>
+/*Event notification spot*/
+/*<<mapEventHome>>*/
+/*LOCATION description of  location*/
+@@.head3;Y@@ou are standing in the small recreational area sandwiched in the middle of a block of buildings that includes your own apartment building.
+/*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span></div>
+<div id="actionbar">
+/*ACTION TABLE*/
+<table>
+
+<tr>
+<td width="20%"><<link "Go to Playground">><<addTime 2>><<goto [[ResidentialPlayground]]>><</link>></td><td>@@.exp;Visit the playground and perhaps sit on a swing or play with the neighborhood children.@@</td>
+</tr><tr>
+<td width="20%"><<link "Go to the Gazebo">><<addTime 2>><<goto [[ResidentialGazebo]]>><</link>></td><td>@@.exp;There's a nice gazebo with a couple picnic tables, and a pair of ubiquitous metal barbeque grills.@@</td>
+</tr><tr>
+<td width="20%"><<link "Go to the Sitting Area">><<addTime 2>><<set $temp = 1>><<goto [[ResidentialTanning]]>><</link>></td><td>@@.exp;This area has some reclining lawn furniture and some wooden benches. It's ideal for watching your children play at the playground, or working on your tan.@@</td>
+</tr><tr>
+<td width="20%"><<link "Go to the Pool">><<dialog 'sorry'>>These particular apartments aren't nice enough to actually have a pool. You'll need to check on the real-estate screen when choosing where to live to see if it has a pool. Generally, only fancy tier 2 apartments and above will have a pool.<</dialog>><</link>></td><td>@@.exp;Walk over to the small community pool for a swim.@@</td>
+</tr>
+<span id="specialaction"></span>
+</table>
+</div>

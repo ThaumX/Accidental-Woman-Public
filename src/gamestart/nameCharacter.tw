@@ -1,0 +1,249 @@
+:: nameCharacter [nobr]
+
+
+<<LoadingText>>
+/*process some actual-value items.*/
+
+/*set the 'history' values for the player character, which will be reevaluated each week.*/
+<<set $PChistory = {}>>
+<<set $PChistory.PC to clone($PC)>>
+<<set $PChistory.status to clone($status)>>
+<<set $PChistory.trait to clone($trait)>>
+<<set $PChistory.mutate to clone($mutate)>>
+<<set $PChistory.kink to clone($kink)>>
+<<set $PChistory.skill to clone($skill)>>
+<<set $PChistory.item to clone($item)>>
+<<set $PChistory.home to clone($home)>>
+<<set $PChistory.job to clone($job)>>
+<<goto [[nameCharacterB]]>>
+
+:: nameCharacterB [nobr]
+
+<<status 0>><<set $helpText = "Pick a name, any name. Or, use one of the random name buttons, which combined have hundreds of names to choose from. Whatever you do, don't try to leave your name blank, that's an automatic fail.">>
+@@.head2;Choose a Name@@
+<br><br>
+@@.head3;N@@ow that Lily is done proding and running tests for the day, she suggests that you should come up with a name for yourself.
+<br><br>
+<span id="charname">@@.big;<<textbox "$PC.name" $PC.name>>@@</span><br>
+@@.note;<<button "Random American">><<set $PC.name = either("Alice","Andrea","Alison","Amy","Ashley","Amanda","Anna","Angela","Amber","Barbara","Beth","Betty","Brittney","Brenda","Carol","Carla","Chloe","Christina","Diane","Denise","Daniella","Dorothy","Debra","Donna","Elizabeth","Emily","Emma","Evelyn","Fiona","Felicity","Genevieve","Gloria","Grace","Holly","Hellen","Heather","Joan","Jane","Janet","Janice","Jennifer","Jessica","Julia","Karen","Kelly","Kristen","Kimberly","Kayla","Kathleen","Leah","Loren","Lauren","Linda","Lisa","Mary","Marie","Melissa","Michelle","Natalie","Naomi","Nicole","Nancy","Ophelia","Polly","Pamela","Rachael","Rebecca","Ruth","Samantha","Shirley","Stephanie","Susan","Sharon","Sarah","Theresa","Teresa","Tiffany","Violet","Victoria","Virginia","Wendy","Zoe")>><<replace "#charname">>@@.big;<<textbox "$PC.name" $PC.name>>@@<</replace>><</button>> or <<button "African-American">><<set $PC.name = either("Imani","Shanice","Aaliyah","Precious","Nia","Deja","Diamond","Asia","Aliyah","Jada","Tierra","Tiara","Kiara","Jazmine","Jasmin","Jazmin","Jasmine","Alexus","Shaniqua","Shabooboo","Keisha","Laptoyanqua","Leshaniqua","La-Sha","Sharkiesha","Kalisha","Eboleisha","Latoya","Rohandra","Sha'Nay","Barbeesha","Latifah")>><<replace "#charname">>@@.big;<<textbox "$PC.name" $PC.name>>@@<</replace>><</button>><<button "Asian-American">><<set $PC.name = either("Aadarshini", "Ah Lam", "Aika", "Akemi", "Am", "	Arati", "Atsuko", "Ayako", "Azumi", "Bian", "Bindu", "Cai", "Chiharu", "Chun", "Deepti", "Emiyo", "Fang", "Far", "Gembira", "Hae", "Haruko", "Hideko", "Hikari", "Hoa", "Huan", "Hye", "Ja", "Jia", "Jiao", "Jing", "Kalini", "Kameko", "Kana", "Kaoru", "Ki", "Kozue", "Kuniko", "Lan", "Li", "Lin", "Ling", "Machiko", "Mako", "Manjusha", "Masami", "Midori", "Mingxia", "Misumi", "Nadiya", "Nanako", "Niyati", "Nuo", "Padmaja", "Pranali", "Qi", "Qing", "Reena", "Ren", "Riku", "Ruiling", "Sachiko", "Saura", "Sayo", "Setsuko", "Song", "Suzuki", "Tam", "Thao", "Tomoko", "Tu", "Umeko", "Vanida", "Vanna", "Wen", "Xiaoli", "Xiuying", "Yeo", "Yuan", "Yukiko", "Yumiko", "Zhenzhen")>><<replace "#charname">>@@.big;<<textbox "$PC.name" $PC.name>>@@<</replace>><</button>><<button "Hispanic">><<set $PC.name = either("Sofía","Isabella","Valentina","Emma","Martina","Lucifa","Victoria","Luciana","Valeria","Camila","Julieta","Ximena","Sara","Daniela","Emilia","Renata","Mía","Catalina","Julia","Elena","Olivia","Regina","Paula","Natalia","Mariana","Samantha","María","Antonella","Gabriela","Emily","María-José","Zoe","Alma","Alejandra","Andrea","Noa","Alba","Aitana","Amanda","Abril","Miranda","Salomé","Ana-Sofía","Carla","Alexa","Juana","Ivanna","Allison","Guadalupe","Antonia")>><<replace "#charname">>@@.big;<<textbox "$PC.name" $PC.name>>@@<</replace>><</button>><<button "Middle East">><<set $PC.name = either("Myriam","Nadia","Faten","Noura","Laila","Habiba","Ghayda","reenad","Bushra","A","Maboutou","Rehab","Anal","Amaal","Ala","Salsabyl","Fatima","Rana","Nurah","Norah","Rehab","Anal","Al-anoud","Nana","Lulu","Alsama","Alia","Najjat","sadeen","Rehab","Anal","Sowsan","Nona","Lamia","Lizet","FoFo","Doha","Arwa","Alaa","Zain","Ghada","Reem","Raihana","Ruba","Mariam","Ola","Rehab","Anal","Kefaya")>><<replace "#charname">>@@.big;<<textbox "$PC.name" $PC.name>>@@<</replace>><</button>><<button "Slutty">><<set $PC.name = either("Jizzy-Lizzy","Giggle-Tits","CumDump","Cum Dumpster","Cumslut","Breeder","Crystal","Precious","Princess","Snooky","Bianca","Doorknob","Cum-Gums","Count Slutula","Tramp","Skanka","Hoochie","Despacito","Hoe","Cum Depository","Hoover")>><<replace "#charname">>@@.big;<<textbox "$PC.name" $PC.name>>@@<</replace>><</button>><br>Dozens of names based on popular names lists.@@
+<br><br>@@.acme;.white;Now would be a good time to examine your [[game settings|gameSettingsPage][$prevPassage = passage()]] to change any content restrictions!@@<br>
+<<if not $pub>>
+@@font-size:120%;<<button [[Accept and Review Character|characterReview]]>><</button>>  <<button "Save Character Template">><<goto [[SaveCharacterTemplate]]>><</button>>@@ @@.alme;.import;font-size:80%;Now Implemented!@@
+<br><br>
+@@.note;To use cheats, you must have a backer version of the game.@@
+<<elseif $enableCheats == 1 && $pub>>
+<br><span id="cheats"><<button "Cheat Menu">><<replace "#cheats">><<cheatDisp>><</replace>><</button>></span><br><br>
+@@font-size:120%;<<button [[Accept and Review Character|characterReview]]>><</button>>  <<button "Save Character Template">><<goto [[SaveCharacterTemplate]]>><</button>>@@ @@.alme;.import;font-size:80%;Now Implemented!@@
+<<else>>
+@@font-size:120%;<<button [[Accept and Review Character|characterReview]]>><</button>>  <<button "Save Character Template">><<goto [[SaveCharacterTemplate]]>><</button>>@@ @@.alme;.import;font-size:80%;Now Implemented!@@<br><br>
+@@.note;To use cheats, you must enable them in the game options when starting the game.@@
+<</if>>
+
+
+:: SaveCharacterTemplate [nobr hidden]
+
+@@.head2;Save A Character Template@@
+<br><br>
+@@.head3;W@@@@.acme;.white;elcome to the @@@@.ident;Character Template System@@@@.acme;.white;. This system is intended to allow you to create a @@@@.ident;Template@@@@.acme;.white; of your character. A character template contains all of the details about your character chosen during character creation. When loading a template, your choices for physical body, attractiveness preferences, personality traits, kinks, and mutations are loaded, and you are deposited on the <i>Name Your Character</i> page. Share templates with other players to try something new!@@
+<br><br>
+@@.quest;.white;''Instructions''<br>Enter a name for your template in the text box below. (You may use whatever name you like, but invalid characters will be removed.) A file will be saved by your browser into your default download location, or you will be prompted for a save location, depending on browser used. The file will be saved in the @@@@.ident;Accidental Woman Template@@ @@.quest;.white;format, with the extension@@ @@.ident;.awt@@@@.quest;.white;.@@
+<br><br>
+@@.note;<span id="workinginfo">press save to start</span>@@<br>
+<<set _exname = "AWTemplate_" + Date.now()>>
+<<textbox "_filename" _exname>> @@.uibutton;<<button "SAVE">>
+  <<replace "#workinginfo">>Started: collating data<</replace>>
+  <<timed 50ms>>
+  <<set _sep = "^-^">>
+  <<set _savedata = "VER-" + $version + _sep>>
+  <<set _savedata += $PC.background + _sep>>
+  <<set _savedata += $PC.race + _sep>>
+  <<set _savedata += $PC.skinColor + _sep>>
+  <<set _savedata += $PC.tone + _sep>>
+  <<set _savedata += $PC.weight + _sep>>
+  <<set _savedata += $PC.shoulders + _sep>>
+  <<set _savedata += $PC.hips + _sep>>
+  <<set _savedata += $PC.waist + _sep>>
+  <<set _savedata += $PC.height + _sep>>
+  <<set _savedata += $PC.ass + _sep>>
+  <<set _savedata += $PC.tits.size + _sep>>
+  <<set _savedata += $PC.tits.shape + _sep>>
+  <<set _savedata += $PC.tits.nipple + _sep>>
+  <<set _savedata += $PC.tits.band + _sep>>
+  <<set _savedata += $PC.tits.cupNum + _sep>>
+  <<set _savedata += $PC.tits.cupRaw + _sep>>
+  <<set _savedata += $PC.tits.cup + _sep>>
+  <<set _savedata += $PC.tits.bra + _sep>>
+  <<set _savedata += $PC.pussy + _sep>>
+  <<set _savedata += $PC.asshole + _sep>>
+  <<set _savedata += $PC.clit + _sep>>
+  <<set _savedata += $PC.labia + _sep>>
+  <<set _savedata += $PC.beauty + _sep>>
+  <<set _savedata += $PC.face + _sep>>
+  <<set _savedata += $PC.eyeColor + _sep>>
+  <<set _savedata += $PC.wetness + _sep>>
+  <<set _savedata += $PC.fertility + _sep>>
+  <<set _savedata += $PC.pregTerm + _sep>>
+  <<set _savedata += $PC.lactation + _sep>>
+  <<set _savedata += $PC.orgasm + _sep>>
+  <<set _savedata += $PC.energy + _sep>>
+  <<set _savedata += $PC.topATR + _sep>>
+  <<set _savedata += $PC.botATR + _sep>>
+  <<set _savedata += $PC.ATR + _sep>>
+  <<set _savedata += $status.cycle + _sep>>
+  <<set _savedata += $status.milk + _sep>>
+  <<set _savedata += $status.will + _sep>>
+  <<set _savedata += $status.morality + _sep>>
+  <<set _savedata += $status.perversion + _sep>>
+  <<set _savedata += $status.energy + _sep>>
+  <<set _savedata += $status.energyRate + _sep>>
+  <<set _savedata += $pref.weight[0] + "GG" + $pref.weight[1] + "GG" + $pref.weight[2] + "GG" + $pref.weight[3] + "GG" + $pref.weight[4] + "GG" + $pref.weight[5] + _sep>>
+  <<set _savedata += $pref.muscle[0] + "GG" + $pref.muscle[1] + "GG" + $pref.muscle[2] + "GG" + $pref.muscle[3] + "GG" + $pref.muscle[4] + "GG" + $pref.muscle[5] + _sep>>
+  <<set _savedata += $pref.height[0] + "GG" + $pref.height[1] + "GG" + $pref.height[2] + "GG" + $pref.height[3] + "GG" + $pref.height[4] + _sep>>
+  <<set _savedata += $pref.other[0] + "GG" + $pref.other[1] + "GG" + $pref.other[2] + "GG" + $pref.other[3] + "GG" + $pref.other[4] + "GG" + $pref.other[5] + "GG" + $pref.other[6] + "GG" + $pref.other[7] + "GG" + $pref.other[8] + "GG" + $pref.other[9] + _sep>>
+  <<set _savedata += $pref.Fweight[0] + "GG" + $pref.Fweight[1] + "GG" + $pref.Fweight[2] + "GG" + $pref.Fweight[3] + "GG" + $pref.Fweight[4] + "GG" + $pref.Fweight[5] + _sep>>
+  <<set _savedata += $pref.Fmuscle[0] + "GG" + $pref.Fmuscle[1] + "GG" + $pref.Fmuscle[2] + "GG" + $pref.Fmuscle[3] + "GG" + $pref.Fmuscle[4] + "GG" + $pref.Fmuscle[5] + _sep>>
+  <<set _savedata += $pref.Fheight[0] + "GG" + $pref.Fheight[1] + "GG" + $pref.Fheight[2] + "GG" + $pref.Fheight[3] + "GG" + $pref.Fheight[4] + _sep>>
+  <<set _savedata += $pref.Fother[0] + "GG" + $pref.Fother[1] + "GG" + $pref.Fother[2] + "GG" + $pref.Fother[3] + "GG" + $pref.Fother[4] + "GG" + $pref.Fother[5] + "GG" + $pref.Fother[6] + "GG" + $pref.Fother[7] + "GG" + $pref.Fother[8] + "GG" + $pref.Fother[9] + "GG" + $pref.Fother[10] + _sep>>
+  <<set _savedata += $trait.IE + _sep>>
+  <<set _savedata += $trait.IN + _sep>>
+  <<set _savedata += $trait.EX + _sep>>
+  <<set _savedata += $trait.OC + _sep>>
+  <<set _savedata += $trait.OP + _sep>>
+  <<set _savedata += $trait.CL + _sep>>
+  <<set _savedata += $trait.will + _sep>>
+  <<set _savedata += $trait.libido + _sep>>
+  <<set _savedata += $trait.Caring + _sep>>
+  <<set _savedata += $trait.Bitch + _sep>>
+  <<set _savedata += $trait.Maternal + _sep>>
+  <<set _savedata += $trait.Romantic + _sep>>
+  <<set _savedata += $trait.Deceptive + _sep>>
+  <<set _savedata += $trait.Devious + _sep>>
+  <<set _savedata += $trait.Persuasive + _sep>>
+  <<set _savedata += $trait.Perceptive + _sep>>
+  <<set _savedata += $trait.Forgetful + _sep>>
+  <<set _savedata += $trait.Forgiving + _sep>>
+  <<set _savedata += $trait.LowEsteem + _sep>>
+  <<set _savedata += $trait.Picky + _sep>>
+  <<set _savedata += $trait.Crude + _sep>>
+  <<set _savedata += $trait.Friendly + _sep>>
+  <<set _savedata += $trait.Approachable + _sep>>
+  <<set _savedata += $trait.Relaxed + _sep>>
+  <<set _savedata += $trait.Flirty + _sep>>
+  <<set _savedata += $trait.Materialist + _sep>>
+  <<set _savedata += $mutate.Milk + _sep>>
+  <<set _savedata += $mutate.Acid + _sep>>
+  <<set _savedata += $mutate.BC + _sep>>
+  <<set _savedata += $mutate.Multiple + _sep>>
+  <<set _savedata += $mutate.Gestate + _sep>>
+  <<set _savedata += $mutate.Cycle + _sep>>
+  <<set _savedata += $mutate.TwinWomb + _sep>>
+  <<set _savedata += $mutate.Pheromone + _sep>>
+  <<set _savedata += $mutate.Period + _sep>>
+  <<set _savedata += $mutate.Immune + _sep>>
+  <<set _savedata += $mutate.Mouth + _sep>>
+  <<set _savedata += $mutate.Contort + _sep>>
+  <<set _savedata += $mutate.Cumpire + _sep>>
+  <<set _savedata += $mutate.PseudoPreg + _sep>>
+  <<set _savedata += $mutate.Elastic + _sep>>
+  <<set _savedata += $mutate.LitePhero + _sep>>
+  <<set _savedata += $kink.Risky + _sep>>
+  <<set _savedata += $kink.Pregnancy + _sep>>
+  <<set _savedata += $kink.Sizequeen + _sep>>
+  <<set _savedata += $kink.Cumslut + _sep>>
+  <<set _savedata += $kink.Sub + _sep>>
+  <<set _savedata += $kink.Exhibition + _sep>>
+  <<set _savedata += $kink.Masochist + _sep>>
+  <<set _savedata += $kink.Buttslut + _sep>>
+  <<set _savedata += $kink.Public + _sep>>
+  <<set _savedata += $kink.Slut + _sep>>
+  <<set _savedata += $kink.SuperSlut + _sep>>
+  <<set _savedata += $kink.HyperSlut + _sep>>
+  <<set _savedata += $kink.Oral + _sep>>
+  <<set _savedata += $kink.Anal + _sep>>
+  <<set _savedata += $kink.Force + _sep>>
+  <<set _savedata += $kink.Rape + _sep>>
+  <<set _savedata += $kink.Liberate + _sep>>
+  <<set _savedata += $kink.Easy + _sep>>
+  <<set _savedata += $kink.Nips + _sep>>
+  <<set _savedata += $kink.Dom + _sep>>
+  <<set _savedata += $kink.Water + _sep>>
+  <<set _savedata += $kink.Bond + _sep>>
+  <<set _savedata += $kink.Hard + _sep>>
+  <<set _savedata += $kink.Fap + _sep>>
+  <<set _savedata += $kink.Shame + _sep>>
+  <<set _savedata += $skill.exhibition + _sep>>
+  <<set _savedata += $skill.prostitute + _sep>>
+  <<set _savedata += $skill.sex + _sep>>
+  <<set _savedata += $skill.oral + _sep>>
+  <<set _savedata += $skill.seduction + _sep>>
+  <<set _savedata += $skill.comm + _sep>>
+  <<set _savedata += $skill.org + _sep>>
+  <<set _savedata += $skill.probSolving + _sep>>
+  <<set _savedata += $skill.finance + _sep>>
+  <<set _savedata += $skill.art + _sep>>
+  <<set _savedata += $skill.athletic + _sep>>
+  <<set _savedata += $skill.dancing + _sep>>
+  <<set _savedata += $skill.clean + _sep>>
+  <<set _savedata += $skill.shop + _sep>>
+  <<set _savedata += $skill.cook + _sep>>
+  <<set _savedata += $PC.age + _sep>>
+  <<set _savedata += $groom.armpit + _sep>>
+  <<set _savedata += $groom.pubeColor + _sep>>
+  <<set _savedata += $groom.pubeStyle + _sep>>
+  <<set _savedata += $groom.pubeGrow + _sep>>
+  <<set _savedata += $groom.hairColor + _sep>>
+  <<set _savedata += $groom.pube + _sep>>
+  <<set _savedata += $ultraFertile + _sep>>
+  <<set _savedata += $puddlingCunt + _sep>>
+  <<set _savedata += $pussyPheromones + _sep>>
+  <<set _savedata += $randomBody + _sep>>
+  <<set _savedata += $randomMind + _sep>>
+  <<set _savedata += $randomSexuality + _sep>>
+  <<set _savedata += $randomAttraction + _sep>>
+  <<set _savedata += $randomMutation + _sep>>
+  <<set _savedata += $enableMutation + _sep>>
+  <<set _savedata += $cash + _sep>>
+  <<set _savedata += "END-DATA">>
+  <<next>>
+  <<replace "#workinginfo">>encoding to file<</replace>>
+  <<script>>
+    function encodeAndSave(dat,fnam){
+      if (fnam === undefined) {
+        y = "AW-NoNameSupplied";
+      }
+      if (dat === undefined) {
+        alert("ERROR!!! No data was supplied to the saving function!");
+        return this.error("No data supplied to saving function!");
+      }
+      var filename;
+      var encodedData;
+      var obData;
+      try{
+        filename = Util.slugify(fnam);
+      }
+      catch(e){
+        alert("Error converting filename, using default instead.");
+        filename = "AWTemplateFile";
+      }
+      filename = fnam + ".awt";
+      try{
+        encodedData = btoa(dat);
+        var txt1 = encodedData.slice(0,50);
+        var txt2 = encodedData.slice(50,150);
+        var txt3 = encodedData.slice(150,250);
+        var txt4 = encodedData.slice(250);
+        obData = txt1 + "V4wXi1eMV4tX" + txt2 + "hbHNlXi1edHJ1ZV4tXnRydWVeLV5mYWxzZV4tXnRyd" + txt3 + "4tXjIwXi1eNTBeLV4yMF4" + txt4;
+      }
+      catch(e){
+        alert("Error Encoding Data!");
+        return;
+      }
+      var blob = new Blob([obData], {type: "text/plain;charset=utf-8"});
+      saveAs(blob, filename);
+    }
+    encodeAndSave(State.temporary.savedata,State.temporary.filename);
+  <</script>>
+  <<next>>
+  <<replace "#workinginfo">>Done!<</replace>>
+  <</timed>>
+<</button>>@@ <<button "return">><<goto [[nameCharacterB]]>><</button>>

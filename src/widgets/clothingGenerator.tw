@@ -1,0 +1,3024 @@
+:: clothingGenerator [widget nobr]
+
+<<nobr>>
+<<silently>>
+
+/*panties generation widget. Inputs: 0-number to generate 1-Style selector, 2-fabric selector, 3-color, 4-quality bonus, 5-store name*/
+/*Style: 0-everything equally, 1-no sexy-granny weighted, 2-no sexy-center weighted, 3-no granny-center weighted, 4-no granny-sexy weighted, 5-no extremes-center weighted, 6-fetish styles*/
+/*Fabric: 0-standard, 1-conservative, 2-sexy, 3-extreme sexy (high transparency)*/
+/*Color: 0-spectrum, 1-cute, 2-sexy*/
+/*Quality: -2 to 2 for change to attractiveness*/
+<<widget "genPanties">>
+<<if ndef $args[0] || ndef $args[1] || ndef $args[2] || ndef $args[3] || ndef $args[4] || ndef $args[5]>>
+	<<set alert(“!Panties Generator function ran with missing control variable/s! Please submit a bug report with this error message and the current passage listed in the debug info page.”)>>
+	<<set $error += ", Panties Generator function ran with missing control variable/s - Passage: ">>
+	<<set $error += = passage()>>
+<<else>>
+	<<switch $args[1]>>
+	<<case 0>>
+		<<set _stylelist = [1,2,3,4,5,6,7,8,9,10,11,12]>>
+	<<case 1>>
+		<<set _stylelist = [1,1,2,2,3,3,3,4,4,5,5,6,7]>>
+	<<case 2>>
+		<<set _stylelist = [1,2,3,4,4,5,5,6,6,6,7,7,7,8,8]>>
+	<<case 3>>
+		<<set _stylelist = [3,4,5,5,6,6,6,7,7,7,8,8,9,10]>>
+	<<case 4>>
+		<<set _stylelist = [4,5,6,6,7,7,8,8,8,9,9,9,10,10,11]>>
+	<<case 5>>
+		<<set _stylelist = [2,3,4,4,5,5,5,6,6,6,7,7,8,9]>>
+	<<case 6>>
+		<<set _stylelist = [8,9,9,9,10,10,11,11,11,12,12]>>
+	<<case default>>
+		<<set $error += ", Panties Generator bad style arg - Passage: ">>
+		<<set $error += = passage()>>
+		<<set alert(“!Panties Generator Style Arg Error! Details in debug view for bug report. You can continue playing otherwise.”)>>
+		<<set _stylelist = [1]>>
+	<</switch>>
+	<<set $shopP = []>>
+	/*for loop start*/
+	<<for _i to 0; _i < $args[0]; _i++>>
+		/*_panties array index: 0Name, 1Attr, 2Sexy/Cute, 3Formal/Casual, 4Exposure, 5status, 6style, 7substyle, fabric, color, origin store*/
+		<<set _panties = ["0name",0,0,0,0,0,"6style","7substyle","8fabric","9color",$args[5],0,0,0]>>
+		<<set _panties[6] = either(_stylelist)>>
+	/*substyles: 0-none, 1-lace border, 2-lace waist, 3-lace covered, 4-low back, 5-V back, 6-low front, 7-V front, 8-open paneled*/
+	<<switch _panties[6]>>
+	<<case 0>>
+		<<set _style = "pantiesGen arg error">>
+	<<case 1>>
+		<<set _style = "classic briefs">>
+		<<set _substylelist = [0,0,0,0,1,2]>>
+		<<set _panties[1] += either(-5,-5,-5,-4)>> /*attractiveness*/
+		<<set _panties[2] += either(0,0,0,0,-1)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(-3,-3,-4,-2)>> /*+formal or -casual*/
+		<<set _panties[4] += 0>> /*exposure level 0-5*/
+	<<case 2>>
+		<<set _style = "control briefs">>
+		<<set _substylelist = [0,0,0,1,1,2]>>
+		<<set _panties[1] += either(-5,-4,-4,-3)>> /*attractiveness*/
+		<<set _panties[2] += either(0,0,0,0,0,0,-1)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(-3,-2,-2,-2,-1)>> /*+formal or -casual*/
+		<<set _panties[4] += 0>> /*exposure level 0-5*/
+	<<case 3>>
+		<<set _style = "high-cut briefs">>
+		<<set _substylelist = [0,0,0,1,1,2]>>
+		<<set _panties[1] += either(-4,-3,-3,-3,-2)>> /*attractiveness*/
+		<<set _panties[2] += either(0,-1,1,0)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(-4,-3,-2,-2,-2,-2,-1)>> /*+formal or -casual*/
+		<<set _panties[4] += 0>> /*exposure level 0-5*/
+	<<case 4>>
+		<<set _style = "bikini briefs">>
+		<<set _substylelist = [0,0,0,1,1,2,2,3,5,7]>>
+		<<set _panties[1] += either(-2,-2,-1)>> /*attractiveness*/
+		<<set _panties[2] += either(-1,-1,-2,0)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(-2,-1,-1,0,0,0,1)>> /*+formal or -casual*/
+		<<set _panties[4] += 0>> /*exposure level 0-5*/
+	<<case 5>>
+		<<set _style = "bikini">>
+		<<set _substylelist = [0,0,0,2,1,1,4,5,6,7,8]>>
+		<<set _panties[1] += either(0,1)>> /*attractiveness*/
+		<<set _panties[2] += either(-2,-1,1,2)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(-1,0,0,1)>> /*+formal or -casual*/
+		<<set _panties[4] += either(0.4,0.3,0.2,0.1)>> /*exposure level 0-5*/
+	<<case 6>>
+		<<set _style = "boyshorts">>
+		<<set _substylelist = [0,0,0,0,1,1,2]>>
+		<<set _panties[1] += either(0,0,0,1,2)>> /*attractiveness*/
+		<<set _panties[2] += either(-3,-2,-2,-1,-1,-1,-1)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(-3,-2,-2,-1)>> /*+formal or -casual*/
+		<<set _panties[4] += 0>> /*exposure level 0-5*/
+	<<case 7>>
+		<<set _style = "tanga">>
+		<<set _substylelist = [0,0,0,2,1,1,4,5,6,7,8]>>
+		<<set _panties[1] += either(0,1,1,2)>> /*attractiveness*/
+		<<set _panties[2] += either(0,1,1,2)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(-1,0,1)>> /*+formal or -casual*/
+		<<set _panties[4] += either(0.5,0.6,0.7)>> /*exposure level 0-5*/
+	<<case 8>>
+		<<set _style = "thong">>
+		<<set _substylelist = [0,0,0,2,1,1,4,5,6,7,8]>>
+		<<set _panties[1] += either(1,2,2,3)>> /*attractiveness*/
+		<<set _panties[2] += either(-1,1,1,2)>> /*+sexy or -cute*/
+		<<set _panties[3] += 0>> /*+formal or -casual*/
+		<<set _panties[4] += 1>> /*exposure level 0-5*/
+	<<case 9>>
+		<<set _style = "G-string">>
+		<<set _substylelist = [0,0,0,4,5,6,7,8]>>
+		<<set _panties[1] += either(2,3,3,4)>> /*attractiveness*/
+		<<set _panties[2] += either(2,3,3,4)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(0,1,2)>> /*+formal or -casual*/
+		<<set _panties[4] += 1.5>> /*exposure level 0-5*/
+	<<case 10>>
+		<<set _style = "C-string">>
+		<<set _substylelist = [0]>>
+		<<set _panties[1] += either(3,3,4)>> /*attractiveness*/
+		<<set _panties[2] += either(1,2,3,3,4)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(1,2,3)>> /*+formal or -casual*/
+		<<set _panties[4] += either(2,1.5)>> /*exposure level 0-5*/
+	<<case 11>>
+		<<set _style = "crotchless">>
+		<<set _substylelist = [0,0,1,2,3,4,5,6,7,8]>>
+		<<set _panties[1] += either(3,4,5)>> /*attractiveness*/
+		<<set _panties[2] += either(4,5,5)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(-1,0,1)>> /*+formal or -casual*/
+		<<set _panties[4] += either(3.8,4,4.3)>> /*exposure level 0-5*/
+	<<case 12>>
+		<<set _style = "micro G-string">>
+		<<set _substylelist = [0,0,0,4,5,6,7,8]>>
+		<<set _panties[1] += either(4,5,5)>> /*attractiveness*/
+		<<set _panties[2] += either(4,5,5)>> /*+sexy or -cute*/
+		<<set _panties[3] += 0>> /*+formal or -casual*/
+		<<set _panties[4] += either(3.8,4,4.3)>> /*exposure level 0-5*/
+	<<case default>>
+		<<set _style = "bad arg to pantiesStyle">>
+	<</switch>>
+	<<set _panties[7] = either(_substylelist)>>
+	<<switch _panties[7]>>
+	<<case 0>>
+		<<set _substyle = "regular">>
+	<<case 1>>
+		<<set _substyle = "lace-bordered">>
+		<<set _panties[1] += either(0,0.3,0.5)>> /*attractiveness*/
+		<<set _panties[2] += either(-1,-1,0,0,1)>> /*+sexy or -cute*/
+	<<case 2>>
+		<<set _substyle = "lace-waisted">>
+		<<set _panties[1] += either(-1,-0.5,0,0.5,1,1,1)>> /*attractiveness*/
+		<<set _panties[2] += either(-1,-0.5,0.5,1,1,1)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(0.5,1,1,2,2)>> /*+formal or -casual*/
+		<<set _panties[4] += either(0,0,0,0.1,0.2)>> /*exposure level 0-5*/
+	<<case 3>>
+		<<set _substyle = "lace-covered">>
+		<<set _panties[1] += either(-2,-1,0,0,0,1,1,2)>> /*attractiveness*/
+		<<set _panties[2] += either(-2,-2,-1)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(1,1,2,2,3)>> /*+formal or -casual*/
+		<<set _panties[4] += -1>> /*exposure level 0-5*/
+	<<case 4>>
+		<<set _substyle = "low-back">>
+		<<set _panties[1] += either(0,0.5,1,1)>> /*attractiveness*/
+		<<set _panties[2] += either(0,1,1)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(-1,0,0,1)>> /*+formal or -casual*/
+		<<set _panties[4] += either(0.2,0.3,0.4,0.5)>> /*exposure level 0-5*/
+	<<case 5>>
+		<<set _substyle = "V-back">>
+		<<set _panties[1] += either(0,0.5,1,1)>> /*attractiveness*/
+		<<set _panties[2] += either(1,1,1.5,2,2.5)>> /*+sexy or -cute*/
+		<<set _panties[4] += either(0.2,0.3,0.4,0.5)>> /*exposure level 0-5*/
+	<<case 6>>
+		<<set _substyle = "low-front">>
+		<<set _panties[1] += either(1,2,3)>> /*attractiveness*/
+		<<set _panties[2] += either(-1,1,1,2)>> /*+sexy or -cute*/
+		<<set _panties[4] += either(0.4,0.5,0.6,0.7)>> /*exposure level 0-5*/
+	<<case 7>>
+		<<set _substyle = "V-front">>
+		<<set _panties[1] += either(1,2,3)>> /*attractiveness*/
+		<<set _panties[2] += either(1,1,2,2)>> /*+sexy or -cute*/
+		<<set _panties[4] += either(0.8,0.6,0.7,0.9)>> /*exposure level 0-5*/
+	<<case 8>>
+		<<set _substyle = "open-paneled">>
+		<<set _panties[1] += either(1,2,3)>> /*attractiveness*/
+		<<set _panties[2] += either(1,1,2,2)>> /*+sexy or -cute*/
+		<<set _panties[4] += either(0.5,0.6,0.7)>> /*exposure level 0-5*/
+	<</switch>>
+	/*fabrics: 0-cotton, 1-cotton blend, 2-lycra, 3-cotton knit, 4-nylon, 5-silk, 6-sheer nylon, 7-can't remember, 8-lingerie mesh, transparent latex */
+	<<if $args[2] == 0>>
+		<<set _fabriclist = [0,1,2,3,4,5,6]>>
+	<<elseif $args[2] == 1>>
+		<<set _fabriclist = [0,0,1,1,2,3,3,4]>>
+	<<elseif $args[2] == 2>>
+		<<set _fabriclist = [4,4,5,5,6,7,8]>>
+	<<else>>
+		<<set _fabriclist = [6,6,7,7,8,9]>>
+	<</if>>
+	<<set _panties[8] = either(_fabriclist)>>
+	<<switch _panties[8]>>
+	<<case 0>>
+		<<set _fabric = "cotton">>
+		<<set _panties[1] += either(-2,-1,-1,-0.5)>> /*attractiveness*/
+		<<set _panties[3] += either(-1,-2,-2)>> /*+formal or -casual*/
+	<<case 1>>
+		<<set _fabric = "cotton blend">>
+		<<set _panties[1] += either(-1,-1,-0.5)>> /*attractiveness*/
+		<<set _panties[3] += either(-1,-1,-2)>> /*+formal or -casual*/
+	<<case 2>>
+		<<set _fabric = "lycra">>
+		<<set _panties[1] += either(-1,-1,0)>> /*attractiveness*/
+		<<set _panties[3] += either(-2,-3,-2)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _fabric = "cotton-knit">>
+		<<set _panties[2] += either(0,0,-1)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(-1,0)>> /*+formal or -casual*/
+	<<case 4>>
+		<<set _fabric = "nylon">>
+		<<set _panties[1] += either(0,0,1)>> /*attractiveness*/
+		<<set _panties[2] += either(0,0,1)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(0,0,1)>> /*+formal or -casual*/
+		<<set _panties[4] += either(0,0,0.2)>> /*exposure level 0-5*/
+	<<case 5>>
+		<<set _fabric = "silk">>
+		<<set _panties[1] += either(1,2,2,3)>> /*attractiveness*/
+		<<set _panties[2] += either(1,2,2,3)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(2,2,3)>> /*+formal or -casual*/
+		<<set _panties[4] += either(0.1,0.2,0.3,0.4)>> /*exposure level 0-5*/
+	<<case 6>>
+		<<set _fabric = "sheer-nylon">>
+		<<set _panties[1] += either(2,3,3,4)>> /*attractiveness*/
+		<<set _panties[2] += either(3,4,4,5)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(2,3,3)>> /*+formal or -casual*/
+		<<set _panties[4] += either(2,3,3,4)>> /*exposure level 0-5*/
+	<<case 7>>
+		<<set _fabric = "chifon">>
+		<<set _panties[1] += either(3,4,4,5)>> /*attractiveness*/
+		<<set _panties[2] += either(3,4,4,5)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(3,3,4)>> /*+formal or -casual*/
+		<<set _panties[4] += either(3,4,4)>> /*exposure level 0-5*/
+	<<case 8>>
+		<<set _fabric = "silk-mesh">>
+		<<set _panties[1] += either(4,5,5,6)>> /*attractiveness*/
+		<<set _panties[2] += either(4,5,5,8)>> /*+sexy or -cute*/
+		<<set _panties[3] += either(3,3,4)>> /*+formal or -casual*/
+		<<set _panties[4] += either(4,4,4.5)>> /*exposure level 0-5*/
+	<<case 9>>
+		<<set _fabric = "translucent-latex">>
+		<<set _panties[1] += either(3,4,4,5)>> /*attractiveness*/
+		<<set _panties[2] += either(3,4,4,5)>> /*+sexy or -cute*/
+		<<set _panties[4] += either(3,4,4)>> /*exposure level 0-5*/
+	<</switch>>
+	/*color: 0-beige, 1-white, 2-pink, 3-pastel blue, 4-pastel green, 5-pastel yellow, 6-pastel purple, 7-black, 8-red */
+	/*pattern: A-none, B-striped, C-checked, D-flower print ????? */
+	<<set _colorlist = [0,0,0,1,1,1,1,2,2,3,4,5,6,7,7,7,7,7,8,8,8]>>
+	<<set _panties[9] = either(_colorlist)>>
+	<<set _panties[10] = $args[5]>>
+	<<switch _panties[9]>>
+	<<case 0>>
+		<<set _color = "(beige)">>
+		<<set _panties[1] += either(-2,-1,-1)>>
+		<<set _panties[3] += either(-2,-1,0)>> /*+formal or -casual*/
+	<<case 1>>
+		<<set _color = "(white)">>
+		<<if _panties[2] > 0>>
+			<<set _panties[2] += either(1,2)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _panties[2] += either(-3,-2,-2,-1)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _panties[3] += either(1,2,3)>> /*+formal or -casual*/
+	<<case 2>>
+		<<set _color = "(pink)">>
+		<<if _panties[2] < 0>>
+		<<set _panties[2] += either(-3,-2,-1)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _panties[3] += either(-1,0,1)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _color = "(pastel-blue)">>
+		<<if _panties[2] < 0>>
+		<<set _panties[2] += either(-2,-1,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _panties[3] += either(-1,0,0)>> /*+formal or -casual*/
+	<<case 4>>
+		<<set _color = "(pastel-green)">>
+		<<if _panties[2] < 0>>
+		<<set _panties[2] += either(-2,-1,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _panties[3] += either(-1,-1,0)>> /*+formal or -casual*/
+	<<case 5>>
+		<<set _color = "(pastel-yellow)">>
+		<<if _panties[2] < 0>>
+		<<set _panties[2] += either(-2,-1,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _panties[3] += either(-1,-1,0)>> /*+formal or -casual*/
+	<<case 6>>
+		<<set _color = "(pastel-purple)">>
+		<<if _panties[2] < 0>>
+		<<set _panties[2] += either(-2,-1,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _panties[3] += either(-1,-1,0)>> /*+formal or -casual*/
+	<<case 7>>
+		<<set _color = "(black)">>
+		<<if _panties[2] > 0>>
+		<<set _panties[2] += either(1,1,2,3)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _panties[3] += either(1,2)>> /*+formal or -casual*/
+	<<case 8>>
+		<<set _color = "(red)">>
+		<<if _panties[2] > 0>>
+		<<set _panties[2] += either(1,2,2,3)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _panties[3] += either(1,2)>> /*+formal or -casual*/
+	<</switch>>
+	<<set _tempE = _panties[4] * 10>>
+	<<set _tempF = Math.round(_tempE)>>
+	<<set _tempG = Math.trunc(_tempF)>>
+	<<set _tempG /= 10>>
+	<<set _panties[4] = _tempG>>
+	<<set _panties[0] = Math.round(_panties[0])>>
+	<<set _panties[1] = Math.round(_panties[1])>>
+	<<set _panties[2] = Math.round(_panties[2])>>
+	<<set _panties[3] = Math.round(_panties[3])>>
+	<<if _panties[4] > 5>>
+		<<set _panties[4] = 5>>
+	<<elseif _panties[4] < 0>>
+		<<set _panties[4] = 0>>
+	<</if>>
+	<<if _substyle == "regular">>
+		<<if $clothingDetail == 4>>
+			<<set _panties[0] = "//" + _fabric + "// ''" + _style + "'' " + _color>>
+		<<elseif $clothingDetail == 3>>
+			<<set _panties[0] = "''" + _style + "'' " + _color>>
+		<<elseif $clothingDetail == 2>>
+			<<set _panties[0] = "''" + _style + "'' " + _color>>
+		<<else>>
+			<<set _panties[0] = "''" + _style + "'' " + _color>>
+		<</if>>
+	<<else>>
+		<<if $clothingDetail == 4>>
+			<<set _panties[0] = "//" + _fabric + "// " + _substyle + " ''" + _style + "'' " + _color>>
+		<<elseif $clothingDetail == 3>>
+			<<set _panties[0] = _substyle + " ''" + _style + "'' " + _color>>
+		<<elseif $clothingDetail == 2>>
+			<<set _panties[0] = _substyle + " ''" + _style + "'' " + _color>>
+		<<else>>
+			<<set _panties[0] = "''" + _style + "'' " + _color>>
+		<</if>>
+	<</if>>
+	<<switch $args[4]>>
+	<<case -2>>
+		<<if _panties[1] > 0>>
+			<<set _panties[1] *= 0.6>>
+			<<set _panties[1] = Math.round(_panties[1])>>
+		<<elseif _panties[1] < 0>>
+			<<set _panties[1] *= 1.3>>
+			<<set _panties[1] = Math.round(_panties[1])>>
+		<</if>>
+		<<if _panties[4] > 2.5>>
+			<<set _panties[4] = 2.5>>
+		<</if>>
+		<<set _panties[2] *= 0.6>>
+		<<set _panties[2] = Math.round(_panties[2])>>
+	<<case -1>>
+		<<if _panties[1] > 0>>
+			<<set _panties[1] *= 0.8>>
+			<<set _panties[1] = Math.round(_panties[1])>>
+		<<elseif _panties[1] < 0>>
+			<<set _panties[1] *= 1.15>>
+			<<set _panties[1] = Math.round(_panties[1])>>
+		<</if>>
+		<<if _panties[4] > 3>>
+			<<set _panties[4] = 3>>
+		<</if>>
+		<<set _panties[2] *= 0.8>>
+		<<set _panties[2] = Math.round(_panties[2])>>
+	<<case 1>>
+		<<if _panties[1] > 0>>
+			<<set _panties[1] *= 1.15>>
+			<<set _panties[1] = Math.round(_panties[1])>>
+		<<elseif _panties[1] < 0>>
+			<<set _panties[1] *= 0.8>>
+			<<set _panties[1] = Math.round(_panties[1])>>
+		<</if>>
+		<<set _panties[2] *= 1.15>>
+		<<set _panties[2] = Math.round(_panties[2])>>
+	<<case 2>>
+		<<if _panties[1] > 0>>
+			<<set _panties[1] *= 1.3>>
+			<<set _panties[1] = Math.round(_panties[1])>>
+		<<elseif _panties[1] < 0>>
+			<<set _panties[1] *= 0.6>>
+			<<set _panties[1] = Math.round(_panties[1])>>
+		<</if>>
+		<<set _panties[2] *= 1.3>>
+		<<set _panties[2] = Math.round(_panties[2])>>
+	<<case default>>
+		<<if _panties[1] > 8>>
+			<<set _panties[1] = 8>>
+		<</if>>
+		<<if _panties[4] > 4>>
+			<<set _panties[4] = 4>>
+		<</if>>
+	<</switch>>
+	/*<<print _panties[0]>>, <<= _panties[1]>>, <<= _panties[2]>>, <<= _panties[3]>>, <<= _panties[4]>>*/
+	<<set $shopP.push(_panties)>>
+	<</for>>
+<</if>>
+<</widget>>
+
+/*bra generation widget. Inputs: 0-number to generate 1-Style selector, 2-fabric selector, 3-color, 4-quality bonus, 5-store name*/
+/*Style: 0-everything equally, 1-average, 2-sexy, 3-fetish styles*/
+/*Fabric: 0-standard, 1-sexy, 2-extreme sexy (high transparency)*/
+/*Color: 0-spectrum, 1-cute, 2-sexy not used*/
+/*Quality: -2 to 2 for change to attractiveness*/
+<<widget "genBra">>
+<<if ndef $args[0] || ndef $args[1] || ndef $args[2] || ndef $args[3] || ndef $args[4] || ndef $args[5]>>
+	<<set alert(“!Bra Generator function ran with missing control variable/s! Please submit a bug report with this error message and the current passage listed in the debug info page.”)>>
+	<<set $error += ", Bra Generator function ran with missing control variable/s - Passage: ">>
+	<<set $error += = passage()>>
+<<else>>
+	<<switch $args[1]>>
+	<<case 0>>
+		<<set _stylelist = [1,2,3,4,5,6,7,8,9,10,11,12]>>
+	<<case 1>>
+		<<set _stylelist = [1,1,2,2,3,3,4,4,5,5,6,7]>>
+	<<case 2>>
+		<<set _stylelist = [4,5,6,6,7,7,8,8,9,9]>>
+	<<case 3>>
+		<<set _stylelist = [7,8,8,9,10,11,11,12]>>
+	<<case default>>
+		<<set $error += ", Bra Generator bad style arg - Passage: ">>
+		<<set $error += = passage()>>
+		<<set alert(“!Bra Generator Style Arg Error! Details in debug view for bug report. You can continue playing otherwise.”)>>
+		<<set _stylelist = []>>
+	<</switch>>
+	<<set $shopB = []>>
+	/*for loop start*/
+	<<for _i to 0; _i < $args[0]; _i++>>
+		/*_bra array index: 0Name, 1Attr, 2Sexy/Cute, 3Formal/Casual, 4Exposure, 5status, 6style, 7substyle, fabric, color, origin store*/
+		<<set _bra = ["0name",0,0,0,0,0,"6style","7substyle","8fabric","9color",$args[5],0,0,0]>>
+		<<set _bra[6] = either(_stylelist)>>
+	/*substyles: 0-none, 1-lace border, 2-convertable, 3-strapless, 4-lace covered, 5-front fasten, 6-wide strap, 7spaghetti strap*/
+	<<switch _bra[6]>>
+	<<case 0>>
+		<<set _style = "braGen arg error">>
+	<<case 1>>
+		<<set _style = "sports bra">>
+		<<set _substylelist = [0,0,6,6,6,3]>>
+		<<set _bra[1] += either(-2,-1,0,1,2)>> /*attractiveness*/
+		<<set _bra[2] += either(1,0,0,0,-1)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(-3,-3,-4,-2)>> /*+formal or -casual*/
+		<<set _bra[4] += 0>> /*exposure level 0-5*/
+	<<case 2>>
+		<<set _style = "contour bra">>
+		<<set _substylelist = [0,0,0,0,1,2,3,4,4,5,5,6,7]>>
+		<<set _bra[1] += either(-2,-1,0,0,1,2)>> /*attractiveness*/
+		<<set _bra[2] += either(1,0,0,0,0,0,-1)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(0,0,0,1,1,2,-2,-1)>> /*+formal or -casual*/
+		<<set _bra[4] += 0>> /*exposure level 0-5*/
+	<<case 3>>
+		<<set _style = "demi-cup bra">>
+		<<set _substylelist = [0,0,0,0,1,2,3,3,4,5,5,6,7]>>
+		<<set _bra[1] += either(0,0,-1,1,1,2)>> /*attractiveness*/
+		<<set _bra[2] += either(0,-1,1,0,1,1)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(-2,-1,-1,0,0,0,1,1,2)>> /*+formal or -casual*/
+		<<set _bra[4] += 0>> /*exposure level 0-5*/
+	<<case 4>>
+		<<set _style = "t-shirt bra">>
+		<<set _substylelist = [0,0,0,0,1,2,3,3,4,5,5,6,7]>>
+		<<set _bra[1] += either(-2,-1,-1,0,0,0,1,1)>> /*attractiveness*/
+		<<set _bra[2] += either(-1,-1,-2,0)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(-2,-1,-1,0,0,0,1)>> /*+formal or -casual*/
+		<<set _bra[4] += 0>> /*exposure level 0-5*/
+	<<case 5>>
+		<<set _style = "push-up bra">>
+		<<set _substylelist = [0,0,0,1,1,4,4,5,6,7]>>
+		<<set _bra[1] += either(0,1,1,2,2,3)>> /*attractiveness*/
+		<<set _bra[2] += either(0,1,2,2,3)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(-1,0,0,1,1,2,2)>> /*+formal or -casual*/
+		<<set _bra[4] += either(0.4,0.3,0.2,0.1)>> /*exposure level 0-5*/
+	<<case 6>>
+		<<set _style = "plunge bra">>
+		<<set _substylelist = [0,0,0,1,1,4,4,5,6,7]>>
+		<<set _bra[1] += either(0,1,2,2,3,3,4)>> /*attractiveness*/
+		<<set _bra[2] += either(0,1,2,2,3)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(-1,0,0,1,1,2,2)>> /*+formal or -casual*/
+		<<set _bra[4] += either(0.5,0.6,0.7)>> /*exposure level 0-5*/
+	<<case 7>>
+		<<set _style = "bandeau bra">>
+		<<set _substylelist = [0,0,0,1]>>
+		<<set _bra[1] += either(0,1,1,2,3)>> /*attractiveness*/
+		<<set _bra[2] += either(-1,-1,0,1,1,2)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(-1,-1,-1,-2,-2,-3,0,1)>> /*+formal or -casual*/
+		<<set _bra[4] += either(0.8,0.7,0.6)>> /*exposure level 0-5*/
+	<<case 8>>
+		<<set _style = "balconette bra">>
+		<<set _substylelist = [0,0,0,0,1,2,3,3,4,5,5,6,7]>>
+		<<set _bra[1] += either(0,1,2,2,3,3,4)>> /*attractiveness*/
+		<<set _bra[2] += either(0,1,2,2,3)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(-1,0,0,1,1,2,2)>> /*+formal or -casual*/
+		<<set _bra[4] += either(1.5,1,0.8)>> /*exposure level 0-5*/
+	<<case 9>>
+		<<set _style = "molded bra">>
+		<<set _substylelist = [0,0,0,1,2,3,5,6,7,7]>>
+		<<set _bra[1] += either(2,3,3,4)>> /*attractiveness*/
+		<<set _bra[2] += either(3,3,4,5)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(0,1,2)>> /*+formal or -casual*/
+		<<set _bra[4] += either(1.5,2,2)>> /*exposure level 0-5*/
+	<<case 10>>
+		<<set _style = "peephole bra">>
+		<<set _substylelist = [0,0,0,1,2,3,5,6,7,7]>>
+		<<set _bra[1] += either(3,3,4,4,5)>> /*attractiveness*/
+		<<set _bra[2] += either(5,4,3,3,4)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(-1,0,1)>> /*+formal or -casual*/
+		<<set _bra[4] += either(3,3.5,4)>> /*exposure level 0-5*/
+	<<case 11>>
+		<<set _style = "shelf bra">>
+		<<set _substylelist = [0,0,0,1,3,5,6,7,7]>>
+		<<set _bra[1] += either(4,5,5,6)>> /*attractiveness*/
+		<<set _bra[2] += either(4.5,5,5)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(2,3,1)>> /*+formal or -casual*/
+		<<set _bra[4] += either(4,4.5,5)>> /*exposure level 0-5*/
+	<<case 12>>
+		<<set _style = "cupless bra">>
+		<<set _substylelist = [0,0,0,1,3,5,6,7,7]>>
+		<<set _bra[1] += either(5,6,6,7)>> /*attractiveness*/
+		<<set _bra[2] += either(4.5,5,5)>> /*+sexy or -cute*/
+		<<set _bra[3] += 0>> /*+formal or -casual*/
+		<<set _bra[4] += 5>> /*exposure level 0-5*/
+	<<case default>>
+		<<set _style = "bad arg to braStyle">>
+	<</switch>>
+	<<set _bra[7] = either(_substylelist)>>
+	<<switch _bra[7]>>
+	<<case 0>>
+		<<set _substyle = "regular">>
+	<<case 1>>
+		<<set _substyle = "lace-edged">>
+		<<set _bra[1] += either(0,0.3,0.5)>> /*attractiveness*/
+		<<if _bra[2] >= 0>>
+			<<set _bra[2] += either(0,0.5,1)>>
+		<<else>>
+			<<set _bra[2] += either(0,-0.5,-1)>>
+		<</if>>
+	<<case 2>>
+		<<set _substyle = "convertable">>
+		<<set _bra[1] += either(-1,-0.5,-0.5,0,0,0.5)>> /*attractiveness*/
+		<<set _bra[2] += 0>> /*+sexy or -cute*/
+		<<set _bra[3] += either(0,-1,1)>> /*+formal or -casual*/
+		<<set _bra[4] += either(0,0,0,0.1,0.2)>> /*exposure level 0-5*/
+	<<case 3>>
+		<<set _substyle = "strapless">>
+		<<set _bra[1] += either(0.5,1,1,2)>> /*attractiveness*/
+		<<set _bra[2] += either(0,1,1,2)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(-1,0,0,1)>> /*+formal or -casual*/
+		<<set _bra[4] += either(0.1,0.2,0.2,0.3)>> /*exposure level 0-5*/
+	<<case 4>>
+		<<set _substyle = "lace-covered">>
+		<<set _bra[1] += either(-1,0,0,0,1,1)>> /*attractiveness*/
+		<<if _bra[2] >= 0>>
+			<<set _bra[2] += either(0,0,1)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _bra[2] += either(-2,-2,-1)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _bra[3] += either(0,0,1,1,2)>> /*+formal or -casual*/
+		<<set _bra[4] += -1>> /*exposure level 0-5*/
+	<<case 5>>
+		<<set _substyle = "front-fasten">>
+		<<set _bra[1] += either(0,0,0,0.5)>> /*attractiveness*/
+	<<case 6>>
+		<<set _substyle = "wide-strap">>
+		<<set _bra[1] += either(-1,-2,-1,-2,-3)>> /*attractiveness*/
+		<<if _bra[6] > 1>>
+			<<set _bra[2] += either(-1,-2,-2,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _bra[4] += either(-0.3,-0.4,-0.4,-0.5)>> /*exposure level 0-5*/
+	<<case 7>>
+		<<set _substyle = "spaghetti-strap">>
+		<<set _bra[1] += either(0,1,1,1,2)>> /*attractiveness*/
+		<<if _bra[2] >= 0>>
+			<<set _bra[2] += either(1,1,2,2)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _bra[2] += either(-1,-1,-2,-2)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _bra[4] += either(0.2,0.2,0.3)>> /*exposure level 0-5*/
+	<</switch>>
+	/*fabrics: 0Cotton Blend, 1Cotton Knit, 2Microfiber, 3Satin, 4Embroidery, 5Lace, 6Guipure, 7Tulle, 8translucent-latex */
+	<<if $args[2] == 0>>
+		<<if _bra[6] == 0>>
+			<<set _fabriclist = [0,1,1,2,2,2]>>
+		<<elseif _bra[6] < 4>>
+			<<set _fabriclist = [0,0,1,1,2,3,3,4]>>
+		<<elseif _bra[6] == 4>>
+			<<set _fabriclist = [1,1,1,2,3]>>
+		<<elseif _bra[6] < 7>>
+			<<set _fabriclist = [0,1,2,2,3,3,3,4,4]>>
+		<<else>>
+			<<set _fabriclist = [0,3,3,3,4,4]>>
+		<</if>>
+	<<elseif $args[2] == 1>>
+		<<if _bra[6] == 0>>
+			<<set _fabriclist = [2,2,3]>>
+		<<elseif _bra[6] < 4>>
+			<<set _fabriclist = [2,3,3,4,4,5,5]>>
+		<<elseif _bra[6] == 4>>
+			<<set _fabriclist = [1,2,2,3,3,3]>>
+		<<elseif _bra[6] < 7>>
+			<<set _fabriclist = [3,3,4,4,4,5,5]>>
+		<<else>>
+			<<set _fabriclist = [4,4,5,5,5]>>
+		<</if>>
+	<<else>>
+		<<if _bra[6] == 0>>
+			<<set _fabriclist = [7,8,8]>>
+		<<elseif _bra[6] < 4>>
+			<<set _fabriclist = [5,5,6,6,7,7,8]>>
+		<<elseif _bra[6] == 4>>
+			<<set _fabriclist = [7,8,8]>>
+		<<elseif _bra[6] < 7>>
+			<<set _fabriclist = [5,6,6,7,7,8]>>
+		<<else>>
+			<<set _fabriclist = [5,6,6,7,7,8]>>
+		<</if>>
+	<</if>>
+	<<set _bra[8] = either(_fabriclist)>>
+	<<switch _bra[8]>>
+	<<case 0>>
+		<<set _fabric = "cotton blend">>
+		<<set _bra[1] += either(-1,-0.5,0,0,1,1)>> /*attractiveness*/
+		<<if _bra[2] >= 0>>
+			<<set _bra[2] += either(0,0,1)>>
+		<<else>>
+			<<set _bra[2] += either(0,-1,-1)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _bra[3] += either(-1,-2,-2)>> /*+formal or -casual*/
+	<<case 1>>
+		<<set _fabric = "cotton-knit">>
+		<<set _bra[1] += either(-1,0,1,1)>> /*attractiveness*/
+		<<if _bra[2] >= 0>>
+			<<set _bra[2] += either(0,0,1)>>
+		<<else>>
+			<<set _bra[2] += either(0,-1,-2)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _bra[3] += either(-1,-2,-2)>> /*+formal or -casual*/
+	<<case 2>>
+		<<set _fabric = "microfiber">>
+		<<if _bra[6] == 0 || _bra[6] == 7>>
+			<<set _bra[1] += either(-1,0,1,1,2)>> /*attractiveness*/
+		<<else>>
+			<<set _bra[1] += either(-2,-1,0,1,1)>> /*attractiveness*/
+		<</if>>
+		<<set _bra[3] += either(-2,-3,-2)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _fabric = "satin">>
+		<<set _bra[1] += either(0,1,1)>> /*attractiveness*/
+		<<if _bra[2] < 0>>
+			<<set _bra[2] += either(0,0,-1)>>
+		<<else>>
+			<<set _bra[2] += either(0,1,2)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _bra[3] += either(1,2,2,3)>> /*+formal or -casual*/
+	<<case 4>>
+		<<set _fabric = "embroidery">>
+		<<if _bra[6] < 7>>
+			<<set _bra[1] += either(0,1,1)>> /*attractiveness*/
+			<<set _bra[2] += either(0,1,1)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _bra[2] += either(1,2,2)>> /*+sexy or -cute*/
+			<<set _bra[1] += either(1,2,2)>> /*attractiveness*/
+			<<set _bra[4] += either(0,0.2,0.4)>> /*exposure level 0-5*/
+		<</if>>
+		<<set _bra[3] += either(0,1,2)>> /*+formal or -casual*/
+	<<case 5>>
+		<<set _fabric = "lace">>
+		<<if _bra[6] < 7>>
+			<<set _bra[1] += either(1,2,2)>> /*attractiveness*/
+		<<else>>
+			<<set _bra[1] += either(2,3,3)>> /*attractiveness*/
+			<<set _bra[4] += either(0.5,0.8,1,1)>> /*exposure level 0-5*/
+		<</if>>
+		<<set _bra[2] += either(1,2,2,3)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(2,2,3)>> /*+formal or -casual*/
+	<<case 6>>
+		<<set _fabric = "guipure">>
+		<<set _bra[1] += either(2,3,3,4)>> /*attractiveness*/
+		<<set _bra[2] += either(3,4,4,5)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(2,3,3)>> /*+formal or -casual*/
+		<<set _bra[4] += either(2,3,3,4)>> /*exposure level 0-5*/
+	<<case 7>>
+		<<set _fabric = "tulle">>
+		<<set _bra[1] += either(3,4,4,5)>> /*attractiveness*/
+		<<set _bra[2] += either(3,4,4,5)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(3,3,4)>> /*+formal or -casual*/
+		<<set _bra[4] += either(3,4,4)>> /*exposure level 0-5*/
+	<<case 8>>
+		<<set _fabric = "translucent-latex">>
+		<<set _bra[1] += either(4,5,5,6)>> /*attractiveness*/
+		<<set _bra[2] += either(4,5,5,8)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(3,3,4)>> /*+formal or -casual*/
+		<<set _bra[4] += either(3.5,4,4)>> /*exposure level 0-5*/
+	<</switch>>
+	/*color: 0-beige, 1-white, 2-pink, 3blue, 4green, 5-pastel yellow, 6-pastel purple, 7-black, 8-red */
+	/*pattern: A-none, B-striped, C-checked, D-flower print ????? */
+	<<set _colorlist = [0,0,0,0,0,0,1,1,1,1,1,2,2,3,4,5,6,7,7,7,7,7,7,7,8,8]>>
+	<<set _bra[9] = either(_colorlist)>>
+	<<set _bra[10] = $args[5]>>
+	<<switch _bra[9]>>
+	<<case 0>>
+		<<set _color = "(beige)">>
+		<<set _bra[1] += either(-2,-1,-1)>>
+		<<set _bra[3] += either(-2,-1,0)>> /*+formal or -casual*/
+	<<case 1>>
+		<<set _color = "(white)">>
+		<<if _bra[2] > 0>>
+			<<set _bra[2] += either(1,2)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _bra[2] += either(-3,-2,-2,-1)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _bra[3] += either(1,2,3)>> /*+formal or -casual*/
+	<<case 2>>
+		<<set _color = "(pink)">>
+		<<if _bra[2] < 0>>
+		<<set _bra[2] += either(-3,-2,-1)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _bra[3] += either(-1,0,1)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _color = "(blue)">>
+		<<set _bra[2] += either(-1,0,1,1,1)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(-1,0,0)>> /*+formal or -casual*/
+	<<case 4>>
+		<<set _color = "(green)">>
+		<<set _bra[2] += either(-1,0,1,1,1)>> /*+sexy or -cute*/
+		<<set _bra[3] += either(-1,-1,0)>> /*+formal or -casual*/
+	<<case 5>>
+		<<set _color = "(pastel-yellow)">>
+		<<if _bra[2] < 0>>
+		<<set _bra[2] += either(-2,-1,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _bra[3] += either(-1,-1,0)>> /*+formal or -casual*/
+	<<case 6>>
+		<<set _color = "(pastel-purple)">>
+		<<if _bra[2] < 0>>
+		<<set _bra[2] += either(-2,-1,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _bra[3] += either(-1,-1,0)>> /*+formal or -casual*/
+	<<case 7>>
+		<<set _color = "(black)">>
+		<<if _bra[2] > 0>>
+		<<set _bra[2] += either(1,1,2,3)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _bra[3] += either(1,2)>> /*+formal or -casual*/
+	<<case 8>>
+		<<set _color = "(red)">>
+		<<if _bra[2] > 0>>
+		<<set _bra[2] += either(1,2,2,3)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _bra[3] += either(1,2)>> /*+formal or -casual*/
+	<</switch>>
+	<<set _tempE = _bra[4] * 10>>
+	<<set _tempF = Math.round(_tempE)>>
+	<<set _tempG = Math.trunc(_tempF)>>
+	<<set _tempG /= 10>>
+	<<set _bra[4] = _tempG>>
+	<<set _bra[0] = Math.round(_bra[0])>>
+	<<set _bra[1] = Math.round(_bra[1])>>
+	<<set _bra[2] = Math.round(_bra[2])>>
+	<<set _bra[3] = Math.round(_bra[3])>>
+	<<if _bra[4] > 5>>
+		<<set _bra[4] = 5>>
+	<<elseif _bra[4] < 0>>
+		<<set _bra[4] = 0>>
+	<</if>>
+	<<if _substyle == "regular">>
+		<<if $clothingDetail == 4>>
+			<<set _bra[0] = "//" + _fabric + "// ''" + _style + "'' " + _color>>
+		<<elseif $clothingDetail == 3>>
+			<<set _bra[0] = "''" + _style + "'' " + _color>>
+		<<elseif $clothingDetail == 2>>
+			<<set _bra[0] = "''" + _style + "'' " + _color>>
+		<<else>>
+			<<set _bra[0] = "''" + _style + "'' " + _color>>
+		<</if>>
+	<<else>>
+		<<if $clothingDetail == 4>>
+			<<set _bra[0] = "//" + _fabric + "// " + _substyle + " ''" + _style + "'' " + _color>>
+		<<elseif $clothingDetail == 3>>
+			<<set _bra[0] = _substyle + " ''" + _style + "'' " + _color>>
+		<<elseif $clothingDetail == 2>>
+			<<set _bra[0] = _substyle + " ''" + _style + "'' " + _color>>
+		<<else>>
+			<<set _bra[0] = "''" + _style + "'' " + _color>>
+		<</if>>
+	<</if>>
+	<<switch $args[4]>>
+	<<case -2>>
+		<<if _bra[1] > 0>>
+			<<set _bra[1] *= 0.6>>
+			<<set _bra[1] = Math.round(_bra[1])>>
+		<<elseif _bra[1] < 0>>
+			<<set _bra[1] *= 1.3>>
+			<<set _bra[1] = Math.round(_bra[1])>>
+		<</if>>
+		<<if _bra[4] > 2.5>>
+			<<set _bra[4] = 2.5>>
+		<</if>>
+		<<set _bra[2] *= 0.6>>
+		<<set _bra[2] = Math.round(_bra[2])>>
+	<<case -1>>
+		<<if _bra[1] > 0>>
+			<<set _bra[1] *= 0.8>>
+			<<set _bra[1] = Math.round(_bra[1])>>
+		<<elseif _bra[1] < 0>>
+			<<set _bra[1] *= 1.15>>
+			<<set _bra[1] = Math.round(_bra[1])>>
+		<</if>>
+		<<if _bra[4] > 3>>
+			<<set _bra[4] = 3>>
+		<</if>>
+		<<set _bra[2] *= 0.8>>
+		<<set _bra[2] = Math.round(_bra[2])>>
+	<<case 1>>
+		<<if _bra[1] > 0>>
+			<<set _bra[1] *= 1.15>>
+			<<set _bra[1] = Math.round(_bra[1])>>
+		<<elseif _bra[1] < 0>>
+			<<set _bra[1] *= 0.8>>
+			<<set _bra[1] = Math.round(_bra[1])>>
+		<</if>>
+		<<set _bra[2] *= 1.15>>
+		<<set _bra[2] = Math.round(_bra[2])>>
+	<<case 2>>
+		<<if _bra[1] > 0>>
+			<<set _bra[1] *= 1.3>>
+			<<set _bra[1] = Math.round(_bra[1])>>
+		<<elseif _bra[1] < 0>>
+			<<set _bra[1] *= 0.6>>
+			<<set _bra[1] = Math.round(_bra[1])>>
+		<</if>>
+		<<set _bra[2] *= 1.3>>
+		<<set _bra[2] = Math.round(_bra[2])>>
+	<<case default>>
+		<<if _bra[1] > 8>>
+			<<set _bra[1] = 8>>
+		<</if>>
+		<<if _bra[4] > 4>>
+			<<set _bra[4] = 4>>
+		<</if>>
+	<</switch>>
+	/*<<print _bra[0]>>, <<= _bra[1]>>, <<= _bra[2]>>, <<= _bra[3]>>, <<= _bra[4]>>*/
+	<<set $shopB.push(_bra)>>
+<</for>>
+<</if>>
+<</widget>>
+
+/*stocking generation widget. Inputs: 0-number to generate 1-Style selector, 2-fabric selector, 3-color, 4-quality bonus, 5-store name*/
+/*Style: 0-everything equally, 1-standard, 2-sexy*/
+/*Fabric: 0-standard, 1-fetish*/
+/*Color: */
+/*Quality: -1 to 1 for change to attractiveness*/
+<<widget "genStocking">>
+<<if ndef $args[0] || ndef $args[1] || ndef $args[2] || ndef $args[3] || ndef $args[4] || ndef $args[5]>>
+	<<set alert(“!Stockings Generator function ran with missing control variable/s! Please submit a bug report with this error message and the current passage listed in the debug info page.”)>>
+	<<set $error += ", Stockings Generator function ran with missing control variable/s - Passage: ">>
+	<<set $error += = passage()>>
+<<else>>
+	<<switch $args[1]>>
+	<<case 0>>
+		<<set _stylelist = [1,2,3,4,5,6,7,8,9]>>
+	<<case 1>>
+		<<set _stylelist = [1,2,2,3,4,4,4,5,5,6]>>
+	<<case 2>>
+		<<set _stylelist = [5,6,7,7,8,8,9,9]>>
+	<<case default>>
+		<<set $error += ", Stocking Generator bad style arg - Passage: ">>
+		<<set $error += = passage()>>
+		<<set alert(“!Stocking Generator Style Arg Error! Details in debug view for bug report. You can continue playing otherwise.”)>>
+		<<set _stylelist = [1]>>
+	<</switch>>
+	<<set $shopLeg = []>>
+	/*for loop start*/
+	<<for _i to 0; _i < $args[0]; _i++>>
+		/*_stocking array index: 0Name, 1Attr, 2Sexy/Cute, 3Formal/Casual, 4Exposure, 5status, 6style, 7substyle, fabric, color, origin store*/
+		<<set _stocking = ["0name",0,0,0,5,0,0,0,0,"9color",0,0,0,0]>>
+		<<set _stocking[10] = $args[5]>>
+		<<set _temp = either(_stylelist)>>
+		<<set _stocking[6] = either(_stylelist)>>
+	/*substyles: 0-none*/
+	<<switch _stocking[6]>>
+	<<case 0>>
+		<<set _style = "stockingGen arg error" + _stylelist + "actual " + _stocking[6]>>
+	<<case 1>>
+		<<set _style = "knee-high socks">>
+		<<set _stocking[1] += either(0,0.4,1)>> /*attractiveness*/
+		<<set _stocking[2] += either(0,0,-1,-1,-1)>> /*+sexy or -cute*/
+	<<case 2>>
+		<<set _style = "over-knee socks">>
+		<<set _stocking[1] += either(0,1,1,2)>> /*attractiveness*/
+		<<set _stocking[2] += either(-1,-1,-1,-2,-2,-3)>> /*+sexy or -cute*/
+	<<case 3>>
+		<<set _style = "opaque stockings">>
+		<<set _stocking[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _stocking[2] += either(0,1,1)>> /*+sexy or -cute*/
+	<<case 4>>
+		<<set _style = "pantyhose">>
+		<<set _stocking[1] += either(0,1,1)>> /*attractiveness*/
+		<<set _stocking[2] += either(0,1,1)>> /*+sexy or -cute*/
+		<<set _stocking[4] -= 2>> /*exposure level 0-5*/
+	<<case 5>>
+		<<set _style = "sheer stockings">>
+		<<set _stocking[1] += either(1,2,2)>> /*attractiveness*/
+		<<set _stocking[2] += either(1,2,2)>> /*+sexy or -cute*/
+	<<case 6>>
+		<<set _style = "garter stockings">>
+		<<set _stocking[1] += either(2,2,2,3)>> /*attractiveness*/
+		<<set _stocking[2] += either(2,2,3)>> /*+sexy or -cute*/
+	<<case 7>>
+		<<set _style = "lace stockings">>
+		<<set _stocking[1] += either(2,2,3)>> /*attractiveness*/
+		<<set _stocking[2] += either(2,3,3)>> /*+sexy or -cute*/
+	<<case 8>>
+		<<set _style = "fishnet stockings">>
+		<<set _stocking[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _stocking[2] += either(3,3,4)>> /*+sexy or -cute*/
+	<<case 9>>
+		<<set _style = "fencenet stockings">>
+		<<set _stocking[1] += either(3,3,3,4)>> /*attractiveness*/
+		<<set _stocking[2] += either(3,4)>> /*+sexy or -cute*/
+	<<case default>>
+		<<set _style = "bad arg to stockingStyle: " + _stylelist + "actual " + _stocking>>
+	<</switch>>
+	<<if $args[2] == 0>>
+		<<set _fabriclist = [0]>>
+	<<elseif $args[2] == 1>>
+		<<set _fabriclist = [0,1]>>
+	<</if>>
+	<<set _stocking[8] = either(_fabriclist)>>
+	<<switch _stocking[8]>>
+	<<case 0>>
+		<<set _fabric = 0>>
+	<<case 1>>
+		<<set _fabric = "latex">>
+		<<set _stocking[1] += either(1,2,2)>> /*attractiveness*/
+		<<set _stocking[2] += either(1,2,1)>> /*+sexy or -cute*/
+	<</switch>>
+	/*color: 0-flesh, 1-white, 2-pink, 3 blue, 4-green, 6-purple, 7-black, 8-red */
+	/*pattern: A-none, B-striped, C-checked, D-flower print ????? */
+	<<set _colorlist = [0,0,0,0,0,1,1,1,2,3,4,6,7,7,7,7,7,8,8,8]>>
+	<<set _stocking[9] = either(_colorlist)>>
+	<<set _stocking[10] = $args[5]>>
+	<<switch _stocking[9]>>
+	<<case 0>>
+		<<set _color = "(flesh)">>
+		<<set _stocking[1] += either(1,0,-1)>>
+	<<case 1>>
+		<<set _color = "(white)">>
+		<<if _stocking[2] > 0>>
+			<<set _stocking[2] += either(1,2)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _stocking[2] += either(-2,-2,-1)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _stocking[3] += either(1,2,3)>> /*+formal or -casual*/
+	<<case 2>>
+		<<set _color = "(pink)">>
+		<<if _stocking[2] < 0>>
+		<<set _stocking[2] += either(-3,-2,-1)>> /*+sexy or -cute*/
+		<</if>>
+	<<case 3>>
+		<<set _color = "(blue)">>
+		<<if _stocking[2] < 0>>
+		<<set _stocking[2] += either(-1,-1,0)>> /*+sexy or -cute*/
+		<</if>>
+	<<case 4>>
+		<<set _color = "(green)">>
+		<<if _stocking[2] < 0>>
+		<<set _stocking[2] += either(-1,-1,0)>> /*+sexy or -cute*/
+		<</if>>
+	<<case 6>>
+		<<set _color = "(purple)">>
+		<<if _stocking[2] < 0>>
+		<<set _stocking[2] += either(-1,-1,0)>> /*+sexy or -cute*/
+		<</if>>
+	<<case 7>>
+		<<set _color = "(black)">>
+		<<if _stocking[2] > 0>>
+		<<set _stocking[2] += either(1,2,2,3)>> /*+sexy or -cute*/
+		<</if>>
+	<<case 8>>
+		<<set _color = "(red)">>
+		<<if _stocking[2] > 0>>
+		<<set _stocking[2] += either(1,2,2,3)>> /*+sexy or -cute*/
+		<</if>>
+	<</switch>>
+	<<set _stocking[0] = Math.round(_stocking[0])>>
+	<<set _stocking[1] = Math.round(_stocking[1])>>
+	<<set _stocking[2] = Math.round(_stocking[2])>>
+	<<set _stocking[3] = Math.round(_stocking[3])>>
+	<<set _stocking[4] = Math.round(_stocking[4])>>
+	<<if _stocking[4] > 5>>
+		<<set _stocking[4] = 5>>
+	<<elseif _stocking[4] < 0>>
+		<<set _stocking[4] = 0>>
+	<</if>>
+	<<if _fabric == 0>>
+		<<set _stocking[0] = "''" + _style + "'' " + _color>>
+	<<else>>
+		<<if $clothingDetail == 4>>
+			<<set _stocking[0] = "//"+ _fabric + "// ''" + _style + "'' " + _color>>
+		<<else>>
+			<<set _stocking[0] = "''" + _style + "'' " + _color>>
+		<</if>>
+	<</if>>
+	<<switch $args[4]>>
+	<<case -2>>
+		<<if _stocking[1] > 0>>
+			<<set _stocking[1] *= 0.6>>
+			<<set _stocking[1] = Math.round(_stocking[1])>>
+		<<elseif _stocking[1] < 0>>
+			<<set _stocking[1] *= 1.3>>
+			<<set _stocking[1] = Math.round(_stocking[1])>>
+		<</if>>
+		<<set _stocking[2] *= 0.6>>
+		<<set _stocking[2] = Math.round(_stocking[2])>>
+	<<case -1>>
+		<<if _stocking[1] > 0>>
+			<<set _stocking[1] *= 0.8>>
+			<<set _stocking[1] = Math.round(_stocking[1])>>
+		<<elseif _stocking[1] < 0>>
+			<<set _stocking[1] *= 1.15>>
+			<<set _stocking[1] = Math.round(_stocking[1])>>
+		<</if>>
+		<<set _stocking[2] *= 0.8>>
+		<<set _stocking[2] = Math.round(_stocking[2])>>
+	<<case 1>>
+		<<if _stocking[1] > 0>>
+			<<set _stocking[1] *= 1.15>>
+			<<set _stocking[1] = Math.round(_stocking[1])>>
+		<<elseif _stocking[1] < 0>>
+			<<set _stocking[1] *= 0.8>>
+			<<set _stocking[1] = Math.round(_stocking[1])>>
+		<</if>>
+		<<set _stocking[2] *= 1.15>>
+		<<set _stocking[2] = Math.round(_stocking[2])>>
+	<<case 2>>
+		<<if _stocking[1] > 0>>
+			<<set _stocking[1] *= 1.3>>
+			<<set _stocking[1] = Math.round(_stocking[1])>>
+		<<elseif _stocking[1] < 0>>
+			<<set _stocking[1] *= 0.6>>
+			<<set _stocking[1] = Math.round(_stocking[1])>>
+		<</if>>
+		<<set _stocking[2] *= 1.3>>
+		<<set _stocking[2] = Math.round(_stocking[2])>>
+	<<case default>>
+		<<if _stocking[1] > 8>>
+			<<set _stocking[1] = 8>>
+		<</if>>
+	<</switch>>
+	/*<<print _stocking[0]>>, <<= _stocking[1]>>, <<= _stocking[2]>>, <<= _stocking[3]>>, <<= _stocking[4]>>*/
+	<<set $shopLeg.push(_stocking)>>
+	<</for>>
+<</if>>
+<</widget>>
+
+/*upperbody generation widget. Inputs: 0-number to generate 1-Style selector, 2-fabric selector, 3-color, 4-quality bonus, 5-store name*/
+/*Style: 0-everything equally, 1-no sexy, 2-some sexy, 3-all sexy, 4-mostly sexy*/
+/*Fabric: 0-standard, 1-conservative, 2-sexy, 3-fetish*/
+/*Color: 0-spectrum, 1-cute, 2-sexy*/
+/*Quality: -2 to 2 for change to attractiveness*/
+<<widget "genUpperBody">>
+<<if ndef $args[0] || ndef $args[1] || ndef $args[2] || ndef $args[3] || ndef $args[4] || ndef $args[5]>>
+	<<set alert(“!UpperBody Generator function ran with missing control variable/s! Please submit a bug report with this error message and the current passage listed in the debug info page.”)>>
+	<<set $error += ", UpperBody Generator function ran with missing control variable/s - Passage: ">>
+	<<set $error += = passage()>>
+<<else>>
+	<<switch $args[1]>>
+	<<case 0>>
+		<<set _stylelist = [1,2,3,4,5,6,7,8,9,10,11,12,13,14]>>
+		<<set _substylelist = [0,1,2,3,4,5,6,7]>>
+	<<case 1>>
+		<<set _stylelist = [1,2,3,3,4,4,5,5,5,6,6,7,7,8,8,9]>>
+		<<set _substylelist = [0,0,0,0,0,0,1,1,1,2,3]>>
+	<<case 2>>
+		<<set _stylelist = [3,4,5,5,6,6,7,7,8,9,9,10,10,13]>>
+		<<set _substylelist = [0,0,0,1,1,2,2,3,3,4]>>
+	<<case 3>>
+		<<set _stylelist = [3,4,5,6,7,8,9,9,10,10,10,11,11,12,13,13,14]>>
+		<<set _substylelist = [0,0,0,1,1,1,2,2,2,3,3,3,4,4,5,5,6,6,7]>>
+	<<case 4>>
+		<<set _stylelist = [9,9,10,10,10,11,11,12,13,13,14]>>
+		<<set _substylelist = [4,4,5,5,6,6,7]>>
+	<<case default>>
+		<<set $error += ", UpperBody Generator bad style arg - Passage: ">>
+		<<set $error += = passage()>>
+		<<set alert(“!UpperBody Generator Style Arg Error! Details in debug view for bug report. You can continue playing otherwise.”)>>
+		<<set _stylelist = [1]>>
+		<<set _substylelist = [0]>>
+	<</switch>>
+	<<set $shopUB = []>>
+	/*for loop start*/
+	<<for _i to 0; _i < $args[0]; _i++>>
+		/*_upperbody array index: 0Name, 1Attr, 2Sexy/Cute, 3Formal/Casual, 4Exposure, 5status, 6style, 7substyle, fabric, color, origin store*/
+		<<set _upperbody = ["0name",0,0,0,0,0,"6style","7substyle","8fabric","9color","name",0,0,0]>>
+		<<set _upperbody[6] = either(_stylelist)>>
+	/*substyles: 0-none, 100-thin, 200-cropped, 300-sheer, 400-thin+cropped, 500-ultrasheer, 600-cropped+sheer, 700-all*/
+	/*neckline: 0-jewel/collar, 10-scoop, 20-boat, 30-square, 40-V, 50-deep V, 60-sweetheart, 70-halter, 80-keyhole, 90-plunge*/
+	/*sleeves: 0-sleeveless, 1-long, 2-short, 3-cap, 4-3/4, 5-half, 6-puff, 7-raglan, 8 bishop, 9-bell*/
+	<<switch _upperbody[6]>>
+	<<case 0>>
+		<<set _style = "upperbodyGen arg error">>
+	<<case 1>>
+		<<set _style = "button-down shirt">>
+		<<set _necklinelist = [0]>>
+		<<set _sleevelist = [1,1,1,4,4,5,8]>>
+		<<set _upperbody[1] += either(1,1,0.5)>> /*attractiveness*/
+		<<set _upperbody[2] += either(0,0,0.5)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(2,3,4)>> /*+formal or -casual*/
+		<<set _upperbody[4] += 0>> /*exposure level 0-5*/
+	<<case 2>>
+		<<set _style = "polo shirt">>
+		<<set _necklinelist = [0]>>
+		<<set _sleevelist = [2]>>
+		<<set _upperbody[1] += either(0,0,0.5)>> /*attractiveness*/
+		<<set _upperbody[2] += either(-3,-2,-1,-1)>> /*+sexy or -cute*/
+	<<case 3>>
+		<<set _style = "tunic">>
+		<<set _necklinelist = [0,2,2,4,4,5,8]>>
+		<<set _sleevelist = [2,3,3,4,5,6,6,7,8,8,9,9,9]>>
+		<<set _upperbody[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _upperbody[2] += either(-2,-1,-1,1)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(-2,-1,-1)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(0,0.5,0.5)>> /*exposure level 0-5*/
+	<<case 4>>
+		<<set _style = "kaftan">>
+		<<set _necklinelist = [0,2,2,4,4,5,8]>>
+		<<set _sleevelist = [2,3,3,4,5,6,6,7,8,8,9,9,9]>>
+		<<set _upperbody[1] += either(1,2,2)>> /*attractiveness*/
+		<<set _upperbody[2] += either(-2,-2,-1,1,1,2)>> /*+sexy or -cute*/
+		<<set _upperbody[4] += either(0,0.5,1)>> /*exposure level 0-5*/
+	<<case 5>>
+		<<set _style = "tee-shirt">>
+		<<set _necklinelist = [0,0,1,4,4,5,5]>>
+		<<set _sleevelist = [1,2,2,3,3,4,5,7,7]>>
+		<<set _upperbody[1] += either(0,1,1,2)>> /*attractiveness*/
+		<<set _upperbody[2] += either(-2,-1,1,2)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(-3,-3,-4)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(0,0,0.5)>> /*exposure level 0-5*/
+	<<case 6>>
+		<<set _style = "button-down blouse">>
+		<<set _necklinelist = [1,2,2,3,4,4,4,5,5]>>
+		<<set _sleevelist = [1,2,3,3,4,4,5,6,6,7,8,8,9]>>
+		<<set _upperbody[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _upperbody[2] += either(1,1,2)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(3,3,4)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(0,0.5,1)>> /*exposure level 0-5*/
+	<<case 7>>
+		<<set _style = "wrap blouse">>
+		<<set _necklinelist = [4,4,4,5,5]>>
+		<<set _sleevelist = [1,2,3,3,4,4,5,6,6,7,8,8,9]>>
+		<<set _upperbody[1] += either(1,2,2)>> /*attractiveness*/
+		<<set _upperbody[2] += either(1,2,2)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(3,3,4)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(0,0.5,1)>> /*exposure level 0-5*/
+	<<case 8>>
+		<<set _style = "peasant blouse">>
+		<<set _necklinelist = [1,1,2,3,4,4,5,8,8]>>
+		<<set _sleevelist = [0,2,3,3,5,6,7,7,8,9,9]>>
+		<<set _upperbody[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _upperbody[2] += either(-1,-2,-3,-3)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(0,-1,-2,-2,-3)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(0,0,0.5)>> /*exposure level 0-5*/
+	<<case 9>>
+		<<set _style = "wrap top">>
+		<<set _necklinelist = [4,4,4,5,5,7,9]>>
+		<<set _sleevelist = [0,1,2,3,4,5,7,7,9]>>
+		<<set _upperbody[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _upperbody[2] += either(2,2,3)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(0,1,1,2)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(0,0.5,1)>> /*exposure level 0-5*/
+	<<case 10>>
+		<<set _style = "strappy top">>
+		<<set _necklinelist = [3,3,6,7]>>
+		<<set _sleevelist = 0>>
+		<<set _upperbody[1] += either(3,4,3.5)>> /*attractiveness*/
+		<<set _upperbody[2] += either(-3,-2,2,3,4)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(-3,-2,-1,0,0)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(1,1.5,1)>> /*exposure level 0-5*/exposed*/
+	<<case 11>>
+		<<set _style = "body top">>
+		<<set _necklinelist = [0,1,1,1,3,3,4,4,4,5,5,6,6,7,7,8,8,9,9]>>
+		<<set _sleevelist = [0,0,0,0,3,5,2,7]>>
+		<<set _upperbody[1] += either(3,4,4)>> /*attractiveness*/
+		<<set _upperbody[2] += either(2,3,4,4)>> /*+sexy or -cute*/
+		<<set _upperbody[4] += either(1,1.5,2)>> /*exposure level 0-5*/
+	<<case 12>>
+		<<set _style = "corset top">>
+		<<set _necklinelist = [1,1,3,3,3,4,4,5,8]>>
+		<<set _sleevelist = [0,0,1,2,3,4,5,6,6,7,7,8,9]>>
+		<<set _upperbody[1] += either(3,4,5)>> /*attractiveness*/
+		<<set _upperbody[2] += either(-2,2,3,3,4)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(-3,-2,-2,-1)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(0,0.5,1)>> /*exposure level 0-5*/
+	<<case 13>>
+		<<set _style = "tube top">>
+		<<set _necklinelist = -1>>
+		<<set _sleevelist = [0,0]>>
+		<<set _upperbody[1] += either(4,5,6)>> /*attractiveness*/
+		<<set _upperbody[2] += either(3,4,4)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(-3,-3,-2)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(1.5,2)>> /*exposure level 0-5*/
+	<<case 14>>
+		<<set _style = "bustier">>
+		<<set _necklinelist = -1>>
+		<<set _sleevelist = [0,0]>>
+		<<set _upperbody[1] += either(6,7,7,8)>> /*attractiveness*/
+		<<set _upperbody[2] += either(4,5,5,6)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(2,3,4,4,5)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(1.5,2)>> /*exposure level 0-5*/
+	<<case default>>
+		<<set _style = "bad arg to upperbodyStyle">>
+	<</switch>>
+	<<set _substyleRand = either(_substylelist)>>
+	<<if _upperbody[6] == 13 || _upperbody[6] == 14>>
+		<<set _upperbody[7] = _substyleRand * 100>>
+		<<set _neckRand = -1>>
+		<<set _sleeverand = 0>>
+	<<else>>
+		<<set _neckRand = either(_necklinelist)>>
+		<<if _neckRand == 7 || _upperbody[6] == 10>>
+			<<set _sleeverand = 0>>
+		<<else>>
+			<<set _sleeveRand = either(_sleevelist)>>
+		<</if>>
+		<<set _upperbody[7] = (_substyleRand * 100) + (_neckRand * 10) + _sleeveRand>>
+	<</if>>
+	<<switch _substyleRand>>
+	<<case 0>>
+		<<set _substyle = 0>>
+		<<set _upperbody[1] += either(0,0,1)>>
+	<<case 1>>
+		<<set _substyle = "thin">>
+		<<set _upperbody[1] += either(1,2,2,3)>> /*attractiveness*/
+		<<set _upperbody[2] += either(1,2,2,3)>> /*+sexy or -cute*/
+		<<set _upperbody[4] += either(0.5,0,0.5)>> /*exposure level 0-5*/
+	<<case 2>>
+		<<set _substyle = "cropped">>
+		<<set _upperbody[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _upperbody[2] += either(2,2,3)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(-1,-2,-2)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _substyle = "sheer">>
+		<<set _upperbody[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _upperbody[2] += either(2,3,3)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(1,1,2)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(2,1,2)>> /*exposure level 0-5*/
+	<<case 4>>
+		<<set _substyle = "cropped thin">>
+		<<set _upperbody[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _upperbody[2] += either(3,4,4,5)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(-1,-2)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(0.5,0,0.5)>> /*exposure level 0-5*/
+	<<case 5>>
+		<<set _substyle = "ultrasheer">>
+		<<set _upperbody[1] += either(3,4,5,5)>> /*attractiveness*/
+		<<set _upperbody[2] += either(4,5,5)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(2,2,3)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(3.5,3,4)>> /*exposure level 0-5*/
+	<<case 6>>
+		<<set _substyle = "cropped sheer">>
+		<<set _upperbody[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _upperbody[2] += either(4,4,5)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(-1,-2)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(2,1,2)>> /*exposure level 0-5*/
+	<<case 7>>
+		<<set _substyle = "cropped ultrasheer">>
+		<<set _upperbody[1] += either(5,5,6)>> /*attractiveness*/
+		<<set _upperbody[2] += either(5,5,6)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(1,2,2)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(3.5,3,4)>> /*exposure level 0-5*/
+	<</switch>>
+	<<switch _neckRand>>
+	<<case 0>>
+		<<set _neckstyle = "jewel-neck">>
+		<<set _upperbody[1] += either(0,-1,-1)>> /*attractiveness*/
+		<<set _upperbody[2] += either(-1,0,0)>> /*+sexy or -cute*/
+	<<case 1>>
+		<<set _neckstyle = "scoop-neck">>
+		<<set _upperbody[1] += either(2,2,3)>> /*attractiveness*/
+		<<set _upperbody[2] += either(1,1,2)>> /*+sexy or -cute*/
+	<<case 2>>
+		<<set _neckstyle = "boat-neck">>
+		<<set _upperbody[1] += either(-1,0,0,1,1)>> /*attractiveness*/
+		<<set _upperbody[3] += either(2,2,3)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _neckstyle = "square-neck">>
+		<<set _upperbody[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _upperbody[2] += either(1,2,2)>> /*+sexy or -cute*/
+	<<case 4>>
+		<<set _neckstyle = "V-neck">>
+		<<set _upperbody[1] += either(0,1,1)>> /*attractiveness*/
+	<<case 5>>
+		<<set _neckstyle = "deep-V-neck">>
+		<<set _upperbody[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _upperbody[2] += either(2,3,3)>> /*+sexy or -cute*/
+	<<case 6>>
+		<<set _neckstyle = "sweetheart-neck">>
+		<<set _upperbody[1] += either(3,4,3)>> /*attractiveness*/
+		<<set _upperbody[2] += either(3,3,4)>> /*+sexy or -cute*/
+	<<case 7>>
+		<<set _neckstyle = "halter-neckline">>
+		<<set _upperbody[1] += either(1,2,2)>> /*attractiveness*/
+		<<set _upperbody[2] += either(1,1,2)>> /*+sexy or -cute*/
+	<<case 8>>
+		<<set _neckstyle = "keyhole-neck">>
+		<<set _upperbody[1] += either(0,1,1)>> /*attractiveness*/
+		<<set _upperbody[2] += either(-1,1,2)>> /*+sexy or -cute*/
+	<<case 9>>
+		<<set _neckstyle = "plunge-neck">>
+		<<set _upperbody[1] += either(4,4,5)>> /*attractiveness*/
+		<<set _upperbody[2] += either(3,4,4)>> /*+sexy or -cute*/
+	<</switch>>
+	<<switch _sleeveRand>>
+	<<case 0>>
+		<<set _sleevestyle = "sleeveless">>
+		<<set _upperbody[1] += either(0,0.5,1)>> /*attractiveness*/
+	<<case 1>>
+		<<set _sleevestyle = "long sleeves">>
+		<<set _upperbody[1] += either(-0.5,-0.5,0)>> /*attractiveness*/
+		<<set _upperbody[3] += either(1,2,2)>> /*+formal or -casual*/
+	<<case 2>>
+		<<set _sleevestyle = "short sleeves">>
+		<<set _upperbody[1] += either(0,0,0.5)>> /*attractiveness*/
+		<<set _upperbody[3] += either(-1,-1,0)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _sleevestyle = "cap sleeves">>
+		<<set _upperbody[1] += either(0,1,1)>> /*attractiveness*/
+		<<set _upperbody[3] += either(0,1,1)>> /*+formal or -casual*/
+	<<case 4>>
+		<<set _sleevestyle = "three-quarter sleeves">>
+		<<set _upperbody[1] += either(0,0,0.5,-0.5)>> /*attractiveness*/
+		<<set _upperbody[3] += either(-1,0,0)>> /*+formal or -casual*/
+	<<case 5>>
+		<<set _sleevestyle = "half sleeves">>
+		<<set _upperbody[1] += either(0,0,0.5)>> /*attractiveness*/
+		<<set _upperbody[3] += either(-1,-1,0)>> /*+formal or -casual*/
+	<<case 6>>
+		<<set _sleevestyle = "puff sleeves">>
+		<<set _upperbody[1] += either(0,1,1)>> /*attractiveness*/
+		<<set _upperbody[3] += either(1,1,2)>> /*+formal or -casual*/
+	<<case 7>>
+		<<set _sleevestyle = "raglan sleeves">>
+		<<set _upperbody[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _upperbody[3] += either(0,1,0)>> /*+formal or -casual*/
+	<<case 8>>
+		<<set _sleevestyle = "bishop sleeves">>
+		<<set _upperbody[1] += either(-0.5,0,0,1)>> /*attractiveness*/
+		<<set _upperbody[3] += either(2,3,3,4)>> /*+formal or -casual*/
+	<<case 9>>
+		<<set _sleevestyle = "bell sleeves">>
+		<<set _upperbody[1] += either(0,1,1)>> /*attractiveness*/
+		<<set _upperbody[3] += either(-2,-1,0)>> /*+formal or -casual*/
+	<</switch>>
+	/*fabrics: 0-cotton, 1-cotton blend, 2-lycra, 3-cotton knit, 4-nylon, 5-silk, 6-sheer nylon, 7-can't remember, 8-leather, transparent latex */
+	<<if $args[2] == 0>>
+		<<set _fabriclist = [0,1,2,3,4,5,6]>>
+	<<elseif $args[2] == 1>>
+		<<set _fabriclist = [0,0,1,1,2,3,3,4]>>
+	<<elseif $args[2] == 2>>
+		<<set _fabriclist = [4,4,5,5,6,7,8]>>
+	<<else>>
+		<<set _fabriclist = [6,6,7,7,8,9]>>
+	<</if>>
+	<<if _upperbody[6] == 2 || _upperbody[6] == 5>>
+		<<set _fabriclist = [0,1,3]>>
+	<</if>>
+	<<set _upperbody[8] = either(_fabriclist)>>
+	<<switch _upperbody[8]>>
+	<<case 0>>
+		<<set _fabric = "cotton">>
+		<<set _upperbody[1] += either(-1,-0.5,-0.5,0)>> /*attractiveness*/
+		<<set _upperbody[3] += either(-1,-1,-2)>> /*+formal or -casual*/
+	<<case 1>>
+		<<set _fabric = "cotton blend">>
+		<<set _upperbody[1] += either(-1,-0.5,0,0)>> /*attractiveness*/
+		<<set _upperbody[3] += either(-1,0,0)>> /*+formal or -casual*/
+	<<case 2>>
+		<<set _fabric = "lycra">>
+		<<set _upperbody[1] += either(-1,0,1,1)>> /*attractiveness*/
+		<<set _upperbody[3] += either(-1,-1,-2)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _fabric = "cotton-knit">>
+		<<set _upperbody[2] += either(0,0,-1)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(-1,0)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(-1,-0.5,-0.5,-1)>> /*exposure level 0-5*/
+	<<case 4>>
+		<<set _fabric = "nylon">>
+		<<set _upperbody[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _upperbody[2] += either(1,1,2)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(1,1,2)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(1,0.5,0.5,1.5)>> /*exposure level 0-5*/
+	<<case 5>>
+		<<set _fabric = "silk">>
+		<<set _upperbody[1] += either(2,2,3)>> /*attractiveness*/
+		<<set _upperbody[2] += either(2,2,3)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(2,3,3)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(0.5,1.5,1.5,1)>> /*exposure level 0-5*/
+	<<case 6>>
+		<<set _fabric = "nylon organza">>
+		<<set _upperbody[1] += either(3,4,4)>> /*attractiveness*/
+		<<set _upperbody[2] += either(4,4,5)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(2,3,3)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(2,2.5,3)>> /*exposure level 0-5*/
+	<<case 7>>
+		<<set _fabric = "chifon">>
+		<<set _upperbody[1] += either(4,5,5)>> /*attractiveness*/
+		<<set _upperbody[2] += either(4,5,5)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(3,3,4)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(2,3,3.5)>> /*exposure level 0-5*/
+	<<case 8>>
+		<<set _fabric = "leather">>
+		<<set _upperbody[1] += either(2,3,3,4)>> /*attractiveness*/
+		<<set _upperbody[2] += either(3,4,4)>> /*+sexy or -cute*/
+		<<set _upperbody[3] += either(-2,-3,-3)>> /*+formal or -casual*/
+		<<set _upperbody[4] += either(0,0,0.5)>> /*exposure level*/
+	<<case 9>>
+		<<set _fabric = "translucent-latex">>
+		<<set _upperbody[1] += either(4,4,5)>> /*attractiveness*/
+		<<set _upperbody[2] += either(4,5,6)>> /*+sexy or -cute*/
+		<<set _upperbody[4] += either(3,3,3.5)>> /*exposure level 0-5*/
+	<</switch>>
+	/*color: 0-beige, 1-white, 2-pink, 3-pastel blue, 4-pastel green, 5-pastel yellow, 6-pastel purple, 7-black, 8-red */
+	/*pattern: A-none, B-striped, C-checked, D-flower print ????? */
+	<<set _colorlist = [0,1,2,3,4,5,6,7,8]>>
+	<<set _upperbody[9] = either(_colorlist)>>
+	<<set _upperbody[10] = $args[5]>>
+	<<switch _upperbody[9]>>
+	<<case 0>>
+		<<set _color = "(brown)">>
+		<<set _upperbody[1] += either(0,0,1)>>
+		<<set _upperbody[3] += either(0,1,1)>> /*+formal or -casual*/
+	<<case 1>>
+		<<set _color = "(white)">>
+		<<if _upperbody[2] > 0>>
+			<<set _upperbody[2] += either(1,2)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _upperbody[2] += either(-3,-2,-2,-1)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _upperbody[3] += either(1,2,1)>> /*+formal or -casual*/
+	<<case 2>>
+		<<set _color = "(pink)">>
+		<<if _upperbody[2] < 0>>
+		<<set _upperbody[2] += either(-3,-2,-1)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _upperbody[3] += either(-1,-1,0,1)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _color = "(blue)">>
+		<<if _upperbody[2] < 0>>
+		<<set _upperbody[2] += either(1,2,2)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _upperbody[3] += either(1,2,0)>> /*+formal or -casual*/
+	<<case 4>>
+		<<set _color = "(green)">>
+		<<if _upperbody[2] < 0>>
+		<<set _upperbody[2] += either(1,1,2)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _upperbody[3] += either(1,2,0)>> /*+formal or -casual*/
+	<<case 5>>
+		<<set _color = "(yellow)">>
+		<<if _upperbody[2] < 0>>
+		<<set _upperbody[2] += either(0,1,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _upperbody[3] += either(-1,1,0)>> /*+formal or -casual*/
+	<<case 6>>
+		<<set _color = "(purple)">>
+		<<if _upperbody[2] < 0>>
+		<<set _upperbody[2] += either(1,-1,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _upperbody[3] += either(-1,-1,0)>> /*+formal or -casual*/
+	<<case 7>>
+		<<set _color = "(black)">>
+		<<if _upperbody[2] > 0>>
+		<<set _upperbody[2] += either(2,2,3,4)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _upperbody[3] += either(2,2,3)>> /*+formal or -casual*/
+	<<case 8>>
+		<<set _color = "(red)">>
+		<<if _upperbody[2] > 0>>
+		<<set _upperbody[2] += either(2,2,3,4)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _upperbody[3] += either(2,2,3)>> /*+formal or -casual*/
+	<</switch>>
+	<<set _tempE = _upperbody[4] * 10>>
+	<<set _tempF = Math.round(_tempE)>>
+	<<set _tempG = Math.trunc(_tempF)>>
+	<<set _tempG /= 10>>
+	<<set _upperbody[4] = _tempG>>
+	<<set _upperbody[0] = Math.round(_upperbody[0])>>
+	<<set _upperbody[1] = Math.round(_upperbody[1])>>
+	<<set _upperbody[2] = Math.round(_upperbody[2])>>
+	<<set _upperbody[3] = Math.round(_upperbody[3])>>
+	<<if _upperbody[4] > 4.9>>
+		<<set _upperbody[4] = 4.9>>
+	<<elseif _upperbody[4] < 0>>
+		<<set _upperbody[4] = 0>>
+	<</if>>
+	<<if _neckRand == -1>>
+		<<if _substyle != 0>>
+			<<if $clothingDetail == 4>>
+				<<set _upperbody[0] = _substyle + " //"+ _fabric + "// ''" + _style + "'' " + _color>>
+			<<elseif $clothingDetail > 1>>
+				<<set _upperbody[0] = _substyle + " ''" + _style + "'' " + _color>>
+			<<else>>
+				<<set _upperbody[0] = "''" + _style + "'' " + _color>>
+			<</if>>
+		<<else>>
+			<<if $clothingDetail == 4>>
+				<<set _upperbody[0] = "//"+ _fabric + "// ''" + _style + "'' " + _color>>
+			<<else>>
+				<<set _upperbody[0] = "''" + _style + "'' " + _color>>
+			<</if>>
+		<</if>>
+	<<elseif _neckRand == 0 && _upperbody[6] == 1 || _neckRand == 0 && _upperbody[6] == 2>>
+		<<if _substyle != 0>>
+			<<if $clothingDetail == 4>>
+				<<set _upperbody[0] = _substyle + " //"+ _fabric + "// ''" + _style + "'' with " + _sleevestyle + " " + _color>>
+			<<elseif $clothingDetail == 3>>
+				<<set _upperbody[0] = _substyle + " ''" + _style + "'' with " + _sleevestyle + " " + _color>>
+			<<elseif $clothingDetail == 2>>
+				<<set _upperbody[0] = _substyle + " ''" + _style + "'' " + _color>>
+			<<else>>
+				<<set _upperbody[0] = "''" + _style + "'' " + _color>>
+			<</if>>
+		<<else>>
+			<<if $clothingDetail == 4>>
+				<<set _upperbody[0] = "//"+ _fabric + "// ''" + _style + "'' with " + _sleevestyle + " " + _color>>
+			<<elseif $clothingDetail == 3>>
+				<<set _upperbody[0] = "''" + _style + "'' with " + _sleevestyle + " " + _color>>
+			<<else>>
+				<<set _upperbody[0] = "''" + _style + "'' " + _color>>
+			<</if>>
+		<</if>>
+	<<elseif _sleeveRand == 0>>
+		<<if _substyle != 0>>
+			<<if $clothingDetail == 4>>
+				<<set _upperbody[0] = _substyle + " //"+ _fabric + "// sleeveless ''" + _style + "'' with a " + _neckstyle + " " + _color>>
+			<<elseif $clothingDetail == 3>>
+				<<set _upperbody[0] = _substyle + " sleeveless ''" + _style + "'' with a " + _neckstyle + " " + _color>>
+			<<elseif $clothingDetail == 2>>
+				<<set _upperbody[0] = _substyle + " ''" + _style + "'' " + _color>>
+			<<else>>
+				<<set _upperbody[0] = "''" + _style + "'' " + _color>>
+			<</if>>
+		<<else>>
+			<<if $clothingDetail == 4>>
+				<<set _upperbody[0] = "//"+ _fabric + "// sleeveless ''" + _style + "'' with a " + _neckstyle + " " + _color>>
+			<<elseif $clothingDetail == 3>>
+				<<set _upperbody[0] = "sleeveless ''" + _style + "'' with a " + _neckstyle + " " + _color>>
+			<<else>>
+				<<set _upperbody[0] = "''" + _style + "'' " + _color>>
+			<</if>>
+		<</if>>
+	<<else>>
+		<<if _substyle != 0>>
+			<<if $clothingDetail == 4>>
+				<<set _upperbody[0] = _substyle + " //"+ _fabric + "// ''" + _style + "'' with " + _sleevestyle + " and a " + _neckstyle + " " + _color>>
+			<<elseif $clothingDetail == 3>>
+				<<set _upperbody[0] = _substyle + " ''" + _style + "'' with " + _sleevestyle + " and a " + _neckstyle + " " + _color>>
+			<<elseif $clothingDetail == 2>>
+				<<set _upperbody[0] = _substyle + " ''" + _style + "'' " +  _color>>
+			<<else>>
+				<<set _upperbody[0] = "''" + _style + "'' " +  _color>>
+			<</if>>
+		<<else>>
+			<<if $clothingDetail == 4>>
+				<<set _upperbody[0] = "//"+ _fabric + "// ''" + _style + "'' with " + _sleevestyle + " and a " + _neckstyle + " " + _color>>
+			<<elseif $clothingDetail == 3>>
+				<<set _upperbody[0] = "''" + _style + "'' with " + _sleevestyle + " and a " + _neckstyle + " " + _color>>
+			<<else>>
+				<<set _upperbody[0] = "''" + _style + "'' " +  _color>>
+			<</if>>
+		<</if>>
+	<</if>>
+	<<switch $args[4]>>
+	<<case -2>>
+		<<if _upperbody[1] > 0>>
+			<<set _upperbody[1] *= 0.6>>
+			<<set _upperbody[1] = Math.round(_upperbody[1])>>
+		<<elseif _upperbody[1] < 0>>
+			<<set _upperbody[1] *= 1.3>>
+			<<set _upperbody[1] = Math.round(_upperbody[1])>>
+		<</if>>
+		<<if _upperbody[4] > 2.5>>
+			<<set _upperbody[4] = 2.5>>
+		<</if>>
+		<<set _upperbody[2] *= 0.6>>
+		<<set _upperbody[2] = Math.round(_upperbody[2])>>
+	<<case -1>>
+		<<if _upperbody[1] > 0>>
+			<<set _upperbody[1] *= 0.8>>
+			<<set _upperbody[1] = Math.round(_upperbody[1])>>
+		<<elseif _upperbody[1] < 0>>
+			<<set _upperbody[1] *= 1.15>>
+			<<set _upperbody[1] = Math.round(_upperbody[1])>>
+		<</if>>
+		<<if _upperbody[4] > 3>>
+			<<set _upperbody[4] = 3>>
+		<</if>>
+		<<set _upperbody[2] *= 0.8>>
+		<<set _upperbody[2] = Math.round(_upperbody[2])>>
+	<<case 1>>
+		<<if _upperbody[1] > 0>>
+			<<set _upperbody[1] *= 1.15>>
+			<<set _upperbody[1] = Math.round(_upperbody[1])>>
+		<<elseif _upperbody[1] < 0>>
+			<<set _upperbody[1] *= 0.8>>
+			<<set _upperbody[1] = Math.round(_upperbody[1])>>
+		<</if>>
+		<<set _upperbody[2] *= 1.15>>
+		<<set _upperbody[2] = Math.round(_upperbody[2])>>
+	<<case 2>>
+		<<if _upperbody[1] > 0>>
+			<<set _upperbody[1] *= 1.3>>
+			<<set _upperbody[1] = Math.round(_upperbody[1])>>
+		<<elseif _upperbody[1] < 0>>
+			<<set _upperbody[1] *= 0.6>>
+			<<set _upperbody[1] = Math.round(_upperbody[1])>>
+		<</if>>
+		<<set _upperbody[2] *= 1.3>>
+		<<set _upperbody[2] = Math.round(_upperbody[2])>>
+	<<case default>>
+		<<if _upperbody[1] > 8>>
+			<<set _upperbody[1] = 8>>
+		<</if>>
+		<<if _upperbody[4] > 4>>
+			<<set _upperbody[4] = 4>>
+		<</if>>
+	<</switch>>
+	/*<<print _upperbody[0]>>, <<= _upperbody[1]>>, <<= _upperbody[2]>>, <<= _upperbody[3]>>, <<= _upperbody[4]>>*/
+	<<set $shopUB.push(_upperbody)>>
+	<</for>>
+<</if>>
+<</widget>>
+/*, $wardrobeLB, $wardrobeA, $wardrobeBag */
+
+/*overwear generation widget. Inputs: 0-number to generate 1-Style selector, 2-fabric selector, 3-color, 4-quality bonus, 5-store name*/
+/*Style: 0-everything equally, 1-standard,*/
+/*Fabric: 0-standard*/
+/*Color: */
+/*Quality: -1 to 1 for change to attractiveness*/
+<<widget "genOverWear">>
+<<if ndef $args[0] || ndef $args[1] || ndef $args[2] || ndef $args[3] || ndef $args[4] || ndef $args[5]>>
+	<<set alert(“!Overwear Generator function ran with missing control variable/s! Please submit a bug report with this error message and the current passage listed in the debug info page.”)>>
+	<<set $error += ", Overwear Generator function ran with missing control variable/s - Passage: ">>
+	<<set $error += = passage()>>
+<<else>>
+	<<switch $args[1]>>
+	<<case 0>>
+		<<set _stylelist = [1,2,3,4,5,6,7,8,9]>>
+	<<case 1>>
+		<<set _stylelist = [1,2,3,3,3,4,4,5,5,6,7,7,8,8,9,10,11,12,12]>>
+	<<case default>>
+		<<set $error += ", Overwear Generator bad style arg - Passage: ">>
+		<<set $error += = passage()>>
+		<<set alert(“!Overwear Generator Style Arg Error! Details in debug view for bug report. You can continue playing otherwise.”)>>
+		<<set _stylelist = [1]>>
+	<</switch>>
+	<<set $shopOW = []>>
+	/*for loop start*/
+	<<for _i to 0; _i < $args[0]; _i++>>
+		/*_overwear array index: 0Name, 1Attr, 2Sexy/Cute, 3Formal/Casual, 4Exposure, 5status, 6style, 7substyle, fabric, color, origin store*/
+		<<set _overwear = ["0name",0,0,0,0,0,0,0,0,"9color",0,0,0,0]>>
+		<<set _overwear[10] = $args[5]>>
+		<<set _temp = either(_stylelist)>>
+		<<set _overwear[6] = either(_stylelist)>>
+	/*substyles: 0-none*/
+	<<switch _overwear[6]>>
+	<<case 0>>
+		<<set _style = "overwearGen arg error" + _stylelist + "actual " + _overwear[6]>>
+	<<case 1>>
+		<<set _style = "classic trench">>
+		<<set _fabriclist = [7,7,8]>>
+		<<set _colorlist = [0,0,0,1,2,2,2,3,4,4,6,6,8,9,10]>>
+		<<set _overwear[1] += either(0,1,1,2)>> /*attractiveness*/
+		<<set _overwear[2] += either(-1,1,1,2)>> /*+sexy or -cute*/
+		<<set _overwear[3] += either(0,1,1)>> /*+formal or -casual*/
+	<<case 2>>
+		<<set _style = "denim jacket">>
+		<<set _fabriclist = [0]>>
+		<<set _colorlist = [3,9,8,3,1,6]>>
+		<<set _overwear[1] += either(-2,-1,-2)>> /*attractiveness*/
+		<<set _overwear[2] += either(-2,-1,-1)>> /*+sexy or -cute*/
+		<<set _overwear[3] += either(-4,-3,-3)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _style = "overcoat">>
+		<<set _fabriclist = [1,1,2,3,3,3,7]>>
+		<<set _colorlist = [0,0,1,1,2,3,4,4,5,6,7,8,8,9]>>
+		<<set _overwear[1] += either(1,2,2)>> /*attractiveness*/
+		<<set _overwear[2] += either(-2,-2,1,2)>> /*+sexy or -cute*/
+		<<set _overwear[3] += either(2,3,3)>> /*+formal or -casual*/
+	<<case 4>>
+		<<set _style = "evening coat">>
+		<<set _fabriclist = [1,1,2,2,3]>>
+		<<set _colorlist = [1,2,3,3,5,5,6,6,7,7,8,9,9]>>
+		<<set _overwear[1] += either(2,2,3)>> /*attractiveness*/
+		<<set _overwear[2] += either(1,2,2)>> /*+sexy or -cute*/
+		<<set _overwear[3] += either(3,4,4)>> /*+formal or -casual*/
+	<<case 5>>
+		<<set _style = "raincoat">>
+		<<set _fabriclist = [4,4,4,7,7,8]>>
+		<<set _colorlist = [0,1,2,3,4,5,6,7,8,9]>>
+		<<set _overwear[1] += either(0,-1)>> /*attractiveness*/
+		<<set _overwear[2] += either(-2,-1,-1,0,0,0)>> /*+sexy or -cute*/
+		<<set _overwear[3] += either(-3,-3,-2)>> /*+formal or -casual*/
+	<<case 6>>
+		<<set _style = "leather jacket">>
+		<<set _fabriclist = [6,6,2]>>
+		<<set _colorlist = []>>
+		<<set _overwear[1] += either(-2,-2,-1,0,1,2,3)>> /*attractiveness*/
+		<<set _overwear[2] += either(1,2,2,3)>> /*+sexy or -cute*/
+		<<set _overwear[3] += either(-2,-1,-1,0)>> /*+formal or -casual*/
+	<<case 7>>
+		<<set _style = "peacoat">>
+		<<set _fabriclist = [1,1,2,3,3]>>
+		<<set _colorlist = [0,0,1,1,2,3,4,4,5,6,7,8,8,9]>>
+		<<set _overwear[1] += either(1,2,2)>> /*attractiveness*/
+		<<set _overwear[2] += either(-2,-2,1,2)>> /*+sexy or -cute*/
+		<<set _overwear[3] += either(3,3,4)>> /*+formal or -casual*/
+	<<case 8>>
+		<<set _style = "windbreaker">>
+		<<set _fabriclist = [4,4,5,5,7,8]>>
+		<<set _colorlist = [0,1,2,3,4,5,6,7,8,9]>>
+		<<set _overwear[1] += either(-1,-1,0,1,1)>> /*attractiveness*/
+		<<set _overwear[2] += either(-2,-1,0,0,0,0)>> /*+sexy or -cute*/
+		<<set _overwear[3] += either(-1,-1,0)>> /*+formal or -casual*/
+	<<case 9>>
+		<<set _style = "pullover">>
+		<<set _fabriclist = [6,6,5,1,3]>>
+		<<set _colorlist = [0,2,3,4,5,6,7,8,9]>>
+		<<set _overwear[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _overwear[2] += either(-2,-2,-1,1,2)>> /*+sexy or -cute*/
+		<<set _overwear[3] += either(-1,0,1)>> /*+formal or -casual*/
+	<<case 10>>
+		<<set _style = "cardigan">>
+		<<set _fabriclist = [1,3,6,6,6]>>
+		<<set _colorlist = [0,0,1,2,2,2,3,3,3,4,5,5,6,6,7,7,8,9]>>
+		<<set _overwear[1] += either(2,2,3)>> /*attractiveness*/
+		<<set _overwear[2] += either(-2,-1,1,2,2)>> /*+sexy or -cute*/
+		<<set _overwear[3] += either(1,2,3)>> /*+formal or -casual*/
+	<<case 11>>
+		<<set _style = "turtleneck">>
+		<<set _fabriclist = [6,6,7,3]>>
+		<<set _colorlist = [0,0,1,2,2,2,3,3,3,4,5,5,6,6,7,7,8,9]>>
+		<<set _overwear[1] += either(0,1,2)>> /*attractiveness*/
+		<<set _overwear[2] += either(-1,0,1)>> /*+sexy or -cute*/
+		<<set _overwear[3] += either(1,2,3)>> /*+formal or -casual*/
+	<<case 12>>
+		<<set _style = "hoodie">>
+		<<set _fabriclist = [7,7,5]>>
+		<<set _colorlist = [0,1,2,3,4,5,6,7,8,9]>>
+		<<set _overwear[1] += either(-2,-1,0,0)>> /*attractiveness*/
+		<<set _overwear[2] += either(-2,-1,-1,0,0,0,0)>> /*+sexy or -cute*/
+		<<set _overwear[3] += either(-4,-3,-3)>> /*+formal or -casual*/
+	<<case default>>
+		<<set _style = "bad arg to overwearStyle: " + _stylelist + "actual " + _overwear>>
+	<</switch>>
+	<<set _overwear[8] = either(_fabriclist)>>
+	<<switch _overwear[8]>>
+	<<case 0>>
+		<<set _fabric = 0>>
+	<<case 1>>
+		<<set _fabric = "wool">>
+		<<set _overwear[1] += either(0,1)>> /*attractiveness*/
+		<<set _overwear[3] += either(0,1)>> /*+formal or -casual*/
+	<<case 2>>
+		<<set _fabric = "tweed">>
+		<<set _overwear[1] += either(0,1,1)>> /*attractiveness*/
+		<<set _overwear[3] += either(1,1,2)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _fabric = "wool/poly blend">>
+		<<set _overwear[1] += either(0,1)>> /*attractiveness*/
+		<<set _overwear[3] += either(0,0,1)>> /*+formal or -casual*/
+	<<case 4>>
+		<<set _fabric = "nylon">>
+		<<set _overwear[1] += either(-1,-1,0)>> /*attractiveness*/
+		<<set _overwear[3] += either(-2,-2,-1)>> /*+formal or -casual*/
+	<<case 5>>
+		<<set _fabric = "fleece">>
+		<<set _overwear[2] += either(-1,0)>>
+		<<set _overwear[3] += either(-2,-1,-1)>> /*+formal or -casual*/
+	<<case 6>>
+		<<set _fabric = "sweater">>
+		<<set _overwear[1] += either(-1,0,0,1)>> /*attractiveness*/
+		<<set _overwear[3] += either(0,1,1)>> /*+formal or -casual*/
+	<<case 7>>
+		<<set _fabric = "cotton/poly blend">>
+		<<set _overwear[1] += either(-1,0,0,0,1)>> /*attractiveness*/
+		<<set _overwear[3] += either(-1,0,0,1,1)>> /*+formal or -casual*/
+	<<case 8>>
+		<<set _fabric = "cotton">>
+		<<set _overwear[1] += either(-1,0,0,0,1)>> /*attractiveness*/
+		<<set _overwear[3] += either(-1,0,0,1,1)>> /*+formal or -casual*/
+	<</switch>>
+	
+	/*color: 0-flesh, 1-white, 2-pink, 3 blue, 4-green, 6-purple, 7-black, 8-red */
+	/*pattern: A-none, B-striped, C-checked, D-flower print ????? */
+	
+	<<set _overwear[9] = either(_colorlist)>>
+	<<set _overwear[10] = $args[5]>>
+	<<switch _overwear[9]>>
+	<<case 0>>
+		<<set _color = "(tan)">>
+	<<case 1>>
+		<<set _color = "(white)">>
+	<<case 2>>
+		<<set _color = "(brown)">>
+	<<case 3>>
+		<<set _color = "(navy blue)">>
+	<<case 4>>
+		<<set _color = "(khaki)">>
+	<<case 5>>
+		<<set _color = "(dark green)">>
+	<<case 6>>
+		<<set _color = "(black)">>
+	<<case 7>>
+		<<set _color = "(burgundy)">>
+	<<case 8>>
+		<<set _color = "(light grey)">>
+	<<case 9>>
+		<<set _color = "(dark grey)">>
+	<</switch>>
+	<<set _overwear[0] = Math.round(_overwear[0])>>
+	<<set _overwear[1] = Math.round(_overwear[1])>>
+	<<set _overwear[2] = Math.round(_overwear[2])>>
+	<<set _overwear[3] = Math.round(_overwear[3])>>
+	<<set _overwear[4] = Math.round(_overwear[4])>>
+	<<if _overwear[4] > 2>>
+		<<set _overwear[4] = 2>>
+	<<elseif _overwear[4] < 0>>
+		<<set _overwear[4] = 0>>
+	<</if>>
+	<<if _fabric == 0>>
+		<<set _overwear[0] = "''" + _style + "'' " + _color>>
+	<<else>>
+		<<if $clothingDetail == 4>>
+			<<set _overwear[0] = "//" + _fabric + "// ''" + _style + "'' " + _color>>
+		<<else>>
+			<<set _overwear[0] = "''" + _style + "'' " + _color>>
+		<</if>>
+	<</if>>
+	<<set $shopOW.push(_overwear)>>
+	<</for>>
+<</if>>
+<</widget>>
+
+/*dress generation widget. Inputs: 0-number to generate 1-Style selector, 2-fabric selector, 3-color, 4-quality bonus, 5-store name*/
+/*Style: 0-everything equally, 1-avg, 2-sexy,  3-mostly sexy*/
+/*Fabric: 0-every, 1-standard, 2-fetish*/
+/*Color: 0-spectrum, 1-cute, 2-sexy*/
+/*Quality: -2 to 2 for change to attractiveness*/
+<<widget "genDress">>
+<<if ndef $args[0] || ndef $args[1] || ndef $args[2] || ndef $args[3] || ndef $args[4] || ndef $args[5]>>
+	<<set alert(“!Dress Generator function ran with missing control variable/s! Please submit a bug report with this error message and the current passage listed in the debug info page.”)>>
+	<<set $error += ", Dress Generator function ran with missing control variable/s - Passage: ">>
+	<<set $error += = passage()>>
+<<else>>
+	<<switch $args[1]>>
+	<<case 0>>
+		<<set _stylelist = [1,2,3,4,5,6,7,8,9,10,11]>>
+		<<set _substylelist = [0,1,2,3,4,5,6,7]>>
+	<<case 1>>
+		<<set _stylelist = [1,1,1,1,2,2,2,3,4,4,5,6,6,7,8,9,10,10]>>
+		<<set _substylelist = [0,0,0,1,1,2,2,3,3,4]>>
+	<<case 2>>
+		<<set _stylelist = [1,2,2,3,3,3,4,5,5,6,7,7,8,9,10,11]>>
+		<<set _substylelist = [0,0,0,1,1,1,2,2,2,3,3,3,4,4,5,5,6,6,7]>>
+	<<case 3>>
+		<<set _stylelist = [2,3,3,5,5,5,7,11,11]>>
+		<<set _substylelist = [4,4,5,5,6,6,7]>>
+	<<case default>>
+		<<set $error += ", Dress Generator bad style arg - Passage: ">>
+		<<set $error += = passage()>>
+		<<set alert(“!Dress Generator Style Arg Error! Details in debug view for bug report. You can continue playing otherwise.”)>>
+		<<set _stylelist = [1]>>
+		<<set _substylelist = [0]>>
+	<</switch>>
+	<<set $shopD = []>>
+	/*for loop start*/
+	<<for _i to 0; _i < $args[0]; _i++>>
+		/*_dress array index: 0Name, 1Attr, 2Sexy/Cute, 3Formal/Casual, 4Exposure, 5status, 6style, 7substyle, fabric, color, origin store*/
+		<<set _dress = ["0name",0,0,0,0,0,"6style","7substyle","8fabric","9color","name",0,0,0]>>
+		<<set _dress[6] = either(_stylelist)>>
+	/*substyles: 0-none, 10-thin, 20-cropped, 30-sheer, 40-thin+cropped, 50-ultrasheer, 60-cropped+sheer, 70-all*/
+	/*neckline: 0-jewel, 1-scoop, 2-boat, 3-square, 4-V, 5-deep V, 6-sweetheart, 7-halter, 8-keyhole, 9-plunge*/
+	<<switch _dress[6]>>
+	<<case 0>>
+		<<set _style = "dressGen arg error">>
+	<<case 1>>
+		<<set _style = "A-line dress">>
+		<<set _necklinelist = [0,1,2,3,4,5,6,7,8,9]>>
+		<<set _dress[1] += either(1,2,2,3)>> /*attractiveness*/
+		<<set _dress[2] += either(-2,-1,-1,1,1)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(-1,0,0,1,2,3)>> /*+formal or -casual*/
+	<<case 2>>
+		<<set _style = "shift dress">>
+		<<set _necklinelist = [0,1,2,3,4,5,6,7,8,9]>>
+		<<set _dress[1] += either(2,2,3)>> /*attractiveness*/
+		<<set _dress[2] += either(-1,-1,0,1,2,2,3)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(0,0,1,2,3)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _style = "sheath dress">>
+		<<set _necklinelist = [0,1,2,3,4,5,6,7,8,9]>>
+		<<set _dress[1] += either(3,3,4)>> /*attractiveness*/
+		<<set _dress[2] += either(2,2,3,4)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(0,1,2,3)>> /*+formal or -casual*/
+		<<set _dress[4] += either(0,0,0.5)>> /*exposure level 0-5*/
+	<<case 4>>
+		<<set _style = "empire dress">>
+		<<set _necklinelist = [0,1,2,3,4,5,6,7,8,9]>>
+		<<set _dress[1] += either(2,3,4)>> /*attractiveness*/
+		<<set _dress[2] += either(-2,-2,2,2,3)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(3,4,4,5)>> /*+formal or -casual*/
+	<<case 5>>
+		<<set _style = "BodyCon dress">>
+		<<set _necklinelist = [0,1,2,3,4,5,6,7,8,9]>>
+		<<set _dress[1] += either(4,4,5)>> /*attractiveness*/
+		<<set _dress[2] += either(4,4,5)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(2,3,3,4)>> /*+formal or -casual*/
+		<<set _dress[4] += either(1,0,0.5)>> /*exposure level 0-5*/
+	<<case 6>>
+		<<set _style = "princess dress">>
+		<<set _necklinelist = [0,1,2,3,4,5,6,7,8,9]>>
+		<<set _dress[1] += either(3,3,4)>> /*attractiveness*/
+		<<set _dress[2] += either(-3,-2,-2,-1,1,2)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(4,4,5)>> /*+formal or -casual*/
+	<<case 7>>
+		<<set _style = "maxi dress">>
+		<<set _necklinelist = [0,1,2,3,4,5,6,7,8,9]>>
+		<<set _dress[1] += either(2,3,4)>> /*attractiveness*/
+		<<set _dress[2] += either(2,2,3,4)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(2,3,3)>> /*+formal or -casual*/
+	<<case 8>>
+		<<set _style = "mermaid dress">>
+		<<set _necklinelist = [0,1,2,3,4,5,6,7,8,9]>>
+		<<set _dress[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _dress[2] += either(-2,-1,-1,1,1)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(5,5,6)>> /*+formal or -casual*/
+	<<case 9>>
+		<<set _style = "trumpet dress">>
+		<<set _necklinelist = [0,1,2,3,4,5,6,7,8,9]>>
+		<<set _dress[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _dress[2] += either(-1,1,2,2)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(4,5,6)>> /*+formal or -casual*/
+	<<case 10>>
+		<<set _style = "blouson dress">>
+		<<set _necklinelist = [0,1,2,3,4,5,6,7,8,9]>>
+		<<set _dress[1] += either(2,2,3)>> /*attractiveness*/
+		<<set _dress[2] += either(-2,-1,0,1,1,2,2)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(-2,-1,0,1,2)>> /*+formal or -casual*/
+	<<case 11>>
+		<<set _style = "basque dress">>
+		<<set _necklinelist = [1,3,4,5,6,7,8,9]>>
+		<<set _dress[1] += either(4,5,5)>> /*attractiveness*/
+		<<set _dress[2] += either(2,3,4,5)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(4,5,6)>> /*+formal or -casual*/
+		<<set _dress[4] += either(0,0.5,1)>> /*exposure level 0-5*/
+	<<case default>>
+		<<set _style = "bad arg to dressStyle">>
+	<</switch>>
+	<<set _substyleRand = either(_substylelist)>>
+	<<set _neckRand = either(_necklinelist)>>
+	<<set _dress[7] = (_substyleRand * 10) + _neckRand>>
+	<<switch _substyleRand>>
+	<<case 0>>
+		<<set _substyle = 0>>
+		<<set _dress[1] += either(0,0,1)>>
+	<<case 1>>
+		<<set _substyle = "thin">>
+		<<set _dress[1] += either(2,3,3,4)>> /*attractiveness*/
+		<<set _dress[2] += either(2,3,3,4)>> /*+sexy or -cute*/
+		<<set _dress[4] += either(1,0.5,1)>> /*exposure level 0-5*/
+		<<set _dress[3] += either(1,1,2)>> /*+formal or -casual*/
+	<<case 2>>
+		<<set _substyle = "cutout">>
+		<<set _dress[1] += either(2,2,3)>> /*attractiveness*/
+		<<set _dress[2] += either(3,3,4)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(1,2,2)>> /*+formal or -casual*/
+		<<set _dress[4] += either(0,0.5,1)>> /*exposure level 0-5*/
+	<<case 3>>
+		<<set _substyle = "sheer">>
+		<<set _dress[1] += either(3,4,4)>> /*attractiveness*/
+		<<set _dress[2] += either(3,4,4)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(2,3,3)>> /*+formal or -casual*/
+		<<set _dress[4] += either(2,2,3)>> /*exposure level 0-5*/
+	<<case 4>>
+		<<set _substyle = "cutout thin">>
+		<<set _dress[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _dress[2] += either(3,4,4,5)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(1,2,3)>> /*+formal or -casual*/
+		<<set _dress[4] += either(1,1,2)>> /*exposure level 0-5*/
+	<<case 5>>
+		<<set _substyle = "ultrasheer">>
+		<<set _dress[1] += either(4,5,6,6)>> /*attractiveness*/
+		<<set _dress[2] += either(5,6,6)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(3,3,4)>> /*+formal or -casual*/
+		<<set _dress[4] += either(3.5,3.5,4)>> /*exposure level 0-5*/
+	<<case 6>>
+		<<set _substyle = "cutout sheer">>
+		<<set _dress[1] += either(3,4,5)>> /*attractiveness*/
+		<<set _dress[2] += either(3,4,5)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(2,3,4)>> /*+formal or -casual*/
+		<<set _dress[4] += either(2,2,3)>> /*exposure level 0-5*/
+	<<case 7>>
+		<<set _substyle = "cutout ultrasheer">>
+		<<set _dress[1] += either(5,6,6,7)>> /*attractiveness*/
+		<<set _dress[2] += either(6,6,7)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(3,4,4)>> /*+formal or -casual*/
+		<<set _dress[4] += either(4,4,4.5)>> /*exposure level 0-5*/
+	<</switch>>
+	<<switch _neckRand>>
+	<<case 0>>
+		<<set _neckstyle = "jewel-neck">>
+		<<set _dress[1] += either(0,0,-1)>> /*attractiveness*/
+		<<set _dress[2] += either(-1,0,0)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(1,1,2)>> /*+formal or -casual*/
+	<<case 1>>
+		<<set _neckstyle = "scoop-neck">>
+		<<set _dress[1] += either(2,2,3)>> /*attractiveness*/
+		<<set _dress[2] += either(1,1,2)>> /*+sexy or -cute*/
+	<<case 2>>
+		<<set _neckstyle = "boat-neck">>
+		<<set _dress[1] += either(-1,0,0,1,1)>> /*attractiveness*/
+		<<set _dress[3] += either(2,2,3)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _neckstyle = "square-neck">>
+		<<set _dress[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _dress[2] += either(1,2,2)>> /*+sexy or -cute*/
+	<<case 4>>
+		<<set _neckstyle = "V-neck">>
+		<<set _dress[1] += either(0,1,1)>> /*attractiveness*/
+	<<case 5>>
+		<<set _neckstyle = "deep-V-neck">>
+		<<set _dress[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _dress[2] += either(2,3,3)>> /*+sexy or -cute*/
+	<<case 6>>
+		<<set _neckstyle = "sweetheart-neck">>
+		<<set _dress[1] += either(3,4,3)>> /*attractiveness*/
+		<<set _dress[2] += either(3,3,4)>> /*+sexy or -cute*/
+	<<case 7>>
+		<<set _neckstyle = "halter-neckline">>
+		<<set _dress[1] += either(1,2,2)>> /*attractiveness*/
+		<<set _dress[2] += either(1,1,2)>> /*+sexy or -cute*/
+	<<case 8>>
+		<<set _neckstyle = "keyhole-neck">>
+		<<set _dress[1] += either(0,1,1)>> /*attractiveness*/
+		<<set _dress[2] += either(-1,1,2)>> /*+sexy or -cute*/
+	<<case 9>>
+		<<set _neckstyle = "plunge-neck">>
+		<<set _dress[1] += either(4,4,5)>> /*attractiveness*/
+		<<set _dress[2] += either(3,4,4)>> /*+sexy or -cute*/
+	<</switch>>
+	/*fabrics: 0-cotton, 1-linen, 2-nylon, 3-silk, 4-taffeta, 5-organza, 6-chiffon, 7-tulle, 8-leather, 9-latex */
+	<<if $args[2] == 0>>
+		<<set _fabriclist = [0,1,2,3,4,5,6,7,8,9]>>
+	<<elseif $args[2] == 1>>
+		<<set _fabriclist = [0,1,1,2,2,3,3,4,5,6,7]>>
+	<<else>>
+		<<set _fabriclist = [4,5,5,6,6,7,7,8,9]>>
+	<</if>>
+	<<set _dress[8] = either(_fabriclist)>>
+	<<switch _dress[8]>>
+	<<case 0>>
+		<<set _fabric = "cotton">>
+		<<set _dress[1] += either(-2,-1,-1.5)>> /*attractiveness*/
+		<<set _dress[2] += either(-1,-2,-1)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(-3,-3,-4)>> /*+formal or -casual*/
+	<<case 1>>
+		<<set _fabric = "linen">>
+		<<set _dress[1] += either(-1,0,-1)>> /*attractiveness*/
+		<<set _dress[2] += either(-1,-2,-1)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(-3,-2,-2)>> /*+formal or -casual*/
+	<<case 2>>
+		<<set _fabric = "nylon">>
+		<<set _dress[1] += either(-1,0,1)>> /*attractiveness*/
+		<<set _dress[3] += either(-1,-1,-2)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _fabric = "silk">>
+		<<set _dress[1] += either(0,1,2)>> /*attractiveness*/
+		<<set _dress[3] += either(0,0,1)>> /*+formal or -casual*/
+		<<set _dress[4] += either(-0.1,-0.2,-0.3)>> /*exposure level 0-5*/
+	<<case 4>>
+		<<set _fabric = "taffeta">>
+		<<set _dress[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _dress[2] += either(1,1,2)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(1,1,2)>> /*+formal or -casual*/
+		<<set _dress[4] += either(1,0.5,0.8,1.2)>> /*exposure level 0-5*/
+	<<case 5>>
+		<<set _fabric = "organza">>
+		<<set _dress[1] += either(2,2,3)>> /*attractiveness*/
+		<<set _dress[2] += either(2,2,3)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(2,3,3)>> /*+formal or -casual*/
+		<<set _dress[4] += either(1,1.5,1.2,1)>> /*exposure level 0-5*/
+	<<case 6>>
+		<<set _fabric = "chiffon">>
+		<<set _dress[1] += either(3,4,4)>> /*attractiveness*/
+		<<set _dress[2] += either(4,4,5)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(2,3,3)>> /*+formal or -casual*/
+		<<set _dress[4] += either(2,1.5,1.8)>> /*exposure level 0-5*/
+	<<case 7>>
+		<<set _fabric = "tulle">>
+		<<set _dress[1] += either(4,5,5)>> /*attractiveness*/
+		<<set _dress[2] += either(4,5,5)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(3,3,4)>> /*+formal or -casual*/
+		<<set _dress[4] += either(3,2.5,2.8)>> /*exposure level 0-5*/
+	<<case 8>>
+		<<set _fabric = "leather">>
+		<<set _dress[1] += either(1,2,3)>> /*attractiveness*/
+		<<set _dress[2] += either(3,4,4)>> /*+sexy or -cute*/
+		<<set _dress[3] += either(-5,-4,-4)>> /*+formal or -casual*/
+		<<set _dress[4] += either(0,0,0.5)>> /*exposure level*/
+	<<case 9>>
+		<<set _fabric = "latex">>
+		<<set _dress[1] += either(4,4,5)>> /*attractiveness*/
+		<<set _dress[2] += either(4,5,6)>> /*+sexy or -cute*/
+		<<set _dress[4] += either(3,3,3.5)>> /*exposure level 0-5*/
+	<</switch>>
+	/*color: 0-beige, 1-white, 2-pink, 3-pastel blue, 4-pastel green, 5-pastel yellow, 6-pastel purple, 7-black, 8-red */
+	/*pattern: A-none, B-striped, C-checked, D-flower print ????? */
+	<<if $args[4] == 1>>
+		<<set _colorlist = [0,1,1,2,2,3,3,4,4,5,6,7,7,8,8]>>
+	<<elseif $args[4] == 2>>
+		<<set _colorlist = [1,2,3,4,6,7,7,7,8,8,8]>>
+	<<else>>
+		<<set _colorlist = [0,1,2,3,4,5,6,7,8]>>
+	<</if>>
+	<<set _dress[9] = either(_colorlist)>>
+	<<set _dress[10] = $args[5]>>
+	<<switch _dress[9]>>
+	<<case 0>>
+		<<set _color = "(tan)">>
+		<<set _dress[1] += either(0,0,1)>>
+	<<case 1>>
+		<<set _color = "(white)">>
+		<<if _dress[2] > 0>>
+			<<set _dress[2] += either(1,2)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _dress[2] += either(-3,-2,-2,-1)>> /*+sexy or -cute*/
+		<</if>>
+	<<case 2>>
+		<<set _color = "(pink)">>
+		<<set _dress[2] += either(-3,-2,-1)>> /*+sexy or -cute*/
+	<<case 3>>
+		<<set _color = "(blue)">>
+		<<set _dress[2] += either(1,2,2)>> /*+sexy or -cute*/
+	<<case 4>>
+		<<set _color = "(green)">>
+		<<set _dress[2] += either(1,1,2)>> /*+sexy or -cute*/
+	<<case 5>>
+		<<set _color = "(yellow)">>
+		<<set _dress[2] += either(0,1,0)>> /*+sexy or -cute*/
+	<<case 6>>
+		<<set _color = "(purple)">>
+		<<set _dress[2] += either(1,-1,0)>> /*+sexy or -cute*/
+	<<case 7>>
+		<<set _color = "(black)">>
+		<<set _dress[2] += either(2,2,3,4)>> /*+sexy or -cute*/
+	<<case 8>>
+		<<set _color = "(red)">>
+		<<set _dress[2] += either(2,2,3,4)>> /*+sexy or -cute*/
+	<</switch>>
+	<<set _tempE = _dress[4] * 10>>
+	<<set _tempF = Math.round(_tempE)>>
+	<<set _tempG = Math.trunc(_tempF)>>
+	<<set _tempG /= 10>>
+	<<set _dress[4] = _tempG>>
+	<<set _dress[0] = Math.round(_dress[0])>>
+	<<set _dress[1] = Math.round(_dress[1])>>
+	<<set _dress[2] = Math.round(_dress[2])>>
+	<<set _dress[3] = Math.round(_dress[3])>>
+	<<if _dress[4] > 4.9>>
+		<<set _dress[4] = 4.9>>
+	<<elseif _dress[4] < 0>>
+		<<set _dress[4] = 0>>
+	<</if>>
+	<<if _substyle != 0>>
+		<<if $clothingDetail == 4>>
+			<<set _dress[0] = _substyle + " //" + _fabric + "// ''" + _style + "'' with a " + _neckstyle + " " + _color>>
+		<<elseif $clothingDetail == 3>>
+			<<set _dress[0] = _substyle + " ''" + _style + "'' with a " + _neckstyle + " " + _color>>
+		<<elseif $clothingDetail == 2>>
+			<<set _dress[0] = _substyle + " ''" + _style + "'' " + _color>>
+		<<else>>
+			<<set _dress[0] = "''" + _style + "'' " + _color>>
+		<</if>>
+	<<else>>
+		<<if $clothingDetail == 4>>
+			<<set _dress[0] = "//" + _fabric + "// ''" + _style + "'' with a " + _neckstyle + " " + _color>>
+		<<elseif $clothingDetail == 3>>
+			<<set _dress[0] = "''" + _style + "'' with a " + _neckstyle + " " + _color>>
+		<<else>>
+			<<set _dress[0] = "''" + _style + "'' " + _color>>
+		<</if>>
+	<</if>>
+	<<switch $args[4]>>
+	<<case -2>>
+		<<if _dress[1] > 0>>
+			<<set _dress[1] *= 0.6>>
+			<<set _dress[1] = Math.round(_dress[1])>>
+		<<elseif _dress[1] < 0>>
+			<<set _dress[1] *= 1.3>>
+			<<set _dress[1] = Math.round(_dress[1])>>
+		<</if>>
+		<<if _dress[4] > 2.5>>
+			<<set _dress[4] = 2.5>>
+		<</if>>
+		<<set _dress[2] *= 0.6>>
+		<<set _dress[2] = Math.round(_dress[2])>>
+	<<case -1>>
+		<<if _dress[1] > 0>>
+			<<set _dress[1] *= 0.8>>
+			<<set _dress[1] = Math.round(_dress[1])>>
+		<<elseif _dress[1] < 0>>
+			<<set _dress[1] *= 1.15>>
+			<<set _dress[1] = Math.round(_dress[1])>>
+		<</if>>
+		<<if _dress[4] > 3>>
+			<<set _dress[4] = 3>>
+		<</if>>
+		<<set _dress[2] *= 0.8>>
+		<<set _dress[2] = Math.round(_dress[2])>>
+	<<case 1>>
+		<<if _dress[1] > 0>>
+			<<set _dress[1] *= 1.15>>
+			<<set _dress[1] = Math.round(_dress[1])>>
+		<<elseif _dress[1] < 0>>
+			<<set _dress[1] *= 0.8>>
+			<<set _dress[1] = Math.round(_dress[1])>>
+		<</if>>
+		<<set _dress[2] *= 1.15>>
+		<<set _dress[2] = Math.round(_dress[2])>>
+	<<case 2>>
+		<<if _dress[1] > 0>>
+			<<set _dress[1] *= 1.3>>
+			<<set _dress[1] = Math.round(_dress[1])>>
+		<<elseif _dress[1] < 0>>
+			<<set _dress[1] *= 0.6>>
+			<<set _dress[1] = Math.round(_dress[1])>>
+		<</if>>
+		<<set _dress[2] *= 1.3>>
+		<<set _dress[2] = Math.round(_dress[2])>>
+	<<case default>>
+		<<if _dress[1] > 8>>
+			<<set _dress[1] = 8>>
+		<</if>>
+		<<if _dress[4] > 4>>
+			<<set _dress[4] = 4>>
+		<</if>>
+	<</switch>>
+	/*<<print _dress[0]>>, <<= _dress[1]>>, <<= _dress[2]>>, <<= _dress[3]>>, <<= _dress[4]>>*/
+	<<set $shopD.push(_dress)>>
+	<</for>>
+<</if>>
+<</widget>>
+
+/*lb generation widget. Inputs: 0-number to generate 1-Style selector, 2-fabric selector, 3-color, 4-quality bonus, 5-store name*/
+/*Style: 0-everything equally, 1-distro, 2-pants, 3-shorts,  4-skirts, 5-sexy*/
+/*Fabric: 0-standard, 1-fetish*/
+/*Color: 0-everything equally, 1-conservative, 2-flashy*/
+/*Quality: -2 to 2 for change to attractiveness*/
+<<widget "genLowerBody">>
+<<if ndef $args[0] || ndef $args[1] || ndef $args[2] || ndef $args[3] || ndef $args[4] || ndef $args[5]>>
+	<<set alert(“!LowerBody Generator function ran with missing control variable/s! Please submit a bug report with this error message and the current passage listed in the debug info page.”)>>
+	<<set $error += ", LowerBody Generator function ran with missing control variable/s - Passage: ">>
+	<<set $error += = passage()>>
+<<else>>
+	<<switch $args[1]>>
+	<<case 0>>
+		<<set _stylelist = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,1,18,19,20,21,22,23,24,25]>>
+	<<case 1>>
+		<<set _stylelist = [1,1,2,3,4,5,6,7,7,8,9,9,10,11,11,12,14,15,16,16,17,18,19,19,19,19,20,21,21,21,22,22,22,23,24,25,25,25]>>
+	<<case 2>>
+		<<set _stylelist = [18,18,19,19,19,20,20,20,21,21,22,22,22,23,23,24,25,25,25]>>
+	<<case 3>>
+		<<set _stylelist = [14,14,15,16,16,16,17,17]>>
+	<<case 4>>
+		<<set _stylelist = [1,1,1,2,2,3,4,5,5,6,6,7,7,7,8,8,9,9,10,11,11,11,12,12,13]>>
+	<<case 5>>
+		<<set _stylelist = [7,8,8,11,11,11,12,12,13,13,15,15,17]>>
+	<<case default>>
+		<<set $error += ", LowerBody Generator bad style arg - Passage: ">>
+		<<set $error += = passage()>>
+		<<set alert(“!LowerBody Generator Style Arg Error! Details in debug view for bug report. You can continue playing otherwise.”)>>
+		<<set _stylelist = [1]>>
+		<<set _substylelist = [0]>>
+	<</switch>>
+	<<set $shopLB = []>>
+	/*for loop start*/
+	<<for _i to 0; _i < $args[0]; _i++>>
+		/*_lowerbody array index: 0Name, 1Attr, 2Sexy/Cute, 3Formal/Casual, 4Exposure, 5status, 6style, 7substyle, fabric, color, origin store*/
+		<<set _lowerbody = ["0name",0,0,0,0,0,"6style","7substyle","8fabric","9color","name",0,0,0]>>
+		<<set _lowerbody[6] = either(_stylelist)>>
+	/*substyles: 0-none, 10-thin, 20-cropped, 30-sheer, 40-thin+cropped, 50-ultrasheer, 60-cropped+sheer, 70-all*/
+	/*hemline: 0-jewel, 1-scoop, 2-boat, 3-square, 4-V, 5-deep V, 6-sweetheart, 7-halter, 8-keyhole, 9-plunge*/
+	<<switch _lowerbody[6]>>
+	<<case 0>>
+		<<set _style = "lowerbodyGen arg error">>
+	<<case 1>>
+		<<set _style = "A-line skirt">>
+		<<set _substylelist = [0,0,0,1,1,2,3,4,4,5,5,6,10,14,14]>>
+		<<set _hemlinelist = [2,3,3,4,4,5]>>
+		<<set _fabriclist = [0,1,1,2,2,3,4,9]>>
+		<<set _lowerbody[1] += either(1,2,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-2,-1,1,2)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(1,2,2,3)>> /*+formal or -casual*/
+	<<case 2>>
+		<<set _style = "asymmetrical skirt">>
+		<<set _substylelist = [0,0,0,1,1,2,3,5,5,6,10,14,14]>>
+		<<set _hemlinelist = [3,4,4,5,5]>>
+		<<set _fabriclist = [0,1,1,2,2,3,4,9,9]>>
+		<<set _lowerbody[1] += either(2,2,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-2,-1,1,2)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-2,-1,0,0,1,1,2,2)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _style = "circle skirt">>
+		<<set _substylelist = [0,0,0,1,1,2,3,4,4,5,5,6,10,14,14]>>
+		<<set _hemlinelist = [3,4,4,5,5]>>
+		<<set _fabriclist = [0,1,1,2,2,3,4,9]>>
+		<<set _lowerbody[1] += either(0,1,2)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-3,-2,-2,-1,0,1)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-2,-1,0,0,1,1,2,2)>> /*+formal or -casual*/
+	<<case 4>>
+		<<set _style = "draped skirt">>
+		<<set _substylelist = [0,0,0,1,2,2,3,5,5,6,10,14,14,12,12]>>
+		<<set _hemlinelist = [2,3,3,4,4,5]>>
+		<<set _fabriclist = [0,1,1,2,2,3,4,9]>>
+		<<set _lowerbody[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(2,3,3)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(2,3,3)>> /*+formal or -casual*/
+	<<case 5>>
+		<<set _style = "gypsy skirt">>
+		<<set _substylelist = [0,0,0,1,1,2,3,5,5,6,10,14,14]>>
+		<<set _hemlinelist = [0,1,1,2,2,2,3,3,4]>>
+		<<set _fabriclist = [0,1,1,4,9,9,9]>>
+		<<set _lowerbody[1] += either(1,2,2,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-3,-3,-2)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-3,-3,-2)>> /*+formal or -casual*/
+		<<set _lowerbody[4] += either(-1,-0.5)>> /*exposure level 0-5*/
+	<<case 6>>
+		<<set _style = "knife-pleated skirt">>
+		<<set _substylelist = [0,0,0,1,2,2,3,6,10,14,14,11]>>
+		<<set _hemlinelist = [3,4,4,4,5,5,6]>>
+		<<set _fabriclist = [1,2,2,4,4,9]>>
+		<<set _lowerbody[1] += either(1,2,2,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-2,-1,1,2,3)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(0,1,2,2,3)>> /*+formal or -casual*/
+		<<set _lowerbody[4] += either(-1,-0.5)>> /*exposure level 0-5*/
+	<<case 7>>
+		<<set _style = "pencil skirt">>
+		<<set _substylelist = [0,0,0,1,1,2,3,6,6,10,10,14,14]>>
+		<<set _hemlinelist = [2,3,3,4,4,5]>>
+		<<set _fabriclist = [0,1,1,2,2,3,4,9]>>
+		<<set _lowerbody[1] += either(3,3,4)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(3,3,4)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(2,3,4)>> /*+formal or -casual*/
+	<<case 8>>
+		<<set _style = "tube skirt">>
+		<<set _substylelist = [0,0,0,2,2,2,3,3,6,10,14,14]>>
+		<<set _hemlinelist = [4,4,4,5,5,6]>>
+		<<set _fabriclist = [2,2,3,6,6,6,6,7,7,7]>>
+		<<set _lowerbody[1] += either(3,4,5)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(4,4,5)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-1,0,1,2)>> /*+formal or -casual*/
+		<<set _lowerbody[4] += either(0.5,1,1,1.5)>> /*exposure level 0-5*/
+	<<case 9>>
+		<<set _style = "straight skirt">>
+		<<set _substylelist = [0,0,0,1,1,2,3,4,4,5,5,6,10,14,14]>>
+		<<set _hemlinelist = [2,3,3,4,4,5]>>
+		<<set _fabriclist = [0,1,1,2,2,3,4,9]>>
+		<<set _lowerbody[1] += either(2,3,3,4)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(1,2,2,3)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(2,2,3,4)>> /*+formal or -casual*/
+	<<case 10>>
+		<<set _style = "layered skirt">>
+		<<set _substylelist = [0,0,0,1,1,2,3,5,5,6,10,14,14]>>
+		<<set _hemlinelist = [1,2,2,3,3,3,4,4,5]>>
+		<<set _fabriclist = [0,1,1,4,9,9,9]>>
+		<<set _lowerbody[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-3,-3,-2)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(0,1,1,2)>> /*+formal or -casual*/
+		<<set _lowerbody[4] += either(-1,-0.5)>> /*exposure level 0-5*/
+	<<case 11>>
+		<<set _style = "mini skirt">>
+		<<set _substylelist = [0,0,0,2,2,3,4,6,10,12,14,14]>>
+		<<set _hemlinelist = [6,7,7]>>
+		<<set _fabriclist = [1,2,2,3,6,6,7]>>
+		<<set _lowerbody[1] += either(4,4,5)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(3,4,5)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(0,1,1,2,2,3)>> /*+formal or -casual*/
+		<<set _lowerbody[4] += either(0.5,1,1)>> /*exposure level 0-5*/
+	<<case 12>>
+		<<set _style = "micro skirt">>
+		<<set _substylelist = [0,0,0,2,2,3,4,6,10,12,14,14]>>
+		<<set _hemlinelist = [8,8]>>
+		<<set _fabriclist = [1,2,2,3,3,6,6,7,7]>>
+		<<set _lowerbody[1] += either(4,5,6)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(4,5,6)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(0,1,1,2,2,3)>> /*+formal or -casual*/
+		<<set _lowerbody[4] += either(1,1.5,1.5)>> /*exposure level 0-5*/
+	<<case 13>>
+		<<set _style = "nano skirt">>
+		<<set _substylelist = [0,0,0,2,2,3,4,6,10,12,14,14]>>
+		<<set _hemlinelist = [9,9]>>
+		<<set _fabriclist = [1,2,3,3,6,7,7]>>
+		<<set _lowerbody[1] += either(5,6,7)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(4,5,6)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(0,1,1,2,2,3)>> /*+formal or -casual*/
+		<<set _lowerbody[4] += either(2,2.5,2.5)>> /*exposure level 0-5*/
+	<<case 14>>
+		<<set _style = "boy shorts">>
+		<<set _substylelist = [0,0,0,2,2,1,7,11,14]>>
+		<<set _hemlinelist = [5,6,6]>>
+		<<set _fabriclist = [0,0,1,1,1,2,2,8]>>
+		<<set _lowerbody[1] += either(1,1,2,2,3,4)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-3,-2,-2,-1,0,1,1,2)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-3,-2,-2,-1)>> /*+formal or -casual*/
+	<<case 15>>
+		<<set _style = "hot pants">>
+		<<set _substylelist = [0,0,0,2,2,3,10,12,14,15]>>
+		<<set _hemlinelist = [9,9]>>
+		<<set _fabriclist = [1,2,2,3,5,6,6,7]>>
+		<<set _lowerbody[1] += either(4,5,6)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(4,5,6)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(0,1,1,2,2,3)>> /*+formal or -casual*/
+		<<set _lowerbody[4] += either(1,1,1.5)>> /*exposure level 0-5*/
+	<<case 16>>
+		<<set _style = "cut-off shorts">>
+		<<set _substylelist = [0,0,0,1,2,2,3,10,11,12,14]>>
+		<<set _hemlinelist = [4,5,6,6,7,7]>>
+		<<set _fabriclist = [0,0,1,1,1,2,2,3,5,6]>>
+		<<set _lowerbody[1] += either(1,1,2,2,3,4)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-3,-2,-2,-1,0,1,1,2)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-3,-2,-2)>> /*+formal or -casual*/
+	<<case 17>>
+		<<set _style = "short shorts">>
+		<<set _substylelist = [0,0,0,1,2,2,3,10,11,12,14,15,15]>>
+		<<set _hemlinelist = [8,8]>>
+		<<set _fabriclist = [1,1,2,2,3,5,6,7]>>
+		<<set _lowerbody[1] += either(4,4,5)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(3,4,5)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(0,1,1,2,2,3)>> /*+formal or -casual*/
+		<<set _lowerbody[4] += either(0.5,0.5,1)>> /*exposure level 0-5*/
+	<<case 18>>
+		<<set _style = "skinny pants">>
+		<<set _substylelist = [0,0,0,1,2,2,3,7,8,10,11,12,14,15]>>
+		<<set _hemlinelist = [0,0,1]>>
+		<<set _fabriclist = [0,1,1,2,6,6]>>
+		<<set _lowerbody[1] += either(0,1,2,2)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-2,-1,0,0)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-3,-2,-1)>> /*+formal or -casual*/
+	<<case 19>>
+		<<set _style = "skinny jeans">>
+		<<set _substylelist = [0,0,0,1,2,2,3,7,8,9,10,11,12,14,15]>>
+		<<set _hemlinelist = [0,0,1]>>
+		<<set _fabriclist = [5,5]>>
+		<<set _lowerbody[1] += either(0,1,1,2)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-2,-1,-1,0,0,1)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-4,-3)>> /*+formal or -casual*/
+	<<case 20>>
+		<<set _style = "slacks">>
+		<<set _substylelist = [0,0,0,1,2,2,3,10,11,14]>>
+		<<set _hemlinelist = [0,0,1]>>
+		<<set _fabriclist = [0,1,1,1,1,2,4,9]>>
+		<<set _lowerbody[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(0,0,1)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(2,3,4)>> /*+formal or -casual*/
+	<<case 21>>
+		<<set _style = "straight jeans">>
+		<<set _substylelist = [0,0,0,1,2,2,3,7,8,9,10,11,12,14,15]>>
+		<<set _hemlinelist = [0,0,1]>>
+		<<set _fabriclist = [5,5]>>
+		<<set _lowerbody[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-2,-1,0,0)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-3,-2,-1)>> /*+formal or -casual*/
+	<<case 22>>
+		<<set _style = "capris">>
+		<<set _substylelist = [0,0,0,1,2,2,3,10,11,14]>>
+		<<set _hemlinelist = [1,2,2,3]>>
+		<<set _fabriclist = [0,1,1,1,1,2,9]>>
+		<<set _lowerbody[1] += either(2,2,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-3,-2,-2,-1,1,1,2)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-2,-1,0)>> /*+formal or -casual*/
+	<<case 23>>
+		<<set _style = "flared pants">>
+		<<set _substylelist = [0,0,0,1,2,2,3,10,12,14,14]>>
+		<<set _hemlinelist = [0,0,1]>>
+		<<set _fabriclist = [0,0,1,1,2,9,9]>>
+		<<set _lowerbody[1] += either(1,2,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-1,0,0,1)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-2,-1,0,1)>> /*+formal or -casual*/
+	<<case 24>>
+		<<set _style = "palazzo pants">>
+		<<set _substylelist = [0,0,0,1,2,2,3,10,12,14,14]>>
+		<<set _hemlinelist = [0,0,1]>>
+		<<set _fabriclist = [0,0,1,1,2,9,9,9]>>
+		<<set _lowerbody[1] += either(1,1,2,2,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-3,-2,2,2)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-1,1,2,2,3)>> /*+formal or -casual*/
+	<<case 25>>
+		<<set _style = "leggings">>
+		<<set _substylelist = [0,0,0,1,2,2,3,9,10,10,11,12,14,14]>>
+		<<set _hemlinelist = [0,1,1,2]>>
+		<<set _fabriclist = [6,6,7]>>
+		<<set _lowerbody[1] += either(2,3,4)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-1,2,3,3,4)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-4,-3)>> /*+formal or -casual*/
+	<<case default>>
+		<<set _style = "bad arg to lowerbodyStyle">>
+	<</switch>>
+	<<set _substyleRand = either(_substylelist)>>
+	<<set _hemRand = either(_hemlinelist)>>
+	<<set _lowerbody[7] = (_substyleRand * 10) + _hemRand>>
+	<<switch _substyleRand>>
+	<<case 0>>
+		<<set _substyle = 0>>
+		<<set _lowerbody[1] += either(0,0,1)>>
+	<<case 1>>
+		<<set _substyle = "high waist">>
+		<<set _lowerbody[1] += either(-1,0,0)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-1,0,0)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(1,1,2)>> /*+formal or -casual*/
+		<<set _hemRand += either(0,1)>>
+	<<case 2>>
+		<<set _substyle = "low waist">>
+		<<set _lowerbody[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(1,1,2)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(0,0.5,0.5)>> /*exposure level 0-5*/
+		<<set _lowerbody[3] += either(-1,0)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _substyle = "very-low waist">>
+		<<set _lowerbody[1] += either(2,2,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(2,2,3)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(0.5,1,1)>> /*exposure level 0-5*/
+		<<set _lowerbody[3] += either(-1,-1,0)>> /*+formal or -casual*/
+	<<case 4>>
+		<<set _substyle = "slitted">>
+		<<set _lowerbody[1] += either(0,1,1)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(1,1,2)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(0,0,0.5)>> /*exposure level 0-5*/
+		<<set _lowerbody[3] += either(0,1)>> /*+formal or -casual*/
+	<<case 5>>
+		<<set _substyle = "decorative hem">>
+		<<set _lowerbody[1] += either(0,1)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-1,-1,0)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-1,0,0,1)>> /*+formal or -casual*/
+	<<case 6>>
+		<<set _substyle = "extra-high hem">>
+		<<set _lowerbody[1] += either(2,2,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(2,2,3)>> /*+sexy or -cute*/
+		<<set _hemRand += 1>>
+	<<case 7>>
+		<<set _substyle = "faded">>
+		<<set _lowerbody[1] += either(-1,0,0,1,1)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-2,-1,0,0)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-2,-1,-1)>> /*+formal or -casual*/
+	<<case 8>>
+		<<set _substyle = "holed">>
+		<<set _lowerbody[1] += either(0,0,1,1,2)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(0,0,1)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(0,0,0.5)>> /*exposure level 0-5*/
+		<<set _lowerbody[3] += either(-3,-2,-1)>> /*+formal or -casual*/
+	<<case 9>>
+		<<set _substyle = "well-worn">>
+		<<set _lowerbody[1] += either(0,1,2)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-1,1)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-1,0)>> /*+formal or -casual*/
+	<<case 10>>
+		<<set _substyle = "thin">>
+		<<set _lowerbody[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(1,2,2)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(0,0.5,0.5)>> /*exposure level 0-5*/
+		<<set _lowerbody[3] += either(0,0,1)>> /*+formal or -casual*/
+	<<case 11>>
+		<<set _substyle = "rolled hem">>
+		<<set _lowerbody[1] += either(0,1)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-2,-1,0,0,0)>> /*+sexy or -cute*/
+	<<case 12>>
+		<<set _substyle = "stretchy">>
+		<<set _lowerbody[1] += either(0.5,1,1)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(1,1,2)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(0,0.5,0.5)>> /*exposure level 0-5*/
+		<<set _lowerbody[3] += either(-2,-1,-1)>> /*+formal or -casual*/
+	<<case 13>>
+		<<set _substyle = "cutout">>
+		<<set _lowerbody[1] += either(1,2,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(1,2,3)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(0,0.5,1)>> /*exposure level 0-5*/
+	<<case 14>>
+		<<set _substyle = "elastic waist">>
+		<<set _lowerbody[2] += either(-1,1,1,1)>> /*+sexy or -cute*/
+	<<case 15>>
+		<<set _substyle = "long zipper">>
+		<<set _lowerbody[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(3,3,4)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(0,-1)>> /*+formal or -casual*/
+	<</switch>>
+	<<if _lowerbody[6] < 14>>
+	<<switch _hemRand>>
+	<<case 0>>
+		<<set _hemstyle = "ankle">>
+		<<set _lowerbody[2] += either(-1,-2,-2)>> /*+sexy or -cute*/
+	<<case 1>>
+		<<set _hemstyle = "midi">>
+		<<set _lowerbody[2] += either(-1,-1,-2)>> /*+sexy or -cute*/
+	<<case 2>>
+		<<set _hemstyle = "calf">>
+		<<set _lowerbody[2] += either(0,-1,-1)>> /*+sexy or -cute*/
+	<<case 3>>
+		<<set _hemstyle = "above calf">>
+		<<set _lowerbody[2] += either(0,-1,-1)>> /*+sexy or -cute*/
+	<<case 4>>
+		<<set _hemstyle = "knee">>
+		<<set _lowerbody[2] += either(0,0,-1)>> /*+sexy or -cute*/
+	<<case 5>>
+		<<set _hemstyle = "above knee">>
+		<<set _lowerbody[2] += either(0,0,1)>> /*+sexy or -cute*/
+	<<case 6>>
+		<<set _hemstyle = "mid thigh">>
+		<<set _lowerbody[1] += either(0,1,1)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(0,1,1)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(0,0,0.5)>> /*exposure level 0-5*/
+	<<case 7>>
+		<<set _hemstyle = "upper thigh">>
+		<<set _lowerbody[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(1,1,2)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(1,0.5,0.5)>> /*exposure level 0-5*/
+	<<case 8>>
+		<<set _hemstyle = "above thigh">>
+		<<set _lowerbody[1] += either(1,2,2)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(1,2,2)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(1,1.5,1.5)>> /*exposure level 0-5*/
+	<<case 9>>
+		<<set _hemstyle = "groin">>
+		<<set _lowerbody[1] += either(2,2,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(2,2,3)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(1.5,2,2)>> /*exposure level 0-5*/
+	<<case 10>>
+		<<set _hemstyle = "above groin">>
+		<<set _lowerbody[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(2,3,3)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(2,2,2.5)>> /*exposure level 0-5*/
+	<</switch>>
+	<<elseif _lowerbody[6] < 18>>
+	<<switch _hemRand>>
+	<<case 0>>
+		<<set _hemstyle = "ankle">>
+		<<set _lowerbody[2] += either(-1,-2,-2)>> /*+sexy or -cute*/
+	<<case 1>>
+		<<set _hemstyle = "midi">>
+		<<set _lowerbody[2] += either(-1,-1,-2)>> /*+sexy or -cute*/
+	<<case 2>>
+		<<set _hemstyle = "calf">>
+		<<set _lowerbody[2] += either(0,-1,-1)>> /*+sexy or -cute*/
+	<<case 3>>
+		<<set _hemstyle = "above calf">>
+		<<set _lowerbody[2] += either(0,-1,-1)>> /*+sexy or -cute*/
+	<<case 4>>
+		<<set _hemstyle = "knee">>
+		<<set _lowerbody[2] += either(0,0,-1)>> /*+sexy or -cute*/
+	<<case 5>>
+		<<set _hemstyle = "above knee">>
+		<<set _lowerbody[2] += either(0,0,1)>> /*+sexy or -cute*/
+	<<case 6>>
+		<<set _hemstyle = "mid thigh">>
+		<<set _lowerbody[1] += either(0,1,1)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(0,1,1)>> /*+sexy or -cute*/
+	<<case 7>>
+		<<set _hemstyle = "upper thigh">>
+		<<set _lowerbody[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(1,1,2)>> /*+sexy or -cute*/
+	<<case 8>>
+		<<set _hemstyle = "above thigh">>
+		<<set _lowerbody[1] += either(1,2,2)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(1,2,2)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(0,0.5,0.5)>> /*exposure level 0-5*/
+	<<case 9>>
+		<<set _hemstyle = "groin">>
+		<<set _lowerbody[1] += either(2,2,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(2,2,3)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(0.5,0.5,1)>> /*exposure level 0-5*/
+	<<case 10>>
+		<<set _hemstyle = "above groin">>
+		<<set _lowerbody[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(2,3,3)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(1,1,0.5)>> /*exposure level 0-5*/
+	<</switch>>
+	<<else>>
+	<<switch _hemRand>>
+	<<case 0>>
+		<<set _hemstyle = "ankle">>
+	<<case 1>>
+		<<set _hemstyle = "midi">>
+	<<case 2>>
+		<<set _hemstyle = "calf">>
+	<<case 3>>
+		<<set _hemstyle = "above calf">>
+	<<case 4>>
+		<<set _hemstyle = "knee">>
+	<<case 5>>
+		<<set _hemstyle = "above knee">>
+	<<case 6>>
+		<<set _hemstyle = "mid thigh">>
+	<<case 7>>
+		<<set _hemstyle = "upper thigh">>
+	<<case 8>>
+		<<set _hemstyle = "above thigh">>
+	<<case 9>>
+		<<set _hemstyle = "groin">>
+	<<case 10>>
+		<<set _hemstyle = "above groin">>
+	<</switch>>
+	<</if>>
+	/*fabrics: 0-cotton, 1 cotton poly blend, 2-nylon, 3-sheer nylon, 4-wool, 5-denim, 6-lycra-cotton blend, 7-thin lycra, 8-cotton knit, 9-linen, 10-leather, 11-latex*/
+	<<if $args[3] == 2>>
+		<<set _fabriclist = [3,3,7,7,10,10,11,11]>>
+	<</if>>
+	<<set _lowerbody[8] = either(_fabriclist)>>
+	<<switch _lowerbody[8]>>
+	<<case 0>>
+		<<set _fabric = "cotton">>
+		<<set _lowerbody[2] += either(0,-0.5)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(0,-0.5)>> /*+formal or -casual*/
+	<<case 1>>
+		<<set _fabric = "cotton/poly blend">>
+		<<set _lowerbody[2] += either(0,0.5)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(0,0.5)>> /*+formal or -casual*/
+	<<case 2>>
+		<<set _fabric = "nylon">>
+		<<set _lowerbody[1] += either(0,0.5)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(0,0.5,1)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(0,0.5,1)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _fabric = "sheer nylon">>
+		<<set _lowerbody[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(1,1,2)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(0.5,1,1)>> /*exposure level 0-5*/
+		<<set _lowerbody[3] += either(1,1,2)>> /*+formal or -casual*/
+	<<case 4>>
+		<<set _fabric = "wool">>
+		<<set _lowerbody[1] += either(1,2)>> /*attractiveness*/
+		<<set _lowerbody[4] += either(-1,0,-0.5)>> /*exposure level 0-5*/
+		<<set _lowerbody[3] += either(2,2,3)>> /*+formal or -casual*/
+	<<case 5>>
+		<<set _fabric = "denim">>
+		<<set _lowerbody[3] += either(-0.5,-1)>> /*+formal or -casual*/
+	<<case 6>>
+		<<set _fabric = "lycra/cotton blend">>
+		<<set _lowerbody[1] += either(1,0.5)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(0.5,1,1)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(0,-0.5,-1)>> /*+formal or -casual*/
+	<<case 7>>
+		<<set _fabric = "thin lycra">>
+		<<set _lowerbody[1] += either(1,1,2)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(1,1,2)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(0.5,0,0.5)>> /*exposure level 0-5*/
+		<<set _lowerbody[3] += either(0,0,1)>> /*+formal or -casual*/
+	<<case 8>>
+		<<set _fabric = "cotton knit">>
+		<<set _lowerbody[2] += either(-2,-1,-1)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-1,-1,-0.5)>> /*+formal or -casual*/
+	<<case 9>>
+		<<set _fabric = "linen">>
+		<<set _lowerbody[1] += either(0,1,2)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(-1,0,1)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(0,0,0.5)>> /*exposure level 0-5*/
+		<<set _lowerbody[3] += either(-2,-1,0,1)>> /*+formal or -casual*/
+	<<case 10>>
+		<<set _fabric = "leather">>
+		<<set _lowerbody[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(3,3,4)>> /*+sexy or -cute*/
+		<<set _lowerbody[3] += either(-1,-1,-0.5)>> /*+formal or -casual*/
+	<<case 11>>
+		<<set _fabric = "latex">>
+		<<set _lowerbody[1] += either(3,3,4)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(3,4,5)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(1,1.5,2)>> /*exposure level 0-5*/
+	<</switch>>
+	/*color: 0-clear, 1 tan, 2 khaki, 3 brown, 4-dark green, 5-navy blue, 6-burgundy, 7-black, 8-white, 9-light, 10-standard, 11-dark, 12-red, 13-blue, 14-green, 15-yellow, 16-orange, 17-purple,*/
+	<<if $args[4] == 0>>
+		<<set _colorlist = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]>>
+	<<elseif $args[4] == 1>>
+		<<set _colorlist = [1,1,1,2,2,3,4,5,5,6,7,7,7,8]>>
+	<<else>>
+		<<set _colorlist = [1,2,3,4,4,5,5,6,6,7,7,7,8,12,12,12,13,13,14,14,15,16,17]>>
+	<</if>>
+	<<if _lowerbody[8] == 11>>
+		<<set _colorlist.push(0)>>
+		<<set _colorlist.push(0)>>
+		<<set _colorlist.push(0)>>
+		<<set _colorlist.push(0)>>
+	<</if>>
+	<<if _lowerbody[8] == 5>>
+		<<set _colorlist = [2,7,8,9,9,9,10,10,10,10,10,11,11,11,11]>>
+	<</if>>
+	<<set _lowerbody[9] = either(_colorlist)>>
+	<<set _lowerbody[10] = $args[5]>>
+	<<switch _lowerbody[9]>>
+	<<case 0>>
+		<<set _color = "(clear)">>
+		<<set _lowerbody[1] += either(2,3,3)>> /*attractiveness*/
+		<<set _lowerbody[2] += either(3,4,4)>> /*+sexy or -cute*/
+		<<set _lowerbody[4] += either(1,1.5,2)>> /*exposure level 0-5*/
+	<<case 1>>
+		<<set _color = "(tan)">>
+		<<set _lowerbody[1] += either(0.5,0,0)>> /*attractiveness*/
+		<<if _lowerbody[2] > 0>>
+			<<set _lowerbody[2] += either(0.5,0,0)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _lowerbody[2] += either(-0.5,0,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _lowerbody[3] += either(1,1,0.5)>> /*+formal or -casual*/
+	<<case 2>>
+		<<set _color = "(khaki)">>
+		<<set _lowerbody[3] += either(0.5,1,0.5)>> /*+formal or -casual*/
+	<<case 3>>
+		<<set _color = "(brown)">>
+		<<set _lowerbody[3] += either(1.5,0.5,1)>> /*+formal or -casual*/
+	<<case 4>>
+		<<set _color = "(dark green)">>
+		<<set _lowerbody[1] += either(0,0.5,0.5)>> /*attractiveness*/
+		<<if _lowerbody[2] > 0>>
+			<<set _lowerbody[2] += either(0,0,1)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _lowerbody[2] += either(-1,0,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _lowerbody[3] += either(0.5,0.5,0)>> /*+formal or -casual*/
+	<<case 5>>
+		<<set _color = "(navy blue)">>
+		<<set _lowerbody[1] += either(0,0.5,0.5)>> /*attractiveness*/
+		<<if _lowerbody[2] > 0>>
+			<<set _lowerbody[2] += either(0,0,1)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _lowerbody[2] += either(-1,0,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _lowerbody[3] += either(0.5,0.5,0)>> /*+formal or -casual*/
+	<<case 6>>
+		<<set _color = "(burgundy)">>
+		<<set _lowerbody[1] += either(0,0.5,0.5)>> /*attractiveness*/
+		<<if _lowerbody[2] > 0>>
+			<<set _lowerbody[2] += either(0,0,1)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _lowerbody[2] += either(-1,0,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _lowerbody[3] += either(0.5,0.5,0)>> /*+formal or -casual*/
+	<<case 7>>
+		<<set _color = "(black)">>
+		<<set _lowerbody[1] += either(0,0.5,0.5)>> /*attractiveness*/
+		<<if _lowerbody[2] > 0>>
+			<<set _lowerbody[2] += either(2,1,1)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _lowerbody[2] += either(-1,-1,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _lowerbody[3] += either(1,1,0)>> /*+formal or -casual*/
+	<<case 8>>
+		<<set _color = "(white)">>
+		<<set _lowerbody[1] += either(0,0.5,0.5)>> /*attractiveness*/
+		<<if _lowerbody[2] > 0>>
+			<<set _lowerbody[2] += either(0,1,1)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _lowerbody[2] += either(-1,-2,-2)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _lowerbody[3] += either(1,1,0)>> /*+formal or -casual*/
+	<<case 9>>
+		<<set _color = "(light bluejean)">>
+		<<set _lowerbody[1] += either(0,0,-0.5)>> /*attractiveness*/
+	<<case 10>>
+		<<set _color = "(bluejean)">>
+		<<set _lowerbody[1] += either(0,0,1)>> /*attractiveness*/
+		<<set _lowerbody[3] += either(0,0,1)>> /*+formal or -casual*/
+	<<case 11>>
+		<<set _color = "(dark bluejean)">>
+		<<set _lowerbody[1] += either(0,1,1)>> /*attractiveness*/
+		<<set _lowerbody[3] += either(0,1,1)>> /*+formal or -casual*/
+	<<case 12>>
+		<<set _color = "(red)">>
+		<<set _lowerbody[1] += either(0,0.5,0.5)>> /*attractiveness*/
+		<<if _lowerbody[2] > 0>>
+			<<set _lowerbody[2] += either(1,1,2)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _lowerbody[2] += either(-1,0,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _lowerbody[3] += either(0,-0.5,0)>> /*+formal or -casual*/
+	<<case 13>>
+		<<set _color = "(blue)">>
+		<<set _lowerbody[1] += either(0,0.5,0.5)>> /*attractiveness*/
+		<<if _lowerbody[2] > 0>>
+			<<set _lowerbody[2] += either(0,1,1)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _lowerbody[2] += either(-1,-1,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _lowerbody[3] += either(-0.5,0,0)>> /*+formal or -casual*/
+	<<case 14>>
+		<<set _color = "(green)">>
+		<<set _lowerbody[1] += either(0,0,0.5)>> /*attractiveness*/
+		<<if _lowerbody[2] > 0>>
+			<<set _lowerbody[2] += either(0,0,1)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _lowerbody[2] += either(-1,0,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _lowerbody[3] += either(-1,-0.5,0)>> /*+formal or -casual*/
+	<<case 15>>
+		<<set _color = "(yellow)">>
+		<<set _lowerbody[1] += either(0,0,0.5)>> /*attractiveness*/
+		<<if _lowerbody[2] > 0>>
+			<<set _lowerbody[2] += either(0,0,1)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _lowerbody[2] += either(-1,0,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _lowerbody[3] += either(-1,-0.5,0)>> /*+formal or -casual*/
+	<<case 16>>
+		<<set _color = "(orange)">>
+		<<set _lowerbody[1] += either(0,0,0.5)>> /*attractiveness*/
+		<<if _lowerbody[2] > 0>>
+			<<set _lowerbody[2] += either(0,0,1)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _lowerbody[2] += either(-1,0,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _lowerbody[3] += either(-1,-0.5,0)>> /*+formal or -casual*/
+	<<case 17>>
+		<<set _color = "(purple)">>
+		<<set _lowerbody[1] += either(0,0,0.5)>> /*attractiveness*/
+		<<if _lowerbody[2] > 0>>
+			<<set _lowerbody[2] += either(0,0,1)>> /*+sexy or -cute*/
+		<<else>>
+			<<set _lowerbody[2] += either(-1,0,0)>> /*+sexy or -cute*/
+		<</if>>
+		<<set _lowerbody[3] += either(-1,-0.5,0)>> /*+formal or -casual*/
+	<</switch>>
+	<<set _tempE = _lowerbody[4] * 10>>
+	<<set _tempF = Math.round(_tempE)>>
+	<<set _tempG = Math.trunc(_tempF)>>
+	<<set _tempG /= 10>>
+	<<set _lowerbody[4] = _tempG>>
+	<<set _lowerbody[0] = Math.round(_lowerbody[0])>>
+	<<set _lowerbody[1] = Math.round(_lowerbody[1])>>
+	<<set _lowerbody[2] = Math.round(_lowerbody[2])>>
+	<<set _lowerbody[3] = Math.round(_lowerbody[3])>>
+	<<if _lowerbody[4] > 4.9>>
+		<<set _lowerbody[4] = 4.9>>
+	<<elseif _lowerbody[4] < 0>>
+		<<set _lowerbody[4] = 0>>
+	<</if>>
+	<<if _substyle != 0>>
+		<<if $clothingDetail == 4>>
+			<<set _lowerbody[0] = _substyle + " //" + _fabric + "// ''" + _style + "'' " + _hemstyle + " length " + _color>>
+		<<elseif $clothingDetail == 3>>
+			<<set _lowerbody[0] = _substyle + " ''" + _style + "'' " + _hemstyle + " length " + _color>>
+		<<elseif $clothingDetail == 2>>
+			<<set _lowerbody[0] = _substyle + " ''" + _style + "'' " + _color>>
+		<<else>>
+			<<set _lowerbody[0] = "''" + _style + "'' " + _color>>
+		<</if>>
+	<<else>>
+		<<if $clothingDetail == 4>>
+			<<set _lowerbody[0] = "//" + _fabric + "// ''" + _style + "'' " + _hemstyle + " length " + _color>>
+		<<elseif $clothingDetail == 3>>
+			<<set _lowerbody[0] = " ''" + _style + "'' " + _hemstyle + " length " + _color>>
+		<<else>>
+			<<set _lowerbody[0] = " ''" + _style + "'' " + _color>>
+		<</if>>
+	<</if>>
+	<<switch $args[4]>>
+	<<case -2>>
+		<<if _lowerbody[1] > 0>>
+			<<set _lowerbody[1] *= 0.6>>
+			<<set _lowerbody[1] = Math.round(_lowerbody[1])>>
+		<<elseif _lowerbody[1] < 0>>
+			<<set _lowerbody[1] *= 1.3>>
+			<<set _lowerbody[1] = Math.round(_lowerbody[1])>>
+		<</if>>
+		<<if _lowerbody[4] > 2.5>>
+			<<set _lowerbody[4] = 2.5>>
+		<</if>>
+		<<set _lowerbody[2] *= 0.6>>
+		<<set _lowerbody[2] = Math.round(_lowerbody[2])>>
+	<<case -1>>
+		<<if _lowerbody[1] > 0>>
+			<<set _lowerbody[1] *= 0.8>>
+			<<set _lowerbody[1] = Math.round(_lowerbody[1])>>
+		<<elseif _lowerbody[1] < 0>>
+			<<set _lowerbody[1] *= 1.15>>
+			<<set _lowerbody[1] = Math.round(_lowerbody[1])>>
+		<</if>>
+		<<if _lowerbody[4] > 3>>
+			<<set _lowerbody[4] = 3>>
+		<</if>>
+		<<set _lowerbody[2] *= 0.8>>
+		<<set _lowerbody[2] = Math.round(_lowerbody[2])>>
+	<<case 1>>
+		<<if _lowerbody[1] > 0>>
+			<<set _lowerbody[1] *= 1.15>>
+			<<set _lowerbody[1] = Math.round(_lowerbody[1])>>
+		<<elseif _lowerbody[1] < 0>>
+			<<set _lowerbody[1] *= 0.8>>
+			<<set _lowerbody[1] = Math.round(_lowerbody[1])>>
+		<</if>>
+		<<set _lowerbody[2] *= 1.15>>
+		<<set _lowerbody[2] = Math.round(_lowerbody[2])>>
+	<<case 2>>
+		<<if _lowerbody[1] > 0>>
+			<<set _lowerbody[1] *= 1.3>>
+			<<set _lowerbody[1] = Math.round(_lowerbody[1])>>
+		<<elseif _lowerbody[1] < 0>>
+			<<set _lowerbody[1] *= 0.6>>
+			<<set _lowerbody[1] = Math.round(_lowerbody[1])>>
+		<</if>>
+		<<set _lowerbody[2] *= 1.3>>
+		<<set _lowerbody[2] = Math.round(_lowerbody[2])>>
+	<<case default>>
+		<<if _lowerbody[1] > 8>>
+			<<set _lowerbody[1] = 8>>
+		<</if>>
+		<<if _lowerbody[4] > 4>>
+			<<set _lowerbody[4] = 4>>
+		<</if>>
+	<</switch>>
+	/*<<print _lowerbody[0]>>, <<= _lowerbody[1]>>, <<= _lowerbody[2]>>, <<= _lowerbody[3]>>, <<= _lowerbody[4]>>*/
+	<<set $shopLB.push(_lowerbody)>>
+	<</for>>
+<</if>>
+<</widget>>
+
+<</silently>>
+<</nobr>>

@@ -1,0 +1,125 @@
+:: BEparking [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+<div id="topbar">
+/* GAME MAP TABLE - Displays 4x4 map grid next to spot for area image. Grid simulates image map links, which are flakey in Twine */
+<center>
+@@.maptable;<table id="navigation">
+<tr id="navigation">
+<td id="navigation">[img[Hardware|IMGbullseye11][controlBullseye][$destLoc = [1,1]]]</td>
+<td id="navigation">[img[Electronics|IMGbullseye12][controlBullseye][$destLoc = [1,2]]]</td>
+<td id="navigation">[img[Toys & Games|IMGbullseye13][controlBullseye][$destLoc = [1,3]]]</td>
+<td id="navigation">[img[Baby|IMGbullseye14][controlBullseye][$destLoc = [1,4]]]</td>
+<td id="navigation">[img[Grocery|IMGbullseye15][controlBullseye][$destLoc = [1,5]]]</td>
+<td rowspan="5" id="navigation"><<link [img[IMGBullseyeExterior]]>><<dialog 'Detail Map'>>[img[IMGbullseyeBig]]<br>@@.note;You can not click this map to navigate.@@<</dialog>><</link>></td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Housewares|IMGbullseye21][controlBullseye][$destLoc = [2,1]]]</td>
+<td id="navigation">[img[Women's Clothing - Tops, Dresses, & Coats|IMGbullseye22][controlBullseye][$destLoc = [2,2]]]</td>
+<td id="navigation">[img[Women's Clothing - Bottoms, Athletic, & Swimwear|IMGbullseye23][controlBullseye][$destLoc = [2,3]]]</td>
+<td id="navigation">[img[Lingerie & Jewelry|IMGbullseye24][controlBullseye][$destLoc = [2,4]]]</td>
+<td id="navigation">[img[Grocery|IMGbullseye25][controlBullseye][$destLoc = [2,5]]]</td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Housewares|IMGbullseye31][controlBullseye][$destLoc = [3,1]]]</td>
+<td id="navigation">[img[Children's Clothing - Girls|IMGbullseye32][controlBullseye][$destLoc = [3,2]]]</td>
+<td id="navigation">[img[Children's Clothing - Boys|IMGbullseye33][controlBullseye][$destLoc = [3,3]]]</td>
+<td id="navigation">[img[Men's Clothing|IMGbullseye34][controlBullseye][$destLoc = [3,4]]]</td>
+<td id="navigation">[img[Grocery|IMGbullseye35][controlBullseye][$destLoc = [3,5]]]</td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Pharmacy|IMGbullseye41][controlBullseye][$destLoc = [4,1]]]</td>
+<td id="navigation">[img[Stationary & Optometrist|IMGbullseye42][controlBullseye][$destLoc = [4,2]]]</td>
+<td id="navigation">[img[Best Head Hair Salon|IMGbullseye43][controlBullseye][$destLoc = [4,3]]]</td>
+<td id="navigation">[img[Customer Service|IMGbullseye44][controlBullseye][$destLoc = [4,4]]]</td>
+<td id="navigation">[img[Produce, Deli, Bakery|IMGbullseye45][controlBullseye][$destLoc = [4,5]]]</td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Parking Lot|IMGbullseye51][controlBullseye][$destLoc = [5,1]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye52][controlBullseye][$destLoc = [5,2]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye53][controlBullseye][$destLoc = [5,3]]]</td>
+<td id="navigation">[img[IMGbullseyeX54][controlBullseye][$destLoc = [5,4]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye55][controlBullseye][$destLoc = [5,5]]]</td>
+</tr>
+</table>@@</center>
+</div>
+<div id="mainshits">
+<center>@@.pulseHead;Bullseye Ubercenter Parking Lot@@</center>
+<br><br>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<<walkDescriptBullseye>><<= " ">><<mapEventBullseye>><br><br>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<<switch $mapWeather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<case default>>
+
+<</switch>>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+<<set _jackin = random(1,10)>>
+<<if _jackin == 10>>
+	<<set _tog = true>>
+	@@.head3;A@@s you walk through the Bullseye parking lot, motion in the corner of your eye catches your attention. Curious, you turn and head toward the motion to get a better look. It seems like someone is struggling in their car, so you decide to approach just in case. When you get closer, however, you see that the vigorous motion is likely a struggle of passion. A younger man is apparently jacking off in (hopefully) his car. He's watching his phone, and hasn't seemed to notice you. Pretty bold for such a public place<<if $kink.Exhibition>>, he should pay more attention to his surroundings to avoid getting caught.<<else>>.<</if>>
+<<elseif $lastMainMap == "Bullseye">>
+	@@.head3;E@@xiting the Bullseye, you make your way to your car. The uniform appearance of the parking lot, combined with all the cars, causes it to take a moment for you to remember where you parked.
+<<else>>
+	@@.head3;A@@fter letting your car park, you climb out and start the long walk toward the entrance to Bullseye. You see other cars circling around looking for a spot close to the entrance, hoping someone will leave. You'll be inside long before they are.
+<</if>>
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+</div>
+<div id="actionbar">
+/*ACTION TABLE*/
+<table>
+<<if _jackin == 10>>
+<tr>
+<td width=25%><<link "Offer a hand.">><<if _tog>><<happy 1>><<arousal 1>><<replace "#locact">><br>You walk up to his window and take a better look inside. It seems he has some above-average equipment. When you knock on the glass it startles him, he practically jumps out of his seat. Apparently being startled was all the help he needed, as alabaster cum starts spraying to make a mess of his car. <<if $kink.Cumslut>>The quantity is amazing. @@.mono;What a waste@@ you think, as you walk away.<<else>>Laughing, you continue on your way.<</if>><br><</replace>><</if>><<set _tog = false>><</link>></td><td>@@.exp;Knock on his window and offer to give him a hand with his "problem".@@</td>
+</tr>
+<</if>>
+/*Weather-based actions added to table, like opening an umbrella*/
+<tr>
+<td><<weatherBullseyeAct>>@@.note;Weather Actions@@</td><td>@@.note;No weather yet, so no actions.@@</td>
+</tr>
+/*Event-based actions added to table*/
+<tr>
+<td><<mapEventBullseyeAct>>@@.note;Event Actions@@</td><td>@@.note;No events yet, so no actions.@@</td>
+</tr>
+<<if $flag.Prologue>>
+	<<if $flag.ProBoughtClothes>>
+		<tr><td width=25%>[[Leave Bullseye|storyStart13][$UImap = "[img[IMGmap250]]"]]</td><td>@@.exp;Head back to Lily's place.@@ <<if $trait.Forgetful == -1>>@@.import;Did you remember to buy Lily's coffee?@@<</if>></td></tr>
+	<<else>>
+		<tr><td width=25%>@@.red;Leave Bullseye@@</td><td>@@.exp;You need to buy some new clothes first!@@ @@.note;Buy at least a complete outfit--panties, bra, and either a dress or a top and bottom.@@</td></tr>
+	<</if>>
+<<else>>
+	<tr><td width="25%"><<link "Leave">><<set _cunter = 15 + random(1,8)>><<addTime _cunter>><<goto [[MuschiValleyMap]]>><</link>></td><td>@@.exp;Get in your car and leave Bullseye.@@</td></tr>
+<</if>>
+</table>
+</div>
+

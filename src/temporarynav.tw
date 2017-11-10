@@ -1,0 +1,293 @@
+:: temporaryHistoryTester [nobr hidden]
+
+@@.head1;use some options to change your character@@<br>
+<<if $metric>><<set $PC.height = 160>><</if>>
+@@.head1;Physical Attributes:@@<br><br>
+<<button [[Default Physical Attributes|physicalReview]]>><</button>> <<button "Load Character Template">><</button>> @@.note;(Not yet implemented.)@@ <br><br>
+@@.head3;General Appearance@@
+<table>
+<tr><td width="15%">''Apparent Age:''</td><td colspan=3><<textbox "$PC.age" $PC.age>><<link " age note">><<replace "#agenote">><br>@@.note;Apparent age refers to the biological age of your new body, which has been changed from its original age via the accident. Your chronological, or true age, remains the same at <<print $PC.ageOriginal>>. Biological age determines appearance, and naturally varies from chronological age based on the individual. Biological age has been deemed definitively irrelevant to matters of consent and law by courts in the U.S. and most other countries (Including those in the E.U.). This is of course subject to the same exceptions for mental deficit and medical disorders whereby the individual is deemed unable to care for themselves, such as a situation of substituted consent for medical procedures in a hospital, or the ward and guardianship process whereby an individual, organization, or the state is appointed guardian of a disabled ward, typically a vulnerable adult. These exceptions do not apply in this case, as the player retains their full mental capacity. Setting a low age (25 or less) will typically result in incidents of being carded for purchasing alcohol and the like. Setting an age below 18 will have other impacts, such as suspecting a fake ID, being refused entry, and potential reduced attractiveness to NPCs. Setting a high age will have a corresponding impact to player fertility and attractiveness, starting with minor effects at 35 years of age.@@<br><</replace>><</link>><span id="agenote">.</span></td></tr>
+<tr><td>''Height <<if $metric>>(cm)<<else>>(inches)<</if>>:''</td>
+<td colspan=3><<textbox "$PC.height" $PC.height>></td></tr>
+<tr><td width="15%">''Race:''</td><td width="35%"><<dropdown '_race' "white" "Hispanic" "black" "Asian" "SE Asian" "middle eastern" "native American" "southern European" "Gaelic" "Nordic">></td>
+<td width="15%">''Skin Color:''</td><td width="35%"><<dropdown '_skinColor' "tanned" "pale" "fair" "bronzed" "brown" "dark brown" "light" "dark">></td></tr>
+<tr><td>''Eye Color:''</td><td><<dropdown '_eyeColor' "brown" "hazel" "blue" "light blue" "blue-green" "green" "golden-brown" "green and blue heterochromatic">></td>
+<td>''Facial Type:''</td><td><<dropdown '_face' "normal" "sensual" "cute" "exotic" "androgynous">></td></tr>
+<tr><td>''Facial Beauty:''</td><td colspan=3> <<radiobutton "$PC.beauty" 1>> Ugly | <<radiobutton "$PC.beauty" 2>> Unattractive | <<radiobutton "$PC.beauty" 3 checked>> Average | <<radiobutton "$PC.beauty" 4>> Pretty | <<radiobutton "$PC.beauty" 5>> Beautiful</td></tr>
+<tr><td>''Hair Color:''</td><td> <<dropdown '_hairColor' 'brown' 'black' 'auburn' 'dark blonde' 'blonde' 'strawberry blonde' 'red'>></td>
+<td>''Body Hair:''</td><td> <<dropdown '_pubeColor' 'black' 'brown' 'auburn' 'dark blonde' 'blonde' 'strawberry blonde' 'red'>></td></tr>
+</table><br>
+@@.head3;Body Shape@@
+<table>
+<tr><td width="15%">''Muscle Tone:''</td><td width="20%">@@.ident;<span id="muscle"><<pcTone>></span>@@</td><td><<link "Frail">><<set $PC.tone = 1>><<replace "#muscle">><<pcTone>><</replace>><</link>> | <<link "Weak">><<set $PC.tone = 2>><<replace "#muscle">><<pcTone>><</replace>><</link>> | <<link "Normal">><<set $PC.tone = 3>><<replace "#muscle">><<pcTone>><</replace>><</link>> | <<link "Toned">><<set $PC.tone = 4>><<replace "#muscle">><<pcTone>><</replace>><</link>> | <<link "Muscular">><<set $PC.tone = 5>><<replace "#muscle">><<pcTone>><</replace>><</link>> | <<link "Body Builder">><<set $PC.tone = 6>><<replace "#muscle">><<pcTone>><</replace>><</link>> </td></tr>
+<tr><td>''Body Fat:''</td><td>@@.ident;<span id="fat"><<pcWeight>></span>@@</td><td><<link "Dying">><<set $PC.weight = 1>><<replace "#fat">><<pcWeight>><</replace>><</link>> | <<link "Skinny">><<set $PC.weight = 2>><<replace "#fat">><<pcWeight>><</replace>><</link>> | <<link "Lithe">><<set $PC.weight = 3>><<replace "#fat">><<pcWeight>><</replace>><</link>> | <<link "Plush">><<set $PC.weight = 4>><<replace "#fat">><<pcWeight>><</replace>><</link>> | <<link "Chubby">><<set $PC.weight = 5>><<replace "#fat">><<pcWeight>><</replace>><</link>> | <<link "Fat">><<set $PC.weight = 6>><<replace "#fat">><<pcWeight>><</replace>><</link>> </td></tr>
+<tr><td>''Shoulders:''</td><td>@@.ident;<span id="shoulders"><<pcShoulderSize>></span>@@</td><td><<link "Narrow">><<set $PC.shoulders = 1>><<replace "#shoulders">><<pcShoulderSize>><</replace>><</link>> | <<link "Feminine">><<set $PC.shoulders = 2>><<replace "#shoulders">><<pcShoulderSize>><</replace>><</link>> | <<link "Average">><<set $PC.shoulders = 3>><<replace "#shoulders">><<pcShoulderSize>><</replace>><</link>> | <<link "Manly">><<set $PC.shoulders = 4>><<replace "#shoulders">><<pcShoulderSize>><</replace>><</link>> | <<link "Broad">><<set $PC.shoulders = 5>><<replace "#shoulders">><<pcShoulderSize>><</replace>><</link>> </td></tr>
+<tr><td>''Hip Size:''</td><td>@@.ident;<span id="hips"><<pcHipSize>></span>@@</td><td><<link "Very Narrow">><<set $PC.hips = 1>><<replace "#hips">><<pcHipSize>><</replace>><</link>> | <<link "Narrow">><<set $PC.hips = 2>><<replace "#hips">><<pcHipSize>><</replace>><</link>> | <<link "Svelte">><<set $PC.hips = 3>><<replace "#hips">><<pcHipSize>><</replace>><</link>> | <<link "Curvy">><<set $PC.hips = 4>><<replace "#hips">><<pcHipSize>><</replace>><</link>> | <<link "Broad">><<set $PC.hips = 5>><<replace "#hips">><<pcHipSize>><</replace>><</link>> | <<link "Broodmother">><<set $PC.hips = 6>><<replace "#hips">><<pcHipSize>><</replace>><</link>> </td></tr>
+<tr><td>''Butt Size:''</td><td>@@.ident;<span id="ass"><<pcAssSize>></span>@@</td><td><<link "Flat">><<set $PC.ass = 1>><<replace "#ass">><<pcAssSize>><</replace>><</link>> | <<link "Small">><<set $PC.ass = 2>><<replace "#ass">><<pcAssSize>><</replace>><</link>> | <<link "Average">><<set $PC.ass = 3>><<replace "#ass">><<pcAssSize>><</replace>><</link>> | <<link "Big">><<set $PC.ass = 4>><<replace "#ass">><<pcAssSize>><</replace>><</link>> | <<link "Huge">><<set $PC.ass = 5>><<replace "#ass">><<pcAssSize>><</replace>><</link>> | <<link "Massive">><<set $PC.ass = 6>><<replace "#ass">><<pcAssSize>><</replace>><</link>> </td></tr>
+<tr><td>Waist:</td><td>@@.ident;<span id="waist"><<pcWaist>></span>@@</td><td><<link "Masculine">><<set $PC.waist = 2>><<replace "#waist">><<pcWaist>><</replace>><</link>> | <<link "Feminine">><<set $PC.waist = 3>><<replace "#waist">><<pcWaist>><</replace>><</link>> | <<link "Hourglass">><<set $PC.waist = 4>><<replace "#waist">><<pcWaist>><</replace>><</link>> </td></tr>
+<tr><td>''Breasts:''</td><td>@@.ident;<span id="boobs"><<pcCupSize>></span>@@</td><td><<if $megaTits == 1>>Special Supersized Override!<<else>><<link "-cup">><<if $PC.tits.cupNum< 4>><<set $PC.tits.cupNum= 1>><<else>><<set $PC.tits.cupNum-= 3>><</if>><<replace "#boobs">><<pcCupSize>><</replace>><</link>> | <<link "[-]">><<if $PC.tits.cupNum> 1>><<set $PC.tits.cupNum-= 1>><</if>><<replace "#boobs">><<pcCupSize>><</replace>><</link>> | <<link "[+]">><<if $PC.tits.cupNum< 25>><<set $PC.tits.cupNum+= 1>><</if>><<replace "#boobs">><<pcCupSize>><</replace>><</link>> | <<link "+cup">><<if $PC.tits.cupNum> 22>><<set $PC.tits.cupNum= 25>><<else>><<set $PC.tits.cupNum+= 3>><</if>><<replace "#boobs">><<pcCupSize>><</replace>><</link>><</if>><br>
+@@.note;Average Size: U.S. = 34E/DD cup, U.K./Scandinavia/E.Europe/Russia = F/DDD cup@@
+</td></tr>
+<tr><td>''Breast Shape:''</td><td>@@.ident;<span id="bshape">$PC.tits.shape</span>@@</td><td><<link "Round">><<set $PC.tits.shape = "round">><<replace "#bshape">>$PC.tits.shape<</replace>><</link>> | <<link "Perky">><<set $PC.tits.shape = "perky">><<replace "#bshape">>$PC.tits.shape<</replace>><</link>> | <<link "Firm">><<set $PC.tits.shape = "firm">><<replace "#bshape">>$PC.tits.shape<</replace>><</link>> | <<link "Wide-set">><<set $PC.tits.shape = "wide-set">><<replace "#bshape">>$PC.tits.shape<</replace>><</link>> | <<link "Protruding">><<set $PC.tits.shape = "protruding">><<replace "#bshape">>$PC.tits.shape<</replace>><</link>></td></tr>
+<tr><td>''Nipple Type:''</td><td>@@.ident;<span id="nipple">$PC.tits.nipple</span>@@</td><td><<link "Normal">><<set $PC.tits.nipple = "normal">><<replace "#nipple">>$PC.tits.nipple<</replace>><</link>> | <<link "Long">><<set $PC.tits.nipple = "long">><<replace "#nipple">>$PC.tits.nipple<</replace>><</link>> | <<link "Puffy">><<set $PC.tits.nipple = "puffy">><<replace "#nipple">>$PC.tits.nipple<</replace>><</link>> | <<link "Inverted">><<set $PC.tits.nipple = "inverted">><<replace "#nipple">>$PC.tits.nipple<</replace>><</link>> | <<link "Flat">><<set $PC.tits.nipple = "flat">><<replace "#nipple">>$PC.tits.nipple<</replace>><</link>> | <<link "Huge">><<set $PC.tits.nipple = "huge">><<replace "#nipple">>$PC.tits.nipple<</replace>><</link>> </td></tr>
+</table>
+
+@@.head3;Genitals and Reproduction@@
+<table>
+<tr><td width="15%">''Clit Size:''</td><td width="20%">@@.ident;<span id="clit"><<pcClitSize>></span>@@</td><td><<link "Small">><<set $PC.clit = 1>><<replace "#clit">><<pcClitSize>><</replace>><</link>> | <<link "Normal">><<set $PC.clit = 2>><<replace "#clit">><<pcClitSize>><</replace>><</link>> | <<link "Large">><<set $PC.clit = 3>><<replace "#clit">><<pcClitSize>><</replace>><</link>> | <<link "Huge">><<set $PC.clit = 4>><<replace "#clit">><<pcClitSize>><</replace>><</link>> | <<link "Gigantic">><<set $PC.clit = 5>><<replace "#clit">><<pcClitSize>><</replace>><</link>> </td></tr>
+<tr><td>''Labia Size:''</td><td>@@.ident;<span id="labia"><<pcLabiaSize>></span>@@</td><td><<link "Small">><<set $PC.labia = 1>><<replace "#labia">><<pcLabiaSize>><</replace>><</link>> | <<link "Normal">><<set $PC.labia = 2>><<replace "#labia">><<pcLabiaSize>><</replace>><</link>> | <<link "Large">><<set $PC.labia = 3>><<replace "#labia">><<pcLabiaSize>><</replace>><</link>> | <<link "Huge">><<set $PC.labia = 4>><<replace "#labia">><<pcLabiaSize>><</replace>><</link>> </td></tr>
+<tr><td>''Vaginal Wetness:''</td><td>@@.ident;<span id="wetness"><<pcWetness>></span>@@</td><td><<if $puddlingCunt == 1>>Special Override!<<else>><<link "Dry">><<set $PC.wetness = 1>><<replace "#wetness">><<pcWetness>><</replace>><</link>> | <<link "Normal">><<set $PC.wetness = 2>><<replace "#wetness">><<pcWetness>><</replace>><</link>> | <<link "Wet">><<set $PC.wetness = 3>><<replace "#wetness">><<pcWetness>><</replace>><</link>> | <<link "Dripping">><<set $PC.wetness = 4>><<replace "#wetness">><<pcWetness>><</replace>><</link>><</if>> </td></tr>
+<tr><td>''Pube Style:''</td><td>@@.ident;<span id="pubeStyle">$groom.pubeStyle</span>@@</td><td><<link "Bushy">><<set $groom.pubeStyle = "bushy">><<replace "#pubeStyle">>$groom.pubeStyle<</replace>><</link>> | <<link "Trimmed">><<set $groom.pubeStyle = "trimmed">><<replace "#pubeStyle">>$groom.pubeStyle<</replace>><</link>> | <<link "Neatly Trimmed">><<set $groom.pubeStyle = "neatly trimmed">><<replace "#pubeStyle">>$groom.pubeStyle<</replace>><</link>> | <<link "Triangular">><<set $groom.pubeStyle = "triangular">><<replace "#pubeStyle">>$groom.pubeStyle<</replace>><</link>> | <<link "Neat Patch">><<set $groom.pubeStyle = "neat patch">><<replace "#pubeStyle">>$groom.pubeStyle<</replace>><</link>> | <<link "Landing Strip">><<set $groom.pubeStyle = "landing strip">><<replace "#pubeStyle">>$groom.pubeStyle<</replace>><</link>> | <<link "Shaved">><<set $groom.pubeStyle = "shaved">><<replace "#pubeStyle">>$groom.pubeStyle<</replace>><</link>> | <<link "Hairless">><<set $groom.pubeStyle = "hairless">><<replace "#pubeStyle">>$groom.pubeStyle<</replace>><</link>> </td></tr>
+<tr><td>''Fertility:''</td><td>@@.ident;<span id="fertility"><<pcFertility>></span>@@</td><td><<if $ultraFertile == 1>>Special Override!<<else>><<link "Infertile">><<set $PC.fertility = 0>><<replace "#fertility">><<pcFertility>><</replace>><</link>> | <<link "Low">><<set $PC.fertility = 2>><<replace "#fertility">><<pcFertility>><</replace>><</link>> | <<link "Normal">><<set $PC.fertility = 3>><<replace "#fertility">><<pcFertility>><</replace>><</link>> | <<link "High">><<set $PC.fertility = 4>><<replace "#fertility">><<pcFertility>><</replace>><</link>> | <<link "Super Fertile">><<set $PC.fertility = 5>><<replace "#fertility">><<pcFertility>><</replace>><</link>><</if>> </td></tr>
+<tr><td>''Milk Production:''</td><td>@@.ident;<span id="lactation">$PC.lactation</span>@@</td><td><<if $megaTits == 1>>Special Override!<<else>><<link "Incapable">><<set $PC.lactation = 0>><<replace "#lactation">>$PC.lactation<</replace>><</link>> | <<link "Poor">><<set $PC.lactation = 1>><<replace "#lactation">>$PC.lactation<</replace>><</link>> | <<link "Normal">><<set $PC.lactation = 2>><<replace "#lactation">>$PC.lactation<</replace>><</link>> | <<link "Productive">><<set $PC.lactation = 3>><<replace "#lactation">>$PC.lactation<</replace>><</link>> | <<link "Cow-Like">><<set $PC.lactation = 4>><<replace "#lactation">>$PC.lactation<</replace>><</link>><</if>> | @@.note;This applies when your character is pregnant or breastfeeding. Some milk production levels limited based on breast size.@@</td></tr>
+</table><br>
+@@font-size:130%;<<button [[Continue|temporaryHistoryTester2]]>><<set $groom.hairColor = _hairColor>><<set $groom.pubeColor = _pubeColor>><<set $PC.race = _race>><<set $PC.skinColor = _skinColor>><<set $PC.eyeColor = _eyeColor>><<set $PC.face = _face>><</button>>@@
+
+
+:: temporaryHistoryTester2 [nobr hidden]
+
+@@.head2;Willpower and Personality@@
+<table>
+<tr>
+<td width="15%">@@.head3;<<print "Willpower:">>@@</td>
+<td width="20%">@@.ident;<span id="will">$trait.will</span>@@</td>
+<td><<link "Weak">><<set $trait.will = 2>><<replace "#will">>$trait.will<</replace>><<replace "#info">>Having weak willpower will make you more susceptable to temptation, particularly when under the influence, and make it more difficult to force yourself to do unpleasant tasks. You are more susceptable to addiction as well.<</replace>><</link>> | <<link "Normal">><<set $trait.will = 3>><<replace "#will">>$trait.will<</replace>><<replace "#info">>You have normal willpower, but in intense moments or when under stress you may find yourself more willing to give in to temptation or avoid unpleasant chores.<</replace>><</link>> | <<link "Strong">><<set $trait.will = 4>><<replace "#will">>$trait.will<</replace>><<replace "#info">>Having strong willpower will allow you to resist temptation easier. You will find it easier to diet and force yourself to do unpleasant tasks, or not partake in temptations.<</replace>><</link>> | <<link "Iron Will">><<set $trait.will = 5>><<replace "#will">>$trait.will<</replace>><<replace "#info">>You have very strong willpower, and will usually have control over your actions.<</replace>><</link>> </td>
+</tr>
+<tr>
+<td width="15%">@@.head3;<<print "Extroversion:">>@@</td>
+<td width="20%">@@.ident;<span id="extro">$trait.IE</span>@@</td>
+<td><<link "High">><<set $trait.IE = "extroverted">><<replace "#extro">>$trait.IE<</replace>><<replace "#info">>''Extroverted:'' extroverted people usually enjoy social situations, and are less likely to suffer negative effects from stress. Conversely, they tend to be less intelligent and have a high dependence on others for happiness and self-worth.<i>You will find it easier to build and maintain relationships, but will be more dependant on them and need more.</i><</replace>><</link>> | <<link "Average">><<set $trait.IE = "neither">><<replace "#extro">>$trait.IE<</replace>><<replace "#info">>''Average Extroversion:'' You have a pretty average personality, without any strong characteristics or limitations. <i>Choose this option if you don't wish personality to have a major impact on gameplay.</i><</replace>><</link>> | <<link "Low">><<set $trait.IE = "introverted">><<replace "#extro">>$trait.IE<</replace>><<replace "#info">>''Introverted:'' introverted people tend to be less comfortable in social situations, and are also more likely to suffer negative effects from stress. Conversely, they tend to be more intelligent and depend less on others for happiness and self-worth.<i>You will find it harder to build and maintain relationships, but will need fewer of them to stay happy.</i><</replace>><</link>> </td>
+</tr>
+<tr>
+<td width="15%">@@.head3;<<print "Openness:">>@@</td>
+<td width="20%">@@.ident;<span id="open">$trait.OC</span>@@</td>
+<td><<link "Low">><<set $trait.OC = "closed">><<replace "#open">>$trait.OC<</replace>><<replace "#info">>''Low Openness:'' People that have low Openness to experience could be described as being solid or dependable, and see no need to try new things when they already know what they like. Politically they tend to be considered Conservative, and need strong order and rules to be happy.<i>Closed people stay happy and healthy with routine, and too much stimulation can have a negative effect.</i><</replace>><</link>> | <<link "Average">><<set $trait.OC = "neither">><<replace "#open">>$trait.OC<</replace>><<replace "#info">>''Average Openness:'' You have a pretty average personality, without any strong characteristics or limitations. <i>Choose this option if you don't wish personality to have a major impact on gameplay.</i><</replace>><</link>> | <<link "High">><<set $trait.OC = "open">><<replace "#open">>$trait.OC<</replace>><<replace "#info">>''High Openness:'' people that have high Openness to experience could be described as being more curious and more likely to enjoy new experiences. Politically they tend to be considered Liberal, and are known to be more accepting of differences and tolerant of chaos. <i>Open people need mental stimulation to stay happy and healthy.</i><</replace>><</link>> </td>
+</tr>
+/*<tr><td colspan=3>@@.info;<span id="info">Information about options will be displayed here when the link is clicked.</span>@@</td></tr>*/
+<tr>
+<td>@@.minusButton;<<link "X">><<replace "#info">>. . .<</replace>><</link>>@@ | <<link "Personality">><<replace "#info">>Personality types are based on two factors of the Big Five personality model. Statements about specific personality traits is supported by research, but applies only when all else is held equal. The other factors are highly correllated with these two, so for simplicity only Extroversion and Openness are used.<</replace>><</link>></td>
+<td colspan=2>@@.note;<span id="info">Information about options will be displayed here when the link is clicked.</span>@@</td>
+</tr>
+</table>
+
+@@.head2;Personality Traits@@
+<br>
+@@.note;<i>Note that each trait has an opposite trait that is excluded when it is chosen. You can't be both caring and uncaring at the same time. Choosing neither trait means that you fall somewhere between them, a more normal or average position. Some of these traits are negative with no real advantage besides potential extra content, but can serve as a handicap or as an aid to roleplay.</i>@@
+<table>
+<tr>
+<td width="20%">
+<<radiobutton "$trait.Caring" 1>> Caring<br>
+<<radiobutton "$trait.Caring" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>A caring person is likely to be more empathetic, and more likely to be bothered by other people's problems. An uncaring person isn't overly bothered by the misfortune of others.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.Caring" -1 >> Uncaring
+</td>
+<td width="20%">
+<<radiobutton "$trait.Bitch" 1>> Bitch<br>
+<<radiobutton "$trait.Bitch" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>A bitch is more likely to stand up for herself, but also can be harsh and annoying to people. A Kind person is more likely to get along with others, but also more likely to be taken advantage of.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.Bitch" -1 >> Kind
+</td>
+<td width="20%">
+<<radiobutton "$trait.Maternal" 1>> Maternal<br>
+<<radiobutton "$trait.Maternal" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>A maternal person has a natural ability with children, and finds taking care of them easier. Someone who is bad with kids is the opposite of this, and seems to have a hard time dealing with children.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.Maternal" -1 >> Bad With Kids
+</td>
+<td width="20%">
+<<radiobutton "$trait.Romantic" 1>> Romantic<br>
+<<radiobutton "$trait.Romantic" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>A romantic person falls in love easier, but is also affected more strongly by breakups and relationships. An aromantic person finds it difficult to fall in love, but does not suffer many negative effects from failing romantic relationships.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.Romantic" -1 >> Aromantic
+</td>
+<td width="20%">
+<<radiobutton "$trait.Deceptive" 1>> Deceptive<br>
+<<radiobutton "$trait.Deceptive" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>A deceptive person is naturally good at lying, and can use deception more effectively (for good or bad). An honest person is bad at lying, and will likely be seen to be more trustworthy, but will also find it difficult to be dishonest when neccessary.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.Deceptive" -1 >> Honest
+</td>
+</tr>
+<tr>
+<td>
+<<radiobutton "$trait.Devious" 1>> Devious<br>
+<<radiobutton "$trait.Devious" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>A devious or Machivellian person is more likely to be manipulative to achieve her objectives, though can also devise schemes that end up benefiting everyone. A devious person is also better at recognizing the motives and schemes of others. A straight-forward person seems easier to deal with, and often times can be seen as more likeable or trustworthy. They also have a hard time recognizing the deception and schemes of others.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.Devious" -1 >> Straight-Forward
+</td>
+<td>
+<<radiobutton "$trait.Persuasive" 1>> Persuasive<br>
+<<radiobutton "$trait.Persuasive" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>A persuasive person is able to convince others to go along with their wishes, though this can have a negative effect on relationships if they always get their way. A follower is a person who is easily influenced, and goes along with the wishes and actions of others. This rarely hurts a relationship, but also means that they are more likely to be pushed toward an action they don't want to take.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.Persuasive" -1>> Follower
+</td>
+<td>
+<<radiobutton "$trait.Perceptive" 1>> Perceptive<br>
+<<radiobutton "$trait.Perceptive" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>A perceptive person pays more attention to details and is more likely to spot something unusual or notice when something is wrong. An oblivious person is the opposite, remaining largely blind to details and problems. They do say, however, that ignorance is bliss.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.Perceptive" -1>> Oblivious
+</td>
+<td>
+<<radiobutton "$trait.Forgetful" 1>> Forgetful<br>
+<<radiobutton "$trait.Forgetful" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>A pretty simple trait, a forgetful person is more likely to forget something important, while a person with a good memory is more likely to remember important tasks. Memory relates much more to non-routine tasks like appointments or work activities than it does to routine tasks like taking medication each day.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.Forgetful" -1 >> Good Memory
+</td>
+<td>
+<<radiobutton "$trait.LowEsteem" 1>>Low Self-Esteem<br>
+<<radiobutton "$trait.LowEsteem" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>A person with low self-esteem doesn't view themselves as very valuable. They are more prone to negative mental effects, and more likely to find themselves stuck in a bad relationship. A narcissistic person values themselves too much, and can have trouble forming strong relationships, romantic or otherwise, with other people.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.LowEsteem" -1>> Narcissistic
+</td>
+</tr>
+<tr>
+<td>
+<<radiobutton "$trait.Forgiving" 1>> Forgiving<br>
+<<radiobutton "$trait.Forgiving" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>A forgiving person is more likely to forgive mistakes or malicious actions of others, and can avoid a lot of negative emotional effects. They are also more likely to be hurt repeatedly. A person who holds grudges has a hard time forgiving, and can have excessive negative emotional consequences from betrayal. They are unlikely to be hurt repeatedly.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.Forgiving" -1 >> Holds Grudges
+</td>
+<td>
+<<radiobutton "$trait.Picky" 1>> Picky<br>
+<<radiobutton "$trait.Picky" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>A picky person has very high standards, and can have difficulty meeting people that are 'good enough' for them. A person with low standards finds people more attractive on average, but also can end up settling when they could do better.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.Picky" -1>> Low Standards
+</td>
+<td>
+<<radiobutton "$trait.Crude" 1>> Crude<br>
+<<radiobutton "$trait.Crude" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>A crude person is less aware of mannors and social mores, and some people can find them rude or offensive. They are unlikely to be put off by natural bodily functions or other crude people. Refined people have a good understanding or mannors and politeness, but are easily upset by crude behavior.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.Crude" -1>> Refined
+</td>
+<td>
+<<radiobutton "$trait.Friendly" 1>> Friendly<br>
+<<radiobutton "$trait.Friendly" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>A friendly person finds it easier to start and strengthen relationships with people, but can also be seen as being fake or less genuine by some. An unfriendly person finds it harder to start and strengthen relationships, but is also seen to be more genuine and honest when it comes to relationships.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.Friendly" -1 >> Unfriendly
+</td>
+<td>
+<<radiobutton "$trait.Approachable" 1>> Approachable<br>
+<<radiobutton "$trait.Approachable" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>An approachable person has a certain appearance that makes them seem safer to start a conversation with. They are more likely to be hit on, and often valued more, but conversely have to deal with unwanted advances. Unapproachable is essentially the opposite.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.Approachable" -1>> Unapproachable
+</td>
+</tr>
+<tr>
+<td>
+<<radiobutton "$trait.Relaxed" 1>> Relaxed<br>
+<<radiobutton "$trait.Relaxed" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>A relaxed person is generally happy with their place in life, and is unlikely to receive much stress from work or financial matters. An ambitious person is more likely to succeed financially, but also deals with greater stress in this area.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.Relaxed" -1>> Ambitious
+</td>
+<td>
+<<radiobutton "$trait.Materialist" 1>> Materialistic<br>
+<<radiobutton "$trait.Materialist" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>A materialistic person really appreciates the finer things in life, and gains more benefit from having luxuries. They also are more greatly affected by not having luxuries. A hippy gains little benefit from luxury, but also doesn't lose much from poorer conditions.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.Materialist" -1>> Hippy
+</td>
+<td>
+<<radiobutton "$trait.Flirty" 1>> Flirty<br>
+<<radiobutton "$trait.Flirty" 0 checked>> Neither - @@.zeroButton;<<link "i">><<replace "#shit">>A flirty person is naturally flirty and intimate, and is good at encouraging a romantic interest to make a move. A shy person has a hard time opening themselves up with new people, sometimes giving a romantic interest the impression that they aren't interested.<</replace>><</link>>@@<br>
+<<radiobutton "$trait.Flirty" -1>> Shy
+</td>
+<td>
+<br>
+/*Neither - @@.minusButton;<<link "i">><<replace "#shit">><</replace>><</link>>@@<br>*/
+
+</td>
+<td>
+<br>
+/*Neither - @@.minusButton;<<link "i">><<replace "#shit">><</replace>><</link>>@@<br>*/
+
+</td>
+</tr>
+<tr>
+<td colspan=5>@@.note;<span id="shit">Info will appear here when you click the ''i'' button</span>@@ | @@.minusButton;<<link "X">><<replace "#shit">>. . .<</replace>><</link>>@@</td></tr>
+</table>
+
+<br><center>
+@@font-size:130%;<<button [[Even More|temporaryHistoryTester3]]>><</button>>@@
+</center>
+
+:: temporaryHistoryTester3 [nobr hidden]
+
+<table>
+<tr><td width="20%">@@.head3;Libido Level:@@</td><td width="20%">@@.ident;<span id="lib"><<pcLibido>></span>@@</td><td><<link "Nearly Assexual">><<set $trait.libido = 1>><<replace "#lib">><<pcLibido>><</replace>><</link>> | <<link "Weak">><<set $trait.libido = 2>><<replace "#lib">><<pcLibido>><</replace>><</link>> | <<link "Normal">><<set $trait.libido = 3>><<replace "#lib">><<pcLibido>><</replace>><</link>> | <<link "Above Average">><<set $trait.libido = 4>><<replace "#lib">><<pcLibido>><</replace>><</link>> | <<link "Strong">><<set $trait.libido = 5>><<replace "#lib">><<pcLibido>><</replace>><</link>> </td></tr>
+</table>
+@@.head2;Sexual Traits@@
+<table>
+<tr>
+<td width="20%"><<checkbox "$kink.Oral" false true checked>> <<link "Oral Okay">><<replace "#sex">>''Oral:'' Enjoys giving oral sex, or is at least willing to do so. Unchecking this box indicates that you dislike giving oral sex, and will never offer it yourself. This doesn't mean that a partner won't 'strongly encourage' you to go down on them.<</replace>><</link>></td>
+<td width="20%"><<checkbox "$kink.Risky" false true>> <<link "Likes Bare Sex">><<replace "#sex">>''Bare Sex:'' You really enjoy bare and/or risky sex, and like the feeling of receiving a creampie. You will find sex that ends in a creampie (whether accidental or intentional) to be more fullfilling. This doesn't include an urge to get pregnant, just a certain amount of risk, and you'll still want partners to pull out or use condom on risky days. This will not remove your worry about potential pregnancy or disease if applicable.<</replace>><</link>></td>
+<td width="20%"><<checkbox "$kink.Cumslut" false true>> <<link "Cumslut">><<replace "#sex">>''Cumslut:'' More than simply liking oral sex, you have a strong like of semen. You will find it easier to perform intense oral, and will receive satisfaction from swallowing semen and other acts involving cum. You tend to find larger balls more attractive.<</replace>><</link>></td>
+<td width="20%"><<checkbox "$kink.Sub" false true>> <<link "Submissive">><<replace "#sex">>''Submissive:'' You are naturally submissive, and dislike taking the lead in sexual encounters. This will limit some sexual activities, but you will find aggressive partners more satisfying.<</replace>><</link>></td>
+<td width="20%"><<checkbox "$kink.Easy" false true>> <<link "Easy to Please">><<replace "#sex">>''Easy to Please:'' You are more sensitive than normal, and you find it easier than average to achieve orgasm (and multiple orgasms).<</replace>><</link>></td>
+</tr>
+<tr>
+<td><<checkbox "$kink.Anal" false true checked>> <<link "Anal Okay">><<replace "#sex">>''Anal:'' Enjoys anal sex, or is at least willing to have it. Unchecking this box indicates that you dislike anal sex, and will never offer it yourself. This doesn't mean that a partner won't try, or that you won't get surprise buttsex.<</replace>><</link>></td>
+<td><<checkbox "$kink.Pregnancy" false true>> <<link "Pregnancy Fetish">><<replace "#sex">>''Pregnancy:'' You are strongly aroused by pregnancy and the concept of breeding. Unlike simply liking bare sex, you are far more likely to seek and engage in pregnancy-risk sex, and if the two are combined may even be willing to circumvent your partner's attempts at birth control to enjoy risky sex. You do not suffer worry about potential pregnancy, but can still become worried about disease if applicable. You tend to find large testicles more attractive.<</replace>><</link>></td>
+<td><<checkbox "$kink.Sizequeen" false true>> <<link "Size Queen">><<replace "#sex">>''Size Queen:'' You have an obsession with large cocks, finding them much more attractive than normal, and have a dislike of average to small cocks. You will find sex with average equipment less satisfying and less likely to get you off, but will have little difficulty handling large equipment.<</replace>><</link>></td>
+<td><<checkbox "$kink.Dom" false true>> <<link "Dominant Streak">><<replace "#sex">>''Dominant Streak:'' You have a natural preference or aptitude for being dominant. This doesn't instantly make you a masterful dom as soon as you find a sub partner though.<</replace>><</link>></td>
+<td><<checkbox "$kink.Nips" false true>> <<link "Sensitive Nipples">><<replace "#sex">>''Sensitive Nipples:'' Your nipples are more sensitive than normal, and you find it <b>far</b> easier to orgasm from nipple play. You also get a lot more enjoyment out of general breast play and activities like tit fucking.<</replace>><</link>></td>
+</tr>
+<tr>
+<td><<checkbox "$kink.Force" false true checked>> <<link "Forced Okay">><<replace "#sex">>''Forced:'' The most popular female fantasy based on empirical research, and the subject of most novels of the romance genre, forced is when you are forced into a sexual situation ranging from a kiss to full intercourse. Unchecking this box indicates that you are completely opposed to any forced situations, even with a loving partner and/or via roleplay.<</replace>><</link>></td>
+<td><<checkbox "$kink.Exhibition" false true>> <<link "Exhibitionist">><<replace "#sex">>''Exhibitionist:'' You enjoy the thrill of exhibitionism, and are more willing to wear revealing clothes in public. Your Exhibitionism skill will increase more rapidly, but so will your arousal from exhibitionism.<</replace>><</link>></td>
+<td><<checkbox "$kink.Buttslut" false true>> <<link "Buttslut">><<replace "#sex">>''Buttslut:'' A more extreme version of likes anal, you really enjoy anal sex. You recieve significantly more satisfaction from anal, but will be unhappy with a partner that isn't willing to have anal frequently enough.<</replace>><</link>></td>
+<td><<checkbox "$kink.Bond" false true>> <<link "Bondage Okay">><<replace "#sex">>''Bondage:'' You find bondage activity enjoyable, or are at least willing to participate. This acts as a 'soft gate' to bondage content. Not checking this box won't eliminate content with light or minor bondage, but will avoid more intense bondage play. <</replace>><</link>></td>
+<td><<checkbox "$kink.Rape" false true>> <<link "Rape Fetish">><<replace "#sex">>''Rape Fetish:'' You have strong fantasies about hardcore rape. Sexual assault and rape is unlikely to harm you much mentally, but you are also more likely to encounter such situations due to risky behavior tied to this fetish.<</replace>><</link>></td>
+</tr>
+<tr>
+<td><<checkbox "$kink.Water" false true>> <<link "Waterworks Okay">><<replace "#sex">>''Waterworks:''Enjoys waterworks (pee), or is at least willing to participate. Unchecking this box indicates that you dislike waterworks, and will never get involved voluntarily.<</replace>><</link>></td>
+<td><<checkbox "$kink.Public" false true>> <<link "Likes Public Sex">><<replace "#sex">>''Public Sex:'' You really enjoy sexual activity in public, finding it far more thrilling than normal. You get a lot more satisfaction than normal from sex in public. You also find it difficult to resist temptation in a public setting.<</replace>><</link>></td>
+<td><<checkbox "$kink.Liberate" false true>> <<link "Liberated">><<replace "#sex">>''Liberated:'' You realize that sex doesn't have to be connected to love and relationships, and find satisfaction in casual sex. This also means that you don't have any problem with prostitution, and you tend to enjoy the activity more. Your prostitution skill will increase more rapidly, though your attitutes may be a turn off to some NPCs of a romantic persuasion.<</replace>><</link>></td>
+<td><<checkbox "$kink.Masochist" false true>> <<link "Masochist">><<replace "#sex">>''Masochist:'' You enjoy pain, and find it sexually arousing. At this time, this doesnt' do much. <i>If more content is desirable it can be added, but it's a little outside my ability to write effectively. I've done some experimentation personally, but it wasn't for me. I just can't wrap my head around it well enough to write it.</i><</replace>><</link>></td>
+<td><<checkbox "$kink.Slut" false true>> <<link "Slut">><<replace "#sex">>''Slut:'' You ''LOVE'' sex, and are basically willing to do anything. You get a ''lot'' more satisfaction from extreme sex and activities like orgies and gloryholes, and have no problem with prostitution. You start high on the 'sex addiction' stat and gain it quicker, but also suffer less from humiliation and other negative social input. You can cure a bad day at the office easily, if you can avoid nymphomania. ''Warning--Choosing this trait automatically enables some other "okay" traits! (oral, anal, force, bondage, exhibition)'' <i>Characters who follow the path of sexual hedonism will eventually find this trait added later, and eventually the 'Superslut' trait. Your starting libido will also be quite high.</i><</replace>><</link>></td>
+</tr>
+<tr>
+<td><<checkbox "$kink.Hard" false true>> <<link "Hard to Please">><<replace "#sex">>''Hard to Please:'' It's more difficult than normal for you to reach orgasm. <i>This makes it harder to keep yourself satisfied.</i><</replace>><</link>></td>
+<td><<checkbox "$kink.Fap" false true>> <<link "Fapper">><<replace "#sex">>''Fapper:'' You really enjoy a good fap, and get a little more satisfaction from it. Your expert touch has made normal encounters less pleasurable, and you find normal sex less satisfying.<</replace>><</link>></td>
+<td><<checkbox "$kink.Shame" false true>> <<link "Shamefast">><<replace "#sex">>''Shamefast:'' For whatever reason, you find sexual activities to be shameful or wrong. You never really let yourself enjoy it, so sexual activities of all kinds are less satisfying. Additionally, you have feelings of guilt afterwards, so are usually less happy after giving in to your urges. ''This is not easy.''<</replace>><</link>></td>
+<td></td>
+<td></td>
+</tr>
+<tr><td colspan=5>@@.exp;<span id="sex">Information on sexual traits will appear here when the trait's name is clicked.</span>@@ | @@.minusButton;<<link "X">><<replace "#sex">>.<</replace>><</link>>@@</td></tr>
+</table>
+
+<table>
+<tr>
+<td width=25%><<checkbox "$mutate.Milk" false true >> <<link "Hypermilky">><<replace "#mutes">>''Hypermilky:'' This mutation causes your pituitary gland to constantly produce prolactin, meaning that you lactate all the time. It's like Prolactinoma, but without the brain tumor! If you get pregnant, you will end up producing a huge amount of milk. <i>This mutation affects breast size.</i><</replace>><</link>></td>
+<td width=20%><<checkbox "$mutate.Acid" false true >> <<link "Vaginal Enzymes">><<replace "#mutes">>''Vaginal Enzymes:'' Your Bartholin glands (two large-pea-sized glands that produce vaginal lubrication) secrete an extra enzyme called Rubber Oxygenase (RoxA) that allows cleavage and oxygenation of several rubber polymers including latex. Exposure to this enzyme rapidly degrades the structural integrity of condoms. The longer a condom is exposed to your lubrication (including pre-intercourse activities), the greater the likelyhood that it will shred during intercourse or break upon ejaculation. <i>This mutation significatly affects condom effectiveness, but in a manageable way. Sex that finishes quickly without female orgasm has only a small chance of breakage, while long-duration sex will almost certainly result in the condom shredding.</i><</replace>><</link>></td>
+<td width=20%><<checkbox "$mutate.BC" false true >> <<link "Abnormal Hormones">><<replace "#mutes">>''Abnormal Hormones:'' Your endocrine system is unusual, particularly in regard to gonadotropins, resulting in less effective chemical birth control. Birth control pills, patches, and implants have a much greater chance of being ineffective each cycle. <i>Increases odds from 2-4% to 15-30% depending on method. Failed birth control still requires impregnation & implantation check for pregnancy.</i><</replace>><</link>></td>
+<td width=20%><<checkbox "$mutate.Multiple" false true >> <<link "Multiple Ovulation">><<replace "#mutes">>''Multiple Ovulation:'' You have a very high chance to ovulate multiple eggs at once when you ovulate, allowing for fraternal twins, potentially with different fathers. <i>odds are determined by fertility. An ultra-fertile character could potentially have quadruplets.</i><</replace>><</link>></td>
+</tr>
+<tr>
+<td><<checkbox "$mutate.Gestate" false true >> <<link "Rapid Gestation">><<replace "#mutes">>''Rapid Gestation:'' Your body for some reason gestates babies extremely quickly, reducing the total pregnancy duration to only 6 weeks without further intervention.<</replace>><</link>></td>
+<td><<checkbox "$mutate.Cycle" false true >> <<link "Hyper Ovulatory Phase">><<replace "#mutes">>''Hyper Ovulatory Phase:'' Your menstral cycle is tuned for fertility. You have an extended ovulatory phase during your menstral cycle that causes you to ovulate multiple times after your first ovulation. This causes your period to be especially brief, your highly-fertile period is greatly expanded, and you are more fertile than normal during the other portions of your cycle. <i>Combining this with Multiple Ovulation could result in some [[interesting|http://i.imgur.com/wD8sPmx.jpg]] results.</i><</replace>><</link>></td>
+<td><<checkbox "$mutate.TwinWomb" false true >> <<link "Twin Wombs">><<replace "#mutes">>''Twin Wombs:'' You have two fully-formed and functional wombs, complete with two cervixes and two sets of ovaries. Your second womb is in the reversed anterior position. This allows you to have two pregnancies at once. <i>For right now, the second womb only becomes viable once the first is already pregnant. This could be changed depending on feedback.</i><</replace>><</link>></td>
+<td><<checkbox "$mutate.Pheromone" false true >> <<link "Vulva Pheromones">><<replace "#mutes">>''Vulva Pheromones:'' You secrete pheromones from your vulva that puts men into an animalistic rut. Men who have been exposed are unlikely to take no for an answer, even if they are normally considerate and respectful. This also includes considerations such as wearing a condom or pulling out. You will have to protect your groin until you are ready for sex.<</replace>><</link>></td>
+</tr>
+<tr>
+<td><<checkbox "$mutate.Immune" false true >> <<link "Ethanol Immunity">><<replace "#mutes">>''Ethanol Immunity:'' With the worst luck ever, you somehow ended up completely immune to the imparement caused by alcohol. You will not suffer intoxication, but also will not get any benefit from consuming alcohol. <i>Warning: you can still die from alcohol poisoning</i><</replace>><</link>></td>
+<td><<checkbox "$mutate.Mouth" false true >> <<link "Salivary Enzymes">><<replace "#mutes">>''Salivary Enzymes:'' The salivary glands in your mouth secrete an extra enzyme called Rubber Oxygenase (RoxA) that allows cleavage and oxygenation of several rubber polymers including latex. Exposure to this enzyme rapidly degrades the structural integrity of condoms. The longer a condom is exposed to your mouth, the greater the likelyhood that it will fail.<</replace>><</link>></td>
+<td><<checkbox "$mutate.Contort" false true >> <<link "Contortionist">><<replace "#mutes">>''Contortionist:'' You must have had circus performers in your ancestry. You're able to get yourself into slightly kinkier sex positions, and you suffer far fewer health consequences from long-term or extreme bondage.<</replace>><</link>></td>
+<td><<comment "It's a secret!">></td>
+</tr>
+<tr>
+<td colspan=4>@@.exp;<span id="mutes">Information on mutations will appear here when the name is clicked.</span>@@ | @@.minusButton;<<link "X">><<replace "#mutes">>.<</replace>><</link>>@@</td>
+</tr>
+</table>
+<span id="bullshit">
+<<button "change skills">>
+<<set $skill.exhibition += random(-10,10)>>
+<<set $skill.prostitute += random(-10,10)>>
+<<set $skill.sex += random(-10,10)>>
+<<set $skill.oral += random(-10,10)>>
+<<set $skill.seduction += random(-10,10)>>
+<<set $skill.comm += random(-10,10)>>
+<<set $skill.org += random(-10,10)>>
+<<set $skill.probSolving += random(-10,10)>>
+<<set $skill.finance += random(-10,10)>>
+<<set $skill.art += random(-10,10)>>
+<<set $skill.athletic += random(-10,10)>>
+<<set $skill.dancing += random(-10,10)>>
+<<set $skill.clean += random(-10,10)>>
+<<set $skill.shop += random(-10,10)>>
+<<set $skill.cook += random(-10,10)>>
+<<replace "#bullshit">>
+Skills Changed.
+<</replace>>
+<</button>>
+</span>
+<span id="fucktard">
+<<button "Screw With Job">>
+<<set $job.name = "Bukkake Mop-Up Technician">>
+<<set $job.employer = "Classical German Porn Productions LLC">>
+<<set $job.rules.payrate = random(3,13)>>
+<<set $status.lonely = 80>>
+<<set $status.addictCum = 70>>
+<<replace "#fucktart">>Screwed<</replace>>
+<</button>>
+</span>
+@@font-size:130%;<<button [[Go Back to Week Summary|WeekPlannerStart]]>><</button>>@@

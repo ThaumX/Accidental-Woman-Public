@@ -1,0 +1,423 @@
+:: appearWidget [nobr widget]
+
+<<widget "calcPhysicalATR">>
+<<silently>>
+<<set _atr = 5>>
+<<if $PC.age < 16>><<set _atr -= 2>>
+<<elseif $PC.age < 18>><<set _atr -= 1>>
+<<elseif $PC.age < 20>><<set _atr += 0>>
+<<elseif $PC.age < 22>><<set _atr += 1>>
+<<elseif $PC.age < 26>><<set _atr += 2>>
+<<elseif $PC.age < 28>><<set _atr += 1>>
+<<elseif $PC.age < 30>><<set _atr += 0>>
+<<elseif $PC.age < 33>><<set _atr -= 1>>
+<<elseif $PC.age < 35>><<set _atr -= 2>>
+<<elseif $PC.age < 37>><<set _atr -= 3>>
+<<elseif $PC.age < 39>><<set _atr -= 4>>
+<<elseif $PC.age < 41>><<set _atr -= 6>>
+<<elseif $PC.age < 45>><<set _atr -= 8>>
+<</if>>
+<<switch $PC.weight>>
+<<case 1>><<set _atr -= 3>>
+<<case 2>><<set _atr -= 1>>
+<<case 3>><<set _atr += 1>>
+<<case 4>><<set _atr += 1>>
+<<case 5>><<set _atr -= 1>>
+<<case 6>><<set _atr -= 3>>
+<</switch>>
+<<switch $PC.tone>>
+<<case 1>><<set _atr -= 2>>
+<<case 2>><<set _atr += 0>>
+<<case 3>><<set _atr += 1>>
+<<case 4>><<set _atr += 1>>
+<<case 5>><<set _atr -= 3>>
+<<case 6>><<set _atr -= 5>>
+<</switch>>
+<<switch $PC.shoulders>>
+<<case 1>><<set _atr += 3>>
+<<case 2>><<set _atr += 2>>
+<<case 3>><<set _atr += 0>>
+<<case 4>><<set _atr -= 2>>
+<<case 5>><<set _atr -= 4>>
+<<case 6>><<set _atr -= 6>>
+<</switch>>
+<<switch $PC.hips>>
+<<case 1>><<set _atr -= 6>>
+<<case 2>><<set _atr -= 4>>
+<<case 3>><<set _atr -= 2>>
+<<case 4>><<set _atr += 0>>
+<<case 5>><<set _atr += 2>>
+<<case 6>><<set _atr += 4>>
+<</switch>>
+<<switch $PC.waist>>
+<<case 1>><<set _atr -= 3>>
+<<case 2>><<set _atr -= 1>>
+<<case 3>><<set _atr += 1>>
+<<case 4>><<set _atr += 3>>
+<</switch>>
+<<switch $PC.fertility>>
+<<case 0>><<set _atr -= 4>>
+<<case 1>><<set _atr -= 2>>
+<<case 2>><<set _atr -= 1>>
+<<case 3>><<set _atr -= 0>>
+<<case 4>><<set _atr += 1>>
+<<case 5>><<set _atr += 2>>
+<<case 6>><<set _atr += 3>>
+<</switch>>
+<<switch $PC.risk>>
+<<case 1>><<set _atr -= 1>>
+<<case 2>><<set _atr -= 0>>
+<<case 3>><<set _atr -= 0>>
+<<case 4>><<set _atr += 1>>
+<<case 5>><<set _atr += 2>>
+<<case 0>><<set _atr -= 2>>
+<</switch>>
+<<switch $PC.beauty>>
+<<case 1>><<set _atr -= 4>>
+<<case 2>><<set _atr -= 2>>
+<<case 3>><<set _atr += 0>>
+<<case 4>><<set _atr += 2>>
+<<case 5>><<set _atr += 4>>
+<</switch>>
+<<if $status.birthCon > 0>><<set _atr -= 2>><</if>>
+<<if $trait.EX>><<set _atr += 1>><</if>>
+<<if $trait.CL>><<set _atr -= 1>><</if>>
+<<if $trait.libido < 3>><<set _atr -= 2>><</if>>
+<<if $trait.libido > 6>><<set _atr += 2>><<elseif $trait.libido > 4>><<set _atr += 1>><</if>>
+<<if $mutate.FertStorm>>
+<<set _atr += 8>>
+<</if>>
+<<set _atr = Math.trunc(_atr / 2)>>
+<<set _top = _atr>>
+<<set _bot = _atr>>
+<<switch $PC.ass>>
+<<case 1>><<set _bot -= 2>>
+<<case 2>><<set _bot -= 1>>
+<<case 3>><<set _bot -= 0>>
+<<case 4>><<set _bot += 1>>
+<<case 5>><<set _bot += 1>>
+<<case 6>><<set _bot += 0>>
+<</switch>>
+<<if $PC.tits.cupNum < 7>><<set _top -= 2>>
+<<elseif $PC.tits.cupNum < 12>><<set _top -= 1>>
+<<elseif $PC.tits.cupNum > 29>><<set _top += 3>>
+<<elseif $PC.tits.cupNum > 23>><<set _top += 2>>
+<<elseif $PC.tits.cupNum > 17>><<set _top += 1>>
+<</if>>
+<<set _bot *= 4>>
+<<set _bot /= 7>>
+<<set _top *= 4>>
+<<set _top /= 7>>
+<<set $PC.topATR = Math.round(_top)>>
+<<set $PC.botATR = Math.round(_bot)>>
+<<set $PC.ATR = Math.round(_top + _bot)>>
+<</silently>>
+<</widget>>
+
+<<widget "pcTotalATR">>
+<<silently>>
+<<calcPhysicalATR>>
+<<calcOutfitCombine>>
+<<calcClothingStatus>>
+<<status 1>>
+<<set _atrM = $PC.ATR>>
+<<set _atrM += $pcClothes.atr>>
+<<set _atrM += $pcClothes.statATR>>
+<<set _atrM -= ( $status.clean - 1 )>>
+<<if $mutate.Goddess>>
+<<set _atrM += 12>>
+<</if>>
+<<if $status.health >= 90>>
+	<<set _atrM += 1>>
+<<elseif $status.health < 70>>
+	<<set _temp = Math.round($status.health / 10)>>
+	<<set _temp += -8>>
+	<<set _atrM += _temp>>
+<</if>>
+<<if $status.anger > 4>><<set _atrM -= 1>><</if>>
+<<if $status.stress > 50>><<set _atrM -= 1>><</if>>
+<<if $status.stress > 80>><<set _atrM -= 1>><</if>>
+<<if $status.fatigue > 7>><<set _atrM -= 1>><</if>>
+<<if $status.happy > 4>><<set _atrM += 1>><</if>>
+<<if $status.happy < -2>><<set _atrM -= 1>><</if>>
+<<if $status.happy < -5>><<set _atrM -= 1>><</if>>
+<<if $status.pregA > 0 || $status.pregB > 0>><<set _atrM += 3>><</if>>
+<<if $status.milk > 0>><<set _atrM += 1>><</if>>
+<<set _atrM += $groom.hairStyle[3]>>
+<<set _atrM += $groom.makeupATR>>
+<<set _atrM += ($groom.toothHealth - 4)>>
+<<if $groom.leghair > 3>><<set _atrM -= 4>><<elseif $groom.leghair > 2>><<set _atrM -= 2>><</if>>
+<<if $groom.armpit > 3>><<set _atrM -= 5>><<elseif $groom.armpit > 2>><<set _atrM -= 2>><</if>>
+
+<<set $status.ATR = _atrM>>
+<</silently>>
+<</widget>>
+
+<<widget "pcCleanStatus">>
+<<silently>>
+<<switch $status.clean>>
+<<case 0>>
+	<<set _outputMain = "Clean">>
+<<case 1>>
+	<<set _outputMain = "Normal">>
+<<case 2>>
+	<<set _outputMain = "Grungy">>
+<<case 3>>
+	<<set _outputMain = "Smelly">>
+<<case 4>>
+	<<set _outputMain = "Dirty">>
+<<case 5>>
+	<<set _outputMain = "Filthy">>
+<</switch>>
+<</silently>>
+<<print _outputMain>>
+<</widget>>
+
+<<widget "pcBreastCalc">>
+<<silently>>
+<<switch $PC.shoulders>>
+	<<case 1>>
+		<<set _band = 30>>
+	<<case 2>>
+		<<set _band = 32>>
+	<<case 3>>
+		<<set _band = 34>>
+	<<case 4>>
+		<<set _band = 36>>
+	<<case 5>>
+		<<set _band = 38>>
+	<<case 6>>
+		<<set _band = 40>>
+	<<case default>>
+		<<set _band = 34>>
+<</switch>>
+<<set _band += (2 * $PC.weight) - 4>>
+<<set $PC.tits.band = _band>>
+<<set _size = Math.round($PC.tits.size / 10)>>
+<<if _size < 13>>
+	<<set _cup = -50>>
+<<elseif _size < 15>>
+	<<set _cup = 0>>
+<<elseif _size < 25>>
+	<<set _cup = 1>>
+<<elseif _size < 30>>
+	<<set _cup = 2>>
+<<elseif _size < 35>>
+	<<set _cup = 3>>
+<<elseif _size < 37>>
+	<<set _cup = 4>>/*A-Cup*/
+<<elseif _size < 39>>
+	<<set _cup = 5>>
+<<elseif _size < 41>>
+	<<set _cup = 6>>
+<<elseif _size < 44>>
+	<<set _cup = 7>>/*B-Cup*/
+<<elseif _size < 46>>
+	<<set _cup = 8>>
+<<elseif _size < 49>>
+	<<set _cup = 9>>
+<<elseif _size < 52>>
+	<<set _cup = 10>>/*C-Cup*/
+<<elseif _size < 56>>
+	<<set _cup = 11>>
+<<elseif _size < 59>>
+	<<set _cup = 12>>
+<<elseif _size < 63>>
+	<<set _cup = 13>>/*D-Cup*/
+<<elseif _size < 67>>
+	<<set _cup = 14>>
+<<elseif _size < 71>>
+	<<set _cup = 15>>
+<<elseif _size < 76>>
+	<<set _cup = 16>>/*E-Cup*/
+<<elseif _size < 80>>
+	<<set _cup = 17>>
+<<elseif _size < 85>>
+	<<set _cup = 18>>
+<<elseif _size < 90>>
+	<<set _cup = 19>>/*F-Cup*/
+<<elseif _size < 96>>
+	<<set _cup = 20>>
+<<elseif _size < 101>>
+	<<set _cup = 21>>
+<<elseif _size < 107>>
+	<<set _cup = 22>>/*G-Cup*/
+<<elseif _size < 113>>
+	<<set _cup = 23>>
+<<elseif _size < 119>>
+	<<set _cup = 24>>
+<<elseif _size < 126>>
+	<<set _cup = 25>>/*H-Cup*/
+<<elseif _size < 132>>
+	<<set _cup = 26>>
+<<elseif _size < 139>>
+	<<set _cup = 27>>
+<<elseif _size < 146>>
+	<<set _cup = 28>>
+<<elseif _size < 154>>
+	<<set _cup = 29>>
+<<elseif _size < 161>>
+	<<set _cup = 30>>
+<<elseif _size < 169>>
+	<<set _cup = 31>>
+<<elseif _size < 177>>
+	<<set _cup = 32>>
+<<elseif _size < 177>>
+	<<set _cup = 33>>
+<<elseif _size < 185>>
+	<<set _cup = 34>>
+<<elseif _size < 194>>
+	<<set _cup = 35>>
+<<elseif _size < 202>>
+	<<set _cup = 36>>
+<<elseif _size < 211>>
+	<<set _cup = 37>>
+<<elseif _size < 220>>
+	<<set _cup = 38>>
+<<elseif _size < 230>>
+	<<set _cup = 39>>
+<<elseif _size < 239>>
+	<<set _cup = 40>>
+<<elseif _size < 249>>
+	<<set _cup = 41>>
+<<elseif _size < 259>>
+	<<set _cup = 42>>
+<<elseif _size < 269>>
+	<<set _cup = 43>>
+<<elseif _size < 280>>
+	<<set _cup = 44>>
+<<elseif _size < 290>>
+	<<set _cup = 45>>
+<<elseif _size < 301>>
+	<<set _cup = 46>>
+<<elseif _size < 312>>
+	<<set _cup = 47>>
+<<elseif _size < 324>>
+	<<set _cup = 48>>
+<<elseif _size < 335>>
+	<<set _cup = 49>>
+<<elseif _size < 347>>
+	<<set _cup = 50>>
+<<elseif _size < 359>>
+	<<set _cup = 51>>
+<<elseif _size < 371>>
+	<<set _cup = 52>>
+<<elseif _size < 384>>
+	<<set _cup = 53>>
+<<elseif _size < 396>>
+	<<set _cup = 54>>
+<<elseif _size < 409>>
+	<<set _cup = 55>>
+<<elseif _size < 422>>
+	<<set _cup = 56>>
+<<elseif _size < 436>>
+	<<set _cup = 57>>
+<<elseif _size < 449>>
+	<<set _cup = 58>>
+<<elseif _size < 463>>
+	<<set _cup = 59>>
+<<elseif _size < 477>>
+	<<set _cup = 60>>
+<<elseif _size < 491>>
+	<<set _cup = 61>>
+<<elseif _size < 506>>
+	<<set _cup = 62>>
+<<elseif _size < 520>>
+	<<set _cup = 63>>
+<<elseif _size < 535>>
+	<<set _cup = 64>>
+<<elseif _size < 550>>
+	<<set _cup = 65>>
+<<elseif _size < 566>>
+	<<set _cup = 66>>
+<<elseif _size < 581>>
+	<<set _cup = 67>>
+<<elseif _size < 597>>
+	<<set _cup = 68>>
+<<elseif _size < 613>>
+	<<set _cup = 69>>
+<<elseif _size < 629>>
+	<<set _cup = 70>>
+<<elseif _size < 646>>
+	<<set _cup = 71>>
+<<elseif _size < 662>>
+	<<set _cup = 72>>
+<<elseif _size < 679>>
+	<<set _cup = 73>>
+<<elseif _size < 696>>
+	<<set _cup = 74>>
+<<elseif _size < 714>>
+	<<set _cup = 75>>
+<<elseif _size < 731>>
+	<<set _cup = 76>>
+<<elseif _size < 749>>
+	<<set _cup = 77>>
+<<elseif _size < 767>>
+	<<set _cup = 78>>
+<<elseif _size < 785>>
+	<<set _cup = 79>>
+<<elseif _size < 804>>
+	<<set _cup = 80>>
+<<elseif _size < 822>>
+	<<set _cup = 81>>
+<<else>>
+	<<set _cup = 99>>
+<</if>>
+<<set _bm = (17-(_band/2))*3>>
+<<set _cupAdj = _cup + _bm>>
+<<if _cup < 0>>
+	<<set $PC.tits.cupNum = -1>>
+	<<set $PC.tits.cupRaw = -1>>
+	<<set $PC.tits.cup = "nonexistant">>
+	<<set $PC.tits.bra = "playing dress-up">>
+<<elseif _cup <= 0>>
+	<<set $PC.tits.cupNum = 0>>
+	<<set $PC.tits.cupRaw = 0>>
+	<<set $PC.tits.cup = "budding">>
+	<<set $PC.tits.bra = _band + "AAA">>
+<<else>>
+	<<set $PC.tits.cupNum = _cupAdj>>
+	<<set $PC.tits.cupRaw = _cup>>
+	<<set _cupStart = Math.round((_cup + 2)/3)>>
+	<<set _cupStop = _cupStart + 1>>
+	<<if _cupStart == 1>>
+		<<set _cupStart = 0>>
+	<</if>>
+	<<if _cupStop == 1>>
+		<<set _cupStop += 1>>
+	<</if>>
+	<<set _string = "AAABCDEFGHIJKLMNOPQRSTUVWXYZ">>
+	<<set _cupLet = _string.slice(_cupStart,_cupStop)>>
+	<<set _cupFraq = ((_cup + 2)/3) % 1>>
+	<<if _cupFraq != 0>>
+		<<set _cupFraq = Math.round(_cupFraq)>>
+		<<if _cupFraq == 1>>
+			<<set _cupLet = "small " + _cupLet>>
+		<<else>>
+			<<set _cupLet = "large " + _cupLet>>
+		<</if>>
+	<</if>>
+	<<set _cupLet += "-cup">>
+	<<set $PC.tits.cup = _cupLet>>
+	<<if _cupAdj <= 0>>
+		<<set $PC.tits.bra = _band + "AAA">>
+	<<else>>
+		<<set _cupStart = Math.round((_cupAdj + 2)/3)>>
+		<<set _cupStop = _cupStart + 1>>
+		<<if _cupStart <= 0>>
+			<<set _braLet = "AAA">>
+		<<else>>
+			<<if _cupStart == 1>>
+				<<set _cupStart = 0>>
+			<</if>>
+			<<if _cupStop == 1>>
+				<<set _cupStop += 1>>
+			<</if>>
+			<<set _string = "AAABCDEFGHIJKLMNOPQRSTUVWXYZ">>
+			<<set _braLet = _string.slice(_cupStart,_cupStop)>>
+			<<set $PC.tits.bra = _band + _braLet>>
+		<</if>>
+	<</if>>
+<</if>>
+<</silently>>
+<</widget>>

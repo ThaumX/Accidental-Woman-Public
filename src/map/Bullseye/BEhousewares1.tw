@@ -1,0 +1,109 @@
+:: BEhousewares1 [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+<div id="topbar">
+/* GAME MAP TABLE - Displays 4x4 map grid next to spot for area image. Grid simulates image map links, which are flakey in Twine */
+<center>
+<table id="navigation">
+<tr id="navigation">
+<td id="navigation">[img[Hardware|IMGbullseye11][controlBullseye][$destLoc = [1,1]]]</td>
+<td id="navigation">[img[Electronics|IMGbullseye12][controlBullseye][$destLoc = [1,2]]]</td>
+<td id="navigation">[img[Toys & Games|IMGbullseye13][controlBullseye][$destLoc = [1,3]]]</td>
+<td id="navigation">[img[Baby|IMGbullseye14][controlBullseye][$destLoc = [1,4]]]</td>
+<td id="navigation">[img[Grocery|IMGbullseye15][controlBullseye][$destLoc = [1,5]]]</td>
+<td rowspan="5" id="navigation"><<link [img[$locImageName]]>><<dialog 'Detail Map'>>[img[IMGbullseyeBig]]<br>@@.note;You can not click this map to navigate.@@<</dialog>><</link>></td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[IMGbullseyeX21][controlBullseye][$destLoc = [2,1]]]</td>
+<td id="navigation">[img[Women's Clothing - Tops, Dresses, & Coats|IMGbullseye22][controlBullseye][$destLoc = [2,2]]]</td>
+<td id="navigation">[img[Women's Clothing - Bottoms, Athletic, & Swimwear|IMGbullseye23][controlBullseye][$destLoc = [2,3]]]</td>
+<td id="navigation">[img[Lingerie & Jewelry|IMGbullseye24][controlBullseye][$destLoc = [2,4]]]</td>
+<td id="navigation">[img[Grocery|IMGbullseye25][controlBullseye][$destLoc = [2,5]]]</td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Housewares|IMGbullseye31][controlBullseye][$destLoc = [3,1]]]</td>
+<td id="navigation">[img[Children's Clothing - Girls|IMGbullseye32][controlBullseye][$destLoc = [3,2]]]</td>
+<td id="navigation">[img[Children's Clothing - Boys|IMGbullseye33][controlBullseye][$destLoc = [3,3]]]</td>
+<td id="navigation">[img[Men's Clothing|IMGbullseye34][controlBullseye][$destLoc = [3,4]]]</td>
+<td id="navigation">[img[Grocery|IMGbullseye35][controlBullseye][$destLoc = [3,5]]]</td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Pharmacy|IMGbullseye41][controlBullseye][$destLoc = [4,1]]]</td>
+<td id="navigation">[img[Stationary & Optometrist|IMGbullseye42][controlBullseye][$destLoc = [4,2]]]</td>
+<td id="navigation">[img[Best Head Hair Salon|IMGbullseye43][controlBullseye][$destLoc = [4,3]]]</td>
+<td id="navigation">[img[Customer Service|IMGbullseye44][controlBullseye][$destLoc = [4,4]]]</td>
+<td id="navigation">[img[Produce, Deli, Bakery|IMGbullseye45][controlBullseye][$destLoc = [4,5]]]</td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Parking Lot|IMGbullseye51][controlBullseye][$destLoc = [5,1]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye52][controlBullseye][$destLoc = [5,2]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye53][controlBullseye][$destLoc = [5,3]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye54][controlBullseye][$destLoc = [5,4]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye55][controlBullseye][$destLoc = [5,5]]]</td>
+</tr>
+</table></center>
+</div>
+<div id="mainshits">
+<center>@@.pulseHead;<<=$locName>>@@</center>
+<br><br>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<<walkDescriptBullseye>><<= " ">><<mapEventBullseye>><br><br>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<<switch $mapWeather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<case default>>
+
+<</switch>>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+@@.head3;Y@@ou are in the Bullseye housewares department, standing in the area that sells things for your bed, bath, and ... kitchen.
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+</div>
+<div id="actionbar">
+/*ACTION TABLE*/
+<table>
+<tr>
+<td>@@.head3;Shop@@</td><td>@@.exp;Look for items you need, and add them to your cart.@@ @@.note;Not Implemented. Items will be added to stores as the ability to use them is created.@@</td>
+</tr>
+/*<tr><td width=25%><<link "in-passage action">><<replace "#locact">><</replace>><br>sample text<br><</link>></td><td>@@.exp;description@@</td></tr>*/
+/*<tr><td width=25%>[[to action passage|passage][setter]]</td><td>@@.exp;description@@</td></tr>*/
+/*Weather-based actions added to table, like opening an umbrella*/
+<<weatherBullseyeAct>>
+/*Event-based actions added to table*/
+<<mapEventBullseyeAct>>
+<tr><td width=25%>
+<<button "View Cart">><<BEcartDisplay>><</button>>
+</td><td>
+<span id="cartcunt">@@.note;cart contents can be displayed here.@@</span>
+</td></tr>
+</table>
+</div>
+

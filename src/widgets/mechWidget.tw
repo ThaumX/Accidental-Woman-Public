@@ -1,0 +1,580 @@
+:: mechWidget [widget nobr]
+
+/*Updates sidebar, for use in button-link-timed*/
+<<widget "updatebar">><<silently>>
+<<replace "#story-banner">><<display "StoryBanner">><</replace>>
+<<replace "#story-caption">><<display "StoryCaption">><</replace>>
+<<replace "#right-ui-bar-body">><<display "StoryRightSidebar">><</replace>>
+<</silently>><</widget>>
+
+/*Interprets the current  $time variable, setting $hour and $min for use elsewhere and printing to sidebar*/
+<<widget "timeInterpret">>
+<<silently>>
+<<if $hour == 12>>
+	<<set _ampm = "PM">>
+	<<set _hour = 12>>
+<<elseif $hour > 12>>
+	<<set _ampm = "PM">>
+	<<set _hour = ($hour - 12)>>
+<<elseif $hour == 0>>
+	<<set _hour = 12>>
+	<<set _ampm = "AM">>
+<<else>>
+	<<set _ampm = "AM">>
+	<<set _hour = $hour>>
+<</if>>
+<<if $hour >= 19 || $hour < 6 >>
+	<<set _sym = "☽">>
+<<else>>
+	<<set _sym = "☼">>
+<</if>>
+<</silently>>@@.clock;<<print _hour>><<print ":">><<if $min < 10>><<print "0">><</if>><<print $min>>^^<<print _ampm>>^^<<print " ">><<print _sym>>@@\
+<</widget>>
+
+/*Increments time to account for 60 rather than 100 minutes. Triggers new day and runs date calculate if goes past 2400. arg0=hr arg1=min OR arg0=min*/
+<<widget "addTime">>
+<<if ndef $args[0]>>
+	<<set _temp = passage()>>
+	<<set $error += ", time setting error - no args sent to addTime function in passage: ">>
+	<<set $error += _temp>>
+	<<set _addHour = 0>>
+	<<set _addMin = 0>>
+<<elseif ndef $args[1]>>
+	<<if  $args[0] < 60 && $args[0] >= 0>>
+		<<set _addMin = $args[0]>>
+		<<if $cheatTime && $args[0] != 0>>
+			<<set _poo = _addMin>>
+			<<set _poo /= 2>>
+			<<set _addMin = Math.round(_poo)>>
+		<</if>>
+		<<set _addHour = 0>>
+	<<elseif $args[0] < 120 && $args[0] >= 60>>
+		<<set _addMin = $args[0] - 60>>
+		<<if $cheatTime && $args[0] != 0>>
+			<<set _poo = _addMin>>
+			<<set _poo /= 2>>
+			<<set _addMin = Math.round(_poo)>>
+		<</if>>
+		<<set _addHour = 1>>
+	<<else>>
+		<<set _temp = passage()>>
+		<<set $error += ", time setting error - bad minute value to setTime function in passage: ">>
+		<<set $error += _temp>>
+		<<set _addHour = 0>>
+		<<set _addMin = 0>>
+	<</if>>
+<<else>>
+	<<if  $args[1] < 60 && $args[1] >= 0>>
+		<<set _addMin = $args[1]>>
+		<<if $cheatTime && $args[1] != 0>>
+			<<set _poo /= 2>>
+			<<set _addMin = Math.round(_poo)>>
+		<</if>>
+	<<else>>
+		<<set _temp = passage()>>
+		<<set $error += ", time setting error - bad minute value to setTime function in passage: ">>
+		<<set $error += _temp>>
+		<<set _addMin = 0>>
+	<</if>>
+	<<if  $args[0] < 24 && $args[0] >= 0>>
+		<<set _addHour = $args[0]>>
+		<<if $cheatTime && $args[1] != 0>>
+			<<set _poo /= 2>>
+			<<set _addHour = Math.round(_poo)>>
+		<</if>>
+	<<else>>
+		<<set _temp = passage()>>
+		<<set $error += ", time setting error - bad hour value to addTime function in passage: ">>
+		<<set $error += _temp>>
+		<<set _addHour = 0>>
+	<</if>>
+<</if>>
+<<set $min += _addMin>>
+<<if $min > 59>>
+	<<set _addHour += 1>>
+	<<set $min -= 60>>
+<</if>>
+<<set $hour += _addHour>>
+<<if $hour > 23>>
+	<<set $hour -= 24>>
+	<<set $day += 1>>
+	<<set $date[0] += 1>>
+	<<set $dayChange = true>>
+	<<dateCalculate>>
+	<<if not $flag.Prologue>>
+		<<set $dayTotal += 1>>
+	<</if>>
+	/*<<pcTotalATR>> moved to day system!*/
+<</if>>
+<<if _addHour > 0 >>
+	<<set _chunker = Math.round( _addMin + ( _addHour * 60))>>
+<<else>>
+	<<set _chunker = Math.round( _addMin )>>
+<</if>>
+<<if _chunker >= 0>>
+	<<set $timeChunk += _chunker>>
+<<else>>
+	<<set alert("negative time error")>>
+<</if>>
+<<set _numbnuts = Math.trunc($timeChunk / 15)>>
+<<set _numberV = Math.round(_numbnuts)>>
+<<if _numberV > 0>>
+<<set _runFucker = " ">>
+<<for _i to 0; _i < _numberV; _i++>>
+	<<set $timeChunk -= 15>>
+	<<if $timeChunk < 15>><<set _i += _numberV>><</if>>
+	<<if $timeChunk < 0>>
+		<<set $timeChunk = 0>>
+		<<run alert("Prechunked time value was less than 0!")>>
+	<<else>>
+		<<set $timeCount += 1>>
+		<<set _runFucker += "<<timeStatusCheck>>">>
+	<</if>>
+	<<set _debug += " " + _i>>
+<</for>>
+<<print _runFucker>>
+<</if>>
+/*actually set main time variable*/
+<<set $time = ($hour * 100) + $min>>
+/*check for sleep warning*/
+<<if $sched.sleepWarnOn && $time >= $sched.sleepWarn>>
+	<<if $dayChange & $sched.workDays[$day]>>
+		<<set $sched.alertPend = true>>
+		<<timeToSleepMessage>>
+		<<set $sched.sleepWarnOn = false>>
+	<<elseif $day == 7 && $sched.workDays[1]>>
+		<<set $sched.alertPend = true>>
+		<<timeToSleepMessage>>
+		<<set $sched.sleepWarnOn = false>>
+	<<elseif $day < 7 && $sched.workDays[($day + 1)]>>
+		<<set $sched.alertPend = true>>
+		<<timeToSleepMessage>>
+		<<set $sched.sleepWarnOn = false>>
+	<</if>>
+<</if>>
+/*enable quicksleep sidebar shortcut*/
+<<if $time >= ( $sched.sleepWarn - 100)>>
+	<<set $sched.fastSleep = true>>
+<</if>>
+/*check all plans for any alert threshold*/
+<<if $sched.alerts && $sched.plans[$day].length > 0>>/**/
+	<<for _i to 0; _i < $sched.plans[$day].length; _i++>>
+		<<if $sched.plans[$day][_i].alert && $sched.plans[$day][_i].start <= ($time + 100 )>>
+			<<set $sched.plans[$day][_i].alert = false>>
+			<<appointmentAlert _i>>
+			<<set $sched.alertPend = true>>
+		<</if>>
+	<</for>>
+<</if>>
+/*print all possible alert text, buttons, etc in a single dialog box*/
+<<if $sched.alertPend>>
+	<<dialog "Appointment Reminder">>
+		<<print $sched.alertText>>
+		<<set $sched.alertPend = false>>
+	<</dialog>>
+<</if>>
+<</widget>>
+
+/*sets the time - IGNORES PASSING TIME!!! - do not use for normal time increment!*/
+<<widget "setTime">>
+<<if ndef $args[0]>>
+	<<set _temp = passage()>>
+	<<set $error += ", time setting error - no args sent to time function in passage: ">>
+	<<set $error += _temp>>
+<<elseif ndef $args[1]>>
+	<<if  $args[0] < 60 && $args[0] >= 0>>
+		<<set $min = $args[0]>>
+	<<else>>
+		<<set _temp = passage()>>
+		<<set $error += ", time setting error - bad minute value to setTime function in passage: ">>
+		<<set $error += _temp>>
+	<</if>>
+<<else>>
+	<<if  $args[1] < 60 && $args[1] >= 0>>
+		<<set $min = $args[1]>>
+	<<else>>
+		<<set _temp = passage()>>
+		<<set $error += ", time setting error - bad minute value to setTime function in passage: ">>
+		<<set $error += _temp>>
+	<</if>>
+	<<if  $args[0] < 24 && $args[0] >= 0>>
+		<<set $hour = $args[0]>>
+	<<else>>
+		<<set _temp = passage()>>
+		<<set $error += ", time setting error - bad hour value to setTime function in passage: ">>
+		<<set $error += _temp>>
+	<</if>>
+<</if>>
+<<set $time = ($hour * 100) + $min>>
+<</widget>>
+
+/*displays the full date*/
+<<widget "dateDisplay">>
+<<if $dayText == "New Year">>
+@@.ship;<<print $dayText>>@@
+<<print ", ">>
+<<print $monthDate>>
+<<print " ">>
+@@.ship;<<print $monthText>>@@
+<<else>>
+	<<if $dayText == "Saturday" || $dayText == "Sunday">>
+		@@.pink;<<print $dayText>>@@
+	<<else>>
+		@@.white;<<print $dayText>>@@
+	<</if>>
+<</if>>
+<<print ", ">>
+<<print $monthDate>>
+<<print " ">>
+<<print $monthText>>
+@@.white;<<print " - Week: ">>@@
+<<print $week>>
+<</widget>>
+
+/*Widget displays current status of several variables, and color codes them*/
+<<widget "pcStatus">>
+<<if $mindbreak>>
+@@.red;<<print "mindbroken">>@@
+<<else>>
+<<if $status.stress > 90>>
+	@@.red;<<print "near breakdown">>@@
+<<elseif $status.stress > 75>>
+	@@.red;<<print "extremely stressed">>@@
+<<elseif $status.stress > 60>>
+	@@.yellow;<<print "stressed out">>@@
+<<elseif $status.stress > 40>>
+	@@.white;<<print "stressed">>@@
+<<elseif $status.stress > 20>>
+	@@.white;<<print "slightly stressed">>@@
+<<else>>
+	@@.green;<<print "relaxed">>@@
+<</if>>
+<<if $status.fatigue == 0>>
+	<<print ", ">>
+	@@.white;<<print "Waking Up">>@@
+<<elseif $status.fatigue == 1 || $status.fatigue == 2>>
+	<<print ", ">>
+	@@.green;<<print "Alert">>@@
+<<elseif $status.fatigue > 9>>
+	<<print ", ">>
+	@@.red;<<print "Very Sleepy">>@@
+<<elseif $status.fatigue > 7>>
+	<<print ", ">>
+	@@.orange;<<print "Sleepy">>@@
+<<elseif $status.fatigue > 5>>
+	<<print ", ">>
+	@@.yellow;<<print "Tired">>@@
+<</if>>
+<<if $status.satisfaction < 50 && $status.need > 4>>
+	<<print ", ">>
+	@@.red;<<print "Insanely Frustrated">>@@
+<<elseif $status.satisfaction < 50 && $status.need > 2>>
+	<<print ", ">>
+	@@.red;<<print "Extremely Frustrated">>@@
+<<elseif $status.satisfaction < 50 && $status.need > 0>>
+	<<print ", ">>
+	@@.yellow;<<print "Very Frustrated">>@@
+<<elseif $status.satisfaction < 25>>
+	<<print ", ">>
+	@@.yellow;<<print "Frustrated">>@@
+<<elseif $status.satisfaction < 50>>
+	<<print ", ">>
+	@@.white;<<print "Slightly Frustrated">>@@
+<<elseif $status.satisfaction > 80 && $status.need == 0>>
+	<<print ", ">>
+	@@.green;<<print "Completely Satisfied">>@@
+<</if>>
+<<if $status.pregA != 0 || $status.pregB != 0>>
+	<<if $status.pregA > 30 && $status.pregB > 30>>
+		<<print ", ">>
+		@@.red;<<print "Dangerously Pregnant">>@@
+	<<elseif $status.pregA > 30 || $status.pregB > 30>>
+		<<print ", ">>
+		@@.yellow;<<print "Very Pregnant">>@@
+	<<elseif $kink.Pregnancy>>
+		<<print ", ">>
+		@@.green;<<print "Pregnant">>@@
+	<<else>>
+		<<print ", ">>
+		@@.white;<<print "Pregnant">>@@
+	<</if>>
+<</if>>
+<<if $status.alcohol != 0>>
+	<<switch $status.alcohol>>
+	<<case -2>>
+		<<print ", ">>
+		@@.red;<<print "Severe Hangover">>@@
+	<<case -1>>
+		<<print ", ">>
+		@@.yellow;<<print "Hangover">>@@
+	<<case 1>>
+		<<print ", ">>
+		@@.white;<<print "Buzzed">>@@
+	<<case 2>>
+		<<print ", ">>
+		@@.white;<<print "Tipsy">>@@
+	<<case 3>>
+		<<print ", ">>
+		@@.white;<<print "Slightly Drunk">>@@
+	<<case 4>>
+		<<print ", ">>
+		@@.yellow;<<print "Drunk">>@@
+	<<case 5>>
+		<<print ", ">>
+		@@.red;<<print "Wasted">>@@
+	<<case 6>>
+		<<print ", ">>
+		@@.red;<<print "Alcohol Poisoning">>@@
+	<</switch>>
+<</if>>
+<<if $status.drugs != 0>>
+	<<switch $status.drugs>>
+	<<case -2>>
+		<<print ", ">>
+		@@.red;<<print "Severe Withdrawal">>@@
+	<<case -1>>
+		<<print ", ">>
+		@@.yellow;<<print "Withdrawal">>@@
+	<<case 1>>
+		<<print ", ">>
+		@@.white;<<print "Buzzed">>@@
+	<<case 2>>
+		<<print ", ">>
+		@@.white;<<print "High">>@@
+	<<case 3>>
+		<<print ", ">>
+		@@.yellow;<<print "Very High">>@@
+	<<case 4>>
+		<<print ", ">>
+		@@.red;<<print "Overdose">>@@
+	<<case 5>>
+		<<print ", ">>
+		@@.red;<<print "Deadly Overdose">>@@
+	<</switch>>
+<</if>>
+<<set _temp = $PC.orgasm - $status.pleasure>>
+<<if _temp < 1>>
+	<<print ", ">>
+	@@.pink;<<print either("Cumming","Orgasming")>>@@
+<<elseif _temp < 3>>
+	<<print ", ">>
+	@@.pink;<<print "About to Cum">>@@
+<<elseif _temp < 7>>
+	<<print ", ">>
+	@@.pink;<<print "Getting Close to Orgasm">>@@
+<<elseif _temp < 12>>
+	<<print ", ">>
+	@@.pink;<<print "Worked Up">>@@
+<</if>>
+<</if>>
+<</widget>>
+
+/*prints PC's mood based on anger, happiness, and sleep (for dreams)*/
+<<widget "pcMood">>
+''<<print "Mood: ">>''
+<<if $mindbreak>>
+	@@.px18;.red;<<print "mindbroken">>@@
+<<elseif $status.alcohol > 5 || $status.drugs > 4>>
+	@@.px18;<<print "Unconscious">>@@
+<<elseif $status.sleep>>
+	@@.px18;<<print "Sleeping">>@@
+<<elseif $status.anger > 7>>
+	@@.px18;.red;<<print "Enraged">>@@
+<<elseif $status.anger > 4>>
+	@@.px18;.red;<<print "Very Angry">>@@
+<<elseif $status.happy < -7>>
+	@@.px18;.red;<<print "Very Depressed">>@@
+<<elseif $status.happy < -5>>
+	@@.px18;.red;<<print "Depressed">>@@
+<<elseif $status.anger > 2>>
+	@@.px18;.yellow;<<print "Angry">>@@
+<<elseif $status.anger > 0>>
+	@@.px18;<<print "Irritated">>@@
+<<elseif $status.happy < -2>>
+	@@.px18;.yellow;<<print "Sad">>@@
+<<elseif $status.happy > 7>>
+	@@.px18;.green;<<print "Blissful">>@@
+<<elseif $status.happy > 5>>
+	@@.px18;.green<<print "Very Happy">>@@
+<<elseif $status.happy > 2>>
+	@@.px18;<<print "Happy">>@@
+<<else>>
+	@@.px18;<<print "Neutral">>@@
+<</if>>
+<</widget>>
+
+/*displays color-coded text on BC and cycle based on current variables*/
+<<widget "cycleStatus">>
+@@.px18;<<print "Birth Control: ">>@@
+<<if $status.birthCon < 75 && $trait.Perceptive == 1>>
+	@@.px18;.yellow;$status.birthConType@@
+<<elseif $status.birthCon != 0>>
+	@@.px18;.green;$status.birthConType@@
+<<else>>
+	@@.px18;.pink;None@@
+<</if>>
+<br>
+@@.px18;<<print "Cycle: ">>@@
+<<switch $status.risk>>
+	<<case 0>>
+		<<if $status.period != 0>>
+			@@.px18;.pink;$status.fertText@@
+		<<else>>
+			@@.px18;.ship;$status.fertText@@
+		<</if>>
+	<<case 0.5>>
+		@@.px18;.ship;$status.fertText@@
+	<<case 1>>
+		@@.px18;.ship;$status.fertText@@
+	<<case 1.5>>
+		@@.px18;.ship;$status.fertText@@
+	<<case 2>>
+		@@.px18;.green;$status.fertText@@
+	<<case 2.5>>
+		@@.px18;.green;$status.fertText@@
+	<<case 3>>
+		@@.px18;.yellowgreen;$status.fertText@@
+	<<case 3.5>>
+		@@.px18;.yellow;$status.fertText@@
+	<<case 4>>
+		@@.px18;.orange;$status.fertText@@
+	<<case 4.5>>
+		@@.px18;.orangered;$status.fertText@@
+	<<case 5>>
+		@@.px18;.orangered;$status.fertText@@
+<</switch>>
+<</widget>>
+
+<<widget "setScene">>
+<<silently>>
+/*args list. 0 is player situation, 1 is npc, 2 is group, 3 is location*/
+<<if ndef $args[3]>>
+	<<set $sceneA = "There was an error. Please report this bug!">>
+	<<set $sceneB = "Scene information was improperly set, insufficient data."
+	<<set $sceneC = "Available Information:">>
+	<<set $showDebug = true>>
+	<<if ndef $args[0]>>
+		<<set $sceneD = "None">>
+	<<else>>
+		<<set $sceneD = $args[0]>>
+	<</if>>
+	<<if ndef $args[1]>>
+	<<else>>
+		<<set $sceneD += $args[1]>>
+	<</if>>
+	<<if ndef $args[2]>>
+	<<else>>
+		<<set $sceneD += $args[2]>>
+	<</if>>
+<<elseif def $args[4]>>
+	<<set $sceneA = "There was an error. Please report this bug!">>
+	<<set $sceneB = "Scene information was improperly set, extra variable.">>
+	<<set $sceneC = "Available Information:">>
+	<<set $sceneD = $args[0] + " | " + $args[1] + " | " + $args[2] + " | " + $args[3] + " | " + $args[4]>>
+	<<set $showDebug = true>>
+<<else>>
+	<<set $sceneA = $args[0]>>
+	<<if $args[1] == 0>>
+		<<set $sceneB = $args[1]>>
+	<<elseif $args[1] == 1>>
+		
+	<<else>>
+		<<set $sceneB = $activeNPC.name + " " + $args[1]>>
+	<</if>>
+	<<if $args[2] != 1>>
+		<<set $sceneC = $args[2]>>
+	<</if>>
+	<<if $args[3] != 1>>
+	<<set $sceneD = $args[3]>>
+	<<switch $args[3]>>
+	<<case "lily">>
+		<<set $sceneD = "You are in Lily's home in Appletree. Lily's home is a townhouse located near Mainstreet and 2nd, and is very close to Appletree's shopping district. The first floor contains a spacious living room, a dining room, a half-bath, and a kitchen. Upstairs is the master bedroom with ensuite bath, guest bedroom, bathroom, and office. Downstairs is a basement that Lily converted into her own lab.">>
+	<<case "townsquare">>
+	<<case "downtown">>
+	<<case "mainstreet">>
+		<<set $sceneD = "You are on the main artery of Appletree, Shrodinger Boulevard. It's the main road that leads in and out of the Muschi Valley, a renamed section of state road. It passes by Bullseye on the northeastern side of the valley, and crosses west until it reaches Appletree. To the north of Shrodinger Boulevard is the area known as 'Downtown', while the area to the south is mostly residential. If you follow Shrodinger Boulevard west past town, it turns south and follows the western edge of the valley. Eventually you'll run into the Institute Complex, the reason Appletree was built in the first place.">>
+	<<case "institute">>
+	<<case "bullseye">>
+		<<set $sceneD = "You are at Bullseye, a large nation-wide department store chain. They carry a little bit of everything, but if you're looking for something uncommon or high-quality you'll usually have to look elsewhere. Bullseye is considered the 'upscale' competitor to Bal*Mart, with a nicer appearance and slightly better customer service.<br><br>Interesting Trivia: Bullseye's original target logo had a brown--rather than blue--bullseye circle. In the 1990s, customers began refering to the store as 'Brown-Eye', leading to the redesign of the company's logo.">>
+	<<case "t2home">>
+		<<set $scendD = "You are in your modest apartment in Appletree.">>
+	<</switch>>
+	<</if>>
+<</if>>
+<</silently>>
+<</widget>>
+
+<<widget "status">>\
+<<silently>>
+<<if ndef $args[0] || $args[0] == 0>>
+<<set $runop = [($trait.libido * 2.85),$PC.background,($skill.exhibition * 2.85),($skill.prostitute * 2.85),($skill.sex * 2.85),($skill.oral * 2.85),($skill.seduction * 2.85),($skill.comm * 2.85),($skill.org * 2.85),($skill.probSolving * 2.85),($skill.finance * 2.85),($skill.art * 2.85),($skill.athletic * 2.85),($skill.dancing * 2.85),($skill.clean * 2.85),($skill.shop * 2.85),($skill.cook * 2.85),$status.birthCon,$status.birthConType,($status.alcohol * 2.85),($status.drugs * 2.85),($status.pregA * 2.45),($status.pregB * 2.45),($status.milk * 2.45),($status.arousal * 2.35),($PC.orgasm * 2.35),($status.pleasure * 2.35),($status.need * 3.15),($status.satisfaction * 3.15),($status.stress * 3.55),($status.happy * 3.55),($status.anger * 3.55),($status.fatigue * 3.55),$status.will,($cash * 4.207),$mindbreak,($status.morality * 1.68),($status.perversion * 1.68),($status.lonely * 9.74),($status.health * 6.96),($status.addictSex * 4.37),($status.addictAlc * 4.37),($status.addictHeat * 4.37),($status.addictSatyr * 4.37),($status.addictFocus * 4.37),($status.addictCum * 4.37),($status.addictZone * 4.37),($status.addictCream * 4.37)]>>
+<<elseif $args[0] == 1>>
+<<set $trait.libido = Math.round( $runop[0] / 2.85 )>>
+<<set $PC.background = $runop[1]>>
+<<set $skill.exhibition = Math.round( $runop[2] / 2.85 )>>
+<<set $skill.prostitute = Math.round( $runop[3] / 2.85 )>>
+<<set $skill.sex = Math.round( $runop[4] / 2.85 )>>
+<<set $skill.oral = Math.round( $runop[5] / 2.85 )>>
+<<set $skill.seduction = Math.round( $runop[6] / 2.85 )>>
+<<set $skill.comm = Math.round( $runop[7] / 2.85 )>>
+<<set $skill.org = Math.round( $runop[8] / 2.85 )>>
+<<set $skill.probSolving = Math.round( $runop[9] / 2.85 )>>
+<<set $skill.finance = Math.round( $runop[10] / 2.85 )>>
+<<set $skill.art = Math.round( $runop[11] / 2.85 )>>
+<<set $skill.athletic = Math.round( $runop[12] / 2.85 )>>
+<<set $skill.dancing = Math.round( $runop[13] / 2.85 )>>
+<<set $skill.clean = Math.round( $runop[14] / 2.85 )>>
+<<set $skill.shop = Math.round( $runop[15] / 2.85 )>>
+<<set $skill.cook = Math.round( $runop[16] / 2.85 )>>
+<<set $status.birthCon = $runop[17]>>
+<<set $status.birthConType = $runop[18]>>
+<<set $status.alcohol = Math.round( $runop[19] / 2.85 )>>
+<<set $status.drugs = Math.round( $runop[20] / 2.85 )>>
+<<set $status.pregA = Math.round( $runop[21] / 2.45 )>>
+<<set $status.pregB = Math.round( $runop[22] / 2.45 )>>
+<<set $status.milk = Math.round( $runop[23] / 2.45 )>>
+<<set $status.arousal = Math.round( $runop[24] / 2.35 )>>
+<<set $PC.orgasm = Math.round( $runop[25] / 2.35 )>>
+/*<<set $status.pleasure = Math.round( $runop[26] / 2.35 )>>*/
+<<set $status.need = Math.round( $runop[27] / 3.15 )>>
+<<set $status.satisfaction = Math.round( $runop[28] / 3.15 )>>
+<<set $status.stress = Math.round( $runop[29] / 3.55 )>>
+<<set $status.happy = Math.round( $runop[30] / 3.55 )>>
+<<set $status.anger = Math.round( $runop[31] / 3.55 )>>
+<<set $status.fatigue = Math.round( $runop[32] / 3.55 )>>
+<<set $status.will = $runop[33]>>
+<<set $cash = Math.round( $runop[34] / 4.207 )>>
+<<set $mindbreak = $runop[35]>>
+<<set $status.morality = Math.round( $runop[36] / 1.68 )>>
+<<set $status.perversion = Math.round( $runop[37] / 1.68 )>>
+<<set $status.lonely = Math.round( $runop[38] / 9.74 )>>
+<<set $status.health = Math.round( $runop[39] / 6.96 )>>
+<<set $status.addictSex = Math.round( $runop[40] / 4.37 )>>
+<<set $status.addictAlc = Math.round( $runop[41] / 4.37 )>>
+<<set $status.addictHeat = Math.round( $runop[42] / 4.37 )>>
+<<set $status.addictSatyr = Math.round( $runop[43] / 4.37 )>>
+<<set $status.addictFocus = Math.round( $runop[44] / 4.37 )>>
+<<set $status.addictCum = Math.round( $runop[45] / 4.37 )>>
+<<set $status.addictZone = Math.round( $runop[46] / 4.37 )>>
+<<set $status.addictCream = Math.round( $runop[47] / 4.37 )>>
+<</if>>
+<<set $status.addictMax = Math.max($status.addictSex,$status.addictAlc,$status.addictHeat,$status.addictSatyr,$status.addictFocus,$status.addictCum,$status.addictZone,$status.addictCream)>>
+<</silently>>
+<</widget>>
+
+<<widget "addCmdItem">>
+	<<set _exists = false>>
+	<<for _i to 0; _i < $sidebarCmds.length; _i ++>>
+		<<if $sidebarCmds[_i][0] == $args[0]>>
+			<<set _exists = true>>
+		<</if>>
+	<</for>>
+	<<if not _exists>>
+		<<set $sidebarCmds.push([$args[0],$args[1]])>>
+	<</if>>
+<</widget>>
+
+<<widget "removeCmdItem">>
+
+<</widget>>
+

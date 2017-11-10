@@ -1,0 +1,85 @@
+:: groomingHair [nobr]
+
+<<set _counter = 0>>
+<center>@@.head1;Hair Menu@@</center>
+<br>
+<<button "''∧''">><<replace "#hairstats">><</replace>><</button>><<button "''∨''">><<replace "#hairstats">>
+<table><tr><td width="50%">
+@@.alme;''Hair Length''@@ @@.exp;<<print $groom.hairLength>><<units>>@@<br>
+@@.alme;''Hair Color''@@ @@.exp;<<print $groom.hairColor>>@@<br>
+@@.alme;''Hair Curliness''@@ @@.exp;<<pcHairCurl>>@@<br>
+@@.alme;''Hair Growth''@@ <<if $metric>>@@.exp;apx. 1.25 cm per month@@<<else>>@@.exp;apx. ½ in. per month@@<</if>>
+</td><td>
+@@.alme;''Currently''@@ @@.exp;your hair <<print $groom.hairStyle[0]>>.@@<br>
+@@.alme;''Hairstyle Known''@@ <<if $groom.hairStyle[1]>>@@.good;Yes@@<<else>>@@.import;No@@<</if>><center>[img[$groom.hairStyle[5]]]</center>
+</td></tr></table>
+<</replace>><</button>> @@.head3;Hair Status Information@@
+<span id="hairstats"></span>
+<br><br>
+<<button "''∧''">><<replace "#hairstyle">><</replace>><</button>><<button "''∨''">><<replace "#hairstyle">>
+<<silently>>
+<<set _hairList = " ">>
+<<set _knownHairs = []>>
+<<set _unknownHair = []>>
+<<for _i to 0, _hairNames to Object.keys($hairStyle); _i lt _hairNames.length; _i++>>
+	<<if $hairStyle[_hairNames[_i]][1]>>
+		<<set _hairList += "'">>
+		<<set _hairList += _hairNames[_i]>>
+		<<set _hairList += "' ">>
+		<<set _knownHairs.push(_hairNames[_i])>>
+	<<else>>
+		<<set _unknownHair.push(_hairNames[_i])>>
+	<</if>>
+<</for>>
+<<set _changeHairPrint = "<<dropdown '_changeHair'" + _hairList + ">>">>
+<<set _standHairPrint = "<<dropdown '_standHair'" + _hairList + ">>">>
+<<set _fancyHairPrint = "<<dropdown '_fancyHair'" + _hairList + ">>">>
+<<set _casualHairPrint = "<<dropdown '_casualHair'" + _hairList + ">>">>
+<</silently>>
+<table><tr><td>
+@@.alme;''Change your current hairstyle''@@ <span id="chanhair">@@.note;unchanged@@</span><br>
+<<button "Style!">><<changeHairstyle _changeHair>><<set _counter += 1>><<replace "#chanhair">>@@.note;hairstyle was changed to <<print _changeHair>>@@ Changed <<print _counter>> <<if _counter == 1>>time.<<else>>times.<</if>><</replace>><</button>> <<print _changeHairPrint>>
+</td></tr><tr><td>
+@@.alme;''change your hair color'' With your Colorizer-Max 3^^as seen on TV^^@@ | @@.note;<span id="chancol">Takes 30+ min. based on hair length.</span>@@<br>
+<<button "Color!">>
+<<if $metric>>
+	<<set _timecunt = Math.round($groom.hairLength / 2)>>
+<<else>>
+	<<set _timecunt = Math.round($groom.hairLength)>>
+<</if>>
+<<set _timecunt += random(25,35)>><<addTime _timecunt>><<set _explosion = random(1,20)>><<if _explosion != 1>><<set $groom.hairColor = _haircolor>><<replace "#chancol">>Your hair color was changed to <<print $groom.hairColor>>.<</replace>><<else>><<set $groom.hairColor = "puke">><<replace "#chancol">>Your Colorizer malfunctioned, HARD. Your hair is now puke colored, your crapy quality appliance is broke, and it looks like some of your hair was burnt off.<</replace>><<if $metric>><<set $groom.hairLength -= random(10,20)>><<else>><<set $groom.hairLength -= random(2,6)>><</if>><<if $groom.hairLength < 1>><<set $groom.hairLength = 1>><</if>><<dialog 'CRAB BATTLE!!!'>><<include [[crabBattle1]]>><</dialog>><</if>>
+<</button>> <<dropdown '_haircolor' "white" "platinum blonde" "blonde" "sandy blonde" "dark blonde" "strawberry blonde" "light brown" "light auburn" "brown" "auburn" "copper" "ginger" "brunette" "cafe noir" "black" "red" "pink" "orange" "yellow" "green" "blue" "purple">> @@.emboss;.typewriter;.white;font-size:80%;This will require purchase in the future!@@
+</td></tr><tr><td>
+@@.alme;''Standard Hairstyle''@@ <span id="standhair">@@.exp;<<print $groom.hairDefaultNorm>>@@</span><br><<button "Set">><<set $groom.hairDefaultNorm = _standHair>><<replace "#standhair">>@@.exp;<<print $groom.hairDefaultNorm>>@@<</replace>><</button>> <<print _standHairPrint>>
+</td></tr><tr><td>
+@@.alme;''Fancy Hairstyle''@@ <span id="fancyhair">@@.exp;<<print $groom.hairDefaultFancy>>@@</span><br><<button "Set">><<set $groom.hairDefaultFancy = _fancyHair>><<replace "#fancyhair">>@@.exp;<<print $groom.hairDefaultFancy>>@@<</replace>><</button>> <<print _fancyHairPrint>>
+</td></tr><tr><td>
+@@.alme;''Casual Hairstyle''@@ <span id="casualhair">@@.exp;<<print $groom.hairDefaultCasual>>@@</span><br><<button "Set">><<set $groom.hairDefaultCasual = _casualHair>><<replace "#casualhair">>@@.exp;<<print $groom.hairDefaultCasual>>@@<</replace>><</button>> <<print _casualHairPrint>>
+</td></tr><tr><td>
+@@.alme;''Known Hairstyles''@@ @@.monospace;<<print _knownHairs>>@@
+</td></tr><tr><td>
+@@.alme;''Unknown Hairstyles''@@ @@.monospace;<<print _unknownHair>>@@
+</td></tr></table>
+<</replace>><</button>> @@.head3;Hair Style Settings@@
+<span id="hairstyle"></span>
+<br><br>
+<<button "''∧''">><<replace "#hairtut">><br><br><br><br><br><br><br><br><br><</replace>><</button>><<button "''∨''">><<replace "#hairtut">>@@.typewriter;.ship;font-size:120%;H@@@@.typewriter;.white;airstyles obviously change your appearance, but also affect other player stats. Hairstyles differ in several ways beyond simply how they look or how attractive they are. Some are harder to learn than others, for one thing, and they take different amounts of time to accomplish. Usually the fancier, more attractive styles take longer to do. In order to learn hairstyles, you must first observe them "in action" so to speak, on your own hair. When you pay a stylist at a salon to style your hair, you will watch and attempt to learn how to accomplish that hairstyle on your own. This means a skill check with your aesthetics skill. If your skill check roll is high enough (higher aesthetics helps), you'll learn the style permenantly. This means that a character with low aesthetics can learn a very complicated hairstyle, but that it may take numerous attempts. It also means that a skilled pc may fail to learn a hairstyle due to a bad roll. You can keep trying as many times as your funds and time allow, though you'll need to change your hairstyle to something else before making another attempt.@@
+<br><br>
+@@.typewriter;.ship;font-size:120%;T@@@@.typewriter;.white;here are three hairstyle presets, which will be used automatically so that you don't need to manually style your hair each and every time. Below, each of these presets are explained. ''One important note''--styling your hair takes time, so if you change hairstyles often during the day, you'll find a good chunk of time wasted!
+<br>''Standard''--This is your normal workday hairstyle. It's your standard "out and about" hairstyle. On days you have to go to work, you'll automatically style your hair this way. You can also choose this style when a scripted activity asks you for a hairstyle preference.
+<br>''Fancy''--This is your fancy "going out" hairstyle. It is rarely done automatically, but you'll often get the option to style your hair with this style before a social event such as a date.
+<br>''Casual''--This is your staying-at-home hairstyle. This hairstyle will be applied automatically on your days off from work. You can also choose this for some scripted activities. It's generally okay to pick a simple time-efficient hairstyle here, though you may wish to restyle if you plan to go out. It's perfectly fine to have Standard and Casual set to the same hairstyle if you don't want to worry about switching.@@
+<</replace>><</button>> @@.typewriter;.ship;font-size:120%;''H''@@@@.typewriter;.white;''airstyle''@@ @@.typewriter;.ship;font-size:120%;''T''@@@@.typewriter;.white;''utorial''@@
+<br><br><span id="hairtut"><br><br><br><br><br><br><br><br><br></span>
+
+
+:: crabBattle1 [nobr]
+
+Your crappy infomercial hair appliance broke in an unexpected way.
+<br><center>
+@@.warning;Crab Battle!!!@@
+</center>
+<br>
+<iframe width="854" height="480" src="https://www.youtube.com/embed/R-FxmoVM7X4" frameborder="0" allowfullscreen></iframe>
+<br>
+@@.bad;[✘]@@ Your dancing skillcheck failed. You were unable to [[stop the crab|https://i.imgur.com/Qeda4TP.jpg]].

@@ -1,0 +1,87 @@
+:: jobSystemStart [nobr]
+
+<<if $sched.sleepPassage == "none">>
+	<<set $sched.sleepPassage = previous()>>
+<</if>>
+Welcome to Jobbing!<br>
+This is a placeholder for any introductory text that happens.<br>
+Normally, you won't need to click [[continue|jobSystem1]].
+
+
+:: jobSystem1 [nobr]
+
+
+/*bunch o code here...*/
+<<set _ratioTotal = $job.rules.taskratio[0] + $job.rules.taskratio[1] + $job.rules.taskratio[2] + $job.rules.taskratio[3]>>
+<<set _ratioA = $job.rules.taskratio[0]>>
+<<set _ratioB = _ratioA + $job.rules.taskratio[1]>>
+<<set _ratioC = _ratioB + $job.rules.taskratio[2]>>
+<<set _ratioD = _ratioC + $job.rules.taskratio[3]>>
+<<set _tasks = []>>
+<<for _i to 0; _i < $job.rules.tasks; _i++>>
+	<<set _rand = random(1,_ratioTotal)>>
+	<<if _rand <= _ratioA>>
+		<<set _tit = $job.rules.taskA>>
+		<<set _tit.tasklet = "A">>
+		<<set _tasks.push(_tit)>>
+	<<elseif _rand <= _ratioB>>
+		<<set _tit = $job.rules.taskB>>
+		<<set _tit.tasklet = "B">>
+		<<set _tasks.push(_tit)>>
+	<<elseif _rand <= _ratioC>>
+		<<set _tit = $job.rules.taskC>>
+		<<set _tit.tasklet = "C">>
+		<<set _tasks.push(_tit)>>
+	<<elseif _rand <= _ratioD>>
+		<<set _tit = $job.rules.taskD>>
+		<<set _tit.tasklet = "D">>
+		<<set _tasks.push(_tit)>>
+	<</if>>
+<</for>>
+<<set _results = []>>
+<<set _perf = 0>>
+<<for _i to 0; _i < _tasks.length; _i++>>
+	<<SCX>>
+	<<SC _tasks[_i].type _tasks[_i].DC "d6">>
+	<<if $SCresult[0]>>
+		<<set _res = [true,false]>>
+		<<set _results.push(_res)>>
+		<<stress _tasks[_i].stress>>
+		<<set _perf += 10>>
+	<<elseif _tasks[_i].retry>>
+		<<SC _tasks[_i].type _tasks[_i].DC "d6">>
+		<<if $SCresult[0]>>
+			<<set _res = [true,true]>>
+			<<set _results.push(_res)>>
+			<<stress _tasks[_i].stress>>
+			<<stress _tasks[_i].stress>>
+			<<set _perf += 5>>
+		<<else>>
+			<<set _res = [false,true]>>
+			<<set _results.push(_res)>>
+			<<stress _tasks[_i].stress>>
+			<<stress _tasks[_i].stress>>
+			<<stress _tasks[_i].stress>>
+			<<set _perf -= 10>>
+		<</if>>
+	<<else>>
+		<<set _res = [false,false]>>
+		<<set _results.push(_res)>>
+		<<stress _tasks[_i].stress>>
+		<<stress _tasks[_i].stress>>
+		<<stress _tasks[_i].stress>>
+		<<set _perf -= 5>>
+	<</if>>
+<</for>>
+<<set $temp = Math.round( _perf / _tasks.length)>>
+<<goto [[jobSystemResults]]>>
+
+:: jobSystemResults [nobr]
+
+@@.head2;Congratulations, you just Jobbed hard!@@
+<br><br>
+<<if $temp >= 8>>You did fantastic today, and your supervisor said he'd never seen anyone job so good.<<elseif $temp >= 3>>You did pretty well today, even though you had to do a couple things over.<<elseif $temp >= -1>>You did okay today, though it certainly wasn't enough to impress anyone.<<elseif $temp >= -5>>You could charitably call your performance mediocre. You might want to get better at this whole jobbing thing before it's too late!<<else>>Based on your Jobbing skills, I wouldn't put much hope in keeping your job.<</if>>
+<br><br>
+This is definitely placeholder text. You aren't really meant to be jobbing yet. The results are actually output into a couple variables that allow for pretty interesting storytelling results by combining the events of the day. @@.mono;I had to clean the vats again today, this time I slipped and fell into some pink goo! While my supervisor was pissed, the nerd types seemed to be really pleased with my work afterward...@@
+
+<<link "I'm done Jobbing">><<goto [[$sched.sleepPassage]]>><</link>>

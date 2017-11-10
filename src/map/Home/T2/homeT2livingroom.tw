@@ -1,0 +1,56 @@
+:: homeT2livingroom [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+
+/* GAME MAP TABLE - Displays map next to spot for area image.*/
+<div id="topbar"><center>
+<table id="navigation">
+<tr id="navigation">
+<td id="navigation"><img data-passage="IMGtier2homeLR" usemap="#image-map"><map name="image-map">
+    <area data-passage="homeT2TObedroom" alt="Bedroom" title="Bedroom" coords="152,28,236,28,244,102,154,102" shape="poly">
+    <area data-passage="homeT2TOliving" alt="Livingroom" title="Livingroom" coords="48,47,148,47,152,129,42,129" shape="poly">
+    <area data-passage="homeT2TObalcony" alt="Balcony" title="Balcony" coords="0,181,0,103,42,103,38,181" shape="poly">
+    <area data-passage="homeT2TOkitchen" alt="Kitchen" title="Kitchen" coords="38,203,44,131,150,131,150,153,134,159,134,203" shape="poly">
+    <area data-passage="homeT2TOfoyer" alt="Foyer" title="Foyer" coords="136,203,136,161,152,153,188,155,190,203" shape="poly">
+    <area data-passage="homeT2TObath" alt="Bathroom" title="Bathroom" coords="206,203,200,105,244,105,248,133,246,203" shape="poly">
+    <area data-passage="homeT2TOexit" alt="Exit" title="Exit" coords="34,247,38,205,246,205,246,247" shape="poly" class="map-red-area">
+	<area data-passage="homeT2TOwardrobe" alt="Wardrobe Menu" title="Wardrobe Menu" coords="152,104,196,104,198,138,162,136,154,130" shape="poly" class="map-green-area">
+    <area data-passage="homeT2homemenu" alt="Home Control" title="Home Control" coords="32,248,36,184,0,184,2,248" shape="poly" class="map-blue-area">
+</map></td>
+<td id="navigation"><<link [img[$locImageName]]>><</link>></td>
+</tr>
+</table></center></div>
+<div id="mainshits"><center>
+@@.head2;<<=$locName>>@@</center>
+<br><br>
+/*Event notification spot*/
+/*<<mapEventHome>>*/
+/*LOCATION description of  location*/
+@@.head3;Y@@ou are in your &nearly-empty and undecorated& living room. &more placeholder for time and funishings&
+/*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span></div>
+<div id="actionbar">
+/*ACTION TABLE*/
+<table>
+
+<tr>
+<td width="20%">
+<<hoverrevise time>>
+<<button "Waste Time">><<addTime 60>><<goto [[homeT2livingroom]]>><</button>>
+<<endhoverrevise>>
+</td><td>
+<<insertion time>>@@.exp;Eventually there will be options here allowing you to perform different ranges of activities. For now, clicking this button causes 1 hour of time to pass.@@<<endinsertion>>
+</td></tr>
+<tr><td colspan=2  id="homeaction"></td></tr>
+</table>
+<<timed 50ms>>
+<<mapHomeEventAction>>
+<<mapHomeActions>>
+<</timed>>
+</div>
+
+

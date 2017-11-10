@@ -1,0 +1,114 @@
+:: mapWidgets [widget nobr]
+
+/*widgets to operate functions of map system not contained in control passage or location pages*/
+<<nobr>>
+<<silently>>
+<<widget "mapRoll">>
+	<<set _randA = random(0,10)>>
+	<<set _randB = random(1,10)>>
+	<<set $mapDice = _randA + _randB>>
+<</widget>>
+
+<<widget "walkDescriptBullseye">>
+@@.note;Travel descriptions not yet implemented.@@
+<</widget>>
+
+<<widget "mapEventBullseye">>
+@@.note;Map Events not yet implemented.@@
+<</widget>>
+
+<<widget "clothingEffect">>
+/* _movHour _movTime*/
+<</widget>>
+
+<<widget "mapExhibition">>
+/* _movHour _movTime*/
+<</widget>>
+
+<<widget "mapBodyFunction">>
+/* _movHour _movTime*/
+<</widget>>
+
+<<widget "mapMiscFunction">> /*catch-all for other random items*/
+<</widget>>
+
+<<widget "mapPeople">> /*Allows adding standard NPCs to the location*/
+<</widget>>
+
+<<widget "mapMainEventSelect">>
+<</widget>>
+
+<<widget "mapMinorEventSelect">>
+<</widget>>
+
+<<widget "mapEventBullseyeAct">>
+<</widget>>
+
+<<widget "mapHomeActions">>
+<<set _check = either(true,false)>>
+<<if _check>>
+<<replace "#homeaction">>
+<table id="Actions"><tr><td width="20%">
+<<link 'Dynamic Action'>><<set alert('this is only an example')>><</link>>
+</td><td>
+@@.exp;This area holds dynamic actions. Some actions are always available at a location, like the link above. Others are determined at the time you enter the room with a separate function, and code is generated to be placed here to accomplish various actions.@@</td>
+</tr></table>
+<</replace>>
+<</if>>
+<</widget>>
+
+<<widget "mapBFHomeActions">>
+<<set _check = either(true,false)>>
+<<if _check>>
+<<replace "#homeaction">>
+<table id="Actions"><tr><td width="20%">
+<<link 'Dynamic Action'>><<set alert('this is only an example')>><</link>>
+</td><td>
+@@.exp;This area holds dynamic actions. Some actions are always available at a location, like the link above. Others are determined at the time you enter the room with a separate function, and code is generated to be placed here to accomplish various actions.@@</td>
+</tr></table>
+<</replace>>
+<</if>>
+<</widget>>
+
+<<widget "mapHomeNPCaction">>
+
+<</widget>>
+
+<<widget "mapHomeGetDirty">>
+
+<</widget>>
+
+<<widget "mapHomeEventSelect">>
+<<set $mapHomeEvent = 0>>
+<</widget>>
+
+<<widget "mapEventHome">>
+
+<</widget>>
+
+<<widget "mapHomeEventAction">>
+
+<</widget>>
+
+<<widget "mapBFHomeNPCaction">>
+
+<</widget>>
+
+<<widget "mapBFHomeGetDirty">>
+
+<</widget>>
+
+<<widget "mapBFHomeEventSelect">>
+<<set $mapBFHomeEvent = 0>>
+<</widget>>
+
+<<widget "mapEventBFHome">>
+
+<</widget>>
+
+<<widget "mapBFHomeEventAction">>
+
+<</widget>>
+
+<</silently>>
+<</nobr>>

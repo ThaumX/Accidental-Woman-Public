@@ -1,0 +1,84 @@
+:: background [nobr]
+
+<<nobr>>
+<<silently>>
+/*adjustments*/
+<<if $mutate.Milk>>
+	<<set $PC.tits.size += 200>>
+	<<if $PC.lactation < 3>>
+		<<set $PC.lactation = 3>>
+	<<else>>
+		<<set $PC.lactation += 1>>
+		<<set $PC.tits.size += 100>>
+	<</if>>
+	<<set $status.milk = 3>>
+<<elseif $PC.lactation > 3>>
+	<<set $status.milk = 1>>
+<</if>>
+<<if $kink.Easy>>
+	<<set $PC.orgasm -= 4>>
+<</if>>
+<<if $mutate.TwinWomb>>
+	<<set $PC.wetness += 2>>
+	<<set $PC.fertility += 2>>
+	<<set $trait.libido += 2>>
+	<<if $PC.hips < 5>>
+		<<set $PC.hips = 5>>
+	<</if>>
+<</if>>
+<<if $mutate.Cycle>>
+	<<set $PC.fertility += 1>>
+	<<set $PC.wetness += 1>>
+	<<set $trait.libido += 1>>
+<</if>>
+<<if $mutate.BC>>
+	<<set $PC.fertility += 1>>
+<</if>>
+<<if $mutate.Multiple>>
+	<<set $PC.fertility += 1>>
+	<<if $PC.hips < 4>>
+		<<set $PC.hips = 4>>
+	<</if>>
+<</if>>
+<<if $mutate.Gestate>>
+	<<set $PC.pregTerm = 6>>
+<</if>>
+/*Limit to max values*/
+<<pcBreastCalc>>
+<<if $PC.lactation > 5>>
+	<<set $PC.lactation = 5>>
+<</if>>
+<<if $PC.wetness > 5>>
+	<<set $PC.wetness = 5>>
+<</if>>
+<<if $PC.fertility > 6>>
+	<<set $PC.fertility = 6>>
+<</if>>
+<<if $trait.libido > 7>>
+	<<set $trait.libido = 7>>
+<</if>>
+<</silently>>
+<<set $helpText = "Don't get too worked up over which specific career is the best. The main reason the careers are all rather plain and common is that they don't play a big part in your new life. The ''important'' part is how they affect your starting skills. Each career lists what skills it gives points to. Picking a custom career gives you an equivilent amount of skillpoints to spend yourself. (Just don't be surprised if nobody reacts to any outlandish career you dream up!)">>
+@@.head1;Choose your Background@@
+<br>@@.head3;T@@he background you choose will help determine the starting values for some of your skills, and the amount of skillpoints for you to spend. These skills are improvable during the course of the game, but depending on your character choices could be harder or easier to improve. Additionally, buying skills with skillpoints may be cheaper or more expensive depending on character choices. The skills gained from your background are unaffected by your character choices though, so may be a good opportunity to get a headstart on a skill that will be harder to learn.
+<br>
+<table>
+<tr><td width=35%><<radiobutt "$PC.background" "accountant">> Accountant</td><td> Bonus to Finance and Organization skills</td></tr>
+<tr><td><<radiobutt "$PC.background" "accountcollector">> Accounts Collector</td><td> Bonus to Communication, Skillpoints </td></tr>
+<tr><td><<radiobutt "$PC.background" "adminassistant">> Administrative Assistant</td><td> Bonus to Communication, Organization, and Problem Solving</td></tr>
+<tr><td><<radiobutt "$PC.background" "billingpostingclerk">> Billing and Posting Clerk</td><td> Bonus to Organization and Finance</td></tr>
+<tr><td><<radiobutt "$PC.background" "bookkeepingclerk">> Bookkeeping Clerk</td><td> Bonus to Organization</td></tr>
+<tr><td><<radiobutt "$PC.background" "computersupport">> Computer Support Specialist</td><td> Bonus to Problem Solving and Communication</td></tr>
+<tr><td><<radiobutt "$PC.background" "customerservice">> Customer Service Representative</td><td> Bonus to Communication and Problem Solving</td></tr>
+<tr><td><<radiobutt "$PC.background" "graphicdesign">> Graphic Designer</td><td> Bonus to Asthetics and Communication</td></tr>
+<tr><td><<radiobutt "$PC.background" "humanresources">> Human Resources Specialist</td><td> Bonus to Communication</td></tr>
+<tr><td><<radiobutt "$PC.background" "logisticsclerk">> Logistics Clerk</td><td> Bonus to Problem Solving and Organization</td></tr>
+<tr><td><<radiobutt "$PC.background" "officeclerk">> Office Clerk</td><td> Bonus to Skillpoints and Communication</td></tr>
+<tr><td><<radiobutt "$PC.background" "salesrepservice">> Sales Representative (service)</td><td> Bonus to Communication and Organization</td></tr>
+<tr><td><<radiobutt "$PC.background" "salesreptechnical">> Sales Representative (technical)</td><td> Bonus to Communication and Problem Solving</td></tr>
+<tr><td><<radiobutt "$PC.background" "salesrepwholesale">> Sales Representative (wholesale)</td><td> Bonus to Communication and Finance</td></tr>
+<tr><td><<radiobutt "$PC.background" "teammanager">> Office Team Manager</td><td> Bonus to Organization and Communication</td></tr>
+<tr><td><<radiobutt "$PC.background" "custom">> Custom</td><td> <<textbox "$temp" "enter custom career">></td></tr>
+</table><br>
+@@font-size:140%;<<button [[Assign Your Skills|skillSet]]>><</button>>@@
+<</nobr>>

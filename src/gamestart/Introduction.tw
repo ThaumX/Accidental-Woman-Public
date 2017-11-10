@@ -1,0 +1,40 @@
+:: Introduction [nobr]
+
+<<nobr>>
+<<set $location = "Game Start Menu">><<set $helpText = "So, lots of options here, plus buttons! Read the explaination on the options to figure out what they do. For the buttons... ''Start the Game'' starts the game. If you're reading this, this is probably the button you should click. ''Quick Start'' skips the opening story and goes straight to the start of character creation. ''NPC Options'' lets you set several options for the NPCs that are generated in the game, to customize them to fit the scenario you'd like. ''Custom NPC Editor'' this is a super-detailed setup to allow you to control nearly everything about NPC creation. It also lets you save them as a template, so you can share yours or try out other player's setups. ''Premade Characters'' is where you can select a premade character or start a roleplay challenge.">>
+<br><center>
+@@.head1;Welcome to Accidental Woman@@
+<br><br>
+
+<<button [[NPC Options|customNPC]]>><</button>>  <<button "Custom NPC Editor">><<replace "#notready">><br>The Custom NPC Editor is not yet implemented.<</replace>><</button>>  <<button [[Premade Characters|premade]]>><</button>>
+<hr width="50%">
+@@font-size:120%;.contButt;<<button [[Start the Game|storyStart1]]>><</button>>@@  @@font-size:120%;<<button "Quick Start">><<if ndef $gamestate>><<replace "#notready">><br>Quickstart is unavailable until you have played the opening story once.<</replace>><<elseif $gamestate === null>><<replace "#notready">><br>Quickstart is unavailable until you have played the opening story once.<</replace>><<else>><<if $gamestate.playedIntro>><<set $quickStart = 1>><<goto [[storyStart1]]>><<else>><<replace "#notready">><br>Quickstart is unavailable until you have played the opening story once.<</replace>><</if>><</if>><</button>>  <<button "Load Template">><<replace "#notready">><br>For now, you can only load templates at the start of character creation. Choose the Load Template option when character creation starts.<</replace>><</button>>@@
+@@font-size:110%;color:yellow;<span id="notready"><br></span>@@</center>
+<table>
+<tr id="divide"><td colspan=3>
+@@.head2;Choose your starting options@@
+</td></tr><tr><td width="33%">
+<<checkboxA "$enableMutation" 0 1>> @@.head4;Mutations@@ <<helpPop "Enable Mutations" "Mutations are unusual changes to your character, such as a high likelyhood of multiple pregnancy or less-effective birth control. Enabling mutations also enables certain (less drastic) mutations for NPCs at a very low rate.">>
+</td><td colspan=2>
+@@.head4;Clothing Detail@@ <<dropdown "$clothingDetail" "4-Fashionista" "3-Conscious" "2-Uninterested" "1-Plain Jane">> <<helpPop "Clothing Detail" "Allows you to specify the level of detail you see on generated clothing.<br><br>''1''--just style and color. ''2''--style, substyle, & color. ''3''--style, substyle, (neckline/hem), & color. ''4''--Fashionista, full detail.">>
+</td></tr>
+<<if $pub>>
+  <tr><td>
+  <<checkboxA "$enableCheats" 0 1>> @@.head4;Cheats@@ <<helpPop "Cheats" "Whether to enable cheats including cheat mode. @@.import;Cheats may affect gameplay and affect game content.@@">>
+  </td><td colspan=2>@@.ident;Thanks so much for supporting development of AW!@@</td></tr>
+<</if>>
+<tr><td width="33%">
+<<checkboxA "$metric" false true>> @@.head4;Metric@@ <<helpPop "Metric System" "Whether to use the metric system.<br>@@.import;This can not be changed during play.@@<br><br>@@.note;The metric option changes numeric values/variables to be represented in metric instead of U.S. Imperial. Please report any descriptive measurements that are the wrong system! Units used will generally follow the thousands convention (kilo, regular, milli), except in the case of centimeters due to common usage.@@">>
+</td><td width="34%">
+<<checkboxA "$randomBody" 0 1>> @@.head4;Random Body@@ <<helpPop "Randomized Body" "With this option turned on, your body and appearance will be determined randomly, and you will be unable to change it. This could make things more difficult.">>
+</td><td width="33%">
+<<checkboxA "$randomMind" 0 1>> @@.head4;Random Mind@@ <<helpPop "Randomized Mind" "With this option turned on, your mental attributes and traits will be determined randomly, and you will be unable to change them. This could make things more difficult.">>
+</td></tr><tr><td>
+<<checkboxA "$randomSexuality" 0 1>> @@.head4;Random Sexuality@@ <<helpPop "Randomized Sexuality" "With this option turned on, your sexual proclivities will be determined randomly, and you will be unable to change them. @@.yellow;The random options may conflict with your personal tastes@@, so this may not be a fun option.">>
+</td><td>
+<<checkboxA "$randomAttraction" 0 1>> @@.head4;Random Attraction@@ <<helpPop "Randomized Attraction" "With this option turned on, your prefered body type and personality will be determined randomly, and you will be unable to change them. @@.yellow;The random options may conflict with your personal tastes@@, so this may not be a fun option.">>
+</td><td>
+<<checkboxA "$randomMutation" 0 1>> @@.head4;Random Mutation@@ <<helpPop "Randomized Mutation" "With this option turned on, your body and appearance will be determined randomly, and you will be unable to change it. This could make for an interesting challenge!">>
+</td></tr></table>
+
+<</nobr>>

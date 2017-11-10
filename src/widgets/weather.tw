@@ -1,0 +1,80 @@
+:: weather [widget nobr]
+
+<<nobr>>
+<<silently>>
+<<widget "weatherCheck">>
+@@.note;Weather System not implemented.@@
+<</widget>>
+
+<<widget "weatherBullseyeAct">>
+<</widget>>
+
+/*determines the day's weather. Arg to force certain weather*/
+<<widget "weatherizer">>
+<<if ndef $args[0]>>
+<<set _rand = random(1,100)>>
+<<set $weather = []>>
+<<set $wxChance = 0>>
+<<set $skyCon = "CLR">>
+<<set $wxReport = "missing">>
+<<switch $month>>
+<<case 13 1 2 3>>
+	<<if _rand <= 2>>
+		<<set $weather.push("TSSN")>>
+		<<set $weather.push("+SN")>>
+		<<set $weather.push("SN")>>
+		<<set $weather.push("SN")>>
+		<<set $weather.push("-SN")>>
+		<<set $weather.push("-SN")>>
+		<<set $wxChance = random(50,70)>>
+		<<set $wxChance += either(0,2,4,6,8,10)>>
+		<<set _sky = ["OVC","BKN"]>>
+	<<elseif _rand <= 8>>
+		<<set $weather.push("+SN")>>
+		<<set $weather.push("SN")>>
+		<<set $weather.push("SN")>>
+		<<set $weather.push("-SN")>>
+		<<set $weather.push("-SN")>>
+		<<set $weather.push("-SN")>>
+		<<set $wxChance = random(30,50)>>
+		<<set $wxChance += either(0,2,4,6,8,10)>>
+		<<set _sky = ["OVC","BKN","BKN"]>>
+	<<elseif _rand <= 15>>
+		<<set $weather.push("SN")>>
+		<<set $weather.push("-SN")>>
+		<<set $weather.push("-SN")>>
+		<<set $wxChance = random(20,50)>>
+		<<set $wxChance += either(0,2,4,6,8,10)>>
+		<<set _sky = ["OVC","BKN","BKN","SCT"]>>
+	<<elseif _rand <= 25>>
+		<<set $weather.push("-SN")>>
+		<<set $wxChance = random(10,40)>>
+		<<set $wxChance += either(0,2,4,6,8,10)>>
+		<<set _sky = ["BKN","SCT"]>>
+	<<elseif _rand <= 30>>
+		<<set $weather.push("FZRA")>>
+		<<set $weather.push("GR")>>
+		<<set $weather.push("RA")>>
+		<<set $wxChance = random(30,60)>>
+		<<set $wxChance += either(0,2,4,6,8,10)>>
+		<<set _sky = ["BKN","SCT"]>>
+	<<elseif _rand <= 45>>
+		<<set $weather.push("FG")>>
+		<<set $weather.push("BR")>>
+		<<set $weather.push("BR")>>
+		<<set $weather.push("RA")>>
+		<<set $wxChance = random(30,60)>>
+		<<set $wxChance += either(0,2,4,6,8,10)>>
+		<<set _sky = ["FEW","SCT","FEW","FEW","CLR"]>>
+	<</if>>
+<<case 4 5>>
+
+<<case 6 7 8 9>>
+
+<<case 10 11 12>>
+
+<</switch>>
+<</widget>>
+
+<</silently>>
+<</nobr>>

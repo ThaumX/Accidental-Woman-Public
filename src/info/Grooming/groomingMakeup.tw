@@ -1,0 +1,255 @@
+:: groomingMakeup [nobr]
+
+<center>@@.head1;Makeup Menu@@</center>
+<<link "Refresh">><<replace "#autooptions">><table>
+<tr><td colspan=4>@@.head3;Auto Options@@</td></tr>
+<tr><td width="33%">
+<<if $groom.facewash>><<checkbox "$groom.facewash" false true checked>><<else>><<checkbox "$groom.facewash" false true >><</if>> ''Daily Face Cleansing''
+</td><td colspan=2>
+<<if $groom.makeupWash>><<checkbox "$groom.makeupWash" false true checked>><<else>><<checkbox "$groom.makeupWash" false true >><</if>> ''Wash if Unsuccessful''
+</td><td width="33%">
+<<if $groom.makeupRetry>><<checkbox "$groom.makeupRetry" false true checked>><<else>><<checkbox "$groom.makeupRetry" false true >><</if>> ''Retry if Unsuccessful''
+</td></tr><tr><td colspan=3>
+''Maximum Time'' @@.monospace;.idcol;| <<if $groom.makeupTimeLimit == 15>><<radiobutton "$groom.makeupTimeLimit" 15 checked>><<else>><<radiobutton "$groom.makeupTimeLimit" 15>><</if>>15 | <<if $groom.makeupTimeLimit == 30>><<radiobutton "$groom.makeupTimeLimit" 30 checked>><<else>><<radiobutton "$groom.makeupTimeLimit" 30>><</if>>30 | <<if $groom.makeupTimeLimit == 45>><<radiobutton "$groom.makeupTimeLimit" 45 checked>><<else>><<radiobutton "$groom.makeupTimeLimit" 45>><</if>>45 | <<if $groom.makeupTimeLimit == 60>><<radiobutton "$groom.makeupTimeLimit" 60 checked>><<else>><<radiobutton "$groom.makeupTimeLimit" 60>><</if>>60 | <<if $groom.makeupTimeLimit == 90>><<radiobutton "$groom.makeupTimeLimit" 90 checked>><<else>><<radiobutton "$groom.makeupTimeLimit" 90>><</if>>90 |@@
+</td><td>
+<<if $groom.makeupRetryFail>><<checkbox "$groom.makeupRetryFail" false true checked>><<else>><<checkbox "$groom.makeupRetryFail" false true >><</if>> ''Retry if Failed''
+</td></tr><tr><td colspan=4>
+@@.head3;Current Makeup@@
+</td></tr><tr><td colspan=3>
+@@.alme;''your face <<print $groom.makeup>>''@@
+
+</td><td>
+@@.ident;ATR ~ <<print $groom.makeupATR>>@@
+</td></tr><tr><td colspan=2>
+@@.alme;''Eyes''--<<print $groom.eyeMU[0]>>@@</td><td width="13%"><<if $groom.clownMU>>[img[IMGclownMU]]<<else>>[img[$groom.eyeMU[7]]]<</if>>
+</td><td>
+Quality: <<switch $groom.eyeMU[2]>><<case 0>>@@.white;N/A@@<<case 1>>@@.bad;Awful@@<<case 2>>@@.import;Poor@@<<case 3>>@@.good;Good@@<</switch>>
+</td></tr><tr><td colspan=2>
+@@.alme;''Lips''--<<print $groom.lipMU[0]>>@@</td><td width="13%"><<if $groom.clownMU>>[img[IMGclownMU]]<<else>>[img[$groom.lipMU[7]]]<</if>>
+</td><td>
+Quality: <<switch $groom.lipMU[2]>><<case 0>>@@.white;N/A@@<<case 1>>@@.bad;Awful@@<<case 2>>@@.import;Poor@@<<case 3>>@@.good;Good@@<</switch>>
+</td></tr><tr><td colspan=2>
+@@.alme;''Face''--<<print $groom.genMU[0]>>@@</td><td width="13%"><<if $groom.clownMU>>[img[IMGclownMU]]<<else>>[img[$groom.genMU[7]]]<</if>>
+</td><td>
+Quality: <<switch $groom.genMU[2]>><<case 0>>@@.white;N/A@@<<case 1>>@@.bad;Awful@@<<case 2>>@@.import;Poor@@<<case 3>>@@.good;Good@@<</switch>>
+</td></tr>
+</table><</replace>><</link>>
+<span id="autooptions"><table>
+<tr><td colspan=4>@@.head3;Auto Options@@</td></tr>
+<tr><td width="33%">
+<<if $groom.facewash>><<checkbox "$groom.facewash" false true checked>><<else>><<checkbox "$groom.facewash" false true >><</if>> ''Daily Face Cleansing''
+</td><td colspan=2>
+<<if $groom.makeupWash>><<checkbox "$groom.makeupWash" false true checked>><<else>><<checkbox "$groom.makeupWash" false true >><</if>> ''Wash if Unsuccessful''
+</td><td width="33%">
+<<if $groom.makeupRetry>><<checkbox "$groom.makeupRetry" false true checked>><<else>><<checkbox "$groom.makeupRetry" false true >><</if>> ''Retry if Unsuccessful''
+</td></tr><tr><td colspan=3>
+''Maximum Time'' @@.monospace;.idcol;| <<if $groom.makeupTimeLimit == 15>><<radiobutton "$groom.makeupTimeLimit" 15 checked>><<else>><<radiobutton "$groom.makeupTimeLimit" 15>><</if>>15 | <<if $groom.makeupTimeLimit == 30>><<radiobutton "$groom.makeupTimeLimit" 30 checked>><<else>><<radiobutton "$groom.makeupTimeLimit" 30>><</if>>30 | <<if $groom.makeupTimeLimit == 45>><<radiobutton "$groom.makeupTimeLimit" 45 checked>><<else>><<radiobutton "$groom.makeupTimeLimit" 45>><</if>>45 | <<if $groom.makeupTimeLimit == 60>><<radiobutton "$groom.makeupTimeLimit" 60 checked>><<else>><<radiobutton "$groom.makeupTimeLimit" 60>><</if>>60 | <<if $groom.makeupTimeLimit == 90>><<radiobutton "$groom.makeupTimeLimit" 90 checked>><<else>><<radiobutton "$groom.makeupTimeLimit" 90>><</if>>90 |@@
+</td><td>
+<<if $groom.makeupRetryFail>><<checkbox "$groom.makeupRetryFail" false true checked>><<else>><<checkbox "$groom.makeupRetryFail" false true >><</if>> ''Retry if Failed''
+</td></tr><tr><td colspan=4>
+@@.head3;Current Makeup@@
+</td></tr><tr><td colspan=3>
+@@.alme;''your face <<print $groom.makeup>>''@@
+
+</td><td>
+@@.ident;ATR ~ <<print $groom.makeupATR>>@@
+</td></tr><tr><td colspan=2>
+@@.alme;''Eyes''--<<print $groom.eyeMU[0]>>@@</td><td width="13%"><<if $groom.clownMU>>[img[IMGclownMU]]<<else>>[img[$groom.eyeMU[7]]]<</if>>
+</td><td>
+Quality: <<switch $groom.eyeMU[2]>><<case 0>>@@.white;N/A@@<<case 1>>@@.bad;Awful@@<<case 2>>@@.import;Poor@@<<case 3>>@@.good;Good@@<</switch>>
+</td></tr><tr><td colspan=2>
+@@.alme;''Lips''--<<print $groom.lipMU[0]>>@@</td><td width="13%"><<if $groom.clownMU>>[img[IMGclownMU]]<<else>>[img[$groom.lipMU[7]]]<</if>>
+</td><td>
+Quality: <<switch $groom.lipMU[2]>><<case 0>>@@.white;N/A@@<<case 1>>@@.bad;Awful@@<<case 2>>@@.import;Poor@@<<case 3>>@@.good;Good@@<</switch>>
+</td></tr><tr><td colspan=2>
+@@.alme;''Face''--<<print $groom.genMU[0]>>@@</td><td width="13%"><<if $groom.clownMU>>[img[IMGclownMU]]<<else>>[img[$groom.genMU[7]]]<</if>>
+</td><td>
+Quality: <<switch $groom.genMU[2]>><<case 0>>@@.white;N/A@@<<case 1>>@@.bad;Awful@@<<case 2>>@@.import;Poor@@<<case 3>>@@.good;Good@@<</switch>>
+</td></tr>
+</table></span>
+<<button "''∧''">><<replace "#changemakeup">><br><br><</replace>><</button>><<button "''∨''">><<replace "#changemakeup">>
+<<silently>>
+<<set _eyeList = " ">>
+<<set _knownEye = []>>
+<<set _unknownEye = []>>
+<<for _i to 0, _eyeNames to Object.keys($makeup.eye); _i lt _eyeNames.length; _i++>>
+	<<if $makeup.eye[_eyeNames[_i]][1]>>
+		<<set _eyeList += "'">>
+		<<set _eyeList += _eyeNames[_i]>>
+		<<set _eyeList += "' ">>
+		<<set _knownEye.push(_eyeNames[_i])>>
+	<<else>>
+		<<set _unknownEye.push(_eyeNames[_i])>>
+	<</if>>
+<</for>>
+<<set _changeEyePrint = "<<dropdown '_changeEye'" + _eyeList + ">>">>
+<<set _lipList = " ">>
+<<set _knownLip = []>>
+<<set _unknownLip = []>>
+<<for _i to 0, _lipNames to Object.keys($makeup.lip); _i lt _lipNames.length; _i++>>
+	<<if $makeup.lip[_lipNames[_i]][1]>>
+		<<set _lipList += "'">>
+		<<set _lipList += _lipNames[_i]>>
+		<<set _lipList += "' ">>
+		<<set _knownLip.push(_lipNames[_i])>>
+	<<else>>
+		<<set _unknownLip.push(_lipNames[_i])>>
+	<</if>>
+<</for>>
+<<set _changeLipPrint = "<<dropdown '_changeLip'" + _lipList + ">>">>
+<<set _genList = " ">>
+<<set _knownGen = []>>
+<<set _unknownGen = []>>
+<<for _i to 0, _genNames to Object.keys($makeup.gen); _i lt _genNames.length; _i++>>
+	<<if $makeup.gen[_genNames[_i]][1]>>
+		<<set _genList += "'">>
+		<<set _genList += _genNames[_i]>>
+		<<set _genList += "' ">>
+		<<set _knownGen.push(_genNames[_i])>>
+	<<else>>
+		<<set _unknownGen.push(_genNames[_i])>>
+	<</if>>
+<</for>>
+<<set _changeGenPrint = "<<dropdown '_changeGen'" + _genList + ">>">>
+<</silently>>
+<table>
+<tr><td width="20%">
+<<button "Apply Eyes">><<applyMakeupEye _changeEye>><<replace "#eyeresult">><<switch $groom.eyeMU[2]>><<case 0>>@@.white;N/A@@<<case 1>>@@.bad;Awful@@<<case 2>>@@.import;Poor@@<<case 3>>@@.good;Good@@<</switch>><</replace>><</button>>
+</td><td width="40%">
+<<print _changeEyePrint>>
+</td><td>
+@@.alme;''Result''@@ <span id="eyeresult"></span>
+</td></tr>
+<tr><td width="20%">
+<<button "Apply Lips">><<applyMakeupLip _changeLip>><<replace "#lipresult">><<switch $groom.lipMU[2]>><<case 0>>@@.white;N/A@@<<case 1>>@@.bad;Awful@@<<case 2>>@@.import;Poor@@<<case 3>>@@.good;Good@@<</switch>><</replace>><</button>>
+</td><td width="40%">
+<<print _changeLipPrint>>
+</td><td>
+@@.alme;''Result''@@ <span id="lipresult"></span>
+</td></tr>
+<tr><td width="20%">
+<<button "Apply Face">><<applyMakeupGen _changeGen>><<replace "#genresult">><<switch $groom.genMU[2]>><<case 0>>@@.white;N/A@@<<case 1>>@@.bad;Awful@@<<case 2>>@@.import;Poor@@<<case 3>>@@.good;Good@@<</switch>><</replace>><</button>>
+</td><td width="40%">
+<<print _changeGenPrint>>
+</td><td>
+@@.alme;''Result''@@ <span id="genresult"></span>
+</td></tr>
+</table>
+<</replace>><</button>> @@.head3;Apply Makeup@@<br>
+<span id="changemakeup"><br><br></span>
+<<button "''∧''">><<replace "#presetmakeup">><br><br><</replace>><</button>><<button "''∨''">><<replace "#presetmakeup">>
+<<silently>>
+<<set _eyeList = " ">>
+<<for _i to 0, _eyeNames to Object.keys($makeup.eye); _i lt _eyeNames.length; _i++>>
+	<<if $makeup.eye[_eyeNames[_i]][1]>>
+		<<set _eyeList += "'">>
+		<<set _eyeList += _eyeNames[_i]>>
+		<<set _eyeList += "' ">>
+	<</if>>
+<</for>>
+<<set _setEyePrintStand = "<<dropdown '_setEyeStand'" + _eyeList + ">>">>
+<<set _setEyePrintFancy = "<<dropdown '_setEyeFancy'" + _eyeList + ">>">>
+<<set _setEyePrintCasual = "<<dropdown '_setEyeCasual'" + _eyeList + ">>">>
+<<set _lipList = " ">>
+<<for _i to 0, _lipNames to Object.keys($makeup.lip); _i lt _lipNames.length; _i++>>
+	<<if $makeup.lip[_lipNames[_i]][1]>>
+		<<set _lipList += "'">>
+		<<set _lipList += _lipNames[_i]>>
+		<<set _lipList += "' ">>
+	<</if>>
+<</for>>
+<<set _setLipPrintStand = "<<dropdown '_setLipStand'" + _lipList + ">>">>
+<<set _setLipPrintFancy = "<<dropdown '_setLipFancy'" + _lipList + ">>">>
+<<set _setLipPrintCasual = "<<dropdown '_setLipCasual'" + _lipList + ">>">>
+<<set _genList = " ">>
+<<for _i to 0, _genNames to Object.keys($makeup.gen); _i lt _genNames.length; _i++>>
+	<<if $makeup.gen[_genNames[_i]][1]>>
+		<<set _genList += "'">>
+		<<set _genList += _genNames[_i]>>
+		<<set _genList += "' ">>
+	<</if>>
+<</for>>
+<<set _setGenPrintStand = "<<dropdown '_setGenStand'" + _genList + ">>">>
+<<set _setGenPrintFancy = "<<dropdown '_setGenFancy'" + _genList + ">>">>
+<<set _setGenPrintCasual = "<<dropdown '_setGenCasual'" + _genList + ">>">>
+<</silently>>
+<table>
+<tr><td colspan=3>@@.head4;Standard Preset@@</td></tr>
+<tr><td width="20%">
+<<button "Set Eyes">><<set $groom.eyeMUdefaultNorm = _setEyeStand>><<replace "#eyeresultS">>@@.exp;<<print $groom.eyeMUdefaultNorm>>@@<</replace>><</button>>
+</td><td width="40%">
+<<print _setEyePrintStand>>
+</td><td>
+@@.alme;''Current''@@ <span id="eyeresultS">@@.exp;<<print $groom.eyeMUdefaultNorm>>@@</span>
+</td></tr>
+<tr><td width="20%">
+<<button "Set Lips">><<set $groom.lipMUdefaultNorm = _setLipStand>><<replace "#lipresultS">>@@.exp;<<print $groom.lipMUdefaultNorm>>@@<</replace>><</button>>
+</td><td width="40%">
+<<print _setLipPrintStand>>
+</td><td>
+@@.alme;''Current''@@ <span id="lipresultS">@@.exp;<<print $groom.lipMUdefaultNorm>>@@</span>
+</td></tr>
+<tr><td width="20%">
+<<button "Set Face">><<set $groom.genMUdefaultNorm = _setGenStand>><<replace "#genresultS">>@@.exp;<<print $groom.genMUdefaultNorm>>@@<</replace>><</button>>
+</td><td width="40%">
+<<print _setGenPrintStand>>
+</td><td>
+@@.alme;''Current''@@ <span id="genresultS">@@.exp;<<print $groom.genMUdefaultNorm>>@@</span>
+</td></tr>
+<tr><td colspan=3>@@.head4;Fancy Preset@@</td></tr>
+<tr><td width="20%">
+<<button "Set Eyes">><<set $groom.eyeMUdefaultFancy = _setEyeFancy>><<replace "#eyeresultF">>@@.exp;<<print $groom.eyeMUdefaultFancy>>@@<</replace>><</button>>
+</td><td width="40%">
+<<print _setEyePrintFancy>>
+</td><td>
+@@.alme;''Current''@@ <span id="eyeresultF">@@.exp;<<print $groom.eyeMUdefaultFancy>>@@</span>
+</td></tr>
+<tr><td width="20%">
+<<button "Set Lips">><<set $groom.lipMUdefaultFancy = _setLipFancy>><<replace "#lipresultF">>@@.exp;<<print $groom.lipMUdefaultFancy>>@@<</replace>><</button>>
+</td><td width="40%">
+<<print _setLipPrintFancy>>
+</td><td>
+@@.alme;''Current''@@ <span id="lipresultF">@@.exp;<<print $groom.lipMUdefaultFancy>>@@</span>
+</td></tr>
+<tr><td width="20%">
+<<button "Set Face">><<set $groom.genMUdefaultFancy = _setGenFancy>><<replace "#genresultF">>@@.exp;<<print $groom.genMUdefaultFancy>>@@<</replace>><</button>>
+</td><td width="40%">
+<<print _setGenPrintFancy>>
+</td><td>
+@@.alme;''Current''@@ <span id="genresultF">@@.exp;<<print $groom.genMUdefaultFancy>>@@</span>
+</td></tr>
+<tr><td colspan=3>@@.head4;Casual Preset@@</td></tr>
+<tr><td width="20%">
+<<button "Set Eyes">><<set $groom.eyeMUdefaultCasual = _setEyeCasual>><<replace "#eyeresultC">>@@.exp;<<print $groom.eyeMUdefaultCasual>>@@<</replace>><</button>>
+</td><td width="40%">
+<<print _setEyePrintCasual>>
+</td><td>
+@@.alme;''Current''@@ <span id="eyeresultC">@@.exp;<<print $groom.eyeMUdefaultCasual>>@@</span>
+</td></tr>
+<tr><td width="20%">
+<<button "Set Lips">><<set $groom.lipMUdefaultCasual = _setLipCasual>><<replace "#lipresultC">>@@.exp;<<print $groom.lipMUdefaultCasual>>@@<</replace>><</button>>
+</td><td width="40%">
+<<print _setLipPrintCasual>>
+</td><td>
+@@.alme;''Current''@@ <span id="lipresultC">@@.exp;<<print $groom.lipMUdefaultCasual>>@@</span>
+</td></tr>
+<tr><td width="20%">
+<<button "Set Face">><<set $groom.genMUdefaultCasual = _setGenCasual>><<replace "#genresultC">>@@.exp;<<print $groom.genMUdefaultCasual>>@@<</replace>><</button>>
+</td><td width="40%">
+<<print _setGenPrintCasual>>
+</td><td>
+@@.alme;''Current''@@ <span id="genresultC">@@.exp;<<print $groom.genMUdefaultCasual>>@@</span>
+</td></tr>
+</table>
+<</replace>><</button>> @@.head3;Makeup Presets@@<br>
+<span id="presetmakeup"><br><br></span>
+<<button "''∧''">><<replace "#hairtut">><br><br><br><br><br><br><br><br><br><</replace>><</button>><<button "''∨''">><<replace "#hairtut">>@@.typewriter;.ship;font-size:120%;M@@@@.typewriter;.white;akeup changes the way you look, and makes you more attractive. Some makeup is harder to put on than others, and takes different amounts of time to accomplish. While it's unlikely to take quite so long in AW, professionals often take about 60 minutes to apply makeup on customers for special events. Usually the fancier, more attractive styles take longer to do. Unlike hairstyles, observing a makeup style once is enough to learn how to attempt it. However, applying makeup takes a certain level of skill, and isn't quite so easy to master! Whenever you apply makeup there is a skill check to see how well you do. (Unless your aesthetics skill is high enough to bypass that style's check.) You can succeed, and have well-applied makup. You can do poorly, which doesn't make you look bad, but usually has significantly lowered benefit. Finally, you can fail, which results in makeup that will make you look ugly, or even result in the "clown" look.@@
+<br><br>
+@@.typewriter;.ship;font-size:120%;T@@@@.typewriter;.white;here are a couple options for what happens when you apply makeup automatically. ''Wash if Unsuccessful'' will have you wash the makeup off if you end up failing one of your makeup checks. You'll be without any makeup, but you won't have any bad makeup either. ''Retry if Unsuccessful'' will have you retry makeup if you don't succeed, within a certain time limit. This will have you "fix up" any makeup that doesn't quite go as expected, to get the best benefit from your makeup choices. It's also more likely to take up a lot of time. ''Retry if Failure'' works the same way, but only reapplies makeup if you fail at putting it on. In both cases, wash if unsuccessful will only occur after any retries.@@
+<br><br>
+@@.typewriter;.ship;font-size:120%;T@@@@.typewriter;.white;here are three makeup presets, which will be used automatically so that you don't need to manually apply makeup each and every time. Below, each of these presets are explained. ''One important note''--putting on makeup takes time, so if you change it often during the day, you'll find a good chunk of time wasted!
+<br>''Standard''--This is your normal workday makeup. It's your standard "out and about" look. On days you have to go to work, you'll automatically put this makeup on in the morning. You can also choose this preset when a scripted activity asks you for a makeup preference.
+<br>''Fancy''--This is your fancy "going out" look. It is rarely done automatically, but you'll often get the option to choose this preset before a social event such as a date.
+<br>''Casual''--This is your staying-at-home look. It will be applied automatically on your days off from work. You can also choose this for some scripted activities. It's generally best to pick a less time-consuming option here, but you can also have this preset be the same as the standard preset.@@
+<</replace>><</button>> @@.typewriter;.ship;font-size:120%;''M''@@@@.typewriter;.white;''akeup''@@ @@.typewriter;.ship;font-size:120%;''T''@@@@.typewriter;.white;''utorial''@@
+<br><br><span id="hairtut"><br><br><br><br><br><br><br><br><br></span>

@@ -1,0 +1,346 @@
+:: characterReview [nobr]
+
+<<nobr>>
+<<if $pub>>
+	<<cheatInit>>
+<</if>>
+<<status 0>>
+<<pcTotalATR>>
+<<setScene "You are standing in Lily's guest bedroom." 0 0 "lily">>
+<<set $day = 1>>
+<<set $week = 0>>
+<<setTime 20 38>>
+<<if $mutate.Cycle && $mutate.Multiple && $mutate.TwinWomb && $mutate.BC && $mutate.Gestate && $PC.fertility > 5 && $PC.hips >= 6 && $kink.Pregnancy && ( $mutate.Acid || $mutate.Mouth) && $trait.libido >= 7 && $PC.tits.cupRaw >= 19>>
+<<set $mutate.Goddess = true>>
+<<set $PC.fertility = 8>>
+<<else>>
+<<set $mutate.Goddess = false>>
+<</if>>
+<<if $mutate.Cycle && $mutate.Multiple && $mutate.TwinWomb && $PC.fertility > 4 && $PC.hips >= 5 && $kink.Pregnancy>>
+<<set $mutate.FertStorm = true>>
+<<set $PC.fertility = 7>>
+<<else>>
+<<set $mutate.FertStorm = false>>
+<</if>>
+<<set $status.arousal = 2>>
+<<if $skill.athletic >= 100>>
+	<<set $PC.energy = 20>>
+<<else>>
+	<<set _add = Math.trunc($skill.athletic / 10)>>
+	<<set $PC.energy = 10 + _add>>
+<</if>>
+<<calcEnergyRate>>
+<<set $showData = true>>
+<<set $showMenuButton = true>>
+<<status 0>>
+<<set $gamestate.characters += 1>>
+<<run setup.storeState()>>
+<<goto [[characterReview2]]>>
+/*[[characterReview2]]*/
+<</nobr>>
+
+
+:: characterReview2 [nobr]
+
+<<set $helpText = "This is a note from the author that you should probably read, but that most people won't. You can skip it, just don't complain about the PC's inconsistent sexuality!">>
+<center>
+@@font-size:130%;.gab;''--A Note About the Upcoming Story--''@@
+</center>
+<br>
+@@.gab;You're probably going to find some parts of the upcoming story strange, and not in the usual way. Because the Prologue isn't finished yet, this strangeness won't exactly make sense. In fact, I've already fielded several questions about it. I'm going to leave this note in place at least until the Prologue is complete.@@
+<br><br>
+@@.gab;The player character just experienced a rather traumatic event, and is in the middle of trying to adjust to her new circumstances. The most obvious and least attractive thing to do here is just keep referencing the unease over and over. (ex "You still aren't used to your new body.") It gets old pretty quick, though it makes things pretty clear. A less common but more enjoyable approach is to try and display unease with everyday activities and events. (ex "You bump your hip on the doorframe, still adjusting to your new stature.") This is better, but also gets old. It also adds a bunch of writing that isn't entertaining; you normally wouldn't describe walking through a doorway!@@
+<br><br>
+@@.gab;I've decided to take a third approach with Accidental Woman, because the quality of the writing is really important to me. This is a text-based game, after all! I'm using a literary technique to deliberately cause confusion, before a minor catharsis from revealing the broader context. The specific technique I am using doesn't have a name (that I know of) but involves invoking cognitive dissonance in the reader. When we read fiction, we absorb the information we read to form our beliefs about the fictional world. I am deliberately providing information that sets up a strong opinion or belief about the player character, only to contradict it a short while later. The reader is stuck with contradictory information, which causes unease, discomfort, and confusion. How better to illustrate those same feelings in the player character?@@
+<br><br>
+@@.gab;Normally, this will cause an increase in curiosity, and the reader will pay more attention to figure out the "problem". This is useful for A) provoking a sense of wonder or curiosity about the fictional world, and B) making the tutorial learning period more interesting and effective. You can only keep this going for a limited duration though, because people will naturally jump to the conclusion that the storytelling is screwed up. (Usually picking out the specific element used for the technique.) If you provide resolution to the contradiction/s, however, it gives the reader a pleasurable feeling of satisfaction at having 'figured out' what was going on... catharsis.@@
+<br><br>
+@@.gab;I'm primarily using the player character's sexuality, with a few other minor elements, to create this effect. It has the benefit of being both important and indistinct. Constantly changing the color of a detail like the color of the pc's car doesn't work, because it isn't important enough. Changing a distinct detail with no room for confusion also doesn't work, because it's too obvious (dramatically shortening available time) and hard to reconcile later.@@
+<br><br>
+@@.gab;Thanks for putting up with this unfinished technique, and putting up with this long explaination. Rest assured that the pc's sexuality is entirely up you.@@
+<br><br>
+@@font-size:120%;.ship;T@@@@.white;haum@@@@font-size:120%;.ship;X@@
+<br><Br>
+@@.big;<<link "Continue with AW">><<goto [[characterReview3]]>><</link>>@@
+
+
+:: characterReview3 [nobr]
+
+<<nobr>><<set $helpText = "This is mostly story content. It also shows you a lot of the details behind the character you created. This page shows you info on the sidebars for the first time, and also turns on several menu buttons.">>
+@@font-size:130%;color:deepskyblue;Monday night, April 20XX@@
+<br><br>
+@@.head3;W@@ith the hectic events of the day now over, but many more to come in the following days, you find yourself in a temporary quiet lull. Standing exhausted in Lily's spare bedroom, but wondering how you'll be able to sleep with all the thoughts rushing through your head. The most disconcerting thought of all is how your very mind seems to have changed along with your body. To make matters worse, you aren't even angry or upset in anything more than an abstract way; it's more like being upset because you know you <i>should</i> be. It all seems terribly--even horrifically--natural, after that brief moment of shock when you awoke, you've been hard pressed to feel like anything was <i>wrong</i>. Not a trace or hint of feeling trapped in a woman's body, nothing to make you feel out of place.
+<br><br>
+@@.head3;I@@f it wasn't for the fact that you knew your brain had been altered too, you might even say that you belonged in this body all along. You feel  curious about yourself of course, but overall you feel fine... <i>excited</i> even. As your mind starts to happily wander through different possibilities for your new life, you are inevitably brought short by the sense--perhaps guilt--that you shouldn't be so okay with all this.
+<br><br>
+@@.head3;Y@@ou're wearing some baggy pajamas you borrowed from Lily, but you've never been comfortable sleeping in a whole bunch of clothes. Unfortunately, with your <<pcCupSize>> breasts and <<pcHipSize>> hips, Lily's bras or panties wouldn't be a good fit for you. So it seems like you'll be sleeping in the nude tonight. Buying clothes is just one of the things you have to do in the next few days. You unbutton the large childish buttons of the pajama shirt, removing it and tossing it onto a dresser. You bend over and pull down the loose pants, quickly removing your legs one at a time. You're about to toss them onto the dresser when you're stopped short by the realization that you did all that completely naturally. You're a new height with different hips and legs, not to mention your new breasts and a different center of gravity... and you didn't so much as wobble. You distractedly toss the pants, not even looking to see where they landed, and walk over to the antique-looking dressing mirror in the corner of the room.
+<br><br>
+@@.head3;Y@@ou stand <<measurement "height">> tall, with smooth and soft $PC.skinColor skin. You have your hair tied back in a simple ponytail, but its $groom.hairColor luster still makes it seem luxurious somehow.<<if $groom.pubeStyle isnot "hairless">> Looking at your shaved armpits and $groom.pubeStyle <<if $groom.pubeStyle == "neat patch" || $groom.pubeStyle == "landing strip">>of <</if>>$groom.pubeColor pubic hair, you realize that Lily must have done some cleaning up for you while you slept those few days.<</if>> You suddenly remember that Lily is into women, but that fact doesn't seem to be all that exciting. With your lifetime of experience as a man, you know that the idea of some lesbian action with a hot girl like Lily should be getting you worked up... but it isn't. <<if $trait.libido > 4>>You'd still like to lick every part of her, but it feels different somehow. <<elseif $trait.libido > 2>>You'd still be glad to take her to bed, but it feels different somehow. <</if>>
+<br><br>
+@@.head3;W@@hen you try to imagine something sexy, your mind immediately brings up <i>male</i> images on its own. It's like your subconscious had already connected the dots and realized you like men more than women now. Your helpful subconscious dredges up an old memory from the locker room in your senior year of high school. Todd was an insufferable ass, but he certainly had the <i>equipment</i> to back up his confidence. He popped an erection in the locker room after PE, but rather than teasing or any blatant insults, everyone was just stunned by the size of his cock. A Pringles can would be an apt comparison. You realize that at some point in your reverie you had started licking your lips, and your hand had drifted upward to start squeezing one of your <<pcBoobSize>> <<pcTitShape>> breasts. Your <<pcNipple>> nipples are hard and waiting,<<if $mutate.Milk>> unexpected beading with creamy milk,<</if>> and you shake your head to help clear your thoughts.
+<br><br>
+ @@.head3;Y@@ou focus on your face in the mirror, which <<pcFaceDescript>>. You have clear but tired-looking $PC.eyeColor eyes, and a certain flush in your cheeks thanks to your growing arousal. You take your time to examine every detail of your <<pcWeight>> <<pcTone>> body. You have <<pcShoulderSize>> shoulders, with a <<pcWaist>> waist leading down to <<pcHipSize>> hips and a <<pcAssSize>> ass. On your chest rests <<pcChest>> that could be described as <<pcTitShape>>. Your <<pcNipple>> nipples are erect with arousal. Between your legs you have a <<pcWetness>> cunt; your <<pcClitSize>> clit <<pcClitView>> your <<pcLabiaSize>> labia.
+ <<if $PC.wetness > 3>>
+ You know you are normally ridiculously wet, saying you are ready all the time is likely an understatement. It might actually be noticeable in public if you aren't careful, something you'll have to look out for. Your present state of arousal has 
+ <<if $PC.wetness > 4>>literal rivulets of femlube running down your legs
+ <<else>>droplets falling down
+ <</if>> to wet the floor.
+ <<elseif $PC.wetness > 2>> You know you are normally <<pcWetness>> and your arousal has only increased your lubrication.
+ <</if>> According to Lily, you have a <<pcFertility>> womb inside your abdomen. You've never had to think about being pregnant before<<if $PC.fertility < 2>>, thank goodness you don't have to worry about getting pregnant.<<elseif $PC.fertility > 4>>, but apparently your extreme fertility makes it nearly certain to happen if you aren't careful. You can't deny a certain curiousity when you think about it though, not to mention a pleasant tingle between your legs that reaches deep into your womb...<<elseif $PC.fertility >3 >>, but apparently your high fertility makes it very likely to happen if you aren't careful. You can't deny a certain curiosity when you think about it though, not to mention a pleasant tingle between your legs...<<else>>, but apparently your fertility makes it a possibility if you aren't careful. You can't deny a certain curiosity when you think about it though, not to mention a pleasant tingle between your legs...<</if>>
+<br><br>
+@@.head3;Y@@ou sit down on the edge of the bed and consider the results from all the tests you took today.
+<br>
+<center>
+@@.head3;✪ ✪ ✪ ✪ ✪@@
+</center>
+<table>
+<tr id="divide"><td colspan=4>@@.head3;Attraction@@</td></tr>
+<tr id="divide"><td colspan=4><h3>Male Attraction</h3></td></tr>
+<tr><td width="25%">
+''Muscle Attractions''
+<br>Frail: <<like $pref.muscle[1]>>
+<br>Weak: <<like $pref.muscle[2]>>
+<br>Normal: <<like $pref.muscle[3]>>
+<br>Toned: <<like $pref.muscle[4]>>
+<br>Muscular: <<like $pref.muscle[5]>>
+<br>He-Man: <<like $pref.muscle[6]>>
+</td><td width="25%">
+''Weight Attractions''
+<br>Anorexic: <<like $pref.weight[1]>>
+<br>Skinny: <<like $pref.weight[2]>>
+<br>Normal: <<like $pref.weight[3]>>
+<br>Plush: <<like $pref.weight[4]>>
+<br>Chubby: <<like $pref.weight[5]>>
+<br>Fat: <<like $pref.weight[6]>>
+</td><td width="25%">
+''Height Attractions''
+<br>Very Short: <<like $pref.height[0]>>
+<br>Short: <<like $pref.height[1]>>
+<br>Average: <<like $pref.height[2]>>
+<br>Tall: <<like $pref.height[3]>>
+<br>Very Tall: <<like $pref.height[4]>>
+</td><td width="25%">
+''Other Attractions''
+<br>Bald: <<like $pref.other[0]>>
+<br>Glasses: <<like $pref.other[1]>>
+<br>Facial Hair: <<like $pref.other[2]>>
+<br>Smart: <<like $pref.other[3]>>
+<br>Dumb: <<like $pref.other[4]>>
+<br>Wealthy: <<like $pref.other[5]>>
+<br>Poor: <<like $pref.other[6]>>
+<br>Stylish: <<like $pref.other[7]>>
+<br>Large Penis: <<like $pref.other[8]>>
+<br>Small Penis: <<like $pref.other[9]>>
+</td></tr><tr id="divide"><td colspan=4>
+<h3>Female Attraction</h3></td></tr>
+<tr><td>
+''Muscle Attractions''
+<br>Frail: <<like $pref.Fmuscle[1]>>
+<br>Weak: <<like $pref.Fmuscle[2]>>
+<br>Normal: <<like $pref.Fmuscle[3]>>
+<br>Toned: <<like $pref.Fmuscle[4]>>
+<br>Muscular: <<like $pref.Fmuscle[5]>>
+<br>Body Builder: <<like $pref.Fmuscle[6]>>
+</td><td>
+''Weight Attractions''
+<br>Anorexic: <<like $pref.Fweight[1]>>
+<br>Skinny: <<like $pref.Fweight[2]>>
+<br>Normal: <<like $pref.Fweight[3]>>
+<br>Plush: <<like $pref.Fweight[4]>>
+<br>Chubby: <<like $pref.Fweight[5]>>
+<br>Fat: <<like $pref.Fweight[6]>>
+</td><td>
+''Height Attractions''
+<br>Very Short: <<like $pref.Fheight[0]>>
+<br>Short: <<like $pref.Fheight[1]>>
+<br>Average: <<like $pref.Fheight[2]>>
+<br>Tall: <<like $pref.Fheight[3]>>
+<br>Very Tall: <<like $pref.Fheight[4]>>
+</td><td>
+''Other Attractions''
+<br>Large Breasts: <<like $pref.Fother[0]>>
+<br>Small Breasts: <<like $pref.Fother[1]>>
+<br>Large Hips: <<like $pref.Fother[2]>>
+<br>Small Hips: <<like $pref.Fother[3]>>
+<br>Smart: <<like $pref.Fother[4]>>
+<br>Dumb: <<like $pref.Fother[5]>>
+<br>Glasses: <<like $pref.Fother[6]>>
+<br>Stylish: <<like $pref.Fother[7]>>
+<br>Makeup: <<like $pref.Fother[8]>>
+<br>Large Butt: <<like $pref.Fother[9]>>
+<br>Small Butt: <<like $pref.Fother[10]>>
+</td></tr>
+</table>
+<table>
+<tr><td colspan=2>
+@@.head3;Willpower and Personality@@
+</td></tr>
+<tr><td>
+Willpower: $trait.will
+<br>Libido: <<pcLibido>>
+</td><td>
+Intro/Extroversion: $trait.IE
+<br>Open/Closed to Experience: $trait.OC
+</td></tr>
+</table>
+<table>
+<tr><td>
+@@.head3;Personality Traits@@<br>
+<<if $trait.Caring == 1>>Caring<br><<elseif $trait.Caring == -1>>Uncaring<br><</if>>
+<<if $trait.Bitch == 1>>Bitch<br><<elseif $trait.Bitch == -1>>Kind<br><</if>>
+<<if $trait.Maternal == 1>>Maternal<br><<elseif $trait.Maternal == -1>>Bad With Kids<br><</if>>
+<<if $trait.Romantic == 1>>Romantic<br><<elseif $trait.Romantic == -1>>Aromantic<br><</if>>
+<<if $trait.Deceptive == 1>>Deceptive<br><<elseif $trait.Deceptive == -1>>Honest<br><</if>>
+<<if $trait.Devious == 1>>Devious<br><<elseif $trait.Devious == -1>>Straight-Forward<br><</if>>
+<<if $trait.Persuasive == 1>>Persuasive<br><<elseif $trait.Persuasive == -1>>Persuadable<br><</if>>
+<<if $trait.Perceptive == 1>>Perceptive<br><<elseif $trait.Perceptive == -1>>Oblivious<br><</if>>
+<<if $trait.Forgetful == 1>>Forgetful<br><<elseif $trait.Forgetful == -1>>Good Memory<br><</if>>
+<<if $trait.Forgiving == 1>>Forgiving<br><<elseif $trait.Forgiving == -1>>Holds Grudges<br><</if>>
+<<if $trait.LowEsteem == 1>>Low Self Esteem<br><<elseif $trait.LowEsteem == -1>>Narcissistic<br><</if>>
+<<if $trait.Picky == 1>>Picky<br><<elseif $trait.Picky == -1>>Low Standards<br><</if>>
+<<if $trait.Crude == 1>>Crude<br><<elseif $trait.Crude == -1>>Refined<br><</if>>
+<<if $trait.Friendly == 1>>Friendly<br><<elseif $trait.Friendly == -1>>Unfriendly<br><</if>>
+<<if $trait.Approachable == 1>>Approachable<br><<elseif $trait.Approachable == -1>>Unapproachable<br><</if>>
+<<if $trait.Relaxed == 1>>Relaxed<br><<elseif $trait.Relaxed == -1>>Ambitious<br><</if>>
+<<if $trait.Flirty == 1>>Flirty<br><<elseif $trait.Flirty == -1>>Shy<br><</if>>
+<<if $trait.Materialist == 1>>Materialist<br><<elseif $trait.Materialist == -1>>Non-Material<br><</if>>
+</td><td>
+@@.head3;Sexual Traits@@
+<<if $kink.Oral>><br>Likes Oral<</if>>
+<<if $kink.Anal>><br>Likes Anal<</if>>
+<<if $kink.Force>><br>Likes Forced<</if>>
+<<if $kink.Risky>><br>Likes Bare Sex<</if>>
+<<if $kink.Pregnancy>><br>Pregnancy Fetish<</if>>
+<<if $kink.Sizequeen>><br>Size Queen<</if>>
+<<if $kink.Sub>><br>Submissive<</if>>
+<<if $kink.Cumslut>><br>Cumslut<</if>> 
+<<if $kink.Exhibition>><br>Exhibitionist<</if>> 
+<<if $kink.Masochist>><br>Masochist<</if>> 
+<<if $kink.Buttslut>><br>Buttslut<</if>> 
+<<if $kink.Public>><br>Likes Public Sex<</if>>
+<<if $kink.Slut>><br>Slut<</if>>
+<<if $kink.Rape>><br>Rape Fetish<</if>>
+<<if $kink.Liberate>><br>Prostitute<</if>>
+<<if $kink.Nips>><br>Sensitive Nipples<</if>>
+<<if $kink.Easy>><br>Easy to Please<</if>>
+<<if $kink.Dom>><br>Dominant Streak<</if>>
+<<if $kink.Water>><br>Waterworks Okay<</if>>
+<<if $kink.Bond>><br>Bondage Okay<</if>>
+<<if $kink.Hard>><br>Hard to Please<</if>>
+<<if $kink.Fap>><br>Fapper<</if>>
+<<if $kink.Shame>><br>Shamefast<</if>>
+</td></tr>
+</table>
+<table>
+<tr><td>
+@@.head3;Mutations@@
+<<if $mutate.Milk>>
+<br>''Lactation Mutation'' @@.mono;It makes playing with your nipples even more fun.@@
+<</if>>
+<<if $mutate.Acid>>
+<br>''Vaginal Enzymes Mutation'' @@.mono;This seems pretty dangerous, but also exciting...@@
+<</if>>
+<<if $mutate.BC>>
+<br>''Abnormal Hormone Mutation'' @@.mono;Maybe you should just avoid birth control altogether?@@
+<</if>>
+<<if $mutate.Multiple>>
+<br>''Multiple Ovulation Mutation'' @@.mono;This seems pretty crazy, imagine triplets with three different dads!@@
+<</if>>
+<<if $mutate.Gestate>>
+<br>''Rapid Gestation Mutation'' @@.mono;All the fun of getting pregnant, without the long delay before doing it again? <b>Great!</b>@@
+<</if>>
+<<if $mutate.Cycle>>
+<br>''Hyper Menstral Cycle Mutation'' @@.mono;Seems like this womb is always ready to go... <b>Risky sex</b> all the time.@@
+<</if>>
+<<if $mutate.TwinWomb>>
+<br>''Twin Wombs Mutation'' @@.mono;Double the pleasure, double the fun, DoubleWomb...@@
+<</if>>
+<<if $mutate.Pheromone>>
+<br>''Vulva Pheromones Mutation'' @@.mono;Being literally unresistable is bound to be interesting.@@
+<</if>>
+<<if $mutate.LitePhero>>
+<br>''Alluring Pheromones Mutation'' @@.mono;This will certainly make meeting new people interesting.@@
+<</if>>
+<<if $mutate.Immune>>
+<br>''Ethanol Immunity Mutation'' @@.mono;Worst. Mutation. Ever. At least 'buzzkill' is a decent superhero name.@@
+<</if>>
+<<if $mutate.Mouth>>
+<br>''Salivary Enzymes Mutation'' @@.mono;<<if $kink.Pregnancy>>This is bound to come in handy.<<else>>I suppose no putting on condoms with my mouth then.<</if>>@@
+<</if>>
+<<if $mutate.Contort>>
+<br>''Contortionist Mutation'' @@.mono;I think that the Kama Sutra is just the beginning...@@
+<</if>>
+<<if $mutate.Cumpire>>
+<br>''Lilith's Porphyria Mutation'' @@.mono;It's almost like a vampire and a succubus got together and had, well, me.@@
+<</if>>
+<<if $mutate.Period>>
+<br>''Amenorrhea Mutation'' @@.mono;Thank goodness I won't have to worry about all that period business!@@
+<</if>>
+<<if $mutate.PseudoPreg>>
+<br>''Pseudo-Pregnancy Mutation'' @@.mono;I can get pregnant from animals!?! What the ''fuck'' Lily?@@
+<</if>>
+<<if $mutate.Contort>>
+<br>''Elastic Orifices'' @@.mono;Based on what I've learned from watching porn, this is definitely useful!@@
+<</if>>
+<<if $mutate.Goddess>><br>@@.good;''Fertility Goddess''@@ <i>your body is so perfect for breeding that it must be divine--literally @@.note;you have a preternatural ability to gauge the fertility of potential mates, an unnatural attractiveness, and unmatched control over your reproductive system. People would probably worship you, if you permitted them to bask in your splendor.@@</i><<elseif $mutate.FertStorm>><br>@@.good;''Fertility Storm''@@ <i>your body is a perfect storm of pregnancy @@.note;You get the feeling that your body has some other unknown advantage...@@</i><</if>>
+</td></tr>
+</table>
+<table>
+<tr><td colspan=3>
+@@.head3;Skills@@
+</td></tr>
+<tr><td>
+Sex Skill: @@.hotpink;$skill.sex@@
+<br> Oral Skill: @@.hotpink;$skill.oral@@
+<br> Exhibition: @@.hotpink;$skill.exhibition@@
+<br> Prostitution: @@.hotpink;$skill.prostitute@@
+<br> Seduction: @@.hotpink;$skill.seduction@@
+</td><td width=33%>
+Communication: @@.hotpink;$skill.comm@@
+<br> Organization: @@.hotpink;$skill.org@@
+<br> Problem Solving: @@.hotpink;$skill.probSolving@@
+<br> Financial: @@.hotpink;$skill.finance@@
+<br> Aesthetics: @@.hotpink;$skill.art@@
+</td><td width=33%>
+Athletics: @@.hotpink;$skill.athletic@@
+<br> Dancing: @@.hotpink;$skill.dancing@@
+<br> Cleaning: @@.hotpink;$skill.clean@@
+<br> Shopping: @@.hotpink;$skill.shop@@
+<br> Cooking: @@.hotpink;$skill.cook@@
+</td></tr>
+</table>
+<center>
+@@.head3;✪ ✪ ✪ ✪ ✪@@
+</center>
+<br>
+@@.head3;S@@itting on the edge of the bed and thinking about the possibilities hasn't done anything to cool off your arousal; if anything it has only made you more horny. You feel a pleasant warm sensation in your abdomen, and a tingling anticipation further down. You look down at your body, and wonder where you should start...
+<br><br>
+<<set $newScene = true>>
+@@font-size:110%;[[Lift your breasts|openMasturbate][$action = "tit"]]<br>[[Rub your nipples|openMasturbate][$action = "nip"]]<br>[[Caress your thighs|openMasturbate][$action = "leg"]]<br>[[Slip a hand between your legs|openMasturbate][$action = "vag"]]@@<br>
+<<if $trait.libido < 3 || ( $trait.libido < 5 && $trait.OC == "closed") || $kink.Shame>>@@font-size:110%;[[Resist your urges|characterReview4]]@@<<else>>@@.lora;font-size:110%;Resist your urges@@<</if>>
+<</nobr>>
+
+
+:: characterReview4 [nobr]
+
+<<silently>>
+<<set $helpText = "Trying to play the hard route, eh? Denying yourself can be good, particularly in the right situations. However, like anything, doing something too much can quickly become bad!">>
+<<set _temp = random(8,16)>>
+<<stress _temp>>
+<<satisfaction -20>>
+<<set $action = "none">>
+<<set $status.pleasure = 0>>
+<<set $newScene = true>>
+<</silently>>
+@@.head3;W@@ith a start, you realize the enormity of what you were about to do. Sure, it's your body. Sure, you've fapped thousands of times before. Sure, you're horny and intensely curious... But it just feels wrong somehow. Maybe that societal imprinting your had growing up is the cause... after all, "good girls don't play with themselves." Maybe you're hung up on some sort of subconscious issue of superiority, and have a feeling that exploring yourself would be giving in, or lowering yourself to their level...
+<br><br>
+<<if $trait.OC == "closed">>@@.head3;P@@robably not, and you're not the type for introspection anyway.<<else>>@@.head3;N@@o. You're pretty certain that isn't it.<</if>> Whatever the reason, you decide to put off dealing with your new urges until a later date. You stand back up and turn off the light, making your way back to bed in the dark. You pull back the covers and climb in, immediately starting some mental exercises to try to calm yourself down and help you go to <<link "sleep...">><<replace "#sleepin">><<timed 1s t8n>>Slowly.<<next>><br><br>Ever<<next>> so<<next>> slowly,<<next>><br>You <<next>>fall <<next>> [[asleep|characterReview5]].<</timed>><</replace>><</link>>
+<br><br>
+<span id="sleepin"><br><br><br></span>
+
+
+:: characterReview5 [nobr]
+
+@@.import;Placeholder text for minor naughty dream sequence@@
+<br><br><br>
+[[continue|storyStart9]]

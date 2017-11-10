@@ -1,0 +1,964 @@
+:: toolWidget [widget nobr]
+
+<<nobr>>
+<<silently>>
+/*inserts the chosen money symbol*/
+<<widget "mon">><<print "₢">><</widget>>
+
+<<widget "numberWord">>\
+<<silently>>
+<<if ndef $args[0]>>
+	<<set _temp = passage()>>
+	<<set $error += ", comment error - no args sent to numberWord function in passage: ">>
+	<<set $error += _temp>>
+	<<set _output = "no arg error numberWord">>
+<<else>>
+	<<switch $args[0]>>
+	<<case 0>>
+		<<set _output = "zero">>
+	<<case 1>>
+		<<set _output = "one">>
+	<<case 2>>
+		<<set _output = "two">>
+	<<case 3>>
+		<<set _output = "three">>
+	<<case 4>>
+		<<set _output = "four">>
+	<<case 5>>
+		<<set _output = "five">>
+	<<case 6>>
+		<<set _output = "six">>
+	<<case 7>>
+		<<set _output = "seven">>
+	<<case 8>>
+		<<set _output = "eight">>
+	<<case 9>>
+		<<set _output = "nine">>
+	<<case 10>>
+		<<set _output = "ten">>
+	<<case 11>>
+		<<set _output = "eleven">>
+	<<case 12>>
+		<<set _output = "twelve">>
+	<<case 13>>
+		<<set _output = "thirteen">>
+	<<case 14>>
+		<<set _output = "fourteen">>
+	<<case 15>>
+		<<set _output = "fifteen">>
+	<<case 16>>
+		<<set _output = "sixteen">>
+	<<case 17>>
+		<<set _output = "seventeen">>
+	<<case 18>>
+		<<set _output = "eighteen">>
+	<<case 19>>
+		<<set _output = "nineteen">>
+	<<case 20>>
+		<<set _output = "twenty">>
+	<<case default>>
+		<<set _output = $args[0]>>
+	<</switch>>
+<</if>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "measurement">>\
+<<silently>>
+<<set _temp = $args[0]>>
+<<if _temp == "height">>
+	<<if $metric>>
+		<<set $PC.heightCM = Math.round(($PC.height * 0.254)*5)>>
+		<<set $PC.heightCM /= 5>>
+		<<set $PC.heightCM /= 10>>
+		<<set $PC.heightCM = $PC.heightCM.toFixed(2)>>
+		<<set _output = $PC.heightCM + " m">>
+	<<else>>
+		<<set _Inch = (($PC.height / 12) - (Math.floor($PC.height / 12))) * 12>>
+		<<set $PC.heightInch = Math.round(_Inch)>>
+		<<set $PC.heightFoot = Math.floor($PC.height / 12)>>
+		<<switch $PC.heightInch>>
+			<<case 0>>
+				<<set $PC.heightInch = "zero">>
+			<<case 1>>
+				<<set $PC.heightInch = "one">>
+			<<case 2>>
+				<<set $PC.heightInch = "two">>
+			<<case 3>>
+				<<set $PC.heightInch = "three">>
+			<<case 4>>
+				<<set $PC.heightInch = "four">>
+			<<case 5>>
+				<<set $PC.heightInch = "five">>
+			<<case 6>>
+				<<set $PC.heightInch = "six">>
+			<<case 7>>
+				<<set $PC.heightInch = "seven">>
+			<<case 8>>
+				<<set $PC.heightInch = "eight">>
+			<<case 9>>
+				<<set $PC.heightInch = "nine">>
+			<<case 10>>
+				<<set $PC.heightInch = "ten">>
+			<<case 11>>
+				<<set $PC.heightInch = "eleven">>
+		<</switch>>
+		<<switch $PC.heightFoot>>
+			<<case 1>>
+				<<set $PC.heightFoot = "one">>
+			<<case 2>>
+				<<set $PC.heightFoot = "two">>
+			<<case 3>>
+				<<set $PC.heightFoot = "three">>
+			<<case 4>>
+				<<set $PC.heightFoot = "four">>
+			<<case 5>>
+				<<set $PC.heightFoot = "five">>
+			<<case 6>>
+				<<set $PC.heightFoot = "six">>
+			<<case 7>>
+				<<set $PC.heightFoot = "seven">>
+			<<case 8>>
+				<<set $PC.heightFoot = "eight">>
+		<</switch>>
+		<<set _output = $PC.heightFoot + " feet " + $PC.heightInch + " inches">>
+	<</if>>
+<<else>>
+	<<if $metric>>
+		<<if $args[0] < 18>>
+			<<set _temp = Math.round($args[0] * 2.54)>>
+			<<set _output = _temp + " cm">>
+		<<else>>
+			<<set _temp = Math.round(($args[0] * 0.254)*2)>>
+			<<set _temp /= 2>>
+			<<set _temp /= 10>>
+			<<set _temp = _temp.toFixed(2)>>
+			<<set _output = _temp + " m">>
+		<</if>>
+	<<else>>
+		<<set _output = $args[0] + " inches">>
+	<</if>>
+<</if>>
+<</silently>><<print _output>>\
+<</widget>>
+
+<<widget "units">>
+<<if $metric>><<print "cm">><<else>><<print "inches">><</if>>
+<</widget>>
+
+/*inserts money symbol and player cash*/
+<<widget "money">>
+@@.money;<<print "₢">><<print $cash>>@@\
+<</widget>>
+
+/*inserts commentary quicker*/
+<<widget "comment">>
+<<if ndef $args[0]>>
+	<<set _temp = passage()>>
+	<<set $error += ", comment error - no args sent to comment function in passage: ">>
+	<<set $error += _temp>>
+<<else>>
+	<<if $commentary>>
+		@@.com;<<print $args[0]>>@@
+	<</if>>
+<</if>>
+<</widget>>
+
+/*adjusts stress*/
+<<widget "stress">>
+<<if ndef $args[0]>>
+	<<set _temp = passage()>>
+	<<set $error += ", stress setting error - no args sent to stress function in passage: ">>
+	<<set $error += _temp>>
+	<<set _temp = 0>>
+<<else>>
+	<<set _temp = $args[0]>>
+<</if>>
+<<set $status.stress = Math.round( $runop[29] / 3.55)>>
+<<if _temp > 0>>
+	<<if $trait.IE == "introverted" && $trait.OC == "open">>
+		<<set _temp *= 0.3>>
+	<<elseif $trait.IE != "extroverted" && $trait.OC == "open">>
+		<<set _temp *= 0.5>>
+	<<elseif $trait.IE == "introverted" && $trait.OC != "closed">>
+		<<set _temp *= 0.7>>
+	<<elseif $trait.IE == "introverted" && $trait.OC == "closed">>
+		<<set _temp *= 1.25>>
+	<<elseif $trait.IE == "extroverted" && $trait.OC == "open">>
+		<<set _temp *= 0.75>>
+	<<elseif $trait.IE == "extroverted" && $trait.OC == "closed">>
+		<<set _temp *= 1.7>>
+	<<elseif $trait.OC == "closed">>
+		<<set _temp *= 1.5>>
+	<<elseif $trait.IE == "extroverted">>
+		<<set _temp *= 1.3>>
+	<</if>>
+	<<if $trait.Relaxed == 1>>
+		<<set _temp *= 0.8>>
+	<<elseif $trait.Relaxed == -1>>
+		<<set _temp *= 1.1>>
+	<</if>>
+	<<if $status.need > 4>>
+		<<set _temp *= 2>>
+	<<elseif $status.need == 4>>
+		<<set _temp *= 1.75>>
+	<<elseif $status.need > 1>>
+		<<set _Temp *= 1.5>>
+	<<elseif $status.need > 0>>
+		<<set _temp *= 1.25>>
+	<</if>>
+	<<set $status.stress += _temp>>
+	<<if $status.stress > 100>>
+		<<set $status.overStress = true>>
+		<<set $status.stress = 100>>
+	<</if>>
+<<elseif _temp < 0>>
+	<<if $trait.IE == "introverted" && $trait.OC == "open">>
+		<<set _temp *= 0.5>>
+	<<elseif $trait.IE != "extroverted" && $trait.OC == "open">>
+		<<set _temp *= 0.7>>
+	<<elseif $trait.IE == "introverted" && $trait.OC != "closed">>
+		<<set _temp *= 0.9>>
+	<<elseif $trait.IE == "introverted" && $trait.OC == "closed">>
+		<<set _temp *= 1.2>>
+	<<elseif $trait.IE == "extroverted" && $trait.OC == "open">>
+		<<set _temp *= 0.8>>
+	<<elseif $trait.IE == "extroverted" && $trait.OC == "closed">>
+		<<set _temp *= 1.5>>
+	<<elseif $trait.OC == "closed">>
+		<<set _temp *= 1.3>>
+	<<elseif $trait.IE == "extroverted">>
+		<<set _temp *= 1.1>>
+	<</if>>
+	<<if $status.need > 1>>
+		<<set _temp *= 0.5>>
+	<</if>>
+	<<set $status.stress += _temp>>
+	<<if $status.stress < 0>>
+		<<set $status.stress = 0>>
+	<</if>>
+<<else>>
+<</if>>
+<<set $runop[29] = $status.stress * 3.55>>
+<</widget>>
+
+<<widget "anger">>
+<<if ndef $args[0]>>
+	<<set _temp = passage()>>
+	<<set $error += ", anger setting error - no args sent to anger function in passage: ">>
+	<<set $error += _temp>>
+	<<set _temp = 0>>
+<<else>>
+	<<set _temp = $args[0]>>
+<</if>>
+<<set $status.anger = Math.round( $runop[31] / 3.55)>>
+<<if _temp > 0>>
+	<<if $trait.OC == "closed">>
+		<<set _temp *= 1.5>>
+	<</if>>
+	<<if $trait.Bitch == 1>>
+		<<set _temp *= 1.25>>
+	<<elseif $trait.Bitch == -1>>
+		<<set _temp *= 0.75>>
+	<</if>>
+	<<if $status.need > 4>>
+		<<set _temp *= 2>>
+	<<elseif $status.need == 4>>
+		<<set _temp *= 1.75>>
+	<<elseif $status.need > 1>>
+		<<set _Temp *= 1.5>>
+	<<elseif $status.need > 0>>
+		<<set _temp *= 1.25>>
+	<</if>>
+	<<set $status.anger += _temp>>
+	<<if $status.anger > 10>>
+		<<set $status.overAnger = true>>
+		<<set $status.anger = 10>>
+	<</if>>
+<<elseif _temp < 0>>
+	<<if $trait.Forgiving == -1>>
+		<<set _temp *= 0.75>>
+	<<elseif $trait.Forgiving == 1>>
+		<<set _temp *= 1.5>>
+	<</if>>
+	<<if $status.need > 1>>
+		<<set _temp *= 0.5>>
+	<</if>>
+	<<set $status.anger += _temp>>
+	<<if $status.anger < 0>>
+		<<set $status.anger = 0>>
+	<</if>>
+<</if>>
+<<set $runop[31] = $status.anger * 3.55>>
+<</widget>>
+
+<<widget "happy">>
+<<if ndef $args[0]>>
+	<<set _temp = passage()>>
+	<<set $error += ", setting error - no args sent to happiness function in passage: ">>
+	<<set $error += _temp>>
+	<<set _temp = 0>>
+<<else>>
+	<<set _temp = $args[0]>>
+<</if>>
+<<set $status.happy = Math.round( $runop[30] / 3.55)>>
+<<if _temp > 0>>
+	<<if $trait.IE == "extroverted">>
+		<<set _temp *= 1.5>>
+	<</if>>
+	<<if $trait.OC == "closed">>
+		<<set _temp *= 2/3>>
+	<</if>>
+	<<if $trait.LowEsteem != 0>>
+		<<set _temp *= 0.9>>
+	<</if>>
+	<<if $status.need > 1>>
+		<<set _temp *= 0.75>>
+	<</if>>
+	<<set $status.happy += _temp>>
+	<<if $status.happy > 10>>
+		<<set $status.happy = 10>>
+	<</if>>
+<<elseif _temp < 0>>
+	<<if $trait.OC == "closed">>
+		<<set _temp *= 2/3>>
+	<</if>>
+	<<if $trait.IE == "introverted">>
+		<<set _temp *= 1.25>>
+	<</if>>
+	<<if $trait.LowEsteem != 0>>
+		<<set _temp *= 1.2>>
+	<</if>>
+	<<if $status.need > 1>>
+		<<set _temp *= 1.25>>
+	<</if>>
+	<<set $status.happy += _temp>>
+	<<if $status.happy < -10>>
+		<<set $status.overDepress = true>>
+		<<set $status.happy = -10>>
+	<</if>>
+<</if>>
+<<set $runop[30] = $status.happy * 3.55>>
+<</widget>>
+
+<<widget "tired">>
+<<if ndef $args[0]>>
+	<<set _temp = passage()>>
+	<<set $error += ", fatigue setting error - no args sent to tired function in passage: ">>
+	<<set $error += _temp>>
+	<<set _temp = 0>>
+<<else>>
+	<<set _temp = $args[0]>>
+<</if>>
+<<set $status.fatigue = Math.round( $runop[32] / 3.55)>>
+<<set $status.fatigue += _temp>>
+	<<if $status.fatigue > 10>>
+		<<set $status.fatigue = 10>>
+		<<set $status.health -= random(5,10)>>
+	<<elseif $status.fatigue < 0>>
+		<<set $status.fatigue = 0>>
+	<</if>>
+<<set $runop[32] = $status.fatigue * 3.55>>
+<</widget>>
+
+<<widget "arousal">>
+<<if ndef $args[0]>>
+	<<set $error += ", arousal setting error - no args sent to function in passage: ">>
+	<<set $error += passage()>>
+	<<set $args[0] = 0>>
+<</if>>
+<<set $status.arousal = Math.round( $runop[24] / 2.35)>>
+<<if $args[0] == "X">>
+	<<set $status.arousal = 0>>
+<<elseif $args[0] == "N">>
+	<<if ndef $args[1]>>
+		<<set $error += ", arousal setting error - no args sent to function in passage: ">>
+		<<set $error += passage()>>
+		<<set $status.arousal = 0>>
+	<<else>>
+		<<switch $args[1]>>
+		<<case 1>>
+			<<set $status.arousal = -1>>
+		<<case 2>>
+			<<set $status.arousal = -2>>
+		<<case 3>>
+			<<set $status.arousal = -3>>
+		<<case 4>>
+			<<set $status.arousal = -4>>
+		<<case 5>>
+			<<set $status.arousal = -5>>
+		<<case 6>>
+			<<set $status.arousal = -6>>
+		<<case default>>
+			<<set $status.arousal = -1>>
+		<</switch>>
+	<</if>>
+<<elseif $status.arousal < 0>>
+	<<set $status.arousal += $args[0]>>
+	<<if $kink.HyperSlut>>
+		<<set $status.arousal += 2>>
+	<<elseif $kink.SuperSlut>>
+		<<set $status.arousal += 1>>
+	<<elseif $kink.Slut>>
+		<<set $status.arousal += either(0,0,1)>>
+	<</if>>
+	<<if $trait.libido > 7>>
+		<<set $status.arousal += 1>>
+	<</if>>
+	<<if $status.arousal < -6>>
+		<<set $status.arousal = -6>>
+	<<elseif $status.arousal > 0>>
+		<<set $status.arousal = 0>>
+	<</if>>
+<<else>>
+	<<if $args[0] < 0>>
+		<<set _mod = 1>>
+		<<switch $trait.libido>>
+		<<case 1>>
+			<<set _mod += 0.6>>
+		<<case 2>>
+			<<set _mod += 0.3>>
+		<<case 3>>
+			<<set _mod += 0>>
+		<<case 4>>
+			<<set _mod -= 0.1>>
+		<<case 5>>
+			<<set _mod -= 0.2>>
+		<<case 6>>
+			<<set _mod -= 0.3>>
+		<<case 7>>
+			<<set _mod -= 0.4>>
+		<<case 8>>
+			<<set _mod -= 0.5>>
+		<<case 9>>
+			<<set _mod -= 0.6>>
+		<<case 10>>
+			<<set _mod -= 0.8>>
+		<</switch>>
+		<<if $kink.Slut && $kink.Liberate>>
+			<<set _mod -= 0.3>>
+		<<elseif $kink.Slut>>
+			<<set _mod -= 0.2>>
+		<<elseif $kink.Liberate || $kink.Exhibition || $kink.Cumslut || $kink.Sub || $kink.Risky>>
+			<<set _mod -= 0.1>>
+		<</if>>
+		<<if $kink.Rape || $kink.Pregnancy || $kink.Masochist || $kink.Public || $kink.Sizequeen>>
+			<<set _mod -= 0.1>>
+		<</if>>
+		<<if $mutate.Acid || $mutate.BC || $mutate.Multiple || $mutate.Cycle || $mutate.TwinWomb || $mutate.Pheromone>>
+			<<set _mod -= 0.1>>
+		<</if>>
+		<<if $status.arousal > 9 && _mod < 0.5>>
+			<<set _mod = 0.5>>
+		<<elseif $status.arousal > 9 && _mod < 1>>
+			<<set _mod = 1>>
+		<<elseif _mod <= 0>>
+			<<set _mod = 0.1>>
+		<</if>>
+		<<set _temp = Math.round($args[0] * _mod)>>
+	<<elseif $args[0] >= 0>>
+		<<set _mod = 1>>
+		<<switch $trait.libido>>
+		<<case 1>>
+			<<set _mod -= 0.6>>
+		<<case 2>>
+			<<set _mod -= 0.3>>
+		<<case 3>>
+			<<set _mod -= 0>>
+		<<case 4>>
+			<<set _mod += 0.1>>
+		<<case 5>>
+			<<set _mod += 0.2>>
+		<<case 6>>
+			<<set _mod += 0.3>>
+		<<case 7>>
+			<<set _mod += 0.4>>
+		<<case 8>>
+			<<set _mod += 0.5>>
+		<<case 9>>
+			<<set _mod += 0.6>>
+		<<case 10>>
+			<<set _mod += 0.8>>
+		<</switch>>
+		<<if $kink.Slut && $kink.Liberate>>
+			<<set _mod += 0.3>>
+		<<elseif $kink.Slut>>
+			<<set _mod += 0.2>>
+		<<elseif $kink.Liberate || $kink.Exhibition || $kink.Cumslut || $kink.Sub || $kink.Risky>>
+			<<set _mod += 0.1>>
+		<</if>>
+		<<if $kink.Rape || $kink.Pregnancy || $kink.Masochist || $kink.Public || $kink.Sizequeen>>
+			<<set _mod += 0.1>>
+		<</if>>
+		<<if $mutate.Acid || $mutate.BC || $mutate.Multiple || $mutate.Cycle || $mutate.TwinWomb || $mutate.Pheromone>>
+			<<set _mod += 0.1>>
+		<</if>>
+		<<if $status.arousal > 9 && _mod > 2>>
+			<<set _mod = 2>>
+		<<elseif $status.arousal > 9 && _mod > 1.5>>
+			<<set _mod = 1.5>>
+		<<elseif $status.arousal > 9 && _mod > 1>>
+			<<set _mod = 1>>
+		<</if>>
+		<<set _temp = Math.round($args[0] * _mod)>>
+	<</if>>
+	<<set $status.arousal += _temp>>
+	<<if $status.arousal > 15>>
+		<<set $status.arousal = 15>>
+		<<if not $mindbreak>>
+			<<set $mindbreak = either(true,false,false,false,false,false,false,false)>>
+			<<if $mindbreak>><<set alert("your mind is now broken")>><</if>>
+			<<set $mindbreak = $runop[35]>>
+		<</if>>
+	<<elseif $status.arousal < 0>>
+		<<set $status.arousal = 0>>
+	<</if>>
+<</if>>
+<<set $runop[24] = $status.arousal * 2.35>>
+<<if $status.arousal > 13>>
+	<<set alert("Your arousal is dangerously high!")>>
+<</if>>
+<</widget>>
+
+<<widget "satisfaction">>
+<<if ndef $args[0]>>
+	<<set $error += ", satisfaction setting error - no args sent to function in passage: ">>
+	<<set $error += passage()>>
+	<<set $args[0] = 0>>
+<</if>>
+<<set $status.satisfaction = Math.round( $runop[28] / 3.15)>>
+<<set $status.satisfaction += $args[0]>>
+<<if $kink.Slut && $args[0] < 0>>
+	<<set $status.satisfaction += Math.round($args[0] * 0.3)>>
+<</if>>
+<<if ( $kink.SuperSlut || $kink.HyperSlut ) && $args[0] < 0>>
+	<<set $status.satisfaction += Math.round($args[0] * 0.5)>>
+<</if>>
+<<if $trait.libido > 7 && $args[0] < 0>>
+	<<set $status.satisfaction += Math.round($args[0] * 0.2)>>
+<</if>>
+<<if $status.satisfaction < 0 >>
+	<<set $status.underSatisfy += 1>>
+	<<set $status.satisfaction = 2>>
+	<<set _rand = random(0,95)>>
+	<<if $kink.Slut>><<set _rand += 10>><</if>>
+	<<set _rand += $trait.libido>>
+	<<if _rand > 50>>
+		<<set $status.need = Math.round( $runop[27] / 3.15)>>
+		<<set $status.need += 1>>
+		<<set $runop[27] = $status.need * 3.15>>
+	<</if>>
+<<elseif $status.satisfaction > 100>>
+	<<set $status.satisfaction = 100>>
+	<<set $status.need = Math.round( $runop[27] / 3.15)>>
+	<<if $status.need > 0>>
+		<<set $status.need -= 1>>
+		<<set $runop[27] = $status.need * 3.15>>
+	<</if>>
+<</if>>
+<<set $runop[28] = $status.satisfaction * 3.15>>
+<</widget>>
+
+<<widget "cond">>
+<<silently>>
+<<if ndef $args[0]>>
+	<<set $error += ", condition interpret error - no args sent to function in passage: ">>
+	<<set $error += passage()>>
+	<<set $args[0] = 0>>
+<</if>>
+<<set _array = $args[0]>>
+<<switch _array[0]>>
+<<case 0>>
+	<<set _outputMain = "Clean">>
+<<case 1>>
+	<<set _outputMain = "Normal">>
+<<case 2>>
+	<<set _outputMain = "Grungy">>
+<<case 3>>
+	<<set _outputMain = "Smelly">>
+<<case 4>>
+	<<set _outputMain = "Dirty">>
+<<case 5>>
+	<<set _outputMain = "Filthy">>
+<</switch>>
+<<if ndef _array[1]>>
+	<<set _fluids = "A">>
+<<elseif _array[1].length == 1>>
+	<<set _fluids = _array[1]>>
+	<<set _fluidsB = "A">>
+	<<set _fluidsC = "ZZZ">>
+<<elseif _array[1].length == 2>>
+	<<set _fluids = _array[1].slice(0,1)>>
+	<<set _fluidsB = $args[0].slice(1,2)>>
+	<<set _fluidsC = "A">>
+<<else>>
+	<<set _fluids = _array[1].slice(0,1)>>
+	<<set _fluidsB = $args[0].slice(1,2)>>
+	<<set _fluidsC = $args[0].slice(2,3)>>
+<</if>>
+<<if _fluids == "A">>
+	<<set _outputFluid = 0>>
+<<else>>
+	<<switch _fluids>>
+		<<case "B">>
+		<<set _outputFluid = "Damp">>/*water*/
+		<<case "C">>
+		<<set _outputFluid = "Wet">>/*water*/
+		<<case "D">>
+		<<set _outputFluid = "Drenched">>/*water*/
+		<<case "E">>
+		<<set _outputFluid = "Sweaty">>
+		<<case "F">>
+		<<set _outputFluid = "Soaked with sweat">>
+		<<case "G">>
+		<<set _outputFluid = "Damp with femlube">>
+		<<case "H">>
+		<<set _outputFluid = "Wet with femlube">>
+		<<case "I">>
+		<<set _outputFluid = "Soaked with femlube">>
+		<<case "J">>
+		<<set _outputFluid = "Crusted with dried femlube">>
+		<<case "K">>
+		<<set _outputFluid = "Damp with milk">>
+		<<case "L">>
+		<<set _outputFluid = "Wet with milk">>
+		<<case "M">>
+		<<set _outputFluid = "Soaked with milk">>
+		<<case "N">>
+		<<set _outputFluid = "Crusted with dried milk">>
+		<<case "O">>
+		<<set _outputFluid = "Sprinkled with cum">>
+		<<case "P">>
+		<<set _outputFluid = "Splattered with cum">>
+		<<case "Q">>
+		<<set _outputFluid = "Coated with cum">>
+		<<case "R">>
+		<<set _outputFluid = "Sprinkled with dried cum">>
+		<<case "S">>
+		<<set _outputFluid = "Splattered with dried cum">>
+		<<case "T">>
+		<<set _outputFluid = "Coated with dried cum">>
+	<</switch>>
+	<<switch _fluidsB>>
+		<<case "A">>
+		<<set _outputFluid += ".">>
+		<<case "B">>
+		<<set _outputFluid += ", damp">>/*water*/
+		<<case "C">>
+		<<set _outputFluid += ", wet">>/*water*/
+		<<case "D">>
+		<<set _outputFluid += ", drenched">>/*water*/
+		<<case "E">>
+		<<set _outputFluid += ", sweaty">>
+		<<case "F">>
+		<<set _outputFluid += ", soaked with sweat">>
+		<<case "G">>
+		<<set _outputFluid += ", damp with femlube">>
+		<<case "H">>
+		<<set _outputFluid += ", wet with femlube">>
+		<<case "I">>
+		<<set _outputFluid += ", soaked with femlube">>
+		<<case "J">>
+		<<set _outputFluid += ", crusted with dried femlube">>
+		<<case "K">>
+		<<set _outputFluid += ", damp with milk">>
+		<<case "L">>
+		<<set _outputFluid += ", wet with milk">>
+		<<case "M">>
+		<<set _outputFluid += ", soaked with milk">>
+		<<case "N">>
+		<<set _outputFluid += ", crusted with dried milk">>
+		<<case "O">>
+		<<set _outputFluid += ", sprinkled with cum">>
+		<<case "P">>
+		<<set _outputFluid += ", splattered with cum">>
+		<<case "Q">>
+		<<set _outputFluid += ", coated with cum">>
+		<<case "R">>
+		<<set _outputFluid += ", sprinkled with dried cum">>
+		<<case "S">>
+		<<set _outputFluid += ", splattered with dried cum">>
+		<<case "T">>
+		<<set _outputFluid += ", coated with dried cum">>
+	<</switch>>
+	<<switch _fluidsC>>
+		<<case "A">>
+		<<set _outputFluid += ".">>
+		<<case "B">>
+		<<set _outputFluid += ", and damp.">>/*water*/
+		<<case "C">>
+		<<set _outputFluid += ", and wet.">>/*water*/
+		<<case "D">>
+		<<set _outputFluid += ", and drenched.">>/*water*/
+		<<case "E">>
+		<<set _outputFluid += ", and sweaty.">>
+		<<case "F">>
+		<<set _outputFluid += ", and soaked with sweat.">>
+		<<case "G">>
+		<<set _outputFluid += ", and damp with femlube.">>
+		<<case "H">>
+		<<set _outputFluid += ", and wet with femlube.">>
+		<<case "I">>
+		<<set _outputFluid += ", and soaked with femlube.">>
+		<<case "J">>
+		<<set _outputFluid += ", and crusted with dried femlube.">>
+		<<case "K">>
+		<<set _outputFluid += ", and damp with milk.">>
+		<<case "L">>
+		<<set _outputFluid += ", and wet with milk.">>
+		<<case "M">>
+		<<set _outputFluid += ", and soaked with milk.">>
+		<<case "N">>
+		<<set _outputFluid += ", and crusted with dried milk.">>
+		<<case "O">>
+		<<set _outputFluid += ", and sprinkled with cum.">>
+		<<case "P">>
+		<<set _outputFluid += ", and splattered with cum.">>
+		<<case "Q">>
+		<<set _outputFluid += ", and coated with cum.">>
+		<<case "R">>
+		<<set _outputFluid += ", and sprinkled with dried cum.">>
+		<<case "S">>
+		<<set _outputFluid += ", and splattered with dried cum.">>
+		<<case "T">>
+		<<set _outputFluid += ", and coated with dried cum.">>
+	<</switch>>
+<</if>>
+<<if _outputFluid == 0>>
+	<<set _output = _outputMain + ".">>
+<<elseif _outputMain == "Clean" || _outputMain == "Normal">>
+	<<set _output = _outputFluid>>
+<<else>>
+	<<set _output = _outputMain + "--" + _outputFluid>>
+<</if>>
+<</silently>><<print _output>>
+<</widget>>
+
+<<widget "LoadingText">>
+<<set _text = either("Giving NPCs free will...","Repairing Rejuvinator...","Cleaning up femlube drips...","Preparing mammary glands for lactation...","Calculating uterine lining growth...","Injecting naughty dreams...","Preparing subliminal programming...","Checking Institute agent's infiltration progress...","Distracting player from ''real'' danger...","Determining victors in sperm battles...","Determining if peeping tom likes what he sees...","Getting sheets dirty...","Checking for new chemicals in the tap water...","Murdering the unpopular NPCs...","Processing Player's psychological profile...","Using ∞ based statistics to process love...","Checking for subdermal implant activity...","Determining how favorite NPCs are lying...","Eagerly anticipating a bad end...","Contemplating referential ethics...","Processing NPC suicides...","Abusing NPCs for plot purposes...","Calculating Appletree's Rohypnol supply...","Determining which NPCs have nothing left to lose...","Implementing hypnotic commands...","Determining local jail's degeneration...","Calculating growth of local cults...","Screwing something up...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Reticulating splines...","Reticulating splines...")>>@@font-size:130%;.monospace;.white;.blinking;<<print _text>>@@<</widget>>
+
+<<widget "helpPop">>
+<<link [img[Help Information|IMGhelpbutton]]>>
+<<if ndef $args[0]>>
+	<<run alert("help name not defined, please report.")>>
+	<<set $error += "helpPop arg (name) error on passage: " + passage()>>
+<<elseif ndef $args[1]>>
+	<<run alert("help text not defined, please report.")>>
+	<<set $error += "helpPpp arg (text) error on passage: " + passage()>>
+<<else>>
+	<<dialog $args[0]>>@@.exp;<<print $args[1]>>@@<</dialog>>
+<</if>><</link>>
+<</widget>>
+
+<<widget "warnPop">>
+<<link [img[Warning Information|warningS]]>>
+<<if ndef $args[0]>>
+	<<run alert("help name not defined, please report.")>>
+	<<set $error += "helpPop arg (name) error on passage: " + passage()>>
+<<elseif ndef $args[1]>>
+	<<run alert("help text not defined, please report.")>>
+	<<set $error += "helpPpp arg (text) error on passage: " + passage()>>
+<<else>>
+	<<dialog $args[0]>>@@.exp;<<print $args[1]>>@@<</dialog>>
+<</if>><</link>>
+<</widget>>
+
+<<widget "spendingLevel">>
+<<silently>>
+<<if ndef $args[0]>>
+	<<set $error += "error with spending level widget at: " + passage()>>
+	<<set _pcsLoadLetter = "Error!">>
+<<else>>
+	<<switch $args[0]>>
+	<<case 0>>
+		<<set _pcsLoadLetter = "None--Too Broke">>
+	<<case 1>>
+		<<set _pcsLoadLetter = "Poor--Bare Minimum">>
+	<<case 2>>
+		<<set _pcsLoadLetter = "Cheap--Not Comfortable">>
+	<<case 3>>
+		<<set _pcsLoadLetter = "Average--Pretty Normal">>
+	<<case 4>>
+		<<set _pcsLoadLetter = "Fancy--Pretty Nice">>
+	<<case 5>>
+		<<set _pcsLoadLetter = "Luxury--Opulant Spending">>
+	<</switch>>
+<</if>>
+<</silently>><<print _pcsLoadLetter>>
+<</widget>>
+
+<<widget "loadingImg">>
+<img data-passage="IMGloadingBoobs" style="border: 5px solid #8e014a;">
+<</widget>>
+
+<<widget "cleanLevel">>
+<<silently>>
+<<if ndef $args[0]>>
+	<<set _jism = "@@.orange;.smear;Error--No Arg@@">>
+	<<set $error += ", No arg sent to cleanLevel function in passage: " + passage()>>
+<<elseif isNaN($args[0])>>
+	<<if ndef $args[1]>>
+		<<set _jism = "@@.orange;.smear;Error--No Arg@@">>
+		<<set $error += ", No arg sent to cleanLevel function in passage: " + passage()>>
+	<<else>>
+		<<switch $args[0]>>
+		<<case 10>>
+			<<set _jism = "@@.ship;Pristine@@">>
+		<<case 9>>
+			<<set _jism = "@@.lime;Spotless@@">>
+		<<case 8>>
+			<<set _jism = "@@.green;Very Clean@@">>
+		<<case 7>>
+			<<set _jism = "@@.springgreen;Clean@@">>
+		<<case 6>>
+			<<set _jism = "@@.yellow;Passable@@">>
+		<<case 5 4>>
+			<<set _jism = "@@.orange;Messy@@">>
+		<<case 3 2>>
+			<<set _jism = "@@.orangered;Dirty@@">>
+		<<case 1>>
+			<<set _jism = "@@.orangered;.smear;Filthy@@">>
+		<<case 0>>
+			<<set _jism = "@@.red;.smear;Disgusting@@">>
+		<<case default>>
+			<<set _jism = "@@.orange;.smear;Error@@">>
+		<</switch>>
+	<</if>>
+<<else>>
+	<<set _tits = Math.trunc($args[0]/10)>>
+	<<switch _tits>>
+		<<case 10>>
+			<<set _jism = "@@.ship;Pristine@@">>
+		<<case 9>>
+			<<set _jism = "@@.lime;Spotless@@">>
+		<<case 8>>
+			<<set _jism = "@@.green;Very Clean@@">>
+		<<case 7>>
+			<<set _jism = "@@.springgreen;Clean@@">>
+		<<case 6>>
+			<<set _jism = "@@.yellow;Passable@@">>
+		<<case 5 4>>
+			<<set _jism = "@@.orange;Messy@@">>
+		<<case 3 2>>
+			<<set _jism = "@@.orangered;Dirty@@">>
+		<<case 1>>
+			<<set _jism = "@@.red;Filthy@@">>
+		<<case 0>>
+			<<set _jism = "@@.red;.smear;Disgusting@@">>
+		<<case default>>
+			<<set _jism = "@@.orange;.smear;Error@@">>
+	<</switch>>
+<</if>>
+<</silently>><<print _jism>>
+<</widget>>
+
+/*sets up a styled radiobutton. also accepts third arg for <label> element*/
+<<widget "radiobutt">>
+<<silently>>
+<<if ndef $args[0] || ndef $args[1]>>
+	<<set _skeet = "<span style='background: darkred;color: white'>ERROR: Custom Radio Macro missing arguments.</span>">>
+<<elseif typeof($args[0]) != "string">>
+	<<set _skeet = "<span style='background: red;color: white'>ERROR: Custom Radio Macro first arg variable must be wrapped in quotes.</span>">>
+<<elseif $args[0].slice(0,1) != "$" && $args[0].slice(0,1) != "_">>
+	<<set _skeet = "<span style='background: red;color: white'>ERROR: Custom Radio Macro first arg must be a variable name (missing $or_).</span>">>
+<<elseif def $args[2]>>
+	<<if isNaN($args[1]) && typeof($args[1]) != "boolean">>
+		<<set _skoo = "'" + $args[1] + "'">>
+			<<set _skeet = "@@.option-input;<<radiobutton '" + $args[0] + "' " + _skoo + " checked>>">>
+	<<else>>
+		<<set _skoo = $args[1]>>
+		<<set _skeet = "@@.option-input;<<radiobutton '" + $args[0] + "' " + _skoo + " checked>>">>
+	<</if>>
+<<else>>
+	<<if isNaN($args[1]) && typeof($args[1]) != "boolean">>
+		<<set _skoo = "'" + $args[1] + "'">>
+	<<else>>
+		<<set _skoo = $args[1]>>
+	<</if>>
+	<<set _skeet = "@@.option-input;<<radiobutton '" + $args[0] + "' " + _skoo + ">>">>
+<</if>>
+<</silently>><<print _skeet>>
+<</widget>>
+
+<<widget "checkboxA">>
+<<silently>>
+<<set _skeet = "nope">>
+<<if ndef $args[0] || ndef $args[1] || ndef $args[2]>>
+	<<set _skeet = "<span style='background: darkred;color: white'>ERROR: Custom Checkbox Macro missing arguments.</span>">>
+<<elseif typeof($args[0]) != "string">>
+	<<set _skeet = "<span style='background: red;color: white'>ERROR: Custom Checkbox Macro first arg variable must be wrapped in quotes.</span>">>
+<<elseif $args[0].slice(0,1) != "$" && $args[0].slice(0,1) != "_">>
+	<<set _skeet = "<span style='background: red;color: white'>ERROR: Custom Radio Macro first arg must be a variable name (missing $or_).</span>">>
+<</if>>
+<<if _skeet == "nope">><<set _fuck = "<<set _jizz = " + $args[0] + ">>">><<print _fuck>><</if>>
+<<if _skeet == "nope" && (def $args[3] || $args[2] == _jizz)>>
+	<<if isNaN($args[1]) && typeof($args[1]) != "boolean">>
+		<<set _skoo = "'" + $args[1] + "'">>
+	<<else>>
+		<<set _skoo = $args[1]>>
+	<</if>>
+	<<if isNaN($args[2]) && typeof($args[2]) != "boolean">>
+		<<set _skii = "'" + $args[2] + "'">>
+	<<else>>
+		<<set _skii = $args[2]>>
+	<</if>>
+	<<set _skeet = "<div class='onOffBox'><<douchebag '" + $args[0] + "' " + _skoo + " " + _skii + " checked>></div>">>
+<<elseif _skeet == "nope">>
+	<<if isNaN($args[1]) && typeof($args[1]) != "boolean">>
+		<<set _skoo = "'" + $args[1] + "'">>
+	<<else>>
+		<<set _skoo = $args[1]>>
+	<</if>>
+	<<if isNaN($args[2]) && typeof($args[2]) != "boolean">>
+		<<set _skii = "'" + $args[2] + "'">>
+	<<else>>
+		<<set _skii = $args[2]>>
+	<</if>>
+	<<set _skeet = "<div class='onOffBox'><<douchebag '" + $args[0] + "' " + _skoo + " " + _skii + ">></div>">>
+<</if>>
+<</silently>><<print _skeet>>
+<</widget>>
+
+<<widget "checkboxB">>
+<<silently>>
+<<set _skeet = "nope">>
+<<if ndef $args[0] || ndef $args[1] || ndef $args[2]>>
+	<<set _skeet = "<span style='background: darkred;color: white'>ERROR: Custom Checkbox Macro missing arguments.</span>">>
+<<elseif typeof($args[0]) != "string">>
+	<<set _skeet = "<span style='background: red;color: white'>ERROR: Custom Checkbox Macro first arg variable must be wrapped in quotes.</span>">>
+<<elseif $args[0].slice(0,1) != "$" && $args[0].slice(0,1) != "_">>
+	<<set _skeet = "<span style='background: red;color: white'>ERROR: Custom Radio Macro first arg must be a variable name (missing $or_).</span>">>
+<</if>>
+<<if _skeet == "nope">><<set _fuck = "<<set _jizz = " + $args[0] + ">>">><<print _fuck>><</if>>
+<<if _skeet == "nope" && (def $args[3] || $args[2] == _jizz)>>
+	<<if isNaN($args[1]) && typeof($args[1]) != "boolean">>
+		<<set _skoo = "'" + $args[1] + "'">>
+	<<else>>
+		<<set _skoo = $args[1]>>
+	<</if>>
+	<<if isNaN($args[2]) && typeof($args[2]) != "boolean">>
+		<<set _skii = "'" + $args[2] + "'">>
+	<<else>>
+		<<set _skii = $args[2]>>
+	<</if>>
+	<<set _skeet = "<div class='squaredOne'><<douchebag '" + $args[0] + "' " + _skoo + " " + _skii + " checked>></div>">>
+<<elseif _skeet == "nope">>
+	<<if isNaN($args[1]) && typeof($args[1]) != "boolean">>
+		<<set _skoo = "'" + $args[1] + "'">>
+	<<else>>
+		<<set _skoo = $args[1]>>
+	<</if>>
+	<<if isNaN($args[2]) && typeof($args[2]) != "boolean">>
+		<<set _skii = "'" + $args[2] + "'">>
+	<<else>>
+		<<set _skii = $args[2]>>
+	<</if>>
+	<<set _skeet = "<div class='squaredOne'><<douchebag '" + $args[0] + "' " + _skoo + " " + _skii + ">></div>">>
+<</if>>
+<</silently>><<print _skeet>>
+<</widget>>
+
+
+<</silently>>
+<</nobr>>

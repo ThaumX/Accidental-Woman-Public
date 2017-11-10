@@ -1,0 +1,358 @@
+:: skillSet [nobr]
+
+<<nobr>>
+<<silently>>
+<<set $PCskillpoints = 0>>
+<<switch $PC.background>>
+<<case "accountant">>
+	<<set $skill.finance = 60>>
+	<<set $skill.org = 40>>
+	<<set $PCskillpoints += 50>>
+	<<set $PC.background = "accountant">>
+<<case "accountcollector">>
+	<<set $skill.comm = 40>>
+	<<set $skill.probSolving = 10>>
+	<<set $skill.finance = 20>>
+	<<set $PCskillpoints += 65>>
+	<<set $PC.background = "account collector">>
+<<case "adminassistant">>
+	<<set $skill.comm = 40>>
+	<<set $skill.probSolving = 20>>
+	<<set $skill.org = 30>>
+	<<set $PCskillpoints += 55>>
+	<<set $PC.background = "administrative assistant">>
+<<case "billingpostingclerk">>
+	<<set $skill.finance = 40>>
+	<<set $skill.org = 60>>
+	<<set $PCskillpoints += 50>>
+	<<set $PC.background = "billing & posting clerk">>
+<<case "bookkeepingclerk">>
+	<<set $skill.org = 80>>
+	<<set $skill.comm = 10>>
+	<<set $skill.probSolving = 10>>
+	<<set $PCskillpoints += 50>>
+	<<set $PC.background = "bookkeeping clerk">>
+<<case "computersupport">>
+	<<set $skill.probSolving = 70>>
+	<<set $skill.comm = 30>>
+	<<set $PCskillpoints += 50>>
+	<<set $PC.background = "computer support specialist">>
+<<case "customerservice">>
+	<<set $skill.probSolving = 30>>
+	<<set $skill.comm = 70>>
+	<<set $PCskillpoints += 50>>
+	<<set $PC.background = "customer service rep">>
+<<case "graphicdesign">>
+	<<set $skill.art = 60>>
+	<<set $skill.comm = 30>>
+	<<set $skill.probSolving = 10>>
+	<<set $PCskillpoints += 50>>
+	<<set $PC.background = "graphic designer">>
+<<case "humanresources">>
+	<<set $skill.comm = 60>>
+	<<set $PCskillpoints += 70>>
+	<<set $PC.background = "human resources clerk">>
+<<case "logisticsclerk">>
+	<<set $skill.probSolving = 30>>
+	<<set $skill.org = 30>>
+	<<set $skill.comm = 10>>
+	<<set $PCskillpoints += 60>>
+	<<set $PC.background = "logistics clerk">>
+<<case "officeclerk">>
+	<<set $skill.comm = 30>>
+	<<set $skill.org = 10>>
+	<<set $PCskillpoints += 80>>
+	<<set $PC.background = "general office clerk">>
+<<case "salesrepservice">>
+	<<set $skill.comm = 60>>
+	<<set $skill.org = 20>>
+	<<set $PCskillpoints += 60>>
+	<<set $PC.background = "sales rep (services)">>
+<<case "salesreptechnical">>
+	<<set $skill.comm = 60>>
+	<<set $skill.probSolving = 20>>
+	<<set $PCskillpoints += 60>>
+	<<set $PC.background = "sales rep (technical)">>
+<<case "salesrepwholesale">>
+	<<set $skill.comm = 60>>
+	<<set $skill.finance = 20>>
+	<<set $PCskillpoints += 60>>
+	<<set $PC.background = "sales rep (wholesale)">>
+<<case "teammanager">>
+	<<set $skill.comm = 40>>
+	<<set $skill.org = 40>>
+	<<set $PCskillpoints += 60>>
+	<<set $PC.background = "team manager">>
+<<case "enter custom career">>
+	<<set $PCskillpoints += 70>>
+	<<set $skill.prostitute += 60>>
+	<<set $PC.background = "man whore (he-bitch)">>
+<<case "custom">>
+	<<if $temp == "enter custom career">>
+		<<set $PCskillpoints += 70>>
+		<<set $skill.prostitute += 60>>
+		<<set $PC.background = "man whore (he-bitch)">>
+	<<else>>
+		<<set $PCskillpoints += 110>>
+		<<set $PC.background = $temp>>
+	<</if>>
+<</switch>>
+<<switch $groom.pubestyle>>
+<<case "hairless">><<set $groom.pubeGrow = 0>><<set $groom.pube = 0>><<set $groom.armpit = 0>><<set $groom.leghair = 0>>
+<<case "bushy">><<set $groom.pubeGrow = 5>>
+<<case "trimmed">><<set $groom.pubeGrow = 4>>
+<<case "neatly trimmed">><<set $groom.pubeGrow = 3>>
+<<case "triangular">><<set $groom.pubeGrow = 3>>
+<<case "neat patch">><<set $groom.pubeGrow = 3>>
+<<case "landing strip">><<set $groom.pubeGrow = 3>>
+<<case "shaved">>><<set $groom.pubeGrow = 1>>
+<</switch>>
+<<set $temp = 0>>
+<<if $kink.Exhibition>>
+	<<set $skill.exhibition += 20>>
+	<<if $trait.libido < 3>>
+		<<set $trait.libido = 3>>
+	<</if>>
+<</if>>
+<<if $kink.Public>>
+	<<set $skill.exhibition += 15>>
+	<<set $skill.seduction += 5>>
+	<<if $trait.libido < 4>>
+		<<set $trait.libido = 4>>
+	<</if>>
+<</if>>
+<<if $kink.Slut>>
+	<<set $skill.sex += 15>>
+	<<set $skill.seduction += 5>>
+	<<set $PC.orgasm -= 2>>
+	<<set $kink.Oral = true>>
+	<<set $kink.Anal = true>>
+	<<set $kink.Force = true>>
+	<<set $kink.Bond = true>>
+	<<set $kink.Exhibition = true>>
+	<<set $skill.oral += 10>>
+	<<set $status.perversion += 20>>
+	<<set $status.addictSex = 25>>
+	<<set $status.addictCum = 20>>
+	<<set $status.addictCream = 15>>
+	<<if $trait.libido < 4>>
+		<<set $trait.libido = 4>>
+	<<else>>
+		<<set $trait.libido += 1>>
+	<</if>>
+<</if>>
+<<if !$kink.Anal>>
+	<<set $kink.Buttslut = false>>
+<</if>>
+<<if !$kink.Oral>>
+	<<set $kink.Cumslut = false>>
+<</if>>
+<<if $kink.Liberate>>
+	<<set $skill.sex += 20>>
+	<<set $skill.oral += 10>>
+	<<set $skill.prostitute += 15>>
+	<<set $skill.seduction += 5>>
+	<<set $status.perversion += 10>>
+	<<if $trait.libido < 3>>
+		<<set $trait.libido = 3>>
+	<</if>>
+	<<set $PC.orgasm -= 1>>
+<</if>>
+<<if $trait.IE == "neither">>
+	<<set $PCskillpoints += 15>>
+	<<set $status.morality += 5>>
+<<elseif $trait.IE == "introverted">>
+	<<set $trait.IN = true>>
+	<<set $PCskillpoints += 30>>
+	<<set $PC.orgasm -= 2>>
+	<<set $status.morality += 10>>
+	<<set $status.perversion += 5>>
+<<elseif $trait.IE == "extroverted">>
+	<<set $trait.EX = true>>
+	<<set $skill.seduction += 5>>
+	<<set $skill.comm += 10>>
+	<<set $PC.orgasm += 1>>
+	<<set $status.morality -= 10>>
+<</if>>
+<<set $status.perversion += 10>>
+<<if $trait.OC == "neither">>
+	<<set $PCskillpoints += 5>>
+	<<set $status.perversion += 10>>
+	<<set $status.morality += 5>>
+<<elseif $trait.OC == "open">>
+	<<set $trait.OP = true>>
+	<<set $PCskillpoints += 15>>
+	<<set $PC.orgasm -= 1>>
+	<<set $status.perversion += 15>>
+	<<set $status.morality += 10>>
+<<else>>
+	<<set $trait.CL = true>>
+	<<set $PC.orgasm += 3>>
+<</if>>
+<<if $kink.Oral>>
+	<<set $skill.oral += 15>>
+<</if>>
+<<if $kink.Cumslut>>
+	<<set $skill.oral += 20>>
+	<<set $skill.seduction += 5>>
+	<<set $status.addictCum = 20>>
+<</if>>
+<<if $kink.Risky>>
+	<<set $skill.sex += 15>>
+	<<set $skill.seduction += 5>>
+	<<set $status.addictCream += 10>>
+	<<if $trait.libido < 3>>
+		<<set $trait.libido = 3>>
+	<</if>>
+<</if>>
+<<if $kink.Pregnancy>>
+	<<set $skill.sex += 20>>
+	<<set $skill.seduction += 5>>
+	<<set $status.addictCream += 10>>
+	<<set $status.morality -= 5>>
+	<<if $trait.libido < 4>>
+		<<set $trait.libido = 4>>
+	<</if>>
+<</if>>
+<<if $skill.finance != 0>>
+	<<set $skill.shop = $skill.finance / 5>>
+<</if>>
+<<if $skill.org != 0>>
+	<<set $skill.clean = $skill.org / 5>>
+<</if>>
+<<if $kink.Hard || $kink.Shame>>
+	<<set $PC.orgasm = 35>>
+	<<set $status.satisfaction -= 15>>
+	<<set $status.happy -= 1>>
+	<<set $status.stress += 10>>
+<</if>>
+<<if $kink.Shame>>
+	<<set $status.morality += 10>>
+	<<set $status.perversion -= 10>>
+	<<set $status.satisfaction -= 15>>
+	<<set $trait.libido -= 2>>
+	<<set $status.happy -= 1>>
+	<<set $status.stress += 10>>
+	<<if $trait.libido < 1>>
+		<<set $trait.libido = 1>>
+	<</if>>
+<</if>>
+<<if $kink.Fapper>>
+	<<set $skill.oral += 10>>
+	<<set $skill.sex -= 15>>
+<</if>>
+<<if $kink.Hard>>
+	<<set $skill.sex -= 15>>
+<</if>>
+<<if $trait.libido > 3>>
+	<<set $skill.sex += 5>>
+	<<set $skill.oral += 5>>
+	<<set $skill.seduction += 5>>
+	<<set $skill.exhibition += 10>>
+	<<set $PC.orgasm -= ($trait.libido - 3)>>
+<</if>>
+<<if $trait.libido < 3>>
+	<<set $PC.orgasm += 3>>
+<</if>>
+<<if $PC.tone > 4>>
+	<<set $skill.athletic += 30>>
+<<elseif $PC.tone > 3>>
+	<<set $skill.athletic += 20>>
+<<elseif $PC.tone == 3>>
+	<<set $skill.athletic += 10>>
+<</if>>
+<<if $trait.libido > 7>>
+	<<set $trait.libido = 7>>
+<</if>>
+<<set $skill.art += random(1,6)>><<set $skill.art += random(1,6)>>
+<<set $skill.dancing += random(1,8)>><<set $skill.dancing += random(1,6)>>
+<<set $skill.clean += random(1,6)>><<set $skill.clean += random(1,6)>><<set $skill.clean += random(1,6)>>
+<<set $skill.shop += random(1,6)>><<set $skill.shop += random(1,6)>><<set $skill.shop += random(1,6)>><<set $skill.shop += random(1,6)>>
+<<set $skill.athletic += random(1,8)>><<set $skill.athletic += random(1,8)>><<set $skill.athletic += random(1,8)>>
+<<set $skill.cook += random(1,6)>><<set $skill.cook += random(1,6)>><<set $skill.cook += random(1,6)>>
+
+<<if $trait.IE == "introverted">>
+<<set $skill.art += random(1,6)>><<set $skill.art += random(1,6)>>
+<<set $skill.cook += random(1,6)>>
+<<set $skill.shop -= random(1,6)>>
+<<elseif $trait.IE == "extroverted">>
+<<set $skill.dancing += random(1,6)>>
+	<<if $skill.probSolving > 8>>
+		<<set $skill.probSolving -= 9>>
+	<</if>>
+	<<if $skill.comm < 35>>
+		<<set $skill.comm += 8>>
+	<</if>>
+<<else>>
+<<if $skill.probSolving > 3>>
+		<<set $skill.probSolving -= 4>>
+	<</if>>
+<</if>>
+<<if $trait.OC == "open">>
+<<set $skill.art += random(1,6)>><<set $skill.art += random(1,6)>>
+<<set $skill.cook += random(1,6)>>
+<<elseif $trait.OC == "closed">>
+<<set $skill.clean += random(1,6)>><<set $skill.clean += random(1,6)>>
+<<set $skill.shop += random(0,3)>>
+<<set $skill.art -= random(1,6)>>
+<<set $skill.cook += random(0,3)>>
+<<else>>
+<<set $skill.clean += random(1,6)>>
+<</if>>
+<<set _temp = $skill.exhibition + $skill.prostitute + $skill.sex + $skill.oral>>
+<<if $skill.comm != 0>>
+<<set _temp += $skill.comm / 2>>
+<</if>>
+<<if $trait.Persuasive == 1>>
+	<<set _temp /= 7>>
+<<elseif $trait.Devious == 1 && $trait.Persuasive != -1>>
+	<<set _temp /= 7.5>>
+<<elseif $trait.Persuasive == -1 || $trait.Flirty == -1>>
+	<<set _temp /= 9>>
+<<else>>
+	<<set _temp /= 8>>
+<</if>>
+<<set _temp = Math.trunc(_temp)>>
+<<set $skill.seduction += _temp>>
+<<if $kink.Shame>>
+	<<set $skill.art -= 15>>
+	<<set $skill.cook -= 5>>
+	<<set $skill.seduction -= 25>>
+	<<set $skill.oral -= 25>>
+	<<set $skill.sex -= 25>>
+	<<set $skill.probSolving -= 10>>
+	<<set $skill.exhibition -= 25>>
+	<<if $skill.art < 0>>
+		<<set $skill.art = 0>>
+	<</if>>
+	<<if $skill.probSolving < 0>>
+		<<set $skill.probSolving = 0>>
+	<</if>>
+	<<if $skill.cook < 0>>
+		<<set $skill.cook = 0>>
+	<</if>>
+	<<if $skill.seduction < 0>>
+		<<set $skill.seduction = 0>>
+	<</if>>
+	<<if $skill.oral < 0>>
+		<<set $skill.oral = 0>>
+	<</if>>
+	<<if $skill.sex < 0>>
+		<<set $skill.sex = 0>>
+	<</if>>
+	<<if $skill.exhibition < 0>>
+		<<set $skill.exhibition = 0>>
+	<</if>>
+<</if>>
+<<set $skillArray = [$skill.exhibition,$skill.prostitute,$skill.sex,$skill.oral,$skill.seduction,$skill.comm,$skill.org,$skill.probSolving,$skill.finance,$skill.art,$skill.athletic,$skill.dancing,$skill.clean,$skill.shop,$skill.cook]>>
+<<if $PC.orgasm < 15>>
+	<<set $PC.orgasm = 15>>
+<</if>>
+<<set $day = 1>>
+<<set $week = 0>>
+<<dateCalculate>>
+<<goto [[assignSkills]]>>
+<</silently>>
+<</nobr>>
+
+

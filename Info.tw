@@ -1,0 +1,318 @@
+
+^^=================================^^
+'' AW VARIABLE & FUNCTION LIST      ''
+''=================================''
+//===================================//
+// FUNCTIONS & MACROS                //
+//===================================//
+APPEARANCE WIDGETS
+  needs fillin'
+
+DAY WIDGETS
+  needs fillin'
+
+SHOPPING WIDGETS
+  needs fillin'
+
+WEATHER WIDGETS
+  needs buildin'
+
+GRAPHIC/DESIGN WIDGETS
+  yup. fill medium
+
+PC PARSER
+  <<pcAssSize>>
+    size adjective
+  <<pcPussySize>>
+    looseness adjective
+  <<pcBoobSize>>
+    size adjective - shoulder adjusted
+  <<pcCupSize>>
+    size adjective - shoulder adjusted
+  <<pcChest>>
+    description incl noun
+  <<pcShoulderSize>>
+    size adjective
+  <<pcHipSize>>
+    size adjective
+  <<pcFertility>>
+    descriptor OR adjective for womb/pussy
+  <<pcTone>>
+    adjective
+  <<pcWeight>>
+    adjective
+  <<pcClitSize>>
+    size adjective
+  <<pcWetness [X]>>
+    adjective - optional argument to increase wetness
+  <<pcLabiaSize>>
+    size adjective
+  <<pcClitView>>
+    conjunction: combines clit to labia clit - "peeks out of" your labia
+  <<pcWaist>>
+    adjective
+  <<pcBeauty>>
+    description beauty only - your face "is stunningly beautiful"
+  <<pcFaceDescript>>
+    description w/ face type - your face "is stunningly beautiful in a sensual way"
+  <<pcNipple>>
+    adjective of nipple type
+  <<pcTitShape>>
+    status - "very aroused"
+  <<pcLibido>>
+    adjective for libido, or status of libido - "weak", "insatiable"
+  <<pcPubes [X]>>
+    description arg null or 0 to end sentence, 1 to start sentence - "the damp tangle of your overgrown bush"
+  <<pcHairCurl>>
+    curliness of hair
+  <<like [X]>>
+    outputs like to hate based on argument
+
+TOOL WIDGETS
+  <<radiobutt [X Y ((A|B)|A B)]>>
+    creates a styled radio button.
+    X=variable name string
+    Y=Value if checked
+    A='checked' to start off checked
+    B=label string
+  <<checkboxA [X Y Z (A)]>>
+    creates a styled slider checkbox.
+    X=variable name string
+    Y=Value if UNchecked
+    Z=Value if checked
+    A='checked' to start off checked
+  <<checkboxB [X Y Z (A)]>>
+    creates a styled checkbox.
+    X=variable name string
+    Y=Value if UNchecked
+    Z=Value if checked
+    A='checked' to start off checked
+  <<stress [X]>>
+    arg pos/neg number to change stress accounting for PC traits
+  <<anger [X]>>
+    arg pos/neg number to change anger accounting for PC traits
+  <<happy [X]>>
+    arg pos/neg number to change happiness/depression accounting for PC traits
+  <<tired [X]>>
+    arg pos/neg to alter fatigue level - currently no accounting
+  <<mon>>
+    inserts currency symbol NO STYLE
+  <<money>>
+    inserts currency symbol and $cash NO STYLE
+  <<comment [X]>>
+    inserts styled commentary based on if commentary is enabled X=comment
+  <<arousal [X]>>
+    raises arousal by specified amount. X sets to 0, N sets to -1
+  <<satisfaction [X]>>
+    raises or lowers satisfaction by specified amount
+  <<cond [X]>>
+    condition code interpret - body
+  <<helpPop [X Y]>>
+    creates ?mark help button with popup dialog for help text. X=name Y=text (can print twine).
+  <<spendingLevel [X]>>
+    outputs spending based on 0-5 scale, 3=avg
+  <<loadingImg>>
+    inserts a loading gif
+  <<cleanLevel [X][Y X]>>
+    Returns word for cleanliness based on arg. X = number 1-100. if 1-10, put Y = string.
+
+MECHANICS WIDGETS
+  <<timeInterpret>>
+    interprets $time and displays time with am/pm
+  <<addTime	[[X]/[Y X]]>>
+    X = minutes, Y = hours
+    adds time correctly and runs numerous status updates
+  <<setTime [Y X]>>
+    sets time correctly, X=24hr Y=min __NOTE: does not update status!
+  <<dateCalculate>>
+    processes date, sets all date vars and triggers menstral cycle
+  <<dateDisplay>>
+    displays full date
+  <<processCycle>>
+    processes menstral cycle for new day, sets fertility and period
+  <<pcStatus>>
+    displays complete status
+  <<pcMood>>
+    displays mood from anger happiness
+  <<cycleStatus>>
+    displays birth control and cycle information
+  <<setScene [W X Y Z]>>
+    sets scene information
+    Any argument: 0 clears, 1 keeps old.
+    W=pc info, X=activeNPC info, Y=group info, Z=location
+  <<status [X]>>
+    X=0 saves status variables
+    X=1 restores status variables
+
+SKILL CHECK WIDGETS
+  <<SCX>>
+    ^^clears SC result arrays^^
+  <<SC [T] [X] [[Y]/[Z]/[Y Z]]>>
+    outputs to $SCresult[#] true/false
+    outputs to $SCtext[#] SC display
+    T = Type
+      ^^EX,PR,SX,OR,SD,CM,OG,PS,FI,AS,AT,DA,CL,SH,CO,LIE^^
+    X = DC, default 15 if not included
+    Z = optional modifier. num = mod to roll
+    Y = weighting
+      ^^d6^^ = stronger weight
+      ^^d4^^ = ultra-weighted
+      ^^d8^^ = easy weighted
+
+MAP WIDGETS
+  needs filling
+CLOTHING WIDGETS
+  <<wearP>> wear panties
+  <<wearB>> wear Bra
+  <<wearLeg>> wear stockings
+  <<wearUB>> wear upper body
+  <<wearLB>> wear lower body
+  <<wearD>> wear a dress
+  <<wearAa>> wear acc A
+  <<wearAb>>
+  <<wearAc>>
+  <<wearAd>>
+  <<calcClothingStatus>> ''TODO''
+    Will determine clothing status
+  <<calcOutfitCombine>> ''Important''
+    calculates all the stats of clothes based on what is being worn.
+  <<setStandardOutfit [A B C D]>>
+    copies standard outfit into an overall outfit. [A=which overall outfit, B=selected underwear, C=overwear, D=accessories]
+
+GROOMING WIDGETS
+  Fill ME
+
+CUSTOM JAVASCRIPT
+  <<updatePlayerHistory>>
+    saves player variables to history
+  <<decodeTime [X]>>
+    X=4-digit time Value
+    returns: _dhour and _dmin
+  <<decodeTimeDif [X Y]>>
+    X=start 4dig time Y=end 4dig time
+    returns: _difMinTotal = dif in mins, _difHour = dif in hours, _difMin = dif in <60 mins.
+    Will work if times inverted, but returns an error.
+  <<insertion [name]>><<endinsertion>>
+    included text will be inserted when called by hover or revise
+  <<removal [name]>><<endremoval>>
+    included text will be inserted when called by hover or revise
+  <<revision [name]>><<endrevise>>
+    included text will be changed using should include <becomes> or <gains>
+  <<becomes>>
+    inside revision, text changes to something else after this.
+  <<gains>>
+    inside revision, text gains the text after this tag.
+  <<hoverrevise [name]>><<endhover...>>
+    when text inside is hovered hover, it will trigger the named area in a insertion,removal,revision,cycle.
+  <<revise [name] [link text]>>
+    produces a link. when link is clicked, it triggers insertion, removal,revision, cycle. 
+  <<revert [name] [link text>>
+    same as above, shows up after revise link is clicked, with different text. switches revision backwards.
+  <<cycle [name]>><<endcycle>>
+    like revision, but returns to first text.
+  <<randomDist [array]>>
+    returns index of array chosen, input
+    probability distribution
+
+//===================================//
+// CSS CLASS REMINDER LIST           //
+//===================================//
+TABLE ID LIST
+  ^^tr#divide^^
+    divider for normal table
+  ^^#stats^^
+    no spacing with border for stat bar
+  ^^#Actions^^
+    for inside action div
+  ^^#navigation^^
+    borderless for map navigation
+  ^^#navbar^^
+    displays split image, depriciated
+  ^^#titlebar^^
+    for menu image links
+
+BUTTON CLASS LIST
+  ~~.contButt~~ purplish continue button
+  ~~.disabled~~ - for inactive buttons
+  ~~.butt5~~ thru ~~.butt30~~ - button width in %
+  ~~.buttonrow~~ - removes padding between buttons
+  ~~.uibutton~~ - bluish button for CMD
+
+SPECIAL TEXT CLASSES
+  .bigmoney (Nova Mono, yellowgreen, 130%)
+  .money (Nova Mono, yellowgreen)
+  .ident (Comfortaa, light bluegreen)
+  .idcol (same color as ident)
+  .import (yellow)
+  .head (hot pink)
+  .head1 (Gabriela, hotpink, 155%)
+  .head2 (Gabriela, hotpink, 140%)
+  .head3 (Gabriela, hotpink, 125%)
+  .head4 (Gabriela, hotpink, 110%)
+  .change (gold)
+  .good (limegreen)
+  .bad (vibrant red)
+  .vbad (pulse animation, vibrant red)
+  .peepgood (medium aquamarine)
+  .peepbad (for bad relationship info)
+  ~~
+  .pc (for pc speech)
+  .npc (for npc speech)
+  .mono (for monologue)
+  ~~
+  .inst (Comfortaa, whitish, 95%)
+  .note (Comfortaa, white, 85%)
+  .exp (Comfortaa, lace, 95%)
+  .big (140%)
+  .com (Walter Turncoat, deepskyblue, 95%)
+  .clock (Nova Mono, white, 120%)
+  .storeitem (item name, Questrial, bold, 110%)
+
+SPECIAL FONT/ALIGN CLASSES
+  .walter (Walter Turncoat)
+  .typewriter (special elite)
+  .monospace (Nova Mono)
+  .acme (Acme)
+  .quest (Questrial - sans-serif)
+  .gab (Gabriela - curly serif)
+  .alme (Almendra SC)
+  .lora (Lora - used for links)
+  .px18 (font size 18px)
+  .tit (Titillium Web, used UI elements)
+  .justify (alignment, use on span)
+
+TEXT TRANSFORMATIONS
+  .pulse (pulses)
+  .warning (big and constantly shudders)
+  .pulseHead (as head above, but pulses once)
+  .shadow
+  .emboss
+  .blur
+  .blurrier
+  .smear
+  .mirror
+  .upside-down
+  .fade-in-out
+  .blinking
+  .rumble
+  .shudder
+
+//===================================//
+// GLOBAL GAME VARIABLES             //
+//===================================//
+
+
+
+
+
+//===================================//
+// PLAYER CHARACTER VARIABLES        //
+//===================================//
+
+
+
+
+
+//===================================//
+// PROCEDURAL NPC VARIABLES          //
+//===================================//

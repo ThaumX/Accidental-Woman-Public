@@ -1,0 +1,706 @@
+:: WeekPlannerStart [nobr hidden]
+
+<<silently>>
+/*kick off truely asynchronous functions*/
+/*TODO add NPC proc thread*/
+<<set $weekReady = 0>>
+<<include [[WeekPlannerScript]]>>
+
+/*FINANCIAL STUFF, earn wages get expenses deducted*/
+
+/*Budget Info Calculation*/
+<<set $home.finance.miscIncome = $home.finance.income.lotto + $home.finance.income.milk + $home.finance.income.gambling + $home.finance.income.sugarDaddy + $home.finance.income.prostitute + $home.finance.income.yardSale + $home.finance.income.child + $home.finance.income.surrogate + $home.finance.income.oddjobs>>
+<<set $home.finance.totalIncome = $home.finance.miscIncome + $home.finance.jobIncome + $home.finance.bankInterest>>
+<<set $home.finance.totalExpense = $home.finance.rent + $home.finance.food +
+$home.finance.goods + $home.finance.supplies + $home.finance.isp + $home.finance.cable + $home.finance.maid + $home.finance.car + $home.finance.insurance + $home.finance.electric + $home.finance.water + $home.finance.grooming + $home.finance.streaming + $home.finance.porn + $home.finance.patreon + $home.finance.gym + $home.finance.lessons + $home.finance.loanPayment + $home.finance.loanInterest>>
+
+
+<<goto [[WeekPlannerChanges]]>>
+<</silently>>
+
+
+:: WeekPlannerChanges [nobr hidden]
+
+<<silently>>
+/*This area examines all the tracked history variables for changes*/
+<<set _pcChange = [], _statusChange = [], _traitChange = [], _mutateChange = [], _kinkChange = [], _skillChange = "cock", _itemChange = "balls", _homeChange = [], _jobChange = "tits">>
+<<include [[wpHisctoryScript]]>>
+<</silently>>
+/*Actually output the information into a useable display.*/
+<center>@@.head2;End of Week <<= $week>> Character Summary@@</center>
+/*don't go fucking nuts. this is a wrapper table.*/
+<table><tr><td><center>
+<<button "Physical">>
+	<<silently>>
+	<<if (_pcChange.length + _mutateChange.length) > 0>>
+		<<set _cock = "<table><tr><td id='divide'>@@.head4;Physical Changes@@</td></tr>">>
+		<<if _pcChange.length > 0>>
+			<<for _i to 0; _i < _pcChange.length; _i++>>
+				<<set _cock += "<tr><td>">>
+				<<set _cock += _pcChange[_i]>>
+				<<set _cock += "</td></tr>">>
+			<</for>>
+		<</if>>
+		<<if _mutateChange.length > 0>>
+			<<for _i to 0; _i < _mutateChange.length; _i++>>
+				<<set _cock += "<tr><td>">>
+				<<set _cock += _mutateChange[_i]>>
+				<<set _cock += "</td></tr>">>
+			<</for>>
+		<</if>>
+		<<set _cock += "</table>">>
+	<<else>>
+		<<set _cock = "<table><tr><td id='divide'>@@.head4;Physical Changes@@</td></tr><tr><td>No physical changes this week</td></tr></table>">>
+	<</if>>
+	<</silently>>
+	<<replace "#summaryShits">>
+		<<print _cock>>
+	<</replace>>
+<</button>>
+<<button "Condition">>
+	<<silently>>
+	<<if _statusChange.length > 0>>
+		<<set _cock = "<table><tr><td id='divide'>@@.head4;Condition Changes@@</td></tr>">>
+		<<for _i to 0; _i < _statusChange.length; _i++>>
+			<<set _cock += "<tr><td>">>
+			<<set _cock += _pcChange[_i]>>
+			<<set _cock += "</td></tr>">>
+		<</for>>
+		<<set _cock += "</table>">>
+	<<else>>
+		<<set _cock = "<table><tr  id='divide'><td>@@.head4;Condition Changes@@</td></tr><tr><td>No condition changes this week (<i>something is probably broke!</i>)</td></tr></table>">>
+	<</if>>
+	<</silently>>
+	<<replace "#summaryShits">>
+		<<print _cock>>
+	<</replace>>
+<</button>>
+<<button "Mental">>
+	<<silently>>
+	<<if (_traitChange.length + _kinkChange.length) > 0>>
+		<<set _cock = "<table><tr><td colspan=2 id='divide'>@@.head4;Mental Changes@@</td></tr>">>
+		<<if _traitChange.length > 0>>
+			<<for _i to 0; _i < _traitChange.length; _i++>>
+				<<set _cock += "<tr><td>">>
+				<<set _cock += _traitChange[_i]>>
+				<<set _cock += "</td></tr>">>
+			<</for>>
+		<</if>>
+		<<if _kinkChange.length > 0>>
+			<<for _i to 0; _i < _kinkChange.length; _i++>>
+				<<set _cock += "<tr><td>">>
+				<<set _cock += _kinkChange[_i]>>
+				<<set _cock += "</td></tr>">>
+			<</for>>
+		<</if>>
+		<<set _cock += "</table>">>
+	<<else>>
+		<<set _cock = "<table><tr><td id='divide'>@@.head4;Mental Changes@@</td></tr><tr><td>No physical changes this week</td></tr></table>">>
+	<</if>>
+	<</silently>>
+	<<replace "#summaryShits">>
+		<<print _cock>>
+	<</replace>>
+<</button>>
+<<button "Skills">>
+	<<replace "#summaryShits">>
+		<<print _skillChange>>
+	<</replace>>
+<</button>>
+<<button "Inventory">>
+	<<replace "#summaryShits">>
+		<table><tr><td>
+		<<print _itemChange>>
+		</td></tr></table>
+	<</replace>>
+<</button>>
+<<button "Employment">>
+	<<replace "#summaryShits">>
+		<table><tr><td>
+		<<print _jobChange>>
+		</td></tr></table>
+	<</replace>>
+<</button>>
+<<button "Residence">>
+	<<replace "#summaryShits">>
+		<<print "Not Implemented :O">>
+	<</replace>>
+<</button>>
+@@.contButt;<<button [[Continue|WeekPlannerFinancial]]>><</button>>@@
+</center></td></tr><tr><td>
+/*output area*/
+<div id="summaryShits">
+<<set _cunt = _pcChange.length + _mutateChange.length>>
+''Physical Changes:'' @@.monospace;<<= _cunt>>@@<br>
+''Condition Changes:'' @@.monospace;<<= _statusChange.length>>@@<br>
+<<set _cunt = _traitChange.length + _kinkChange.length>>
+''Mental Changes:'' @@.monospace;<<= _cunt>>@@<br>
+</div>
+</td></tr></table>
+<<updatePlayerHistory>><</updatePlayerHistory>>
+<center>@@.big;[[Change your character to test history|temporaryHistoryTester]]@@</center>
+/*end of passage. Note: may be worthwhile to put in a small delay here, will depend on NPC handling in parallel.*/
+
+
+:: WeekPlannerFinancial [nobr hidden]
+
+<<silently>>
+<<set _surDef = $home.finance.totalIncome - $home.finance.totalExpense>>
+<</silently>>
+<center>@@.head2;End of Week <<= $week>> Financial Summary@@</center>
+<table><tr><td><center>
+<<button "Budget Overview">><<replace "#budgetshits">>
+<table><tr id="Divide"><td colspan=2>
+@@.head3;Budget Overview@@
+</td></tr><tr><td width="75%">
+''TOTAL INCOME:'' <<helpPop "Total Income" "The total amount of money earned during the week from all sources">>
+</td><td>
+<<if $home.finance.totalIncome >= 0>>@@.money;<<mon>><<print $home.finance.totalIncome>>@@<<else>>@@.bad;.monospace;<<mon>><<print $home.finance.totalIncome>>@@<</if>>
+</td></tr><tr><td>
+''TOTAL EXPENSES:'' <<helpPop "Total Expenses" "The total amount of expenses for the week. Note that this <b>only includes automatic payments</b>. It does not count shopping and other activities.">>
+</td><td>
+@@.bad;.monospace;<<mon>><<print $home.finance.totalExpense>>@@
+</td></tr><tr><td>
+<<if _surDef >= 0>>''SURPLUS:'' <<helpPop "Surplus" "The amount of money you have remaining after mandatory expenses.">> <<else>>''DEFICIT:'' <<helpPop "Deficit" "This means that your mandatory expenses exceed your income. This is okay if it happens occassionally, but it could indicate that you're spending more than you can afford.">><</if>>
+</td><td>
+<<if _surDef >= 0>>@@.money;<<mon>><<print _surDef>>@@<<else>>@@.bad;.monospace;<<mon>><<print _surDef>>@@<</if>>
+</td></tr>
+<tr><td colspan=2></td></tr><tr><td>
+''SEED CREDIT [OVERDRAFT] BALANCE:'' <<helpPop "Overdraft" "Your bank has been <i>kind</i> enough to extend you a line of credit for your main bank account. It comes complete with hefty penalty interest. If you need money, consider a loan from the bank, which will have much lower interest, but usually requires some kind of <i>collateral</i>...">>
+</td><td>
+<<if $cash >= 0>>@@.money;<<mon>><<print $cash>>@@<<else>>@@.bad;.monospace;<<mon>><<print $cash>>@@<</if>>
+</td></tr>
+<<if $cash < 0>>
+	<tr><td>
+	''-- OVERDRAFT FEE:''
+	</td><td>
+	@@.bad;.monospace;<<mon>><<print $home.finance.creditInterest>>@@
+	</td></tr>
+<</if>>
+<tr><td>
+''SAVINGS ACCOUNT:'' <<helpPop "Savings Accounts" "You can open a savings account at your local bank. Savings Accounts keep money safe, and also give a very small interest return on your balance for the week. However, you can't spend money in your savings account until you transfer it to your SEED account.">>
+</td><td>
+@@.money;<<mon>><<print $home.finance.bank>>@@
+</td></tr><tr><td>
+''LOAN BALANCE:'' <<helpPop "Loan Balance" "The amount you owe for bank loans. Note that this only includes loans from official financial institutions, and thus won't show loans from the kinds of people that don't report to NSEC.">>
+</td><td>
+@@.bad;.monospace;<<mon>><<print $home.finance.loan>>@@
+</td></tr></table>
+<</replace>><</button>>
+<<button "Primary Expenses">><<replace "#budgetshits">>
+<table><tr id="Divide"><td colspan=2>
+@@.head3;Budget Overview@@
+</td></tr><tr><td width="75%">
+''PRIMARY EXPENSES:'' <<helpPop "Primary Expenses" "Expenses for the essential cost of living.">>
+</td><td>--</td></tr><tr><td>
+''Rent:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.rent>>@@
+</td></tr><tr><td>
+''Food:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.food>>@@
+</td></tr><tr><td>
+''Household Goods:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.goods>>@@
+</td></tr><tr><td>
+''Household Supplies:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.supplies>>@@
+</td></tr><tr><td>
+''Utilities:''
+</td><td></td></tr><tr><td>
+''--Electric:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.electric>>@@
+</td></tr><tr><td>
+''--Water:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.water>>@@
+</td></tr><tr></tr><tr><td>
+@@.ident;TOTAL PRIMARY EXPENSES\:@@
+</td><td>
+@@.bigmoney;<<mon>><<print ($home.finance.rent + $home.finance.food + $home.finance.goods + $home.finance.supplies + $home.finance.electric + $home.finance.water)>>@@
+</td></tr></table>
+<</replace>><</button>>
+<<button "Vehicle Expenses">><<replace "#budgetshits">>
+<table><tr id="divide"><td colspan=2>@@.head3;Expenses@@</td></tr><tr><td>
+''VEHICLE EXPENSES:'' <<helpPop "Vehicle Expenses" "Basic costs of owning and operating a vehicle. Owning a car gives you more freedom, but also incurs regular costs.">>
+</td><td>--</td></tr><tr><td>
+''Car Payment:''
+</td><td>
+<<if $home.finance.car > 0>>@@.money;<<mon>><<print $home.finance.car>>@@<<else>>None<</if>>
+</td></tr><tr><td>
+''Gasoline Expense:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.gas>>@@
+</td></tr><tr><td>
+''Maintenance:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.maint>>@@
+</td></tr><tr><td>
+''Insurance:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.insurance>>@@
+</td></tr><tr></tr><tr><td>
+@@.ident;TOTAL VEHICLE EXPENSES\:@@
+</td><td>
+@@.bigmoney;<<mon>><<print ($home.finance.gas + $home.finance.maint + $home.finance.insurance)>>@@
+</td></tr></table>
+<</replace>><</button>>
+<<button "Finance Expenses">><<replace "#budgetshits">>
+<table><tr id="divide"><td colspan=2>@@.head3;Expenses@@</td></tr><tr><td>
+''FINANCE EXPENSES:'' <<helpPop "Finance Expenses" "The cost of your indebtedness, essentially what you're forced to pay due to borrowing money. Does not include <i>unofficial</i> loans.">>
+</td><td>--</td></tr><tr><td>
+''Loan Payment:''
+</td><td>
+@@.money;<<mon>><<print ($home.finance.loanPayment + $home.finance.loanInterest)>>@@
+</td></tr><tr><td>
+''--Loan Finance Charge:'''
+</td><td>
+@@.money;<<mon>><<print $home.finance.loanInterest>>@@
+</td></tr><tr><td>
+''--Loan Basic Repayment:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.loanPayment>>@@
+</td></tr><tr><td>
+''Overdraft Finance Charge:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.creditInterest>>@@
+</td></tr><tr></tr><tr><td>
+@@.ident;TOTAL FINANCE EXPENSES\:@@
+</td><td>
+@@.bigmoney;<<mon>><<print ($home.finance.loanPayment + $home.finance.loanInterest + $home.finance.creditInterest)>>@@
+</td></tr></table>
+<</replace>><</button>>
+<<button "Misc Expenses">><<replace "#budgetshits">>
+<table><tr id="divide"><td colspan=2>@@.head3;Expenses@@</td></tr><tr><td>
+''MISC EXPENSES:''
+</td><td>--</td></tr><tr><td>
+''Grooming & Makeup:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.grooming>>@@
+</td></tr><tr><td>
+''Internet Service:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.isp>>@@
+</td></tr><tr><td>
+''Cable Service:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.cable>>@@
+</td></tr><tr><td>
+''Streaming Service:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.streaming>>@@
+</td></tr><tr><td>
+''Gym Membership:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.gym>>@@
+</td></tr><tr><td>
+''Classes & Lessons:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.lessons>>@@
+</td></tr><tr><td>
+''Charity:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.patreon>>@@
+</td></tr><tr></tr><tr><td>
+@@.ident;TOTAL MISC EXPENSES\:@@
+</td><td>
+<<set _totalexp = $home.finance.grooming + $home.finance.isp + $home.finance.cable + $home.finance.streaming + $home.finance.gym + $home.finance.lessons + $home.finance.patreon>>
+@@.bigmoney;<<mon>><<print _totalexp>>@@
+</td></tr></table>
+<</replace>><</button>>
+<<button "Income Detail">><<replace "#budgetshits">>
+<table><tr id="divide"><td colspan=2>@@.head3;Income@@</td></tr><tr><td>
+''MISC INCOME SOURCES:'' <<helpPop "Misc Income Sources" "Any misc income that you earn will be shown here, from sugar daddies to prostitution and beyond.">>
+</td><td><<if $home.finance.miscIncome <= 0>>@@.money;NONE@@<<else>>--<</if>></td></tr>
+<<if $home.finance.income.lotto > 0>>
+	<tr><td>''Lottery Winnings:''</td><td>@@.money;<<mon>><<print $home.finance.income.lotto>>@@</td></tr>
+<</if>>
+<<if $home.finance.income.milk > 0>>
+	<tr><td>''Milk Production:''</td><td>@@.money;<<mon>><<print $home.finance.income.milk>>@@</td></tr>
+<</if>>
+/*NOTE: don't show gambling losses anywhere - intentional!*/
+<<if $home.finance.income.gambling > 0>>
+	<tr><td>''Gambling Winnings:''</td><td>@@.money;<<mon>><<print $home.finance.income.gambling>>@@</td></tr>
+<</if>>
+<<if $home.finance.income.sugarDaddy > 0>>
+	<tr><td>''Sugar Daddy:''</td><td>@@.money;<<mon>><<print $home.finance.income.sugarDaddy>>@@</td></tr>
+<</if>>
+<<if $home.finance.income.prostitute > 0>>
+	<tr><td>''Prostitution Earnings:''</td><td>@@.money;<<mon>><<print $home.finance.income.prostitute>>@@</td></tr>
+<</if>>
+<<if $home.finance.income.yardSale > 0>>
+	<tr><td>''Selling Belongings:''</td><td>@@.money;<<mon>><<print $home.finance.income.yardSale>>@@</td></tr>
+<</if>>
+<<if $home.finance.income.child > 0>>
+	<tr><td>''Child Tax Credit:''</td><td>@@.money;<<mon>><<print $home.finance.income.child>>@@</td></tr>
+<</if>>
+<<if $home.finance.income.surrogate > 0>>
+	<tr><td>''Surrogate Earnings:''</td><td>@@.money;<<mon>><<print $home.finance.income.surrogate>>@@</td></tr>
+<</if>>
+<<if $home.finance.income.oddjobs > 0>>
+	<tr><td>''Odd Jobs:''</td><td>@@.money;<<mon>><<print $home.finance.income.oddjobs>>@@</td></tr>
+<</if>>
+<<if $home.finance.miscIncome > 0>>
+	<tr><td>''MISC INCOME TOTAL:''</td><td>@@.money;<<mon>><<print $home.finance.miscIncome>>@@</td></tr>
+<</if>>
+<tr><td>
+''SAVINGS ACCOUNT INTEREST:'' <<helpPop "Savings Account Interest" "Amount of interest deposited in your savings account this week.">>
+</td><td>
+@@.money;<<mon>><<print $home.finance.bankInterest>>@@
+</td></tr><tr><td>
+''EMPLOYMENT INCOME:''
+</td><td>
+@@.money;<<mon>><<print $home.finance.jobIncome>>@@
+</td></tr><tr></tr><tr><td>
+@@.ident;TOTAL INCOME@@'':''
+</td><td>
+@@.bigmoney;<<mon>><<print $home.finance.totalIncome>>@@
+</td></tr></table>
+<</replace>><</button>>
+@@.contButt;<<button "Continue">><<goto [[WeekPlannerMain]]>><</button>>@@
+</center></td></tr><tr><td>
+<div id="budgetshits">>
+<table><tr id="Divide"><td colspan=2>
+@@.head3;Budget Overview@@
+</td></tr><tr><td width="75%">
+''TOTAL INCOME:'' <<helpPop "Total Income" "The total amount of money earned during the week from all sources">>
+</td><td>
+<<if $home.finance.totalIncome >= 0>>@@.money;<<mon>><<print $home.finance.totalIncome>>@@<<else>>@@.bad;.monospace;<<mon>><<print $home.finance.totalIncome>>@@<</if>>
+</td></tr><tr><td>
+''TOTAL EXPENSES:'' <<helpPop "Total Expenses" "The total amount of expenses for the week. Note that this <b>only includes automatic payments</b>. It does not count shopping and other activities.">>
+</td><td>
+@@.bad;.monospace;<<mon>><<print $home.finance.totalExpense>>@@
+</td></tr><tr><td>
+<<if _surDef >= 0>>''SURPLUS:'' <<helpPop "Surplus" "The amount of money you have remaining after mandatory expenses.">> <<else>>''DEFICIT:'' <<helpPop "Deficit" "This means that your mandatory expenses exceed your income. This is okay if it happens occassionally, but it could indicate that you're spending more than you can afford.">><</if>>
+</td><td>
+<<if _surDef >= 0>>@@.money;<<mon>><<print _surDef>>@@<<else>>@@.bad;.monospace;<<mon>><<print _surDef>>@@<</if>>
+</td></tr>
+<tr><td colspan=2></td></tr><tr><td>
+''SEED CREDIT [OVERDRAFT] BALANCE:'' <<helpPop "Overdraft" "Your bank has been <i>kind</i> enough to extend you a line of credit for your main bank account. It comes complete with hefty penalty interest. If you need money, consider a loan from the bank, which will have much lower interest, but usually requires some kind of <i>collateral</i>...">>
+</td><td>
+<<if $cash >= 0>>@@.money;<<mon>><<print $cash>>@@<<else>>@@.bad;.monospace;<<mon>><<print $cash>>@@<</if>>
+</td></tr>
+<<if $cash < 0>>
+	<tr><td>
+	''-- OVERDRAFT FEE:''
+	</td><td>
+	@@.bad;.monospace;<<mon>><<print $home.finance.creditInterest>>@@
+	</td></tr>
+<</if>>
+<tr><td>
+''SAVINGS ACCOUNT:'' <<helpPop "Savings Accounts" "You can open a savings account at your local bank. Savings Accounts keep money safe, and also give a very small interest return on your balance for the week. However, you can't spend money in your savings account until you transfer it to your SEED account.">>
+</td><td>
+@@.money;<<mon>><<print $home.finance.bank>>@@
+</td></tr><tr><td>
+''LOAN BALANCE:'' <<helpPop "Loan Balance" "The amount you owe for bank loans. Note that this only includes loans from official financial institutions, and thus won't show loans from the kinds of people that don't report to NSEC.">>
+</td><td>
+@@.bad;.monospace;<<mon>><<print $home.finance.loan>>@@
+</td></tr></table>
+</div>
+</td></tr></table>
+
+:: WeekPlannerMain [nobr hidden]
+
+<<silently>>
+
+<</silently>>
+<center>@@.head1;Week Planner@@</center>
+<table><tr><td><center>
+<<button "Budget">><<replace "#planShit">>
+<table><tr id="divide"><td colspan=4>
+@@.head3;Budget Settings@@
+</td></tr><tr><td colspan=4>
+''Total Income:'' @@.money;<<mon>><<print $home.finance.totalIncome>>@@ | ''Total Expenses:'' @@.bad;.monospace;<<mon>><<print $home.finance.totalExpense>>@@
+</td></tr><tr><td width="30%">
+''Food Spending:'' <<helpPop "Food Spending" "The general level of spending for food each week. Your food spending affects several things, such as how enjoyable you find life, how likely you are to gain weight, and your overall health. (<i>Less expensive diets result in easier weight gain and poorer nutrition.</i>)<br><br><b>POOR:</b> spending based primarily around keeping yourself alive. Lack of food balances low quality in regard to weight.<br><br><b>CHEAP:</b> spending primarily on low quality food that satisfies hunger but is generally unhealthy.<br><br><b>AVERAGE:</b> a mixture of low quality food with some nicer, less processed items.<br><br><b>FANCY:</b> A generally good diet with a healthy mixture of fresh fruit and vegetables. Takes longer to prepare, but is much healthier.<br><br><b>LUXURY:</b> Only the highest-quality food for you! Fresh ingredients, expensive imported items, and good variety.">>
+</td><td width="30%">
+<span id="foodspend" class="ident"><<spendingLevel $home.finance.sett.foodLevel>></span>
+</td><td width="25%">
+<<if $flag.finance.foodNoSpend>>
+	<<dropdown '_foodSpend' "Average" "None" "Poor" "Cheap">>
+<<else>>
+	<<dropdown '_foodSpend' "Average" "Poor" "Cheap" "Fancy" "Luxury">>
+<</if>>
+</td><td width="15%">
+<<button "Set Spending">><<switch _foodSpend>><<case "Average">><<set $home.finance.sett.foodLevel = 3>><<case "Poor">><<set $home.finance.sett.foodLevel = 1>><<case "None">><<set $home.finance.sett.foodLevel = 0>><<case "Cheap">><<set $home.finance.sett.foodLevel = 2>><<case "Fancy">><<set $home.finance.sett.foodLevel = 4>><<case "Luxury">><<set $home.finance.sett.foodLevel = 5>><</switch>><<replace "#foodspend">><<spendingLevel $home.finance.sett.foodLevel>><</replace>><</button>>
+</td></tr><tr><td>
+''Household Goods Spending:'' <<helpPop "Household Goods" "Household goods are many of the other things you'd buy at a grocery store that aren't actually food, or that are only an occassional purchase like spices. Paper towels, toilet paper, soap, and shampoo all fall in this category, along with alcohol like wine or beer.">>
+</td><td>
+<span id="goodspend" class="ident"><<spendingLevel $home.finance.sett.goodsLevel>></span>
+</td><td>
+<<if $flag.finance.goodsNoSpend>>
+	<<dropdown '_goodSpend' "Average" "None" "Poor" "Cheap">>
+<<else>>
+	<<dropdown '_goodSpend' "Average" "Poor" "Cheap" "Fancy" "Luxury">>
+<</if>>
+</td><td>
+<<button "Set Spending">><<switch _goodSpend>><<case "Average">><<set $home.finance.sett.goodsLevel = 3>><<case "Poor">><<set $home.finance.sett.goodsLevel = 1>><<case "None">><<set $home.finance.sett.goodsLevel = 0>><<case "Cheap">><<set $home.finance.sett.goodsLevel = 2>><<case "Fancy">><<set $home.finance.sett.goodsLevel = 4>><<case "Luxury">><<set $home.finance.sett.goodsLevel = 5>><</switch>><<replace "#goodspend">><<spendingLevel $home.finance.sett.goodsLevel>><</replace>><</button>>
+</td></tr><tr><td>
+''Home Supplies Spending:'' <<helpPop "Home Supplies" "Supplies are the things you typically need to maintain a home. Cleaning supplies, cleaning tools like brooms, as well as things like light bulbs, towels, aircon filters, candles or incense, and other irregular purchases all fall into this category.">>
+</td><td>
+<span id="supplyspend" class="ident"><<spendingLevel $home.finance.sett.supplyLevel>></span>
+</td><td>
+<<if $flag.finance.supplyNoSpend>>
+	<<dropdown '_supplySpend' "Average" "None" "Poor" "Cheap">>
+<<else>>
+	<<dropdown '_supplySpend' "Average" "Poor" "Cheap" "Fancy" "Luxury">>
+<</if>>
+</td><td>
+<<button "Set Spending">><<switch _supplySpend>><<case "Average">><<set $home.finance.sett.supplyLevel = 3>><<case "Poor">><<set $home.finance.sett.supplyLevel = 1>><<case "None">><<set $home.finance.sett.supplyLevel = 0>><<case "Cheap">><<set $home.finance.sett.supplyLevel = 2>><<case "Fancy">><<set $home.finance.sett.supplyLevel = 4>><<case "Luxury">><<set $home.finance.sett.supplyLevel = 5>><</switch>><<replace "#supplyspend">><<spendingLevel $home.finance.sett.supplyLevel>><</replace>><</button>>
+</td></tr></table>
+<</replace>><</button>>
+<<button "Chores">><<replace "#planShit">>
+<table><tr id="divide"><td colspan=4>@@.head3;Chores Settings@@</td></tr>
+<tr><td colspan=2>
+''Current Cleanliness:''<br>@@.monospace;font-size:80%;
+Floors - - -<<cleanLevel $home.clean.floors>><br>
+Surfaces - -<<cleanLevel $home.clean.surfaces>><br>
+Kitchen - - <<cleanLevel $home.clean.kitchen>><br>
+Bathrooms - <<cleanLevel $home.clean.bathroom>>@@
+</td><td colspan=2>@@.monospace;font-size:80%;
+Neatness - -<<cleanLevel $home.clean.neatness>><br>
+Dishes - - -<<cleanLevel "X" $home.clean.dishes>><br>
+Laundry - - <<cleanLevel "X" $home.clean.laundry>><br>
+Bed/s - - - <<cleanLevel "X" $home.clean.bed>><br>
+Unobvious - <<cleanLevel $home.clean.deepclean>>@@
+</td></tr><tr><td width="30%">
+''Straightening Up:'' <<helpPop "Straightening Up" "Straightening up represents putting things back where they belong, and generally keeping things tidy. Examples: <i>putting dishes in the sink, putting magazines away, throwing away any trash, or repositioning throw pillows.</i> A very clean home that isn't straightened up will look dirtier than it is, while a tidy home tends to look cleaner than it is. <i><b>Most</b> characters will find a tidy home more relaxing.</i>">>
+</td><td width="25%">
+<span id="straights" class="ident"><<switch $home.clean.pickingUp>><<case 0>>!Manual!<<case 1>>Rarely<<case 2>>Infrequently<<case 3>>Occassionally<<case 4>>Frequently<<case 5>>Constantly<</switch>></span>
+</td><td width="30%">
+<<dropdown '_straightDrop' "Occassional" "Rarely" "Infrequent" "Frequent" "Constantly" "Manual">>
+</td><td width="15%">
+<<button "Set Cleaning">><<switch _straightDrop>><<case "Occassional">><<set $home.clean.pickingUp = 3>><<case "Rarely">><<set $home.clean.pickingUp = 1>><<case "Infrequent">><<set $home.clean.pickingUp = 2>><<case "Frequent">><<set $home.clean.pickingUp = 4>><<case "Constantly">><<set $home.clean.pickingUp = 5>><<case "Manual">><<set $home.clean.pickingUp = 0>><</switch>><<replace "#straights">><<switch $home.clean.pickingUp>><<case 0>>!Manual!<<case 1>>Rarely<<case 2>>Infrequently<<case 3>>Occassionally<<case 4>>Frequently<<case 5>>Constantly<</switch>><</replace>><</button>>
+</td></tr><tr><td>
+''Cleaning:'' <<helpPop "Cleaning" "Cleaning represents the more involved acts of cleaning such as sweeping, mopping, dusting, and other tasks. This is the activity that results in actual cleanliness, rather than the appearance of cleanliness. It takes more time, and has the largest effect on your home's cleanliness.">>
+</td><td>
+<span id="cleans" class="ident"><<switch $home.clean.doCleaning>><<case 0>>!Manual!<<case 1>>Rarely<<case 2>>Infrequently<<case 3>>Occassionally<<case 4>>Frequently<<case 5>>Constantly<</switch>></span>
+</td><td>
+<<dropdown '_cleanDrop' "Occassional" "Rarely" "Infrequent" "Frequent" "Constantly" "Manual">>
+</td><td>
+<<button "Set Cleaning">><<switch _cleanDrop>><<case "Occassional">><<set $home.clean.doCleaning = 3>><<case "Rarely">><<set $home.clean.doCleaning = 1>><<case "Infrequent">><<set $home.clean.doCleaning = 2>><<case "Frequent">><<set $home.clean.doCleaning = 4>><<case "Constantly">><<set $home.clean.doCleaning = 5>><<case "Manual">><<set $home.clean.doCleaning = 0>><</switch>><<replace "#cleans">><<switch $home.clean.doCleaning>><<case 0>>!Manual!<<case 1>>Rarely<<case 2>>Infrequently<<case 3>>Occassionally<<case 4>>Frequently<<case 5>>Constantly<</switch>><</replace>><</button>>
+</td></tr><tr><td>
+''Washing Dishes:'' <<helpPop "Dishes" "Dishes are pretty self-explanatory. Regardless of the setting chosen (except manual), time spent on the chore will be divided evenly between days. Doing dishes less frequently is more efficient, but can lower comfort and the appearance of cleanliness.<br><br>@@.note;You do actually have the modern equivilent of a dishwasher, which is a high-efficiency device that sanitizes dishes a couple at a time in under a minute. Despite being fast and environmentally friendly--particularly for those living alone with a relatively small amount of dishes--it still takes time to pre-rinse, insert, take out, and put away dishes.@@">>
+</td><td>
+<span id="dishs" class="ident"><<switch $home.clean.doDishes>><<case 0>>!Manual!<<case 1>>When Have To<<case 2>>When Sink Full<<case 3>>Daily<<case 4>>After Meals<<case 5>>After Using<</switch>></span>
+</td><td>
+<<dropdown '_dishDrop' "Daily" "When Have To" "When Sink Full" "After Meals" "After Using" "Manual">>
+</td><td>
+<<button "Set Cleaning">><<switch _dishDrop>><<case "Daily">><<set $home.clean.doDishes = 3>><<case "When Have To">><<set $home.clean.doDishes = 1>><<case "When Sink Full">><<set $home.clean.doDishes = 2>><<case "After Meals">><<set $home.clean.doDishes = 4>><<case "After Using">><<set $home.clean.doDishes = 5>><<case "Manual">><<set $home.clean.doDishes = 0>><</switch>><<replace "#dishs">><<switch $home.clean.doDishes>><<case 0>>!Manual!<<case 1>>When Have To<<case 2>>When Sink Full<<case 3>>Daily<<case 4>>After Meals<<case 5>>After Using<</switch>><</replace>><</button>>
+</td></tr><tr><td>
+''Washing Laundry:'' <<helpPop "Laundry" "Laundry is pretty self-explanatory. Regardless of the setting chosen (except manual), time spent on the chore will be divided evenly between days. Not doing laundry often enough will result in you wearing dirty clothes, which may not make the best impression on others.">>
+</td><td>
+<span id="laundrys" class="ident"><<switch $home.clean.doLaundry>><<case 0>>!Manual!<<case 1>>When Stinky<<case 2>>Out of Clothes<<case 3>>Weekly<<case 4>>Twice a Week<<case 5>>Daily<</switch>></span>
+</td><td>
+<<dropdown '_laundryDrop' "Weekly" "When Stinky" "Out of Clothes" "Twice a Week" "Daily" "Manual">>
+</td><td>
+<<button "Set Cleaning">><<switch _laundryDrop>><<case "Weekly">><<set $home.clean.doLaundry = 3>><<case "When Stinky">><<set $home.clean.doLaundry = 1>><<case "Out of Clothes">><<set $home.clean.doLaundry = 2>><<case "Twice a Week">><<set $home.clean.doLaundry = 4>><<case "Daily">><<set $home.clean.doLaundry = 5>><<case "Manual">><<set $home.clean.doLaundry = 0>><</switch>><<replace "#laundrys">><<switch $home.clean.doLaundry>><<case 0>>!Manual!<<case 1>>When Stinky<<case 2>>Out of Clothes<<case 3>>Weekly<<case 4>>Twice a Week<<case 5>>Daily<</switch>><</replace>><</button>>
+</td></tr><tr><td>
+''Making the Bed:'' <<helpPop "Bedding" "Making the bed is pretty self-explanatory. Regardless of the setting chosen (except manual), time spent on the chore will be divided evenly between days. This setting also affects the frequency you wash the sheets. Not making the bed probably won't be noticed by friends, but will likely make an impression on NPCs you invite into your bed.">>
+</td><td>
+<span id="beds" class="ident"><<switch $home.clean.doBed>><<case 0>>!Manual!<<case 1>>When Stinky<<case 2>>Infrequently<<case 3>>Make or Tidy<<case 4>>Every Day<<case 5>>Every Morning<</switch>></span>
+</td><td>
+<<dropdown '_bedDrop' "Make or Tidy" "When Stinky" "Infrequently" "Every Day" "Every Morning" "Manual">>
+</td><td>
+<<button "Set Cleaning">><<switch _bedDrop>><<case "Make or Tidy">><<set $home.clean.doBed = 3>><<case "When Stinky">><<set $home.clean.doBed = 1>><<case "Infrequently">><<set $home.clean.doBed = 2>><<case "Every Day">><<set $home.clean.doBed = 4>><<case "Every Morning">><<set $home.clean.doBed = 5>><<case "Manual">><<set $home.clean.doBed = 0>><</switch>><<replace "#beds">><<switch $home.clean.doBed>><<case 0>>!Manual!<<case 1>>When Stinky<<case 2>>Infrequently<<case 3>>Make or Tidy<<case 4>>Every Day<<case 5>>Every Morning<</switch>><</replace>><</button>>
+</td></tr></table>
+<</replace>><</button>>
+<<button "Clothing">>
+<<silently>>
+<<if def $outfitUnder && $outfitUnder.length > 0>>
+	<<set _number = $outfitUnder.length>>
+	<<set _printLing = "<<dropdown '_wearOFU'">>
+	<<for _i to 0; _i < _number; _i++>>
+		<<set _tArray = $outfitUnder[_i]>>
+		<<set _printLing += " '">>
+		<<set _printLing += (_i + 1)>>
+		<<set _printLing += ") ">>
+		<<set _str = _tArray.name.replace("'", "")>>
+		<<set _str = _str.replace("'", "")>>
+		<<set _str = _str.replace("'", "")>>
+		<<set _str = _str.replace("'", "")>>
+		<<if _str.length > 40>>
+			<<set _str = _str.slice(0,40)>>
+		<</if>>
+		<<set _printLing += _str>>
+		<<set _printLing += "'">>
+	<</for>>
+	<<set _printLing += ">>">>
+<<else>>
+	<<set _printLing = "@@.goldenrod;.quest;font-size:110%;None Available!@@">>
+<</if>>
+<<if def $outfitOver && $outfitOver.length > 0>>
+	<<set _numbla = $outfitOver.length>>
+	<<set _printOver = "<<dropdown '_wearOFO'">>
+	<<for _i to 0; _i < _numbla; _i++>>
+		<<set _tArray = $outfitOver[_i]>>
+		<<set _printOver += " '">>
+		<<set _printOver += (_i + 1)>>
+		<<set _printOver += ") ">>
+		<<set _str = _tArray.name.replace("'", "")>>
+		<<set _str = _str.replace("'", "")>>
+		<<set _str = _str.replace("'", "")>>
+		<<set _str = _str.replace("'", "")>>
+		<<if _str.length > 40>>
+			<<set _str = _str.slice(0,40)>>
+		<</if>>
+		<<set _printOver += _str>>
+		<<set _printOver += "'">>
+	<</for>>
+	<<set _printOver += ">>">>
+<<else>>
+	<<set _printOver = "@@.goldenrod;.quest;font-size:110%;None Available!@@">>
+<</if>>
+<<if def $outfitAcc && $outfitAcc.length > 0>>
+	<<set _numblu = $outfitAcc.length>>
+	<<set _printAcc = "<<dropdown '_wearOFA'">>
+	<<for _i to 0; _i < _numblu; _i++>>
+		<<set _tArray = $outfitAcc[_i]>>
+		<<set _printAcc += " '">>
+		<<set _printAcc += (_i + 1)>>
+		<<set _printAcc += ") ">>
+		<<set _str = _tArray.name.replace("'", "")>>
+		<<set _str = _str.replace("'", "")>>
+		<<set _str = _str.replace("'", "")>>
+		<<set _str = _str.replace("'", "")>>
+		<<if _str.length > 40>>
+			<<set _str = _str.slice(0,40)>>
+		<</if>>
+		<<set _printAcc += _str>>
+		<<set _printAcc += "'">>
+	<</for>>
+	<<set _printAcc += ">>">>
+<<else>>
+	<<set _printAcc = "@@.goldenrod;.quest;font-size:110%;None Available!@@">>
+<</if>>
+<</silently>>
+<<replace "#planShit">>
+<table><tr id="divide"><td colspan=4>@@.head3;Clothing Settings@@</td></tr>
+<tr><td width="20%">
+@@.storeitem;Casual Outfit@@<br><br>
+</td><td width="35%"><div id="casualOut">
+''Lingerie:'' <<if def $casualOutfit.ling.name>><<print $casualOutfit.ling.name>><<else>>None<</if>><br>
+''Clothes:'' <<if def $casualOutfit.over.name>><<print $casualOutfit.over.name>><<else>>None<</if>><br>
+''Accessory:'' <<if def $casualOutfit.acc.name>><<print $casualOutfit.acc.name>><<else>>None<</if>>
+</div></td><td width="15%" style="vertical-align: middle;">
+<<button "Set Outfit">><<setStandardOutfit "casual" _wearOFU _wearOFO _wearOFA>><</button>><br>
+<<button "Clear">><<set $casualOutfit.ling = {}; $casualOutfit.over = {}; $casualOutfit.acc = {}>><<replace "#casualOut">>@@.exp;Outfit Cleared!@@<</replace>><</button>>
+</td><td width="30%" rowspan=8 style="vertical-align: middle;">
+<<print _printLing>><br><br>
+<<print _printOver>><br><br>
+<<print _printAcc>><br><br>
+@@.uibutton;<<button [[Create Outfits|WeekPlannerWardrobe]]>><</button>>@@
+</td></tr><tr><td>
+@@.storeitem;Work Outfit@@<br><br>
+</td><td><div id="workOut">
+''Lingerie:'' <<if def $workOutfit.ling.name>><<print $workOutfit.ling.name>><<else>>None<</if>><br>
+''Clothes:'' <<if def $workOutfit.over.name>><<print $workOutfit.over.name>><<else>>None<</if>><br>
+''Accessory:'' <<if def $workOutfit.acc.name>><<print $workOutfit.acc.name>><<else>>None<</if>>
+</div></td><td style="vertical-align: middle;">
+<<button "Set Outfit">><<setStandardOutfit "work" _wearOFU _wearOFO _wearOFA>><</button>><br>
+<<button "Clear">><<set $workOutfit.ling = {}; $workOutfit.over = {}; $workOutfit.acc = {}>><<replace "#workOut">>@@.exp;Outfit Cleared!@@<</replace>><</button>>
+</td></tr><tr><td>
+@@.storeitem;Going-Out Outfit@@<br><br>
+</td><td><div id="fancyOut">
+''Lingerie:'' <<if def $fancyOutfit.ling.name>><<print $fancyOutfit.ling.name>><<else>>None<</if>><br>
+''Clothes:'' <<if def $fancyOutfit.over.name>><<print $fancyOutfit.over.name>><<else>>None<</if>><br>
+''Accessory:'' <<if def $fancyOutfit.acc.name>><<print $fancyOutfit.acc.name>><<else>>None<</if>>
+</div></td><td style="vertical-align: middle;">
+<<button "Set Outfit">><<setStandardOutfit "fancy" _wearOFU _wearOFO _wearOFA>><</button>><br>
+<<button "Clear">><<set $fancyOutfit.ling = {}; $fancyOutfit.over = {}; $fancyOutfit.acc = {}>><<replace "#fancyOut">>@@.exp;Outfit Cleared!@@<</replace>><</button>>
+</td></tr><tr><td>
+@@.storeitem;Athletic Outfit@@<br><br>
+</td><td><div id="athleticOut">
+''Lingerie:'' <<if def $athleticOutfit.ling.name>><<print $athleticOutfit.ling.name>><<else>>None<</if>><br>
+''Clothes:'' <<if def $athleticOutfit.over.name>><<print $athleticOutfit.over.name>><<else>>None<</if>><br>
+''Accessory:'' <<if def $athleticOutfit.acc.name>><<print $athleticOutfit.acc.name>><<else>>None<</if>>
+</div></td><td style="vertical-align: middle;">
+<<button "Set Outfit">><<setStandardOutfit "athletic" _wearOFU _wearOFO _wearOFA>><</button>><br>
+<<button "Clear">><<set $athleticOutfit.ling = {}; $athleticOutfit.over = {}; $athleticOutfit.acc = {}>><<replace "#athleticOut">>@@.exp;Outfit Cleared!@@<</replace>><</button>>
+</td></tr><tr><td>
+@@.storeitem;Sleeping Outfit@@<br><br>
+</td><td><div id="sleepOut">
+''Lingerie:'' <<if def $sleepOutfit.ling.name>><<print $sleepOutfit.ling.name>><<else>>None<</if>><br>
+''Clothes:'' <<if def $sleepOutfit.over.name>><<print $sleepOutfit.over.name>><<else>>None<</if>><br>
+''Accessory:'' <<if def $sleepOutfit.acc.name>><<print $sleepOutfit.acc.name>><<else>>None<</if>>
+</div></td><td style="vertical-align: middle;">
+<<button "Set Outfit">><<setStandardOutfit "sleep" _wearOFU _wearOFO _wearOFA>><</button>><br>
+<<button "Clear">><<set $sleepOutfit.ling = {}; $sleepOutfit.over = {}; $sleepOutfit.acc = {}>><<replace "#sleepOut">>@@.exp;Outfit Cleared!@@<</replace>><</button>>
+</td></tr><tr><td>
+@@.storeitem;Sexy Nightwear Outfit@@<br><br>
+</td><td><div id="sexysleepOut">
+''Lingerie:'' <<if def $sexysleepOutfit.ling.name>><<print $sexysleepOutfit.ling.name>><<else>>None<</if>><br>
+''Clothes:'' <<if def $sexysleepOutfit.over.name>><<print $sexysleepOutfit.over.name>><<else>>None<</if>><br>
+''Accessory:'' <<if def $sexysleepOutfit.acc.name>><<print $sexysleepOutfit.acc.name>><<else>>None<</if>>
+</div></td><td style="vertical-align: middle;">
+<<button "Set Outfit">><<setStandardOutfit "sexysleep" _wearOFU _wearOFO _wearOFA>><</button>><br>
+<<button "Clear">><<set $sexysleepOutfit.ling = {}; $sexysleepOutfit.over = {}; $sexysleepOutfit.acc = {}>><<replace "#sexysleepOut">>@@.exp;Outfit Cleared!@@<</replace>><</button>>
+</td></tr><tr><td>
+@@.storeitem;Going-Out Outfit@@<br><br>
+</td><td><div id="extraAOut">
+''Lingerie:'' <<if def $extraAOutfit.ling.name>><<print $extraAOutfit.ling.name>><<else>>None<</if>><br>
+''Clothes:'' <<if def $extraAOutfit.over.name>><<print $extraAOutfit.over.name>><<else>>None<</if>><br>
+''Accessory:'' <<if def $extraAOutfit.acc.name>><<print $extraAOutfit.acc.name>><<else>>None<</if>>
+</div></td><td style="vertical-align: middle;">
+<<button "Set Outfit">><<setStandardOutfit "extraA" _wearOFU _wearOFO _wearOFA>><</button>><br>
+<<button "Clear">><<set $extraAOutfit.ling = {}; $extraAOutfit.over = {}; $extraAOutfit.acc = {}>><<replace "#extraAOut">>@@.exp;Outfit Cleared!@@<</replace>><</button>>
+</td></tr><tr><td>
+@@.storeitem;Going-Out Outfit@@<br><br>
+</td><td><div id="extraBOut">
+''Lingerie:'' <<if def $extraBOutfit.ling.name>><<print $extraBOutfit.ling.name>><<else>>None<</if>><br>
+''Clothes:'' <<if def $extraBOutfit.over.name>><<print $extraBOutfit.over.name>><<else>>None<</if>><br>
+''Accessory:'' <<if def $extraBOutfit.acc.name>><<print $extraBOutfit.acc.name>><<else>>None<</if>>
+</div></td><td style="vertical-align: middle;">
+<<button "Set Outfit">><<setStandardOutfit "extraB" _wearOFU _wearOFO _wearOFA>><</button>><br>
+<<button "Clear">><<set $extraBOutfit.ling = {}; $extraBOutfit.over = {}; $extraBOutfit.acc = {}>><<replace "#extraBOut">>@@.exp;Outfit Cleared!@@<</replace>><</button>>
+</td></tr></table>
+<</replace>><</button>>
+<<button "Health">><<replace "#planShit">>
+<table><tr id="divide"><td colspan=4>@@.head3;Health Settings@@</td></tr>
+<tr><td colspan=4>Not Yet Implemented</td></tr></table>
+<</replace>><</button>>
+<span id="contLicker"><<if $weekReady == 1>>@@.contButt;<<button "Continue">><<if ndef $casualOutfit.ling.name || ndef $casualOutfit.over.name || ndef $workOutfit.ling.name || ndef $workOutfit.over.name || ndef $fancyOutfit.ling.name || ndef $fancyOutfit.over.name || ndef $sleepOutfit.ling || ndef $sleepOutfit.over>><<replace "#planShit">>@@.vbad;.tit;CAN'T CONTINUE@@<br><br>@@.exp;You must have the basic outfits set before continuing! You must have a ''complete'' outfit set for each of these primary outfits: Casual, Work, Going-Out, and Sleep. A complete outfit includes at least a lingerie outfit and clothing outfit, though these can "naked" outfits containing no clothes. (<i>Being naked has consequences though!</i>)<</replace>><<else>><<goto [[WeekPlannerSocial]]>><</if>><</button>>@@<<else>><<set $weekReady = 2>>@@.disabled;<<button "Continue">><</button>>@@<</if>></span>
+</center></td></tr><tr><td>
+<div id="planShit">
+<table><tr id="divide"><td colspan=4>@@.head3;Current Cleanliness@@</td></tr>
+<tr><td colspan=2>
+''Current Cleanliness:''<br>@@.monospace;font-size:80%;
+Floors - - -<<cleanLevel $home.clean.floors>><br>
+Surfaces - -<<cleanLevel $home.clean.surfaces>><br>
+Kitchen - - <<cleanLevel $home.clean.kitchen>><br>
+Bathrooms - <<cleanLevel $home.clean.bathroom>>@@
+</td><td colspan=2>@@.monospace;font-size:80%;
+Neatness - -<<cleanLevel $home.clean.neatness>><br>
+Dishes - - -<<cleanLevel "X" $home.clean.dishes>><br>
+Laundry - - <<cleanLevel "X" $home.clean.laundry>><br>
+Bed/s - - - <<cleanLevel "X" $home.clean.bed>><br>
+Unobvious - <<cleanLevel $home.clean.deepclean>>@@
+</td></tr></table>
+</div>
+</td></tr></table>
+<span id="loadsCum"><<if $weekReady != 1>><center><<loadingImg>></center><</if>></span>
+
+
+:: WeekPlannerSocial [nobr hidden]
+
+This is where you will create social plans with NPCs, and make other appointments.<br>
+Not Implemented.<br>
+[[continue|WeekPlannerFinal]]
+
+
+:: WeekPlannerNPCask [nobr hidden]
+
+
+Not Implemented.<br>
+[[continue|WeekPlannerFinal]]
+
+
+:: WeekPlannerFinal [nobr hidden]
+
+Week planning final forwarding passage (not implemented).
+<br>
+[[Go To Bullseye for some reason|controlBullseye][$destLoc = [5,5]]]

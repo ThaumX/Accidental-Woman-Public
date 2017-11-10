@@ -1,0 +1,385 @@
+:: backwardCompat [nobr hidden]
+
+<<set $helpText = "Follow the instructions on this page.">>
+@@.head1;Backward Compatibility Tool@@
+<br><br>
+@@.lightcoral;.rumble;font-size:125%;DO NOT Click Any UI Bar Buttons! (Unless the BCtool output instructs you to.)@@
+<br><br>
+@@.acme;The game has detected that your save is from a previous version of Accidental Woman. This tool will check for undefined variables and other issues, and fix them. It will attempt to make your game compatible with the current version. Unfortunately, I can't guarantee that it'll work every time. These are some reasons the tool might not work, and some other notes~
+<br><br>
+<list>
+<li>If you were in the middle of an event or scenario, there's a chance that it will play incorrectly (mostly if the event/scenario in question has been updated). For best results, save during a normal map-view screen or during the week planner on the page that says "save here".</li>
+<li>If you happened to save at a bad time, you can reload your save (preferably in the version of the game that it's from) and finish the event. Then create a new save.</li>
+<li>Autosaves will always happen at a "safe point" for saving.</li>
+<li>You may see some questions in the output area. It is important that you answer these by checking the correct radio button!</li>
+<li>Saves that are from versions that are too old may just not work. You can try running backward compatibility in an intermediate version (if this is version 10.0, and your save is version 7.0, you could try running BC in version 9.0, creating a new save, and then load that save here.) This could work, or it could result in a save with buggy game events.</li>
+<li>Saves won't always be compatible. I'll try to avoid that, but there will probably be times when doing so is simply impossible or too much work to be worthwhile.</li>
+</list>
+<li>''Bugs that result from backward compatibility can be different from normal bugs. It's important that you share your original version when making a bug report!''@@</li>
+ <br><br>
+ Okay, let's get started.<br>
+ <<button "Run BC Tool">>
+ <<replace "#output">>
+	<<if $ver < 31>>
+		<<= "Your save version is completely incompatible, sorry.">><br>
+		<<= "Quitting...">><br>
+	<<elseif $ver == 41>>
+		<<= "Your save is already up-to-date">><br>
+		<<set $version = "0.03.6">>
+		<<= "Quitting...">><br>
+	<<else>>
+		Your save is from version: <<= $version>> <<= $swim>><br>
+		<<set $version = "0.04.2">>
+    <<if ndef $debugTools>>
+      <<set $debugTools = false>>
+    <</if>>
+		<<if ndef $curBase>>
+			<<set $curBase = 1>>
+		<</if>>
+		<<if ndef $home.finance>>
+			<<set $home.finance = {}>>
+			<<set $home.finance.rent = 0>>
+			<<set $home.finance.food = 0>>
+			<<set $home.finance.goods = 0>>
+			<<set $home.finance.supplies = 0>>
+			<<set $home.finance.isp = 0>>
+			<<set $home.finance.cable = 0>>
+			<<set $home.finance.maid = 0>>
+			<<set $home.finance.car = 0>>
+			<<set $home.finance.gas = 0>>
+			<<set $home.finance.maint = 0>>
+			<<set $home.finance.insurance = 0>>
+			<<set $home.finance.electric = 0>>
+			<<set $home.finance.water = 0>>
+			<<set $home.finance.grooming = 0>>
+			<<set $home.finance.streaming = 0>>
+			<<set $home.finance.porn = 0>>
+			<<set $home.finance.patreon = 0>>
+			<<set $home.finance.gym = 0>>
+			<<set $home.finance.lessons = 0>>
+			<<set $home.finance.cash = $cash>>
+			<<set $home.finance.spending = 0>>
+			<<set $home.finance.miscIncome = 0>>
+			<<set $home.finance.income = {}>>
+			<<set $home.finance.income.lotto = 0>>
+			<<set $home.finance.income.milk = 0>>
+			<<set $home.finance.income.gambling = 0>>
+			<<set $home.finance.income.sugarDaddy = 0>>
+			<<set $home.finance.income.prostitute = 0>>
+			<<set $home.finance.income.yardSale = 0>>
+			<<set $home.finance.income.child = 0>>
+			<<set $home.finance.income.surrogate = 0>>
+			<<set $home.finance.income.oddjobs = 0>>
+			<<set $home.finance.jobIncome = 0>>
+			<<set $home.finance.totalIncome = 0>>
+			<<set $home.finance.totalExpense = 0>>
+			<<set $home.finance.bank = 0>>
+			<<set $home.finance.bankInterestPer = 0>>
+			<<set $home.finance.bankInterest = 0>>
+			<<set $home.finance.loan = 0>>
+			<<set $home.finance.loanPayment = 0>>
+			<<set $home.finance.loanInterest = 0>>
+			<<set $home.finance.loanInterestPer = 0>>
+			<<set $home.finance.creditInterestPer = 0>>
+			<<set $home.finance.creditInterest = 0>>
+			<<set $home.finance.sett = {}>>
+			<<set $home.finance.sett.foodLevel = 3>>
+			<<set $home.finance.settings.goodsLevel = 3>>
+			<<set $home.finance.sett.supplyLevel = 3>>
+			<<set $home.clean = {}>>
+			<<set $home.clean.floors = 100>>
+			<<set $home.clean.surfaces = 100>>
+			<<set $home.clean.bathroom = 100>>
+			<<set $home.clean.kitchen = 100>>
+			<<set $home.clean.dishes = 10>>
+			<<set $home.clean.laundry = 10>>
+			<<set $home.clean.neatness = 100>>
+			<<set $home.clean.bed = 10>>
+			<<set $home.clean.deepclean = 100>>
+			<<set $home.clean.doCleaning = 3>>
+			<<set $home.clean.pickingUp = 3>>
+			<<set $home.clean.doDishes = 3>>
+			<<set $home.clean.doLaundry = 3>>
+			<<set $home.clean.doBed = 3>>
+			<<set $weekReady = 0>>
+			<<print "Burning down your old home...">>
+		<<else>>
+			<<print "Home is already up-to-date!">>
+		<</if>>
+		<<if ndef $mutate.Cumpire>>
+			<<set $mutate.Cumpire = false>>
+			<<set $mutate.PseudoPreg = false>>
+			<<set $mutate.Elastic = false>>
+			<<set $mutate.LitePhero = false>>
+			<<set $tutorials = true>>
+			<<print "Installing the legend of the cumpire">><br>
+		<<else>>
+			<<print "Cumpires ~ an Ero-Lich original!">><br>
+		<</if>>>>
+    <<if ndef $pref.other>>
+      <<set $pref.other = [0,0,0,0,0]>>
+      <<set $pref.Fweight = [-2,-1,1,1,-1,-2]>>
+      <<set $pref.Fmuscle = [-2,0,1,2,-1,-2]>>
+      <<set $pref.Fheight = [0,1,2,0,-2,"no mod"]>>
+      <<set $pref.Fother = [0,0,0,0,0]>>
+      <<print "adding new preference variables.">>
+    <</if>>
+		<<if ndef $pref.fapmode>>
+			<<set $pref.fapmode = false>>
+			/*kink gates*/
+			<<set $pref.anal = true>>
+			<<set $pref.bestiality = true>>
+			<<set $pref.bdsm = true>>
+			<<set $pref.bondage = true>>
+			<<set $pref.bukkake = true>>
+			<<set $pref.choking = true>>
+			<<set $pref.cbt = false>>
+			<<set $pref.collar = true>>
+			<<set $pref.connoncon = true>>
+			<<set $pref.domsub = true>>
+			/*10*/
+			<<set $pref.enema = true>>
+			<<set $pref.fisting = false>>
+			<<set $pref.furry = false>>
+			<<set $pref.gaping = true>>
+			<<set $pref.group = true>>
+			<<set $pref.impact = true>>
+			<<set $pref.sadomasochism = true>>
+			<<set $pref.masterslave = true>>
+			<<set $pref.medical = true>>
+			<<set $pref.noncon = true>>
+			/*20*/
+			<<set $pref.petplay = true>>
+			<<set $pref.rape = false>>
+			<<set $pref.religion = true>>
+			<<set $pref.rough = true>>
+			<<set $pref.scat = false>>
+			<<set $pref.shibari = true>>
+			<<set $pref.sounding = false>>
+			<<set $pref.torture = false>>
+			<<set $pref.vore = false>>
+			<<set $pref.waterworks = true>>
+			<<print "putting in pansy gates">><br>
+		<</if>>
+    <<if ndef $PChistory>>
+      <<set $PChistory = {}>>
+      <<set $PChistory.PC to clone($PC)>>
+      <<set $PChistory.status to clone($status)>>
+      <<set $PChistory.trait to clone($trait)>>
+      <<set $PChistory.mutate to clone($mutate)>>
+      <<set $PChistory.kink to clone($kink)>>
+      <<set $PChistory.skill to clone($skill)>>
+      <<set $PChistory.item to clone($item)>>
+      <<set $PChistory.home to clone($home)>>
+      <<set $PChistory.job to clone($job)>>
+    <</if>>
+		<<if ndef $outfitOver>>
+		<<set $outfitOver = []>>
+		<<set $outfitUnder = []>>
+		<</if>>
+		<<if $swim == "[cheats]">>
+			<<= "Warning! Cheat version saves are not compatible with no-cheat versions if there are cheats enabled!">><br>
+			<<set $cheatSCdetail = false>>
+		<</if>>
+		<<if ndef $SCresult>>
+			<<set $SCresult = []>>
+			<<set $SCtext = []>>
+			<<set $sCheck = false>>
+			<<= "Skill check variables initialized">><br>
+		<<else>>
+			<<= "Skill check variables already good">><br>
+		<</if>>
+		<<if ndef $UIimgA>>
+			<<set $UIimgA = "<br>[img[IMGsil250]]">>
+			<<set $UIimgB = "<br>[img[IMGnone200]]">>
+			<<set $UIimgC = "<br>[img[IMGnone200]]">>
+			<<set $UIimgD = "<br>[img[IMGnone200]]">>
+			<<print "graphicalizing sidebar vectors">>
+		<<else>>
+			<<print "sidebar vectors already graphicalized">>
+		<</if>>
+		<<if ndef $UImap>>
+			<<set $UImap = "[img[IMGmap250]]">>
+			<<= "UI variables Initialized">><br>
+		<<else>>
+			<<= "UI variables already good">><br>
+		<</if>>
+		<<if ndef $status.addictSex>>
+			<<set $status.addictSex = 0>>
+			<<set $status.addictAlc = 0>>
+			<<set $status.addictHeat = 0>>
+			<<set $status.addictSatyr = 0>>
+			<<set $status.addictFocus = 0>>
+			<<set $status.addictCum = 0>>
+			<<set $status.addictZone = 0>>
+			<<set $status.addictCream = 0>>
+			<<set $status.addictSexNeed = 0>>
+			<<set $status.addictAlcNeed = 0>>
+			<<set $status.addictHeatNeed = 0>>
+			<<set $status.addictSatyrNeed = 0>>
+			<<set $status.addictFocusNeed = 0>>
+			<<set $status.addictCumNeed = 0>>
+			<<set $status.addictZoneNeed = 0>>
+			<<set $status.addictCreamNeed = 0>>
+			<<set $status.addictMax = 0>>
+			<<set $status.jonesing = 0>>
+			<<set $status.withdrawl = false>>
+			<<= "Getting you addicted.">><br>
+		<<else>>
+			<<= "You're already addicted.">><br>
+		<</if>>
+		<<if ndef $sched.sleepTime>>
+			<<set $status.energyRate = 8>>
+			<<set $status.energyRegen = true>>
+			<<set $status.clean = 1>>
+			<<set $home = {}>>
+			<<set $home.upgrade = {}>>
+			<<set $home.item = {}>>
+			<<set $home.decor = {}>>
+			<<set $home.upgrade.toiletFert = false>>
+			<<set $dayChange = false>>
+			<<set $timeChunk = 0>>
+			<<set $timeCount = 0>>
+			<<set $helpText = "backwards compatible, yo">>
+			<<set $sched = {}>>
+			<<set $sched.workTime = [40,[800,1700],[800,1700],[800,1700],[800,1700],[800,1700],[0,0],[0,0]]>>
+			<<set $sched.workDays = [0,false,false,false,false,false,false,false]>>
+			<<set $sched.vacation = [0,false,false,false,false,false,false,false]>>
+			<<set $sched.sick = [0,false,false,false,false,false,false,false]>>
+			<<set $sched.wakeTime = 700>>
+			<<set $sched.sleepTime = 2300>>
+			<<set $sched.sleepWarn = 2200>>
+			<<set $sched.sleepWarnOn = false>>
+			<<set $sched.alerts = true>>
+			<<set $sched.extraAlerts = false>>
+			<<set $sched.alertText = "none">>
+			<<set $sched.alertPend = false>>
+			<<set $sched.plans = [{total: 0, remain: 0},[],[],[],[],[],[],[]]>>
+			<<set $sched.showChange = false>>
+			<<set $sched.showMedical = false>>
+			<<set $sched.dream = "none">>
+			<<set $sched.goto = false>>
+			<<set $sched.fastForward = false>>
+			<<set $sched.fastSleep = false>>
+			<<set $sched.showChange = false>>
+			<<set $sched.showMedical = false>>
+			<<set $sched.dream = "none">>
+			<<set $sched.sleepin = false>>
+			<<set $sched.sleepinText = []>>
+			<<set $sched.sleepinOverride = false>>
+			<<set $sched.alarmClock = false>>
+			<<set $sched.sleepPassage = "none">>
+			<<set $sched.showered = false>>
+			<<set $sched.actualWake = 700>>
+			<<= "''HOLD ON TO YOUR TITS!!!''<br>">>
+			<<set _tutorialReminder = {name: "Tutorial", type: 0, start: 1030, alert: true, msg: "This is a tutorial message, demonstrating how reminder alerts work. During the game, you'll get phone reminders about upcoming dates, appointments, and other events 1 hour before they start. You'll often see a link to take you straight to the event location. Other times, you'll see reminders from the game about quests or other happenings. You can even set reminders for yourself!"}>>
+			<<= "You are now a prisoner of time <br>">>
+			<<set $sched.plans[2].push(_tutorialReminder)>>
+		<<else>>
+			<<= "Scheduling is good<br>">>
+		<</if>>
+		<<if ndef $kink.SuperSlut>>
+			<<set $kink.SuperSlut = false>>
+			<<set $kink.HyperSlut = false>>
+			<<set $status.bimbo = 0>>
+			<<set $status.inPublic = false>>
+			<<set $medChange = false>>
+			<<= "apparently unsure about bimbofication<br>">>
+		<<else>>
+			<<= "No doubts about being a bimbo<br>">>
+		<</if>>
+		<<if ndef $diff>>
+			<<set $diff = 1>>
+			<<= "Adding global difficulty variable<br>">>
+		<<else>>
+			<<= "Global difficulty already set<br>">>
+		<</if>>
+		<<if ndef $gamestate>>
+			<<set $gamestate = {}>>
+			<<set $gamestate.playedIntro = true>>
+			<<set $gamestate.completePrologue = false>>
+			<<set $gamestate.completeGame = false>>
+			<<set $gamestate.points = 0>>
+			<<set $gamestate.characters = 0>>
+			<<set $gamestate.unlocks = []>>
+			<<run setup.storeState()>>
+			<<replace "#gamestatsers">>@@.monospace;.ship;font-size:70%;Welcome to Accidental Woman! ‖ Characters Created: 0 | Points: 0 | Endings: 0% | Unlocks: 0 ‖<</replace>>
+		<<elseif $gamestate.playedIntro == null>>
+			<<set $gamestate = {}>>
+			<<set $gamestate.playedIntro = true>>
+			<<set $gamestate.completePrologue = false>>
+			<<set $gamestate.completeGame = false>>
+			<<set $gamestate.points = 0>>
+			<<set $gamestate.characters = 0>>
+			<<set $gamestate.unlocks = []>>
+			<<run setup.storeState()>>
+		<</if>>
+		<<if ndef $job>>
+			<<set $job = {}>>
+			<<set $job.name = "Unemployed">>
+			<<set $job.employer = "None">>
+			<<set $job.code = 0>>
+			<<set $job.skills = "none">>
+			<<set $job.percept = 0>>
+			<<set $job.desc = "none">>
+			<<set $job.late = {}>>
+			<<set $job.late.times = 0>>
+			<<set $job.late.called = 0>>
+			<<set $job.late.recent = 0>>
+			<<set $job.late.sick = 0>>
+			<<set $job.late.vacation = 0>>
+			<<set $job.missed = {}>>
+			<<set $job.missed.times = 0>>
+			<<set $job.missed.recent = 0>>
+			<<set $job.sick = {}>>
+			<<set $job.sick.rate = 0>>
+			<<set $job.sick.balance = 0>>
+			<<set $job.sick.caught = 0>>
+			<<set $job.sick.used = 0>>
+			<<set $job.vacation = {}>>
+			<<set $job.vacation.rate = 0>>
+			<<set $job.vacation.balance = 0>>
+			<<set $job.vacation.used = 0>>
+			<<set $job.vacation.ratePaid = 0>>
+			<<set $job.vacation.balPaid = 0>>/*hours*/
+			<<set $job.vacation.usedPaid = 0>>
+			<<set $job.rules = {}>>
+			<<set $job.rules.payrate = 0>>
+			<<set $job.rules.taskratio = [0,0,0,0]>>
+			<<set $job.rules.tasks = 0>>
+			<<set $job.rules.taskA = {type: "CM",DC: 15, retry: false, effect: 1, stress: 1, hap: 1}>>
+			<<set $job.rules.taskB = {type: "OG",DC: 15, retry: false, effect: 1, stress: 1,hap: 1}>>
+			<<set $job.rules.taskC = {type: "PS",DC: 15, retry: false, effect: 1, stress: 1, hap: 1}>>
+			<<set $job.rules.taskD = {type: "FI",DC: 15, retry: false, effect: 1, stress: 1, hap: 1}>>
+			<<set $job.rules.cutoffs = [0,0,0,0,0]>>
+			<<set $job.rules.worktime = [40,8,8,8,8,8,0,0]>>
+			<<set $job.rules.breaktime = 0>>
+			<<set $job.rules.strict = true>>
+			<<set $job.rules.boss = "nobody">>
+			<<set $job.stats = {}>>
+			<<set $job.stats.progress = 0>>
+			<<set $job.stats.promote = false>>
+			<<set $job.stats.fired = false>>
+			<<set $job.stats.performance = 0>>
+			<<set $job.stats.daysworked = 0>>
+			<<set $job.stats.daysworkedTotal = 0>>
+			<<set $job.stats.rank = 0>>
+			<<set $job.stats.boss = 0>>
+			<<set $job.stats.coworker = 0>>
+			<<set $job.stats.subord = 0>>
+			<<set $job.flag = {}>>
+			<<set $job.pay = 0>>
+			<<print "Giving you the ability to Job">>
+		<<else>>
+			<<print "You already know how to Job">>
+		<</if>>
+			<<status 0>>
+	<</if>>
+	<<= "BC Tool finished running. If you see red stuff above, there were errors, sorry. If not, awesome! I knew this would work!">>
+ <</replace>>
+ <</button>>
+ <table>
+ <tr><td>@@.head3;Output Area@@</td></tr>
+ <tr><td>@@.monospace;font-size:75%;<span id="output">Empty.....</span>@@</td></tr>
+ </table>
+ @@font-size:150%;<<return>>@@

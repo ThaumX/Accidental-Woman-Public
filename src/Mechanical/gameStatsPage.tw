@@ -1,0 +1,44 @@
+:: gameStatsPage [nobr]
+
+<center>@@.head1;Game Stats@@</center>
+<br>
+@@.head3;Caution@@ ~ Game stats are saved to the browser cache. Resetting your browser cache will result in deleting your game stats. This may be troublesome for users of a version/setup of Mozilla Firefox prone to errors requiring a cache reset, I'm sorry for the trouble. In the future, I will program functionality to restore the game stats when a save is loaded from a file (deleting the cache also deletes local saves), or potentially exporting a .save file with game stats.
+<br><br>
+<<if ndef $gamestate>>
+@@.ident;You do not currently have a game stats save. One will be created automatically when you play the game.@@
+<<elseif $gamestate === null>>
+@@.ident;You do not currently have a game stats save. One will be created automatically when you play the game.@@
+<<else>>
+''Ѡ General Stats Ѡ''<br>
+Completed Prologue--<<if $gamestate.completePrologue>>Yep<<else>>Nope<</if>><br>
+Finished a Playthrough--<<if $gamestate.completeGame>>Yep<<else>>Nope<</if>><br>
+Characters Created--<<= $gamestate.characters>><br>
+Roleplay Points--<<= $gamestate.points>><br>
+Total Unlocks--<<= $gamestate.unlocks.length>>
+<br><br>
+''Ѡ Achievements Ѡ''<br>
+note that these are example placeholders!<br>
+Self Employed--Earn enough money from prostitution to pay your expenses.<br>
+Deus Ex--Have <i>ALL THE IMPLANTS</i><br>
+Dodging Bullets--Complete the game while fertile but without getting pregnant
+<br><br>
+''Ѡ Unlocked Starting Options Ѡ''<br>
+note that these are example placeholders!<br>
+Expanded breast size options<br>
+Expanded base fertility options<br>
+Expanded starting professions<br>
+Unlocked <i>Hard Mode</i> @@.quest;.white;font-size:60%;hahaha, HARD@@<br><br>
+
+<<button "Reset Game Stats">>
+	<<set $gamestate = {}>>
+	<<set $gamestate.playedIntro = false>>
+	<<set $gamestate.completePrologue = false>>
+	<<set $gamestate.completeGame = false>>
+	<<set $gamestate.points = 0>>
+	<<set $gamestate.characters = 0>>
+	<<set $gamestate.unlocks = []>>
+	<<run setup.storeState()>>
+<</button>> @@.acme;.import;''This can not be undone!''@@
+<</if>>
+<br><br>
+<<button [[Return|Start]]>><</button>>

@@ -1,0 +1,153 @@
+:: homeControl [nobr]
+
+
+<<if $mainMap != "home">>
+<<code '_mapset'>>
+@@.maptable;<img data-passage="IMGtier2home" usemap="#image-map2"><map name="image-map2">
+    <area data-passage="homeT2TObedroom" alt="Bedroom" title="Bedroom" coords="152,28,236,28,244,102,154,102" shape="poly">
+    <area data-passage="homeT2TOliving" alt="Livingroom" title="Livingroom" coords="48,47,148,47,152,129,42,129" shape="poly">
+    <area data-passage="homeT2TObalcony" alt="Balcony" title="Balcony" coords="0,181,0,103,42,103,38,181" shape="poly">
+    <area data-passage="homeT2TOkitchen" alt="Kitchen" title="Kitchen" coords="38,203,44,131,150,131,150,153,134,159,134,203" shape="poly">
+    <area data-passage="homeT2TOfoyer" alt="Foyer" title="Foyer" coords="136,203,136,161,152,153,188,155,190,203" shape="poly">
+    <area data-passage="homeT2TObath" alt="Bathroom" title="Bathroom" coords="206,203,200,105,244,105,248,133,246,203" shape="poly">
+    <area data-passage="homeT2TOexit" alt="Exit" title="Exit" coords="34,247,38,205,246,205,246,247" shape="poly" class="map-red-area">
+	<area data-passage="homeT2TOwardrobe" alt="Wardrobe Menu" title="Wardrobe Menu" coords="152,104,196,104,198,138,162,136,154,130" shape="poly" class="map-green-area">
+    <area data-passage="homeT2homemenu" alt="Home Control" title="Home Control" coords="32,248,36,184,0,184,2,248" shape="poly" class="map-blue-area">
+</map>@@
+<</code>>
+<<set $UImap = _mapset>>
+<</if>>
+<<set $status.inPublic = false>>
+<<set $lastMainMap = $mainMap>>
+<<set $mainMap = "home">>
+<<set $lastLocName = $locName>>
+<<set $lastLocPassage = $locPassage>>
+<<set $lastMapLoc = [$mapLoc[0],$mapLoc[1]]>>
+<<set $mapLoc = [$destLoc[0],$destLoc[1]]>>
+<<set $destLoc = [0,0]>>
+/*sets variables to destination based on mapLoc coordinates*/
+<<set _mainerror = 0>>
+<<set _suberror = 0>>
+
+<<switch $mapLoc[0]>>
+<<case "T2home">>
+	<<switch $mapLoc[1]>>
+	<<case "bedroom">>
+		<<set $locName = "Your Bedroom">>
+		<<set $locImageName = "IMGhomePlaceholder">>
+		<<set $locPassage = "homeT2bedroom">>
+		<<set _eventList = []>>
+		<<set _mapPCroom = "You are standing in your bedroom.">>
+		<<set $location = "Home - Bedroom">>
+	<<case "living">>
+		<<set $locName = "Your Living Room">>
+		<<set $locImageName = "IMGhomePlaceholder">>
+		<<set $locPassage = "homeT2livingroom">>
+		<<set _eventList = []>>
+		<<set _mapPCroom = "You are standing in your living room.">>
+		<<set $location = "Home - Living Room">>
+	<<case "balcony">>
+		<<set $locName = "Your Balcony">>
+		<<set $locImageName = "IMGhomePlaceholder">>
+		<<set $locPassage = "homeT2balcony">>
+		<<set _eventList = []>>
+		<<set _mapPCroom = "You are standing on your balcony.">>
+		<<set $location = "Home - Balcony">>
+	<<case "kitchen">>
+		<<set $locName = "Your Kitchen">>
+		<<set $locImageName = "IMGhomePlaceholder">>
+		<<set $locPassage = "homeT2kitchen">>
+		<<set _eventList = []>>
+		<<set _mapPCroom = "You are standing in your kitchen.">>
+		<<set $location = "Home - Kitchen">>
+	<<case "foyer">>
+		<<set $locName = "Your Foyer">>
+		<<set $locImageName = "IMGhomePlaceholder">>
+		<<set $locPassage = "homeT2foyer">>
+		<<set _eventList = []>>
+		<<set _mapPCroom = "You are standing in your foyer.">>
+		<<set $location = "Home - Foyer">>
+	<<case "bath">>
+		<<set $locName = "Your Bathroom">>
+		<<set $locImageName = "IMGhomePlaceholder">>
+		<<set $locPassage = "homeT2bath">>
+		<<set _eventList = []>>
+		<<set _mapPCroom = "You are standing in your bathroom.">>
+		<<set $location = "Home - Bathroom">>
+	<<case "exit">>
+		<<set $destLoc = ["residential","ResCommonArea"]>>
+		<<set $locPassage = "controlResidential">>
+		<<set _eventList = []>>
+	<<case default>>
+		<<set _suberror = true>>
+		<<set $locName = "Home - Living Room">>
+		<<set $locImageName = "IMGhomePlaceholder">>
+		<<set $locPassage = "homeT2livingroom">>
+		<<set _eventList = []>>
+		<<set _roomLocation = "You experienced an error, and need to make a bug report.">>
+		<<set _mapPCroom = "You are walking, which is mostly what people do in parking lots. Well, except for that...">>
+		<<set $location = "Home - Living Room">>
+	<</switch>>
+<<case 2>>
+	
+<<case 3>>
+	
+<<case 4>>
+	
+<<case 5>>
+	
+<<case default>>
+	<<set _mainerror = true>>
+<</switch>>
+<<if _mainerror>>
+	<<set alert("Bad map coordinates sent to Home map control. Location has defaulted to nowhere")>>
+	<<set $error += ", Home map coordinate error values: ">>
+	<<set $error += $mapLoc[0]>>
+	<<set $error += $mapLoc[1]>>
+<<elseif _suberror>>
+	<<set alert("Bad map coordinates sent to Home map control. Location has defaulted to nowhere")>>
+	<<set $error += ", Home map coordinate error values: ">>
+	<<set $error += $mapLoc[0]>>
+	<<set $error += $mapLoc[1]>>
+<</if>>
+<<set _roomLocation = "t2home">>
+/*put away any inventory items*/
+
+/*add time for moving around the house*/
+<<set _time = either(0,1,1,2)>>
+<<addTime _time>>
+
+/*Determine current weather after time has passed*/
+/*<<weatherCheck>>*/
+
+/*Run some widgets to control NPC actions. */
+<<mapHomeNPCaction>>
+
+/*Control home cleanliness functionality*/
+<<mapHomeGetDirty>>
+
+/*EVENTS - selects event based on several possibilities*/
+<<mapHomeEventSelect _eventList>>
+
+
+/*SET THE SCENE! Describes the scene, including potential NPCs*/
+<<if $mapHomeEvent != 0>>
+<</if>>
+<<if $activeNPC.active>>
+	<<set _NPCsingle = $activeNPC.roomview>>
+<<else>>
+	<<set _NPCsingle = 0>>
+<</if>>
+
+<<setScene _mapPCroom _NPCsingle $roomviewGroup _roomLocation>>
+
+/*forwarder to change passage*/
+
+/*<<link "debug link continue">>*/
+<<goto $locPassage>>
+/*<</link>>*/
+
+
+
+
+

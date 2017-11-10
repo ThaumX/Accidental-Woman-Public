@@ -1,0 +1,348 @@
+:: skillcheck [widget nobr]
+
+<<nobr>>
+
+<<widget "SCX">>
+<<set $SCresult = ["filler"]>>
+<<set $SCtext = ["filler"]>>
+<</widget>>
+
+<<widget "SC">>
+<<silently>>
+/*error checking*/
+<<if ndef $args[0]>>
+	<<set _DC = 15>> /*default value*/
+	<<set _type = "D">> /*default value*/
+	<<set $error += ", no args passed to skillcheck in passage: ">>
+	<<set _temp = passage()>>
+	<<set $error += _temp>>
+<<elseif isNaN($args[0])>>
+	<<set _DC = $args[1]>>
+	<<set _type = $args[0]>>
+<<else>>
+	/*in case of 'just a roll' w/no skill*/
+	<<set _DC = $args[0]>>
+<</if>>
+/*roll some shit*/
+<<set _dice = random(0,10)>>
+<<set _dice += random(1,10)>>
+/*see if we need to reroll some shit or have a mod value*/
+<<set _mod = 0>>
+<<set _ex = "Weight=N">>
+<<if ndef $args[2]>>
+	/*nuthin*/
+<<else>>
+	<<if isNaN($args[2])>>
+		<<if $args[2] == "d6">>
+			<<set _dice = random(1,6)>>
+			<<set _dice += random(0,7)>>
+			<<set _dice += random(0,7)>>
+			<<set _ex = "Weight=S">>
+		<<elseif $args[2] == "d4">>
+			<<set _dice = random(1,5)>>
+			<<set _dice += random(0,5)>>
+			<<set _dice += random(0,5)>>
+			<<set _dice += random(0,5)>>
+			<<set _ex = "Weight=SS">>
+		<<elseif $args[2] == "d8">>
+			<<set _dice = random(1,8)>>
+			<<set _dice += random(2,8)>>
+			<<set _dice += random(2,8)>>
+			<<if _dice > 20>>
+				<<set _dice -= random(4,10)>>
+			<</if>>
+			<<set _ex = "Weight=E">>
+		<<else>>
+			<<set $error += ", bad arg2 Dcode passed to skillcheck in passage: ">>
+			<<set _temp = passage()>>
+			<<set $error += _temp>>
+		<</if>>
+		<<if ndef $args[3]>>
+			/*no mod value*/
+		<<elseif isNaN($args[3])>>
+			<<set $error += ", bad arg3 mod passed to skillcheck in passage: ">>
+			<<set _temp = passage()>>
+			<<set $error += _temp>>
+		<<else>>
+			<<set _mod = $args[3]>>
+		<</if>>
+	<<else>>
+		<<set _mod = $args[2]>>
+	<</if>>
+<</if>>
+/*check for actual skill used*/
+<<set _trait = 0>>
+<<switch _type>>
+<<case "EX" "ex" "exhibit">>
+	<<set _skill = $skill.exhibition>>
+	<<set _type = "exhib">>
+	<<if $trait.OC == "closed">>
+		<<set _mod -= 2>>
+	<</if>>
+	<<if $kink.Exhibition && $kink.Public>>
+		<<set _mod += 3>>
+	<<elseif $kink.Exhibition>>
+		<<set _mod += 2>>
+	<<elseif $kink.Public>>
+		<<set _mod += 1>>
+	<</if>>
+	<<if $kink.Liberate || $kink.Slut>>
+		<<set _mod += 1>>
+	<</if>>
+<<case "PR" "pr" "prost">>
+	<<set _skill = $skill.prostitute>>
+	<<set _type = "ho">>
+	<<if $trait.OC = "closed">>
+		<<set _mod -= 2>>
+	<</if>>
+<<case "SX" "sx" "sex">>
+	<<set _skill = $skill.sex>>
+	<<set _type = "sex">>
+	<<if $trait.OC == "closed">>
+		<<set _mod -= 1>>
+	<</if>>
+	<<if $kink.Liberate || $kink.Slut>>
+		<<set _mod += 1>>
+	<</if>>
+	<<if not $kink.Anal>>
+		<<set _mod -= 2>>
+	<<elseif $kink.Buttslut>>
+		<<set _mod += 1>>
+	<</if>>
+	<<if $kink.Pregnancy && $kink.Risky>>
+		<<set _mod += 2>>
+	<<elseif $kink.Pregnancy || $kink.Risky>>
+		<<set _mod += 1>>
+	<</if>>
+<<case "OR" "or" "oral">>
+	<<set _skill = $skill.oral>>
+	<<set _type = "oral">>
+	<<if $trait.OC == "closed">>
+		<<set _mod -= 1>>
+	<</if>>
+	<<if not $kink.Oral>>
+		<<set _mod -= 3>>
+	<</if>>
+	<<if $kink.Cumslut>>
+		<<set _mod += 2>>
+	<</if>>
+	<<if $kink.Liberate || $kink.Slut>>
+		<<set _mod += 1>>
+	<</if>>
+<<case "SD" "sd" "SED" "sed" "seduct">>
+	<<set _skill = $skill.seduction>>
+	<<set _type = "sed">>
+	<<if $trait.Flirty == -1>>
+		<<set _mod -= 2>>
+	<<elseif $trait.Flirty == 1>>
+		<<set _mod += 1>>
+	<</if>>
+	<<if $trait.IE == "introverted">>
+		<<set _mod -= 1>>
+	<<elseif $trait.IE == "extroverted">>
+		<<set _mod += 1>>
+	<</if>>
+	<<if $pub>>
+		<<if $cheatDom>>
+			<<set _mod += 50>>
+		<</if>>
+	<</if>>
+	<<if $mutate.Goddess>>
+		<<set _mod += 15>>
+	<<elseif $mutate.FertStorm>>
+		<<set _mod += 5>>
+	<</if>>
+	<<if $kink.Liberate || $kink.Slut || $kink.Pregnancy || $kink.Risky>>
+		<<set _mod += 1>>
+	<</if>>
+	<<if $trait.Persuasive == -1>>
+		<<set _mod -= 2>>
+	<<elseif $trait.Persuasive == 1>>
+		<<set _mod += 1>>
+	<</if>>
+<<case "CM" "cm" "COM" "com">>
+	<<set _skill = $skill.comm>>
+	<<set _type = "com">>
+	<<if $trait.IE == "introverted">>
+		<<set _mod -= 1>>
+	<<elseif $trait.IE == "extroverted">>
+		<<set _mod += 1>>
+	<</if>>
+	<<if $trait.Persuasive == -1>>
+		<<set _mod -= 2>>
+	<<elseif $trait.Persuasive == 1>>
+		<<set _mod += 1>>
+	<</if>>
+	<<if $pub>>
+		<<if $cheatDom>>
+			<<set _mod += 50>>
+		<</if>>
+	<</if>>
+<<case "OG" "og" "ORG" "org">>
+	<<set _skill = $skill.org>>
+	<<set _type = "org">>
+	<<if $trait.OC == "closed">>
+		<<set _mod += 1>>
+	<<elseif $trait.OC == "open">>
+		<<set _mod -= 1>>
+	<</if>>
+<<case "PS" "ps" "prob" "probsolve">>
+	<<set _skill = $skill.probSolving>>
+	<<set _type = "prob">>
+	<<if $trait.IE == "introverted">>
+		<<set _mod += 1>>
+	<<elseif $trait.IE == "extroverted">>
+		<<set _mod -= 2>>
+	<</if>>
+<<case "FI" "fi" "FN" "fn">>
+	<<set _skill = $skill.finance>>
+	<<set _type = "fin">>
+	<<if $trait.IE == "introverted">>
+		<<set _mod += 1>>
+	<<elseif $trait.IE == "extroverted">>
+		<<set _mod -= 1>>
+	<</if>>
+	<<if $trait.OC == "closed">>
+		<<set _mod += 1>>
+	<</if>>
+<<case "AS" "as" "AST" "ast">>
+	<<set _skill = $skill.art>>
+	<<set _type = "ast">>
+	<<if $trait.OC == "closed">>
+		<<set _mod -= 3>>
+	<</if>>
+<<case "AT" "at" "ATH" "ath">>
+	<<set _skill = $skill.athletic>>
+	<<set _type = "ath">>
+<<case "DA" "da">>
+	<<set _skill = $skill.dancing>>
+	<<set _type = "dance">>
+	<<if $trait.OC == "closed">>
+		<<set _mod -= 1>>
+	<</if>>
+<<case "CL" "cl">>
+	<<set _skill = $skill.clean>>
+	<<set _type = "clean">>
+	<<if $trait.OC == "closed">>
+		<<set _mod += 2>>
+	<</if>>
+<<case "SH" "sh" "SP" "sp" "shop">>
+	<<set _skill = $skill.shop>>
+	<<set _type = "shop">>
+<<case "CO" "co" "cook" "CK">>
+	<<set _skill = $skill.cook>>
+	<<set _type = "cook">>
+<<case "LIE" "lie">>
+	<<set _skill = $skill.comm + $skill.seduction>>
+	<<set _skill = Math.round(_skill / 2)>>
+	<<if $trait.Deceptive == 1 && $trait.Devious == 1>>
+		<<set _mod += 3>>
+	<<elseif $trait.Deceptive == 1 && $trait.Devious != -1>>
+		<<set _mod += 2>>
+	<<elseif $trait.Deceptive == 1>>
+		<<set _mod += 1>>
+	<<elseif $trait.Devious == 1 && $trait.Deceptive != -1>>
+		<<set _mod += 1>>
+	<<elseif $trait.Deceptive == -1 && $trait.Devious == 1>>
+		<<set _mod -= 1>>
+	<<elseif $trait.Deceptive == -1 && $trait.Devious == -1>>
+		<<set _mod -= 3>>
+	<<elseif $trait.Deceptive == -1>>
+		<<set _mod -= 2>>
+	<<elseif $trait.Devious == -1>>
+		<<set _mod -= 1>>
+	<</if>>
+	<<if $trait.OC == "closed">>
+		<<set _mod -= 1>>
+	<</if>>
+	<<set _type = "lie">>
+<<case default>>
+	<<set _skill = "NONE">>
+	<<set _type = "gen">>
+<</switch>>
+/*compute bonus*/
+<<if _skill >= 200>>
+	<<set _bonus = 10>>
+<<elseif _skill >= 160>>
+	<<set _bonus = 9>>
+<<elseif _skill >= 130>>
+	<<set _bonus = 8>>
+<<elseif _skill >= 110>>
+	<<set _bonus = 7>>
+<<elseif _skill >= 100>>
+	<<set _bonus = 6>>
+<<elseif _skill >= 90>>
+	<<set _bonus = 5>>
+<<elseif _skill >= 80>>
+	<<set _bonus = 4>>
+<<elseif _skill >= 70>>
+	<<set _bonus = 3>>
+<<elseif _skill >= 60>>
+	<<set _bonus = 2>>
+<<elseif _skill >= 50>>
+	<<set _bonus = 1>>
+<<elseif _skill >= 40>>
+	<<set _bonus = 0>>
+<<elseif _skill >= 30>>
+	<<set _bonus = -1>>
+<<elseif _skill >= 20>>
+	<<set _bonus = -2>>
+<<elseif _skill >= 10>>
+	<<set _bonus = -3>>
+<<elseif _skill >= 0>>
+	<<set _bonus = -4>>
+<<elseif _skill <= 0>>
+	<<set _dice = 1>>
+	<<set _bonus = -5>>
+<<elseif _skill == "NONE">>
+	<<set _bonus = 0>>
+<<else>>
+	<<set _dice = 1>>
+	<<set _bonus = -5>>
+<</if>>
+<<set _bonus += _trait>>
+<<set _total = _dice + _bonus + _mod>>
+<<if _dice == 1>>
+	<<set $sCheck = false>>
+<<elseif _dice == 20>>
+	<<set $sCheck = true>>
+<<elseif _total >= _DC>>
+	<<set $sCheck = true>>
+<<else>>
+	<<set $sCheck = false>>
+<</if>>
+<<set $SCresult.push($sCheck)>>
+<<if $showSkillCheck && $cheatSCdetail>>
+	<<if $sCheck>>
+		<<if _mod != 0>>
+			<<set _output = " @@.good;[" + _type + " check ✔ (" + _ex + " roll = " + _dice + " + Bonus = " + _bonus + " + Mod = " + _mod + " = " + _total + " Total vs " + _DC + ")]@@ ">>
+		<<else>>
+			<<set _output = " @@.good;[" + _type + " check ✔ (" + _ex + " roll = " + _dice + " + Bonus = " + _bonus + " = " + _total + " Total vs " + _DC + ")]@@ ">>
+		<</if>>
+	<<else>>
+		<<if _mod != 0>>
+			<<set _output = " @@.bad;[" + _type + " check ✘ (" + _ex + " roll = " + _dice + " + Bonus = " + _bonus + " + Mod = " + _mod + " = " + _total + " Total vs " + _DC + ")]@@ ">>
+		<<else>>
+			<<set _output = " @@.bad;[" + _type + " check ✘ (" + _ex + " roll = " + _dice + " + Bonus = " + _bonus + " = " + _total + " Total vs " + _DC + ")]@@ ">>
+		<</if>>		
+	<</if>>
+	<<set $SCtext.push(_output)>>
+<<elseif $showSkillCheck>>
+	<<if $sCheck>>
+		<<set _output = " @@.good;[" + _type + " ✔ (" + _total + ")]@@ ">>
+	<<else>>
+		<<set _output = " @@.bad;[" + _type + " ✘ (" + _total + ")]@@ ">>
+	<</if>>
+	<<set $SCtext.push(_output)>>
+<<else>>
+	<<if $sCheck>>
+		<<set $SCtext.push("@@.good;[✔]@@")>>
+	<<else>>
+		<<set $SCtext.push("@@.bad;[✘]@@")>>
+	<</if>>
+<</if>>
+
+<</silently>>
+<</widget>>
+
+<</nobr>>

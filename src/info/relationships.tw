@@ -1,0 +1,23 @@
+:: relationships [nobr hidden]
+
+<<if $prevPassage != "character" && $prevPassage != "scene" && $prevPassage != "relationships" && $prevPassage != "cheatMenu" && $prevPassage != "gameGuide" && $prevPassage != "debugPage">>
+	<<set $returnTo = $prevPassage>>
+<</if>>
+<<set $helpText = "This is where you'll find information about NPCs that you have formed a relationship with, and get a better look at NPCs that are in the same location as you. It's also where you can see your appointment list.">>
+<center>@@.head1;Contacts View@@<br>
+@@.contButt;<<button [[CLOSE|returner]]>><</button>>@@
+<<button "Nearby">><</button>>
+<<button "Appointments">><</button>>
+<<button "Notes">><</button>>
+<<button "Lovers">><</button>>
+<<button "Friends">><</button>>
+</center>
+<span id="shitter">
+Temporary 'Make a Reminder' tool. (will be part of the appointments section)
+Use it to set an alert for yourself on your phone.<br><br>
+<<textbox "_Time" 1000>>Time--Make sure it's a number.<br>
+<<textbox "_Name" "My Reminder">>Name.<br>
+<<textbox "_msg" "type a message here">>Message text. Don't leave this blank.<br>
+<<button "save message">><<set _Tim to Number(_Time)>><<set _Tim += 100>><<set _tutorialReminder = {name: _Name, type: 1, start: _Tim, alert: true, msg: _msg}>><<set $sched.plans[2].push(_tutorialReminder)>><</button>>Push once only, or face the wrath of spam!
+<<status 0>>
+</span>

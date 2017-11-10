@@ -1,0 +1,51 @@
+:: homeBFT2balcony [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+
+/* GAME MAP TABLE - Displays map next to spot for area image.*/
+<div id="topbar"><center>
+<table id="navigation">
+<tr id="navigation">
+<td id="navigation"><img data-passage="IMGtier2bfhome" usemap="#image-map"><map name="image-map">
+    <area data-passage="homeBFT2TOliving" alt="Living Room" title="Living Room" coords="208,126,202,48,96,48,94,126" shape="poly">
+    <area data-passage="homeBFT2TOkitchen" alt="Kitchen" title="Kitchen" coords="212,202,206,128,92,128,90,150,116,156,118,202" shape="poly">
+    <area data-passage="homeBFT2TOexit" alt="Exit" title="Exit" coords="2,204,246,204,248,248,2,248" shape="poly" class="map-red-area">
+    <area data-passage="homeBFT2TObedroom" alt="Bedroom" title="Bedroom" coords="92,100,94,28,14,26,6,100" shape="poly">
+    <area data-passage="homeBFT2TOfoyer" alt="Foyer" title="Foyer" coords="44,202,48,152,86,152,114,158,116,202" shape="poly">
+    <area data-passage="homeBFT2TObath" alt="Bathroom" title="Bathroom" coords="40,202,48,102,6,102,0,134,2,202" shape="poly">
+    <area data-passage="homeBFT2TOwardrobe" alt="Wardrobe" title="Wardrobe" coords="50,102,92,102,90,124,84,130,48,130" shape="poly" class="map-green-area">
+	<area data-passage="homeBFT2TObalcony" alt="Balcony" title="Balcony" coords="212,188,208,114,246,112,246,188" shape="poly">
+</map></td>
+<td id="navigation"><<link [img[$locImageName]]>><</link>></td>
+</tr>
+</table></center></div>
+<div id="mainshits"><center>
+@@.head2;<<=$locName>>@@</center>
+<br><br>
+/*Event notification spot*/
+/*<<mapEventBFHome>>*/
+/*LOCATION description of  location*/
+@@.head3;Y@@ou are in your &person's& &undecorated& apartment balcony. &more placeholder for time and funishings&
+/*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span></div>
+<div id="actionbar">
+/*ACTION TABLE*/
+<table>
+
+<tr>
+<td width="20%"><<link "Action">><</link>></td><td>@@.exp;This is a default action item that is a placeholder for other actions. Actions will be available based on the room, time, furnishings, and your status.@@</td>
+</tr>
+<tr><td colspan=2  id="homeaction"></td></tr>
+</table>
+<<timed 50ms>>
+<<mapBFHomeEventAction>>
+<<mapBFHomeActions>>
+<</timed>>
+</div>
+
+
+

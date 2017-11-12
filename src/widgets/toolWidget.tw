@@ -7,6 +7,7 @@
 
 <<widget "numberWord">>\
 <<silently>>
+<<<<<<< HEAD
 <<script>>
 +    if (State.active.variables.args[0] === undefined) {
 +        
@@ -88,6 +89,61 @@
 +}
 +
 +<</script>>
+=======
+<<if ndef $args[0]>>
+	<<set _temp = passage()>>
+	<<set $error += ", comment error - no args sent to numberWord function in passage: ">>
+	<<set $error += _temp>>
+	<<set _output = "no arg error numberWord">>
+<<else>>
+	<<switch $args[0]>>
+	<<case 0>>
+		<<set _output = "zero">>
+	<<case 1>>
+		<<set _output = "one">>
+	<<case 2>>
+		<<set _output = "two">>
+	<<case 3>>
+		<<set _output = "three">>
+	<<case 4>>
+		<<set _output = "four">>
+	<<case 5>>
+		<<set _output = "five">>
+	<<case 6>>
+		<<set _output = "six">>
+	<<case 7>>
+		<<set _output = "seven">>
+	<<case 8>>
+		<<set _output = "eight">>
+	<<case 9>>
+		<<set _output = "nine">>
+	<<case 10>>
+		<<set _output = "ten">>
+	<<case 11>>
+		<<set _output = "eleven">>
+	<<case 12>>
+		<<set _output = "twelve">>
+	<<case 13>>
+		<<set _output = "thirteen">>
+	<<case 14>>
+		<<set _output = "fourteen">>
+	<<case 15>>
+		<<set _output = "fifteen">>
+	<<case 16>>
+		<<set _output = "sixteen">>
+	<<case 17>>
+		<<set _output = "seventeen">>
+	<<case 18>>
+		<<set _output = "eighteen">>
+	<<case 19>>
+		<<set _output = "nineteen">>
+	<<case 20>>
+		<<set _output = "twenty">>
+	<<case default>>
+		<<set _output = $args[0]>>
+	<</switch>>
+<</if>>
+>>>>>>> parent of 2dc1715... TEST
 <</silently>>
 <<print _output>>\
 <</widget>>

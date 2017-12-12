@@ -1,33 +1,41 @@
 :: motherfuckerbitchwhore [nobr map]
 
-<div id="topbar">
-<center>
-<table id="navigation">
-<tr id="navigation">
-<td id="navigation">
-<img data-passage="IMGresidentialMap" usemap="#image-mapT"><map name="image-mapT" class="mapclass">
-    <area data-passage="Start" alt="Apartment Common Area" title="Apartment Common Area" coords="100,110,189,110,190,192,100,191" shape="poly" class="mapclass">
-    <area data-passage="Start" alt="Go Home" title="Go Home" coords="99,247,99,195,189,195,189,248,164,247,123,247" shape="poly" class="map-green-area mapclass">
-    <area data-passage="Start" alt="Take a Drive" title="Take a Drive" coords="196,246,195,71,247,71,247,138,221,138,221,246" shape="poly" class="map-red-area mapclass">
-    <area data-passage="Start" alt="Recreation Area" title="Recreation Area" coords="223,246,223,140,248,140,248,246" shape="poly" class="mapclass">
-    <area data-passage="Start" alt="Corner Store" title="Corner Store" coords="1,103,34,103,33,29,23,20,0,20" shape="poly" class="map-green-area mapclass">
-    <area data-passage="Start" alt="Visit Friends" title="Visit Friends" coords="34,248,34,106,0,106,0,248" shape="poly" class="map-blue-area mapclass">
-    <area data-passage="Start" alt="Walk Downtown" title="Walk Downtown" coords="5,0,248,0,248,24,35,24,21,14,-1,14,2,8" shape="poly" class="map-red-area mapclass">
-    <area data-passage="Start" alt="Go for a Walk" title="Go for a Walk" coords="70,78,97,246" shape="rect" class="mapclass">
-</map>
-</td>
-<td id="navigation"><<link [img[IMGsunbathing2]]>><</link>></td>
-</tr>
-</table>
-</center>
-</div>
-<div id="mainshits">
-<center>@@.head2;Normal Location Title@@</center>
-@@.head3;T@@his is an example of click map-based map images. Clicking on these images will return you to the start page, but hovering over them will demonstrate how they work. If your mouse stays steady long enough, information text will be displayed.<br>
-<<hoverrevise shit>>[[Return|Start]]<<endhoverrevise>>
-<<insertion shit>> This is a test of hovertext for info purposes.<<endinsertion>><br><br><<include NPCvariableInit>>
-<<button "Fuck Me">><<generateNPC 3 "shit" 0>><</button>>
+<center>@@.head2;Test and Demo Page@@</center>
 <br>
+<<hoverrevise shit>>[[Return|Start]]<<endhoverrevise>>
+<<insertion shit>> This is a test of hovertext for info purposes.<<endinsertion>>
+<br><br>
+<<set _testingnum = 0>>
+<<link "test new dialog functionality">><<dialog "testing">>This is a test of on-close functionality.<br>Closing it adds 1 to the counter variable, demonstrating "on close" functionality.<<onclose>>State.temporary.testingnum += 1;<</dialog>><</link>>
+<br><<link "display">><<replace "#testCunt">><<print _testingnum>><</replace>><</link>>  <span id="testCunt"><<print _testingnum>></span>
+<br><br>
+<<link "test dialog on close refresh">><<dialog "testshit">>This is a test of the ability to refresh UI bar content via js function on close of dialog box.<<onclose>>setup.refresh()<</dialog>><</link>>
+<br><br>
+
+<center>
+@@.head3;Testing out colored clothing icons:@@<br>
+Panties<br>
+<img data-passage="IMG-panties-1" style="background-color:#303030;" />
+<img data-passage="IMG-panties-2" style="background-color:#F5F5DC;" />
+<img data-passage="IMG-panties-3" style="background-color:#ADD8E6;" />
+<img data-passage="IMG-panties-4" style="background-color:#FFFFFF;" />
+<img data-passage="IMG-panties-5" style="background-color:peachpuff;" /><br>
+<img data-passage="IMG-panties-6" style="background-color:#98FB98;" />
+<img data-passage="IMG-panties-7" style="background-color:hotpink;" />
+<img data-passage="IMG-panties-8" style="background-color:#DDA0DD;" />
+<img data-passage="IMG-panties-9" style="background-color:#FF4500;" /><br>
+Brassieres<br>
+<img data-passage="IMG-bra-1" style="background-color:#ADD8E6;" />
+<img data-passage="IMG-bra-2" style="background-color:#98FB98;" />
+<img data-passage="IMG-bra-3" style="background-color:#DDA0DD;" />
+<img data-passage="IMG-bra-4" style="background-color:#F5F5DC;" />
+<img data-passage="IMG-bra-5" style="background-color:hotpink;" />
+<img data-passage="IMG-bra-7" style="background-color:#FFD700;" />
+<img data-passage="IMG-bra-8" style="background-color:#303030;" /><br>
+Shorts<br>
+<img data-passage="IMG-shorts-1" style="background-color:#9932CC;" />
+<img data-passage="IMG-shorts-2" style="background-color:steelblue;" />
+</center>
 <center>
 <br>
 <img data-passage="IMGdowntownMap" usemap="#image-mapd">
@@ -105,21 +113,3 @@ Test difference between 1452 and 1820:<br>
 <<decodeTimeDif 1452 1820>>
 Total Mins:<<= _difMinTotal>> Hours: <<= _difHour>> Mins: <<= _difMin>><br><br>
 <img src="<?php echo file_get_contents('res/test.txt');?>">
-</div>
-<div id="actionbar">
-<table>
-<tr><td width="150px">
-@@.head3;Demo & Test@@
-</td><td>@@.exp;This is a test page for some of the new UI elements and other aspects that are making their way into the game.@@
-</td>
-</tr><tr>
-<td>@@.head3;Current Items@@</td>
-<td>@@.exp;new CSS div layout scheme, fixed divs for map area and action area, map navigation cursor, image map links.@@</td>
-</tr><tr>
-<td>
-@@.head3;Cuntnoodle@@
-</td><td>
-Is a fun word that I just came up with!
-</td></tr>
-</table>
-</div>

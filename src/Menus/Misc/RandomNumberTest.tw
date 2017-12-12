@@ -1,0 +1,478 @@
+:: RandomNumberTest [nobr startpage]
+
+<<set _randerResult = false, _rander1 = 0, _rander2 = 0, _rander3 = 0, _rander4 = 0, _rander5 = 0, _rander6 = 0, _rander7 = 0, _rander8 = 0, _rander9 = 0, _rander0 = 0>>
+@@font-size:130%;[[RETURN|Start]]@@<br><br>
+This is a test designed to determine how random your browser's RNG method is. The way that each browser creates a pseudo-random number is different. All of them are generally plenty good-enough when it comes to creating a single random number. (Obviously, you probably shouldn't trust them for cryptography.) Some browsers, such as Firefox, base their RNG on the time. This is nice because it adds some randomness in because subsequent random numbers will have different time/date/etc, and the time for execution usually isn't strictly controlled.
+<br><br>
+But this can introduce a problem for games, particularly AW, which can call for a range of random numbers all within a very short time period. This can lead to "clumping" of the random numbers, because they are all being generated within the same second (or ms) as each other. So, let's test your browser to see if we get a fairly even distribution of numbers. @@.exp;^_^@@
+<br><br>
+@@.ident;Now with a demo of the power of asynchronous programming!@@ The second button generates 100,000 random numbers, and tallies results for generating numbers 1 through 10. Click the button, and wait a while. Then wait some more. Finally the results will appear. ''Now'', give the asynchronous version written in javascript a try. You'll be impressed.
+<br><br>
+<<button "T/F Test">>
+<<replace "#random">>Running Test...<</replace>>
+<<silently>>
+<<set _trueB1 = 0>>
+<<set _trueB2 = 0>>
+<<set _trueB3 = 0>>
+<<set _true50 = 0>>
+<<set _true500 = 0>>
+<<set _trueSpaced = 0>>
+<<set _ch = false>>
+<<for _i to 0; _i < 10; _i++>>
+	<<set _ch = either(true,false)>>
+	<<if _ch>><<set _trueB1 += 1>><</if>>
+<</for>>
+<<for _i to 0; _i < 10; _i++>>
+	<<set _ch = either(true,false)>>
+	<<if _ch>><<set _trueB2 += 1>><</if>>
+<</for>>
+<<for _i to 0; _i < 10; _i++>>
+	<<set _ch = either(true,false)>>
+	<<if _ch>><<set _trueB3 += 1>><</if>>
+<</for>>
+<<for _i to 0; _i < 50; _i++>>
+	<<set _ch = either(true,false)>>
+	<<if _ch>><<set _true50 += 1>><</if>>
+<</for>>
+<<for _i to 0; _i < 500; _i++>>
+	<<set _ch = either(true,false)>>
+	<<if _ch>><<set _true500 += 1>><</if>>
+<</for>>
+<<for _i to 1; _i <= 25; _i++>>
+	<<set _ch = either(true,false)>>
+	<<if _ch>><<set _trueSpaced += 1>><</if>>
+<</for>>
+<</silently>>
+<<timed 1s>>
+<<for _i to 1; _i <= 25; _i++>>
+	<<set _ch = either(true,false)>>
+	<<if _ch>><<set _trueSpaced += 1>><</if>>
+<</for>>
+<<replace "#random">>
+@@.monospace;''Results''<br>
+Burst 1 -- T-<<print _trueB1>>/F-<<print (10 - _trueB1)>> <<print (_trueB1 / 10)>>% <<if _trueB1 > 8 || _trueB1 < 2>>FAIL<<else>>PASS<</if>><br>
+Burst 2 -- T-<<print _trueB2>>/F-<<print (10 - _trueB2)>> <<print (_trueB2 / 10)>>% <<if _trueB2 > 8 || _trueB2 < 2>>FAIL<<else>>PASS<</if>><br>
+Burst 3 -- T-<<print _trueB3>>/F-<<print (10 - _trueB3)>> <<print (_trueB3 / 10)>>% <<if _trueB3 > 8 || _trueB3 < 2>>FAIL<<else>>PASS<</if>><br>
+Series  -- T-<<print _true50>>/F-<<print (50 - _true50)>> <<print (_true50 / 50)>> <<if _true50 > 30 || _true50 < 20>>FAIL<<else>>PASS<</if>><br>
+Large   -- T-<<print _true500>>/F-<<print (500 - _true500)>> <<print (_true500 / 500)>> <<if _true500 > 270 || _true500 < 230>>FAIL<<else>>PASS<</if>><br>
+Spaced  -- T-<<print _trueSpaced>>/F-<<print (50 - _trueSpaced)>> <<print (_trueSpaced / 100)>> <<if _trueSpaced > 30 || _trueSpaced < 20>>FAIL<<else>>PASS<</if>><br>@@<br>
+@@.note;You shouldn't expect all of the tests to pass each time. The sample-size is too small to expect a very even distribution. However, if you notice that you're commonly failing tests, or failing several of them each time, you may have a problem.@@
+<</replace>>
+<</timed>>
+<</button>>
+<<button "Distribution Test 1-10 x 100,000 ~slow!~">>
+<<replace "#random">>Running Test... This will take a minute!<</replace>>
+<<timed 50ms>>
+<<set _dist = []>>
+<<set _one = 0; _two = 0; _thr = 0; _fou = 0; _fiv = 0; _six = 0; _sev = 0; _eig = 0; _nin = 0; _ten = 0>>
+<<for _p to 1; _p <= 100; _p++>>
+<<for _i to 1; _i <= 500; _i++>>
+	<<set _dist.push(random(1,10))>>
+<</for>>
+<<for _i to 0; _i < 500; _i++>>
+	<<switch _dist[_i]>>
+	<<case 1>>
+		<<set _one += 1>>
+	<<case 2>>
+		<<set _two += 1>>
+	<<case 3>>
+		<<set _thr += 1>>
+	<<case 4>>
+		<<set _fou += 1>>
+	<<case 5>>
+		<<set _fiv += 1>>
+	<<case 6>>
+		<<set _six += 1>>
+	<<case 7>>
+		<<set _sev += 1>>
+	<<case 8>>
+		<<set _eig += 1>>
+	<<case 9>>
+		<<set _nin += 1>>
+	<<case 10>>
+		<<set _ten += 1>>
+	<</switch>>
+<</for>>
+<<set _dist = []>>
+<<for _i to 1; _i <= 500; _i++>>
+	<<set _dist.push(random(1,10))>>
+<</for>>
+<<for _i to 0; _i < 500; _i++>>
+	<<switch _dist[_i]>>
+	<<case 1>>
+		<<set _one += 1>>
+	<<case 2>>
+		<<set _two += 1>>
+	<<case 3>>
+		<<set _thr += 1>>
+	<<case 4>>
+		<<set _fou += 1>>
+	<<case 5>>
+		<<set _fiv += 1>>
+	<<case 6>>
+		<<set _six += 1>>
+	<<case 7>>
+		<<set _sev += 1>>
+	<<case 8>>
+		<<set _eig += 1>>
+	<<case 9>>
+		<<set _nin += 1>>
+	<<case 10>>
+		<<set _ten += 1>>
+	<</switch>>
+<</for>>
+<</for>>
+<<replace "#random">>
+@@.monospace;''Results''<br>
+<<= _one>>|<<= _two>>|<<= _thr>>|<<= _fou>>|<<= _fiv>>|<<= _six>>|<<= _sev>>|<<= _eig>>|<<= _nin>>|<<= _ten>> --
+<<if Math.max(_one, _two, _thr, _fou, _fiv, _six, _sev, _eig, _nin, _ten) > 10200 && Math.min(_one, _two, _thr, _fou, _fiv, _six, _sev, _eig, _nin, _ten) < 9800 >>FAIL<<elseif Math.max(_one, _two, _thr, _fou, _fiv, _six, _sev, _eig, _nin, _ten) > 10200 || Math.min(_one, _two, _thr, _fou, _fiv, _six, _sev, _eig, _nin, _ten) < 9800>>NOT GREAT<<else>>PASS<</if>>@@
+<br><br>
+@@.note;Pay attention to the row of numbers here, they should generally be close to 10,000. It's okay if you occassionally get a fail, but if it happens a lot, there may be a problem.@@
+<</replace>>
+<</timed>>
+<</button>> <br><<button "Asynchronous Test 1-10x100,000">>
+<<replace "#random">>
+Running the same exact 1 to 10 x 100,000 test, with async random number generation!
+<</replace>>
+<<silently>>
+<<script>>
+function asyncRanderGenerator(){
+
+var num1 = 0; var num2 = 0; var num3 = 0; var num4 = 0; var num5 = 0; var num6 = 0; var num7 = 0; var num8 = 0; var num9 = 0; var num0 = 0;
+var randercount = 0;
+
+function randomNumberTest(){
+	var rander;
+	for (var i = 0; i < 1000; i++) {
+		rander = Math.floor((Math.random() * 10) + 1);
+		switch(rander) {
+			case 1:
+				num1++;
+				break;
+			case 2:
+				num2++;
+				break;
+			case 3:
+				num3++;
+				break;
+			case 4:
+				num4++;
+				break;
+			case 5:
+				num5++;
+				break;
+			case 6:
+				num6++;
+				break;
+			case 7:
+				num7++;
+				break;
+			case 8:
+				num8++;
+				break;
+			case 9:
+				num9++;
+				break;
+			case 10:
+				num0++;
+				break;
+		}
+	}
+	randercount ++;
+}
+
+for (var i = 0; i < 100; i++){
+	setTimeout(randomNumberTest());
+}
+while(randercount < 100);
+State.temporary["randerResult"]=true;
+State.temporary["rander1"]=num1;
+State.temporary["rander2"]=num2;
+State.temporary["rander3"]=num3;
+State.temporary["rander4"]=num4;
+State.temporary["rander5"]=num5;
+State.temporary["rander6"]=num6;
+State.temporary["rander7"]=num7;
+State.temporary["rander8"]=num8;
+State.temporary["rander9"]=num9;
+State.temporary["rander0"]=num0;
+}
+asyncRanderGenerator();
+<</script>>
+<</silently>>
+<<replace "#random">>
+<<if _randerResult>>
+@@.monospace;''Results''<br>
+<<= _rander1>>|<<= _rander2>>|<<= _rander3>>|<<= _rander4>>|<<= _rander5>>|<<= _rander6>>|<<= _rander7>>|<<= _rander8>>|<<= _rander9>>|<<= _rander0>> --
+<<if Math.max(_rander1, _rander2, _rander3, _rander4, _rander5, _rander6, _rander7, _rander8, _rander9, _rander0) > 10200 && Math.min(_rander1, _rander2, _rander3, _rander4, _rander5, _rander6, _rander7, _rander8, _rander9, _rander0) < 9800 >>FAIL<<elseif Math.max(_rander1, _rander2, _rander3, _rander4, _rander5, _rander6, _rander7, _rander8, _rander9, _rander0) > 10200 || Math.min(_rander1, _rander2, _rander3, _rander4, _rander5, _rander6, _rander7, _rander8, _rander9, _rander0) < 9800>>NOT GREAT<<else>>PASS<</if>>@@
+<br>@@.head3;See how fast that was?!?@@
+This is the power of asynchronous processing. Instead of 1 long chain of generating 100,000 random numbers, I split the chain into 100 that each generate 1,000.
+<br><br>
+@@.note;Pay attention to the row of numbers here, they should generally be close to 10,000. It's okay if you occassionally get a fail, but if it happens a lot, there may be a problem.@@
+<<else>>
+Something went wrong somehow...
+<</if>>
+<</replace>>
+<</button>> <<button "Asynchronous Insanity - 1,000,000">>
+<<silently>>
+<<script>>
+function asyncRanderGenerator(){
+
+var num1 = 0; var num2 = 0; var num3 = 0; var num4 = 0; var num5 = 0; var num6 = 0; var num7 = 0; var num8 = 0; var num9 = 0; var num0 = 0;
+var randercount = 0;
+
+function randomNumberTest(){
+	var rander;
+	for (var i = 0; i < 1000; i++) {
+		rander = Math.floor((Math.random() * 10) + 1);
+		switch(rander) {
+			case 1:
+				num1++;
+				break;
+			case 2:
+				num2++;
+				break;
+			case 3:
+				num3++;
+				break;
+			case 4:
+				num4++;
+				break;
+			case 5:
+				num5++;
+				break;
+			case 6:
+				num6++;
+				break;
+			case 7:
+				num7++;
+				break;
+			case 8:
+				num8++;
+				break;
+			case 9:
+				num9++;
+				break;
+			case 10:
+				num0++;
+				break;
+		}
+	}
+	randercount ++;
+}
+
+for (var i = 0; i < 1000; i++){
+	setTimeout(randomNumberTest());
+}
+while(randercount < 1000);
+State.temporary["randerResult"]=true;
+State.temporary["rander1"]=num1;
+State.temporary["rander2"]=num2;
+State.temporary["rander3"]=num3;
+State.temporary["rander4"]=num4;
+State.temporary["rander5"]=num5;
+State.temporary["rander6"]=num6;
+State.temporary["rander7"]=num7;
+State.temporary["rander8"]=num8;
+State.temporary["rander9"]=num9;
+State.temporary["rander0"]=num0;
+}
+asyncRanderGenerator();
+<</script>>
+<</silently>>
+<<replace "#random">>
+<<if _randerResult>>
+@@.monospace;''Results''<br>
+<<= _rander1>>|<<= _rander2>>|<<= _rander3>>|<<= _rander4>>|<<= _rander5>>|<<= _rander6>>|<<= _rander7>>|<<= _rander8>>|<<= _rander9>>|<<= _rander0>> --
+<<if Math.max(_rander1, _rander2, _rander3, _rander4, _rander5, _rander6, _rander7, _rander8, _rander9, _rander0) > 102000 && Math.min(_rander1, _rander2, _rander3, _rander4, _rander5, _rander6, _rander7, _rander8, _rander9, _rander0) < 98000 >>FAIL<<elseif Math.max(_rander1, _rander2, _rander3, _rander4, _rander5, _rander6, _rander7, _rander8, _rander9, _rander0) > 102000 || Math.min(_rander1, _rander2, _rander3, _rander4, _rander5, _rander6, _rander7, _rander8, _rander9, _rander0) < 98000>>NOT GREAT<<else>>PASS<</if>>@@
+<br>@@.head3;This was some real number crunching@@
+This is the power of asynchronous processing. This function generating ''1,000,000'' random numbers, STILL goes faster than the traditional way.
+<br><br>
+
+<<else>>
+Something went wrong somehow...
+<</if>>
+<</replace>>
+<</button>><<button "Son of Insanity - 100,000,000">>
+<<silently>>
+<<script>>
+function asyncRanderGenerator(){
+
+var num1 = 0; var num2 = 0; var num3 = 0; var num4 = 0; var num5 = 0; var num6 = 0; var num7 = 0; var num8 = 0; var num9 = 0; var num0 = 0;
+var largerRanderCount = 0;
+	function asyncRanderMarkTwo(){
+	var randercount = 0;
+
+	function randomNumberTest(){
+		var rander;
+		for (var i = 0; i < 1000; i++) {
+			rander = Math.floor((Math.random() * 10) + 1);
+			switch(rander) {
+				case 1:
+					num1++;
+					break;
+				case 2:
+					num2++;
+					break;
+				case 3:
+					num3++;
+					break;
+				case 4:
+					num4++;
+					break;
+				case 5:
+					num5++;
+					break;
+				case 6:
+					num6++;
+					break;
+				case 7:
+					num7++;
+					break;
+				case 8:
+					num8++;
+					break;
+				case 9:
+					num9++;
+					break;
+				case 10:
+					num0++;
+					break;
+			}
+		}
+		randercount ++;
+	}
+
+	for (var i = 0; i < 1000; i++){
+		setTimeout(randomNumberTest());
+	}
+	while(randercount < 1000);
+
+	largerRanderCount++;
+	}
+	for (var i = 0; i < 100; i++){
+		setTimeout(asyncRanderMarkTwo());
+	}
+	while(largerRanderCount < 100);
+	State.temporary["randerResult"]=true;
+	State.temporary["rander1"]+=num1;
+	State.temporary["rander2"]+=num2;
+	State.temporary["rander3"]+=num3;
+	State.temporary["rander4"]+=num4;
+	State.temporary["rander5"]+=num5;
+	State.temporary["rander6"]+=num6;
+	State.temporary["rander7"]+=num7;
+	State.temporary["rander8"]+=num8;
+	State.temporary["rander9"]+=num9;
+	State.temporary["rander0"]+=num0;
+}
+asyncRanderGenerator();
+<</script>>
+<</silently>>
+<<replace "#random">>
+<<if _randerResult>>
+@@.monospace;''Results''<br>
+<<= _rander1>>|<<= _rander2>>|<<= _rander3>>|<<= _rander4>>|<<= _rander5>>|<<= _rander6>>|<<= _rander7>>|<<= _rander8>>|<<= _rander9>>|<<= _rander0>> --
+<<if Math.max(_rander1, _rander2, _rander3, _rander4, _rander5, _rander6, _rander7, _rander8, _rander9, _rander0) > 10200000 && Math.min(_rander1, _rander2, _rander3, _rander4, _rander5, _rander6, _rander7, _rander8, _rander9, _rander0) < 9800000 >>FAIL<<elseif Math.max(_rander1, _rander2, _rander3, _rander4, _rander5, _rander6, _rander7, _rander8, _rander9, _rander0) > 10200000 || Math.min(_rander1, _rander2, _rander3, _rander4, _rander5, _rander6, _rander7, _rander8, _rander9, _rander0) < 9800000>>NOT GREAT<<else>>PASS<</if>>@@
+<br>@@.head3;This was some real number crunching@@
+This is the power of asynchronous processing. This function generating ''100,000,000'' random numbers, STILL goes faster than the traditional way.
+<br><br>
+
+<<else>>
+Something went wrong somehow...
+<</if>>
+<</replace>>
+<</button>><<button "Just Don't">>
+<<silently>>
+<<script>>
+function asyncRanderGenerator(){
+
+var num1 = 0; var num2 = 0; var num3 = 0; var num4 = 0; var num5 = 0; var num6 = 0; var num7 = 0; var num8 = 0; var num9 = 0; var num0 = 0;
+var largerRanderCount = 0;
+	function asyncRanderMarkTwo(){
+	var randercount = 0;
+
+	function randomNumberTest(){
+		var rander;
+		for (var i = 0; i < 1000; i++) {
+			rander = Math.floor((Math.random() * 10) + 1);
+			switch(rander) {
+				case 1:
+					num1++;
+					break;
+				case 2:
+					num2++;
+					break;
+				case 3:
+					num3++;
+					break;
+				case 4:
+					num4++;
+					break;
+				case 5:
+					num5++;
+					break;
+				case 6:
+					num6++;
+					break;
+				case 7:
+					num7++;
+					break;
+				case 8:
+					num8++;
+					break;
+				case 9:
+					num9++;
+					break;
+				case 10:
+					num0++;
+					break;
+			}
+		}
+		randercount ++;
+	}
+
+	for (var i = 0; i < 1000; i++){
+		setTimeout(randomNumberTest());
+	}
+	while(randercount < 1000);
+
+	largerRanderCount++;
+	}
+	for (var i = 0; i < 1000; i++){
+		setTimeout(asyncRanderMarkTwo());
+	}
+	while(largerRanderCount < 1000);
+	State.temporary["randerResult"]=true;
+	State.temporary["rander1"]+=num1;
+	State.temporary["rander2"]+=num2;
+	State.temporary["rander3"]+=num3;
+	State.temporary["rander4"]+=num4;
+	State.temporary["rander5"]+=num5;
+	State.temporary["rander6"]+=num6;
+	State.temporary["rander7"]+=num7;
+	State.temporary["rander8"]+=num8;
+	State.temporary["rander9"]+=num9;
+	State.temporary["rander0"]+=num0;
+}
+asyncRanderGenerator();
+<</script>>
+<</silently>>
+<<replace "#random">>
+<<if _randerResult>>
+@@.monospace;''Results''<br>
+<<= _rander1>>|<<= _rander2>>|<<= _rander3>>|<<= _rander4>>|<<= _rander5>>|<<= _rander6>>|<<= _rander7>>|<<= _rander8>>|<<= _rander9>>|<<= _rander0>>@@
+<br>@@.head3;Assuming it succeded...@@
+This function generated ''1,000,000,000'' (one billion) random numbers, takes about the same time as the default twine version for 100,000 numbers.
+<br><br>
+
+<<else>>
+Something went wrong somehow...
+<</if>>
+<</replace>>
+<</button>>
+<br><br>
+<span id="random"></span>
+<br><br><br>
+@@.com;Not having very good random numbers doesn't mean that you can't play Accidental Woman! The usual problem with browser-based RNGs is clumping and uneven probability distribution. (i.e. a call for a random number from 1 to 10 should have a 10% chance of getting any particular number. An uneven distribution would make some numbers more likely than others.) Playing with a flawed RNG won't make the game unplayable, but it could make things easier or harder, and in particular can throw off weighted probabilities used for generating clothing and NPCs, resulting in a pool that is more random than it should be.@@
+<br><br>@@font-size:130%;[[RETURN|Start]]@@

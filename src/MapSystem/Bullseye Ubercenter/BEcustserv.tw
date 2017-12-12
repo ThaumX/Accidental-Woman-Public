@@ -1,0 +1,121 @@
+:: BEcustserv [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+<div id="topbar">
+/* GAME MAP TABLE - Displays 4x4 map grid next to spot for area image. Grid simulates image map links, which are flakey in Twine */
+<center>
+<table id="navigation">
+<tr id="navigation">
+<td id="navigation">[img[Hardware|IMGbullseye11][controlBullseye][$map.destLoc = [1,1]]]</td>
+<td id="navigation">[img[Electronics|IMGbullseye12][controlBullseye][$map.destLoc = [1,2]]]</td>
+<td id="navigation">[img[Toys & Games|IMGbullseye13][controlBullseye][$map.destLoc = [1,3]]]</td>
+<td id="navigation">[img[Baby|IMGbullseye14][controlBullseye][$map.destLoc = [1,4]]]</td>
+<td id="navigation">[img[Grocery|IMGbullseye15][controlBullseye][$map.destLoc = [1,5]]]</td>
+<td rowspan="5" id="navigation"><<link [img[$map.imageName]]>><<dialog 'Detail Map'>>[img[IMGbullseyeBig]]<br>@@.note;You can not click this map to navigate.@@<</dialog>><</link>></td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Housewares|IMGbullseye21][controlBullseye][$map.destLoc = [2,1]]]</td>
+<td id="navigation">[img[Women's Clothing - Tops, Dresses, & Coats|IMGbullseye22][controlBullseye][$map.destLoc = [2,2]]]</td>
+<td id="navigation">[img[Women's Clothing - Bottoms, Athletic, & Swimwear|IMGbullseye23][controlBullseye][$map.destLoc = [2,3]]]</td>
+<td id="navigation">[img[Lingerie & Jewelry|IMGbullseye24][controlBullseye][$map.destLoc = [2,4]]]</td>
+<td id="navigation">[img[Grocery|IMGbullseye25][controlBullseye][$map.destLoc = [2,5]]]</td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Housewares|IMGbullseye31][controlBullseye][$map.destLoc = [3,1]]]</td>
+<td id="navigation">[img[Children's Clothing - Girls|IMGbullseye32][controlBullseye][$map.destLoc = [3,2]]]</td>
+<td id="navigation">[img[Children's Clothing - Boys|IMGbullseye33][controlBullseye][$map.destLoc = [3,3]]]</td>
+<td id="navigation">[img[Men's Clothing|IMGbullseye34][controlBullseye][$map.destLoc = [3,4]]]</td>
+<td id="navigation">[img[Grocery|IMGbullseye35][controlBullseye][$map.destLoc = [3,5]]]</td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Pharmacy|IMGbullseye41][controlBullseye][$map.destLoc = [4,1]]]</td>
+<td id="navigation">[img[Stationary & Optometrist|IMGbullseye42][controlBullseye][$map.destLoc = [4,2]]]</td>
+<td id="navigation">[img[Best Head Hair Salon|IMGbullseye43][controlBullseye][$map.destLoc = [4,3]]]</td>
+<td id="navigation">[img[IMGbullseyeX44][controlBullseye][$map.destLoc = [4,4]]]</td>
+<td id="navigation">[img[Produce, Deli, Bakery|IMGbullseye45][controlBullseye][$map.destLoc = [4,5]]]</td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Parking Lot|IMGbullseye51][controlBullseye][$map.destLoc = [5,1]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye52][controlBullseye][$map.destLoc = [5,2]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye53][controlBullseye][$map.destLoc = [5,3]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye54][controlBullseye][$map.destLoc = [5,4]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye55][controlBullseye][$map.destLoc = [5,5]]]</td>
+</tr>
+</table></center>
+</div>
+<div id="mainshits">
+<center>@@.pulseHead;<<=$map.name>>@@</center>
+<br><br>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<<walkDescriptBullseye>><<= " ">><<mapEventBullseye>><br><br>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<<switch $map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<case default>>
+
+<</switch>>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+@@.head3;Y@@ou're standing near Bullseye's main entrance. There are a few cashiers who seem entirely unconcerned about how many people are in line, judging by their leisurely pace.
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+</div>
+<div id="actionbar">
+/*ACTION TABLE*/
+<table id="Actions">
+<tr><td colspan=2>
+/*this controls the element that will appear on mouse hover NOTE that for reasons, the closing tag in these macros are <<endmacroname>> instead of <</macroname>>*/
+<<hoverrevise hovPaying>>
+	@@.disabled;<<button "Paying">><</button>>@@
+<<endhoverrevise>>
+/*now we add spans for any event-based items, prior to the final info button*/
+<span id="weatherButton"></span>
+<span id="eventButton"></span>
+</td></tr>
+<tr><td style="width:10%">
+/*label, and keeps space more consistent with hover text if any description text is longer than 2 lines in-game (aproximately) then add another <br>*/
+<<hoverrevise hovCart>>
+	@@.imgbutton;.imgmax35;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>><br>@@.head4;Info@@
+</td><td>
+/*this contains the text that will appear on mouse hover NOTE that for reasons, the closing tag in these macros are <<endmacroname>> instead of <</macroname>>*/
+<<insertion hovPaying>>@@.exp;You won't have to stop at the registers to pay, you'll just be charged automatically when you head back to the parking lot. If you don't have enough money though, you'll see an embarrassing "put something back" scene.@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains an ordered list of all the items in your cart, along with the price (prior to member discount). @@<<endinsertion>>
+/*spans for the descriptions of randomized event actions*/
+<span id="weatherDesc"></span>
+<span id="eventDesc"></span>
+</td></tr>
+</table>
+/*this contains randomized event options that will print inside the related spans*/
+/*Weather-based actions added, like opening an umbrella*/
+<<weatherBullseyeAct>>
+/*Event-based actions added*/
+<<mapEventBullseyeAct>>
+</div>

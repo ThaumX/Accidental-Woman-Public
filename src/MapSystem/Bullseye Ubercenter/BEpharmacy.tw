@@ -1,0 +1,154 @@
+:: BEpharmacy [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+<div id="topbar">
+/* GAME MAP TABLE - Displays 4x4 map grid next to spot for area image. Grid simulates image map links, which are flakey in Twine */
+<center>
+<table id="navigation">
+<tr id="navigation">
+<td id="navigation">[img[Hardware|IMGbullseye11][controlBullseye][$map.destLoc = [1,1]]]</td>
+<td id="navigation">[img[Electronics|IMGbullseye12][controlBullseye][$map.destLoc = [1,2]]]</td>
+<td id="navigation">[img[Toys & Games|IMGbullseye13][controlBullseye][$map.destLoc = [1,3]]]</td>
+<td id="navigation">[img[Baby|IMGbullseye14][controlBullseye][$map.destLoc = [1,4]]]</td>
+<td id="navigation">[img[Grocery|IMGbullseye15][controlBullseye][$map.destLoc = [1,5]]]</td>
+<td rowspan="5" id="navigation"><<link [img[$map.imageName]]>><<dialog 'Detail Map'>>[img[IMGbullseyeBig]]<br>@@.note;You can not click this map to navigate.@@<</dialog>><</link>></td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Housewares|IMGbullseye21][controlBullseye][$map.destLoc = [2,1]]]</td>
+<td id="navigation">[img[Women's Clothing - Tops, Dresses, & Coats|IMGbullseye22][controlBullseye][$map.destLoc = [2,2]]]</td>
+<td id="navigation">[img[Women's Clothing - Bottoms, Athletic, & Swimwear|IMGbullseye23][controlBullseye][$map.destLoc = [2,3]]]</td>
+<td id="navigation">[img[Lingerie & Jewelry|IMGbullseye24][controlBullseye][$map.destLoc = [2,4]]]</td>
+<td id="navigation">[img[Grocery|IMGbullseye25][controlBullseye][$map.destLoc = [2,5]]]</td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Housewares|IMGbullseye31][controlBullseye][$map.destLoc = [3,1]]]</td>
+<td id="navigation">[img[Children's Clothing - Girls|IMGbullseye32][controlBullseye][$map.destLoc = [3,2]]]</td>
+<td id="navigation">[img[Children's Clothing - Boys|IMGbullseye33][controlBullseye][$map.destLoc = [3,3]]]</td>
+<td id="navigation">[img[Men's Clothing|IMGbullseye34][controlBullseye][$map.destLoc = [3,4]]]</td>
+<td id="navigation">[img[Grocery|IMGbullseye35][controlBullseye][$map.destLoc = [3,5]]]</td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[IMGbullseyeX41][controlBullseye][$map.destLoc = [4,1]]]</td>
+<td id="navigation">[img[Stationary & Optometrist|IMGbullseye42][controlBullseye][$map.destLoc = [4,2]]]</td>
+<td id="navigation">[img[Best Head Hair Salon|IMGbullseye43][controlBullseye][$map.destLoc = [4,3]]]</td>
+<td id="navigation">[img[Customer Service|IMGbullseye44][controlBullseye][$map.destLoc = [4,4]]]</td>
+<td id="navigation">[img[Produce, Deli, Bakery|IMGbullseye45][controlBullseye][$map.destLoc = [4,5]]]</td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Parking Lot|IMGbullseye51][controlBullseye][$map.destLoc = [5,1]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye52][controlBullseye][$map.destLoc = [5,2]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye53][controlBullseye][$map.destLoc = [5,3]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye54][controlBullseye][$map.destLoc = [5,4]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye55][controlBullseye][$map.destLoc = [5,5]]]</td>
+</tr>
+</table></center>
+</div>
+<div id="mainshits">
+<center>@@.pulseHead;<<=$map.name>>@@
+</center>
+
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<<walkDescriptBullseye>><<= " ">><<mapEventBullseye>><<= " ">><<weatherCheck>><br><br>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<<switch $map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<case default>>
+
+<</switch>>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+
+@@.head3;Y@@ou're standing in Bullseye's small pharmacy department that is tucked into the corner of the store. You can see a variety of medicine and beauty products, as well as a small 'adult' shelf with several varieties of condoms and lubricant.
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+</div>
+<div id="actionbar">
+/*ACTION TABLE*/
+<table id="Actions">
+<tr><td colspan=2>
+/*this controls the element that will appear on mouse hover NOTE that for reasons, the closing tag in these macros are <<endmacroname>> instead of <</macroname>>*/
+<<hoverrevise hovShop>>
+	<<button "Shop">><<dialog 'Shop at the pharmacy:'>>
+		You browse through the pharmacy department. Without realizing it, you spend most of your time in the feminine health and adult sections.<br><br>
+		
+		@@.storeitem;Box of Fertili-Tea@@--A herbal tea made by Nature-Breed that @@.typewriter;will improve fertility and help ensure a successful ovulation*@@ The bottom of the box says @@.typewriter;* statements not approved by the FDA, not intended to treat or cure any disease@@ It's rather pricy for tea... @@.money;<<mon>>50@@. <<link "Add to Cart">><<set _temp = ["Fertili-Tea",50]>><<set $cart.item.push(_temp)>><<replace "#buyshit">>@@.exp;Fertili-Tea added to cart.@@<</replace>><</link>><br><br>
+		@@.storeitem;Condoms--Duremax Safe-T (12 count box)@@--A pretty average box of condoms. You remember these... the thick low-sensation condoms that you hated wearing, but that seemed to be popular with women who were usually more concerned with safety than your pleasure. @@.money;<<mon>>14@@. <<link "Add to Cart">><<set _temp = ["Duremax Safe-T",14]>><<set $cart.item.push(_temp)>><<replace "#buyshit">>@@.exp;Duremax Safe-T added to cart.@@<</replace>><</link>>
+		<br><br>
+		@@.storeitem;Condoms--Duremax Safe-PE (6 count box)@@--A dreaded box of condoms for any man, but now that the shoe's on the other foot... @@.typewriter;The extra-thick all-natural latex in Safe-PE will stop premature ejaculation in its tracks, with trusted Duremax safety!@@ @@.money;<<mon>>14@@. <<link "Add to Cart">><<set _temp = ["Duremax Safe-PE",14]>><<set $cart.item.push(_temp)>><<replace "#buyshit">>@@.exp;Duremax Safe-PE added to cart.@@<</replace>><</link>>
+		<br><br>
+		@@.storeitem;Condoms--TrojanCock Sensations (12 count box)@@--A pretty average box of condoms. @@.typewriter;Ribbed for her pleasure, with spermicidal lubricant.@@ @@.money;<<mon>>10@@. <<link "Add to Cart">><<set _temp = ["TrojanCock Sensations",10]>><<set $cart.item.push(_temp)>><<replace "#buyshit">>@@.exp;TrojanCock Sensations added to cart.@@<</replace>><</link>>
+		<br><br>
+		@@.storeitem;Condoms--TrojanCock Uber Lube (12 count box)@@--A pretty average box of condoms. @@.typewriter;Uber-thin for Uber-pleasure. Just as strong as a normal condom.† With spermicidal lubricant.@@ The note on the bottom says @@.typewriter;† +/- 5% when used as directed.@@ @@.money;<<mon>>12@@. <<link "Add to Cart">><<set _temp = ["TrojanCock Uber Lube",12]>><<set $cart.item.push(_temp)>><<replace "#buyshit">>@@.exp;Condoms (TrojanCock Uber Lube) added to cart.@@<</replace>><</link>>
+		<br><br>
+		@@.storeitem;Condoms--TrojanCock Uber NoLube (12 count box)@@--A pretty average box of condoms. @@.typewriter;Uber-thin for Uber-pleasure. Just as strong as a normal condom.† Unlubricated for enhanced sensation.‡@@ The note on the bottom says @@.typewriter;† +/- 5% when used as directed. ‡ Failure to use proper lubrication can reduce the effectiveness of this product.@@ @@.money;<<mon>>12@@. <<link "Add to Cart">><<set _temp = ["TrojanCock Uber NoLube",12]>><<set $cart.item.push(_temp)>><<replace "#buyshit">>@@.exp;Condoms (TrojanCock Uber NoLube) added to cart.@@<</replace>><</link>>
+		<br><br>
+		@@.storeitem;Diaphram@@--A standard diaphram manufactured by a company called "Grandma's Secrets". @@.typewriter;One premium synthetic rubber easy-wear diaphram. Helps prevent pregnancy.‖@@ The note on the bottom says @@.typewriter;‖ when used as directed. Not intended as a primary method of birth control.@@ @@.money;<<mon>>38@@. <<link "Add to Cart">><<set _temp = ["Diaphram",38]>><<set $cart.item.push(_temp)>><<replace "#buyshit">>@@.exp;Diaphram added to cart.@@<</replace>><</link>>
+		<br><br>
+		@@.storeitem;Douches@@--A box of 3 single-use perfumed douches from "Sultry Eve". @@.typewriter;Now with Soft-Touch nozzles!@@ @@.money;<<mon>>14@@. <<link "Add to Cart">><<set _temp = ["Douches",14]>><<set $cart.item.push(_temp)>><<replace "#buyshit">>@@.exp;Douches added to cart.@@<</replace>><</link>>
+		<br><br>
+		@@.storeitem;Enema Kit@@--A complete reusable enema kit from "Sultry Eve". @@.typewriter;Includes several nozzle sizes for an easy no-mess clean feeling@@ @@.money;<<mon>>42@@. <<link "Add to Cart">><<set _temp = ["Enema Kit",42]>><<set $cart.item.push(_temp)>><<replace "#buyshit">>@@.exp;Enema Kit added to cart.@@<</replace>><</link>>
+		<br><br>
+		@@.storeitem;Facial Wipes@@--A purse-sized travelcase of facial cleansing wipes. @@.typewriter;Prim and Proper, Anywhere!@@ @@.money;<<mon>>7@@. <<link "Add to Cart">><<set _temp = ["Facial Wipes",7]>><<set $cart.item.push(_temp)>><<replace "#buyshit">>@@.exp;Facial Wipes added to cart.@@<</replace>><</link>>
+		<br><br>
+		@@.storeitem;Lubricant@@--A standard economy-size bottle of personal lubricant. @@.money;<<mon>>19@@. <<link "Add to Cart">><<set _temp = ["Lubricant",19]>><<set $cart.item.push(_temp)>><<replace "#buyshit">>@@.exp;Lubricant added to cart.@@<</replace>><</link>>
+		<br><br>
+		@@.storeitem;Premium Lubricant@@--A standard economy-size bottle of personal lubricant. A note on the back of the bottle says @@.typewriter;Not for use with latex condoms.@@ @@.money;<<mon>>22@@. <<link "Add to Cart">><<set _temp = ["Premium Lubricant",22]>><<set $cart.item.push(_temp)>><<replace "#buyshit">>@@.exp;Premium Lubricant added to cart.@@<</replace>><</link>>
+		<br><br>
+		@@.storeitem;Menstral Cup@@--A feminine hygeine product from Hippie-Chic that replaces tampons or pads without adding to landfills. It sits on the cervix similar to a diaphram, but is bent more into a 'cup' that provides room for fluid near the cervix. It has a warning on the box... @@.typewriter;Empty at least every 4 hours to prevent toxic shock syndrome. Intended only to catch menstal blood, do not use to store other fluids near the cervix.@@ @@.money;<<mon>>47@@. <<link "Add to Cart">><<set _temp = ["Menstral Cup",47]>><<set $cart.item.push(_temp)>><<replace "#buyshit">>@@.exp;Menstral Cup added to cart.@@<</replace>><</link>>
+		<br><br>
+		@@.storeitem;Smart Toilet Fertility Module@@--An addition to the standard health-monitoring smart toilet, this module adds the capability for your bathroom suite to inform you of important fertility information such as ovulation, and improves pregnancy detection speed, as early as 24 hours after zygote implantation. @@.money;<<mon>>199@@. <<link "Add to Cart">><<set _temp = ["Fertility Module",199]>><<set $cart.item.push(_temp)>><<replace "#buyshit">>@@.exp;Smart Toilet Fertility Module added to cart.@@<</replace>><</link>>
+		<br><br>
+		<span id="buyshit">@@.note;You haven't found anything you want yet.@@</span>
+	<</dialog>><</button>>
+<<endhoverrevise>>
+/*now we add spans for any event-based items, prior to the final info button*/
+<span id="weatherButton"></span>
+<span id="eventButton"></span>
+</td></tr>
+<tr><td style="width:10%">
+/*label, and keeps space more consistent with hover text if any description text is longer than 2 lines in-game (aproximately) then add another <br>*/
+<<hoverrevise hovCart>>
+	@@.imgbutton;.imgmax35;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>><br>@@.head4;Info@@
+</td><td>
+/*this contains the text that will appear on mouse hover NOTE that for reasons, the closing tag in these macros are <<endmacroname>> instead of <</macroname>>*/
+<<insertion hovShop>>@@.exp;Look for items you need, and add them to your cart. [20-40min]@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains an ordered list of all the items in your cart, along with the price (prior to member discount). @@<<endinsertion>>
+/*spans for the descriptions of randomized event actions*/
+<span id="weatherDesc"></span>
+<span id="eventDesc"></span>
+</td></tr>
+</table>
+/*this contains randomized event options that will print inside the related spans*/
+/*Weather-based actions added, like opening an umbrella*/
+<<weatherBullseyeAct>>
+/*Event-based actions added*/
+<<mapEventBullseyeAct>>
+</div>

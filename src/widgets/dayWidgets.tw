@@ -11,61 +11,61 @@
 /*increase cleanliness to make dirtier with time*/
 <<switch $timeCount>>
 <<case 24 48 72 96>>
-	<<if $status.clean < 5>>
-		<<set $status.clean ++>>
+	<<if $PC.status.clean < 5>>
+		<<set $PC.status.clean ++>>
 	<</if>>
 <</switch>>
 /*regen energy with time, if conds are met.*/
-<<if $status.fatigue < 7 && $status.energyRegen>>
+<<if $PC.status.fatigue < 7 && $PC.status.energy.regen>>
 	<<status 1>>
-	<<set _rate = $status.energyRate>>
+	<<set _rate = $PC.status.energy.rate>>
 	<<for _i to 1; _i < 12; _i++>>
-		<<if $timeCount == ( $status.energyRate * _i)>>
-			<<set $status.energy += 1>>
+		<<if $timeCount == ( $PC.status.energy.rate * _i)>>
+			<<set $PC.status.energy.amt += 1>>
 		<</if>>
 	<</for>>
 	<<status 0>>
 <</if>>
 /*decrease satisfaction with time*/
-<<if $trait.EX>><<set _mult = 1.75>><<elseif $trait.IN>><<set _mult = 1>><<else>><<set _mult = 1.25>><</if>>
-<<if $trait.LowEsteem != 0>><<set _mult += 0.15>><</if>>
-<<if $trait.Picky == 1>><<set _mult += 0.1>><</if>>
-<<if $status.morality < 50>><<set _mult += 0.15>><</if>>
-<<if $status.perversion >= 90>><<set _mult += 0.6>><<elseif $status.perversion >= 60>><<set _mult += 0.3>><<elseif $status.perversion >= 30>><<set _mult += 0.1>><</if>>
-<<if $mutate.BC || $mutate.Multiple || $mutate.Cycle || $mutate.TwinWomb || $mutate.Pheromone>><<set _mult += 0.25>><</if>>
-<<if $kink.HyperSlut>><<set _mult += 1>><<elseif $kink.SuperSlut>><<set _mult += 0.75>><<elseif $kink.Slut>><<set _mult += 0.5>><<elseif $kink.Liberate>><<set _mult += 0.2>><</if>>
-<<if $kink.Hard>><<set _mult += 0.15>><</if>><<if $kink.Fap>><<set _mult += 0.1>><</if>><<if $kink.Shame>><<set _mult += 0.25>><</if>>
-<<if $status.arousal < 0>><<set _mult -= 1>><<elseif $status.arousal > 9>><<set _mult += 1>><<elseif $status.arousal > 7>><<set _mult += 0.5>><<elseif $status.arousal > 4>><<set _mult += 0.25>><</if>><<if $status.need > 0>><<set _mult += $status.need * 0.25>><</if>>
-<<if $status.inPublic>>
-	<<if $kink.Exhibition && ( not $pcClothes.nips && not $pcClothes.ass && not $pcClothes.pussy ) &&  $pcClothes.exp[0] < 2.5 && $pcClothes.exp[1] < 2.5 && ( $pcClothes.skirtDanger < 2 || ( $pcClothes.skirtDanger != 0 && $pcClothes.accessP ))>>
+<<if $PC.trait.extro>><<set _mult = 1.75>><<elseif $PC.trait.intro>><<set _mult = 1>><<else>><<set _mult = 1.25>><</if>>
+<<if $PC.trait.lowEsteem != 0>><<set _mult += 0.15>><</if>>
+<<if $PC.trait.picky == 1>><<set _mult += 0.1>><</if>>
+<<if $PC.status.morality < 50>><<set _mult += 0.15>><</if>>
+<<if $PC.status.perversion >= 90>><<set _mult += 0.6>><<elseif $PC.status.perversion >= 60>><<set _mult += 0.3>><<elseif $PC.status.perversion >= 30>><<set _mult += 0.1>><</if>>
+<<if $PC.mutate.birthCon || $PC.mutate.multiple || $PC.mutate.cycle || $PC.mutate.twinWomb || $PC.mutate.phero>><<set _mult += 0.25>><</if>>
+<<if $PC.kink.hyperSlut>><<set _mult += 1>><<elseif $PC.kink.superSlut>><<set _mult += 0.75>><<elseif $PC.kink.slut>><<set _mult += 0.5>><<elseif $PC.kink.liberate>><<set _mult += 0.2>><</if>>
+<<if $PC.kink.hard>><<set _mult += 0.15>><</if>><<if $PC.kink.fap>><<set _mult += 0.1>><</if>><<if $PC.kink.shame>><<set _mult += 0.25>><</if>>
+<<if $PC.status.arousal < 0>><<set _mult -= 1>><<elseif $PC.status.arousal > 9>><<set _mult += 1>><<elseif $PC.status.arousal > 7>><<set _mult += 0.5>><<elseif $PC.status.arousal > 4>><<set _mult += 0.25>><</if>><<if $PC.status.need > 0>><<set _mult += $PC.status.need * 0.25>><</if>>
+<<if $PC.status.inPublic>>
+	<<if $PC.kink.exhibition && ( not $PC.clothes.nips && not $PC.clothes.ass && not $PC.clothes.pussy ) &&  $PC.clothes.exp[0] < 2.5 && $PC.clothes.exp[1] < 2.5 && ( $PC.clothes.skirtDanger < 2 || ( $PC.clothes.skirtDanger != 0 && $PC.clothes.accessP ))>>
 		<<set _mult += 0.5>>
 	<</if>>
 <</if>>
-<<set _thresh = Math.round( $trait.libido * _mult)>>
-<<set _maxd = Math.round(100 * $diff)>>
+<<set _thresh = Math.round( $PC.trait.libido * _mult)>>
+<<set _maxd = Math.round(100 * $AW.diff)>>
 <<set _rand = random(1,_maxd)>>
 <<if _rand <= _thresh>>
 	<<satisfaction -1>>
 <</if>>
 /*increase arousal in public places*/
-<<if $status.inPublic>>
+<<if $PC.status.inPublic>>
 	<<set _thresh = 0>>
-	<<if $pcClothes.accessO && $pcClothes.accessP>>
-		<<set _thresh += $pcClothes.skirtDanger * 2>>
-	<<elseif $pcClothes.accessO>>
-		<<set _thresh += $pcClothes.skirtDanger>>
+	<<if $PC.clothes.accessO && $PC.clothes.accessP>>
+		<<set _thresh += $PC.clothes.skirtDanger * 2>>
+	<<elseif $PC.clothes.accessO>>
+		<<set _thresh += $PC.clothes.skirtDanger>>
 	<</if>>
-	<<if $pcClothes.accessB>><<set _thresh += either(0,1,1)>><</if>>
-	<<if $pcClothes.accessP>><<set _thresh += either(1,2,2)>><</if>>
-	<<if $pcClothes.stain>><<set _thresh += 1>><</if>>
-	<<if $pcClothes.exp[0] > 3>>
-		<<set _thresh += Math.round(( $pcClothes.exp[0] - 2 ) * 2)>>
+	<<if $PC.clothes.accessB>><<set _thresh += either(0,1,1)>><</if>>
+	<<if $PC.clothes.accessP>><<set _thresh += either(1,2,2)>><</if>>
+	<<if $PC.clothes.stain>><<set _thresh += 1>><</if>>
+	<<if $PC.clothes.exp[0] > 3>>
+		<<set _thresh += Math.round(( $PC.clothes.exp[0] - 2 ) * 2)>>
 	<</if>>
-	<<if $pcClothes.exp[1] > 2>>
-		<<set _thresh += Math.round(( $pcClothes.exp[1] - 1 ) * 3)>>
+	<<if $PC.clothes.exp[1] > 2>>
+		<<set _thresh += Math.round(( $PC.clothes.exp[1] - 1 ) * 3)>>
 	<</if>>
-	<<set _maxd = Math.pow($status.arousal,2) + 50>>
-	<<set _maxd = Math.round( _maxd * $diff )>>
+	<<set _maxd = Math.pow($PC.status.arousal,2) + 50>>
+	<<set _maxd = Math.round( _maxd * $AW.diff )>>
 	<<set _rand = random(1,_maxd)>>
 	<<if _rand <= _thresh>>
 		<<arousal 1>>
@@ -73,26 +73,26 @@
 <</if>>
 /*increase arousal with time*/
 <<set _oddsArray = [false,false,false,false,false]>>
-<<if $status.satisfaction < 80>>
+<<if $PC.status.satisfaction < 80>>
 	<<set _oddsArray.push(true)>>
 <</if>>
-<<if $status.satisfaction < 50>>
+<<if $PC.status.satisfaction < 50>>
 	<<set _oddsArray.push(true)>>
 <</if>>
-<<if $status.satisfaction < 30>>
+<<if $PC.status.satisfaction < 30>>
 	<<set _oddsArray.push(true)>>
 <</if>>
-<<if $status.satisfaction < 15>>
+<<if $PC.status.satisfaction < 15>>
 	<<set _oddsArray.push(true)>>
 <</if>>
-<<for _i to 0; _i < $trait.libido; _i++>>
+<<for _i to 0; _i < $PC.trait.libido; _i++>>
 	<<set _oddsArray.push(true)>>
 <</for>>
 <<set _result = either(_oddsArray)>>
 <<if _result>>
-	<<set _maxd = Math.pow($status.arousal,3.5) + 50>>
+	<<set _maxd = Math.pow($PC.status.arousal,3.5) + 50>>
 	<<set _rand = random(1,_maxd)>>
-	<<if _rand <= ( $trait.libido + 5 )>>
+	<<if _rand <= ( $PC.trait.libido + 5 )>>
 		<<arousal 1>>
 	<</if>>
 <</if>>
@@ -108,37 +108,37 @@
 /*determine energy regen rate*/
 <<widget "calcEnergyRate">>
 <<status 1>>
-<<if $skill.athletic >= 150>>
+<<if $PC.skill.athletic >= 150>>
 	<<set _rate = 7>>
-<<elseif $skill.athletic >= 100>>
+<<elseif $PC.skill.athletic >= 100>>
 	<<set _rate = 8>>
-<<elseif $skill.athletic >= 50>>
+<<elseif $PC.skill.athletic >= 50>>
 	<<set _rate = 9>>
 <<else>>
 	<<set _rate = 10>>
 <</if>>
-<<if $status.health < 30>>
+<<if $PC.status.health < 30>>
 	<<set _rate += 8>>
-<<elseif $status.health < 50>>
+<<elseif $PC.status.health < 50>>
 	<<set _rate += 4>>
-<<elseif $status.health < 70>>
+<<elseif $PC.status.health < 70>>
 	<<set _rate += 2>>
 <</if>>
-<<if $status.jonesing > 0>>
-	<<set _rate += $status.jonesing>>
+<<if $PC.status.jonesing > 0>>
+	<<set _rate += $PC.status.jonesing>>
 <</if>>
-<<if $status.withdrawl>>
+<<if $PC.status.withdrawl>>
 	<<set _rate += 2>>
 <</if>>
-<<if $status.fatigue > 3>>
+<<if $PC.status.fatigue > 3>>
 	<<set _rate += 2>>
-<<elseif $status.fatigue > 2>>
+<<elseif $PC.status.fatigue > 2>>
 	<<set _rate += 1>>
 <</if>>
-<<if $status.stress >= 70>>
+<<if $PC.status.stress >= 70>>
 	<<set _rate += 2>>
 <</if>>
-<<set $status.energyRate = _rate>>
+<<set $PC.status.energy.rate = _rate>>
 <</widget>>
 
 /*calculates the date of the year AND the week of game time. Sets date text variables, calculates holiday day, and runs process cycle*/
@@ -153,9 +153,9 @@
 	<<set $date[3] += 1>>
 	<<set $week += 1>>
 	<<set _holiday = true>>
-	<<set $status.cycle += 1>>
-	<<if $status.cycle > 4>>
-		<<set $status.cycle = 1>>
+	<<set $PC.status.cycle += 1>>
+	<<if $PC.status.cycle > 4>>
+		<<set $PC.status.cycle = 1>>
 	<</if>>
 <<elseif $day > 7>>
 	<<set $day -= 7>>
@@ -170,9 +170,9 @@
 			<<set $date[3] += 1>>
 		<</if>>
 	<</if>>
-	<<set $status.cycle += 1>>
-	<<if $status.cycle > 4>>
-		<<set $status.cycle = 1>>
+	<<set $PC.status.cycle += 1>>
+	<<if $PC.status.cycle > 4>>
+		<<set $PC.status.cycle = 1>>
 	<</if>>
 <</if>>
 <<if _holiday>>
@@ -236,233 +236,233 @@
 /*This is very much a placeholder at this point, very simplistic and inefficient*/
 <<widget "processCycle">>
 <<if $week == 0 && $day < 3>>
-	<<set $status.period = 0>>
-	<<set $status.risk = 0>>
-	<<set $status.fertText = "Starting">>
-<<elseif $status.pregA != 0 && $status.pregB != 0>>
-	<<set $status.period = 0>>
-	<<set $status.risk = 0>>
-	<<set $status.fertText = "Fully Pregnant">>
-<<elseif $status.pregA != 0 && not $mutate.TwinWomb>>
-	<<set $status.period = 0>>
-	<<set $status.risk = 0>>
-	<<set $status.fertText = "Pregnant">>
-<<elseif $PC.fertility == 0>>
-	<<set $status.risk = 0>>
-	<<if $mutate.Period>>
-		<<set $status.fertText = "Barren">>
-		<<set $status.period = 0>>
-	<<elseif $status.cycle == 1 && $day == 1>>
-		<<set $status.fertText = "Barren - Start of Period">>
-		<<set $status.period = 2>>
-	<<elseif $status.cycle == 1 && $day == 2>>
-		<<set $status.fertText = "Barren - Heavy Period">>
-		<<set $status.period = 3>>
-	<<elseif $status.cycle == 1 && $day == 3>>
-		<<set $status.fertText = "Barren - Heavy Period">>
-		<<set $status.period = 3>>
-	<<elseif $status.cycle == 1 && $day == 4>>
-		<<set $status.fertText = "Barren - Period">>
-		<<set $status.period = 2>>
-	<<elseif $status.cycle == 1 && $day == 5>>
-		<<set $status.fertText = "Barren - Period">>
-		<<set $status.period = 2>>
-	<<elseif $status.cycle == 1 && $day == 6>>
-		<<set $status.fertText = "Barren - Light Period">>
-		<<set $status.period = 1>>
+	<<set $PC.status.period = 0>>
+	<<set $PC.status.risk = 0>>
+	<<set $PC.status.fertText = "Starting">>
+<<elseif $PC.status.pregA != 0 && $PC.status.pregB != 0>>
+	<<set $PC.status.period = 0>>
+	<<set $PC.status.risk = 0>>
+	<<set $PC.status.fertText = "Fully Pregnant">>
+<<elseif $PC.status.pregA != 0 && not $PC.mutate.twinWomb>>
+	<<set $PC.status.period = 0>>
+	<<set $PC.status.risk = 0>>
+	<<set $PC.status.fertText = "Pregnant">>
+<<elseif $PC.fert.fertility == 0>>
+	<<set $PC.status.risk = 0>>
+	<<if $PC.mutate.period>>
+		<<set $PC.status.fertText = "Barren">>
+		<<set $PC.status.period = 0>>
+	<<elseif $PC.status.cycle == 1 && $day == 1>>
+		<<set $PC.status.fertText = "Barren - Start of Period">>
+		<<set $PC.status.period = 2>>
+	<<elseif $PC.status.cycle == 1 && $day == 2>>
+		<<set $PC.status.fertText = "Barren - Heavy Period">>
+		<<set $PC.status.period = 3>>
+	<<elseif $PC.status.cycle == 1 && $day == 3>>
+		<<set $PC.status.fertText = "Barren - Heavy Period">>
+		<<set $PC.status.period = 3>>
+	<<elseif $PC.status.cycle == 1 && $day == 4>>
+		<<set $PC.status.fertText = "Barren - Period">>
+		<<set $PC.status.period = 2>>
+	<<elseif $PC.status.cycle == 1 && $day == 5>>
+		<<set $PC.status.fertText = "Barren - Period">>
+		<<set $PC.status.period = 2>>
+	<<elseif $PC.status.cycle == 1 && $day == 6>>
+		<<set $PC.status.fertText = "Barren - Light Period">>
+		<<set $PC.status.period = 1>>
 	<<else>>
-		<<set $status.fertText = "Barren">>
-		<<set $status.period = 0>>
+		<<set $PC.status.fertText = "Barren">>
+		<<set $PC.status.period = 0>>
 	<</if>>
-<<elseif $PC.fertility == 1>>
-	<<set $status.risk = 0>>
-	<<if $mutate.Period>>
-		<<set $status.fertText = "IUD">>
-		<<set $status.period = 0>>
-	<<elseif $status.cycle == 1 && $day == 1 && $mutate.Cycle>>
-		<<set $status.fertText = "IUD - Start of Period">>
-		<<set $status.period = 1>>
-	<<elseif $status.cycle == 1 && $day == 2 && $mutate.Cycle>>
-		<<set $status.fertText = "IUD - Period">>
-		<<set $status.period = 2>>
-	<<elseif $status.cycle == 1 && $day == 3 && $mutate.Cycle>>
-		<<set $status.period = 1>>
-		<<set $status.fertText = "IUD - Light Period">>
-	<<elseif $status.cycle == 1 && $day == 1>>
-		<<set $status.fertText = "IUD - Start of Period">>
-		<<set $status.period = 2>>
-	<<elseif $status.cycle == 1 && $day == 2>>
-		<<set $status.fertText = "IUD - Heavy Period">>
-		<<set $status.period = 3>>
-	<<elseif $status.cycle == 1 && $day == 3>>
-		<<set $status.fertText = "IUD - Period">>
-		<<set $status.period = 2>>
-	<<elseif $status.cycle == 1 && $day == 4>>
-		<<set $status.fertText = "IUD - Period">>
-		<<set $status.period = 2>>
-	<<elseif $status.cycle == 1 && $day == 5>>
-		<<set $status.fertText = "IUD - Light Period">>
-		<<set $status.period = 1>>
-	<<elseif $status.cycle == 1 && $day == 6>>
-		<<set $status.fertText = "IUD - Light Period">>
-		<<set $status.period = 1>>
+<<elseif $PC.fert.fertility == 1>>
+	<<set $PC.status.risk = 0>>
+	<<if $PC.mutate.period>>
+		<<set $PC.status.fertText = "IUD">>
+		<<set $PC.status.period = 0>>
+	<<elseif $PC.status.cycle == 1 && $day == 1 && $PC.mutate.cycle>>
+		<<set $PC.status.fertText = "IUD - Start of Period">>
+		<<set $PC.status.period = 1>>
+	<<elseif $PC.status.cycle == 1 && $day == 2 && $PC.mutate.cycle>>
+		<<set $PC.status.fertText = "IUD - Period">>
+		<<set $PC.status.period = 2>>
+	<<elseif $PC.status.cycle == 1 && $day == 3 && $PC.mutate.cycle>>
+		<<set $PC.status.period = 1>>
+		<<set $PC.status.fertText = "IUD - Light Period">>
+	<<elseif $PC.status.cycle == 1 && $day == 1>>
+		<<set $PC.status.fertText = "IUD - Start of Period">>
+		<<set $PC.status.period = 2>>
+	<<elseif $PC.status.cycle == 1 && $day == 2>>
+		<<set $PC.status.fertText = "IUD - Heavy Period">>
+		<<set $PC.status.period = 3>>
+	<<elseif $PC.status.cycle == 1 && $day == 3>>
+		<<set $PC.status.fertText = "IUD - Period">>
+		<<set $PC.status.period = 2>>
+	<<elseif $PC.status.cycle == 1 && $day == 4>>
+		<<set $PC.status.fertText = "IUD - Period">>
+		<<set $PC.status.period = 2>>
+	<<elseif $PC.status.cycle == 1 && $day == 5>>
+		<<set $PC.status.fertText = "IUD - Light Period">>
+		<<set $PC.status.period = 1>>
+	<<elseif $PC.status.cycle == 1 && $day == 6>>
+		<<set $PC.status.fertText = "IUD - Light Period">>
+		<<set $PC.status.period = 1>>
 	<<else>>
-		<<set $status.fertText = "IUD">>
+		<<set $PC.status.fertText = "IUD">>
 	<</if>>
-<<elseif $status.cycle == 1 && $mutate.Cycle>>
-	<<if $day == 1 && $PC.fertility > 3>>
-		<<set $status.period = 3>>
-		<<set $status.risk = 0>>
-		<<set $status.fertText = "Safe Day - Start Period">>
-	<<elseif $day == 2 && $PC.fertility > 3>>
-		<<set $status.period = 2>>
-		<<set $status.risk = 0>>
-		<<set $status.fertText = "Safe Day - Period">>
-	<<elseif $day == 3 && $PC.fertility > 3>>
-		<<set $status.period = 0>>
-		<<set $status.risk = 1>>
-		<<set $status.fertText = "Safe Day">>
+<<elseif $PC.status.cycle == 1 && $PC.mutate.cycle>>
+	<<if $day == 1 && $PC.fert.fertility > 3>>
+		<<set $PC.status.period = 3>>
+		<<set $PC.status.risk = 0>>
+		<<set $PC.status.fertText = "Safe Day - Start Period">>
+	<<elseif $day == 2 && $PC.fert.fertility > 3>>
+		<<set $PC.status.period = 2>>
+		<<set $PC.status.risk = 0>>
+		<<set $PC.status.fertText = "Safe Day - Period">>
+	<<elseif $day == 3 && $PC.fert.fertility > 3>>
+		<<set $PC.status.period = 0>>
+		<<set $PC.status.risk = 1>>
+		<<set $PC.status.fertText = "Safe Day">>
 	<<elseif $day == 1>>
-		<<set $status.period = 2>>
-		<<set $status.risk = 0>>
-		<<set $status.fertText = "Safe Day - Start Period">>
+		<<set $PC.status.period = 2>>
+		<<set $PC.status.risk = 0>>
+		<<set $PC.status.fertText = "Safe Day - Start Period">>
 	<<elseif $day == 2>>
-		<<set $status.period = 3>>
-		<<set $status.risk = 0>>
-		<<set $status.fertText = "Safe Day - Heavy Period">>
+		<<set $PC.status.period = 3>>
+		<<set $PC.status.risk = 0>>
+		<<set $PC.status.fertText = "Safe Day - Heavy Period">>
 	<<elseif $day == 3>>
-		<<set $status.period = 1>>
-		<<set $status.risk = 1>>
-		<<set $status.fertText = "Safe Day - Light Period">>
+		<<set $PC.status.period = 1>>
+		<<set $PC.status.risk = 1>>
+		<<set $PC.status.fertText = "Safe Day - Light Period">>
 	<<elseif $day == 4>>
-		<<set $status.period = 0>>
-		<<set $status.risk = 1>>
-		<<set $status.fertText = "Safe Day">>
+		<<set $PC.status.period = 0>>
+		<<set $PC.status.risk = 1>>
+		<<set $PC.status.fertText = "Safe Day">>
 	<<else>>
-		<<set $status.period = 0>>
-		<<set $status.risk = 2>>
-		<<set $status.fertText = "Likely Safe">>
+		<<set $PC.status.period = 0>>
+		<<set $PC.status.risk = 2>>
+		<<set $PC.status.fertText = "Likely Safe">>
 	<</if>>
-<<elseif $status.cycle == 2 && $mutate.Cycle>>
-	<<set $status.period = 0>>
+<<elseif $PC.status.cycle == 2 && $PC.mutate.cycle>>
+	<<set $PC.status.period = 0>>
 	<<if $day < 3>>
-		<<set $status.risk = 3>>
-		<<set $status.fertText = "Should be Safe">>
+		<<set $PC.status.risk = 3>>
+		<<set $PC.status.fertText = "Should be Safe">>
 	<<elseif $day == 7>>
-		<<set $status.risk = 5>>
-		<<set $status.fertText = "Ovulating">>
+		<<set $PC.status.risk = 5>>
+		<<set $PC.status.fertText = "Ovulating">>
 	<<elseif $day == 6>>
-		<<set $status.risk = 4.5>>
-		<<set $status.fertText = "Dangerous Day">>
+		<<set $PC.status.risk = 4.5>>
+		<<set $PC.status.fertText = "Dangerous Day">>
 	<<else>>
-		<<set $status.risk = 4>>
-		<<set $status.fertText = "Dangerous Day">>
+		<<set $PC.status.risk = 4>>
+		<<set $PC.status.fertText = "Dangerous Day">>
 	<</if>>
-<<elseif $status.cycle == 3 && $mutate.Cycle>>
-	<<set $status.period = 0>>
+<<elseif $PC.status.cycle == 3 && $PC.mutate.cycle>>
+	<<set $PC.status.period = 0>>
 	<<if $day < 3>>
-		<<set $status.risk = 5>>
-		<<set $status.fertText = "Ovulating">>
+		<<set $PC.status.risk = 5>>
+		<<set $PC.status.fertText = "Ovulating">>
 	<<elseif $day == 7>>
-		<<set $status.risk = 3.5>>
-		<<set $status.fertText = "Should be Safe">>
+		<<set $PC.status.risk = 3.5>>
+		<<set $PC.status.fertText = "Should be Safe">>
 	<<else>>
-		<<set $status.risk = 4>>
-		<<set $status.fertText = "Dangerous Day">>
+		<<set $PC.status.risk = 4>>
+		<<set $PC.status.fertText = "Dangerous Day">>
 	<</if>>
-<<elseif $status.cycle == 4 && $mutate.Cycle>>
-	<<set $status.period = 0>>
+<<elseif $PC.status.cycle == 4 && $PC.mutate.cycle>>
+	<<set $PC.status.period = 0>>
 	<<if $day == 1>>
-		<<set $status.risk = 3.5>>
-		<<set $status.fertText = "Should be Safe">>
+		<<set $PC.status.risk = 3.5>>
+		<<set $PC.status.fertText = "Should be Safe">>
 	<<elseif $day < 5>>
-		<<set $status.risk = 2>>
-		<<set $status.fertText = "Likely Safe">>
+		<<set $PC.status.risk = 2>>
+		<<set $PC.status.fertText = "Likely Safe">>
 	<<else>>
-		<<set $status.risk = 1>>
-		<<set $status.fertText = "Safe Day">>
+		<<set $PC.status.risk = 1>>
+		<<set $PC.status.fertText = "Safe Day">>
 	<</if>>
-<<elseif $status.cycle == 1>>
-	<<if $day == 1 && $PC.fertility > 3>>
-		<<set $status.period = 2>>
-		<<set $status.risk = 0>>
-		<<set $status.fertText = "Safe Day - Start Period">>
-	<<elseif $day == 2 && $PC.fertility > 3>>
-		<<set $status.period = 3>>
-		<<set $status.risk = 0>>
-		<<set $status.fertText = "Safe Day - Heavy Period">>
-	<<elseif $day == 3 && $PC.fertility > 3>>
-		<<set $status.period = 2>>
-		<<set $status.risk = 0>>
-		<<set $status.fertText = "Safe Day - Period">>
-	<<elseif $day == 4 && $PC.fertility > 3>>
-		<<set $status.period = 1>>
-		<<set $status.risk = 1>>
-		<<set $status.fertText = "Safe Day - Light Period">>
-	<<elseif $day == 5 && $PC.fertility > 3>>
-		<<set $status.period = 0>>
-		<<set $status.risk = 1>>
-		<<set $status.fertText = "Safe Day">>
+<<elseif $PC.status.cycle == 1>>
+	<<if $day == 1 && $PC.fert.fertility > 3>>
+		<<set $PC.status.period = 2>>
+		<<set $PC.status.risk = 0>>
+		<<set $PC.status.fertText = "Safe Day - Start Period">>
+	<<elseif $day == 2 && $PC.fert.fertility > 3>>
+		<<set $PC.status.period = 3>>
+		<<set $PC.status.risk = 0>>
+		<<set $PC.status.fertText = "Safe Day - Heavy Period">>
+	<<elseif $day == 3 && $PC.fert.fertility > 3>>
+		<<set $PC.status.period = 2>>
+		<<set $PC.status.risk = 0>>
+		<<set $PC.status.fertText = "Safe Day - Period">>
+	<<elseif $day == 4 && $PC.fert.fertility > 3>>
+		<<set $PC.status.period = 1>>
+		<<set $PC.status.risk = 1>>
+		<<set $PC.status.fertText = "Safe Day - Light Period">>
+	<<elseif $day == 5 && $PC.fert.fertility > 3>>
+		<<set $PC.status.period = 0>>
+		<<set $PC.status.risk = 1>>
+		<<set $PC.status.fertText = "Safe Day">>
 	<<elseif $day == 1>>
-		<<set $status.period = 2>>
-		<<set $status.risk = 0>>
-		<<set $status.fertText = "Safe Day - Start Period">>
+		<<set $PC.status.period = 2>>
+		<<set $PC.status.risk = 0>>
+		<<set $PC.status.fertText = "Safe Day - Start Period">>
 	<<elseif $day == 2>>
-		<<set $status.period = 3>>
-		<<set $status.risk = 0>>
-		<<set $status.fertText = "Safe Day - Heavy Period">>
+		<<set $PC.status.period = 3>>
+		<<set $PC.status.risk = 0>>
+		<<set $PC.status.fertText = "Safe Day - Heavy Period">>
 	<<elseif $day == 3>>
-		<<set $status.period = 3>>
-		<<set $status.risk = 0>>
-		<<set $status.fertText = "Safe Day - Heavy Period">>
+		<<set $PC.status.period = 3>>
+		<<set $PC.status.risk = 0>>
+		<<set $PC.status.fertText = "Safe Day - Heavy Period">>
 	<<elseif $day == 4>>
-		<<set $status.period = 2>>
-		<<set $status.risk = 0>>
-		<<set $status.fertText = "Safe Day - Period">>
+		<<set $PC.status.period = 2>>
+		<<set $PC.status.risk = 0>>
+		<<set $PC.status.fertText = "Safe Day - Period">>
 	<<elseif $day == 5>>
-		<<set $status.period = 1>>
-		<<set $status.risk = 1>>
-		<<set $status.fertText = "Safe Day - Light Period">>
+		<<set $PC.status.period = 1>>
+		<<set $PC.status.risk = 1>>
+		<<set $PC.status.fertText = "Safe Day - Light Period">>
 	<<elseif $day == 6>>
-		<<set $status.period = 0>>
-		<<set $status.risk = 1.5>>
-		<<set $status.fertText = "Safe Day">>
+		<<set $PC.status.period = 0>>
+		<<set $PC.status.risk = 1.5>>
+		<<set $PC.status.fertText = "Safe Day">>
 	<<else>>
-		<<set $status.period = 0>>
-		<<set $status.risk = 2>>
-		<<set $status.fertText = "Likely Safe">>
+		<<set $PC.status.period = 0>>
+		<<set $PC.status.risk = 2>>
+		<<set $PC.status.fertText = "Likely Safe">>
 	<</if>>
-<<elseif $status.cycle == 2>>
-	<<set $status.period = 0>>
+<<elseif $PC.status.cycle == 2>>
+	<<set $PC.status.period = 0>>
 	<<if $day == 1>>
-		<<set $status.risk = 2.5>>
-		<<set $status.fertText = "Likely Safe">>
+		<<set $PC.status.risk = 2.5>>
+		<<set $PC.status.fertText = "Likely Safe">>
 	<<elseif $day < 3>>
-		<<set $status.risk = 3.5>>
-		<<set $status.fertText = "Should be Safe">>
+		<<set $PC.status.risk = 3.5>>
+		<<set $PC.status.fertText = "Should be Safe">>
 	<<elseif $day == 7>>
-		<<set $status.risk = 5>>
-		<<set $status.fertText = "Ovulating">>
+		<<set $PC.status.risk = 5>>
+		<<set $PC.status.fertText = "Ovulating">>
 	<<else>>
-		<<set $status.risk = 4>>
-		<<set $status.fertText = "Dangerous Day">>
+		<<set $PC.status.risk = 4>>
+		<<set $PC.status.fertText = "Dangerous Day">>
 	<</if>>
-<<elseif $status.cycle == 3>>
-	<<set $status.period = 0>>
+<<elseif $PC.status.cycle == 3>>
+	<<set $PC.status.period = 0>>
 	<<if $day == 1>>
-		<<set $status.risk = 4>>
-		<<set $status.fertText = "Dangerous Day">>
+		<<set $PC.status.risk = 4>>
+		<<set $PC.status.fertText = "Dangerous Day">>
 	<<elseif $day < 4>>
-		<<set $status.risk = 3>>
-		<<set $status.fertText = "Should be Safe">>
+		<<set $PC.status.risk = 3>>
+		<<set $PC.status.fertText = "Should be Safe">>
 	<<else>>
-		<<set $status.risk = 2>>
-		<<set $status.fertText = "Likely Safe">>
+		<<set $PC.status.risk = 2>>
+		<<set $PC.status.fertText = "Likely Safe">>
 	<</if>>
-<<elseif $status.cycle == 4>>
-	<<set $status.period = 0>>
-	<<set $status.risk = 1>>
-	<<set $status.fertText = "Safe Day">>
+<<elseif $PC.status.cycle == 4>>
+	<<set $PC.status.period = 0>>
+	<<set $PC.status.risk = 1>>
+	<<set $PC.status.fertText = "Safe Day">>
 <</if>>
 <</widget>>
 
@@ -474,12 +474,12 @@
 		<center>@@.exp;.blurrier;It's getting late...@@</center>
 		Perhaps you should consider getting ready for bed...
 		<br><br>
-		<<if $mainMap != "home">>
+		<<if $map.main != "home">>
 			<<link "Return Home">>
-				<<set $cartP = []; $cartLeg = []; $cartLB = []; $cartB = []; $cartUB = []; $cartD = []; $cartSU = []; $cartSL = []; $cartAthU = []; $cartAthL = []; $cartOW = []; $cartNiteU = []; $cartNiteL = []; $cartA = []; $cartBag = []; $cartItem = []>>
-				<<switch $mainMap>>
+				<<set $cart.panties = []; $cart.leg = []; $cart.lowBody = []; $cart.bra = []; $cart.upBody = []; $cart.dress = []; $cart.swimU = []; $cart.swimL = []; $cart.athU = []; $cart.athL = []; $cart.overWear = []; $cart.niteU = []; $cart.niteL = []; $cart.acc= []; $cart.bag = []; $cart.item = []>>
+				<<switch $map.main>>
 					<<case "bullseye">>
-						<<set $destLoc = [0,0]>>
+						<<set $map.destLoc = [0,0]>>
 						<<set _time = random(35,45)>>
 						<<addTime _time>>
 						<<goto [[homeControl]]>>
@@ -533,80 +533,80 @@
 <</widget>>
 
 <<widget "addictNeedIncrease">>
-<<if $status.addictMax >= 30>>
-	<<if $status.addictSex >= 90>>
-		<<set $status.addictSexNeed += 4>>
-	<<elseif $status.addictSex >= 70>>
-		<<set $status.addictSexNeed += 3>>
-	<<elseif $status.addictSex >= 50>>
-		<<set $status.addictSexNeed += 2>>
-	<<elseif $status.addictSex >= 40>>
-		<<set $status.addictSexNeed += 1>>
+<<if $PC.status.addict.max >= 30>>
+	<<if $PC.status.addict.sex >= 90>>
+		<<set $PC.status.addict.sexNeed += 4>>
+	<<elseif $PC.status.addict.sex >= 70>>
+		<<set $PC.status.addict.sexNeed += 3>>
+	<<elseif $PC.status.addict.sex >= 50>>
+		<<set $PC.status.addict.sexNeed += 2>>
+	<<elseif $PC.status.addict.sex >= 40>>
+		<<set $PC.status.addict.sexNeed += 1>>
 	<</if>>
-	<<if $status.addictAlc >= 90>>
-		<<set $status.addictAlcNeed += 4>>
-	<<elseif $status.addictAlc >= 70>>
-		<<set $status.addictAlcNeed += 3>>
-	<<elseif $status.addictAlc >= 50>>
-		<<set $status.addictAlcNeed += 2>>
-	<<elseif $status.addictAlc >= 40>>
-		<<set $status.addictAlcNeed += 1>>
+	<<if $PC.status.addict.alc >= 90>>
+		<<set $PC.status.addict.alcNeed += 4>>
+	<<elseif $PC.status.addict.alc >= 70>>
+		<<set $PC.status.addict.alcNeed += 3>>
+	<<elseif $PC.status.addict.alc >= 50>>
+		<<set $PC.status.addict.alcNeed += 2>>
+	<<elseif $PC.status.addict.alc >= 40>>
+		<<set $PC.status.addict.alcNeed += 1>>
 	<</if>>
-	<<if $status.addictHeat >= 90>>
-		<<set $status.addictHeatNeed += 4>>
-	<<elseif $status.addictHeat >= 70>>
-		<<set $status.addictHeatNeed += 3>>
-	<<elseif $status.addictHeat >= 50>>
-		<<set $status.addictHeatNeed += 2>>
-	<<elseif $status.addictHeat >= 40>>
-		<<set $status.addictHeatNeed += 1>>
+	<<if $PC.status.addict.heat >= 90>>
+		<<set $PC.status.addict.heatNeed += 4>>
+	<<elseif $PC.status.addict.heat >= 70>>
+		<<set $PC.status.addict.heatNeed += 3>>
+	<<elseif $PC.status.addict.heat >= 50>>
+		<<set $PC.status.addict.heatNeed += 2>>
+	<<elseif $PC.status.addict.heat >= 40>>
+		<<set $PC.status.addict.heatNeed += 1>>
 	<</if>>
-	<<if $status.addictSatyr >= 90>>
-		<<set $status.addictSatyrNeed += 4>>
-	<<elseif $status.addictSatyr >= 70>>
-		<<set $status.addictSatyrNeed += 3>>
-	<<elseif $status.addictSatyr >= 50>>
-		<<set $status.addictSatyrNeed += 2>>
-	<<elseif $status.addictSatyr >= 40>>
-		<<set $status.addictSatyrNeed += 1>>
+	<<if $PC.status.addict.satyr >= 90>>
+		<<set $PC.status.addict.satyrNeed += 4>>
+	<<elseif $PC.status.addict.satyr >= 70>>
+		<<set $PC.status.addict.satyrNeed += 3>>
+	<<elseif $PC.status.addict.satyr >= 50>>
+		<<set $PC.status.addict.satyrNeed += 2>>
+	<<elseif $PC.status.addict.satyr >= 40>>
+		<<set $PC.status.addict.satyrNeed += 1>>
 	<</if>>
-	<<if $status.addictFocus >= 90>>
-		<<set $status.addictFocusNeed += 4>>
-	<<elseif $status.addictFocus >= 70>>
-		<<set $status.addictFocusNeed += 3>>
-	<<elseif $status.addictFocus >= 50>>
-		<<set $status.addictFocusNeed += 2>>
-	<<elseif $status.addictFocus >= 40>>
-		<<set $status.addictFocusNeed += 1>>
+	<<if $PC.status.addict.focus >= 90>>
+		<<set $PC.status.addict.focusNeed += 4>>
+	<<elseif $PC.status.addict.focus >= 70>>
+		<<set $PC.status.addict.focusNeed += 3>>
+	<<elseif $PC.status.addict.focus >= 50>>
+		<<set $PC.status.addict.focusNeed += 2>>
+	<<elseif $PC.status.addict.focus >= 40>>
+		<<set $PC.status.addict.focusNeed += 1>>
 	<</if>>
-	<<if $status.addictCum >= 90>>
-		<<set $status.addictCumNeed += 4>>
-	<<elseif $status.addictCum >= 70>>
-		<<set $status.addictCumNeed += 3>>
-	<<elseif $status.addictCum >= 50>>
-		<<set $status.addictCumNeed += 2>>
-	<<elseif $status.addictCum >= 40>>
-		<<set $status.addictCumNeed += 1>>
+	<<if $PC.status.addict.cum >= 90>>
+		<<set $PC.status.addict.cumNeed += 4>>
+	<<elseif $PC.status.addict.cum >= 70>>
+		<<set $PC.status.addict.cumNeed += 3>>
+	<<elseif $PC.status.addict.cum >= 50>>
+		<<set $PC.status.addict.cumNeed += 2>>
+	<<elseif $PC.status.addict.cum >= 40>>
+		<<set $PC.status.addict.cumNeed += 1>>
 	<</if>>
-	<<if $status.addictZone >= 90>>
-		<<set $status.addictZoneNeed += 4>>
-	<<elseif $status.addictZone >= 70>>
-		<<set $status.addictZoneNeed += 3>>
-	<<elseif $status.addictZone >= 50>>
-		<<set $status.addictZoneNeed += 2>>
-	<<elseif $status.addictZone >= 40>>
-		<<set $status.addictZoneNeed += 1>>
+	<<if $PC.status.addict.zone >= 90>>
+		<<set $PC.status.addict.zoneNeed += 4>>
+	<<elseif $PC.status.addict.zone >= 70>>
+		<<set $PC.status.addict.zoneNeed += 3>>
+	<<elseif $PC.status.addict.zone >= 50>>
+		<<set $PC.status.addict.zoneNeed += 2>>
+	<<elseif $PC.status.addict.zone >= 40>>
+		<<set $PC.status.addict.zoneNeed += 1>>
 	<</if>>
-	<<if $status.addictCream >= 90>>
-		<<set $status.addictCreamNeed += 4>>
-	<<elseif $status.addictCream >= 70>>
-		<<set $status.addictCreamNeed += 3>>
-	<<elseif $status.addictCream >= 50>>
-		<<set $status.addictCreamNeed += 2>>
-	<<elseif $status.addictCream >= 40>>
-		<<set $status.addictCreamNeed += 1>>
+	<<if $PC.status.addict.cream >= 90>>
+		<<set $PC.status.addict.creamNeed += 4>>
+	<<elseif $PC.status.addict.cream >= 70>>
+		<<set $PC.status.addict.creamNeed += 3>>
+	<<elseif $PC.status.addict.cream >= 50>>
+		<<set $PC.status.addict.creamNeed += 2>>
+	<<elseif $PC.status.addict.cream >= 40>>
+		<<set $PC.status.addict.creamNeed += 1>>
 	<</if>>
-	<<if Math.max($status.addictCreamNeed,$status.addictZoneNeed,$status.addictCumNeed,$status.addictFocusNeed,$status.addictSatyrNeed,$status.addictHeatNeed,$status.addictAlcNeed,$status.addictSexNeed) >= 100>>
+	<<if Math.max($PC.status.addict.creamNeed,$PC.status.addict.zoneNeed,$PC.status.addict.cumNeed,$PC.status.addict.focusNeed,$PC.status.addict.satyrNeed,$PC.status.addict.heatNeed,$PC.status.addict.alcNeed,$PC.status.addict.sexNeed) >= 100>>
 		/*run withdrawl macro*/
 	<</if>>
 <</if>>

@@ -1,0 +1,75 @@
+:: gameSettingsPage [nobr hidden startpage]
+
+<<set $helpText = "This menu is where you control the settings for an individual game. System settings are found by clicking the large settings button near the save button. For more details on settings on this page, click the INFO button, or click on individual help icons next to an item when available.">>
+<table>
+<tr class="divide"><td width="33%"><<button "CLOSE">><<goto [[$prevPassage]]>><</button>></td>
+<td width="34%">@@.head2;Game Settings@@</td><td width="33%"><<button "INFO">><<dialog "Game Settings Menu Info">>The settings menu is where you control the settings for an individual game. (<i>System settings are found by clicking the large settings button near the save button.</i>)<br><br>
+The settings in this menu primarily concern user preferences, and are not intended to change the way the game plays. It also contains some tools to restore your gameplay statistics in the case of a browser cache reset or if you are playing on a different computer. @@.import;''Warning''--restoring your gameplay statistics using a save with out-of-date statistics will result in them being reverted to what they were during that save!@@<br><br>
+Not all settings available in this menu will take effect immediately, depending on your game location when you change an option. Additionally, some settings will only take effect at the beginning of a game segment, so any in-progress segments may not be affected. For example, the setting to disable heretical religious content won't have any effect on a story arc you are already involved in, but will prevent future story arcs with that flag.<br><br>
+The Ero-Lich wants everyone to enjoy playing Accidental Woman in a way that is comfortable for them. If you have an idea for something that would improve the play experience for yourself or others, please share it!<</dialog>><</button>>
+</td></tr><tr><td colspan=3>@@.head4;General Settings@@</td></tr>
+<tr><td>
+Use Metric<br><<checkboxA "$AW.metric" false true>>
+</td><td>
+<<if $pub>><<if $pref.enableCheats == 1>>Cheat Mode<br><<checkboxA "$cheatMode" false true>><<else>><i>Cheat Mode</i> <<helpPop "Using Cheat Mode" "In order to use cheat mode, cheats must be enabled for a playthrough when starting a game. You can use this <<link 'link'>><<cheatVar>><<set $pref.enableCheats = 1>><</link>> to try to force-enable cheats, and then close the settings menu and re-open. Doing this could cause problems with your game, though it is unlikely.">><</if>><<else>><i>Cheat Mode is Patron Only</i><</if>>
+</td><td>
+Tutorial Text<br><<checkboxA "$AW.tutorials>>" false true>> <<helpPop "Tutorials" "Note: this setting only works after completing the prologue at least once. Afterward, it will hide tutorial text in the game automatically. In some cases, the tutorial text will be replaced by a tutorial button that will allow you to view the hidden tutorial text. In other cases, the tutorial text will be completely unavailable.">>
+</td></tr><tr><td>
+Dev Comments<br><<checkboxA "$commentary" false true>> <<helpPop "Developer Commentary" "Read what the Ero-Lich was thinking when he created different part of the game, and suffer through the occassional bad joke. The dev comments also occassionally contains hints for hidden or restricted content and options.">>
+</td><td>
+Detailed Skillcheck<br><<checkboxA "$showSkillCheck" false true>> <<helpPop "Skill Check Detail" "Replaces the simple check and X indicators for skill checks with slightly more detail, like the type of check being performed. This option must be on for the skill check details cheat to work.">>
+</td><td>
+Fap Mode<br><<checkboxA "$pref.fapmode" false true>> <<helpPop "Fap Mode" "Removes many of the game play elements from the game, increasing the focus on sexual content. @@.import;font-size:115%;''WARNING--This mode severely simplifies the game, and likely removes much of the fun and complex erotic elements!''">>
+</td></tr>
+<tr><td>
+Scene Images<br><<checkboxA "$pref.dispSceneImg" false true>>
+</td><td>
+PC Images<br><<checkboxA "$pref.dispPCImg" false true>>
+</td><td>
+NPC Images<br><<checkboxA "$pref.dispNPCImg" false true>>
+</td></tr>
+<tr><td colspan=2>@@.uibutton;<<button "load game statistics">>
+<<dialog "Load Game Statistics">>This will replace the current statistics saved in the browser with the statistics contained in this game. Use this only if you loaded a game save and you are using a new browser or have reset your browser cache. ''This action can't be undone!''<br><br><<button "LOAD">>
+<<run setup.storeState()>><<replace "#gamestat">>Statistics stored in game cache!<</replace>><</button>> Close this window to abort.<br><br><span id="gamestat">...</span><</dialog>>
+<</button>>@@ @@.note;overwrites global statistics from save@@</td><td></td></tr>
+<tr class="divide"><td colspan=3>@@.head4;Content Settings@@ <<helpPop "Content Settings" "These are the secondary content gates for Accidental Woman. These exist generally to prevent you from running into one of these kinks or fetishes unintentionally, particularly for the kinks that don't offer a chance for a dialog opt-out choice.<br><br>While I will make every attempt to follow these content settings, the in-development nature of this game means that @@.ident;some content may slip past these gates@@. Please inform me if some does, so that it can be fixed.<br><br>These settings are only effective ''before'' the start of an event or arc. They will not remove you from an in-progress event or story arc! Sometimes these arcs can be quite long, so it is <i>probably</i> best to adjust these restrictions early and leave them alone!<br><br>Not all kink material can be removed via these settings. These kinks are unable to be removed because of the game's structure: Pregnancy & Impregnation, Reproductive Sabotage, and Transformation. These kinks can be avoided, however.">></td></tr>
+<tr><td><<checkboxA "$pref.anal" false true>> Anal</td>
+<td><<checkboxA "$pref.enema" false true>> Enema</td>
+<td><<checkboxA "$pref.petplay" false true>> Pet Play</td></tr>
+
+<tr><td><<checkboxA "$pref.bestiality" false true>> Bestiality</td>
+<td><<checkboxA "$pref.fisting" false true>> Fisting</td>
+<td><<checkboxA "$pref.rape" false true>> Rape</td></tr>
+
+<tr><td><<checkboxA "$pref.bdsm" false true>> BDSM</td>
+<td><<checkboxA "$pref.furry" false true>> Furry</td>
+<td><<checkboxA "$pref.religion" false true>> Religion/Heresy</td></tr>
+
+<tr><td><<checkboxA "$pref.bondage" false true>> Bondage</td>
+<td><<checkboxA "$pref.gaping" false true>> Gaping</td>
+<td><<checkboxA "$pref.rough" false true>> Rough</td></tr>
+
+<tr><td><<checkboxA "$pref.bukkake" false true>> Bukkake</td>
+<td><<checkboxA "$pref.group" false true>> Group</td>
+<td><<checkboxA "$pref.scat" false true>> Scat</td></tr>
+
+<tr><td><<checkboxA "$pref.choking" false true>> Choking</td>
+<td><<checkboxA "$pref.impact" false true>> Impact</td>
+<td><<checkboxA "$pref.shibari" false true>> Shibari</td></tr>
+
+<tr><td><<checkboxA "$pref.cbt" false true>> CBT</td>
+<td><<checkboxA "$pref.sadomasochism" false true>> Masochism/Sadism</td>
+<td><<checkboxA "$pref.sounding" false true>> Sounding</td></tr>
+
+<tr><td><<checkboxA "$pref.collar" false true>> Collaring</td>
+<td><<checkboxA "$pref.masterslave" false true>> Master/Slave</td>
+<td><<checkboxA "$pref.torture" false true>> Torture</td></tr>
+
+<tr><td><<checkboxA "$pref.connoncon" false true>> Con-NonCon</td>
+<td><<checkboxA "$pref.medical" false true>> Medical</td>
+<td><<checkboxA "$pref.vore" false true>> Vore</td></tr>
+
+<tr><td><<checkboxA "$pref.domsub" false true>> Dom/Sub</td>
+<td><<checkboxA "$pref.noncon" false true>> NonConsent</td>
+<td><<checkboxA "$pref.waterworks" false true>> Watersports</td></tr>
+</table>

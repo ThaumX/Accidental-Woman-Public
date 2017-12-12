@@ -1,0 +1,39 @@
+:: StoryCaption [nobr]
+
+/*variables here*/
+<<if $showData>>
+	@@.clock;<<timeInterpret>>@@
+	<br>
+	@@.white;<<dateDisplay>>@@
+	<br>
+	@@.monospace;.white;Weather@@ @@.white;☁@@
+	<left>
+	<br>
+	@@font-size:120%;<<print "Cash: ">>@@@@.bigmoney;''<<money>>''@@
+	<br><<silently>>
+	<<set _warn = " ">>
+	<<if $PC.status.health < 30>><<set _warn += "@@.bad;Health@@ ">><<elseif $PC.status.health < 50>><<set _warn += "@@.orange;Health@@ ">><<elseif $PC.status.health < 70>><<set _warn += "@@.import;Health@@ ">><</if>>
+	<<if $PC.status.need > 3>><<set _warn += "@@.bad;Need@@ ">><</if>>
+	<<if $PC.status.arousal > 10>><<set _warn += "@@.bad;Arousal@@ ">><</if>>
+	<<if $PC.status.stress > 80>><<set _warn += "@@.bad;Stress@@ ">><</if>>
+	<<if $PC.status.happy < -5>><<set _warn += "@@.bad;Depression@@ ">><</if>>
+	<<if $PC.status.satisfaction < 20>><<set _warn += "@@.import;Satisfaction@@ ">><</if>>
+	<<if $PC.status.anger > 7>><<set _warn += "@@.import;Anger@@ ">><</if>>
+	<<if $PC.groom.clownMU>><<set _warn += "@@.import;Clown@@ ">><</if>>
+	<<if _warn == " ">>
+		<<set _warn = " @@.good;None@@">>
+	<</if>>
+	<</silently>><<print "Warnings:">><<print _warn>>
+	</left>
+	<<if not tags().includes("hidden")>>
+		<div id="uiReminder">
+			Planner
+		</div>
+	<</if>>
+<</if>>
+<div id="buttondiv">
+/*@@.head;.tit;font-size:18px;MENUS@@*/<br>
+<<if not tags().includes("hidden") && $showMenuButton>><<link [img[Character|IMGcharacter]]>><<set $prevPassage = passage()>><<goto [[character]]>><</link>><<link [img[Room View|IMGroomview]]>><<dialog 'Room View'>><<include [[scene]]>><</dialog>><</link>><<link [img[Contacts|IMGcontacts]]>><<set $prevPassage = passage()>><<goto [[relationships]]>><</link>><br><<link [img[Settings|IMGsettings]]>><<set $prevPassage = passage()>><<goto [[gameSettingsPage]]>><</link>><</if>><<link [img[Game Guide|IMGgameguide]]>><<goto [[gameGuide]]>><</link>><<if not tags().includes("hidden") && $showMenuButton>><<if $cheatMode && $pub>><<link [img[Cheat Menu|IMGcheatmenu]]>><<set $prevPassage = passage()>><<goto [[cheatMenu]]>><</link>><</if>><</if>><<if $showDebug>><<link [img[Debug Menu|IMGdebug]]>><<set $prevPassage = passage()>><<goto [[debugPage]]>><</link>><</if>>
+</div>
+/*''<<print "Status: ">>''<<pcStatus>>*/
+

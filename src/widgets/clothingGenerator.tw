@@ -11,8 +11,8 @@
 <<widget "genPanties">>
 <<if ndef $args[0] || ndef $args[1] || ndef $args[2] || ndef $args[3] || ndef $args[4] || ndef $args[5]>>
 	<<set alert(“!Panties Generator function ran with missing control variable/s! Please submit a bug report with this error message and the current passage listed in the debug info page.”)>>
-	<<set $error += ", Panties Generator function ran with missing control variable/s - Passage: ">>
-	<<set $error += = passage()>>
+	<<set $AW.error += ", Panties Generator function ran with missing control variable/s - Passage: ">>
+	<<set $AW.error += = passage()>>
 <<else>>
 	<<switch $args[1]>>
 	<<case 0>>
@@ -30,12 +30,12 @@
 	<<case 6>>
 		<<set _stylelist = [8,9,9,9,10,10,11,11,11,12,12]>>
 	<<case default>>
-		<<set $error += ", Panties Generator bad style arg - Passage: ">>
-		<<set $error += = passage()>>
+		<<set $AW.error += ", Panties Generator bad style arg - Passage: ">>
+		<<set $AW.error += = passage()>>
 		<<set alert(“!Panties Generator Style Arg Error! Details in debug view for bug report. You can continue playing otherwise.”)>>
 		<<set _stylelist = [1]>>
 	<</switch>>
-	<<set $shopP = []>>
+	<<set $storeInv.panties = []>>
 	/*for loop start*/
 	<<for _i to 0; _i < $args[0]; _i++>>
 		/*_panties array index: 0Name, 1Attr, 2Sexy/Cute, 3Formal/Casual, 4Exposure, 5status, 6style, 7substyle, fabric, color, origin store*/
@@ -319,21 +319,21 @@
 		<<set _panties[4] = 0>>
 	<</if>>
 	<<if _substyle == "regular">>
-		<<if $clothingDetail == 4>>
+		<<if $pref.clothingDetail == 4>>
 			<<set _panties[0] = "//" + _fabric + "// ''" + _style + "'' " + _color>>
-		<<elseif $clothingDetail == 3>>
+		<<elseif $pref.clothingDetail == 3>>
 			<<set _panties[0] = "''" + _style + "'' " + _color>>
-		<<elseif $clothingDetail == 2>>
+		<<elseif $pref.clothingDetail == 2>>
 			<<set _panties[0] = "''" + _style + "'' " + _color>>
 		<<else>>
 			<<set _panties[0] = "''" + _style + "'' " + _color>>
 		<</if>>
 	<<else>>
-		<<if $clothingDetail == 4>>
+		<<if $pref.clothingDetail == 4>>
 			<<set _panties[0] = "//" + _fabric + "// " + _substyle + " ''" + _style + "'' " + _color>>
-		<<elseif $clothingDetail == 3>>
+		<<elseif $pref.clothingDetail == 3>>
 			<<set _panties[0] = _substyle + " ''" + _style + "'' " + _color>>
-		<<elseif $clothingDetail == 2>>
+		<<elseif $pref.clothingDetail == 2>>
 			<<set _panties[0] = _substyle + " ''" + _style + "'' " + _color>>
 		<<else>>
 			<<set _panties[0] = "''" + _style + "'' " + _color>>
@@ -395,7 +395,7 @@
 		<</if>>
 	<</switch>>
 	/*<<print _panties[0]>>, <<= _panties[1]>>, <<= _panties[2]>>, <<= _panties[3]>>, <<= _panties[4]>>*/
-	<<set $shopP.push(_panties)>>
+	<<set $storeInv.panties.push(_panties)>>
 	<</for>>
 <</if>>
 <</widget>>
@@ -408,8 +408,8 @@
 <<widget "genBra">>
 <<if ndef $args[0] || ndef $args[1] || ndef $args[2] || ndef $args[3] || ndef $args[4] || ndef $args[5]>>
 	<<set alert(“!Bra Generator function ran with missing control variable/s! Please submit a bug report with this error message and the current passage listed in the debug info page.”)>>
-	<<set $error += ", Bra Generator function ran with missing control variable/s - Passage: ">>
-	<<set $error += = passage()>>
+	<<set $AW.error += ", Bra Generator function ran with missing control variable/s - Passage: ">>
+	<<set $AW.error += = passage()>>
 <<else>>
 	<<switch $args[1]>>
 	<<case 0>>
@@ -421,12 +421,12 @@
 	<<case 3>>
 		<<set _stylelist = [7,8,8,9,10,11,11,12]>>
 	<<case default>>
-		<<set $error += ", Bra Generator bad style arg - Passage: ">>
-		<<set $error += = passage()>>
+		<<set $AW.error += ", Bra Generator bad style arg - Passage: ">>
+		<<set $AW.error += = passage()>>
 		<<set alert(“!Bra Generator Style Arg Error! Details in debug view for bug report. You can continue playing otherwise.”)>>
 		<<set _stylelist = []>>
 	<</switch>>
-	<<set $shopB = []>>
+	<<set $storeInv.bra = []>>
 	/*for loop start*/
 	<<for _i to 0; _i < $args[0]; _i++>>
 		/*_bra array index: 0Name, 1Attr, 2Sexy/Cute, 3Formal/Casual, 4Exposure, 5status, 6style, 7substyle, fabric, color, origin store*/
@@ -764,21 +764,21 @@
 		<<set _bra[4] = 0>>
 	<</if>>
 	<<if _substyle == "regular">>
-		<<if $clothingDetail == 4>>
+		<<if $pref.clothingDetail == 4>>
 			<<set _bra[0] = "//" + _fabric + "// ''" + _style + "'' " + _color>>
-		<<elseif $clothingDetail == 3>>
+		<<elseif $pref.clothingDetail == 3>>
 			<<set _bra[0] = "''" + _style + "'' " + _color>>
-		<<elseif $clothingDetail == 2>>
+		<<elseif $pref.clothingDetail == 2>>
 			<<set _bra[0] = "''" + _style + "'' " + _color>>
 		<<else>>
 			<<set _bra[0] = "''" + _style + "'' " + _color>>
 		<</if>>
 	<<else>>
-		<<if $clothingDetail == 4>>
+		<<if $pref.clothingDetail == 4>>
 			<<set _bra[0] = "//" + _fabric + "// " + _substyle + " ''" + _style + "'' " + _color>>
-		<<elseif $clothingDetail == 3>>
+		<<elseif $pref.clothingDetail == 3>>
 			<<set _bra[0] = _substyle + " ''" + _style + "'' " + _color>>
-		<<elseif $clothingDetail == 2>>
+		<<elseif $pref.clothingDetail == 2>>
 			<<set _bra[0] = _substyle + " ''" + _style + "'' " + _color>>
 		<<else>>
 			<<set _bra[0] = "''" + _style + "'' " + _color>>
@@ -840,7 +840,7 @@
 		<</if>>
 	<</switch>>
 	/*<<print _bra[0]>>, <<= _bra[1]>>, <<= _bra[2]>>, <<= _bra[3]>>, <<= _bra[4]>>*/
-	<<set $shopB.push(_bra)>>
+	<<set $storeInv.bra.push(_bra)>>
 <</for>>
 <</if>>
 <</widget>>
@@ -853,8 +853,8 @@
 <<widget "genStocking">>
 <<if ndef $args[0] || ndef $args[1] || ndef $args[2] || ndef $args[3] || ndef $args[4] || ndef $args[5]>>
 	<<set alert(“!Stockings Generator function ran with missing control variable/s! Please submit a bug report with this error message and the current passage listed in the debug info page.”)>>
-	<<set $error += ", Stockings Generator function ran with missing control variable/s - Passage: ">>
-	<<set $error += = passage()>>
+	<<set $AW.error += ", Stockings Generator function ran with missing control variable/s - Passage: ">>
+	<<set $AW.error += = passage()>>
 <<else>>
 	<<switch $args[1]>>
 	<<case 0>>
@@ -864,12 +864,12 @@
 	<<case 2>>
 		<<set _stylelist = [5,6,7,7,8,8,9,9]>>
 	<<case default>>
-		<<set $error += ", Stocking Generator bad style arg - Passage: ">>
-		<<set $error += = passage()>>
+		<<set $AW.error += ", Stocking Generator bad style arg - Passage: ">>
+		<<set $AW.error += = passage()>>
 		<<set alert(“!Stocking Generator Style Arg Error! Details in debug view for bug report. You can continue playing otherwise.”)>>
 		<<set _stylelist = [1]>>
 	<</switch>>
-	<<set $shopLeg = []>>
+	<<set $storeInv.leg = []>>
 	/*for loop start*/
 	<<for _i to 0; _i < $args[0]; _i++>>
 		/*_stocking array index: 0Name, 1Attr, 2Sexy/Cute, 3Formal/Casual, 4Exposure, 5status, 6style, 7substyle, fabric, color, origin store*/
@@ -996,7 +996,7 @@
 	<<if _fabric == 0>>
 		<<set _stocking[0] = "''" + _style + "'' " + _color>>
 	<<else>>
-		<<if $clothingDetail == 4>>
+		<<if $pref.clothingDetail == 4>>
 			<<set _stocking[0] = "//"+ _fabric + "// ''" + _style + "'' " + _color>>
 		<<else>>
 			<<set _stocking[0] = "''" + _style + "'' " + _color>>
@@ -1049,7 +1049,7 @@
 		<</if>>
 	<</switch>>
 	/*<<print _stocking[0]>>, <<= _stocking[1]>>, <<= _stocking[2]>>, <<= _stocking[3]>>, <<= _stocking[4]>>*/
-	<<set $shopLeg.push(_stocking)>>
+	<<set $storeInv.leg.push(_stocking)>>
 	<</for>>
 <</if>>
 <</widget>>
@@ -1062,8 +1062,8 @@
 <<widget "genUpperBody">>
 <<if ndef $args[0] || ndef $args[1] || ndef $args[2] || ndef $args[3] || ndef $args[4] || ndef $args[5]>>
 	<<set alert(“!UpperBody Generator function ran with missing control variable/s! Please submit a bug report with this error message and the current passage listed in the debug info page.”)>>
-	<<set $error += ", UpperBody Generator function ran with missing control variable/s - Passage: ">>
-	<<set $error += = passage()>>
+	<<set $AW.error += ", UpperBody Generator function ran with missing control variable/s - Passage: ">>
+	<<set $AW.error += = passage()>>
 <<else>>
 	<<switch $args[1]>>
 	<<case 0>>
@@ -1082,13 +1082,13 @@
 		<<set _stylelist = [9,9,10,10,10,11,11,12,13,13,14]>>
 		<<set _substylelist = [4,4,5,5,6,6,7]>>
 	<<case default>>
-		<<set $error += ", UpperBody Generator bad style arg - Passage: ">>
-		<<set $error += = passage()>>
+		<<set $AW.error += ", UpperBody Generator bad style arg - Passage: ">>
+		<<set $AW.error += = passage()>>
 		<<set alert(“!UpperBody Generator Style Arg Error! Details in debug view for bug report. You can continue playing otherwise.”)>>
 		<<set _stylelist = [1]>>
 		<<set _substylelist = [0]>>
 	<</switch>>
-	<<set $shopUB = []>>
+	<<set $storeInv.upBody = []>>
 	/*for loop start*/
 	<<for _i to 0; _i < $args[0]; _i++>>
 		/*_upperbody array index: 0Name, 1Attr, 2Sexy/Cute, 3Formal/Casual, 4Exposure, 5status, 6style, 7substyle, fabric, color, origin store*/
@@ -1497,15 +1497,15 @@
 	<</if>>
 	<<if _neckRand == -1>>
 		<<if _substyle != 0>>
-			<<if $clothingDetail == 4>>
+			<<if $pref.clothingDetail == 4>>
 				<<set _upperbody[0] = _substyle + " //"+ _fabric + "// ''" + _style + "'' " + _color>>
-			<<elseif $clothingDetail > 1>>
+			<<elseif $pref.clothingDetail > 1>>
 				<<set _upperbody[0] = _substyle + " ''" + _style + "'' " + _color>>
 			<<else>>
 				<<set _upperbody[0] = "''" + _style + "'' " + _color>>
 			<</if>>
 		<<else>>
-			<<if $clothingDetail == 4>>
+			<<if $pref.clothingDetail == 4>>
 				<<set _upperbody[0] = "//"+ _fabric + "// ''" + _style + "'' " + _color>>
 			<<else>>
 				<<set _upperbody[0] = "''" + _style + "'' " + _color>>
@@ -1513,19 +1513,19 @@
 		<</if>>
 	<<elseif _neckRand == 0 && _upperbody[6] == 1 || _neckRand == 0 && _upperbody[6] == 2>>
 		<<if _substyle != 0>>
-			<<if $clothingDetail == 4>>
+			<<if $pref.clothingDetail == 4>>
 				<<set _upperbody[0] = _substyle + " //"+ _fabric + "// ''" + _style + "'' with " + _sleevestyle + " " + _color>>
-			<<elseif $clothingDetail == 3>>
+			<<elseif $pref.clothingDetail == 3>>
 				<<set _upperbody[0] = _substyle + " ''" + _style + "'' with " + _sleevestyle + " " + _color>>
-			<<elseif $clothingDetail == 2>>
+			<<elseif $pref.clothingDetail == 2>>
 				<<set _upperbody[0] = _substyle + " ''" + _style + "'' " + _color>>
 			<<else>>
 				<<set _upperbody[0] = "''" + _style + "'' " + _color>>
 			<</if>>
 		<<else>>
-			<<if $clothingDetail == 4>>
+			<<if $pref.clothingDetail == 4>>
 				<<set _upperbody[0] = "//"+ _fabric + "// ''" + _style + "'' with " + _sleevestyle + " " + _color>>
-			<<elseif $clothingDetail == 3>>
+			<<elseif $pref.clothingDetail == 3>>
 				<<set _upperbody[0] = "''" + _style + "'' with " + _sleevestyle + " " + _color>>
 			<<else>>
 				<<set _upperbody[0] = "''" + _style + "'' " + _color>>
@@ -1533,19 +1533,19 @@
 		<</if>>
 	<<elseif _sleeveRand == 0>>
 		<<if _substyle != 0>>
-			<<if $clothingDetail == 4>>
+			<<if $pref.clothingDetail == 4>>
 				<<set _upperbody[0] = _substyle + " //"+ _fabric + "// sleeveless ''" + _style + "'' with a " + _neckstyle + " " + _color>>
-			<<elseif $clothingDetail == 3>>
+			<<elseif $pref.clothingDetail == 3>>
 				<<set _upperbody[0] = _substyle + " sleeveless ''" + _style + "'' with a " + _neckstyle + " " + _color>>
-			<<elseif $clothingDetail == 2>>
+			<<elseif $pref.clothingDetail == 2>>
 				<<set _upperbody[0] = _substyle + " ''" + _style + "'' " + _color>>
 			<<else>>
 				<<set _upperbody[0] = "''" + _style + "'' " + _color>>
 			<</if>>
 		<<else>>
-			<<if $clothingDetail == 4>>
+			<<if $pref.clothingDetail == 4>>
 				<<set _upperbody[0] = "//"+ _fabric + "// sleeveless ''" + _style + "'' with a " + _neckstyle + " " + _color>>
-			<<elseif $clothingDetail == 3>>
+			<<elseif $pref.clothingDetail == 3>>
 				<<set _upperbody[0] = "sleeveless ''" + _style + "'' with a " + _neckstyle + " " + _color>>
 			<<else>>
 				<<set _upperbody[0] = "''" + _style + "'' " + _color>>
@@ -1553,19 +1553,19 @@
 		<</if>>
 	<<else>>
 		<<if _substyle != 0>>
-			<<if $clothingDetail == 4>>
+			<<if $pref.clothingDetail == 4>>
 				<<set _upperbody[0] = _substyle + " //"+ _fabric + "// ''" + _style + "'' with " + _sleevestyle + " and a " + _neckstyle + " " + _color>>
-			<<elseif $clothingDetail == 3>>
+			<<elseif $pref.clothingDetail == 3>>
 				<<set _upperbody[0] = _substyle + " ''" + _style + "'' with " + _sleevestyle + " and a " + _neckstyle + " " + _color>>
-			<<elseif $clothingDetail == 2>>
+			<<elseif $pref.clothingDetail == 2>>
 				<<set _upperbody[0] = _substyle + " ''" + _style + "'' " +  _color>>
 			<<else>>
 				<<set _upperbody[0] = "''" + _style + "'' " +  _color>>
 			<</if>>
 		<<else>>
-			<<if $clothingDetail == 4>>
+			<<if $pref.clothingDetail == 4>>
 				<<set _upperbody[0] = "//"+ _fabric + "// ''" + _style + "'' with " + _sleevestyle + " and a " + _neckstyle + " " + _color>>
-			<<elseif $clothingDetail == 3>>
+			<<elseif $pref.clothingDetail == 3>>
 				<<set _upperbody[0] = "''" + _style + "'' with " + _sleevestyle + " and a " + _neckstyle + " " + _color>>
 			<<else>>
 				<<set _upperbody[0] = "''" + _style + "'' " +  _color>>
@@ -1628,11 +1628,11 @@
 		<</if>>
 	<</switch>>
 	/*<<print _upperbody[0]>>, <<= _upperbody[1]>>, <<= _upperbody[2]>>, <<= _upperbody[3]>>, <<= _upperbody[4]>>*/
-	<<set $shopUB.push(_upperbody)>>
+	<<set $storeInv.upBody.push(_upperbody)>>
 	<</for>>
 <</if>>
 <</widget>>
-/*, $wardrobeLB, $wardrobeA, $wardrobeBag */
+/*, $ward.lowBody, $ward.acc, $ward.bag */
 
 /*overwear generation widget. Inputs: 0-number to generate 1-Style selector, 2-fabric selector, 3-color, 4-quality bonus, 5-store name*/
 /*Style: 0-everything equally, 1-standard,*/
@@ -1642,8 +1642,8 @@
 <<widget "genOverWear">>
 <<if ndef $args[0] || ndef $args[1] || ndef $args[2] || ndef $args[3] || ndef $args[4] || ndef $args[5]>>
 	<<set alert(“!Overwear Generator function ran with missing control variable/s! Please submit a bug report with this error message and the current passage listed in the debug info page.”)>>
-	<<set $error += ", Overwear Generator function ran with missing control variable/s - Passage: ">>
-	<<set $error += = passage()>>
+	<<set $AW.error += ", Overwear Generator function ran with missing control variable/s - Passage: ">>
+	<<set $AW.error += = passage()>>
 <<else>>
 	<<switch $args[1]>>
 	<<case 0>>
@@ -1651,12 +1651,12 @@
 	<<case 1>>
 		<<set _stylelist = [1,2,3,3,3,4,4,5,5,6,7,7,8,8,9,10,11,12,12]>>
 	<<case default>>
-		<<set $error += ", Overwear Generator bad style arg - Passage: ">>
-		<<set $error += = passage()>>
+		<<set $AW.error += ", Overwear Generator bad style arg - Passage: ">>
+		<<set $AW.error += = passage()>>
 		<<set alert(“!Overwear Generator Style Arg Error! Details in debug view for bug report. You can continue playing otherwise.”)>>
 		<<set _stylelist = [1]>>
 	<</switch>>
-	<<set $shopOW = []>>
+	<<set $storeInv.overWear = []>>
 	/*for loop start*/
 	<<for _i to 0; _i < $args[0]; _i++>>
 		/*_overwear array index: 0Name, 1Attr, 2Sexy/Cute, 3Formal/Casual, 4Exposure, 5status, 6style, 7substyle, fabric, color, origin store*/
@@ -1833,13 +1833,13 @@
 	<<if _fabric == 0>>
 		<<set _overwear[0] = "''" + _style + "'' " + _color>>
 	<<else>>
-		<<if $clothingDetail == 4>>
+		<<if $pref.clothingDetail == 4>>
 			<<set _overwear[0] = "//" + _fabric + "// ''" + _style + "'' " + _color>>
 		<<else>>
 			<<set _overwear[0] = "''" + _style + "'' " + _color>>
 		<</if>>
 	<</if>>
-	<<set $shopOW.push(_overwear)>>
+	<<set $storeInv.overWear.push(_overwear)>>
 	<</for>>
 <</if>>
 <</widget>>
@@ -1852,8 +1852,8 @@
 <<widget "genDress">>
 <<if ndef $args[0] || ndef $args[1] || ndef $args[2] || ndef $args[3] || ndef $args[4] || ndef $args[5]>>
 	<<set alert(“!Dress Generator function ran with missing control variable/s! Please submit a bug report with this error message and the current passage listed in the debug info page.”)>>
-	<<set $error += ", Dress Generator function ran with missing control variable/s - Passage: ">>
-	<<set $error += = passage()>>
+	<<set $AW.error += ", Dress Generator function ran with missing control variable/s - Passage: ">>
+	<<set $AW.error += = passage()>>
 <<else>>
 	<<switch $args[1]>>
 	<<case 0>>
@@ -1869,13 +1869,13 @@
 		<<set _stylelist = [2,3,3,5,5,5,7,11,11]>>
 		<<set _substylelist = [4,4,5,5,6,6,7]>>
 	<<case default>>
-		<<set $error += ", Dress Generator bad style arg - Passage: ">>
-		<<set $error += = passage()>>
+		<<set $AW.error += ", Dress Generator bad style arg - Passage: ">>
+		<<set $AW.error += = passage()>>
 		<<set alert(“!Dress Generator Style Arg Error! Details in debug view for bug report. You can continue playing otherwise.”)>>
 		<<set _stylelist = [1]>>
 		<<set _substylelist = [0]>>
 	<</switch>>
-	<<set $shopD = []>>
+	<<set $storeInv.dress = []>>
 	/*for loop start*/
 	<<for _i to 0; _i < $args[0]; _i++>>
 		/*_dress array index: 0Name, 1Attr, 2Sexy/Cute, 3Formal/Casual, 4Exposure, 5status, 6style, 7substyle, fabric, color, origin store*/
@@ -2174,19 +2174,19 @@
 		<<set _dress[4] = 0>>
 	<</if>>
 	<<if _substyle != 0>>
-		<<if $clothingDetail == 4>>
+		<<if $pref.clothingDetail == 4>>
 			<<set _dress[0] = _substyle + " //" + _fabric + "// ''" + _style + "'' with a " + _neckstyle + " " + _color>>
-		<<elseif $clothingDetail == 3>>
+		<<elseif $pref.clothingDetail == 3>>
 			<<set _dress[0] = _substyle + " ''" + _style + "'' with a " + _neckstyle + " " + _color>>
-		<<elseif $clothingDetail == 2>>
+		<<elseif $pref.clothingDetail == 2>>
 			<<set _dress[0] = _substyle + " ''" + _style + "'' " + _color>>
 		<<else>>
 			<<set _dress[0] = "''" + _style + "'' " + _color>>
 		<</if>>
 	<<else>>
-		<<if $clothingDetail == 4>>
+		<<if $pref.clothingDetail == 4>>
 			<<set _dress[0] = "//" + _fabric + "// ''" + _style + "'' with a " + _neckstyle + " " + _color>>
-		<<elseif $clothingDetail == 3>>
+		<<elseif $pref.clothingDetail == 3>>
 			<<set _dress[0] = "''" + _style + "'' with a " + _neckstyle + " " + _color>>
 		<<else>>
 			<<set _dress[0] = "''" + _style + "'' " + _color>>
@@ -2248,7 +2248,7 @@
 		<</if>>
 	<</switch>>
 	/*<<print _dress[0]>>, <<= _dress[1]>>, <<= _dress[2]>>, <<= _dress[3]>>, <<= _dress[4]>>*/
-	<<set $shopD.push(_dress)>>
+	<<set $storeInv.dress.push(_dress)>>
 	<</for>>
 <</if>>
 <</widget>>
@@ -2261,8 +2261,8 @@
 <<widget "genLowerBody">>
 <<if ndef $args[0] || ndef $args[1] || ndef $args[2] || ndef $args[3] || ndef $args[4] || ndef $args[5]>>
 	<<set alert(“!LowerBody Generator function ran with missing control variable/s! Please submit a bug report with this error message and the current passage listed in the debug info page.”)>>
-	<<set $error += ", LowerBody Generator function ran with missing control variable/s - Passage: ">>
-	<<set $error += = passage()>>
+	<<set $AW.error += ", LowerBody Generator function ran with missing control variable/s - Passage: ">>
+	<<set $AW.error += = passage()>>
 <<else>>
 	<<switch $args[1]>>
 	<<case 0>>
@@ -2278,13 +2278,13 @@
 	<<case 5>>
 		<<set _stylelist = [7,8,8,11,11,11,12,12,13,13,15,15,17]>>
 	<<case default>>
-		<<set $error += ", LowerBody Generator bad style arg - Passage: ">>
-		<<set $error += = passage()>>
+		<<set $AW.error += ", LowerBody Generator bad style arg - Passage: ">>
+		<<set $AW.error += = passage()>>
 		<<set alert(“!LowerBody Generator Style Arg Error! Details in debug view for bug report. You can continue playing otherwise.”)>>
 		<<set _stylelist = [1]>>
 		<<set _substylelist = [0]>>
 	<</switch>>
-	<<set $shopLB = []>>
+	<<set $storeInv.lowBody = []>>
 	/*for loop start*/
 	<<for _i to 0; _i < $args[0]; _i++>>
 		/*_lowerbody array index: 0Name, 1Attr, 2Sexy/Cute, 3Formal/Casual, 4Exposure, 5status, 6style, 7substyle, fabric, color, origin store*/
@@ -2941,19 +2941,19 @@
 		<<set _lowerbody[4] = 0>>
 	<</if>>
 	<<if _substyle != 0>>
-		<<if $clothingDetail == 4>>
+		<<if $pref.clothingDetail == 4>>
 			<<set _lowerbody[0] = _substyle + " //" + _fabric + "// ''" + _style + "'' " + _hemstyle + " length " + _color>>
-		<<elseif $clothingDetail == 3>>
+		<<elseif $pref.clothingDetail == 3>>
 			<<set _lowerbody[0] = _substyle + " ''" + _style + "'' " + _hemstyle + " length " + _color>>
-		<<elseif $clothingDetail == 2>>
+		<<elseif $pref.clothingDetail == 2>>
 			<<set _lowerbody[0] = _substyle + " ''" + _style + "'' " + _color>>
 		<<else>>
 			<<set _lowerbody[0] = "''" + _style + "'' " + _color>>
 		<</if>>
 	<<else>>
-		<<if $clothingDetail == 4>>
+		<<if $pref.clothingDetail == 4>>
 			<<set _lowerbody[0] = "//" + _fabric + "// ''" + _style + "'' " + _hemstyle + " length " + _color>>
-		<<elseif $clothingDetail == 3>>
+		<<elseif $pref.clothingDetail == 3>>
 			<<set _lowerbody[0] = " ''" + _style + "'' " + _hemstyle + " length " + _color>>
 		<<else>>
 			<<set _lowerbody[0] = " ''" + _style + "'' " + _color>>
@@ -3015,10 +3015,11 @@
 		<</if>>
 	<</switch>>
 	/*<<print _lowerbody[0]>>, <<= _lowerbody[1]>>, <<= _lowerbody[2]>>, <<= _lowerbody[3]>>, <<= _lowerbody[4]>>*/
-	<<set $shopLB.push(_lowerbody)>>
+	<<set $storeInv.lowBody.push(_lowerbody)>>
 	<</for>>
 <</if>>
 <</widget>>
+
 
 <</silently>>
 <</nobr>>

@@ -8,10 +8,10 @@
 <<widget "setNewJob">>
 <<silently>>
 <<if ndef $args[0]>>
-  <<set $error += ", No arguments sent to job-setting function!">>
+  <<set $AW.error += ", No arguments sent to job-setting function!">>
   <<run alert("Job not set, no arguments sent to job-setting function!")>>
 <<elseif ndef $args[1]>>
-  <<set $error += ", Missing argument for job-setting function!">>
+  <<set $AW.error += ", Missing argument for job-setting function!">>
   <<run alert("Job not set, missing argument for job-setting function!")>>
 <<else>>
   /*reset all the basic variables to zero*/
@@ -73,7 +73,7 @@
         <<set $job.vacation.rate = 0>>
         <<set $job.vacation.ratePaid = 0>>
         <<set $job.sick.rate = 0>>
-        <<set _pay = Math.round((7.5 * $curBase)*4)>>
+        <<set _pay = Math.round((7.5 * $AW.curBase)*4)>>
         <<set $job.rules.payrate = _pay / 4>>
         <<set $job.pay = Math.round($job.rules.payrate * $job.rules.worktime[0])>>
         <<set $job.stats.rank = 0>>
@@ -84,7 +84,7 @@
         <<set $job.vacation.rate = 4>>
         <<set $job.vacation.ratePaid = 0>>
         <<set $job.sick.rate = 4>>
-        <<set _pay = Math.round((8 * $curBase)*4)>>
+        <<set _pay = Math.round((8 * $AW.curBase)*4)>>
         <<set $job.rules.payrate = _pay / 4>>
         <<set $job.pay = Math.round($job.rules.payrate * $job.rules.worktime[0])>>
         <<set $job.stats.rank = 1>>
@@ -95,14 +95,14 @@
         <<set $job.vacation.rate = 4>>
         <<set $job.vacation.ratePaid = 4>>
         <<set $job.sick.rate = 8>>
-        <<set _pay = Math.round((9 * $curBase)*4)>>
+        <<set _pay = Math.round((9 * $AW.curBase)*4)>>
         <<set $job.rules.payrate = _pay / 4>>
         <<set $job.pay = Math.round($job.rules.payrate * $job.rules.worktime[0])>>
         <<set $job.stats.rank = 2>>
         <<set $job.name = "Janitorial Assistant">>
         <<set $job.rules.boss = "Jeb Cummings">>
       <<else>>
-        <<set $error += ", bad rank value sent to job setting function">>
+        <<set $AW.error += ", bad rank value sent to job setting function">>
         <<run alert("Bad rank value sent to job setting function, setting to default.")>>
       <</if>>
     <<case "IT">>
@@ -130,7 +130,7 @@
         <<set $job.vacation.rate = 4>>
         <<set $job.vacation.ratePaid = 0>>
         <<set $job.sick.rate = 4>>
-        <<set _pay = Math.round((10 * $curBase)*4)>>
+        <<set _pay = Math.round((10 * $AW.curBase)*4)>>
         <<set $job.rules.payrate = _pay / 4>>
         <<set $job.pay = Math.round($job.rules.payrate * $job.rules.worktime[0])>>
         <<set $job.stats.rank = 0>>
@@ -141,7 +141,7 @@
         <<set $job.vacation.rate = 4>>
         <<set $job.vacation.ratePaid = 4>>
         <<set $job.sick.rate = 8>>
-        <<set _pay = Math.round((12 * $curBase)*4)>>
+        <<set _pay = Math.round((12 * $AW.curBase)*4)>>
         <<set $job.rules.payrate = _pay / 4>>
         <<set $job.pay = Math.round($job.rules.payrate * $job.rules.worktime[0])>>
         <<set $job.stats.rank = 1>>
@@ -152,14 +152,14 @@
         <<set $job.vacation.rate = 0>>
         <<set $job.vacation.ratePaid = 8>>
         <<set $job.sick.rate = 8>>
-        <<set _pay = Math.round((15 * $curBase)*4)>>
+        <<set _pay = Math.round((15 * $AW.curBase)*4)>>
         <<set $job.rules.payrate = _pay / 4>>
         <<set $job.pay = Math.round($job.rules.payrate * $job.rules.worktime[0])>>
         <<set $job.stats.rank = 2>>
         <<set $job.name = "Assistant Technician">>
         <<set $job.rules.boss = "Wesley Horton">>
       <<else>>
-        <<set $error += ", bad rank value sent to job setting function">>
+        <<set $AW.error += ", bad rank value sent to job setting function">>
         <<run alert("Bad rank value sent to job setting function, setting to default.")>>
       <</if>>
     <<case "IB">>
@@ -187,7 +187,7 @@
         <<set $job.vacation.rate = 0>>
         <<set $job.vacation.ratePaid = 0>>
         <<set $job.sick.rate = 0>>
-        <<set _pay = Math.round((9 * $curBase)*4)>>
+        <<set _pay = Math.round((9 * $AW.curBase)*4)>>
         <<set $job.rules.payrate = _pay / 4>>
         <<set $job.pay = Math.round($job.rules.payrate * $job.rules.worktime[0])>>
         <<set $job.stats.rank = 0>>
@@ -198,7 +198,7 @@
         <<set $job.vacation.rate = 4>>
         <<set $job.vacation.ratePaid = 0>>
         <<set $job.sick.rate = 4>>
-        <<set _pay = Math.round((10 * $curBase)*4)>>
+        <<set _pay = Math.round((10 * $AW.curBase)*4)>>
         <<set $job.rules.payrate = _pay / 4>>
         <<set $job.pay = Math.round($job.rules.payrate * $job.rules.worktime[0])>>
         <<set $job.stats.rank = 1>>
@@ -209,14 +209,14 @@
         <<set $job.vacation.rate = 4>>
         <<set $job.vacation.ratePaid = 4>>
         <<set $job.sick.rate = 8>>
-        <<set _pay = Math.round((12 * $curBase)*4)>>
+        <<set _pay = Math.round((12 * $AW.curBase)*4)>>
         <<set $job.rules.payrate = _pay / 4>>
         <<set $job.pay = Math.round($job.rules.payrate * $job.rules.worktime[0])>>
         <<set $job.stats.rank = 2>>
         <<set $job.name = "Office Clerk Assistant">>
         <<set $job.rules.boss = "Diane Titter">>
       <<else>>
-        <<set $error += ", bad rank value sent to job setting function">>
+        <<set $AW.error += ", bad rank value sent to job setting function">>
         <<run alert("Bad rank value sent to job setting function, setting to default.")>>
       <</if>>
   <</switch>>

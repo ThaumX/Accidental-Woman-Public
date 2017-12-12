@@ -1,0 +1,95 @@
+:: storyStart15 [nobr]
+
+<<setScene "You are in Lily's home." 0 0 "lily">>
+<<set $location = "Lily's House">>
+<<if $items.list.includes("Focker's Dark Roast")>>
+	<<set $flag.LilyCoffeeSuc = true>>
+	<<set $flag.LilyCoffee = false>>
+	<<set $items.list.delete("Focker's Dark Roast")>>
+<<else>>
+	/*<<set $flag.LilyCoffee = false>>*/
+<</if>>
+<<set $helpText = "Lily won't actually set your name to Stanky Shitlicker, unless you really want her to.">>
+@@.head3;Y@@ou carry your purchases into the house, figuring you'll probably need them.<<if $flag.LilyCoffeeSuc>> You take a moment to put the Focker's in the kitchen next to the coffee maker.<<elseif $PC.trait.forgetful < 1>> You realize almost immediately that you forgot the coffee, and curse yourself for not remembering while you were still at the store.<</if>> You make your way upstairs to the guest bedroom, feeling the weight of each step, before putting your new clothes on the dresser.
+<br><br>
+<<if $time < 1700>>
+@@.head3;Y@@ou don't bother taking the new clothes out of the bags, instead falling prey to the allure of the soft bed. You bounce down face-first, <<if $PC.clothes.upper == "Thin Pajama Top (Lilac)">>not even bothering to take off the pajamas Lily gave you.<<else>>not even bothering to take off the thick sweats that Lily gave you to wear.<</if>> There's a brief moment when you wonder if perhaps the tiredness has something to do with your transformation, but you're asleep before you can finish the thought.
+<br><br>
+<<link "Sleep the dreamless sleep of the exhausted">><<set $temp = 1>><<setTime 17 12>><<goto [[storyStart15b]]>><</link>>
+<<else>>
+How the hell did you stay out so long? :P <br>
+Be magically sent <<link "backward in time">><<set $temp = 1>><<setTime 17 12>><<goto [[storyStart15b]]>><</link>>
+<</if>>
+
+:: storyStart15b [nobr]
+
+<<addTime 10>>
+<<status 1>>
+<<if $PC.status.arousal > 4>>
+	<<set $PC.status.arousal = 4>>
+	<<set $PC.status.satisfaction -= 20>>
+<<else>>
+	<<set $PC.status.satisfaction -= 10>>
+<</if>>
+<<set $PC.status.fatigue = 4>>
+<<stress -5>>
+<<status 0>>
+<<goto [[storyStart15c]]>>
+
+:: storyStart15c [nobr]
+
+@@.head3;Y@@ou find yourself being dragged out of your slumber, someone shaking your shoulder. You turn to the side with a groan,<<if $PC.body.tits.cupNum > 8>> your new tits surprisingly sore from being laid on for so long.<<else>> your neck sore from the odd angle it ended up while you were sleeping.<</if>> You slowly open your eyes, wincing slightly from the bright room lights, and look to see who woke you. It's Lily, standing next to the bed as she waits for you to finish waking up. @@.mono;God she's beautiful.@@
+<br><br>
+@@.npc;Hey sleepyhead. Come downstairs so we can get that paperwork taken care of, there are some other things I need to show you too.@@ She's smiling in a way that makes you think that there was something funny about the way you were sleeping.
+<br><br>
+You can <<link "get up">><<set $temp = 1>><<addTime 2>><<goto [[storyStart15d]]>><</link>> or <<link "resist">><<set $temp = 2>><<addTime 2>><<goto [[storyStart15d]]>><</link>>.
+
+:: storyStart15d [nobr]
+
+<<if $temp == 1>>
+@@.head3;Y@@ou gingerly push yourself up with your arms and sit up in bed. @@.pc;Okay, okay. I'm up.@@
+<br><br>
+Lily walks over to the shopping bags on the dresser. @@.npc;I took a look at your new clothes. You made some... interesting choices.@@ You can hear it in her voice that her smile is getting bigger. 
+<br><br>
+@@.pc;Yeah, well...@@ <<if $PC.trait.bitch == 1 || $PC.trait.forgiving == -1 || $PC.trait.lowEsteem == -1>>@@.pc;It's not exactly like I was expecting to be buying women's clothes when I came here.@@<<else>>@@.pc;Well they're clothes, and they seem to fit, at least.@@<</if>>
+<br><br>
+Lily picks up the Bullseye bags and starts toward the door. @@.npc;I'm gonna start washing these so you can wear them tomorrow, okay? I'll see you downstairs.@@
+<br><br>
+You start swinging your legs over the edge of the bed to get up. @@.pc;Thanks, I'll be down in a minute.@@
+<br><br>
+You stand up as Lily leaves the room, and start a slow walk toward the <<link "guest bathroom">><<addTime 5>><<goto [[storyStart15e]]>><</link>>.
+<<else>>
+@@.pc;Go away, I'm too tired for this right now.@@ You grab a pillow and pull it over your head to block out the light.
+<br><br>
+It's quiet just long enough for you to start thinking that maybe Lily is actually going to let you sleep.<<timed 1500ms t8n>>.<<next>>.<<next>>.<<next>>.<<next>>.
+<br><br>
+@@.npc;You're right, you should get some rest. I can finish that paperwork for you.@@<<next>>.<<next>>. @@.npc;I always did think it would be really funny if someone was named ''Stanky Shitlicker''...@@<<next>>
+<br><br>
+@@.mono;Shit. She'd do it.@@ You shove yourself up grumpily to sit in bed. @@.pc;Fine, fine. I'm up.@@
+<br><br>
+Lily walks over to the shopping bags on the dresser. @@.npc;I took a look at your new clothes. You made some... interesting choices.@@ You can hear it in her voice that her smile is getting bigger. 
+<br><br>
+@@.pc;Yeah, well...@@ <<if $PC.trait.bitch == 1 || $PC.trait.forgiving == -1 || $PC.trait.lowEsteem == -1>>@@.pc;It's not exactly like I was expecting to be buying women's clothes when I came here.@@<<else>>@@.pc;Well they're clothes, and they seem to fit, at least.@@<</if>>
+<br><br>
+Lily picks up the Bullseye bags and starts toward the door. @@.npc;I'm gonna start washing these so you can wear them tomorrow, okay? I'll see you downstairs.@@
+<br><br>
+You start swinging your legs over the edge of the bed to get up. @@.pc;Thanks, I'll be down in a minute.@@
+<br><br>
+You stand up as Lily leaves the room, and start a slow walk toward the <<link "guest bathroom">><<addTime 5>><<goto [[storyStart15e]]>><</link>>.
+<</timed>>
+<</if>>
+
+:: storyStart15e [nobr]
+
+@@.head3;A@@fter an awkward piss and a splash of water in the face, you're heading downstairs. You look around once you reach the first floor, but you don't see Lily. A moment later though you hear her making her own way down the stairs. @@.mono;I guess the laundry is upstairs.@@
+<br><br>
+It's only a few moments before Lily joins you. @@.npc;Let's sit on the couch, I've got everything on my slate.@@ <<if $temp == 2>>She gives you a grin. @@.npc;Unless you've taken a liking to Stanky Shitlicker?@@
+<br><br>
+<span id='rename'>
+<<link "No, I'm good">><<replace "#rename">>@@.pc;No, I'm good, thanks.@@<br><br>@@.npc;Ah, you're no fun.@@<</replace>><</link>> or <<link "Actually...">><<set $PC.main.name = "Stanky">><<set $PC.main.surname = "Shitlicker">><<replace "#rename">>@@.pc;Actually, I kinda like it!@@<br><br>@@.npc;Seriously!? Okay...@@<</replace>><</link>></span>
+<</if>>
+<br><br>
+@@.head3;T@@he two of you sit down together on the couch, and Lily flicks on the large slate that she had left sitting on the coffee table. It's a high-end model--you'd expect nothing less with Lily--with a 22 inch screen. Despite it's size, it's quite thin and light, and lily easily holds it between you with one hand. @@.npc;Okay, I've already taken care of most of the hard stuff. There's just a couple things to wrap up because I didn't want to make any of your decisions for you.@@
+<br><br>
+<<link "Okay, first up is...">><<addTime 4>><<goto [[paperForge]]>><</link>>
+<br><br>

@@ -1,0 +1,94 @@
+:: paperForge [nobr]
+
+<<set $helpText = "What's in a name? The default surname is picked randomly for each game. It isn't terribly important, because NPCs will mostly refer to you by your first name. Just pick something you like, or go with the default.">>
+@@.npc;...your official name.@@ She deftly starts pulling up the correct forms. @@.npc;So, what's it going to be?@@<br><br>
+@@.pc;I think I'm good with@@ <<textbox "$PC.main.name" $PC.main.name>><<textbox "$PC.main.surname" $PC.main.surname>>.
+<br><br>
+@@.npc;You're Sure?@@
+<br><br>
+You think about it for a moment. @@.pc;<<link "Yes, I'm sure">><<addTime 4>><<goto [[paperForgea]]>><</link>>.@@
+
+:: paperForgea [nobr]
+
+<<set $helpText = "There are consequences to age, which was already covered. Similarly, having an age on your ID significantly different from your apparent age will have consequences. The minimum age you can set is 18 because you have to be able to work. The highest is 40.">>
+<<if ndef $PC.main.ageID>>
+	<<set $PC.main.ageID = 21>>
+<</if>>
+@@.npc;Aaaand, now you need to decide how old you'll be. Your documents have to say you're at least 18, though I'd stick with 21 for obvious reasons.@@ <<if $PC.main.age < 18>>@@.npc;Of course, with the way you look people are seriously going to think you have fake ID. Don't worry though, I've got you covered.@@<<elseif $PC.main.age < 21>>@@.npc;I think you can pull off the whole 'just looks young for her age' thing, especially since you're actually <<print $PC.main.ageOriginal>>.@@<<elseif $PC.main.age > 28>>@@.npc;I'd really avoid trying to go too young... You'd look like one of those delusional ladies if you tried 21.@@<<else>>@@.npc;Somewhere in your twenties should probably be fine.@@<</if>>
+<br><br>
+@@.pc;Okay, let's go with <<textbox "$PC.main.ageID" $PC.main.ageID>>.
+
+<<link "continue...">><<addTime 5>><<goto [[paperForgeb]]>><</link>>
+
+:: paperForgeb [nobr]
+
+<<set $helpText = "Not having healthcare will make the game more difficult due to the cost of healthcare, but you can opt in later if a major medical situation develops. Additionally, not signing up for healthcare removes the chance for interesting treatments and consequences, which includes some minor transformation content.">>
+<<if $PC.main.ageID < 18>><<set $PC.main.ageID = 18>><<elseif $PC.main.ageID > 40>><<set $PC.main.ageID = 40>><</if>>
+@@.head3;L@@ily gives you a grin. @@.npc;Okay, you're now officially Miss <<print $PC.main.name>> <<print $PC.main.surname>>, A <<print $PC.main.ageID>> year old woman.@@ Lily takes a few minutes to go through the forms still requiring your name or age, before looking up again. @@.npc;So this is a bit of a complicated one. Hmmm...@@ She seems to be thinking of the best way to explain something.
+<br><br>
+That of course concerns you a little bit, because she only does it when the thing she's explaining is... dubious. @@.pc;Give it to me straight Lils, what is it?@@
+<br><br>
+She looks up from the tablet. @@.npc;Okay, so you know how Appletree is an unincorporated territory?@@
+<br><br>
+You remember her mentioning that before you came out here. @@.pc;Yes, and?@@
+<br><br>
+@@.npc;Well, it means some of the laws work a little different here than they would 10 or 15 miles away. Anyway, Appletree offers nearly-free healthcare to its residents if they want it...@@
+<br><br>
+@@.pc;I'm sensing a 'but' coming...@@
+<br><br>
+Lily rolls her eyes at you in a way that clearly says "Duh". @@.npc;Well the hidden cost of this healthcare is that you basically give up the right to refuse care or determine the course of treatment.@@ She gives a big sigh. @@.pc;I think it's mostly those moron anti-vaxxers that were to blame. When they started being ''really'' stupid, and some of the states started passing laws... Anyway, the idea seems to be mostly to keep people from deciding to go home and do crystal therapy shit on their kids instead of actually taking them to the doctor.@@
+<br><br>
+That doesn't really sound all that bad... @@.pc;So what's the big deal then?@@
+<br><br>
+@@.npc;Well, just because that's the way they normally use that power doesn't mean they can't or won't do something else in the future, you know? There's just something creepy to me about the idea of getting a surgery or something without saying it's okay first, even if it's for the best reason.@@
+<br><br>
+@@.mono;It does sound a ''little bit'' creepy.@@ You think about it for a moment. @@.pc;So what's the alternative?@@
+<br><br>
+Lily shrugs. @@.npc;There really isn't one, since outside insurers won't insure residents. Basically the other option is paying out of pocket. You could always sign up later if you had to for something major, but you know how crazy basic healthcare and prescription prices have gotten.@@
+<br><br>
+@@.big;[[Sign up for AppleCare|paperForgec][$flag.Healthcare = true]] [[Just Pay Out-of-Pocket|paperForgec][$flag.Healthcare = false]]@@
+
+
+:: paperForgec [nobr]
+
+<<set $helpText = "Being an organ donor has very little to do with donating your organs (unless you're actually in that situation in the game, then all bets are off). What opting out of being an organ donor does is put the game into 'easy mode' in regard to bad endings. You can read more info about the difference in the FAQ.">>
+Lily does a couple quick things on her slate, before looking back up at you. Fortunately the position of the slate covers up the fact that you were more interested in her breasts than the information on the screen. @@.npc;Okay, here's one that'll seem a bit odd... Do you want to be an organ donor?@@
+<br><br>
+@@.pc;Huh?@@
+<br><br>
+@@.npc;You know how when you get your driver's license renewed, they always give you the option to opt-out of being an organ donor?@@
+<br><br>
+Of course you do, since they're so obvious about it. You never opted out before though, even though it's kinda creepy, you always figured you wouldn't be needing them anyway... @@.pc;Yeah, and?@@
+<br><br>
+@@.npc;Well, normally I'd just say 'be an organ donor', cause it's the right thing and whatnot, but here in Appletree... Let's just say that some of the people here tend to be a little, umm, overzealous. Sooo, yeah, just thought I'd ask. You want to opt out?@@
+<br><br>
+<<link "Be a Donor">><<set $flag.organDonor = true>><<addTime 7>><<goto [[paperForged]]>><</link>> <<link "Opt Out">><<set $flag.organDonor = false>><<addTime 7>><<goto [[paperForged]]>><</link>>
+<<comment "Being an organ donor doesn't increase difficulty per say, but it does make thresholds for getting a bad end less forgiving. If you ever think 'how is the pc going on like nothing happened?' you should be an organ donor.">>
+
+
+:: paperForged [nobr]
+
+<<set $helpText = "Nothing to see here, move along.">>
+@@.npc;Okay, that's it!@@ Lily finalizes the last document, and sets the slab on the coffee table. She turns her body to face you more directly, and examines you intently. You've known her long enough to catch the hint of excitement lurking on her face. @@.pc;What?@@
+<br><br>
+Her face breaks into a grin once she stopped trying to hold it back. @@.npc;It's time for some girl talk!@@ 
+<br><br>
+You don't entirely get it, but there isn't much choice but to play along...@@.pc;Girl talk?@@
+<br><br>
+Lily is still grinning like crazy, but you can tell she's making an effort to be at least a little bit more serious. @@.npc;If you're going to blend in and live as a woman, you've got a ''lot'' to learn. Things that you'd only ever learn if you grew up as a girl, but that it'd be nearly impossible not to learn if you did.@@ 
+<br><br>
+@@.mono;I'd rather be ''//with//'' a girl that learning how to be one... Like that jogging goddess...@@ Lily's staring at you, and you pull your mind from the gutter in order to answer. @@.pc;Okay, so I need to learn how to be a girl.@@
+<br><br>Her grin is mostly gone now, and you can tell that as much as she may be enjoying the idea of 'teaching you to be a girl', she has some serious motives too. @@.npc;I know it's not your idea of a fun time, but you'll really stand out if you don't learn some stuff. People might not be able to put a finger on exactly what it is, but it'll unnerve them. If you want to have friends, a social life, or even a job...@@
+<br><br>
+Seeing how serious she's gotten, you decide you'd better pay attention. @@.pc;Okay Lily. I get it, so teach me Sensei.@@
+<br><br>
+<<if $PC.trait.perceptive == 1>>You see her shoulders drop slightly as she relaxes a little, apparently she was getting pretty tense. <</if>>@@.npc;I won't harp on it, but you don't want to be suspicious, not when it comes to something this major. Not in Appletree. I'm not your mother, I won't stop you from sharing what happened with people. You just need to be careful who finds out. This is a small town, and gossip spreads fast.@@
+<br><br>
+After one last serious look, she stands up and offers you her hand. @@.npc;Come on, let's go.@@
+<br><br>
+You take her hand, and by the time you're standing, her lips have curled back up into an amused grin.
+<br><br>
+<<link "Continue into placeholder prologue">><<goto [[storyStart16a]]>><</link>>
+<br>
+@@.ident;It is safe to save here.@@ Save so you can pick up where you left off in the next version.
+

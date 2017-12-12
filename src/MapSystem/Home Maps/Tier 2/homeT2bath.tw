@@ -1,0 +1,64 @@
+:: homeT2bath [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+
+/* GAME MAP TABLE - Displays map next to spot for area image.*/
+<div id="topbar"><center>
+<table id="navigation">
+<tr id="navigation">
+<td id="navigation"><img data-passage="IMGtier2homeBATH" usemap="#image-map"><map name="image-map">
+    <area data-passage="homeT2TObedroom" alt="Bedroom" title="Bedroom" coords="152,28,236,28,244,102,154,102" shape="poly">
+    <area data-passage="homeT2TOliving" alt="Livingroom" title="Livingroom" coords="48,47,148,47,152,129,42,129" shape="poly">
+    <area data-passage="homeT2TObalcony" alt="Balcony" title="Balcony" coords="0,181,0,103,42,103,38,181" shape="poly">
+    <area data-passage="homeT2TOkitchen" alt="Kitchen" title="Kitchen" coords="38,203,44,131,150,131,150,153,134,159,134,203" shape="poly">
+    <area data-passage="homeT2TOfoyer" alt="Foyer" title="Foyer" coords="136,203,136,161,152,153,188,155,190,203" shape="poly">
+    <area data-passage="homeT2TObath" alt="Bathroom" title="Bathroom" coords="206,203,200,105,244,105,248,133,246,203" shape="poly">
+    <area data-passage="homeT2TOexit" alt="Exit" title="Exit" coords="34,247,38,205,246,205,246,247" shape="poly" class="map-red-area">
+	<area data-passage="homeT2TOwardrobe" alt="Wardrobe Menu" title="Wardrobe Menu" coords="152,104,196,104,198,138,162,136,154,130" shape="poly" class="map-green-area">
+    <area data-passage="homeT2homemenu" alt="Home Control" title="Home Control" coords="32,248,36,184,0,184,2,248" shape="poly" class="map-blue-area">
+</map></td>
+<td id="navigation"><<link [img[$map.imageName]]>><</link>></td>
+</tr>
+</table></center></div>
+<div id="mainshits"><center>
+@@.head2;<<=$map.name>>@@</center>
+<br><br>
+/*Event notification spot*/
+/*<<mapEventHome>>*/
+/*LOCATION description of  location*/
+@@.head3;Y@@ou are in your &undecorated& bathroom. &more placeholder for time and funishings&
+/*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span></div>
+<div id="actionbar">
+/*ACTION TABLE*/
+<table>
+
+<tr>
+<td width="20%">
+<<hoverrevise groommenu>>
+@@.butt90;<<button "Grooming Menu">><<addTime 5>><<goto [[groomingMain]]>><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise takeshower>>@@.butt90;<<button "Bathe">><</button>>@@<<endhoverrevise>>
+<<hoverrevise wearmakup>>@@.butt90;<<button "Wear Makeup">><<dialog "Wear Makeup">>choose one of your makeup styles here and you'll put it on!<br><br>Not Ready... <<button "Casual">><</button>><<button "Work">><</button>><<button "Fancy">><</button>><<button "wash off">><</button>><</dialog>><</button>>@@<<endhoverrevise>>
+<<hoverrevise douphair>>@@.butt90;<<button "Change Hair">><<dialog "Change Hairstyle">>choose one of your default styles here and you'll change your hairstyle!<br><br>Not Ready... <<button "Casual">><</button>><<button "Work">><</button>><<button "Fancy">><</button>><<button "brush current style">><</button>><</dialog>><</button>>@@<<endhoverrevise>>
+</td><td>
+<<insertion groommenu>>@@.exp;Access the grooming menu to change your hairstyle, put on makeup, wear jewelry, change settings, and more.@@<<endinsertion>>
+<<insertion wearmakeup>>@@.exp;Quick menu popup to put on one of your saved makeup sets (Casual, Work, Fancy). To put on different makeup combinations, use the grooming menu.@@<<endinsertion>>
+<<insertion takeshower>>@@.exp;Take a shower or bath, and perhaps do other things while you're at it... This is the method to get clean without the semi-automatic bathing before bed.@@<<endinsertion>>
+<<insertion douphair>>@@.exp;Quick menu popup to change your current hairstyle to one of your saved default styles. You can also use this menu to quickly brush/straighten your hair if you happen to have "stuff" in it.@@<<endinsertion>>
+</td></tr>
+<tr><td colspan=2  id="homeaction"></td></tr>
+</table>
+<<timed 50ms>>
+<<mapHomeEventAction>>
+<<mapHomeActions>>
+<</timed>>
+</div>
+
+
+
+

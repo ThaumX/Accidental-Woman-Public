@@ -1,0 +1,308 @@
+:: BEwomens2 [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+<div id="topbar">
+/* GAME MAP TABLE - Displays 4x4 map grid next to spot for area image. Grid simulates image map links, which are flakey in Twine */
+<center>
+<table id="navigation">
+<tr id="navigation">
+<td id="navigation">[img[Hardware|IMGbullseye11][controlBullseye][$map.destLoc = [1,1]]]</td>
+<td id="navigation">[img[Electronics|IMGbullseye12][controlBullseye][$map.destLoc = [1,2]]]</td>
+<td id="navigation">[img[Toys & Games|IMGbullseye13][controlBullseye][$map.destLoc = [1,3]]]</td>
+<td id="navigation">[img[Baby|IMGbullseye14][controlBullseye][$map.destLoc = [1,4]]]</td>
+<td id="navigation">[img[Grocery|IMGbullseye15][controlBullseye][$map.destLoc = [1,5]]]</td>
+<td rowspan="5" id="navigation"><<link [img[$map.imageName]]>><<dialog 'Detail Map'>>[img[IMGbullseyeBig]]<br>@@.note;You can not click this map to navigate.@@<</dialog>><</link>></td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Housewares|IMGbullseye21][controlBullseye][$map.destLoc = [2,1]]]</td>
+<td id="navigation">[img[Women's Clothing - Tops, Dresses, & Coats|IMGbullseye22][controlBullseye][$map.destLoc = [2,2]]]</td>
+<td id="navigation">[img[IMGbullseyeX23][controlBullseye][$map.destLoc = [2,3]]]</td>
+<td id="navigation">[img[Lingerie & Jewelry|IMGbullseye24][controlBullseye][$map.destLoc = [2,4]]]</td>
+<td id="navigation">[img[Grocery|IMGbullseye25][controlBullseye][$map.destLoc = [2,5]]]</td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Housewares|IMGbullseye31][controlBullseye][$map.destLoc = [3,1]]]</td>
+<td id="navigation">[img[Children's Clothing - Girls|IMGbullseye32][controlBullseye][$map.destLoc = [3,2]]]</td>
+<td id="navigation">[img[Children's Clothing - Boys|IMGbullseye33][controlBullseye][$map.destLoc = [3,3]]]</td>
+<td id="navigation">[img[Men's Clothing|IMGbullseye34][controlBullseye][$map.destLoc = [3,4]]]</td>
+<td id="navigation">[img[Grocery|IMGbullseye35][controlBullseye][$map.destLoc = [3,5]]]</td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Pharmacy|IMGbullseye41][controlBullseye][$map.destLoc = [4,1]]]</td>
+<td id="navigation">[img[Stationary & Optometrist|IMGbullseye42][controlBullseye][$map.destLoc = [4,2]]]</td>
+<td id="navigation">[img[Best Head Hair Salon|IMGbullseye43][controlBullseye][$map.destLoc = [4,3]]]</td>
+<td id="navigation">[img[Customer Service|IMGbullseye44][controlBullseye][$map.destLoc = [4,4]]]</td>
+<td id="navigation">[img[Produce, Deli, Bakery|IMGbullseye45][controlBullseye][$map.destLoc = [4,5]]]</td>
+</tr>
+<tr id="navigation">
+<td id="navigation">[img[Parking Lot|IMGbullseye51][controlBullseye][$map.destLoc = [5,1]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye52][controlBullseye][$map.destLoc = [5,2]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye53][controlBullseye][$map.destLoc = [5,3]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye54][controlBullseye][$map.destLoc = [5,4]]]</td>
+<td id="navigation">[img[Parking Lot|IMGbullseye55][controlBullseye][$map.destLoc = [5,5]]]</td>
+</tr>
+</table></center>
+</div>
+<div id="mainshits">
+<center>@@.pulseHead;<<=$map.name>>@@</center>
+<br><br>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<<walkDescriptBullseye>><<= " ">><<mapEventBullseye>><br><br>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<<switch $map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<case default>>
+
+<</switch>>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+@@.head3;Y@@ou are standing in Bullseye's large women's clothing department. This area seems to sell bottoms of all sorts, from skirts to slacks. There's also a small section with athletic clothes and swimwear.
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+<div id="actionbar">
+/*ACTION TABLE*/
+/*refactored to use the mousehover-based DOM macros, look prettier, and saves space*/
+<table id="Actions">
+<tr><td colspan=2>
+/*this controls the element that will appear on mouse hover NOTE that for reasons, the closing tag in these macros are <<endmacroname>> instead of <</macroname>>*/
+<<hoverrevise hovLowerBody>>
+	<<button "LowerBody">><<set _time = 15>><<set _time += random(4,11)>><<set _time += random(3,12)>><<addTime _time>><<dialog "Shop for Skirts and Pants">><<include [[BElowerbody]]>><<onclose>>setup.refresh()<</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovSwimsuits>>
+	@@.disabled;<<button "Swimsuits">><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise hovAthletic>>
+	@@.disabled;<<button "Athletic Clothes">><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise hovFitting>>
+	<<button [[Fitting Room|BEchanging]]>><</button>>
+<<endhoverrevise>>
+/*now we add spans for any event-based items, prior to the final info button*/
+<span id="weatherButton"></span>
+<span id="eventButton"></span>
+
+</td></tr>
+<tr><td style="width:10%">
+/*label, and keeps space more consistent with hover text if any description text is longer than 2 lines in-game (aproximately) then add another <br>*/
+<<hoverrevise hovCart>>
+	@@.imgbutton;.imgmax35;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>@@.head4;<br>Info@@
+</td><td>
+/*this contains the text that will appear on mouse hover NOTE that for reasons, the closing tag in these macros are <<endmacroname>> instead of <</macroname>>*/
+<<insertion hovLowerBody>>@@.exp;Check out Bullseye's selection of skirts and pants. [20-35min]@@<<endinsertion>>
+<<insertion hovSwimsuits>>@@.exp;Check out Bullseye's selection of swimsuits for sale. [25-40min]@@<<endinsertion>>
+<<insertion hovAthletic>>@@.exp;Check out Bullseye's selection of athletic clothes for sale. [15-30min]@@<<endinsertion>>
+<<insertion hovFitting>>@@.exp;Visit the fitting room to try on clothes or ''do something else''.@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains an ordered list of all the items in your cart, along with the pre-membership discount price.@@<<endinsertion>>
+/*spans for the descriptions of randomized event actions*/
+<span id="weatherDesc"></span>
+<span id="eventDesc"></span>
+</td></tr>
+</table>
+/*this contains randomized event options that will print inside the related spans*/
+/*Weather-based actions added, like opening an umbrella*/
+<<weatherBullseyeAct>>
+/*Event-based actions added*/
+<<mapEventBullseyeAct>>
+</div>
+
+
+:: BElowerbody [nobr]
+
+<<set _num = $BEshopLB.length>>
+/*change overall expensiveness based on the store*/
+<<set _sMod = $shop.storemod.bullseye>>
+/*sets the price baseline to accommodate different clothing types*/
+<<set _baseP = $shop.base.lower>>
+/*create fractional price unit - remember base8*/
+<<set _fracP = _baseP/24>>
+/*set up a max price deduction for being ugly*/
+<<set _maxMod = _fracP * -2>>
+/*inits arrays that line up with displayed clothes */
+<<set _items = []>>
+<<set _prices = []>>
+/*it seems silly to generate prices each time the clothing is viewed, but this is the simplist and most 'future proof' method that came to mind to ensure that prices would properly display when sales and such happened.*/
+/*Loop to generate prices and set items*/
+<<for _i to 0; _i < _num; _i++>>
+	<<run _items.push($BEshopLB[_i])>>
+	<<set _workP = _baseP>>
+	/*mod for attractiveness*/
+	<<set _workP += Math.max(_maxMod,Math.floor(_fracP * (_items[_i][1] + 3)))>>
+	/*mod for formality*/
+	<<set _workP += Math.max(_maxMod,Math.floor(_fracP * (_items[_i][3] + 4)))>>
+	/*mod for sexiness - note use abs value as sexiness or cuteness increases cost*/
+	<<set _workP += Math.max(_maxMod,Math.floor(_fracP * (Math.abs(_items[_i][2]-2) + _items[_i][4])))>>
+	/*apply stor multiplier*/
+	<<set _workP *= _sMod>>
+	/*finally, push price to array*/
+	<<run _prices.push(Math.round(_workP))>>
+	/*update clothing item with calculated price*/
+	<<set _items[_i][11] = _prices[_i]>>
+<</for>>
+/*arrays are built, time to display them!*/
+<table id="noBorder">
+<<for _i to 0; _i < _num; _i++>>
+	<tr id="noBorder">
+	/*old habits die hard... so used to using the width property, but it isn't supported by html5*/
+	<td style="width:85px">
+	/*get the image data passage name, and hex color code*/
+	<<set _imgName = setup.bottomsIcon(_items[_i][6])>>
+	<<set _imgColor = setup.colorDecode(_items[_i][9])>>
+	/*prep image display html code for print macro, then print image*/
+	<<set _img = '<img data-passage="' + _imgName + '" style="background-color:' + _imgColor + '">'>>
+	<<print _img>>
+	/*end column 1*/
+	</td><td style="width:600px">
+	/*print out the name*/
+	@@.storeitem;<<print _items[_i][0]>>@@<br>
+	/*print out remaining relevant content*/
+	@@.note;''Attractiveness'' <<print _items[_i][1]>> (//<<atrGarmentDiscript _items[_i][4]>>//), ''Exposure'' <<print _items[_i][4]>> (//<<exposureGarmentDiscript _items[_i][4]>>//)@@
+	/*nobr removes newline, but often leaves an unwanted space instead. that's the reason why most text-formatting code is piled into a single line.*/
+	<br>@@.note;<<if _items[_i][2] > 0>>''Sexiness'' <<print _items[_i][2]>><<else>>''Cuteness'' <<print Math.abs(_items[_i][2])>><</if>> <<if _items[_i][2] >= 6>>(//very sexy//)<<elseif _items[_i][2] >= 3>>(//sexy//)<<elseif _items[_i][2] <= -3>>(//very cute//)<<elseif _items[_i][2] <= 0>>(//cute//)<</if>>, <<if _items[_i][3] > 5>>Formal<<elseif _items[_i][3] > 1>>Semi-Formal<<elseif _items[_i][3] > -3>>Casual<<else>>Very Casual<</if>> Attire@@
+	/*end column*/
+	</td><td style="width:85px%">
+	/*show the price*/
+	<center>
+	@@.exp;Price@@<br>
+	@@.money;<<mon>><<print _prices[_i]>>@@
+	</center>
+	/*last column for awesome add to cart button (sarcasm)*/
+	</td><td style="width:150px">
+	/*prep the wiggly bits to refer to them properly*/
+	<<set _span = "button" + _i>>
+	<<set _spick = '<span id="' + _span + '">@@.note;item ' + (_i+1) + '@@</span>'>>
+	<<set _spanName = "#" + _span>>
+	/*the counter variable _i will keep changing. instead of using print, use fancy new capture macro*/
+	<<capture _i, _spanName>>
+		<center>
+		/*actually add the button*/
+		<<button "Add to Cart">>
+			<<run $cart.lowBody.push(_items[_i])>>
+			/*update the contents of the shopping menu added to the cart*/
+			<<replace "#cart">>
+			<<set _numbb = $cart.lowBody.length>>
+			<<set _subtotal = 0>>
+			<<for _j to 0; _j < _numbb; _j++>>
+				<<set _cunt = _j + 1>>
+				<<set _cock = $cart.lowBody[_j]>>
+				<<set _subtotal += _cock[11]>>
+				<<set _delcmd = "<<link 'remove'>><<set $cart.lowBody.deleteAt(" + _j + ")>><<replace '#cart'>>@@.ident;Deleted!@@<</replace>><</link>>">>
+				<<if _cunt < 10>>
+					@@.exp;0<<print _cunt>>)@@ @@.money;<<mon>><<print _cock[11]>>@@ - @@.exp;<<print _cock[0]>>@@ <<print _delcmd>>
+					<br>
+				<<else>>
+					@@.exp;<<print _cunt>>)@@ @@.money;<<mon>><<print _cock[11]>>@@ - @@.exp;<<print _cock[0]>>@@ <<print _delcmd>>
+					<br>
+				<</if>>
+			<</for>>
+			<<if _subtotal == 0>>
+				@@.note;Your cart is empty@@
+			<<else>>
+				@@.exp;''Subtotal:''@@ @@.money;<<mon>><<print _subtotal>>@@
+			<</if>>
+			<</replace>>
+			<<replace _spanName>>
+				@@.note;Added to Cart!@@
+				/*delete after 2 seconds*/
+				<<set _timer = "<<timed 2s>><<replace " + _spanName + ">>...<</replace>><</timed>>">>
+				<<print _timer>>
+			<</replace>>
+		<</button>>
+		/*added to cart span*/
+		<br>
+		<<print _spick>>
+		</center>
+	<</capture>>
+	/*end of the row*/
+	</td></tr>
+<</for>>
+/*label row and refresh button*/
+<tr id="noBorder">
+<td colspan=4>
+<<button "Refresh Cart">>
+	<<replace "#cart">>
+		<<if ndef $cart.lowBody.length>>
+			<<set _numbb = 0>>
+		<<else>>
+			<<set _numbb = $cart.lowBody.length>>
+		<</if>>
+		<<set _subtotal = 0>>
+		<<for _j to 0; _j < _numbb; _j++>>
+			<<set _cunt = _j + 1>>
+			<<set _cock = $cart.lowBody[_j]>>
+			<<set _subtotal += _cock[11]>>
+			<<set _delcmd = "<<link 'remove'>><<set $cart.lowBody.deleteAt(" + _j + ")>><<replace '#cart'>>@@.ident;Deleted!@@<</replace>><</link>>">>
+			<<if _cunt < 10>>
+				@@.exp;0<<print _cunt>>)@@ @@.money;<<mon>><<print _cock[11]>>@@ - @@.exp;<<print _cock[0]>>@@ <<print _delcmd>>
+				<br>
+			<<else>>
+				@@.exp;<<print _cunt>>)@@ @@.money;<<mon>><<print _cock[11]>>@@ - @@.exp;<<print _cock[0]>>@@ <<print _delcmd>>
+				<br>
+			<</if>>
+		<</for>>
+		<<if _subtotal == 0>>
+			@@.note;Your cart is empty@@
+		<<else>>
+			@@.exp;''Subtotal:''@@ @@.money;<<mon>><<print _subtotal>>@@
+		<</if>>
+	<</replace>>
+<</button>> @@.ident;''Cart Contents:''@@
+</td></tr>
+/*final row to show the contents of the cart*/
+<tr id="noBorder">
+<td colspan=4>
+<span id="cart">
+	<<if ndef $cart.lowBody.length>>
+		<<set _numbb = 0>>
+	<<else>>
+		<<set _numbb = $cart.lowBody.length>>
+	<</if>>
+	<<set _subtotal = 0>>
+	<<for _j to 0; _j < _numbb; _j++>>
+		<<set _cunt = _j + 1>>
+		<<set _cock = $cart.lowBody[_j]>>
+		<<set _subtotal += _cock[11]>>
+		<<set _delcmd = "<<link 'remove'>><<set $cart.lowBody.deleteAt(" + _j + ")>><<replace '#cart'>>@@.ident;Deleted!@@<</replace>><</link>>">>
+		<<if _cunt < 10>>
+			@@.exp;0<<print _cunt>>)@@ @@.money;<<mon>><<print _cock[11]>>@@ - @@.exp;<<print _cock[0]>>@@ <<print _delcmd>>
+			<br>
+		<<else>>
+			@@.exp;<<print _cunt>>)@@ @@.money;<<mon>><<print _cock[11]>>@@ - @@.exp;<<print _cock[0]>>@@ <<print _delcmd>>
+			<br>
+		<</if>>
+	<</for>>
+	<<if _subtotal == 0>>
+		@@.note;Your cart is empty@@
+	<<else>>
+		@@.exp;''Subtotal:''@@ @@.money;<<mon>><<print _subtotal>>@@
+	<</if>>
+</span>
+</td></tr>
+</table>

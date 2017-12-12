@@ -1,0 +1,154 @@
+:: bullseyeB [nobr]
+
+<<nobr>>
+<<set _poop = false>>
+<center>
+@@.head1;Shop for Brassiers†@@<br>
+<<button "View Entire Cart">><<BEcartDisplay>><</button>>  <<button "Return">><<set _time = 20>><<set _time += random(1,10)>><<set _time += random(1,10)>><<addTime _time>><<goto [[BEwomens1]]>><</button>>
+</center>
+@@.head3;Y@@ou notice that Bullseye has posted several warning notes in the bra section. <<link "Take a Look">><<if _poop>><<set _poop = false>><<replace "#tithealth">>.<</replace>><<else>><<set _poop = true>><<replace "#tithealth">>@@.typewriter;† Since 2023 Federal regulations have required that any retailer selling brassiers must post the following FDA consumer safety notice in any area where they are on display.<br><br>''WARNING--Wearing brassiers is known to cause cancer, atrophy of connective tissue and ligaments, mammary tissue degredation, and may permanently harm your ability to breast feed.''<br>''Safety Guidelines''<br>a. Only wear brassiers that fit properly. Ill-fitting brassiers intensify the health consequences listed above.<br>b. Do not wear a brassier longer than 4 hours at a time.<br>c. For each hour a brassier is worn, allow your breasts to rest at least 30 minutes before wearing one again.<br>d. Do not wear a brassier more than 8 hours in a 24 hour period.<br>e. Count each hour spent wearing a compression brassier, commonly called a "sports bra", as 3 hours of normal wear.<br><br>''Personal Indemnity Act of 2020 Notice''--According to the Personal Indemnity Act, otherwise known as "Trump Care", your medical insurance claims or federal healthcare coverage (such as Medicare or Medicaid) can be denied if your condition was potentially caused by your own actions or negligence. Visit www.fda.gov/pia/brassiers to learn more about what health coverage you may lose from brassier use.@@ <<comment "The medical part is true, but nowhere near bad enough for the gov't/FDA to do anything about it. Fun fact: A large study in france found that wearing bras rapidly accellerates the sagging of breasts, with the effect being worse the larger the breasts were.">><</replace>><</if>><</link>>
+<br><span id="tithealth"></span>
+/*sets the number of clothing items*/
+<<set _number = $BEshopB.length>>
+/*change price based on the store*/
+<<set _storeMod = 1>>
+/*sets the price baseline to accommodate different clothing types 8=panties, 30=bra, */
+<<set _basePrice = 35>>
+/*inits arrays that line up with displayed clothes */
+<<set _prices = []>>
+<<set _itemlist = []>>
+<<for _i to 0; _i < _number; _i++>>
+	<<run _prices.push(0)>>
+<</for>>
+<table>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tempArray = $BEshopB[_i]>>
+	<<set _workPrice = _basePrice>>
+	<<set _tempAtr = _tempArray[1] + 3>>
+	<<set _workPrice += (_basePrice / 10) * _tempAtr>>
+	<<if _tempArray[3] > 0>>
+		<<set _workPrice += (_basePrice / 10) * _tempArray[3]>>
+	<<elseif _tempArray[3] < 0>>
+		<<set _workPrice += (_basePrice / 20) * _tempArray[3]>>
+	<</if>>
+	<<set _workPrice += (_basePrice / 15) * (_tempArray[4] + _tempArray[2])>>
+	<<set _workPrice *= _storeMod>>
+	<<set _workPrice = Math.round(_workPrice)>>
+	<<set _prices[_i] = _workPrice>>
+	<tr><td width="60%">
+	@@.head4;<<print _tempArray[0]>>@@
+	<br>
+	<<silently>>
+	<<set _output = "Attractiveness: ">>
+	<<set _output += _tempArray[1]>>
+	<<if _tempArray[2] >= 0>>
+		<<set _output += ", Sexiness: ">>
+		<<set _output += _tempArray[2]>>
+	<<else>>
+		<<set _temp = _tempArray[2] * -1>>
+		<<set _output += ", Cuteness: ">>
+		<<set _output += _temp>>
+	<</if>>
+	<<set _output += " Exposure: ">>
+	<<set _tempExpose = _tempArray[4] * 10>>
+	<<set _tempExposeB = Math.trunc(_tempExpose)>>
+	<<set _tempExposeB /= 10>>
+	<<if _tempArray[3] > 4>>
+		<<set _outputB = ", Formal">>
+	<<elseif _tempArray[3] > 1>>
+		<<set _outputB = ", Semi-Formal">>
+	<<elseif _tempArray[3] < -3>>
+		<<set _outputB = ", Very Casual">>
+	<<elseif _tempArray[3] < 1>>
+		<<set _outputB = ", Casual">>
+	<<else>>
+		<<set _outputB = ", Neutral">>
+	<</if>>
+	<</silently>>
+	@@.exp;<<print _output>><<print _tempExposeB>><<print _outputB>>@@
+	</td><td width="20%">
+	<<set _tempArray[11] = _prices[_i]>>
+	<center>
+	@@.exp;_tempArray[10] price:@@
+	<br>
+	@@.money;<<mon>>_tempArray[11]@@
+	</center>
+	</td><td width=20%>
+	<center>
+	<<set _itemlist.push(_tempArray)>>
+	<<set _addcmd = "<<button 'add to cart'>><<set $cart.bra.push(_itemlist[" + _i + "])>><<replace '#cart'>>@@.note;Refresh to see current cart@@<</replace>><<replace '#fucker" + _i + "'>>@@font-size:70%;Added!@@<</replace>><</button>><br><span id='fucker" + _i + "'></span>">>
+	<<print _addcmd>>
+	</center>
+	</td></tr>
+<</for>>
+<tr><td>
+<<button "Refresh Cart">>
+<<replace "#cart">>
+@@.ident;''Cart Contents:''@@
+<br>
+<<if ndef $cart.bra.length>>
+	<<set _numbb = 0>>
+<<else>>
+	<<set _numbb = $cart.bra.length>>
+<</if>>
+<<set _subtotal = 0>>
+<<for _i to 0; _i < _numbb; _i++>>
+	<<set _cunt = _i + 1>>
+	<<set _cock = $cart.bra[_i]>>
+	<<set _subtotal += _cock[11]>>
+	<<set _delcmd = "<<link 'remove'>><<set $cart.bra.deleteAt(" + _i + ")>><<replace '#cart'>>@@.ident;Deleted!@@<</replace>><</link>>">>
+	<<if _cunt < 10>>
+		@@.exp;0<<print _cunt>>)@@ @@.money;<<mon>><<print _cock[11]>>@@ - @@.exp;<<print _cock[0]>>@@ <<print _delcmd>>
+		<br>
+	<<else>>
+		@@.exp;<<print _cunt>>)@@ @@.money;<<mon>><<print _cock[11]>>@@ - @@.exp;<<print _cock[0]>>@@ <<print _delcmd>>
+		<br>
+	<</if>>
+<</for>>
+<<if _subtotal == 0>>
+	@@.note;Your cart is empty@@
+<<else>>
+	@@.exp;''Subtotal:''@@ @@.money;<<mon>><<print _subtotal>>@@
+<</if>>
+<</replace>>
+<</button>>
+<<button "Empty Cart">><<set $cart.bra = []>><<replace "#cart">>@@.import;Cart Contents Deleted!@@<</replace>><</button>>
+</td><td colspan="2">
+@@.note;[[View the Clothing Style Guide|styleGuide][$styleReturn = passage()]]@@
+</td></tr>
+<tr><td colspan=3>
+<span id="cart">
+@@.ident;''Cart Contents:''@@
+<br>
+<<if ndef $cart.bra.length>>
+	<<set _numbb = 0>>
+<<else>>
+	<<set _numbb = $cart.bra.length>>
+<</if>>
+<<set _subtotal = 0>>
+<<for _i to 0; _i < _numbb; _i++>>
+	<<set _cunt = _i + 1>>
+	<<set _cock = $cart.bra[_i]>>
+	<<set _subtotal += _cock[11]>>
+	<<set _delcmd = "<<link 'remove'>><<set $cart.bra.deleteAt(" + _i + ")>><<replace '#cart'>>@@.ident;Deleted!@@<</replace>><</link>>">>
+	<<if _cunt < 10>>
+		@@.exp;0<<print _cunt>>)@@ @@.money;<<mon>><<print _cock[11]>>@@ - @@.exp;<<print _cock[0]>>@@ <<print _delcmd>>
+		<br>
+	<<else>>
+		@@.exp;<<print _cunt>>)@@ @@.money;<<mon>><<print _cock[11]>>@@ - @@.exp;<<print _cock[0]>>@@ <<print _delcmd>>
+		<br>
+	<</if>>
+<</for>>
+<<if _subtotal == 0>>
+	@@.note;Your cart is empty@@
+<<else>>
+	@@.exp;''Subtotal:''@@ @@.money;<<mon>><<print _subtotal>>@@
+<</if>>
+</span>
+</td></tr>
+</table>
+<center>
+<<button "View Entire Cart">><<BEcartDisplay>><</button>>  <<button "Return">><<set _time = 20>><<set _time += random(1,10)>><<set _time += random(1,10)>><<addTime _time>><<goto [[BElingerie]]>><</button>>
+</center>
+
+<</nobr>>

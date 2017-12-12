@@ -35,57 +35,31 @@
 <<widget "addTime">>
 <<if ndef $args[0]>>
 	<<set _temp = passage()>>
-	<<set $error += ", time setting error - no args sent to addTime function in passage: ">>
-	<<set $error += _temp>>
+	<<set $AW.error += ", time setting error - no args sent to addTime function in passage: ">>
+	<<set $AW.error += _temp>>
 	<<set _addHour = 0>>
 	<<set _addMin = 0>>
 <<elseif ndef $args[1]>>
-	<<if  $args[0] < 60 && $args[0] >= 0>>
-		<<set _addMin = $args[0]>>
-		<<if $cheatTime && $args[0] != 0>>
-			<<set _poo = _addMin>>
-			<<set _poo /= 2>>
-			<<set _addMin = Math.round(_poo)>>
-		<</if>>
-		<<set _addHour = 0>>
-	<<elseif $args[0] < 120 && $args[0] >= 60>>
-		<<set _addMin = $args[0] - 60>>
-		<<if $cheatTime && $args[0] != 0>>
-			<<set _poo = _addMin>>
-			<<set _poo /= 2>>
-			<<set _addMin = Math.round(_poo)>>
-		<</if>>
-		<<set _addHour = 1>>
-	<<else>>
-		<<set _temp = passage()>>
-		<<set $error += ", time setting error - bad minute value to setTime function in passage: ">>
-		<<set $error += _temp>>
-		<<set _addHour = 0>>
-		<<set _addMin = 0>>
-	<</if>>
+  <<if $cheatTime>><<set $args[0] = Math.round($args[0]/2)>><</if>>
+  <<set _addMin = $args[0] % 60>>
+  <<set _addHour = Math.floor($args[0] / 60)>>
 <<else>>
+  <<if $cheatTime>><<set $args[0] = Math.round($args[0]/2)>><</if>>
+  <<if $cheatTime>><<set $args[1] = Math.round($args[1]/2)>><</if>>
 	<<if  $args[1] < 60 && $args[1] >= 0>>
 		<<set _addMin = $args[1]>>
-		<<if $cheatTime && $args[1] != 0>>
-			<<set _poo /= 2>>
-			<<set _addMin = Math.round(_poo)>>
-		<</if>>
 	<<else>>
 		<<set _temp = passage()>>
-		<<set $error += ", time setting error - bad minute value to setTime function in passage: ">>
-		<<set $error += _temp>>
+		<<set $AW.error += ", time setting error - bad minute value to setTime function in passage: ">>
+		<<set $AW.error += _temp>>
 		<<set _addMin = 0>>
 	<</if>>
 	<<if  $args[0] < 24 && $args[0] >= 0>>
 		<<set _addHour = $args[0]>>
-		<<if $cheatTime && $args[1] != 0>>
-			<<set _poo /= 2>>
-			<<set _addHour = Math.round(_poo)>>
-		<</if>>
 	<<else>>
 		<<set _temp = passage()>>
-		<<set $error += ", time setting error - bad hour value to addTime function in passage: ">>
-		<<set $error += _temp>>
+		<<set $AW.error += ", time setting error - bad hour value to addTime function in passage: ">>
+		<<set $AW.error += _temp>>
 		<<set _addHour = 0>>
 	<</if>>
 <</if>>
@@ -179,30 +153,30 @@
 <<widget "setTime">>
 <<if ndef $args[0]>>
 	<<set _temp = passage()>>
-	<<set $error += ", time setting error - no args sent to time function in passage: ">>
-	<<set $error += _temp>>
+	<<set $AW.error += ", time setting error - no args sent to time function in passage: ">>
+	<<set $AW.error += _temp>>
 <<elseif ndef $args[1]>>
 	<<if  $args[0] < 60 && $args[0] >= 0>>
 		<<set $min = $args[0]>>
 	<<else>>
 		<<set _temp = passage()>>
-		<<set $error += ", time setting error - bad minute value to setTime function in passage: ">>
-		<<set $error += _temp>>
+		<<set $AW.error += ", time setting error - bad minute value to setTime function in passage: ">>
+		<<set $AW.error += _temp>>
 	<</if>>
 <<else>>
 	<<if  $args[1] < 60 && $args[1] >= 0>>
 		<<set $min = $args[1]>>
 	<<else>>
 		<<set _temp = passage()>>
-		<<set $error += ", time setting error - bad minute value to setTime function in passage: ">>
-		<<set $error += _temp>>
+		<<set $AW.error += ", time setting error - bad minute value to setTime function in passage: ">>
+		<<set $AW.error += _temp>>
 	<</if>>
 	<<if  $args[0] < 24 && $args[0] >= 0>>
 		<<set $hour = $args[0]>>
 	<<else>>
 		<<set _temp = passage()>>
-		<<set $error += ", time setting error - bad hour value to setTime function in passage: ">>
-		<<set $error += _temp>>
+		<<set $AW.error += ", time setting error - bad hour value to setTime function in passage: ">>
+		<<set $AW.error += _temp>>
 	<</if>>
 <</if>>
 <<set $time = ($hour * 100) + $min>>
@@ -233,65 +207,65 @@
 
 /*Widget displays current status of several variables, and color codes them*/
 <<widget "pcStatus">>
-<<if $mindbreak>>
+<<if $PC.status.mindbreak>>
 @@.red;<<print "mindbroken">>@@
 <<else>>
-<<if $status.stress > 90>>
+<<if $PC.status.stress > 90>>
 	@@.red;<<print "near breakdown">>@@
-<<elseif $status.stress > 75>>
+<<elseif $PC.status.stress > 75>>
 	@@.red;<<print "extremely stressed">>@@
-<<elseif $status.stress > 60>>
+<<elseif $PC.status.stress > 60>>
 	@@.yellow;<<print "stressed out">>@@
-<<elseif $status.stress > 40>>
+<<elseif $PC.status.stress > 40>>
 	@@.white;<<print "stressed">>@@
-<<elseif $status.stress > 20>>
+<<elseif $PC.status.stress > 20>>
 	@@.white;<<print "slightly stressed">>@@
 <<else>>
 	@@.green;<<print "relaxed">>@@
 <</if>>
-<<if $status.fatigue == 0>>
+<<if $PC.status.fatigue == 0>>
 	<<print ", ">>
 	@@.white;<<print "Waking Up">>@@
-<<elseif $status.fatigue == 1 || $status.fatigue == 2>>
+<<elseif $PC.status.fatigue == 1 || $PC.status.fatigue == 2>>
 	<<print ", ">>
 	@@.green;<<print "Alert">>@@
-<<elseif $status.fatigue > 9>>
+<<elseif $PC.status.fatigue > 9>>
 	<<print ", ">>
 	@@.red;<<print "Very Sleepy">>@@
-<<elseif $status.fatigue > 7>>
+<<elseif $PC.status.fatigue > 7>>
 	<<print ", ">>
 	@@.orange;<<print "Sleepy">>@@
-<<elseif $status.fatigue > 5>>
+<<elseif $PC.status.fatigue > 5>>
 	<<print ", ">>
 	@@.yellow;<<print "Tired">>@@
 <</if>>
-<<if $status.satisfaction < 50 && $status.need > 4>>
+<<if $PC.status.satisfaction < 50 && $PC.status.need > 4>>
 	<<print ", ">>
 	@@.red;<<print "Insanely Frustrated">>@@
-<<elseif $status.satisfaction < 50 && $status.need > 2>>
+<<elseif $PC.status.satisfaction < 50 && $PC.status.need > 2>>
 	<<print ", ">>
 	@@.red;<<print "Extremely Frustrated">>@@
-<<elseif $status.satisfaction < 50 && $status.need > 0>>
+<<elseif $PC.status.satisfaction < 50 && $PC.status.need > 0>>
 	<<print ", ">>
 	@@.yellow;<<print "Very Frustrated">>@@
-<<elseif $status.satisfaction < 25>>
+<<elseif $PC.status.satisfaction < 25>>
 	<<print ", ">>
 	@@.yellow;<<print "Frustrated">>@@
-<<elseif $status.satisfaction < 50>>
+<<elseif $PC.status.satisfaction < 50>>
 	<<print ", ">>
 	@@.white;<<print "Slightly Frustrated">>@@
-<<elseif $status.satisfaction > 80 && $status.need == 0>>
+<<elseif $PC.status.satisfaction > 80 && $PC.status.need == 0>>
 	<<print ", ">>
 	@@.green;<<print "Completely Satisfied">>@@
 <</if>>
-<<if $status.pregA != 0 || $status.pregB != 0>>
-	<<if $status.pregA > 30 && $status.pregB > 30>>
+<<if $PC.status.pregA != 0 || $PC.status.pregB != 0>>
+	<<if $PC.status.pregA > 30 && $PC.status.pregB > 30>>
 		<<print ", ">>
 		@@.red;<<print "Dangerously Pregnant">>@@
-	<<elseif $status.pregA > 30 || $status.pregB > 30>>
+	<<elseif $PC.status.pregA > 30 || $PC.status.pregB > 30>>
 		<<print ", ">>
 		@@.yellow;<<print "Very Pregnant">>@@
-	<<elseif $kink.Pregnancy>>
+	<<elseif $PC.kink.pregnancy>>
 		<<print ", ">>
 		@@.green;<<print "Pregnant">>@@
 	<<else>>
@@ -299,8 +273,8 @@
 		@@.white;<<print "Pregnant">>@@
 	<</if>>
 <</if>>
-<<if $status.alcohol != 0>>
-	<<switch $status.alcohol>>
+<<if $PC.status.alcohol != 0>>
+	<<switch $PC.status.alcohol>>
 	<<case -2>>
 		<<print ", ">>
 		@@.red;<<print "Severe Hangover">>@@
@@ -327,8 +301,8 @@
 		@@.red;<<print "Alcohol Poisoning">>@@
 	<</switch>>
 <</if>>
-<<if $status.drugs != 0>>
-	<<switch $status.drugs>>
+<<if $PC.status.drugs != 0>>
+	<<switch $PC.status.drugs>>
 	<<case -2>>
 		<<print ", ">>
 		@@.red;<<print "Severe Withdrawal">>@@
@@ -352,7 +326,7 @@
 		@@.red;<<print "Deadly Overdose">>@@
 	<</switch>>
 <</if>>
-<<set _temp = $PC.orgasm - $status.pleasure>>
+<<set _temp = $PC.body.orgasm - $PC.status.pleasure>>
 <<if _temp < 1>>
 	<<print ", ">>
 	@@.pink;<<print either("Cumming","Orgasming")>>@@
@@ -372,31 +346,31 @@
 /*prints PC's mood based on anger, happiness, and sleep (for dreams)*/
 <<widget "pcMood">>
 ''<<print "Mood: ">>''
-<<if $mindbreak>>
+<<if $PC.status.mindbreak>>
 	@@.px18;.red;<<print "mindbroken">>@@
-<<elseif $status.alcohol > 5 || $status.drugs > 4>>
+<<elseif $PC.status.alcohol > 5 || $PC.status.drugs > 4>>
 	@@.px18;<<print "Unconscious">>@@
-<<elseif $status.sleep>>
+<<elseif $PC.status.sleep>>
 	@@.px18;<<print "Sleeping">>@@
-<<elseif $status.anger > 7>>
+<<elseif $PC.status.anger > 7>>
 	@@.px18;.red;<<print "Enraged">>@@
-<<elseif $status.anger > 4>>
+<<elseif $PC.status.anger > 4>>
 	@@.px18;.red;<<print "Very Angry">>@@
-<<elseif $status.happy < -7>>
+<<elseif $PC.status.happy < -7>>
 	@@.px18;.red;<<print "Very Depressed">>@@
-<<elseif $status.happy < -5>>
+<<elseif $PC.status.happy < -5>>
 	@@.px18;.red;<<print "Depressed">>@@
-<<elseif $status.anger > 2>>
+<<elseif $PC.status.anger > 2>>
 	@@.px18;.yellow;<<print "Angry">>@@
-<<elseif $status.anger > 0>>
+<<elseif $PC.status.anger > 0>>
 	@@.px18;<<print "Irritated">>@@
-<<elseif $status.happy < -2>>
+<<elseif $PC.status.happy < -2>>
 	@@.px18;.yellow;<<print "Sad">>@@
-<<elseif $status.happy > 7>>
+<<elseif $PC.status.happy > 7>>
 	@@.px18;.green;<<print "Blissful">>@@
-<<elseif $status.happy > 5>>
+<<elseif $PC.status.happy > 5>>
 	@@.px18;.green<<print "Very Happy">>@@
-<<elseif $status.happy > 2>>
+<<elseif $PC.status.happy > 2>>
 	@@.px18;<<print "Happy">>@@
 <<else>>
 	@@.px18;<<print "Neutral">>@@
@@ -406,42 +380,42 @@
 /*displays color-coded text on BC and cycle based on current variables*/
 <<widget "cycleStatus">>
 @@.px18;<<print "Birth Control: ">>@@
-<<if $status.birthCon < 75 && $trait.Perceptive == 1>>
-	@@.px18;.yellow;$status.birthConType@@
-<<elseif $status.birthCon != 0>>
-	@@.px18;.green;$status.birthConType@@
+<<if $PC.status.birthCon < 75 && $PC.trait.perceptive == 1>>
+	@@.px18;.yellow;$PC.status.birthConType@@
+<<elseif $PC.status.birthCon != 0>>
+	@@.px18;.green;$PC.status.birthConType@@
 <<else>>
 	@@.px18;.pink;None@@
 <</if>>
 <br>
 @@.px18;<<print "Cycle: ">>@@
-<<switch $status.risk>>
+<<switch $PC.status.risk>>
 	<<case 0>>
-		<<if $status.period != 0>>
-			@@.px18;.pink;$status.fertText@@
+		<<if $PC.status.period != 0>>
+			@@.px18;.pink;$PC.status.fertText@@
 		<<else>>
-			@@.px18;.ship;$status.fertText@@
+			@@.px18;.ship;$PC.status.fertText@@
 		<</if>>
 	<<case 0.5>>
-		@@.px18;.ship;$status.fertText@@
+		@@.px18;.ship;$PC.status.fertText@@
 	<<case 1>>
-		@@.px18;.ship;$status.fertText@@
+		@@.px18;.ship;$PC.status.fertText@@
 	<<case 1.5>>
-		@@.px18;.ship;$status.fertText@@
+		@@.px18;.ship;$PC.status.fertText@@
 	<<case 2>>
-		@@.px18;.green;$status.fertText@@
+		@@.px18;.green;$PC.status.fertText@@
 	<<case 2.5>>
-		@@.px18;.green;$status.fertText@@
+		@@.px18;.green;$PC.status.fertText@@
 	<<case 3>>
-		@@.px18;.yellowgreen;$status.fertText@@
+		@@.px18;.yellowgreen;$PC.status.fertText@@
 	<<case 3.5>>
-		@@.px18;.yellow;$status.fertText@@
+		@@.px18;.yellow;$PC.status.fertText@@
 	<<case 4>>
-		@@.px18;.orange;$status.fertText@@
+		@@.px18;.orange;$PC.status.fertText@@
 	<<case 4.5>>
-		@@.px18;.orangered;$status.fertText@@
+		@@.px18;.orangered;$PC.status.fertText@@
 	<<case 5>>
-		@@.px18;.orangered;$status.fertText@@
+		@@.px18;.orangered;$PC.status.fertText@@
 <</switch>>
 <</widget>>
 
@@ -504,63 +478,63 @@
 <</silently>>
 <</widget>>
 
-<<widget "status">>\
+/*<<widget "status">>\
 <<silently>>
 <<if ndef $args[0] || $args[0] == 0>>
-<<set $runop = [($trait.libido * 2.85),$PC.background,($skill.exhibition * 2.85),($skill.prostitute * 2.85),($skill.sex * 2.85),($skill.oral * 2.85),($skill.seduction * 2.85),($skill.comm * 2.85),($skill.org * 2.85),($skill.probSolving * 2.85),($skill.finance * 2.85),($skill.art * 2.85),($skill.athletic * 2.85),($skill.dancing * 2.85),($skill.clean * 2.85),($skill.shop * 2.85),($skill.cook * 2.85),$status.birthCon,$status.birthConType,($status.alcohol * 2.85),($status.drugs * 2.85),($status.pregA * 2.45),($status.pregB * 2.45),($status.milk * 2.45),($status.arousal * 2.35),($PC.orgasm * 2.35),($status.pleasure * 2.35),($status.need * 3.15),($status.satisfaction * 3.15),($status.stress * 3.55),($status.happy * 3.55),($status.anger * 3.55),($status.fatigue * 3.55),$status.will,($cash * 4.207),$mindbreak,($status.morality * 1.68),($status.perversion * 1.68),($status.lonely * 9.74),($status.health * 6.96),($status.addictSex * 4.37),($status.addictAlc * 4.37),($status.addictHeat * 4.37),($status.addictSatyr * 4.37),($status.addictFocus * 4.37),($status.addictCum * 4.37),($status.addictZone * 4.37),($status.addictCream * 4.37)]>>
+<<set $runop = [($PC.trait.libido * 2.85),$PC.main.background,($PC.skill.exhibition * 2.85),($PC.skill.prostitute * 2.85),($PC.skill.sex * 2.85),($PC.skill.oral * 2.85),($PC.skill.seduction * 2.85),($PC.skill.comm * 2.85),($PC.skill.org * 2.85),($PC.skill.probSolving * 2.85),($PC.skill.finance * 2.85),($PC.skill.art * 2.85),($PC.skill.athletic * 2.85),($PC.skill.dancing * 2.85),($PC.skill.clean * 2.85),($PC.skill.shop * 2.85),($PC.skill.cook * 2.85),$PC.status.birthCon,$PC.status.birthConType,($PC.status.alcohol * 2.85),($PC.status.drugs * 2.85),($PC.status.pregA * 2.45),($PC.status.pregB * 2.45),($PC.status.milk * 2.45),($PC.status.arousal * 2.35),($PC.body.orgasm * 2.35),($PC.status.pleasure * 2.35),($PC.status.need * 3.15),($PC.status.satisfaction * 3.15),($PC.status.stress * 3.55),($PC.status.happy * 3.55),($PC.status.anger * 3.55),($PC.status.fatigue * 3.55),$PC.status.will,($AW.cash * 4.207),$PC.status.mindbreak,($PC.status.morality * 1.68),($PC.status.perversion * 1.68),($PC.status.lonely * 9.74),($PC.status.health * 6.96),($PC.status.addict.sex * 4.37),($PC.status.addict.alc * 4.37),($PC.status.addict.heat * 4.37),($PC.status.addict.satyr * 4.37),($PC.status.addict.focus * 4.37),($PC.status.addict.cum * 4.37),($PC.status.addict.zone * 4.37),($PC.status.addict.cream * 4.37)]>>
 <<elseif $args[0] == 1>>
-<<set $trait.libido = Math.round( $runop[0] / 2.85 )>>
-<<set $PC.background = $runop[1]>>
-<<set $skill.exhibition = Math.round( $runop[2] / 2.85 )>>
-<<set $skill.prostitute = Math.round( $runop[3] / 2.85 )>>
-<<set $skill.sex = Math.round( $runop[4] / 2.85 )>>
-<<set $skill.oral = Math.round( $runop[5] / 2.85 )>>
-<<set $skill.seduction = Math.round( $runop[6] / 2.85 )>>
-<<set $skill.comm = Math.round( $runop[7] / 2.85 )>>
-<<set $skill.org = Math.round( $runop[8] / 2.85 )>>
-<<set $skill.probSolving = Math.round( $runop[9] / 2.85 )>>
-<<set $skill.finance = Math.round( $runop[10] / 2.85 )>>
-<<set $skill.art = Math.round( $runop[11] / 2.85 )>>
-<<set $skill.athletic = Math.round( $runop[12] / 2.85 )>>
-<<set $skill.dancing = Math.round( $runop[13] / 2.85 )>>
-<<set $skill.clean = Math.round( $runop[14] / 2.85 )>>
-<<set $skill.shop = Math.round( $runop[15] / 2.85 )>>
-<<set $skill.cook = Math.round( $runop[16] / 2.85 )>>
-<<set $status.birthCon = $runop[17]>>
-<<set $status.birthConType = $runop[18]>>
-<<set $status.alcohol = Math.round( $runop[19] / 2.85 )>>
-<<set $status.drugs = Math.round( $runop[20] / 2.85 )>>
-<<set $status.pregA = Math.round( $runop[21] / 2.45 )>>
-<<set $status.pregB = Math.round( $runop[22] / 2.45 )>>
-<<set $status.milk = Math.round( $runop[23] / 2.45 )>>
-<<set $status.arousal = Math.round( $runop[24] / 2.35 )>>
-<<set $PC.orgasm = Math.round( $runop[25] / 2.35 )>>
-/*<<set $status.pleasure = Math.round( $runop[26] / 2.35 )>>*/
-<<set $status.need = Math.round( $runop[27] / 3.15 )>>
-<<set $status.satisfaction = Math.round( $runop[28] / 3.15 )>>
-<<set $status.stress = Math.round( $runop[29] / 3.55 )>>
-<<set $status.happy = Math.round( $runop[30] / 3.55 )>>
-<<set $status.anger = Math.round( $runop[31] / 3.55 )>>
-<<set $status.fatigue = Math.round( $runop[32] / 3.55 )>>
-<<set $status.will = $runop[33]>>
-<<set $cash = Math.round( $runop[34] / 4.207 )>>
-<<set $mindbreak = $runop[35]>>
-<<set $status.morality = Math.round( $runop[36] / 1.68 )>>
-<<set $status.perversion = Math.round( $runop[37] / 1.68 )>>
-<<set $status.lonely = Math.round( $runop[38] / 9.74 )>>
-<<set $status.health = Math.round( $runop[39] / 6.96 )>>
-<<set $status.addictSex = Math.round( $runop[40] / 4.37 )>>
-<<set $status.addictAlc = Math.round( $runop[41] / 4.37 )>>
-<<set $status.addictHeat = Math.round( $runop[42] / 4.37 )>>
-<<set $status.addictSatyr = Math.round( $runop[43] / 4.37 )>>
-<<set $status.addictFocus = Math.round( $runop[44] / 4.37 )>>
-<<set $status.addictCum = Math.round( $runop[45] / 4.37 )>>
-<<set $status.addictZone = Math.round( $runop[46] / 4.37 )>>
-<<set $status.addictCream = Math.round( $runop[47] / 4.37 )>>
+<<set $PC.trait.libido = Math.round( $runop[0] / 2.85 )>>
+<<set $PC.main.background = $runop[1]>>
+<<set $PC.skill.exhibition = Math.round( $runop[2] / 2.85 )>>
+<<set $PC.skill.prostitute = Math.round( $runop[3] / 2.85 )>>
+<<set $PC.skill.sex = Math.round( $runop[4] / 2.85 )>>
+<<set $PC.skill.oral = Math.round( $runop[5] / 2.85 )>>
+<<set $PC.skill.seduction = Math.round( $runop[6] / 2.85 )>>
+<<set $PC.skill.comm = Math.round( $runop[7] / 2.85 )>>
+<<set $PC.skill.org = Math.round( $runop[8] / 2.85 )>>
+<<set $PC.skill.probSolving = Math.round( $runop[9] / 2.85 )>>
+<<set $PC.skill.finance = Math.round( $runop[10] / 2.85 )>>
+<<set $PC.skill.art = Math.round( $runop[11] / 2.85 )>>
+<<set $PC.skill.athletic = Math.round( $runop[12] / 2.85 )>>
+<<set $PC.skill.dancing = Math.round( $runop[13] / 2.85 )>>
+<<set $PC.skill.clean = Math.round( $runop[14] / 2.85 )>>
+<<set $PC.skill.shop = Math.round( $runop[15] / 2.85 )>>
+<<set $PC.skill.cook = Math.round( $runop[16] / 2.85 )>>
+<<set $PC.status.birthCon = $runop[17]>>
+<<set $PC.status.birthConType = $runop[18]>>
+<<set $PC.status.alcohol = Math.round( $runop[19] / 2.85 )>>
+<<set $PC.status.drugs = Math.round( $runop[20] / 2.85 )>>
+<<set $PC.status.pregA = Math.round( $runop[21] / 2.45 )>>
+<<set $PC.status.pregB = Math.round( $runop[22] / 2.45 )>>
+<<set $PC.status.milk = Math.round( $runop[23] / 2.45 )>>
+<<set $PC.status.arousal = Math.round( $runop[24] / 2.35 )>>
+<<set $PC.body.orgasm = Math.round( $runop[25] / 2.35 )>>
+<<set $PC.status.pleasure = Math.round( $runop[26] / 2.35 )>>
+<<set $PC.status.need = Math.round( $runop[27] / 3.15 )>>
+<<set $PC.status.satisfaction = Math.round( $runop[28] / 3.15 )>>
+<<set $PC.status.stress = Math.round( $runop[29] / 3.55 )>>
+<<set $PC.status.happy = Math.round( $runop[30] / 3.55 )>>
+<<set $PC.status.anger = Math.round( $runop[31] / 3.55 )>>
+<<set $PC.status.fatigue = Math.round( $runop[32] / 3.55 )>>
+<<set $PC.status.will = $runop[33]>>
+<<set $AW.cash = Math.round( $runop[34] / 4.207 )>>
+<<set $PC.status.mindbreak = $runop[35]>>
+<<set $PC.status.morality = Math.round( $runop[36] / 1.68 )>>
+<<set $PC.status.perversion = Math.round( $runop[37] / 1.68 )>>
+<<set $PC.status.lonely = Math.round( $runop[38] / 9.74 )>>
+<<set $PC.status.health = Math.round( $runop[39] / 6.96 )>>
+<<set $PC.status.addict.sex = Math.round( $runop[40] / 4.37 )>>
+<<set $PC.status.addict.alc = Math.round( $runop[41] / 4.37 )>>
+<<set $PC.status.addict.heat = Math.round( $runop[42] / 4.37 )>>
+<<set $PC.status.addict.satyr = Math.round( $runop[43] / 4.37 )>>
+<<set $PC.status.addict.focus = Math.round( $runop[44] / 4.37 )>>
+<<set $PC.status.addict.cum = Math.round( $runop[45] / 4.37 )>>
+<<set $PC.status.addict.zone = Math.round( $runop[46] / 4.37 )>>
+<<set $PC.status.addict.cream = Math.round( $runop[47] / 4.37 )>>
 <</if>>
-<<set $status.addictMax = Math.max($status.addictSex,$status.addictAlc,$status.addictHeat,$status.addictSatyr,$status.addictFocus,$status.addictCum,$status.addictZone,$status.addictCream)>>
+<<set $PC.status.addict.max = Math.max($PC.status.addict.sex,$PC.status.addict.alc,$PC.status.addict.heat,$PC.status.addict.satyr,$PC.status.addict.focus,$PC.status.addict.cum,$PC.status.addict.zone,$PC.status.addict.cream)>>
 <</silently>>
-<</widget>>
+<</widget>>*/
 
 <<widget "addCmdItem">>
 	<<set _exists = false>>
@@ -578,3 +552,168 @@
 
 <</widget>>
 
+<<widget "achieve">>
+<<silently>>
+	<<set _add = $args[0]>>
+	<<if $args.length > 1>>
+		<<for _i = 1; _i < $args.length; _i++>>
+			<<set _add += $args[_i]>>
+		<</for>>
+	<</if>>
+	<<if $args.length < 1>>
+		<<run alert("No args sent to achievement adder!")>>
+	<<else>>
+		<<if not $gamestate.achieve.includes(_add)>>
+			<<set $gamestate.points += 1>>
+			<<run $gamestate.achieve.push(_add)>>
+		<</if>>
+		<<run setup.storeState()>>
+	<</if>>
+<</silently>>
+<</widget>>
+
+<<widget "startSexScene">>
+	<<silently>>
+	<<if $args.length < 4>>
+		<<run alert("Insufficient arguments sent to start sex scene widget!")>>
+	<<else>>
+		<<set $sex.start = true>>
+		<<set $sex.startTime = $time>>
+		/*set situational orgasm moddifier - Currently DUMMY*/
+		<<set $sex.situOrg = $args[0]>>
+		<<if $args[1] == "all">>
+			<<set $sex.activeNPC = $activeNPC>>
+		<<else>>
+			<<set _length = $args[1].length>>
+			<<set $sex.activeNPC = []>>
+			<<for _i = 0; _i < _length; _i++>>
+				<<run $sex.activeNPC.push($activeNPC[$args[1][_i]])>>
+			<</for>>
+		<</if>>
+		<<if "string" != typeof $args[2]>>
+			<<switch $args[2]>>
+				<<case 0>>
+					<<set $sex.pos = "standing">>
+				<<case 1>>
+					<<set $sex.pos = "sitting">>
+				<<case 2>>
+					<<set $sex.pos = "sidebysidebed">>
+				<<case 3>>
+					<<if def setup.pos.standing>>
+						<<set _keys = Object.keys(setup.pos)>>
+						<<set $sex.pos = either(_keys)>>
+					<<else>>
+						<<set $sex.pos = "standing">>
+					<</if>>
+				<<case default>>
+					<<set $sex.pos = "standing">>
+			<</switch>>
+		<<else>>
+			<<set $sex.pos = $args[2]>>
+		<</if>>
+		/*<<if "array" == typeof $args[3]>>*/
+			<<set $sex.locTags = $args[3]>>
+		/*<<else>>
+			<<set $sex.locTags = ["none"]>>
+			<<run alert("fuck! no location tags were sent to the sex scene. Report this cockup (with location), then pretend it's an empty room.")>>
+		<</if>>*/
+		<<set $sex.pcOutput = "none">>
+		<<set $sex.npcOutput = "---">>
+		<<if $args.length == 5>>
+			<<set $sex.pcOutput = $args[4]>>
+		<<elseif $args.length == 6>>
+			<<set $sex.pcOutput = $args[4]>>
+			<<set $sex.npcOutput = $args[5]>>
+		<</if>>
+		/*<<dialog "debug">>
+			we have this shit here:<br>
+			<<print $args[0]>>, <<print $args[1]>>, <<print $args[2]>>, <<print $args[3]>><br><br>
+			<<print _temp>>, <<print $sex.activeNPC>>|| <<print $activeNPC>>
+			<br>
+			<br>
+			[[sexSceneControl]]
+		<</dialog>>*/
+		<<goto [[SexSceneStart]]>>
+	<</if>>
+	<</silently>>
+<</widget>>
+
+
+/***********************************************/
+/*      FERTILITY VARIABLE CALCULATOR          */
+/***********************************************/
+<<widget "calcPCfertility">>
+<<silently>>
+<<switch $PC.fert.fertility>>
+	<<case 0>>
+		<<set $PC.fert.egg = 1>>
+		<<set $PC.fert.implant = 2>>
+		<<set $PC.fert.vagHostile = random(12,14)>>
+		<<set $PC.fert.period = 4>>
+		<<set $PC.fert.wombHealth = 2>>
+		<<set $PC.fert.multEgg = 1>>
+		<<set $PC.fert.barren = true>>
+		<<set $PC.fert.Fflag = ["barren"]>>
+	<<case 1>>
+		<<set $PC.fert.egg = 5>>
+		<<set $PC.fert.implant = 7>>
+		<<set $PC.fert.vagHostile = random(13,15)>>
+		<<set $PC.fert.period = 6>>
+		<<set $PC.fert.wombHealth = 1>>
+		<<set $PC.fert.multEgg = 3>>
+		<<set $PC.fert.Fflag = ["barely"]>>
+	<<case 2>>
+		<<set $PC.fert.egg = 10>>
+		<<set $PC.fert.implant = 7>>
+		<<set $PC.fert.vagHostile = random(14,16)>>
+		<<set $PC.fert.period = 5>>
+		<<set $PC.fert.multEgg = 10>>
+	<<case 3>>
+		<<set $PC.fert.egg = 14>>
+		<<set $PC.fert.implant = 10>>
+		<<set $PC.fert.vagHostile = random(15,17)>>
+		<<set $PC.fert.period = 4>>
+		<<set $PC.fert.multEgg = 15>>
+	<<case 4>>
+		<<set $PC.fert.egg = 17>>
+		<<set $PC.fert.implant = 12>>
+		<<set $PC.fert.vagHostile = random(16,18)>>
+		<<set $PC.fert.period = 3>>
+		<<set $PC.fert.multEgg = 18>>
+	<<case 5>>
+		<<set $PC.fert.egg = 20>>
+		<<set $PC.fert.implant = 14>>
+		<<set $PC.fert.vagHostile = random(17,19)>>
+		<<set $PC.fert.period = 2>>
+		<<set $PC.fert.multEgg = 22>>
+	<<case 6>>
+		<<set $PC.fert.egg = 23>>
+		<<set $PC.fert.implant = 16>>
+		<<set $PC.fert.vagHostile = random(18,20)>>
+		<<set $PC.fert.period = 2>>
+		<<set $PC.fert.multEgg = 28>>
+	<<case 7>>
+		<<set $PC.fert.egg = 26>>
+		<<set $PC.fert.implant = 18>>
+		<<set $PC.fert.vagHostile = random(20,25)>>
+		<<set $PC.fert.period = 1>>
+		<<set $PC.fert.wombHealth = -1>>
+		<<set $PC.fert.multEgg = 36>>
+		<<set $PC.fert.Fflag = ["fertStorm"]>>
+	<<case 8>>
+		<<set $PC.fert.egg = 30>>
+		<<set $PC.fert.implant = 20>>
+		<<set $PC.fert.vagHostile = random(26,30)>>
+		<<set $PC.fert.period = 1>>
+		<<set $PC.fert.wombHealth = -3>>
+		<<set $PC.fert.multEgg = 50>>
+		<<set $PC.fert.Fflag = ["goddess"]>>
+<</switch>>
+<<if $PC.mutate.multiple>>
+	<<set $PC.fert.multEgg += 200>>
+<</if>>
+<<if $PC.mutate.period>>
+	<<set $PC.fert.period = 0>>
+<</if>>
+<</silently>>
+<</widget>>

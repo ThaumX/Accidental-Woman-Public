@@ -1,0 +1,76 @@
+:: saveNPCsettings [nobr hidden]
+
+@@.head2;Save A NPC Settings Template@@
+<br><br>
+@@.head3;W@@@@.acme;.white;elcome to the @@@@.ident;Template System@@@@.acme;.white;. This system is intended to allow you to create a @@@@.ident;Template@@@@.acme;.white; file for your character, NPC settings, and other configurations. A NPC setting template contains all of the NPC settings you've chosen in the NPC Settings menu. When loading a template, your choices are loaded, and you are deposited back on the new game page. Share templates with other players to try something new!@@
+<br><br>
+@@.quest;.white;''Instructions''<br>Enter a name for your template in the text box below. (You may use whatever name you like, but invalid characters will be removed.) A file will be saved by your browser into your default download location, or you will be prompted for a save location, depending on browser used. The file will be saved in the @@@@.ident;Accidental Woman Template@@ @@.quest;.white;format, with the extension@@ @@.ident;.awt@@@@.quest;.white;.@@
+<br><br>
+@@.note;<span id="workinginfo">press save to start</span>@@<br>
+<<set _exname = "NPCsettingsAWT_" + Date.now()>>
+<<textbox "_filename" _exname>> @@.uibutton;<<button "SAVE">>
+  <<procS "Gen NPC Template">>
+  <<script>>
+    function encodeAndSave(fnam){
+      if (fnam === undefined) {
+        y = "NPCsettingsAWT_" + Date.now();
+      }
+      var filename;
+      var obData = setup.AW.compressCST();
+      try{
+        filename = Util.slugify(fnam);
+      }
+      catch(e){
+        alert("Error converting filename, using default instead.");
+        filename = "NPCsettingsAWT_" + Date.now();
+      }
+      filename = fnam + ".awc";
+      var blob = new Blob([obData], {type: "text/plain;charset=utf-8"});
+      saveAs(blob, filename);
+    }
+    encodeAndSave(State.temporary.filename);
+  <</script>>
+  <<procE>>
+  <<replace "#workinginfo">>Done!<</replace>>
+<</button>>@@ <<button "Return">><<goto [[customNPC]]>><</button>>
+
+
+:: loadNPCsettings [nobr hidden]
+
+@@.head2;Load A NPC Settings Template@@
+<br><br>
+@@.head3;W@@@@.acme;.white;elcome to the @@@@.ident;Template System@@@@.acme;.white;. This system is intended to allow you to create a @@@@.ident;Template@@@@.acme;.white; file for your character, NPC settings, and other configurations. A NPC setting template contains all of the NPC settings you've chosen in the NPC Settings menu. When loading a template, your choices are loaded, and you are deposited back on the new game page. Share templates with other players to try something new!@@
+<br><br>
+@@.quest;.white;''Instructions''<br>Use the file button below to browse for a file.@@ @@.quest;.import;This file must be in the .awt format!@@ @@.quest;.white;Once you have chosen your template file, click the load button to load your template. (Or [[cancel and return|customNPC]].)@@
+<br><br>
+<input type=file id='templateupload' name='templateupload'>
+<<button "LOAD">>
+<<set _values = []>>
+<<procS "Load Data">>
+<<script>>
+function processFile(e) {
+    var file = e.target.result,
+        results;
+    if (file && file.length) {
+			try{
+				State.active.variables.npcSetting = "none";
+				State.active.variables.npcSetting = setup.AW.decompressAWT(file);
+			}
+			catch(err){
+				alert("Error: File could not be decoded. Be sure to upload a valid accidental woman template (.awc) file.");
+			}
+    }else{
+			alert("Error: File could not be read!");
+		}
+}
+function uploadButton(filename) {
+	var reader = new FileReader();
+	var textFile = filename;
+	reader.readAsText(textFile);
+	$(reader).on('load', processFile);
+}
+var cock = document.getElementById('templateupload').files[0];
+uploadButton(cock);
+<</script>>
+<<procE>>
+<<timed 50ms>><<goto [[Introduction]]>><</timed>><</button>><br><br>

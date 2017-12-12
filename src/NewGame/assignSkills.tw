@@ -1,0 +1,352 @@
+:: assignSkills [nobr]
+
+<<nobr>>
+<<set $helpText = "Skills are important in Accidental Woman, so it's probably a good idea to put a little thought into what skills you choose. Don't be afraid to spread your skill points around so that you have at least a minimum amount of ability in each skill. You'll be using most of them! Click the info link to learn more about each skill.">>
+@@.head1;Assign Skillpoints@@
+<br>
+@@.white;Use the links to spend skill points or reset them. Skills cannot be reduced below the level set by your background. Some skills will cost more skill points per point based on your character.@@
+<br><center>
+''you have <span id="skills">@@.head2;<<print $PCskillpoints>>@@</span> @@font-size:120%;[[skillpoints]]@@ to spend''
+<table>
+<tr><td colspan = 7><center>@@.head3;Sex Skills@@</center></td></tr>
+<tr>
+<<if $PC.kink.slut || $PC.kink.liberate || $PC.kink.pregnancy>>
+	<td>
+	<<button "reset">><<if $PC.skill.sex > $PC.skillArray[2]>><<set $PCskillpoints += ($PC.skill.sex - $PC.skillArray[2])/2>><<set $PC.skill.sex = $PC.skillArray[2]>><</if>><<replace "#skill-sex">>@@.head3;<<print $PC.skill.sex>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Sex Skill</td><td><span id="skill-sex">@@.head3;<<print $PC.skill.sex>>@@</span></td><td>@@.green;2 for 1sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 1>><<set $PCskillpoints -= 0.5>><<set $PC.skill.sex += 1>><</if>><<replace "#skill-sex">>@@.head3;<<print $PC.skill.sex>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 2.5>><<set $PCskillpoints -= 2.5>><<set $PC.skill.sex += 5>><</if>><<replace "#skill-sex">>@@.head3;<<print $PC.skill.sex>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.sex += 10>><</if>><<replace "#skill-sex">>@@.head3;<<print $PC.skill.sex>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<<else>>
+	<td>
+	<<button "reset">><<if $PC.skill.sex > $PC.skillArray[2]>><<set $PCskillpoints += ($PC.skill.sex - $PC.skillArray[2])>><<set $PC.skill.sex = $PC.skillArray[2]>><</if>><<replace "#skill-sex">>@@.head3;<<print $PC.skill.sex>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Sex Skill</td><td><span id="skill-sex">@@.head3;<<print $PC.skill.sex>>@@</span></td><td>@@.white;1 for 1sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 1>><<set $PCskillpoints -= 1>><<set $PC.skill.sex += 1>><</if>><<replace "#skill-sex">>@@.head3;<<print $PC.skill.sex>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.sex += 5>><</if>><<replace "#skill-sex">>@@.head3;<<print $PC.skill.sex>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.sex += 10>><</if>><<replace "#skill-sex">>@@.head3;<<print $PC.skill.sex>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<</if>>
+</tr><tr>
+<<if $PC.kink.slut || $PC.kink.liberate || $PC.kink.cumSlut>>
+	<td>
+	<<button "reset">><<if $PC.skill.oral > $PC.skillArray[3]>><<set $PCskillpoints += ($PC.skill.oral - $PC.skillArray[3])/2>><<set $PC.skill.oral = $PC.skillArray[3]>><</if>><<replace "#skill-oral">>@@.head3;<<print $PC.skill.oral>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Oral Skill</td><td><span id="skill-oral">@@.head3;<<print $PC.skill.oral>>@@</span></td><td>@@.green;2 for 1sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 0.5>><<set $PCskillpoints -= 0.5>><<set $PC.skill.oral += 1>><</if>><<replace "#skill-oral">>@@.head3;<<print $PC.skill.oral>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 2.5>><<set $PCskillpoints -= 2.5>><<set $PC.skill.oral += 5>><</if>><<replace "#skill-oral">>@@.head3;<<print $PC.skill.oral>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.oral += 10>><</if>><<replace "#skill-oral">>@@.head3;<<print $PC.skill.oral>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<<elseif $PC.kink.oral && $PC.kink.force>>
+	<td>
+	<<button "reset">><<if $PC.skill.oral > $PC.skillArray[3]>><<set $PCskillpoints += ($PC.skill.oral - $PC.skillArray[3])>><<set $PC.skill.oral = $PC.skillArray[3]>><</if>><<replace "#skill-oral">>@@.head3;<<print $PC.skill.oral>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Oral Skill</td><td><span id="skill-oral">@@.head3;<<print $PC.skill.oral>>@@</span></td><td>@@.white;1 for 1sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 1>><<set $PCskillpoints -= 1>><<set $PC.skill.oral += 1>><</if>><<replace "#skill-oral">>@@.head3;<<print $PC.skill.oral>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.oral += 5>><</if>><<replace "#skill-oral">>@@.head3;<<print $PC.skill.oral>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.oral += 10>><</if>><<replace "#skill-oral">>@@.head3;<<print $PC.skill.oral>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<<else>>
+	<td>
+	<<button "reset">><<if $PC.skill.oral > $PC.skillArray[3]>><<set $PCskillpoints += ($PC.skill.oral - $PC.skillArray[3])*2>><<set $PC.skill.oral = $PC.skillArray[3]>><</if>><<replace "#skill-oral">>@@.head3;<<print $PC.skill.oral>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Oral Skill</td><td><span id="skill-oral">@@.head3;<<print $PC.skill.oral>>@@</span></td><td>@@.orange;1 for 2sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 2>><<set $PCskillpoints -= 2>><<set $PC.skill.oral += 1>><</if>><<replace "#skill-oral">>@@.head3;<<print $PC.skill.oral>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.oral += 5>><</if>><<replace "#skill-oral">>@@.head3;<<print $PC.skill.oral>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 20>><<set $PCskillpoints -= 20>><<set $PC.skill.oral += 10>><</if>><<replace "#skill-oral">>@@.head3;<<print $PC.skill.oral>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<</if>>
+</tr><tr>
+<<if $PC.kink.exhibition || $PC.kink.public >>
+	<td>
+	<<button "reset">><<if $PC.skill.exhibition > $PC.skillArray[0]>><<set $PCskillpoints += ($PC.skill.exhibition - $PC.skillArray[0])/2>><<set $PC.skill.exhibition = $PC.skillArray[0]>><</if>><<replace "#skill-exh">>@@.head3;<<print $PC.skill.exhibition>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Exhibition Level</td><td><span id="skill-exh">@@.head3;<<print $PC.skill.exhibition>>@@</span></td><td>@@.green;2 for 1sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 0.5>><<set $PCskillpoints -= 0.5>><<set $PC.skill.exhibition += 1>><</if>><<replace "#skill-exh">>@@.head3;<<print $PC.skill.exhibition>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 2.5>><<set $PCskillpoints -= 2.5>><<set $PC.skill.exhibition += 5>><</if>><<replace "#skill-exh">>@@.head3;<<print $PC.skill.exhibition>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.exhibition += 10>><</if>><<replace "#skill-exh">>@@.head3;<<print $PC.skill.exhibition>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<<elseif $PC.trait.crude != -1 && $PC.trait.open != "closed">>
+	<td>
+	<<button "reset">><<if $PC.skill.exhibition > $PC.skillArray[0]>><<set $PCskillpoints += ($PC.skill.exhibition - $PC.skillArray[0])>><<set $PC.skill.exhibition = $PC.skillArray[0]>><</if>><<replace "#skill-exh">>@@.head3;<<print $PC.skill.exhibition>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Exhibition Level</td><td><span id="skill-exh">@@.head3;<<print $PC.skill.exhibition>>@@</span></td><td>@@.white;1 for 1sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 1>><<set $PCskillpoints -= 1>><<set $PC.skill.exhibition += 1>><</if>><<replace "#skill-exh">>@@.head3;<<print $PC.skill.exhibition>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.exhibition += 5>><</if>><<replace "#skill-exh">>@@.head3;<<print $PC.skill.exhibition>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.exhibition += 10>><</if>><<replace "#skill-exh">>@@.head3;<<print $PC.skill.exhibition>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<<else>>
+	<td>
+	<<button "reset">><<if $PC.skill.exhibition > $PC.skillArray[0]>><<set $PCskillpoints += ($PC.skill.exhibition - $PC.skillArray[0])*2>><<set $PC.skill.exhibition = $PC.skillArray[0]>><</if>><<replace "#skill-exh">>@@.head3;<<print $PC.skill.exhibition>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Exhibition Level</td><td><span id="skill-exh">@@.head3;<<print $PC.skill.exhibition>>@@</span></td><td>@@.orange;1 for 2sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 2>><<set $PCskillpoints -= 2>><<set $PC.skill.exhibition += 1>><</if>><<replace "#skill-exh">>@@.head3;<<print $PC.skill.exhibition>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.exhibition += 5>><</if>><<replace "#skill-exh">>@@.head3;<<print $PC.skill.exhibition>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 20>><<set $PCskillpoints -= 20>><<set $PC.skill.exhibition += 10>><</if>><<replace "#skill-exh">>@@.head3;<<print $PC.skill.exhibition>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<</if>>
+</tr><tr>
+<<if $PC.kink.liberate || $PC.kink.slut && $PC.trait.romantic != 1>>
+	<td>
+	<<button "reset">><<if $PC.skill.prostitute > $PC.skillArray[1]>><<set $PCskillpoints += ($PC.skill.prostitute - $PC.skillArray[1])/2>><<set $PC.skill.prostitute = $PC.skillArray[1]>><</if>><<replace "#skill-pro">>@@.head3;<<print $PC.skill.prostitute>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Prostitution Skill</td><td><span id="skill-pro">@@.head3;<<print $PC.skill.prostitute>>@@</span></td><td>@@.green;2 for 1sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 0.5>><<set $PCskillpoints -= 0.5>><<set $PC.skill.prostitute += 1>><</if>><<replace "#skill-pro">>@@.head3;<<print $PC.skill.prostitute>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 2.5>><<set $PCskillpoints -= 2.5>><<set $PC.skill.prostitute += 5>><</if>><<replace "#skill-pro">>@@.head3;<<print $PC.skill.prostitute>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.prostitute += 10>><</if>><<replace "#skill-pro">>@@.head3;<<print $PC.skill.prostitute>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<<elseif $PC.trait.crude != -1 && $PC.trait.open != "closed" && $PC.trait.vert != "introverted" >>
+	<td>
+	<<button "reset">><<if $PC.skill.prostitute > $PC.skillArray[1]>><<set $PCskillpoints += ($PC.skill.prostitute - $PC.skillArray[1])>><<set $PC.skill.prostitute = $PC.skillArray[1]>><</if>><<replace "#skill-pro">>@@.head3;<<print $PC.skill.prostitute>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Prostitution Skill</td><td><span id="skill-pro">@@.head3;<<print $PC.skill.prostitute>>@@</span></td><td>@@.white;1 for 1sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 1>><<set $PCskillpoints -= 1>><<set $PC.skill.prostitute += 1>><</if>><<replace "#skill-pro">>@@.head3;<<print $PC.skill.prostitute>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.prostitute += 5>><</if>><<replace "#skill-pro">>@@.head3;<<print $PC.skill.prostitute>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.prostitute += 10>><</if>><<replace "#skill-pro">>@@.head3;<<print $PC.skill.prostitute>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<<else>>
+	<td>
+	<<button "reset">><<if $PC.skill.prostitute > $PC.skillArray[1]>><<set $PCskillpoints += ($PC.skill.prostitute - $PC.skillArray[1])*2>><<set $PC.skill.prostitute = $PC.skillArray[1]>><</if>><<replace "#skill-pro">>@@.head3;<<print $PC.skill.prostitute>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Prostitution Skill</td><td><span id="skill-pro">@@.head3;<<print $PC.skill.prostitute>>@@</span></td><td>@@.orange;1 for 2sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 2>><<set $PCskillpoints -= 2>><<set $PC.skill.prostitute += 1>><</if>><<replace "#skill-pro">>@@.head3;<<print $PC.skill.prostitute>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.prostitute += 5>><</if>><<replace "#skill-pro">>@@.head3;<<print $PC.skill.prostitute>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 20>><<set $PCskillpoints -= 20>><<set $PC.skill.prostitute += 10>><</if>><<replace "#skill-pro">>@@.head3;<<print $PC.skill.prostitute>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<</if>>
+</tr><tr>
+<<if $PC.kink.risky || $PC.kink.slut || $PC.kink.pregnancy || $PC.trait.libido > 4>>
+	<td>
+	<<button "reset">><<if $PC.skill.seduction > $PC.skillArray[4]>><<set $PCskillpoints += ($PC.skill.seduction - $PC.skillArray[4])/2>><<set $PC.skill.seduction = $PC.skillArray[4]>><</if>><<replace "#skill-sed">>@@.head3;<<print $PC.skill.seduction>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Seduction Skill</td><td><span id="skill-sed">@@.head3;<<print $PC.skill.seduction>>@@</span></td><td>@@.green;2 for 1sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 0.5>><<set $PCskillpoints -= 0.5>><<set $PC.skill.seduction += 1>><</if>><<replace "#skill-sed">>@@.head3;<<print $PC.skill.seduction>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 2.5>><<set $PCskillpoints -= 2.5>><<set $PC.skill.seduction += 5>><</if>><<replace "#skill-sed">>@@.head3;<<print $PC.skill.seduction>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.seduction += 10>><</if>><<replace "#skill-sed">>@@.head3;<<print $PC.skill.seduction>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<<elseif $PC.trait.vert != "introverted" || $PC.trait.flirty == 1>>
+	<td>
+	<<button "reset">><<if $PC.skill.seduction > $PC.skillArray[4]>><<set $PCskillpoints += ($PC.skill.seduction - $PC.skillArray[4])>><<set $PC.skill.seduction = $PC.skillArray[4]>><</if>><<replace "#skill-sed">>@@.head3;<<print $PC.skill.seduction>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Seduction Skill</td><td><span id="skill-sed">@@.head3;<<print $PC.skill.seduction>>@@</span></td><td>@@.white;1 for 1sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 1>><<set $PCskillpoints -= 1>><<set $PC.skill.seduction += 1>><</if>><<replace "#skill-sed">>@@.head3;<<print $PC.skill.seduction>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.seduction += 5>><</if>><<replace "#skill-sed">>@@.head3;<<print $PC.skill.seduction>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.seduction += 10>><</if>><<replace "#skill-sed">>@@.head3;<<print $PC.skill.seduction>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<<else>>
+	<td>
+	<<button "reset">><<if $PC.skill.seduction > $PC.skillArray[4]>><<set $PCskillpoints += ($PC.skill.seduction - $PC.skillArray[4])*2>><<set $PC.skill.seduction = $PC.skillArray[4]>><</if>><<replace "#skill-sed">>@@.head3;<<print $PC.skill.seduction>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Seduction Skill</td><td><span id="skill-sed">@@.head3;<<print $PC.skill.seduction>>@@</span></td><td>@@.orange;1 for 2sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 2>><<set $PCskillpoints -= 2>><<set $PC.skill.seduction += 1>><</if>><<replace "#skill-sed">>@@.head3;<<print $PC.skill.seduction>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.seduction += 5>><</if>><<replace "#skill-sed">>@@.head3;<<print $PC.skill.seduction>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 20>><<set $PCskillpoints -= 20>><<set $PC.skill.seduction += 10>><</if>><<replace "#skill-sed">>@@.head3;<<print $PC.skill.seduction>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<</if>>
+</tr>
+<tr><td colspan = 7><center>@@.head3;Work Skills@@</center></td></tr>
+<tr>
+<<if $PC.trait.vert == "extroverted" && $PC.trait.crude != 1 && $PC.trait.flirty != -1 && $PC.trait.bitch != 1 && $PC.trait.friendly != -1 && $PC.trait.approachable != -1>>
+	<td>
+	<<button "reset">><<if $PC.skill.comm > $PC.skillArray[5]>><<set $PCskillpoints += ($PC.skill.comm - $PC.skillArray[5])*0.75>><<set $PC.skill.comm = $PC.skillArray[5]>><</if>><<replace "#skill-com">>@@.head3;<<print $PC.skill.comm>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Communication Skill</td><td><span id="skill-com">@@.head3;<<print $PC.skill.comm>>@@</span></td><td>@@.green;4 for 3sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 0.75>><<set $PCskillpoints -= 0.75>><<set $PC.skill.comm += 1>><</if>><<replace "#skill-com">>@@.head3;<<print $PC.skill.comm>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 3.75>><<set $PCskillpoints -= 3.75>><<set $PC.skill.comm += 5>><</if>><<replace "#skill-com">>@@.head3;<<print $PC.skill.comm>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 7.5>><<set $PCskillpoints -= 7.5>><<set $PC.skill.comm += 10>><</if>><<replace "#skill-com">>@@.head3;<<print $PC.skill.comm>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<<elseif $PC.trait.flirty != -1 && $PC.trait.bitch != 1 && $PC.trait.friendly != -1 && $PC.trait.approachable != -1>>
+	<td>
+	<<button "reset">><<if $PC.skill.comm > $PC.skillArray[5]>><<set $PCskillpoints += ($PC.skill.comm - $PC.skillArray[5])>><<set $PC.skill.comm = $PC.skillArray[5]>><</if>><<replace "#skill-com">>@@.head3;<<print $PC.skill.comm>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Communication Skill</td><td><span id="skill-com">@@.head3;<<print $PC.skill.comm>>@@</span></td><td>@@.white;1 for 1sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 1>><<set $PCskillpoints -= 1>><<set $PC.skill.comm += 1>><</if>><<replace "#skill-com">>@@.head3;<<print $PC.skill.comm>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.comm += 5>><</if>><<replace "#skill-com">>@@.head3;<<print $PC.skill.comm>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.comm += 10>><</if>><<replace "#skill-com">>@@.head3;<<print $PC.skill.comm>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<<else>>
+	<td>
+	<<button "reset">><<if $PC.skill.comm > $PC.skillArray[5]>><<set $PCskillpoints += ($PC.skill.comm - $PC.skillArray[5])*1.5>><<set $PC.skill.comm = $PC.skillArray[5]>><</if>><<replace "#skill-com">>@@.head3;<<print $PC.skill.comm>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Communication Skill</td><td><span id="skill-com">@@.head3;<<print $PC.skill.comm>>@@</span></td><td>@@.orange;2 for 3sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 1.5>><<set $PCskillpoints -= 1.5>><<set $PC.skill.comm += 1>><</if>><<replace "#skill-com">>@@.head3;<<print $PC.skill.comm>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 7.5>><<set $PCskillpoints -= 7.5>><<set $PC.skill.comm += 5>><</if>><<replace "#skill-com">>@@.head3;<<print $PC.skill.comm>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 15>><<set $PCskillpoints -= 15>><<set $PC.skill.comm += 10>><</if>><<replace "#skill-com">>@@.head3;<<print $PC.skill.comm>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<</if>>
+</tr><tr>
+<<if $PC.trait.open == "closed">>
+	<td>
+	<<button "reset">><<if $PC.skill.org > $PC.skillArray[6]>><<set $PCskillpoints += ($PC.skill.org - $PC.skillArray[6])*0.75>><<set $PC.skill.org = $PC.skillArray[6]>><</if>><<replace "#skill-org">>@@.head3;<<print $PC.skill.org>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Organization Skill</td><td><span id="skill-org">@@.head3;<<print $PC.skill.org>>@@</span></td><td>@@.green;4 for 3sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 0.75>><<set $PCskillpoints -= 0.75>><<set $PC.skill.org += 1>><</if>><<replace "#skill-org">>@@.head3;<<print $PC.skill.org>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 3.75>><<set $PCskillpoints -= 3.75>><<set $PC.skill.org += 5>><</if>><<replace "#skill-org">>@@.head3;<<print $PC.skill.org>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 7.5>><<set $PCskillpoints -= 7.5>><<set $PC.skill.org += 10>><</if>><<replace "#skill-org">>@@.head3;<<print $PC.skill.org>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<<elseif $PC.trait.will > 2>>
+	<td>
+	<<button "reset">><<if $PC.skill.org > $PC.skillArray[6]>><<set $PCskillpoints += ($PC.skill.org - $PC.skillArray[6])>><<set $PC.skill.org = $PC.skillArray[6]>><</if>><<replace "#skill-org">>@@.head3;<<print $PC.skill.org>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Organization Skill</td><td><span id="skill-org">@@.head3;<<print $PC.skill.org>>@@</span></td><td>@@.white;1 for 1sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 1>><<set $PCskillpoints -= 1>><<set $PC.skill.org += 1>><</if>><<replace "#skill-org">>@@.head3;<<print $PC.skill.org>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.org += 5>><</if>><<replace "#skill-org">>@@.head3;<<print $PC.skill.org>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.org += 10>><</if>><<replace "#skill-org">>@@.head3;<<print $PC.skill.org>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<<else>>
+	<td>
+	<<button "reset">><<if $PC.skill.org > $PC.skillArray[6]>><<set $PCskillpoints += ($PC.skill.org - $PC.skillArray[6])*1.5>><<set $PC.skill.org = $PC.skillArray[6]>><</if>><<replace "#skill-org">>@@.head3;<<print $PC.skill.org>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Organization Skill</td><td><span id="skill-org">@@.head3;<<print $PC.skill.org>>@@</span></td><td>@@.orange;2 for 3sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 1.5>><<set $PCskillpoints -= 1.5>><<set $PC.skill.org += 1>><</if>><<replace "#skill-org">>@@.head3;<<print $PC.skill.org>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 7.5>><<set $PCskillpoints -= 7.5>><<set $PC.skill.org += 5>><</if>><<replace "#skill-org">>@@.head3;<<print $PC.skill.org>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 15>><<set $PCskillpoints -= 15>><<set $PC.skill.org += 10>><</if>><<replace "#skill-org">>@@.head3;<<print $PC.skill.org>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<</if>>
+</tr><tr>
+<<if $PC.trait.open == "open">>
+	<td>
+	<<button "reset">><<if $PC.skill.probSolving > $PC.skillArray[7]>><<set $PCskillpoints += ($PC.skill.probSolving - $PC.skillArray[7])*0.75>><<set $PC.skill.probSolving = $PC.skillArray[7]>><</if>><<replace "#skill-prs">>@@.head3;<<print $PC.skill.probSolving>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Problem Solving Skill</td><td><span id="skill-prs">@@.head3;<<print $PC.skill.probSolving>>@@</span></td><td>@@.green;4 for 3sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 0.75>><<set $PCskillpoints -= 0.75>><<set $PC.skill.probSolving += 1>><</if>><<replace "#skill-prs">>@@.head3;<<print $PC.skill.probSolving>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 3.75>><<set $PCskillpoints -= 3.75>><<set $PC.skill.probSolving += 5>><</if>><<replace "#skill-prs">>@@.head3;<<print $PC.skill.probSolving>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 7.5>><<set $PCskillpoints -= 7.5>><<set $PC.skill.probSolving += 10>><</if>><<replace "#skill-prs">>@@.head3;<<print $PC.skill.probSolving>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<<elseif $PC.trait.vert != "extroverted" && $PC.trait.open != "closed">>
+	<td>
+	<<button "reset">><<if $PC.skill.probSolving > $PC.skillArray[7]>><<set $PCskillpoints += ($PC.skill.probSolving - $PC.skillArray[7])>><<set $PC.skill.probSolving = $PC.skillArray[7]>><</if>><<replace "#skill-prs">>@@.head3;<<print $PC.skill.probSolving>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Problem Solving Skill</td><td><span id="skill-prs">@@.head3;<<print $PC.skill.probSolving>>@@</span></td><td>@@.white;1 for 1sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 1>><<set $PCskillpoints -= 1>><<set $PC.skill.probSolving += 1>><</if>><<replace "#skill-prs">>@@.head3;<<print $PC.skill.probSolving>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.probSolving += 5>><</if>><<replace "#skill-prs">>@@.head3;<<print $PC.skill.probSolving>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.probSolving += 10>><</if>><<replace "#skill-prs">>@@.head3;<<print $PC.skill.probSolving>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<<else>>
+	<td>
+	<<button "reset">><<if $PC.skill.probSolving > $PC.skillArray[7]>><<set $PCskillpoints += ($PC.skill.probSolving - $PC.skillArray[7])*1.5>><<set $PC.skill.probSolving = $PC.skillArray[7]>><</if>><<replace "#skill-prs">>@@.head3;<<print $PC.skill.probSolving>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Problem Solving Skill</td><td><span id="skill-prs">@@.head3;<<print $PC.skill.probSolving>>@@</span></td><td>@@.orange;2 for 3sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 1.5>><<set $PCskillpoints -= 1.5>><<set $PC.skill.probSolving += 1>><</if>><<replace "#skill-prs">>@@.head3;<<print $PC.skill.probSolving>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 7.5>><<set $PCskillpoints -= 7.5>><<set $PC.skill.probSolving += 5>><</if>><<replace "#skill-prs">>@@.head3;<<print $PC.skill.probSolving>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 15>><<set $PCskillpoints -= 15>><<set $PC.skill.probSolving += 10>><</if>><<replace "#skill-prs">>@@.head3;<<print $PC.skill.probSolving>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<</if>>
+</tr><tr>
+<<if $PC.trait.open == "open">>
+	<td>
+	<<button "reset">><<if $PC.skill.finance > $PC.skillArray[8]>><<set $PCskillpoints += ($PC.skill.finance - $PC.skillArray[8])*0.75>><<set $PC.skill.finance = $PC.skillArray[8]>><</if>><<replace "#skill-fin">>@@.head3;<<print $PC.skill.finance>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Financial Skill</td><td><span id="skill-fin">@@.head3;<<print $PC.skill.finance>>@@</span></td><td>@@.green;4 for 3sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 0.75>><<set $PCskillpoints -= 0.75>><<set $PC.skill.finance += 1>><</if>><<replace "#skill-fin">>@@.head3;<<print $PC.skill.finance>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 3.75>><<set $PCskillpoints -= 3.75>><<set $PC.skill.finance += 5>><</if>><<replace "#skill-fin">>@@.head3;<<print $PC.skill.finance>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 7.5>><<set $PCskillpoints -= 7.5>><<set $PC.skill.finance += 10>><</if>><<replace "#skill-fin">>@@.head3;<<print $PC.skill.finance>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<<elseif $PC.trait.vert != "extroverted" && $PC.trait.open != "closed">>
+	<td>
+	<<button "reset">><<if $PC.skill.finance > $PC.skillArray[8]>><<set $PCskillpoints += ($PC.skill.finance - $PC.skillArray[8])>><<set $PC.skill.finance = $PC.skillArray[8]>><</if>><<replace "#skill-fin">>@@.head3;<<print $PC.skill.finance>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Financial Skill</td><td><span id="skill-fin">@@.head3;<<print $PC.skill.finance>>@@</span></td><td>@@.white;1 for 1sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 1>><<set $PCskillpoints -= 1>><<set $PC.skill.finance += 1>><</if>><<replace "#skill-fin">>@@.head3;<<print $PC.skill.finance>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.finance += 5>><</if>><<replace "#skill-fin">>@@.head3;<<print $PC.skill.finance>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.finance += 10>><</if>><<replace "#skill-fin">>@@.head3;<<print $PC.skill.finance>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<<else>>
+	<td>
+	<<button "reset">><<if $PC.skill.finance > $PC.skillArray[8]>><<set $PCskillpoints += ($PC.skill.finance - $PC.skillArray[8])*1.5>><<set $PC.skill.finance = $PC.skillArray[8]>><</if>><<replace "#skill-fin">>@@.head3;<<print $PC.skill.finance>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>Financial Skill</td><td><span id="skill-fin">@@.head3;<<print $PC.skill.finance>>@@</span></td><td>@@.orange;2 for 3sp@@</td><td>
+	<<button "[+1]">><<if $PCskillpoints >= 1.5>><<set $PCskillpoints -= 1.5>><<set $PC.skill.finance += 1>><</if>><<replace "#skill-fin">>@@.head3;<<print $PC.skill.finance>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+5]">><<if $PCskillpoints >= 7.5>><<set $PCskillpoints -= 7.5>><<set $PC.skill.finance += 5>><</if>><<replace "#skill-fin">>@@.head3;<<print $PC.skill.finance>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td><td>
+	<<button "[+10]">><<if $PCskillpoints >= 15>><<set $PCskillpoints -= 15>><<set $PC.skill.finance += 10>><</if>><<replace "#skill-fin">>@@.head3;<<print $PC.skill.finance>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+	</td>
+<</if>>
+</tr><tr><td colspan = 7><center>@@.head3;Life Skills@@</center></td></tr>
+<tr><td>
+<<button "reset">><<if $PC.skill.art > $PC.skillArray[9]>><<set $PCskillpoints += ($PC.skill.art - $PC.skillArray[9])>><<set $PC.skill.art = $PC.skillArray[9]>><</if>><<replace "#skill-ast">>@@.head3;<<print $PC.skill.art>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>Aesthetics Skill</td><td><span id="skill-ast">@@.head3;<<print $PC.skill.art>>@@</span></td><td>@@.white;1 for 1sp@@</td><td>
+<<button "[+1]">><<if $PCskillpoints >= 1>><<set $PCskillpoints -= 1>><<set $PC.skill.art += 1>><</if>><<replace "#skill-ast">>@@.head3;<<print $PC.skill.art>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>
+<<button "[+5]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.art += 5>><</if>><<replace "#skill-ast">>@@.head3;<<print $PC.skill.art>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>
+<<button "[+10]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.art += 10>><</if>><<replace "#skill-ast">>@@.head3;<<print $PC.skill.art>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td></tr>
+<tr><td>
+<<button "reset">><<if $PC.skill.athletic > $PC.skillArray[10]>><<set $PCskillpoints += ($PC.skill.athletic - $PC.skillArray[10])>><<set $PC.skill.athletic = $PC.skillArray[10]>><</if>><<replace "#skill-ath">>@@.head3;<<print $PC.skill.athletic>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>Athletics Skill</td><td><span id="skill-ath">@@.head3;<<print $PC.skill.athletic>>@@</span></td><td>@@.white;1 for 1sp@@</td><td>
+<<button "[+1]">><<if $PCskillpoints >= 1>><<set $PCskillpoints -= 1>><<set $PC.skill.athletic += 1>><</if>><<replace "#skill-ath">>@@.head3;<<print $PC.skill.athletic>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>
+<<button "[+5]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.athletic += 5>><</if>><<replace "#skill-ath">>@@.head3;<<print $PC.skill.athletic>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>
+<<button "[+10]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.athletic += 10>><</if>><<replace "#skill-ath">>@@.head3;<<print $PC.skill.athletic>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td></tr>
+<tr><td>
+<<button "reset">><<if $PC.skill.dancing > $PC.skillArray[11]>><<set $PCskillpoints += ($PC.skill.dancing - $PC.skillArray[11])>><<set $PC.skill.dancing = $PC.skillArray[11]>><</if>><<replace "#skill-dan">>@@.head3;<<print $PC.skill.dancing>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>Dancing Skill</td><td><span id="skill-dan">@@.head3;<<print $PC.skill.dancing>>@@</span></td><td>@@.white;1 for 1sp@@</td><td>
+<<button "[+1]">><<if $PCskillpoints >= 1>><<set $PCskillpoints -= 1>><<set $PC.skill.dancing += 1>><</if>><<replace "#skill-dan">>@@.head3;<<print $PC.skill.dancing>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>
+<<button "[+5]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.dancing += 5>><</if>><<replace "#skill-dan">>@@.head3;<<print $PC.skill.dancing>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>
+<<button "[+10]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.dancing += 10>><</if>><<replace "#skill-dan">>@@.head3;<<print $PC.skill.dancing>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td></tr>
+<tr><td>
+<<button "reset">><<if $PC.skill.clean > $PC.skillArray[12]>><<set $PCskillpoints += ($PC.skill.clean - $PC.skillArray[12])>><<set $PC.skill.clean = $PC.skillArray[12]>><</if>><<replace "#skill-cle">>@@.head3;<<print $PC.skill.clean>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>Cleaning Skill</td><td><span id="skill-cle">@@.head3;<<print $PC.skill.clean>>@@</span></td><td>@@.white;1 for 1sp@@</td><td>
+<<button "[+1]">><<if $PCskillpoints >= 1>><<set $PCskillpoints -= 1>><<set $PC.skill.clean += 1>><</if>><<replace "#skill-cle">>@@.head3;<<print $PC.skill.clean>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>
+<<button "[+5]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.clean += 5>><</if>><<replace "#skill-cle">>@@.head3;<<print $PC.skill.clean>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>
+<<button "[+10]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.clean += 10>><</if>><<replace "#skill-cle">>@@.head3;<<print $PC.skill.clean>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td></tr>
+<tr><td>
+<<button "reset">><<if $PC.skill.shop > $PC.skillArray[13]>><<set $PCskillpoints += ($PC.skill.shop - $PC.skillArray[13])>><<set $PC.skill.shop = $PC.skillArray[13]>><</if>><<replace "#skill-sho">>@@.head3;<<print $PC.skill.shop>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>Shopping Skill</td><td><span id="skill-sho">@@.head3;<<print $PC.skill.shop>>@@</span></td><td>@@.white;1 for 1sp@@</td><td>
+<<button "[+1]">><<if $PCskillpoints >= 1>><<set $PCskillpoints -= 1>><<set $PC.skill.shop += 1>><</if>><<replace "#skill-sho">>@@.head3;<<print $PC.skill.shop>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>
+<<button "[+5]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.shop += 5>><</if>><<replace "#skill-sho">>@@.head3;<<print $PC.skill.shop>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>
+<<button "[+10]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.shop += 10>><</if>><<replace "#skill-sho">>@@.head3;<<print $PC.skill.shop>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td></tr>
+<tr><td>
+<<button "reset">><<if $PC.skill.cook > $PC.skillArray[14]>><<set $PCskillpoints += ($PC.skill.cook - $PC.skillArray[14])>><<set $PC.skill.cook = $PC.skillArray[14]>><</if>><<replace "#skill-coo">>@@.head3;<<print $PC.skill.cook>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>Cooking Skill</td><td><span id="skill-coo">@@.head3;<<print $PC.skill.cook>>@@</span></td><td>@@.white;1 for 1sp@@</td><td>
+<<button "[+1]">><<if $PCskillpoints >= 1>><<set $PCskillpoints -= 1>><<set $PC.skill.cook += 1>><</if>><<replace "#skill-coo">>@@.head3;<<print $PC.skill.cook>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>
+<<button "[+5]">><<if $PCskillpoints >= 5>><<set $PCskillpoints -= 5>><<set $PC.skill.cook += 5>><</if>><<replace "#skill-coo">>@@.head3;<<print $PC.skill.cook>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td><td>
+<<button "[+10]">><<if $PCskillpoints >= 10>><<set $PCskillpoints -= 10>><<set $PC.skill.cook += 10>><</if>><<replace "#skill-coo">>@@.head3;<<print $PC.skill.cook>>@@<</replace>><<replace "#skills">>@@.head3;<<print $PCskillpoints>>@@<</replace>><</button>>
+</td></tr>
+</table>
+<br><center>
+@@.big;<<button [[Finalize and Choose a Name|nameCharacter]]>><</button>>@@
+<br>@@.note;All unused skillpoints will be lost!@@
+</center>
+<</nobr>>

@@ -1,0 +1,748 @@
+:: wardrobeChange [nobr]
+
+@@.head2;Change Clothes@@
+<br><br>
+<<button "''∨''">><<replace "#currentclothes">>
+<table>
+<tr><td width="20%">
+@@.gab;''Outfit Stats''@@
+</td><td width="60%">
+@@.exp;Attractiveness  <<print $PC.clothes.atr>>, <<print $PC.clothes.sex>>, <<print $PC.clothes.form>>, Exposure ~ Top <<print $PC.clothes.exp[0]>> | Bottom <<print $PC.clothes.exp[1]>>@@<br><<if $PC.clothes.nite>>Sleepwear,<<elseif $PC.clothes.ath>>Athletic Wear,<<elseif $PC.clothes.swim>>Swimwear,<</if>> <<if $PC.clothes.skirtDanger == 1>>@@.import;Short Skirt@@, <<elseif $PC.clothes.skirtDanger == 2>>@@.change;Short Skirt Danger@@, <<elseif $PC.clothes.skirtDanger == 3>>@@.change;High Skirt Danger@@, <<elseif $PC.clothes.skirtDanger>>@@.peepbad;Extreme Skirt Danger@@, <</if>><<if $PC.clothes.coordOver>>coordinated, <</if>><<if $PC.clothes.coordUnder>>coordinated underwear, <</if>><<if $PC.clothes.accessP && $PC.clothes.accessB>>Direct Access: @@.mediumorchid;Nipples & Pussy@@<<elseif $PC.clothes.accessB>>Direct Access: @@.mediumorchid;Nipples@@<<elseif $PC.clothes.accessP>>Direct Access: @@.mediumorchid;Pussy@@<</if>>
+</td><td>
+<<button "Remove All">>
+<<set $PC.clothes.legs = ["none",0,0,0,5,0,"M. Nature",0,-1]>> <<set $PC.clothes.panties = ["none",0,0,0,5,0,"M. Nature",0,-1]>><<set $PC.clothes.lower = ["none",0,0,0,5,0,"M. Nature",0,-1]>><<set $PC.clothes.bra = ["none",0,0,0,5,0,"M. Nature",0,-1]>><<set $PC.clothes.upper = ["none",0,0,0,5,0,"M. Nature",0,-1]>><<set $PC.clothes.over = ["none",0,0,0,5,0,"M. Nature",0,-1]>><<set $PC.clothes.accA = ["none",0,0,0,0,0]>><<set $PC.clothes.accB = ["none",0,0,0,0,0]>><<set $PC.clothes.accC = ["none",0,0,0,0,0]>><<set $PC.clothes.accD = ["none",0,0,0,0,0]>><<set $PC.clothes.bag = ["none",0,0,0,0,0]>><<set $PC.clothes.coordOver = false>><<set $PC.clothes.coordUnder = false>><<set $PC.clothes.dress = false>><<set $PC.clothes.nite = false>><<set $PC.clothes.ath = false>><<set $PC.clothes.swim = false>><<set $PC.clothes.atr = 10>><<set $PC.clothes.sex = 10>><<set $PC.clothes.form = 0>><<set $PC.clothes.exp = [5,5]>><<set $PC.clothes.pussy = false>><<set $PC.clothes.ass = false>><<set $PC.clothes.nips = false>><<set $PC.clothes.face = false>><<set $PC.clothes.head = false>>
+<<replace "#curpanties">><<print $PC.clothes.panties[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<replace "#curbra">><<print $PC.clothes.bra[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<replace "#curLegs">><<print $PC.clothes.legs[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<replace "#curUpperBody">><<print $PC.clothes.upper[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<replace "#curLowerBody">><<print $PC.clothes.lower[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<replace "#curHandBag">><<print $PC.clothes.bag[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<replace "#curAccessory">><<print $PC.clothes.accA[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<replace "#curAccessoryb">><<print $PC.clothes.accB[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<replace "#curAccessoryc">><<print $PC.clothes.accC[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<replace "#curAccessoryd">><<print $PC.clothes.accD[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<calcOutfitCombine>>
+<</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Panties''@@
+</td><td width="60%"><span id="curpanties">
+<<print $PC.clothes.panties[0]>><br><<print "Attractiveness: ">><<print $PC.clothes.panties[1]>><<print "  Sexy/Cute: ">><<print $PC.clothes.panties[2]>><<print "  Formality: ">><<print $PC.clothes.panties[3]>><<print "  Exposure: ">><<print $PC.clothes.panties[4]>><<print "  Status Code: ">><<print $PC.clothes.panties[5]>>
+</span></td><td>
+/*<<button "Adjust">><</button>><br>*/
+<<button "Remove">><<set $PC.clothes.panties = ["none",0,0,0,5,0,"M. Nature",0,-1]>><<replace "#curpanties">><<print $PC.clothes.panties[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<calcOutfitCombine>><</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Bra''@@
+</td><td width="60%"><span id="curbra">
+<<print $PC.clothes.bra[0]>><br><<print "Attractiveness: ">><<print $PC.clothes.bra[1]>><<print "  Sexy/Cute: ">><<print $PC.clothes.bra[2]>><<print "  Formality: ">><<print $PC.clothes.bra[3]>><<print "  Exposure: ">><<print $PC.clothes.bra[4]>><<print "  Status Code: ">><<print $PC.clothes.bra[5]>>
+</span></td><td>
+/*<<button "Adjust">><</button>><br>*/
+<<button "Remove">><<set $PC.clothes.bra = ["none",0,0,0,5,0,"M. Nature",0,-1]>><<replace "#curbra">><<print $PC.clothes.bra[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<calcOutfitCombine>><</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Legwear''@@
+</td><td width="60%"><span id="curLegs">
+<<print $PC.clothes.leg[0]>><br><<print "Attractiveness: ">><<print $PC.clothes.leg[1]>><<print "  Sexy/Cute: ">><<print $PC.clothes.leg[2]>><<print "  Formality: ">><<print $PC.clothes.leg[3]>><<print "  Exposure: ">><<print $PC.clothes.leg[4]>><<print "  Status Code: ">><<print $PC.clothes.leg[5]>>
+</span></td><td>
+/*<<button "Adjust">><</button>><br>*/
+<<button "Remove">><<set $PC.clothes.legs = ["none",0,0,0,5,0,"M. Nature",0,-1]>><<replace "#curLegs">><<print $PC.clothes.legs[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<calcOutfitCombine>><</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Upper Body''@@
+</td><td width="60%"><span id="curUpperBody">
+<<print $PC.clothes.upper[0]>><br><<print "Attractiveness: ">><<print $PC.clothes.upper[1]>><<print "  Sexy/Cute: ">><<print $PC.clothes.upper[2]>><<print "  Formality: ">><<print $PC.clothes.upper[3]>><<print "  Exposure: ">><<print $PC.clothes.upper[4]>><<print "  Status Code: ">><<print $PC.clothes.upper[5]>>
+</span></td><td>
+/*<<button "Adjust">><</button>><br>*/
+<<button "Remove">><<set $PC.clothes.upper = ["none",0,0,0,5,0,"M. Nature",0,-1]>><<replace "#curUpperBody">><<print $PC.clothes.upper[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<if $PC.clothes.dress>><<set $PC.clothes.lower = ["none",0,0,0,5,0,"M. Nature",0,-1]>><<set $PC.clothes.dress = false>><<replace "#curLowerBody">><<print $PC.clothes.lower[0]>><br><<print "No Clothing--Stats N/A">><</replace>><</if>><<calcOutfitCombine>><</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Lower Body''@@
+</td><td width="60%"><span id="curLowerBody">
+<<print $PC.clothes.lower[0]>><br><<print "Attractiveness: ">><<print $PC.clothes.lower[1]>><<print "  Sexy/Cute: ">><<print $PC.clothes.lower[2]>><<print "  Formality: ">><<print $PC.clothes.lower[3]>><<print "  Exposure: ">><<print $PC.clothes.lower[4]>><<print "  Status Code: ">><<print $PC.clothes.lower[5]>>
+</span></td><td>
+/*<<button "Adjust">><</button>><br>*/
+<<button "Remove">><<set $PC.clothes.lower = ["none",0,0,0,5,0,"M. Nature",0,-1]>><<replace "#curLowerBody">><<print $PC.clothes.lower[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<if $PC.clothes.dress>><<set $PC.clothes.upper = ["none",0,0,0,5,0,"M. Nature",0,-1]>><<set $PC.clothes.dress = false>><<replace "#curUpperBody">><<print $PC.clothes.upper[0]>><br><<print "No Clothing--Stats N/A">><</replace>><</if>><<calcOutfitCombine>><</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Accessory A''@@
+</td><td width="60%"><span id="curAccessory">
+<<print $PC.clothes.accA[0]>><br><<print "Attractiveness: ">><<print $PC.clothes.accA[1]>><<print "  Sexy/Cute: ">><<print $PC.clothes.accA[2]>><<print "  Formality: ">><<print $PC.clothes.accA[3]>><<print "  Exposure: ">><<print $PC.clothes.accA[4]>><<print "  Status Code: ">><<print $PC.clothes.accA[5]>>
+</span></td><td>
+/*<<button "Adjust">><</button>><br>*/
+<<button "Remove">><<set $PC.clothes.accA = ["none",0,0,0,0,0]>><<replace "#curAccessory">><<print $PC.clothes.accA[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<calcOutfitCombine>><</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Accessory B''@@
+</td><td width="60%"><span id="curAccessoryb">
+<<print $PC.clothes.accB[0]>><br><<print "Attractiveness: ">><<print $PC.clothes.accB[1]>><<print "  Sexy/Cute: ">><<print $PC.clothes.accB[2]>><<print "  Formality: ">><<print $PC.clothes.accB[3]>><<print "  Exposure: ">><<print $PC.clothes.accB[4]>><<print "  Status Code: ">><<print $PC.clothes.accB[5]>>
+</span></td><td>
+/*<<button "Adjust">><</button>><br>*/
+<<button "Remove">><<set $PC.clothes.accB = ["none",0,0,0,0,0]>><<replace "#curAccessoryb">><<print $PC.clothes.accB[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<calcOutfitCombine>><</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Accessory C''@@
+</td><td width="60%"><span id="curAccessoryc">
+<<print $PC.clothes.accC[0]>><br><<print "Attractiveness: ">><<print $PC.clothes.accC[1]>><<print "  Sexy/Cute: ">><<print $PC.clothes.accC[2]>><<print "  Formality: ">><<print $PC.clothes.accC[3]>><<print "  Exposure: ">><<print $PC.clothes.accC[4]>><<print "  Status Code: ">><<print $PC.clothes.accC[5]>>
+</span></td><td>
+/*<<button "Adjust">><</button>><br>*/
+<<button "Remove">><<set $PC.clothes.accC = ["none",0,0,0,0,0]>><<replace "#curAccessoryc">><<print $PC.clothes.accC[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<calcOutfitCombine>><</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Accessory D''@@
+</td><td width="60%"><span id="curAccessoryd">
+<<print $PC.clothes.accD[0]>><br><<print "Attractiveness: ">><<print $PC.clothes.accD[1]>><<print "  Sexy/Cute: ">><<print $PC.clothes.accD[2]>><<print "  Formality: ">><<print $PC.clothes.accD[3]>><<print "  Exposure: ">><<print $PC.clothes.accD[4]>><<print "  Status Code: ">><<print $PC.clothes.accD[5]>>
+</span></td><td>
+/*<<button "Adjust">><</button>><br>*/
+<<button "Remove">><<set $PC.clothes.accD = ["none",0,0,0,0,0]>><<replace "#curAccessoryc">><<print $PC.clothes.accD[0]>><br><<print "No Clothing--Stats N/A">><</replace>><<calcOutfitCombine>><</button>>
+</td></tr>
+</table>
+<</replace>><</button>><<button "''∧''">><<replace "#currentclothes">>
+<br>
+<</replace>><</button>><<button "i">><<replace "#currentclothes">>@@.exp;''Actual clothing stats will differ from item and outfit estimates''<br>This is because it is impossible to actually calculate the stats without considering all the clothing being worn (or not worn). To see the actual stats of a combination of clothing, look at this display "Current Clothes", or examine the clothing tab of the Status View.@@<</replace>><</button>> @@.head3;Current Clothes@@<br>
+<span id="currentclothes">
+<br>
+</span>
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Put on outfit~~~~~~~~~~~~*/
+<<button "∨">><<replace "#putonoutfit">>
+<table>
+<<if def $outfitUnder && $outfitUnder.length > 0>>
+<tr><td width="20%">''Lingerie Outfit:''
+</td><td width="20%"><<button "Wear">><<wearLoutfit _wearOFU>><</button>>
+</td><td width="60%">
+<<set _number = $outfitUnder.length>>
+<<set _print = "<<dropdown '_wearOFU' ">>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $outfitUnder[_i]>>
+	<<set _print += "'">>
+	<<set _print += (_i + 1)>>
+	<<set _print += ") ">>
+	<<set _str = _tArray.name.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<set _print += "' ">>
+<</for>>
+<<set _print += ">>">>
+<<print _print>>
+</td></tr>
+<<else>>
+<tr><td width="20%">''Lingerie Outfit:''
+</td><td colspan=2>No outfits are available</td></tr>
+<</if>>
+<<if def $outfitOver && $outfitOver.length > 0>>
+<tr><td width="20%">
+''Standard Outfit:''
+</td><td width="20%">
+<<button "Wear">><<wearSoutfit _wearOFO>><</button>>
+</td><td>
+<<set _number = $outfitOver.length>>
+<<set _print = "<<dropdown '_wearOFO' ">>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $outfitOver[_i]>>
+	<<set _print += "'">>
+	<<set _print += (_i + 1)>>
+	<<set _print += ") ">>
+	<<set _str = _tArray.name.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<set _print += "' ">>
+<</for>>
+<<set _print += ">>">>
+<<print _print>>
+</td></tr>
+<<else>>
+<tr><td width="20%">
+''Standard Outfit:''
+</td><td colspan=2>No outfits are available</td></tr>
+<</if>>
+</table>
+<</replace>><</button>><<button "''∧''">><<replace "#putonoutfit">>
+<br>
+<</replace>><</button>> @@.head3;Equip Outfits@@<br>
+<span id="putonoutfit">
+<br>
+</span>
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~put on individual~~~~~~~~~*/
+<<button "''∨''">><<replace "#putongarment">>
+<table>
+<tr><td width="20%">
+@@.gab;''Panties Slot''@@
+</td><td width="60%">
+<<set _cunt = 0>>
+<<set _print = "<<dropdown '_LOP' ">>
+<<set _number = $ward.panties.length>>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $ward.panties[_i]>>
+	<<set _print += "'">>
+	<<set _cunt += 1>>
+	<<set _print += _cunt>>
+	<<set _print += ") ">>
+	<<set _str = _tArray[0].replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<if _str == "none">>
+	<<set _print += "' ">>
+	<<else>>
+	<<set _print += "  [ATR:">>
+	<<set _print += _tArray[1]>>
+	<<set _print += " S/C:">>
+	<<set _print += _tArray[2]>>
+	<<set _print += " F/C:">>
+	<<set _print += _tArray[3]>>
+	<<set _print += " EXP:">>
+	<<set _print += _tArray[4]>>
+	<<set _print += "]' ">>
+	<</if>>
+<</for>>
+<<set _number = $ward.swimL.length>>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $ward.swimL[_i]>>
+	<<set _print += "'">>
+	<<set _cunt += 1>>
+	<<set _print += _cunt>>
+	<<set _print += ") ">>
+	<<set _str = _tArray[0].replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<if _str == "none">>
+	<<set _print += "' ">>
+	<<else>>
+	<<set _print += "  [ATR:">>
+	<<set _print += _tArray[1]>>
+	<<set _print += " S/C:">>
+	<<set _print += _tArray[2]>>
+	<<set _print += " F/C:">>
+	<<set _print += _tArray[3]>>
+	<<set _print += " EXP:">>
+	<<set _print += _tArray[4]>>
+	<<set _print += "]' ">>
+	<</if>>
+<</for>>
+<<set _print += ">>">>
+<<print _print>>
+</td><td width="20%">
+<<button "Wear This">>
+<<wearP _LOP>>
+<</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Bra Slot''@@
+</td><td width="60%">
+<<set _cunt = 0>>
+<<set _print = "<<dropdown '_LOB' ">>
+<<set _number = $ward.bra.length>>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $ward.bra[_i]>>
+	<<set _print += "'">>
+	<<set _cunt += 1>>
+	<<set _print += _cunt>>
+	<<set _print += ") ">>
+	<<set _str = _tArray[0].replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<if _str == "none">>
+	<<set _print += "' ">>
+	<<else>>
+	<<set _print += "  [ATR:">>
+	<<set _print += _tArray[1]>>
+	<<set _print += " S/C:">>
+	<<set _print += _tArray[2]>>
+	<<set _print += " F/C:">>
+	<<set _print += _tArray[3]>>
+	<<set _print += " EXP:">>
+	<<set _print += _tArray[4]>>
+	<<set _print += "]' ">>
+	<</if>>
+<</for>>
+<<set _number = $ward.swimU.length>>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $ward.swimU[_i]>>
+	<<set _print += "'">>
+	<<set _cunt += 1>>
+	<<set _print += _cunt>>
+	<<set _print += ") ">>
+	<<set _str = _tArray[0].replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<if _str == "none">>
+	<<set _print += "' ">>
+	<<else>>
+	<<set _print += "  [ATR:">>
+	<<set _print += _tArray[1]>>
+	<<set _print += " S/C:">>
+	<<set _print += _tArray[2]>>
+	<<set _print += " F/C:">>
+	<<set _print += _tArray[3]>>
+	<<set _print += " EXP:">>
+	<<set _print += _tArray[4]>>
+	<<set _print += "]' ">>
+	<</if>>
+<</for>>
+<<set _print += ">>">>
+<<print _print>>
+</td><td width="20%">
+<<button "Wear This">>
+<<wearB _LOB>>
+<</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Legs Slot''@@
+</td><td width="60%">
+<<set _number = $ward.leg.length>>
+<<set _print = "<<dropdown '_LOLeg' ">>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $ward.leg[_i]>>
+	<<set _print += "'">>
+	<<set _print += (_i + 1)>>
+	<<set _print += ") ">>
+	<<set _str = _tArray[0].replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<if _str == "none">>
+	<<set _print += "' ">>
+	<<else>>
+	<<set _print += "  [ATR:">>
+	<<set _print += _tArray[1]>>
+	<<set _print += " S/C:">>
+	<<set _print += _tArray[2]>>
+	<<set _print += " F/C:">>
+	<<set _print += _tArray[3]>>
+	<<set _print += " EXP:">>
+	<<set _print += _tArray[4]>>
+	<<set _print += "]' ">>
+	<</if>>
+<</for>>
+<<set _print += ">>">>
+<<print _print>>
+</td><td width="20%">
+<<button "Wear This">>
+<<wearLeg _LOLeg>>
+<</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Top Slot''@@
+</td><td width="60%">
+<<set _number = $ward.upBody.length>>
+<<set _cunt = 0>>
+<<set _print = "<<dropdown '_SOUB' ">>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $ward.upBody[_i]>>
+	<<set _print += "'">>
+	<<set _cunt += 1>>
+	<<set _print += _cunt>>
+	<<set _print += ") ">>
+	<<set _str = _tArray[0].replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<if _str == "none">>
+	<<set _print += "' ">>
+	<<else>>
+	<<set _print += "  [ATR:">>
+	<<set _print += _tArray[1]>>
+	<<set _print += " S/C:">>
+	<<set _print += _tArray[2]>>
+	<<set _print += " F/C:">>
+	<<set _print += _tArray[3]>>
+	<<set _print += " EXP:">>
+	<<set _print += _tArray[4]>>
+	<<set _print += "]' ">>
+	<</if>>
+<</for>>
+<<set _number = $ward.athU.length>>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $ward.athU[_i]>>
+	<<set _print += "'">>
+	<<set _cunt += 1>>
+	<<set _print += _cunt>>
+	<<set _print += ") ">>
+	<<set _str = _tArray[0].replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<if _str == "none">>
+	<<set _print += "' ">>
+	<<else>>
+	<<set _print += "  [ATR:">>
+	<<set _print += _tArray[1]>>
+	<<set _print += " S/C:">>
+	<<set _print += _tArray[2]>>
+	<<set _print += " F/C:">>
+	<<set _print += _tArray[3]>>
+	<<set _print += " EXP:">>
+	<<set _print += _tArray[4]>>
+	<<set _print += "]' ">>
+	<</if>>
+<</for>>
+<<set _number = $ward.niteU.length>>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $ward.niteU[_i]>>
+	<<set _print += "'">>
+	<<set _cunt += 1>>
+	<<set _print += _cunt>>
+	<<set _print += ") ">>
+	<<set _str = _tArray[0].replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<if _str == "none">>
+	<<set _print += "' ">>
+	<<else>>
+	<<set _print += "  [ATR:">>
+	<<set _print += _tArray[1]>>
+	<<set _print += " S/C:">>
+	<<set _print += _tArray[2]>>
+	<<set _print += " F/C:">>
+	<<set _print += _tArray[3]>>
+	<<set _print += " EXP:">>
+	<<set _print += _tArray[4]>>
+	<<set _print += "]' ">>
+	<</if>>
+<</for>>
+<<set _print += ">>">>
+<<print _print>>
+</td><td width="20%">
+<<button "Wear This">>
+<<wearUB _SOUB>>
+<</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Bottoms Slot''@@
+</td><td width="60%">
+<<set _number = $ward.lowBody.length>>
+<<set _cunt = 0>>
+<<set _print = "<<dropdown '_SOLB' ">>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $ward.lowBody[_i]>>
+	<<set _print += "'">>
+	<<set _cunt += 1>>
+	<<set _print += _cunt>>
+	<<set _print += ") ">>
+	<<set _str = _tArray[0].replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<if _str == "none">>
+	<<set _print += "' ">>
+	<<else>>
+	<<set _print += "  [ATR:">>
+	<<set _print += _tArray[1]>>
+	<<set _print += " S/C:">>
+	<<set _print += _tArray[2]>>
+	<<set _print += " F/C:">>
+	<<set _print += _tArray[3]>>
+	<<set _print += " EXP:">>
+	<<set _print += _tArray[4]>>
+	<<set _print += "]' ">>
+	<</if>>
+<</for>>
+<<set _number = $ward.athL.length>>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $ward.athL[_i]>>
+	<<set _print += "'">>
+	<<set _cunt += 1>>
+	<<set _print += _cunt>>
+	<<set _print += ") ">>
+	<<set _str = _tArray[0].replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<if _str == "none">>
+	<<set _print += "' ">>
+	<<else>>
+	<<set _print += "  [ATR:">>
+	<<set _print += _tArray[1]>>
+	<<set _print += " S/C:">>
+	<<set _print += _tArray[2]>>
+	<<set _print += " F/C:">>
+	<<set _print += _tArray[3]>>
+	<<set _print += " EXP:">>
+	<<set _print += _tArray[4]>>
+	<<set _print += "]' ">>
+	<</if>>
+<</for>>
+<<set _number = $ward.niteL.length>>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $ward.niteL[_i]>>
+	<<set _print += "'">>
+	<<set _cunt += 1>>
+	<<set _print += _cunt>>
+	<<set _print += ") ">>
+	<<set _str = _tArray[0].replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<if _str == "none">>
+	<<set _print += "' ">>
+	<<else>>
+	<<set _print += "  [ATR:">>
+	<<set _print += _tArray[1]>>
+	<<set _print += " S/C:">>
+	<<set _print += _tArray[2]>>
+	<<set _print += " F/C:">>
+	<<set _print += _tArray[3]>>
+	<<set _print += " EXP:">>
+	<<set _print += _tArray[4]>>
+	<<set _print += "]' ">>
+	<</if>>
+<</for>>
+<<set _print += ">>">>
+<<print _print>>
+</td><td width="20%">
+<<button "Wear This">>
+<<wearLB _SOLB>>
+<</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Dress Slot''@@
+</td><td width="60%">
+<<set _number = $ward.dress.length>>
+<<set _print = "<<dropdown '_SOD' ">>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $ward.dress[_i]>>
+	<<set _print += "'">>
+	<<set _print += (_i + 1)>>
+	<<set _print += ") ">>
+	<<set _str = _tArray[0].replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<if _str == "none">>
+	<<set _print += "' ">>
+	<<else>>
+	<<set _print += "  [ATR:">>
+	<<set _print += _tArray[1]>>
+	<<set _print += " S/C:">>
+	<<set _print += _tArray[2]>>
+	<<set _print += " F/C:">>
+	<<set _print += _tArray[3]>>
+	<<set _print += " EXP:">>
+	<<set _print += _tArray[4]>>
+	<<set _print += "]' ">>
+	<</if>>
+<</for>>
+<<set _print += ">>">>
+<<print _print>>
+</td><td width="20%">
+<<button "Wear This">>
+<<wearD _SOD>>
+<</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Accessory A''@@
+</td><td width="60%">
+<<set _number = $ward.acc.length>>
+<<set _print = "<<dropdown '_SOAa' ">>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $ward.acc[_i]>>
+	<<set _print += "'">>
+	<<set _print += (_i + 1)>>
+	<<set _print += ") ">>
+	<<set _str = _tArray[0].replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<if _str == "none">>
+	<<set _print += "' ">>
+	<<else>>
+	<<set _print += "  [ATR:">>
+	<<set _print += _tArray[1]>>
+	<<set _print += " S/C:">>
+	<<set _print += _tArray[2]>>
+	<<set _print += " F/C:">>
+	<<set _print += _tArray[3]>>
+	<<set _print += " EXP:">>
+	<<set _print += _tArray[4]>>
+	<<set _print += "]' ">>
+	<</if>>
+<</for>>
+<<set _print += ">>">>
+<<print _print>>
+</td><td width="20%">
+<<button "Wear This">>
+<<wearAa _SOAa>>
+<</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Accessory B''@@
+</td><td width="60%">
+<<set _number = $ward.acc.length>>
+<<set _print = "<<dropdown '_SOAb' ">>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $ward.acc[_i]>>
+	<<set _print += "'">>
+	<<set _print += (_i + 1)>>
+	<<set _print += ") ">>
+	<<set _str = _tArray[0].replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<if _str == "none">>
+	<<set _print += "' ">>
+	<<else>>
+	<<set _print += "  [ATR:">>
+	<<set _print += _tArray[1]>>
+	<<set _print += " S/C:">>
+	<<set _print += _tArray[2]>>
+	<<set _print += " F/C:">>
+	<<set _print += _tArray[3]>>
+	<<set _print += " EXP:">>
+	<<set _print += _tArray[4]>>
+	<<set _print += "]' ">>
+	<</if>>
+<</for>>
+<<set _print += ">>">>
+<<print _print>>
+</td><td width="20%">
+<<button "Wear This">>
+<<wearAb _SOAb>>
+<</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Accessory C''@@
+</td><td width="60%">
+<<set _number = $ward.acc.length>>
+<<set _print = "<<dropdown '_SOAc' ">>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $ward.acc[_i]>>
+	<<set _print += "'">>
+	<<set _print += (_i + 1)>>
+	<<set _print += ") ">>
+	<<set _str = _tArray[0].replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<if _str == "none">>
+	<<set _print += "' ">>
+	<<else>>
+	<<set _print += "  [ATR:">>
+	<<set _print += _tArray[1]>>
+	<<set _print += " S/C:">>
+	<<set _print += _tArray[2]>>
+	<<set _print += " F/C:">>
+	<<set _print += _tArray[3]>>
+	<<set _print += " EXP:">>
+	<<set _print += _tArray[4]>>
+	<<set _print += "]' ">>
+	<</if>>
+<</for>>
+<<set _print += ">>">>
+<<print _print>>
+</td><td width="20%">
+<<button "Wear This">>
+<<wearAc _SOAc>>
+<</button>>
+</td></tr>
+<tr><td width="20%">
+@@.gab;''Accessory D''@@
+</td><td width="60%">
+<<set _number = $ward.acc.length>>
+<<set _print = "<<dropdown '_SOAd' ">>
+<<for _i to 0; _i < _number; _i++>>
+	<<set _tArray = $ward.acc[_i]>>
+	<<set _print += "'">>
+	<<set _print += (_i + 1)>>
+	<<set _print += ") ">>
+	<<set _str = _tArray[0].replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<set _str = _str.replace("'", "")>>
+	<<if _str.length > 40>>
+		<<set _str = _str.slice(0,40)>>
+	<</if>>
+	<<set _print += _str>>
+	<<if _str == "none">>
+	<<set _print += "' ">>
+	<<else>>
+	<<set _print += "  [ATR:">>
+	<<set _print += _tArray[1]>>
+	<<set _print += " S/C:">>
+	<<set _print += _tArray[2]>>
+	<<set _print += " F/C:">>
+	<<set _print += _tArray[3]>>
+	<<set _print += " EXP:">>
+	<<set _print += _tArray[4]>>
+	<<set _print += "]' ">>
+	<</if>>
+<</for>>
+<<set _print += ">>">>
+<<print _print>>
+</td><td width="20%">
+<<button "Wear This">>
+<<wearAb _SOAb>>
+<</button>>
+</td></tr>
+<tr><td>@@.exp;''Note''@@</td><td colspan=2>@@.note;Handbags and Coats/Sweaters are selected at your front door. You will automatically equip a handbag, and can equip a coat with a push of a button.</td></tr>
+</table>
+<</replace>><</button>><<button "''∧''">><<replace "#putongarment">>
+<br>
+<</replace>><</button>> @@.head3;Put on Clothes@@<br>
+<span id="putongarment">
+<br>
+</span>
+<br><br>@@.note;Putting on clothes or equiping an outfit will automatically replace what you're currently wearing in the relevant slot/s. There's no need to remove clothes beforehand.@@<br><br><br><br><br>

@@ -1,0 +1,43 @@
+:: backwardCompat [nobr hidden]
+
+<<set $helpText = "Follow the instructions on this page.">>
+@@.head1;Backward Compatibility Tool@@
+<br><br>
+@@.lightcoral;.rumble;font-size:125%;DO NOT Click Any UI Bar Buttons! (Unless the BCtool output instructs you to.)@@
+<br><br>
+@@.acme;The game has detected that your save is from a previous version of Accidental Woman. This tool will check for undefined variables and other issues, and fix them. It will attempt to make your game compatible with the current version. Unfortunately, I can't guarantee that it'll work every time. These are some reasons the tool might not work, and some other notes~
+<br><br>
+<list>
+<li>If you were in the middle of an event or scenario, there's a chance that it will play incorrectly (mostly if the event/scenario in question has been updated). For best results, save during a normal map-view screen or during the week planner on the page that says "save here".</li>
+<li>If you happened to save at a bad time, you can reload your save (preferably in the version of the game that it's from) and finish the event. Then create a new save.</li>
+<li>Autosaves will always happen at a "safe point" for saving.</li>
+<li>You may see some questions in the output area. It is important that you answer these by checking the correct radio button!</li>
+<li>Saves that are from versions that are too old may just not work. You can try running backward compatibility in an intermediate version (if this is version 10.0, and your save is version 7.0, you could try running BC in version 9.0, creating a new save, and then load that save here.) This could work, or it could result in a save with buggy game events.</li>
+<li>Saves won't always be compatible. I'll try to avoid that, but there will probably be times when doing so is simply impossible or too much work to be worthwhile.</li>
+</list>
+<li>''Bugs that result from backward compatibility can be different from normal bugs. It's important that you share your original version when making a bug report!''@@</li>
+ <br><br>
+ Okay, let's get started.<br>
+ <<button "Run BC Tool">>
+ <<replace "#output">>
+	<<if $ver < 47>>
+		<<= "Your save version is completely incompatible, sorry.">><br>
+		<<= "Quitting...">><br>
+	<<elseif $ver == 47>>
+		<<= "Your save is already up-to-date somehow.">><br>
+		<<set $version = "0.04.7">>
+		<<= "Quitting...">><br>
+	<<else>>
+		Your save is from version: <<= $version>> <<= $swim>><br>
+		<<set $version = "0.04.7">>
+		/*here is where it goes*/
+		<<status 0>>
+	<</if>>
+	<<= "BC Tool finished running. If you see red stuff above, there were errors, sorry. If not, awesome! I knew this would work!">>
+ <</replace>>
+ <</button>>
+ <table>
+ <tr><td>@@.head3;Output Area@@</td></tr>
+ <tr><td>@@.monospace;font-size:75%;<span id="output">Empty.....</span>@@</td></tr>
+ </table>
+ @@font-size:150%;<<return>>@@

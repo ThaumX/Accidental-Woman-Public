@@ -1,0 +1,4644 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Accidental Woman Code Reference</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+  body{
+    background-color: #222222;
+    color: #EEEEEE;
+    font-size: 16px;
+    font-family: 'Source Code Pro',monospace;
+    text-align: center;
+  }
+  h1{
+    color: #00bfff;
+    text-align: center;
+    font-size: 34;
+  }
+  h2{
+    font-size: 26px;
+    color: #00bfff;
+    text-align: center;
+  }
+  h3{
+    color: #709eff;
+    font-size: 22px;
+  }
+  h4{
+    color: #ae8afb;
+    margin-bottom: 3px;
+    font-size: 20px;
+  }
+  h5{
+    color: #c46efd;
+    padding-left: 10px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    font-size: 18px;
+  }
+  h5 a{
+    color: #c46efd;
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  h5 a:visited{
+    color: #c46efd;
+  }
+  h5 a:hover{
+    color: #cd93f3;
+  }
+  a{
+    color: dodgerblue;
+    text-decoration: none;
+    font-weight: bold;
+    padding-left: 20px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+  a:visited{
+    color: dodgerblue;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  a:hover{
+    color: deepskyblue;
+  }
+  div{
+    border: 2px solid dodgerblue;
+    border-radius: 12px;
+    padding: 5px;
+    margin: 20px auto;
+    max-width: 850px;
+  }
+  div.table {
+    width: 90%;
+    margin: 20px auto;
+    min-width: 90%;
+    padding-left: 5%;
+  }
+  hr {
+    width: 80%;
+    text-decoration-color: deepskyblue;
+  }
+  .ul{
+    text-decoration: underline;
+    text-decoration-color: deepskyblue;
+  }
+  td {
+    text-align: left;
+  }
+  td.mac{
+    color: tomato;
+    max-width: 10%;
+    text-align: left;
+  }
+  td.arg{
+    color: goldenrod;
+    max-width: 15%;
+    text-align: right;
+  }
+  td.lt {
+    color:#c46efd;
+    width: 15px;
+    padding-left: 3px;
+    padding-right: 0px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-size: 18px;
+    text-align: right;
+    vertical-align: top;
+    font-weight: bold;
+  }
+  td.gt {
+    color:#c46efd;
+    width: 15px;
+    padding-left: 0;
+    padding-right: 3px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-size: 18px;
+    text-align: left;
+    vertical-align: bottom;
+    font-weight: bold;
+  }
+  td.vars{
+    color: deepskyblue;
+    max-width: 20%;
+  }
+  td.type{
+    color: #66cd32;
+    max-width: 10%;
+    border-color: #c46efd;
+    border-bottom-width: 1px;
+    border-bottom-style: dotted;
+  }
+  .typeb {
+    color: lightgreen;
+  }
+  td.val{
+    color: lightseagreen;
+    max-width: 20%;
+    border-color: #c46efd;
+    border-bottom-width: 1px;
+    border-bottom-style: dotted;
+  }
+  .valb {
+    color: turquoise;
+  }
+  td.info{
+    color: tan;
+    max-width: 25%;
+    font-style: oblique;
+    border-color: #c46efd;
+    border-bottom-width: 1px;
+    border-bottom-style: dotted;
+  }
+  td.desc{
+    color: tan;
+    max-width: 25%;
+    border-color: #c46efd;
+    border-bottom-width: 1px;
+    border-bottom-style: dotted;
+  }
+  td.va {
+    padding-left: 3px;
+    color: #db4c4c;
+    width: 16%;
+  }
+  td.vb {
+    padding-left: 15px;
+    color: tomato;
+  }
+  td.vc {
+    padding-left: 27px;
+    color: orange;
+  }
+  td.vd {
+    padding-left: 39px;
+    color: goldenrod;
+  }
+  td.ve {
+    padding-left: 51px;
+    color: gold;
+  }
+  tr{
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+  td{padding: 3px;}
+  table{
+    border: none;
+    width: 95%;
+    vertical-align: top;
+    margin: 10px auto;
+  }
+  tr, td, th{
+    vertical-align: top;
+  }
+  p{
+    text-align: justify;
+    text-indent: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 10px auto;
+  }
+  td.instarg{
+    width: 8%;
+    color: orange;
+    text-align: center;
+    font-size: 17px;
+    font-weight: bold;
+    vertical-align: top;
+    padding-top: 8px;
+  }
+  td.sp{
+    color: gold;
+    font-weight: bolder;
+    text-align: center;
+    width: 10px;
+    vertical-align: top;
+    padding-top: 8px;
+  }
+  td.instdesc{
+    color: tan;
+    text-align: justify;
+    border-color: #c46efd;
+    border-bottom-width: 1px;
+    border-bottom-style: dotted;
+    vertical-align: top;
+    padding-top: 8px;
+    padding-bottom: 3px
+  }
+  td.abv{
+    border-top: 1px dotted #c46efd;
+  }
+  </style>
+</head>
+<body>
+  <h1>Accidental Woman Code Reference</h1>
+  <h3>Reference to the various values used in Accidental Woman</h3>
+  <div id="ToC">
+    <h2>Table of Contents</h2>
+    <table>
+      <tr>
+        <td style="width:25%;vertical-align: top">
+          <h3>Variables</h3>
+          <h4>Primary</h4>
+            <h5><a href="">base items</a></h5>
+            <h5><a href="">time & date</a></h5>
+            <h5><a href="">schedule</a></h5>
+            <h5><a href="">etc</a></h5>
+            <h5><a href="">map</a></h5>
+          <h4>Systems</h4>
+            <h5><a href="">wardrobe</a></h5>
+            <h5><a href="">grooming</a></h5>
+            <h5><a href="">home</a></h5>
+            <h5><a href="">job</a></h5>
+          <h4>Characters</h4>
+            <h5><a href="">Player Character</a></h5>
+              <a href="">$PC</a><br>
+              <a href="">$status</a><br>
+              <a href="">$cond</a><br>
+              <a href="">$trait</a><br>
+              <a href="">$kink</a><br>
+              <a href="">$cpClothing</a>
+        </td>
+        <td style="width:25%;vertical-align: top">
+          <h4>Characters Cont.</h4>
+            <h5><a href="#NPC">NPCs</a></h5>
+              <a href="#npcmain">.main</a><br>
+              <a href="#npcbody">.body</a><br>
+              <a href="#npcstatus">.status</a><br>
+              <a href="#npccore">.core</a><br>
+              <a href="#npcrship">.rship</a><br>
+              <a href="#npcbground">.bground</a><br>
+              <a href="#npcsched">.sched</a><br>
+              <a href="#npcsex">.sex</a><br>
+              <a href="#npcflag">.flag</a><br>
+              <a href="#npcfriends">.friends</a><br>
+              <a href="#npcclothes">.clothes</a><br>
+              <a href="#npccond">.cond</a><br>
+              <a href="#npcoutfit">.outfit</a><br>
+              <a href="#npcmutate">.mutate</a><br>
+              <a href="#npcpref">.pref</a><br>
+              <a href="#npcfert">.fert</a><br>
+              <a href="#npcmakeout">.makeout</a>
+          <h3>Parser System</h3>
+          <h4>Direct Print</h4>
+            <h5><a href="">Body</a></h5>
+              <a href="">Face</a><br>
+              <a href="">Body Shape</a><br>
+              <a href="">Breasts</a>
+            <h5><a href="">Trait</a></h5>
+            <h5><a href="">Action</a></h5>
+          <h4>Value Return</h4>
+            <h5><a href="">Body</a></h5>
+            <h5><a href="">Trait</a></h5>
+            <h5><a href="">Action</a></h5>
+        </td>
+        <td style="width:25%;vertical-align: top">
+          <h3>Functions</h3>
+          <h4>Macros</h4>
+          <h4>Setup</h4>
+          <h4>Methods</h4>
+        </td>
+        <td style="width:25%;vertical-align: top">
+          <h3>Codes & Objects</h3>
+          <h4>Coded Values</h4>
+          <h4>Sex Objects</h4>
+          <h4>Misc</h4>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <h1>Variables</h1>
+  <h2>Primary</h2>
+  <div class="table"  id="baseitems">
+    <h3>Base Items<a href="#ToC" style="font-size:20px;">Return</a></h3>
+    <hr>
+    <table>
+      <tr>
+        <td class="va">$SCresult</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$SCtext</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va abv">$shop</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.base</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.panties</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.bras</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.stockings</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.lower</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.upper</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.dress</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.coats</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.storemod</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.bullseye</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$devmsg</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$swim</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$noForce</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$noViolent</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$noExtreme</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$commentary</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$showSkillCheck</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$showNewGame</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$showMenuButton</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$showData</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$location</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$version</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$ver</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$sidebarCmds</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$debugTools</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$debu</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$pub</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$prevPassage</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$runop</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$UImap</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$UIimg</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$UIdefaultImg</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$helpText</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+    </table>
+  </div>
+  <div class="table"  id="timedate">
+    <h3>Time & Date<a href="#ToC" style="font-size:20px;">Return</a></h3>
+    <hr>
+    <table>
+      <tr>
+        <td class="va">$week</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$year</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$time</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$hour</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$min</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$date</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$dayTotal</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$dayChange</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$timeChunk</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="va">$timeCount</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+    </table>
+  </div>
+  <div class="table"  id="schedule">
+    <h3>Schedule<a href="#ToC" style="font-size:20px;">Return</a></h3>
+    <hr>
+    <table>
+      <tr>
+        <td class="va">$sched</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.workTime</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.workDays</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.vacation</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.sick</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.wakeTime</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.sleepTime</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.sleepActual</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.sleepWarn</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.sleepWarnOn</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.alarmClock</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.actualWake</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.alerts</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.extraAlerts</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.alertText</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.alertPend</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.goto</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.fastForward</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.fastSleep</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.plans</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.showChange</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.showMedical</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.dream</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.sleepin</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.sleepinOverride</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.sleepinText</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.sleepPassage</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.runop</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.showered</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.plans</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+    </table>
+  </div>
+  <h2>Systems</h2>
+  <div class="table"  id="wardrobe">
+    <h3>Wardrobe System<a href="#ToC" style="font-size:20px;">Return</a></h3>
+    <hr>
+    <table>
+    </table>
+  </div>
+  <div class="table"  id="grooming">
+    <h3>Grooming System<a href="#ToC" style="font-size:20px;">Return</a></h3>
+    <hr>
+    <table>
+    </table>
+  </div>
+  <div class="table"  id="home">
+    <h3>Home System<a href="#ToC" style="font-size:20px;">Return</a></h3>
+    <hr>
+    <table>
+      <tr>
+        <td class="va">$home</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.upgrade</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.item</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.decor</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.upgrade</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.toiletFert</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb abv">.finance</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.rent</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.food</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.supplies</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.isp</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.cable</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.maid</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.car</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.gas</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.maint</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.insurance</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.electric</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.water</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.grooming</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.streaming</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.porn</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.patreon</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.gym</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.lessons</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.cash</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.spending</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.miscIncome</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.income</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+        <td class="vc">.lotto</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+        <td class="vc">.milk</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+        <td class="vc">.gambling</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+        <td class="vc">.sugarDaddy</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+        <td class="vc">.prostitute</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+        <td class="vc">.yardSale</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+        <td class="vc">.child</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+        <td class="vc">.surrogate</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+        <td class="vc">.oddjobs</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.jobIncome</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.totalIncome</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.totalExpense</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.bank</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.bankInterestPer</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.bankInterest</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.loan</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.loanPayment</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.loanInterest</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.loanInterestPer</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.creditInterestPer</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.creditInterest</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.sett</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+        <td class="vc">.foodLevel</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+        <td class="vc">.goodsLevel</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+        <td class="vc">.supplyLevel</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb abv">.clean</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.floors</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.surfaces</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.bathroom</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.kitchen</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.dishes</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.laundry</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.neatness</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.bed</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.deepclean</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.doCleaning</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.pickingUp</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.doDishes</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.doLaundry</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.doBed</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+    </table>
+  </div>
+  <div class="table"  id="job">
+    <h3>Job System<a href="#ToC" style="font-size:20px;">Return</a></h3>
+    <hr>
+    <table>
+      <tr>
+        <td class="va">$job</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.name</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.employer</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.code</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.skills</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.percept</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.desc</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.late</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.times</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.called</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.recent</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.sick</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.vacation</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.missed</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.times</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.recent</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.sick</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.rate</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.balance</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.caught</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.used</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.vacation</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.rate</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.balance</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.used</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.ratePaid</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.balPaid</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb abv">.rules</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.payrate</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.taskratio</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.tasks</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.taskA</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.taskB</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.taskC</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.taskD</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.cutoffs</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.worktime</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.breaktime</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.strict</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.boss</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.stats</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.progress</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.promote</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.fired</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.performance</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.daysworked</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.daysworkedTotal</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.rank</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.boss</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.coworker</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.subord</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.flag</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.pay</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+    </table>
+  </div>
+  <div class="table"  id="preferences">
+    <h3>Preferences<a href="#ToC" style="font-size:20px;">Return</a></h3>
+    <hr>
+    <table>
+      <tr>
+        <td class="va">$pref</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.weight</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.muscle</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.height</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.other</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.Fweight</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.Fmuscle</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.Fheight</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.Fother</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb">.fapmode</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vb abv">.blocked</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.anal</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.bestiality</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.bdsm</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.bondage</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.bukkake</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.choking</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.cbt</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.collar</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.connoncon</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.domsub</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.enema</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.fisting</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.furry</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.gaping</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.group</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.impact</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.sadomasochism</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.masterslave</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.medical</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.noncon</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.petplay</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.rape</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.religion</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.rough</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.scat</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.shibari</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.sounding</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.torture</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.vore</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">.waterworks</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td class="vc">$npcPref</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+    </table>
+  </div>
+  <h2>Characters</h2>
+  <div class="table"  id="PC">
+    <h3>Player Characters<a href="#ToC" style="font-size:20px;">Return</a></h3>
+    <hr>
+    <table>
+      <tr>
+        <td class="va">$PC</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+          <td class="vb">.ageOriginal</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.age</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.ageID</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.name</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.surname</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.background</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.race</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.skinColor</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.tone</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.weight</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.shoulders</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.hips</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.waist</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.height</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.ass</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.tits</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.size</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.shape</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.nipple</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.band</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.cupNum</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.cupRaw</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.cup</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.bra</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+        <tr>
+          <td class="vb">.pussy</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.asshole</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.clit</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.labia</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.beauty</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.face</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.eyeColor</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.wetness</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.fertility</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.fert</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.egg</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.implant</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.vagHostile</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.period</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.wombHealth</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.multEgg</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.barren</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.IUD</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.Fflag</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+        <tr>
+          <td class="vb">.bd</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.pregTerm</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.lactation</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.orgasm</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.energy</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.topATR</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.botATR</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.ATR</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+      <tr>
+        <td class="va">$pcClothes</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+          <td class="vb">.leg</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.panties</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.lower</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.bra</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.upper</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.over</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.accA</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.accB</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.accC</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.bag</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.coordOver</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.coordUnder</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.dress</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.nite</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.ath</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.swim</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.atr</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.sex</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.sexCode</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.form</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.formCode</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.exp</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.pussy</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.ass</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.nips</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.face</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.head</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.accessO</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.accessP</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.accessB</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.skirtDanger</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.statATR</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.statSex</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.statForm</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.wet</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.stain</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+      <tr>
+        <td class="va">$status</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+          <td class="vb">.birthCon</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.birthConType</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.knowBCineffective</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.alcohol</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.drugs</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.cycle</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.fertText</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.risk</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.pregA</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.pregB</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.wombAcount</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.wombBcount</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.period</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.milk</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.milkStore</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.arousal</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.pleasure</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.need</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.satisfaction</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.ATR</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.stress</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.happy</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.anger</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.lonely</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.fatigue</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.sleep</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.health</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.healthOld</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.will</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.knowPregA</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.knowPregB</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.overAnger</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.overStress</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.overDepress</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.underSatisfy</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.addictSex</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.addictHeat</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.addictSatyr</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.addictFocus</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.addictCum</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.addictZone</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.addictCream</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.addictSexNeed</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.addictAlcNeed</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.addictHeatNeed</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.addictSatyrNeed</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.addictFocusNeed</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.addictCumNeed</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.addictZoneNeed</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.addictCreamNeed</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.addictMax</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.jonesing</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.withdrawl</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.energy</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.energyRate</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.energyRegen</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.kids</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.mortality</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.perversion</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.clean</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.bimbo</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.inPublic</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.injury</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.disease</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+      <tr>
+        <td class="va">$trait</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+          <td class="vb">.IE</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.IN</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.EX</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.OC</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.OP</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.CL</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.will</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.libido</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.caring</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.bitch</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.maternal</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.romantic</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.deceptive</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.devious</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.persuasive</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.perceptive</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.forgetful</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.forgiving</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.lowEsteem</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.picky</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.crude</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.friendly</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.approchable</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.relaxed</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.flirty</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.materialist</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+      <tr>
+        <td class="va">$mutate</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+          <td class="vb">.Milk</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Acid</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.BC</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Multiple</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Gestate</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Cycle</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.TwinWomb</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Pheromone</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Period</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Immune</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Mouth</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Contort</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Cumpire</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.PseudoPreg</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Elastic</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.LitePhero</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+      <tr>
+        <td class="va">$kink</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+          <td class="vb">.Risky</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Pregnancy</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Sizequeen</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Cumslut</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Sub</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Exhibition</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Masochist</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.ButtSlut</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Public</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Slut</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.SuperSlut</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.HyperSlut</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Oral</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Anal</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Force</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Rape</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Liberate</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Easy</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Nips</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Dom</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Water</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Bond</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Hard</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Fap</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Shame</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+      <tr>
+        <td class="va">$skill</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+          <td class="vb">.exhibition</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.prostitute</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.sex</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.oral</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.seduction</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.comm</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.org</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.probSolving</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.finance</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.art</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.athletic</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.dancing</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.clean</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.shop</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.cook</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+      <tr>
+        <td class="va">$persona</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+          <td class="vb">.type</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.bCon</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.mentionFertile</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.fidelity</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.sweet</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.sexy</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.slutty</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.lookingFor</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+      <tr>
+        <td class="va">$cond</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+          <td class="vb">.Hair</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Face</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Chest</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Back</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Hands</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Stomach</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Butt</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Pubis</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Vagina</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.VagFluid</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Anus</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.AnusFluid</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Legs</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.Feet</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+      <tr>
+        <td class="va">$groom</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+          <td class="vb">.hairLength</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.hairColor</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.hairCurl</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.pubeColor</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.pubeStyle</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.pubeGrow</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.pubeFreq</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.pube</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.pubeCount</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.hairStyle</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.hairFlag</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.hairDefaultNorm</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.hairDefaultFancy</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.hairDefaultCasual</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.leghair</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.leghairCount</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.leghairFreq</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.armpit</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.armpitCount</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.armpitFreq</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.eyeMU</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.eyeMUdefaultNorm</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.eyeMUdefaultFancy</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.eyeMUdefaultCasual</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.lipMU</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.lipMUdefaultNorm</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.lipMUdefaultFancy</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.lipMUdefaultCasual</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.genMU</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.genMUdefaultNorm</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.genMUdefaultFancy</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.genMUdefaultCasual</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.makeupATR</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.clownMU</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.makeup</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.makeupT</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.facewash</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.makeupWash</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.makeupRetry</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.makeupTimeLimit</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.teeth</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.toothHealth</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.toothBrush</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.jNeck</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.jRwrist</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.jLwrist</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.jRhand</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.jLhand</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.jNose</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.jLip</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.jToungue</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.jEyebrow</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.jEar</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.jUpear</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.jBelly</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.jRnip</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.jLnip</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.jClit</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.jLabia</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+      <tr>
+        <td class="va">$jewel</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+          <td class="vb">.neck</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.none</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.solverChain</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.goldChain</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.whiteGoldChain</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+        <tr>
+          <td class="vb">.wrist</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.none</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.spiralGoldBracelet</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.silverCharmBracelet</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.SWatchPink</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+        <tr>
+          <td class="vb">.hand</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.none</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.catRing</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.purityRing</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.goldHeartRing</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+        <tr>
+          <td class="vb">.nose</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.none</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+        <tr>
+          <td class="vb">.lip</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.none</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+        <tr>
+          <td class="vb">.tongue</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.none</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+        <tr>
+          <td class="vb">.eyebrow</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.none</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+        <tr>
+          <td class="vb">.ear</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.none</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+        <tr>
+          <td class="vb">.upear</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.none</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+        <tr>
+          <td class="vb">.belly</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.none</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+        <tr>
+          <td class="vb">.nip</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.none</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+        <tr>
+          <td class="vb">.clit</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.none</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+        <tr>
+          <td class="vb">.labia</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.none</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+      <tr>
+        <td class="va">$makeup</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+          <td class="vb">.eye</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.none</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.cateye</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.cutCreaseShadow</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.doubleWing</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.gradiant</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.graphicEyeliner</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.heavyEyeliner</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.natural</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.sharpEdged</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.shimmery</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.smokeyEyes</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+        <tr>
+          <td class="vb">.lip</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.none</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.chapstick</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.lipGloss</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.satinLipstick</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.matteLipstick</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.creameMatteLipstick</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.pearlLipstick</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.lipStain</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+        <tr>
+          <td class="vb">.gen</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+          <tr>
+            <td class="vc">.none</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.natural</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.evening</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.prom</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.formal</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.gothic</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.minimal</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.classic</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.whorish</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.slut</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+          <tr>
+            <td class="vc">.bimbo</td>
+            <td class="type">object</td>
+            <td class="val"></td>
+            <td class="info"></td>
+          </tr>
+      <tr>
+        <td class="va">$hairStyle</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+        <tr>
+          <td class="vb">.neat</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.unkempt</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.messy</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.FrenchBun</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.FrenchTwist</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.twistedBun</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.chigonBun</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.looseBun</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.bobbed</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.braided</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.putUp</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.fingerWave</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.bouffant</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.featheredFlip</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.libertySpikes</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.cornrows</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.dreadlocks</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.sallyShag</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.retroWaves</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.sideSweptUpdo</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.highTopKnot</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.lowTopKnot</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.highPonytail</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.ponytail</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.flowery</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.sideBraid</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.sidePonytail</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.fishtailBraid</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.braidedUpdo</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.centerPart</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.flaredBottom</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.spiralCurls</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.curled</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.tightCurl</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.looseCurl</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.smoothStraight</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.shagStraight</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+        <tr>
+          <td class="vb">.pigtails</td>
+          <td class="type">object</td>
+          <td class="val"></td>
+          <td class="info"></td>
+        </tr>
+    </table>
+  </div>
+  <div class="table"  id="NPC">
+    <h3>Non-Player Characters<a href="#ToC" style="font-size:20px;">Return</a></h3>
+    <hr>
+    <table>
+      <tr>
+        <td class="va">$NPC.<span class="tomato">key</span></td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info">Primary variables for NPCs</td>
+      </tr>
+      <tr>
+        <td id="npcmain" class="vb">.main</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info">Primary variables for NPCs</td>
+      </tr>
+      <tr>
+        <td class="vc">.id</td>
+        <td class="type">string</td>
+        <td class="val">n10000</td>
+        <td class="info">Key value of the NPC: 100-999 = Fixed NPC, 1000-9999 = Semi-Fixed NPC, 10000+ = Generated NPC.</td>
+      </tr>
+      <tr>
+        <td class="vc">.name</td>
+        <td class="type">string</td>
+        <td class="val">rand</td id="info">
+          <td class="info">First Name of NPC</td>
+      </tr>
+      <tr>
+        <td class="vc">.nickname</td>
+        <td class="type">string</td>
+        <td class="val">"none"</td>
+        <td class="info">Nickname (if any) of the NPC</td>
+      </tr>
+      <tr>
+        <td class="vd">.example</td>
+        <td class="type">Object</td>
+        <td class="val"></td>
+        <td class="info">Is an example for sadFlowerHappy.</td>
+      </tr>
+      <tr>
+        <td class="ve">.subexample</td>
+        <td class="type">Number</td>
+        <td class="val">1-8</td>
+        <td class="info">Indicates the number of subs that can fit into a nuclear submarine. default: 3. ...</td>
+      </tr>
+      <tr>
+        <td class="vd">.example2</td>
+        <td class="type">Array</td>
+        <td class="val">index 0:3</td>
+        <td class="info">this example shows an array with specific index meaning/values, like individual clothes items. Arrays without specific index values (like $activeNPC) are just listed as an array without the subitems listed.</td>
+      </tr>
+      <tr>
+        <td class="ve">0 : sublength</td>
+        <td class="type">number</td>
+        <td class="val">1=1 inch</td>
+        <td class="info">the length of subs to be put into submarine.</td>
+      </tr>
+      <tr>
+        <td class="ve">1 : depth</td>
+        <td class="type">number</td>
+        <td class="val">1 = 1m</td>
+        <td class="info">Depth of submarine below water...</td>
+      </tr>
+      <tr>
+        <td id="npcbody" class="vb">.body</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info">Variables that describe each NPC's physical body.</td>
+      </tr>
+      <tr>
+        <td class="vc"></td>
+        <td class="type"></td>
+        <td class="val"></td>
+        <td class="info"></td>
+      </tr>
+      <tr>
+        <td id="npcstatus" class="vb">.status</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info">Current condition of an NPC.</td>
+      </tr>
+      <tr>
+        <td id="npccore" class="vb">.core</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info">Contains the personality information for a NPC.</td>
+      </tr>
+      <tr>
+        <td id="npcrship" class="vb">.rship</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info">Describes the relationship with the PC.</td>
+      </tr>
+      <tr>
+        <td id="npcbground" class="vb">.bground</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info">The personal history of the NPC.</td>
+      </tr>
+      <tr>
+        <td id="npcsched" class="vb">.sched</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info">Describes the schedule of the NPC.</td>
+      </tr>
+      <tr>
+        <td id="npcsex" class="vb">.sex</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info">Record of sex acts with the PC.</td>
+      </tr>
+      <tr>
+        <td id="npcflag" class="vb">.flag</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info">game flags specific to this NPC.</td>
+      </tr>
+      <tr>
+        <td id="npcfriends" class="vb">.friends</td>
+        <td class="type">array</td>
+        <td class="val">[npcid,rel]</td>
+        <td class="info">list of other NPCs that the NPC is friends or enemies with. -3 = hate, 3 = best friend</td>
+      </tr>
+      <tr>
+        <td id="npcclothes" class="vb">.clothes</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info">Clothes that the NPC is currently wearing.</td>
+      </tr>
+      <tr>
+        <td id="npccond" class="vb">.cond</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info">Current condition of NPC's body.</td>
+      </tr>
+      <tr>
+        <td id="npcoutfit" class="vb">.outfit</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info">Group of outfits owned by the NPC for different occassions.</td>
+      </tr>
+      <tr>
+        <td id="npcmutate" class="vb">.mutate</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info">List of mutations the NPC has.</td>
+      </tr>
+      <tr>
+        <td id="npcpref" class="vb">.pref</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info">The NPC's individual preferences.</td>
+      </tr>
+      <tr>
+        <td id="npcfert" class="vb">.fert</td>
+        <td class="type">object</td>
+        <td class="val"></td>
+        <td class="info">Detailed fertility information for the NPC.</td>
+      </tr>
+      <tr>
+        <td id="npcmakeout" class="vb">.makeout</td>
+        <td class="type">array</td>
+        <td class="val">[loc tag]</td>
+        <td class="info">Record of locations that the PC had physical relations with the NPC.</td>
+      </tr>
+    </table>
+  </div>
+  <h1>Parser System</h1>
+  <div>
+    <h3>Information:</h3>
+    <p>The parser system is responsible for dynamically generating content to fill writing with words or even entire sentences that match the subject in question. This could be the size of a physical attribute, or words that a certain character type (or PC persona) would be likely to use. Arguments used in parser (and other) functions must be entered in the correct order as listed, or will not work properly.</p>
+    <table id="parserargumentinfo" style="width:75%;border:none;">
+      <tr>
+        <td class="instarg">[ ]</td>
+        <td class="sp">:</td>
+        <td class="instDesc">Indicates that the argument is optional two arguments included in a single bracket indicate that if one is used, the other must be used. This is standard notation, you can read more elsewhere.</td>
+      </tr>
+      <tr>
+        <td class="instarg">T</td>
+        <td class="sp">:</td>
+        <td class="instDesc">This argument letter indicates target character. Typically this indicates which character the value should be based on. The argument values allowed vary, but are typically null for the PC, npcid for NPC, or the $activeNPC index.</td>
+      </tr>
+    </table>
+  </div>
+  <h2>Direct Print</h2>
+  <div class="table"  id="parsedirectbody">
+    <h3>Body Parser Functions<a href="#ToC" style="font-size:20px;">Return</a></h3>
+    <hr>
+    <table>
+      <tr>
+        <td class="lt"><<</td>
+        <td class="mac">boobSize</td>
+        <td class="arg">[T]</td>
+        <td class="gt">>></td>
+        <td class="vars">T: PC=null, NPC: ID or active</td>
+        <td class="type">Adjective</td>
+        <td class="desc">Outputs a simple size adjective based on character breast size. Ex: <i>You heft your <span class="ul">large</span> breasts.</i></td>
+      </tr>
+    </table>
+  </div>
+  <div class="table"  id="parsedirecttrait">
+    <h3>Trait Parser Functions<a href="#ToC" style="font-size:20px;">Return</a></h3>
+    <hr>
+    <table>
+    </table>
+  </div>
+  <div class="table"  id="parsedirectaction">
+    <h3>Action Parser Functions<a href="#ToC" style="font-size:20px;">Return</a></h3>
+    <hr>
+    <table>
+    </table>
+  </div>
+  <h2>Value Return</h2>
+  <div class="table"  id="parsereturnbody">
+    <h3>Body Parser Functions<a href="#ToC" style="font-size:20px;">Return</a></h3>
+    <hr>
+    <table>
+    </table>
+  </div>
+  <div class="table"  id="parsereturntrait">
+    <h3>Trait Parser Functions<a href="#ToC" style="font-size:20px;">Return</a></h3>
+    <hr>
+    <table>
+    </table>
+  </div>
+  <div class="table"  id="parsereturnaction">
+    <h3>Action Parser Functions<a href="#ToC" style="font-size:20px;">Return</a></h3>
+    <hr>
+    <table>
+    </table>
+  </div>
+</body>

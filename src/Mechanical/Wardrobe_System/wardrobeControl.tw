@@ -1,0 +1,1391 @@
+:: wardrobe Control [nobr widget]
+
+
+/*~~~~~~~~~~~~~~CREATE OUTFITS~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+<<widget "createLingerieOutfit">>
+<<set _name = $args[0]>>
+<<set _choiceP = $args[1]>>
+<<set _choiceB = $args[2]>>
+<<set _choiceL = $args[3]>>
+/*Grab the array index for each item*/
+<<set _snipp = _choiceP.slice(1,2)>>
+<<if _snipp == ")">>
+	<<set _snipp = _choiceP.slice(0,1)>>
+<<else>>
+	<<set _snipp = _choiceP.slice(0,2)>>
+<</if>>
+<<if _snipp > $ward.panties.length>>
+	<<set _snipp -= 1>>
+	<<set _snipp -= $ward.panties.length>>
+	<<set $ward.swimL[_snipp][12] += 1>>
+	<<set _itemP = $ward.swimL[_snipp]>>
+<<else>>
+	<<set _snipp -= 1>>
+	<<set $ward.panties[_snipp][12] += 1>>
+	<<set _itemP = $ward.panties[_snipp]>>
+<</if>>
+<<set _snipb = _choiceB.slice(1,2)>>
+<<if _snipb == ")">>
+	<<set _snipb = _choiceB.slice(0,1)>>
+<<else>>
+	<<set _snipb = _choiceB.slice(0,2)>>
+<</if>>
+<<if _snipb > $ward.bra.length>>
+	<<set _snipb -= 1>>
+	<<set _snipb -= $ward.swimU.length>>
+	<<set $ward.swimU[_snipb][12] += 1>>
+	<<set _itemB = $ward.swimU[_snipb]>>
+<<else>>
+	<<set _snipb -= 1>>
+	<<set $ward.bra[_snipb][12] += 1>>
+	<<set _itemB = $ward.bra[_snipb]>>
+<</if>>
+<<set _snipl = _choiceL.slice(1,2)>>
+<<if _snipl == ")">>
+	<<set _snipl = _choiceL.slice(0,1)>>
+<<else>>
+	<<set _snipl = _choiceL.slice(0,2)>>
+<</if>>
+<<set _snipl -= 1>>
+<<set $ward.leg[_snipl][12] += 1>>
+<<set _itemL = $ward.leg[_snipl]>>
+<<set _name = _name.replace("'", "")>>
+<<set _name = _name.replace(" ", "")>>
+<<set _name = _name.replace(":", "")>>
+<<set _name = _name.replace(";", "")>>
+<<if ndef $outfitUnder>>
+	<<set $outfitUnder = []>>
+<</if>>
+<<set _newOutfit = {}>>
+<<set _newOutfit.name = _name>>
+<<set _newOutfit.panties = _itemP>>
+<<set _newOutfit.bra = _itemB>>
+<<set _newOutfit.leg = _itemL>>
+<<if ( _itemP[13] == "S" || _itemB[13] == "S" ) && ( _itemP[13] == "S" || _itemP[13] == -1 ) && ( _itemB[13] == "S" || _itemB[13] == -1 ) && _itemL[13] == -1>>
+	<<set _newOutfit.swim = true>>
+<<else>>
+	<<set _newOutfit.swim = false>>
+<</if>>
+<<if _itemP[6] >= 11 && _itemB[6] >= 10>>
+	<<set _newOutfit.accessP = true>>
+	<<set _newOutfit.accessB = true>>
+<<elseif _itemP[6] >= 11>>
+	<<set _newOutfit.accessP = true>>
+	<<set _newOutfit.accessB = false>>
+<<elseif _itemB[6] >= 10>>
+	<<set _newOutfit.accessP = false>>
+	<<set _newOutfit.accessB = true>>
+<<else>>
+	<<set _newOutfit.accessP = false>>
+	<<set _newOutfit.accessB = false>>
+<</if>>
+<<if _itemP[13] == -1>>
+	<<set _newOutfit.accessP = true>>
+<</if>>
+<<if _itemB[13] == -1>>
+	<<set _newOutfit.accessB = true>>
+<</if>>
+<<set _atr = _newOutfit.panties[1] + _newOutfit.bra[1] + _newOutfit.leg[1]>>
+<<set _newOutfit.atr = _atr>>
+<<set _sex = _newOutfit.panties[2] + _newOutfit.bra[2] + _newOutfit.leg[2]>>
+<<set _newOutfit.sex = _sex>>
+<<set _form = Math.round((_newOutfit.panties[3] + _newOutfit.bra[3] +_newOutfit.panties[3] + _newOutfit.bra[3] + _newOutfit.leg[3])/5)>>
+<<set _newOutfit.form = _form>>
+<<set _newOutfit.exp = [_newOutfit.panties[4],_newOutfit.bra[4]]>>
+<<if _newOutfit.panties[9] == _newOutfit.bra[9]>>
+	<<set _newOutfit.coord = true>>
+	<<set _newOutfit.atr += 2>>
+<<else>>
+	<<set _newOutfit.coord = false>>
+<</if>>
+<<if _newOutfit.panties[0] == "No Panties" || _newOutfit.panties[0] == "none">>
+	<<set _newOutfit.atr += 6>>
+	<<set _newOutfit.sex += 5>>
+<</if>>
+<<if _newOutfit.bra[0] == "No Bra" || _newOutfit.bra[0] == "none">>
+	<<set _newOutfit.atr += 6>>
+	<<set _newOutfit.sex += 5>>
+<</if>>
+<<set $outfitUnder.push(_newOutfit)>>
+<<replace "#lingerieoutfit">>
+@@.exp;<<print "The outfit called ">><<print _newOutfit.name>><<print " has been created.">>@@
+<br>
+@@.ident;Attractiveness <<= _newOutfit.atr>>@@<br>
+	<<if _newOutfit.sex >= 0>>Sexiness:<<else>>Cuteness:<</if>> <<= _newOutfit.sex>> | <<if _newOutfit.form > 4>>Formal<<elseif _newOutfit.form > 1>>Semi-Formal<<elseif _newOutfit.form < -3>>Very Casual<<elseif _newOutfit.form < 1>>Casual<<else>>Neutral<</if>><br>
+	Top Exposure: <<= _newOutfit.bra[4]>> | Bottom Exposure: <<= _newOutfit.panties[4]>>
+
+/*@@.note;the outfit statistics shown here will be adjusted based on the outfit status function. This function needs to be separate from the wardrobe, because changes to clothing item's status (like getting wet or being unbuttoned) will change those stats whenever the status is changed. These stats essentially act as a baseline, and in fact you're pretty much always "wearing an outfit".@@*/
+<</replace>>
+<</widget>>
+
+<<widget "createStandardOutfit">>
+<<set _name = $args[0]>>
+<<set _choiceT = $args[1]>>
+<<set _choiceB = $args[2]>>
+<<set _choiceD = $args[3]>>
+/*Grab the array index for each item*/
+<<set _dbl = 0>>
+<<set _typeT = 0>>
+<<set _typeB = 0>>
+<<set _snipt = _choiceT.slice(1,2)>>
+<<if _snipt == ")">>
+	<<set _snipt = _choiceT.slice(0,1)>>
+<<else>>
+	<<set _snipt = _choiceT.slice(0,2)>>
+<</if>>
+<<if _snipt > ( $ward.upBody.length + $ward.athU.length )>>
+	<<set _snipt -= 1>>
+	<<set _snipt -= $ward.upBody.length>>
+	<<set _snipt -= $ward.athU.length>>
+	<<set _itemT = $ward.niteU[_snipt]>>
+	<<set _typeT = 3>>
+<<elseif _snipt > $ward.upBody.length>>
+	<<set _snipt -= 1>>
+	<<set _snipt -= $ward.upBody.length>>
+	<<set _itemT = $ward.athU[_snipt]>>
+	<<set _typeT = 2>>
+<<else>>
+	<<set _snipt -= 1>>
+	<<set _itemT = $ward.upBody[_snipt]>>
+	<<set _typeT = 1>>
+<</if>>
+/*pants*/
+<<set _snipb = _choiceB.slice(1,2)>>
+<<if _snipb == ")">>
+	<<set _snipb = _choiceB.slice(0,1)>>
+<<else>>
+	<<set _snipb = _choiceB.slice(0,2)>>
+<</if>>
+<<if _snipb > ( $ward.lowBody.length + $ward.athL.length )>>
+	<<set _snipb -= 1>>
+	<<set _snipb -= $ward.lowBody.length>>
+	<<set _snipb -= $ward.athL.length>>
+	<<set _itemB = $ward.niteL[_snipb]>>
+	<<set _typeB = 3>>
+<<elseif _snipb > $ward.lowBody.length>>
+	<<set _snipb -= 1>>
+	<<set _snipb -= $ward.lowBody.length>>
+	<<set _itemB = $ward.athL[_snipb]>>
+	<<set _typeB = 2>>
+<<else>>
+	<<set _snipb -= 1>>
+	<<set _itemB = $ward.lowBody[_snipb]>>
+	<<set _typeB = 1>>
+<</if>>
+/*dress*/
+<<set _snipd = _choiceD.slice(1,2)>>
+<<if _snipd == ")">>
+	<<set _snipd = _choiceD.slice(0,1)>>
+<<else>>
+	<<set _snipd = _choiceD.slice(0,2)>>
+<</if>>
+<<set _snipd -= 1>>
+<<set _itemD = $ward.dress[_snipd]>>
+/*Check if trying to wear dress and clothes at same time*/
+<<if _itemB[0] != "none" || _itemB[13] != -1>>
+	<<set _dbl += 1>>
+<</if>>
+<<if _itemT[0] != "none" || _itemT[13] != -1>>
+	<<set _dbl += 1>>
+<</if>>
+<<if _itemD[0] != "none" || _itemD[13] != -1>>
+	<<set _dbl += 3>>
+<</if>>
+<<if _dbl > 3>>
+	<<dialog 'Fashion Fail!'>><center>You can't wear a dress and tops/bottoms at the same time!<br><br>An outfit wasn't created. Change your selections and try again.<br><br>[img[IMGfashionFail]]</center><</dialog>>
+<<else>>
+	<<set _name = _name.replace("'", "")>>
+	<<set _name = _name.replace(" ", "")>>
+	<<set _name = _name.replace(":", "")>>
+	<<set _name = _name.replace(";", "")>>
+	<<if ndef $outfitUnder>>
+		<<set $outfitUnder = []>>
+	<</if>>
+	<<set _newOutfit = {}>>
+	<<set _newOutfit.name = _name>>
+	<<if _dbl == 3>>
+		<<set _newOutfit.dress = true>>
+		<<set $ward.dress[_snipd][12] = +1>>
+		<<set _newOutfit.lower = $ward.dress[_snipd]>>
+		<<set _newOutfit.upper = $ward.dress[_snipd]>>
+	<<else>>
+		<<set _newOutfit.dress = false>>
+		<<if _typeT == 1>>
+			<<set $ward.upBody[_snipt][12] += 1>>
+			<<set _newOutfit.upper = $ward.upBody[_snipt]>>
+		<<elseif _typeT == 2>>
+			<<set $ward.athU[_snipt][12] += 1>>
+			<<set _newOutfit.upper = $ward.athU[_snipt]>>
+		<<elseif _typeT == 3>>
+			<<set $ward.niteU[_snipt][12] += 1>>
+			<<set _newOutfit.upper = $ward.niteU[_snipt]>>
+		<</if>>
+		<<if _typeB == 1>>
+			<<set $ward.lowBody[_snipb][12] += 1>>
+			<<set _newOutfit.lower = $ward.lowBody[_snipb]>>
+		<<elseif _typeB == 2>>
+			<<set $ward.athL[_snipb][12] += 1>>
+			<<set _newOutfit.lower = $ward.athL[_snipb]>>
+		<<elseif _typeB == 3>>
+			<<set $ward.niteL[_snipb][12] += 1>>
+			<<set _newOutfit.lower = $ward.niteL[_snipb]>>
+		<</if>>
+	<</if>>
+	/*<<dialog 'testing'>><<print _newOutfit.name>><<print _newOutfit.lower>><<print _newOutfit.upper>><<print _newOutfit.dress>><</dialog>>*/
+	<<if ( _newOutfit.upper[13] == "N" || _newOutfit.upper[13] == -1 ) && ( _newOutfit.lower[13] == "N" || _newOutfit.lower[13] == -1 )>>
+		<<set _newOutfit.nite = true>>
+	<<else>>
+		<<set _newOutfit.nite = false>>
+	<</if>>
+	<<if ( _newOutfit.upper[13] == "A" || _newOutfit.lower[13] == "A" ) && ( _newOutfit.upper[13] == "A" || _newOutfit.upper[13] == -1 ) && ( _newOutfit.lower[13] == "A" || _newOutfit.lower[13] == -1 )>>
+		<<set _newOutfit.ath = true>>
+	<<else>>
+		<<set _newOutfit.ath = false>>
+	<</if>>
+	<<if _newOutfit.dress && ( _newOutfit.lower[6] == 3 || _newOutfit.lower[6] == 5 )>>
+		<<set _newOutfit.accessO = true>>
+	<<elseif !_newOutfit.dress && _newOutfit.lower[6] <= 13>>
+		<<set _newOutfit.accessO = true>>
+	<<elseif _newOutfit.lower[12] == -1>>
+		<<set _newOutfit.accessO = true>>
+	<<else>>
+		<<set _newOutfit.accessO = false>>
+	<</if>>
+	<<set _atr = _newOutfit.upper[1] + _newOutfit.lower[1]>>
+	<<set _newOutfit.atr = _atr>>
+	<<set _sex = _newOutfit.upper[2] + _newOutfit.lower[2]>>
+	<<set _newOutfit.sex = _sex>>
+	<<set _form = Math.round((_newOutfit.upper[3] + _newOutfit.lower[3])/2)>>
+	<<set _newOutfit.form = _form>>
+	<<set _newOutfit.exp = [_newOutfit.upper[4], _newOutfit.lower[4]]>>
+	/*color coordination*/
+	<<if _newOutfit.dress>>
+		<<set _newOutfit.coord = true>>
+		<<set _newOutfit.atr = Math.round((_newOutfit.upper[1] + _newOutfit.lower[1])*0.8)>>
+		<<set _newOutfit.sex = Math.round((_newOutfit.upper[2] + _newOutfit.lower[2])*0.8)>>
+	<<else>>
+		<<if _newOutfit.lower[9] == 1 || _newOutfit.lower[9] == 2 || _newOutfit.lower[9] == 3 || _newOutfit.lower[9] == 7 || _newOutfit.lower[9] == 8 || _newOutfit.lower[9] == 9 || _newOutfit.lower[9] == 10 || _newOutfit.lower[9] == 11>>
+			<<set _newOutfit.coord = true>>
+			<<set _newOutfit.atr += 2>>
+		<<elseif _newOutfit.upper[9] == 7 || _newOutfit.upper[9] == 1>>
+			<<set _newOutfit.coord = true>>
+			<<set _newOutfit.atr += 2>>
+		<<elseif ( _newOutfit.upper[9] == 2 || _newOutfit.upper[9] == 8) && _newOutfit.lower[9] == 12>>
+			<<set _newOutfit.coord = true>>
+			<<set _newOutfit.atr += 2>>
+		<<elseif _newOutfit.upper[9] == 3 && ( _newOutfit.lower[9] == 13 || _newOutfit.lower[9] == 5 )>>
+			<<set _newOutfit.coord = true>>
+			<<set _newOutfit.atr += 2>>
+		<<elseif _newOutfit.upper[9] == 4 && _newOutfit.lower[9] == 14>>
+			<<set _newOutfit.coord = true>>
+			<<set _newOutfit.atr += 2>>
+		<<elseif _newOutfit.upper[9] == 6 && _newOutfit.lower[9] == 17>>
+			<<set _newOutfit.coord = true>>
+			<<set _newOutfit.atr += 2>>
+		<<else>>
+			<<set _newOutfit.coord = false>>
+		<</if>>
+	<</if>>
+	<<set $outfitOver.push(_newOutfit)>>
+	<<replace "#standardoutfit">>
+		@@.exp;<<print "The outfit called ">><<print _newOutfit.name>><<print " has been created.">>@@
+		<br>
+		@@.ident;Attractiveness <<= _newOutfit.atr>>@@<br>
+		<<if _newOutfit.sex >= 0>>Sexiness:<<else>>Cuteness:<</if>> <<= _newOutfit.sex>><br>
+		Top Exposure: <<= _newOutfit.exp[0]>><br>
+		Bottom Exposure: <<= _newOutfit.exp[1]>><br>
+		<<if _newOutfit.form > 4>>Formal<<elseif _newOutfit.form > 1>>Semi-Formal<<elseif _newOutfit.form < -3>>Very Casual<<elseif _newOutfit.form < 1>>Casual<<else>>Neutral<</if>>
+		<br>
+		@@.note;the outfit statistics shown here will be adjusted based on the outfit status function. This function needs to be separate from the wardrobe, because changes to clothing item's status (like getting wet or being unbuttoned) will change those stats whenever the status is changed. These stats essentially act as a baseline, and in fact you're pretty much always "wearing an outfit".@@
+	<</replace>>
+<</if>>
+<</widget>>
+
+<<widget "createAccessoryOutfit">>
+<<set _name = $args[0]>>
+<<set _choiceA = $args[1]>>
+<<set _choiceB = $args[2]>>
+<<set _choiceC = $args[3]>>
+<<set _choiceD = $args[4]>>
+/*find first choice*/
+<<set _snipa = _choiceA.slice(1,2)>>
+<<if _snipa == ")">>
+	<<set _snipa = _choiceA.slice(0,1)>>
+<<else>>
+	<<set _snipa = _choiceA.slice(0,2)>>
+<</if>>
+<<set _snipa -= 1>>
+<<set _itemA = $ward.acc[_snipa]>>
+/*find second choice*/
+<<set _snipb = _choiceB.slice(1,2)>>
+<<if _snipb == ")">>
+	<<set _snipb = _choiceB.slice(0,1)>>
+<<else>>
+	<<set _snipb = _choiceB.slice(0,2)>>
+<</if>>
+<<set _snipb -= 1>>
+<<set _itemB = $ward.acc[_snipb]>>
+/*find third choice*/
+<<set _snipc = _choiceC.slice(1,2)>>
+<<if _snipc == ")">>
+	<<set _snipc = _choiceC.slice(0,1)>>
+<<else>>
+	<<set _snipc = _choiceC.slice(0,2)>>
+<</if>>
+<<set _snipc -= 1>>
+<<set _itemC = $ward.acc[_snipc]>>
+/*find fourth choice*/
+<<set _snipd = _choiceD.slice(1,2)>>
+<<if _snipd == ")">>
+	<<set _snipd = _choiceD.slice(0,1)>>
+<<else>>
+	<<set _snipd = _choiceD.slice(0,2)>>
+<</if>>
+<<set _snipd -= 1>>
+<<set _itemD = $ward.acc[_snipd]>>
+/*check for duplication of item/slot*/
+<<if _itemA[0] != "none" && ( _itemA[0] == _itemB[0] || _itemA[0] == _itemC[0] || _itemA[0] == _itemD[0] )>>
+<<dialog 'Fashion Fail!'>><center>You can't wear the same accessory twice!<br><br>You tried to wear two copies of <<print _itemA[0]>>. An outfit wasn't created. Change your accessory selections and try again.<br><br>[img[IMGfashionFail]]</center><</dialog>>
+<<elseif _itemB[0] != "none" && ( _itemB[0] == _itemC[0] || _itemB[0] == _itemD[0] )>>
+<<dialog 'Fashion Fail!'>><center>You can't wear the same accessory twice!<br><br>You tried to wear two copies of <<print _itemB[0]>>. An outfit wasn't created. Change your accessory selections and try again.<br><br>[img[IMGfashionFail]]</center><</dialog>>
+<<elseif _itemC[0] != "none" && _itemC[0] == _itemD[0]>>
+<<dialog 'Fashion Fail!'>><center>You can't wear the same accessory twice!<br><br>You tried to wear two copies of <<print _itemC[0]>>. An outfit wasn't created. Change your accessory selections and try again.<br><br>[img[IMGfashionFail]]</center><</dialog>>
+<<elseif _itemA[0] != "none" && ( _itemA[1] == _itemB[1] || _itemA[1] == _itemC[1] || _itemA[1] == _itemD[1] )>>
+<<dialog 'Fashion Fail!'>><center>You can't wear two accessories in the same "slot".<br><br> An outfit wasn't created. Change your accessory selections and try again.<br><br>[img[IMGfashionFail]]</center><</dialog>>
+<<elseif _itemB[0] != "none" && ( _itemB[1] == _itemC[1] || _itemB[1] == _itemD[1] )>>
+<<dialog 'Fashion Fail!'>><center>You can't wear two accessories in the same "slot".<br><br> An outfit wasn't created. Change your accessory selections and try again.<br><br>[img[IMGfashionFail]]</center><</dialog>>
+<<elseif _itemC[0] != "none" && _itemC[1] == _itemD[1]>>
+<<dialog 'Fashion Fail!'>><center>You can't wear two accessories in the same "slot".<br><br> An outfit wasn't created. Change your accessory selections and try again.<br><br>[img[IMGfashionFail]]</center><</dialog>>
+<<else>>
+<<set _name = _name.replace("'", "")>>
+<<set _name = _name.replace(" ", "")>>
+<<set _name = _name.replace(":", "")>>
+<<set _name = _name.replace(";", "")>>
+<<set _outfit = {}>>
+<<set _outfit.name = _name>>
+<<set $ward.acc[_snipa][6] += 1>>
+<<set _outfit.accA = $ward.acc[_snipa]>>
+<<set $ward.acc[_snipb][6] += 1>>
+<<set _outfit.accB = $ward.acc[_snipb]>>
+<<set $ward.acc[_snipc][6] += 1>>
+<<set _outfit.accC = $ward.acc[_snipc]>>
+<<set $ward.acc[_snipd][6] += 1>>
+<<set _outfit.accD = $ward.acc[_snipd]>>
+<<if _outfit.accA[1] == "V" || _outfit.accB[1] == "V" || _outfit.accC[1] == "V" || _outfit.accD[1] == "V">>
+	<<set _outfit.pussy = true>>
+<<else>>
+	<<set _outfit.pussy = false>>
+<</if>>
+<<if _outfit.accA[1] == "A" || _outfit.accB[1] == "A" || _outfit.accC[1] == "A" || _outfit.accD[1] == "A">>
+	<<set _outfit.ass = true>>
+<<else>>
+	<<set _outfit.ass = false>>
+<</if>>
+<<if _outfit.accA[1] == "N" || _outfit.accB[1] == "N" || _outfit.accC[1] == "N" || _outfit.accD[1] == "N">>
+	<<set _outfit.nips = true>>
+<<else>>
+	<<set _outfit.nips = false>>
+<</if>>
+<<if _outfit.accA[1] == "F" || _outfit.accB[1] == "F" || _outfit.accC[1] == "F" || _outfit.accD[1] == "F">>
+	<<set _outfit.face = true>>
+<<else>>
+	<<set _outfit.face = false>>
+<</if>>
+<<if _outfit.accA[1] == "H" || _outfit.accB[1] == "H" || _outfit.accC[1] == "H" || _outfit.accD[1] == "H">>
+	<<set _outfit.head = true>>
+<<else>>
+	<<set _outfit.head = false>>
+<</if>>
+<<set $outfitAcc.push(_outfit)>>
+<</if>>
+<</widget>>
+
+/*~~~~~~~~~~~~~~DELETE OUTFITS~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+<<widget "deleteOutfitUnder">>
+<<set _deadfit = $args[0]>>
+<<set _errchk = 0>>
+
+<<if _deadfit.panties[0] != "none">>
+	<<if _deadfit.panties[13] == "S">>
+		<<set _numbnuts = $ward.swimL.length>>
+		<<for _i to 0; _i < _numbnuts; _i++>>
+			<<if $ward.swimL[_i][0] == _deadfit.panties[0] && $ward.swimL[_i][1] == _deadfit.panties[1] && $ward.swimL[_i][2] == _deadfit.panties[2] && $ward.swimL[_i][3] == _deadfit.panties[3] && $ward.swimL[_i][4] == _deadfit.panties[4] && $ward.swimL[_i][6] == _deadfit.panties[6] && $ward.swimL[_i][7] == _deadfit.panties[7] && $ward.swimL[_i][8] == _deadfit.panties[8] && $ward.swimL[_i][9] == _deadfit.panties[9]>>
+				<<if $ward.swimL[_i][0] != "none">>
+					<<set $ward.swimL[_i][12] -= 1>>
+					<<set _errchk += 1>>
+				<</if>>
+			<</if>>
+		<</for>>
+		<<if _errchk == 0>>
+			<<set alert("no swimwear panties were found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+		<<elseif _errchk > 1>>
+			<<set _alertText = "too many swimwear panties were found in the wardrobe matching your outfit. This is a bug, please report it! Panties found: " + _errchk>>
+			<<set alert(_alertText)>>
+		<</if>>
+	<<else>>
+		<<set _numbnuts = $ward.panties.length>>
+		<<for _i to 0; _i < _numbnuts; _i++>>
+			<<if $ward.panties[_i][0] == _deadfit.panties[0] && $ward.panties[_i][1] == _deadfit.panties[1] && $ward.panties[_i][2] == _deadfit.panties[2] && $ward.panties[_i][3] == _deadfit.panties[3] && $ward.panties[_i][4] == _deadfit.panties[4] && $ward.panties[_i][6] == _deadfit.panties[6] && $ward.panties[_i][7] == _deadfit.panties[7] && $ward.panties[_i][8] == _deadfit.panties[8] && $ward.panties[_i][9] == _deadfit.panties[9]>>
+				<<if $ward.panties[_i][0] != "none">>
+					<<set $ward.panties[_i][12] -= 1>>
+					<<set _errchk += 1>>
+				<</if>>
+			<</if>>
+		<</for>>
+		<<if _errchk == 0>>
+			<<set alert("no panties were found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+		<<elseif _errchk > 1>>
+			<<set _alertText = "too many panties were found in the wardrobe matching your outfit. This is a bug, please report it! Panties found: " + _errchk>>
+			<<set alert(_alertText)>>
+		<</if>>
+	<</if>>
+<</if>>
+<<set _errchk = 0>>
+<<if _deadfit.bra[0] != "none">>
+	<<if _deadfit.bra[13] == "S">>
+		<<set _numbnuts = $ward.swimU.length>>
+		<<for _i to 0; _i < _numbnuts; _i++>>
+			<<if $ward.swimU[_i][0] == _deadfit.bra[0] && $ward.swimU[_i][1] == _deadfit.bra[1] && $ward.swimU[_i][2] == _deadfit.bra[2] && $ward.swimU[_i][3] == _deadfit.bra[3] && $ward.swimU[_i][4] == _deadfit.bra[4] && $ward.swimU[_i][6] == _deadfit.bra[6] && $ward.swimU[_i][7] == _deadfit.bra[7] && $ward.swimU[_i][8] == _deadfit.bra[8] && $ward.swimU[_i][9] == _deadfit.bra[9]>>
+				<<if $ward.swimU[_i][0] != "none">>
+					<<set _errchk += 1>>
+					<<set $ward.swimU[_i][12] -= 1>>
+				<</if>>
+			<</if>>
+		<</for>>
+		<<if _errchk == 0>>
+			<<set alert("no swim tops was found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+		<<elseif _errchk > 1>>
+			<<set _alertText = "too many swim tops were found in the wardrobe matching your outfit. This is a bug, please report it! Swim tops found: " + _errchk>>
+			<<set alert(_alertText)>>
+		<</if>>
+	<<else>>
+		<<set _numbnuts = $ward.bra.length>>
+		<<for _i to 0; _i < _numbnuts; _i++>>
+			<<if $ward.bra[_i][0] == _deadfit.bra[0] && $ward.bra[_i][1] == _deadfit.bra[1] && $ward.bra[_i][2] == _deadfit.bra[2] && $ward.bra[_i][3] == _deadfit.bra[3] && $ward.bra[_i][4] == _deadfit.bra[4] && $ward.bra[_i][6] == _deadfit.bra[6] && $ward.bra[_i][7] == _deadfit.bra[7] && $ward.bra[_i][8] == _deadfit.bra[8] && $ward.bra[_i][9] == _deadfit.bra[9]>>
+				<<if $ward.bra[_i][0] != "none">>
+					<<set _errchk += 1>>
+					<<set $ward.bra[_i][12] -= 1>>
+				<</if>>
+			<</if>>
+		<</for>>
+		<<if _errchk == 0>>
+			<<set alert("no bra was found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+		<<elseif _errchk > 1>>
+			<<set _alertText = "too many bras were found in the wardrobe matching your outfit. This is a bug, please report it! Bras found: " + _errchk>>
+			<<set alert(_alertText)>>
+		<</if>>
+	<</if>>
+<</if>>
+<<set _errchk = 0>>
+<<if _deadfit.leg[0] != "none">>
+	<<set _numbnuts = $ward.leg.length>>
+	<<for _i to 0; _i < _numbnuts; _i++>>
+		<<if $ward.leg[_i][0] == _deadfit.leg[0] && $ward.leg[_i][1] == _deadfit.leg[1] && $ward.leg[_i][2] == _deadfit.leg[2] && $ward.leg[_i][3] == _deadfit.leg[3] && $ward.leg[_i][4] == _deadfit.leg[4] && $ward.leg[_i][6] == _deadfit.leg[6] && $ward.leg[_i][7] == _deadfit.leg[7] && $ward.leg[_i][8] == _deadfit.leg[8] && $ward.leg[_i][9] == _deadfit.leg[9]>>
+			<<if $ward.leg[_i][0] != "none">>
+				<<set $ward.leg[_i][12] -= 1>>
+				<<set _errchk += 1>>
+			<</if>>
+		<</if>>
+	<</for>>
+	<<if _errchk == 0>>
+		<<set alert("no stocking was found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+	<<elseif _errchk > 1>>
+		<<set _alertText = "too many stockings were found in the wardrobe matching your outfit. This is a bug, please report it! Stockings found: " + _errchk>>
+		<<set alert(_alertText)>>
+	<</if>>
+<</if>>
+<</widget>>
+
+<<widget "deleteOutfitOver">>
+<<set _deadfuck = $args[0]>>
+<<set _errchk = 0>>
+<<if _deadfuck.dress>>
+	<<set _numbnuts = $ward.dress.length>>
+	<<for _i to 0; _i < _numbnuts; _i++>>
+		<<if $ward.dress[_i][0] == _deadfuck.upper[0] && $ward.dress[_i][1] == _deadfuck.upper[1] && $ward.dress[_i][2] == _deadfuck.upper[2] && $ward.dress[_i][3] == _deadfuck.upper[3] && $ward.dress[_i][4] == _deadfuck.upper[4] && $ward.dress[_i][6] == _deadfuck.upper[6] && $ward.dress[_i][7] == _deadfuck.upper[7] && $ward.dress[_i][8] == _deadfuck.upper[8] && $ward.dress[_i][9] == _deadfuck.upper[9]>>
+			<<if $ward.dress[_i][0] != "none">>
+				<<set $ward.dress[_i][12] -= 1>>
+				<<set _errchk += 1>>
+			<</if>>
+		<</if>>
+	<</for>>
+	<<if _errchk == 0>>
+		<<set alert("no dresses were found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+	<<elseif _errchk > 1>>
+		<<set _alertText = "too many dresses were found in the wardrobe matching your outfit. This is a bug, please report it! Dresses found: " + _errchk>>
+		<<set alert(_alertText)>>
+	<</if>>
+<<else>>
+	<<set _errchk = 0>>
+	<<if _deadfuck.upper[0] != "none">>
+		<<if _deadfuck.upper[13] == "A">>
+			<<set _numbnuts = $ward.athU.length>>
+			<<for _i to 0; _i < _numbnuts; _i++>>
+				<<if $ward.athU[_i][0] == _deadfuck.upper[0] && $ward.athU[_i][1] == _deadfuck.upper[1] && $ward.athU[_i][2] == _deadfuck.upper[2] && $ward.athU[_i][3] == _deadfuck.upper[3] && $ward.athU[_i][4] == _deadfuck.upper[4] && $ward.athU[_i][6] == _deadfuck.upper[6] && $ward.athU[_i][7] == _deadfuck.upper[7] && $ward.athU[_i][8] == _deadfuck.upper[8] && $ward.athU[_i][9] == _deadfuck.upper[9]>>
+					<<if $ward.athU[_i][0] != "none">>
+						<<set $ward.athU[_i][12] -= 1>>
+						<<set _errchk += 1>>
+					<</if>>
+				<</if>>
+			<</for>>
+			<<if _errchk == 0>>
+				<<set alert("no athletic top was found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+			<<elseif _errchk > 1>>
+				<<set _alertText = "too many athletic tops were found in the wardrobe matching your outfit. This is a bug, please report it! Athletic Top found: " + _errchk>>
+				<<set alert(_alertText)>>
+			<</if>>
+		<<elseif _deadfuck.upper[13] == "N">>
+			<<set _numbnuts = $ward.niteU.length>>
+			<<for _i to 0; _i < _numbnuts; _i++>>
+				<<if $ward.niteU[_i][0] == _deadfuck.upper[0] && $ward.niteU[_i][1] == _deadfuck.upper[1] && $ward.niteU[_i][2] == _deadfuck.upper[2] && $ward.niteU[_i][3] == _deadfuck.upper[3] && $ward.niteU[_i][4] == _deadfuck.upper[4] && $ward.niteU[_i][6] == _deadfuck.upper[6] && $ward.niteU[_i][7] == _deadfuck.upper[7] && $ward.niteU[_i][8] == _deadfuck.upper[8] && $ward.niteU[_i][9] == _deadfuck.upper[9]>>
+					<<if $ward.niteU[_i][0] != "none">>
+						<<set $ward.niteU[_i][12] -= 1>>
+						<<set _errchk += 1>>
+					<</if>>
+				<</if>>
+			<</for>>
+			<<if _errchk == 0>>
+				<<set alert("no sleepwear top was found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+			<<elseif _errchk > 1>>
+				<<set _alertText = "too many sleepwear tops were found in the wardrobe matching your outfit. This is a bug, please report it! Sleep Tops found: " + _errchk>>
+				<<set alert(_alertText)>>
+			<</if>>
+		<<else>>
+			<<set _numbnuts = $ward.upBody.length>>
+			<<for _i to 0; _i < _numbnuts; _i++>>
+				<<if $ward.upBody[_i][0] == _deadfuck.upper[0] && $ward.upBody[_i][1] == _deadfuck.upper[1] && $ward.upBody[_i][2] == _deadfuck.upper[2] && $ward.upBody[_i][3] == _deadfuck.upper[3] && $ward.upBody[_i][4] == _deadfuck.upper[4] && $ward.upBody[_i][6] == _deadfuck.upper[6] && $ward.upBody[_i][7] == _deadfuck.upper[7] && $ward.upBody[_i][8] == _deadfuck.upper[8] && $ward.upBody[_i][9] == _deadfuck.upper[9]>>
+					<<if $ward.upBody[_i][0] != "none">>
+						<<set $ward.upBody[_i][12] -= 1>>
+						<<set _errchk += 1>>
+					<</if>>
+				<</if>>
+			<</for>>
+			<<if _errchk == 0>>
+				<<set alert("no top was found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+			<<elseif _errchk > 1>>
+				<<set _alertText = "too many tops were found in the wardrobe matching your outfit. This is a bug, please report it! Tops found: " + _errchk>>
+				<<set alert(_alertText)>>
+			<</if>>
+		<</if>>
+	<</if>>
+	<<set _errchk = 0>>
+	<<if _deadfuck.lower[0] != "none">>
+		<<if _deadfuck.lower[13] == "A">>
+			<<set _numbnuts = $ward.athL.length>>
+			<<for _i to 0; _i < _numbnuts; _i++>>
+				<<if $ward.athL[_i][0] == _deadfuck.lower[0] && $ward.athL[_i][1] == _deadfuck.lower[1] && $ward.athL[_i][2] == _deadfuck.lower[2] && $ward.athL[_i][3] == _deadfuck.lower[3] && $ward.athL[_i][4] == _deadfuck.lower[4] && $ward.athL[_i][6] == _deadfuck.lower[6] && $ward.athL[_i][7] == _deadfuck.lower[7] && $ward.athL[_i][8] == _deadfuck.lower[8] && $ward.athL[_i][9] == _deadfuck.lower[9]>>
+					<<if $ward.athL[_i][0] != "none">>
+						<<set $ward.athL[_i][12] -= 1>>
+						<<set _errchk += 1>>
+					<</if>>
+				<</if>>
+			<</for>>
+			<<if _errchk == 0>>
+				<<set alert("no athletic bottom was found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+			<<elseif _errchk > 1>>
+				<<set _alertText = "too many athletic bottoms were found in the wardrobe matching your outfit. This is a bug, please report it! Athletic bottoms found: " + _errchk>>
+				<<set alert(_alertText)>>
+			<</if>>
+		<<elseif _deadfuck.lower[13] == "N">>
+			<<set _numbnuts = $ward.niteL.length>>
+			<<for _i to 0; _i < _numbnuts; _i++>>
+				<<if $ward.niteL[_i][0] == _deadfuck.lower[0] && $ward.niteL[_i][1] == _deadfuck.lower[1] && $ward.niteL[_i][2] == _deadfuck.lower[2] && $ward.niteL[_i][3] == _deadfuck.lower[3] && $ward.niteL[_i][4] == _deadfuck.lower[4] && $ward.niteL[_i][6] == _deadfuck.lower[6] && $ward.niteL[_i][7] == _deadfuck.lower[7] && $ward.niteL[_i][8] == _deadfuck.lower[8] && $ward.niteL[_i][9] == _deadfuck.lower[9]>>
+					<<if $ward.niteL[_i][0] != "none">>
+						<<set $ward.niteL[_i][12] -= 1>>
+						<<set _errchk += 1>>
+					<</if>>
+				<</if>>
+			<</for>>
+			<<if _errchk == 0>>
+				<<set alert("no sleepwear bottom was found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+			<<elseif _errchk > 1>>
+				<<set _alertText = "too many sleepwear bottoms were found in the wardrobe matching your outfit. This is a bug, please report it! Sleep bottoms found: " + _errchk>>
+				<<set alert(_alertText)>>
+			<</if>>
+		<<else>>
+			<<set _numbnuts = $ward.lowBody.length>>
+			<<for _i to 0; _i < _numbnuts; _i++>>
+				<<if $ward.lowBody[_i][0] == _deadfuck.lower[0] && $ward.lowBody[_i][1] == _deadfuck.lower[1] && $ward.lowBody[_i][2] == _deadfuck.lower[2] && $ward.lowBody[_i][3] == _deadfuck.lower[3] && $ward.lowBody[_i][4] == _deadfuck.lower[4] && $ward.lowBody[_i][6] == _deadfuck.lower[6] && $ward.lowBody[_i][7] == _deadfuck.lower[7] && $ward.lowBody[_i][8] == _deadfuck.lower[8] && $ward.lowBody[_i][9] == _deadfuck.lower[9]>>
+					<<if $ward.lowBody[_i][0] != "none">>
+						<<set $ward.lowBody[_i][12] -= 1>>
+						<<set _errchk += 1>>
+					<</if>>
+				<</if>>
+			<</for>>
+			<<if _errchk == 0>>
+				<<set alert("no bottom was found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+			<<elseif _errchk > 1>>
+				<<set _alertText = "too many bottoms were found in the wardrobe matching your outfit. This is a bug, please report it! Bottoms found: " + _errchk>>
+				<<set alert(_alertText)>>
+			<</if>>
+		<</if>>
+	<</if>>
+<</if>>
+<</widget>>
+
+<<widget "deleteOutfitAcc">>
+<<set _deadfit = $args[0]>>
+<<set _errchk = 0>>
+<<if _deadfit.accA[0] != "none">>
+	<<set _numbnuts = $ward.acc.length>>
+	<<for _i to 0; _i < _numbnuts; _i++>>
+		<<if $ward.acc[_i][0] == _deadfit.accA[0] && $ward.acc[_i][1] == _deadfit.accA[1] && $ward.acc[_i][2] == _deadfit.accA[2] && $ward.acc[_i][3] == _deadfit.accA[3] && $ward.acc[_i][4] == _deadfit.accA[4] && $ward.acc[_i][6] == _deadfit.accA[6] && $ward.acc[_i][7] == _deadfit.accA[7] && $ward.acc[_i][8] == _deadfit.accA[8] && $ward.acc[_i][9] == _deadfit.accA[9]>>
+			<<if $ward.acc[_i][0] != "none">>
+				<<set $ward.acc[_i][6] -= 1>>
+			<</if>>
+			<<set _errchk += 1>>
+		<</if>>
+	<</for>>
+	<<if _errchk == 0>>
+		<<set alert("no accessory was found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+	<<elseif _errchk > 1>>
+		<<set alert("too many accessories were found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+	<</if>>
+<</if>>
+<<set _errchk = 0>>
+<<if _deadfit.accB[0] != "none">>
+	<<set _numbnuts = $ward.acc.length>>
+	<<for _i to 0; _i < _numbnuts; _i++>>
+		<<if $ward.acc[_i][0] == _deadfit.accB[0] && $ward.acc[_i][1] == _deadfit.accB[1] && $ward.acc[_i][2] == _deadfit.accB[2] && $ward.acc[_i][3] == _deadfit.accB[3] && $ward.acc[_i][4] == _deadfit.accB[4] && $ward.acc[_i][6] == _deadfit.accB[6] && $ward.acc[_i][7] == _deadfit.accB[7] && $ward.acc[_i][8] == _deadfit.accB[8] && $ward.acc[_i][9] == _deadfit.accB[9]>>
+			<<if $ward.acc[_i][0] != "none">>
+				<<set $ward.acc[_i][6] -= 1>>
+			<</if>>
+			<<set _errchk += 1>>
+		<</if>>
+	<</for>>
+	<<if _errchk == 0>>
+		<<set alert("no accessory was found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+	<<elseif _errchk > 1>>
+		<<set alert("too many accessories were found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+	<</if>>
+<</if>>
+<<set _errchk = 0>>
+	<<if _deadfit.accC[0] != "none">>
+	<<set _numbnuts = $ward.acc.length>>
+	<<for _i to 0; _i < _numbnuts; _i++>>
+		<<if $ward.acc[_i][0] == _deadfit.accC[0] && $ward.acc[_i][1] == _deadfit.accC[1] && $ward.acc[_i][2] == _deadfit.accC[2] && $ward.acc[_i][3] == _deadfit.accC[3] && $ward.acc[_i][4] == _deadfit.accC[4] && $ward.acc[_i][6] == _deadfit.accC[6] && $ward.acc[_i][7] == _deadfit.accC[7] && $ward.acc[_i][8] == _deadfit.accC[8] && $ward.acc[_i][9] == _deadfit.accC[9]>>
+			<<if $ward.acc[_i][0] != "none">>
+				<<set $ward.acc[_i][6] -= 1>>
+			<</if>>
+			<<set _errchk += 1>>
+		<</if>>
+	<</for>>
+	<<if _errchk == 0>>
+		<<set alert("no accessory was found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+	<<elseif _errchk > 1>>
+		<<set alert("too many accessories were found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+	<</if>>
+<</if>>
+<<set _errchk = 0>>
+<<if _deadfit.accD[0] != "none">>
+	<<set _numbnuts = $ward.acc.length>>
+	<<for _i to 0; _i < _numbnuts; _i++>>
+		<<if $ward.acc[_i][0] == _deadfit.accD[0] && $ward.acc[_i][1] == _deadfit.accD[1] && $ward.acc[_i][2] == _deadfit.accD[2] && $ward.acc[_i][3] == _deadfit.accD[3] && $ward.acc[_i][4] == _deadfit.accD[4] && $ward.acc[_i][6] == _deadfit.accD[6] && $ward.acc[_i][7] == _deadfit.accD[7] && $ward.acc[_i][8] == _deadfit.accD[8] && $ward.acc[_i][9] == _deadfit.accD[9]>>
+			<<if $ward.acc[_i][0] != "none">>
+				<<set $ward.acc[_i][6] -= 1>>
+			<</if>>
+			<<set _errchk += 1>>
+		<</if>>
+	<</for>>
+	<<if _errchk == 0>>
+		<<set alert("no accessory was found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+	<<elseif _errchk > 1>>
+		<<set alert("too many accessories were found in the wardrobe matching your outfit. This is a bug, please report it!")>>
+	<</if>>
+<</if>>
+<</widget>>
+
+/*~~~~~~~~~~~~~~WEAR OUTFITS~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+<<widget "wearLoutfit">>
+<<set _choice = $args[0].slice(1,2)>>
+<<if _choice == ")">>
+	<<set _choice = $args[0].slice(0,1)>>
+<<else>>
+	<<set _choice = $args[0].slice(0,2)>>
+<</if>>
+<<set _choice -= 1>>
+<<set _outfit = {}>>
+<<set _outfit = clone($outfitUnder[_choice])>>
+<<set $PC.clothes.panties = _outfit.panties>>
+<<set $PC.clothes.leg = _outfit.leg>>
+<<set $PC.clothes.bra = _outfit.bra>>
+<<set $PC.clothes.swim = _outfit.swim>>
+<<set $PC.clothes.coordUnder = _outfit.coord>>
+<<set $PC.clothes.accessB = _outfit.accessB>>
+<<set $PC.clothes.accessP = _outfit.accessP>>
+<<calcOutfitCombine "L">>
+<</widget>>
+
+<<widget "wearSoutfit">>
+<<set _choice = $args[0].slice(1,2)>>
+<<if _choice == ")">>
+	<<set _choice = $args[0].slice(0,1)>>
+<<else>>
+	<<set _choice = $args[0].slice(0,2)>>
+<</if>>
+<<set _choice -= 1>>
+<<set _outfit = {}>>
+<<set _outfit = clone($outfitOver[_choice])>>
+<<set $PC.clothes.upper = _outfit.upper>>
+<<set $PC.clothes.lower = _outfit.lower>>
+<<set $PC.clothes.dress = _outfit.dress>>
+<<set $PC.clothes.nite = _outfit.nite>>
+<<set $PC.clothes.ath = _outfit.ath>>
+<<set $PC.clothes.coordOver = _outfit.coord>>
+<<set $PC.clothes.accessO = _outfit.accessO>>
+<<calcOutfitCombine "S">>
+<</widget>>
+
+<<widget "wearAoutfit">>
+<<set _choice = $args[0].slice(1,2)>>
+<<if _choice == ")">>
+	<<set _choice = $args[0].slice(0,1)>>
+<<else>>
+	<<set _choice = $args[0].slice(0,2)>>
+<</if>>
+<<set _choice -= 1>>
+<<set _outfit = {}>>
+<<set _outfit = clone($outfitAcc[_choice])>>
+<<set $PC.clothes.accA = _outfit.accA>>
+<<set $PC.clothes.accB = _outfit.accB>>
+<<set $PC.clothes.accC = _outfit.accC>>
+<<set $PC.clothes.accD = _outfit.accD>>
+<<set $PC.clothes.pussy = _outfit.pussy>>
+<<set $PC.clothes.ass = _outfit.ass>>
+<<set $PC.clothes.nips = _outfit.nips>>
+<<set $PC.clothes.face = _outfit.face>>
+<<set $PC.clothes.head = _outfit.head>>
+<<calcOutfitCombine "A">>
+<</widget>>
+
+/*======= Set standard outfits ============*/
+
+<<widget "setStandardOutfit">>
+<<silently>>
+<<set _which = $args[0]>>
+/*Grope actual outfits based on choice selection*/
+/*Grab Underwears*/
+<<set _lingChoice = $args[1].slice(1,2)>>
+<<if _lingChoice == ")">>
+	<<set _lingChoice = $args[1].slice(0,1)>>
+<<else>>
+	<<set _lingChoice = $args[1].slice(0,2)>>
+<</if>>
+<<set _lingChoice -= 1>>
+<<set _lingPrint = "<<set $" + _which + "Outfit.ling = clone($outfitUnder[_lingChoice])>>">>
+<<print _lingPrint>>
+/*Grab Overwears*/
+<<set _overChoice = $args[2].slice(1,2)>>
+<<if _overChoice == ")">>
+	<<set _overChoice = $args[2].slice(0,1)>>
+<<else>>
+	<<set _overChoice = $args[2].slice(0,2)>>
+<</if>>
+<<set _overChoice -= 1>>
+<<set _overPrint = "<<set $" + _which + "Outfit.over = clone($outfitOver[_overChoice])>>">>
+<<print _overPrint>>
+/*Grab Accessories*/
+<<set _accChoice = $args[3].slice(1,2)>>
+<<if _accChoice == ")">>
+	<<set _accChoice = $args[3].slice(0,1)>>
+<<else>>
+	<<set _accChoice = $args[3].slice(0,2)>>
+<</if>>
+<<set _accChoice -= 1>>
+<<set _accPrint = "<<set $" + _which + "Outfit.acc = clone($outfitAcc[_accChoice])>>">>
+/*Laugh Maniacally and replace text based on which outfit*/
+<<set _repPrint = "<<replace '#'" + _which + "Out'>>''Lingerie:'' <<print $" + _which + "Outfit.ling.name>><br>''Clothes:'' <<print $" + _which + "Outfit.over.name>><br>''Accessory:'' <<print $" + _which + "Outfit.acc.name>><</replace>>">>
+<</silently>><<print _rePrint>>
+<</widget>>
+
+/*~~~~~~~~~~~~~~WEAR CLOTHES~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+<<widget "wearP">>
+<<set _choice = $args[0]>>
+<<set _snip = _choice.slice(1,2)>>
+<<if _snip == ")">>
+	<<set _snip = _choice.slice(0,1)>>
+<<else>>
+	<<set _snip = _choice.slice(0,2)>>
+<</if>>
+<<if _snip > $ward.panties.length>>
+	<<set _snip -= 1>>
+	<<set _snip -= $ward.panties.length>>
+	<<set _item = $ward.swimL[_snip]>>
+<<else>>
+	<<set _snip -= 1>>
+	<<set _item = $ward.panties[_snip]>>
+<</if>>
+<<set $PC.clothes.panties = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5],_item[6],_item[7],_item[8],_item[9],_item[10],_item[11],_item[13]]>>
+<<calcOutfitCombine>>
+<</widget>>
+
+<<widget "wearB">>
+<<set _choice = $args[0]>>
+<<set _snip = _choice.slice(1,2)>>
+<<if _snip == ")">>
+	<<set _snip = _choice.slice(0,1)>>
+<<else>>
+	<<set _snip = _choice.slice(0,2)>>
+<</if>>
+<<if _snip > $ward.bra.length>>
+	<<set _snip -= 1>>
+	<<set _snip -= $ward.bra.length>>
+	<<set _item = $ward.swimU[_snip]>>
+<<else>>
+	<<set _snip -= 1>>
+	<<set _item = $ward.bra[_snip]>>
+<</if>>
+<<set $PC.clothes.bra = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5],_item[6],_item[7],_item[8],_item[9],_item[10],_item[11],_item[13]]>>
+<<calcOutfitCombine>>
+<</widget>>
+
+<<widget "wearLeg">>
+<<set _choice = $args[0]>>
+<<set _snip = _choice.slice(1,2)>>
+<<if _snip == ")">>
+	<<set _snip = _choice.slice(0,1)>>
+<<else>>
+	<<set _snip = _choice.slice(0,2)>>
+<</if>>
+<<set _snip -= 1>>
+<<set _item = $ward.leg[_snip]>>
+<<set $PC.clothes.leg = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5],_item[6],_item[7],_item[8],_item[9],_item[10],_item[11],_item[13]]>>
+<<calcOutfitCombine>>
+<</widget>>
+
+<<widget "wearUB">>
+<<set _choice = $args[0]>>
+<<set _snip = _choice.slice(1,2)>>
+<<if _snip == ")">>
+	<<set _snip = _choice.slice(0,1)>>
+<<else>>
+	<<set _snip = _choice.slice(0,2)>>
+<</if>>
+<<if _snip > ( $ward.upBody.length + $ward.athU.length )>>
+	<<set _snip -= 1>>
+	<<set _snip -= $ward.upBody.length>>
+	<<set _snip -= $ward.athU.length>>
+	<<set _item = $ward.niteU[_snip]>>
+<<elseif _snip > $ward.upBody.length>>
+	<<set _snip -= 1>>
+	<<set _snip -= $ward.upBody.length>>
+	<<set _item = $ward.athU[_snip]>>
+<<else>>
+	<<set _snip -= 1>>
+	<<set _item = $ward.upBody[_snip]>>
+<</if>>
+<<if $PC.clothes.dress>>
+	<<set $PC.clothes.lower = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0]>>
+	<<set $PC.clothes.dress = false>>
+<</if>>
+<<set $PC.clothes.upper = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5],_item[6],_item[7],_item[8],_item[9],_item[10],_item[11],_item[13]]>>
+<<calcOutfitCombine>>
+<</widget>>
+
+<<widget "wearLB">>
+<<set _choice = $args[0]>>
+<<set _snip = _choice.slice(1,2)>>
+<<if _snip == ")">>
+	<<set _snip = _choice.slice(0,1)>>
+<<else>>
+	<<set _snip = _choice.slice(0,2)>>
+<</if>>
+<<if _snip > ( $ward.lowBody.length + $ward.athL.length )>>
+	<<set _snip -= 1>>
+	<<set _snip -= $ward.lowBody.length>>
+	<<set _snip -= $ward.athL.length>>
+	<<set _item = $ward.niteL[_snip]>>
+<<elseif _snip > $ward.lowBody.length>>
+	<<set _snip -= 1>>
+	<<set _snip -= $ward.lowBody.length>>
+	<<set _item = $ward.athL[_snip]>>
+<<else>>
+	<<set _snip -= 1>>
+	<<set _item = $ward.lowBody[_snip]>>
+<</if>>
+<<if $PC.clothes.dress>>
+	<<set $PC.clothes.upper = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,0]>>
+	<<set $PC.clothes.dress = false>>
+<</if>>
+<<set $PC.clothes.lower = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5],_item[6],_item[7],_item[8],_item[9],_item[10],_item[11],_item[13]]>>
+<<calcOutfitCombine>>
+<</widget>>
+
+<<widget "wearD">>
+<<set _choice = $args[0]>>
+<<set _snip = _choice.slice(1,2)>>
+<<if _snip == ")">>
+	<<set _snip = _choice.slice(0,1)>>
+<<else>>
+	<<set _snip = _choice.slice(0,2)>>
+<</if>>
+<<set _snip -= 1>>
+<<set _item = $ward.dress[_snip]>>
+<<set $PC.clothes.upper = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5],_item[6],_item[7],_item[8],_item[9],_item[10],_item[11],_item[13]]>>
+<<set $PC.clothes.lower = ["None-Dress",_item[1],_item[2],_item[3],_item[4],_item[5],_item[6],_item[7],_item[8],_item[9],_item[10],_item[11],_item[13]]>>
+<<set $PC.clothes.dress = true>>
+<<calcOutfitCombine>>
+<</widget>>
+
+<<widget "wearAa">>
+<<set _choice = $args[0]>>
+<<set _snip = _choice.slice(1,2)>>
+<<if _snip == ")">>
+	<<set _snip = _choice.slice(0,1)>>
+<<else>>
+	<<set _snip = _choice.slice(0,2)>>
+<</if>>
+<<set _snip -= 1>>
+<<set _item = $ward.acc[_snip]>>
+<<if _item[0] != "none" && ( _item[0] == $PC.clothes.accB[0] || _item[0] == $PC.clothes.accC[0] || _item[0] == $PC.clothes.accD[0] )>>
+<<dialog 'Fashion Fail!'>><center>You can't wear the same accessory twice!<br><br>The accessory wasn't equipped. Change your accessory selections and try again.<br><br>[img[IMGfashionFail]]</center><</dialog>>
+<<elseif _item[0] != "none" && ( _item[1] == $PC.clothes.accB[1] || _item[1] == $PC.clothes.accC[1] || _item[1] == $PC.clothes.accD[1] )>>
+<<dialog 'Fashion Fail!'>><center>You can't wear two accessories in the same "slot".<br><br>This accessory wasn't equiped.<br><br>[img[IMGfashionFail]]</center><</dialog>>
+<<else>>
+<<set $PC.clothes.accA = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5]]>>
+<<calcOutfitCombine>>
+<</if>>
+<</widget>>
+
+<<widget "wearAb">>
+<<set _choice = $args[0]>>
+<<set _snip = _choice.slice(1,2)>>
+<<if _snip == ")">>
+	<<set _snip = _choice.slice(0,1)>>
+<<else>>
+	<<set _snip = _choice.slice(0,2)>>
+<</if>>
+<<set _snip -= 1>>
+<<set _item = $ward.acc[_snip]>>
+<<if _item[0] != "none" && ( _item[0] == $PC.clothes.accA[0] || _item[0] == $PC.clothes.accC[0] || _item[0] == $PC.clothes.accD[0] )>>
+<<dialog 'Fashion Fail!'>><center>You can't wear the same accessory twice!<br><br>The accessory wasn't equipped. Change your accessory selections and try again.<br><br>[img[IMGfashionFail]]</center><</dialog>>
+<<elseif _item[0] != "none" && ( _item[1] == $PC.clothes.accA[1] || _item[1] == $PC.clothes.accC[1] || _item[1] == $PC.clothes.accD[1] )>>
+<<dialog 'Fashion Fail!'>><center>You can't wear two accessories in the same "slot".<br><br>This accessory wasn't equiped.<br><br>[img[IMGfashionFail]]</center><</dialog>>
+<<else>>
+<<set $PC.clothes.accB = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5]]>>
+<<calcOutfitCombine>>
+<</if>>
+<</widget>>
+
+<<widget "wearAc">>
+<<set _choice = $args[0]>>
+<<set _snip = _choice.slice(1,2)>>
+<<if _snip == ")">>
+	<<set _snip = _choice.slice(0,1)>>
+<<else>>
+	<<set _snip = _choice.slice(0,2)>>
+<</if>>
+<<set _snip -= 1>>
+<<set _item = $ward.acc[_snip]>>
+<<if _item[0] != "none" && ( _item[0] == $PC.clothes.accB[0] || _item[0] == $PC.clothes.accA[0] || _item[0] == $PC.clothes.accD[0] )>>
+<<dialog 'Fashion Fail!'>><center>You can't wear the same accessory twice!<br><br>The accessory wasn't equipped. Change your accessory selections and try again.<br><br>[img[IMGfashionFail]]</center><</dialog>>
+<<elseif _item[0] != "none" && ( _item[1] == $PC.clothes.accB[1] || _item[1] == $PC.clothes.accA[1] || _item[1] == $PC.clothes.accD[1] )>>
+<<dialog 'Fashion Fail!'>><center>You can't wear two accessories in the same "slot".<br><br>This accessory wasn't equiped.<br><br>[img[IMGfashionFail]]</center><</dialog>>
+<<else>>
+<<set $PC.clothes.accC = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5]]>>
+<<calcOutfitCombine>>
+<</if>>
+<</widget>>
+
+<<widget "wearAd">>
+<<set _choice = $args[0]>>
+<<set _snip = _choice.slice(1,2)>>
+<<if _snip == ")">>
+	<<set _snip = _choice.slice(0,1)>>
+<<else>>
+	<<set _snip = _choice.slice(0,2)>>
+<</if>>
+<<set _snip -= 1>>
+<<set _item = $ward.acc[_snip]>>
+<<if _item[0] != "none" && ( _item[0] == $PC.clothes.accB[0] || _item[0] == $PC.clothes.accC[0] || _item[0] == $PC.clothes.accA[0] )>>
+<<dialog 'Fashion Fail!'>><center>You can't wear the same accessory twice!<br><br>The accessory wasn't equipped. Change your accessory selections and try again.<br><br>[img[IMGfashionFail]]</center><</dialog>>
+<<elseif _item[0] != "none" && ( _item[1] == $PC.clothes.accB[1] || _item[1] == $PC.clothes.accC[1] || _item[1] == $PC.clothes.accA[1] )>>
+<<dialog 'Fashion Fail!'>><center>You can't wear two accessories in the same "slot".<br><br>This accessory wasn't equiped.<br><br>[img[IMGfashionFail]]</center><</dialog>>
+<<else>>
+<<set $PC.clothes.accD = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5]]>>
+<<calcOutfitCombine>>
+<</if>>
+<</widget>>
+
+/*TOTAL OUTFIT STATS~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+<<widget "calcOutfitCombine">>
+<<set _top = true>>
+<<set _bot = true>>
+<<set _acc = true>>
+<<set _atr = 0>>
+<<set _sex = 0>>
+<<set _exp = [0,0]>>
+<<set _coordType = 0>>
+<<if ndef $args[0]>>
+	<<set _A = 0>>
+	<<set _B = 0>>
+	<<set _C = 0>>
+<<elseif ndef $args[1]>>
+	<<set _A = $args[0]>>
+	<<set _B = 0>>
+	<<set _C = 0>>
+<<elseif ndef $args[2]>>
+	<<set _A = $args[0]>>
+	<<set _B = $args[1]>>
+	<<set _C = 0>>
+<<else>>
+	<<set _A = $args[0]>>
+	<<set _B = $args[1]>>
+	<<set _C = $args[2]>>
+<</if>>
+<<if _A == "S" || _B == "S" || _C == "S">>
+	<<set _top = false>>
+<</if>>
+<<if _A == "L" || _B == "L" || _C == "L">>
+	<<set _bot = false>>
+<</if>>
+<<if _A == "A" || _B == "A" || _C == "A">>
+	<<set _acc = false>>
+<</if>>
+<<if _top>>
+	/*traits*/
+	<<if ( $PC.clothes.upper[12] == "N" || $PC.clothes.upper[12] == -1 ) && ( $PC.clothes.lower[12] == "N" || $PC.clothes.lower[12] == -1 )>>
+		<<set $PC.clothes.nite = true>>
+	<<else>>
+		<<set $PC.clothes.nite = false>>
+	<</if>>
+	<<if ( $PC.clothes.upper[12] == "A" || $PC.clothes.lower[12] == "A" ) && ( $PC.clothes.upper[12] == "A" || $PC.clothes.upper[12] == -1 ) && ( $PC.clothes.lower[12] == "A" || $PC.clothes.lower[12] == -1 )>>
+		<<set $PC.clothes.ath = true>>
+	<<else>>
+		<<set $PC.clothes.ath = false>>
+	<</if>>
+	<<if $PC.clothes.dress && ( $PC.clothes.lower[6] == 3 || $PC.clothes.lower[6] == 5 )>>
+		<<set $PC.clothes.accessO = true>>
+	<<elseif !$PC.clothes.dress && $PC.clothes.lower[6] <= 13>>
+		<<set $PC.clothes.accessO = true>>
+	<<elseif $PC.clothes.lower[12] == -1>>
+		<<set $PC.clothes.accessO = true>>
+	<<else>>
+		<<set $PC.clothes.accessO = false>>
+	<</if>>
+	/*color coordination*/
+	<<if $PC.clothes.dress>>
+		<<set $PC.clothes.coordOver = true>>
+		<<set _coordType = 1>>
+	<<else>>
+		<<if $PC.clothes.lower[9] == 1 || $PC.clothes.lower[9] == 2 || $PC.clothes.lower[9] == 3 || $PC.clothes.lower[9] == 7 || $PC.clothes.lower[9] == 8 || $PC.clothes.lower[9] == 9 || $PC.clothes.lower[9] == 10 || $PC.clothes.lower[9] == 11>>
+			<<set $PC.clothes.coordOver = true>>
+			<<set _coordType = 2>>
+		<<elseif $PC.clothes.upper[9] == 7 || $PC.clothes.upper[9] == 1>>
+			<<set $PC.clothes.coordOver = true>>
+			<<set _coordType = 3>>
+		<<elseif ( $PC.clothes.upper[9] == 2 || $PC.clothes.upper[9] == 8) && $PC.clothes.lower[9] == 12>>
+			<<set $PC.clothes.coordOver = true>>
+			<<set _coordType = 4>>
+		<<elseif $PC.clothes.upper[9] == 3 && ( $PC.clothes.lower[9] == 13 || $PC.clothes.lower[9] == 5 )>>
+			<<set $PC.clothes.coordOver = true>>
+			<<set _coordType = 4>>
+		<<elseif $PC.clothes.upper[9] == 4 && $PC.clothes.lower[9] == 14>>
+			<<set $PC.clothes.coordOver = true>>
+			<<set _coordType = 4>>
+		<<elseif $PC.clothes.upper[9] == 6 && $PC.clothes.lower[9] == 17>>
+			<<set $PC.clothes.coordOver = true>>
+			<<set _coordType = 4>>
+		<<else>>
+			<<set $PC.clothes.coordOver = false>>
+			<<set _coordType = 0>>
+		<</if>>
+	<</if>>
+<</if>>
+<<if _bot>>
+	<<if ( $PC.clothes.panties[12] == "S" || $PC.clothes.panties[12] == -1 ) && ( $PC.clothes.bra[12] == "S" || $PC.clothes.bra[12] == -1 ) && $PC.clothes.leg[12] == -1>>
+		<<set $PC.clothes.swim = true>>
+	<<else>>
+		<<set $PC.clothes.swim = false>>
+	<</if>>
+	<<if $PC.clothes.panties[6] >= 11 && $PC.clothes.bra[6] >= 10>>
+		<<set $PC.clothes.accessP = true>>
+		<<set $PC.clothes.accessB = true>>
+	<<elseif $PC.clothes.panties[6] >= 11>>
+		<<set $PC.clothes.accessP = true>>
+		<<set $PC.clothes.accessB = false>>
+	<<elseif $PC.clothes.bra[6] >= 10>>
+		<<set $PC.clothes.accessP = false>>
+		<<set $PC.clothes.accessB = true>>
+	<<else>>
+		<<set $PC.clothes.accessP = false>>
+		<<set $PC.clothes.accessB = false>>
+	<</if>>
+	<<if $PC.clothes.panties[12] == -1>>
+		<<set $PC.clothes.accessP = true>>
+	<</if>>
+	<<if $PC.clothes.bra[12] == -1>>
+		<<set $PC.clothes.accessB = true>>
+	<</if>>
+	/*pantyhose has crotch that blocks access*/
+	<<if $PC.clothes.leg[6] == 4>>
+		<<set $PC.clothes.accessP = false>>
+	<</if>>
+	<<if $PC.clothes.panties[9] == $PC.clothes.bra[9] && $PC.clothes.panties[12] != -1>>
+		<<set $PC.clothes.coordUnder = true>>
+	<<else>>
+		<<set $PC.clothes.coordUnder = false>>
+	<</if>>
+<</if>>
+<<if _acc>>
+	<<if $PC.clothes.accA[1] == "V" || $PC.clothes.accB[1] == "V" || $PC.clothes.accC[1] == "V" || $PC.clothes.accD[1] == "V">>
+		<<set $PC.clothes.pussy = true>>
+	<<else>>
+		<<set $PC.clothes.pussy = false>>
+	<</if>>
+	<<if $PC.clothes.accA[1] == "A" || $PC.clothes.accB[1] == "A" || $PC.clothes.accC[1] == "A" || $PC.clothes.accD[1] == "A">>
+		<<set $PC.clothes.ass = true>>
+	<<else>>
+		<<set $PC.clothes.ass = false>>
+	<</if>>
+	<<if $PC.clothes.accA[1] == "N" || $PC.clothes.accB[1] == "N" || $PC.clothes.accC[1] == "N" || $PC.clothes.accD[1] == "N">>
+		<<set $PC.clothes.nips = true>>
+	<<else>>
+		<<set $PC.clothes.nips = false>>
+	<</if>>
+	<<if $PC.clothes.accA[1] == "F" || $PC.clothes.accB[1] == "F" || $PC.clothes.accC[1] == "F" || $PC.clothes.accD[1] == "F">>
+		<<set $PC.clothes.face = true>>
+	<<else>>
+		<<set $PC.clothes.face = false>>
+	<</if>>
+	<<if $PC.clothes.accA[1] == "H" || $PC.clothes.accB[1] == "H" || $PC.clothes.accC[1] == "H" || $PC.clothes.accD[1] == "H">>
+		<<set $PC.clothes.head = true>>
+	<<else>>
+		<<set $PC.clothes.head = false>>
+	<</if>>
+<</if>>
+<<if $PC.clothes.swim && ( $PC.clothes.lower[12] != -1 || $PC.clothes.upper[12] != -1 )>>
+	<<set $PC.clothes.swim = false>>
+<</if>>
+/*skirt danger!*/
+<<if $PC.clothes.dress && ( $PC.clothes.lower[6] == 3 || $PC.clothes.lower[6] == 5 )>>
+	<<set $PC.clothes.skirtDanger = 1>>
+<<elseif !$PC.clothes.dress && $PC.clothes.lower[6] <= 13 && $PC.clothes.lower[12] != -1>>
+	<<set _hemread = $PC.clothes.lower[7] + "F">>
+	<<if _hemread.length == 3>>
+		<<set _hem = _hemread.slice(1,2)>>
+		<<set _hem -= 6>>
+	<<elseif _hemread.length == 4>>
+		<<set _hem = _hemread.slice(2,3)>>
+		<<set _hem -= 6>>
+	<<elseif _hemread.length == 2>>
+		<<set _hem = 0>>
+	<<else>>
+		<<set alert("Error decoding hem length")>>
+		<<set _hem = 0>>
+	<</if>>
+	<<if _hem > 0>>
+		<<set $PC.clothes.skirtDanger = _hem>>
+	<<else>>
+		<<set $PC.clothes.skirtDanger = 0>>
+	<</if>>
+<<else>>
+	<<set $PC.clothes.skirtDanger = 0>>
+<</if>>
+/*determine the actual stats based on layering... fun*/
+<<set _pieces = 0>>
+<<set _sexyTotal = 0>>
+<<set _formTotal = 0>>
+/*start with the upper body*/
+<<if $PC.clothes.upper[12] == -1 && $PC.clothes.bra[12] == -1>>
+	<<set _topLayers = 0>>
+	<<set _topATR = 6 + $PC.body.topATR>>
+	<<set _sexyTotal += 6>>
+	<<set _formTotal -= 4>>
+	<<set _exp[0] = 5>>
+<<elseif $PC.clothes.upper[12] == -1>>
+	<<set _topLayers = 1>>
+	<<set _pieces += 1>>
+	<<set _sexyTotal += $PC.clothes.bra[2]>>
+	<<set _formTotal -= 2>>
+	<<set _formTotal += $PC.clothes.bra[3]>>
+	<<set _exp[0] = $PC.clothes.bra[4]>>
+	<<if $PC.clothes.bra[4] > 2.5>>
+		<<set _mult = $PC.clothes.bra[4] - 2.5>>
+		<<set _mult = Math.round(_mult * 40)>>
+		<<set _mult /= 100>>
+		<<set _topATR = Math.trunc(_mult * $PC.body.topATR)>>
+		<<set _sexyTotal += Math.trunc(_mult * 4)>>
+		<<set _topATR += $PC.clothes.bra[1]>>
+	<<else>>
+		<<set _topATR = $PC.clothes.bra[1]>>
+	<</if>>
+<<elseif $PC.clothes.bra[12] == -1>>
+	<<set _topLayers = 1>>
+	<<set _pieces += 1>>
+	<<set _sexyTotal += $PC.clothes.upper[2]>>
+	<<set _formTotal += $PC.clothes.upper[3]>>
+	<<set _exp[0] = $PC.clothes.upper[4]>>
+	<<if $PC.clothes.upper[4] > 2.5>>
+		<<set _mult = $PC.clothes.upper[4] - 2.5>>
+		<<set _mult = Math.round(_mult * 40)>>
+		<<set _mult /= 100>>
+		<<set _topATR = Math.trunc(_mult * $PC.body.topATR)>>
+		<<set _sexyTotal += Math.trunc(_mult * 4)>>
+		<<set _topATR += $PC.clothes.upper[1]>>
+	<<else>>
+		<<set _topATR = $PC.clothes.upper[1]>>
+	<</if>>
+<<else>>
+	<<set _topLayers = 2>>
+	<<set _pieces += 2>>
+	<<set _sexyTotal += $PC.clothes.upper[2]>>
+	<<set _formTotal += $PC.clothes.upper[3]>>
+	<<set _exp[0] = $PC.clothes.upper[4]>>
+	<<if _exp[0] > $PC.clothes.bra[4]>><<set _exp[0] = $PC.clothes.bra[4]>><</if>>
+	<<if $PC.clothes.upper[4] > 2.5>>
+		<<set _mult = $PC.clothes.upper[4] - 2.5>>
+		<<set _mult = Math.round(_mult * 40)>>
+		<<set _mult /= 100>>
+		<<set _topATR = Math.trunc(_mult * $PC.clothes.bra[1])>>
+		<<set _sexyTotal += Math.trunc(_mult * $PC.clothes.bra[2])>>
+		<<set _topATR += $PC.clothes.upper[1]>>
+	<<else>>
+		<<set _topATR = $PC.clothes.upper[1]>>
+	<</if>>
+<</if>>
+/*then the lower body*/
+<<if $PC.clothes.lower[12] == -1 && $PC.clothes.panties[12] == -1>>
+	<<set _botLayers = 0>>
+	<<set _botATR = 6 + $PC.body.topATR>>
+	<<set _sexyTotal += 6>>
+	<<set _formTotal -= 5>>
+	<<set _exp[1] = 5>>
+<<elseif $PC.clothes.lower[12] == -1>>
+	<<set _botLayers = 1>>
+	<<set _pieces += 1>>
+	<<set _sexyTotal += $PC.clothes.panties[2]>>
+	<<set _formTotal -= 3>>
+	<<set _formTotal += $PC.clothes.panties[3]>>
+	<<set _exp[1] = $PC.clothes.panties[4]>>
+	<<if $PC.clothes.panties[4] > 2.5>>
+		<<set _mult = $PC.clothes.panties[4] - 2.5>>
+		<<set _mult = Math.round(_mult * 40)>>
+		<<set _mult /= 100>>
+		<<set _botATR = Math.trunc(_mult * $PC.body.topATR)>>
+		<<set _sexyTotal += Math.trunc(_mult * 4)>>
+		<<set _botATR += $PC.clothes.panties[1]>>
+	<<else>>
+		<<set _botATR = $PC.clothes.panties[1]>>
+	<</if>>
+<<elseif $PC.clothes.panties[12] == -1>>
+	<<set _botLayers = 1>>
+	<<set _pieces += 1>>
+	<<set _sexyTotal += $PC.clothes.lower[2]>>
+	<<set _formTotal += $PC.clothes.lower[3]>>
+	<<set _exp[1] = $PC.clothes.lower[4]>>
+	<<if $PC.clothes.lower[4] > 2.5>>
+		<<set _mult = $PC.clothes.lower[4] - 2.5>>
+		<<set _mult = Math.round(_mult * 40)>>
+		<<set _mult /= 100>>
+		<<set _botATR = Math.trunc(_mult * $PC.body.topATR)>>
+		<<set _sexyTotal += Math.trunc(_mult * 4)>>
+		<<set _botATR += $PC.clothes.lower[1]>>
+	<<else>>
+		<<set _botATR = $PC.clothes.lower[1]>>
+	<</if>>
+<<else>>
+	<<set _botLayers = 2>>
+	<<set _pieces += 2>>
+	<<set _sexyTotal += $PC.clothes.lower[2]>>
+	<<set _formTotal += $PC.clothes.lower[3]>>
+	<<set _exp[1] = $PC.clothes.lower[4]>>
+	<<if _exp[1] > $PC.clothes.panties[4]>><<set _exp[1] = $PC.clothes.panties[4]>><</if>>
+	<<if $PC.clothes.lower[4] > 2.5>>
+		<<set _mult = $PC.clothes.lower[4] - 2.5>>
+		<<set _mult = Math.round(_mult * 40)>>
+		<<set _mult /= 100>>
+		<<set _botATR = Math.trunc(_mult * $PC.clothes.panties[1])>>
+		<<set _sexyTotal += Math.trunc(_mult * $PC.clothes.panties[2])>>
+		<<set _botATR += $PC.clothes.lower[1]>>
+	<<else>>
+		<<set _botATR = $PC.clothes.lower[1]>>
+	<</if>>
+<</if>>
+	<<set _layers = 0>>
+<<if _topLayers > 0>>
+	<<set _layers += 1>>
+<</if>>
+<<if _botLayers > 0>>
+	<<set _layers += 1>>
+<</if>>
+<<if $PC.clothes.leg[12] != -1>>
+	<<if _layers == 0>>
+		<<set _sexyTotal += Math.trunc($PC.clothes.leg[2]/3)>>
+		<<set _botATR += Math.trunc($PC.clothes.leg[1]/2)>>
+	<<elseif _layers == 1>>
+		<<set _sexyTotal += Math.trunc($PC.clothes.leg[2]/2)>>
+		<<set _botATR += Math.trunc($PC.clothes.leg[1]/2)>>
+	<<else>>
+		<<set _sexyTotal += $PC.clothes.leg[2]>>
+		<<set _botATR += $PC.clothes.leg[1]>>
+	<</if>>
+	<<set _layers += 1>>
+	<<set _formTotal += $PC.clothes.leg[3]>>	
+	<<if _exp[1] > $PC.clothes.leg[4]>><<set _exp[1] = $PC.clothes.leg[4]>><</if>>
+<</if>>
+<<if _layers > 0>>
+	<<set _formal = Math.round(_formTotal / _layers)>>
+	<<set _sexy = Math.round(_sexyTotal / _layers)>>
+<<else>>
+	<<set _formal = Math.round(_formTotal)>>
+	<<set _sexy = Math.round(_formTotal)>>
+<</if>>
+<<if $PC.clothes.dress>>
+	<<set _topATR = Math.trunc(_topATR / 2)>>
+<</if>>
+<<set $PC.clothes.atr = Math.round(_topATR + _botATR)>>
+<<if $PC.clothes.coordOver>>
+	<<set $PC.clothes.atr += 2>>
+<</if>>
+<<if $PC.clothes.coordUnder>>
+	<<set $PC.clothes.atr += 1>>
+<</if>>
+<<set $PC.clothes.exp = _exp>>
+<<if _formal >= 7>>
+	<<set $PC.clothes.form = "black tie">>
+	<<set $PC.clothes.formCode = 3>>
+<<elseif _formal >= 5>>
+	<<set $PC.clothes.form = "formal">>
+	<<set $PC.clothes.formCode = 2>>
+<<elseif _formal >= 3>>
+	<<set $PC.clothes.form = "semi-formal">>
+	<<set $PC.clothes.formCode = 1>>
+<<elseif _formal <= -4>>
+	<<set $PC.clothes.form = "very casual">>
+	<<set $PC.clothes.formCode = -2>>
+<<elseif _formal <= -1>>
+	<<set $PC.clothes.form = "casual">>
+	<<set $PC.clothes.formCode = -1>>
+<<else>>
+	<<set $PC.clothes.form = "dressy">>
+	<<set $PC.clothes.formCode = 0>>
+<</if>>
+<<if _sexy >= 8>>
+	<<set $PC.clothes.sex = "slutty">>
+	<<set $PC.clothes.sexCode = 3>>
+<<elseif _sexy >= 5>>
+	<<set $PC.clothes.sex = "super-sexy">>
+	<<set $PC.clothes.sexCode = 2>>
+<<elseif _sexy >= 3>>
+	<<set $PC.clothes.sex = "sexy">>
+	<<set $PC.clothes.sexCode = 1>>
+<<elseif _sexy <= -4>>
+	<<set $PC.clothes.sex = "very cute">>
+	<<set $PC.clothes.sexCode = -2>>
+<<elseif _sexy <= -1>>
+	<<set $PC.clothes.sex = "cute">>
+	<<set $PC.clothes.sexCode = -1>>
+<<else>>
+	<<set $PC.clothes.sex = "normal">>
+	<<set $PC.clothes.sexCode = 0>>
+<</if>>
+<</widget>>
+
+<<widget "calcClothingStatus">>
+
+<</widget>>

@@ -1,405 +1,406 @@
-:: variableInit [nobr]
+:: variableInit [nobr startpage]
 
-<<nobr>>
-<<LoadingText>>
-<<silently>>
+
+<<procS "varInit">>
 <<set $showNewGame = false>>
 <<set $location = "Initializing Variables">>
-
-/*PC PLAYER MAIN VARIABLES*/
+/***********************************************************************************/
+/*              PLAYER CHARACTER OBJECT                                            */
+/***********************************************************************************/
 <<set $PC = {}>>
-<<set $PC.ageOriginal = 30>> /*Age before transformation, variable exists for alternate starts.*/
-<<set $PC.age = 18>> /*Age in years - Appearance only*/
-<<set $PC.ageID = 21>>
-<<set $PC.name = either("Alice","Beth","Carla","Diane","Fiona","Genevieve","Holly","Joan","Kelly","Leah","Melissa","Naomi","Ophelia","Polly","Rachael","Samantha","Theresa","Violet","Wendy","Zoe")>> /*limited name list*/
-<<set $PC.surname = either("Smith","Jones","Thompson","Williams","Drumph","Hayes","Miller","Simpson","MacDonald","Murphy","Young","David","Nevels","North")>>
-<<set $PC.background = "homeless">>
-<<set $PC.race = "white">>
-<<set $PC.skinColor = "tanned">>
-<<set $PC.tone = 3>> /*Muscles-Tone-Overall Health, 0-resvd, 1-frail, 2-weak, 3-normal, 4-toned, 5-muscular, 6-bodybuilder*/
-<<set $PC.weight = 3>> /*fatness, 0-resvd, 1-anorexic, 2-thin, 3-normal, 4-plush, 5-chubby 6-fat*/
-<<set $PC.shoulders = 3>> /*Width of Shoulder - 1-V-Narrow, 2-Narrow, 3-Average, 4-Broad, 5-V-Broad*/
-<<set $PC.hips = 4>> /*Width of Hips - 1-V-Narrow, 2-Narrow, 3-Average, 4-Broad, 5-V-Broad, 6-Broodmother*/
-<<set $PC.waist = 3>> /*comparative size of waist - 1-straight, 2-masculine, 3-curvy, 4-hourglass*/
-<<set $PC.height = 68>> /*height in inches*/
-<<set $PC.ass = 3>> /*Size of Butt - 1-practically none, 2-small, 3-normal, 4-large, 5-huge, 6-ridiculous*/
-<<set $PC.tits = {}>>
-<<set $PC.tits.size = 740>>
-<<set $PC.tits.shape = "perky">>
-<<set $PC.tits.nipple = "normal">> /*normal, large, puffy, partially inverted, inverted,cow teat*/
-<<set $PC.tits.band = 34>>
-<<set $PC.tits.cupNum = 16>>
-<<set $PC.tits.cupRaw = 16>>
-<<set $PC.tits.cup = "E-cup">>
-<<set $PC.tits.bra = "34E">>
-<<set $PC.pussy = 0>> /*Looseness of Pussy - 0-virgin, 1-Tight, 2-average, 3-little loose, 4-very loose, 5-gaping, 6-useless*/
-<<set $PC.asshole = 0>>
-<<set $PC.clit = 2>> /*Size of Clit - 1 = small, 2 = normal, 3 = big, 4-huge, 5-futa*/
-<<set $PC.labia = 2>>
-<<set $PC.beauty = 3>> /*1-ugly 3-avg 5-gorgeous*/
-<<set $PC.face = "normal">> /*normal, sensual, exotic, cute, androgynous*/
-<<set $PC.eyeColor = "brown">>
-<<set $PC.wetness = 2>> /*how naturally wet the vag is, 1-dry, 2-norm, 3-wet, 4-dripping 5-flooding*/
-<<set $PC.fertility = 3>>/*fertility status. 0-totally infertile no preg at all, 1= IUD, 2-low, 3-Normal, 4-High, 5-Super, 6-ULTRA*/
-<<set $PC.egg = 3>>
-<<set $PC.implant = 3>>
-<<set $PC.hostile = 3>>
-<<set $PC.period = 5>>
-<<set $PC.multEgg = 3>>
-<<set $PC.barren = false>>
-<<set $PC.IUD = false>>
-<<set $PC.Fflag = ["none"]>>
-<<set $PC.bd = [5,2,6,1999]>>
-<<set $PC.pregTerm = 38>> /*normal time to give birth*/
-<<set $PC.lactation = 2>> /*lactating production - 1-leaks a little, 2-normal, 3-productive, 4-cow*/
-<<set $PC.orgasm = 25>> /*threshold for reaching orgasm*/
-<<set $PC.energy = 10>> /*max energy based on athletic*/
-<<set $PC.topATR = 5>>
-<<set $PC.botATR = 5>>
-<<set $PC.ATR = 10>>
+/***********************************************************************************/
+/*              PC MAIN VARIABLES  $PC.main                                        */
+/***********************************************************************************/
+<<set $PC.main = {}>>
+<<set $PC.main.ageOriginal = 30>> /*Age before transformation, variable exists for alternate starts.*/
+<<set $PC.main.age = 21>> /*Age in years - Appearance only*/
+<<set $PC.main.ageID = 21>>
+<<set $PC.main.name = either("Alice","Beth","Carla","Diane","Fiona","Genevieve","Holly","Joan","Kelly","Leah","Melissa","Naomi","Ophelia","Polly","Rachael","Samantha","Theresa","Violet","Wendy","Zoe")>> /*limited name list*/
+<<set $PC.main.surname = either("Smith","Jones","Thompson","Williams","Drumph","Hayes","Miller","Simpson","MacDonald","Murphy","Young","David","Nevels","North")>>
+<<set $PC.main.background = "homeless">>
+<<set $PC.main.bd = [5,2,6,2002]>>
+
+/***********************************************************************************/
+/*              PC BODY VARIABLES  $PC.body                                        */
+/***********************************************************************************/
+<<set $PC.body = {}>>
+<<set $PC.body.race = "white">>
+<<set $PC.body.skinColor = "tanned">>
+<<set $PC.body.tone = 3>> /*Muscles-Tone-Overall Health, 0-resvd, 1-frail, 2-weak, 3-normal, 4-toned, 5-muscular, 6-bodybuilder*/
+<<set $PC.body.weight = 3>> /*fatness, 0-resvd, 1-anorexic, 2-thin, 3-normal, 4-plush, 5-chubby 6-fat*/
+<<set $PC.body.shoulders = 3>> /*Width of Shoulder - 1-V-Narrow, 2-Narrow, 3-Average, 4-Broad, 5-V-Broad*/
+<<set $PC.body.hips = 4>> /*Width of Hips - 1-V-Narrow, 2-Narrow, 3-Average, 4-Broad, 5-V-Broad, 6-Broodmother*/
+<<set $PC.body.waist = 3>> /*comparative size of waist - 1-straight, 2-masculine, 3-curvy, 4-hourglass*/
+<<set $PC.body.height = 68>> /*height in inches*/
+<<set $PC.body.ass = 3>> /*Size of Butt - 1-practically none, 2-small, 3-normal, 4-large, 5-huge, 6-ridiculous*/
+<<set $PC.body.tits = {}>>
+<<set $PC.body.tits.size = 740>>
+<<set $PC.body.tits.shape = "perky">>
+<<set $PC.body.tits.nipple = "normal">> /*normal, large, puffy, partially inverted, inverted,cow teat*/
+<<set $PC.body.tits.band = 34>>
+<<set $PC.body.tits.cupNum = 16>>
+<<set $PC.body.tits.cupRaw = 16>>
+<<set $PC.body.tits.cup = "E-cup">>
+<<set $PC.body.tits.bra = "34E">>
+<<set $PC.body.pussy = {tight:0,stretch:0,virgin:true,time:0}>> /*Looseness of Pussy - 0-virginal, 1-2:Tight, 3-5:average, 6-little loose, 8-very loose, 9-gaping, 12-useless*/
+<<set $PC.body.asshole = {tight:0,stretch:0,virgin:true,time:0}>>
+<<set $PC.body.clit = 2>> /*Size of Clit - 1 = small, 2 = normal, 3 = big, 4-huge, 5-futa*/
+<<set $PC.body.labia = 2>>
+<<set $PC.body.beauty = 3>> /*1-ugly 3-avg 5-gorgeous*/
+<<set $PC.body.face = "normal">> /*normal, sensual, exotic, cute, androgynous*/
+<<set $PC.body.eyeColor = "brown">>
+<<set $PC.body.wetness = 2>> /*how naturally wet the vag is, 1-dry, 2-norm, 3-wet, 4-dripping 5-flooding*/
+<<set $PC.body.lactation = 2>> /*lactating production - 1-leaks a little, 2-normal, 3-productive, 4-cow*/
+<<set $PC.body.orgasm = 25>> /*threshold for reaching orgasm*/
+<<set $PC.body.energy = 10>> /*max energy based on athletic*/
+<<set $PC.body.topATR = 5>>
+<<set $PC.body.botATR = 5>>
+<<set $PC.body.ATR = 10>>
+
+/***********************************************************************************/
+/*              PC FERTILITY VARIABLES  $PC.fert                                   */
+/***********************************************************************************/
+/*fertility status. 0-totally infertile no preg at all, 1= IUD, 2-low, 3-Normal, 4-High, 5-Super, 6-ULTRA*/
+<<set $PC.fert = {}>>
+<<set $PC.fert.fertility = 3>>
+<<set $PC.fert.egg = 3>>
+<<set $PC.fert.implant = 3>>
+<<set $PC.fert.vagHostile = 3>>
+<<set $PC.fert.period = 5>>
+<<set $PC.fert.wombHealth = 0>>
+<<set $PC.fert.multEgg = 3>>
+<<set $PC.fert.barren = false>>
+<<set $PC.fert.IUD = false>>
+<<set $PC.fert.Fflag = ["none"]>>
+<<set $PC.body.pregTerm = 38>> /*normal time to give birth*/
+
+/***********************************************************************************/
+/*              PC MUTATION VARIABLES  $PC.mutate                                  */
+/***********************************************************************************/
+<<set $PC.mutate = {}>>
+<<set $PC.mutate.milk = false>>
+<<set $PC.mutate.acid = false>>
+<<set $PC.mutate.birthCon = false>>
+<<set $PC.mutate.multiple = false>>
+<<set $PC.mutate.gestate = false>>
+<<set $PC.mutate.cycle = false>>
+<<set $PC.mutate.twinWomb = false>>
+<<set $PC.mutate.phero = false>>
+<<set $PC.mutate.period = false>>
+<<set $PC.mutate.immune = false>>
+<<set $PC.mutate.mouth = false>>
+<<set $PC.mutate.contort = false>>
+<<set $PC.mutate.cumpire = false>>
+<<set $PC.mutate.pseudoPreg = false>>
+<<set $PC.mutate.elastic = false>>
+<<set $PC.mutate.litePhero = false>>
+
+/***********************************************************************************/
+/*              PC WORN CLOTHING VARIABLES  $PC.clothes                            */
+/***********************************************************************************/
+
 
 /*WORN CLOTHING! ~~~~~~~~~~~~~~~~~~~~~*/
-<<set $pcClothes = {}>>
+<<set $PC.clothes = {}>>
 /*clothes-0name-1atr-2sex-3form-4exp-5statuscode-6style-7substyle-8fabric-9color-10store-11price-12typecode*/
-<<set $pcClothes.leg = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,-1]>>
-<<set $pcClothes.panties = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,-1]>>
-<<set $pcClothes.lower = ["Thin Pajama Pants (Lilac)",1,-1,-5,1,0,0,0,0,0,"Lily",0,"N"]>>
-<<set $pcClothes.bra = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,-1]>>
-<<set $pcClothes.upper = ["Thin Pajama Top (Lilac)",1,-1,-5,1,0,0,0,0,0,"Lily",0,"N"]>>
-<<set $pcClothes.over = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,-1]>>
-<<set $pcClothes.accA = ["none",0,0,0,0,0]>>
-<<set $pcClothes.accB = ["none",0,0,0,0,0]>>
-<<set $pcClothes.accC = ["none",0,0,0,0,0]>>
-<<set $pcClothes.accD = ["none",0,0,0,0,0]>>
-<<set $pcClothes.bag = ["none",0,0,0,0,0]>>
-<<set $pcClothes.coordOver = true>>
-<<set $pcClothes.coordUnder = false>>
-<<set $pcClothes.dress = false>>
-<<set $pcClothes.nite = true>>
-<<set $pcClothes.ath = false>>
-<<set $pcClothes.swim = false>>
-<<set $pcClothes.atr = 2>>
-<<set $pcClothes.sex = "cute">>
-<<set $pcClothes.sexCode = -1>>
-<<set $pcClothes.form = "casual">>
-<<set $pcClothes.formCode = -1>>
-<<set $pcClothes.exp = [2,1]>>
-<<set $pcClothes.pussy = false>>
-<<set $pcClothes.ass = false>>
-<<set $pcClothes.nips = false>>
-<<set $pcClothes.face = false>>
-<<set $pcClothes.head = false>>
-<<set $pcClothes.accessO = false>>
-<<set $pcClothes.accessP = false>>
-<<set $pcClothes.accessB = false>>
-<<set $pcClothes.skirtDanger = 0>>
-<<set $pcClothes.statATR = 0>>
-<<set $pcClothes.statSex = 0>>
-<<set $pcClothes.statForm = 0>>
-<<set $pcClothes.wet = false>>
-<<set $pcClothes.stain = false>>
+<<set $PC.clothes.leg = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,-1]>>
+<<set $PC.clothes.panties = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,-1]>>
+<<set $PC.clothes.lower = ["Thin Pajama Pants (Lilac)",1,-1,-5,1,0,0,0,0,0,"Lily",0,"N"]>>
+<<set $PC.clothes.bra = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,-1]>>
+<<set $PC.clothes.upper = ["Thin Pajama Top (Lilac)",1,-1,-5,1,0,0,0,0,0,"Lily",0,"N"]>>
+<<set $PC.clothes.over = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,-1]>>
+<<set $PC.clothes.accA = ["none",0,0,0,0,0]>>
+<<set $PC.clothes.accB = ["none",0,0,0,0,0]>>
+<<set $PC.clothes.accC = ["none",0,0,0,0,0]>>
+<<set $PC.clothes.accD = ["none",0,0,0,0,0]>>
+<<set $PC.clothes.bag = ["none",0,0,0,0,0]>>
+<<set $PC.clothes.coordOver = true>>
+<<set $PC.clothes.coordUnder = false>>
+<<set $PC.clothes.dress = false>>
+<<set $PC.clothes.nite = true>>
+<<set $PC.clothes.ath = false>>
+<<set $PC.clothes.swim = false>>
+<<set $PC.clothes.atr = 2>>
+<<set $PC.clothes.sex = "cute">>
+<<set $PC.clothes.sexCode = -1>>
+<<set $PC.clothes.form = "casual">>
+<<set $PC.clothes.formCode = -1>>
+<<set $PC.clothes.exp = [2,1]>>
+<<set $PC.clothes.pussy = false>>
+<<set $PC.clothes.ass = false>>
+<<set $PC.clothes.nips = false>>
+<<set $PC.clothes.face = false>>
+<<set $PC.clothes.head = false>>
+<<set $PC.clothes.accessO = false>>
+<<set $PC.clothes.accessP = false>>
+<<set $PC.clothes.accessB = false>>
+<<set $PC.clothes.skirtDanger = 0>>
+<<set $PC.clothes.statATR = 0>>
+<<set $PC.clothes.statSex = 0>>
+<<set $PC.clothes.statForm = 0>>
+<<set $PC.clothes.wet = false>>
+<<set $PC.clothes.stain = false>>
 
+/***********************************************************************************/
+/*              PC STATUS VARIABLES  $PC.status                                    */
+/***********************************************************************************/
+<<set $PC.status = {}>>
+<<set $PC.status.birthCon = 0>> /*0 = none, 1-99 = percent effectiveness*/
+<<set $PC.status.birthConType = "none">> /*text type*/
+<<set $PC.status.knowBCineffective =false>>
+<<set $PC.status.BCineffective = false>>
+<<set $PC.status.alcohol = 0>> /*level of intoxication*/
+<<set $PC.status.drugs = 0>> /*level of intoxication 0-5*/
+<<set $PC.status.cycle = 1>> /*week of menstral cycle*/
+<<set $PC.status.fertText = "unset">>
+<<set $PC.status.risk = 0>> /*level of  risk for pregnancy based on cycle - 0 = no risk, 1 = very low, 2 = low, 3 = moderate, 4 = pre ovulation, 5 = ovulation day*/
+<<set $PC.status.pregA = 0>>
+<<set $PC.status.pregB = 0>>
+<<set $PC.status.wombAcount = 0>>
+<<set $PC.status.wombBcount = 0>>
+<<set $PC.status.period = 0>> /*0 = no period, 1= light, 2 = mdt, 3 = heavy*/
+<<set $PC.status.milk = 0>> /*Actual milk production, 0 = not lactating*/
+<<set $PC.status.milkStore = 0>>/*in ml*/
+<<set $PC.status.arousal = 0>> /*how turned on the PC is, 0 = not at all, negative = repulsed, 1-little, 2-moderate, 3-strong, 4-desperate*/
+<<set $PC.status.pleasure = 0>> /*counter for reaching orgasm*/
+<<set $PC.status.need = 0>> /*denotes player's need for cock from time without, reset when satisfaction is full*/
+<<set $PC.status.satisfaction = random(45,55)>>/*0-100 scale rating satisfaction from sexual encounters during the week. lost if doesn't cum, 100 - satisfied*/
+<<set $PC.status.ATR = 0>>
+<<set $PC.status.stress = random(45,50)>> /*0-100 scale for stress, going over 70 causes negative effects.*/
+<<set $PC.status.happy = 2>> /*happiness, negative is depression, 10 is blissful*/
+<<set $PC.status.anger = 0>> /*anger, 0 is not angry, 10 is in a murderous rage*/
+<<set $PC.status.lonely = 20>> /*0-100 loneliness*/
+<<set $PC.status.fatigue = 3>> /*determines player's current energy level or sleepiness. 0 to 10 scale where 10 is dead tired*/
+<<set $PC.status.sleep = false>> /*flag to indicate player is asleep. Allows correct status display during dreams*/
+<<set $PC.status.health = random(94,98)>>
+<<set $PC.status.healthOld = $PC.status.health>>
+<<set $PC.status.will = 3>> /*effective willpower for widget use to speed up willpower checks*/
+<<set $PC.status.knowPregA = false>>
+<<set $PC.status.knowPregB = false>>
+<<set $PC.status.overAnger = false>>
+<<set $PC.status.overStress = false>>
+<<set $PC.status.overDepress = false>>
+<<set $PC.status.underSatisfy = 0>>
+<<set $PC.status.addict = {}>>
+<<set $PC.status.addict.sex = 0>>
+<<set $PC.status.addict.alc = 0>>
+<<set $PC.status.addict.heat = 0>>
+<<set $PC.status.addict.satyr = 0>>
+<<set $PC.status.addict.focus = 0>>
+<<set $PC.status.addict.cum = 0>>
+<<set $PC.status.addict.zone = 0>>
+<<set $PC.status.addict.cream = 0>>
+<<set $PC.status.addict.sexNeed = 0>>
+<<set $PC.status.addict.alcNeed = 0>>
+<<set $PC.status.addict.heatNeed = 0>>
+<<set $PC.status.addict.satyrNeed = 0>>
+<<set $PC.status.addict.focusNeed = 0>>
+<<set $PC.status.addict.cumNeed = 0>>
+<<set $PC.status.addict.zoneNeed = 0>>
+<<set $PC.status.addict.creamNeed = 0>>
+<<set $PC.status.addict.max = 0>>
+<<set $PC.status.jonesing = 0>>
+<<set $PC.status.withdrawl = false>>
+<<set $PC.status.energy = {}>>
+<<set $PC.status.energy.amt = 7>>
+<<set $PC.status.energy.rate = 8>>
+<<set $PC.status.energy.regen = true>>
+<<set $PC.status.kids = 0>>
+<<set $PC.status.morality = 0>>
+<<set $PC.status.perversion = 0>>
+<<set $PC.status.clean = 1>>
+<<set $PC.status.bimbo = 0>>
+<<set $PC.status.inPublic = false>>
+<<set $PC.status.injury = ["none"]>>
+<<set $PC.status.disease = ["none"]>>
+<<set $PC.status.mindbreak = false>>
 
-/*PC STATUS ~~~~~~~~~~~~~~~~~~~~~*/
-<<set $status = {}>>
-<<set $status.birthCon = 0>> /*0 = none, 1-99 = percent effectiveness*/
-<<set $status.birthConType = "none">> /*text type*/
-<<set $status.knowBCineffective =false>>
-<<set $status.BCineffective = false>>
-<<set $status.alcohol = 0>> /*level of intoxication*/
-<<set $status.drugs = 0>> /*level of intoxication 0-5*/
-<<set $status.cycle = 1>> /*week of menstral cycle*/
-<<set $status.fertText = "unset">>
-<<set $status.risk = 0>> /*level of  risk for pregnancy based on cycle - 0 = no risk, 1 = very low, 2 = low, 3 = moderate, 4 = pre ovulation, 5 = ovulation day*/
-<<set $status.pregA = 0>>
-<<set $status.pregB = 0>>
-<<set $status.wombAcount = 0>>
-<<set $status.wombBcount = 0>>
-<<set $status.period = 0>> /*0 = no period, 1= light, 2 = mdt, 3 = heavy*/
-<<set $status.milk = 0>> /*Actual milk production, 0 = not lactating*/
-<<set $status.milkStore = 0>>/*in ml*/
-<<set $status.arousal = 0>> /*how turned on the PC is, 0 = not at all, negative = repulsed, 1-little, 2-moderate, 3-strong, 4-desperate*/
-<<set $status.pleasure = 0>> /*counter for reaching orgasm*/
-<<set $status.need = 0>> /*denotes player's need for cock from time without, reset when satisfaction is full*/
-<<set $status.satisfaction = random(45,55)>>/*0-100 scale rating satisfaction from sexual encounters during the week. lost if doesn't cum, 100 - satisfied*/
-<<set $status.ATR = 0>>
-<<set $status.stress = random(45,50)>> /*0-100 scale for stress, going over 70 causes negative effects.*/
-<<set $status.happy = 2>> /*happiness, negative is depression, 10 is blissful*/
-<<set $status.anger = 0>> /*anger, 0 is not angry, 10 is in a murderous rage*/
-<<set $status.lonely = 20>> /*0-100 loneliness*/
-<<set $status.fatigue = 3>> /*determines player's current energy level or sleepiness. 0 to 10 scale where 10 is dead tired*/
-<<set $status.sleep = false>> /*flag to indicate player is asleep. Allows correct status display during dreams*/
-<<set $status.health = random(94,98)>>
-<<set $status.healthOld = $status.health>>
-<<set $status.will = 3>> /*effective willpower for widget use to speed up willpower checks*/
-<<set $status.knowPregA = false>>
-<<set $status.knowPregB = false>>
-<<set $status.overAnger = false>>
-<<set $status.overStress = false>>
-<<set $status.overDepress = false>>
-<<set $status.underSatisfy = 0>>
-<<set $status.addictSex = 0>>
-<<set $status.addictAlc = 0>>
-<<set $status.addictHeat = 0>>
-<<set $status.addictSatyr = 0>>
-<<set $status.addictFocus = 0>>
-<<set $status.addictCum = 0>>
-<<set $status.addictZone = 0>>
-<<set $status.addictCream = 0>>
-<<set $status.addictSexNeed = 0>>
-<<set $status.addictAlcNeed = 0>>
-<<set $status.addictHeatNeed = 0>>
-<<set $status.addictSatyrNeed = 0>>
-<<set $status.addictFocusNeed = 0>>
-<<set $status.addictCumNeed = 0>>
-<<set $status.addictZoneNeed = 0>>
-<<set $status.addictCreamNeed = 0>>
-<<set $status.addictMax = 0>>
-<<set $status.jonesing = 0>>
-<<set $status.withdrawl = false>>
-<<set $status.energy = 7>>
-<<set $status.energyRate = 8>>
-<<set $status.energyRegen = true>>
-<<set $status.kids = 0>>
-<<set $status.morality = 0>>
-<<set $status.perversion = 0>>
-<<set $status.clean = 1>>
-<<set $status.bimbo = 0>>
-<<set $status.inPublic = false>>
-<<set $status.injury = ["none"]>>
-<<set $status.disease = ["none"]>>
-/*PREFERENCES ~~~~~~~~~~~~~~~~~~~~~*/
-<<set $pref = {}>>
-<<set $pref.weight = [-2,-1,1,0,-1,-2]>>
-<<set $pref.muscle = [-2,-1,0,2,1,0]>>
-<<set $pref.height = [-2,-1,0,1,-1,"no mod"]>>
-<<set $pref.other = [-1,1,0,1,-1,1,-1,1,1,-1]>>
-<<set $pref.Fweight = [-2,-1,1,1,-1,-2]>>
-<<set $pref.Fmuscle = [-2,0,1,2,-1,-2]>>
-<<set $pref.Fheight = [0,1,2,0,-2,"no mod"]>>
-<<set $pref.Fother = [1,-1,1,-1,1,-1,1,1,1,1,-1]>>
-<<set $pref.fapmode = false>>
-/*kink gates*/
-<<set $pref.anal = true>>
-<<set $pref.bestiality = false>>
-<<set $pref.bdsm = true>>
-<<set $pref.bondage = true>>
-<<set $pref.bukkake = true>>
-<<set $pref.choking = true>>
-<<set $pref.cbt = false>>
-<<set $pref.collar = true>>
-<<set $pref.connoncon = true>>
-<<set $pref.domsub = true>>
-/*10*/
-<<set $pref.enema = true>>
-<<set $pref.fisting = false>>
-<<set $pref.furry = false>>
-<<set $pref.gaping = true>>
-<<set $pref.group = true>>
-<<set $pref.impact = true>>
-<<set $pref.sadomasochism = true>>
-<<set $pref.masterslave = true>>
-<<set $pref.medical = true>>
-<<set $pref.noncon = true>>
-/*20*/
-<<set $pref.petplay = true>>
-<<set $pref.rape = false>>
-<<set $pref.religion = true>>
-<<set $pref.rough = true>>
-<<set $pref.scat = false>>
-<<set $pref.shibari = true>>
-<<set $pref.sounding = false>>
-<<set $pref.torture = false>>
-<<set $pref.vore = false>>
-<<set $pref.waterworks = true>>
+/***********************************************************************************/
+/*              PC BODY CONDITION VARIABLES  $PC.cond                              */
+/***********************************************************************************/
+<<set $PC.cond = {}>>
+<<set $PC.cond.Hair = [1,"A","A"]>>
+<<set $PC.cond.Face = [1,"A","A"]>>
+<<set $PC.cond.Chest = [1,"A","A"]>>
+<<set $PC.cond.Back = [1,"A","A"]>>
+<<set $PC.cond.Hands = [1,"A","A"]>>
+<<set $PC.cond.Stomach = [1,"A","A"]>>
+<<set $PC.cond.Butt = [1,"A","A"]>>
+<<set $PC.cond.Pubis = [1,"A","A"]>>
+<<set $PC.cond.Vagina = [1,"A","A"]>>
+<<set $PC.cond.VagFluid = 0>>
+<<set $PC.cond.Anus = [1,"A","A"]>>
+<<set $PC.cond.AnusFluid = 0>>
+<<set $PC.cond.Legs = [1,"A","A"]>>
+<<set $PC.cond.Feet = [1,"A","A"]>>
 
-
+/***********************************************************************************/
+/*              PC PERSONALITY VARIABLES  $PC.trait                                */
+/***********************************************************************************/
 /*PERSONALITY TRAITS ~~~~~~~~~~~~~~~~~~~~~*/
-<<set $trait = {} >>
-<<set $trait.IE = "neither">>
-<<set $trait.IN = false>>
-<<set $trait.EX = false>>
-<<set $trait.OC = "neither">>
-<<set $trait.OP = false>>
-<<set $trait.CL = false>>
-<<set $trait.will = 3>>
-<<set $trait.libido = 3>> /*1  vlow, 3-norm, 5-vhigh*/
-<<set $trait.Caring = 0>> /*uncaring*/
-<<set $trait.Bitch = 0>> /*kind*/
-<<set $trait.Maternal = 0>> /*hateskids*/
-<<set $trait.Romantic = 0>> /*aromantic*/
-<<set $trait.Deceptive = 0>> /*honest*/
-<<set $trait.Devious = 0>> /*straightforward*/
-<<set $trait.Persuasive = 0>> /*follower*/
-<<set $trait.Perceptive = 0>> /*oblivious*/
-<<set $trait.Forgetful = 0>> /*good memory*/
-<<set $trait.Forgiving = 0>> /*vengeful*/
-<<set $trait.LowEsteem = 0>> /*narsisistic*/
-<<set $trait.Picky = 0>> /*low standards*/
-<<set $trait.Crude = 0>> /*refined*/
-<<set $trait.Friendly = 0>> /*unfriendly*/
-<<set $trait.Approachable = 0>> /*unapproachable*/
-<<set $trait.Relaxed = 0>> /*ambitious*/
-<<set $trait.Flirty = 0>> /*shy*/
-<<set $trait.Materialist = 0>>
+<<set $PC.trait = {} >>
+<<set $PC.trait.vert = "neither">>
+<<set $PC.trait.intro = false>>
+<<set $PC.trait.extro = false>>
+<<set $PC.trait.open = "neither">>
+<<set $PC.trait.op = false>>
+<<set $PC.trait.cl = false>>
+<<set $PC.trait.will = 3>>
+<<set $PC.trait.libido = 3>> /*1  vlow, 3-norm, 5-vhigh*/
+<<set $PC.trait.caring = 0>> /*uncaring*/
+<<set $PC.trait.bitch = 0>> /*kind*/
+<<set $PC.trait.maternal = 0>> /*hateskids*/
+<<set $PC.trait.romantic = 0>> /*aromantic*/
+<<set $PC.trait.deceptive = 0>> /*honest*/
+<<set $PC.trait.devious = 0>> /*straightforward*/
+<<set $PC.trait.persuasive = 0>> /*follower*/
+<<set $PC.trait.perceptive = 0>> /*oblivious*/
+<<set $PC.trait.forgetful = 0>> /*good memory*/
+<<set $PC.trait.forgiving = 0>> /*vengeful*/
+<<set $PC.trait.lowEsteem = 0>> /*narsisistic*/
+<<set $PC.trait.picky = 0>> /*low standards*/
+<<set $PC.trait.crude = 0>> /*refined*/
+<<set $PC.trait.friendly = 0>> /*unfriendly*/
+<<set $PC.trait.approachable = 0>> /*unapproachable*/
+<<set $PC.trait.relaxed = 0>> /*ambitious*/
+<<set $PC.trait.flirty = 0>> /*shy*/
+<<set $PC.trait.materialist = 0>>
 
-/*TEENAGE MUTANT NINJA TURTLES ~~~~~~~~~~~~~~~~~~~~~*/
-<<set $mutate = {}>>
-<<set $mutate.Milk = false>>
-<<set $mutate.Acid = false>>
-<<set $mutate.BC = false>>
-<<set $mutate.Multiple = false>>
-<<set $mutate.Gestate = false>>
-<<set $mutate.Cycle = false>>
-<<set $mutate.TwinWomb = false>>
-<<set $mutate.Pheromone = false>>
-<<set $mutate.Period = false>>
-<<set $mutate.Immune = false>>
-<<set $mutate.Mouth = false>>
-<<set $mutate.Contort = false>>
-<<set $mutate.Cumpire = false>>
-<<set $mutate.PseudoPreg = false>>
-<<set $mutate.Elastic = false>>
-<<set $mutate.LitePhero = false>>
+/***********************************************************************************/
+/*              PC PERSONA VARIABLES  $PC.persona                                  */
+/***********************************************************************************/
+<<set $PC.persona = {}>>
+<<set $PC.persona.type = "normal">>
+<<set $PC.persona.bCon = 0>>
+<<set $PC.persona.mentionFertile = false>>
+<<set $PC.persona.fidelity = 0>>
+<<set $PC.persona.sweet = false>>
+<<set $PC.persona.sexy = false>>
+<<set $PC.persona.slutty = false>>
+<<set $PC.persona.lookingFor = "love">>
 
-/*SEXUAL KINKIES AND WHATNOT ~~~~~~~~~~~~~~~~~~~~~*/
-<<set $kink = {}>>
-<<set $kink.Risky = false>>
-<<set $kink.Pregnancy = false>>
-<<set $kink.Sizequeen = false>>
-<<set $kink.Cumslut = false>>
-<<set $kink.Sub = false>>
-<<set $kink.Exhibition = false>>
-<<set $kink.Masochist = false>>
-<<set $kink.Buttslut = false>>
-<<set $kink.Public = false>>
-<<set $kink.Slut = false>>
-<<set $kink.SuperSlut = false>>
-<<set $kink.HyperSlut = false>>
-<<set $kink.Oral = true>>
-<<set $kink.Anal = true>>
-<<set $kink.Force = true>>
-<<set $kink.Rape = false>>
-<<set $kink.Liberate = false>>
-<<set $kink.Easy = false>>
-<<set $kink.Nips = false>>
-<<set $kink.Dom = false>>
-<<set $kink.Water = false>>
-<<set $kink.Bond = false>>
-<<set $kink.Hard = false>>
-<<set $kink.Fap = false>>
-<<set $kink.Shame = false>>
+/***********************************************************************************/
+/*              PC KINK VARIABLES  $PC.kink                                        */
+/***********************************************************************************/
+<<set $PC.kink = {}>>
+<<set $PC.kink.risky = false>>
+<<set $PC.kink.pregnancy = false>>
+<<set $PC.kink.sizequeen = false>>
+<<set $PC.kink.cumSlut = false>>
+<<set $PC.kink.sub = false>>
+<<set $PC.kink.exhibition = false>>
+<<set $PC.kink.masochist = false>>
+<<set $PC.kink.buttSlut = false>>
+<<set $PC.kink.public = false>>
+<<set $PC.kink.slut = false>>
+<<set $PC.kink.superSlut = false>>
+<<set $PC.kink.hyperSlut = false>>
+<<set $PC.kink.oral = true>>
+<<set $PC.kink.anal = true>>
+<<set $PC.kink.force = true>>
+<<set $PC.kink.rape = false>>
+<<set $PC.kink.liberate = false>>
+<<set $PC.kink.easy = false>>
+<<set $PC.kink.nips = false>>
+<<set $PC.kink.dom = false>>
+<<set $PC.kink.water = false>>
+<<set $PC.kink.bond = false>>
+<<set $PC.kink.hard = false>>
+<<set $PC.kink.fap = false>>
+<<set $PC.kink.shame = false>>
 
-/*SKILLS ~~~~~~~~~~~~~~~~~~~~~*/
-<<set $skill = {}>>
-<<set $skill.exhibition = 0>>
-<<set $skill.prostitute = 0>>
-<<set $skill.sex = 0>>
-<<set $skill.oral = 0>>
-<<set $skill.seduction = 0>>
-<<set $skill.comm = 0>>
-<<set $skill.org = 0>>
-<<set $skill.probSolving = 0>>
-<<set $skill.finance = 0>>
-<<set $skill.art = 0>>
-<<set $skill.athletic = 0>>
-<<set $skill.dancing = 0>>
-<<set $skill.clean = 0>>
-<<set $skill.shop = 0>>
-<<set $skill.cook = 10>>
-<<set $SCresult = []>>
-<<set $SCtext = []>>
-/*PERSONA SETTINGS ~~~~~~~~~~~~~~~~~~~~~*/
-<<set $persona = {}>>
-<<set $persona.type = "normal">>
-<<set $persona.bCon = 0>>
-<<set $persona.mentionFertile = false>>
-<<set $persona.fidelity = 0>>
-<<set $persona.sweet = false>>
-<<set $persona.sexy = false>>
-<<set $persona.slutty = false>>
-<<set $persona.lookingFor = "love">>
-/*BODY CONDITION CODES ~~~~~~~~~~~~~~~~~~~~~*/
-<<set $cond = {}>>
-<<set $cond.Hair = [1,"A","A"]>>
-<<set $cond.Face = [1,"A","A"]>>
-<<set $cond.Chest = [1,"A","A"]>>
-<<set $cond.Back = [1,"A","A"]>>
-<<set $cond.Hands = [1,"A","A"]>>
-<<set $cond.Stomach = [1,"A","A"]>>
-<<set $cond.Butt = [1,"A","A"]>>
-<<set $cond.Pubis = [1,"A","A"]>>
-<<set $cond.Vagina = [1,"A","A"]>>
-<<set $cond.VagFluid = 0>>
-<<set $cond.Anus = [1,"A","A"]>>
-<<set $cond.AnusFluid = 0>>
-<<set $cond.Legs = [1,"A","A"]>>
-<<set $cond.Feet = [1,"A","A"]>>
-/*GROOMING Variables ~~~~~~~~~~~~~~~~~~~~~*/
-<<set $groom = {}>>
-<<set $groom.hairLength = 12>> /*HairLength in Inches*/
-<<set $groom.hairColor = "brown">>
-<<set $groom.hairCurl = 1>> /*0-straight 1-slightly wavy 2-wavy 3-very wavy 4-curly 5-very curly 6-kinked*/
-<<set $groom.pubeColor = "black">>
-<<set $groom.pubeStyle = "neatly trimmed">>
-<<set $groom.pubeGrow = 3>>
-<<set $groom.pubeFreq = 3>>
-<<set $groom.pube = 1>>
-<<set $groom.pubeCount = 0>>
-<<set $groom.hairStyle = ["somewhat unkempt",true,6,-3,0,"IMGplaceholder75"]>>
-<<set $groom.hairFlag = 0>>
-<<set $groom.hairDefaultNorm = "unkempt">>
-<<set $groom.hairDefaultFancy = "unkempt">>
-<<set $groom.hairDefaultCasual = "unkempt">>
-<<set $groom.leghair = 1>> /*length 0lazerd, 1none,5fullgrown*/
-<<set $groom.leghairCount = 1>>
-<<set $groom.leghairFreq = 1>>
-<<set $groom.armpit = 1>> /*length 0lazerd, 1none,5fullgrown*/
-<<set $groom.armpitCount = 0>>
-<<set $groom.armpitFreq = 0>>
-<<set $groom.eyeMU = ["none",0,0,5,10,50,0,"IMGnone75"]>>
-<<set $groom.eyeMUdefaultNorm = "none">>
-<<set $groom.eyeMUdefaultFancy = "none">>
-<<set $groom.eyeMUdefaultCasual = "none">>
-<<set $groom.lipMU = ["none",0,0,5,10,50,0,"IMGnone75"]>>/*name,atr,qual,time,dc,thresh,special */
-<<set $groom.lipMUdefaultNorm = "none">>
-<<set $groom.lipMUdefaultFancy = "none">>
-<<set $groom.lipMUdefaultCasual = "none">>
-<<set $groom.genMU = ["none",0,0,5,10,50,0,"IMGnone75"]>>
-<<set $groom.genMUdefaultNorm = "none">>
-<<set $groom.genMUdefaultFancy = "none">>
-<<set $groom.genMUdefaultCasual = "none">>
-<<set $groom.makeupATR = 0>>
-<<set $groom.clownMU = false>>
-<<set $groom.makeup = "is free of makeup.">>
-<<set $groom.makeupT = 0>>
-<<set $groom.facewash = false>>
-<<set $groom.makeupWash = false>>
-<<set $groom.makeupRetry = false>>
-<<set $groom.makeupRetryFail = false>>
-<<set $groom.makeupTimeLimit = 60>>
-<<set $groom.teeth = "natural">>
-<<set $groom.toothHealth = 5>>
-<<set $groom.toothbrush = 1>>
-/*jewelry [worn, name, status]*/
-<<set $groom.jNeck = [true,"none",0,"IMGnone75"]>>
-<<set $groom.jRwrist = [true,"none",0,"IMGnone75"]>>
-<<set $groom.jLwrist = [true,"none",0,"IMGnone75"]>>
-<<set $groom.jRhand = [true,"none",0,"IMGnone75"]>>
-<<set $groom.jLhand = [true,"none",0,"IMGnone75"]>>
-<<set $groom.jNose = [false,"none",0,"IMGnone75"]>>
-<<set $groom.jLip = [false,"none",0,"IMGnone75"]>>
-<<set $groom.jTongue = [false,"none",0,"IMGnone75"]>>
-<<set $groom.jEyebrow = [false,"none",0,"IMGnone75"]>>
-<<set $groom.jEar = [false,"none",0,"IMGnone75"]>>
-<<set $groom.jUpear = [false,"none",0,"IMGnone75"]>>
-<<set $groom.jBelly = [false,"none",0,"IMGnone75"]>>
-<<set $groom.jRnip = [false,"none",0,"IMGnone75"]>>
-<<set $groom.jLnip = [false,"none",0,"IMGnone75"]>>
-<<set $groom.jClit = [false,"none",0,"IMGnone75"]>>
-<<set $groom.jLabia = [false,"none",0,"IMGnone75"]>>
+/***********************************************************************************/
+/*              PC SKILL VARIABLES  $PC.skill                                      */
+/***********************************************************************************/
+<<set $PC.skill = {}>>
+<<set $PC.skill.exhibition = 0>>
+<<set $PC.skill.prostitute = 0>>
+<<set $PC.skill.sex = 0>>
+<<set $PC.skill.oral = 0>>
+<<set $PC.skill.seduction = 0>>
+<<set $PC.skill.comm = 0>>
+<<set $PC.skill.org = 0>>
+<<set $PC.skill.probSolving = 0>>
+<<set $PC.skill.finance = 0>>
+<<set $PC.skill.art = 0>>
+<<set $PC.skill.athletic = 0>>
+<<set $PC.skill.dancing = 0>>
+<<set $PC.skill.clean = 0>>
+<<set $PC.skill.shop = 0>>
+<<set $PC.skill.cook = 10>>
 
-/*JEWELRY ~~~~~~~~~~~~~~~~~~~~~~~~*/
+/***********************************************************************************/
+/*              PC GROOMING VARIABLES  $PC.groom                                   */
+/***********************************************************************************/
+<<set $PC.groom = {}>>
+<<set $PC.groom.hairLength = 12>> /*HairLength in Inches*/
+<<set $PC.groom.hairColor = "brown">>
+<<set $PC.groom.hairCurl = 1>> /*0-straight 1-slightly wavy 2-wavy 3-very wavy 4-curly 5-very curly 6-kinked*/
+<<set $PC.groom.pubeColor = "black">>
+<<set $PC.groom.pubeStyle = "neatly trimmed">>
+<<set $PC.groom.pubeGrow = 3>>
+<<set $PC.groom.pubeFreq = 3>>
+<<set $PC.groom.pube = 1>>
+<<set $PC.groom.pubeCount = 0>>
+<<set $PC.groom.hairStyle = ["somewhat unkempt",true,6,-3,0,"IMGplaceholder75"]>>
+<<set $PC.groom.hairFlag = 0>>
+<<set $PC.groom.hairDefaultNorm = "unkempt">>
+<<set $PC.groom.hairDefaultFancy = "unkempt">>
+<<set $PC.groom.hairDefaultCasual = "unkempt">>
+<<set $PC.groom.leghair = 1>> /*length 0lazerd, 1none,5fullgrown*/
+<<set $PC.groom.leghairCount = 1>>
+<<set $PC.groom.leghairFreq = 1>>
+<<set $PC.groom.armpit = 1>> /*length 0lazerd, 1none,5fullgrown*/
+<<set $PC.groom.armpitCount = 0>>
+<<set $PC.groom.armpitFreq = 0>>
+<<set $PC.groom.eyeMU = ["none",0,0,5,10,50,0,"IMGnone75"]>>
+<<set $PC.groom.eyeMUdefaultNorm = "none">>
+<<set $PC.groom.eyeMUdefaultFancy = "none">>
+<<set $PC.groom.eyeMUdefaultCasual = "none">>
+<<set $PC.groom.lipMU = ["none",0,0,5,10,50,0,"IMGnone75"]>>/*name,atr,qual,time,dc,thresh,special */
+<<set $PC.groom.lipMUdefaultNorm = "none">>
+<<set $PC.groom.lipMUdefaultFancy = "none">>
+<<set $PC.groom.lipMUdefaultCasual = "none">>
+<<set $PC.groom.genMU = ["none",0,0,5,10,50,0,"IMGnone75"]>>
+<<set $PC.groom.genMUdefaultNorm = "none">>
+<<set $PC.groom.genMUdefaultFancy = "none">>
+<<set $PC.groom.genMUdefaultCasual = "none">>
+<<set $PC.groom.makeupATR = 0>>
+<<set $PC.groom.clownMU = false>>
+<<set $PC.groom.makeup = "is free of makeup.">>
+<<set $PC.groom.makeupT = 0>>
+<<set $PC.groom.facewash = false>>
+<<set $PC.groom.makeupWash = false>>
+<<set $PC.groom.makeupRetry = false>>
+<<set $PC.groom.makeupRetryFail = false>>
+<<set $PC.groom.makeupTimeLimit = 60>>
+<<set $PC.groom.teeth = "natural">>
+<<set $PC.groom.toothHealth = 5>>
+<<set $PC.groom.toothbrush = 1>>
+/***********************************************************************************/
+/*              PC WORN JEWELRY VARIABLES  $PC.jewel                               */
+/***********************************************************************************/
+<<set $PC.jewel = {}>>
+<<set $PC.jewel.jNeck = [true,"none",0,"IMGnone75"]>>
+<<set $PC.jewel.jRwrist = [true,"none",0,"IMGnone75"]>>
+<<set $PC.jewel.jLwrist = [true,"none",0,"IMGnone75"]>>
+<<set $PC.jewel.jRhand = [true,"none",0,"IMGnone75"]>>
+<<set $PC.jewel.jLhand = [true,"none",0,"IMGnone75"]>>
+<<set $PC.jewel.jNose = [false,"none",0,"IMGnone75"]>>
+<<set $PC.jewel.jLip = [false,"none",0,"IMGnone75"]>>
+<<set $PC.jewel.jTongue = [false,"none",0,"IMGnone75"]>>
+<<set $PC.jewel.jEyebrow = [false,"none",0,"IMGnone75"]>>
+<<set $PC.jewel.jEar = [false,"none",0,"IMGnone75"]>>
+<<set $PC.jewel.jUpear = [false,"none",0,"IMGnone75"]>>
+<<set $PC.jewel.jBelly = [false,"none",0,"IMGnone75"]>>
+<<set $PC.jewel.jRnip = [false,"none",0,"IMGnone75"]>>
+<<set $PC.jewel.jLnip = [false,"none",0,"IMGnone75"]>>
+<<set $PC.jewel.jClit = [false,"none",0,"IMGnone75"]>>
+<<set $PC.jewel.jLabia = [false,"none",0,"IMGnone75"]>>
+
+/***********************************************************************************/
+/*              JEWELRY VARIABLES  $jewel                                          */
+/***********************************************************************************/
 <<set $jewel = {}>>
 <<set $jewel.neck = {}>>
 <<set $jewel.wrist = {}>>
@@ -437,7 +438,9 @@
 <<set $jewel.clit.none = [true,"none",0,"IMGnone75"]>>
 <<set $jewel.labia.none = [true,"none",0,"IMGnone75"]>>
 
-/*KNOWLEDGE  ~~~~~~~~~~~~~~~~~~~~~*/
+/***********************************************************************************/
+/*              MAKEUP STYLES OBJECTS $makeup                                      */
+/***********************************************************************************/
 /*Known makeup ~~~~~ [textname,known,atr,time,DC,autopass,special] */
 <<set $makeup = {}>>
 <<set $makeup.eye = {}>>
@@ -474,6 +477,9 @@
 <<set $makeup.gen.whorish = ["naughty bordello",true,1,20,10,50,"W","IMGplaceholder75"]>>
 <<set $makeup.gen.slut = ["hyper-sexualized",true,1,20,10,50,"S","IMGplaceholder75"]>>
 <<set $makeup.gen.bimbo = ["stereotypical bimbo",true,1,20,10,50,"B","IMGplaceholder75"]>>
+/***********************************************************************************/
+/*              HAIR STYLES OBJECTS $hair                                          */
+/***********************************************************************************/
 /*known hair styles ~~~ [textname, known, LearnDC, atr, special]*/
 <<set $hairStyle = {}>>
 <<set $hairStyle.neat = ["is neatly brushed",false,9,-1,0,"IMGplaceholder75"]>>
@@ -515,189 +521,145 @@
 <<set $hairStyle.shagStraight = ["looks slightly ruffled as it hangs naturally",false,17,2,0,"IMGplaceholder75"]>>
 <<set $hairStyle.pigtails = ["is pulled into pigtails",false,12,1,0,"IMGplaceholder75"]>>
 
-/*GAME VARIABLES GENERAL ~~~~~~~~~~~~~~~~~~~~~*/
-<<set $metric = false>>
-<<set $tutorials = true>>
-<<set $megaTits = 0>>
-<<set $doorTries = 2>>
-<<set $doorCode = 1661>>
-<<set $ultraFertile = 0>>
-<<set $puddlingCunt = 0>>
-<<set $pussyPheromones = 0>>
-<<set $randomBody = 0>>
-<<set $quickStart = 0>>
-<<set $randomMind = 0>>
-<<set $randomSexuality = 0>>
-<<set $randomAttraction = 0>>
-<<set $randomMutation = 0>>
-<<set $crazyNPC = 0>>
-<<set $enableMutation = 1>>
-<<set $enableCheats = 0>>
-<<set $cash = random(0,99)>>
+/***********************************************************************************/
+/*              PRIMARY GAME VARIABLES  $AW   or $                                 */
+/***********************************************************************************/
+<<set $SCresult = ["filler"]>>
+<<set $SCtext = ["filler"]>>
+<<set $return = "none">>
+<<set $notes = []>>
+<<set $AW.metric = false>>
+<<set $AW.tutorials = true>>
+<<set $AW.door = {}>>
+<<set $AW.door.megaTits = 0>>
+<<set $AW.door.tries = 2>>
+<<set $AW.door.code = 1661>>
+<<set $AW.door.ultraFertile = 0>>
+<<set $AW.door.puddlingCunt = 0>>
+<<set $AW.door.pussyPheromones = 0>>
+<<set $AW.randomBody = 0>>
+<<set $AW.quickStart = 0>>
+<<set $AW.randomMind = 0>>
+<<set $AW.randomSexuality = 0>>
+<<set $AW.randomAttraction = 0>>
+<<set $AW.randomMutation = 0>>
+<<set $AW.cash = random(0,99)>>
 <<set _cash = random(5,6)>>
 <<set _cash += random(5,6)>>
 <<set _cash += random(5,6)>>
 <<set _cash += random(4,6)>>
 <<set _cash += random(4,6)>>
 <<set _cash += random(4,6)>>
-<<set _cash += random(4,6)>>
 <<set _cash *= 100>>
-<<set $cash += _cash>>
+<<set $AW.cash += _cash>>
+<<set $AW.diff = 1>>
+<<set $AW.premade = 0>>
+<<set $AW.author = true>>
+<<set $AW.medChange = false>>
+<<set $AW.error = "Errors">>
+<<set $AW.weather = []>>
+<<set $AW.wxChance = 0>>
+<<set $AW.skyCon = "CLR">>
+<<set $AW.wxReport = "missing">>
+<<set $AW.sCheck = false>>
+<<set $AW.curBase = 1>>
+<<set $AW.weekReady = 0>>
+<<set $AW.pcPortrait = "[img[You|IMGpcPort]]">>
 
-<<set $diff = 1>>
-<<set $premade = 0>>
-<<set $clothingDetail = 3>>
-<<set $author = true>>
-<<set $medChange = false>>
-<<set $inventory = ["car keys"]>>
-<<set $error = "Errors">>
-<<set $weather = []>>
-<<set $wxChance = 0>>
-<<set $skyCon = "CLR">>
-<<set $wxReport = "missing">>
-<<set $mindbreak = false>>
-<<set $sCheck = false>>
-<<set $SCresult = ["filler"]>>
-<<set $SCtext = ["filler"]>>
-<<set $return = "none">>
-<<set $notes = []>>
-<<set $curBase = 1>>
-<<set $weekReady = 0>>
-<<set $dispSceneImg = true>>
-<<set $dispNPCImg = true>>
-<<set $dispPCImg = true>>
-<<set $npcOrgasmAdjust = 0>>
-<<set $NPCfutaRate = 10>>
+/*TIME AND DATE STUFFS*/
+<<set $day = 5>>/*day of week*/
+/*play time*/
+<<set $week = 0>>
+<<set $year = 0>>
+<<set $time = 1800>>
+<<set $hour = 18>>
+<<set $min = 0>>
+<<set $date =[1,1,4,2032]>>/*in-game date*/
+<<set $dayTotal = 0>>
+<<set $dayChange = false>>
+<<set $timeChunk = 0>>
+<<set $timeCount = 0>>
 
+/***********************************************************************************/
+/*             MAP SYSTEM VARIABLES      $map                                      */
+/***********************************************************************************/
+<<set $map = {}>>
+<<set $map.imageName = "none">> /*name of image for map location passage*/
+<<set $map.main = "none">> /*name of entire map, ie Bullseye*/
+<<set $map.lastMain = "none">>
+<<set $map.lastPassage = "none">> /*prev passage*/
+<<set $map.passage = "none">> /*name of map location passage*/
+<<set $map.lastName = "none">> /*text descriptive name of previous location*/
+<<set $map.name = "none">> /*text descriptive name of current location*/
+<<set $map.destLoc = [0,0]>> /*coordinates for destination square, sent from location passage to controller*/
+<<set $map.loc = [0,0]>> /*coordinates of current or almost location (row,col)*/
+<<set $map.lastLoc = [0,0]>> /*prev location's coords*/
+<<set $map.movmt = 0>> /*map squares moved for time/fatigue purposes*/
+<<set $map.movmtList = []>> /*array containing coordinates for each step of journey to new map spot, format (row,col)*/
+<<set $map.dirNS = "north">> /*direction of journey*/
+<<set $map.dirEW = "south">> /*direction of journey*/
+<<set $map.wxCover = []>> /*array of variables for each step of journey, can add descript based on weather*/
+<<set $map.dice = 0>> /*1-20 random number based on 1d11+1d10*/
+/*MAP EVENT ~~~~~~~~~~~~~~~~*/
+<<set $map.NPCroom = 0>> /*room view description of npc that isn't activeNPC*/
+<<set $map.NPC = []>>
+<<set $map.NPC.active = false>>
+<<set $map.NPC.roomview = 0>>
+<<set $map.mainEvent = 0>>
+<<set $map.minorEvent = 0>>
 
-/*MAP SYSTEM VARIABLES ~~~~~~~~~~~~~~~~~~~~~*/
-<<set $locImageName = "none">> /*name of image for map location passage*/
-<<set $mainMap = "none">> /*name of entire map, ie Bullseye*/
-<<set $lastMainMap = "none">>
-<<set $lastLocPassage = "none">> /*prev passage*/
-<<set $locPassage = "none">> /*name of map location passage*/
-<<set $lastLocName = "none">> /*text descriptive name of previous location*/
-<<set $locName = "none">> /*text descriptive name of current location*/
-<<set $destLoc = [0,0]>> /*coordinates for destination square, sent from location passage to controller*/
-<<set $mapLoc = [0,0]>> /*coordinates of current or almost location (row,col)*/
-<<set $lastMapLoc = [0,0]>> /*prev location's coords*/
-<<set $movmt = 0>> /*map squares moved for time/fatigue purposes*/
-<<set $movementList = []>> /*array containing coordinates for each step of journey to new map spot, format (row,col)*/
-<<set $mapDirNS = "north">> /*direction of journey*/
-<<set $mapDirEW = "south">> /*direction of journey*/
-<<set $wxCover = []>> /*array of variables for each step of journey, can add descript based on weather*/
-<<set $mapDice = 0>> /*1-20 random number based on 1d11+1d10*/
-
-/*MAP EVENT VARIABLES ~~~~~~~~~~~~~~~~~~~~~*/
-<<set $mapNPCroom = 0>> /*room view description of npc that isn't activeNPC*/
-<<set $mapNPC = []>>
-<<set $mapNPC.active = false>>
-<<set $mapNPC.roomview = 0>>
-<<set $mapMainEvent = 0>>
-<<set $mapMinorEvent = 0>>
-
-/*WARDROBE SYSTEM VARIABLES ~~~~~~~~~~~~~~~~~~~~~*/
+/***********************************************************************************/
+/*              WARDROBE SYSTEMS VARIABLES  $ward                                  */
+/***********************************************************************************/
 /*index: 0Name, 1Attr, 2Sexy/Cute, 3Formal/Casual, 4Exposure, 5status, 6style, 7substyle, 8fabric, 9color, 10origin store*/
-<<set $wardrobeLeg = []>>
-<<set $wardrobeP = []>>
-<<set $wardrobeLB = []>>
-<<set $wardrobeB = []>>
-<<set $wardrobeUB = []>>
-<<set $wardrobeD = []>>
-<<set $wardrobeAthU = []>>
-<<set $wardrobeAthL = []>>
-<<set $wardrobeSU = []>>
-<<set $wardrobeSL = []>>
-<<set $wardrobeNiteL = []>>
-<<set $wardrobeNiteU = []>>
-<<set $wardrobeOW = []>>
-<<set $wardrobeA = []>>
-<<set $wardrobeBag = []>>
+<<set $ward = {}>>
+<<set $ward.leg = []>>
+<<set $ward.panties = []>>
+<<set $ward.lowBody = []>>
+<<set $ward.bra = []>>
+<<set $ward.upBody = []>>
+<<set $ward.dress = []>>
+<<set $ward.athU = []>>
+<<set $ward.athL = []>>
+<<set $ward.swimU = []>>
+<<set $ward.swimL = []>>
+<<set $ward.niteL = []>>
+<<set $ward.niteU = []>>
+<<set $ward.overWear = []>>
+<<set $ward.acc = []>>
+<<set $ward.bag = []>>
 /*push basic item into wardrop arrrays*/
 <<set _temp = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,69,-1]>>
-<<set $wardrobeP.push(_temp)>>
-<<set $wardrobeB.push(_temp)>>
-<<set $wardrobeSU.push(_temp)>>
-<<set $wardrobeSL.push(_temp)>>
-<<set $wardrobeNiteL.push(_temp)>>
-<<set $wardrobeNiteU.push(_temp)>>
+<<set $ward.panties.push(_temp)>>
+<<set $ward.bra.push(_temp)>>
+<<set $ward.swimU.push(_temp)>>
+<<set $ward.swimL.push(_temp)>>
+<<set $ward.niteL.push(_temp)>>
+<<set $ward.niteU.push(_temp)>>
 <<set _temp = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,69,-1]>>
-<<set $wardrobeLeg.push(_temp)>>
-<<set $wardrobeUB.push(_temp)>>
-<<set $wardrobeD.push(_temp)>>
-<<set $wardrobeLB.push(_temp)>>
-<<set $wardrobeAthU.push(_temp)>>
-<<set $wardrobeAthL.push(_temp)>>
-<<set $wardrobeOW.push(_temp)>>
+<<set $ward.leg.push(_temp)>>
+<<set $ward.upBody.push(_temp)>>
+<<set $ward.dress.push(_temp)>>
+<<set $ward.lowBody.push(_temp)>>
+<<set $ward.athU.push(_temp)>>
+<<set $ward.athL.push(_temp)>>
+<<set $ward.overWear.push(_temp)>>
 <<set _temp = ["Thin Pajama Pants (Lilac)",0,-1,-5,1,0,0,0,0,0,"Lily",0,1,"N"]>>
-<<set $wardrobeNiteL.push(_temp)>>
+<<set $ward.niteL.push(_temp)>>
 <<set _temp = ["Thin Pajama Top (Lilac)",0,-1,-5,1,0,0,0,0,0,"Lily",0,1,"N"]>>
-<<set $wardrobeNiteU.push(_temp)>>
+<<set $ward.niteU.push(_temp)>>
 <<set _temp = ["none",0,0,0,0,0,69]>>
-<<set $wardrobeA.push(_temp)>>
-<<set $wardrobeBag.push(_temp)>>
-/*clothing generator output arrays*/
-<<set $shopP = []>>
-<<set $shopLeg = []>>
-<<set $shopLB = []>>
-<<set $shopB = []>>
-<<set $shopUB = []>>
-<<set $shopD = []>>
-<<set $shopSU = []>>
-<<set $shopSL = []>>
-<<set $shopAthU = []>>
-<<set $shopAthL = []>>
-<<set $shopOW = []>>
-<<set $shopNiteU = []>>
-<<set $shopNiteL = []>>
-<<set $shopA = []>>
-<<set $shopBag = []>>
-/*shopping carts*/
-<<set $cartP = []>>
-<<set $cartLeg = []>>
-<<set $cartLB = []>>
-<<set $cartB = []>>
-<<set $cartUB = []>>
-<<set $cartD = []>>
-<<set $cartSU = []>>
-<<set $cartSL = []>>
-<<set $cartAthU = []>>
-<<set $cartAthL = []>>
-<<set $cartOW = []>>
-<<set $cartNiteU = []>>
-<<set $cartNiteL = []>>
-<<set $cartA = []>>
-<<set $cartBag = []>>
-<<set $cartItem = []>>
-/*other wardrobe variables*/
+<<set $ward.acc.push(_temp)>>
+<<set $ward.bag.push(_temp)>>
+
+
+/***********************************************************************************/
+/*              OUTFIT VARIABLES $ward.                                            */
+/***********************************************************************************/
 <<set $styleReturn = 0>>
 <<set $outfitUnder = []>>
 <<set $outfitOver = []>>
 <<set $outfitAcc = []>>
-<<set $casualOutfit = {}>>
-<<set $casualOutfit.ling = {}>>
-<<set $casualOutfit.over = {}>>
-<<set $casualOutfit.acc = {}>>
-<<set $workOutfit = {}>>
-<<set $workOutfit.ling = {}>>
-<<set $workOutfit.over = {}>>
-<<set $workOutfit.acc = {}>>
-<<set $fancyOutfit = {}>>
-<<set $fancyOutfit.ling = {}>>
-<<set $fancyOutfit.over = {}>>
-<<set $fancyOutfit.acc = {}>>
-<<set $athleticOutfit = {}>>
-<<set $athleticOutfit.ling = {}>>
-<<set $athleticOutfit.over = {}>>
-<<set $athleticOutfit.acc = {}>>
-<<set $sleepOutfit = {}>>
-<<set $sleepOutfit.ling = {}>>
-<<set $sleepOutfit.over = {}>>
-<<set $sleepOutfit.acc = {}>>
-<<set $sexysleepOutfit = {}>>
-<<set $sexysleepOutfit.ling = {}>>
-<<set $sexysleepOutfit.over = {}>>
-<<set $sexysleepOutfit.acc = {}>>
 <<set $extraAOutfit = {}>>
 <<set $extraAOutfit.ling = {}>>
 <<set $extraAOutfit.over = {}>>
@@ -719,21 +681,125 @@
 <<set _newOutfit.exp = [2,1]>>
 <<set _newOutfit.coord = true>>
 <<set $outfitOver.push(_newOutfit)>>
-/*Cheats*/
-<<if $pub>>
-	<<cheatVar>>
-<</if>>
 
-<<set $activeNPC = []>> /*holds all variables of a single NPC*/
-<<set $activeNPC.active = false>>
-<<set $activeNPC.roomview = 0>>
-<<set $roomviewGroup = 0>>
+/***********************************************************************************/
+/*              NPC VARIABLES  (npcs defined individually in js                    */
+/***********************************************************************************/
+/*NPC{} init is in [[StoryInit]]*/
+<<set $NPCount = 10000>>
+<<set $NPCsemi = 1000>>
+<<set $NPCfixed = 100>>
+<<set $npc = {}>>
+<<set $npc.fixedIDs = {lily:"n101"}>>
+<<set $npc.idLookup = function(name){return $npc.fixedIDs[name];}>>
+<<set $npc.ready = []>>
+<<set $npc.stored = []>>
+<<set $activeNPC = []>> /*list of NPC IDs that are "active"*/
+<<set $npc.roomview = 0>>
+<<set $npc.roomviewGroup = 0>>
+<<set $npc.activeHist = []>>
+/* NPC LISTS - LISTS OF NPCS THAT HAVE CERTAIN ATTRIBUTES */
+<<set $npc.single = []>>
+<<set $npc.rShip = []>>
+<<set $npc.married = []>>
+<<set $npc.male = []>>
+<<set $npc.female = []>>
+<<set $npc.futa = []>>
+<<set $npc.age13to17 = []>>
+<<set $npc.age18to21 = []>>
+<<set $npc.age22to27 = []>>
+<<set $npc.age28to33 = []>>
+<<set $npc.age34to39 = []>>
+<<set $npc.age40to49 = []>>
+<<set $npc.age50to59 = []>>
+<<set $npc.age60plus = []>>
+<<set $npc.poor = []>>
+<<set $npc.middle = []>>
+<<set $npc.wealthy = []>>
+<<set $npc.education = {dropout:[],hschool:[],assoc:[],bach:[],master:[],doctor:[]}>>
+<<set $npc.friends = []>>
+<<set $npc.bFriend = []>>
+<<set $npc.interested = []>>
+<<set $npc.fling = []>>
+<<set $npc.exes = []>>
 
-/*FLAGS ~~~~~~~~~~~~~~~~~~~~~*/
+/*several more lists can be added later*/
+<<include [[NPCsettingsInit]]>>
+
+/***********************************************************************************/
+/*              SEX SCENE VARIABLES                                                */
+/***********************************************************************************/
+<<set $sex = {}>>
+<<set $sex.tabs = 1>>/*activetab*/
+<<set $sex.pos = "none">>/*setup.sexPos key*/
+<<set $sex.lastPos = "none">>/*setup.sexPos key*/
+<<set $sex.pcAct = "none">>/*setup.sexAct key*/
+<<set $sex.pcLastAct = "none">>/*setup.sexAct key*/
+<<set $sex.pcActRecord = []>>
+<<set $sex.npcAct = []>>
+<<for _i = 0; _i < 10; _i++>>
+	<<run $sex.npcAct.push("none")>>
+<</for>>
+<<set $sex.npcLastAct = []>>
+<<for _i = 0; _i < 10; _i++>>
+	<<run $sex.npcLastAct.push("none")>>
+<</for>>
+<<set $sex.npcActRecord = [[],[],[],[],[],[],[],[],[],[]]>>
+<<for _i = 0; _i < 10; _i++>>
+	<<run $sex.npcActRecord[_i].push("none")>>
+<</for>>
+<<set $sex.pcAccessTags = []>>
+<<set $sex.pcAccessMtags = []>>
+<<set $sex.npcAccessTags = [[],[],[],[],[],[],[],[],[],[]]>>
+<<set $sex.npcAccessMtags = [[],[],[],[],[],[],[],[],[],[]]>>
+<<set $sex.inPosition = []>>/*npc/s in sex position with pc. index*/
+<<set $sex.target = 0>>/*npc in sex scene targeted by action*/
+<<set $sex.locTags = []>>
+<<set $sex.posTags = []>>
+<<set $sex.situOrg = 0>>
+<<set $sex.pcOrgasm = $PC.body.orgasm>>
+<<set $sex.npcOrgasm = []>>
+<<set $sex.turns = 0>>
+<<set $sex.start = true>>
+<<set $sex.activeNPC = []>>
+<<set $sex.npcCount = 0>>
+<<set $sex.startTime = 0>>
+<<set $sex.pcOutput = "none">>
+<<set $sex.npcOutput = ["none"]>>
+<<set $sex.encounter = ["none"]>>
+<<set $sex.speed = 0>>
+<<set _pusher = {mouth: false,handL: false,handR: false,titL: false,titR: false,pussy: false,clit: false,asshole: false,cock: false,balls: false}>>
+<<set $sex.pcOccupied = _pusher>>
+<<set $sex.npcOccupied = []>>
+<<for _i = 0; _i < 10; _i++>>
+	<<run $sex.npcOccupied.push(_pusher)>>
+<</for>>
+<<set _pusher = {dia:false,diaType:"none",diaEf:0,diaHealth:0,diaBreak:false,diaSab:0,femCon:false,femConHealth:0,femConEf:0,femConType:"none",femConBreak:false,femConSab:0,menCup:false,menCupType:"none",menCupHealth:0,menCupEf:0,menCupBreak:false,menCupSab:0,sponge:false,spongeType:"none",spongeEf:0,spongeSab:0,condom:false,condomType:"none",condomHealth:0,condomEf:0,condomBreak:false,condomSab:0,headCap:false,headCapType:"none",headCapHealth:0,headCapEf:0,headCapBreak:false,headCapSab:0}>>
+<<set $sex.pcBC = _pusher>>
+<<set $sex.npcBC = []>>
+<<for _i = 0; _i < 10; _i++>>
+	<<run $sex.npcBC.push(_pusher)>>
+<</for>>
+<<set $sex.fucking = false>>
+<<set $sex.pcWetness = 0>>
+<<set $sex.npcWetness = [0,0,0,0,0,0,0,0,0,0]>>
+<<set _pusher = {used:false,amt:0,effective:0,type:"none",pleasure:0,prevType:"none"}>>
+<<set $sex.pcLube = _pusher>>
+<<set $sex.npcLube = []>>
+<<for _i = 0; _i < 10; _i++>>
+	<<run $sex.npcLube.push(_pusher)>>
+<</for>>
+<<set $sex.earlyOut = false>>
+<<set $sex.orgCountPC = 0>>
+<<set $sex.orgCountNPC = [0,0,0,0,0,0,0,0,0,0]>>
+
+/***********************************************************************************/
+/*             GAME FLAG VARIABLES                                                 */
+/***********************************************************************************/
 <<set $flag = {}>>
 <<set $flag.BEnewClothes = true>>
 <<set $flag.Healthcare = true>>
-<<set $organDonor = false>>
+<<set $flag.organDonor = false>>
 <<set $flag.LilyCoffee = true>>
 <<set $flag.LilyCoffeeSuc = false>>
 <<set $flag.StaredLily = false>>
@@ -751,21 +817,26 @@
 <<set $flag.finance.goodsNoSpend = false>>
 <<set $flag.finance.supplyNoSpend = false>>
 
-/*INVENTORY ~~~~~~~~~~~~~~~~~~~~~*/
-<<set $item = {}>>
-<<set $item.Condoms = [0,0,0,0,0,0]>>
-<<set $item.CondomSab = [0,0,0,0,0,0]>>
-<<set $item.CondomSabGood = [0,0,0,0,0,0]>>
-<<set $item.CondomSabSupr = [0,0,0,0,0,0]>>
-<<set $item.Diaphram = false>>
-<<set $item.Enema = false>>
-<<set $item.Lubricant = false>>
-<<set $item.LubeOil = false>>
-<<set $item.MenstralCup = false>>
-<<set $item.FertiliTea = [0,0,0]>>
-<<set $item.FaceWipes = false>>
+/***********************************************************************************/
+/*              INVENTORY   VARIABLES                                              */
+/***********************************************************************************/
+<<set $items = {}>>
+<<set $items.list = ["car keys"]>>
+<<set $items.Condoms = [0,0,0,0,0,0]>>
+<<set $items.CondomSab = [0,0,0,0,0,0]>>
+<<set $items.CondomSabGood = [0,0,0,0,0,0]>>
+<<set $items.CondomSabSupr = [0,0,0,0,0,0]>>
+<<set $items.Diaphram = false>>
+<<set $items.Enema = false>>
+<<set $items.Lubricant = false>>
+<<set $items.LubeOil = false>>
+<<set $items.MenstralCup = false>>
+<<set $items.FertiliTea = [0,0,0]>>
+<<set $items.FaceWipes = false>>
 
-/*HOME VARIABLES*/
+/***********************************************************************************/
+/*              HOME SYSTEM VARIABLES                                              */
+/***********************************************************************************/
 <<set $home = {}>>
 <<set $home.upgrade = {}>>
 <<set $home.item = {}>>
@@ -791,7 +862,7 @@
 <<set $home.finance.patreon = 0>>
 <<set $home.finance.gym = 0>>
 <<set $home.finance.lessons = 0>>
-<<set $home.finance.cash = $cash>>
+<<set $home.finance.cash = $AW.cash>>
 <<set $home.finance.spending = 0>>
 <<set $home.finance.miscIncome = 0>>
 <<set $home.finance.income = {}>>
@@ -837,61 +908,9 @@
 <<set $home.clean.doBed = 3>>
 
 
-
-/*LILY SPECIAL NPC*/
-<<set $Lily = {}>>
-<<set $Lily.age = 29>>
-<<set $Lily.name = "Lily">>
-<<set $Lily.race = "white">>
-<<set $Lily.skinColor = "fair">>
-<<set $Lily.tone = 3>>
-<<set $Lily.weight = 4>>
-<<set $Lily.shoulders = 2>>
-<<set $Lily.hips = 5>>
-<<set $Lily.waist = 2>>
-<<set $Lily.height = 66>>
-<<set $Lily.ass = 4>>
-<<set $Lily.tits = 20>>
-<<set $Lily.balls = 3>>
-<<set $Lily.cock = 6>>
-<<set $Lily.girth = 1.5>>
-<<set $Lily.titShape = "perky">>
-<<set $Lily.pussy = 2>>
-<<set $Lily.asshole = 1>>
-<<set $Lily.clit = 1>>
-<<set $Lily.labia = 3>>
-<<set $Lily.beauty = 4>>
-<<set $Lily.face = "cute">>
-<<set $Lily.hairLength = 18>>
-<<set $Lily.hairColor = "strawberry blonde">>
-<<set $Lily.eyeColor = "blue">>
-<<set $Lily.hairStyle = "up in a ponytail">>
-<<set $Lily.pubeColor = "brown">>
-<<set $Lily.pubeStyle = "triangular">>
-<<set $Lily.wetness = 3>>
-<<set $Lily.fertility = 0>>
-<<set $Lily.Jism = 4>>
-<<set $Lily.Potency = 3>>
-<<set $Lily.lactation = 2>>
-<<set $Lily.nipple = "inverted">>
-<<set $Lily.willpower = 3>>
-<<set $Lily.rel = 80>>
-<<set $Lily.love = 50>>
-
-/*TIME AND DATE STUFFS*/
-<<set $day = 5>>/*day of week*/
-/*play time*/
-<<set $week = 0>>
-<<set $year = 0>>
-<<set $time = 1800>>
-<<set $hour = 18>>
-<<set $min = 0>>
-<<set $date =[1,1,4,2029]>>/*in-game date*/
-<<set $dayTotal = 0>>
-<<set $dayChange = false>>
-<<set $timeChunk = 0>>
-<<set $timeCount = 0>>
-/*Schedule variables and time cycles*/
+/***********************************************************************************/
+/*              SCHEDULE SYSTEM  VARIABLES                                         */
+/***********************************************************************************/
 <<set $sched = {}>>
 <<set $sched.workTime = [40,[800,1700],[800,1700],[800,1700],[800,1700],[800,1700],[0,0],[0,0]]>>
 <<set $sched.workDays = [0,false,false,false,false,false,false,false]>>
@@ -919,6 +938,7 @@
 <<set $sched.sleepinOverride = false>>
 <<set $sched.sleepinText = []>>
 <<set $sched.sleepPassage = "none">>
+<<set $sched.runop = []>>
 <<set $sched.showered = false>>
 /*APPOINTMENT OBJECT FORMAT!
 {name: "date with joe", type: 1, alert: true, start: 1800, end: false, place: "Bullseye", locmap: "bullseye", loc: [0,0], code: 0, msg: false , missed: true}
@@ -929,7 +949,9 @@ missed: important for tracking missed dates and such, because if you don't go to
 <<set _tutorialReminder = {name: "Tutorial", type: 0, start: 1030, alert: true, msg: "This is a tutorial message, demonstrating how reminder alerts work. During the game, you'll get phone reminders about upcoming dates, appointments, and other events 1 hour before they start. You'll often see a link to take you straight to the event location. Other times, you'll see reminders from the game about quests or other happenings. You can even set reminders for yourself!"}>>
 <<set $sched.plans[2].push(_tutorialReminder)>>
 
-/*JOB VARIABLE STUFF ~~~~~~~~~~~~~~~~ */
+/***********************************************************************************/
+/*              JOB SYSTEM   VARIABLES                                             */
+/***********************************************************************************/
 <<set $job = {}>>
 <<set $job.name = "Unemployed">>
 <<set $job.employer = "None">>
@@ -985,11 +1007,175 @@ missed: important for tracking missed dates and such, because if you don't go to
 <<set $job.flag = {}>>
 <<set $job.pay = 0>>
 
-<<include NPCvariableInit>>
+/***********************************************************************************/
+/*              SHOPPING SYSTEM  VARIABLES                                         */
+/***********************************************************************************/
+<<set $shop = {}>>
+<<set $shop.base = {}>>
+<<set $shop.base.panties = 6>>
+<<set $shop.base.bras = 4>>
+<<set $shop.base.stockings = 5>>
+<<set $shop.base.lower = 20>>
+<<set $shop.base.upper = 15>>
+<<set $shop.base.dress = 35>>
+<<set $shop.base.coats = 60>>
+<<set $shop.storemod = {}>>
+<<set $shop.storemod.bullseye = 2>>
+/*clothing generator output arrays*/
+<<set $storeInv = {}>>
+<<set $storeInv.panties = []>>
+<<set $storeInv.leg = []>>
+<<set $storeInv.lowBody = []>>
+<<set $storeInv.bra = []>>
+<<set $storeInv.upBody = []>>
+<<set $storeInv.dress = []>>
+<<set $storeInv.swimU = []>>
+<<set $storeInv.swimL = []>>
+<<set $storeInv.athU = []>>
+<<set $storeInv.athL = []>>
+<<set $storeInv.overWear = []>>
+<<set $storeInv.niteU = []>>
+<<set $storeInv.niteL = []>>
+<<set $storeInv.acc = []>>
+<<set $storeInv.bag = []>>
+/*shopping carts*/
+<<set $cart = {}>>
+<<set $cart.panties = []>>
+<<set $cart.leg = []>>
+<<set $cart.lowBody = []>>
+<<set $cart.bra = []>>
+<<set $cart.upBody = []>>
+<<set $cart.dress = []>>
+<<set $cart.swimU = []>>
+<<set $cart.swimL = []>>
+<<set $cart.athU = []>>
+<<set $cart.athL = []>>
+<<set $cart.overWear = []>>
+<<set $cart.niteU = []>>
+<<set $cart.niteL = []>>
+<<set $cart.acc = []>>
+<<set $cart.bag = []>>
+<<set $cart.item = []>>
 
+/***********************************************************************************/
+/*              GAME PREFERENCE  VARIABLES                                         */
+/***********************************************************************************/
+<<set $pref = {}>>
+
+<<set $pref.sexSceneSpeed = 0>>
+/*attractiveness settings*/
+<<set $pref.weight = [-2,-1,1,0,-1,-2]>>
+<<set $pref.muscle = [-2,-1,0,2,1,0]>>
+<<set $pref.height = [-2,-1,0,1,-1,"no mod"]>>
+<<set $pref.other = [-1,1,0,1,-1,1,-1,1,1,-1]>>
+<<set $pref.Fweight = [-2,-1,1,1,-1,-2]>>
+<<set $pref.Fmuscle = [-2,0,1,2,-1,-2]>>
+<<set $pref.Fheight = [0,1,2,0,-2,"no mod"]>>
+<<set $pref.Fother = [1,-1,1,-1,1,-1,1,1,1,1,-1]>>
+<<set $pref.fapmode = false>>
+<<set $pref.clothingDetail = 3>>
+<<set $pref.dispSceneImg = true>>
+<<set $pref.dispNPCImg = true>>
+<<set $pref.dispPCImg = true>>
+<<set $pref.enableMutation = 1>>
+<<set $pref.enableCheats = 1>>
+/*************************/
+/*kink gates             */
+/*************************/
+<<set $pref.anal = true>>
+<<set $pref.bestiality = false>>
+<<set $pref.bdsm = true>>
+<<set $pref.bondage = true>>
+<<set $pref.bukkake = true>>
+<<set $pref.choking = true>>
+<<set $pref.cbt = false>>
+<<set $pref.collar = true>>
+<<set $pref.connoncon = true>>
+<<set $pref.domsub = true>>
+<<set $pref.enema = true>>
+<<set $pref.fisting = false>>
+<<set $pref.furry = false>>
+<<set $pref.gaping = true>>
+<<set $pref.group = true>>
+<<set $pref.impact = true>>
+<<set $pref.sadomasochism = true>>
+<<set $pref.masterslave = true>>
+<<set $pref.medical = true>>
+<<set $pref.noncon = true>>
+<<set $pref.petplay = true>>
+<<set $pref.rape = false>>
+<<set $pref.religion = true>>
+<<set $pref.rough = true>>
+<<set $pref.scat = false>>
+<<set $pref.shibari = true>>
+<<set $pref.sounding = false>>
+<<set $pref.torture = false>>
+<<set $pref.vore = false>>
+<<set $pref.waterworks = true>>
+/*Cheats*/
+<<if $pub>>
+	<<cheatVar>>
+<</if>>
+
+
+
+/*********************************************************************************/
+/******************FINAL STEPS - DEFINE PERMANENT NPCS ***************************/
+/*********************************************************************************/
+<<run setup.defineFixedNPCs()>>
+<<set $gamestate.lastversion = $version>>
 /*Ze End*/
+<<set $activeNPC.push("n101")>>
 <<status 0>>
-<<goto [[Introduction]]>>
-<</silently>>
-[[Introduction]]
-<</nobr>>
+<<procE>>
+<<if $swim != "[dev]">>
+	<<goto [[Introduction]]>>
+<<else>>
+	<br><br>[[Introduction]]
+<</if>>
+
+
+
+:: NPCsettingsInit [nobr hidden]
+
+/***********************************************************************************/
+/*              NPC SETTINGS  VARIABLES                                            */
+/***********************************************************************************/
+<<set $npcSetting = {}>>
+<<set $npcSetting.orgasmAdjust = 0>>
+<<set $npcSetting.futaRate = 10>>
+<<set $npcSetting.futaMale = true>>
+<<set $npcSetting.gender = [false,50]>>
+<<set $npcSetting.arch = [false,[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]>>
+<<set $npcSetting.wealth = [false,0,0]>>
+<<set $npcSetting.age = [false,[18,30],[30,45]]>>
+<<set $npcSetting.homo = [false,[true,0,true,0]]>>
+<<set $npcSetting.race = [false,[0,0,0,0,0,0]]>>
+<<set $npcSetting.height = [false,[5,20,50,20,5],[5,20,50,20,5]]>>
+<<set $npcSetting.tone = [false,[0,0,0,0,0,0],[0,0,0,0,0,0]]>>
+<<set $npcSetting.weight = [false,[0,0,0,0,0,0],[0,0,0,0,0,0]]>>
+<<set $npcSetting.fertility = [false,0,0]>>
+<<set $npcSetting.cock = [false,-1]>>
+<<set $npcSetting.pussy = [false,0]>>
+<<set $npcSetting.circum = [false,0]>>
+<<set $npcSetting.beauty = [false,[0,0,0,0,0],[0,0,0,0,0]]>>
+<<set $npcSetting.orgasm = [false,0,0]>>
+<<set $npcSetting.pregTerm = [false,-1]>>
+<<set $npcSetting.tits = [false,0]>>
+<<set $npcSetting.mutate = [false,[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]>>
+<<set $npcSetting.married = [false,0]>>
+<<set $npcSetting.open = [false,0,0]>>
+<<set $npcSetting.vert = [false,0,0]>>
+<<set $npcSetting.iq = [false,0,0]>>
+<<set $npcSetting.names = [false,[0],[0],[0]]>>
+<<set $npcSetting.persCore = [false,[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]>>
+<<set $npcSetting.pref = {}>>
+<<set $npcSetting.pref.enabled = false>>
+<<set $npcSetting.pref.Fweight = [0,0,0,0,0,0]>>
+<<set $npcSetting.pref.Mweight = [0,0,0,0,0,0]>>
+<<set $npcSetting.pref.Fheight = [0,0,0,0,0]>>
+<<set $npcSetting.pref.Mheight = [0,0,0,0,0]>>
+<<set $npcSetting.pref.Fmuscle = [0,0,0,0,0,0]>>
+<<set $npcSetting.pref.Mmuscle = [0,0,0,0,0,0]>>
+<<set $npcSetting.pref.Fother = [0,0,0,0,0,0,0,0,0,0]>>
+<<set $npcSetting.pref.Mother = [0,0,0,0,0,0,0,0,0]>>

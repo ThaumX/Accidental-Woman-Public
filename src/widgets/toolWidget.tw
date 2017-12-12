@@ -9,8 +9,8 @@
 <<silently>>
 <<if ndef $args[0]>>
 	<<set _temp = passage()>>
-	<<set $error += ", comment error - no args sent to numberWord function in passage: ">>
-	<<set $error += _temp>>
+	<<set $AW.error += ", comment error - no args sent to numberWord function in passage: ">>
+	<<set $AW.error += _temp>>
 	<<set _output = "no arg error numberWord">>
 <<else>>
 	<<switch $args[0]>>
@@ -68,64 +68,64 @@
 <<silently>>
 <<set _temp = $args[0]>>
 <<if _temp == "height">>
-	<<if $metric>>
-		<<set $PC.heightCM = Math.round(($PC.height * 0.254)*5)>>
-		<<set $PC.heightCM /= 5>>
-		<<set $PC.heightCM /= 10>>
-		<<set $PC.heightCM = $PC.heightCM.toFixed(2)>>
-		<<set _output = $PC.heightCM + " m">>
+	<<if $AW.metric>>
+		<<set $PC.body.heightCM = Math.round(($PC.body.height * 0.254)*5)>>
+		<<set $PC.body.heightCM /= 5>>
+		<<set $PC.body.heightCM /= 10>>
+		<<set $PC.body.heightCM = $PC.body.heightCM.toFixed(2)>>
+		<<set _output = $PC.body.heightCM + " m">>
 	<<else>>
-		<<set _Inch = (($PC.height / 12) - (Math.floor($PC.height / 12))) * 12>>
-		<<set $PC.heightInch = Math.round(_Inch)>>
-		<<set $PC.heightFoot = Math.floor($PC.height / 12)>>
-		<<switch $PC.heightInch>>
+		<<set _Inch = (($PC.body.height / 12) - (Math.floor($PC.body.height / 12))) * 12>>
+		<<set $PC.body.heightInch = Math.round(_Inch)>>
+		<<set $PC.body.heightFoot = Math.floor($PC.body.height / 12)>>
+		<<switch $PC.body.heightInch>>
 			<<case 0>>
-				<<set $PC.heightInch = "zero">>
+				<<set $PC.body.heightInch = "zero">>
 			<<case 1>>
-				<<set $PC.heightInch = "one">>
+				<<set $PC.body.heightInch = "one">>
 			<<case 2>>
-				<<set $PC.heightInch = "two">>
+				<<set $PC.body.heightInch = "two">>
 			<<case 3>>
-				<<set $PC.heightInch = "three">>
+				<<set $PC.body.heightInch = "three">>
 			<<case 4>>
-				<<set $PC.heightInch = "four">>
+				<<set $PC.body.heightInch = "four">>
 			<<case 5>>
-				<<set $PC.heightInch = "five">>
+				<<set $PC.body.heightInch = "five">>
 			<<case 6>>
-				<<set $PC.heightInch = "six">>
+				<<set $PC.body.heightInch = "six">>
 			<<case 7>>
-				<<set $PC.heightInch = "seven">>
+				<<set $PC.body.heightInch = "seven">>
 			<<case 8>>
-				<<set $PC.heightInch = "eight">>
+				<<set $PC.body.heightInch = "eight">>
 			<<case 9>>
-				<<set $PC.heightInch = "nine">>
+				<<set $PC.body.heightInch = "nine">>
 			<<case 10>>
-				<<set $PC.heightInch = "ten">>
+				<<set $PC.body.heightInch = "ten">>
 			<<case 11>>
-				<<set $PC.heightInch = "eleven">>
+				<<set $PC.body.heightInch = "eleven">>
 		<</switch>>
-		<<switch $PC.heightFoot>>
+		<<switch $PC.body.heightFoot>>
 			<<case 1>>
-				<<set $PC.heightFoot = "one">>
+				<<set $PC.body.heightFoot = "one">>
 			<<case 2>>
-				<<set $PC.heightFoot = "two">>
+				<<set $PC.body.heightFoot = "two">>
 			<<case 3>>
-				<<set $PC.heightFoot = "three">>
+				<<set $PC.body.heightFoot = "three">>
 			<<case 4>>
-				<<set $PC.heightFoot = "four">>
+				<<set $PC.body.heightFoot = "four">>
 			<<case 5>>
-				<<set $PC.heightFoot = "five">>
+				<<set $PC.body.heightFoot = "five">>
 			<<case 6>>
-				<<set $PC.heightFoot = "six">>
+				<<set $PC.body.heightFoot = "six">>
 			<<case 7>>
-				<<set $PC.heightFoot = "seven">>
+				<<set $PC.body.heightFoot = "seven">>
 			<<case 8>>
-				<<set $PC.heightFoot = "eight">>
+				<<set $PC.body.heightFoot = "eight">>
 		<</switch>>
-		<<set _output = $PC.heightFoot + " feet " + $PC.heightInch + " inches">>
+		<<set _output = $PC.body.heightFoot + " feet " + $PC.body.heightInch + " inches">>
 	<</if>>
 <<else>>
-	<<if $metric>>
+	<<if $AW.metric>>
 		<<if $args[0] < 18>>
 			<<set _temp = Math.round($args[0] * 2.54)>>
 			<<set _output = _temp + " cm">>
@@ -144,23 +144,23 @@
 <</widget>>
 
 <<widget "units">>
-<<if $metric>><<print "cm">><<else>><<print "inches">><</if>>
+<<if $AW.metric>><<print "cm">><<else>><<print "inches">><</if>>
 <</widget>>
 
 /*inserts money symbol and player cash*/
 <<widget "money">>
-@@.money;<<print "₢">><<print $cash>>@@\
+@@.money;<<print "₢">><<print $AW.cash>>@@\
 <</widget>>
 
 /*inserts commentary quicker*/
 <<widget "comment">>
 <<if ndef $args[0]>>
-	<<set _temp = passage()>>
-	<<set $error += ", comment error - no args sent to comment function in passage: ">>
-	<<set $error += _temp>>
+	<<set $AW.error += ", comment error - no args sent to comment function in passage: " + passage()>>
 <<else>>
 	<<if $commentary>>
-		@@.com;<<print $args[0]>>@@
+    <<set _ter = either("a","b","c","d","e","f")+random(0,9)+random(0,9)>>
+    <<set _pri = "<<message 'dev commentary' btn '"+_ter+"'>>@@.com;"+$args[0]+"@@<</message>>">>
+		<<print _pri>>
 	<</if>>
 <</if>>
 <</widget>>
@@ -169,252 +169,252 @@
 <<widget "stress">>
 <<if ndef $args[0]>>
 	<<set _temp = passage()>>
-	<<set $error += ", stress setting error - no args sent to stress function in passage: ">>
-	<<set $error += _temp>>
+	<<set $AW.error += ", stress setting error - no args sent to stress function in passage: ">>
+	<<set $AW.error += _temp>>
 	<<set _temp = 0>>
 <<else>>
 	<<set _temp = $args[0]>>
 <</if>>
-<<set $status.stress = Math.round( $runop[29] / 3.55)>>
+<<status 1>>
 <<if _temp > 0>>
-	<<if $trait.IE == "introverted" && $trait.OC == "open">>
+	<<if $PC.trait.vert == "introverted" && $PC.trait.open == "open">>
 		<<set _temp *= 0.3>>
-	<<elseif $trait.IE != "extroverted" && $trait.OC == "open">>
+	<<elseif $PC.trait.vert != "extroverted" && $PC.trait.open == "open">>
 		<<set _temp *= 0.5>>
-	<<elseif $trait.IE == "introverted" && $trait.OC != "closed">>
+	<<elseif $PC.trait.vert == "introverted" && $PC.trait.open != "closed">>
 		<<set _temp *= 0.7>>
-	<<elseif $trait.IE == "introverted" && $trait.OC == "closed">>
+	<<elseif $PC.trait.vert == "introverted" && $PC.trait.open == "closed">>
 		<<set _temp *= 1.25>>
-	<<elseif $trait.IE == "extroverted" && $trait.OC == "open">>
+	<<elseif $PC.trait.vert == "extroverted" && $PC.trait.open == "open">>
 		<<set _temp *= 0.75>>
-	<<elseif $trait.IE == "extroverted" && $trait.OC == "closed">>
+	<<elseif $PC.trait.vert == "extroverted" && $PC.trait.open == "closed">>
 		<<set _temp *= 1.7>>
-	<<elseif $trait.OC == "closed">>
+	<<elseif $PC.trait.open == "closed">>
 		<<set _temp *= 1.5>>
-	<<elseif $trait.IE == "extroverted">>
+	<<elseif $PC.trait.vert == "extroverted">>
 		<<set _temp *= 1.3>>
 	<</if>>
-	<<if $trait.Relaxed == 1>>
+	<<if $PC.trait.relaxed == 1>>
 		<<set _temp *= 0.8>>
-	<<elseif $trait.Relaxed == -1>>
+	<<elseif $PC.trait.relaxed == -1>>
 		<<set _temp *= 1.1>>
 	<</if>>
-	<<if $status.need > 4>>
+	<<if $PC.status.need > 4>>
 		<<set _temp *= 2>>
-	<<elseif $status.need == 4>>
+	<<elseif $PC.status.need == 4>>
 		<<set _temp *= 1.75>>
-	<<elseif $status.need > 1>>
+	<<elseif $PC.status.need > 1>>
 		<<set _Temp *= 1.5>>
-	<<elseif $status.need > 0>>
+	<<elseif $PC.status.need > 0>>
 		<<set _temp *= 1.25>>
 	<</if>>
-	<<set $status.stress += _temp>>
-	<<if $status.stress > 100>>
-		<<set $status.overStress = true>>
-		<<set $status.stress = 100>>
+	<<set $PC.status.stress += _temp>>
+	<<if $PC.status.stress > 100>>
+		<<set $PC.status.overStress = true>>
+		<<set $PC.status.stress = 100>>
 	<</if>>
 <<elseif _temp < 0>>
-	<<if $trait.IE == "introverted" && $trait.OC == "open">>
+	<<if $PC.trait.vert == "introverted" && $PC.trait.open == "open">>
 		<<set _temp *= 0.5>>
-	<<elseif $trait.IE != "extroverted" && $trait.OC == "open">>
+	<<elseif $PC.trait.vert != "extroverted" && $PC.trait.open == "open">>
 		<<set _temp *= 0.7>>
-	<<elseif $trait.IE == "introverted" && $trait.OC != "closed">>
+	<<elseif $PC.trait.vert == "introverted" && $PC.trait.open != "closed">>
 		<<set _temp *= 0.9>>
-	<<elseif $trait.IE == "introverted" && $trait.OC == "closed">>
+	<<elseif $PC.trait.vert == "introverted" && $PC.trait.open == "closed">>
 		<<set _temp *= 1.2>>
-	<<elseif $trait.IE == "extroverted" && $trait.OC == "open">>
+	<<elseif $PC.trait.vert == "extroverted" && $PC.trait.open == "open">>
 		<<set _temp *= 0.8>>
-	<<elseif $trait.IE == "extroverted" && $trait.OC == "closed">>
+	<<elseif $PC.trait.vert == "extroverted" && $PC.trait.open == "closed">>
 		<<set _temp *= 1.5>>
-	<<elseif $trait.OC == "closed">>
+	<<elseif $PC.trait.open == "closed">>
 		<<set _temp *= 1.3>>
-	<<elseif $trait.IE == "extroverted">>
+	<<elseif $PC.trait.vert == "extroverted">>
 		<<set _temp *= 1.1>>
 	<</if>>
-	<<if $status.need > 1>>
+	<<if $PC.status.need > 1>>
 		<<set _temp *= 0.5>>
 	<</if>>
-	<<set $status.stress += _temp>>
-	<<if $status.stress < 0>>
-		<<set $status.stress = 0>>
+	<<set $PC.status.stress += _temp>>
+	<<if $PC.status.stress < 0>>
+		<<set $PC.status.stress = 0>>
 	<</if>>
 <<else>>
 <</if>>
-<<set $runop[29] = $status.stress * 3.55>>
+<<status 0>>
 <</widget>>
 
 <<widget "anger">>
 <<if ndef $args[0]>>
 	<<set _temp = passage()>>
-	<<set $error += ", anger setting error - no args sent to anger function in passage: ">>
-	<<set $error += _temp>>
+	<<set $AW.error += ", anger setting error - no args sent to anger function in passage: ">>
+	<<set $AW.error += _temp>>
 	<<set _temp = 0>>
 <<else>>
 	<<set _temp = $args[0]>>
 <</if>>
-<<set $status.anger = Math.round( $runop[31] / 3.55)>>
+<<status 1>>
 <<if _temp > 0>>
-	<<if $trait.OC == "closed">>
+	<<if $PC.trait.open == "closed">>
 		<<set _temp *= 1.5>>
 	<</if>>
-	<<if $trait.Bitch == 1>>
+	<<if $PC.trait.bitch == 1>>
 		<<set _temp *= 1.25>>
-	<<elseif $trait.Bitch == -1>>
+	<<elseif $PC.trait.bitch == -1>>
 		<<set _temp *= 0.75>>
 	<</if>>
-	<<if $status.need > 4>>
+	<<if $PC.status.need > 4>>
 		<<set _temp *= 2>>
-	<<elseif $status.need == 4>>
+	<<elseif $PC.status.need == 4>>
 		<<set _temp *= 1.75>>
-	<<elseif $status.need > 1>>
+	<<elseif $PC.status.need > 1>>
 		<<set _Temp *= 1.5>>
-	<<elseif $status.need > 0>>
+	<<elseif $PC.status.need > 0>>
 		<<set _temp *= 1.25>>
 	<</if>>
-	<<set $status.anger += _temp>>
-	<<if $status.anger > 10>>
-		<<set $status.overAnger = true>>
-		<<set $status.anger = 10>>
+	<<set $PC.status.anger += _temp>>
+	<<if $PC.status.anger > 10>>
+		<<set $PC.status.overAnger = true>>
+		<<set $PC.status.anger = 10>>
 	<</if>>
 <<elseif _temp < 0>>
-	<<if $trait.Forgiving == -1>>
+	<<if $PC.trait.forgiving == -1>>
 		<<set _temp *= 0.75>>
-	<<elseif $trait.Forgiving == 1>>
+	<<elseif $PC.trait.forgiving == 1>>
 		<<set _temp *= 1.5>>
 	<</if>>
-	<<if $status.need > 1>>
+	<<if $PC.status.need > 1>>
 		<<set _temp *= 0.5>>
 	<</if>>
-	<<set $status.anger += _temp>>
-	<<if $status.anger < 0>>
-		<<set $status.anger = 0>>
+	<<set $PC.status.anger += _temp>>
+	<<if $PC.status.anger < 0>>
+		<<set $PC.status.anger = 0>>
 	<</if>>
 <</if>>
-<<set $runop[31] = $status.anger * 3.55>>
+<<status 0>>
 <</widget>>
 
 <<widget "happy">>
 <<if ndef $args[0]>>
 	<<set _temp = passage()>>
-	<<set $error += ", setting error - no args sent to happiness function in passage: ">>
-	<<set $error += _temp>>
+	<<set $AW.error += ", setting error - no args sent to happiness function in passage: ">>
+	<<set $AW.error += _temp>>
 	<<set _temp = 0>>
 <<else>>
 	<<set _temp = $args[0]>>
 <</if>>
-<<set $status.happy = Math.round( $runop[30] / 3.55)>>
+<<status 1>>
 <<if _temp > 0>>
-	<<if $trait.IE == "extroverted">>
+	<<if $PC.trait.vert == "extroverted">>
 		<<set _temp *= 1.5>>
 	<</if>>
-	<<if $trait.OC == "closed">>
+	<<if $PC.trait.open == "closed">>
 		<<set _temp *= 2/3>>
 	<</if>>
-	<<if $trait.LowEsteem != 0>>
+	<<if $PC.trait.lowEsteem != 0>>
 		<<set _temp *= 0.9>>
 	<</if>>
-	<<if $status.need > 1>>
+	<<if $PC.status.need > 1>>
 		<<set _temp *= 0.75>>
 	<</if>>
-	<<set $status.happy += _temp>>
-	<<if $status.happy > 10>>
-		<<set $status.happy = 10>>
+	<<set $PC.status.happy += _temp>>
+	<<if $PC.status.happy > 10>>
+		<<set $PC.status.happy = 10>>
 	<</if>>
 <<elseif _temp < 0>>
-	<<if $trait.OC == "closed">>
+	<<if $PC.trait.open == "closed">>
 		<<set _temp *= 2/3>>
 	<</if>>
-	<<if $trait.IE == "introverted">>
+	<<if $PC.trait.vert == "introverted">>
 		<<set _temp *= 1.25>>
 	<</if>>
-	<<if $trait.LowEsteem != 0>>
+	<<if $PC.trait.lowEsteem != 0>>
 		<<set _temp *= 1.2>>
 	<</if>>
-	<<if $status.need > 1>>
+	<<if $PC.status.need > 1>>
 		<<set _temp *= 1.25>>
 	<</if>>
-	<<set $status.happy += _temp>>
-	<<if $status.happy < -10>>
-		<<set $status.overDepress = true>>
-		<<set $status.happy = -10>>
+	<<set $PC.status.happy += _temp>>
+	<<if $PC.status.happy < -10>>
+		<<set $PC.status.overDepress = true>>
+		<<set $PC.status.happy = -10>>
 	<</if>>
 <</if>>
-<<set $runop[30] = $status.happy * 3.55>>
+<<status 0>>
 <</widget>>
 
 <<widget "tired">>
 <<if ndef $args[0]>>
 	<<set _temp = passage()>>
-	<<set $error += ", fatigue setting error - no args sent to tired function in passage: ">>
-	<<set $error += _temp>>
+	<<set $AW.error += ", fatigue setting error - no args sent to tired function in passage: ">>
+	<<set $AW.error += _temp>>
 	<<set _temp = 0>>
 <<else>>
 	<<set _temp = $args[0]>>
 <</if>>
-<<set $status.fatigue = Math.round( $runop[32] / 3.55)>>
-<<set $status.fatigue += _temp>>
-	<<if $status.fatigue > 10>>
-		<<set $status.fatigue = 10>>
-		<<set $status.health -= random(5,10)>>
-	<<elseif $status.fatigue < 0>>
-		<<set $status.fatigue = 0>>
+<<status 1>>
+<<set $PC.status.fatigue += _temp>>
+	<<if $PC.status.fatigue > 10>>
+		<<set $PC.status.fatigue = 10>>
+		<<set $PC.status.health -= random(5,10)>>
+	<<elseif $PC.status.fatigue < 0>>
+		<<set $PC.status.fatigue = 0>>
 	<</if>>
-<<set $runop[32] = $status.fatigue * 3.55>>
+<<status 0>>
 <</widget>>
 
 <<widget "arousal">>
 <<if ndef $args[0]>>
-	<<set $error += ", arousal setting error - no args sent to function in passage: ">>
-	<<set $error += passage()>>
+	<<set $AW.error += ", arousal setting error - no args sent to function in passage: ">>
+	<<set $AW.error += passage()>>
 	<<set $args[0] = 0>>
 <</if>>
-<<set $status.arousal = Math.round( $runop[24] / 2.35)>>
+<<status 1>>
 <<if $args[0] == "X">>
-	<<set $status.arousal = 0>>
+	<<set $PC.status.arousal = 0>>
 <<elseif $args[0] == "N">>
 	<<if ndef $args[1]>>
-		<<set $error += ", arousal setting error - no args sent to function in passage: ">>
-		<<set $error += passage()>>
-		<<set $status.arousal = 0>>
+		<<set $AW.error += ", arousal setting error - no args sent to function in passage: ">>
+		<<set $AW.error += passage()>>
+		<<set $PC.status.arousal = 0>>
 	<<else>>
 		<<switch $args[1]>>
 		<<case 1>>
-			<<set $status.arousal = -1>>
+			<<set $PC.status.arousal = -1>>
 		<<case 2>>
-			<<set $status.arousal = -2>>
+			<<set $PC.status.arousal = -2>>
 		<<case 3>>
-			<<set $status.arousal = -3>>
+			<<set $PC.status.arousal = -3>>
 		<<case 4>>
-			<<set $status.arousal = -4>>
+			<<set $PC.status.arousal = -4>>
 		<<case 5>>
-			<<set $status.arousal = -5>>
+			<<set $PC.status.arousal = -5>>
 		<<case 6>>
-			<<set $status.arousal = -6>>
+			<<set $PC.status.arousal = -6>>
 		<<case default>>
-			<<set $status.arousal = -1>>
+			<<set $PC.status.arousal = -1>>
 		<</switch>>
 	<</if>>
-<<elseif $status.arousal < 0>>
-	<<set $status.arousal += $args[0]>>
-	<<if $kink.HyperSlut>>
-		<<set $status.arousal += 2>>
-	<<elseif $kink.SuperSlut>>
-		<<set $status.arousal += 1>>
-	<<elseif $kink.Slut>>
-		<<set $status.arousal += either(0,0,1)>>
+<<elseif $PC.status.arousal < 0>>
+	<<set $PC.status.arousal += $args[0]>>
+	<<if $PC.kink.hyperSlut>>
+		<<set $PC.status.arousal += 2>>
+	<<elseif $PC.kink.superSlut>>
+		<<set $PC.status.arousal += 1>>
+	<<elseif $PC.kink.slut>>
+		<<set $PC.status.arousal += either(0,0,1)>>
 	<</if>>
-	<<if $trait.libido > 7>>
-		<<set $status.arousal += 1>>
+	<<if $PC.trait.libido > 7>>
+		<<set $PC.status.arousal += 1>>
 	<</if>>
-	<<if $status.arousal < -6>>
-		<<set $status.arousal = -6>>
-	<<elseif $status.arousal > 0>>
-		<<set $status.arousal = 0>>
+	<<if $PC.status.arousal < -6>>
+		<<set $PC.status.arousal = -6>>
+	<<elseif $PC.status.arousal > 0>>
+		<<set $PC.status.arousal = 0>>
 	<</if>>
 <<else>>
 	<<if $args[0] < 0>>
 		<<set _mod = 1>>
-		<<switch $trait.libido>>
+		<<switch $PC.trait.libido>>
 		<<case 1>>
 			<<set _mod += 0.6>>
 		<<case 2>>
@@ -436,22 +436,22 @@
 		<<case 10>>
 			<<set _mod -= 0.8>>
 		<</switch>>
-		<<if $kink.Slut && $kink.Liberate>>
+		<<if $PC.kink.slut && $PC.kink.liberate>>
 			<<set _mod -= 0.3>>
-		<<elseif $kink.Slut>>
+		<<elseif $PC.kink.slut>>
 			<<set _mod -= 0.2>>
-		<<elseif $kink.Liberate || $kink.Exhibition || $kink.Cumslut || $kink.Sub || $kink.Risky>>
+		<<elseif $PC.kink.liberate || $PC.kink.exhibition || $PC.kink.cumSlut || $PC.kink.sub || $PC.kink.risky>>
 			<<set _mod -= 0.1>>
 		<</if>>
-		<<if $kink.Rape || $kink.Pregnancy || $kink.Masochist || $kink.Public || $kink.Sizequeen>>
+		<<if $PC.kink.rape || $PC.kink.pregnancy || $PC.kink.masochist || $PC.kink.public || $PC.kink.sizequeen>>
 			<<set _mod -= 0.1>>
 		<</if>>
-		<<if $mutate.Acid || $mutate.BC || $mutate.Multiple || $mutate.Cycle || $mutate.TwinWomb || $mutate.Pheromone>>
+		<<if $PC.mutate.acid || $PC.mutate.birthCon || $PC.mutate.multiple || $PC.mutate.cycle || $PC.mutate.twinWomb || $PC.mutate.phero>>
 			<<set _mod -= 0.1>>
 		<</if>>
-		<<if $status.arousal > 9 && _mod < 0.5>>
+		<<if $PC.status.arousal > 9 && _mod < 0.5>>
 			<<set _mod = 0.5>>
-		<<elseif $status.arousal > 9 && _mod < 1>>
+		<<elseif $PC.status.arousal > 9 && _mod < 1>>
 			<<set _mod = 1>>
 		<<elseif _mod <= 0>>
 			<<set _mod = 0.1>>
@@ -459,7 +459,7 @@
 		<<set _temp = Math.round($args[0] * _mod)>>
 	<<elseif $args[0] >= 0>>
 		<<set _mod = 1>>
-		<<switch $trait.libido>>
+		<<switch $PC.trait.libido>>
 		<<case 1>>
 			<<set _mod -= 0.6>>
 		<<case 2>>
@@ -481,90 +481,90 @@
 		<<case 10>>
 			<<set _mod += 0.8>>
 		<</switch>>
-		<<if $kink.Slut && $kink.Liberate>>
+		<<if $PC.kink.slut && $PC.kink.liberate>>
 			<<set _mod += 0.3>>
-		<<elseif $kink.Slut>>
+		<<elseif $PC.kink.slut>>
 			<<set _mod += 0.2>>
-		<<elseif $kink.Liberate || $kink.Exhibition || $kink.Cumslut || $kink.Sub || $kink.Risky>>
+		<<elseif $PC.kink.liberate || $PC.kink.exhibition || $PC.kink.cumSlut || $PC.kink.sub || $PC.kink.risky>>
 			<<set _mod += 0.1>>
 		<</if>>
-		<<if $kink.Rape || $kink.Pregnancy || $kink.Masochist || $kink.Public || $kink.Sizequeen>>
+		<<if $PC.kink.rape || $PC.kink.pregnancy || $PC.kink.masochist || $PC.kink.public || $PC.kink.sizequeen>>
 			<<set _mod += 0.1>>
 		<</if>>
-		<<if $mutate.Acid || $mutate.BC || $mutate.Multiple || $mutate.Cycle || $mutate.TwinWomb || $mutate.Pheromone>>
+		<<if $PC.mutate.acid || $PC.mutate.birthCon || $PC.mutate.multiple || $PC.mutate.cycle || $PC.mutate.twinWomb || $PC.mutate.phero>>
 			<<set _mod += 0.1>>
 		<</if>>
-		<<if $status.arousal > 9 && _mod > 2>>
+		<<if $PC.status.arousal > 9 && _mod > 2>>
 			<<set _mod = 2>>
-		<<elseif $status.arousal > 9 && _mod > 1.5>>
+		<<elseif $PC.status.arousal > 9 && _mod > 1.5>>
 			<<set _mod = 1.5>>
-		<<elseif $status.arousal > 9 && _mod > 1>>
+		<<elseif $PC.status.arousal > 9 && _mod > 1>>
 			<<set _mod = 1>>
 		<</if>>
 		<<set _temp = Math.round($args[0] * _mod)>>
 	<</if>>
-	<<set $status.arousal += _temp>>
-	<<if $status.arousal > 15>>
-		<<set $status.arousal = 15>>
-		<<if not $mindbreak>>
-			<<set $mindbreak = either(true,false,false,false,false,false,false,false)>>
-			<<if $mindbreak>><<set alert("your mind is now broken")>><</if>>
-			<<set $mindbreak = $runop[35]>>
+	<<set $PC.status.arousal += _temp>>
+	<<if $PC.status.arousal > 15>>
+		<<set $PC.status.arousal = 15>>
+		<<status 1>>
+		<<if not $PC.status.mindbreak>>
+			<<set $PC.status.mindbreak = either(true,false,false,false,false,false,false,false)>>
+			<<if $PC.status.mindbreak>><<status 0>><<set alert("your mind is now broken")>><</if>>
 		<</if>>
-	<<elseif $status.arousal < 0>>
-		<<set $status.arousal = 0>>
+	<<elseif $PC.status.arousal < 0>>
+		<<set $PC.status.arousal = 0>>
 	<</if>>
 <</if>>
-<<set $runop[24] = $status.arousal * 2.35>>
-<<if $status.arousal > 13>>
+<<status 0>>
+<<if $PC.status.arousal > 13>>
 	<<set alert("Your arousal is dangerously high!")>>
 <</if>>
 <</widget>>
 
 <<widget "satisfaction">>
 <<if ndef $args[0]>>
-	<<set $error += ", satisfaction setting error - no args sent to function in passage: ">>
-	<<set $error += passage()>>
+	<<set $AW.error += ", satisfaction setting error - no args sent to function in passage: ">>
+	<<set $AW.error += passage()>>
 	<<set $args[0] = 0>>
 <</if>>
-<<set $status.satisfaction = Math.round( $runop[28] / 3.15)>>
-<<set $status.satisfaction += $args[0]>>
-<<if $kink.Slut && $args[0] < 0>>
-	<<set $status.satisfaction += Math.round($args[0] * 0.3)>>
+<<status 1>>
+<<set $PC.status.satisfaction += $args[0]>>
+<<if $PC.kink.slut && $args[0] < 0>>
+	<<set $PC.status.satisfaction += Math.round($args[0] * 0.3)>>
 <</if>>
-<<if ( $kink.SuperSlut || $kink.HyperSlut ) && $args[0] < 0>>
-	<<set $status.satisfaction += Math.round($args[0] * 0.5)>>
+<<if ( $PC.kink.superSlut || $PC.kink.hyperSlut ) && $args[0] < 0>>
+	<<set $PC.status.satisfaction += Math.round($args[0] * 0.5)>>
 <</if>>
-<<if $trait.libido > 7 && $args[0] < 0>>
-	<<set $status.satisfaction += Math.round($args[0] * 0.2)>>
+<<if $PC.trait.libido > 7 && $args[0] < 0>>
+	<<set $PC.status.satisfaction += Math.round($args[0] * 0.2)>>
 <</if>>
-<<if $status.satisfaction < 0 >>
-	<<set $status.underSatisfy += 1>>
-	<<set $status.satisfaction = 2>>
+<<if $PC.status.satisfaction < 0 >>
+	<<set $PC.status.underSatisfy += 1>>
+	<<set $PC.status.satisfaction = 2>>
 	<<set _rand = random(0,95)>>
-	<<if $kink.Slut>><<set _rand += 10>><</if>>
-	<<set _rand += $trait.libido>>
+	<<if $PC.kink.slut>><<set _rand += 10>><</if>>
+	<<set _rand += $PC.trait.libido>>
 	<<if _rand > 50>>
-		<<set $status.need = Math.round( $runop[27] / 3.15)>>
-		<<set $status.need += 1>>
-		<<set $runop[27] = $status.need * 3.15>>
+		<<status 1>>
+		<<set $PC.status.need += 1>>
+		<<status 0>>
 	<</if>>
-<<elseif $status.satisfaction > 100>>
-	<<set $status.satisfaction = 100>>
-	<<set $status.need = Math.round( $runop[27] / 3.15)>>
-	<<if $status.need > 0>>
-		<<set $status.need -= 1>>
-		<<set $runop[27] = $status.need * 3.15>>
+<<elseif $PC.status.satisfaction > 100>>
+	<<set $PC.status.satisfaction = 100>>
+	<<status 1>>
+	<<if $PC.status.need > 0>>
+		<<set $PC.status.need -= 1>>
+		<<status 0>>
 	<</if>>
 <</if>>
-<<set $runop[28] = $status.satisfaction * 3.15>>
+<<status 0>>
 <</widget>>
 
 <<widget "cond">>
 <<silently>>
 <<if ndef $args[0]>>
-	<<set $error += ", condition interpret error - no args sent to function in passage: ">>
-	<<set $error += passage()>>
+	<<set $AW.error += ", condition interpret error - no args sent to function in passage: ">>
+	<<set $AW.error += passage()>>
 	<<set $args[0] = 0>>
 <</if>>
 <<set _array = $args[0]>>
@@ -742,10 +742,10 @@
 <<link [img[Help Information|IMGhelpbutton]]>>
 <<if ndef $args[0]>>
 	<<run alert("help name not defined, please report.")>>
-	<<set $error += "helpPop arg (name) error on passage: " + passage()>>
+	<<set $AW.error += "helpPop arg (name) error on passage: " + passage()>>
 <<elseif ndef $args[1]>>
 	<<run alert("help text not defined, please report.")>>
-	<<set $error += "helpPpp arg (text) error on passage: " + passage()>>
+	<<set $AW.error += "helpPpp arg (text) error on passage: " + passage()>>
 <<else>>
 	<<dialog $args[0]>>@@.exp;<<print $args[1]>>@@<</dialog>>
 <</if>><</link>>
@@ -755,10 +755,10 @@
 <<link [img[Warning Information|warningS]]>>
 <<if ndef $args[0]>>
 	<<run alert("help name not defined, please report.")>>
-	<<set $error += "helpPop arg (name) error on passage: " + passage()>>
+	<<set $AW.error += "helpPop arg (name) error on passage: " + passage()>>
 <<elseif ndef $args[1]>>
 	<<run alert("help text not defined, please report.")>>
-	<<set $error += "helpPpp arg (text) error on passage: " + passage()>>
+	<<set $AW.error += "helpPpp arg (text) error on passage: " + passage()>>
 <<else>>
 	<<dialog $args[0]>>@@.exp;<<print $args[1]>>@@<</dialog>>
 <</if>><</link>>
@@ -767,7 +767,7 @@
 <<widget "spendingLevel">>
 <<silently>>
 <<if ndef $args[0]>>
-	<<set $error += "error with spending level widget at: " + passage()>>
+	<<set $AW.error += "error with spending level widget at: " + passage()>>
 	<<set _pcsLoadLetter = "Error!">>
 <<else>>
 	<<switch $args[0]>>
@@ -796,11 +796,11 @@
 <<silently>>
 <<if ndef $args[0]>>
 	<<set _jism = "@@.orange;.smear;Error--No Arg@@">>
-	<<set $error += ", No arg sent to cleanLevel function in passage: " + passage()>>
+	<<set $AW.error += ", No arg sent to cleanLevel function in passage: " + passage()>>
 <<elseif isNaN($args[0])>>
 	<<if ndef $args[1]>>
 		<<set _jism = "@@.orange;.smear;Error--No Arg@@">>
-		<<set $error += ", No arg sent to cleanLevel function in passage: " + passage()>>
+		<<set $AW.error += ", No arg sent to cleanLevel function in passage: " + passage()>>
 	<<else>>
 		<<switch $args[0]>>
 		<<case 10>>
@@ -959,6 +959,68 @@
 <</silently>><<print _skeet>>
 <</widget>>
 
+<<widget "popNPCinfo">>
+<<if ndef $args[0]>>
+<<print "@@.warn;ERROR no NPC set for view macro@@">>
+<<else>>
+<<set _npcName = "Viewing " + $NPC[$args[0]].main.name + " " + $NPC[$args[0]].main.surname.slice(0,1) + ".">>
+<<set _key = $args[0]>>
+@@.infoLink;<<link "View NPC">>
+<<dialog _npcName>>
+<center>@@.head2;NPC Viewer 10K2@@</center>
+<table><tr>
+<td colspan=3 style="text-align:center">
+@@.ident;<<print $NPC[_key].main.name>> <<if $NPC[_key].main.nickname != "none">>//<<print '"'>><<print $NPC[_key].main.nickname>><<print '" '>>//<</if>><<print $NPC[_key].main.surname>>@@
+</td></tr><tr>
+<td width="33.3%"><<set _tded = false>>
+  ''Main:''<br>
+  <<for _i to 0, _names to Object.keys($NPC[_key].main); _i lt _names.length; _i++>>
+    @@.note;<<print _names[_i]>>: <<print $NPC[_key].main[_names[_i]]>><br>@@
+  <</for>>
+  <br>''Fertility:''<br>
+  <<for _i to 0, _names to Object.keys($NPC[_key].fert); _i lt _names.length; _i++>>
+    @@.note;<<print _names[_i]>>: <<print $NPC[_key].fert[_names[_i]]>><br>@@
+  <</for>>
+  </td><td width="33.3%">
+  <br>''Body:''<br>
+  <<for _i to 0, _names to Object.keys($NPC[_key].body); _i lt _names.length; _i++>>
+	<<if _names[_i] != "cock" && _names[_i] != "balls" && _names[_i] != "tits" && _names[_i] != "pussy" && _names[_i] != "asshole">>
+    @@.note;<<print _names[_i]>>: <<print $NPC[_key].body[_names[_i]]>><br>@@
+	<</if>>
+  <</for>>
+  <br>''Mutations:''
+  <<for _i to 0, _names to Object.keys($NPC[_key].mutate); _i lt _names.length; _i++>>
+    <<if $NPC[_key].mutate[_names[_i]]>><br>@@.note;<<print _names[_i]>>@@<</if>>
+  <</for>>
+  </td><td>
+	<<if $NPC[_key].main.genes != "XX">>
+		''Cock:''<br>
+		<<for _j to 0, _namo to Object.keys($NPC[_key].body.cock); _j lt _namo.length; _j++>>
+        @@.note;--<<print _namo[_j]>>: <<print $NPC[_key].body.cock[_namo[_j]]>><br>@@
+    <</for>>
+		<br>''Balls:''<br>
+		<<for _j to 0, _namo to Object.keys($NPC[_key].body.balls); _j lt _namo.length; _j++>>
+        @@.note;--<<print _namo[_j]>>: <<print $NPC[_key].body.balls[_namo[_j]]>><br>@@
+    <</for>>
+	<</if>>
+	<<if $NPC[_key].main.genes != "XY">>
+		''Breasts:''<br>
+		<<for _j to 0, _namo to Object.keys($NPC[_key].body.tits); _j lt _namo.length; _j++>>
+        @@.note;--<<print _namo[_j]>>: <<print $NPC[_key].body.tits[_namo[_j]]>><br>@@
+    <</for>>
+		<br>''Pussy:''<br>
+		<<for _j to 0, _namo to Object.keys($NPC[_key].body.pussy); _j lt _namo.length; _j++>>
+        @@.note;--<<print _namo[_j]>>: <<print $NPC[_key].body.pussy[_namo[_j]]>><br>@@
+    <</for>>
+	<</if>>
+  <br>''Asshole:''<br>
+  @@.note;--<<print "virgin">>: <<print $NPC[_key].body.asshole.virgin>><br>
+  --<<print "tight">>: <<print $NPC[_key].body.asshole.tight>>
+	</td></tr></table>
+<</dialog>>
+<</link>>@@
+<</if>>
+<</widget>>
 
 <</silently>>
 <</nobr>>

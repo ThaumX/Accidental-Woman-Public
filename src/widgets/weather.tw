@@ -13,58 +13,58 @@
 <<widget "weatherizer">>
 <<if ndef $args[0]>>
 <<set _rand = random(1,100)>>
-<<set $weather = []>>
-<<set $wxChance = 0>>
-<<set $skyCon = "CLR">>
-<<set $wxReport = "missing">>
+<<set $AW.weather = []>>
+<<set $AW.wxChance = 0>>
+<<set $AW.skyCon = "CLR">>
+<<set $AW.wxReport = "missing">>
 <<switch $month>>
 <<case 13 1 2 3>>
 	<<if _rand <= 2>>
-		<<set $weather.push("TSSN")>>
-		<<set $weather.push("+SN")>>
-		<<set $weather.push("SN")>>
-		<<set $weather.push("SN")>>
-		<<set $weather.push("-SN")>>
-		<<set $weather.push("-SN")>>
-		<<set $wxChance = random(50,70)>>
-		<<set $wxChance += either(0,2,4,6,8,10)>>
+		<<set $AW.weather.push("TSSN")>>
+		<<set $AW.weather.push("+SN")>>
+		<<set $AW.weather.push("SN")>>
+		<<set $AW.weather.push("SN")>>
+		<<set $AW.weather.push("-SN")>>
+		<<set $AW.weather.push("-SN")>>
+		<<set $AW.wxChance = random(50,70)>>
+		<<set $AW.wxChance += either(0,2,4,6,8,10)>>
 		<<set _sky = ["OVC","BKN"]>>
 	<<elseif _rand <= 8>>
-		<<set $weather.push("+SN")>>
-		<<set $weather.push("SN")>>
-		<<set $weather.push("SN")>>
-		<<set $weather.push("-SN")>>
-		<<set $weather.push("-SN")>>
-		<<set $weather.push("-SN")>>
-		<<set $wxChance = random(30,50)>>
-		<<set $wxChance += either(0,2,4,6,8,10)>>
+		<<set $AW.weather.push("+SN")>>
+		<<set $AW.weather.push("SN")>>
+		<<set $AW.weather.push("SN")>>
+		<<set $AW.weather.push("-SN")>>
+		<<set $AW.weather.push("-SN")>>
+		<<set $AW.weather.push("-SN")>>
+		<<set $AW.wxChance = random(30,50)>>
+		<<set $AW.wxChance += either(0,2,4,6,8,10)>>
 		<<set _sky = ["OVC","BKN","BKN"]>>
 	<<elseif _rand <= 15>>
-		<<set $weather.push("SN")>>
-		<<set $weather.push("-SN")>>
-		<<set $weather.push("-SN")>>
-		<<set $wxChance = random(20,50)>>
-		<<set $wxChance += either(0,2,4,6,8,10)>>
+		<<set $AW.weather.push("SN")>>
+		<<set $AW.weather.push("-SN")>>
+		<<set $AW.weather.push("-SN")>>
+		<<set $AW.wxChance = random(20,50)>>
+		<<set $AW.wxChance += either(0,2,4,6,8,10)>>
 		<<set _sky = ["OVC","BKN","BKN","SCT"]>>
 	<<elseif _rand <= 25>>
-		<<set $weather.push("-SN")>>
-		<<set $wxChance = random(10,40)>>
-		<<set $wxChance += either(0,2,4,6,8,10)>>
+		<<set $AW.weather.push("-SN")>>
+		<<set $AW.wxChance = random(10,40)>>
+		<<set $AW.wxChance += either(0,2,4,6,8,10)>>
 		<<set _sky = ["BKN","SCT"]>>
 	<<elseif _rand <= 30>>
-		<<set $weather.push("FZRA")>>
-		<<set $weather.push("GR")>>
-		<<set $weather.push("RA")>>
-		<<set $wxChance = random(30,60)>>
-		<<set $wxChance += either(0,2,4,6,8,10)>>
+		<<set $AW.weather.push("FZRA")>>
+		<<set $AW.weather.push("GR")>>
+		<<set $AW.weather.push("RA")>>
+		<<set $AW.wxChance = random(30,60)>>
+		<<set $AW.wxChance += either(0,2,4,6,8,10)>>
 		<<set _sky = ["BKN","SCT"]>>
 	<<elseif _rand <= 45>>
-		<<set $weather.push("FG")>>
-		<<set $weather.push("BR")>>
-		<<set $weather.push("BR")>>
-		<<set $weather.push("RA")>>
-		<<set $wxChance = random(30,60)>>
-		<<set $wxChance += either(0,2,4,6,8,10)>>
+		<<set $AW.weather.push("FG")>>
+		<<set $AW.weather.push("BR")>>
+		<<set $AW.weather.push("BR")>>
+		<<set $AW.weather.push("RA")>>
+		<<set $AW.wxChance = random(30,60)>>
+		<<set $AW.wxChance += either(0,2,4,6,8,10)>>
 		<<set _sky = ["FEW","SCT","FEW","FEW","CLR"]>>
 	<</if>>
 <<case 4 5>>

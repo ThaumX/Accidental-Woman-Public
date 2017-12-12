@@ -1,0 +1,78 @@
+:: storyStart9 [nobr]
+
+<<set $helpText = "One of the early story choices that start to affect things, mainly how Lily feels about you, and how a relationship may unfold. No choice at this point will lock you out of anything though.">>
+<<procS "Resurrect Lily">>
+<<activateNPC "n101">>
+<<procE>>
+<<if $PC.trait.open != "closed">>
+	<<stress -5>>
+	<<happy 1>>
+<<else>>
+	<<stress  10>>
+	<<anger 1>>
+	<<happy -1>>
+<</if>>
+<<setScene "You are in Lily's house, still in the process of waking up." 1 1 1>>
+<<set $PC.clothes.lower[5] = 0>>
+<<set $PC.clothes.upper[5] = 0>>
+<<set $day = 2>>
+<<setTime 6 52>>
+<<dateCalculate>>
+<<tired -8>>
+<<status 0>>
+<<if $swim != "[dev]">>
+  <<goto [[storyStart9b]]>>
+<<else>>
+  debug [[storyStart9b]]
+<</if>>
+
+:: storyStart9b [nobr]
+
+<br>
+@@.head3;W@@hen your eyes flutter open in the morning, you're greeted with the warm glow of sunlight passing through the window curtains. You can hear a continuing series of chirps and tweets from outside; after living in the city for so long, it takes you a few moments to recognize it as birdsong. You can feel yourself smiling as you get up to pull on your discarded pajamas.<<if $PC.trait.vert != "extroverted" || $PC.trait.open != "closed">> You aren't normally a morning person, but excitement has infected you before you've even had a sip of coffee.<<else>> You don't know if you're still a morning person, but you see no reason to stop the habit now.<</if>>
+<br><br>
+@@.head3;E@@xiting your bedroom, you head down the stairs with a bounce in your step. <<if $PC.body.tits.cupNum > 8>>You feel the weight on your chest bouncing along with each step down, and your smile widens at the thought of what your display would do to a watching man. <</if>>You make your way to Lily's kitchen, already thinking about your plans for the day. You rummage around in the kitchen to find the coffee, while considering if you should take a tour of Appletree and look at available places for rent, or if you should focus on letting Lily forge your new documentation. Eventually you stop, horrified, when you realize that Lily is completely out of coffee and its life-giving caffiene. You hurry back up the stairs towards Lily's room, hoping that the coffee situation isn't as [[dire as it seems|storyStart9c]].
+<br><br>
+
+
+:: storyStart9c [nobr]
+
+
+@@.head3;W@@ithout thinking about it, you open the door to Lily's room and walk inside. "@@.pc;Hey Lils, I couldn't find any coffee in the kit.....chen.@@" You stop in your tracks as you finally realize what you're looking at
+<<if $pref.dispSceneImg>>
+<<message "looking at">>
+<span id="imgbitch" class="fucker">[img[IMG_LilySurprise1]]</span>
+<<timed 1000ms>>
+<<replace "#imgbitch">>[img[IMG_LilySurprise2]]<</replace>>
+<<next>>
+<<replace "#imgbitch">>[img[IMG_LilySurprise3]]<</replace>>
+<</timed>>
+<</message>>
+<<else>>
+looking at
+<</if>>
+. Lily is laying on the bed naked, and was obviously in the middle of masturbating. She's not stroking a clit though... She still has two fingers from one hand inside her pussy, while the other is grasping an average-sized cock that emerges from just above the top of her slit...
+<br><br>
+Lily just stares like a deer caught in the headlights. "@@.npc;Ummm... Good morning?@@"
+<br><br>
+<<SCX>>
+<<SC "SD" 20>>
+<<SC "SD" 12>>
+<<if $PC.trait.perceptive == 1>><<SC "CM" 7>><<else>><<SC "CM" 9>><</if>>
+@@.big;[[Slowly back out of the room and close the door|storyStart10][$temp = 1]]@@<br>
+@@.big;[[Apologize but stay in the room|storyStart10][$temp = 2]]@@<br>
+<<if $PC.trait.forgiving != -1  && $PC.trait.open != "closed">>
+@@.big;[[Take a closer look|storyStart10][$temp = 3]]<br>
+<<else>>
+<i>@@font-size:115%;.gray;Take a closer look@@</i><br> 
+<</if>>
+<<if $PC.trait.flirty != -1 && $PC.trait.vert != "introverted" && $PC.trait.open != "closed" && $PC.trait.libido > 2 && $PC.kink.oral>>
+[img[warningS]]@@.big;[[Offer to help out|storyStart10][$temp = 4]]@@ <<if $PC.trait.open == "open" || $PC.trait.vert == "introverted">>It's unlikely that this will go over well...<</if>>
+<<elseif $PC.kink.slut>>
+[img[warningS]]@@.big;[[Offer to help out|storyStart10][$temp = 4]]@@ <<if $PC.trait.open == "open" || $PC.trait.vert == "introverted">>It's unlikely that this will go over well...<</if>>
+<<elseif $PC.trait.libido > 4 && $PC.kink.oral>>
+[img[warningS]]@@.big;[[Offer to help out|storyStart10][$temp = 4]]@@ <<if $PC.trait.open == "open" || $PC.trait.vert == "introverted">>It's unlikely that this will go over well...<</if>>
+<<else>>
+<i>@@font-size:115%;.gray;Offer to help out@@</i> 
+<</if>>
+<<comment "While the pc may be a horny nymphomaniac, they also haven't completely lost their reason (yet). Most characters will realize--thanks to a relationship lasting 15 years--that it's a risky idea to recklessly proposition Lily right now. Some may be horny enough to risk it, others will not. The skill check is difficult if they try.">>

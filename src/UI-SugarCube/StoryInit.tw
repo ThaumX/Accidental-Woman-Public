@@ -1,0 +1,67 @@
+:: StoryInit
+
+<<if ndef $noForce>>
+	<<set $noForce = false>>
+<</if>>
+<<if ndef $noViolent>>
+	<<set $noViolent = false>>
+<</if>>
+<<if ndef $noExtreme>>
+	<<set $noExtreme = false>>
+<</if>>
+<<if ndef $commentary>>
+	<<set $commentary = true>>
+<</if>>
+<<if ndef $showSkillCheck>>
+	<<set $showSkillCheck = true>>
+<</if>>
+<<set $AW = {}>>
+<<set $NPC = {}>>
+<<set $AW.moodColor = {}>>
+<<set $AW.moodColor.blue = "rsp-blue">>
+<<set $AW.moodColor.dblue = "rsp-deepblue">>
+<<set $AW.moodColor.orange = "rsp-orange">>
+<<set $AW.moodColor.grey = "rsp-grey">>
+<<set $AW.moodColor.pink = "rsp-pink">>
+<<set $AW.moodColor.print = '<<removeclass "#right-sidebar-portrait" "rsp-blue rsp-deepblue rsp-orange rsp-grey rsp-pink">>'>>
+<<set $proc = {start:0,stop:0,time:0,text:"none"}>>
+<<set $showNewGame = true>>
+<<set $showMenuButton = false>>
+<<set $showData = false>>
+<<set $location = "Main Menu">>
+<<set $version = "0.05.5">>
+<<set $ver = 53>>
+<<set setup.ver = $version>>
+<<set $swim = "[dev]">>
+<<set $sidebarCmds = []>>
+<<switch $swim>>
+	<<case "[dev]" "[elite]">>
+		<<set $debugTools = true>>
+		<<set $debu = false>>
+		<<set $pub = true>>
+		<<set $sidebarCmds.push(["Debug Tools","<<cmdToggleDebug>>"])>>
+	<<case "[cheats]">>
+		<<set $debugTools = false>>
+		<<set $debu = false>>
+		<<set $pub = true>>
+	<<case default>>
+		<<set $debugTools = false>>
+		<<set $debu = false>>
+		<<set $pub = false>>
+<</switch>>
+<<set $sidebarCmds.push(["Testing Item","<<cmdTestItem>>"])>>
+<<set $prevPassage = "Start">>
+<<set $guideItem = "none">>
+<<set $runop = []>>
+<<set $UImap = "[img[IMGmap250]]">>
+<<set $UIimg = []>>
+<<set $UIimgCol = ["pink","blue","orange"]>>
+<<set $UIimgFlag = false>>
+<<set $UIimgSexFlag = false>>
+<<set $UIdefaultImg = "[img[Click for Info|IMG_defaultPortrait]]">>
+<<set $helpText = "This is an example of how help text will look.">>
+<<set $devmsg = true>>
+
+<<script>>
+Setting.load()
+<</script>>

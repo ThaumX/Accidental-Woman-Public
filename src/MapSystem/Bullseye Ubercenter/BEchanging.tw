@@ -1,0 +1,108 @@
+:: BEchanging [nobr map]
+
+@@.head2;The fitting room isn't quite ready yet...@@
+<br><br>
+@@.head3;L@@ater on, there will be some potential event/story content that starts here, as well as the opportunity to try your hand at shoplifting, or pull in an NPC for a private fashion show.
+<br><br>
+@@.typewriter;font-size:120%;You can access special in-development stuff here!@@
+<br>@@.import;Just to be safe, save first before entering any of these testing areas!@@
+<br><br>
+Visit your [[Home|homeT2TOfoyer]]. Your home (tier 2), friend/bf home (tier 2), and the residential area can be accessed from this shortcut. However, ''it may be better to access it during the normal sequence of events in the prologue.''
+<br><br>
+<<set _cunt = 1>>
+See what the NPCs are <<link "thinking">>
+<<set _print = "<<set _name = setup.nameRandomizer(" + either(1,2) + "," + either("'white'","'white'","'white'","'black'","'Asian'","'hispanic'") + ")>>">>
+<<print _print>>
+<<set _thought = setup.deepThoughts(_cunt)>>
+<<set _cunt += 1>>
+<<dialog "Deep Thoughts">>@@.head3;_name says@@<br><br>_thought<</dialog>>
+<</link>>, or check out different <<link "groups">><<dialog "NPC Groups">>
+<table>
+<tr><td colspan=3>@@.head3;''Your'' NPC Groups@@</td></tr>
+<tr><td>''single:'' <<print $npc.single.length>></td>
+<td>''in relationship:'' <<print $npc.rShip.length>></td>
+<td>''married:'' <<print $npc.married.length>></td></tr>
+<tr><td>''males:'' <<print $npc.male.length>></td>
+<td>''females:'' <<print $npc.female.length>></td>
+<td>''futas:'' <<print $npc.futa.length>></td></tr>
+<tr><td>''18-21:'' <<print $npc.age18to21.length>></td>
+<td>''22-27:'' <<print $npc.age22to27.length>></td>
+<td>''28-33:'' <<print $npc.age28to33.length>></td></tr>
+<tr><td>''34-39:'' <<print $npc.age34to39.length>></td>
+<td>''40-49:'' <<print $npc.age40to49.length>></td>
+<td>''50-59:'' <<print $npc.age50to59.length>></td></tr>
+<tr><td>''poor:'' <<print $npc.poor.length>></td>
+<td>''middle-income:'' <<print $npc.middle.length>></td>
+<td>''wealthy:'' <<print $npc.wealthy.length>></td></tr>
+<tr><td colspan=3>Dropouts: <<print $npc.education.dropout.length>>, Highschool: <<print $npc.education.hschool.length>>, Associates: <<print $npc.education.assoc.length>>, Bachelors: <<print $npc.education.bach.length>>, Masters: <<print $npc.education.master.length>>, Doctors: <<print $npc.education.doctor.length>></td></tr>
+</table>
+<</dialog>>
+<</link>> of NPCs.
+<br><br>
+<<link "Have Sex">>
+<<goto [[demoStartSexScene]]>>
+<</link>> with a stranger!
+<br><br>
+Try out the [[Wardrobe Menu|wardrobeMain]], or
+try out the [[Grooming Menu|groomingMain]].
+<br><br>
+<<link "Pass Time">><<set alert("You spend 15 minutes fapping")>><<addTime 15>><<goto [[BEchanging]]>><</link>> There isn't a reason to do this besides watching your stats slowly change.<br>
+<<link "Punch yourself">><<set $PC.status.health -= 10>><<goto [[BEchanging]]>><</link>> in the head (to test health).
+<br><br>
+Or just go back to [[Women's Clothing|controlBullseye][$map.destLoc = [2,3]]].
+<br><br>
+@@.note;You should head to the Bullseye Parking Lot (purchasing any clothes or jewelry in your cart) before heading back here to visit one of the menus. You can also learn some basic hairstyles at the@@ @@.ident;Best Head Salon@@@@.note;. This way, you actually have some things to play with.@@
+
+
+:: demoStartSexScene [nobr]
+
+<<silently>>
+<<set _npcs = []>>
+<<for _i to 0, _k to 0, _c to $npc.male.length; _i < _c && _k < 10; _i++>>
+  <<if $npc.age22to27.includes($npc.male[_i])>>
+    <<run _npcs.push($npc.male[_i])>>
+    <<set _k ++>>
+  <</if>>
+<</for>>
+<<activateNPC _npcs>>
+<<set _choice = []>>
+<<set _checkboxs = [false,false,false,false,false,false,false,false,false,false]>>
+<<set _tempTags = ["chair","table","wall"]>>
+<</silently>>
+@@.head2;(unfinished) Sex Scene Demo@@<br><br>
+@@.walter;This is the demo of the sex scene system. As the title mentions, it isn't finished. Because we're using a sophisticated system to allow an unprecidented level of complexity and expandability in our sex scenes, the framework of code supporting that has to come first. The good news, is that once the framework is finished, it's going to be quite easy to add new actions that integrate with the rest automatically. I'll be sharing the object formats, which will make it easy for people to submit their own actions. (The writing will really need to wait for the parsers though!) This object-based approach is also a potential spot for user mods in the form of json files.@@
+<br><br>
+@@.head3;Pick your companions@@<br>
+@@.info;Choose at least one, or up to 10 NPCs@@<br>
+<table id="invisTable">
+<td style="width:10%">''USE''</td>
+<td style="width:20%">''Name''</td>
+<td style="width:15%">''Sex''</td>
+<td style="width:10%">''Age''</td>
+<td>Detailed Info</td>
+<<set _key = 0>>
+<<for _i = 0; _i < 10; _i++>>
+<<capture _i _key>>
+<tr><td><<set _pre = "<<checkboxB '_checkboxs[" + _i + "]' false true>>">><<print _pre>></td>
+<td><<print $NPC[$activeNPC[_i]].main.name>> <<print $NPC[$activeNPC[_i]].main.surname>></td>
+<td><<set _gen = $NPC[$activeNPC[_i]].main.genes>><<if _gen == "XX">>Female<<elseif _gen == "XY">>Male<<else>>Futa<</if>></td>
+<td><<print $NPC[$activeNPC[_i]].main.age>></td>
+<td><<set _key = $activeNPC[_i]>><<popNPCinfo _key>></td></tr>
+<</capture>>
+<</for>>
+</table>
+<br>
+<<button "hold on to your butts!">>
+<<set _cunt = 0>>
+<<for _i = 0; _i < 10; _i++>>
+  <<if _checkboxs[_i]>>
+    <<run _choice.push(_i)>>
+    <<set _cunt += 1>>
+  <</if>>
+<</for>>
+<<if _cunt == 0>>
+  <<run alert("You must choose at least 1 NPC for now")>>
+<<else>>
+  <<startSexScene 0 _choice 0 _tempTags "Hey, it's starting text!">>
+<</if>>
+<</button>> <<button "Nevermind... Return">><<goto [[BEchanging]]>><</button>>

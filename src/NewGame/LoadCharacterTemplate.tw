@@ -1,0 +1,336 @@
+:: LoadCharacterTemplate [nobr hidden startpage]
+
+@@.head2;Load A Character Template@@
+<br><br>
+@@.head3;W@@@@.acme;.white;elcome to the @@@@.ident;Character Template System@@@@.acme;.white;. This system is intended to allow you to create a @@@@.ident;Template@@@@.acme;.white; of your character. A character template contains all of the details about your character chosen during character creation. When loading a template, your choices for physical body, attractiveness preferences, personality traits, kinks, and mutations are loaded, and you are deposited on the "Name Your Character" page. Share templates with other players to try something new!@@
+<br><br>
+@@.quest;.white;''Instructions''<br>Use the file button below to browse for a file.@@ @@.quest;.import;This file must be in the .awt format!@@ @@.quest;.white;Once you have chosen your template file, click the load button to load your template. (Or [[cancel and return|characterCreate]].)@@
+<br><br>
+<input type=file id='templateupload' name='templateupload'>
+<<button "LOAD">>
+<<set _values = []>>
+<<procS "Load Data">>
+<<script>>
+function processFile(e) {
+    var file = e.target.result,
+        results;
+    if (file && file.length) {
+			try{
+				State.active.variables.PC = "none";
+				State.active.variables.PC = setup.AW.decompressAWT(file);
+			}
+			catch(err){
+				alert("Error: File could not be decoded. Be sure to upload a valid accidental woman template (.awt) file.");
+			}
+    }else{
+			alert("Error: File could not be read!");
+		}
+}
+function uploadButton(filename) {
+	var reader = new FileReader();
+	var textFile = filename;
+	reader.readAsText(textFile);
+	$(reader).on('load', processFile);
+}
+var cock = document.getElementById('templateupload').files[0];
+uploadButton(cock);
+<</script>>
+<<procE>>
+<<timed 50ms>><<goto [[LoadCharacterTemplateB]]>><</timed>><</button>><br><br>
+
+:: LoadCharacterTemplateStrt [nobr hidden]
+
+@@.head2;Load A Character Template@@
+<br><br>
+@@.head3;W@@@@.acme;.white;elcome to the @@@@.ident;Character Template System@@@@.acme;.white;. This system is intended to allow you to create a @@@@.ident;Template@@@@.acme;.white; of your character. A character template contains all of the details about your character chosen during character creation. When loading a template, your choices for physical body, attractiveness preferences, personality traits, kinks, and mutations are loaded, and you are deposited on the "Name Your Character" page. Share templates with other players to try something new!@@
+<br><br>
+@@.quest;.white;''Instructions''<br>Use the file button below to browse for a file.@@ @@.quest;.import;This file must be in the .awt format!@@ @@.quest;.white;Once you have chosen your template file, click the load button to load your template. (Or [[cancel and return|Introduction]].)@@
+<br><br>
+<input type=file id='templateupload' name='templateupload'>
+<<button "LOAD">>
+<<set _values = []>>
+<<procS "Load Data">>
+<<script>>
+function processFile(e) {
+    var file = e.target.result,
+        results;
+    if (file && file.length) {
+			try{
+				State.active.variables.PC = "none";
+				State.active.variables.PC = setup.AW.decompressAWT(file);
+			}
+			catch(err){
+				alert("Error: File could not be decoded. Be sure to upload a valid accidental woman template (.awt) file.");
+			}
+    }else{
+			alert("Error: File could not be read!");
+		}
+}
+function uploadButton(filename) {
+	var reader = new FileReader();
+	var textFile = filename;
+	reader.readAsText(textFile);
+	$(reader).on('load', processFile);
+}
+var cock = document.getElementById('templateupload').files[0];
+uploadButton(cock);
+<</script>>
+<<procE>>
+<<timed 50ms>><<goto [[LoadCharacterTemplateB]]>><</timed>><</button>><br><br>
+
+:: LoadCharacterTemplateB [nobr hidden]
+
+<center>@@.ship;.walter;font-size:125%;Template Loading Complete!@@</center><br><br>
+@@.exp;Template is from version <<print $temp>>.<br>Old templates will continue to work, however if there are new character creation options since a template was made, those options will be left at their default values.@@<br><br>
+<<set _add = $AW.randomMind + $AW.randomSexuality + $AW.randomAttraction + $AW.randomMutation + $AW.randomBody>>
+<<if _add > 0>>@@.import;''Re-randomizing character creation if random options were chosen is not yet supported.''@@<br><br><</if>>
+<center><<button [[Name your Character|nameCharacter]]>><</button>><br><br>
+@@.head2;Review Template Character Settings@@</center><br>
+<table><tr class="divide"><td colspan=3>@@.head3;Physical Settings@@</td></tr>
+<tr><td width="33%">
+  ''General Features''
+  <br>Height: @@.hotpink;<<if $AW.metric>><<print $PC.body.heightCM>> meters<<else>> 
+	<<print $PC.body.heightFoot>> feet, <<print $PC.body.heightInch>> inches<</if>>@@  
+	<br>Race: @@.hotpink;$PC.body.race@@
+	<br>Skin Color: @@.hotpink;$PC.body.skinColor@@
+	<br>Eye Color: @@.hotpink;$PC.body.eyeColor@@
+	<br>Face Type: @@.hotpink;$PC.body.face@@
+	<br>Face Beauty: @@.hotpink;<<pcBeauty>>@@
+	<br>Hair Color: @@.hotpink;$PC.groom.hairColor@@
+	<br>Body Hair Color: @@.hotpink;$PC.groom.pubeColor@@
+</td><td width="33%">
+	''Body Shape''
+	<br>Muscle Tone: @@.hotpink;<<pcTone>>@@
+	<br>Weight: @@.hotpink;<<pcWeight>>@@
+	<br>Shoulders: @@.hotpink;<<pcShoulderSize>>@@
+	<br>Hips: @@.hotpink;<<pcHipSize>>@@
+	<br>Waist: @@.hotpink;<<pcWaist>>@@
+	<br>Breasts: @@.hotpink;<<pcBraSize>> <<print $PC.body.tits.size>>cc@@
+	<br>Breast Shape: @@.hotpink;$PC.body.tits.shape@@
+	<br>Nipple Type: @@.hotpink;$PC.body.tits.nipple@@
+	<br>Butt: @@.hotpink;<<pcAssSize>>@@
+</td><td>
+	''Genitals and Reproduction''
+	<br>Clit Size: @@.hotpink;<<pcClitSize>>@@
+	<br>Labia Size: @@.hotpink;<<pcLabiaSize>>@@
+	<br>Vaginal Wetness: @@.hotpink;<<pcWetness>>@@
+	<br>Pubic Hair Style: @@.hotpink;$PC.groom.pubeStyle@@
+	<br>Fertility: @@.hotpink;<<pcFertility>>@@
+	<br>Milk Production: @@.hotpink;$PC.body.lactation@@
+</td></tr></table><br>
+<table>
+<tr class="divide"><td colspan=4>@@.head3;Attraction@@</td></tr>
+<tr class="divide"><td colspan=4><h3>Male Attraction</h3></td></tr>
+<tr><td width="25%">
+<br>''Muscle Attractions''
+<br>Frail: <<like $pref.muscle[0]>>
+<br>Weak: <<like $pref.muscle[1]>>
+<br>Normal: <<like $pref.muscle[2]>>
+<br>Toned: <<like $pref.muscle[3]>>
+<br>Muscular: <<like $pref.muscle[4]>>
+<br>He-Man: <<like $pref.muscle[5]>>
+</td><td width="25%">
+<br><br>''Weight Attractions''
+<br>Anorexic: <<like $pref.weight[0]>>
+<br>Skinny: <<like $pref.weight[1]>>
+<br>Normal: <<like $pref.weight[2]>>
+<br>Plush: <<like $pref.weight[3]>>
+<br>Chubby: <<like $pref.weight[4]>>
+<br>Fat: <<like $pref.weight[5]>>
+</td><td width="25%">
+<br><br>''Height Attractions''
+<br>Very Short: <<like $pref.height[0]>>
+<br>Short: <<like $pref.height[1]>>
+<br>Average: <<like $pref.height[2]>>
+<br>Tall: <<like $pref.height[3]>>
+<br>Very Tall: <<like $pref.height[4]>>
+</td><td width="25%">
+<br><br>''Other Attractions''
+<br>Bald: <<like $pref.other[0]>>
+<br>Glasses: <<like $pref.other[1]>>
+<br>Facial Hair: <<like $pref.other[2]>>
+<br>Smart: <<like $pref.other[3]>>
+<br>Dumb: <<like $pref.other[4]>>
+<br>Wealthy: <<like $pref.other[5]>>
+<br>Poor: <<like $pref.other[6]>>
+<br>Stylish: <<like $pref.other[7]>>
+<br>Large Penis: <<like $pref.other[8]>>
+<br>Small Penis: <<like $pref.other[9]>>
+</td></tr><tr class="divide"><td colspan=4>
+<h3>Female Attraction</h3></td></tr>
+<tr><td>
+<br>''Muscle Attractions''
+<br>Frail: <<like $pref.Fmuscle[0]>>
+<br>Weak: <<like $pref.Fmuscle[1]>>
+<br>Normal: <<like $pref.Fmuscle[2]>>
+<br>Toned: <<like $pref.Fmuscle[3]>>
+<br>Muscular: <<like $pref.Fmuscle[4]>>
+<br>Body Builder: <<like $pref.Fmuscle[5]>>
+</td><td>
+<br><br>''Weight Attractions''
+<br>Anorexic: <<like $pref.Fweight[0]>>
+<br>Skinny: <<like $pref.Fweight[1]>>
+<br>Normal: <<like $pref.Fweight[2]>>
+<br>Plush: <<like $pref.Fweight[3]>>
+<br>Chubby: <<like $pref.Fweight[4]>>
+<br>Fat: <<like $pref.Fweight[5]>>
+</td><td>
+<br><br>''Height Attractions''
+<br>Very Short: <<like $pref.Fheight[0]>>
+<br>Short: <<like $pref.Fheight[1]>>
+<br>Average: <<like $pref.Fheight[2]>>
+<br>Tall: <<like $pref.Fheight[3]>>
+<br>Very Tall: <<like $pref.Fheight[4]>>
+</td><td>
+<br><br>''Other Attractions''
+<br>Large Breasts: <<like $pref.Fother[0]>>
+<br>Small Breasts: <<like $pref.Fother[1]>>
+<br>Large Hips: <<like $pref.Fother[2]>>
+<br>Small Hips: <<like $pref.Fother[3]>>
+<br>Smart: <<like $pref.Fother[4]>>
+<br>Dumb: <<like $pref.Fother[5]>>
+<br>Glasses: <<like $pref.Fother[6]>>
+<br>Stylish: <<like $pref.Fother[7]>>
+<br>Makeup: <<like $pref.Fother[8]>>
+<br>Large Butt: <<like $pref.Fother[9]>>
+<br>Small Butt: <<like $pref.Fother[10]>>
+</td></tr>
+</table><br>
+<table>
+<tr><td colspan=2>
+@@.head3;Willpower and Personality@@
+</td></tr>
+<tr><td>
+Willpower: $PC.trait.will
+<br>Libido: <<pcLibido>>
+</td><td>
+Intro/Extroversion: $PC.trait.vert
+<br>Open/Closed to Experience: $PC.trait.open
+</td></tr>
+</table>
+<table>
+<tr><td>
+@@.head3;Personality Traits@@<br>
+<<if $PC.trait.caring == 1>>Caring<br><<elseif $PC.trait.caring == -1>>Uncaring<br><</if>>
+<<if $PC.trait.bitch == 1>>Bitch<br><<elseif $PC.trait.bitch == -1>>Kind<br><</if>>
+<<if $PC.trait.maternal == 1>>Maternal<br><<elseif $PC.trait.maternal == -1>>Bad With Kids<br><</if>>
+<<if $PC.trait.romantic == 1>>Romantic<br><<elseif $PC.trait.romantic == -1>>Aromantic<br><</if>>
+<<if $PC.trait.deceptive == 1>>Deceptive<br><<elseif $PC.trait.deceptive == -1>>Honest<br><</if>>
+<<if $PC.trait.devious == 1>>Devious<br><<elseif $PC.trait.devious == -1>>Straight-Forward<br><</if>>
+<<if $PC.trait.persuasive == 1>>Persuasive<br><<elseif $PC.trait.persuasive == -1>>Persuadable<br><</if>>
+<<if $PC.trait.perceptive == 1>>Perceptive<br><<elseif $PC.trait.perceptive == -1>>Oblivious<br><</if>>
+<<if $PC.trait.forgetful == 1>>Forgetful<br><<elseif $PC.trait.forgetful == -1>>Good Memory<br><</if>>
+<<if $PC.trait.forgiving == 1>>Forgiving<br><<elseif $PC.trait.forgiving == -1>>Holds Grudges<br><</if>>
+<<if $PC.trait.lowEsteem == 1>>Low Self Esteem<br><<elseif $PC.trait.lowEsteem == -1>>Narcissistic<br><</if>>
+<<if $PC.trait.picky == 1>>Picky<br><<elseif $PC.trait.picky == -1>>Low Standards<br><</if>>
+<<if $PC.trait.crude == 1>>Crude<br><<elseif $PC.trait.crude == -1>>Refined<br><</if>>
+<<if $PC.trait.friendly == 1>>Friendly<br><<elseif $PC.trait.friendly == -1>>Unfriendly<br><</if>>
+<<if $PC.trait.approachable == 1>>Approachable<br><<elseif $PC.trait.approachable == -1>>Unapproachable<br><</if>>
+<<if $PC.trait.relaxed == 1>>Relaxed<br><<elseif $PC.trait.relaxed == -1>>Ambitious<br><</if>>
+<<if $PC.trait.flirty == 1>>Flirty<br><<elseif $PC.trait.flirty == -1>>Shy<br><</if>>
+<<if $PC.trait.materialist == 1>>Materialist<br><<elseif $PC.trait.materialist == -1>>Non-Material<br><</if>>
+</td><td>
+@@.head3;Sexual Traits@@
+<<if $PC.kink.oral>><br>Likes Oral<</if>>
+<<if $PC.kink.anal>><br>Likes Anal<</if>>
+<<if $PC.kink.force>><br>Likes Forced<</if>>
+<<if $PC.kink.risky>><br>Likes Bare Sex<</if>>
+<<if $PC.kink.pregnancy>><br>Pregnancy Fetish<</if>>
+<<if $PC.kink.sizequeen>><br>Size Queen<</if>>
+<<if $PC.kink.sub>><br>Submissive<</if>>
+<<if $PC.kink.cumSlut>><br>Cumslut<</if>> 
+<<if $PC.kink.exhibition>><br>Exhibitionist<</if>> 
+<<if $PC.kink.masochist>><br>Masochist<</if>> 
+<<if $PC.kink.buttSlut>><br>Buttslut<</if>> 
+<<if $PC.kink.public>><br>Likes Public Sex<</if>>
+<<if $PC.kink.slut>><br>Slut<</if>>
+<<if $PC.kink.rape>><br>Rape Fetish<</if>>
+<<if $PC.kink.liberate>><br>Prostitute<</if>>
+<<if $PC.kink.nips>><br>Sensitive Nipples<</if>>
+<<if $PC.kink.easy>><br>Easy to Please<</if>>
+<<if $PC.kink.dom>><br>Dominant Streak<</if>>
+<<if $PC.kink.water>><br>Waterworks Okay<</if>>
+<<if $PC.kink.bond>><br>Bondage Okay<</if>>
+<<if $PC.kink.hard>><br>Hard to Please<</if>>
+<<if $PC.kink.fap>><br>Fapper<</if>>
+<<if $PC.kink.shame>><br>Shamefast<</if>>
+</td></tr>
+</table>
+<table>
+<tr><td>
+@@.head3;Mutations@@
+<<if $PC.mutate.milk>>
+<br>''Lactation Mutation'' @@.mono;It makes playing with your nipples even more fun.@@
+<</if>>
+<<if $PC.mutate.acid>>
+<br>''Vaginal Enzymes Mutation'' @@.mono;This seems pretty dangerous, but also exciting...@@
+<</if>>
+<<if $PC.mutate.birthCon>>
+<br>''Abnormal Hormone Mutation'' @@.mono;Maybe you should just avoid birth control altogether?@@
+<</if>>
+<<if $PC.mutate.multiple>>
+<br>''Multiple Ovulation Mutation'' @@.mono;This seems pretty crazy, imagine triplets with three different dads!@@
+<</if>>
+<<if $PC.mutate.gestate>>
+<br>''Rapid Gestation Mutation'' @@.mono;All the fun of getting pregnant, without the long delay before doing it again? <b>Great!</b>@@
+<</if>>
+<<if $PC.mutate.cycle>>
+<br>''Hyper Menstral Cycle Mutation'' @@.mono;Seems like this womb is always ready to go... <b>Risky sex</b> all the time.@@
+<</if>>
+<<if $PC.mutate.twinWomb>>
+<br>''Twin Wombs Mutation'' @@.mono;Double the pleasure, double the fun, DoubleWomb...@@
+<</if>>
+<<if $PC.mutate.phero>>
+<br>''Vulva Pheromones Mutation'' @@.mono;Being literally unresistable is bound to be interesting.@@
+<</if>>
+<<if $PC.mutate.litePhero>>
+<br>''Alluring Pheromones Mutation'' @@.mono;This will certainly make meeting new people interesting.@@
+<</if>>
+<<if $PC.mutate.immune>>
+<br>''Ethanol Immunity Mutation'' @@.mono;Worst. Mutation. Ever. At least 'buzzkill' is a decent superhero name.@@
+<</if>>
+<<if $PC.mutate.mouth>>
+<br>''Salivary Enzymes Mutation'' @@.mono;<<if $PC.kink.pregnancy>>This is bound to come in handy.<<else>>I suppose no putting on condoms with my mouth then.<</if>>@@
+<</if>>
+<<if $PC.mutate.contort>>
+<br>''Contortionist Mutation'' @@.mono;I think that the Kama Sutra is just the beginning...@@
+<</if>>
+<<if $PC.mutate.cumpire>>
+<br>''Lilith's Porphyria Mutation'' @@.mono;It's almost like a vampire and a succubus got together and had, well, me.@@
+<</if>>
+<<if $PC.mutate.period>>
+<br>''Amenorrhea Mutation'' @@.mono;Thank goodness I won't have to worry about all that period business!@@
+<</if>>
+<<if $PC.mutate.pseudoPreg>>
+<br>''Pseudo-Pregnancy Mutation'' @@.mono;I can get pregnant from animals!?! What the ''fuck'' Lily?@@
+<</if>>
+<<if $PC.mutate.contort>>
+<br>''Elastic Orifices'' @@.mono;Based on what I've learned from watching porn, this is definitely useful!@@
+<</if>>
+<<if $PC.mutate.goddess>><br>@@.good;''Fertility Goddess''@@ <i>your body is so perfect for breeding that it must be divine--literally @@.note;you have a preternatural ability to gauge the fertility of potential mates, an unnatural attractiveness, and unmatched control over your reproductive system. People would probably worship you, if you permitted them to bask in your splendor.@@</i><<elseif $PC.mutate.fertStorm>><br>@@.good;''Fertility Storm''@@ <i>your body is a perfect storm of pregnancy @@.note;You get the feeling that your body has some other unknown advantage...@@</i><</if>>
+</td></tr>
+</table>
+<table>
+<tr><td colspan=3>
+@@.head3;Skills@@
+</td></tr>
+<tr><td>
+Sex Skill: @@.hotpink;$PC.skill.sex@@
+<br> Oral Skill: @@.hotpink;$PC.skill.oral@@
+<br> Exhibition: @@.hotpink;$PC.skill.exhibition@@
+<br> Prostitution: @@.hotpink;$PC.skill.prostitute@@
+<br> Seduction: @@.hotpink;$PC.skill.seduction@@
+</td><td width=33%>
+Communication: @@.hotpink;$PC.skill.comm@@
+<br> Organization: @@.hotpink;$PC.skill.org@@
+<br> Problem Solving: @@.hotpink;$PC.skill.probSolving@@
+<br> Financial: @@.hotpink;$PC.skill.finance@@
+<br> Aesthetics: @@.hotpink;$PC.skill.art@@
+</td><td width=33%>
+Athletics: @@.hotpink;$PC.skill.athletic@@
+<br> Dancing: @@.hotpink;$PC.skill.dancing@@
+<br> Cleaning: @@.hotpink;$PC.skill.clean@@
+<br> Shopping: @@.hotpink;$PC.skill.shop@@
+<br> Cooking: @@.hotpink;$PC.skill.cook@@
+</td></tr>
+</table>

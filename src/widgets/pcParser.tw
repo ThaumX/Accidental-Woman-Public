@@ -4,7 +4,7 @@
 
 <<widget "pcAssSize">>
 <<silently>>
-<<switch $PC.ass>>
+<<switch $PC.body.ass>>
 <<case 1>>
 	<<set _output = either("flat","nonexistent")>>
 <<case 2>>
@@ -24,7 +24,8 @@
 
 <<widget "pcPussySize">>
 <<silently>>
-<<switch $PC.pussy>>
+<<switch ($PC.body.pussy.tight + $PC.body.pussy.stretch)>>
+<<set _output = "error">>
 <<case 0>>
 	<<set _output = either("virgin","unused","virgin")>>
 <<case 1>>
@@ -44,7 +45,7 @@
 
 <<widget "pcBoobSize">>
 <<silently>>
-<<switch $PC.tits.cupNum>>
+<<switch $PC.body.tits.cupNum>>
 <<case 0>>
 	<<set _output = either("nonexistent","flat")>>
 <<case 1 2 3>>
@@ -78,19 +79,19 @@
 
 <<widget "pcCupSize">>
 <<silently>>
-<<set _output = $PC.tits.cup>>
+<<set _output = $PC.body.tits.cup>>
 <</silently>><<print _output>>\
 <</widget>>
 
 <<widget "pcBraSize">>
 <<silently>>
-<<set _output = $PC.tits.bra>>
+<<set _output = $PC.body.tits.bra>>
 <</silently>><<print _output>>\
 <</widget>>
 
 <<widget "pcChest">>
 <<silently>>
-<<switch $PC.tits.cupNum>>
+<<switch $PC.body.tits.cupNum>>
 	<<case 0>>
 		<<set _output = "a strangely-flat chest">>
 	<<case 3 4 5>>
@@ -122,7 +123,7 @@
 
 <<widget "pcShoulderSize">>
 <<silently>>
-<<switch $PC.shoulders>>
+<<switch $PC.body.shoulders>>
 <<case 1>>
 	<<set _output = "narrow">>
 <<case 2>>
@@ -142,7 +143,7 @@
 
 <<widget "pcHipSize">>
 <<silently>>
-<<switch $PC.hips>>
+<<switch $PC.body.hips>>
 <<case 1>>
 	<<set _output = "oddly narrow">>
 <<case 2>>
@@ -162,33 +163,33 @@
 
 <<widget "pcFertility">>
 <<silently>>
-<<switch $PC.fertility>>
+<<switch $PC.fert.fertility>>
 <<case 0>>
-	<<set _output = "barren">>
+	<<set _outputs = "barren">>
 <<case 1>>
-	<<set _output = "IUD-protected">>
+	<<set _outputs = "weakly fertile">>
 <<case 2>>
-	<<set _output = "barely fertile">>
+	<<set _outputs = "somewhat fertile">>
 <<case 3>>
-	<<set _output = "fertile">>
+	<<set _outputs = "fertile">>
 <<case 4>>
-	<<set _output = "very fertile">>
+	<<set _outputs = "very fertile">>
 <<case 5>>
-	<<set _output = "super fertile">>
+	<<set _outputs = "super fertile">>
 <<case 6>>
-	<<set _output = "extremely fertile">>
+	<<set _outputs = "extremely fertile">>
 <<case 7>>
-	<<set _output = "insanely fertile">>
+	<<set _outputs = "insanely fertile">>
 <<case 8>>
-	<<set _output = "fertility goddess">>
+	<<set _outputs = "fertility goddess">>
 <</switch>>
 <</silently>>
-<<print _output>>\
+<<print _outputs>>\
 <</widget>>
 
 <<widget "pcTone">>
 <<silently>>
-<<switch $PC.tone>>
+<<switch $PC.body.tone>>
 <<case 1>>
 	<<set _output = "frail">>
 <<case 2>>
@@ -208,7 +209,7 @@
 
 <<widget "pcWeight">>
 <<silently>>
-<<switch $PC.weight>>
+<<switch $PC.body.weight>>
 <<case 1>>
 	<<set _output = "anorexic">>
 <<case 2>>
@@ -228,7 +229,7 @@
 
 <<widget "pcClitSize">>
 <<silently>>
-<<switch $PC.clit>>
+<<switch $PC.body.clit>>
 <<case 1>>
 	<<set _output = either("small","tiny","vestigial")>>
 <<case 2>>
@@ -247,9 +248,9 @@
 <<widget "pcWetness">>
 <<silently>>
 <<if ndef $args[0] || $args[0] == 0>>
-	<<set _temp = $PC.wetness>>
+	<<set _temp = $PC.body.wetness>>
 <<else>>
-	<<set _temp = $PC.wetness + $args[0]>>
+	<<set _temp = $PC.body.wetness + $args[0]>>
 	<<if _temp > 5>>
 		<<set _temp = 5>>
 	<</if>>
@@ -272,7 +273,7 @@
 
 <<widget "pcLabiaSize">>
 <<silently>>
-<<switch $PC.labia>>
+<<switch $PC.body.labia>>
 <<case 0>>
 	<<set _output = either("nonexistent","imaginary")>>
 <<case 1>>
@@ -290,9 +291,9 @@
 
 <<widget "pcClitView">>
 <<silently>>
-<<if $PC.labia >= $PC.clit>>
+<<if $PC.body.labia >= $PC.body.clit>>
 	<<set _output = "is hidden by">>
-<<elseif $PC.labia == $PC.clit>>
+<<elseif $PC.body.labia == $PC.body.clit>>
 	<<set _output = "peeks out of">>
 <<else>>
 	<<set _output = "protrudes proudly from">>
@@ -303,7 +304,7 @@
 
 <<widget "pcWaist">>
 <<silently>>
-<<switch $PC.waist>>
+<<switch $PC.body.waist>>
 <<case 1>>
 	<<set _output = either("unusual","straight","disproportionate","thick")>>
 <<case 2>>
@@ -319,13 +320,13 @@
 
 <<widget "pcBeauty">>
 <<silently>>
-<<if $PC.beauty == 5>>
+<<if $PC.body.beauty == 5>>
 	<<set _output = either("is stunningly gorgeous","is exquisitely gorgeous")>>
-<<elseif $PC.beauty == 4>>
+<<elseif $PC.body.beauty == 4>>
 	<<set _output = either("is noticeably beautiful","is alluringly beautiful")>>
-<<elseif $PC.beauty == 3>>
+<<elseif $PC.body.beauty == 3>>
 	<<set _output = either("is definitely attractive","is rather appealing")>>
-<<elseif $PC.beauty == 2>>
+<<elseif $PC.body.beauty == 2>>
 	<<set _output = either("is mediocre in looks","is a tad humdrum","has passable looks")>>
 <<else>>
 	<<set _output = either("is rather unattractive","is somewhat off-putting","is unfortunately ugly")>>
@@ -336,16 +337,16 @@
 
 <<widget "pcFaceDescript">>
 <<silently>>
-<<if $PC.beauty == 5>>
+<<if $PC.body.beauty == 5>>
 	<<set _temp = 2>>
 	<<set _output = either("is stunningly gorgeous","is exquisitely gorgeous")>>
-<<elseif $PC.beauty == 4>>
+<<elseif $PC.body.beauty == 4>>
 	<<set _temp = 1>>
 	<<set _output = either("is noticeably beautiful","is alluringly beautiful")>>
-<<elseif $PC.beauty == 3>>
+<<elseif $PC.body.beauty == 3>>
 	<<set _temp = 1>>
 	<<set _output = either("is definitely attractive","is rather appealing")>>
-<<elseif $PC.beauty == 2>>
+<<elseif $PC.body.beauty == 2>>
 	<<set _temp = 0>>
 	<<set _output = either("is mediocre in looks","is a tad humdrum","has passable looks")>>
 <<else>>
@@ -353,7 +354,7 @@
 	<<set _output = either("is rather unattractive","is somewhat off-putting","is unfortunately ugly")>>
 <</if>>
 <<if _temp == 2>>
-	<<switch $PC.face>>
+	<<switch $PC.body.face>>
 		<<case "normal">>
 			<<set _outputB = " according to classical standards">>
 		<<case "androgynous">>
@@ -366,7 +367,7 @@
 			<<set _outputB = " despite your unusual features">>
 	<</switch>>
 <<elseif _temp == 1>>
-	<<switch $PC.face>>
+	<<switch $PC.body.face>>
 		<<case "normal">>
 			<<set _outputB = " to the average person">>
 		<<case "androgynous">>
@@ -379,7 +380,7 @@
 			<<set _outputB = " thanks to exotic features that draw the eye">>
 	<</switch>>
 <<elseif _temp == 0>>
-	<<switch $PC.face>>
+	<<switch $PC.body.face>>
 		<<case "normal">>
 			<<set _outputB = " to the average person">>
 		<<case "androgynous">>
@@ -396,7 +397,7 @@
 <<print _output>><<print _outputB>>\
 <</widget>>
 
-<<widget "like">>
+/*<<widget "like">>
 <<silently>>
 <<set _temp = $args[0]>>
 <<switch _temp>>
@@ -413,12 +414,12 @@
 <</switch>>
 <</silently>>
 <<print _output>>\
-<</widget>>
+<</widget>>*/
 
 <<widget "pcNipple">>
 <<silently>>
 <<set _output = "rather unusual">>
-<<switch $PC.tits.nipple>>
+<<switch $PC.body.tits.nipple>>
 <<case "normal">>
 	<<set _output = either("delicate","alluring")>>
 <<case "flat">>
@@ -432,7 +433,7 @@
 <<case "huge">>
 	<<set _output = either("cow-like","huge")>>
 <</switch>>
-<<if $kink.Nips>>
+<<if $PC.kink.nips>>
 	<<set _temp = either(1,2,3)>>
 	<<if _temp == 1>>
 		<<set _output += " and very sensitive">>
@@ -445,7 +446,7 @@
 <<widget "pcTitShape">>
 <<silently>>
 <<set _output = "rather unusual">>
-<<switch $PC.tits.shape>>
+<<switch $PC.body.tits.shape>>
 <<case "round">>
 	<<set _output = either("rounded","shapely")>>
 <<case "perky">>
@@ -465,7 +466,7 @@
 <<silently>>
 /*-2 = disgusted -1, = repulsed, 0 = not at all, 1=little, 2=moderate, 3=strong, 4=desperate*/
 <<set _output = "arousal function bug">>
-<<switch $status.arousal>>
+<<switch $PC.status.arousal>>
 <<case -5 -6>>
 	<<set _output = "disturbed">>
 <<case -3 -4>>
@@ -497,7 +498,7 @@
 <<silently>>
  /*1 = vlow, 3=norm, 5=vhigh*/
 <<set _output = "Libido function bug">>
-<<switch $trait.libido>>
+<<switch $PC.trait.libido>>
 <<case 1>>
 	<<set _output = "practically asexual">>
 <<case 2>>
@@ -524,7 +525,7 @@
 <<widget "pcPubes">>
 <<silently>>
 <<if ndef $args[0] || $args[0] == 0>>
-<<switch $groom.pubeStyle>>
+<<switch $PC.groom.pubeStyle>>
 <<case "hairless">>
 <<set _output = "the smooth skin of your hairless crotch.">>
 <<case "bushy">>
@@ -558,7 +559,7 @@
 <<set _output = "a hint of stubble from your shaved snatch.">> 
 <</switch>>
 <<elseif $args[0] == 1>>
-<<switch $groom.pubeStyle>>
+<<switch $PC.groom.pubeStyle>>
 <<case "bushy">>
 <<set _output = "The damp tangle of your overgrown bush">> 
 <<case "trimmed">>
@@ -599,7 +600,7 @@
 <<widget "pcHairCurl">>\
 <<silently>>
 <<set _output = "pc hair curl parser error">>
-<<switch $groom.hairCurl>>
+<<switch $PC.groom.hairCurl>>
 <<case 0>>
 	<<set _output = "straight">>
 <<case 1>>

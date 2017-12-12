@@ -1,0 +1,52 @@
+:: gameStatsPage [nobr startpage]
+
+<center>@@.head1;Game Stats@@</center>
+<br>
+@@.head3;Caution@@ ~ Game stats are saved to the browser cache. Resetting your browser cache will result in deleting your game stats. This may be troublesome for users of a version/setup of Mozilla Firefox prone to errors requiring a cache reset, I'm sorry for the trouble. You can restore your game stats from a save file, by entering the game settings menu and using the command there to restore your gameplay stats.
+<br><br>
+<<if ndef $gamestate>>
+@@.ident;You do not currently have a game stats save. One will be created automatically when you play the game.@@
+<<elseif $gamestate === null>>
+@@.ident;You do not currently have a game stats save. One will be created automatically when you play the game.@@
+<<else>>
+''Ѡ General Stats Ѡ''<br>
+Completed Prologue--<<if $gamestate.completePrologue>>Yep<<else>>Nope<</if>><br>
+Finished a Playthrough--<<if $gamestate.completeGame>>Yep<<else>>Nope<</if>><br>
+Characters Created--<<= $gamestate.characters>><br>
+Roleplay Points--<<= $gamestate.points>><br>
+Total Unlocks--<<= $gamestate.unlocks.length>>
+<br><br>
+''Ѡ Achievements Ѡ''
+<<if $gamestate.achieve.length == 0>>
+	<br>//You haven't earned any achievements yet...//
+<<else>>
+	<<for _i = 0; _i < $gamestate.achieve.length; _i++>>
+	<br><<print $gamestate.achieve[_i]>>
+	<</for>>
+<</if>>
+<br><br>
+''Ѡ Unlocked Starting Options Ѡ''
+<<if $gamestate.unlocks.length < 1>>
+<br>Nothing unlocked yet, better get started!
+<</if>>
+<<if $gamestate.unlocks.includes("megaTits")>>
+<br>Unlocked larger starting breast volume
+<</if>>
+<br><br>
+
+<<button "Reset Game Stats">>
+	<<set $gamestate = {}>>
+	<<set $gamestate.playedIntro = false>>
+	<<set $gamestate.completePrologue = false>>
+	<<set $gamestate.completeGame = false>>
+	<<set $gamestate.points = 0>>
+	<<set $gamestate.characters = 0>>
+	<<set $gamestate.unlocks = []>>
+	<<set $gamestate.achieve = []>>
+	<<set $gamestate.unlockTotal = 0>>
+	<<set $gamestate.lastversion = "none">>
+	<<run setup.storeState()>>
+<</button>> @@.acme;.import;''This can not be undone!''@@
+<</if>>
+<br><br>
+<<button [[Return|Start]]>><</button>>

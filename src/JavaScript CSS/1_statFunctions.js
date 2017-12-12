@@ -19,104 +19,120 @@ setup.status = {};
 /*  ╚═╗ │ ├┬┘├┤ └─┐└─┐   variable by accounting for the */
 /*  ╚═╝ ┴ ┴└─└─┘└─┘└─┘   impact from other variables    */
 /********************************************************/
-setup.status.stress = function(amt,tgt = -1,restore = false){
-	//tgt is set as default to -1. calling .status.stress(3); will target PC.
-	//restore is default false. it true, isActive function will restore them if stored.
+setup.status.stress = function (amt, tgt = -1, restore = false) {
+  //tgt is set as default to -1. calling .status.stress(3); will target PC.
+  //restore is default false. it true, isActive function will restore them if stored.
   //first create a pattern to test any string to ensure the npcid is correct.
-	const pattern = new RegExp(/n[0-9]{3,5}$/);
-	let result; //variable to hold result from isActive 
+  const pattern = new RegExp(/n[0-9]{3,5}$/);
+  let result; //variable to hold result from isActive 
   //if it isn't the PC, we check that the input is valid, and that the NPC is active to edit.
-  if(tgt == -1){
-    const pc = true,id = "none";
+  if (tgt == -1) {
+    const pc = true,
+      id = "none";
     //assign object key based on target since we don't know if PC or not.
     const trait = "trait";
     const tit = State.active.variables.PC; //create tit as reference to correct object
-  }else if("number" ==typeof tgt && tgt >= 0 && tgt < State.active.variables.activeNPC.length){
-    const pc = false, id = State.active.variables.activeNPC[tgt];
+  } else if ("number" == typeof tgt && tgt >= 0 && tgt < State.active.variables.activeNPC.length) {
+    const pc = false,
+      id = State.active.variables.activeNPC[tgt];
     const trait = "core"; //notice NPC uses core instead of trait
-		const tit = State.active.variables.NPC[id]; //we're setting the reference to the NPC instead
-  }else if("string" ==typeof tgt && pattern.test(tgt)){
-    const pc = false, id = tgt;
-		const trait = "core"; //notice NPC uses core instead of trait
-		result = setup.isActive(tgt,restore);
-		if(result == "stored"){
-			let msg = "can't modify stress, NPC isn't active and restore isn't set to true. ID: "+id;
-			console.log(msg);
-			if(State.active.variables.swim == "[dev]"){alert(msg);}
-			return;
-		}else if(result == "nonexist"){
-			let msg = "The passed npcid doesn't exist! (stress function) ID: "+id;
-			console.log(msg);
-			if(State.active.variables.swim == "[dev]"){alert(msg);}
-			return;
-		}
     const tit = State.active.variables.NPC[id]; //we're setting the reference to the NPC instead
-  }else{
+  } else if ("string" == typeof tgt && pattern.test(tgt)) {
+    const pc = false,
+      id = tgt;
+    const trait = "core"; //notice NPC uses core instead of trait
+    result = setup.isActive(tgt, restore);
+    if (result == "stored") {
+      let msg = "can't modify stress, NPC isn't active and restore isn't set to true. ID: " + id;
+      console.log(msg);
+      if (State.active.variables.swim == "[dev]") {
+        alert(msg);
+      }
+      return;
+    } else if (result == "nonexist") {
+      let msg = "The passed npcid doesn't exist! (stress function) ID: " + id;
+      console.log(msg);
+      if (State.active.variables.swim == "[dev]") {
+        alert(msg);
+      }
+      return;
+    }
+    const tit = State.active.variables.NPC[id]; //we're setting the reference to the NPC instead
+  } else {
     //we have bad input, meaning we throw an error and return.
     msg = "Stress function given invalid target, either not active, bad index, or bad id.";
     console.log(msg);
     //need to do this more regularly so that players don't get alerts they don't need.
-    if(State.active.variables.swim == "[dev]"){alert(msg);}
+    if (State.active.variables.swim == "[dev]") {
+      alert(msg);
+    }
     return false;
   }
   //load status !!important!!
-  if(pc){setup.statusLoad();}
+  if (pc) {
+    setup.statusLoad();
+  }
   //now we have the correct N/PC to edit. let's set some default values for ease.
-	let stress = tit.status.stress; //returns character's stress, and we can manipulate freely.
-	let mod = 0; //start with zero to make reversing sign easier later.
-	//this isn't really necessary, but can save time if you're using the same thing a lot.
-  const open = tit[trait].op, closed = tit[trait].cl, intro = tit[trait].intro, extro = tit[trait].extro;
-  if(open){
-		mod -= 0.3;
-	}else if(closed){
-		mod += 0.3;
-	}
-	if(intro){
-		mod -= 0.2;
-	}else if(extro){
-		mod += 0.2;
-	}
-	if(pc && tit[trait].relaxed == 1){
-		mod -= 0.2;
-	}else if(pc && tit[trait].relaxed == -1){
-		mod += 0.2;
-	}
-	if(tit.status.need > 4){
-		mod += 1;
-	}else if(tit.status.need > 3){
-		mod += 0.75;
-	}else if(tit.status.need > 1){
-		mod += 0.5;
-	}else if(tit.status.need > 0){
-		mod += 0.25;
+  let stress = tit.status.stress; //returns character's stress, and we can manipulate freely.
+  let mod = 0; //start with zero to make reversing sign easier later.
+  //this isn't really necessary, but can save time if you're using the same thing a lot.
+  const open = tit[trait].op,
+    closed = tit[trait].cl,
+    intro = tit[trait].intro,
+    extro = tit[trait].extro;
+  if (open) {
+    mod -= 0.3;
+  } else if (closed) {
+    mod += 0.3;
+  }
+  if (intro) {
+    mod -= 0.2;
+  } else if (extro) {
+    mod += 0.2;
+  }
+  if (pc && tit[trait].relaxed == 1) {
+    mod -= 0.2;
+  } else if (pc && tit[trait].relaxed == -1) {
+    mod += 0.2;
+  }
+  if (tit.status.need > 4) {
+    mod += 1;
+  } else if (tit.status.need > 3) {
+    mod += 0.75;
+  } else if (tit.status.need > 1) {
+    mod += 0.5;
+  } else if (tit.status.need > 0) {
+    mod += 0.25;
   }
   /******************************/
   /* SITUATION TAGS PLACEHOLDER */
   /******************************/
-	//time for sign flip
-	if(amt < 0){
-		mod *= -1;
-	}
-	mod += 1; //adjust to proper multiplier
-	mod = Math.max(0.25,mod); //keep modifier within range
-	mod = Math.min(2.5,mod);
+  //time for sign flip
+  if (amt < 0) {
+    mod *= -1;
+  }
+  mod += 1; //adjust to proper multiplier
+  mod = Math.max(0.25, mod); //keep modifier within range
+  mod = Math.min(2.5, mod);
   amt = Math.round(amt * mod); //finally adjust amount
   //for cheat
-	if(State.active.variables.cheatStress && amt >= 0){
-		amt = 0;
-	}
-	tit.status.stress += amt;
-	//check for over or under values
-	if(tit.status.stress > 100){
-		tit.status.overStress = true;
-		tit.status.stress = 100 - random(0,4);
-	}else if(tit.status.stress < 0){
-		tit.status.stress = 0;
-	}
-	if(pc){setup.statusSave();}
-	if(result == "restored"){
-		setup.storeNPC(tgt);
-	}
+  if (State.active.variables.cheatStress && amt >= 0) {
+    amt = 0;
+  }
+  tit.status.stress += amt;
+  //check for over or under values
+  if (tit.status.stress > 100) {
+    tit.status.overStress = true;
+    tit.status.stress = 100 - random(0, 4);
+  } else if (tit.status.stress < 0) {
+    tit.status.stress = 0;
+  }
+  if (pc) {
+    setup.statusSave();
+  }
+  if (result == "restored") {
+    setup.storeNPC(tgt);
+  }
 };
 /*
 	<<set $PC.status.stress += _temp>>

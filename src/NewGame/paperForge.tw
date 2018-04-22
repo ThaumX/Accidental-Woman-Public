@@ -16,9 +16,9 @@ You think about it for a moment. @@.pc;<<link "Yes, I'm sure">><<addTime 4>><<go
 <</if>>
 @@.npc;Aaaand, now you need to decide how old you'll be. Your documents have to say you're at least 18, though I'd stick with 21 for obvious reasons.@@ <<if $PC.main.age < 18>>@@.npc;Of course, with the way you look people are seriously going to think you have fake ID. Don't worry though, I've got you covered.@@<<elseif $PC.main.age < 21>>@@.npc;I think you can pull off the whole 'just looks young for her age' thing, especially since you're actually <<print $PC.main.ageOriginal>>.@@<<elseif $PC.main.age > 28>>@@.npc;I'd really avoid trying to go too young... You'd look like one of those delusional ladies if you tried 21.@@<<else>>@@.npc;Somewhere in your twenties should probably be fine.@@<</if>>
 <br><br>
-@@.pc;Okay, let's go with <<textbox "$PC.main.ageID" $PC.main.ageID>>.
+@@.pc;Okay, let's go with <<textbox "$PC.main.ageID" $PC.main.ageID>>.@@
 
-<<link "continue...">><<addTime 5>><<goto [[paperForgeb]]>><</link>>
+<<link "continue...">><<set $PC.main.ageID = Number($PC.main.ageID)>><<addTime 5>><<goto [[paperForgeb]]>><</link>>
 
 :: paperForgeb [nobr]
 
@@ -46,7 +46,7 @@ That doesn't really sound all that bad... @@.pc;So what's the big deal then?@@
 <br><br>
 Lily shrugs. @@.npc;There really isn't one, since outside insurers won't insure residents. Basically the other option is paying out of pocket. You could always sign up later if you had to for something major, but you know how crazy basic healthcare and prescription prices have gotten.@@
 <br><br>
-@@.big;[[Sign up for AppleCare|paperForgec][$flag.Healthcare = true]] [[Just Pay Out-of-Pocket|paperForgec][$flag.Healthcare = false]]@@
+[[Sign up for AppleCare|paperForgec][$flag.Healthcare = true]] or [[Just Pay Out-of-Pocket|paperForgec][$flag.Healthcare = false]]
 
 
 :: paperForgec [nobr]
@@ -63,7 +63,7 @@ Of course you do, since they're so obvious about it. You never opted out before 
 @@.npc;Well, normally I'd just say 'be an organ donor', cause it's the right thing and whatnot, but here in Appletree... Let's just say that some of the people here tend to be a little, umm, overzealous. Sooo, yeah, just thought I'd ask. You want to opt out?@@
 <br><br>
 <<link "Be a Donor">><<set $flag.organDonor = true>><<addTime 7>><<goto [[paperForged]]>><</link>> <<link "Opt Out">><<set $flag.organDonor = false>><<addTime 7>><<goto [[paperForged]]>><</link>>
-<<comment "Being an organ donor doesn't increase difficulty per say, but it does make thresholds for getting a bad end less forgiving. If you ever think 'how is the pc going on like nothing happened?' you should be an organ donor.">>
+<<comment "Being an organ donor doesn't increase difficulty per se, but it does make thresholds for getting a bad end less forgiving. If you ever think 'how is the pc going on like nothing happened?' you should be an organ donor.">>
 
 
 :: paperForged [nobr]
@@ -88,7 +88,7 @@ After one last serious look, she stands up and offers you her hand. @@.npc;Come 
 <br><br>
 You take her hand, and by the time you're standing, her lips have curled back up into an amused grin.
 <br><br>
-<<link "Continue into placeholder prologue">><<goto [[storyStart16a]]>><</link>>
+<<link "Continue">><<goto [[storyStart16a]]>><</link>>
 <br>
-@@.ident;It is safe to save here.@@ Save so you can pick up where you left off in the next version.
+
 

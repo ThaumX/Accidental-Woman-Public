@@ -1,23 +1,186 @@
 :: relationships [nobr hidden]
 
+<<silently>>
 <<if $prevPassage != "character" && $prevPassage != "scene" && $prevPassage != "relationships" && $prevPassage != "cheatMenu" && $prevPassage != "gameGuide" && $prevPassage != "debugPage">>
 	<<set $returnTo = $prevPassage>>
 <</if>>
 <<set $helpText = "This is where you'll find information about NPCs that you have formed a relationship with, and get a better look at NPCs that are in the same location as you. It's also where you can see your appointment list.">>
-<center>@@.head1;Contacts View@@<br>
-@@.contButt;<<button [[CLOSE|returner]]>><</button>>@@
-<<button "Nearby">><</button>>
-<<button "Appointments">><</button>>
-<<button "Notes">><</button>>
-<<button "Lovers">><</button>>
-<<button "Friends">><</button>>
-</center>
-<span id="shitter">
-Temporary 'Make a Reminder' tool. (will be part of the appointments section)
-Use it to set an alert for yourself on your phone.<br><br>
+<<set _tab = 1>>
+<</silently>>
+<center>@@.head1;Cellphone@@<br></center>
+<div id="chartabs" class="tabs">
+<<include [[MENU-Rship-Tabs]]>>
+</div>
+<div id="viewpane">
+<<include [[MENU-Rship-Dashboard]]>>
+</div>
+
+
+:: MENU-Rship-Tabs [nobr]
+
+<<if _tab == 1>>
+  <span class="curtab"><<button "Dashboard">><</button>></span>
+<<else>>
+  <<button "Dashboard">>
+    <<set _tab = 1>>
+    <<replace "#viewpane">>
+      <<include [[MENU-Rship-Dashboard]]>>
+    <</replace>>
+    <<replace "#chartabs">>
+      <<include [[MENU-Rship-Tabs]]>>
+    <</replace>>
+  <</button>>
+<</if>>
+<<if _tab == 2>>
+  <span class="curtab"><<button "Calendar">><</button>></span>
+<<else>>
+  <<button "Calendar">>
+    <<set _tab = 2>>
+    <<replace "#viewpane">>
+      <<include [[infoCalendarDisplay]]>>
+    <</replace>>
+    <<replace "#chartabs">>
+      <<include [[MENU-Rship-Tabs]]>>
+    <</replace>>
+  <</button>>
+<</if>>
+<<if _tab == 3>>
+  <span class="curtab"><<button "Reminder">><</button>></span>
+<<else>>
+  <<button "Reminder">>
+    <<set _tab = 3>>
+    <<replace "#viewpane">>
+      <<include [[MENU-Rship-Reminder]]>>
+    <</replace>>
+    <<replace "#chartabs">>
+      <<include [[MENU-Rship-Tabs]]>>
+    <</replace>>
+  <</button>>
+<</if>>
+<<if _tab == 4>>
+  <span class="curtab"><<button "Notes">><</button>></span>
+<<else>>
+  <<button "Notes">>
+    <<set _tab = 4>>
+    <<replace "#viewpane">>
+      <<include [[MENU-Rship-Notes]]>>
+    <</replace>>
+    <<replace "#chartabs">>
+      <<include [[MENU-Rship-Tabs]]>>
+    <</replace>>
+  <</button>>
+<</if>>
+<<if _tab == 5>>
+  <span class="curtab"><<button "Contact">><</button>></span>
+<<else>>
+  <<button "Contact">>
+    <<set _tab = 5>>
+    <<replace "#viewpane">>
+      <<include [[MENU-Rship-Contact]]>>
+    <</replace>>
+    <<replace "#chartabs">>
+      <<include [[MENU-Rship-Tabs]]>>
+    <</replace>>
+  <</button>>
+<</if>>
+<<if _tab == 6>>
+  <span class="curtab"><<button "Near by">><</button>></span>
+<<else>>
+  <<button "Nearby">>
+    <<set _tab = 6>>
+    <<replace "#viewpane">>
+      <<include [[MENU-Rship-Nearby]]>>
+    <</replace>>
+    <<replace "#chartabs">>
+      <<include [[MENU-Rship-Tabs]]>>
+    <</replace>>
+  <</button>>
+<</if>>
+<<if _tab == 7>>
+  <span class="curtab"><<button "Friends">><</button>></span>
+<<else>>
+  <<button "Friends">>
+    <<set _tab = 7>>
+    <<replace "#viewpane">>
+      <<include [[MENU-Rship-Friends]]>>
+    <</replace>>
+    <<replace "#chartabs">>
+      <<include [[MENU-Rship-Tabs]]>>
+    <</replace>>
+  <</button>>
+<</if>>
+<<if _tab == 8>>
+  <span class="curtab"><<button "Lovers">><</button>></span>
+<<else>>
+  <<button "Lovers">>
+    <<set _tab = 8>>
+    <<replace "#viewpane">>
+      <<include [[MENU-Rship-Lovers]]>>
+    <</replace>>
+    <<replace "#chartabs">>
+      <<include [[MENU-Rship-Tabs]]>>
+    <</replace>>
+  <</button>>
+<</if>>
+<<link [img[Exit|IMGclosebutton]]>><<goto [[returner]]>><</link>>
+
+
+:: MENU-Rship-Dashboard [nobr]
+
+<<set _today = setup.time.dayplansFull()>>
+<table>
+<tr class="divide"><td colspan=2 class="divide">
+@@.head2;Dashboard@@
+</td></tr>
+<tr><td style="width:50%">
+<<print _today>>
+</td><td>
+<span class="head4">Relationship Status:</span> Single<br>
+<span class="head4">Best Friends:</span> <<print $npc.bFriend.length>><br>
+<span class="head4">Friends:</span> <<print $npc.friends.length>><br>
+<span class="head4">Paramours:</span> <<print $npc.interested.length>><br>
+<span class="head4">Flings:</span> <<print $npc.fling.length>><br>
+<span class="head4">Exes:</span> <<print $npc.exes.length>><br>
+<span class="head4">Enemies:</span> <<print $npc.enemies.length>>
+</td></tr>
+</table>
+
+
+:: MENU-Rship-Reminder [nobr]
+
+
+Temporary 'Make a Reminder' tool. Use it to set an alert for yourself on your phone.<br><br>
 <<textbox "_Time" 1000>>Time--Make sure it's a number.<br>
 <<textbox "_Name" "My Reminder">>Name.<br>
 <<textbox "_msg" "type a message here">>Message text. Don't leave this blank.<br>
-<<button "save message">><<set _Tim to Number(_Time)>><<set _Tim += 100>><<set _tutorialReminder = {name: _Name, type: 1, start: _Tim, alert: true, msg: _msg}>><<set $sched.plans[2].push(_tutorialReminder)>><</button>>Push once only, or face the wrath of spam!
-<<status 0>>
-</span>
+<<button "save message">><<set _Tim to Number(_Time)>><<set _Tim += 100>><<set _tutorialReminder = {name: _Name, type: 1, start: _Tim, alert: true, msg: _msg, desc: _msg}>><<set $sched.plans[2].push(_tutorialReminder)>><</button>>Push once only, or face the wrath of spam!
+
+
+
+
+:: MENU-Rship-Notes [nobr]
+
+@@.head3;Not yet implemented@@<br><br>
+This is where you will be able to save notes about the game.
+
+
+:: MENU-Rship-Contact [nobr]
+
+@@.head3;Not yet implemented@@<br><br>
+This is where you will be able to contact NPCs to set up dates, hang out, or just collect dick-pics.
+
+
+:: MENU-Rship-Nearby [nobr]
+
+@@.head3;Not yet implemented@@<br><br>
+This is where you will see a list of near by NPCs, and can access their character sheets to see more about them.
+
+:: MENU-Rship-Friends [nobr]
+
+@@.head3;Not yet implemented@@<br><br>
+This is where you will see a list of friends and acquaintances, and will be able to see their character sheets to see their details.
+
+:: MENU-Rship-Lovers [nobr]
+
+@@.head3;Not yet implemented@@<br><br>
+This is where you will see a list of lovers (and exes), and will be able to see their character sheets to see their details.

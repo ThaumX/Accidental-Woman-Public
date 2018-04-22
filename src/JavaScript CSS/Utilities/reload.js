@@ -13,3 +13,4 @@ setup.refresh = function() {
   $targetB.wiki(passage[1].processText());
   $targetC.wiki(passage[2].processText());
 };
+

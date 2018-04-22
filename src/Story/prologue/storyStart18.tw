@@ -1,13 +1,220 @@
 :: storyStart18a [nobr]
 
-Checks to make sure pc meets some minimum requirements with clothes, so no inadvertant exhibitionism. If not met, cycle back to wardrobe.
+
+<<if $temp.ling >= $outfitUnder.length || $temp.stan >= $outfitOver.length>>
+<<silently>>
+<<set $temp.ling = $outfitUnder.length>>
+<<set $temp.stan = $outfitOver.length>>
+<</silently>>
+@@.warning;FAIL@@<br><br>
+Looks like you didn't manage to make a new lingerie outfit and/or a new standard outfit (or, you deleted a bunch of outfits). Time to go back and try again. Make at least one new lingerie and standard outfit this time to continue.
 <br><br>
-Also has you pick an outfit as your default for the rest of the prologue.
-<br><br>
-[[Next|storyStart18b]]
+<<emo silly>> [[Try Again|wardrobeMain]]
+<<else>>
+<p class="walter white">
+Hey, fancy meeting you here. Once the week planner outfit tidbits are finished, you'll be able to set your main outfit here with some extra tutorial instructions. Right now, it's not worth duplicating until the system is nailed down.
+</p>
+[[Back to the story|storyStart18b]]
+<</if>>
 
 :: storyStart18b [nobr]
 
-After saying goodbye to Lily, you'll get to walk around in Lily's home in a minimal way, and go outside to walk around the residential area.
+@@.head3;B@@y the time you had finished exploring a new world of women's clothing, Lily had finished preparing dinner. The two of you had a simple but unexpectedly delicious dinner, over a conversation about fashion. <<if $PC.kink.slut || $PC.kink.liberate || ($PC.trait.extro && random(1,2) == 1)>>Lily noticed that your outfit choices are about as slutty as possible given your options, though she doesn't go so far as to say so directly. She spends some extra time helping you tell the difference between looking sexy and looking slutty.<<elseif $PC.kink.exhibition || $PC.kink.public>>Lily notices that your outfit choices are about as revealing as you can make them with the clothes you have, and complements you on embracing the change.<<elseif $PC.kink.shame || $PC.trait.cl>>Lily notices that your clothes are about as conservative as possible under the circumstances. After explaining that most of the clothes aren't meant for layering, she elaborates on how being so prude with your outfits would stand out in town.<<else>>Lily seems pretty pleased with your outfit choices, and seems happy that you've gotten the hang of things so quickly.<</if>> Despite being something you'd never have expected to enjoy only a week ago, it turns out that you had a lot of fun talking clothes with Lily. By the end of the evening you actually found yourself looking forward to going shopping again, this time in some nicer stores.
 <br><br>
-[[Next|LilyHouseProLivRoom]]
+<<link "Continue">><<goto [[storyStart18c]]>><</link>>
+
+:: storyStart18c [nobr]
+
+@@.head3;A@@fter finishing dinner and putting the dishes away, the two of you head back to Lily's living room to go over the employment situation. @@.mono;Lily was never very specific about what the institute job would entail, but I suppose beggars can't be choosers...@@ You take a seat next to Lily, realizing that anxiety about your employment was affecting you more strongly than you would have thought.
+<br><br>
+Lily looks up and seems like she's about to say something, but then stops, and she grimaces slightly before resolving herself to continue. @@.npc;So... Because of the accident and your new identity, the job I originally had lined up for you isn't going to work out... I'm really sorry.@@ She shrugs apologetically as if to say <i>what can you do?</i> @@.npc;Anyways, I did look into some other options for you, and I can help you get in pretty much automatically, but you'll probably have to start off at entry-level...@@
+<br><br>
+You are:<br>
+<<hoverrevise upset>><<emo dismay>><<tab>><<link "Upset">><<set $temp.jch = 1>><<goto [[storyStart18d]]>><</link>><<endhoverrevise>> <<insertion upset>>that your whole reason for moving here is gone.<<endinsertion>><br>
+<<hoverrevise annoyed>><<emo unamused>><<tab>><<link "Annoyed">><<set $temp.jch = 2>><<goto [[storyStart18d]]>><</link>><<endhoverrevise>> <<insertion annoyed>>that you have to start off at entry-level.<<endinsertion>><br>
+<<hoverrevise neutral>><<emo neutral>><<tab>><<link "Neutral">><<set $temp.jch = 3>><<goto [[storyStart18d]]>><</link>><<endhoverrevise>> <<insertion neutral>>because you weren't expecting much anyway.<<endinsertion>><br>
+<<hoverrevise thankful>><<emo smile>><<tab>><<link "Thankful">><<set $temp.jch = 4>><<goto [[storyStart18d]]>><</link>><<endhoverrevise>> <<insertion thankful>>that at least Lily's able to get you a job.<<endinsertion>><br><br>
+
+
+:: storyStart18d [nobr]
+
+<<switch $temp.jch>>
+<<case 1>>@@.head3;Y@@ou aren't very happy...<<anger 2>><<stress 10>>
+<<case 2>>@@.head3;Y@@ou are rather annoyed...<<anger 1>><<stress 5>>
+<<case 3>>@@.head3;Y@@ou were expecting this...
+<<case 4>>@@.head3;Y@@ou'll just be happy to have a job...
+<</switch>>
+<br><br>
+This is a placeholder, lily responds.<br><br>
+<center>
+[img[https://i.imgur.com/CqIA28m.jpg]]
+<br>
+Lily explains a bit about the institute.
+</center>
+<br>
+[[Remember--You are expendable, the Institute is not.|storyStart18e]]
+
+:: storyStart18e
+
+<center>
+[img[https://i.imgur.com/NXbc5xk.jpg]]
+<br>
+Learn about different career paths (3).
+</center>
+<br>
+[[Unless...|storyStart18f]]
+
+:: storyStart18f [nobr]
+
+<center>
+[img[https://i.imgur.com/fppihyy.jpg]]
+<br>
+You want to take a chance on another job...
+</center>
+<br>
+[[Work for the mysterious Institute as planned.|storyStart18g]]<br>
+[[Look for an alternate option.|storyStart18h]] @@.note;not implemented, but you can read the job descriptions.@@
+
+:: storyStart18g [nobr]
+
+So you have three options ahead of you...<br>
+@@.walter;.magenta;''Choose Wisely.....''@@
+<br><br>
+Join the <<link [[Services Division|storyStart18j]]>><<set $temp.jobber = "services">><</link>>. <i>Good science demands clean labs... and @@.smear;experimental subjects@@. But hey, the pay is good for this type of work, and high attrition rates just mean faster promotions, right?</i><br><br>
+Join the faceless ranks of the <<link [[Bureaucratic Corps|storyStart18j]]>><<set $temp.jobber = "Bcorps">><</link>>. <i>Save someone's career--or crush it--with a click of your all-powerful mouse. It's a thankless, soul-crushing job, but maybe things are different at the institute.</i><br><br>
+See if you can make it as a lab tech in the <<link [[Special Projects: Engineering, Research, & Management|storyStart18j]]>><<set $temp.jobber = "SPERM">><</link>>. <i>Surely that acronym is unintentional... or at least nobody uses it, right?</i>
+
+
+:: storyStart18h [nobr]
+
+
+@@.import;Note that these jobs won't be available until later, and you'll get shoveled over to the Institute jobs until then.@@
+<br><br>
+Try your luck applying for one of these jobs:
+<br><br>
+Office Clerk, Fecundate Division--''Progenerate Technologies GmbH''<br>
+<i>Pay that's quite good (with a note about guaranteed performance bonuses on top), seven hour workday plus one hour for lunch, and an entire benefits package. Based on the posting, you meet all the requirements, and the advert states that no direct experience is necessary. Seems like a great option, but you feel like it might be a stressful, aggravating, or demanding job because it'd be too good otherwise.</i>
+<br><br>
+Optician's Assistant--''Bat's Optometry Clinic''<br>
+<i>Seems like a job with a lot of variety that'd keep it interesting. The salary isn't anything special, and it'll take some time to drive there, but it may be worth it for a job that doesn't devour your soul.</i>
+<br><br>
+Cashier/Stock-Girl--''Hole Foods (high-end supermarket/grocery store)''<br>
+<i>Pretty standard entry-level unskilled work, though the pay is a little better than you expected. The ad mentions pay raises and a wide variety of positions for motivated employees. You're pretty sure that you'd rise up pretty quick if you put in a little effort, and maybe move to a more interesting department.</i>
+<br><br>
+Or, give up and take an [[Institute Job|storyStart18g]]
+
+:: storyStart18j [nobr]
+
+Now that you picked a job (<<print $temp.jobber>>), we have to see if you actually <<link "get the job">><<status 0>><<SCX>><<set _jizz = 0>>
+<<switch $temp.jobber>>
+  <<case "services">>
+    <<SC "CL" 10>><<SC "OG" 10>>
+    <<if $SCresult[1]>><<set _jizz += 1>><</if>>
+    <<if $SCresult[2]>><<set _jizz += 1>><</if>>
+    <<setNewJob "IS" _jizz>>
+  <<case "Bcorps">>
+    <<SC "CM" 12>><<SC "FI" 12>>
+    <<if $SCresult[1]>><<set _jizz += 1>><</if>>
+    <<if $SCresult[2]>><<set _jizz += 1>><</if>>
+    <<setNewJob "IB" _jizz>>
+  <<case "SPERM">>
+    <<SC "OG" 12>><<SC "PS" 14>>
+    <<if $SCresult[1]>><<set _jizz += 1>><</if>>
+    <<if $SCresult[2]>><<set _jizz += 1>><</if>>
+    <<setNewJob "IT" _jizz>>
+<</switch>><<addTime 6>><<status 1>><<gotodev "storyStart18k">><</link>> or not...
+
+<br><br>
+
+:: storyStart18k [nobr]
+
+@@.head3;Y@@ou hold your breath as you wait for the the automated HR system to review your application. You wait a few minutes, and just as you're starting to get really worried, you hear the notification sound signaling a new email. You forgot that the response would be going to your email and not Lily's device. You press the button to wake up the device, and your digital assistant quickly displays the application response for you.
+<<timed 5s>>
+<br><br><<print $SCtext[1]>> <<print $SCtext[2]>>
+<br><br>
+<<set _jizz = 0>>
+<<if $SCresult[1]>><<set _jizz += 1>><</if>>
+<<if $SCresult[2]>><<set _jizz += 1>><</if>>
+<<switch _jizz>>
+<<case 0>>
+  @@.typewriter;Congratulations! While you rated quite poorly on our application criteria, the Institute has a long and honorable tradition of offering employment to the cognitively challenged. Therefore, the Thornton Institute of Technology is happy to offer you a probationary position as a <<print $job.name>>! Please read the follow up email for information about the position. You have 24 hours to accept the offer.@@
+<<case 1>>
+  @@.typewriter;Congratulations! While you only barely meet the minimum requirements for employment, the Institute has a long and honorable tradition of offering employment to the cognitively challenged. Therefore, the Thornton Institute of Technology is happy to offer you an entry-level position as a <<print $job.name>>! Please read the follow up email for information about the position. You have 24 hours to accept the offer.@@
+<<case 2>>
+  @@.typewriter;Congratulations! You exceed the minimum standards for employment. The Institute is always looking for the best talent, and offers better starting positions to talented applicants. After all, <i>There's science to be done!</i> Therefore, the Thornton Institute of Technology is happy to offer you an entry-level position as a <<print $job.name>>! Please read the follow up email for information about the position. You have 24 hours to accept the offer.@@
+<</switch>>
+<br><br>
+<<link "find out about the job offer">><<addTime 5>><<goto [[storyStart18m]]>><</link>>
+<</timed>>
+
+
+:: storyStart18m [nobr]
+
+<<silently>>
+
+<</silently>>
+You'll learn the details of the offered job here.
+<table>
+<tr class="divide">
+<td colspan=4>
+@@.acme;.head;font-size:130%;Job Offer Details@@
+</td>
+</tr><tr>
+<td width="20%">
+''Employer:''
+</td><td width="30%">
+<<= $job.employer>>
+</td><td width="20%">
+''Job Title:''
+</td><td width="30%">
+<<= $job.name>>
+</td>
+</tr><tr><td>
+''Supervisor:''<br>
+''Skills Used:''
+</td><td>
+<<= $job.rules.boss>><br>
+<<= $job.skills>>
+</td><td>
+''Description:''
+</td><td>
+<<= $job.desc>>
+</td>
+</tr><tr class="divide">
+<td colspan=4>
+@@.acme;.head;font-size:110%;Compensation Information@@
+</td>
+</tr><tr>
+<td>
+''Hourly Wage:''
+</td><td>
+@@.money;<<mon>><<= $job.rules.payrate>>@@ per hour
+</td><td>
+''Paid Sick Leave:''
+</td><td>
+<<= $job.sick.rate>> hours per month
+</td>
+</tr><tr>
+<td>
+''Hours per Week:''
+</td><td>
+<<= $job.rules.worktime[0]>> hours
+</td><td>
+''Unpaid Leave:''
+</td><td>
+<<= $job.vacation.rate>> hours per month
+</td>
+</tr><tr>
+<td>
+''Weekly Income:''
+</td><td>
+@@.money;<<mon>><<= ( Math.round( $job.rules.worktime[0] * $job.rules.payrate))>>@@
+</td><td>
+''Paid Leave:''
+</td><td>
+<<= $job.vacation.ratePaid>> hours per month
+</td>
+</tr>
+</table>
+
+<<link "Accept the Job">><<addTime 14>><<goto [[storyStart19a]]>><</link>>

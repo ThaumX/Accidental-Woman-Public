@@ -1,57 +1,145 @@
 :: BEchanging [nobr map]
 
-@@.head2;The fitting room isn't quite ready yet...@@
-<br><br>
-@@.head3;L@@ater on, there will be some potential event/story content that starts here, as well as the opportunity to try your hand at shoplifting, or pull in an NPC for a private fashion show.
+<<silently>>
+<<if $activeNPC.length > 1>>
+<<deactivateNPC $activeNPC>>
+<</if>>
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPbullseye]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch $map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+</p>
+@@.head3;Y@@ou're in the changing room area located in the middle of all the clothing departments. There are several changing room doors lining the central corridor. There isn't a separate area for men or women, the changing area appears to be unisex. The rooms seem at least reasonably private though, unless someone was bold enough to walk right up to the door and peer underneath. There are blinking red lights on the cameras to help dissuade customers from shoplifting, though they're carefully positioned so that it's obvious they can't see inside the stalls.
 <br><br>
 @@.typewriter;font-size:120%;You can access special in-development stuff here!@@
 <br>@@.import;Just to be safe, save first before entering any of these testing areas!@@
 <br><br>
-Visit your [[Home|homeT2TOfoyer]]. Your home (tier 2), friend/bf home (tier 2), and the residential area can be accessed from this shortcut. However, ''it may be better to access it during the normal sequence of events in the prologue.''
-<br><br>
+@@.com;This area will be phased out after completion of the prologue, which is soon.@@<br><br>
 <<set _cunt = 1>>
-See what the NPCs are <<link "thinking">>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise mapsplore>>
+  <span class="disabled"><<button "Explore Map">><</button>></span>
+<<endhoverrevise>>
+<<hoverrevise deepthink>>
+<<button "Deep Thoughts">>
 <<set _print = "<<set _name = setup.nameRandomizer(" + either(1,2) + "," + either("'white'","'white'","'white'","'black'","'Asian'","'hispanic'") + ")>>">>
 <<print _print>>
 <<set _thought = setup.deepThoughts(_cunt)>>
 <<set _cunt += 1>>
 <<dialog "Deep Thoughts">>@@.head3;_name says@@<br><br>_thought<</dialog>>
-<</link>>, or check out different <<link "groups">><<dialog "NPC Groups">>
-<table>
-<tr><td colspan=3>@@.head3;''Your'' NPC Groups@@</td></tr>
-<tr><td>''single:'' <<print $npc.single.length>></td>
-<td>''in relationship:'' <<print $npc.rShip.length>></td>
-<td>''married:'' <<print $npc.married.length>></td></tr>
-<tr><td>''males:'' <<print $npc.male.length>></td>
-<td>''females:'' <<print $npc.female.length>></td>
-<td>''futas:'' <<print $npc.futa.length>></td></tr>
-<tr><td>''18-21:'' <<print $npc.age18to21.length>></td>
-<td>''22-27:'' <<print $npc.age22to27.length>></td>
-<td>''28-33:'' <<print $npc.age28to33.length>></td></tr>
-<tr><td>''34-39:'' <<print $npc.age34to39.length>></td>
-<td>''40-49:'' <<print $npc.age40to49.length>></td>
-<td>''50-59:'' <<print $npc.age50to59.length>></td></tr>
-<tr><td>''poor:'' <<print $npc.poor.length>></td>
-<td>''middle-income:'' <<print $npc.middle.length>></td>
-<td>''wealthy:'' <<print $npc.wealthy.length>></td></tr>
-<tr><td colspan=3>Dropouts: <<print $npc.education.dropout.length>>, Highschool: <<print $npc.education.hschool.length>>, Associates: <<print $npc.education.assoc.length>>, Bachelors: <<print $npc.education.bach.length>>, Masters: <<print $npc.education.master.length>>, Doctors: <<print $npc.education.doctor.length>></td></tr>
-</table>
-<</dialog>>
-<</link>> of NPCs.
-<br><br>
-<<link "Have Sex">>
-<<goto [[demoStartSexScene]]>>
-<</link>> with a stranger!
-<br><br>
-Try out the [[Wardrobe Menu|wardrobeMain]], or
-try out the [[Grooming Menu|groomingMain]].
-<br><br>
-<<link "Pass Time">><<set alert("You spend 15 minutes fapping")>><<addTime 15>><<goto [[BEchanging]]>><</link>> There isn't a reason to do this besides watching your stats slowly change.<br>
-<<link "Punch yourself">><<set $PC.status.health -= 10>><<goto [[BEchanging]]>><</link>> in the head (to test health).
-<br><br>
-Or just go back to [[Women's Clothing|controlBullseye][$map.destLoc = [2,3]]].
-<br><br>
-@@.note;You should head to the Bullseye Parking Lot (purchasing any clothes or jewelry in your cart) before heading back here to visit one of the menus. You can also learn some basic hairstyles at the@@ @@.ident;Best Head Salon@@@@.note;. This way, you actually have some things to play with.@@
+<</button>>
+<<endhoverrevise>>
+<<hoverrevise seegroup>>
+  <<button "NPC Census">>
+    <<dialog "NPC Groups">>
+      <table>
+      <tr><td colspan=3>@@.head3;''Your'' NPC Groups@@</td></tr>
+      <tr><td>''single:'' <<print $npc.single.length>></td>
+      <td>''in relationship:'' <<print $npc.rShip.length>></td>
+      <td>''married:'' <<print $npc.married.length>></td></tr>
+      <tr><td>''males:'' <<print $npc.male.length>></td>
+      <td>''females:'' <<print $npc.female.length>></td>
+      <td>''futas:'' <<print $npc.futa.length>></td></tr>
+      <tr><td>''18-21:'' <<print $npc.age18to21.length>></td>
+      <td>''22-27:'' <<print $npc.age22to27.length>></td>
+      <td>''28-33:'' <<print $npc.age28to33.length>></td></tr>
+      <tr><td>''34-39:'' <<print $npc.age34to39.length>></td>
+      <td>''40-49:'' <<print $npc.age40to49.length>></td>
+      <td>''50-59:'' <<print $npc.age50to59.length>></td></tr>
+      <tr><td>''poor:'' <<print $npc.poor.length>></td>
+      <td>''middle-income:'' <<print $npc.middle.length>></td>
+      <td>''wealthy:'' <<print $npc.wealthy.length>></td></tr>
+      <tr><td colspan=3>Dropouts: <<print $npc.education.dropout.length>>, Highschool: <<print $npc.education.hschool.length>>, Associates: <<print $npc.education.assoc.length>>, Bachelors: <<print $npc.education.bach.length>>, Masters: <<print $npc.education.master.length>>, Doctors: <<print $npc.education.doctor.length>></td></tr>
+      </table>
+    <</dialog>>
+  <</button>>
+<<endhoverrevise>>
+<<hoverrevise sexi>>
+<span class="disabled">
+<<button "Have Shitty Sex">>
+<</button>>
+</span>
+<<endhoverrevise>>
+<<hoverrevise wastetime>>
+<<button "Pass Time">><<set alert("You spend 15 minutes fapping")>><<addTime 15>><<updatebar>><</button>>
+<<endhoverrevise>>
+<<hoverrevise punch>>
+  <<button "Punch yourself">><<set $PC.status.health -= 10>><<updatebar>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion punch>>There is nearly no reason to do this, the only one being seeing your health decline, and perhaps a warning show up on the UI bar. You can't actually die yet, you'll just get flagged for death.<<endinsertion>>
+<<insertion wastetime>>There really isn't much reason to do this, except to see some of your stats change naturally over time, and possibly break the tutorial progression.<<endinsertion>>
+<<insertion sexi>>This is an initial look at the sex scene system which hasn't been updated to match all the changes in the javascript code behind the scenes, and thus probably barely works (if it even works at all). It has a lot of changes coming.<<endinsertion>>
+<<insertion seegroup>>See how many NPCs in the world fit into different categories, such as age, relationship status, and education.<<endinsertion>>
+<<insertion mapsplore>>@@.bad;<b>NOT RECOMMENDED!</b>@@ You should probably complete the prologue to see the map/homesystem or use the prologue skip feature.<<endinsertion>>
+<<insertion deepthink>>Find out what some of your NPCs are thinking about!<<endinsertion>>
+<<insertion hovCart>>It's your shopping cart... You click this to view it.<<endinsertion>>
+</div>
+
+
+
+:: BEchangingLOC [nobr]
+
+You decide to take a peek into a couple of the of the occupied changing rooms...
+<<comment "Hoho, you found something! If you let me know, I'll give you a thumbs-up or something. ;)">><br>
+<<set _im = 0>>
+<center>
+<div id="imagr" style="border-width:3px;border-color:#666;border-style:solid;border-radius:12px;background-color:#333;margin:10px auto;text-align:center;">
+take a peek...
+</div>
+<<button "Peek">>
+<<set _im += 1>>
+<<if _im > 6>>
+  <<set _im = 1>>
+<</if>>
+<<set _impr = "[img[IMG_BEchangingSecret" + _im + "]]">>
+<<replace "#imagr">><<print _impr>><</replace>>
+<</button>>
+</center>
+
+
+
 
 
 :: demoStartSexScene [nobr]
@@ -83,7 +171,7 @@ Or just go back to [[Women's Clothing|controlBullseye][$map.destLoc = [2,3]]].
 <<set _key = 0>>
 <<for _i = 0; _i < 10; _i++>>
 <<capture _i _key>>
-<tr><td><<set _pre = "<<checkboxB '_checkboxs[" + _i + "]' false true>>">><<print _pre>></td>
+<tr><td><<set _pre = '<<checkboxB "_checkboxs[' + _i + ']" false true>>'>><<print _pre>></td>
 <td><<print $NPC[$activeNPC[_i]].main.name>> <<print $NPC[$activeNPC[_i]].main.surname>></td>
 <td><<set _gen = $NPC[$activeNPC[_i]].main.genes>><<if _gen == "XX">>Female<<elseif _gen == "XY">>Male<<else>>Futa<</if>></td>
 <td><<print $NPC[$activeNPC[_i]].main.age>></td>
@@ -91,18 +179,21 @@ Or just go back to [[Women's Clothing|controlBullseye][$map.destLoc = [2,3]]].
 <</capture>>
 <</for>>
 </table>
-<br>
+<br><span id="debugs">
 <<button "hold on to your butts!">>
 <<set _cunt = 0>>
 <<for _i = 0; _i < 10; _i++>>
   <<if _checkboxs[_i]>>
-    <<run _choice.push(_i)>>
+    <<run _choice.push($activeNPC[_i])>>
     <<set _cunt += 1>>
   <</if>>
 <</for>>
 <<if _cunt == 0>>
   <<run alert("You must choose at least 1 NPC for now")>>
 <<else>>
-  <<startSexScene 0 _choice 0 _tempTags "Hey, it's starting text!">>
+  <<replace "#debugs">>
+    Chosen: <<print _choice>><br>
+    <<button "GO!">><<startSexScene 0 _choice 0 _tempTags "Hey, it's starting text!">><</button>>
+  <</replace>>
 <</if>>
-<</button>> <<button "Nevermind... Return">><<goto [[BEchanging]]>><</button>>
+<</button>></span> <<button "Nevermind... Return">><<goto [[BEchanging]]>><</button>>

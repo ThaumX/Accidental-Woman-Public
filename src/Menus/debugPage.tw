@@ -1,6 +1,5 @@
 :: debugPage [nobr hidden]
 
-<<nobr>>
 <<if $prevPassage != "character" && $prevPassage != "scene" && $prevPassage != "relationships" && $prevPassage != "cheatMenu" && $prevPassage != "debugPage">>
 	<<set $returnTo = $prevPassage>>
 <</if>>
@@ -9,32 +8,22 @@
 <br><br>
 @@.clock;''First of all, I'm sorry if a bug has caused you problems.''@@
 <br>
-The information on this page is useful for helping to track down bugs. 
+@@.note;The information on this page is useful for helping to track down bugs.@@
 <br><br>
-First things first - one of the largest causes of what seem to be bugs are issues with the Firefox web browser. It has a tendency to use cached passage twee, functions, and variables instead of the information in the ''actual'' html file. [[Resetting your cache|https://kb.iu.edu/d/ahic]] resolves these errors. This problem is the result of some fundamental issues with Firefox, and can't be fixed by me.
+First things first - one of the largest causes of what seem to be bugs are issues with <<message "Firefox">>It has a tendency to use cached passage twee, functions, and variables instead of the information in the ''actual'' html file. [[Resetting your cache|https://kb.iu.edu/d/ahic]] resolves these errors. This problem is the result of some fundamental issues with Firefox, and can't be fixed by me.<</message>>
 <br><br>
-@@.info;Players who report a valid bug (or typo, etc.) ''on the AW forums'' will be listed in the next version history on the blog, and will be included <u>permanently</u> in the game's credits. Players who report several bugs over the course of development will get a more distinguished place in the credits. (Patreon Backers will also be in the credits, of course!)@@
+@@.head3;Sharing bugs you encounter is ''extremely'' valuable!@@ Some are just things that are easily overlooked, while others are rare, only occur under special conditions, or are hard to replicate/isolate. Whatever the reason for the bug making it into the release, your report makes it possible to fix.
 <br><br>
-For ''ANY'' bug report, including typos or spelling, please include the data included below basic data. For bug reports involving actual bugs, please click the "Run checkvars" link near the bottom of this page. A window will open with lots of information on variables. You can paste it into a [[Pastebin|https://pastebin.com/]], and share the link in your report, or if reporting the bug on Discord, simply save the copied text in a .txt file and send it via Discord.
+Please share your bug report via the [[Discord Server|https://discord.gg/aBfzHGt]] if possible, but sharing via Patreon also works if you don't want to join Discord. Discord allows for easier communication, and I can also ask questions or provide a solution (if necessary) directly. I've found that it has been far easier to find and murder bugs reported this way.
 <br><br>
-Post your bug reports on the [[Accidental Woman Forum|https://www.thaumx.com/forum]]. Further instructions are available in a sticky there, but basically see if the bug has already been reported, and create a new post if it hasn't. For the title of the post, use @@.yellow;[BUG] bug type@@. Examples: <br>
-[BUG] Cash Not Decreasing <br>
-[TYPO] Extra Whitespace <br>
-[SPELLING] it's instead of its <br>
-[POSSIBLE BUG] Can't Access Dialog X <br>
-Be sure to include the version of the game in the title of your post as well.<br><br>
-If the bug is game breaking, meaning that it stops your game from continuing, use the @@.clock;Critical label@@, and use @@.yellow;[CRITICAL BUG]@@ in the title. In the body, try to describe the bug as well as the situation or activity that caused it. ''The more detail, the better!''. 
-<br><br>
-If you are reporting a typo/spelling/grammar/formatting error, you don't need to copy all the data. Just include the location in your forum post. (found at the top of Data to Copy.)
+@@.import;Please include the browser used, game version, and whether you used a save or template!@@
 <br><br>
 @@.big;[[Return|returner]]@@
 <br><br>
-@@.head3;Basic Data:@@
+@@.head3;Basic Data to Include@@
 <br>
 ''Location: $prevPassage ''
 <br>
 ''Detected widget errors:'' <<print $AW.error>>
 <br>
 ''Content Restrictions:'' Rape off: <<if $noForce>>true<<else>>false<</if>>, Violence off: <<if $noViolent>>true<<else>>false<</if>>, Extreme off: <<if $noExtreme>>true<<else>>false<</if>><br><br>
-@@.big;<<link "Compile Bug Report">><<bugreport $prevPassage>><</link>>@@
-<</nobr>>

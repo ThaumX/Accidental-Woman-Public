@@ -1,0 +1,71 @@
+:: ResidentialSports [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPrecreation]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptResidential>> <<mapEventResidential>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch $map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+</p>
+/*Event notification spot*/
+/*<<mapEventRes>>*/
+/*LOCATION description of  location*/
+<p>
+@@.head3;T@@he surrounding area consists mostly of a mowed lawn, with two large soccer goals. You can make out some faded paint on the grass marking out a reduced-size soccer field. Unlike the basketball court to the southeast, there isn't any seating. The trees on either side of the area make it seem surprisingly isolated. <<comment "Yes. I am aware that most of the world incorrectly calls soccer football, and calls football <i>American Football</i>. Because American football existed as a game named football well before the game soccer was nicknamed football, it's ridiculous to ask for a correction. Yes, I know soccer involves using the foot more. Still, you wouldn't change the name of your orchard to Apple, and then demand people call the electronics firm Computer Apple because your farm obviously involves apples more.">></p>
+/*Time & furnishing descriptive addon! <<mapResDesc>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise tannin>>
+<<button "Creep">><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion tannin>>
+@@.exp;Stare creepily at children. I suppose you'll get away with it now, perv.@@
+<<endinsertion>>
+</div>
+
+
+:: ResidentialSportsLOC [nobr]
+
+You see the douchiest douche that ever douched.

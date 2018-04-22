@@ -4,51 +4,71 @@
 /*Basic settings. Most done by map control passage*/
 
 <</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPBFhomeT2]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptHome>> <<mapEventHome>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch $map.weather>>
+<<case "clr">>
 
-/* GAME MAP TABLE - Displays map next to spot for area image.*/
-<div id="topbar"><center>
-<table id="navigation">
-<tr id="navigation">
-<td id="navigation"><img data-passage="IMGtier2bfhome" usemap="#image-map"><map name="image-map">
-    <area data-passage="homeBFT2TOliving" alt="Living Room" title="Living Room" coords="208,126,202,48,96,48,94,126" shape="poly">
-    <area data-passage="homeBFT2TOkitchen" alt="Kitchen" title="Kitchen" coords="212,202,206,128,92,128,90,150,116,156,118,202" shape="poly">
-    <area data-passage="homeBFT2TOexit" alt="Exit" title="Exit" coords="2,204,246,204,248,248,2,248" shape="poly" class="map-red-area">
-    <area data-passage="homeBFT2TObedroom" alt="Bedroom" title="Bedroom" coords="92,100,94,28,14,26,6,100" shape="poly">
-    <area data-passage="homeBFT2TOfoyer" alt="Foyer" title="Foyer" coords="44,202,48,152,86,152,114,158,116,202" shape="poly">
-    <area data-passage="homeBFT2TObath" alt="Bathroom" title="Bathroom" coords="40,202,48,102,6,102,0,134,2,202" shape="poly">
-    <area data-passage="homeBFT2TOwardrobe" alt="Wardrobe" title="Wardrobe" coords="50,102,92,102,90,124,84,130,48,130" shape="poly" class="map-green-area">
-	<area data-passage="homeBFT2TObalcony" alt="Balcony" title="Balcony" coords="212,188,208,114,246,112,246,188" shape="poly">
-</map></td>
-<td id="navigation"><<link [img[$map.imageName]]>><</link>></td>
-</tr>
-</table></center></div>
-<div id="mainshits"><center>
-@@.head2;<<=$map.name>>@@</center>
-<br><br>
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+</p>
 /*Event notification spot*/
 /*<<mapEventBFHome>>*/
 /*LOCATION description of  location*/
-@@.head3;Y@@ou are in your &person's& &nearly-empty and undecorated& bedroom. &more placeholder for time and funishings&
+<p>
+@@.head3;Y@@ou are in your &person's& &undecorated& apartment bedroom. &more placeholder for time and funishings&
+</p>
 /*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
 /*IN-PASSAGE span text*/
 <span id="locact"></span></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
-/*ACTION TABLE*/
-<table>
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise place>><<button "Placeholder">><</button>><<endhoverrevise>>
 
-<tr>
-<td width="20%"><<link "Try Going to Sleep">><<goto [[daySystemStart]]>><</link>></td><td>@@.exp;Give it a shot. There's only like a 50% chance that something will go horribly, horribly wrong...@@ @@font-size:40%;I hope... It's really complicated...@@</td>
-</tr>
-<tr>
-<td width="20%"><<link "Try to Job">><<goto [[jobSystemStart]]>><</link>></td><td>@@.exp;Give going to work directly a shot. There's only like a 50% chance that something will go horribly, horribly wrong...@@ @@font-size:40%;I hope... It's really complicated...@@</td>
-</tr>
-<tr><td colspan=2  id="homeaction"></td></tr>
-</table>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion place>>@@.exp;This is a default action item that is a placeholder for other actions. Actions will be available based on the room, time, furnishings, and your status.@@<<endinsertion>>
+</div>
+
 <<timed 50ms>>
 <<mapBFHomeEventAction>>
 <<mapBFHomeActions>>
 <</timed>>
-</div>
 
 
 
+:: homeBFT2bedroomLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>

@@ -1,0 +1,58 @@
+
+/*
+███████╗███████╗███╗   ███╗██╗      ███╗   ██╗██████╗  ██████╗
+██╔════╝██╔════╝████╗ ████║██║      ████╗  ██║██╔══██╗██╔════╝
+███████╗█████╗  ██╔████╔██║██║█████╗██╔██╗ ██║██████╔╝██║
+╚════██║██╔══╝  ██║╚██╔╝██║██║╚════╝██║╚██╗██║██╔═══╝ ██║
+███████║███████╗██║ ╚═╝ ██║██║      ██║ ╚████║██║     ╚██████╗
+╚══════╝╚══════╝╚═╝     ╚═╝╚═╝      ╚═╝  ╚═══╝╚═╝      ╚═════╝
+
+
+List of variables for semi-npc generation via 
+setup.npcgen.NPC({npcid:, gender:, age:, bday:, homo:, race:, subrace:, tone:, weight:, fert:, tits:, cock:, pussy:, beauty:, edu:, wealth:, jobber:, name:, surname:, nickname:, portName:, should:, hip:, waist:})
+
+npcid = number MANDATORY
+gen = gender (1: male, 2: female, 3: futa, 4: dude-ta)
+age = [min,max]
+bday = [d,w,m,y] or 0
+homo = sexuality (0:rand, 1:straight, 2:bi, 3:homo)
+race = race, *needs subrace (0:random, 1: white*, 2: black, 3: hispanic
+    4: asian*, 5: mideastern, 6: native american)
+subrace (-1: random, whites(0: generic, 1: S european, 2: gaelic, 3: nordic),
+    asians(0: asian, 1: s asian, 2: se asian))
+tone = muscle 0:rand
+weight 0:rand
+fert = fert mod (-100to10, "rand" == rand)
+tits = breast size cc (0:normal)
+cock = length mod (0:normal)
+pussy = looseness (0:rand)
+beauty = prettiness (0:rand)
+edu = education array of t/f [hs,c,as,bs,ms,dr] or "rand"
+wealth = (-3 to 3 "rand":rand)
+jobber = job string (0: random)
+name = obvious string (0: random)
+surname = obvious string (0: random)
+nickname = obvious string (0: random)
+portName = chosen portrait, only text (ex: IMG_NPC_Lily)
+should = shoulder width 0:random
+hip = hip width 0:random
+waist = waist 0:random
+
+INSTRUCTIONS:
+Run setup.npcgen.NPC() with arguments as an object
+Change select variables if needed
+Run setup.npcgen.setLists(npcid) *full string name: n1001
+*/
+
+:: DEFsemiNPC-Prologue [nobr hidden]
+
+/*Realtor!*/
+<<procS "gen semi NPCs">>
+<<run setup.npcgen.NPC({npcid:1001, gender:2, age:[37,42], race: 1, subrace: 0, tone: 3, weight: 4, fert: 4, tits: 1970, pussy: 3, beauty: 4, edu: [true,true,true,false,false,false], wealth: 2, jobber: "realtor", name: "Tiffany", surname: "Williams", nickname: "none", portName: "IMG_NPC_Realtor", should: 2, hip: 6, waist: 3})>>
+<<run setup.npcgen.setLists("n1001")>>
+<<deactivateNPC "n1001">>
+<<run setup.npcgen.NPC({npcid:1002, gender: 2, age: [28,32], homo: 2, race: 1, subrace: 0, tone: 3, weight: 3, fert: 10, tits: 1155, pussy: 2, beauty: 4, edu: [true,true,true,true,true,true], wealth: 2, jobber: "pharmacist", name: "Sara", surname: "Templeton", nickname: "none", portName: "IMG_NPC_30-Black", should: 1, hip: 5, waist: 4})>>
+<<run setup.npcgen.setLists("n1002")>>
+<<deactivateNPC "n1002">>
+<<procE>>
+

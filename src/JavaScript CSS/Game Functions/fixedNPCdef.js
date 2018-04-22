@@ -1,5 +1,5 @@
-setup.defineFixedNPCs = function(){
-  function defineLily(){
+setup.defineFixedNPCs = function () {
+  function defineLily() {
     var npc = {
       body: {},
       main: {},
@@ -96,24 +96,24 @@ setup.defineFixedNPCs = function(){
     npc.main = {
       id: 101,
       age: 29,
-      bd: [7,2,7,2003],
+      bd: [7, 2, 7, 2003],
       female: true,
       male: true,
       genes: "XXY",
       seen: true,
       interact: true,
       relation: true,
-      tags: ["fixed","plot"],
+      tags: ["fixed", "plot"],
       name: "Lily",
       surname: "Richards",
       nickname: "Lils",
       portrait: "[img[IMG_NPC_Lily]]"
     };
     npc.sched = {
-      workdays: [true,true,true,true,true,false,false],
-      workhours: [8,17],
+      workdays: [true, true, true, true, true, false, false],
+      workhours: [8, 17],
       workLoc: "institute",
-      outhours: [0,3],
+      outhours: [0, 3],
       locations: []
     };
     npc.bground = {
@@ -132,7 +132,7 @@ setup.defineFixedNPCs = function(){
       debt: 420,
       home: 9,
       job: "Institute scientist",
-      car: ["Sukayu","Impregna","new"],
+      car: ["Sukayu", "Impregna", "new"],
       timeApple: 2,
       sister: 0,
       sisterYounger: false,
@@ -152,10 +152,10 @@ setup.defineFixedNPCs = function(){
       exclusive: false,
       engaged: false,
       married: false,
-      likePC: 80,
-      likeNPC: 80,
-      lovePC: 50,
-      loveNPC: 50,
+      likePC: 90,
+      likeNPC: 90,
+      lovePC: 55,
+      loveNPC: 55,
       companion: 0,
       domsub: 70,
       mesh: 0,
@@ -206,8 +206,7 @@ setup.defineFixedNPCs = function(){
       birthCon: 87,
       birthConType: "patch",
       alcohol: 0,
-      drugs: [0,0,0,0,0],
-      cycle: 22,
+      drugs: [0, 0, 0, 0, 0],
       fertText: "on the patch",
       status: [],
       risk: 0,
@@ -270,21 +269,21 @@ setup.defineFixedNPCs = function(){
       },
     };
     npc.cond = {
-      hair: [1,"A","A"],
-      face: [1,"A","A"],
-      chest: [1,"A","A"],
-      back: [1,"A","A"],
-      hands: [1,"A","A"],
-      belly: [1,"A","A"],
-      butt: [1,"A","A"],
-      pubis: [1,"A","A"],
-      anus: [1,"A","A"],
+      hair: [1, "A", "A"],
+      face: [1, "A", "A"],
+      chest: [1, "A", "A"],
+      back: [1, "A", "A"],
+      hands: [1, "A", "A"],
+      belly: [1, "A", "A"],
+      butt: [1, "A", "A"],
+      pubis: [1, "A", "A"],
+      anus: [1, "A", "A"],
       anusFluid: 0,
-      vagina: [1,"A","A"],
+      vagina: [1, "A", "A"],
       vagFluid: 0,
-      cock: [1,"A","A"],
-      legs: [1,"A","A"],
-      feet: [1,"A","A"]
+      cock: [1, "A", "A"],
+      legs: [1, "A", "A"],
+      feet: [1, "A", "A"]
     };
     npc.outfit = {
       empty: true
@@ -308,14 +307,14 @@ setup.defineFixedNPCs = function(){
       LitePhero: false
     };
     npc.pref = {
-      Fweight: [-2,-2,0,2,0,-2],
-      Mweight: [-2,-2,1,1,-1,-2],
-      Fheight: [0,1,2,1,0],
-      Mheight: [-2,-2,0,1,-1],
-      Fmuscle: [-2,-2,1,2,-1,-2],
-      Mmuscle: [-2,-2,0,2,0,-2],
-      Fother: [0,0,0,0,0,0,0,0,0,0],
-      Mother: [0,0,0,0,0,0,0,0,0],
+      Fweight: [-2, -2, 0, 2, 0, -2],
+      Mweight: [-2, -2, 1, 1, -1, -2],
+      Fheight: [0, 1, 2, 1, 0],
+      Mheight: [-2, -2, 0, 1, -1],
+      Fmuscle: [-2, -2, 1, 2, -1, -2],
+      Mmuscle: [-2, -2, 0, 2, 0, -2],
+      Fother: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      Mother: [0, 0, 0, 0, 0, 0, 0, 0, 0],
       active: 1,
       romance: 2,
       novel: 3,
@@ -324,8 +323,8 @@ setup.defineFixedNPCs = function(){
       expensive: -1,
       fancy: -1,
       popular: -2,
-      position: ["facetoface","cowgirl","missionary","doggy","speedbump","spoon","squat","reversecowgirl","sides","standing"],
-      sexact: ["vaginal","anal","recOral","giveOral","makeout","recHand","giveHand"],
+      position: ["facetoface", "cowgirl", "missionary", "doggy", "speedbump", "spoon", "squat", "reversecowgirl", "sides", "standing"],
+      sexact: ["vaginal", "anal", "recOral", "giveOral", "makeout", "recHand", "giveHand"],
       kinks: ["not yet..."]
     };
     npc.core = {
@@ -419,7 +418,9 @@ setup.defineFixedNPCs = function(){
       egg: 17,
       implant: 10,
       vagHostility: 14,
-      cycle: 27,
+      cycle: 26,
+      cycStart: [random(1,7),random(1,4)],
+      ovuMod: randomDist([2,3,3,4,3,3,2])-4,
       period: 3,
       multEgg: 12,
       wombHealth: 0,
@@ -459,10 +460,9 @@ setup.defineFixedNPCs = function(){
       thinkNPCfaithful: true
     };
     var pName = "n101";
-    try{
-      State.active.variables.NPC[pName] = new NPC(npc.body,npc.main,npc.sched,npc.bground,npc.rship,npc.sex,npc.flag,npc.friends,npc.clothes,npc.status,npc.cond,npc.outfit,npc.mutate,npc.pref,npc.core,npc.fert,npc.makeout);
-    }
-    catch(er){
+    try {
+      State.active.variables.NPC[pName] = new NPC(npc.body, npc.main, npc.sched, npc.bground, npc.rship, npc.sex, npc.flag, npc.friends, npc.clothes, npc.status, npc.cond, npc.outfit, npc.mutate, npc.pref, npc.core, npc.fert, npc.makeout);
+    } catch (er) {
       let ermsg = "Error with NPC constructor for NPCID:" + npcid + " error: " + er;
       console.log(ermsg);
       alert(ermsg);

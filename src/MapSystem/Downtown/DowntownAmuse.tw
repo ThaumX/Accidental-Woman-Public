@@ -1,0 +1,69 @@
+:: DowntownAmuse [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPdowntown]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptDowntown>> <<mapEventDowntown>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch $map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+</p>
+<p>
+@@.head3;Y@@ou're standing in an area that breaks away from the somewhat standardized appearance of downtown Appletree. There are several larger buildings housing various recreational amusements, and there's also a small theme park called Erotika Land [name undecided]. Basically, it's full of places that are awkward to go to alone.
+</p>
+<p id="locact"></p>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Go to [Erotika Land]">><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "Go to The Balls & Pin">><</button>>
+<<endhoverrevise>>
+<<hoverrevise delta>>
+  <<button "Go to Hot Loads">><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Visit the [Erotika Land] theme park. Fun for the whole family, and educational too!<<endinsertion>>
+<<insertion beta>>Visit the bowling alley and perhaps play a few games, or perhaps just polish a ball or two.<<endinsertion>>
+<<insertion delta>>Visit the sport shooting center and perhaps spend some time on the range.<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+  <<mapEventDowntownAct>>
+<</timed>>
+
+
+:: DowntownAmuseLOC [nobr]
+
+The statue standing next to the sign for Erotika Land is pretty amazing...
+<br><br>
+[img[IMG_DowntownAmuseParkStatue]]
+

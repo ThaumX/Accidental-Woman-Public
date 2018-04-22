@@ -1,6 +1,9 @@
 :: physicalReview [nobr]
 
-<<nobr>><<set $helpText = "This is a chance to make sure your character looks the way you want them to before continuing. Note that some choices you make after this may affect your character's appearance in minor ways.">>
+
+<div id="cardback"></div>
+<div class="uicardbig">
+<<set $helpText = "This is a chance to make sure your character looks the way you want them to before continuing. Note that some choices you make after this may affect your character's appearance in minor ways.">>
 <<silently>>
 <<if $AW.metric>>
 	<<set $PC.body.height = Math.round($PC.body.height/2.54)>>
@@ -16,13 +19,13 @@
 <</if>>
 <</silently>>
 <<if $PC.body.height > 84>>
-	@@.note;Your chosen height (<<print $PC.body.height>>) was over 7 feet tall (2.13 meters), which is already almost exclusively limited to those with a medical condition. Your height has been set to 7 feet. (84 inches, 213 cm).@@<hr><br>
+	@@.note;Your chosen height (<<unit $PC.body.height in>>) was over 7 feet tall (2.13 meters), which is already almost exclusively limited to those with a medical condition. Your height has been set to 7 feet. (84 inches, 213 cm).@@<hr><br>
 	<<set $PC.body.height = 84>>
 <<elseif $PC.body.height < 58 && $PC.main.age >= 18>>
-	@@.note;Your chosen height (<<print $PC.body.height>>) was under 4 foot 6 inches tall, and you are an adult biologically. 4-foot-6 is the lowest [[healthy|http://halls.md/chart/GirlsHeightWhite.gif]] height of a 12-year-old girl. A height of 4ft 10in or less in adults is considered [[dwarfism|http://www.lpaonline.org/faq-]] medically. Your height has been set to 58 inches.<hr><br>
+	@@.note;Your chosen height (<<unit $PC.body.height in>>) was under 4 foot 6 inches tall, and you are an adult biologically. 4-foot-6 is the lowest [[healthy|http://halls.md/chart/GirlsHeightWhite.gif]] height of a 12-year-old girl. A height of 4ft 10in or less in adults is considered [[dwarfism|http://www.lpaonline.org/faq-]] medically. Your height has been set to 58 inches.<hr><br>
 	<<set $PC.body.height = 54>>
 <<elseif $PC.body.height < 54>>
-	@@.note;Your chosen height (<<print $PC.body.height>>) was under 4 foot 6 inches tall (137 cm). 4-foot-6 is the lowest [[healthy|http://halls.md/chart/GirlsHeightWhite.gif]] height of a 12-year-old girl. A height of 4ft 10in or less in adults is considered [[dwarfism|http://www.lpaonline.org/faq-]] medically. Your height has been set to 54 inches.<hr><br>
+	@@.note;Your chosen height (<<unit $PC.body.height in>>) was under 4 foot 6 inches tall (137 cm). 4-foot-6 is the lowest [[healthy|http://halls.md/chart/GirlsHeightWhite.gif]] height of a 12-year-old girl. A height of 4ft 10in or less in adults is considered [[dwarfism|http://www.lpaonline.org/faq-]] medically. Your height has been set to 54 inches.<hr><br>
 	<<set $PC.body.height = 54>>
 <</if>>
 <<if $PC.main.age < 14>>
@@ -36,13 +39,13 @@
 <<set $helpText = "''Physical Review'' ">>
 @@.head3;W@@ith some help from Lily, you stand naked in front of a dressing mirror looking at your new body...
 <br><br>
-@@.head3;Y@@ou are <<print $PC.main.ageOriginal>> years old chronologically, and your body appears <<if $PC.main.age > ($PC.main.ageOriginal + 1)>>older than that at<<elseif $PC.main.age < ($PC.main.ageOriginal - 1)>>younger than that at<<else>>about the same at<</if>> <<print $PC.main.age>> years old. You stand <<measurement "height">>, with healthy $PC.body.skinColor skin. You have $PC.groom.hairColor hair that is $PC.groom.hairLength <<units>> long, and <<if $PC.groom.pubeStyle isnot "hairless">><<if $PC.groom.pubeStyle == "neat patch" || $PC.groom.pubeStyle == "landing strip">>a $PC.groom.pubeStyle of $PC.groom.pubeColor<<else>>$PC.groom.pubeStyle $PC.groom.pubeColor<</if>> pubic hair.<<else>>you're hairless down below.<</if>> Your face <<pcFaceDescript>>, with piercing $PC.body.eyeColor eyes. You have a <<pcTone>> body that is <<pcWeight>>. You have <<pcShoulderSize>> shoulders and <<pcHipSize>> hips that are tied together by your <<pcWaist>> waist. On your chest rests two <<pcBoobSize>> $PC.body.tits.shape breasts with $PC.body.tits.nipple nipples, and you have a <<pcAssSize>> butt around back. Between your legs you have a shapely female vulva; your <<pcClitSize>> clit <<pcClitView>> your <<pcLabiaSize>> labia. Inside you have a naturally <<pcWetness>> <<pcPussySize>> vagina, and <<pcFertility>> womb.
+@@.head3;Y@@ou are <<print $PC.main.ageOriginal>> years old chronologically, and your body appears <<if $PC.main.age > ($PC.main.ageOriginal + 1)>>older than that at<<elseif $PC.main.age < ($PC.main.ageOriginal - 1)>>younger than that at<<else>>about the same at<</if>> <<print $PC.main.age>> years old. You stand <<height>> tall, with healthy $PC.body.skinColor skin. You have $PC.groom.hairColor hair that is $PC.groom.hairLength <<units>> long, and <<if $PC.groom.pubeStyle isnot "hairless">><<if $PC.groom.pubeStyle == "neat patch" || $PC.groom.pubeStyle == "landing strip">>a $PC.groom.pubeStyle of $PC.groom.pubeColor<<else>>$PC.groom.pubeStyle $PC.groom.pubeColor<</if>> pubic hair.<<else>>you're hairless down below.<</if>> Your face <<pcFaceDescript>>, with piercing $PC.body.eyeColor eyes. You have a <<pcTone>> body that is <<pcWeight>>. You have <<pcShoulderSize>> shoulders and <<pcHipSize>> hips that are tied together by your <<pcWaist>> waist. On your chest rests two <<pcBoobSize>> $PC.body.tits.shape breasts with $PC.body.tits.nipple nipples, and you have a <<pcAssSize>> butt around back. Between your legs you have a shapely female vulva; your <<pcClitSize>> clit <<pcClitView>> your <<pcLabiaSize>> labia. Inside you have a naturally <<pcWetness>> <<pcPussySize>> vagina, and <<pcFertility>> womb.
 <br><br>
-Perhaps it wasn't the body that you wanted, but it wasn't awful either. Lily waits for you to get a good look at yourself before asking you to do some tests and answer a few questions. Her explaination was a bit too much to follow, but you get the gist that she thinks that your brain has been altered along with the rest of your body.
+Perhaps it wasn't the body that you wanted, but it wasn't awful either. Lily waits for you to get a good look at yourself before asking you to do some tests and answer a few questions. Her explanation was a bit too much to follow, but you get the gist that she thinks that your brain has been altered along with the rest of your body.
 <br><br><center>
-@@font-size:120%;<<button [[Get Tested|characterCreate2]]>><</button>>@@ <<comment "check out your hair!">>
+@@font-size:120%;<<button [[Get Tested|characterCreate2]]>><</button>>@@
 <br><br>
 [[Redo Physical Attributes|characterCreate]]<br>
-@@.inst;<i>Will completely reset your physical attribute choices!<br>Will also re-randomize random physical attributes.</i>@@
+@@.inst;<i>Will reset some of your physical attribute choices!</i>@@
 </center>
-<</nobr>>
+</div>

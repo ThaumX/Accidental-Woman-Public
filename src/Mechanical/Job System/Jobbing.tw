@@ -1,0 +1,271 @@
+:: JobberCon [nobr hidden]
+
+/*<<set $sched.sleepPassage = previous()>>*/
+<<silently>>
+<<set _demotivator = "[img[IMG-Demotivation" + $job.moti + "]]">>
+<</silently>>
+<div id="jobcunt">
+  <img id="jobberWallpaper" data-passage="IMG_InstituteWall">
+  <div id="jobContent">
+    <<if $job.stats.fireDanger>><div class="warning" style="font-size:135%;text-align:center;">Warning: You are in danger of being fired!</div><</if>>
+    <div><<print setup.job.arrival()>></div>
+    <<include [[JobberSelection]]>>
+  </div>
+  <img id="JobberInfoButton" data-passage="IMG-JobInfo">
+  <div id="jobInfo" class="monospace blackOutline">
+    <<include [[BasicJobberInfo]]>>
+  </div>
+  <div id="jobMotivateImg">
+    <<link [img[IMG_MotivateIcon]]>><<dialog "Daily Motivation">><center><span class="vollkorn white">Daily image number <<print $job.moti>> of 27</span><br><<print _demotivator>></center><</dialog>><</link>>
+  </div>
+</div>
+
+:: JobberSelection [nobr]
+
+<div><center>
+<fieldset>
+  <legend>Select an effort level: <<helpPop "Work Effort" "<<include [[jobberWorkEffort]]>>">></legend>
+  <label for="radio-1">low</label>
+  <input type="radio" name="radio-1" id="radio-1">
+  <label for="radio-2">medium</label>
+  <input type="radio" name="radio-1" id="radio-2" checked>
+  <label for="radio-3">high</label>
+  <input type="radio" name="radio-1" id="radio-3">
+</fieldset>
+<fieldset>
+  <legend>Select a focus: <<helpPop "Work Focus" "<<include [[jobberWorkFocus]]>>">> </legend>
+  <label for="radio-4">None</label>
+  <input type="radio" name="radio-2" id="radio-4" checked>
+  <label for="radio-5">Working</label>
+  <input type="radio" name="radio-2" id="radio-5">
+  <label for="radio-6">Skills</label>
+  <input type="radio" name="radio-2" id="radio-6">
+  <label for="radio-7">Boss</label>
+  <input type="radio" name="radio-2" id="radio-7">
+  <label for="radio-8">Coworkers</label>
+  <input type="radio" name="radio-2" id="radio-8">
+  <<if $job.stats.rank >= 5>><label for="radio-9">Subordinates</label>
+  <input type="radio" name="radio-2" id="radio-9" class="disabled"><</if>>
+</fieldset>
+
+<<timed 50ms>>
+<<script>>
+$( "input[type='radio']" ).checkboxradio({
+  icon: false
+});
+$("#radio-1").click(function(){
+  State.active.variables.job.choose.effort = 1;
+});
+$("#radio-2").click(function(){
+  State.active.variables.job.choose.effort = 2;
+});
+$("#radio-3").click(function(){
+  State.active.variables.job.choose.effort = 3;
+});
+$("#radio-4").click(function(){
+  State.active.variables.job.choose.focus = "none";
+});
+$("#radio-5").click(function(){
+  State.active.variables.job.choose.focus = "work";
+});
+$("#radio-6").click(function(){
+  State.active.variables.job.choose.focus = "skill";
+});
+$("#radio-7").click(function(){
+  State.active.variables.job.choose.focus = "boss";
+});
+$("#radio-8").click(function(){
+  State.active.variables.job.choose.focus = "coworker";
+});
+if(State.active.variables.job.stats.rank >= 5){
+  $("#radio-9").click(function(){
+    State.active.variables.job.choose.focus = "subord";
+  });
+}
+<</script>>
+<</timed>>
+</center></div>
+<div><center><<button "Continue">><<status 0>><<replace "#jobContent">><</replace>><<run setup.job.startDay()>><</button>></center></div>
+
+
+:: JobberOutput [nobr]
+
+<<silently>>
+<<set _ratioTotal = $job.rules.taskratio[0] + $job.rules.taskratio[1] + $job.rules.taskratio[2] + $job.rules.taskratio[3]>>
+<<set _ratioA = $job.rules.taskratio[0]>>
+<<set _ratioB = _ratioA + $job.rules.taskratio[1]>>
+<<set _ratioC = _ratioB + $job.rules.taskratio[2]>>
+<<set _ratioD = _ratioC + $job.rules.taskratio[3]>>
+<<set _tasks = []>>
+<<for _i to 0; _i < $job.rules.tasks; _i++>>
+	<<set _rand = random(1,_ratioTotal)>>
+	<<if _rand <= _ratioA>>
+		<<set _tit = $job.rules.taskA>>
+		<<set _tit.tasklet = "A">>
+		<<set _tasks.push(_tit)>>
+	<<elseif _rand <= _ratioB>>
+		<<set _tit = $job.rules.taskB>>
+		<<set _tit.tasklet = "B">>
+		<<set _tasks.push(_tit)>>
+	<<elseif _rand <= _ratioC>>
+		<<set _tit = $job.rules.taskC>>
+		<<set _tit.tasklet = "C">>
+		<<set _tasks.push(_tit)>>
+	<<elseif _rand <= _ratioD>>
+		<<set _tit = $job.rules.taskD>>
+		<<set _tit.tasklet = "D">>
+		<<set _tasks.push(_tit)>>
+	<</if>>
+<</for>>
+<<set _results = []>>
+<<set _perf = 0>>
+<<for _i to 0; _i < _tasks.length; _i++>>
+	<<SCX>>
+	<<SC _tasks[_i].type _tasks[_i].DC "d6">>
+	<<if $SCresult[0]>>
+		<<set _res = [true,false]>>
+		<<set _results.push(_res)>>
+		<<stress _tasks[_i].stress>>
+		<<set _perf += 10>>
+	<<elseif _tasks[_i].retry>>
+		<<SC _tasks[_i].type _tasks[_i].DC "d6">>
+		<<if $SCresult[0]>>
+			<<set _res = [true,true]>>
+			<<set _results.push(_res)>>
+			<<stress _tasks[_i].stress>>
+			<<stress _tasks[_i].stress>>
+			<<set _perf += 5>>
+		<<else>>
+			<<set _res = [false,true]>>
+			<<set _results.push(_res)>>
+			<<stress _tasks[_i].stress>>
+			<<stress _tasks[_i].stress>>
+			<<stress _tasks[_i].stress>>
+			<<set _perf -= 10>>
+		<</if>>
+	<<else>>
+		<<set _res = [false,false]>>
+		<<set _results.push(_res)>>
+		<<stress _tasks[_i].stress>>
+		<<stress _tasks[_i].stress>>
+		<<stress _tasks[_i].stress>>
+		<<set _perf -= 5>>
+	<</if>>
+<</for>>
+<<set _temp = Math.round( _perf / _tasks.length)>>
+<</silently>>
+<div>
+<span style="font-size:120%;">Congratulations, you just Jobbed hard!</span>
+<br><br>
+<<if _temp >= 8>>You did fantastic today, and your supervisor said he'd never seen anyone job so good.<<elseif _temp >= 3>>You did pretty well today, even though you had to do a couple things over.<<elseif _temp >= -1>>You did okay today, though it certainly wasn't enough to impress anyone.<<elseif _temp >= -5>>You could charitably call your performance mediocre. You might want to get better at this whole jobbing thing before it's too late!<<else>>Based on your Jobbing skills, I wouldn't put much hope in keeping your job.<</if>>
+<br><br>
+This is definitely placeholder text. You aren't really meant to be jobbing yet. The results are actually output into a couple variables that allow for pretty interesting storytelling results by combining the events of the day. @@.mono;I had to clean the vats again today, this time I slipped and fell into some pink goo! While my supervisor was pissed, the nerd types seemed to be really pleased with my work afterward...@@
+<br><br>
+<<link "I'm done Jobbing">><<goto [[$sched.sleepPassage]]>><</link>>
+</div>
+<div class="vollkorn">
+Hello, ThaumX here.<br>I'm sorry, I didn't have time to finish the display elements for jobbing, which means that you're still looking at something of a demo. When the display portion is all done and controlled directly by JavaScript (like the sleep display), this will be a good deal more slick. You'll start with text describing your arrival at work, and it may actually be the start of a scene/event depending on what's going on (arriving late for example could prompt one). After the introduction--and finishing the event if there was one--there will be a fairly standard set of options for working that day. You'll choose your effort level, and your focus (focusing on work duties, self improvement, coworkers/subordinates, etc.) The combination of the two will control your behavior, the odds of certain events happening, and your social/managerial impacts in addition to influencing your task skill checks.
+<br><br>
+After the introduction and choosing your options, numbers will be crunched and electrons beaten mercilessly to generate the results. A special scene may proc, but on most days it'll go straight to results. Results will describe your activities for the day, such as mini-stories involving performance of your duties, and will display text giving a general description of how you influenced your work life. From there it's clicking to head home, or perhaps being forced to work overtime...
+</div>
+
+
+
+:: BasicJobberInfo [nobr]
+
+<<silently>>
+<<set _performance = $job.stats.performance + 50>>
+<<set _boss = $job.stats.boss + 50>>
+<<set _cowork = $job.stats.coworker + 50>>
+<<set _subord = $job.stats.subord + 50>>
+<<if _performance < 50>><<set _perfCol = "orange">><<else>><<set _perfCol = "green">><</if>>
+<<if _boss < 50>><<set _bossCol = "orange">><<else>><<set _bossCol = "green">><</if>>
+<<if _cowork < 50>><<set _coworkCol = "orange">><<else>><<set _coworkCol = "green">><</if>>
+<<if _subord < 50>><<set _subordCol = "orange">><<else>><<set _subordCol = "green">><</if>>
+<</silently>>
+<center><b><<= $job.name>></b> [<<= $job.stats.rank>>]</center>
+<<= $job.employer>><<sp 3>><<= $job.rules.boss>><br>
+<<= $job.rules.worktime[0]>> hours per week
+<br>
+<b>STATUS:</b><br>
+<div style="margin:3px 0px 5px 25px">
+<<progressbar $job.stats.progress "Progress" "blue" "shine">>
+<<progressbar _performance "Performance" _perfCol "glow">>
+<<progressbar _boss "Boss" _bossCol "glow">>
+<<progressbar _cowork "Coworkers" _coworkCol "glow">>
+[ No Subordinates ]</div>
+Sick Leave Balance: <<= $job.sick.balance>> hours<br>
+Paid Leave Balance: <<= $job.vacation.balPaid>> hours<br>
+Unpaid Leave Balance: <<= $job.vacation.balance>> hours<br>
+<br>
+<b>COMPENSATION:</b><br>
+Hourly Wage: <<mon>><<= $job.rules.payrate>> per hour<br>
+Weekly Wage: <<mon>><<= ( Math.round( $job.rules.worktime[0] * $job.rules.payrate))>><br>
+Paid Sick Leave: <<= $job.sick.rate>> hours per month<br>
+Paid Leave: <<= $job.vacation.ratePaid>> hours per month<br>
+Unpaid Leave: <<= $job.vacation.rate>> hours per month<br>
+<br>
+<b>STATISTICS:</b><br>
+Days Worked: <<= $job.stats.daysworked>> (<<= $job.stats.daysworkedTotal>> total)<br>
+Times Late: <<= $job.late.recent>> recently, <<= $job.late.times>> total<br>
+Days Missed: <<= $job.missed.recent>> recently, <<= $job.missed.times>> total<br>
+Leave Used: <<= $job.vacation.usedPaid>> paid, <<= $job.vacation.used>> unpaid<br>
+Sick Leave Used: <<= $job.sick.used>>
+
+
+
+:: jobberWorkFocus [nobr]
+
+<div class="white quest" style="text-align:justify">
+<span class='ship' style='font-size:115%;'>W</span>ork focus represents what goals you are focusing on during your shift at work. While you may not have any particular focus (none), you may be interested in improving your reputation, skills, or just performing better. Here you can choose one of several focuses for the day at work. Note that choosing a focus has an effect on your work performance as well. Some will make it easier to accomplish tasks successfully, while others will make it more difficult. Similarly, your work effort will affect how beneficial your focus is.<br>
+<dl class="headl">
+<dt>None</dt><dd>No particular focus for the day, generally just getting things done. Has no bonuses or penalties.</dd>
+<dt>Working</dt><dd>Put extra focus into getting your work done properly. Gives a bonus to your task skill checks at the cost of 5% to 15% more stress for the day. Useful if you are having a hard time completing tasks successfully, or for improving your performance rating.</dd>
+<dt>Skill</dt><dd>Focusing on improving your work skills. Can give additional chances to level up a work skill, and a small bonus to completing tasks. It also causes from 5% to 15% additional stress for the day. Useful to help level up work skills faster.</dd>
+<dt>Boss</dt><dd>Focus on pleasing the boss. Not exactly brown-nosing--at least if done properly--it's more about making sure your contributions are recognized. This can help improve your relationship with your boss, and potentially even give a small bonus towards promotion progress. It has a small chance of backfiring. May apply a moderate bonus or penalty to task completion for the day.</dd>
+<dt>Coworkers</dt><dd>Focus on improving your relationship with your coworkers. Coworkers make a noticeable difference to your overall performance and promotion potential, either positive or negative, so improving relationships can be valuable. Spending time on office gossip and politics comes at a cost of a penalty to task completion.</dd>
+<dt>Subordinates</dt><dd>Focus on mentoring and improving your relationship with your subordinates. Because you are responsible for them, your subordinates can have a significant effect on your overall performance rating and promotion potential. Choosing this focus has a varying impact to task completion, and could be either a small benefit or penalty. <i>Note: this focus is only available once you have subordinates.</i></dd>
+</dl>
+</div>
+
+
+:: jobberWorkEffort [nobr]
+
+<div class="white quest" style="text-align:justify">
+<span style="font-family: ArchitectsDaughter;">It's a lot like a jar of peanut butter, sometimes you get your jelly all up in that bitch.</span> -- 𝕙𝕚𝕘𝕙 𝕞𝕖𝕥𝕒𝕓𝕠𝕝𝕚𝕤𝕞 𝕡𝕖𝕡𝕡𝕖𝕣 𝕤𝕨𝕖𝕒𝕥<br><br>
+<span class='ship' style='font-size:115%;'>W</span>ork effort represents... surprise,the amount of effort you're putting into work. This affects both your ability to complete tasks, as well as the benefits gained from any focus you choose. It also influences the amount of stress gained from working. Working hard results in increased stress, which explains a lot about <span class="megrim"><b><span class="ship">T</span>haum<span class="ship">X</span></b></span> when you think about it... While not putting in much effort at work grants a minor reduction in daily work stress.
+</div>
+
+
+
+:: jobberCallBossRequest [nobr hidden]
+
+<<status 1>><<addTime 6>>
+<img data-passage="IMG-BossTalkLogo" style="border-radius:8px;float:right;">
+<h3>On The Phone With The Boss</h3>
+@@.head3;Y@@ou call up your boss to ask about getting a day off. You have <<print $job.vacation.balance>> hours of unpaid vacation, and <<print $job.vacation.balPaid>> hours of paid vacation. <<if $job.vacation.balPaid < 8 && $job.vacation.balance < 8>>Unfortunately, that isn't enough to take a day off, and policy forbids advance leave unless it's an emergency. You apologize for wasting your boss' time, and hang up.<<else>>Your boss agrees that you can take <<print setup.time.dayName(_tDay)>> off.<br><br>
+<<if $job.vacation.balPaid > 7>><<button "Use Paid Leave">><<set $job.vacation.balPaid -= 8>><<set $sched.vacation[_tDay] = true>><<status 0>><<run Dialog.close()>><</button>><</if>><<tab>><<if $job.vacation.balance > 7>><<button "Use Unpaid Leave">><<set $job.vacation.balance -= 8>><<set $sched.vacation[_tDay] = true>><<status 0>><<run Dialog.close()>><</button>><</if>>
+<</if>>
+
+:: jobberCallBossLate [nobr hidden]
+
+<<status 1>><<addTime 6>>
+<<set _ttimosi = [$sched.workTime[$date[0]][0],$sched.workTime[$date[0]][1]]>>
+<<if setup.time.after(_ttimosi)>>
+  <<set $job.late.called = 2>>
+  <<set _cbefore = true>>
+<<else>>
+  <<set $job.late.called = 1>>
+  <<set _cbefore = false>>
+<</if>>
+<<status 0>>
+<img data-passage="IMG-BossTalkLogo" style="border-radius:8px;float:right;">
+<h3>On The Phone With The Boss</h3>
+@@.head3;Y@@ou call up your boss<<if _cbefore>> before work starts <<else>>--although work has already started--<</if>>to let work know that you'll be late. You could also try claiming that you're sick and use some sick leave<<if $job.sick.balance < 8>>, but you won't have enough leave to cover the entire day so you'll lose out on pay.<<else>>. You have enough sick leave saved up to get the day off without losing any pay.<</if>>
+<br><br>
+<center><<button "Just say you'll be late">><<run Dialog.close()>><</button>><<tab>><<button "Call in Sick">><<set $sched.sick[$date[0]] = true>><<if not _cbefore>>
+<<set $job.stats.boss -= random(8,16)>>
+<<set $job.stats.coworker -= random(6,12)>>
+<<set $job.stats.performance -= random(5,15)>>
+<<set $job.stats.progress -= random(2,5)>>
+<</if>><<status 0>><<run Dialog.close()>><</button>></center>

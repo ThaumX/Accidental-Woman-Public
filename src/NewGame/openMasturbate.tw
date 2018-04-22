@@ -352,19 +352,21 @@ You revel in your memories for a while as you play with yourself. There's a slig
 <<set $PC.status.pleasure += 7>>
 	<<status 0>>
 <<case "orgasm">>
-@@.head3;A@@s one hand roves over your new breast and tweaks your <<pcNipple>> nipple,<<if $PC.status.milk > 0>> ignoring the mess caused by leaking milk,<</if>> the other works to pleasure your <<pcWetness 1>> snatch. <<if $PC.skill.oral < 20>>You're still clumsy and learning, but make up for the lack of skill with frenzied determination.<<elseif $PC.skill.oral < 40>>You're still adjusting to your new equipment, but your experience with women in your previous aids to your frenzied determination.<<else>>You were really good at pleasing a woman in your past life, and that experience shows as your determined fingers bring you closer to the edge.<</if>> The pressure, need, tension, and pleasure you feel has already risen past the point you thought was possible. Suddenly it hits you. Your first female orgasm. The experience makes it seem wrong to call the puny climaxes you had as man <i>orgasms</i>. The intense pleasure goes on for a full minute, fading away slowly over a few more. You realize that you were screaming out your pleasure, and wonder what teasing Lily will be throwing your way tomorrow. As the orgasm fades, moving your hand away from your <<pcClitSize>> pleasure nub makes you realize that you aren't necessarily done... if you keep at it you'd be able to reach another peak very quickly. 
+@@.head3;A@@s one hand roves over your new breast and tweaks your <<pcNipple>> nipple,<<if $PC.status.milk > 0>> ignoring the mess caused by leaking milk,<</if>> the other works to pleasure your <<pcWetness 1>> snatch. <<if $PC.skill.oral < 20>>You're still clumsy and learning, but make up for the lack of skill with frenzied determination.<<elseif $PC.skill.oral < 40>>You're still adjusting to your new equipment, but your experience with women in your previous aids to your frenzied determination.<<else>>You were really good at pleasing a woman in your past life, and that experience shows as your determined fingers bring you closer to the edge.<</if>> The pressure, need, tension, and pleasure you feel has already risen past the point you thought was possible. Suddenly it hits you. Your first female orgasm. The experience makes it seem wrong to call the puny climaxes you had as man <i>orgasms</i>. The intense pleasure goes on for a full minute, fading away slowly over a few more. You realize that you were screaming out your pleasure, and wonder what teasing Lily will be throwing your way tomorrow. As the orgasm fades, moving your hand away from your <<pcClitSize>> pleasure nub makes you realize that you aren't necessarily done... if you keep at it you'd be able to reach another peak very quickly.
 <br><br>
 @@.head3;A@@s tantalizing as that idea is, however, your urge to get some sleep is now much stronger than the alure of extra pleasure. You don't bother to clean up beyond a few licks and wipes of your hands and fingers. Crawling up further onto the bed, you yank back the sheet and comforter, and climb inside. With the fatigue from your metamorphosis, and the warm glow of your orgasm, it took only a few minutes for you to drift off into a restful sleep.
 <<tired 3>>
 <<comment "One of two possible orgasms, the other is a surprised nipple-gasm.">>
 <<case "orgasmNip">>
-@@.head3;S@@queezing and tweeking your <<pcNipple>> nipples with both hands,<<if $PC.status.milk > 0>> ignoring the mess caused by leaking milk,<</if>>  you feel The pressure, need, tension, and pleasure rise past the point that you thought was possible. Suddenly it hits you. Your first female orgasm, and with your nipples, no less. The experience makes it seem wrong to call the puny climaxes you had as man <i>orgasms</i>. The intense pleasure goes on for a full minute, fading away slowly over a few more. You realize that you were screaming out your pleasure, and wonder what teasing Lily will be throwing your way tomorrow. As the orgasm fades, you realize that you aren't necessarily done... if you keep at it you'd be able to reach another peak very quickly. 
+@@.head3;S@@queezing and tweaking your <<pcNipple>> nipples with both hands,<<if $PC.status.milk > 0>> ignoring the mess caused by leaking milk,<</if>>  you feel The pressure, need, tension, and pleasure rise past the point that you thought was possible. Suddenly it hits you. Your first female orgasm, and with your nipples, no less. The experience makes it seem wrong to call the puny climaxes you had as man <i>orgasms</i>. The intense pleasure goes on for a full minute, fading away slowly over a few more. You realize that you were screaming out your pleasure, and wonder what teasing Lily will be throwing your way tomorrow. As the orgasm fades, you realize that you aren't necessarily done... if you keep at it you'd be able to reach another peak very quickly. 
 <br><br>
-@@.head3;A@@s tantalizing as that idea is, however, your urge to get some sleep is now much stronger than the alure of extra pleasure. You don't bother to clean up beyond a few licks and wipes of your hands and fingers. Crawling up further onto the bed, you yank back the sheet and comforter, and climb inside. With the fatigue from your metamorphosis, and the warm glow of your orgasm, it took only a few minutes for you to drift off into a restful sleep.
+@@.head3;A@@s tantalizing as that idea is, however, your urge to get some sleep is now much stronger than the allure of extra pleasure. You don't bother to clean up beyond a few licks and wipes of your hands and fingers. Crawling up further onto the bed, you yank back the sheet and comforter, and climb inside. With the fatigue from your metamorphosis, and the warm glow of your orgasm, it took only a few minutes for you to drift off into a restful sleep.
 <<comment "One of two possible orgasms, the other is a more normal orgasm.">>
 <</switch>>
 </div>
-<div id="actionSex">
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 /*checks to see if threshold reached for orgasm*/
 <<if $PC.status.pleasure >= $PC.body.orgasm>>
 	<<set $orgasm = true>>
@@ -382,15 +384,15 @@ You revel in your memories for a while as you play with yourself. There's a slig
 <<set $orgasm = true>>
 <<set $select = 0>>
 <<stress -10>>
-@@.big;<<link "Continue">><<set $action = "none">> <<set $PC.status.arousal = 1>>  <<set $PC.status.pleasure = 0>> <<set $newScene = true>><<status 0>><<satisfaction 20>><<goto [[storyStart9]]>><</link>>@@
+<<button "Continue">><<set $action = "none">> <<set $PC.status.arousal = 1>>  <<set $PC.status.pleasure = 0>> <<set $newScene = true>><<status 0>><<satisfaction 20>><<goto [[storyStart9]]>><</button>>
 /*if orgasm is true, displays links to orgasm scenes*/
 <<elseif $orgasm>>
 	<<set _actionbar = false>>
 	<<set $continue = true>>
 	<<if $action == "nip3" || $action == "nip2" || $action == "nip1">>
-		@@.big;<br><br>[[Have Your First Female Orgasm|openMasturbate][$action = "orgasmNip"]]@@
+		<<hoverrevise titgasm>><<button "Orgasm">><<set $action = "orgasmNip">><<goto [[openMasturbate]]>><</button>><<endhoverrevise>>
 	<<else>>
-		@@.big;<br><br>[[Have Your First Female Orgasm|openMasturbate][$action = "orgasm"]]@@
+		<<hoverrevise pusgasm>><<button "Orgasm">><<set $action = "orgasm">><<goto [[openMasturbate]]>><</button>><<endhoverrevise>>
 	<</if>>
 /*normally displays options for different actions*/
 <</if>>
@@ -402,20 +404,38 @@ You revel in your memories for a while as you play with yourself. There's a slig
 	<</if>>
 <</if>>
 <<if _actionbar>>
-	<table>
 	<<if $tit < 3>>
-	<tr><td width=25%>[[Kneed your Breasts|openMasturbate][$action = "tit"]]</td><td>@@.exp;Massage and explore your new breasts.@@</td></tr>
+	<<hoverrevise alpha>><<button "Knead your Breasts">><<set $action = "tit">><<goto [[openMasturbate]]>><</button>><<endhoverrevise>>
+  <<else>>
+  <<hoverrevise alpha>>@@.disabled;<<button "Knead your Breasts">><</button>>@@<<endhoverrevise>>
 	<</if>>
 	<<if $nip < 4 || $PC.kink.nips>>
-	<tr><td width=25%>[[Play with your Nipples|openMasturbate][$action = "nip"]]</td><td>@@.exp;Twist, rub, and squeeze your new nipples.@@</td></tr>
+	<<hoverrevise beta>><<button "Play with Nipples">><<set $action = "nip">><<goto [[openMasturbate]]>><</button>><<endhoverrevise>>
+	<<else>>
+  <<hoverrevise beta>>@@.disabled;<<button "Play with Nipples">><</button>>@@<<endhoverrevise>>
 	<</if>>
-	<tr><td width=25%>[[Play with your Pussy|openMasturbate][$action = "vag"]]</td><td>@@.exp;Explore and pleasure your vulva, clit, and vagina.@@</td></tr>
+	<<hoverrevise delta>><<button "Play with Pussy">><<set $action = "vag">><<goto [[openMasturbate]]>><</button>><<endhoverrevise>>
 	<<if $leg == 1>>
-	<tr><td width=25%>[[Open your Legs|openMasturbate][$action = "leg"]]</td><td>@@.exp;Lay back and spread your legs for easier access.@@</td></tr>
+	<<hoverrevise gamma>><<button "Open your Legs">><<set $action = "leg">><<goto [[openMasturbate]]>><</button>><<endhoverrevise>>
 	<<elseif $leg == 0>>
-	<tr><td width=25%>[[Rub your Thighs|openMasturbate][$action = "leg"]]</td><td>@@.exp;Explore the soft and smooth skin of your legs.@@</td></tr>
+	<<hoverrevise gamma>><<button "Rub your Thighs">><<set $action = "leg">><<goto [[openMasturbate]]>><</button>><<endhoverrevise>>
+	<<else>>
+  <<hoverrevise gamma>>@@.disabled;<<button "Open your Legs">><</button>>@@<<endhoverrevise>>
 	<</if>>
-	</table>
 <</if>>
 </div>
 
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion titgasm>>
+Have your first orgasm as a woman with your tits.
+<<endinsertion>>
+<<insertion pusgasm>>
+Have your first orgasm as a woman.
+<<endinsertion>>
+<<insertion alpha>>Massage and explore your new breasts.<<endinsertion>>
+<<insertion beta>>Twist, rub, and squeeze your new nipples.<<endinsertion>>
+<<insertion delta>>Explore and pleasure your vulva, clit, and vagina.<<endinsertion>>
+<<insertion gamma>>Lay back and spread your legs for easier access.<<endinsertion>>
+<<insertion lambda>>Explore the soft and smooth skin of your legs.<<endinsertion>>
+</div>

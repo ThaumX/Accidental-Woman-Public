@@ -5,9 +5,8 @@ var saveAs = saveAs || (function (view) {
     return;
   }
   var
-    doc = view.document
+    doc = view.document,
     // only get URL when necessary in case Blob.js hasn't overridden it yet
-    ,
     get_URL = function () {
       return view.URL || view.webkitURL || view;
     },
@@ -24,9 +23,8 @@ var saveAs = saveAs || (function (view) {
         throw ex;
       }, 0);
     },
-    force_saveable_type = "application/octet-stream"
+    force_saveable_type = "application/octet-stream",
     // the Blob API is fundamentally broken as there is no "downloadfinished" event to subscribe to
-    ,
     arbitrary_revoke_timeout = 1000 * 40 // in ms
     ,
     revoke = function (file) {
@@ -102,6 +100,7 @@ var saveAs = saveAs || (function (view) {
           } else {
             var opened = view.open(object_url, "_blank");
             if (!opened) {
+              // Apple does not allow window.open, see https://developer.apple.com/library/safari/documentation/Tools/Conceptual/SafariExtensionGuide/WorkingwithWindowsandTabs/WorkingwithWindowsandTabs.html
               view.location.href = object_url;
             }
           }

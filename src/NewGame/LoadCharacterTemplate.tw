@@ -1,5 +1,21 @@
 :: LoadCharacterTemplate [nobr hidden startpage]
 
+<<silently>>
+<<switch $pref.clothingDetail>>
+<<case 1 2 3 4>>
+<<case "1-Plain Jane">>
+	<<set $pref.clothingDetail = 1>>
+<<case "2-Uninterested">>
+	<<set $pref.clothingDetail = 2>>
+<<case "3-Conscious">>
+	<<set $pref.clothingDetail = 3>>
+<<case "4-Fashionista">>
+	<<set $pref.clothingDetail = 4>>
+<<case default>>
+	<<set $pref.clothingDetail = 2>>
+<</switch>>
+<</silently>>
+
 @@.head2;Load A Character Template@@
 <br><br>
 @@.head3;W@@@@.acme;.white;elcome to the @@@@.ident;Character Template System@@@@.acme;.white;. This system is intended to allow you to create a @@@@.ident;Template@@@@.acme;.white; of your character. A character template contains all of the details about your character chosen during character creation. When loading a template, your choices for physical body, attractiveness preferences, personality traits, kinks, and mutations are loaded, and you are deposited on the "Name Your Character" page. Share templates with other players to try something new!@@
@@ -12,19 +28,19 @@
 <<procS "Load Data">>
 <<script>>
 function processFile(e) {
-    var file = e.target.result,
-        results;
+    var file = e.target.result;
+    let result;
     if (file && file.length) {
 			try{
-				State.active.variables.PC = "none";
-				State.active.variables.PC = setup.AW.decompressAWT(file);
+				result = setup.AW.decompressAWT(file);
 			}
 			catch(err){
-				alert("Error: File could not be decoded. Be sure to upload a valid accidental woman template (.awt) file.");
+				alert(`Error: File could not be decoded. Be sure to upload a valid accidental woman template (.awt) file. ${err.name}: ${err.message}.`);
 			}
     }else{
 			alert("Error: File could not be read!");
 		}
+    State.variables.AW.template = result;
 }
 function uploadButton(filename) {
 	var reader = new FileReader();
@@ -36,9 +52,34 @@ var cock = document.getElementById('templateupload').files[0];
 uploadButton(cock);
 <</script>>
 <<procE>>
-<<timed 50ms>><<goto [[LoadCharacterTemplateB]]>><</timed>><</button>><br><br>
+<<timed 500ms>>
+<<if ndef $AW.template || $AW.template == "error" || ndef $AW.template.version>>
+  <<run alert("There was an error loading the supplied file. See the console log for more information.")>>
+<<else>>
+  <<timed 50ms>>
+    <<goto [[LoadCharacterTemplateB]]>>
+  <</timed>>
+<</if>>
+<</timed>>
+<</button>><br><br>
 
 :: LoadCharacterTemplateStrt [nobr hidden]
+
+<<silently>>
+<<switch $pref.clothingDetail>>
+<<case 1 2 3 4>>
+<<case "1-Plain Jane">>
+	<<set $pref.clothingDetail = 1>>
+<<case "2-Uninterested">>
+	<<set $pref.clothingDetail = 2>>
+<<case "3-Conscious">>
+	<<set $pref.clothingDetail = 3>>
+<<case "4-Fashionista">>
+	<<set $pref.clothingDetail = 4>>
+<<case default>>
+	<<set $pref.clothingDetail = 2>>
+<</switch>>
+<</silently>>
 
 @@.head2;Load A Character Template@@
 <br><br>
@@ -52,19 +93,19 @@ uploadButton(cock);
 <<procS "Load Data">>
 <<script>>
 function processFile(e) {
-    var file = e.target.result,
-        results;
+    var file = e.target.result;
+    let result;
     if (file && file.length) {
 			try{
-				State.active.variables.PC = "none";
-				State.active.variables.PC = setup.AW.decompressAWT(file);
+				result = setup.AW.decompressAWT(file);
 			}
 			catch(err){
-				alert("Error: File could not be decoded. Be sure to upload a valid accidental woman template (.awt) file.");
+				alert(`Error: File could not be decoded. Be sure to upload a valid accidental woman template (.awt) file. ${err.name}: ${err.message}.`);
 			}
     }else{
 			alert("Error: File could not be read!");
 		}
+    State.variables.AW.template = result;
 }
 function uploadButton(filename) {
 	var reader = new FileReader();
@@ -76,12 +117,23 @@ var cock = document.getElementById('templateupload').files[0];
 uploadButton(cock);
 <</script>>
 <<procE>>
-<<timed 50ms>><<goto [[LoadCharacterTemplateB]]>><</timed>><</button>><br><br>
+<<timed 500ms>>
+<<if ndef $AW.template || $AW.template == "error" || ndef $AW.template.version>>
+  <<run alert("There was an error loading the supplied file. See the console log for more information.")>>
+<<else>>
+  <<timed 50ms>>
+    <<goto [[LoadCharacterTemplateB]]>>
+  <</timed>>
+<</if>>
+<</timed>>
+<</button>><br><br>
 
 :: LoadCharacterTemplateB [nobr hidden]
 
+<<setPCportrait>>
 <center>@@.ship;.walter;font-size:125%;Template Loading Complete!@@</center><br><br>
-@@.exp;Template is from version <<print $temp>>.<br>Old templates will continue to work, however if there are new character creation options since a template was made, those options will be left at their default values.@@<br><br>
+@@.exp;Template is from version:@@ <span class="ship monospace"><<print $AW.template.version>> <<print $AW.template.build>>.</span> @@.note;<<if $AW.template.start != 1>>Female Start<<else>>Male Start<</if>>@@
+<br><br>
 <<set _add = $AW.randomMind + $AW.randomSexuality + $AW.randomAttraction + $AW.randomMutation + $AW.randomBody>>
 <<if _add > 0>>@@.import;''Re-randomizing character creation if random options were chosen is not yet supported.''@@<br><br><</if>>
 <center><<button [[Name your Character|nameCharacter]]>><</button>><br><br>

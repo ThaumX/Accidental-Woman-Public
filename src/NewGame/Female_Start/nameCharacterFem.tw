@@ -1,0 +1,53 @@
+:: nameCharacterBFem [nobr]
+
+
+<<LoadingText>>
+/*process some actual-value items.*/
+
+/*set the 'history' values for the player character, which will be reevaluated each week.*/
+<<procS "Init PC History">>
+<<set _PChistory = {}>>
+<<set _PChistory.PC to clone($PC)>>
+<<set _PChistory.item to clone($items)>>
+<<set _PChistory.home to clone($home)>>
+<<set _PChistory.job to clone($job)>>
+<<script>>
+let data = setup.AW.compress(State.temporary.PChistory);
+let res = setup.AW.localStore("PChistory",data);
+if(res == "error"){
+  alert("Error saving PC history data");
+}else{
+  setup.NPCStoreList.push("PChistory");
+}
+<</script>>
+<<procE>>
+<<goto [[characterReviewFem]]>>
+
+:: nameCharacterFem [nobr]
+
+<<status 0>><<set $helpText = "Pick a name, any name. Or, use one of the random name buttons, which combined have hundreds of names to choose from. Whatever you do, don't try to leave your name blank, that's an automatic fail.">>
+@@.head2;Choose a Name@@
+<br><br>
+@@.head3;N@@ow that Lily is done proding and running tests for the day, she suggests that you should come up with a name for yourself.
+<br><br>
+<span id="charname">@@.big;<<textbox "$PC.main.name" $PC.main.name>>@@</span><br>
+@@.note;<<button "Random American">><<set $PC.main.name = either("Alice","Andrea","Alison","Amy","Ashley","Amanda","Anna","Angela","Amber","Barbara","Beth","Betty","Brittney","Brenda","Carol","Carla","Chloe","Christina","Diane","Denise","Daniella","Dorothy","Debra","Donna","Elizabeth","Emily","Emma","Evelyn","Fiona","Felicity","Genevieve","Gloria","Grace","Holly","Hellen","Heather","Joan","Jane","Janet","Janice","Jennifer","Jessica","Julia","Karen","Kelly","Kristen","Kimberly","Kayla","Kathleen","Leah","Loren","Lauren","Linda","Lisa","Mary","Marie","Melissa","Michelle","Natalie","Naomi","Nicole","Nancy","Ophelia","Polly","Pamela","Rachael","Rebecca","Ruth","Samantha","Shirley","Stephanie","Susan","Sharon","Sarah","Theresa","Teresa","Tiffany","Violet","Victoria","Virginia","Wendy","Zoe")>><<replace "#charname">>@@.big;<<textbox "$PC.main.name" $PC.main.name>>@@<</replace>><</button>> or <<button "African-American">><<set $PC.main.name = either("Imani","Shanice","Aaliyah","Precious","Nia","Deja","Diamond","Asia","Aliyah","Jada","Tierra","Tiara","Kiara","Jazmine","Jasmin","Jazmin","Jasmine","Alexus","Shaniqua","Shabooboo","Keisha","Laptoyanqua","Leshaniqua","La-Sha","Sharkiesha","Kalisha","Eboleisha","Latoya","Rohandra","Sha'Nay","Barbeesha","Latifah","Sha Nay Nay","Bon Qui Qui","Barackeish","Bon'Quisha","Brishauwna","Courtney","Deoshenique","Asiah","Obamaneisha","Shaniqua","BeeBee","Twerkeisha","LaQuisha","Moetrisha","Sharmane","Livia","QaQaNero","Aquafina","Dasani","Dreneisha","Lashay","Lashaya","Jametta","Destini","Listeriqua","Kendasha","Shakenya","Jarnesha","Wallica","Kalona","Heleena","Cashea","Quivia","Qwanisha","Kadasha","Tomesia","Rashanique","Queenetta","Vaniqua","Yalonda","Jordina","Breechelle","Jabrielle","Keeshana")>><<replace "#charname">>@@.big;<<textbox "$PC.main.name" $PC.main.name>>@@<</replace>><</button>><<button "Asian">><<set $PC.main.name = either("Aadarshini", "Ah Lam", "Aika", "Akemi", "Am", "	Arati", "Atsuko", "Ayako", "Azumi", "Bian", "Bindu", "Cai", "Chiharu", "Chun", "Deepti", "Emiyo", "Fang", "Far", "Gembira", "Hae", "Haruko", "Hideko", "Hikari", "Hoa", "Huan", "Hye", "Ja", "Jia", "Jiao", "Jing", "Kalini", "Kameko", "Kana", "Kaoru", "Ki", "Kozue", "Kuniko", "Lan", "Li", "Lin", "Ling", "Machiko", "Mako", "Manjusha", "Masami", "Midori", "Mingxia", "Misumi", "Nadiya", "Nanako", "Niyati", "Nuo", "Padmaja", "Pranali", "Qi", "Qing", "Reena", "Ren", "Riku", "Ruiling", "Sachiko", "Saura", "Sayo", "Setsuko", "Song", "Suzuki", "Tam", "Thao", "Tomoko", "Tu", "Umeko", "Vanida", "Vanna", "Wen", "Xiaoli", "Xiuying", "Yeo", "Yuan", "Yukiko", "Yumiko", "Zhenzhen")>><<replace "#charname">>@@.big;<<textbox "$PC.main.name" $PC.main.name>>@@<</replace>><</button>><<button "Punjabi">><<set $PC.main.name = either("Sita","Shalini","Jayanti","Manasa","Nupur","Sukanya","Jindan","Shitala","Paraminta","Nupur","Kunti","Tivra","Kavuri","Indira","Krishnaa","Chandi","Shakti","Sulini","Pari","Indu","Rani","Priyanshi","Minu","Dakini","Maya","Praanvi","Vajay","Nupur","Vayu","Kareena","Siddhi","Durga","Kunti")>><<replace "#charname">>@@.big;<<textbox "$PC.main.name" $PC.main.name>>@@<</replace>><</button>><<button "Hispanic">><<set $PC.main.name = either("Sofía","Isabella","Valentina","Emma","Martina","Lucifa","Victoria","Luciana","Valeria","Camila","Julieta","Ximena","Sara","Daniela","Emilia","Renata","Mía","Catalina","Julia","Elena","Olivia","Regina","Paula","Natalia","Mariana","Samantha","María","Antonella","Gabriela","Emily","María-José","Zoe","Alma","Alejandra","Andrea","Noa","Alba","Aitana","Amanda","Abril","Miranda","Salomé","Ana-Sofía","Carla","Alexa","Juana","Ivanna","Allison","Guadalupa","Antonia")>><<replace "#charname">>@@.big;<<textbox "$PC.main.name" $PC.main.name>>@@<</replace>><</button>><<button "Middle Eastern">><<set $PC.main.name = either("Myriam","Nadia","Faten","Noura","Laila","Habiba","Ghayda","reenad","Bushra","A","Maboutou","Rehab","Anal","Amaal","Ala","Salsabyl","Fatima","Rana","Nurah","Norah","Rehab","Anal","Al-anoud","Nana","Lulu","Alsama","Alia","Najjat","sadeen","Rehab","Anal","Sowsan","Nona","Lamia","Lizet","FoFo","Doha","Arwa","Alaa","Zain","Ghada","Reem","Raihana","Ruba","Mariam","Ola","Rehab","Anal","Kefaya")>><<replace "#charname">>@@.big;<<textbox "$PC.main.name" $PC.main.name>>@@<</replace>><</button>><<button "Slutty">><<set $PC.main.name = either("Jizzy-Lizzy","Giggle-Tits","CumDump","Cum Dumpster","Cumslut","Breeder","Crystal","Precious","Princess","Snooky","Bianca","Doorknob","Cum-Gums","Count Slutula","Tramp","Skanka","Hoochie","Despacito","Hoe","Cum Depository","Hoover")>><<replace "#charname">>@@.big;<<textbox "$PC.main.name" $PC.main.name>>@@<</replace>><</button>><br>Hundredss of names based on popular names lists.@@
+<br><br><<set _day = $PC.main.bd[0] + ($PC.main.bd[1]-1)*7>><<set _year = $PC.main.bd[3]>><<set _mon = $PC.main.bd[2]>>
+<<set _dayLet = setup.numberLetAbrv(_day)>>
+<<set _monText = setup.monthName(_mon)>>
+@@.acme;.white;font-size:115%;Your Birthday is: the <span id="birthday"><<print _day>><<print _dayLet>> of <<print _monText>>, <<print _year>>.</span>@@ <<comment "This will be changeable in the future.">>
+<br><br>
+@@.acme;.white;Now would be a good time to examine your [[game settings|gameSettingsPage][$prevPassage = passage()]] to change any content restrictions!@@<br>
+<<if not $pub>>
+@@font-size:120%;<<button [[Accept and Review Character|nameCharacterBFem]]>><</button>>  <<button "Save Character Template">>/*<<goto [[SaveCharacterTemplate]]>>*/<</button>>@@ @@.alme;.import;font-size:80%;Now Implemented!@@
+<br><br>
+@@.note;To use cheats, you must have a backer version of the game.@@
+<<elseif $pref.enableCheats == 1 && $pub>>
+<br><span id="cheats"><<button "Cheat Menu">><<replace "#cheats">><<cheatDisp>><</replace>><</button>></span><br><br>
+@@font-size:120%;<<button [[Accept and Review Character|nameCharacterBFem]]>><</button>>  <<button "Save Character Template">>/*<<goto [[SaveCharacterTemplate]]>>*/<</button>>@@ @@.alme;.import;font-size:80%;Now Implemented!@@
+<<else>>
+@@font-size:120%;<<button [[Accept and Review Character|nameCharacterBFem]]>><</button>>  <<button "Save Character Template">>/*<<goto [[SaveCharacterTemplate]]>>*/<</button>>@@ @@.alme;.import;font-size:80%;Now Implemented!@@<br><br>
+@@.note;To use cheats, you must enable them in the game options when starting the game.@@
+<</if>>
+
+

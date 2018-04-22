@@ -219,22 +219,22 @@ var playerHistoryComparison = function(){
         State.temporary.statusChange.push("Your birth control changed this week, you're <<if $PC.status.birthConType == 'none'>>not using birth control anymore<<else>>now using <<= $PC.status.birthConType>>.");
       }
       if (chList.includes('pregA')){
-        if (State.variables.PC.status.pregA !== 0){
-          if (State.variables.PC.status.knowPregA){
+        if (State.variables.PC.status.wombA.weeks !== 0){
+          if (State.variables.PC.status.wombA.know){
             State.temporary.statusChange.push("Your smart toilet reports pointlessly that you're still pregnant.");
           }else{
             State.temporary.statusChange.push("Your smart toilet unceremoniously tells you that you are pregnant. @@.mono;They don't program these things for sensitivity, do they?@@");
-            State.variables.PC.status.knowPregA = true;
+            State.variables.PC.status.wombA.know = true;
           }
-        }else if (State.variables.PC.status.knowPregA){
-          if (State.variables.PChistory.status.pregA <= 5){
+        }else if (State.variables.PC.status.wombA.know){
+          if (State.variables.PChistory.status.wombA.weeks <= 5){
             State.temporary.statusChange.push("Your smart toilet unceremoniously tells you that you've had a miscarriage. @@.mono;They don't program these things for sensitivity, do they?@@");
           }else{
             State.temporary.statusChange.push("Your smart toilet tells you that you've given birth to your pregnancy. @@.mono;Yeah, no shit.@@");
           }
         }else{
           /*just for GreZZo...*/
-          if (State.variables.PChistory.status.pregA <= 5){
+          if (State.variables.PChistory.status.wombA.weeks <= 5){
             State.temporary.statusChange.push("Your smart toilet unceremoniously tells you that you've had a miscarriage. @@.mono;What the?.. I didn't even know I was pregnant!@@");
           }else{
             State.temporary.statusChange.push("Your smart toilet unceremoniously tells you that you've given birth to your pregnancy. @@.mono;No shit. Wish you'd told me ''before'' I gave birth.@@");
@@ -242,22 +242,22 @@ var playerHistoryComparison = function(){
         }
       }
       if (chList.includes('pregB')){
-        if (State.variables.PC.status.pregB !== 0){
-          if (State.variables.PC.status.knowPregB){
+        if (State.variables.PC.status.wombB.weeks !== 0){
+          if (State.variables.PC.status.wombB.know){
             State.temporary.statusChange.push("Your smart toilet reports pointlessly that you're still pregnant.");
           }else{
             State.temporary.statusChange.push("Your smart toilet unceremoniously tells you that you are pregnant. @@.mono;They don't program these things for sensitivity, do they?@@");
-            State.variables.PC.status.knowPregB = true;
+            State.variables.PC.status.wombB.know = true;
           }
-        }else if (State.variables.PC.status.knowPregB){
-          if (State.variables.PChistory.status.pregB <= 5){
+        }else if (State.variables.PC.status.wombB.know){
+          if (State.variables.PChistory.status.wombB.weeks <= 5){
             State.temporary.statusChange.push("Your smart toilet unceremoniously tells you that you've had a miscarriage. @@.mono;They don't program these things for sensitivity, do they?@@");
           }else{
             State.temporary.statusChange.push("Your smart toilet tells you that you've given birth to your pregnancy. @@.mono;Yeah, no shit.@@");
           }
         }else{
           /*just for GreZZo...*/
-          if (State.variables.PChistory.status.pregB <= 5){
+          if (State.variables.PChistory.status.wombB.weeks <= 5){
             State.temporary.statusChange.push("Your smart toilet unceremoniously tells you that you've had a miscarriage. @@.mono;What the?.. I didn't even know I was pregnant!@@");
           }else{
             State.temporary.statusChange.push("Your smart toilet unceremoniously tells you that you've given birth to your pregnancy. @@.mono;No shit. Wish you'd told me ''before'' I gave birth.@@");

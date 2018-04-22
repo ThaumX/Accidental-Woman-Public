@@ -1,0 +1,351 @@
+:: characterReviewFem [nobr hidden]
+
+<<nobr>>
+<<if $pub>>
+	<<cheatInit>>
+<</if>>
+<<status 0>>
+<<pcTotalATR>>
+<<setScene "You are standing in Lily's guest bedroom." 0 0 "lily">>
+<<set $date[0] = 1>>
+<<set $week = 0>>
+<<setTime 20 38>>
+<<if $PC.mutate.cycle && $PC.mutate.multiple && $PC.mutate.twinWomb && $PC.mutate.birthCon && $PC.mutate.gestate && $PC.fert.fertility > 5 && $PC.body.hips >= 6 && $PC.kink.pregnancy && ( $PC.mutate.acid || $PC.mutate.mouth) && $PC.trait.libido >= 7 && $PC.body.tits.cupRaw >= 19>>
+<<set $PC.mutate.goddess = true>>
+<<set $PC.mutate.fertStorm = true>>
+<<if $PC.fert.fertility < 8>>
+	<<set $PC.fert.fertility = 8>>
+	<<calcPCfertility>>
+<</if>>
+<<else>>
+<<set $PC.mutate.goddess = false>>
+<</if>>
+<<if $PC.mutate.cycle && $PC.mutate.multiple && $PC.mutate.twinWomb && $PC.fert.fertility > 4 && $PC.body.hips >= 5 && $PC.kink.pregnancy && not $PC.mutate.goddess>>
+<<set $PC.mutate.fertStorm = true>>
+<<if $PC.fert.fertility < 7>>
+	<<set $PC.fert.fertility = 7>>
+	<<calcPCfertility>>
+<</if>>
+<<else>>
+<<set $PC.mutate.fertStorm = false>>
+<</if>>
+<<set $PC.status.arousal = 2>>
+<<if $PC.skill.athletic >= 100>>
+	<<set $PC.body.energy = 20>>
+<<else>>
+	<<set _add = Math.trunc($PC.skill.athletic / 10)>>
+	<<set $PC.body.energy = 10 + _add>>
+<</if>>
+<<run setup.calcEnergyRate()>>
+<<set $showData = true>>
+<<set $showMenuButton = true>>
+<<status 0>>
+<<set $gamestate.characters += 1>>
+<<run setup.storeState()>>
+<<set _num = 100-$npc.ready.length>>
+<<if _num > 0>>
+	<<procS "generate NPCs">>
+	<<generateNPC _num 0 0 50 0 [0,0] [0,0] [0,0] [0,0] 0 0>>
+	<<procE>>
+<</if>>
+<<gotodev "characterReview2Fem">>
+<</nobr>>
+
+
+:: characterReview2Fem [nobr]
+
+<<set $helpText = "This is a note from the author that you should probably read, but that most people won't. You can skip it, just don't complain about the PC's inconsistent sexuality!">>
+<<procS "Murder Lily">><<deactivateNPC "n101">><<procE>>
+<center>
+@@font-size:130%;.gab;''--A Note About the Upcoming Story--''@@
+</center>
+
+<br><br>
+@@font-size:120%;.ship;T@@@@.white;haum@@@@font-size:120%;.ship;X@@
+<br><br>
+<<link "Continue with AW">><<goto [[characterReview2bFem]]>><</link>>
+
+
+
+:: characterReview2bFem [nobr]
+
+<<procS "Store NPCs">>
+<<run setup.bulkStoreNPC($npc.ready)>>
+<<procE>>
+<<gotodev "characterReview3Fem">>
+
+
+:: characterReview3Fem [nobr]
+
+<<nobr>><<set $helpText = "This is mostly story content. It also shows you a lot of the details behind the character you created. This page shows you info on the sidebars for the first time, and also turns on several menu buttons.">>
+@@font-size:130%;color:deepskyblue;Monday night, April 20XX@@
+<br><br>
+@@.head3;S@@tory stuff goes here...
+<br><br>
+@@.head3;Y@@ou sit down on the edge of the bed and consider the results from all the tests you took today.
+<br>
+<center>
+@@.head3;✪ ✪ ✪ ✪ ✪@@
+</center>
+<<silently>>
+<<set _odds = 0>><<set _oddsDec = 0>>
+<<set _odds = Math.floor($PC.fert.multEgg * 0.3)>>
+<<set _oddsDec = Math.round((($PC.fert.multEgg * 0.3)% 1)*10)>>
+<</silently>>
+<table>
+<tr class="divide"><td>@@.head3;Fertility@@</td></tr>
+<tr><td>
+''Approximate Ovulation Success Rate:'' <<print ($PC.fert.egg * 5)>>%
+</td></tr><tr><td>
+''Strauss-Strong Zygote Implantation Index:'' <<print $PC.fert.implant>>
+</td></tr><tr><td>
+<<if $PC.mutate.twinWomb>>
+''Womb Health: A)'' <<if $PC.fert.wombHealth < -1>>divine<<elseif $PC.fert.wombHealth == -1>>great<<elseif $PC.fert.wombHealth == 0>>good<<elseif $PC.fert.wombHealth == 1>>fine<<elseif $PC.fert.wombHealth == 2>>okay<<else>>poor<</if>>, ''B)'' <<if $PC.fert.wombHealth < -1>>divine<<elseif $PC.fert.wombHealth == -1>>great<<elseif $PC.fert.wombHealth == 0>>good<<elseif $PC.fert.wombHealth == 1>>fine<<elseif $PC.fert.wombHealth == 2>>okay<<else>>poor<</if>>
+<<else>>
+''Womb Health:'' <<if $PC.fert.wombHealth < -1>>divine<<elseif $PC.fert.wombHealth == -1>>great<<elseif $PC.fert.wombHealth == 0>>good<<elseif $PC.fert.wombHealth == 1>>fine<<elseif $PC.fert.wombHealth == 2>>okay<<else>>poor<</if>><</if>>
+</td></tr><tr><td>
+''Reproductive Tract Gamete Compatibility: '' <<set _comp = "error">>
+<<switch $PC.fert.vagHostile>>
+<<case 9 10 11 12>><<set _comp = "awful">>
+<<case 13>><<set _comp = "very poor">>
+<<case 14 15>><<set _comp = "poor">>
+<<case 16 17>><<set _comp = "neutral">>
+<<case 18 19>><<set _comp = "good">>
+<<case 20>><<set _comp = "very good">>
+<<case 21 22 23 24 25>><<set _comp = "amazingly good">>
+<<case 26 27 28 29 30 31>><<set _comp = "symbiotic">>
+<</switch>>
+<<print _comp>>
+</td></tr><tr><td>
+''Odds of Multiple Pregnancy:'' <<print _odds>>.<<print _oddsDec>>%
+</td></tr><tr><td>
+''Menstruation Duration:'' aproximately <<print $PC.fert.period>> days
+</td></tr><tr><td>
+''Gestation Duration:'' <<print $PC.body.pregTerm>> weeks
+</td></tr>
+</table>
+
+<table>
+<tr class="divide"><td colspan=4>@@.head3;Attraction@@</td></tr>
+<tr class="divide"><td colspan=4><h3>Male Attraction</h3></td></tr>
+<tr><td width="25%">
+''Muscle Attractions''
+<br>Frail: <<like $pref.muscle[0]>>
+<br>Weak: <<like $pref.muscle[1]>>
+<br>Normal: <<like $pref.muscle[2]>>
+<br>Toned: <<like $pref.muscle[3]>>
+<br>Muscular: <<like $pref.muscle[4]>>
+<br>He-Man: <<like $pref.muscle[5]>>
+</td><td width="25%">
+''Weight Attractions''
+<br>Anorexic: <<like $pref.weight[0]>>
+<br>Skinny: <<like $pref.weight[1]>>
+<br>Normal: <<like $pref.weight[2]>>
+<br>Plush: <<like $pref.weight[3]>>
+<br>Chubby: <<like $pref.weight[4]>>
+<br>Fat: <<like $pref.weight[5]>>
+</td><td width="25%">
+''Height Attractions''
+<br>Very Short: <<like $pref.height[0]>>
+<br>Short: <<like $pref.height[1]>>
+<br>Average: <<like $pref.height[2]>>
+<br>Tall: <<like $pref.height[3]>>
+<br>Very Tall: <<like $pref.height[4]>>
+</td><td width="25%">
+''Other Attractions''
+<br>Bald: <<like $pref.other[0]>>
+<br>Glasses: <<like $pref.other[1]>>
+<br>Facial Hair: <<like $pref.other[2]>>
+<br>Smart: <<like $pref.other[3]>>
+<br>Dumb: <<like $pref.other[4]>>
+<br>Wealthy: <<like $pref.other[5]>>
+<br>Poor: <<like $pref.other[6]>>
+<br>Stylish: <<like $pref.other[7]>>
+<br>Large Penis: <<like $pref.other[8]>>
+<br>Small Penis: <<like $pref.other[9]>>
+</td></tr><tr class="divide"><td colspan=4>
+<h3>Female Attraction</h3></td></tr>
+<tr><td>
+''Muscle Attractions''
+<br>Frail: <<like $pref.Fmuscle[0]>>
+<br>Weak: <<like $pref.Fmuscle[1]>>
+<br>Normal: <<like $pref.Fmuscle[2]>>
+<br>Toned: <<like $pref.Fmuscle[3]>>
+<br>Muscular: <<like $pref.Fmuscle[4]>>
+<br>Body Builder: <<like $pref.Fmuscle[5]>>
+</td><td>
+''Weight Attractions''
+<br>Anorexic: <<like $pref.Fweight[0]>>
+<br>Skinny: <<like $pref.Fweight[1]>>
+<br>Normal: <<like $pref.Fweight[2]>>
+<br>Plush: <<like $pref.Fweight[3]>>
+<br>Chubby: <<like $pref.Fweight[4]>>
+<br>Fat: <<like $pref.Fweight[5]>>
+</td><td>
+''Height Attractions''
+<br>Very Short: <<like $pref.Fheight[0]>>
+<br>Short: <<like $pref.Fheight[1]>>
+<br>Average: <<like $pref.Fheight[2]>>
+<br>Tall: <<like $pref.Fheight[3]>>
+<br>Very Tall: <<like $pref.Fheight[4]>>
+</td><td>
+''Other Attractions''
+<br>Large Breasts: <<like $pref.Fother[0]>>
+<br>Small Breasts: <<like $pref.Fother[1]>>
+<br>Large Hips: <<like $pref.Fother[2]>>
+<br>Small Hips: <<like $pref.Fother[3]>>
+<br>Smart: <<like $pref.Fother[4]>>
+<br>Dumb: <<like $pref.Fother[5]>>
+<br>Glasses: <<like $pref.Fother[6]>>
+<br>Stylish: <<like $pref.Fother[7]>>
+<br>Makeup: <<like $pref.Fother[8]>>
+<br>Large Butt: <<like $pref.Fother[9]>>
+<br>Small Butt: <<like $pref.Fother[10]>>
+</td></tr>
+</table>
+<table>
+<tr><td colspan=2>
+@@.head3;Willpower and Personality@@
+</td></tr>
+<tr><td>
+Willpower: $PC.trait.will
+<br>Libido: <<pcLibido>>
+</td><td>
+Intro/Extroversion: $PC.trait.vert
+<br>Open/Closed to Experience: $PC.trait.open
+</td></tr>
+</table>
+<table>
+<tr><td>
+@@.head3;Personality Traits@@<br>
+<<if $PC.trait.caring == 1>>Caring<br><<elseif $PC.trait.caring == -1>>Uncaring<br><</if>>
+<<if $PC.trait.bitch == 1>>Bitch<br><<elseif $PC.trait.bitch == -1>>Kind<br><</if>>
+<<if $PC.trait.maternal == 1>>Maternal<br><<elseif $PC.trait.maternal == -1>>Bad With Kids<br><</if>>
+<<if $PC.trait.romantic == 1>>Romantic<br><<elseif $PC.trait.romantic == -1>>Aromantic<br><</if>>
+<<if $PC.trait.deceptive == 1>>Deceptive<br><<elseif $PC.trait.deceptive == -1>>Honest<br><</if>>
+<<if $PC.trait.devious == 1>>Devious<br><<elseif $PC.trait.devious == -1>>Straight-Forward<br><</if>>
+<<if $PC.trait.persuasive == 1>>Persuasive<br><<elseif $PC.trait.persuasive == -1>>Persuadable<br><</if>>
+<<if $PC.trait.perceptive == 1>>Perceptive<br><<elseif $PC.trait.perceptive == -1>>Oblivious<br><</if>>
+<<if $PC.trait.forgetful == 1>>Forgetful<br><<elseif $PC.trait.forgetful == -1>>Good Memory<br><</if>>
+<<if $PC.trait.forgiving == 1>>Forgiving<br><<elseif $PC.trait.forgiving == -1>>Holds Grudges<br><</if>>
+<<if $PC.trait.lowEsteem == 1>>Low Self Esteem<br><<elseif $PC.trait.lowEsteem == -1>>Narcissistic<br><</if>>
+<<if $PC.trait.picky == 1>>Picky<br><<elseif $PC.trait.picky == -1>>Low Standards<br><</if>>
+<<if $PC.trait.crude == 1>>Crude<br><<elseif $PC.trait.crude == -1>>Refined<br><</if>>
+<<if $PC.trait.friendly == 1>>Friendly<br><<elseif $PC.trait.friendly == -1>>Unfriendly<br><</if>>
+<<if $PC.trait.approachable == 1>>Approachable<br><<elseif $PC.trait.approachable == -1>>Unapproachable<br><</if>>
+<<if $PC.trait.relaxed == 1>>Relaxed<br><<elseif $PC.trait.relaxed == -1>>Ambitious<br><</if>>
+<<if $PC.trait.flirty == 1>>Flirty<br><<elseif $PC.trait.flirty == -1>>Shy<br><</if>>
+<<if $PC.trait.materialist == 1>>Materialist<br><<elseif $PC.trait.materialist == -1>>Non-Material<br><</if>>
+</td><td>
+@@.head3;Sexual Traits@@
+<<if $PC.kink.oral>><br>Likes Oral<</if>>
+<<if $PC.kink.anal>><br>Likes Anal<</if>>
+<<if $PC.kink.force>><br>Likes Forced<</if>>
+<<if $PC.kink.risky>><br>Likes Bare Sex<</if>>
+<<if $PC.kink.pregnancy>><br>Pregnancy Fetish<</if>>
+<<if $PC.kink.sizequeen>><br>Size Queen<</if>>
+<<if $PC.kink.sub>><br>Submissive<</if>>
+<<if $PC.kink.cumSlut>><br>Cumslut<</if>> 
+<<if $PC.kink.exhibition>><br>Exhibitionist<</if>> 
+<<if $PC.kink.masochist>><br>Masochist<</if>> 
+<<if $PC.kink.buttSlut>><br>Buttslut<</if>> 
+<<if $PC.kink.public>><br>Likes Public Sex<</if>>
+<<if $PC.kink.slut>><br>Slut<</if>>
+<<if $PC.kink.rape>><br>Rape Fetish<</if>>
+<<if $PC.kink.liberate>><br>Prostitute<</if>>
+<<if $PC.kink.nips>><br>Sensitive Nipples<</if>>
+<<if $PC.kink.easy>><br>Easy to Please<</if>>
+<<if $PC.kink.dom>><br>Dominant Streak<</if>>
+<<if $PC.kink.water>><br>Waterworks Okay<</if>>
+<<if $PC.kink.bond>><br>Bondage Okay<</if>>
+<<if $PC.kink.hard>><br>Hard to Please<</if>>
+<<if $PC.kink.fap>><br>Fapper<</if>>
+<<if $PC.kink.shame>><br>Shamefast<</if>>
+</td></tr>
+</table>
+<table>
+<tr><td>
+@@.head3;Mutations@@
+<<if $PC.mutate.milk>>
+<br>''Lactation Mutation'' @@.mono;It makes playing with your nipples even more fun.@@
+<</if>>
+<<if $PC.mutate.acid>>
+<br>''Vaginal Enzymes Mutation'' @@.mono;This seems pretty dangerous, but also exciting...@@
+<</if>>
+<<if $PC.mutate.birthCon>>
+<br>''Abnormal Hormone Mutation'' @@.mono;Maybe you should just avoid birth control altogether?@@
+<</if>>
+<<if $PC.mutate.multiple>>
+<br>''Multiple Ovulation Mutation'' @@.mono;This seems pretty crazy, imagine triplets with three different dads!@@
+<</if>>
+<<if $PC.mutate.gestate>>
+<br>''Rapid Gestation Mutation'' @@.mono;All the fun of getting pregnant, without the long delay before doing it again? <b>Great!</b>@@
+<</if>>
+<<if $PC.mutate.cycle>>
+<br>''Hyper Menstral Cycle Mutation'' @@.mono;Seems like this womb is always ready to go... <b>Risky sex</b> all the time.@@
+<</if>>
+<<if $PC.mutate.twinWomb>>
+<br>''Twin Wombs Mutation'' @@.mono;Double the pleasure, double the fun, DoubleWomb...@@
+<</if>>
+<<if $PC.mutate.phero>>
+<br>''Vulva Pheromones Mutation'' @@.mono;Being literally unresistable is bound to be interesting.@@
+<</if>>
+<<if $PC.mutate.litePhero>>
+<br>''Alluring Pheromones Mutation'' @@.mono;This will certainly make meeting new people interesting.@@
+<</if>>
+<<if $PC.mutate.immune>>
+<br>''Ethanol Immunity Mutation'' @@.mono;Worst. Mutation. Ever. At least 'buzzkill' is a decent superhero name.@@
+<</if>>
+<<if $PC.mutate.mouth>>
+<br>''Salivary Enzymes Mutation'' @@.mono;<<if $PC.kink.pregnancy>>This is bound to come in handy.<<else>>I suppose no putting on condoms with my mouth then.<</if>>@@
+<</if>>
+<<if $PC.mutate.contort>>
+<br>''Contortionist Mutation'' @@.mono;I think that the Kama Sutra is just the beginning...@@
+<</if>>
+<<if $PC.mutate.cumpire>>
+<br>''Lilith's Porphyria Mutation'' @@.mono;It's almost like a vampire and a succubus got together and had, well, me.@@
+<</if>>
+<<if $PC.mutate.period>>
+<br>''Amenorrhea Mutation'' @@.mono;Thank goodness I won't have to worry about all that period business!@@
+<</if>>
+<<if $PC.mutate.pseudoPreg>>
+<br>''Pseudo-Pregnancy Mutation'' @@.mono;I can get pregnant from animals!?! What the ''fuck'' Lily?@@
+<</if>>
+<<if $PC.mutate.elastic>>
+<br>''Elastic Orifices'' @@.mono;Based on what I've learned from watching porn, this is definitely useful!@@
+<</if>>
+<<if $PC.mutate.goddess>><br>@@.good;''Fertility Goddess''@@ <i>your body is so perfect for breeding that it must be divine--literally @@.note;you have a preternatural ability to gauge the fertility of potential mates, an unnatural attractiveness, and unmatched control over your reproductive system. People would probably worship you, if you permitted them to bask in your splendor.@@</i><<elseif $PC.mutate.fertStorm>><br>@@.good;''Fertility Storm''@@ <i>your body is a perfect storm of pregnancy @@.note;You get the feeling that your body has some other unknown advantage...@@</i><</if>>
+</td></tr>
+</table>
+<table>
+<tr><td colspan=3>
+@@.head3;Skills@@
+</td></tr>
+<tr><td>
+Sex Skill: @@.hotpink;$PC.skill.sex@@
+<br> Oral Skill: @@.hotpink;$PC.skill.oral@@
+<br> Exhibition: @@.hotpink;$PC.skill.exhibition@@
+<br> Prostitution: @@.hotpink;$PC.skill.prostitute@@
+<br> Seduction: @@.hotpink;$PC.skill.seduction@@
+</td><td width=33%>
+Communication: @@.hotpink;$PC.skill.comm@@
+<br> Organization: @@.hotpink;$PC.skill.org@@
+<br> Problem Solving: @@.hotpink;$PC.skill.probSolving@@
+<br> Financial: @@.hotpink;$PC.skill.finance@@
+<br> Aesthetics: @@.hotpink;$PC.skill.art@@
+</td><td width=33%>
+Athletics: @@.hotpink;$PC.skill.athletic@@
+<br> Dancing: @@.hotpink;$PC.skill.dancing@@
+<br> Cleaning: @@.hotpink;$PC.skill.clean@@
+<br> Shopping: @@.hotpink;$PC.skill.shop@@
+<br> Cooking: @@.hotpink;$PC.skill.cook@@
+</td></tr>
+</table>
+<center>
+@@.head3;✪ ✪ ✪ ✪ ✪@@
+</center>
+<br>
+@@.head3;S@@tory (brief)
+<br><br>
+[[Continue|FemStart5]]
+<</nobr>>

@@ -1,0 +1,153 @@
+:: personalityTest [nobr hidden]
+
+<<silently>>
+<<set _extros = [0,0,0,0,0,0,0,0]>>
+<<set _opens = [0,0,0,0,0,0,0,0,0,0]>>
+<</silently>>
+<h3>Extroversion & Openness</h3>
+<p>Respond with your level of agreement with each of the below statements. Consider how they apply to you in ''general'' rather than in certain specific circumstances. There is no wrong answer to these questions!</p>
+<table>
+<tr><td style="width:60%;">
+I come up with a lot of new ideas.
+</td><td>
+<<radiogaga "_opens[0]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+I am generally talkative.
+</td><td>
+<<radiogaga "_extros[0]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+I am curious about many things.
+</td><td>
+<<radiogaga "_opens[1]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+I tend to be more reserved.
+</td><td>
+<<radiogaga "_extros[1]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+All authority should be questioned.
+</td><td>
+<<radiogaga "_opens[2]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+I am usually energetic.
+</td><td>
+<<radiogaga "_extros[2]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+I have a very active imagination.
+</td><td>
+<<radiogaga "_opens[3]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+I can generate a lot of enthusiasm.
+</td><td>
+<<radiogaga "_extros[3]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+Abstract art that doesn't represent anything shouldn't be considered art at all.
+</td><td>
+<<radiogaga "_opens[4]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+I enjoy quiet places.
+</td><td>
+<<radiogaga "_extros[4]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+I enjoy artistic or aesthetic experiences.
+</td><td>
+<<radiogaga "_opens[5]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+I tend to be assertive.
+</td><td>
+<<radiogaga "_extros[5]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+I enjoy having a routine.
+</td><td>
+<<radiogaga "_opens[6]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+I could be considered shy at times.
+</td><td>
+<<radiogaga "_extros[6]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+I often spend time reflecting on new ideas.
+</td><td>
+<<radiogaga "_opens[7]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+I consider myself an outgoing or sociable person.
+</td><td>
+<<radiogaga "_extros[7]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+I prefer more practical activities and hobbies.
+</td><td>
+<<radiogaga "_opens[8]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+I am very self-aware.
+</td><td>
+<<radiogaga "_extros[8]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+In criminal justice, punishment for crimes is more important than rehabilitation.
+</td><td>
+<<radiogaga "_opens[9]" 0 "Disagree" "Not Really" "Neutral" "Somewhat" "Agree">>
+</td></tr>
+<tr><td>
+Where would you rather take a vacation?
+</td><td>
+<center><<radiobutt "_extros[9]" 2 checked>> the beach<<tab>><<radiobutt "_extros[9]" -2>> a forest<br>
+[img[IMG_beach]]<<tab>>[img[IMG_woods]]</center>
+</td></tr>
+</table>
+<<button "Submit">>
+  <<set _extros[1] *= -1>>
+  <<set _extros[4] *= -1>>
+  <<set _extros[6] *= -1>>
+  <<set _extros[8] *= -1>>
+  <<set _opens[4] *= -1>>
+  <<set _opens[6] *= -1>>
+  <<set _opens[8] *= -1>>
+  <<set _opens[9] *= -1>>
+  <<set _eRes = 0>>
+  <<set _oRes = 0>>
+  <<for _i = 0; _i < 10; _i ++>>
+    <<set _eRes += _extros[_i]>>
+    <<set _oRes += _opens[_i]>>
+  <</for>>
+  <<if _eRes < -13>>
+    <<set $PC.trait.vert = "introverted">>
+    <<set _e = "Introverted">>
+  <<elseif _eRes > 7>>
+    <<set $PC.trait.vert = "extroverted">>
+    <<set _e = "Extroverted">>
+  <<else>>
+    <<set $PC.trait.vert = "neither">>
+    <<set _e = "Neutral">>
+  <</if>>
+  <<if _oRes > 14>>
+    <<set $PC.trait.open = "open">>
+    <<set _o = "High">>
+  <<elseif _oRes < -5>>
+    <<set $PC.trait.open = "closed">>
+    <<set _o = "Low">>
+  <<else>>
+    <<set $PC.trait.open = "neither">>
+    <<set _o = "Neutral">>
+  <</if>>
+  <<replace "#open">><<print _o>><</replace>>
+  <<replace "#extro">><<print _e>><</replace>>
+  <<replace "#pertestbutton">><center>Test Complete!</center><</replace>>
+  <<replace "#openPoint">>Locked<</replace>>
+  <<replace "#vertPoint">>Locked<</replace>>
+  <<run Dialog.close()>>
+<</button>>

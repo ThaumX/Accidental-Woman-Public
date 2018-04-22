@@ -1,0 +1,113 @@
+:: MenuThemeColorPicker [nobr hidden startpage]
+
+<<set _ret = previous()>>
+<<if _ret == "Start2">>
+  <<set _ret = "Start">>
+<</if>>
+<h1>Custom Color Theme Settings</h1>
+<p class="quest white">
+To set up your custom color scheme for Accidental Woman, simply click the input boxes below and use the color picker to select your preferred color. When you're happy with your choices, click the save button to save your choices to local storage. If you already have the theme settings set to "Custom" in the system settings menu, you may need to return to the system settings menu and change it to another option and then change it back to refresh.</p>
+<<button "Return">><<goto _ret>><</button>><<tab>><span class="uibutton"><<button "SAVE">>
+<<run _result = setup.colorretrieve()>>
+<<if _result>>
+  <<replace "#colorpickas">>Colors Saved to Local Store!<br><<boobgif>><</replace>>
+<<else>>
+  <<replace "#colorpickas">>Something fucked up.<</replace>>
+<</if>>
+<</button>><<tab>><<button "RESET">>
+  <<set $pref.theme = {}>>
+  <<set $pref.theme.bgMain = "#0f0009">>
+  <<set $pref.theme.bgMenus = "#222">>
+  <<set $pref.theme.toggle = "#ff54c8">>
+  <<set $pref.theme.uiBorder = "#8e014a">>
+  <<set $pref.theme.scrollbar = "rgba(181,0,108,0.8)">>
+  <<set $pref.theme.head = "#ff69b4">>
+  <<set $pref.theme.table = "#b40f46">>
+  <<set $pref.theme.link = "#edacf9">>
+<<replace "#colorpickas">><<include [[MenuThemeColorPickerButtons]]>><</replace>><</button>>
+<<tab>><<button "REFRESH">><<replace "#colorpickas">><<include [[MenuThemeColorPickerButtons]]>><</replace>><</button>></span>
+<div id="colorpickas" style="width:75%;margin:auto;">
+<<include [[MenuThemeColorPickerButtons]]>>
+</div>
+
+
+
+:: MenuThemeColorPickerButtons [nobr]
+
+<h3>Background Colors</h3>
+<table id="invisTable"><tr class="quest white">
+<td style="width:20%;font-size:115%;">Main: </td><td style="width:30%"><<colorpick "bgMain" $pref.theme.bgMain>></td>
+<td style="width:20%;font-size:115%;">UI: </td><td style="width:30%"><<colorpick "bgMenus" $pref.theme.bgMenus>></td>
+</tr></table>
+
+<h3>Element Colors</h3>
+<table id="invisTable"><tr class="quest white">
+<td style="width:20%;font-size:115%;">Heading: </td><td style="width:30%"><<colorpick "head" $pref.theme.head>></td>
+<td style="width:20%;font-size:115%;">Tables: </td><td style="width:30%"><<colorpick "table" $pref.theme.table>></td></tr>
+<tr class="quest white">
+<td style="width:20%;font-size:115%;">UI: </td><td><<colorpick "uiBorder" $pref.theme.uiBorder>></td>
+<td style="width:20%;font-size:115%;">Links: </td><td><<colorpick "link" $pref.theme.link>></td></tr>
+<tr class="quest white">
+<td style="width:20%;font-size:115%;">Toggles: </td><td><<colorpick "toggle" $pref.theme.toggle>></td>
+<td style="width:20%;font-size:115%;">Scrollbar: </td><td><<colorpick "scrollbar" $pref.theme.scrollbar>></td></tr>
+</table>
+
+
+
+:: MenuThemeSettingsPop [nobr hidden]
+
+<div id="uiObscurePage" class="scale-in-center"></div>
+<div id="uiSettingMenu" class="scale-in-center">
+  <div id="uiGameOptionsTitleBar">
+    <span class="head2">Theme Settings Menu</span>
+    <div style="position:absolute;top:1px;bottom:1px;right:1px;width:48px;margin:0;vertical-align:middle;">
+      <<link "[img[Exit|IMGclosebutton]]">><<animexit "uiObscurePage" "scale-in-center" "fade-out" true>><<animexit "uiSettingMenu" "scale-in-center" "fade-out" true>><</link>>
+    </div>
+  </div>
+  <div id="menuCuntents" style="position:absolute;top:55px;left:10px;right:10px;bottom:10px;">
+    <table>
+    <tr><td width="60%">
+      <h2>Custom Color Theme Settings</h2>
+      <p class="quest white">
+      Click the input boxes below and use the color picker to select your preferred color. Click the save button to save your choices to local storage. <b>Theme must be set to custom in the system menu!</b></p>
+      <span class="uibutton"><<button "SAVE">>
+      <<run _result = setup.colorretrieve()>>
+      <<if _result>>
+        <<script>>
+          setup.FontsizeHandler();
+          setup.backgroundThemeHandler();
+          setup.textThemeHandler();
+          setup.colorThemeHandler();
+        <</script>>
+        <<replace "#colorpickas">>Colors Saved to Local Store!<br><<boobgif>><</replace>>
+      <<else>>
+        <<replace "#colorpickas">>Something fucked up.<</replace>>
+      <</if>>
+      <</button>><<tab>><<button "RESET">>
+        <<set $pref.theme = {}>>
+        <<set $pref.theme.bgMain = "#0f0009">>
+        <<set $pref.theme.bgMenus = "#222">>
+        <<set $pref.theme.toggle = "#ff54c8">>
+        <<set $pref.theme.uiBorder = "#8e014a">>
+        <<set $pref.theme.scrollbar = "rgba(181,0,108,0.8)">>
+        <<set $pref.theme.head = "#ff69b4">>
+        <<set $pref.theme.table = "#b40f46">>
+        <<set $pref.theme.link = "#edacf9">>
+      <<replace "#colorpickas">><<include [[MenuThemeColorPickerButtons]]>><</replace>><</button>>
+      <<tab>><<button "REFRESH">><<replace "#colorpickas">><<include [[MenuThemeColorPickerButtons]]>><</replace>><</button>></span>
+      <div id="colorpickas" style="width:75%;margin:auto;">
+      <<include [[MenuThemeColorPickerButtons]]>>
+      </div>
+    </td><td>
+      <h2>Phone UI Settings</h2>
+      Data background opacity: <<textbox "$phoneDataBG" $phoneDataBG>><br>1 = 100% 0.5 = 50%<br>
+      Phone background: <<button "<-">><<if $phoneBackground > 1>><<set $phoneBackground -= 1>><<else>><<set $phoneBackground = 25>><</if>><<replace "#BGnum">><<= $phoneBackground>><</replace>><<replace "#imgShower">><<print ("<img data-passage='IMG-phoneMenuBG" + $phoneBackground + "'>")>><</replace>><</button>> <span id="BGnum"><<= $phoneBackground>></span> <<button "->">><<if $phoneBackground < 25>><<set $phoneBackground += 1>><<else>><<set $phoneBackground = 1>><</if>><<replace "#BGnum">><<= $phoneBackground>><</replace>><<replace "#imgShower">><<print ("<img data-passage='IMG-phoneMenuBG" + $phoneBackground + "'>")>><</replace>><</button>><br>
+      Phone Menu background: <<button "<-">><<if $phoneMenuBG > 1>><<set $phoneMenuBG -= 1>><<else>><<set $phoneMenuBG = 15>><</if>><<replace "#BGmenN">><<= $phoneMenuBG>><</replace>><</button>> <span id="BGmenN"><<= $phoneMenuBG>></span> <<button "->">><<if $phoneMenuBG < 15>><<set $phoneMenuBG += 1>><<else>><<set $phoneMenuBG = 1>><</if>><<replace "#BGmenN">><<= $phoneMenuBG>><</replace>><</button>>
+      <<set $phoneMenuBG = 1>><br>
+      <span id="imgShower">
+        <<print ("<img data-passage='IMG-phoneMenuBG" + $phoneBackground + "'>")>>
+      </span>
+    </td></tr>
+    </table>
+  </div>
+</div>

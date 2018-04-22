@@ -1,75 +1,48 @@
 :: characterCreate [nobr startpage]
 
 <<silently>>
-<<set _imgcunt = 1>>
-<<code "_dispcode">>
-	<<switch _imgcunt>>
-		<<case 1>>
-			<center>@@.tutimg;<<link [img[Click for Next Image|IMGinstructions1]]>><<set _imgcunt = 2>><<replace "#images">><<print _dispcode>><</replace>><</link>>@@</center>
-		<<case 2>>
-			<center>@@.tutimg;<<link [img[Click for Next Image|IMGinstructions2]]>><<set _imgcunt = 3>><<replace "#images">><<print _dispcode>><</replace>><</link>>@@</center>
-		<<case 3>>
-			<center>@@.tutimg;<<link [img[Click for Next Image|IMGinstructions3]]>><<set _imgcunt = 4>><<replace "#images">><<print _dispcode>><</replace>><</link>>@@</center>
-		<<case 4>>
-			<center>@@.tutimg;<<link [img[Click for Next Image|IMGinstructions4]]>><<set _imgcunt = 5>><<replace "#images">><<print _dispcode>><</replace>><</link>>@@</center>
-		<<case 5>>
-			<center>@@.head3;Thank you for completing the tutorial!@@<br><br>
-			<<button "Continue">><<goto [[gamestateinit]]>><</button>></center>
-	<</switch>>
-<</code>>
-<<set $UIimgFlag = true>>
-<</silently>>
-<center>
-@@.head1;How to Play@@</center><br>
-<br>
-@@.alme;.white;This is the basic information on how to use different parts of the game UI. Throughout the prologue, you will also see text that@@ @@.typewriter;.white;looks like this.@@ @@.alme;.white;This is tutorial information, explaining in more detail how different parts of the game work. Tutorial text starts with basic information, but later covers a little more complex information. Only the information needed to play the game will be presented this way, and more complicated information about how the game works will be contained in the Game Guide. It's up to you whether you want to know more about the game's mechanics, or simply explore and learn as you go along.@@
-<br>
-<table><tr><td>
-<span id="images">
-<<print _dispcode>>
-</span>
-</td></tr><tr><td>
-<center><<button "<- Previous">><<if _imgcunt > 1>><<set _imgcunt -= 1>><<replace "#images">><<print _dispcode>><</replace>><</if>><</button>> <span id="cancontinue">@@.inst;Please wait@@ @@.monospace;.ship;60@@ @@.inst;seconds to skip.@@ @@.note;This is a one-time delay only.@@</span> <<button "Next ->">><<if _imgcunt >= 5>><<set _imgcunt = 1>><<else>><<set _imgcunt += 1>><</if>><<replace "#images">><<print _dispcode>><</replace>><</button>></center>
-</td></tr></table>
-
-<<if ndef $gamestate>>
-	<<set $gamestate = {}>>
-	<<set $gamestate.playedIntro = false>>
-	<<set $gamestate.completePrologue = false>>
-	<<set $gamestate.completeGame = false>>
-	<<set $gamestate.points = 0>>
-	<<set $gamestate.characters = 0>>
-	<<set $gamestate.unlocks = []>>
-<<elseif $gamestate === null>>
-	<<set $gamestate = {}>>
-	<<set $gamestate.playedIntro = false>>
-	<<set $gamestate.completePrologue = false>>
-	<<set $gamestate.completeGame = false>>
-	<<set $gamestate.points = 0>>
-	<<set $gamestate.characters = 0>>
-	<<set $gamestate.unlocks = []>>
-<</if>>
 <<if $gamestate.playedIntro && $gamestate.lastversion == $version>>
-	<<timed 500ms>>
-	<<replace "#cancontinue">>@@.contButt;<<button "Skip">><<goto [[gamestateinit]]>><</button>>@@<</replace>>
-	<</timed>>
+<<set _timer = 0>>
 <<else>>
-	<<set _time = 60>>
-	<<repeat 1000ms>>
-		<<set _time -= 1>>
-		<<if _time < 0>>
-			<<replace "#cancontinue">>@@.contButt;<<button "Skip">><<goto [[gamestateinit]]>><</button>>@@<</replace>>
-			<<break>>
-		<<else>>
-			<<replace "#cancontinue">>@@.inst;Please wait@@ @@.monospace;.ship;<<print _time>>@@ @@.inst;seconds to skip.@@ @@.note;This is a one-time delay only.@@<</replace>>
-			<</if>>
-	<</repeat>>
+<<set _timer = 90>>
+<<repeat 1000ms>>
+  <<if _timer > 0>>
+		<<set _timer -= 1>>
+		<<replace "#cuntdown">><<print _timer>><</replace>>
+  <</if>>
+<</repeat>>
 <</if>>
+<<set _com = [true,false,false,false,false,false]>>
+<</silently>>
+<<uicardsinit "_cocker" "The Basics" "Tutorial">>
+<span class="head1"><<tab>><<tab>>How to Play</span>
+<br><br>
+This is the basic information on how to use different parts of the game UI. Throughout the prologue, you will also see text that <span class="vollkorn white">looks like this.</span> This is tutorial information, explaining in more detail how different parts of the game work. Tutorial text starts with basic information, but later covers a little more complex information. Only the information needed to play the game will be presented this way, and more complicated information about how the game works will be contained in the Game Guide. It's up to you whether you want to know more about the game's mechanics, or simply explore and learn as you go along.
+<<nextcard "Important <<if _com[1]>>✓<</if>>">>
+<div class="cardhorn">[img[IMGinstructions1]]</div><<set _com[1] = true>>
+<<nextcard "Overview <<if _com[2]>>✓<</if>>">>
+<div class="cardhorn">[img[IMGinstructions2]]</div><<set _com[2] = true>>
+<<nextcard "CellBar <<if _com[3]>>✓<</if>>">>
+<div class="cardhorn">[img[IMGinstructions3]]</div><<set _com[3] = true>>
+<<nextcard "Cellphone <<if _com[4]>>✓<</if>>">>
+<div class="cardhorn">[img[IMGinstructions4]]</div><<set _com[4] = true>>
+<<nextcard "Small One <<if _com[5]>>✓<</if>>">>
+<div class="cardhorn">[img[IMGinstructions5]]</div><<set _com[5] = true>>
+<<nextbutton "Continue <<if _timer <= 0 || (_com[1] && _com[2] && _com[3] && _com[4] && _com[5])>>✓<</if>>">>
+<<if _timer <= 0 || (_com[1] && _com[2] && _com[3] && _com[4] && _com[5])>><<goto [[gamestateinit]]>><</if>>
+<<nextbutton>>
+<<if $gamestate.playedIntro && $gamestate.lastversion == $version>>
+  <<set _timer = 0>>
+	You can skip the tutorial.
+<<else>>
+  <span class="import">Complete the tutorial or wait <span id="cuntdown" class="monospace white">90</span> seconds to continue.</span>
+<</if>>
+<</uicardsinit>>
 
 
 :: gamestateinit [nobr startpage]
 
-<<LoadingText>>
+<div id="cardback"></div>
 <<if ndef $gamestate>>
 	<<set $gamestate = {}>>
 	<<set $gamestate.playedIntro = true>>
@@ -120,29 +93,29 @@
 	<<if $AW.door.megaTits>>
 		<<switch $PC.body.tits.band>>
 			<<case 24>>
-				<<set _maxtit = 1050; _mintit = 500>>
+				<<set _maxtit = 1200; _mintit = 800>>
 			<<case 26>>
-				<<set _maxtit = 1250; _mintit = 610>>
+				<<set _maxtit = 1400; _mintit = 1000>>
 			<<case 28>>
-				<<set _maxtit = 1420; _mintit = 730>>
+				<<set _maxtit = 1600; _mintit = 1200>>
 			<<case 30>>
-				<<set _maxtit = 1720; _mintit = 880>>
+				<<set _maxtit = 1800; _mintit = 1400>>
 			<<case 32>>
-				<<set _maxtit = 1880; _mintit = 1050>>
+				<<set _maxtit = 2000; _mintit = 1600>>
 			<<case 34>>
-				<<set _maxtit = 2200; _mintit = 1250>>
+				<<set _maxtit = 2200; _mintit = 1800>>
 			<<case 36>>
-				<<set _maxtit = 2400; _mintit = 1420>>
+				<<set _maxtit = 2400; _mintit = 2000>>
 			<<case 38>>
-				<<set _maxtit = 2600; _mintit = 1720>>
+				<<set _maxtit = 2600; _mintit = 2200>>
 			<<case 40>>
-				<<set _maxtit = 2800; _mintit = 1880>>
+				<<set _maxtit = 2800; _mintit = 2400>>
 			<<case 42>>
-				<<set _maxtit = 3000; _mintit = 2000>>
+				<<set _maxtit = 3000; _mintit = 2600>>
 			<<case 44>>
-				<<set _maxtit = 3000; _mintit = 2000>>
+				<<set _maxtit = 3000; _mintit = 2600>>
 			<<case 46>>
-				<<set _maxtit = 3000; _mintit = 2000>>
+				<<set _maxtit = 3000; _mintit = 2600>>
 		<</switch>>
   <<elseif $gamestate.unlocks.includes("megaTits")>>
     <<switch $PC.body.tits.band>>
@@ -203,27 +176,221 @@
 		<<set $PC.body.tits.size = _maxtit>>
 		<<pcBreastCalc>>
 		<<if $AW.randomBody != 1 && _guard>>
-			<<replace "#boobcc">><<print $PC.body.tits.size>>cc | <<pcCupSize>><</replace>>
+			/*<<replace "#boobcc">><<print $PC.body.tits.size>>cc | <<pcCupSize>><</replace>>*/
 		<</if>>
 	<<elseif $PC.body.tits.size < _mintit>>
 		<<set $PC.body.tits.size = _mintit>>
 		<<pcBreastCalc>>
 		<<if $AW.randomBody != 1 && _guard>>
-			<<replace "#boobcc">><<print $PC.body.tits.size>>cc | <<pcCupSize>><</replace>>
+			/*<<replace "#boobcc">><<print $PC.body.tits.size>>cc | <<pcCupSize>><</replace>>*/
 		<</if>>
 	<</if>>
 <</widget>>
 <<set _guard = true>>
 <<set $location = "Lily's Place">><<set $helpText = "This is where you define the physical appearance of your character. This is all pretty straight-forward... <br><br>I suppose there are some things I could tell you...<br><br>Picking unattractive features is... shocker... going to make you less attractive. Also, there are a lot more hair colors available later in the game.">>
 <</silently>>
-@@.head1;Character Creation@@
-<br><br>
-@@.head3;W@@ith some help from Lily, you stand naked in front of a dressing mirror looking at your new body.
-<br><br>
-@@.note;This game's text can vary significantly from play-through to play-through, as it is affected by your character creation, choices, and an element of randomness. Be cautious when clicking through text, as portions of it are likely different from the last time you encountered it! The first masturbation sequence, for example, has over 6,000 words of content, though you'll only see part of that at once based on your character.@@
+
 <br><br>
 <<if $AW.randomBody == 1>>
-	<<silently>>
+	<<include [[characterCreateRandom]]>>
+<<else>>
+	<<include [[characterCreateCards]]>>
+<</if>>
+
+<</nobr>>
+
+
+:: characterCreateCards [nobr]
+
+<<silently>>
+<<set _com = [true,false,false,false,false,false]>>
+<<pcBreastCalc>>
+<</silently>>
+<<uicardsinit "_cuntFucker" "Helpful Hints" "Character Creation">>
+<<include [[characterCreateCard-intro]]>>
+<<nextcard "Primary Attributes">>
+<<include [[characterCreateCard-basic]]>><<set _com[1] = true>>
+<<nextcard "Face & Hair">>
+<<include [[characterCreateCard-face]]>><<set _com[2] = true>>
+<<nextcard "Body Shape">>
+<<include [[characterCreateCard-shape]]>>
+<<include [[characterCreateCard-hips]]>><<set _com[3] = true>>
+<<nextcard "Breasts">>
+<<include [[characterCreateCard-breasts]]>><<set _com[4] = true>>
+<<nextcard "Genitals & Repro">>
+<<include [[characterCreateCard-pussy]]>>
+<<set _com[5] = true>>
+<<nextbutton>>
+<span class="cardbuttTemplate"><<button "Load Template">><<goto [[LoadCharacterTemplate]]>><</button>></span>
+<<nextbutton "Continue">>
+<<set $PC.groom.hairColor = _hairColor>>
+<<set $PC.groom.pubeColor = _pubeColor>>
+<<set $PC.body.eyeColor = _eyeColor>>
+<<set $PC.body.face = _face>>
+<<set $UIimgFlag = true>>
+<<setPCportrait>>
+<<if _com[1] && _com[2] && _com[3] && _com[4] && _com[5]>>
+  <<status 0>><<goto [[physicalReview]]>>
+<<else>>
+  <<dialog "You Missed Something!">><span class="import lato">You haven't viewed all the cards for the physical portion of character creation. You cannot return to this menu after continuing, and unchanged elements will remain at their default values. You can close this dialog and finish, or you can <<link "Continue Anyway">><<goto [[physicalReview]]>><</link>>.</span><</dialog>>
+<</if>>
+<</uicardsinit>>
+
+
+
+:: characterCreateCard-intro [nobr]
+
+
+<img data-passage="IMG-CC-NudeWoman" style="float:right;">
+<center>@@.head1;Character Creation@@</center>
+<br><br>
+@@.head3;W@@ith some help from Lily, you stand naked in front of a dressing mirror looking at your new body...
+<br><br>
+<span class="head3">Helpful Hints:</span><br>
+Design the character that you'd like to play. Click on the info buttons to learn more about a particular option. Options at character creation aren't all permanent, many can be altered during gameplay. Additionally, a wider range of starting options can be unlocked with achievements earned during play. Most of all, have fun and make the character <b>you</b> want to play.
+<br><br>
+This game's text can vary significantly from play-through to play-through, as it is affected by your character creation, choices, and an element of randomness. Be cautious when clicking through text, as portions of it are likely different from the last time you encountered it! The first masturbation sequence, for example, has over 6,000 words of content, though you'll only see part of that at once based on your character.
+<br><br>
+<span class="vollkorn import" class="font-size:120%">NOTICE: Card Layouts for creation options are not finished.</span>
+
+
+:: characterCreateCard-basic [nobr]
+
+
+  <h2>Basic Attributes</h2>
+  These are the primary settings for your new body. While race and skin color don't really matter to the game, age can play a more important role in your new life. Too young, and you'll have a hard time being treated as an adult. Too old, and you will be less attractive and have reduced fertility. Height, like race, is more for description. However, you can't set a height that would require a medical condition.<br>
+  <span class="head3">Apparent Age:</span> <<helpPop "Age Information" "Apparent age refers to the biological age of your new body, which has been changed from its original age via the accident. Your chronological, or true age, remains the same at <<print $PC.main.ageOriginal>>. Biological age determines appearance, and naturally varies from chronological age based on the individual. Biological age has been deemed definitively irrelevant to matters of consent and law by courts in the U.S. and most other countries (Including those in the E.U.). This is of course subject to the same exceptions for mental deficit and medical disorders whereby the individual is deemed unable to care for themselves, such as a situation of substituted consent for medical procedures in a hospital, or the ward and guardianship process whereby an individual, organization, or the state is appointed guardian of a disabled ward, typically a vulnerable adult. These exceptions do not apply in this case, as the player retains their full mental capacity. Setting a low age (25 or less) will typically result in incidents of being carded for purchasing alcohol and the like. Setting an age below 18 will have other impacts, such as suspecting a fake ID, being refused entry, and potential reduced attractiveness to NPCs. Setting a high age will have a corresponding impact to player fertility and attractiveness, starting with minor effects at 35 years of age.">> <<textbox "$PC.main.age" $PC.main.age>>
+  <<tab>>
+  <span class="head3">Height</span> <<if $AW.metric>>(cm)<<else>>(inches)<</if>>: <<textbox "$PC.body.height" $PC.body.height>>
+  <br><br>
+  <table id="invisTable" class="butter" style="width:90%;">
+  <tr><td style="width:42%"><span class="head3">Race: <<helpPop "Race" "This attribute has almost no effect on the game, and is only used descriptively. Also, I'm aware that hispanic is a region or origin and not a race, however trying to use actual racial terms would get real confusing (and offensive), real fast, or we'd be stuck with using 'Native American' as a definition, which aside from also being confusing, would also be racially/genetically inaccurate.">> </span><div id="racer" style="display:inline-block;border-width:2px;border-color:#666;border-radius:15px;font-size:130%;"><<print $PC.body.race>></div> </td>
+  <td style="width:6%"></td>
+  <td style="width:42%;"><span class="head3">Skin Color: </span><div id="scolor" style="display:inline-block;border-width:2px;border-color:#666;border-radius:15px;font-size:130%;"><<print $PC.body.skinColor>></div></td></tr>
+  <tr><td>
+  <<button "white">><<set $PC.body.race = "white">><<replace "#racer">>White<</replace>><</button>>
+  <<button "hispanic">><<set $PC.body.race = "hispanic">><<replace "#racer">>Hispanic<</replace>><</button>>
+  <<button "black">><<set $PC.body.race = "black">><<replace "#racer">>Black<</replace>><</button>>
+  <<button "E Asian">><<set $PC.body.race = "Asian">><<replace "#racer">>"East Asian"<</replace>><</button>>
+  <<button "SE Asian">><<set $PC.body.race = "SE Asian">><<replace "#racer">>Southeast Asian<</replace>><</button>>
+  <<button "S Asian">><<set $PC.body.race = "S Asian">><<replace "#racer">>South Asian<</replace>><</button>>
+  <<button "middle eastern">><<set $PC.body.race = "middle eastern">><<replace "#racer">>Middle-Eastern<</replace>><</button>>
+  <<button "native American">><<set $PC.body.race = "native American">><<replace "#racer">>Native-American<</replace>><</button>>
+  <<button "southern European">><<set $PC.body.race = "southern European">><<replace "#racer">>Southern-European<</replace>><</button>>
+  <<button "Gaelic">><<set $PC.body.race = "Gaelic">><<replace "#racer">>Gaelic<</replace>><</button>>
+  <<button "Nordic">><<set $PC.body.race = "Nordic">><<replace "#racer">>Nordic<</replace>><</button>>
+  </td><td></td><td>
+  <<button "pale">><<set $PC.body.skinColor = "pale">><<replace "#scolor">><<print $PC.body.skinColor>><</replace>><</button>>
+  <<button "fair">><<set $PC.body.skinColor = "fair">><<replace "#scolor">><<print $PC.body.skinColor>><</replace>><</button>>
+  <<button "tanned">><<set $PC.body.skinColor = "tanned">><<replace "#scolor">><<print $PC.body.skinColor>><</replace>><</button>>
+  <<button "bronzed">><<set $PC.body.skinColor = "bronzed">><<replace "#scolor">><<print $PC.body.skinColor>><</replace>><</button>>
+  <<button "light">><<set $PC.body.skinColor = "light">><<replace "#scolor">><<print $PC.body.skinColor>><</replace>><</button>>
+  <<button "dusky">><<set $PC.body.skinColor = "dusky">><<replace "#scolor">><<print $PC.body.skinColor>><</replace>><</button>>
+  <<button "dark">><<set $PC.body.skinColor = "dark">><<replace "#scolor">><<print $PC.body.skinColor>><</replace>><</button>>
+  <<button "light brown">><<set $PC.body.skinColor = "light brown">><<replace "#scolor">><<print $PC.body.skinColor>><</replace>><</button>>
+  <<button "brown">><<set $PC.body.skinColor = "brown">><<replace "#scolor">><<print $PC.body.skinColor>><</replace>><</button>>
+  <<button "dark brown">><<set $PC.body.skinColor = "dark brown">><<replace "#scolor">><<print $PC.body.skinColor>><</replace>><</button>>
+  <<button "midnight">><<set $PC.body.skinColor = "midnight">><<replace "#scolor">><<print $PC.body.skinColor>><</replace>><</button>><br>
+  </td></tr>
+  </table>
+
+
+:: characterCreateCard-face [nobr]
+
+  <h2>Face Attributes</h2>
+	<table id="invisTable"><tr><td>''Eye Color:''</td><td><<dropdown '_eyeColor' "brown" "hazel" "blue" "light blue" "blue-green" "green" "golden-brown" "green and blue heterochromatic">></td>
+	<td>''Facial Type:''</td><td><<dropdown '_face' "normal" "sensual" "cute" "exotic" "androgynous">></td></tr>
+	<tr><td>''Facial Beauty:''</td><td colspan=3> <<radiobutt "$PC.body.beauty" 1>> Ugly | <<radiobutt "$PC.body.beauty" 2>> Unattractive | <<radiobutt "$PC.body.beauty" 3 "checked">> Average <<radiobutt "$PC.body.beauty" 4>> Pretty | <<radiobutt "$PC.body.beauty" 5>> Beautiful  <<helpPop "Player Beauty" "This trait has a significant impact on your attractiveness to NPCs.">></td></tr></table>
+
+  <h2>Hair Attributes</h2>
+	<table id="invisTable"><tr><td>''Hair Color:''</td><td> <<dropdown '_hairColor' 'brown' 'black' 'auburn' 'dark blonde' 'blonde' 'strawberry blonde' 'red'>> <<helpPop "Hair Color" "Hair color can be changed in far more detail at a hair salon in the game.">></td>
+	<td>''Body Hair:''</td><td> <<dropdown '_pubeColor' 'black' 'brown' 'auburn' 'dark blonde' 'blonde' 'strawberry blonde' 'red'>></td></tr>
+	</table>
+
+
+:: characterCreateCard-shape [nobr]
+
+	<h2>Body Attributes</h2>
+	<table id="invisTable">
+	<tr><td width="15%">''Muscle Tone:''</td><td width="20%">@@.ident;<span id="muscle"><<pcTone>></span>@@</td><td><<link "Frail">><<set $PC.body.tone = 1>><<replace "#muscle">><<pcTone>><</replace>><</link>> | <<link "Weak">><<set $PC.body.tone = 2>><<replace "#muscle">><<pcTone>><</replace>><</link>> | <<link "Normal">><<set $PC.body.tone = 3>><<replace "#muscle">><<pcTone>><</replace>><</link>> | <<link "Toned">><<set $PC.body.tone = 4>><<replace "#muscle">><<pcTone>><</replace>><</link>> | <<link "Muscular">><<set $PC.body.tone = 5>><<replace "#muscle">><<pcTone>><</replace>><</link>> | <<link "Body Builder">><<set $PC.body.tone = 6>><<replace "#muscle">><<pcTone>><</replace>><<pcBreastCalc>><</link>> </td></tr>
+	<tr><td>''Body Fat:''</td><td>@@.ident;<span id="fat"><<pcWeight>></span>@@</td><td><<link "Dying">><<set $PC.body.weight = 1>><<replace "#fat">><<pcWeight>><</replace>><<pcBreastCalc>><<tempTitLimits>><</link>> | <<link "Skinny">><<set $PC.body.weight = 2>><<replace "#fat">><<pcWeight>><</replace>><<pcBreastCalc>><<tempTitLimits>><</link>> | <<link "Lithe">><<set $PC.body.weight = 3>><<replace "#fat">><<pcWeight>><</replace>><<pcBreastCalc>><<tempTitLimits>><</link>> | <<link "Plush">><<set $PC.body.weight = 4>><<replace "#fat">><<pcWeight>><</replace>><<pcBreastCalc>><<tempTitLimits>><</link>> | <<link "Chubby">><<set $PC.body.weight = 5>><<replace "#fat">><<pcWeight>><</replace>><<pcBreastCalc>><<tempTitLimits>><</link>> | <<link "Fat">><<set $PC.body.weight = 6>><<replace "#fat">><<pcWeight>><</replace>><<pcBreastCalc>><<tempTitLimits>><</link>> </td></tr>
+	<tr><td>''Shoulders:''</td><td>@@.ident;<span id="shoulders"><<pcShoulderSize>></span>@@</td><td><<link "Narrow">><<set $PC.body.shoulders = 1>><<replace "#shoulders">><<pcShoulderSize>><</replace>><<pcBreastCalc>><<tempTitLimits>><</link>> | <<link "Feminine">><<set $PC.body.shoulders = 2>><<replace "#shoulders">><<pcShoulderSize>><</replace>><<pcBreastCalc>><<tempTitLimits>><</link>> | <<link "Average">><<set $PC.body.shoulders = 3>><<replace "#shoulders">><<pcShoulderSize>><</replace>><<pcBreastCalc>><<tempTitLimits>><</link>> | <<link "Manly">><<set $PC.body.shoulders = 4>><<replace "#shoulders">><<pcShoulderSize>><</replace>><<pcBreastCalc>><<tempTitLimits>><</link>> | <<link "Broad">><<set $PC.body.shoulders = 5>><<replace "#shoulders">><<pcShoulderSize>><</replace>><<pcBreastCalc>><<tempTitLimits>><</link>> </td></tr></table>
+
+
+:: characterCreateCard-hips [nobr]
+
+  <h2>Lower Body Attributes</h2>
+	<table id="invisTable"><tr><td>''Hip Size:''</td><td>@@.ident;<span id="hips"><<pcHipSize>></span>@@</td><td><<link "Very Narrow">><<set $PC.body.hips = 1>><<replace "#hips">><<pcHipSize>><</replace>><</link>> | <<link "Narrow">><<set $PC.body.hips = 2>><<replace "#hips">><<pcHipSize>><</replace>><</link>> | <<link "Svelte">><<set $PC.body.hips = 3>><<replace "#hips">><<pcHipSize>><</replace>><</link>> | <<link "Curvy">><<set $PC.body.hips = 4>><<replace "#hips">><<pcHipSize>><</replace>><</link>> | <<link "Broad">><<set $PC.body.hips = 5>><<replace "#hips">><<pcHipSize>><</replace>><</link>> | <<link "Broodmother">><<set $PC.body.hips = 6>><<replace "#hips">><<pcHipSize>><</replace>><</link>> </td></tr>
+	<tr><td>''Butt Size:''</td><td>@@.ident;<span id="ass"><<pcAssSize>></span>@@</td><td><<link "Flat">><<set $PC.body.ass = 1>><<replace "#ass">><<pcAssSize>><</replace>><</link>> | <<link "Small">><<set $PC.body.ass = 2>><<replace "#ass">><<pcAssSize>><</replace>><</link>> | <<link "Average">><<set $PC.body.ass = 3>><<replace "#ass">><<pcAssSize>><</replace>><</link>> | <<link "Big">><<set $PC.body.ass = 4>><<replace "#ass">><<pcAssSize>><</replace>><</link>> | <<link "Huge">><<set $PC.body.ass = 5>><<replace "#ass">><<pcAssSize>><</replace>><</link>> | <<link "Massive">><<set $PC.body.ass = 6>><<replace "#ass">><<pcAssSize>><</replace>><</link>> </td></tr>
+	<tr><td>''Waist:''</td><td>@@.ident;<span id="waist"><<pcWaist>></span>@@</td><td><<link "Masculine">><<set $PC.body.waist = 2>><<replace "#waist">><<pcWaist>><</replace>><</link>> | <<link "Feminine">><<set $PC.body.waist = 3>><<replace "#waist">><<pcWaist>><</replace>><</link>> | <<link "Hourglass">><<set $PC.body.waist = 4>><<replace "#waist">><<pcWaist>><</replace>><</link>> </td></tr></table>
+  <br><br>
+  There is going to be a slight rework of how the lower body is specified. Instead of three independent variables for waist, hips, and ass, there will be an interrelated system of variables similar to bust size that will determine the character of the lower body. The below guide describes the 4 different shapes possible with the new system.<br><br>
+  Check out the new <<link "Hips and Butt Guide">><<dialog "H&B Guide">><<include [[guideHipsButt]]>><</dialog>><</link>>!
+
+
+:: characterCreateCard-breasts [nobr]
+
+	/*BREAST SIZE IS HERE!*/
+  <h2>Breast and Nipple Attributes</h2>
+	<table id="invisTable"><tr><td>''Breasts:'' <<helpPop "Breast Variables" "The breast size guide contains more information about breast variables. The short version is that characters with breasts have two variables that determine their bra size. 1) volume in cubic centimeters. 2) band size in inches. (//Note that because nobody uses actual centimeter values for band size, this is not converted to metric//)<br><br>Band size is determined by a combination of weight and shoulder width, while volume is a base statistic that remains the same unless the character gains/loses weight during the game, or becomes pregnant.<br><br>Size is reported in two ways, either the bra size //like 32F// or in a raw cup size that is based entirely on volume and a 34 inch band //like E-cup//. Bra size is more representitive of appearance, while the raw cup size is a way to describe volume alone. //saying 'large D-cup' is a lot easier to understand than saying 680cc!// This value is only rarely used, and primarily because it is more representitive for certain gameplay elements like lactation. To convert between the raw cup and bra cup sizes, simply subtract 1 cup size for every 2 inches larger band size, or add 1 cup size for every 2 inches smaller band size.">> <<link [img[Breast & Bra Size Guide!|IMG_tits32px]]>><<dialog "Breast & Bra Size Guide">><<include [[InfoBreastGuide]]>><</dialog>><</link>>
+	</td><td>
+	<<pcBreastCalc>>@@.ident;<span id="boobs">Bra = <<pcBraSize>></span>@@
+	</td><td>
+		@@.uibutton;
+		<<link "[img[-100|IMG_left2]]">>
+			<<set $PC.body.tits.size -= 100>>
+			<<pcBreastCalc>><<tempTitLimits>>
+			<<replace "#boobs">>Bra = <<pcBraSize>><</replace>>
+			<<replace "#boobcc">><<print $PC.body.tits.size>>cc | <<pcCupSize>><</replace>>
+		<</link>><<link "[img[-10|IMG_left]]">>
+			<<set $PC.body.tits.size -= 10>>
+			<<pcBreastCalc>><<tempTitLimits>>
+			<<replace "#boobs">>Bra = <<pcBraSize>><</replace>>
+			<<replace "#boobcc">><<print $PC.body.tits.size>>cc | <<pcCupSize>><</replace>>
+		<</link>>@@ @@.monospace;.ship;font-size:80%;<div id="boobcc"><<print $PC.body.tits.size>>cc | <<pcCupSize>></div>@@ @@.uilink;<<link "[img[+10|IMG_right]]">>
+			<<set $PC.body.tits.size += 10>>
+			<<pcBreastCalc>><<tempTitLimits>>
+			<<replace "#boobs">>Bra = <<pcBraSize>><</replace>>
+			<<replace "#boobcc">><<print $PC.body.tits.size>>cc | <<pcCupSize>><</replace>>
+		<</link>><<link "[img[+100|IMG_right2]]">>
+			<<set $PC.body.tits.size += 100>>
+			<<pcBreastCalc>><<tempTitLimits>>
+			<<replace "#boobs">>Bra = <<pcBraSize>><</replace>>
+			<<replace "#boobcc">><<print $PC.body.tits.size>>cc | <<pcCupSize>><</replace>>
+		<</link>>@@<<if $AW.door.megaTits == 1>> @@.import;.tit;font-size:110%;Special Supersized Override!@@<</if>> @@.quest;.white;font-size:70%;max cc is based on band size@@
+	</td></tr>
+	<tr><td>''Breast Shape:'' <<helpPop "Breast Shape" "This dialog will be updated later with reference images for breast shapes.">></td><td>@@.ident;<span id="bshape">$PC.body.tits.shape</span>@@</td><td><<link "Round">><<set $PC.body.tits.shape = "round">><<replace "#bshape">>$PC.body.tits.shape<</replace>><</link>> | <<link "Perky">><<set $PC.body.tits.shape = "perky">><<replace "#bshape">>$PC.body.tits.shape<</replace>><</link>> | <<link "Firm">><<set $PC.body.tits.shape = "firm">><<replace "#bshape">>$PC.body.tits.shape<</replace>><</link>> | <<link "Wide-set">><<set $PC.body.tits.shape = "wide-set">><<replace "#bshape">>$PC.body.tits.shape<</replace>><</link>> | <<link "Protruding">><<set $PC.body.tits.shape = "protruding">><<replace "#bshape">>$PC.body.tits.shape<</replace>><</link>></td></tr>
+	<tr><td>''Nipple Type:'' <<helpPop "Nipple Type" "This dialog will be updated later with reference images for nipple types/shapes.">></td><td>@@.ident;<span id="nipple">$PC.body.tits.nipple</span>@@</td><td><<link "Normal">><<set $PC.body.tits.nipple = "normal">><<replace "#nipple">>$PC.body.tits.nipple<</replace>><</link>> | <<link "Long">><<set $PC.body.tits.nipple = "long">><<replace "#nipple">>$PC.body.tits.nipple<</replace>><</link>> | <<link "Puffy">><<set $PC.body.tits.nipple = "puffy">><<replace "#nipple">>$PC.body.tits.nipple<</replace>><</link>> | <<link "Inverted">><<set $PC.body.tits.nipple = "inverted">><<replace "#nipple">>$PC.body.tits.nipple<</replace>><</link>> | <<link "Flat">><<set $PC.body.tits.nipple = "flat">><<replace "#nipple">>$PC.body.tits.nipple<</replace>><</link>> | <<link "Huge">><<set $PC.body.tits.nipple = "huge">><<replace "#nipple">>$PC.body.tits.nipple<</replace>><</link>> </td></tr>
+	<tr><td><b>Nipple Length:</b></td><td><span id="niplength"><<print $PC.body.tits.nipLength>></span></td>
+    <td><<button "Inverted">><<set $PC.body.tits.nipLength = 1>><<replace "#niplength">><<print $PC.body.tits.nipLength>><</replace>><</button>><<button "Partially Inverted">><<set $PC.body.tits.nipLength = 2>><<replace "#niplength">><<print $PC.body.tits.nipLength>><</replace>><</button>><<button "Flat">><<set $PC.body.tits.nipLength = 3>><<replace "#niplength">><<print $PC.body.tits.nipLength>><</replace>><</button>><<button "Short">><<set $PC.body.tits.nipLength = 4>><<replace "#niplength">><<print $PC.body.tits.nipLength>><</replace>><</button>><<button "Medium">><<set $PC.body.tits.nipLength = 5>><<replace "#niplength">><<print $PC.body.tits.nipLength>><</replace>><</button>><<button "Long">><<set $PC.body.tits.nipLength = 6>><<replace "#niplength">><<print $PC.body.tits.nipLength>><</replace>><</button>><<button "Very Long">><<set $PC.body.tits.nipLength = 7>><<replace "#niplength">><<print $PC.body.tits.nipLength>><</replace>><</button>></td></tr>
+  <tr><td><b>Nipple girth:</b></td><td><span id="nipgirth"><<print $PC.body.tits.nipGirth>></span></td>
+    <td><<button "Tiny">><<set $PC.body.tits.nipGirth = 1>><<replace "#nipgirth">><<print $PC.body.tits.nipGirth>><</replace>><</button>><<button "Small">><<set $PC.body.tits.nipGirth = 2>><<replace "#nipgirth">><<print $PC.body.tits.nipGirth>><</replace>><</button>><<button "Normal">><<set $PC.body.tits.nipGirth = 3>><<replace "#nipgirth">><<print $PC.body.tits.nipGirth>><</replace>><</button>><<button "Large">><<set $PC.body.tits.nipGirth = 4>><<replace "#nipgirth">><<print $PC.body.tits.nipGirth>><</replace>><</button>><<button "Huge">><<set $PC.body.tits.nipGirth = 5>><<replace "#nipgirth">><<print $PC.body.tits.nipGirth>><</replace>><</button>></td></tr>
+  <tr><td><b>Areola Size:</b></td><td><span id="areola"><<print $PC.body.tits.areola>></span></td>
+    <td><<button "Tiny">><<set $PC.body.tits.areola = 1>><<replace "#areola">><<print $PC.body.tits.areola>><</replace>><</button>><<button "Small">><<set $PC.body.tits.areola = 2>><<replace "#areola">><<print $PC.body.tits.areola>><</replace>><</button>><<button "Average">><<set $PC.body.tits.areola = 3>><<replace "#areola">><<print $PC.body.tits.areola>><</replace>><</button>><<button "Large">><<set $PC.body.tits.areola = 4>><<replace "#areola">><<print $PC.body.tits.areola>><</replace>><</button>><<button "Huge">><<set $PC.body.tits.areola = 5>><<replace "#areola">><<print $PC.body.tits.areola>><</replace>><</button>></td></tr>
+  <tr><td><b>Areola Character:</b></td><td><span id="puffy"><<print $PC.body.tits.puffy>></span></td>
+    <td><<button "Flat">><<set $PC.body.tits.puffy = 1>><<replace "#puffy">><<print $PC.body.tits.puffy>><</replace>><</button>><<button "Average">><<set $PC.body.tits.puffy = 2>><<replace "#puffy">><<print $PC.body.tits.puffy>><</replace>><</button>><<button "Puffy">><<set $PC.body.tits.puffy = 3>><<replace "#puffy">><<print $PC.body.tits.puffy>><</replace>><</button>><<button "Very Puffy">><<set $PC.body.tits.puffy = 4>><<replace "#puffy">><<print $PC.body.tits.puffy>><</replace>><</button>><<button "bumpy">><<set $PC.body.tits.puffy = 5>><<replace "#puffy">><<print $PC.body.tits.puffy>><</replace>><</button>></td></tr>
+  </table>
+  <span class="com">These new nipple characteristics will be replacing the old "nipple type" attribute, but are not fully implemented yet.</span>
+
+
+:: characterCreateCard-pussy [nobr]
+
+
+  <h2>Genitals and Reproductive Attributes</h2>
+	<table id="invisTable">
+	<tr><td width="15%">''Clit Size:''</td><td width="20%">@@.ident;<span id="clit"><<pcClitSize>></span>@@</td><td><<link "Small">><<set $PC.body.clit = 1>><<replace "#clit">><<pcClitSize>><</replace>><</link>> | <<link "Normal">><<set $PC.body.clit = 2>><<replace "#clit">><<pcClitSize>><</replace>><</link>> | <<link "Large">><<set $PC.body.clit = 3>><<replace "#clit">><<pcClitSize>><</replace>><</link>> | <<link "Huge">><<set $PC.body.clit = 4>><<replace "#clit">><<pcClitSize>><</replace>><</link>> | <<link "Gigantic">><<set $PC.body.clit = 5>><<replace "#clit">><<pcClitSize>><</replace>><</link>> </td></tr>
+	<tr><td>''Labia Size:''</td><td>@@.ident;<span id="labia"><<pcLabiaSize>></span>@@</td><td><<link "Small">><<set $PC.body.labia = 1>><<replace "#labia">><<pcLabiaSize>><</replace>><</link>> | <<link "Normal">><<set $PC.body.labia = 2>><<replace "#labia">><<pcLabiaSize>><</replace>><</link>> | <<link "Large">><<set $PC.body.labia = 3>><<replace "#labia">><<pcLabiaSize>><</replace>><</link>> | <<link "Huge">><<set $PC.body.labia = 4>><<replace "#labia">><<pcLabiaSize>><</replace>><</link>> </td></tr>
+	<tr><td>''Vaginal Wetness:''</td><td>@@.ident;<span id="wetness"><<pcWetness>></span>@@</td><td><<if $AW.door.puddlingCunt == 1>>Special Override!<<else>><<link "Dry">><<set $PC.body.wetness = 1>><<replace "#wetness">><<pcWetness>><</replace>><</link>> | <<link "Normal">><<set $PC.body.wetness = 2>><<replace "#wetness">><<pcWetness>><</replace>><</link>> | <<link "Wet">><<set $PC.body.wetness = 3>><<replace "#wetness">><<pcWetness>><</replace>><</link>> | <<link "Dripping">><<set $PC.body.wetness = 4>><<replace "#wetness">><<pcWetness>><</replace>><</link>><</if>> </td></tr>
+	<tr><td>''Pube Style:''</td><td>@@.ident;<span id="pubeStyle">$PC.groom.pubeStyle</span>@@</td><td><<link "Bushy">><<set $PC.groom.pubeStyle = "bushy">><<replace "#pubeStyle">>$PC.groom.pubeStyle<</replace>><</link>> | <<link "Trimmed">><<set $PC.groom.pubeStyle = "trimmed">><<replace "#pubeStyle">>$PC.groom.pubeStyle<</replace>><</link>> | <<link "Neatly Trimmed">><<set $PC.groom.pubeStyle = "neatly trimmed">><<replace "#pubeStyle">>$PC.groom.pubeStyle<</replace>><</link>> | <<link "Triangular">><<set $PC.groom.pubeStyle = "triangular">><<replace "#pubeStyle">>$PC.groom.pubeStyle<</replace>><</link>> | <<link "Neat Patch">><<set $PC.groom.pubeStyle = "neat patch">><<replace "#pubeStyle">>$PC.groom.pubeStyle<</replace>><</link>> | <<link "Landing Strip">><<set $PC.groom.pubeStyle = "landing strip">><<replace "#pubeStyle">>$PC.groom.pubeStyle<</replace>><</link>> | <<link "Shaved">><<set $PC.groom.pubeStyle = "shaved">><<replace "#pubeStyle">>$PC.groom.pubeStyle<</replace>><</link>> | <<link "Hairless">><<set $PC.groom.pubeStyle = "hairless">><<replace "#pubeStyle">>$PC.groom.pubeStyle<</replace>><</link>> <<warnPop "Hairless" "Choosing the hairless option means that you are literally hairless when it comes to body hair, and that more hair will not grow in naturally. This is like starting the game after already having laser hair removal.">></td></tr></table>
+
+  <table id="invisTable"><tr><td>''Fertility:''</td><td>@@.ident;<span id="fertility"><<pcFertility>></span>@@</td><td><<if $AW.door.ultraFertile == 1>>Special Override!<<else>><<link "Infertile">><<set $PC.fert.fertility = 0>><<replace "#fertility">><<pcFertility>><</replace>><</link>> | <<link "Very Low">><<set $PC.fert.fertility = 1>><<replace "#fertility">><<pcFertility>><</replace>><</link>> | <<link "low">><<set $PC.fert.fertility = 2>><<replace "#fertility">><<pcFertility>><</replace>><</link>> | <<link "Normal">><<set $PC.fert.fertility = 3>><<replace "#fertility">><<pcFertility>><</replace>><</link>> | <<link "High">><<set $PC.fert.fertility = 4>><<replace "#fertility">><<pcFertility>><</replace>><</link>> | <<link "Super Fertile">><<set $PC.fert.fertility = 5>><<replace "#fertility">><<pcFertility>><</replace>><</link>><</if>> <<warnPop "Fertility" "This affects your body's natural ability to get pregnant, as well as hormone levels and other factors involving your menstrual cycle. There are ways to effectively avoid pregnancy in the game (IUD) if you don't wish to experience that content. Starting with infertility comes with other consequences, and isn't a pregnancy content gate as it can be reversed due to certain game events.">></td></tr>
+	<tr><td>''Milk Production:''</td><td>@@.ident;<span id="lactation">$PC.body.lactation</span>@@</td><td><<if $AW.door.megaTits == 1>>Special Override!<<else>><<link "Incapable">><<set $PC.body.lactation = 0>><<replace "#lactation">>$PC.body.lactation<</replace>><</link>> | <<link "Poor">><<set $PC.body.lactation = 1>><<replace "#lactation">>$PC.body.lactation<</replace>><</link>> | <<link "Normal">><<set $PC.body.lactation = 2>><<replace "#lactation">>$PC.body.lactation<</replace>><</link>> | <<link "Productive">><<set $PC.body.lactation = 3>><<replace "#lactation">>$PC.body.lactation<</replace>><</link>> | <<link "Cow-Like">><<set $PC.body.lactation = 4>><<replace "#lactation">>$PC.body.lactation<</replace>><</link>><</if>> | <<helpPop "Milk Production" "This applies when your character is pregnant or breastfeeding, and does not mean that you are currently lactating. Poor lactation indicates someone who would need to give supplemental nutrition to a baby being breastfed. Productive indicates someone who is at the very top of what is considered normal in regard to milk production, and could likely feed triplets. Cow-Like is an abnormally large amount of milk production.<br><br>@@.note;Some milk production levels are limited based on the physical limitations of breast size. Breast size will grow somewhat when lactating.@@">></td></tr>
+	</table>
+
+
+:: characterCreateRandom [nobr]
+
+<<silently>>
 	<<set $PC.body.height = either(60,61,62,63,64,64,65,65,65,66,66,66,67,67,67,67,67,68,68,68,68,68,69,69,69,69,70,70,70,71,71,72,73,74)>>
 	<<set $PC.body.heightInch = Math.round($PC.body.height % 12)>>
 	<<set $PC.body.heightFoot = Math.floor($PC.body.height / 12)>>
@@ -294,7 +461,13 @@
 	<<set $PC.fert.fertility = either(0,2,3,3,3,4,5)>>
 	<<set $PC.body.lactation = either(0,1,1,2,2,2,3)>>
 	<<set $PC.main.age = either(18,19,20,21,22,23,24,25,26,27,28,29,30)>>
-	<</silently>>
+<</silently>>
+@@.head1;Character Creation@@
+<br><br>
+@@.head3;W@@ith some help from Lily, you stand naked in front of a dressing mirror looking at your new body.
+<br><br>
+@@.note;This game's text can vary significantly from play-through to play-through, as it is affected by your character creation, choices, and an element of randomness. Be cautious when clicking through text, as portions of it are likely different from the last time you encountered it! The first masturbation sequence, for example, has over 6,000 words of content, though you'll only see part of that at once based on your character.@@
+<br><br>
 	@@.head1;You chose random physical attributes@@
 	<br><br>
 	@@.head3;General Appearance@@<br>
@@ -328,107 +501,5 @@
 	<br>Fertility: @@.hotpink;<<pcFertility>>@@
 	<br>Milk Production: @@.hotpink;$PC.body.lactation@@
 	<br><br>
-<<else>>
-	<<timed 50ms>><<tempTitLimits>><</timed>>
-	<<if $AW.metric>><<set $PC.body.height = 160>><</if>>
-	@@.head1;Physical Attributes:@@<br><br>
-	<<button [[Default Physical Attributes|physicalReview]]>><<switch $PC.groom.hairColor>>
-<<case "auburn" "red">>
-<<set $AW.pcPortrait = "[img[You|IMGpcPort_auburn]]">>
-<<case "black">>
-<<set $AW.pcPortrait = "[img[You|IMGpcPort_black]]">>
-<<case "blonde">>
-<<set $AW.pcPortrait = "[img[You|IMGpcPort_blonde]]">>
-<<case "dark blonde" "strawberry blonde">>
-<<set $AW.pcPortrait = "[img[You|IMGpcPort_darkblonde]]">>
-<<case "brown">>
-<<set $AW.pcPortrait = "[img[You|IMGpcPort_brown]]">>
-<</switch>><<set $UIimgFlag = true>><</button>> <<button "Load Character Template">><<goto [[LoadCharacterTemplate]]>><</button>> <br><br>
-	@@.head3;General Appearance@@
-	<table>
-	<tr><td width="15%">''Apparent Age:''</td><td colspan=3><<textbox "$PC.main.age" $PC.main.age>> <<helpPop "Age Information" "Apparent age refers to the biological age of your new body, which has been changed from its original age via the accident. Your chronological, or true age, remains the same at <<print $PC.main.ageOriginal>>. Biological age determines appearance, and naturally varies from chronological age based on the individual. Biological age has been deemed definitively irrelevant to matters of consent and law by courts in the U.S. and most other countries (Including those in the E.U.). This is of course subject to the same exceptions for mental deficit and medical disorders whereby the individual is deemed unable to care for themselves, such as a situation of substituted consent for medical procedures in a hospital, or the ward and guardianship process whereby an individual, organization, or the state is appointed guardian of a disabled ward, typically a vulnerable adult. These exceptions do not apply in this case, as the player retains their full mental capacity. Setting a low age (25 or less) will typically result in incidents of being carded for purchasing alcohol and the like. Setting an age below 18 will have other impacts, such as suspecting a fake ID, being refused entry, and potential reduced attractiveness to NPCs. Setting a high age will have a corresponding impact to player fertility and attractiveness, starting with minor effects at 35 years of age.">></td></tr>
-	<tr><td>''Height <<if $AW.metric>>(cm)<<else>>(inches)<</if>>:''</td>
-	<td colspan=3><<textbox "$PC.body.height" $PC.body.height>></td></tr>
-	<tr><td width="15%">''Race:''</td><td width="35%"><<dropdown '_race' "white" "Hispanic" "black" "Asian" "SE Asian" "middle eastern" "native American" "southern European" "Gaelic" "Nordic">> <<helpPop "Race" "This attribute has almost no effect on the game, and is only used descriptively.">></td>
-	<td width="15%">''Skin Color:''</td><td width="35%"><<dropdown '_skinColor' "tanned" "pale" "fair" "bronzed" "brown" "dark brown" "light" "dark">></td></tr>
-	<tr><td>''Eye Color:''</td><td><<dropdown '_eyeColor' "brown" "hazel" "blue" "light blue" "blue-green" "green" "golden-brown" "green and blue heterochromatic">></td>
-	<td>''Facial Type:''</td><td><<dropdown '_face' "normal" "sensual" "cute" "exotic" "androgynous">></td></tr>
-	<tr><td>''Facial Beauty:''</td><td colspan=3> <<radiobutt "$PC.body.beauty" 1>> Ugly | <<radiobutt "$PC.body.beauty" 2>> Unattractive | <<radiobutt "$PC.body.beauty" 3 "checked">> Average <<radiobutt "$PC.body.beauty" 4>> Pretty | <<radiobutt "$PC.body.beauty" 5>> Beautiful  <<helpPop "Player Beauty" "This trait has a significant impact on your attractiveness to NPCs.">></td></tr>
-	<tr><td>''Hair Color:''</td><td> <<dropdown '_hairColor' 'brown' 'black' 'auburn' 'dark blonde' 'blonde' 'strawberry blonde' 'red'>> <<helpPop "Hair Color" "Hair color can be changed in far more detail at a hair salon in the game.">></td>
-	<td>''Body Hair:''</td><td> <<dropdown '_pubeColor' 'black' 'brown' 'auburn' 'dark blonde' 'blonde' 'strawberry blonde' 'red'>></td></tr>
-	</table><br>
-	@@.head3;Body Shape@@<<pcBreastCalc>>
-	<table>
-	<tr><td width="15%">''Muscle Tone:''</td><td width="20%">@@.ident;<span id="muscle"><<pcTone>></span>@@</td><td><<link "Frail">><<set $PC.body.tone = 1>><<replace "#muscle">><<pcTone>><</replace>><</link>> | <<link "Weak">><<set $PC.body.tone = 2>><<replace "#muscle">><<pcTone>><</replace>><</link>> | <<link "Normal">><<set $PC.body.tone = 3>><<replace "#muscle">><<pcTone>><</replace>><</link>> | <<link "Toned">><<set $PC.body.tone = 4>><<replace "#muscle">><<pcTone>><</replace>><</link>> | <<link "Muscular">><<set $PC.body.tone = 5>><<replace "#muscle">><<pcTone>><</replace>><</link>> | <<link "Body Builder">><<set $PC.body.tone = 6>><<replace "#muscle">><<pcTone>><</replace>><<pcBreastCalc>><<replace "#boobs">>Bra = <<pcBraSize>><</replace>><</link>> </td></tr>
-	<tr><td>''Body Fat:''</td><td>@@.ident;<span id="fat"><<pcWeight>></span>@@</td><td><<link "Dying">><<set $PC.body.weight = 1>><<replace "#fat">><<pcWeight>><</replace>><<pcBreastCalc>><<tempTitLimits>><<replace "#boobs">>Bra = <<pcBraSize>><</replace>><</link>> | <<link "Skinny">><<set $PC.body.weight = 2>><<replace "#fat">><<pcWeight>><</replace>><<pcBreastCalc>><<tempTitLimits>><<replace "#boobs">>Bra = <<pcBraSize>><</replace>><</link>> | <<link "Lithe">><<set $PC.body.weight = 3>><<replace "#fat">><<pcWeight>><</replace>><<pcBreastCalc>><<tempTitLimits>><<replace "#boobs">>Bra = <<pcBraSize>><</replace>><</link>> | <<link "Plush">><<set $PC.body.weight = 4>><<replace "#fat">><<pcWeight>><</replace>><<pcBreastCalc>><<tempTitLimits>><<replace "#boobs">>Bra = <<pcBraSize>><</replace>><</link>> | <<link "Chubby">><<set $PC.body.weight = 5>><<replace "#fat">><<pcWeight>><</replace>><<pcBreastCalc>><<tempTitLimits>><<replace "#boobs">>Bra = <<pcBraSize>><</replace>><</link>> | <<link "Fat">><<set $PC.body.weight = 6>><<replace "#fat">><<pcWeight>><</replace>><<pcBreastCalc>><<tempTitLimits>><<replace "#boobs">>Bra = <<pcBraSize>><</replace>><</link>> </td></tr>
-	<tr><td>''Shoulders:''</td><td>@@.ident;<span id="shoulders"><<pcShoulderSize>></span>@@</td><td><<link "Narrow">><<set $PC.body.shoulders = 1>><<replace "#shoulders">><<pcShoulderSize>><</replace>><<pcBreastCalc>><<tempTitLimits>><<replace "#boobs">>Bra = <<pcBraSize>><</replace>><</link>> | <<link "Feminine">><<set $PC.body.shoulders = 2>><<replace "#shoulders">><<pcShoulderSize>><</replace>><<pcBreastCalc>><<tempTitLimits>><<replace "#boobs">>Bra = <<pcBraSize>><</replace>><</link>> | <<link "Average">><<set $PC.body.shoulders = 3>><<replace "#shoulders">><<pcShoulderSize>><</replace>><<pcBreastCalc>><<tempTitLimits>><<replace "#boobs">>Bra = <<pcBraSize>><</replace>><</link>> | <<link "Manly">><<set $PC.body.shoulders = 4>><<replace "#shoulders">><<pcShoulderSize>><</replace>><<pcBreastCalc>><<tempTitLimits>><<replace "#boobs">>Bra = <<pcBraSize>><</replace>><</link>> | <<link "Broad">><<set $PC.body.shoulders = 5>><<replace "#shoulders">><<pcShoulderSize>><</replace>><<pcBreastCalc>><<tempTitLimits>><<replace "#boobs">>Bra = <<pcBraSize>><</replace>><</link>> </td></tr>
-	<tr><td>''Hip Size:''</td><td>@@.ident;<span id="hips"><<pcHipSize>></span>@@</td><td><<link "Very Narrow">><<set $PC.body.hips = 1>><<replace "#hips">><<pcHipSize>><</replace>><</link>> | <<link "Narrow">><<set $PC.body.hips = 2>><<replace "#hips">><<pcHipSize>><</replace>><</link>> | <<link "Svelte">><<set $PC.body.hips = 3>><<replace "#hips">><<pcHipSize>><</replace>><</link>> | <<link "Curvy">><<set $PC.body.hips = 4>><<replace "#hips">><<pcHipSize>><</replace>><</link>> | <<link "Broad">><<set $PC.body.hips = 5>><<replace "#hips">><<pcHipSize>><</replace>><</link>> | <<link "Broodmother">><<set $PC.body.hips = 6>><<replace "#hips">><<pcHipSize>><</replace>><</link>> </td></tr>
-	<tr><td>''Butt Size:''</td><td>@@.ident;<span id="ass"><<pcAssSize>></span>@@</td><td><<link "Flat">><<set $PC.body.ass = 1>><<replace "#ass">><<pcAssSize>><</replace>><</link>> | <<link "Small">><<set $PC.body.ass = 2>><<replace "#ass">><<pcAssSize>><</replace>><</link>> | <<link "Average">><<set $PC.body.ass = 3>><<replace "#ass">><<pcAssSize>><</replace>><</link>> | <<link "Big">><<set $PC.body.ass = 4>><<replace "#ass">><<pcAssSize>><</replace>><</link>> | <<link "Huge">><<set $PC.body.ass = 5>><<replace "#ass">><<pcAssSize>><</replace>><</link>> | <<link "Massive">><<set $PC.body.ass = 6>><<replace "#ass">><<pcAssSize>><</replace>><</link>> </td></tr>
-	<tr><td>''Waist:''</td><td>@@.ident;<span id="waist"><<pcWaist>></span>@@</td><td><<link "Masculine">><<set $PC.body.waist = 2>><<replace "#waist">><<pcWaist>><</replace>><</link>> | <<link "Feminine">><<set $PC.body.waist = 3>><<replace "#waist">><<pcWaist>><</replace>><</link>> | <<link "Hourglass">><<set $PC.body.waist = 4>><<replace "#waist">><<pcWaist>><</replace>><</link>> </td></tr>
-	/*BREAST SIZE IS HERE!*/
-	<tr><td>''Breasts:'' <<helpPop "Breast Variables" "The breast size guide contains more information about breast variables. The short version is that characters with breasts have two variables that determine their bra size. 1) volume in cubic centimeters. 2) band size in inches. (//Note that because nobody uses actual centimeter values for band size, this is not converted to metric//)<br><br>Band size is determined by a combination of weight and shoulder width, while volume is a base statistic that remains the same unless the character gains/loses weight during the game, or becomes pregnant.<br><br>Size is reported in two ways, either the bra size //like 32F// or in a raw cup size that is based entirely on volume and a 34 inch band //like E-cup//. Bra size is more representitive of appearance, while the raw cup size is a way to describe volume alone. //saying 'large D-cup' is a lot easier to understand than saying 680cc!// This value is only rarely used, and primarily because it is more representitive for certain gameplay elements like lactation. To convert between the raw cup and bra cup sizes, simply subtract 1 cup size for every 2 inches larger band size, or add 1 cup size for every 2 inches smaller band size.">>
-	</td><td>
-	<<pcBreastCalc>>@@.ident;<span id="boobs">Bra = <<pcBraSize>></span>@@
-	</td><td>
-	<<if $AW.door.megaTits == 1>>Special Supersized Override!<<else>>
-		@@.uibutton;
-		<<button "-100cc">>
-			<<set $PC.body.tits.size -= 100>>
-			<<pcBreastCalc>><<tempTitLimits>>
-			<<replace "#boobs">>Bra = <<pcBraSize>><</replace>>
-			<<replace "#boobcc">><<print $PC.body.tits.size>>cc | <<pcCupSize>><</replace>>
-		<</button>><<button "-10cc">>
-			<<set $PC.body.tits.size -= 10>>
-			<<pcBreastCalc>><<tempTitLimits>>
-			<<replace "#boobs">>Bra = <<pcBraSize>><</replace>>
-			<<replace "#boobcc">><<print $PC.body.tits.size>>cc | <<pcCupSize>><</replace>>
-		<</button>>@@ @@.monospace;.ship;font-size:80%;<div id="boobcc"><<print $PC.body.tits.size>>cc | <<pcCupSize>></div>@@ @@.uibutton;<<button "+10cc">>
-			<<set $PC.body.tits.size += 10>>
-			<<pcBreastCalc>><<tempTitLimits>>
-			<<replace "#boobs">>Bra = <<pcBraSize>><</replace>>
-			<<replace "#boobcc">><<print $PC.body.tits.size>>cc | <<pcCupSize>><</replace>>
-		<</button>><<button "+100cc">>
-			<<set $PC.body.tits.size += 100>>
-			<<pcBreastCalc>><<tempTitLimits>>
-			<<replace "#boobs">>Bra = <<pcBraSize>><</replace>>
-			<<replace "#boobcc">><<print $PC.body.tits.size>>cc | <<pcCupSize>><</replace>>
-		<</button>>@@ @@.quest;.white;font-size:70%;max cc based on band size@@
-	<</if>>
-	<<link "Size Guide">><<dialog "Breast Size Guide">><<include [[InfoBreastGuide]]>><</dialog>><</link>>
-	</td></tr>
-	<tr><td>''Breast Shape:'' <<helpPop "Breast Shape" "This dialog will be updated later with reference images for breast shapes.">></td><td>@@.ident;<span id="bshape">$PC.body.tits.shape</span>@@</td><td><<link "Round">><<set $PC.body.tits.shape = "round">><<replace "#bshape">>$PC.body.tits.shape<</replace>><</link>> | <<link "Perky">><<set $PC.body.tits.shape = "perky">><<replace "#bshape">>$PC.body.tits.shape<</replace>><</link>> | <<link "Firm">><<set $PC.body.tits.shape = "firm">><<replace "#bshape">>$PC.body.tits.shape<</replace>><</link>> | <<link "Wide-set">><<set $PC.body.tits.shape = "wide-set">><<replace "#bshape">>$PC.body.tits.shape<</replace>><</link>> | <<link "Protruding">><<set $PC.body.tits.shape = "protruding">><<replace "#bshape">>$PC.body.tits.shape<</replace>><</link>></td></tr>
-	<tr><td>''Nipple Type:'' <<helpPop "Nipple Type" "This dialog will be updated later with reference images for nipple types/shapes.">></td><td>@@.ident;<span id="nipple">$PC.body.tits.nipple</span>@@</td><td><<link "Normal">><<set $PC.body.tits.nipple = "normal">><<replace "#nipple">>$PC.body.tits.nipple<</replace>><</link>> | <<link "Long">><<set $PC.body.tits.nipple = "long">><<replace "#nipple">>$PC.body.tits.nipple<</replace>><</link>> | <<link "Puffy">><<set $PC.body.tits.nipple = "puffy">><<replace "#nipple">>$PC.body.tits.nipple<</replace>><</link>> | <<link "Inverted">><<set $PC.body.tits.nipple = "inverted">><<replace "#nipple">>$PC.body.tits.nipple<</replace>><</link>> | <<link "Flat">><<set $PC.body.tits.nipple = "flat">><<replace "#nipple">>$PC.body.tits.nipple<</replace>><</link>> | <<link "Huge">><<set $PC.body.tits.nipple = "huge">><<replace "#nipple">>$PC.body.tits.nipple<</replace>><</link>> </td></tr>
-	</table>
-		<<set _guard = true>>
-	@@.head3;Genitals and Reproduction@@
-	<table>
-	<tr><td width="15%">''Clit Size:''</td><td width="20%">@@.ident;<span id="clit"><<pcClitSize>></span>@@</td><td><<link "Small">><<set $PC.body.clit = 1>><<replace "#clit">><<pcClitSize>><</replace>><</link>> | <<link "Normal">><<set $PC.body.clit = 2>><<replace "#clit">><<pcClitSize>><</replace>><</link>> | <<link "Large">><<set $PC.body.clit = 3>><<replace "#clit">><<pcClitSize>><</replace>><</link>> | <<link "Huge">><<set $PC.body.clit = 4>><<replace "#clit">><<pcClitSize>><</replace>><</link>> | <<link "Gigantic">><<set $PC.body.clit = 5>><<replace "#clit">><<pcClitSize>><</replace>><</link>> </td></tr>
-	<tr><td>''Labia Size:''</td><td>@@.ident;<span id="labia"><<pcLabiaSize>></span>@@</td><td><<link "Small">><<set $PC.body.labia = 1>><<replace "#labia">><<pcLabiaSize>><</replace>><</link>> | <<link "Normal">><<set $PC.body.labia = 2>><<replace "#labia">><<pcLabiaSize>><</replace>><</link>> | <<link "Large">><<set $PC.body.labia = 3>><<replace "#labia">><<pcLabiaSize>><</replace>><</link>> | <<link "Huge">><<set $PC.body.labia = 4>><<replace "#labia">><<pcLabiaSize>><</replace>><</link>> </td></tr>
-	<tr><td>''Vaginal Wetness:''</td><td>@@.ident;<span id="wetness"><<pcWetness>></span>@@</td><td><<if $AW.door.puddlingCunt == 1>>Special Override!<<else>><<link "Dry">><<set $PC.body.wetness = 1>><<replace "#wetness">><<pcWetness>><</replace>><</link>> | <<link "Normal">><<set $PC.body.wetness = 2>><<replace "#wetness">><<pcWetness>><</replace>><</link>> | <<link "Wet">><<set $PC.body.wetness = 3>><<replace "#wetness">><<pcWetness>><</replace>><</link>> | <<link "Dripping">><<set $PC.body.wetness = 4>><<replace "#wetness">><<pcWetness>><</replace>><</link>><</if>> </td></tr>
-	<tr><td>''Pube Style:''</td><td>@@.ident;<span id="pubeStyle">$PC.groom.pubeStyle</span>@@</td><td><<link "Bushy">><<set $PC.groom.pubeStyle = "bushy">><<replace "#pubeStyle">>$PC.groom.pubeStyle<</replace>><</link>> | <<link "Trimmed">><<set $PC.groom.pubeStyle = "trimmed">><<replace "#pubeStyle">>$PC.groom.pubeStyle<</replace>><</link>> | <<link "Neatly Trimmed">><<set $PC.groom.pubeStyle = "neatly trimmed">><<replace "#pubeStyle">>$PC.groom.pubeStyle<</replace>><</link>> | <<link "Triangular">><<set $PC.groom.pubeStyle = "triangular">><<replace "#pubeStyle">>$PC.groom.pubeStyle<</replace>><</link>> | <<link "Neat Patch">><<set $PC.groom.pubeStyle = "neat patch">><<replace "#pubeStyle">>$PC.groom.pubeStyle<</replace>><</link>> | <<link "Landing Strip">><<set $PC.groom.pubeStyle = "landing strip">><<replace "#pubeStyle">>$PC.groom.pubeStyle<</replace>><</link>> | <<link "Shaved">><<set $PC.groom.pubeStyle = "shaved">><<replace "#pubeStyle">>$PC.groom.pubeStyle<</replace>><</link>> | <<link "Hairless">><<set $PC.groom.pubeStyle = "hairless">><<replace "#pubeStyle">>$PC.groom.pubeStyle<</replace>><</link>> <<warnPop "Hairless" "Choosing the hairless option means that you are literally hairless when it comes to body hair, and that more hair will not grow in naturally. This is like starting the game after already having laser hair removal.">></td></tr>
-	<tr><td>''Fertility:''</td><td>@@.ident;<span id="fertility"><<pcFertility>></span>@@</td><td><<if $AW.door.ultraFertile == 1>>Special Override!<<else>><<link "Infertile">><<set $PC.fert.fertility = 0>><<replace "#fertility">><<pcFertility>><</replace>><</link>> | <<link "Very Low">><<set $PC.fert.fertility = 1>><<replace "#fertility">><<pcFertility>><</replace>><</link>> | <<link "low">><<set $PC.fert.fertility = 2>><<replace "#fertility">><<pcFertility>><</replace>><</link>> | <<link "Normal">><<set $PC.fert.fertility = 3>><<replace "#fertility">><<pcFertility>><</replace>><</link>> | <<link "High">><<set $PC.fert.fertility = 4>><<replace "#fertility">><<pcFertility>><</replace>><</link>> | <<link "Super Fertile">><<set $PC.fert.fertility = 5>><<replace "#fertility">><<pcFertility>><</replace>><</link>><</if>> <<warnPop "Fertility" "This affects your body's natural ability to get pregnant, as well as hormone levels and other factors involving your menstrual cycle. There are ways to effectively avoid pregnancy in the game (IUD) if you don't wish to experience that content. Starting with infertility comes with other consequences, and isn't a pregnancy content gate as it can be reversed due to certain game events.">></td></tr>
-	<tr><td>''Milk Production:''</td><td>@@.ident;<span id="lactation">$PC.body.lactation</span>@@</td><td><<if $AW.door.megaTits == 1>>Special Override!<<else>><<link "Incapable">><<set $PC.body.lactation = 0>><<replace "#lactation">>$PC.body.lactation<</replace>><</link>> | <<link "Poor">><<set $PC.body.lactation = 1>><<replace "#lactation">>$PC.body.lactation<</replace>><</link>> | <<link "Normal">><<set $PC.body.lactation = 2>><<replace "#lactation">>$PC.body.lactation<</replace>><</link>> | <<link "Productive">><<set $PC.body.lactation = 3>><<replace "#lactation">>$PC.body.lactation<</replace>><</link>> | <<link "Cow-Like">><<set $PC.body.lactation = 4>><<replace "#lactation">>$PC.body.lactation<</replace>><</link>><</if>> | <<helpPop "Milk Production" "This applies when your character is pregnant or breastfeeding, and does not mean that you are currently lactating. Poor lactation indicates someone who would need to give supplemental nutrition to a baby being breastfed. Productive indicates someone who is at the very top of what is considered normal in regard to milk production, and could likely feed triplets. Cow-Like is an abnormally large amount of milk production.<br><br>@@.note;Some milk production levels are limited based on the physical limitations of breast size. Breast size will grow somewhat when lactating.@@">></td></tr>
-	</table><br>
-<</if>>
 
-@@font-size:130%;<<button [[Review|physicalReview]]>><<set $PC.groom.hairColor = _hairColor>><<set $PC.groom.pubeColor = _pubeColor>><<set $PC.body.race = _race>><<set $PC.body.skinColor = _skinColor>><<set $PC.body.eyeColor = _eyeColor>><<set $PC.body.face = _face>><<switch $PC.groom.hairColor>>
-<<case "auburn" "red">>
-<<set $AW.pcPortrait = "[img[You|IMGpcPort_auburn]]">>
-<<case "black">>
-<<set $AW.pcPortrait = "[img[You|IMGpcPort_black]]">>
-<<case "blonde">>
-<<set $AW.pcPortrait = "[img[You|IMGpcPort_blonde]]">>
-<<case "dark blonde" "strawberry blonde">>
-<<set $AW.pcPortrait = "[img[You|IMGpcPort_darkblonde]]">>
-<<case "brown">>
-<<set $AW.pcPortrait = "[img[You|IMGpcPort_brown]]">>
-<</switch>><<set $UIimgFlag = true>><</button>>@@
-
-<</nobr>>
-
-
-
-
-
-
-
+@@font-size:130%;<<button [[Review|physicalReview]]>><<set $PC.groom.hairColor = _hairColor>><<set $PC.groom.pubeColor = _pubeColor>><<set $PC.body.race = _race>><<set $PC.body.skinColor = _skinColor>><<set $PC.body.eyeColor = _eyeColor>><<set $PC.body.face = _face>><<setPCportrait>><<set $UIimgFlag = true>><</button>>@@

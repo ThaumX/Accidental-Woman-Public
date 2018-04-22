@@ -1,0 +1,37 @@
+:: controlDowntown [nobr]
+
+<<set $PC.status.inPublic = true>>
+<<mapProcessMove>>
+<<addTime _mapTime>>
+
+
+
+/*Determine current weather after time has passed*/
+/*<<weatherCheck>>*/
+
+/*Run some widgets to control NPC actions. */
+
+
+/*Control home cleanliness functionality*/
+
+
+/*EVENTS - selects event based on several possibilities*/
+
+
+
+/*SET THE SCENE! Describes the scene, including potential NPCs*/
+
+<<if $npc.active>>
+	<<set _NPCsingle = $npc.roomview>>
+<<else>>
+	<<set _NPCsingle = 0>>
+<</if>>
+
+<<setScene _mapDesc _NPCsingle $roomviewGroup "downtown">>
+
+/*forwarder to change passage*/
+
+/*<<link "debug link continue">>*/
+<<goto $map.passage>>
+/*<</link>>*/
+

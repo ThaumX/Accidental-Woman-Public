@@ -4,28 +4,44 @@
 /*Basic settings. Most done by map control passage*/
 
 <</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPhomeT2]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptHome>> <<mapEventHome>></p>
+<<homeItemDisp>>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch $map.weather>>
+<<case "clr">>
 
-/* GAME MAP TABLE - Displays map next to spot for area image.*/
-<div id="topbar"><center>
-<table id="navigation">
-<tr id="navigation">
-<td id="navigation"><img data-passage="IMGtier2homeBATH" usemap="#image-map"><map name="image-map">
-    <area data-passage="homeT2TObedroom" alt="Bedroom" title="Bedroom" coords="152,28,236,28,244,102,154,102" shape="poly">
-    <area data-passage="homeT2TOliving" alt="Livingroom" title="Livingroom" coords="48,47,148,47,152,129,42,129" shape="poly">
-    <area data-passage="homeT2TObalcony" alt="Balcony" title="Balcony" coords="0,181,0,103,42,103,38,181" shape="poly">
-    <area data-passage="homeT2TOkitchen" alt="Kitchen" title="Kitchen" coords="38,203,44,131,150,131,150,153,134,159,134,203" shape="poly">
-    <area data-passage="homeT2TOfoyer" alt="Foyer" title="Foyer" coords="136,203,136,161,152,153,188,155,190,203" shape="poly">
-    <area data-passage="homeT2TObath" alt="Bathroom" title="Bathroom" coords="206,203,200,105,244,105,248,133,246,203" shape="poly">
-    <area data-passage="homeT2TOexit" alt="Exit" title="Exit" coords="34,247,38,205,246,205,246,247" shape="poly" class="map-red-area">
-	<area data-passage="homeT2TOwardrobe" alt="Wardrobe Menu" title="Wardrobe Menu" coords="152,104,196,104,198,138,162,136,154,130" shape="poly" class="map-green-area">
-    <area data-passage="homeT2homemenu" alt="Home Control" title="Home Control" coords="32,248,36,184,0,184,2,248" shape="poly" class="map-blue-area">
-</map></td>
-<td id="navigation"><<link [img[$map.imageName]]>><</link>></td>
-</tr>
-</table></center></div>
-<div id="mainshits"><center>
-@@.head2;<<=$map.name>>@@</center>
-<br><br>
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+</p>
 /*Event notification spot*/
 /*<<mapEventHome>>*/
 /*LOCATION description of  location*/
@@ -33,32 +49,37 @@
 /*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
 /*IN-PASSAGE span text*/
 <span id="locact"></span></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
-/*ACTION TABLE*/
-<table>
-
-<tr>
-<td width="20%">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise groommenu>>
-@@.butt90;<<button "Grooming Menu">><<addTime 5>><<goto [[groomingMain]]>><</button>>@@
+  <<button "Grooming Menu">><<addTime 5>><<goto [[groomingMain]]>><</button>>
 <<endhoverrevise>>
-<<hoverrevise takeshower>>@@.butt90;<<button "Bathe">><</button>>@@<<endhoverrevise>>
-<<hoverrevise wearmakup>>@@.butt90;<<button "Wear Makeup">><<dialog "Wear Makeup">>choose one of your makeup styles here and you'll put it on!<br><br>Not Ready... <<button "Casual">><</button>><<button "Work">><</button>><<button "Fancy">><</button>><<button "wash off">><</button>><</dialog>><</button>>@@<<endhoverrevise>>
-<<hoverrevise douphair>>@@.butt90;<<button "Change Hair">><<dialog "Change Hairstyle">>choose one of your default styles here and you'll change your hairstyle!<br><br>Not Ready... <<button "Casual">><</button>><<button "Work">><</button>><<button "Fancy">><</button>><<button "brush current style">><</button>><</dialog>><</button>>@@<<endhoverrevise>>
-</td><td>
+<<hoverrevise takeshower>>
+  <<button "Bathe">><</button>>
+<<endhoverrevise>>
+<<hoverrevise quickgroom>><<button "Quick Groom">><<dialog "Quick Groom">><<include [[groomingQuickControl]]>><</dialog>><</button>><<endhoverrevise>>
+<<hoverrevise grooming>><<button "Grooming Menu">><<openGrooming>><</button>><<endhoverrevise>>
+<<homeItemButtons>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
 <<insertion groommenu>>@@.exp;Access the grooming menu to change your hairstyle, put on makeup, wear jewelry, change settings, and more.@@<<endinsertion>>
-<<insertion wearmakeup>>@@.exp;Quick menu popup to put on one of your saved makeup sets (Casual, Work, Fancy). To put on different makeup combinations, use the grooming menu.@@<<endinsertion>>
 <<insertion takeshower>>@@.exp;Take a shower or bath, and perhaps do other things while you're at it... This is the method to get clean without the semi-automatic bathing before bed.@@<<endinsertion>>
-<<insertion douphair>>@@.exp;Quick menu popup to change your current hairstyle to one of your saved default styles. You can also use this menu to quickly brush/straighten your hair if you happen to have "stuff" in it.@@<<endinsertion>>
-</td></tr>
-<tr><td colspan=2  id="homeaction"></td></tr>
-</table>
+<<insertion quickgroom>>@@.exp;Open the Quick Groom menu, which contains several options to quickly apply makeup or change your hairstyle, among other things.@@<<endinsertion>>
+<<insertion grooming>>@@.exp;View the full Grooming Menu for detailed control over makeup, hair, body hair, and jewelry.@@<<endinsertion>>
+</div>
+
+
 <<timed 50ms>>
 <<mapHomeEventAction>>
 <<mapHomeActions>>
 <</timed>>
-</div>
 
 
 
 
+:: homeT2bathLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>

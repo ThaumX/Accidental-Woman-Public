@@ -10,22 +10,14 @@
 <<if $sex.orgCountPC > 0>>
   <<goto [[SexSceneCleanup]]>>
 <</if>>
-<<if $sex.pcAct != "start">>
-  <<set $sex.pcOutput = setup.sexActs[$sex.pcAct].lib.main.a>>
-<</if>>
-<<if >>
 <<if $PC.status.pleasure > $sex.pcOrgasm>>
-  <<set $sex.pcOutput = "You cum super hard or something">>
+  <<set $sex.pcOutput = "You cum super hard or something... In the future, the PC having an orgasm won't end the sex scene like it does right now. In fact, the sex scene will use set of triggers to transition into intermediary scenes in the same system. Getting a creampie will trigger a scene for what to do about it, such as running to the bathroom to clean it out, or propping your hips up, etc. (options will include just continuing on with another partner if in a group.) The only limit to the length of a scene is the stamina of your character and the involved NPCs.">>
   <<set $sex.orgCountPC += 1>>
 <</if>>
 
 <<procE>>
 <</silently>>
-<<if $swim == "[dev]">>
-  Debug Mode: [[Continue|SexSceneDisplay]]
-<<else>>
-  <<goto [[SexSceneDisplay]]>>
-<</if>>
+<<gotodev "SexSceneDisplay" 1000>>
 
 :: SexSceneCleanup [nobr]
 
@@ -44,8 +36,11 @@
 <<set $sex.pcOutput = "none">>
 <<set $sex.npcOutput = ["none"]>>
 <<set $sex.encounter = ["none"]>>
+<<run setup.library.killSA()>>
+<<arousal -8>>
 
-<<goto [[BEchanging]]>>
+
+<<gotodev "BEchanging">>
 
 :: SexSceneStart [nobr hidden]
 
@@ -54,6 +49,7 @@
 /*<<timed 50ms>>*/
   <<run setup.defineSexActs()>>
   <<run setup.defineSexPositions()>>
+  <<run setup.library.initSA()>>
 /*<</timed>>*/
 <<set $sex.turns = 0>>
 <<set $sex.lastPos = "none">>
@@ -158,7 +154,7 @@
 <<set $sex.start = false>>
 <<procE>>
 <<if $swim == "[dev]">>
-  Debug Mode: [[Continue|SexSceneDisplay]]
+  <<gotodev "SexSceneDisplay" 6000>>
   <span id="shitfucker">waitforit...</span>
   <<timed 50ms>>
   <<set _testes = Object.keys(setup.sexActs)>>

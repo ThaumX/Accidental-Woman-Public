@@ -1,18 +1,53 @@
 :: groomingMain [nobr hidden]
 
-<<silently>>
-<<set _last = previous()>>
-<<if _last != "character" && _last != "scene" && _last != "relationships" && _last != "cheatMenu" && _last != "gameGuide" && _last != "debugPage"&& _last != "returner">>
-	<<set $returnM = _last>>
-<</if>>
-<</silently>>
-<center><table id="titlebar">
-<tr  id="titlebar"><td  id="titlebar">
-<<link [img[IMGgroom1]]>><<replace "#grooming">><<include [[groomingHair]]>><</replace>><</link>></td><td  id="titlebar"><<link [img[IMGgroom2]]>><<replace "#grooming">><<include [[groomingMakeup]]>><</replace>><</link>></td><td  id="titlebar"><<link [img[IMGgroom3]]>><<replace "#grooming">><<include [[groomingWear]]>><</replace>><</link>></td><td  id="titlebar"><<link [img[IMGgroom4]]>><<replace "#grooming">><<include [[groomingShave]]>><</replace>><</link>></td><td  id="titlebar"><<link [img[IMGreturnw200h250]]>><<if $flag.Prologue && $returnM == "storyStart16d">><<goto [[storyStart17a]]>><<else>><<goto [[$returnM]]>><</if>><</link>></td></tr>
-</table></center><br>
-<span id="grooming">
-@@.typewriter;.ship;font-size:120%;T@@@@.typewriter;.white;he Grooming Menu is where you can control the finer points of your appearance. Some of these options are purely customization for personal preference, while others like makeup and hairstyle have more of an impact on your attractiveness. While body hair is generally in the personal preference category, and ThaumX makes no judgement personally about what people choose to do with their hair, visible leg/underarm hair ''will'' have a minor negative effect on your attractiveness stat because of the social mores in North America.
-<br>''Hair''--This is where you can change your hairstyle and your hairstyle presets. You can also see which hair styles you have learned.
-<br>''Face''--This is essentially makeup, because Face fit better into the button than Makeup did. You'll be able to change makeup here, as well as your makeup presets. You can also practice and learn new makeup styles in front of the mirror, and control any face-based grooming regimines.
-<br>''Wear''--This is where you control the jewelry that you wear. Menstral products are worn automatically, and accessories are controlled in the wardrobe menu. This menu <i>may</i> be expanded with a wider range of style/decoration-based wearables in the future.
-<br>''Other''--This is where you control all the other stuff! Actually, this page mainly deals with body hair, pubic hair styling, and brushing your teeth.@@</span>
+
+
+<div id="uiObscurePage" class="fadeInUp animated"></div>
+<div id="uiGroomingMenu" class="zoomInUp animated">
+  <div id="uiGroomingTitle" style="position:absolute;left:15px;top:8px;height:150px;right:80px;overflow:hidden;">
+    <<timed 600ms>>
+    <img data-passage="IMGgroom" style="border-radius:8px;" class="lightSpeedIn animated">
+    <</timed>>
+  </div>
+  <div style="position:absolute;top:3px;right:3px;margin:0px;padding:0px;">
+    <<link "[img[Exit|IMG-Close]]">><<animexit "uiObscurePage" "fadeInUp" "fadeOutDown" true>><<animexit "uiGroomingMenu" "zoomInUp" "zoomOutDown" true>><</link>>
+  </div>
+  <<timed 800ms>>
+  <div id="uiGroomingMenuContainer" style="position:absolute;top:175px;left:15px;right:350px;bottom:10px;overflow:hidden;" class="fadeInUp animated">
+  <<tabset "groominTabs" "General Grooming">>
+    <<include [[groomingShave]]>>
+  <<newtab "Makeup Status">>
+    <<include [[groomingMakeupStatus]]>>
+  <<newtab "Apply Makeup">>
+    <<include [[groomingMakeupApply]]>>
+  <<newtab "Makeup Sets">>
+    <<include [[groomingMakeupSets]]>>
+  <<newtab "Hair Status">>
+    <<include [[groomingHairStatus]]>>
+  <<newtab "Hair Sets">>
+    <<include [[groomingHairSets]]>>
+  <<newtab "Jewelry">>
+    <<link "refresh">><<replace "#jewRefresher">><<include [[groomingWear]]>><</replace>><</link>>
+    <span id="jewRefresher"><<include [[groomingWear]]>></span>
+  <</tabset>>
+  </div>
+  <div id="groomContainer"></div>
+  <div id="uiGroomingQuickActions" style="position:absolute;top:175px;right:20px;width:300px;bottom:15px;border-width:3px;border-style:solid;border-color:#CCC;border-radius:8px;padding:5px;text-align:center;" class="groomButtCont fadeInUp animated">
+  <h2 class="blackOutline white">Quick Actions</h2>
+  Check out <<info "Grooming" "guideGrooming">> in the encyclopedia
+  <p>
+  <<tooltip "Brush your teeth... [5min]" x>><<button "Brush Teeth">><<run setup.bath.brushTeeth()>><</button>><</tooltip>>
+  <<tooltip "Brushes your hair, leaving you with the 'neat' style." x>><<button "Brush Hair">><<notify>><<print setup.hair.do("neat")>><</notify>><</button>><</tooltip>>
+  <<tooltip "Washes your face and removes any makeup you may be wearing." x>><<button "Wash Face">><<notify>><<print setup.makeup.wash()>><</notify>><</button>><</tooltip>>
+  <<tooltip "Removes ALL jewelry. <span class='warning bad'>Must be replaced manually!</span>" x>><<button "Remove Jewelry">><<notify>><<print setup.jewel.removeAll()>><</notify>><</button>><</tooltip>>
+  </p><p>
+  <<tab>>Style Hair<br>
+  <<tab>><<dropdown "_hairToApply" "standard" "fancy" "casual" "custom 1" "custom 2" "custom 3">><br><<button "Style Hair">><<notify>><<print setup.hair.doSet(_hairToApply)>><</notify>><</button>>
+  </p><p>
+  <<tab>>Apply Makeup<br>
+  <<tab>><<dropdown "_makeToApply" "standard" "fancy" "casual" "custom 1" "custom 2" "custom 3">><br><<button "Apply Makeup">><<notify>><<print setup.makeup.applySet(_makeToApply)>><</notify>><</button>>
+  </p>
+  <<run setup.tooltipper()>>
+  </div>
+  <</timed>>
+</div>

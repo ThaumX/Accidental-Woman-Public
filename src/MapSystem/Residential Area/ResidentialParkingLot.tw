@@ -1,40 +1,74 @@
 :: ResidentialParkingLot [nobr map]
 
-<div id="topbar"><center>
-<table id="navigation">
-<tr id="navigation">
-<td id="navigation">
-<img data-passage="IMGresidentialMap" usemap="#image-map2"><map name="image-map2">
-    <area data-passage="TOResidentialCommonArea" alt="Apartment Common Area" title="Apartment Common Area" coords="100,110,189,110,190,192,100,191" shape="poly">
-    <area data-passage="ResidentialGoHome" alt="Go Home" title="Go Home" coords="99,247,99,195,189,195,189,248,164,247,123,247" shape="poly" class="map-green-area">
-    <area data-passage="TOResidentialParkingLot" alt="Take a Drive" title="Take a Drive" coords="196,246,195,71,247,71,247,138,221,138,221,246" shape="poly" class="map-red-area">
-    <area data-passage="TOResidentialRecreation" alt="Recreation Area" title="Recreation Area" coords="223,246,223,140,248,140,248,246" shape="poly">
-    <area data-passage="TOResidentialCornerExterior" alt="Corner Store" title="Corner Store" coords="1,103,34,103,33,29,23,20,0,20" shape="poly" class="map-green-area">
-    <area data-passage="TOResidentialVisitFriends" alt="Visit Friends" title="Visit Friends" coords="34,248,34,106,0,106,0,248" shape="poly" class="map-blue-area">
-    <area data-passage="ResidentialGoDowntown" alt="Walk Downtown" title="Walk Downtown" coords="5,0,248,0,248,24,35,24,21,14,-1,14,2,8" shape="poly" class="map-red-area">
-    <area data-passage="TOResidentialJogging" alt="Go Jogging" title="Walking/Jogging/Bicycling"  coords="70,78,97,246" shape="rect" class="mapclass">
-</map>
-</td>
-<td id="navigation"><<link [img[$map.imageName]]>><</link>></td>
-</tr>
-</table></center></div>
-<div id="mainshits"><center>
-@@.head2;<<=$map.name>>@@</center>
-<br><br>
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPresidential]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptResidential>> <<mapEventResidential>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch $map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+</p>
 /*Event notification spot*/
 /*<<mapEventRes>>*/
 /*LOCATION description of  location*/
-@@.head3;Y@@ou are standing in the parking lot near your Missibitchi Lingual.
+@@.head3;Y@@ou are standing in the parking lot near your Misubitchi Lingual.
 /*Time & furnishing descriptive addon! <<mapResDesc>>*/
 /*IN-PASSAGE span text*/
 <span id="locact"></span></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
-/*ACTION TABLE*/
-<table>
-
-<tr>
-<td width="20%"><<link "Drive Somewhere">><<addTime 3>><<goto [[MuschiValleyMap]]>><</link>></td><td>@@.exp;This will take you to the main area map, allowing you to visit the various places in town, as long as you didn't leave your car somewhere.@@</td>
-</tr>
-<span id="specialaction"></span>
-</table>
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise drive>>
+  <<button "DRIVE">><<run setup.map.nav("world","appletree")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise mani>>
+  <<button "Manage Vehicle">><<dialog "Vehicle Management">>Here you will be able to manage your vehicle, whether taking it for an oil change, or simply washing it. You'll also be able to customize a few options and perhaps even add some ricer gear like a giant triple-spoiler. You won't be stuck with your Lingual for the entire game, though purchasing a new car isn't scheduled for implementation anytime soon.<</dialog>><</button>>
+<<endhoverrevise>>
 </div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion drive>>Get in your car and drive somewhere. (Provides access to the Appletree and World maps.)<<endinsertion>>
+<<insertion mani>>Manage your current vehicle - maintenance, cleaning, upgrades, repairs.<<endinsertion>>
+</div>
+
+
+
+:: ResidentialParkingLotLOC [nobr]
+
+@@.head3;Y@@ou spot a girl about to go for a very... <b><i>interesting</i></b> bicycle ride. You find yourself fascinated by the way her lips spread apart to hug the seat... You'd think it would be painful, but she seems pretty excited.<br><br>
+[img[IMGresidentialNudeBicycle]]<br>
+[img[IMGresidentialNudeBicycle2]]

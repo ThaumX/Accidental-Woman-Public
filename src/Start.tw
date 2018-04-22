@@ -1,40 +1,63 @@
-:: Start [nobr startpage]
+:: Start [nobr startpage hidden]
 
-<center>
-<span class="fucker">
-[img[AWlogo]]
-</span>
-<br>
-@@font-size:115%;<b>A</b>@@ @@font-size:125%;color:deepskyblue;T@@@@font-size:115%;.white;haum@@@@font-size:125%;color:deepskyblue;<b>X</b>@@ @@font-size:115%;creation@@</center>
-<table id="invisTable"><tr id="invisTable"><td style="width:5%;"></td><td id="invisTable">
-@@font-size:115%;Welcome to Accidental Woman version@@ @@font-size:115%;.green;<<= $version>><<if $swim != "">> <<= $swim>><</if>>@@@@font-size:115%;, an erotic interactive text game.@@ @@font-size:105%;This game is for mature audiences only. You must be at least 18 years old, or the age of majority in your country, to play this game. By playing this game, you consent to the [[terms and conditions|termsConditions]] for using this software.@@</td><td id="invisTable" style="width:5%;"></td></tr></table>
 
-/*<center>@@.import;.quest;font-size:180%;''Compliance Testing Version!''@@</center>*/
-<table id="invisTable"><tr><td id="vertCenter" rowspan=2 style="width:25%;">
-</td><td id="alignCenter">
-@@.startmenushit;[img[Start the Game|IMGstartbutton][variableInit]]<br>[img[Game Guide|IMGgameguide2][gameGuide]] [img[RNG Test|IMGrandomdice][RandomNumberTest]] [img[Game Stats|IMGachievements][gameStatsPage]] [img[Demos & Tests|IMGtestingpage][motherfuckerbitchwhore]]@@
-</td><td id="vertCenter" rowspan=2 style="width:25%;"><center>[img[IMG18plus]]<br>@@font-size:75%;.yellow;.acme;Underage Play Prohibited@@</center></td></tr>
-<tr><td id="alignCenter">
-<span id="gamestatsers">@@.monospace;.ship;font-size:70%;‖ Loading Stats ‖@@</span>
-</td><td></td></tr></table>
-<table id="invisTable"><tr><td style="width:5%;"></td><td>
-<center>
-<<if $swim == "[cheats]" || $swim == "[backer]" || $swim == "[early]" || $swim == "[dev]" || $swim == "[elite]">>
-@@.head3;Your support on@@ @@font-size:125%;[[Patreon|https://www.patreon.com/thaumx]]@@@@.head3; means the world to me. Thank you!@@
-<<else>>
-@@.head3;If you enjoy AW, please support development on@@ @@font-size:125%;[[Patreon!|https://www.patreon.com/thaumx]]@@
-<</if>>
-</center>
-@@font-size:115%;The latest public version, development blog, forums, and more can be found at the @@ @@font-size:115%;[[AW Website|https://www.accidentalwoman.com/]].@@ @@font-size:115%;Questions, comments, suggestions, and general discussion can be done at the@@ @@font-size:115%;[[Discord Server|https://discord.gg/aBfzHGt]]@@ @@font-size:115%;or on the AW Website [[Forums|https://www.thaumx.com/forum]].@@
-<br><br>
-@@.head2;About the Game:@@<br>
-Accidental Woman is a text-based browser game utilizing Twine, being developed in basically every moment I can. It was inspired by [[several games|newlife]]. This game is currently being developed, and donations are greatly appreciated to help support development. Please contact the author via Patreon, Discord, or the AW Website if you wish to contribute to the game directly via writing, art, or other work.
-<br><center>
-@@font-size:130%;color:deepskyblue;Thanks for Playing!@@
-<br><br>
-@@.acme;font-size:150%;.head;Ѡ Ѡ Ѡ@@</center>
-<br><br><br>
-</td><td style="width:5%;"></td></tr></table>
+<<silently>>
+  <<if not $imageloaded>>
+    <<goto [[Start2]]>>
+  <</if>>
+  <<if setup.totalloadedimages == 0>>
+    <<set _imgr = "<div id='ssss' class='rubberBand animated infinite'>[img[Load Images|IMG_NotLoaded][loadimgpage]]</div>">>
+  <<elseif setup.totalloadedimages < setup.expectedImageLength>>
+    <<set _imgr = "<div id='ssss' class='rubberBand animated infinite'>[img[Load Images|IMG_OutOfDate][loadimgpage]]</div>">>
+  <<else>>
+    <<set _imgr = "<div id='ssss' class='rubberBand animated infinite'>[img[Load Images|IMG_Loaded][loadimgpage]]</div>">>
+  <</if>>
+<</silently>>
+<<closeRightSidebar>>
+<div class="startscreensplash">
+  <div class="startscreenTexts blackOutline white">
+    <p style="background-color:rgba(0,0,0,0.35);border-radius:10px;">@@font-size:110%;Welcome to Accidental Woman version@@ @@font-size:110%;.green;<<= $version>><<if $swim != "">> <<= $swim>><</if>>@@@@font-size:110%;, an erotic interactive text game.@@ @@font-size:95%;This game is for __mature audiences only__. You must be the age of majority in your country to play this game. By playing this game, you consent to the [[terms and conditions|termsConditions]] for using this software.@@</p>
+    /*<center>@@.import;.quest;font-size:180%;''Compliance Testing Version!''@@</center>*/
+    <p style="background-color:rgba(0,0,0,0.35);border-radius:10px;">
+    <center><<if $swim == "[cheats]" || $swim == "[backer]" || $swim == "[patron]" || $swim == "[dev]" || $swim == "[elite]">>
+    @@.head4;Your support on@@ @@font-size:125%;[[Patreon|https://www.patreon.com/thaumx]]@@@@.head3; means the world to me. Thank you!@@
+    <<else>>
+    @@.head4;If you enjoy AW, please support development on@@ @@font-size:125%;[[Patreon!|https://www.patreon.com/thaumx]]@@
+    <</if>></center>
+    @@font-size:105%;The latest public version, development blog, forums, and more can be found at the @@ @@font-size:105%;[[AW Website|https://www.accidentalwoman.com/]].@@ @@font-size:105%;Questions, comments, suggestions, and general discussion can be done at the@@ @@font-size:105%;[[Discord Server|https://discord.gg/aBfzHGt]]@@ @@font-size:105%;or on the AW Website [[Forums|https://www.thaumx.com/forum]].@@</p>
+    <p style="background-color:rgba(0,0,0,0.35);border-radius:10px;">Accidental Woman is a text-based browser game utilizing Twine, being developed in basically every moment I can. It was inspired by [[several games|newlife]]. This game is currently being developed, and donations are greatly appreciated to help support development. Please contact the author via Patreon, Discord, or the AW Website if you wish to contribute to the game directly via writing, art, or other work.</p>
+    <p style="text-align:center;background-color:rgba(0,0,0,0.35);border-radius:10px;text-indent:0px;">
+      <span id="gamestatsers" class="monospace ship" style="font-size:100%;">‖ Loading Stats ‖</span>
+    </p>
+  </div>
+  <div class="startmenushit">
+    <<tooltip "Start the game!" x>>[img[IMGstartbutton][variableInit]]<</tooltip>><br>
+    <<tooltip "Look at the Accidental Woman Encyclopedia" x>><<link "[img[IMGgameguide2]]">><<replace "#guidecontainer">><<include [[UIGuideContainer]]>><</replace>><</link>><</tooltip>><br>
+    <<tooltip "Look at your game stats, achievements, and unlocks" x>>[img[IMGachievements][gameStatsPage]]<</tooltip>><br>
+    <<tooltip "Take a look at the demo/testing page" x>>[img[IMGtestingpage][motherfuckerbitchwhore]]<</tooltip>><br>
+    <<tooltip "Choose custom theme colors" x>>[img[Custom Theme|IMGtheme][MenuThemeColorPicker]]<</tooltip>><br>
+    <<tooltip "Load or manage saves" x>><<link [img[IMGsaves]]>><<script>>UI.saves()<</script>><</link>><</tooltip>><br>
+    <<tooltip "Change system settings" x>><<link [img[IMGsettingsMain]]>><<script>>UI.settings()<</script>><</link>><</tooltip>><br>
+    <<tooltip "View accessibility information" x>><<link [img[IMGhandicapAccess]]>><<goto [[accessibilityPage]]>><</link>><</tooltip>>
+  </div>
+  <div style="position:fixed;top:50px;right:25px;width:200px;bottom:400px;text-align:center;">
+    <<print _imgr>><span class="ship" style="font-size:90%;">Images: <<print setup.totalloadedimages>> of <<print setup.expectedImageLength>></span><br><br>
+    <div id="rrrr" class="rubberBand animated infinite">[img[Content Information|IMG18plus][InfoContentWarning]]</div>@@font-size:75%;.yellow;.acme;Underage Play Prohibited@@
+  </div>
+  <div style="position:absolute;bottom:5px;left:15px;text-align:left;">
+    <span class="ship" style="font-size:90%;"><b>v<<print $version>>:</b><<print setup.verInc>> -- © 2018 ThaumX</span>
+  </div>
+  <div class="gab" style="position:absolute;bottom:5px;right:5px;text-align:center;font-size:130%;color:deepskyblue;">
+    <<timed 5s>>
+      Thanks for Playing!
+      <br>
+      <<boobgif>>
+    <</timed>>
+    <<timed 3s>>
+      <<removeclass "#rrrr" "animated">><<removeclass "#ssss" "animated">>
+    <</timed>>
+  </div>
+</div>
 /*END OF TEXT AREA*/
 <<timed 500ms>>
 	<<set $gamestate to setup.unpackVars()>>
@@ -52,7 +75,7 @@ Accidental Woman is a text-based browser game utilizing Twine, being developed i
     <<set $devmsg = true>>
     <<set _newPlayerMsg = true>>
 		<<run setup.storeState()>>
-		<<replace "#gamestatsers">>@@.monospace;.ship;font-size:70%;Welcome to Accidental Woman! ‖ Game stats will be displayed here ‖<</replace>>
+		<<replace "#gamestatsers">>Welcome to Accidental Woman! ‖ Game stats will be displayed here ‖<</replace>>
 	<<elseif $gamestate === null>>
 		<<set $gamestate = {}>>
 		<<set $gamestate.playedIntro = false>>
@@ -67,7 +90,7 @@ Accidental Woman is a text-based browser game utilizing Twine, being developed i
     <<set $devmsg = true>>
     <<set _newPlayerMsg = true>>
 		<<run setup.storeState()>>
-		<<replace "#gamestatsers">>@@.monospace;.ship;font-size:70%;Welcome to Accidental Woman! ‖ Game stats will be displayed here ‖<</replace>>
+		<<replace "#gamestatsers">>Welcome to Accidental Woman! ‖ Game stats will be displayed here ‖<</replace>>
 	<<else>>
 		<<if ndef $gamestate.unlockTotal>>
 			<<set $gamestate.unlockTotal = 0>>
@@ -86,14 +109,14 @@ Accidental Woman is a text-based browser game utilizing Twine, being developed i
 		<<run setup.storeState()>>
 		<<if $gamestate.unlockTotal < $gamestate.unlocks.length>>
 			<<set $gamestate.unlockTotal = $gamestate.unlocks.length>>
-			<<replace "#gamestatsers">>@@.monospace;.ship;font-size:70%;‖ Characters Created: <<print $gamestate.characters>> | Points: <<print $gamestate.points>> | Endings: 0 | Unlocks: <<print $gamestate.unlocks.length>>@@ @@.monospace;.yellow;font-size:70%;''NEW''@@ @@.monospace;.ship;font-size:70%;‖@@<</replace>>
+			<<replace "#gamestatsers">>‖ Characters Created: <<print $gamestate.characters>> | Points: <<print $gamestate.points>> | Endings: 0 | Unlocks: <<print $gamestate.unlocks.length>> @@.yellow;''NEW''@@ ‖<</replace>>
 		<<else>>
-			<<replace "#gamestatsers">>@@.monospace;.ship;font-size:70%;‖ Characters Created: <<print $gamestate.characters>> | Points: <<print $gamestate.points>> | Endings: 0 | Unlocks: <<print $gamestate.unlocks.length>> ‖@@<</replace>>
+			<<replace "#gamestatsers">>‖ Characters Created: <<print $gamestate.characters>> | Points: <<print $gamestate.points>> | Endings: 0 | Unlocks: <<print $gamestate.unlocks.length>> ‖<</replace>>
 		<</if>>
 	<</if>>
   <<if _newPlayerMsg>>
     <<dialog "Welcome to Accidental Woman">>
-      The game has detected that you're new to AW (//or at least that your cache has been emptied since the last time you played//). This is just a quick message to tell you a couple important things. 
+      The game has detected that you're new to AW (//or at least that your cache has been emptied since the last time you played//). This is just a quick message to tell you a couple important things.
       <br><br>
       First is that this game is very early in development, and is really in a pre-alpha state. Much of the current development is focused on building the framework of the game.
       <br><br>
@@ -106,64 +129,159 @@ Accidental Woman is a text-based browser game utilizing Twine, being developed i
 
 <<if ndef $firefucker>>
 <<set $firefucker = false>>
+<</if>>
 /*THEME SETTINGS LOAD SLIGHTLY DELAYED DUE TO FIREFOX SUCK*/
-	<<timed 150ms>>
+	<<timed 50ms>>
 	<<script>>
-	function cssrules(){
-		var rules={}; 
-		var ds=document.styleSheets;
-		var dsl=ds.length;
-		for (var i=0;i<dsl;++i){
-			var dsi=ds[i].cssRules;
-		var dsil=dsi.length;
-			for (var j=0;j<dsil;++j){
-			rules[dsi[j].selectorText] = dsi[j];
-		}
-		}
-		return rules;
-	};
-	function css_fuck(name,createifnotfound){
-		var rules=cssrules();
-		if (!rules.hasOwnProperty(name)){
-			throw 'css class not found'+name;
-		}
-		return rules[name];
-	};
-	switch (settings.fontsize) {
-			case "Normal":
-			css_fuck('#story').style.fontSize="20px";
-			css_fuck('#story').style.marginRight="305px";
-			css_fuck('#story').style.marginLeft="305px";
-					break;
-		case "V-Small":
-			css_fuck('#story').style.fontSize="16px";
-			css_fuck('#story').style.marginRight="305px";
-			css_fuck('#story').style.marginLeft="305px";
-					break;
-			case "Small":
-			css_fuck('#story').style.fontSize="18px";
-			css_fuck('#story').style.marginRight="305px";
-			css_fuck('#story').style.marginLeft="305px";
-					break;
-			case "Large":
-			css_fuck('#story').style.fontSize="22px";
-			css_fuck('#story').style.marginRight="305px";
-			css_fuck('#story').style.marginLeft="305px";
-					break;
-			case "X-Large":
-			css_fuck('#story').style.fontSize="24px";
-			css_fuck('#story').style.marginRight="305px";
-			css_fuck('#story').style.marginLeft="305px";
-					break;
-			}
+	setup.FontsizeHandler();
 	setup.backgroundThemeHandler();
 	setup.textThemeHandler();
 	setup.colorThemeHandler();
-
 	<</script>>
 	<</timed>>
-<</if>>
 
+
+<<timed 200ms>>
+  <<if setup.browserLimit>>
+    <<dialog "Browser Warning">>
+      <<include [[infoBrowserWarning]]>>
+    <</dialog>>
+  <</if>>
+<</timed>>
+
+:: Start2 [nobr startpage hidden]
+
+<<silently>>
+<<set _barnone = "<ul id='skill' class='megrim' style='width:80%;text-align:left;margin:0;'><li><span id='pBar' class='bar' style='width:0%; background-color:#35d3ff;'></span><p class='bartext megrim white'><span id='pBarText' class= 'infoLink' style='font-size:130%;font-weight:bold;'>Progress:</span></p></li></ul>">>
+<<set _barprog = 0>>
+<<set _count = 0>>
+<</silently>>
+<<timed 50ms>>
+  <<script>>
+  function printList(){
+    let expected = aw.awrList;
+    let out = "<span class='ship monospace' style='font-size:100%;'>Expected AWR Files&nbsp&nbsp&nbsp</span><ul>";
+    let c = expected.length;
+    for(let i = 0; i < c; i++){
+      out += `<li id="${expected[i]}" class="monospace" style="font-size:80%">${expected[i]}&nbsp</li>`;
+    }
+    out += "</ul>";
+    $("#filelicker").append(out);
+  }
+  printList();
+  <</script>>
+<</timed>>
+<div id="splashScreen">
+<div class="megrim white" style="width:900px;margin:auto;margin-top:70px;">
+<center><span class="megrim white" style="font-size: 160%;font-weight:bold;">Asset Load Page</span></center>
+<p style="text-align:justify;border:none;font-size: 105%;font-weight:bold;margin-top:10px;">In order to make your play experience as smooth as possible, while reducing the download size of incremental builds of the game, many game resources are now contained in a separate awr files. <span class="import">Click the AWR logo for instructions</span>.</p>
+</div>
+<div id="startWarningContainer">
+  <div id="sizeWarner" class="screenSizeWarn noDisplay">
+    <img data-passage="warningL" style="display:inline-block;float:left;" class="pulse animated infinite">
+    <b>WARNING!</b> It has been detected that your display resolution is currently below the minimum necessary to display the game properly. The game is playable this way, however many elements of the game may not display in an ideal way, and some elements will be cut off or require scrolling to view. As long as you understand this, you're free to play at whatever resolution you wish. If you encounter a situation where you can't properly continue because of your resolution, I suggest enlarging it temporarily to continue.<br><br>
+    <b>Accidental Woman is optimized for a vertical resolution of 950 pixels.</b> Nearly all computers and tablets will be able to meet this requirement. If you are seeing this message, there are a couple potential causes. Read below to see the causes and their solution.
+    <ul>
+    <li>Your display scaling is enlarged--Display scaling changes the effective "zoom level" of your display, particularly text, and is useful on small displays where 100% scaling would leave items a little too small, such as a 13" laptop. SOLUTION: Either change your browser's zoom level (see below), or adjust your display scale to a lower level. To change the display scale on Windows, right click the desktop and select the "display settings" option. Under Scale and Layout, change the display scale to 100%. You will need to restart your computer. For Linux & Mac, the process is similar but menus/names differ.</li>
+    <li>Your browser zoom is too high--Most browsers have a "zoom" setting that enlarges the size of items on a webpage. Many browsers, such as Chrome, allow you to adjust the zoom level for certain pages. Reduce the zoom level to 100%, or until the display properly fits within the window.</li>
+    <li>Your Desktop Layout--You may not have your browser maximized, or you may have a combination of a very large task bar and other UI elements, leaving too little room for the game. This can be resolved by maximizing your browser, and if necessary, using F11 to view the browser window full-screen.</li>
+    </ul>
+    <<button "Close">><<replace "#startWarningContainer">><</replace>><</button>>
+  </div>
+</div>
+<div style="vertical-align:top;text-align:center;margin:auto;margin-top:20px;width:800px;">
+<center>
+<span id="gobutt" class="uibutton"><input type=file id='templateupload' name='templateupload' multiple><<sp 2>><<button "LOAD">>
+<<addclass "#gobutt" "noDisplay">>
+<<removeclass "#loadbarspan" "noDisplay">>
+<<procS "img load">>
+<<script>>
+function uploadButton(file, fn) {
+  $("#outputcodeblock").append(` Loading ${fn}...`);
+  let reader = new FileReader();
+  reader.readAsText(file);
+  reader.onload = function () {
+    $("#outputcodeblock").prepend(`... loaded file: ${fn}<br>`);
+    setup.imgbaradd();
+    setup.loadImages(reader.result, fn);
+  };
+  reader.onerror = function (error) {
+    $("#outputcodeblock").prepend(`. <span style="color:#fc4e4e;">A file failed because of: ${error}</span><br>`);
+    setup.imgbaradd();
+    setup.imgbaradd();
+  };
+}
+
+function proccer() {
+  var cock = document.getElementById("templateupload").files;
+  const usReg = new RegExp(/(AWresource-)[a-zR-Z][a-zA-Z0-9-]{2,8}(-ver[0-9]+)\.(awr)$/);
+  let r = new RegExp(/(AWresource-)[a-zA-Z0-9-]{3,9}(-ver[0-9]+)\.(awr)$/);
+  let n = cock.length,
+    usFiles = [];
+  setup.fwait = n;
+  setup.imgbarinit(n);
+  for (let i = 0; i < n; i++) {
+    if (r.test(cock[i].name)) {
+      if (usReg.test(cock[i].name)) {
+        usFiles.push(cock[i]);
+      } else {
+
+        uploadButton(cock[i], cock[i].name);
+      }
+    } else {
+      $("#outputcodeblock").prepend(`Sorry, ${cock[i].name} isn't a valid filename, and will be skipped. Use only .awr files.`);
+      alert(`Sorry, ${cock[i].name} isn't a valid filename, and will be skipped. Use only .awr files.`);
+      setup.fwait -= 1;
+    }
+  }
+  let usl = usFiles.length;
+  if (usl > 0) {
+    $("#outputcodeblock").prepend(`<span class="import">Preparing load of ${usl} overwrite awr files.</span>`);
+    setTimeout(proccerTwo(usFiles), 2000);
+  }
+}
+
+function proccerTwo(files) {
+  let n = files.length;
+  for (let i = 0; i < n; i++) {
+    uploadButton(files[i], files[i].name);
+  }
+}
+proccer();
+<</script>>
+<<procE>>
+<</button>></span><br><br><div id="msgbutt" class="rubberBand animated infinite"><<message "[img[IMG_AWRfile]]">><div class="monospace white" style="text-align:justify;font-size:18px;background-color:#222;border: 1px solid #CCC; padding: 5px"><<removeclass "#msgbutt" "animated">>Custom resource files allow more manageable downloads while maintaining fast performance in-game that would normally be slowed dramatically due to the delay induced by local image http requests. It also allows players to customize the game by changing images to their own preference. This is accomplished using the AWR Creator tool, which is available to $5+ Patrons.
+<br><br>Navigate to the files using the file selection form button. The awr files are typically located in a folder named AWresources that you downloaded. Select __all__ the relevant awr files. Afterward you have finished selecting the files, you will see the number of files you selected in the file selection form. Click the load button to load the files into the game. Progress will be displayed on a progress bar, and details will be displayed on the screen. After the resources are loaded the game will continue automatically. Loading may take up to 20 seconds due to HTTP request delay with local resources. You can load additional images (or reload them) from the start page by clicking the image status icon.</div><</message>></div><<if Config.debug>><h3>DEBUG MODE</h3><</if>>
+<span id="loadbarspan" class="noDisplay">
+<span id="loadBarContainer"><<print _barnone>></span>
+<<LoadingText>>
+</span>
+</center>
+</div>
+<div style="position:fixed;right:10px;top:1%;text-align:right;z-index:20000;">
+<<set _tima = 15>>
+<span id="timeshi" class="monospace" style="color:#AAA;font-size:60%;">15 sec to skip</span>
+<<repeat 1s>>
+<<set _tima -= 1>>
+<<if _tima > 0>>
+  <<replace "#timeshi">><<print _tima>> sec to skip<</replace>>
+<<elseif _tima == 0>>
+  <<replace "#timeshi">>@@.uibutton;<<button "skip">><<set $imageloaded = true>><<goto [[Start]]>><</button>>@@<</replace>>
+<</if>>
+<</repeat>>
+<<timed 5s>>
+  <<removeclass "#msgbutt" "animated">>
+<</timed>>
+</div>
+<div id="outputcodeblock">
+Waiting...
+</div>
+<div id="filelicker" class="filelicker"></div>
+</div>
 
 :: StorySettings
 ifid:4ccb6335-b860-4614-8377-2042c9048f50
+
+
+
+

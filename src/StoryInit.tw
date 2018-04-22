@@ -1,0 +1,107 @@
+:: StoryInit
+
+<<if ndef $noForce>>
+  <<set $noForce = false>>
+<</if>>
+<<if ndef $noViolent>>
+  <<set $noViolent = false>>
+<</if>>
+<<if ndef $noExtreme>>
+  <<set $noExtreme = false>>
+<</if>>
+<<if ndef $commentary>>
+  <<set $commentary = true>>
+<</if>>
+<<if ndef $showSkillCheck>>
+  <<set $showSkillCheck = false>>
+<</if>>
+<<set $AW = {}>>
+<<set $AW.sinceLastAlert = new Date()>>
+<<set $NPC = {}>>
+<<set $AW.moodColor = {}>>
+<<set $AW.moodColor.blue = "rsp-blue">>
+<<set $AW.moodColor.dblue = "rsp-deepblue">>
+<<set $AW.moodColor.orange = "rsp-orange">>
+<<set $AW.moodColor.grey = "rsp-grey">>
+<<set $AW.moodColor.pink = "rsp-pink">>
+<<set $AW.moodColor.print = '<<removeclass "#right-sidebar-portrait" "rsp-blue rsp-deepblue rsp-orange rsp-grey rsp-pink">>'>>
+<<set $AW.infoLink = "none">>
+<<set $AW.debugPause = false>>
+<<set $AW.debugMenuVis = true>>
+<<set $AW.sillyMode = true>>
+<<set $AW.cash = 0>>
+<<set $proc = {start:0,stop:0,time:0,text:"none"}>>
+<<set $time = [0,0,false]>>
+<<set $date =[1,1,4,2032]>>
+<<set $showNewGame = true>>
+<<set $showMenuButton = false>>
+<<set $showData = false>>
+<<set $location = "Main Menu">>
+<<set $version = setup.version>>
+<<set $phoneBackground = 1>>
+<<set $phoneMenuBG = 1>>
+<<set $phoneDataBG = "0.5">>
+<<set $ver = setup.ver>>
+<<set Config.saves.version = setup.ver>>
+<<set $swim = setup.swim>>
+<<set $sidebarCmds = []>>
+<<switch $swim>>
+  <<case "[dev]" "[elite]">>
+    <<set $debugTools = true>>
+    <<set $debu = true>>
+    <<set $pub = true>>
+    <<set $sidebarCmds.push(["Debug Tools","<<cmdToggleDebug>>"])>>
+    <<set $showDebug = true>>
+  <<case "[cheats]">>
+    <<set $debugTools = false>>
+    <<set $debu = false>>
+    <<set $pub = true>>
+    <<set $showDebug = true>>
+  <<case "[backer]">>
+    <<set $debugTools = false>>
+    <<set $debu = false>>
+    <<set $pub = false>>
+    <<set $showDebug = true>>
+  <<default>>
+    <<set $debugTools = false>>
+    <<set $debu = false>>
+    <<set $pub = false>>
+    <<set $showDebug = false>>
+<</switch>>
+<<set $sidebarCmds.push(["Testing Item","<<cmdTestItem>>"])>>
+<<set $prevPassage = "Start">>
+<<set $guideItem = "none">>
+<<set $runop = []>>
+<<set $UImap = "[img[IMGmap250]]">>
+<<set $UIimg = []>>
+<<set $UIimgCol = ["pink","blue","orange"]>>
+<<set $UIimgFlag = false>>
+<<set $UIimgSexFlag = false>>
+<<set $UIdefaultImg = "[img[Click for Info|IMG_defaultPortrait]]">>
+<<set $helpText = "This is an example of how help text will look.">>
+<<set $devmsg = true>>
+<<set $pref = {}>>
+<<set $pref.theme = {}>>
+<<script>>
+  try{
+    State.variables.pref.theme = JSON.parse(localStorage.getItem('AWThemePref'));
+  }
+  catch(e){
+    State.variables.pref.theme = null;
+    setup.alert(`Bad theme preference load with error ${e.name}: ${e.message}.`);
+  }
+<</script>>
+<<if ndef $pref.theme || $pref.theme == null || ndef $pref.theme.bgMain || $pref.theme.bgMain == null>>
+  <<set $pref.theme = {}>>
+  <<set $pref.theme.bgMain = "#0f0009">>
+  <<set $pref.theme.bgMenus = "#222">>
+  <<set $pref.theme.toggle = "#ff54c8">>
+  <<set $pref.theme.uiBorder = "#8e014a">>
+  <<set $pref.theme.scrollbar = "rgba(181,0,108,0.8)">>
+  <<set $pref.theme.head = "#ff69b4">>
+  <<set $pref.theme.table = "#b40f46">>
+  <<set $pref.theme.link = "#edacf9">>
+<</if>>
+<<script>>
+Setting.load()
+<</script>>

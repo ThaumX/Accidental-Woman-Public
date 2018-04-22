@@ -5,6 +5,19 @@
 /*inserts the chosen money symbol*/
 <<widget "mon">><<print "₢">><</widget>>
 
+<<widget "boobgif">>
+<<silently>>
+<<set _boober = 1>>
+<<repeat 3000ms>>
+  <<set _boober += 1>>
+  <<if _boober > 20>>
+    <<set _boober = 1>>
+  <</if>>
+  <<set _booberin = "[img[IMGbounce" + _boober + "]]">>
+  <<replace "#boobers">><<print _booberin>><</replace>>
+<</repeat>>
+<</silently>><span id="boobers" class="rounded"><<print "[img[IMGbounce1]]">></span><</widget>>
+
 <<widget "numberWord">>\
 <<silently>>
 <<if ndef $args[0]>>
@@ -13,132 +26,33 @@
 	<<set $AW.error += _temp>>
 	<<set _output = "no arg error numberWord">>
 <<else>>
-	<<switch $args[0]>>
-	<<case 0>>
-		<<set _output = "zero">>
-	<<case 1>>
-		<<set _output = "one">>
-	<<case 2>>
-		<<set _output = "two">>
-	<<case 3>>
-		<<set _output = "three">>
-	<<case 4>>
-		<<set _output = "four">>
-	<<case 5>>
-		<<set _output = "five">>
-	<<case 6>>
-		<<set _output = "six">>
-	<<case 7>>
-		<<set _output = "seven">>
-	<<case 8>>
-		<<set _output = "eight">>
-	<<case 9>>
-		<<set _output = "nine">>
-	<<case 10>>
-		<<set _output = "ten">>
-	<<case 11>>
-		<<set _output = "eleven">>
-	<<case 12>>
-		<<set _output = "twelve">>
-	<<case 13>>
-		<<set _output = "thirteen">>
-	<<case 14>>
-		<<set _output = "fourteen">>
-	<<case 15>>
-		<<set _output = "fifteen">>
-	<<case 16>>
-		<<set _output = "sixteen">>
-	<<case 17>>
-		<<set _output = "seventeen">>
-	<<case 18>>
-		<<set _output = "eighteen">>
-	<<case 19>>
-		<<set _output = "nineteen">>
-	<<case 20>>
-		<<set _output = "twenty">>
-	<<case default>>
-		<<set _output = $args[0]>>
-	<</switch>>
+	<<set _output = setup.numWord($args[0])>>
 <</if>>
 <</silently>>
 <<print _output>>\
 <</widget>>
 
-<<widget "measurement">>\
+<<widget "height">>\
 <<silently>>
-<<set _temp = $args[0]>>
-<<if _temp == "height">>
+<<if ndef $args[0]>>
+<<set _cum = $PC.body.height>>
 	<<if $AW.metric>>
-		<<set $PC.body.heightCM = Math.round(($PC.body.height * 0.254)*5)>>
-		<<set $PC.body.heightCM /= 5>>
-		<<set $PC.body.heightCM /= 10>>
-		<<set $PC.body.heightCM = $PC.body.heightCM.toFixed(2)>>
-		<<set _output = $PC.body.heightCM + " m">>
-	<<else>>
-		<<set _Inch = (($PC.body.height / 12) - (Math.floor($PC.body.height / 12))) * 12>>
-		<<set $PC.body.heightInch = Math.round(_Inch)>>
-		<<set $PC.body.heightFoot = Math.floor($PC.body.height / 12)>>
-		<<switch $PC.body.heightInch>>
-			<<case 0>>
-				<<set $PC.body.heightInch = "zero">>
-			<<case 1>>
-				<<set $PC.body.heightInch = "one">>
-			<<case 2>>
-				<<set $PC.body.heightInch = "two">>
-			<<case 3>>
-				<<set $PC.body.heightInch = "three">>
-			<<case 4>>
-				<<set $PC.body.heightInch = "four">>
-			<<case 5>>
-				<<set $PC.body.heightInch = "five">>
-			<<case 6>>
-				<<set $PC.body.heightInch = "six">>
-			<<case 7>>
-				<<set $PC.body.heightInch = "seven">>
-			<<case 8>>
-				<<set $PC.body.heightInch = "eight">>
-			<<case 9>>
-				<<set $PC.body.heightInch = "nine">>
-			<<case 10>>
-				<<set $PC.body.heightInch = "ten">>
-			<<case 11>>
-				<<set $PC.body.heightInch = "eleven">>
-		<</switch>>
-		<<switch $PC.body.heightFoot>>
-			<<case 1>>
-				<<set $PC.body.heightFoot = "one">>
-			<<case 2>>
-				<<set $PC.body.heightFoot = "two">>
-			<<case 3>>
-				<<set $PC.body.heightFoot = "three">>
-			<<case 4>>
-				<<set $PC.body.heightFoot = "four">>
-			<<case 5>>
-				<<set $PC.body.heightFoot = "five">>
-			<<case 6>>
-				<<set $PC.body.heightFoot = "six">>
-			<<case 7>>
-				<<set $PC.body.heightFoot = "seven">>
-			<<case 8>>
-				<<set $PC.body.heightFoot = "eight">>
-		<</switch>>
-		<<set _output = $PC.body.heightFoot + " feet " + $PC.body.heightInch + " inches">>
+		<<set _cum = Math.round(_cum * 2.54)>>
+    <<set _output = _cum + " cm">>
+  <<else>>
+    <<set _ft = Math.floor(_cum / 12)>>
+    <<set _in = _cum % 12>>
+    <<set _output = setup.numWord(_ft)>>
+    <<set _output += " feet ">>
+    <<set _output += setup.numWord(_in)>>
+    <<if _in == 1>>
+      <<set _output += " inch">>
+    <<else>>
+      <<set _output += " inches">>
+    <</if>>
 	<</if>>
 <<else>>
-	<<if $AW.metric>>
-		<<if $args[0] < 18>>
-			<<set _temp = Math.round($args[0] * 2.54)>>
-			<<set _output = _temp + " cm">>
-		<<else>>
-			<<set _temp = Math.round(($args[0] * 0.254)*2)>>
-			<<set _temp /= 2>>
-			<<set _temp /= 10>>
-			<<set _temp = _temp.toFixed(2)>>
-			<<set _output = _temp + " m">>
-		<</if>>
-	<<else>>
-		<<set _output = $args[0] + " inches">>
-	<</if>>
+  <<set _output = "<span class='bad'>Non-PC height not set up in height macro!</span>">>
 <</if>>
 <</silently>><<print _output>>\
 <</widget>>
@@ -159,405 +73,10 @@
 <<else>>
 	<<if $commentary>>
     <<set _ter = either("a","b","c","d","e","f")+random(0,9)+random(0,9)>>
-    <<set _pri = "<<message 'dev commentary' btn '"+_ter+"'>>@@.com;"+$args[0]+"@@<</message>>">>
+    <<set _pri = "<span class='commentary'><<message 'dev commentary' btn '"+_ter+"'>>@@.com;"+$args[0]+"@@<</message>></span>">>
 		<<print _pri>>
 	<</if>>
 <</if>>
-<</widget>>
-
-/*adjusts stress*/
-<<widget "stress">>
-<<if ndef $args[0]>>
-	<<set _temp = passage()>>
-	<<set $AW.error += ", stress setting error - no args sent to stress function in passage: ">>
-	<<set $AW.error += _temp>>
-	<<set _temp = 0>>
-<<else>>
-	<<set _temp = $args[0]>>
-<</if>>
-<<status 1>>
-<<if _temp > 0>>
-	<<if $PC.trait.vert == "introverted" && $PC.trait.open == "open">>
-		<<set _temp *= 0.3>>
-	<<elseif $PC.trait.vert != "extroverted" && $PC.trait.open == "open">>
-		<<set _temp *= 0.5>>
-	<<elseif $PC.trait.vert == "introverted" && $PC.trait.open != "closed">>
-		<<set _temp *= 0.7>>
-	<<elseif $PC.trait.vert == "introverted" && $PC.trait.open == "closed">>
-		<<set _temp *= 1.25>>
-	<<elseif $PC.trait.vert == "extroverted" && $PC.trait.open == "open">>
-		<<set _temp *= 0.75>>
-	<<elseif $PC.trait.vert == "extroverted" && $PC.trait.open == "closed">>
-		<<set _temp *= 1.7>>
-	<<elseif $PC.trait.open == "closed">>
-		<<set _temp *= 1.5>>
-	<<elseif $PC.trait.vert == "extroverted">>
-		<<set _temp *= 1.3>>
-	<</if>>
-	<<if $PC.trait.relaxed == 1>>
-		<<set _temp *= 0.8>>
-	<<elseif $PC.trait.relaxed == -1>>
-		<<set _temp *= 1.1>>
-	<</if>>
-	<<if $PC.status.need > 4>>
-		<<set _temp *= 2>>
-	<<elseif $PC.status.need == 4>>
-		<<set _temp *= 1.75>>
-	<<elseif $PC.status.need > 1>>
-		<<set _Temp *= 1.5>>
-	<<elseif $PC.status.need > 0>>
-		<<set _temp *= 1.25>>
-	<</if>>
-	<<set $PC.status.stress += _temp>>
-	<<if $PC.status.stress > 100>>
-		<<set $PC.status.overStress = true>>
-		<<set $PC.status.stress = 100>>
-	<</if>>
-<<elseif _temp < 0>>
-	<<if $PC.trait.vert == "introverted" && $PC.trait.open == "open">>
-		<<set _temp *= 0.5>>
-	<<elseif $PC.trait.vert != "extroverted" && $PC.trait.open == "open">>
-		<<set _temp *= 0.7>>
-	<<elseif $PC.trait.vert == "introverted" && $PC.trait.open != "closed">>
-		<<set _temp *= 0.9>>
-	<<elseif $PC.trait.vert == "introverted" && $PC.trait.open == "closed">>
-		<<set _temp *= 1.2>>
-	<<elseif $PC.trait.vert == "extroverted" && $PC.trait.open == "open">>
-		<<set _temp *= 0.8>>
-	<<elseif $PC.trait.vert == "extroverted" && $PC.trait.open == "closed">>
-		<<set _temp *= 1.5>>
-	<<elseif $PC.trait.open == "closed">>
-		<<set _temp *= 1.3>>
-	<<elseif $PC.trait.vert == "extroverted">>
-		<<set _temp *= 1.1>>
-	<</if>>
-	<<if $PC.status.need > 1>>
-		<<set _temp *= 0.5>>
-	<</if>>
-	<<set $PC.status.stress += _temp>>
-	<<if $PC.status.stress < 0>>
-		<<set $PC.status.stress = 0>>
-	<</if>>
-<<else>>
-<</if>>
-<<status 0>>
-<</widget>>
-
-<<widget "anger">>
-<<if ndef $args[0]>>
-	<<set _temp = passage()>>
-	<<set $AW.error += ", anger setting error - no args sent to anger function in passage: ">>
-	<<set $AW.error += _temp>>
-	<<set _temp = 0>>
-<<else>>
-	<<set _temp = $args[0]>>
-<</if>>
-<<status 1>>
-<<if _temp > 0>>
-	<<if $PC.trait.open == "closed">>
-		<<set _temp *= 1.5>>
-	<</if>>
-	<<if $PC.trait.bitch == 1>>
-		<<set _temp *= 1.25>>
-	<<elseif $PC.trait.bitch == -1>>
-		<<set _temp *= 0.75>>
-	<</if>>
-	<<if $PC.status.need > 4>>
-		<<set _temp *= 2>>
-	<<elseif $PC.status.need == 4>>
-		<<set _temp *= 1.75>>
-	<<elseif $PC.status.need > 1>>
-		<<set _Temp *= 1.5>>
-	<<elseif $PC.status.need > 0>>
-		<<set _temp *= 1.25>>
-	<</if>>
-	<<set $PC.status.anger += _temp>>
-	<<if $PC.status.anger > 10>>
-		<<set $PC.status.overAnger = true>>
-		<<set $PC.status.anger = 10>>
-	<</if>>
-<<elseif _temp < 0>>
-	<<if $PC.trait.forgiving == -1>>
-		<<set _temp *= 0.75>>
-	<<elseif $PC.trait.forgiving == 1>>
-		<<set _temp *= 1.5>>
-	<</if>>
-	<<if $PC.status.need > 1>>
-		<<set _temp *= 0.5>>
-	<</if>>
-	<<set $PC.status.anger += _temp>>
-	<<if $PC.status.anger < 0>>
-		<<set $PC.status.anger = 0>>
-	<</if>>
-<</if>>
-<<status 0>>
-<</widget>>
-
-<<widget "happy">>
-<<if ndef $args[0]>>
-	<<set _temp = passage()>>
-	<<set $AW.error += ", setting error - no args sent to happiness function in passage: ">>
-	<<set $AW.error += _temp>>
-	<<set _temp = 0>>
-<<else>>
-	<<set _temp = $args[0]>>
-<</if>>
-<<status 1>>
-<<if _temp > 0>>
-	<<if $PC.trait.vert == "extroverted">>
-		<<set _temp *= 1.5>>
-	<</if>>
-	<<if $PC.trait.open == "closed">>
-		<<set _temp *= 2/3>>
-	<</if>>
-	<<if $PC.trait.lowEsteem != 0>>
-		<<set _temp *= 0.9>>
-	<</if>>
-	<<if $PC.status.need > 1>>
-		<<set _temp *= 0.75>>
-	<</if>>
-	<<set $PC.status.happy += _temp>>
-	<<if $PC.status.happy > 10>>
-		<<set $PC.status.happy = 10>>
-	<</if>>
-<<elseif _temp < 0>>
-	<<if $PC.trait.open == "closed">>
-		<<set _temp *= 2/3>>
-	<</if>>
-	<<if $PC.trait.vert == "introverted">>
-		<<set _temp *= 1.25>>
-	<</if>>
-	<<if $PC.trait.lowEsteem != 0>>
-		<<set _temp *= 1.2>>
-	<</if>>
-	<<if $PC.status.need > 1>>
-		<<set _temp *= 1.25>>
-	<</if>>
-	<<set $PC.status.happy += _temp>>
-	<<if $PC.status.happy < -10>>
-		<<set $PC.status.overDepress = true>>
-		<<set $PC.status.happy = -10>>
-	<</if>>
-<</if>>
-<<status 0>>
-<</widget>>
-
-<<widget "tired">>
-<<if ndef $args[0]>>
-	<<set _temp = passage()>>
-	<<set $AW.error += ", fatigue setting error - no args sent to tired function in passage: ">>
-	<<set $AW.error += _temp>>
-	<<set _temp = 0>>
-<<else>>
-	<<set _temp = $args[0]>>
-<</if>>
-<<status 1>>
-<<set $PC.status.fatigue += _temp>>
-	<<if $PC.status.fatigue > 10>>
-		<<set $PC.status.fatigue = 10>>
-		<<set $PC.status.health -= random(5,10)>>
-	<<elseif $PC.status.fatigue < 0>>
-		<<set $PC.status.fatigue = 0>>
-	<</if>>
-<<status 0>>
-<</widget>>
-
-<<widget "arousal">>
-<<if ndef $args[0]>>
-	<<set $AW.error += ", arousal setting error - no args sent to function in passage: ">>
-	<<set $AW.error += passage()>>
-	<<set $args[0] = 0>>
-<</if>>
-<<status 1>>
-<<if $args[0] == "X">>
-	<<set $PC.status.arousal = 0>>
-<<elseif $args[0] == "N">>
-	<<if ndef $args[1]>>
-		<<set $AW.error += ", arousal setting error - no args sent to function in passage: ">>
-		<<set $AW.error += passage()>>
-		<<set $PC.status.arousal = 0>>
-	<<else>>
-		<<switch $args[1]>>
-		<<case 1>>
-			<<set $PC.status.arousal = -1>>
-		<<case 2>>
-			<<set $PC.status.arousal = -2>>
-		<<case 3>>
-			<<set $PC.status.arousal = -3>>
-		<<case 4>>
-			<<set $PC.status.arousal = -4>>
-		<<case 5>>
-			<<set $PC.status.arousal = -5>>
-		<<case 6>>
-			<<set $PC.status.arousal = -6>>
-		<<case default>>
-			<<set $PC.status.arousal = -1>>
-		<</switch>>
-	<</if>>
-<<elseif $PC.status.arousal < 0>>
-	<<set $PC.status.arousal += $args[0]>>
-	<<if $PC.kink.hyperSlut>>
-		<<set $PC.status.arousal += 2>>
-	<<elseif $PC.kink.superSlut>>
-		<<set $PC.status.arousal += 1>>
-	<<elseif $PC.kink.slut>>
-		<<set $PC.status.arousal += either(0,0,1)>>
-	<</if>>
-	<<if $PC.trait.libido > 7>>
-		<<set $PC.status.arousal += 1>>
-	<</if>>
-	<<if $PC.status.arousal < -6>>
-		<<set $PC.status.arousal = -6>>
-	<<elseif $PC.status.arousal > 0>>
-		<<set $PC.status.arousal = 0>>
-	<</if>>
-<<else>>
-	<<if $args[0] < 0>>
-		<<set _mod = 1>>
-		<<switch $PC.trait.libido>>
-		<<case 1>>
-			<<set _mod += 0.6>>
-		<<case 2>>
-			<<set _mod += 0.3>>
-		<<case 3>>
-			<<set _mod += 0>>
-		<<case 4>>
-			<<set _mod -= 0.1>>
-		<<case 5>>
-			<<set _mod -= 0.2>>
-		<<case 6>>
-			<<set _mod -= 0.3>>
-		<<case 7>>
-			<<set _mod -= 0.4>>
-		<<case 8>>
-			<<set _mod -= 0.5>>
-		<<case 9>>
-			<<set _mod -= 0.6>>
-		<<case 10>>
-			<<set _mod -= 0.8>>
-		<</switch>>
-		<<if $PC.kink.slut && $PC.kink.liberate>>
-			<<set _mod -= 0.3>>
-		<<elseif $PC.kink.slut>>
-			<<set _mod -= 0.2>>
-		<<elseif $PC.kink.liberate || $PC.kink.exhibition || $PC.kink.cumSlut || $PC.kink.sub || $PC.kink.risky>>
-			<<set _mod -= 0.1>>
-		<</if>>
-		<<if $PC.kink.rape || $PC.kink.pregnancy || $PC.kink.masochist || $PC.kink.public || $PC.kink.sizequeen>>
-			<<set _mod -= 0.1>>
-		<</if>>
-		<<if $PC.mutate.acid || $PC.mutate.birthCon || $PC.mutate.multiple || $PC.mutate.cycle || $PC.mutate.twinWomb || $PC.mutate.phero>>
-			<<set _mod -= 0.1>>
-		<</if>>
-		<<if $PC.status.arousal > 9 && _mod < 0.5>>
-			<<set _mod = 0.5>>
-		<<elseif $PC.status.arousal > 9 && _mod < 1>>
-			<<set _mod = 1>>
-		<<elseif _mod <= 0>>
-			<<set _mod = 0.1>>
-		<</if>>
-		<<set _temp = Math.round($args[0] * _mod)>>
-	<<elseif $args[0] >= 0>>
-		<<set _mod = 1>>
-		<<switch $PC.trait.libido>>
-		<<case 1>>
-			<<set _mod -= 0.6>>
-		<<case 2>>
-			<<set _mod -= 0.3>>
-		<<case 3>>
-			<<set _mod -= 0>>
-		<<case 4>>
-			<<set _mod += 0.1>>
-		<<case 5>>
-			<<set _mod += 0.2>>
-		<<case 6>>
-			<<set _mod += 0.3>>
-		<<case 7>>
-			<<set _mod += 0.4>>
-		<<case 8>>
-			<<set _mod += 0.5>>
-		<<case 9>>
-			<<set _mod += 0.6>>
-		<<case 10>>
-			<<set _mod += 0.8>>
-		<</switch>>
-		<<if $PC.kink.slut && $PC.kink.liberate>>
-			<<set _mod += 0.3>>
-		<<elseif $PC.kink.slut>>
-			<<set _mod += 0.2>>
-		<<elseif $PC.kink.liberate || $PC.kink.exhibition || $PC.kink.cumSlut || $PC.kink.sub || $PC.kink.risky>>
-			<<set _mod += 0.1>>
-		<</if>>
-		<<if $PC.kink.rape || $PC.kink.pregnancy || $PC.kink.masochist || $PC.kink.public || $PC.kink.sizequeen>>
-			<<set _mod += 0.1>>
-		<</if>>
-		<<if $PC.mutate.acid || $PC.mutate.birthCon || $PC.mutate.multiple || $PC.mutate.cycle || $PC.mutate.twinWomb || $PC.mutate.phero>>
-			<<set _mod += 0.1>>
-		<</if>>
-		<<if $PC.status.arousal > 9 && _mod > 2>>
-			<<set _mod = 2>>
-		<<elseif $PC.status.arousal > 9 && _mod > 1.5>>
-			<<set _mod = 1.5>>
-		<<elseif $PC.status.arousal > 9 && _mod > 1>>
-			<<set _mod = 1>>
-		<</if>>
-		<<set _temp = Math.round($args[0] * _mod)>>
-	<</if>>
-	<<set $PC.status.arousal += _temp>>
-	<<if $PC.status.arousal > 15>>
-		<<set $PC.status.arousal = 15>>
-		<<status 1>>
-		<<if not $PC.status.mindbreak>>
-			<<set $PC.status.mindbreak = either(true,false,false,false,false,false,false,false)>>
-			<<if $PC.status.mindbreak>><<status 0>><<set alert("your mind is now broken")>><</if>>
-		<</if>>
-	<<elseif $PC.status.arousal < 0>>
-		<<set $PC.status.arousal = 0>>
-	<</if>>
-<</if>>
-<<status 0>>
-<<if $PC.status.arousal > 13>>
-	<<set alert("Your arousal is dangerously high!")>>
-<</if>>
-<</widget>>
-
-<<widget "satisfaction">>
-<<if ndef $args[0]>>
-	<<set $AW.error += ", satisfaction setting error - no args sent to function in passage: ">>
-	<<set $AW.error += passage()>>
-	<<set $args[0] = 0>>
-<</if>>
-<<status 1>>
-<<set $PC.status.satisfaction += $args[0]>>
-<<if $PC.kink.slut && $args[0] < 0>>
-	<<set $PC.status.satisfaction += Math.round($args[0] * 0.3)>>
-<</if>>
-<<if ( $PC.kink.superSlut || $PC.kink.hyperSlut ) && $args[0] < 0>>
-	<<set $PC.status.satisfaction += Math.round($args[0] * 0.5)>>
-<</if>>
-<<if $PC.trait.libido > 7 && $args[0] < 0>>
-	<<set $PC.status.satisfaction += Math.round($args[0] * 0.2)>>
-<</if>>
-<<if $PC.status.satisfaction < 0 >>
-	<<set $PC.status.underSatisfy += 1>>
-	<<set $PC.status.satisfaction = 2>>
-	<<set _rand = random(0,95)>>
-	<<if $PC.kink.slut>><<set _rand += 10>><</if>>
-	<<set _rand += $PC.trait.libido>>
-	<<if _rand > 50>>
-		<<status 1>>
-		<<set $PC.status.need += 1>>
-		<<status 0>>
-	<</if>>
-<<elseif $PC.status.satisfaction > 100>>
-	<<set $PC.status.satisfaction = 100>>
-	<<status 1>>
-	<<if $PC.status.need > 0>>
-		<<set $PC.status.need -= 1>>
-		<<status 0>>
-	<</if>>
-<</if>>
-<<status 0>>
 <</widget>>
 
 <<widget "cond">>
@@ -736,7 +255,12 @@
 <</widget>>
 
 <<widget "LoadingText">>
-<<set _text = either("Giving NPCs free will...","Repairing Rejuvinator...","Cleaning up femlube drips...","Preparing mammary glands for lactation...","Calculating uterine lining growth...","Injecting naughty dreams...","Preparing subliminal programming...","Checking Institute agent's infiltration progress...","Distracting player from ''real'' danger...","Determining victors in sperm battles...","Determining if peeping tom likes what he sees...","Getting sheets dirty...","Checking for new chemicals in the tap water...","Murdering the unpopular NPCs...","Processing Player's psychological profile...","Using ∞ based statistics to process love...","Checking for subdermal implant activity...","Determining how favorite NPCs are lying...","Eagerly anticipating a bad end...","Contemplating referential ethics...","Processing NPC suicides...","Abusing NPCs for plot purposes...","Calculating Appletree's Rohypnol supply...","Determining which NPCs have nothing left to lose...","Implementing hypnotic commands...","Determining local jail's degeneration...","Calculating growth of local cults...","Screwing something up...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Processing...","Reticulating splines...","Reticulating splines...")>>@@font-size:130%;.monospace;.white;.blinking;<<print _text>>@@<</widget>>
+<<silently>>
+<<repeat 1800ms>>
+<<set _loadingtext = either("Giving NPCs free will...","Repairing Rejuvinator...","Cleaning up femlube drips...","Preparing mammary glands for lactation...","Calculating uterine lining growth...","Injecting naughty dreams...","Preparing subliminal programming...","Checking Institute agent's infiltration progress...","Distracting player from ''real'' danger...","Determining victors in sperm battles...","Determining if peeping tom likes what he sees...","Getting sheets dirty...","Checking for new chemicals in the tap water...","Murdering the unpopular NPCs...","Processing Player's psychological profile...","Using ∞ based statistics to process love...","Checking for subdermal implant activity...","Determining how favorite NPCs are lying...","Eagerly anticipating a bad end...","Contemplating referential ethics...","Processing NPC suicides...","Abusing NPCs for plot purposes...","Calculating Appletree's Rohypnol supply...","Determining which NPCs have nothing left to lose...","Implementing hypnotic commands...","Determining local jail's degeneration...","Calculating growth of local cults...","Screwing something up...","Processing...","Processing...","Reticulating splines...","Reticulating splines...")>>
+<<replace "#loadingtextspan">><<print _loadingtext>><</replace>>
+<</repeat>>
+<</silently>><span id="loadingtextspan" class="megrim white blinking" style="font-size:125%;font-weight:bold;">Loading...</span><</widget>>
 
 <<widget "helpPop">>
 <<link [img[Help Information|IMGhelpbutton]]>>
@@ -1021,6 +545,130 @@
 <</link>>@@
 <</if>>
 <</widget>>
+
+<<widget "letCap">><span class="head3"><<print $args[0]>></span><</widget>>
+
+<<widget "clothingName">>
+<<silently>>
+  /*[0-0"colorword", 0-1"style", 0-2"substyle", 0-3"tertiary", 0-4"fabric", 0-5"item code"]*/
+  <<set _array = $args[0]>>
+  <<if "string" == typeof _array>>
+    <<set _output = _array>>
+  <<else>>
+    <<switch $pref.clothingDetail>>
+      <<case 1>>
+        <<set _output = _array[0] + " ''" + _array[1] + "''">>
+      <<case 2>>
+        <<if _array[2] == "regular">>
+          <<set _output = _array[0] + " ''" + _array[1] + "''">>
+        <<else>>
+          <<set _output = _array[0] + " " + _array[2] + " ''" + _array[1] + "''">>
+        <</if>>
+      <<case 3>>
+        <<if ndef _array[3] || _array[3] == "na">>
+          <<if _array[2] == "regular">>
+          <<set _output = _array[0] + " ''" + _array[1] + "''">>
+        <<else>>
+          <<set _output = _array[0] + " " + _array[2] + " ''" + _array[1] + "''">>
+        <</if>>
+        <<else>>
+          <<if _array[2] == "regular">>
+            <<set _output = _array[0] + " ''" + _array[1] + "'' (//" + _array[3] + "//)">>
+          <<else>>
+            <<set _output = _array[0] + " " + _array[2] + " ''" + _array[1] + "'' (//" + _array[3] + "//)">>
+          <</if>>
+        <</if>>
+      <<case 4>>
+        <<if ndef _array[3] || _array[3] == "na">>
+          <<if _array[2] == "regular">>
+            <<set _output = _array[0] + " " + _array[4] + " ''" + _array[1] + "''">>
+          <<else>>
+            <<set _output = _array[0] + " " + _array[4] + " " + _array[2] + " ''" + _array[1] + "''">>
+          <</if>>
+        <<else>>
+          <<if _array[2] == "regular">>
+            <<set _output = _array[0] + " " + _array[4] + " ''" + _array[1] + "'' (//" + _array[3] + "//)">>
+          <<else>>
+            <<set _output = _array[0] + " " + _array[4] + " " + _array[2] + " ''" + _array[1] + "'' (//" + _array[3] + "//)">>
+          <</if>>
+        <</if>>
+      <<default>>
+        <<set _output = _array[0] + " " + _array[2] + " ''" + _array[1] + "'' (error)">>
+    <</switch>>
+  <</if>>
+<</silently>><<print _output>>
+<</widget>>
+
+<<widget "setPCportrait">>
+<<silently>>
+<<set _cmd = "[img[AWHead_">>
+<<switch $PC.groom.hairColor>>
+<<case "auburn">>
+  <<set _cmd += "Auburn_">>
+<<case "red">>
+  <<set _cmd += "Red_">>
+<<case "black">>
+  <<set _cmd += "Black_">>
+<<case "blonde">>
+  <<set _cmd += "Blonde_">>
+<<case "dark blonde">>
+  <<set _cmd += "Auburn_">>
+<<case "strawberry blonde">>
+  <<set _cmd += "Sblonde_">>
+<<case "brown">>
+  <<set _cmd += "Dblonde_">>
+<</switch>>
+<<switch $PC.body.eyeColor>>
+<<case "brown">>
+  <<set _cmd += "Brown]]">>
+<<case "hazel">>
+  <<set _cmd += "Hazel]]">>
+<<case "blue">>
+  <<set _cmd += "Blue]]">>
+<<case "light blue">>
+  <<set _cmd += "LightBlue]]">>
+<<case "blue-green">>
+  <<set _cmd += "BlueGreen]]">>
+<<case "green">>
+  <<set _cmd += "Green]]">>
+<<case "golden-brown">>
+  <<set _cmd += "GoldBrown]]">>
+<<case "green and blue heterochromatic">>
+  <<set _cmd += "Hetero]]">>
+<</switch>>
+<<set _cmd += "<span class='portrait-above1'>[img[AWHead_">>
+<<switch $PC.body.skinColor>>
+<<case "tanned">>
+  <<set _cmd += "Tan]]</span>">>
+<<case "pale">>
+  <<set _cmd += "Pale]]</span>">>
+<<case "fair">>
+  <<set _cmd += "Fair]]</span>">>
+<<case "bronzed">>
+  <<set _cmd += "Bronzed]]</span>">>
+<<case "deep bronze">>
+  <<set _cmd += "DarkTan]]</span>">>
+<<case "light brown">>
+  <<set _cmd += "DeepTan]]</span>">>
+<<case "brown">>
+  <<set _cmd += "Brown]]</span>">>
+<<case "dark brown">>
+  <<set _cmd += "Black]]</span>">>
+<<case "light">>
+  <<set _cmd += "LAsian]]</span>">>
+<<case "dark">>
+  <<set _cmd += "DAsian]]</span>">>
+<</switch>>
+<<set $AW.pcPortrait = _cmd>>
+<</silently>>
+<</widget>>
+
+/*<<widget "scrolltop">>
+<<if ndef $args[0]>>
+  <<run setup.alert('no element id sent to scrolltop')>>
+<</if>>
+<<replace $args[0]>><</replace>>
+<</widget>>*/
 
 <</silently>>
 <</nobr>>

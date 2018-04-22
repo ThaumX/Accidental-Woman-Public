@@ -76,7 +76,34 @@
 <table>
 <tr><td width="20%">@@.head3;Libido Level:@@ <<helpPop "Libido" "Libido is a very important stat in Accidental Woman, and one that you should consider carefully. Libido has an affect on several other character stats, including satisfaction, need, loneliness, contentment, stress, and happiness. A character with a higher libido will need more sexual activity, and will have a harder time using willpower to resist desire in sexual situations.">></td><td width="20%">@@.ident;<span id="lib"><<pcLibido>></span>@@</td><td><<link "Nearly Assexual">><<set $PC.trait.libido = 1>><<replace "#lib">><<pcLibido>><</replace>><</link>> | <<link "Weak">><<set $PC.trait.libido = 2>><<replace "#lib">><<pcLibido>><</replace>><</link>> | <<link "Normal">><<set $PC.trait.libido = 3>><<replace "#lib">><<pcLibido>><</replace>><</link>> | <<link "Above Average">><<set $PC.trait.libido = 4>><<replace "#lib">><<pcLibido>><</replace>><</link>> | <<link "Strong">><<set $PC.trait.libido = 5>><<replace "#lib">><<pcLibido>><</replace>><</link>> </td></tr>
 </table>
-@@.head2;Sexual Traits@@
+@@.head2;Sexual Traits@@<<tab>><<tab>><span id="counter" class="monospace white">0</span><span class="monospace white"> of ∞</span>
+<<repeat 500ms>>
+<<set _cunt = 0>>
+<<if $PC.kink.risky>><<set _cunt += 1>><</if>>
+<<if $PC.kink.pregnancy>><<set _cunt += 1>><</if>>
+<<if $PC.kink.sizequeen>><<set _cunt += 1>><</if>>
+<<if $PC.kink.cumSlut>><<set _cunt += 1>><</if>>
+<<if $PC.kink.sub>><<set _cunt += 1>><</if>>
+<<if $PC.kink.exhibition>><<set _cunt += 1>><</if>>
+<<if $PC.kink.masochist>><<set _cunt += 1>><</if>>
+<<if $PC.kink.buttSlut>><<set _cunt += 1>><</if>>
+<<if $PC.kink.public>><<set _cunt += 1>><</if>>
+<<if $PC.kink.slut>><<set _cunt += 1>><</if>>
+<<if $PC.kink.oral>><<set _cunt += 1>><</if>>
+<<if $PC.kink.anal>><<set _cunt += 1>><</if>>
+<<if $PC.kink.force>><<set _cunt += 1>><</if>>
+<<if $PC.kink.rape>><<set _cunt += 1>><</if>>
+<<if $PC.kink.liberate>><<set _cunt += 1>><</if>>
+<<if $PC.kink.easy>><<set _cunt += 1>><</if>>
+<<if $PC.kink.nips>><<set _cunt += 1>><</if>>
+<<if $PC.kink.dom>><<set _cunt += 1>><</if>>
+<<if $PC.kink.water>><<set _cunt += 1>><</if>>
+<<if $PC.kink.bond>><<set _cunt += 1>><</if>>
+<<if $PC.kink.hard>><<set _cunt += 1>><</if>>
+<<if $PC.kink.fap>><<set _cunt += 1>><</if>>
+<<if $PC.kink.shame>><<set _cunt += 1>><</if>>
+<<replace "#counter">><<print _cunt>><</replace>>
+<</repeat>>
 <table>
 <tr>
 <td width="20%"><<checkboxB "$PC.kink.oral" false true checked>> <<link "Oral Okay">><<replace "#sex">>''Oral:'' Enjoys giving oral sex, or is at least willing to do so. Unchecking this box indicates that you dislike giving oral sex, and will never offer it yourself. This doesn't mean that a partner won't 'strongly encourage' you to go down on them.<</replace>><</link>></td>
@@ -117,7 +144,27 @@
 </table>
 <</if>>
 <br>
-@@.head2;Mutations@@
+@@.head2;Mutations@@ <<tab>><<tab>><span id="counter2" class="monospace white">0</span><span class="monospace white"> of ∞</span>
+<<repeat 500ms>>
+<<set _cunn = 0>>
+<<if $PC.mutate.milk>><<set _cunn += 1>><</if>>
+<<if $PC.mutate.acid>><<set _cunn += 1>><</if>>
+<<if $PC.mutate.birthCon>><<set _cunn += 1>><</if>>
+<<if $PC.mutate.multiple>><<set _cunn += 1>><</if>>
+<<if $PC.mutate.gestate>><<set _cunn += 1>><</if>>
+<<if $PC.mutate.cycle>><<set _cunn += 1>><</if>>
+<<if $PC.mutate.twinWomb>><<set _cunn += 1>><</if>>
+<<if $PC.mutate.phero>><<set _cunn += 1>><</if>>
+<<if $PC.mutate.period>><<set _cunn += 1>><</if>>
+<<if $PC.mutate.immune>><<set _cunn += 1>><</if>>
+<<if $PC.mutate.mouth>><<set _cunn += 1>><</if>>
+<<if $PC.mutate.contort>><<set _cunn += 1>><</if>>
+<<if $PC.mutate.cumpire>><<set _cunn += 1>><</if>>
+<<if $PC.mutate.pseudoPreg>><<set _cunn += 1>><</if>>
+<<if $PC.mutate.elastic>><<set _cunn += 1>><</if>>
+<<if $PC.mutate.litePhero>><<set _cunn += 1>><</if>>
+<<replace "#counter2">><<print _cunn>><</replace>>
+<</repeat>>
 <<if $pref.enableMutation == 0>>
 @@.yellow;You have disabled mutations. To use mutations, leave them enabled in the Start a New Game menu.@@
 <br><br>
@@ -162,7 +209,7 @@
 <table>
 <tr>
 <td width=25%><<checkboxB "$PC.mutate.milk" false true >> <<link "Hypermilky">><<replace "#mutes">>''Hypermilky:'' This mutation causes your pituitary gland to constantly produce prolactin, meaning that you lactate all the time. It's like Prolactinoma, but without the brain tumor! If you get pregnant, you will end up producing a huge amount of milk. <i>This mutation affects breast size.</i><</replace>><</link>></td>
-<td width=25%><<checkboxB "$PC.mutate.acid" false true >> <<link "Vaginal Enzymes">><<replace "#mutes">>''Vaginal Enzymes:'' Your Bartholin glands (two large-pea-sized glands that produce vaginal lubrication) secrete an extra enzyme called Rubber Oxygenase (RoxA) that allows cleavage and oxygenation of several rubber polymers including latex. Exposure to this enzyme rapidly degrades the structural integrity of condoms. The longer a condom is exposed to your lubrication (including pre-intercourse activities), the greater the likelyhood that it will shred during intercourse or break upon ejaculation. <i>This mutation significatly affects condom effectiveness, but in a manageable way. Sex that finishes quickly without female orgasm has only a small chance of breakage, while long-duration sex will almost certainly result in the condom shredding.</i><</replace>><</link>></td>
+<td width=25%><<checkboxB "$PC.mutate.acid" false true >> <<link "Vaginal Enzymes">><<replace "#mutes">>''Vaginal Enzymes:'' Your Bartholin glands (two large-pea-sized glands that produce vaginal lubrication) secrete an extra enzyme called Rubber Oxygenase (RoxA) that allows cleavage and oxygenation of several rubber polymers including latex. Exposure to this enzyme rapidly degrades the structural integrity of condoms. The longer a condom is exposed to your lubrication (including pre-intercourse activities), the greater the likelihood that it will shred during intercourse or break upon ejaculation. <i>This mutation significantly affects condom effectiveness, but in a manageable way. Sex that finishes quickly without female orgasm has only a small chance of breakage, while long-duration sex will almost certainly result in the condom shredding.</i><</replace>><</link>></td>
 <td width=25%><<checkboxB "$PC.mutate.birthCon" false true >> <<link "Abnormal Hormones">><<replace "#mutes">>''Abnormal Hormones:'' Your endocrine system is unusual, particularly in regard to gonadotropins, resulting in less effective chemical birth control. Birth control pills, patches, and implants have a much greater chance of being ineffective each cycle. <i>Increases odds from 2-4% to 15-30% depending on method. Failed birth control still requires impregnation & implantation check for pregnancy.</i><</replace>><</link>></td>
 <td width=25%><<checkboxB "$PC.mutate.multiple" false true >> <<link "Multiple Ovulation">><<replace "#mutes">>''Multiple Ovulation:'' You have a very high chance to ovulate multiple eggs at once when you ovulate, allowing for fraternal twins, potentially with different fathers. <i>odds are determined by fertility. An ultra-fertile character could potentially have quadruplets.</i><</replace>><</link>></td>
 </tr>
@@ -181,7 +228,7 @@
 <tr>
 <td><<checkboxB "$PC.mutate.elastic" false true>> <<link "Elastic Orifices">><<replace "#mutes">>''Elastic Orifices:'' Your orifices are less prone to injury from being stretched, less likely to become permanently stretched, and have are more likely to recover from temporary stretching. <<helpPop "Gaping" "Vaginal and anal stretching are modeled more realistically in Accidental Woman than in many games. Stretching is broken into two categories: temporary and permanent. Temporary stretching results from relatively normal activities, and is reduced over time with a doubling counter. Extreme activities can result in permanent stretching, and a large buildup of temporary stretching has a chance for some to become permanent. Permanent stretching never recovers except with the Elastic Orifices mutation. A game setting exists that will mitigate this for those who do not wish to have stretched orifices.">><</replace>><</link>></td>
 <td><<checkboxB "$PC.mutate.pseudoPreg" false true>> <<link "Pseudo-Pregnancy">><<replace "#mutes">>''Pseudo-Pregnancy:'' Your body has a strange reaction to <i>unusual</i> genetic material. An immune response results in a non-viable embryonic cyst that causes many of the symptoms of pregnancy. Eventually the cyst is rejected by the body and must be expelled. <</replace>><</link>></td>
-<td><<checkboxB "$PC.mutate.period" false true >> <<link "Amenorrhea">><<replace "#mutes">>''Amenorrhea:'' The unusual nature of your feminization resulted in you having Amenorrhea, which is the medical term for not having a period. This mutation means that you do not normally have a period. This has only a small effect on your fertility when ovulating, but does mean that you ovulate less frequently. It also means that it is impossible for you to tell when your "dangerous" days are. .<</replace>><</link>></td>
+<td><<checkboxB "$PC.mutate.period" false true >> <<link "Amenorrhea">><<replace "#mutes">>''Amenorrhea:'' The unusual nature of your feminization resulted in you having Amenorrhea, which is the medical term for not having a period. This mutation means that you do not normally have a period. This has only a small effect on your fertility when ovulating, but does mean that you ovulate less frequently. It also means that it is impossible for you to tell when your "dangerous" days are. <</replace>><</link>></td>
 <td><<checkboxB "$PC.mutate.cumpire" false true>> <<link "Lilith's Porphyria">><<replace "#mutes">>''Lilith's Porphyria:'' Limited parts of your body's metabolic processes have been damaged, resulting in an inability to produce certain chemicals and metabolites necessary to survive. One of these is the specific iron compound called heme, which is necessary for your blood to carry oxygen. In the case of Lilith's Porphyria, this metabolic fault is the result of being unable to produce certain <i>other</i> complex metabolites.<</replace>><</link>></td>
 </tr>
 <tr>

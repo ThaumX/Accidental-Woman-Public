@@ -1,25 +1,46 @@
 :: ResidentialRecreation [nobr map]
 
-<div id="topbar"><center>
-<table id="navigation">
-<tr id="navigation">
-<td id="navigation">
-<img data-passage="IMGresidentialMap" usemap="#image-map2"><map name="image-map2">
-    <area data-passage="TOResidentialCommonArea" alt="Apartment Common Area" title="Apartment Common Area" coords="100,110,189,110,190,192,100,191" shape="poly">
-    <area data-passage="ResidentialGoHome" alt="Go Home" title="Go Home" coords="99,247,99,195,189,195,189,248,164,247,123,247" shape="poly" class="map-green-area">
-    <area data-passage="TOResidentialParkingLot" alt="Take a Drive" title="Take a Drive" coords="196,246,195,71,247,71,247,138,221,138,221,246" shape="poly" class="map-red-area">
-    <area data-passage="TOResidentialCornerExterior" alt="Corner Store" title="Corner Store" coords="1,103,34,103,33,29,23,20,0,20" shape="poly" class="map-green-area">
-    <area data-passage="TOResidentialVisitFriends" alt="Visit Friends" title="Visit Friends" coords="34,248,34,106,0,106,0,248" shape="poly" class="map-blue-area">
-    <area data-passage="ResidentialGoDowntown" alt="Walk Downtown" title="Walk Downtown" coords="5,0,248,0,248,24,35,24,21,14,-1,14,2,8" shape="poly" class="map-red-area">
-    <area data-passage="TOResidentialJogging" alt="Go Jogging" title="Walking/Jogging/Bicycling"  coords="70,78,97,246" shape="rect" class="mapclass">
-</map>
-</td>
-<td id="navigation"><<link [img[$map.imageName]]>><<dialog 'A cyclist gets ready for a ride'>>[img[IMGresidentialNudeBicycle]]<</dialog>><</link>></td>
-</tr>
-</table></center></div>
-<div id="mainshits"><center>
-@@.head2;<<=$map.name>>@@</center>
-<br><br>
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPrecreation]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptResidential>> <<mapEventResidential>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch $map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+</p>
 /*Event notification spot*/
 /*<<mapEventHome>>*/
 /*LOCATION description of  location*/
@@ -27,19 +48,23 @@
 /*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
 /*IN-PASSAGE span text*/
 <span id="locact"></span></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
-/*ACTION TABLE*/
-<table>
-
-<tr>
-<td width="20%"><<link "Go to Playground">><<addTime 2>><<goto [[ResidentialPlayground]]>><</link>></td><td>@@.exp;Visit the playground and perhaps sit on a swing or play with the neighborhood children.@@</td>
-</tr><tr>
-<td width="20%"><<link "Go to the Gazebo">><<addTime 2>><<goto [[ResidentialGazebo]]>><</link>></td><td>@@.exp;There's a nice gazebo with a couple picnic tables, and a pair of ubiquitous metal barbeque grills.@@</td>
-</tr><tr>
-<td width="20%"><<link "Go to the Sitting Area">><<addTime 2>><<set $temp = 1>><<goto [[ResidentialTanning]]>><</link>></td><td>@@.exp;This area has some reclining lawn furniture and some wooden benches. It's ideal for watching your children play at the playground, or working on your tan.@@</td>
-</tr><tr>
-<td width="20%"><<link "Go to the Pool">><<dialog 'sorry'>>These particular apartments aren't nice enough to actually have a pool. You'll need to check on the real-estate screen when choosing where to live to see if it has a pool. Generally, only fancy tier 2 apartments and above will have a pool.<</dialog>><</link>></td><td>@@.exp;Walk over to the small community pool for a swim.@@</td>
-</tr>
-<span id="specialaction"></span>
-</table>
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise look>>
+  <<button "Walk Around">><<addTime 10>><<dialog "Recreational Area">>@@.head3;Y@@ou walk around the area, looking for something (or someone) interesting. Unfortunately, you don't find anything this time.<</dialog>><</button>>
+<<endhoverrevise>>
 </div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion look>>Take a walk around the park and see if you find any trouble to get into.<<endinsertion>>
+
+</div>
+
+
+:: ResidentialRecreationLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+
+

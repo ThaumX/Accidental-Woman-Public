@@ -50,7 +50,7 @@ Macro.add("assSize", {
       var er = "did not match ass size of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("pussySize", {
@@ -97,7 +97,7 @@ Macro.add("pussySize", {
       var er = "did not match pussy size of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("boobSize", {
@@ -195,7 +195,7 @@ Macro.add("boobSize", {
       var er = "did not match boob size of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("cupSize", {
@@ -218,7 +218,7 @@ Macro.add("cupSize", {
       /*waiting*/
     }
     output = val;
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("braSize", {
@@ -241,7 +241,7 @@ Macro.add("braSize", {
       /*waiting*/
     }
     output = val;
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("chest", {
@@ -337,7 +337,7 @@ Macro.add("chest", {
       var er = "did not match cup number of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("shoulderSize", {
@@ -384,7 +384,7 @@ Macro.add("shoulderSize", {
       var er = "did not match shoulder size of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("hipSize", {
@@ -431,7 +431,7 @@ Macro.add("hipSize", {
       var er = "did not match hip size of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("fertility", {
@@ -487,7 +487,7 @@ Macro.add("fertility", {
       var er = "did not match fertility rate of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("tone", {
@@ -534,7 +534,7 @@ Macro.add("tone", {
       var er = "did not match tone size of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("weight", {
@@ -581,7 +581,7 @@ Macro.add("weight", {
       var er = "did not match weight of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("clitSize", {
@@ -625,7 +625,7 @@ Macro.add("clitSize", {
       var er = "did not match clit size of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("wetness", {
@@ -678,7 +678,7 @@ Macro.add("wetness", {
       var er = "did not match the wetness of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("labiaSize", {
@@ -722,7 +722,7 @@ Macro.add("labiaSize", {
       var er = "did not match labia size of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("clitView", {
@@ -753,7 +753,7 @@ Macro.add("clitView", {
     } else {
       output = "protrudes proudly from";
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("waist", {
@@ -794,7 +794,7 @@ Macro.add("waist", {
       var er = "did not match waist size of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("beauty", {
@@ -837,7 +837,7 @@ Macro.add("beauty", {
       var er = "did not match the beauty value of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("faceDescript", {
@@ -1022,7 +1022,7 @@ Macro.add("nipple", {
         output += " and very sensitive";
       }
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("titShape", {
@@ -1062,7 +1062,7 @@ Macro.add("titShape", {
         output = either("outward-facing", "wide-set");
         break;
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("curArousal", {
@@ -1135,7 +1135,7 @@ Macro.add("curArousal", {
       var er = "did not match the amount of arousal of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("libido", {
@@ -1194,7 +1194,7 @@ Macro.add("libido", {
       var er = "did not match libido of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("pubes", {
@@ -1303,7 +1303,7 @@ Macro.add("pubes", {
       var er = "did not match pubes style of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });
 Macro.add("hairCurl", {
@@ -1353,6 +1353,6 @@ Macro.add("hairCurl", {
       var er = "did not match hair style of " + char + " with value of " + val + " on passage " + passage();
       console.log(er);
     }
-    return output;
+    return new Wikifier(this.output, output);
   }
 });

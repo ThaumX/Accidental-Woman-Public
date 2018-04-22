@@ -1,4 +1,4 @@
-:: gameStatsPage [nobr startpage]
+:: gameStatsPage [nobr startpage hidden]
 
 <center>@@.head1;Game Stats@@</center>
 <br>
@@ -29,6 +29,9 @@ Total Unlocks--<<= $gamestate.unlocks.length>>
 <<if $gamestate.unlocks.length < 1>>
 <br>Nothing unlocked yet, better get started!
 <</if>>
+<<if $gamestate.unlocks.includes("Prologue")>>
+<br>Unlocked skipping the Prologue
+<</if>>
 <<if $gamestate.unlocks.includes("megaTits")>>
 <br>Unlocked larger starting breast volume
 <</if>>
@@ -46,7 +49,8 @@ Total Unlocks--<<= $gamestate.unlocks.length>>
 	<<set $gamestate.unlockTotal = 0>>
 	<<set $gamestate.lastversion = "none">>
 	<<run setup.storeState()>>
-<</button>> @@.acme;.import;''This can not be undone!''@@
+  <<replace "#doner">>Game stats have been reset!<</replace>>
+<</button>> <span id="doner" class="acme import">''This can not be undone!''</span>
 <</if>>
 <br><br>
 <<button [[Return|Start]]>><</button>>

@@ -1,41 +1,47 @@
 :: ResidentialTanning [nobr map]
 
+
 <<silently>>
-<<switch $temp>>
-<<case 1>>
-	<<set _picture = $map.imageName>>
-<<case 2>>
-	<<set _picture = "IMGsunbathing1">>
-<<case 3>>
-	<<set _picture = "IMGsunbathing2">>
-<<case 4>>
-	<<set _picture = "IMGsunbathing3">>
-<<case 5>>
-	<<set _picture = $map.imageName>>
-	<<set $temp = 1>>
-<</switch>>
+/*Basic settings. Most done by map control passage*/
+
 <</silently>>
-<div id="topbar"><center>
-<table id="navigation">
-<tr id="navigation">
-<td id="navigation">
-<img data-passage="IMGresidentialMap" usemap="#image-map2"><map name="image-map2">
-    <area data-passage="TOResidentialCommonArea" alt="Apartment Common Area" title="Apartment Common Area" coords="100,110,189,110,190,192,100,191" shape="poly">
-    <area data-passage="ResidentialGoHome" alt="Go Home" title="Go Home" coords="99,247,99,195,189,195,189,248,164,247,123,247" shape="poly" class="map-green-area">
-    <area data-passage="TOResidentialParkingLot" alt="Take a Drive" title="Take a Drive" coords="196,246,195,71,247,71,247,138,221,138,221,246" shape="poly" class="map-red-area">
-    <area data-passage="TOResidentialRecreation" alt="Recreation Area" title="Recreation Area" coords="223,246,223,140,248,140,248,246" shape="poly">
-    <area data-passage="TOResidentialCornerExterior" alt="Corner Store" title="Corner Store" coords="1,103,34,103,33,29,23,20,0,20" shape="poly" class="map-green-area">
-    <area data-passage="TOResidentialVisitFriends" alt="Visit Friends" title="Visit Friends" coords="34,248,34,106,0,106,0,248" shape="poly" class="map-blue-area">
-    <area data-passage="ResidentialGoDowntown" alt="Walk Downtown" title="Walk Downtown" coords="5,0,248,0,248,24,35,24,21,14,-1,14,2,8" shape="poly" class="map-red-area">
-    <area data-passage="TOResidentialJogging" alt="Go Jogging" title="Walking/Jogging/Bicycling"  coords="70,78,97,246" shape="rect" class="mapclass">
-</map>
-</td>
-<td id="navigation"><<link [img[_picture]]>><<if $temp < 4>><<set $temp += 1>><<addTime 5>><<goto [[ResidentialTanning]]>><<else>><<dialog 'You Found Me!'>>[img[IMGsunbathingtestimage]]<br>If you saw this image, please tell the developer! He's experimenting with using image links here.<</dialog>><</if>><</link>></td>
-</tr>
-</table></center></div>
-<div id="mainshits"><center>
-@@.head2;Grassy Tanning Area@@</center>
-<br><br>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPrecreation]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptResidential>> <<mapEventResidential>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch $map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+</p>
 /*Event notification spot*/
 /*<<mapEventRes>>*/
 /*LOCATION description of  location*/
@@ -43,14 +49,45 @@
 /*Time & furnishing descriptive addon! <<mapResDesc>>*/
 /*IN-PASSAGE span text*/
 <span id="locact"></span></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
-/*ACTION TABLE*/
-<table>
-
-<tr>
-<td width="20%"><<link "Work on your Tan">><</link>></td><td>@@.exp;Assuming it's daytime and the weather isn't bad, you can take off some clothes and tan here, or come prepared in a swimsuit or loose robe.@@</td>
-</tr>
-<span id="specialaction"></span>
-</table>
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise tannin>>
+<<button "Work on your Tan">><</button>>
+<<endhoverrevise>>
 </div>
 
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion tannin>>
+@@.exp;Assuming it's daytime and the weather isn't bad, you can take off some clothes and tan here, or come prepared in a swimsuit or loose robe.@@
+<<endinsertion>>
+</div>
+
+
+:: ResidentialTanningLOC [nobr]
+
+<<if ndef _temp>><<set _temp = 1>><</if>>
+@@.head3;T@@aking some time to relax and look around, you notice a few local residents working on their tan...
+<br><br>
+<center>
+<span id="tanner">[img[IMGsunbathing1]]</span><br>
+<<button "Next">>
+<<set _temp += 1>>
+<<if _temp > 4>>
+  <<set _temp = 1>>
+<</if>>
+<<replace "#tanner">>
+  <<switch _temp>>
+  <<case 1>>
+    [img[IMGsunbathing1]]
+  <<case 2>>
+    [img[IMGsunbathing2]]
+  <<case 3>>
+    [img[IMGsunbathing3]]
+  <<case 4>>
+    [img[IMGsunbathingtestimage]]
+  <</switch>>
+<</replace>>
+<</button>>
+</center>

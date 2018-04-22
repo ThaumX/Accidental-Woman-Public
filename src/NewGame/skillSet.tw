@@ -1,5 +1,6 @@
 :: skillSet [nobr]
 
+<div id="cardback"></div>
 <<nobr>>
 <<silently>>
 <<procS "PC calc">>
@@ -349,7 +350,7 @@
 <<if $PC.body.orgasm < 15>>
 	<<set $PC.body.orgasm = 15>>
 <</if>>
-<<set $day = 1>>
+<<set $date[0] = 1>>
 <<set $week = 0>>
 <<if $PC.main.age >= 45>>
 	<<set $PC.fert.fertility -= 4>>
@@ -381,13 +382,10 @@
 	<<set $PC.fert.fertility = 8>>
 <</if>>
 <<calcPCfertility>>
+<<run setup.scs()>>
 <<procE>>
 <</silently>>
-<<if $swim != "[dev]">>
-	<<goto [[assignSkills]]>>
-<<else>>
-	<br><br>[[assignSkills]]
-<</if>>
+<<gotodev "assignSkills">>
 <</nobr>>
 
 

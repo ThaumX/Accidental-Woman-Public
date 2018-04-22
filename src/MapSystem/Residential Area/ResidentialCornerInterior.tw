@@ -1,185 +1,340 @@
 :: ResidentialCornerInteriorA [nobr]
 
-<div id="topbar"><center>
-<table id="navigation">
-<tr id="navigation">
-<td id="navigation">
-<img data-passage="IMGkumandgoStore" usemap="#image-map1"><map name="image-map1">
-    <area data-passage="TOResidentialCornerExterior" alt="Exit" title="Exit" coords="204,248,204,63,152,6,152,2,247,2,248,248" shape="poly" class="map-red-area">
-    <area data-passage="ResidentialCornerInteriorB" alt="Pharmaceutical" title="Pharmaceutical" coords="46,248,46,79,2,79,2,248" shape="poly">
-    <area data-passage="ResidentialCornerInteriorC" alt="Refrigerated" title="Refrigerated" coords="195,248,196,128,186,125,183,92,143,92,144,248" shape="poly">
-    <area data-passage="ResidentialCornerInteriorD" alt="General Goods" title="General Goods" coords="92,248,44,76" shape="rect">
-	<area data-passage="ResidentialCornerInteriorE" alt="Food Section" title="Food Section" coords="95,248,143,76" shape="rect">
-</map>
-</td>
-<<set $location = "Cum & Go">>
-<td id="navigation"><<link [img[$map.imageName]]>><</link>></td>
-</tr>
-</table></center></div>
-<div id="mainshits"><center>
-@@.head2;Cum & Go Convenience Store@@</center>
-<br>
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPcumandgo]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptResidential>> <<mapEventResidential>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch $map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+</p>
 /*LOCATION description of  location*/
 @@.head3;Y@@ou are near the checkout counter of your local convenience store. It has several small displays filled with dubious supplements and drugs that don't seem to be the kind that have ever had any real safety testing. A small sign near some miniature shopping carts invites customers to "drop a load".
 /*IN-PASSAGE span text*/
 <span id="locact"></span></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
-/*ACTION TABLE*/
-<table>
-
-<tr>
-<td width="20%"><<link "Pay for Items">><</link>></td><td>@@.exp;Pay for your goods rather than simply walking out of the store with them.@@</td>
-</tr>
-<span id="specialaction"></span>
-</table>
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise shop>>
+  <<button "Shop">><</button>>
+<<endhoverrevise>>
+<<hoverrevise pay>>
+<<button "Pay for Items">><</button>>
+<<endhoverrevise>>
 </div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion shop>>@@.exp;Browse the store's selection of import Chinese pharmaceuticals and novelty lighters.@@<<endinsertion>>
+<<insertion pay>>@@.exp;Pay for your goods rather than simply walking out of the store with them.@@<<endinsertion>>
+</div>
+
+
+
+:: ResidentialCornerInteriorALOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
 
 
 :: ResidentialCornerInteriorB [nobr]
 
-<div id="topbar"><center>
-<table id="navigation">
-<tr id="navigation">
-<td id="navigation">
-<img data-passage="IMGkumandgoStore" usemap="#image-map1"><map name="image-map1">
-    <area data-passage="TOResidentialCornerExterior" alt="Exit" title="Exit" coords="204,248,204,63,152,6,152,2,247,2,248,248" shape="poly" class="map-red-area">
-	<area data-passage="ResidentialCornerInteriorA" alt="Checkout Counter" title="Checkout Counter" coords="2,7,146,7,136,72,2,72" shape="poly" class="map-green-area">
-    <area data-passage="ResidentialCornerInteriorB" alt="Pharmaceutical" title="Pharmaceutical" coords="46,248,46,79,2,79,2,248" shape="poly">
-    <area data-passage="ResidentialCornerInteriorC" alt="Refrigerated" title="Refrigerated" coords="195,248,196,128,186,125,183,92,143,92,144,248" shape="poly">
-    <area data-passage="ResidentialCornerInteriorD" alt="General Goods" title="General Goods" coords="92,248,44,76" shape="rect">
-	<area data-passage="ResidentialCornerInteriorE" alt="Food Section" title="Food Section" coords="95,248,143,76" shape="rect">
-</map>
-</td>
-<td id="navigation"><<link [img[$map.imageName]]>><</link>></td>
-</tr>
-</table></center></div>
-<div id="mainshits"><center>
-@@.head2;Cum & Go Convenience Store@@</center>
-<br>
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPcumandgo]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptResidential>> <<mapEventResidential>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch $map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+</p>
 /*LOCATION description of  location*/
 @@.head3;Y@@ou are in the section the store that has cleaning, hygiene, and medicine items.
 /*IN-PASSAGE span text*/
 <span id="locact"></span></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
-/*ACTION TABLE*/
-<table>
-
-<tr>
-<td width="20%"><<link "Shop">><</link>></td><td>@@.exp;Search for various items that you need.@@</td>
-</tr>
-<span id="specialaction"></span>
-</table>
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise shop>>
+<<button "Shop">><</button>>
+<<endhoverrevise>>
 </div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion shop>>@@.exp;Search for various items that you need.@@<<endinsertion>>
+
+</div>
+
+
+
+
+:: ResidentialCornerInteriorBLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
 
 
 :: ResidentialCornerInteriorC [nobr]
 
-<div id="topbar"><center>
-<table id="navigation">
-<tr id="navigation">
-<td id="navigation">
-<img data-passage="IMGkumandgoStore" usemap="#image-map1"><map name="image-map1">
-    <area data-passage="TOResidentialCornerExterior" alt="Exit" title="Exit" coords="204,248,204,63,152,6,152,2,247,2,248,248" shape="poly" class="map-red-area">
-	<area data-passage="ResidentialCornerInteriorA" alt="Checkout Counter" title="Checkout Counter" coords="2,7,146,7,136,72,2,72" shape="poly" class="map-green-area">
-    <area data-passage="ResidentialCornerInteriorB" alt="Pharmaceutical" title="Pharmaceutical" coords="46,248,46,79,2,79,2,248" shape="poly">
-    <area data-passage="ResidentialCornerInteriorC" alt="Refrigerated" title="Refrigerated" coords="195,248,196,128,186,125,183,92,143,92,144,248" shape="poly">
-    <area data-passage="ResidentialCornerInteriorD" alt="General Goods" title="General Goods" coords="92,248,44,76" shape="rect">
-	<area data-passage="ResidentialCornerInteriorE" alt="Food Section" title="Food Section" coords="95,248,143,76" shape="rect">
-</map>
-</td>
-<td id="navigation"><<link [img[$map.imageName]]>><</link>></td>
-</tr>
-</table></center></div>
-<div id="mainshits"><center>
-@@.head2;Cum & Go Convenience Store@@</center>
-<br>
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPcumandgo]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptResidential>> <<mapEventResidential>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch $map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+</p>
 /*LOCATION description of  location*/
 @@.head3;Y@@ou are in the cooler section that has all the refrigerated food and drinks.
 /*IN-PASSAGE span text*/
 <span id="locact"></span></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
-/*ACTION TABLE*/
-<table>
-
-<tr>
-<td width="20%"><<link "Shop for Beer">><</link>></td><td>@@.exp;You could always use more.@@</td>
-</tr>
-<span id="specialaction"></span>
-</table>
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise shop>>
+<<button "Shop for Beer">><</button>>
+<<endhoverrevise>>
 </div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion shop>>@@.exp;You could always use more.@@<<endinsertion>>
+
+</div>
+
+
+
+:: ResidentialCornerInteriorCLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+
 
 
 :: ResidentialCornerInteriorD [nobr]
 
-<div id="topbar"><center>
-<table id="navigation">
-<tr id="navigation">
-<td id="navigation">
-<img data-passage="IMGkumandgoStore" usemap="#image-map1"><map name="image-map1">
-    <area data-passage="TOResidentialCornerExterior" alt="Exit" title="Exit" coords="204,248,204,63,152,6,152,2,247,2,248,248" shape="poly" class="map-red-area">
-	<area data-passage="ResidentialCornerInteriorA" alt="Checkout Counter" title="Checkout Counter" coords="2,7,146,7,136,72,2,72" shape="poly" class="map-green-area">
-    <area data-passage="ResidentialCornerInteriorB" alt="Pharmaceutical" title="Pharmaceutical" coords="46,248,46,79,2,79,2,248" shape="poly">
-    <area data-passage="ResidentialCornerInteriorC" alt="Refrigerated" title="Refrigerated" coords="195,248,196,128,186,125,183,92,143,92,144,248" shape="poly">
-    <area data-passage="ResidentialCornerInteriorD" alt="General Goods" title="General Goods" coords="92,248,44,76" shape="rect">
-	<area data-passage="ResidentialCornerInteriorE" alt="Food Section" title="Food Section" coords="95,248,143,76" shape="rect">
-</map>
-</td>
-<td id="navigation"><<link [img[$map.imageName]]>><</link>></td>
-</tr>
-</table></center></div>
-<div id="mainshits"><center>
-@@.head2;Cum & Go Convenience Store@@</center>
-<br>
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPcumandgo]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptResidential>> <<mapEventResidential>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch $map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+</p>
 /*LOCATION description of  location*/
-@@.head3;Y@@ou are in the area where everything that doesn't really fit into a common category is all shoved together instead. You can find anything from jugs of car blinker fluid to greeting cards and some magazines. @@.alme;font-size:60%;(Yes, I know blinker fluid isn't a thing. It's a joke.)@@
+@@.head3;Y@@ou are in the area where everything that doesn't really fit into a common category is all shoved together instead. You can find anything from jugs of car blinker fluid to greeting cards and some magazines. <<comment "Yes, I know blinker fluid isn't a thing. It's a joke.">>
 /*IN-PASSAGE span text*/
 <span id="locact"></span></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
-/*ACTION TABLE*/
-<table>
-
-<tr>
-<td width="20%"><<link "Shop for Random">><</link>></td><td>@@.exp;See if the store actually has what you need, or if you'll actually have to go to a real store.@@</td>
-</tr>
-<span id="specialaction"></span>
-</table>
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise shop>>
+<<button "Shop for Random">><</button>>
+<<endhoverrevise>>
 </div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion shop>>@@.exp;See if the store actually has what you need, or if you'll actually have to go to a real store.@@<<endinsertion>>
+</div>
+
+
+:: ResidentialCornerInteriorALOD [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
 
 
 :: ResidentialCornerInteriorE [nobr]
 
-<div id="topbar"><center>
-<table id="navigation">
-<tr id="navigation">
-<td id="navigation">
-<img data-passage="IMGkumandgoStore" usemap="#image-map2"><map name="image-map2">
-    <area data-passage="TOResidentialCornerExterior" alt="Exit" title="Exit" coords="204,248,204,63,152,6,152,2,247,2,248,248" shape="poly" class="map-red-area">
-	<area data-passage="ResidentialCornerInteriorA" alt="Checkout Counter" title="Checkout Counter" coords="2,7,146,7,136,72,2,72" shape="poly" class="map-green-area">
-    <area data-passage="ResidentialCornerInteriorB" alt="Pharmaceutical" title="Pharmaceutical" coords="46,248,46,79,2,79,2,248" shape="poly">
-    <area data-passage="ResidentialCornerInteriorC" alt="Refrigerated" title="Refrigerated" coords="195,248,196,128,186,125,183,92,143,92,144,248" shape="poly">
-    <area data-passage="ResidentialCornerInteriorD" alt="General Goods" title="General Goods" coords="92,248,44,76" shape="rect">
-	<area data-passage="ResidentialCornerInteriorE" alt="Food Section" title="Food Section" coords="95,248,143,76" shape="rect">
-</map>
-</td>
-<td id="navigation"><<link [img[$map.imageName]]>><</link>></td>
-</tr>
-</table></center></div>
-<div id="mainshits"><center>
-@@.head2;Cum & Go Convenience Store@@</center>
-<br>
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPcumandgo]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptResidential>> <<mapEventResidential>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch $map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+</p>
 /*LOCATION description of  location*/
 @@.head3;Y@@ou are surrounded by items that could technically be called food, though you have to look at a few labels to be sure.
 /*IN-PASSAGE span text*/
 <span id="locact"></span></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
-/*ACTION TABLE*/
-<table>
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise shop>>
+<<button "Shop for Food">><</button>>
+<<endhoverrevise>>
+</div>
 
-<tr>
-<td width="20%"><<link "Shop for Food">><</link>></td><td>@@.exp;There is almost no reason to actually do this.@@</td>
-</tr>
-<span id="specialaction"></span>
-</table>
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion shop>>@@.exp;There is almost no reason to actually do this.@@<<endinsertion>>
+
 </div>
 
 
+:: ResidentialCornerInteriorELOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>

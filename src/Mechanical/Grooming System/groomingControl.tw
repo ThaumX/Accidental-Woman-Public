@@ -1,247 +1,29 @@
-:: groomingControl [nobr widget]
+:: groomingMacros [nobr widget]
 
 <<widget "changeHairstyle">>
-<<silently>>
-<<set _propName = $args[0]>>
-<<set _command = "<<set $PC.groom.hairStyle = $hairStyle." + _propName + ">>">>
-<<set _timecmd = "<<set _time = $hairStyle." + _propName + "[2]>>">>
-<<print _timecmd>>
-<<addTime _time>>
-<</silently>>
-<<print _command>>
+<<run setup.hair.do($args[0])>>
 <</widget>>
 
-<<widget "applyMakeupEye">>
-<<silently>>
-<<if ndef $args[0]>><<set alert('apply eye makeup function no args')>><</if>>
-<<set _styleName = $args[0]>>
-<<set _retcmd = "<<set _style = $makeup.eye." + _styleName + ">>">>
-<<print _retcmd>>
-<<if $PC.skill.art >= _style[5]>>
-	<<set _sc = 3>>
-	<<set _atr = _style[2]>>
-	<<set _txt = _style[0]>>
-<<elseif _style[6] == -1>>
-	<<set _sc = 0>>
-	<<set _atr = _style[2]>>
-	<<set _txt = _style[0]>>
-<<else>>
-	<<SCX>><<SC "AS" _style[4]>><<SC "AS" _style[4] 2>>
-	<<if $SCresult[1]>>
-		<<set _sc = 3>>
-		<<set _atr = _style[2]>>
-		<<set _txt = _style[0]>>
-	<<elseif $SCresult[2]>>
-		<<set _sc = 2>>
-		<<set _scText = either("poorly-done ","amatuerish ","botched ","uneven ")>>
-		<<set _txt = _scText + _style[0]>>
-		<<set _max = Math.round(_style[2]/3)>>
-		<<set _atr = random(0,_max)>>
-	<<else>>
-		<<set _sc = 1>>
-		<<set _scText = either("awful ","ugly ","clownish ")>>
-		<<set _txt = _scText + _style[0]>>
-		<<set _atr = random(0,_style[2])>>
-		<<set _atr *= -1>>
-		<<set _atr -= 1>>
-	<</if>>
-	<<SCX>>
-<</if>>
-<<set $PC.groom.eyeMU = []>>
-<<set $PC.groom.eyeMU.push(_txt)>>
-<<set $PC.groom.eyeMU.push(_atr)>>
-<<set $PC.groom.eyeMU.push(_sc)>>
-<<set $PC.groom.eyeMU.push(_style[3])>>
-<<set $PC.groom.eyeMU.push(_style[4])>>
-<<set $PC.groom.eyeMU.push(_style[5])>>
-<<set $PC.groom.eyeMU.push(_style[6])>>
-<<set $PC.groom.eyeMU.push(_style[7])>>
-<</silently>>
-<<addTime _style[3]>>
-<<makeupCombine>>
-<</widget>>
+:: groomingQuickControl [nobr]
 
-<<widget "applyMakeupLip">>
-<<silently>>
-<<if ndef $args[0]>><<set alert('apply lip makeup function no args')>><</if>>
-<<set _stylipName = $args[0]>>
-<<set _retcmd = "<<set _stylip = $makeup.lip." + _stylipName + ">>">>
-<<print _retcmd>>
-<<if $PC.skill.art >= _stylip[5]>>
-	<<set _sc = 3>>
-	<<set _txt = _stylip[0]>>
-	<<set _atr = _stylip[2]>>
-<<elseif _stylip[6] == -1>>
-	<<set _sc = 0>>
-	<<set _txt = _stylip[0]>>
-	<<set _atr = _stylip[2]>>
-<<else>>
-	<<SCX>><<SC "AS" _stylip[4]>><<SC "AS" _stylip[4] 2>>
-	<<if $SCresult[1]>>
-		<<set _sc = 3>>
-		<<set _txt = _stylip[0]>>
-		<<set _atr = _stylip[2]>>
-	<<elseif $SCresult[2]>>
-		<<set _sc = 2>>
-		<<set _scText = either("poorly-done ","amatuerish ","botched ","uneven ")>>
-		<<set _txt = _scText + _stylip[0]>>
-		<<set _max = Math.round(_stylip[2]/3)>>
-		<<set _atr = random(0,_max)>>
-	<<else>>
-		<<set _sc = 1>>
-		<<set _scText = either("awful ","ugly ","clownish ")>>
-		<<set _txt = _scText + _stylip[0]>>
-		<<set _atr = random(0,_stylip[2])>>
-		<<set _atr *= -1>>
-		<<set _atr -= 1>>
-	<</if>>
-	<<SCX>>
-<</if>>
-<<set $PC.groom.lipMU = []>>
-<<set $PC.groom.lipMU.push(_txt)>>
-<<set $PC.groom.lipMU.push(_atr)>>
-<<set $PC.groom.lipMU.push(_sc)>>
-<<set $PC.groom.lipMU.push(_stylip[3])>>
-<<set $PC.groom.lipMU.push(_stylip[4])>>
-<<set $PC.groom.lipMU.push(_stylip[5])>>
-<<set $PC.groom.lipMU.push(_stylip[6])>>
-<<set $PC.groom.lipMU.push(_stylip[7])>>
-<</silently>>
-<<addTime _stylip[3]>>
-<<makeupCombine>>
-<</widget>>
-
-<<widget "applyMakeupGen">>
-<<silently>>
-<<if ndef $args[0]>><<set alert('apply gen makeup function no args')>><</if>>
-<<set _stygenName = $args[0]>>
-<<set _retcmd = "<<set _stygen = $makeup.gen." + _stygenName + ">>">>
-<<print _retcmd>>
-<<if $PC.skill.art >= _stygen[5]>>
-	<<set _sc = 3>>
-	<<set _txt = _stygen[0]>>
-	<<set _atr = _stygen[2]>>
-<<elseif _stygen[6] == -1>>
-	<<set _sc = 0>>
-	<<set _txt = _style[0]>>
-	<<set _atr = _stygen[2]>>
-<<else>>
-	<<SCX>><<SC "AS" _stygen[4]>><<SC "AS" _stygen[4] 2>>
-	<<if $SCresult[1]>>
-		<<set _sc = 3>>
-		<<set _txt = _stygen[0]>>
-		<<set _atr = _stygen[2]>>
-	<<elseif $SCresult[2]>>
-		<<set _sc = 2>>
-		<<set _scText = either("poorly-done ","amatuerish ","botched ","uneven ")>>
-		<<set _txt = _scText + _stygen[0]>>
-		<<set _max = Math.round(_stygen[2]/3)>>
-		<<set _atr = random(0,_max)>>
-	<<else>>
-		<<set _sc = 1>>
-		<<set _scText = either("awful ","ugly ","clownish ")>>
-		<<set _txt = _scText + _stygen[0]>>
-		<<set _atr = random(0,_stygen[2])>>
-		<<set _atr *= -1>>
-		<<set _atr -= 1>>
-	<</if>>
-	<<SCX>>
-<</if>>
-<<set $PC.groom.genMU = []>>
-<<set $PC.groom.genMU.push(_txt)>>
-<<set $PC.groom.genMU.push(_atr)>>
-<<set $PC.groom.genMU.push(_sc)>>
-<<set $PC.groom.genMU.push(_stygen[3])>>
-<<set $PC.groom.genMU.push(_stygen[4])>>
-<<set $PC.groom.genMU.push(_stygen[5])>>
-<<set $PC.groom.genMU.push(_stygen[6])>>
-<<set $PC.groom.genMU.push(_stygen[7])>>
-<</silently>>
-<<addTime _stygen[3]>>
-<<makeupCombine>>
-<</widget>>
-
-/*calculates final values for makeup, sets single descriptor string*/
-<<widget "makeupCombine">>
-<<silently>>
-<<set _sucEye = $PC.groom.eyeMU[2]>>
-<<set _atrEye = $PC.groom.eyeMU[1]>>
-<<set _eyeText = $PC.groom.eyeMU[0]>>
-<<set _eyeType = $PC.groom.eyeMU[6]>>
-<<set _sucLip = $PC.groom.lipMU[2]>>
-<<set _atrLip = $PC.groom.lipMU[1]>>
-<<set _lipText = $PC.groom.lipMU[0]>>
-<<set _lipType = $PC.groom.lipMU[6]>>
-<<set _sucGen = $PC.groom.genMU[2]>>
-<<set _atrGen = $PC.groom.genMU[1]>>
-<<set _genText = $PC.groom.genMU[0]>>
-<<set _genType = $PC.groom.genMU[6]>>
-<<set _faild = 0>>
-<<switch _sucEye>>
-<<case 1>><<set _faild += 3>>
-<<case 2>><<set _faild += 1>>
-<<case 3>><<set _faild -= 1>>
-<</switch>>
-<<switch _sucLip>>
-<<case 1>><<set _faild += 3>>
-<<case 2>><<set _faild += 1>>
-<<case 3>><<set _faild -= 1>>
-<</switch>>
-<<switch _sucGen>>
-<<case 1>><<set _faild += 3>>
-<<case 2>><<set _faild += 1>>
-<<case 3>><<set _faild -= 1>>
-<</switch>>
-<<set _atr = _atrGen + _atrLip + _atrEye>>
-<<if _eyeType == _lipType && _lipType == _genType>>
-	<<set _type = _eyeType>>
-	<<set _atr += 2>>
-<<elseif _eyeType == _lipType || _eyeType == _genType>>
-	<<set _type = _eyeType>>
-<<elseif _lipType == _genType>>
-	<<set _type = _lipType>>
-<<else>>
-	<<set _type = 1>>
-	<<set _atr -= 2>>
-	<<set _faild += 1>>
-	/*this is where you could set to clown if none of the makeup matches*/
-<</if>>
-<<if _faild >= 5>>
-	<<if _atr > -10>><<set _atr = -10>><</if>>
-	<<set $PC.groom.clownMU = true>>
-<<elseif _faild >= 3>>
-	<<set _atr -= 3>>
-	<<if _atr < -5>><<set _atr = -5>><</if>>
-	<<set $PC.groom.clownMU = false>>
-<<else>>
-	<<set $PC.groom.clownMU = false>>
-<</if>>
-<<set $PC.groom.makeupATR = _atr>>
-<<set $PC.groom.makeupT = _type>>
-<<if $PC.groom.clownMU>>
-	<<set _output = "has makeup suited for your performance as " + $PC.main.name + " the Clown.">>
-<<elseif _genType == -1 && _lipType != -1 && _eyeType == -1>>
-	<<set _output = "is mostly free of makeup, except for your lips, to which you applied " + _lipText>>
-<<elseif _genType == -1 && _lipType == -1 && _eyeType != -1>>
-	<<set _output = "is mostly free of makeup, except for your eyes that are decorated with " + _eyeText + ".">>
-<<elseif _genType == -1 && _lipType == -1 && _eyeType == -1>>
-	<<set _output = "is free of makeup.">>
-<<elseif _genType == -1>>
-	<<set _output = "mostly shows your natural skin, but your eyes have " + _eyeText + ", and you're wearing " + _lipText>>
-<<elseif _lipType == -1 && _eyeType == -1>>
-	<<set _output = "has some makeup giving you a " + _genText + either(" look"," appearance"," vibe") + ", but strangely has no lipstick or eyeliner.">>
-<<elseif _lipType == -1>>
-	<<set _output = "has makeup giving you a " + _genText + either(" look"," appearance"," vibe") + ", with " + _eyeText + " highlighting your eyes.">>
-<<elseif _eyeType == -1>>
-	<<set _output = "has makeup giving you a " + _genText + either(" look"," appearance"," vibe") + ", with " + _lipText>>
-<<else>>
-	<<set _output = "is made up in a " + _genText + either(" look"," appearance"," style") + ", with " + _eyeText + " and " + _lipText>>
-<</if>>
-<<set $PC.groom.makeup = _output>>
-<</silently>>
-<</widget>>
-
-
+<div id="uiGroomingQuickActions" style="width:300px;border-width:3px;border-style:solid;border-color:#CCC;border-radius:8px;padding:5px;text-align:center;" class="groomButtCont">
+  <h2 class="blackOutline white">Quick Actions</h2>
+  Check out <<info "Grooming" "guideGrooming">> in the encyclopedia
+  <p>
+  <<tooltip "Brush your teeth... [5min]" x>><<button "Brush Teeth">><<run setup.bath.brushTeeth()>><</button>><</tooltip>>
+  <<tooltip "Brushes your hair, leaving you with the 'neat' style." x>><<button "Brush Hair">><<notify>><<print setup.hair.do("neat")>><</notify>><</button>><</tooltip>>
+  <<tooltip "Washes your face and removes any makeup you may be wearing." x>><<button "Wash Face">><<notify>><<print setup.makeup.wash()>><</notify>><</button>><</tooltip>>
+  <<tooltip "Removes ALL jewelry. <span class='warning bad'>Must be replaced manually!</span>" x>><<button "Remove Jewelry">><<notify>><<print setup.jewel.removeAll()>><</notify>><</button>><</tooltip>>
+  </p><p>
+  <<tab>>Style Hair<br>
+  <<tab>><<dropdown "_hairToApply" "standard" "fancy" "casual" "custom 1" "custom 2" "custom 3">><br><<button "Style Hair">><<notify>><<print setup.hair.doSet(_hairToApply)>><</notify>><</button>>
+  </p><p>
+  <<tab>>Apply Makeup<br>
+  <<tab>><<dropdown "_makeToApply" "standard" "fancy" "casual" "custom 1" "custom 2" "custom 3">><br><<button "Apply Makeup">><<notify>><<print setup.makeup.applySet(_makeToApply)>><</notify>><</button>>
+  </p>
+  <<run setup.tooltipper()>>
+  </div>
+  <div id="groomContainer"></div>
 
 
 

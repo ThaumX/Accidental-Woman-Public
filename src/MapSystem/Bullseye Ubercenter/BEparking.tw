@@ -5,55 +5,14 @@
 /*Basic settings. Most done by map control passage*/
 
 <</silently>>
-<div id="topbar">
-/* GAME MAP TABLE - Displays 4x4 map grid next to spot for area image. Grid simulates image map links, which are flakey in Twine */
-<center>
-@@.maptable;<table id="navigation">
-<tr id="navigation">
-<td id="navigation">[img[Hardware|IMGbullseye11][controlBullseye][$map.destLoc = [1,1]]]</td>
-<td id="navigation">[img[Electronics|IMGbullseye12][controlBullseye][$map.destLoc = [1,2]]]</td>
-<td id="navigation">[img[Toys & Games|IMGbullseye13][controlBullseye][$map.destLoc = [1,3]]]</td>
-<td id="navigation">[img[Baby|IMGbullseye14][controlBullseye][$map.destLoc = [1,4]]]</td>
-<td id="navigation">[img[Grocery|IMGbullseye15][controlBullseye][$map.destLoc = [1,5]]]</td>
-<td rowspan="5" id="navigation"><<link [img[IMGBullseyeExterior]]>><<dialog 'Detail Map'>>[img[IMGbullseyeBig]]<br>@@.note;You can not click this map to navigate.@@<</dialog>><</link>></td>
-</tr>
-<tr id="navigation">
-<td id="navigation">[img[Housewares|IMGbullseye21][controlBullseye][$map.destLoc = [2,1]]]</td>
-<td id="navigation">[img[Women's Clothing - Tops, Dresses, & Coats|IMGbullseye22][controlBullseye][$map.destLoc = [2,2]]]</td>
-<td id="navigation">[img[Women's Clothing - Bottoms, Athletic, & Swimwear|IMGbullseye23][controlBullseye][$map.destLoc = [2,3]]]</td>
-<td id="navigation">[img[Lingerie & Jewelry|IMGbullseye24][controlBullseye][$map.destLoc = [2,4]]]</td>
-<td id="navigation">[img[Grocery|IMGbullseye25][controlBullseye][$map.destLoc = [2,5]]]</td>
-</tr>
-<tr id="navigation">
-<td id="navigation">[img[Housewares|IMGbullseye31][controlBullseye][$map.destLoc = [3,1]]]</td>
-<td id="navigation">[img[Children's Clothing - Girls|IMGbullseye32][controlBullseye][$map.destLoc = [3,2]]]</td>
-<td id="navigation">[img[Children's Clothing - Boys|IMGbullseye33][controlBullseye][$map.destLoc = [3,3]]]</td>
-<td id="navigation">[img[Men's Clothing|IMGbullseye34][controlBullseye][$map.destLoc = [3,4]]]</td>
-<td id="navigation">[img[Grocery|IMGbullseye35][controlBullseye][$map.destLoc = [3,5]]]</td>
-</tr>
-<tr id="navigation">
-<td id="navigation">[img[Pharmacy|IMGbullseye41][controlBullseye][$map.destLoc = [4,1]]]</td>
-<td id="navigation">[img[Stationary & Optometrist|IMGbullseye42][controlBullseye][$map.destLoc = [4,2]]]</td>
-<td id="navigation">[img[Best Head Hair Salon|IMGbullseye43][controlBullseye][$map.destLoc = [4,3]]]</td>
-<td id="navigation">[img[Customer Service|IMGbullseye44][controlBullseye][$map.destLoc = [4,4]]]</td>
-<td id="navigation">[img[Produce, Deli, Bakery|IMGbullseye45][controlBullseye][$map.destLoc = [4,5]]]</td>
-</tr>
-<tr id="navigation">
-<td id="navigation">[img[Parking Lot|IMGbullseye51][controlBullseye][$map.destLoc = [5,1]]]</td>
-<td id="navigation">[img[Parking Lot|IMGbullseye52][controlBullseye][$map.destLoc = [5,2]]]</td>
-<td id="navigation">[img[Parking Lot|IMGbullseye53][controlBullseye][$map.destLoc = [5,3]]]</td>
-<td id="navigation">[img[IMGbullseyeX54][controlBullseye][$map.destLoc = [5,4]]]</td>
-<td id="navigation">[img[Parking Lot|IMGbullseye55][controlBullseye][$map.destLoc = [5,5]]]</td>
-</tr>
-</table>@@</center>
-</div>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPbullseye]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
 <div id="mainshits">
-<center>@@.pulseHead;Bullseye Ubercenter Parking Lot@@</center>
-<br><br>
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
-<<walkDescriptBullseye>><<= " ">><<mapEventBullseye>><br><br>
+<p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<<switch $map.weather>>
+<p class="weather-disc"><<switch $map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -78,14 +37,18 @@
 
 <<case "+sn">>
 
-<<case default>>
+<<default>>
 
 <</switch>>
+Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+</p>
 /*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
 <<set _jackin = random(1,10)>>
-<<if _jackin == 10>>
+<<set _jackSeen = false>>
+<<if _jackin == 10 && _jackSeen == false>>
 	<<set _tog = true>>
-	@@.head3;A@@s you walk through the Bullseye parking lot, motion in the corner of your eye catches your attention. Curious, you turn and head toward the motion to get a better look. It seems like someone is struggling in their car, so you decide to approach just in case. When you get closer, however, you see that the vigorous motion is likely a struggle of passion. A younger man is apparently jacking off in (hopefully) his car. He's watching his phone, and hasn't seemed to notice you. Pretty bold for such a public place<<if $PC.kink.exhibition>>, he should pay more attention to his surroundings to avoid getting caught.<<else>>.<</if>>
+  <span id="jackingParkDesc">
+	@@.head3;A@@s you walk through the Bullseye parking lot, motion in the corner of your eye catches your attention. Curious, you turn and head toward the motion to get a better look. It seems like someone is struggling in their car, so you decide to approach just in case. When you get closer, however, you see that the vigorous motion is likely a struggle of passion. A younger man is apparently jacking off in (hopefully) his car. He's watching his phone, and hasn't seemed to notice you. Pretty bold for such a public place<<if $PC.kink.exhibition>>, he should pay more attention to his surroundings to avoid getting caught.<<else>>.<</if>></span>
 <<elseif $map.lastMain == "bullseye">>
 	@@.head3;E@@xiting the Bullseye, you make your way to your car. The uniform appearance of the parking lot, combined with all the cars, causes it to take a moment for you to remember where you parked.
 <<else>>
@@ -95,56 +58,65 @@
 /*IN-PASSAGE span text*/
 <span id="locact"></span>
 </div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
-/*ACTION TABLE*/
-<table id="Actions">
-<tr><td colspan=2>
-/*this controls the element that will appear on mouse hover NOTE that for reasons, the closing tag in these macros are <<endmacroname>> instead of <</macroname>>*/
-<<if _jackin == 10>>
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<if _jackin == 10 && _jackSeen == false>>
 <<hoverrevise hovJacking>>
-    <<button "Offer a Hand">><<dialog "Offering a hand">><<if _tog>><<happy 1>><<arousal 1>>You walk up to his window and take a better look inside. It seems he has some above-average equipment. When you knock on the glass it startles him, he practically jumps out of his seat. Apparently being startled was all the help he needed, as alabaster cum starts spraying to make a mess of his car. <<if $PC.kink.cumSlut>>The quantity is amazing. @@.mono;What a waste@@ you think, as you walk away.<<else>>Laughing, you continue on your way.<</if>><br><</if>><<set _tog = false>><</dialog>><</button>>
+  <span id="jackingIt">
+    <<button "Offer a Hand">><<dialog "Offering a hand">><<if _tog>><<happy 1>><<arousal 1>><<replace "#jackingIt">><</replace>><<replace ".exp">><</replace>><<replace "#jackingParkDesc">><</replace>>You walk up to his window and take a better look inside. It seems he has some above-average equipment. When you knock on the glass it startles him, he practically jumps out of his seat. Apparently being startled was all the help he needed, as alabaster cum starts spraying to make a mess of his car. <<if $PC.kink.cumSlut>>The quantity is amazing. @@.mono;What a waste@@ you think, as you walk away.<<else>>Laughing, you continue on your way.<</if>><br><</if>><<set _tog = false>><<set _jackSeen = true>><</dialog>><</button>>
+  </span>
 <<endhoverrevise>>
 <</if>>
 <<if $flag.Prologue>>
 	<<if $flag.ProBoughtClothes>>
 		<<hoverrevise hovLeavingAfterShop>>
-            <<button "Leave Bullseye">><<set $UImap = "[img[IMGmap250]]">><<goto [[storyStart13]]>><</button>>
-        <<endhoverrevise>>
+      <<button "Return to Lily's Place">><<set $UImap = "[img[IMGmap250]]">><<goto [[storyStart13]]>><</button>>
+    <<endhoverrevise>>
 	<<else>>
 		<<hoverrevise hovLeavingDisabled>>
-           @@.disabled;<<button "Leave Bullseye">><</button>>@@
-        <<endhoverrevise>>
+      @@.disabled;<<button "Return to Lily's Place">><</button>>@@
+    <<endhoverrevise>>
 	<</if>>
+  <<hoverrevise tutolockie>>
+    @@.disabled;<<button "Leave Bullseye">><</button>>@@
+  <<endhoverrevise>>
+  <<hoverrevise homeless>>
+    @@.disabled;<<button "Go Straight Home">><</button>>@@
+  <<endhoverrevise>>
 <<else>>
 	<<hoverrevise hovLeaving>>
-       <<button "Leave Bullseye">><<set _cunter = 15 + random(1,8)>><<addTime _cunter>><<goto [[MuschiValleyMap]]>><</button>>
-    <<endhoverrevise>>
+    <<button "Leave Bullseye">><<gotomap "world" "main">><</button>>
+  <<endhoverrevise>>
+  <<hoverrevise hovstrthome>>
+    <<button "Go Straight Home">><<gotomap "home" "foyer">><</button>>
+  <<endhoverrevise>>
 <</if>>
-/*now we add spans for any event-based items, prior to the final info button*/
-<span id="weatherButton"></span>
-<span id="eventButton"></span>
-</td></tr>
-<tr><td style="width:10%">
-/*label, and keeps space more consistent with hover text if any description text is longer than 2 lines in-game (aproximately) then add another <br>*/
 <<hoverrevise hovCart>>
-	@@.imgbutton;.imgmax35;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
-<<endhoverrevise>><br>@@.head4;Info@@
-</td><td>
-/*this contains the text that will appear on mouse hover NOTE that for reasons, the closing tag in these macros are <<endmacroname>> instead of <</macroname>>*/
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
 <<insertion hovJacking>>@@.exp;Knock on his window and offer to give him a hand with his "problem".@@<<endinsertion>>
 <<insertion hovLeavingAfterShop>>@@.exp;Head back to Lily's place.<<if $PC.trait.forgetful == -1>>Did you remember to buy Lily's coffee?<</if>>@@<<endinsertion>>
-<<insertion hovLeavingDisabled>>@@.exp;You need to buy some new clothes first! Buy at least a complete outfit--panties, bra, and either a dress or a top and bottom.@@<<endinsertion>>
+<<insertion hovLeavingDisabled>>@@.exp;You need to buy some new clothes first! Buy at least a complete outfit--panties, <<if $PC.body.tits.cupNum <= 10>><span style="font-size:80%">(too small to require bra)</span><<else>>bra<</if>>, and either a dress or a top and bottom.@@<<endinsertion>>
 <<insertion hovLeaving>>@@.exp;Get in your car and leave Bullseye.@@<<endinsertion>>
 <<insertion hovShop>>@@.exp;Look for items you need, and add them to your cart. [20-40min]@@<<endinsertion>>
 <<insertion hovCart>>@@.exp;launches a popup that contains an ordered list of all the items in your cart, along with the price (prior to member discount). @@<<endinsertion>>
-/*spans for the descriptions of randomized event actions*/
-<span id="weatherDesc"></span>
-<span id="eventDesc"></span>
-</td></tr>
-</table>
+<<insertion hovstrthome>>A shortcut option to travel directly to your home instead of browsing the map.<<endinsertion>>
+<<insertion homeless>>A button that would take you straight home, except that you don't have a home yet!<<endinsertion>>
+<<insertion tutolockie>>You don't think it's a good idea to wander around town yet, especially in a new body without any I.D. or documentation.<<endinsertion>>
+</div>
 /*this contains randomized event options that will print inside the related spans*/
 /*Weather-based actions added, like opening an umbrella*/
 <<weatherBullseyeAct>>
 /*Event-based actions added*/
 <<mapEventBullseyeAct>>
-</div>
+
+
+
+:: BEparkingLOC [nobr]
+
+[img[IMGbullseyeBig]]

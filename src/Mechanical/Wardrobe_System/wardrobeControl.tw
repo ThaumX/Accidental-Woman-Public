@@ -818,7 +818,9 @@
 	<<set _snip -= 1>>
 	<<set _item = $ward.panties[_snip]>>
 <</if>>
+<<status 1>>
 <<set $PC.clothes.panties = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5],_item[6],_item[7],_item[8],_item[9],_item[10],_item[11],_item[13]]>>
+<<status 0>>
 <<calcOutfitCombine>>
 <</widget>>
 
@@ -838,7 +840,9 @@
 	<<set _snip -= 1>>
 	<<set _item = $ward.bra[_snip]>>
 <</if>>
+<<status 1>>
 <<set $PC.clothes.bra = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5],_item[6],_item[7],_item[8],_item[9],_item[10],_item[11],_item[13]]>>
+<<status 0>>
 <<calcOutfitCombine>>
 <</widget>>
 
@@ -852,7 +856,9 @@
 <</if>>
 <<set _snip -= 1>>
 <<set _item = $ward.leg[_snip]>>
+<<status 1>>
 <<set $PC.clothes.leg = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5],_item[6],_item[7],_item[8],_item[9],_item[10],_item[11],_item[13]]>>
+<<status 0>>
 <<calcOutfitCombine>>
 <</widget>>
 
@@ -877,11 +883,13 @@
 	<<set _snip -= 1>>
 	<<set _item = $ward.upBody[_snip]>>
 <</if>>
+<<status 1>>
 <<if $PC.clothes.dress>>
 	<<set $PC.clothes.lower = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0]>>
 	<<set $PC.clothes.dress = false>>
 <</if>>
 <<set $PC.clothes.upper = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5],_item[6],_item[7],_item[8],_item[9],_item[10],_item[11],_item[13]]>>
+<<status 0>>
 <<calcOutfitCombine>>
 <</widget>>
 
@@ -906,11 +914,13 @@
 	<<set _snip -= 1>>
 	<<set _item = $ward.lowBody[_snip]>>
 <</if>>
+<<status 1>>
 <<if $PC.clothes.dress>>
 	<<set $PC.clothes.upper = ["none",0,0,0,5,0,0,0,0,0,"M. Nature",0,0]>>
 	<<set $PC.clothes.dress = false>>
 <</if>>
 <<set $PC.clothes.lower = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5],_item[6],_item[7],_item[8],_item[9],_item[10],_item[11],_item[13]]>>
+<<status 0>>
 <<calcOutfitCombine>>
 <</widget>>
 
@@ -924,9 +934,11 @@
 <</if>>
 <<set _snip -= 1>>
 <<set _item = $ward.dress[_snip]>>
+<<status 1>>
 <<set $PC.clothes.upper = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5],_item[6],_item[7],_item[8],_item[9],_item[10],_item[11],_item[13]]>>
 <<set $PC.clothes.lower = ["None-Dress",_item[1],_item[2],_item[3],_item[4],_item[5],_item[6],_item[7],_item[8],_item[9],_item[10],_item[11],_item[13]]>>
 <<set $PC.clothes.dress = true>>
+<<status 0>>
 <<calcOutfitCombine>>
 <</widget>>
 
@@ -945,7 +957,9 @@
 <<elseif _item[0] != "none" && ( _item[1] == $PC.clothes.accB[1] || _item[1] == $PC.clothes.accC[1] || _item[1] == $PC.clothes.accD[1] )>>
 <<dialog 'Fashion Fail!'>><center>You can't wear two accessories in the same "slot".<br><br>This accessory wasn't equiped.<br><br>[img[IMGfashionFail]]</center><</dialog>>
 <<else>>
+<<status 1>>
 <<set $PC.clothes.accA = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5]]>>
+<<status 0>>
 <<calcOutfitCombine>>
 <</if>>
 <</widget>>
@@ -965,7 +979,9 @@
 <<elseif _item[0] != "none" && ( _item[1] == $PC.clothes.accA[1] || _item[1] == $PC.clothes.accC[1] || _item[1] == $PC.clothes.accD[1] )>>
 <<dialog 'Fashion Fail!'>><center>You can't wear two accessories in the same "slot".<br><br>This accessory wasn't equiped.<br><br>[img[IMGfashionFail]]</center><</dialog>>
 <<else>>
+<<status 1>>
 <<set $PC.clothes.accB = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5]]>>
+<<status 0>>
 <<calcOutfitCombine>>
 <</if>>
 <</widget>>
@@ -985,7 +1001,9 @@
 <<elseif _item[0] != "none" && ( _item[1] == $PC.clothes.accB[1] || _item[1] == $PC.clothes.accA[1] || _item[1] == $PC.clothes.accD[1] )>>
 <<dialog 'Fashion Fail!'>><center>You can't wear two accessories in the same "slot".<br><br>This accessory wasn't equiped.<br><br>[img[IMGfashionFail]]</center><</dialog>>
 <<else>>
+<<status 1>>
 <<set $PC.clothes.accC = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5]]>>
+<<status 0>>
 <<calcOutfitCombine>>
 <</if>>
 <</widget>>
@@ -1005,387 +1023,13 @@
 <<elseif _item[0] != "none" && ( _item[1] == $PC.clothes.accB[1] || _item[1] == $PC.clothes.accC[1] || _item[1] == $PC.clothes.accA[1] )>>
 <<dialog 'Fashion Fail!'>><center>You can't wear two accessories in the same "slot".<br><br>This accessory wasn't equiped.<br><br>[img[IMGfashionFail]]</center><</dialog>>
 <<else>>
+<<status 1>>
 <<set $PC.clothes.accD = [_item[0],_item[1],_item[2],_item[3],_item[4],_item[5]]>>
+<<status 0>>
 <<calcOutfitCombine>>
 <</if>>
 <</widget>>
 
 /*TOTAL OUTFIT STATS~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-<<widget "calcOutfitCombine">>
-<<set _top = true>>
-<<set _bot = true>>
-<<set _acc = true>>
-<<set _atr = 0>>
-<<set _sex = 0>>
-<<set _exp = [0,0]>>
-<<set _coordType = 0>>
-<<if ndef $args[0]>>
-	<<set _A = 0>>
-	<<set _B = 0>>
-	<<set _C = 0>>
-<<elseif ndef $args[1]>>
-	<<set _A = $args[0]>>
-	<<set _B = 0>>
-	<<set _C = 0>>
-<<elseif ndef $args[2]>>
-	<<set _A = $args[0]>>
-	<<set _B = $args[1]>>
-	<<set _C = 0>>
-<<else>>
-	<<set _A = $args[0]>>
-	<<set _B = $args[1]>>
-	<<set _C = $args[2]>>
-<</if>>
-<<if _A == "S" || _B == "S" || _C == "S">>
-	<<set _top = false>>
-<</if>>
-<<if _A == "L" || _B == "L" || _C == "L">>
-	<<set _bot = false>>
-<</if>>
-<<if _A == "A" || _B == "A" || _C == "A">>
-	<<set _acc = false>>
-<</if>>
-<<if _top>>
-	/*traits*/
-	<<if ( $PC.clothes.upper[12] == "N" || $PC.clothes.upper[12] == -1 ) && ( $PC.clothes.lower[12] == "N" || $PC.clothes.lower[12] == -1 )>>
-		<<set $PC.clothes.nite = true>>
-	<<else>>
-		<<set $PC.clothes.nite = false>>
-	<</if>>
-	<<if ( $PC.clothes.upper[12] == "A" || $PC.clothes.lower[12] == "A" ) && ( $PC.clothes.upper[12] == "A" || $PC.clothes.upper[12] == -1 ) && ( $PC.clothes.lower[12] == "A" || $PC.clothes.lower[12] == -1 )>>
-		<<set $PC.clothes.ath = true>>
-	<<else>>
-		<<set $PC.clothes.ath = false>>
-	<</if>>
-	<<if $PC.clothes.dress && ( $PC.clothes.lower[6] == 3 || $PC.clothes.lower[6] == 5 )>>
-		<<set $PC.clothes.accessO = true>>
-	<<elseif !$PC.clothes.dress && $PC.clothes.lower[6] <= 13>>
-		<<set $PC.clothes.accessO = true>>
-	<<elseif $PC.clothes.lower[12] == -1>>
-		<<set $PC.clothes.accessO = true>>
-	<<else>>
-		<<set $PC.clothes.accessO = false>>
-	<</if>>
-	/*color coordination*/
-	<<if $PC.clothes.dress>>
-		<<set $PC.clothes.coordOver = true>>
-		<<set _coordType = 1>>
-	<<else>>
-		<<if $PC.clothes.lower[9] == 1 || $PC.clothes.lower[9] == 2 || $PC.clothes.lower[9] == 3 || $PC.clothes.lower[9] == 7 || $PC.clothes.lower[9] == 8 || $PC.clothes.lower[9] == 9 || $PC.clothes.lower[9] == 10 || $PC.clothes.lower[9] == 11>>
-			<<set $PC.clothes.coordOver = true>>
-			<<set _coordType = 2>>
-		<<elseif $PC.clothes.upper[9] == 7 || $PC.clothes.upper[9] == 1>>
-			<<set $PC.clothes.coordOver = true>>
-			<<set _coordType = 3>>
-		<<elseif ( $PC.clothes.upper[9] == 2 || $PC.clothes.upper[9] == 8) && $PC.clothes.lower[9] == 12>>
-			<<set $PC.clothes.coordOver = true>>
-			<<set _coordType = 4>>
-		<<elseif $PC.clothes.upper[9] == 3 && ( $PC.clothes.lower[9] == 13 || $PC.clothes.lower[9] == 5 )>>
-			<<set $PC.clothes.coordOver = true>>
-			<<set _coordType = 4>>
-		<<elseif $PC.clothes.upper[9] == 4 && $PC.clothes.lower[9] == 14>>
-			<<set $PC.clothes.coordOver = true>>
-			<<set _coordType = 4>>
-		<<elseif $PC.clothes.upper[9] == 6 && $PC.clothes.lower[9] == 17>>
-			<<set $PC.clothes.coordOver = true>>
-			<<set _coordType = 4>>
-		<<else>>
-			<<set $PC.clothes.coordOver = false>>
-			<<set _coordType = 0>>
-		<</if>>
-	<</if>>
-<</if>>
-<<if _bot>>
-	<<if ( $PC.clothes.panties[12] == "S" || $PC.clothes.panties[12] == -1 ) && ( $PC.clothes.bra[12] == "S" || $PC.clothes.bra[12] == -1 ) && $PC.clothes.leg[12] == -1>>
-		<<set $PC.clothes.swim = true>>
-	<<else>>
-		<<set $PC.clothes.swim = false>>
-	<</if>>
-	<<if $PC.clothes.panties[6] >= 11 && $PC.clothes.bra[6] >= 10>>
-		<<set $PC.clothes.accessP = true>>
-		<<set $PC.clothes.accessB = true>>
-	<<elseif $PC.clothes.panties[6] >= 11>>
-		<<set $PC.clothes.accessP = true>>
-		<<set $PC.clothes.accessB = false>>
-	<<elseif $PC.clothes.bra[6] >= 10>>
-		<<set $PC.clothes.accessP = false>>
-		<<set $PC.clothes.accessB = true>>
-	<<else>>
-		<<set $PC.clothes.accessP = false>>
-		<<set $PC.clothes.accessB = false>>
-	<</if>>
-	<<if $PC.clothes.panties[12] == -1>>
-		<<set $PC.clothes.accessP = true>>
-	<</if>>
-	<<if $PC.clothes.bra[12] == -1>>
-		<<set $PC.clothes.accessB = true>>
-	<</if>>
-	/*pantyhose has crotch that blocks access*/
-	<<if $PC.clothes.leg[6] == 4>>
-		<<set $PC.clothes.accessP = false>>
-	<</if>>
-	<<if $PC.clothes.panties[9] == $PC.clothes.bra[9] && $PC.clothes.panties[12] != -1>>
-		<<set $PC.clothes.coordUnder = true>>
-	<<else>>
-		<<set $PC.clothes.coordUnder = false>>
-	<</if>>
-<</if>>
-<<if _acc>>
-	<<if $PC.clothes.accA[1] == "V" || $PC.clothes.accB[1] == "V" || $PC.clothes.accC[1] == "V" || $PC.clothes.accD[1] == "V">>
-		<<set $PC.clothes.pussy = true>>
-	<<else>>
-		<<set $PC.clothes.pussy = false>>
-	<</if>>
-	<<if $PC.clothes.accA[1] == "A" || $PC.clothes.accB[1] == "A" || $PC.clothes.accC[1] == "A" || $PC.clothes.accD[1] == "A">>
-		<<set $PC.clothes.ass = true>>
-	<<else>>
-		<<set $PC.clothes.ass = false>>
-	<</if>>
-	<<if $PC.clothes.accA[1] == "N" || $PC.clothes.accB[1] == "N" || $PC.clothes.accC[1] == "N" || $PC.clothes.accD[1] == "N">>
-		<<set $PC.clothes.nips = true>>
-	<<else>>
-		<<set $PC.clothes.nips = false>>
-	<</if>>
-	<<if $PC.clothes.accA[1] == "F" || $PC.clothes.accB[1] == "F" || $PC.clothes.accC[1] == "F" || $PC.clothes.accD[1] == "F">>
-		<<set $PC.clothes.face = true>>
-	<<else>>
-		<<set $PC.clothes.face = false>>
-	<</if>>
-	<<if $PC.clothes.accA[1] == "H" || $PC.clothes.accB[1] == "H" || $PC.clothes.accC[1] == "H" || $PC.clothes.accD[1] == "H">>
-		<<set $PC.clothes.head = true>>
-	<<else>>
-		<<set $PC.clothes.head = false>>
-	<</if>>
-<</if>>
-<<if $PC.clothes.swim && ( $PC.clothes.lower[12] != -1 || $PC.clothes.upper[12] != -1 )>>
-	<<set $PC.clothes.swim = false>>
-<</if>>
-/*skirt danger!*/
-<<if $PC.clothes.dress && ( $PC.clothes.lower[6] == 3 || $PC.clothes.lower[6] == 5 )>>
-	<<set $PC.clothes.skirtDanger = 1>>
-<<elseif !$PC.clothes.dress && $PC.clothes.lower[6] <= 13 && $PC.clothes.lower[12] != -1>>
-	<<set _hemread = $PC.clothes.lower[7] + "F">>
-	<<if _hemread.length == 3>>
-		<<set _hem = _hemread.slice(1,2)>>
-		<<set _hem -= 6>>
-	<<elseif _hemread.length == 4>>
-		<<set _hem = _hemread.slice(2,3)>>
-		<<set _hem -= 6>>
-	<<elseif _hemread.length == 2>>
-		<<set _hem = 0>>
-	<<else>>
-		<<set alert("Error decoding hem length")>>
-		<<set _hem = 0>>
-	<</if>>
-	<<if _hem > 0>>
-		<<set $PC.clothes.skirtDanger = _hem>>
-	<<else>>
-		<<set $PC.clothes.skirtDanger = 0>>
-	<</if>>
-<<else>>
-	<<set $PC.clothes.skirtDanger = 0>>
-<</if>>
-/*determine the actual stats based on layering... fun*/
-<<set _pieces = 0>>
-<<set _sexyTotal = 0>>
-<<set _formTotal = 0>>
-/*start with the upper body*/
-<<if $PC.clothes.upper[12] == -1 && $PC.clothes.bra[12] == -1>>
-	<<set _topLayers = 0>>
-	<<set _topATR = 6 + $PC.body.topATR>>
-	<<set _sexyTotal += 6>>
-	<<set _formTotal -= 4>>
-	<<set _exp[0] = 5>>
-<<elseif $PC.clothes.upper[12] == -1>>
-	<<set _topLayers = 1>>
-	<<set _pieces += 1>>
-	<<set _sexyTotal += $PC.clothes.bra[2]>>
-	<<set _formTotal -= 2>>
-	<<set _formTotal += $PC.clothes.bra[3]>>
-	<<set _exp[0] = $PC.clothes.bra[4]>>
-	<<if $PC.clothes.bra[4] > 2.5>>
-		<<set _mult = $PC.clothes.bra[4] - 2.5>>
-		<<set _mult = Math.round(_mult * 40)>>
-		<<set _mult /= 100>>
-		<<set _topATR = Math.trunc(_mult * $PC.body.topATR)>>
-		<<set _sexyTotal += Math.trunc(_mult * 4)>>
-		<<set _topATR += $PC.clothes.bra[1]>>
-	<<else>>
-		<<set _topATR = $PC.clothes.bra[1]>>
-	<</if>>
-<<elseif $PC.clothes.bra[12] == -1>>
-	<<set _topLayers = 1>>
-	<<set _pieces += 1>>
-	<<set _sexyTotal += $PC.clothes.upper[2]>>
-	<<set _formTotal += $PC.clothes.upper[3]>>
-	<<set _exp[0] = $PC.clothes.upper[4]>>
-	<<if $PC.clothes.upper[4] > 2.5>>
-		<<set _mult = $PC.clothes.upper[4] - 2.5>>
-		<<set _mult = Math.round(_mult * 40)>>
-		<<set _mult /= 100>>
-		<<set _topATR = Math.trunc(_mult * $PC.body.topATR)>>
-		<<set _sexyTotal += Math.trunc(_mult * 4)>>
-		<<set _topATR += $PC.clothes.upper[1]>>
-	<<else>>
-		<<set _topATR = $PC.clothes.upper[1]>>
-	<</if>>
-<<else>>
-	<<set _topLayers = 2>>
-	<<set _pieces += 2>>
-	<<set _sexyTotal += $PC.clothes.upper[2]>>
-	<<set _formTotal += $PC.clothes.upper[3]>>
-	<<set _exp[0] = $PC.clothes.upper[4]>>
-	<<if _exp[0] > $PC.clothes.bra[4]>><<set _exp[0] = $PC.clothes.bra[4]>><</if>>
-	<<if $PC.clothes.upper[4] > 2.5>>
-		<<set _mult = $PC.clothes.upper[4] - 2.5>>
-		<<set _mult = Math.round(_mult * 40)>>
-		<<set _mult /= 100>>
-		<<set _topATR = Math.trunc(_mult * $PC.clothes.bra[1])>>
-		<<set _sexyTotal += Math.trunc(_mult * $PC.clothes.bra[2])>>
-		<<set _topATR += $PC.clothes.upper[1]>>
-	<<else>>
-		<<set _topATR = $PC.clothes.upper[1]>>
-	<</if>>
-<</if>>
-/*then the lower body*/
-<<if $PC.clothes.lower[12] == -1 && $PC.clothes.panties[12] == -1>>
-	<<set _botLayers = 0>>
-	<<set _botATR = 6 + $PC.body.topATR>>
-	<<set _sexyTotal += 6>>
-	<<set _formTotal -= 5>>
-	<<set _exp[1] = 5>>
-<<elseif $PC.clothes.lower[12] == -1>>
-	<<set _botLayers = 1>>
-	<<set _pieces += 1>>
-	<<set _sexyTotal += $PC.clothes.panties[2]>>
-	<<set _formTotal -= 3>>
-	<<set _formTotal += $PC.clothes.panties[3]>>
-	<<set _exp[1] = $PC.clothes.panties[4]>>
-	<<if $PC.clothes.panties[4] > 2.5>>
-		<<set _mult = $PC.clothes.panties[4] - 2.5>>
-		<<set _mult = Math.round(_mult * 40)>>
-		<<set _mult /= 100>>
-		<<set _botATR = Math.trunc(_mult * $PC.body.topATR)>>
-		<<set _sexyTotal += Math.trunc(_mult * 4)>>
-		<<set _botATR += $PC.clothes.panties[1]>>
-	<<else>>
-		<<set _botATR = $PC.clothes.panties[1]>>
-	<</if>>
-<<elseif $PC.clothes.panties[12] == -1>>
-	<<set _botLayers = 1>>
-	<<set _pieces += 1>>
-	<<set _sexyTotal += $PC.clothes.lower[2]>>
-	<<set _formTotal += $PC.clothes.lower[3]>>
-	<<set _exp[1] = $PC.clothes.lower[4]>>
-	<<if $PC.clothes.lower[4] > 2.5>>
-		<<set _mult = $PC.clothes.lower[4] - 2.5>>
-		<<set _mult = Math.round(_mult * 40)>>
-		<<set _mult /= 100>>
-		<<set _botATR = Math.trunc(_mult * $PC.body.topATR)>>
-		<<set _sexyTotal += Math.trunc(_mult * 4)>>
-		<<set _botATR += $PC.clothes.lower[1]>>
-	<<else>>
-		<<set _botATR = $PC.clothes.lower[1]>>
-	<</if>>
-<<else>>
-	<<set _botLayers = 2>>
-	<<set _pieces += 2>>
-	<<set _sexyTotal += $PC.clothes.lower[2]>>
-	<<set _formTotal += $PC.clothes.lower[3]>>
-	<<set _exp[1] = $PC.clothes.lower[4]>>
-	<<if _exp[1] > $PC.clothes.panties[4]>><<set _exp[1] = $PC.clothes.panties[4]>><</if>>
-	<<if $PC.clothes.lower[4] > 2.5>>
-		<<set _mult = $PC.clothes.lower[4] - 2.5>>
-		<<set _mult = Math.round(_mult * 40)>>
-		<<set _mult /= 100>>
-		<<set _botATR = Math.trunc(_mult * $PC.clothes.panties[1])>>
-		<<set _sexyTotal += Math.trunc(_mult * $PC.clothes.panties[2])>>
-		<<set _botATR += $PC.clothes.lower[1]>>
-	<<else>>
-		<<set _botATR = $PC.clothes.lower[1]>>
-	<</if>>
-<</if>>
-	<<set _layers = 0>>
-<<if _topLayers > 0>>
-	<<set _layers += 1>>
-<</if>>
-<<if _botLayers > 0>>
-	<<set _layers += 1>>
-<</if>>
-<<if $PC.clothes.leg[12] != -1>>
-	<<if _layers == 0>>
-		<<set _sexyTotal += Math.trunc($PC.clothes.leg[2]/3)>>
-		<<set _botATR += Math.trunc($PC.clothes.leg[1]/2)>>
-	<<elseif _layers == 1>>
-		<<set _sexyTotal += Math.trunc($PC.clothes.leg[2]/2)>>
-		<<set _botATR += Math.trunc($PC.clothes.leg[1]/2)>>
-	<<else>>
-		<<set _sexyTotal += $PC.clothes.leg[2]>>
-		<<set _botATR += $PC.clothes.leg[1]>>
-	<</if>>
-	<<set _layers += 1>>
-	<<set _formTotal += $PC.clothes.leg[3]>>	
-	<<if _exp[1] > $PC.clothes.leg[4]>><<set _exp[1] = $PC.clothes.leg[4]>><</if>>
-<</if>>
-<<if _layers > 0>>
-	<<set _formal = Math.round(_formTotal / _layers)>>
-	<<set _sexy = Math.round(_sexyTotal / _layers)>>
-<<else>>
-	<<set _formal = Math.round(_formTotal)>>
-	<<set _sexy = Math.round(_formTotal)>>
-<</if>>
-<<if $PC.clothes.dress>>
-	<<set _topATR = Math.trunc(_topATR / 2)>>
-<</if>>
-<<set $PC.clothes.atr = Math.round(_topATR + _botATR)>>
-<<if $PC.clothes.coordOver>>
-	<<set $PC.clothes.atr += 2>>
-<</if>>
-<<if $PC.clothes.coordUnder>>
-	<<set $PC.clothes.atr += 1>>
-<</if>>
-<<set $PC.clothes.exp = _exp>>
-<<if _formal >= 7>>
-	<<set $PC.clothes.form = "black tie">>
-	<<set $PC.clothes.formCode = 3>>
-<<elseif _formal >= 5>>
-	<<set $PC.clothes.form = "formal">>
-	<<set $PC.clothes.formCode = 2>>
-<<elseif _formal >= 3>>
-	<<set $PC.clothes.form = "semi-formal">>
-	<<set $PC.clothes.formCode = 1>>
-<<elseif _formal <= -4>>
-	<<set $PC.clothes.form = "very casual">>
-	<<set $PC.clothes.formCode = -2>>
-<<elseif _formal <= -1>>
-	<<set $PC.clothes.form = "casual">>
-	<<set $PC.clothes.formCode = -1>>
-<<else>>
-	<<set $PC.clothes.form = "dressy">>
-	<<set $PC.clothes.formCode = 0>>
-<</if>>
-<<if _sexy >= 8>>
-	<<set $PC.clothes.sex = "slutty">>
-	<<set $PC.clothes.sexCode = 3>>
-<<elseif _sexy >= 5>>
-	<<set $PC.clothes.sex = "super-sexy">>
-	<<set $PC.clothes.sexCode = 2>>
-<<elseif _sexy >= 3>>
-	<<set $PC.clothes.sex = "sexy">>
-	<<set $PC.clothes.sexCode = 1>>
-<<elseif _sexy <= -4>>
-	<<set $PC.clothes.sex = "very cute">>
-	<<set $PC.clothes.sexCode = -2>>
-<<elseif _sexy <= -1>>
-	<<set $PC.clothes.sex = "cute">>
-	<<set $PC.clothes.sexCode = -1>>
-<<else>>
-	<<set $PC.clothes.sex = "normal">>
-	<<set $PC.clothes.sexCode = 0>>
-<</if>>
-<</widget>>
 
-<<widget "calcClothingStatus">>
-
-<</widget>>

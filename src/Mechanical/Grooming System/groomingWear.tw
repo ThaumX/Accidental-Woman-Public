@@ -1,308 +1,234 @@
-:: groomingWear [nobr]
+:: groomingWear [nobr hidden]
 
-<center>@@.head1;Jewelry Menu@@</center>
-<br>
-<<button "''∧''">><<replace "#curjewel">><</replace>><</button>><<button "''∨''">><<replace "#curjewel">>
-<table>
-<tr><td width="15%">
-@@.alme;''Necklace''@@
-</td><td width="25%">
-@@.exp;<<print $PC.jewel.jNeck[1]>>@@
-</td><td width="10%">
-[img[$PC.jewel.jNeck[3]]]
-</td><td width="15%">
-@@.alme;''Eyebrow''@@
-</td><td width="25%">
-<<if $PC.jewel.jEyebrow[0]>>@@.exp;<<print $PC.jewel.jEyebrow[1]>>@@<<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="10%">
-[img[$PC.jewel.jEyebrow[3]]]
-</td></tr><tr><td width="15%">
-@@.alme;''Right Wrist''@@
-</td><td width="25%">
-@@.exp;<<print $PC.jewel.jRwrist[1]>>@@
-</td><td width="10%">
-[img[$PC.jewel.jRwrist[3]]]
-</td><td width="15%">
-@@.alme;''Earlobes''@@
-</td><td width="25%">
-<<if $PC.jewel.jEar[0]>>@@.exp;<<print $PC.jewel.jEar[1]>>@@<<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="10%">
-[img[$PC.jewel.jEar[3]]]
-</td></tr><tr><td width="15%">
-@@.alme;''Left Wrist''@@
-</td><td width="25%">
-@@.exp;<<print $PC.jewel.jLwrist[1]>>@@
-</td><td width="10%">
-[img[$PC.jewel.jLwrist[3]]]
-</td><td width="15%">
-@@.alme;''Upper Ears''@@
-</td><td width="20%">
-<<if $PC.jewel.jUpear[0]>>@@.exp;<<print $PC.jewel.jUpear[1]>>@@<<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="15%">
-[img[$PC.jewel.jUpear[3]]]
-</td></tr><tr><td width="15%">
-@@.alme;''Right Hand''@@
-</td><td width="25%">
-@@.exp;<<print $PC.jewel.jRhand[1]>>@@
-</td><td width="10%">
-[img[$PC.jewel.jRhand[3]]]
-</td><td width="15%">
-@@.alme;''Bellybutton''@@
-</td><td width="25%">
-<<if $PC.jewel.jBelly[0]>>@@.exp;<<print $PC.jewel.jBelly[1]>>@@<<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="10%">
-[img[$PC.jewel.jBelly[3]]]
-</td></tr><tr><td width="15%">
-@@.alme;''Left Hand''@@
-</td><td width="25%">
-@@.exp;<<print $PC.jewel.jLhand[1]>>@@
-</td><td width="10%">
-[img[$PC.jewel.jLhand[3]]]
-</td><td width="15%">
-@@.alme;''Right Nipple''@@
-</td><td width="25%">
-<<if $PC.jewel.jRnip[0]>>@@.exp;<<print $PC.jewel.jRnip[1]>>@@<<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="10%">
-[img[$PC.jewel.jRnip[3]]]
-</td></tr><tr><td width="15%">
-@@.alme;''Nose''@@
-</td><td width="25%">
-<<if $PC.jewel.jNose[0]>>@@.exp;<<print $PC.jewel.jNose[1]>>@@<<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="10%">
-[img[$PC.jewel.jNose[3]]]
-</td><td width="15%">
-@@.alme;''Left Nipple''@@
-</td><td width="25%">
-<<if $PC.jewel.jLnip[0]>>@@.exp;<<print $PC.jewel.jLnip[1]>>@@<<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="10%">
-[img[$PC.jewel.jLnip[3]]]
-</td></tr><tr><td width="15%">
-@@.alme;''Lower Lip''@@
-</td><td width="25%">
-<<if $PC.jewel.jLip[0]>>@@.exp;<<print $PC.jewel.jLip[1]>>@@<<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="10%">
-[img[$PC.jewel.jLip[3]]]
-</td><td width="15%">
-@@.alme;''Clitoris''@@
-</td><td width="25%">
-<<if $PC.jewel.jClit[0]>>@@.exp;<<print $PC.jewel.jClit[1]>>@@<<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="10%">
-[img[$PC.jewel.jClit[3]]]
-</td></tr><tr><td width="15%">
-@@.alme;''Tongue''@@
-</td><td width="25%">
-<<if $PC.jewel.jTongue[0]>>@@.exp;<<print $PC.jewel.jTongue[1]>>@@<<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="10%">
-[img[$PC.jewel.jTongue[3]]]
-</td><td width="15%">
-@@.alme;''Labia''@@
-</td><td width="25%">
-<<if $PC.jewel.jLabia[0]>>@@.exp;<<print $PC.jewel.jLabia[1]>>@@<<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="10%">
-[img[$PC.jewel.jLabia[3]]]
-</td></tr></table>
-<</replace>><</button>> @@.head3;Current Jewelry@@<br>
-<span id="curjewel"></span>
-<br><br>
-<<button "''∧''">><<replace "#wearjewel">><br><br><br><br><br><br><br><br><</replace>><</button>><<button "''∨''">><<replace "#wearjewel">>
-<<silently>>
-<<set _neckList = " ">>
-<<set _wristList = " ">>
-<<set _handList = " ">>
-<<set _noseList = " ">>
-<<set _lipList = " ">>
-<<set _tongueList = " ">>
-<<set _eyebrowList = " ">>
-<<set _earList = " ">>
-<<set _upearList = " ">>
-<<set _bellyList = " ">>
-<<set _nipList = " ">>
-<<set _clitList = " ">>
-<<set _labiaList = " ">>
-<<for _i to 0, _neckNames to Object.keys($jewel.neck); _i lt _neckNames.length; _i++>>
-	<<if $jewel.neck[_neckNames[_i]][0]>>
-		<<set _neckList += "'">>
-		<<set _neckList += _neckNames[_i]>>
-		<<set _neckList += "' ">>
-	<</if>>
-<</for>>
-<<set _changeNeckPrint = "<<dropdown '_changeNeck'" + _neckList + ">>">>
-<<for _i to 0, _wristNames to Object.keys($jewel.wrist); _i lt _wristNames.length; _i++>>
-	<<if $jewel.wrist[_wristNames[_i]][0]>>
-		<<set _wristList += "'">>
-		<<set _wristList += _wristNames[_i]>>
-		<<set _wristList += "' ">>
-	<</if>>
-<</for>>
-<<set _changeRWristPrint = "<<dropdown '_changeRWrist'" + _wristList + ">>">>
-<<set _changeLWristPrint = "<<dropdown '_changeLWrist'" + _wristList + ">>">>
-<<for _i to 0, _handNames to Object.keys($jewel.hand); _i lt _handNames.length; _i++>>
-	<<if $jewel.hand[_handNames[_i]][0]>>
-		<<set _handList += "'">>
-		<<set _handList += _handNames[_i]>>
-		<<set _handList += "' ">>
-	<</if>>
-<</for>>
-<<set _changeRHandPrint = "<<dropdown '_changeRHand'" + _handList + ">>">>
-<<set _changeLHandPrint = "<<dropdown '_changeLHand'" + _handList + ">>">>
-<<for _i to 0, _noseNames to Object.keys($jewel.nose); _i lt _noseNames.length; _i++>>
-	<<if $jewel.nose[_noseNames[_i]][0]>>
-		<<set _noseList += "'">>
-		<<set _noseList += _noseNames[_i]>>
-		<<set _noseList += "' ">>
-	<</if>>
-<</for>>
-<<set _changeNosePrint = "<<dropdown '_changeNose'" + _noseList + ">>">>
-<<for _i to 0, _lipNames to Object.keys($jewel.lip); _i lt _lipNames.length; _i++>>
-	<<if $jewel.lip[_lipNames[_i]][0]>>
-		<<set _lipList += "'">>
-		<<set _lipList += _lipNames[_i]>>
-		<<set _lipList += "' ">>
-	<</if>>
-<</for>>
-<<set _changeLipPrint = "<<dropdown '_changeLip'" + _lipList + ">>">>
-<<for _i to 0, _tongueNames to Object.keys($jewel.tongue); _i lt _tongueNames.length; _i++>>
-	<<if $jewel.tongue[_tongueNames[_i]][0]>>
-		<<set _tongueList += "'">>
-		<<set _tongueList += _tongueNames[_i]>>
-		<<set _tongueList += "' ">>
-	<</if>>
-<</for>>
-<<set _changeTonguePrint = "<<dropdown '_changeTongue'" + _tongueList + ">>">>
-<<for _i to 0, _eyebrowNames to Object.keys($jewel.eyebrow); _i lt _eyebrowNames.length; _i++>>
-	<<if $jewel.eyebrow[_eyebrowNames[_i]][0]>>
-		<<set _eyebrowList += "'">>
-		<<set _eyebrowList += _eyebrowNames[_i]>>
-		<<set _eyebrowList += "' ">>
-	<</if>>
-<</for>>
-<<set _changeEyebrowPrint = "<<dropdown '_changeEyebrow'" + _eyebrowList + ">>">>
-<<for _i to 0, _earNames to Object.keys($jewel.ear); _i lt _earNames.length; _i++>>
-	<<if $jewel.ear[_earNames[_i]][0]>>
-		<<set _earList += "'">>
-		<<set _earList += _earNames[_i]>>
-		<<set _earList += "' ">>
-	<</if>>
-<</for>>
-<<set _changeEarPrint = "<<dropdown '_changeEar'" + _earList + ">>">>
-<<for _i to 0, _upearNames to Object.keys($jewel.upear); _i lt _upearNames.length; _i++>>
-	<<if $jewel.upear[_upearNames[_i]][0]>>
-		<<set _upearList += "'">>
-		<<set _upearList += _upearNames[_i]>>
-		<<set _upearList += "' ">>
-	<</if>>
-<</for>>
-<<set _changeUpearPrint = "<<dropdown '_changeUpear'" + _upearList + ">>">>
-<<for _i to 0, _bellyNames to Object.keys($jewel.belly); _i lt _bellyNames.length; _i++>>
-	<<if $jewel.belly[_bellyNames[_i]][0]>>
-		<<set _bellyList += "'">>
-		<<set _bellyList += _bellyNames[_i]>>
-		<<set _bellyList += "' ">>
-	<</if>>
-<</for>>
-<<set _changeBellyPrint = "<<dropdown '_changeBelly'" + _bellyList + ">>">>
-<<for _i to 0, _nipNames to Object.keys($jewel.nip); _i lt _nipNames.length; _i++>>
-	<<if $jewel.nip[_nipNames[_i]][0]>>
-		<<set _nipList += "'">>
-		<<set _nipList += _nipNames[_i]>>
-		<<set _nipList += "' ">>
-	<</if>>
-<</for>>
-<<set _changeRNipPrint = "<<dropdown '_changeRNip'" + _nipList + ">>">>
-<<set _changeLNipPrint = "<<dropdown '_changeLNip'" + _nipList + ">>">>
-<<for _i to 0, _clitNames to Object.keys($jewel.clit); _i lt _clitNames.length; _i++>>
-	<<if $jewel.clit[_clitNames[_i]][0]>>
-		<<set _clitList += "'">>
-		<<set _clitList += _clitNames[_i]>>
-		<<set _clitList += "' ">>
-	<</if>>
-<</for>>
-<<set _changeClitPrint = "<<dropdown '_changeClit'" + _clitList + ">>">>
-<<for _i to 0, _labiaNames to Object.keys($jewel.labia); _i lt _labiaNames.length; _i++>>
-	<<if $jewel.labia[_labiaNames[_i]][0]>>
-		<<set _labiaList += "'">>
-		<<set _labiaList += _labiaNames[_i]>>
-		<<set _labiaList += "' ">>
-	<</if>>
-<</for>>
-<<set _changeLabiaPrint = "<<dropdown '_changeLabia'" + _labiaList + ">>">>
-<</silently>>
-<table>
-<tr><td width="15%">
-<<if $PC.jewel.jNeck[0]>><<button "Necklace">><<set _temp = "<<set $PC.jewel.jNeck = $jewel.neck." + _changeNeck + ">>">><<print _temp>><</button>><<else>>@@.alme;''Necklace''@@<</if>>
-</td><td width="35%">
-<<if $PC.jewel.jNeck[0]>><<print _changeNeckPrint>><<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="15%">
-<<if $PC.jewel.jEyebrow[0]>><<button "Eyebrow">><</button>><<else>>@@.alme;''Eyebrow''@@<</if>>
-</td><td width="35%">
-<<if $PC.jewel.jEyebrow[0]>><<print _changeEyebrowPrint>><<else>>@@.exp;Not Pierced@@<</if>>
-</td></tr>
-<tr><td width="15%">
-<<if $PC.jewel.jRwrist[0]>><<button "R Wrist">><<set _temp = "<<set $PC.jewel.jRwrist = $jewel.wrist." + _changeRWrist + ">>">><<print _temp>><</button>><<else>>@@.alme;''R Wrist''@@<</if>>
-</td><td width="35%">
-<<if $PC.jewel.jRwrist[0]>><<print _changeRWristPrint>><<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="15%">
-<<if $PC.jewel.jEar[0]>><<button "Earlobes">><</button>><<else>>@@.alme;''Earlobes''@@<</if>>
-</td><td width="35%">
-<<if $PC.jewel.jEar[0]>><<print _changeEarPrint>><<else>>@@.exp;Not Pierced@@<</if>>
-</td></tr>
-<tr><td width="15%">
-<<if $PC.jewel.jLwrist[0]>><<button "L Wrist">><<set _temp = "<<set $PC.jewel.jLwrist = $jewel.wrist." + _changeLWrist + ">>">><<print _temp>><</button>><<else>>@@.alme;''L Wrist''@@<</if>>
-</td><td width="35%">
-<<if $PC.jewel.jLwrist[0]>><<print _changeLWristPrint>><<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="15%">
-<<if $PC.jewel.jUpear[0]>><<button "Upper Ear">><</button>><<else>>@@.alme;''Upper Ear''@@<</if>>
-</td><td width="35%">
-<<if $PC.jewel.jUpear[0]>><<print _changeUpearPrint>><<else>>@@.exp;Not Pierced@@<</if>>
-</td></tr>
-<tr><td width="15%">
-<<if $PC.jewel.jRhand[0]>><<button "R Hand">><<set _temp = "<<set $PC.jewel.jRhand = $jewel.hand." + _changeRHand + ">>">><<print _temp>><</button>><<else>>@@.alme;''R Hand''@@<</if>>
-</td><td width="35%">
-<<if $PC.jewel.jRhand[0]>><<print _changeRHandPrint>><<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="15%">
-<<if $PC.jewel.jBelly[0]>><<button "Bellybutton">><</button>><<else>>@@.alme;''Bellybutton''@@<</if>>
-</td><td width="35%">
-<<if $PC.jewel.jBelly[0]>><<print _changeBellyPrint>><<else>>@@.exp;Not Pierced@@<</if>>
-</td></tr>
-<tr><td width="15%">
-<<if $PC.jewel.jLhand[0]>><<button "L Hand">><<set _temp = "<<set $PC.jewel.jLhand = $jewel.hand." + _changeLHand + ">>">><<print _temp>><</button>><<else>>@@.alme;''L Hand''@@<</if>>
-</td><td width="35%">
-<<if $PC.jewel.jLhand[0]>><<print _changeLHandPrint>><<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="15%">
-<<if $PC.jewel.jRnip[0]>><<button "R Nipple">><</button>><<else>>@@.alme;''R Nipple'@@<</if>>
-</td><td width="35%">
-<<if $PC.jewel.jRnip[0]>><<print _changeRNipPrint>><<else>>@@.exp;Not Pierced@@<</if>>
-</td></tr>
-<tr><td width="15%">
-<<if $PC.jewel.jNose[0]>><<button "Nose">><</button>><<else>>@@.alme;''Nose''@@<</if>>
-</td><td width="35%">
-<<if $PC.jewel.jNose[0]>><<print _changeNosePrint>><<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="15%">
-<<if $PC.jewel.jLnip[0]>><<button "L Nipple">><</button>><<else>>@@.alme;''L Nipple''@@<</if>>
-</td><td width="35%">
-<<if $PC.jewel.jLnip[0]>><<print _changeLNipPrint>><<else>>@@.exp;Not Pierced@@<</if>>
-</td></tr>
-<tr><td width="15%">
-<<if $PC.jewel.jLip[0]>><<button "Lip">><</button>><<else>>@@.alme;''Lip''@@<</if>>
-</td><td width="35%">
-<<if $PC.jewel.jLip[0]>><<print _changeLipPrint>><<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="15%">
-<<if $PC.jewel.jClit[0]>><<button "Clit">><</button>><<else>>@@.alme;''Clit''@@<</if>>
-</td><td width="35%">
-<<if $PC.jewel.jClit[0]>><<print _changeClitPrint>><<else>>@@.exp;Not Pierced@@<</if>>
-</td></tr>
-<tr><td width="15%">
-<<if $PC.jewel.jTongue[0]>><<button "Tongue">><</button>><<else>>@@.alme;''Tongue''@@<</if>>
-</td><td width="35%">
-<<if $PC.jewel.jTongue[0]>><<print _changeTonguePrint>><<else>>@@.exp;Not Pierced@@<</if>>
-</td><td width="15%">
-<<if $PC.jewel.jLabia[0]>><<button "Labia">><</button>><<else>>@@.alme;''Labia''@@<</if>>
-</td><td width="35%">
-<<if $PC.jewel.jLabia[0]>><<print _changeLabiaPrint>><<else>>@@.exp;Not Pierced@@<</if>>
-</td></tr>
-<tr><td colspan=4>
-@@.note;Your default jewelry is whatever you happen to be wearing. Due to the laws of spacetime in Appletree (laziness), you can wear the same jewelry item on the left and right at the same time.
-</td></tr></table>
-<</replace>><</button>> @@.head3;Wear Jewelry@@<br>
-<span id="wearjewel"><br><br><br><br><br><br><br><br></span>
+
+<<set _buttPrint = "<div class='jewelDiv'><img data-passage='IMGjewelButton' style='float:right;margin:8px 3px 7px 8px;border-radius:4px;'>Open Jewelry Inventory</div>">>
+<<link _buttPrint>><<append "#groomContainer">><<include [[jewelryMenu]]>><</append>><</link>>
+<h3>Currently Worn Jewelry:</h3>
+<div style="display:block;width:95%;border-width:1px;border-style:dashed;border-color:#666;border-radius:6px;text-align:center;">
+<<print setup.jewel.printWorn()>>
+</div>
+
+
+
+:: jewelryMenu [nobr hidden]
+
+<div id="uiJewelryMenu" class="flipInX animated">
+  <center><img data-passage="IMG-PiercingMenu" style="border-radius:8px;margin: 5px 5px 10px;"></center>
+  <div style="position:absolute;top:3px;right:3px;margin:0px;padding:0px;">
+    <<link "[img[Exit|IMG-Close]]">><<run aw.drake.destroy()>><<animexit "uiJewelryMenu" "flipInX" "flipOutX" true>><</link>>
+  </div>
+  <<timed 500ms>>
+  <<run setup.drag.jewelry()>>
+  <<run setup.drag.jewListener()>>
+  <</timed>>
+  <div id="owned" class="dragZone" style="position:absolute;width:525px;top:180px;left:10px;bottom:10px;">
+    <<print setup.drag.formatJewinv($PC.jewel.owned)>>
+  </div>
+  <div style="position:absolute;top:180px;left:625px;right:10px;bottom:10px;padding:0px;margin:0px;">
+  <table id="invisTable" style="text-align:center;">
+  <tr>
+    <td style="width:175px">
+      <span class="head3">Upper Ear</span><br>
+      <<if $PC.jewel.pierced.upEar>>
+        <div id="upEar" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.upEar)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+    <td style="width:175px">
+      <span class="head3">Main Ear</span><br>
+      <<if $PC.jewel.pierced.earR>>
+        <div id="earR" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.earR)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+    <td style="width:175px">
+      <span class="head3">Second Ear</span><br>
+      <<if $PC.jewel.pierced.earL>>
+        <div id="earL" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.earL)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+    <td style="width:175px">
+      <span class="head3">Eyebrow</span><br>
+      <<if $PC.jewel.pierced.brow>>
+        <div id="brow" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.brow)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span class="head3">Nose</span><br>
+      <<if $PC.jewel.pierced.nose>>
+        <div id="nose" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.nose)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+    <td>
+      <span class="head3">Lip</span><br>
+      <<if $PC.jewel.pierced.lip>>
+        <div id="lip" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.lip)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+    <td>
+      <span class="head3">Tongue</span><br>
+      <<if $PC.jewel.pierced.tongue>>
+        <div id="tongue" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.tongue)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+    <td>
+      <span class="head3">Neck</span><br>
+      <<if $PC.jewel.pierced.neck>>
+        <div id="neck" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.neck)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span class="head3">Right Wrist</span><br>
+      <<if $PC.jewel.pierced.wristR>>
+        <div id="wristR" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.wristR)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+    <td>
+      <span class="head3">Left Wrist</span><br>
+      <<if $PC.jewel.pierced.wristL>>
+        <div id="wristL" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.wristL)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+    <td>
+      <span class="head3">Main Nipple</span><br>
+      <<if $PC.jewel.pierced.nipR>>
+        <div id="nipR" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.nipR)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+    <td>
+      <span class="head3">Second Nipple</span><br>
+      <<if $PC.jewel.pierced.nipL>>
+        <div id="nipL" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.nipL)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span class="head3">Left Ring Finger</span><br>
+      <<if $PC.jewel.pierced.handL>>
+        <div id="handL" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.handL)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+    <td>
+      <span class="head3">Left Ring</span><br>
+      <<if $PC.jewel.pierced.ringL>>
+        <div id="ringL" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.ringL)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+    <td>
+      <span class="head3">Right Ring</span><br>
+      <<if $PC.jewel.pierced.ringR>>
+        <div id="ringR" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.ringR)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+    <td>
+      <span class="head3">Right Ring Finger</span><br>
+      <<if $PC.jewel.pierced.handR>>
+        <div id="handR" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.handR)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span class="head3">Navel</span><br>
+      <<if $PC.jewel.pierced.belly>>
+        <div id="belly" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.belly)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+    <td>
+      <span class="head3">Clitoris</span><br>
+      <<if $PC.jewel.pierced.clit>>
+        <div id="clit" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.clit)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+    <td>
+      <span class="head3">Labia</span><br>
+      <<if $PC.jewel.pierced.labia>>
+        <div id="labia" class="dragZone jewCunt">
+          <<print setup.drag.formatJew($PC.jewel.labia)>>
+        </div>
+      <<else>>
+        [img[IMG-ReqPiercingPH]]
+      <</if>>
+    </td>
+    <td>
+    </td>
+  </tr>
+  </table>
+  </div>
+</div>
 

@@ -1,11 +1,11 @@
-setup.defineSexPositions = function(){
+setup.defineSexPositions = function () {
   /*Variables used to define SexAct class object*/
   setup.sexPos = {};
   /*set up an object of subfunctions to define sex methods if undefined*/
   var funks = {};
   var cunt = 0;
   /*==========Start defining SexActs==========*/
-  funks.standing = function(){
+  funks.standing = function () {
     var longName = "Standing";
     var keyName = "standing";
     var prime = {
@@ -36,7 +36,7 @@ setup.defineSexPositions = function(){
     var effect = {
       placeholder: "fucker",
     };
-    var action = function(){
+    var action = function () {
       return true;
     };
     var req = {
@@ -69,16 +69,15 @@ setup.defineSexPositions = function(){
     var hovtext = "Stand close to your partner/s.";
     /*create the SexAct class object*/
     cunt += 1;
-    try{
-      setup.sexPos.standing = new SexPos(longName,keyName,library,prime,tags,cat,occupy,effect,action,req,jizz,control,inPos,move,wet,sPace,hovname,hovtext,button);
-    }
-    catch(e){
-      let mes = "initializing sexact "+keyName+" failed with error: "+e;
+    try {
+      setup.sexPos.standing = new SexPos(longName, keyName, library, prime, tags, cat, occupy, effect, action, req, jizz, control, inPos, move, wet, sPace, hovname, hovtext, button);
+    } catch (e) {
+      let mes = "initializing sexact " + keyName + " failed with error: " + e;
       console.log(mes);
       alert(mes);
     }
   };
-  funks.holdClose = function(){
+  funks.holdClose = function () {
     var longName = "Hold Close";
     var keyName = "holdClose";
     var prime = {
@@ -109,7 +108,7 @@ setup.defineSexPositions = function(){
     var effect = {
       placeholder: "fucker",
     };
-    var action = function(){
+    var action = function () {
       return true;
     };
     var req = {
@@ -142,16 +141,15 @@ setup.defineSexPositions = function(){
     var hovtext = "Pull your partner close so that your whole bodies touch.";
     /*create the SexAct class object*/
     cunt += 1;
-    try{
-      setup.sexPos.holdClose = new SexPos(longName,keyName,library,prime,tags,cat,occupy,effect,action,req,jizz,control,inPos,move,wet,sPace,hovname,hovtext,button);
-    }
-    catch(e){
-      let mes = "initializing sexact "+keyName+" failed with error: "+e;
+    try {
+      setup.sexPos.holdClose = new SexPos(longName, keyName, library, prime, tags, cat, occupy, effect, action, req, jizz, control, inPos, move, wet, sPace, hovname, hovtext, button);
+    } catch (e) {
+      let mes = "initializing sexact " + keyName + " failed with error: " + e;
       console.log(mes);
       alert(mes);
     }
   };
-  funks.sitting = function(){
+  funks.sitting = function () {
     var longName = "Sitting";
     var keyName = "sitting";
     var prime = {
@@ -182,7 +180,7 @@ setup.defineSexPositions = function(){
     var effect = {
       placeholder: "fucker",
     };
-    var action = function(){
+    var action = function () {
       return true;
     };
     var req = {
@@ -215,17 +213,16 @@ setup.defineSexPositions = function(){
     var hovtext = "sit down somewhere I guess.";
     /*create the SexAct class object*/
     cunt += 1;
-    try{
-      setup.sexPos.sitting = new SexPos(longName,keyName,library,prime,tags,cat,occupy,effect,action,req,jizz,control,inPos,move,wet,sPace,hovname,hovtext,button);
-    }
-    catch(e){
-      let mes = "initializing sexact "+keyName+" failed with error: "+e;
+    try {
+      setup.sexPos.sitting = new SexPos(longName, keyName, library, prime, tags, cat, occupy, effect, action, req, jizz, control, inPos, move, wet, sPace, hovname, hovtext, button);
+    } catch (e) {
+      let mes = "initializing sexact " + keyName + " failed with error: " + e;
       console.log(mes);
       alert(mes);
     }
   };
-  var n = 2;/*Object.keys(funks).length;*/
-  for(let i = 0, k = Object.keys(funks); i < n; i++){
+  var n = 2; /*Object.keys(funks).length;*/
+  for (let i = 0, k = Object.keys(funks); i < n; i++) {
     setTimeout(funks[k[i]]);
   }
   /*var backupPlan = function(){

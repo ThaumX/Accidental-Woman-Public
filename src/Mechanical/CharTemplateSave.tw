@@ -1,0 +1,45 @@
+:: SaveCharacterTemplate [nobr hidden startpage]
+
+@@.head2;Save A Character Template@@
+<br><br>
+@@.head3;W@@@@.acme;.white;elcome to the @@@@.ident;Template System@@@@.acme;.white;. This system is intended to allow you to create a @@@@.ident;Template@@@@.acme;.white; file for your character, NPC settings, and other configurations. A character template contains all of the details about your character chosen during character creation. When loading a template, your choices for physical body, attractiveness preferences, personality traits, kinks, and mutations are loaded, and you are deposited on the <i>Name Your Character</i> page. Share templates with other players to try something new!@@
+<br><br>
+@@.quest;.white;''Instructions''<br>Enter a name for your template in the text box below. (You may use whatever name you like, but invalid characters will be removed.) A file will be saved by your browser into your default download location, or you will be prompted for a save location, depending on browser used. The file will be saved in the @@@@.ident;Accidental Woman Template@@ @@.quest;.white;format, with the extension@@ @@.ident;.awt@@@@.quest;.white;.@@
+<br><br>
+@@.note;<span id="workinginfo">press save to start</span>@@<br>
+<<set _exname = "AWTemplate_" + Date.now()>>
+<<textbox "_filename" _exname>> @@.uibutton;<<button "SAVE">>
+  <<procS "Gen Save">>
+  <<script>>
+    function encodeAndSave(fnam){
+      if (fnam === undefined) {
+        y = "AW-NoNameSupplied";
+      }
+      var filename,obData;
+      try{
+        obData = setup.AW.compressAWT();
+      }
+      catch(e){
+        alert(`Sorry, it seems template data couldn't be generated because of an error. check the console log for details... Canceling the template save.`);
+        return;
+      }
+      if(obData === 69){
+        alert(`Sorry, it seems template data couldn't be generated because of an error. ${e.name}: ${e.message}... Canceling the template save.`);
+        return;
+      }
+      try{
+        filename = Util.slugify(fnam);
+      }
+      catch(e){
+        alert("Error converting filename, using default instead.");
+        filename = "AWTemplateFile";
+      }
+      filename = fnam + ".awt";
+      var blob = new Blob([obData], {type: "text/plain;charset=utf-16"});
+      saveAs(blob, filename);
+    }
+    encodeAndSave(State.temporary.filename);
+  <</script>>
+  <<procE>>
+  <<replace "#workinginfo">>Done!<</replace>>
+<</button>>@@ <<button "return">><<goto [[nameCharacter]]>><</button>>

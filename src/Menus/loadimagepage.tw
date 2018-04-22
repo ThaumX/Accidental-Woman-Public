@@ -1,0 +1,78 @@
+:: loadimgpage [nobr startpage hidden]
+
+
+<<silently>>
+<<set _barnone = "<ul id='skill' class='megrim noDisplay' style='width:80%;text-align:left;margin:0;'><li><span id='pBar' class='bar' style='width:0%; background-color:#35d3ff;'></span><p class='bartext megrim white'><span id='pBarText' style='font-size:130%;font-weight:bold;'>Progress:</span></p></li></ul>">>
+<<set _barprog = 0>>
+<<set _count = 0>>
+<</silently>>
+<h2>Image Loading Page</h2>
+<p class="quest white">This page is used to load images from one or more Accidental Woman Resources files (.awr). Using such a file allows fast performance, while keeping the regularly-released html file small. You can also use this interface to load custom images. Images should be compiled as an awr file using the AWR Creator; plain image files won't work. <<info "Instructions" guideImageLoading>></p>
+
+<div style="vertical-align:top;text-align:center;margin:auto;margin-top:20px;width:800px;">
+<center>
+<span id="gobutt" class="uibutton"><input type=file id='templateupload' name='templateupload' multiple><<sp 2>><<button "LOAD">>
+<<addclass "#gobutt" "noDisplay">>
+<<removeclass "#skill" "noDisplay">>
+<<script>>
+function uploadButton(filename, fn) {
+  $("#outputcodeblock").append(` Loading ${fn}...`);
+  let reader = new FileReader();
+  reader.readAsText(filename);
+  reader.onload = function () {
+    $("#outputcodeblock").prepend(`... loaded file: ${fn}<br>`);
+    setup.imgbaradd();
+    setup.loadImages(reader.result, fn);
+  };
+  reader.onerror = function (error) {
+    $("#outputcodeblock").prepend(`. <span style="color:#fc4e4e;">A file failed because of: ${error}</span><br>`);
+    setup.imgbaradd();
+    setup.imgbaradd();
+  };
+}
+
+function proccer() {
+  var cock = document.getElementById("templateupload").files;
+  const usReg = new RegExp(/(AWresource-)[a-zR-Z][a-zA-Z0-9-]{2,8}(-ver[0-9]+)\.(awr)$/);
+  let r = new RegExp(/(AWresource-)[a-zA-Z0-9-]{3,9}(-ver[0-9]+)\.(awr)$/);
+  let n = cock.length,
+    usFiles = [];
+  setup.fwait = n;
+  setup.imgbarinit(n);
+  for (let i = 0; i < n; i++) {
+    if (r.test(cock[i].name)) {
+      if (usReg.test(cock[i].name)) {
+        usFiles.push(cock[i]);
+      } else {
+        uploadButton(cock[i], cock[i].name);
+      }
+    } else {
+      $("#outputcodeblock").prepend(`Sorry, ${cock[i].name} isn't a valid filename, and will be skipped. Use only .awr files.`);
+      alert(`Sorry, ${cock[i].name} isn't a valid filename, and will be skipped. Use only .awr files.`);
+      setup.fwait -= 1;
+    }
+  }
+  let usl = usFiles.length;
+  if (usl > 0) {
+    $("#outputcodeblock").prepend(`<span class="import">Preparing load of ${usl} overwrite awr files.</span>`);
+    setTimeout(proccerTwo(usFiles), 2000);
+  }
+}
+
+function proccerTwo(files) {
+  let n = files.length;
+  for (let i = 0; i < n; i++) {
+    uploadButton(files[i], files[i].name);
+  }
+}
+proccer();
+<</script>>
+<<procE>>
+<</button>><<button "Cancel">><<goto [[Start]]>><</button>><br>[img[IMG_AWRfile]]</span>
+<<print _barnone>>
+</center>
+</div>
+
+<div id="outputcodeblock" style="left:320px;top:60%;">
+Waiting...
+</div>

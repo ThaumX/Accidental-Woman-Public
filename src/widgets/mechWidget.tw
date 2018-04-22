@@ -7,202 +7,21 @@
 <<replace "#right-ui-bar-body">><<display "StoryRightSidebar">><</replace>>
 <</silently>><</widget>>
 
-/*Interprets the current  $time variable, setting $hour and $min for use elsewhere and printing to sidebar*/
+/*Interprets the current  $time variable, setting $time[0] and $time[1] for use elsewhere and printing to sidebar*/
 <<widget "timeInterpret">>
 <<silently>>
-<<if $hour == 12>>
-	<<set _ampm = "PM">>
-	<<set _hour = 12>>
-<<elseif $hour > 12>>
-	<<set _ampm = "PM">>
-	<<set _hour = ($hour - 12)>>
-<<elseif $hour == 0>>
-	<<set _hour = 12>>
-	<<set _ampm = "AM">>
-<<else>>
-	<<set _ampm = "AM">>
-	<<set _hour = $hour>>
-<</if>>
-<<if $hour >= 19 || $hour < 6 >>
+<<set _time = setup.timeDisp>>
+
+<<if $time[0] >= 19 || $time[0] < 6 >>
 	<<set _sym = "☽">>
 <<else>>
 	<<set _sym = "☼">>
 <</if>>
-<</silently>>@@.clock;<<print _hour>><<print ":">><<if $min < 10>><<print "0">><</if>><<print $min>>^^<<print _ampm>>^^<<print " ">><<print _sym>>@@\
+<</silently>>@@.clock;<<print _time>><<print " ">><<print _sym>>@@\
 <</widget>>
 
-/*Increments time to account for 60 rather than 100 minutes. Triggers new day and runs date calculate if goes past 2400. arg0=hr arg1=min OR arg0=min*/
-<<widget "addTime">>
-<<if ndef $args[0]>>
-	<<set _temp = passage()>>
-	<<set $AW.error += ", time setting error - no args sent to addTime function in passage: ">>
-	<<set $AW.error += _temp>>
-	<<set _addHour = 0>>
-	<<set _addMin = 0>>
-<<elseif ndef $args[1]>>
-  <<if $cheatTime>><<set $args[0] = Math.round($args[0]/2)>><</if>>
-  <<set _addMin = $args[0] % 60>>
-  <<set _addHour = Math.floor($args[0] / 60)>>
-<<else>>
-  <<if $cheatTime>><<set $args[0] = Math.round($args[0]/2)>><</if>>
-  <<if $cheatTime>><<set $args[1] = Math.round($args[1]/2)>><</if>>
-	<<if  $args[1] < 60 && $args[1] >= 0>>
-		<<set _addMin = $args[1]>>
-	<<else>>
-		<<set _temp = passage()>>
-		<<set $AW.error += ", time setting error - bad minute value to setTime function in passage: ">>
-		<<set $AW.error += _temp>>
-		<<set _addMin = 0>>
-	<</if>>
-	<<if  $args[0] < 24 && $args[0] >= 0>>
-		<<set _addHour = $args[0]>>
-	<<else>>
-		<<set _temp = passage()>>
-		<<set $AW.error += ", time setting error - bad hour value to addTime function in passage: ">>
-		<<set $AW.error += _temp>>
-		<<set _addHour = 0>>
-	<</if>>
-<</if>>
-<<set $min += _addMin>>
-<<if $min > 59>>
-	<<set _addHour += 1>>
-	<<set $min -= 60>>
-<</if>>
-<<set $hour += _addHour>>
-<<if $hour > 23>>
-	<<set $hour -= 24>>
-	<<set $day += 1>>
-	<<set $date[0] += 1>>
-	<<set $dayChange = true>>
-	<<dateCalculate>>
-	<<if not $flag.Prologue>>
-		<<set $dayTotal += 1>>
-	<</if>>
-	/*<<pcTotalATR>> moved to day system!*/
-<</if>>
-<<if _addHour > 0 >>
-	<<set _chunker = Math.round( _addMin + ( _addHour * 60))>>
-<<else>>
-	<<set _chunker = Math.round( _addMin )>>
-<</if>>
-<<if _chunker >= 0>>
-	<<set $timeChunk += _chunker>>
-<<else>>
-	<<set alert("negative time error")>>
-<</if>>
-<<set _numbnuts = Math.trunc($timeChunk / 15)>>
-<<set _numberV = Math.round(_numbnuts)>>
-<<if _numberV > 0>>
-<<set _runFucker = " ">>
-<<for _i to 0; _i < _numberV; _i++>>
-	<<set $timeChunk -= 15>>
-	<<if $timeChunk < 15>><<set _i += _numberV>><</if>>
-	<<if $timeChunk < 0>>
-		<<set $timeChunk = 0>>
-		<<run alert("Prechunked time value was less than 0!")>>
-	<<else>>
-		<<set $timeCount += 1>>
-		<<set _runFucker += "<<timeStatusCheck>>">>
-	<</if>>
-	<<set _debug += " " + _i>>
-<</for>>
-<<print _runFucker>>
-<</if>>
-/*actually set main time variable*/
-<<set $time = ($hour * 100) + $min>>
-/*check for sleep warning*/
-<<if $sched.sleepWarnOn && $time >= $sched.sleepWarn>>
-	<<if $dayChange & $sched.workDays[$day]>>
-		<<set $sched.alertPend = true>>
-		<<timeToSleepMessage>>
-		<<set $sched.sleepWarnOn = false>>
-	<<elseif $day == 7 && $sched.workDays[1]>>
-		<<set $sched.alertPend = true>>
-		<<timeToSleepMessage>>
-		<<set $sched.sleepWarnOn = false>>
-	<<elseif $day < 7 && $sched.workDays[($day + 1)]>>
-		<<set $sched.alertPend = true>>
-		<<timeToSleepMessage>>
-		<<set $sched.sleepWarnOn = false>>
-	<</if>>
-<</if>>
-/*enable quicksleep sidebar shortcut*/
-<<if $time >= ( $sched.sleepWarn - 100)>>
-	<<set $sched.fastSleep = true>>
-<</if>>
-/*check all plans for any alert threshold*/
-<<if $sched.alerts && $sched.plans[$day].length > 0>>/**/
-	<<for _i to 0; _i < $sched.plans[$day].length; _i++>>
-		<<if $sched.plans[$day][_i].alert && $sched.plans[$day][_i].start <= ($time + 100 )>>
-			<<set $sched.plans[$day][_i].alert = false>>
-			<<appointmentAlert _i>>
-			<<set $sched.alertPend = true>>
-		<</if>>
-	<</for>>
-<</if>>
-/*print all possible alert text, buttons, etc in a single dialog box*/
-<<if $sched.alertPend>>
-	<<dialog "Appointment Reminder">>
-		<<print $sched.alertText>>
-		<<set $sched.alertPend = false>>
-	<</dialog>>
-<</if>>
-<</widget>>
-
-/*sets the time - IGNORES PASSING TIME!!! - do not use for normal time increment!*/
-<<widget "setTime">>
-<<if ndef $args[0]>>
-	<<set _temp = passage()>>
-	<<set $AW.error += ", time setting error - no args sent to time function in passage: ">>
-	<<set $AW.error += _temp>>
-<<elseif ndef $args[1]>>
-	<<if  $args[0] < 60 && $args[0] >= 0>>
-		<<set $min = $args[0]>>
-	<<else>>
-		<<set _temp = passage()>>
-		<<set $AW.error += ", time setting error - bad minute value to setTime function in passage: ">>
-		<<set $AW.error += _temp>>
-	<</if>>
-<<else>>
-	<<if  $args[1] < 60 && $args[1] >= 0>>
-		<<set $min = $args[1]>>
-	<<else>>
-		<<set _temp = passage()>>
-		<<set $AW.error += ", time setting error - bad minute value to setTime function in passage: ">>
-		<<set $AW.error += _temp>>
-	<</if>>
-	<<if  $args[0] < 24 && $args[0] >= 0>>
-		<<set $hour = $args[0]>>
-	<<else>>
-		<<set _temp = passage()>>
-		<<set $AW.error += ", time setting error - bad hour value to setTime function in passage: ">>
-		<<set $AW.error += _temp>>
-	<</if>>
-<</if>>
-<<set $time = ($hour * 100) + $min>>
-<</widget>>
-
-/*displays the full date*/
-<<widget "dateDisplay">>
-<<if $dayText == "New Year">>
-@@.ship;<<print $dayText>>@@
-<<print ", ">>
-<<print $monthDate>>
-<<print " ">>
-@@.ship;<<print $monthText>>@@
-<<else>>
-	<<if $dayText == "Saturday" || $dayText == "Sunday">>
-		@@.pink;<<print $dayText>>@@
-	<<else>>
-		@@.white;<<print $dayText>>@@
-	<</if>>
-<</if>>
-<<print ", ">>
-<<print $monthDate>>
-<<print " ">>
-<<print $monthText>>
-@@.white;<<print " - Week: ">>@@
-<<print $week>>
+<<widget "openGrooming">>
+<<replace "#awUIcontainer">><<include [[groomingMain]]>><</replace>>
 <</widget>>
 
 /*Widget displays current status of several variables, and color codes them*/
@@ -257,21 +76,6 @@
 <<elseif $PC.status.satisfaction > 80 && $PC.status.need == 0>>
 	<<print ", ">>
 	@@.green;<<print "Completely Satisfied">>@@
-<</if>>
-<<if $PC.status.pregA != 0 || $PC.status.pregB != 0>>
-	<<if $PC.status.pregA > 30 && $PC.status.pregB > 30>>
-		<<print ", ">>
-		@@.red;<<print "Dangerously Pregnant">>@@
-	<<elseif $PC.status.pregA > 30 || $PC.status.pregB > 30>>
-		<<print ", ">>
-		@@.yellow;<<print "Very Pregnant">>@@
-	<<elseif $PC.kink.pregnancy>>
-		<<print ", ">>
-		@@.green;<<print "Pregnant">>@@
-	<<else>>
-		<<print ", ">>
-		@@.white;<<print "Pregnant">>@@
-	<</if>>
 <</if>>
 <<if $PC.status.alcohol != 0>>
 	<<switch $PC.status.alcohol>>
@@ -345,7 +149,6 @@
 
 /*prints PC's mood based on anger, happiness, and sleep (for dreams)*/
 <<widget "pcMood">>
-''<<print "Mood: ">>''
 <<if $PC.status.mindbreak>>
 	@@.px18;.red;<<print "mindbroken">>@@
 <<elseif $PC.status.alcohol > 5 || $PC.status.drugs > 4>>
@@ -369,7 +172,7 @@
 <<elseif $PC.status.happy > 7>>
 	@@.px18;.green;<<print "Blissful">>@@
 <<elseif $PC.status.happy > 5>>
-	@@.px18;.green<<print "Very Happy">>@@
+	@@.px18;.green;<<print "Very Happy">>@@
 <<elseif $PC.status.happy > 2>>
 	@@.px18;<<print "Happy">>@@
 <<else>>
@@ -380,7 +183,9 @@
 /*displays color-coded text on BC and cycle based on current variables*/
 <<widget "cycleStatus">>
 @@.px18;<<print "Birth Control: ">>@@
-<<if $PC.status.birthCon < 75 && $PC.trait.perceptive == 1>>
+<<if $PC.status.birthCon != 0 && $PC.kink.pregnancy>>
+  @@.px18;.orange;$PC.status.birthConType@@
+<<elseif $PC.status.birthCon < 75 && $PC.trait.perceptive == 1>>
 	@@.px18;.yellow;$PC.status.birthConType@@
 <<elseif $PC.status.birthCon != 0>>
 	@@.px18;.green;$PC.status.birthConType@@
@@ -389,42 +194,33 @@
 <</if>>
 <br>
 @@.px18;<<print "Cycle: ">>@@
+<<if $PC.status.period != 0>>
+  @@.px18;.pink;$PC.status.fertText@@
+<<else>>
 <<switch $PC.status.risk>>
 	<<case 0>>
-		<<if $PC.status.period != 0>>
-			@@.px18;.pink;$PC.status.fertText@@
-		<<else>>
-			@@.px18;.ship;$PC.status.fertText@@
-		<</if>>
-	<<case 0.5>>
-		@@.px18;.ship;$PC.status.fertText@@
+		@@.px18;.green;$PC.status.fertText@@
 	<<case 1>>
-		@@.px18;.ship;$PC.status.fertText@@
-	<<case 1.5>>
-		@@.px18;.ship;$PC.status.fertText@@
-	<<case 2>>
-		@@.px18;.green;$PC.status.fertText@@
-	<<case 2.5>>
-		@@.px18;.green;$PC.status.fertText@@
-	<<case 3>>
 		@@.px18;.yellowgreen;$PC.status.fertText@@
-	<<case 3.5>>
+	<<case 2>>
 		@@.px18;.yellow;$PC.status.fertText@@
-	<<case 4>>
+	<<case 3>>
 		@@.px18;.orange;$PC.status.fertText@@
-	<<case 4.5>>
+	<<case 4>>
 		@@.px18;.orangered;$PC.status.fertText@@
 	<<case 5>>
-		@@.px18;.orangered;$PC.status.fertText@@
+		@@.px18;.red;$PC.status.fertText@@
 <</switch>>
+<</if>>
 <</widget>>
 
+/*
 <<widget "setScene">>
 <<silently>>
-/*args list. 0 is player situation, 1 is npc, 2 is group, 3 is location*/
+/*args list. 0 is player situation, 1 is npc, 2 is group, 3 is location
 <<if ndef $args[3]>>
 	<<set $sceneA = "There was an error. Please report this bug!">>
-	<<set $sceneB = "Scene information was improperly set, insufficient data."
+	<<set $sceneB = "Scene information was improperly set, insufficient data.">>
 	<<set $sceneC = "Available Information:">>
 	<<set $showDebug = true>>
 	<<if ndef $args[0]>>
@@ -477,11 +273,12 @@
 <</if>>
 <</silently>>
 <</widget>>
+*/
 
 /*<<widget "status">>\
 <<silently>>
 <<if ndef $args[0] || $args[0] == 0>>
-<<set $runop = [($PC.trait.libido * 2.85),$PC.main.background,($PC.skill.exhibition * 2.85),($PC.skill.prostitute * 2.85),($PC.skill.sex * 2.85),($PC.skill.oral * 2.85),($PC.skill.seduction * 2.85),($PC.skill.comm * 2.85),($PC.skill.org * 2.85),($PC.skill.probSolving * 2.85),($PC.skill.finance * 2.85),($PC.skill.art * 2.85),($PC.skill.athletic * 2.85),($PC.skill.dancing * 2.85),($PC.skill.clean * 2.85),($PC.skill.shop * 2.85),($PC.skill.cook * 2.85),$PC.status.birthCon,$PC.status.birthConType,($PC.status.alcohol * 2.85),($PC.status.drugs * 2.85),($PC.status.pregA * 2.45),($PC.status.pregB * 2.45),($PC.status.milk * 2.45),($PC.status.arousal * 2.35),($PC.body.orgasm * 2.35),($PC.status.pleasure * 2.35),($PC.status.need * 3.15),($PC.status.satisfaction * 3.15),($PC.status.stress * 3.55),($PC.status.happy * 3.55),($PC.status.anger * 3.55),($PC.status.fatigue * 3.55),$PC.status.will,($AW.cash * 4.207),$PC.status.mindbreak,($PC.status.morality * 1.68),($PC.status.perversion * 1.68),($PC.status.lonely * 9.74),($PC.status.health * 6.96),($PC.status.addict.sex * 4.37),($PC.status.addict.alc * 4.37),($PC.status.addict.heat * 4.37),($PC.status.addict.satyr * 4.37),($PC.status.addict.focus * 4.37),($PC.status.addict.cum * 4.37),($PC.status.addict.zone * 4.37),($PC.status.addict.cream * 4.37)]>>
+<<set $runop = [($PC.trait.libido * 2.85),$PC.main.background,($PC.skill.exhibition * 2.85),($PC.skill.prostitute * 2.85),($PC.skill.sex * 2.85),($PC.skill.oral * 2.85),($PC.skill.seduction * 2.85),($PC.skill.comm * 2.85),($PC.skill.org * 2.85),($PC.skill.probSolving * 2.85),($PC.skill.finance * 2.85),($PC.skill.art * 2.85),($PC.skill.athletic * 2.85),($PC.skill.dancing * 2.85),($PC.skill.clean * 2.85),($PC.skill.shop * 2.85),($PC.skill.cook * 2.85),$PC.status.birthCon,$PC.status.birthConType,($PC.status.alcohol * 2.85),($PC.status.drugs * 2.85),($PC.status.wombA.weeks * 2.45),($PC.status.wombB.weeks * 2.45),($PC.status.milk * 2.45),($PC.status.arousal * 2.35),($PC.body.orgasm * 2.35),($PC.status.pleasure * 2.35),($PC.status.need * 3.15),($PC.status.satisfaction * 3.15),($PC.status.stress * 3.55),($PC.status.happy * 3.55),($PC.status.anger * 3.55),($PC.status.fatigue * 3.55),$PC.status.will,($AW.cash * 4.207),$PC.status.mindbreak,($PC.status.morality * 1.68),($PC.status.perversion * 1.68),($PC.status.lonely * 9.74),($PC.status.health * 6.96),($PC.status.addict.sex * 4.37),($PC.status.addict.alc * 4.37),($PC.status.addict.heat * 4.37),($PC.status.addict.satyr * 4.37),($PC.status.addict.focus * 4.37),($PC.status.addict.cum * 4.37),($PC.status.addict.zone * 4.37),($PC.status.addict.cream * 4.37)]>>
 <<elseif $args[0] == 1>>
 <<set $PC.trait.libido = Math.round( $runop[0] / 2.85 )>>
 <<set $PC.main.background = $runop[1]>>
@@ -504,8 +301,8 @@
 <<set $PC.status.birthConType = $runop[18]>>
 <<set $PC.status.alcohol = Math.round( $runop[19] / 2.85 )>>
 <<set $PC.status.drugs = Math.round( $runop[20] / 2.85 )>>
-<<set $PC.status.pregA = Math.round( $runop[21] / 2.45 )>>
-<<set $PC.status.pregB = Math.round( $runop[22] / 2.45 )>>
+<<set $PC.status.wombA.weeks = Math.round( $runop[21] / 2.45 )>>
+<<set $PC.status.wombB.weeks = Math.round( $runop[22] / 2.45 )>>
 <<set $PC.status.milk = Math.round( $runop[23] / 2.45 )>>
 <<set $PC.status.arousal = Math.round( $runop[24] / 2.35 )>>
 <<set $PC.body.orgasm = Math.round( $runop[25] / 2.35 )>>
@@ -569,7 +366,9 @@
 		<</if>>
 		<<run setup.storeState()>>
 	<</if>>
+  <<set _achimgprint = "<span id='achievWrap'><div id='achievement' class='bounceInDown animated'>[img[IMGachievement]]<br>" + _add + "</div><<timed 3000ms>><<animexit 'achievement' 'bounceInDown' 'bounceOutDown' 'achievWrap'>><</timed>></span>">>
 <</silently>>
+<<print _achimgprint>>
 <</widget>>
 
 <<widget "startSexScene">>
@@ -579,16 +378,32 @@
 	<<else>>
 		<<set $sex.start = true>>
 		<<set $sex.startTime = $time>>
+    <<set $sex.restoreAfter = []>>
 		/*set situational orgasm moddifier - Currently DUMMY*/
 		<<set $sex.situOrg = $args[0]>>
 		<<if $args[1] == "all">>
 			<<set $sex.activeNPC = $activeNPC>>
 		<<else>>
-			<<set _length = $args[1].length>>
+      <<set _length = $activeNPC.length>>
+			<<set _newActL = $args[1].length>>
+      <<set _forSex = $args[1]>>
+      <<if _newActL > _length>>
+        <<set _msg = "DEBUG ERROR:\nrequested sex npcs (" + _newActL + ") is greater than activeNPCs (" + _length + ")!">>
+        <<run alert(_msg)>>
+      <</if>>
 			<<set $sex.activeNPC = []>>
-			<<for _i = 0; _i < _length; _i++>>
-				<<run $sex.activeNPC.push($activeNPC[$args[1][_i]])>>
+      <<for _i = _length - 1; _i >= 0; _i-->>
+				<<if not _forSex.includes($activeNPC[_i])>>
+          <<set $sex.restoreAfter.push($activeNPC[_i])>>
+          <<deactivateNPC $activeNPC[_i]>>
+        <</if>>
 			<</for>>
+			<<for _i = 0; _i < _newActL; _i++>>
+				<<if not $activeNPC.includes(_forSex[_i])>>
+          <<activateNPC _forSex[i]>>
+        <</if>>
+			<</for>>
+      <<set $sex.activeNPC = clone($activeNPC)>>
 		<</if>>
 		<<if "string" != typeof $args[2]>>
 			<<switch $args[2]>>
@@ -712,8 +527,40 @@
 <<if $PC.mutate.multiple>>
 	<<set $PC.fert.multEgg += 200>>
 <</if>>
+<<if $PC.mutate.cycle>>
+  <<set $PC.fert.period = 1>>
+<</if>>
 <<if $PC.mutate.period>>
 	<<set $PC.fert.period = 0>>
 <</if>>
+<<set $PC.fert.cycle = 31 - $PC.fert.fertility>>
+<<if $PC.fert.cycle > 28>>
+  <<set $PC.fert.cycle = 28>>
+<<elseif $PC.fert.cycle < 23>>
+  <<set $PC.fert.cycle = 23>>
+<</if>>
 <</silently>>
+<</widget>>
+
+<<widget "gotodev">>
+<<set _pas = $args[0]>>
+<<if $swim == "[dev]" && $AW.debugPause>>
+  <<if ndef $args[1] || "number" != typeof $args[1]>>
+  <<set _tim = "2000ms">>
+  <<else>>
+  <<set _tim = $args[1] + "ms">>
+  <</if>>
+  <<set _cunt = true>>
+  @@.com;Debugging Pause (to check for errors) Automagically continuing in <<print _tim>>@@
+  <br><br>
+  @@.uibutton;<<button "Pause">><<set _cunt = false>><</button>>
+  <<button "next passage">><<goto _pas>><</button>>@@
+  <<timed _tim>>
+  <<if _cunt>>
+  <<goto _pas>>
+  <</if>>
+  <</timed>>
+<<else>>
+  <<goto _pas>>
+<</if>>
 <</widget>>

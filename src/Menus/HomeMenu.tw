@@ -1,0 +1,138 @@
+:: HomeMenu [nobr hidden]
+
+
+<div id="invHolder"></div>
+<center>@@.head2;Home Control Menu@@</center><br>
+
+<div id="cleShits" style="display:inline-block;width:510px;float:right;border-width:2px;border-style:solid;border-color:#bbb;border-radius:8px;background-color:#444;color:#ddd;margin:0px 0px 10px 15px">
+<table id="invisTable" style="width:550px;margin:auto;">
+<<silently>>
+<<set _avg = Math.round(($home.clean.floors + $home.clean.surfaces + $home.clean.kitchen + $home.clean.bathroom + $home.clean.neatness + ($home.clean.dishes * 10) + ($home.clean.laundry * 10) + ($home.clean.bed * 10) + $home.clean.deepclean)/10)>>
+<</silently>>
+  <tr style="border-bottom:none;">
+    <td style="width:25%;">Floors</td><td style="width:25%;"><<cleanLevel $home.clean.floors>></td>
+    <td style="width:25%;">Surfaces</td><td style="width:25%;"><<cleanLevel $home.clean.surfaces>></td>
+  </tr><tr style="border-bottom:none;border-top:none;">
+    <td>Kitchen</td><td><<cleanLevel $home.clean.kitchen>></td>
+    <td>Bathrooms</td><td><<cleanLevel $home.clean.bathroom>></td>
+  </tr><tr style="border-bottom:none;border-top:none;">
+    <td>Neatness</td><td><<cleanLevel $home.clean.neatness>></td>
+    <td>Dishes</td><td><<cleanLevel "X" $home.clean.dishes>></td>
+  </tr><tr style="border-bottom:none;border-top:none;">
+    <td>Laundry</td><td><<cleanLevel "X" $home.clean.laundry>></td>
+    <td>Bed/s</td><td><<cleanLevel "X" $home.clean.bed>></td>
+  </tr><tr style="border-top:none;">
+    <td>Unobvious</td><td><<cleanLevel $home.clean.deepclean>></td>
+    <td><b>Average</b></td><td><b><<cleanLevel _avg>></b></td>
+  </tr>
+</table>
+<table id="invisTable">
+<tr><td id="vertCenter" class="head4" style="width:15%">Tier:</td><td><<print $home.stats.tier>></td></tr>
+<tr><td id="vertCenter" class="head4">Finish:</td><td><<print setup.home.apartmentScoreDisp($home.stats.finish)>></td></tr>
+<tr><td id="vertCenter" class="head4">Upkeep:</td><td><<print setup.home.apartmentScoreDisp($home.stats.upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head4">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp($home.stats.nhood)>></td></tr>
+<tr><td id="vertCenter" class="head4">Location:</td><td><<print setup.home.apartmentScoreDisp($home.stats.location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print $home.stats.rent>></td></tr>
+</table>
+</div>
+<<button "Exit">><<goto [[returner]]>><</button>><<sp 2>><<button "Home Inventory">><<status 1>><<replace "#invHolder">><<include [[HomeControlMenu]]>><</replace>><</button>><<sp 2>>@@.disabled;<<button "Decor">><</button>>@@
+<br><br>
+<span class="head3"><<print $home.stats.name>></span><<tab>><b><<print $home.stats.street>></b><br>
+<<print setup.home.apartmentDesc($home.stats.tier, $home.stats.location, $home.stats.finish, $home.stats.upkeep)>>
+<br><br>
+@@.head3;Quik Clean Setting@@<br>
+Clicking the Quik Clean map location should cause you to complete <span id="qcu" class="monospace"><<print ($home.clean.increment * 25)>>%</span> of your chosen daily cleaning amount.<br>
+<<link "25%">><<set $home.clean.increment = 1>><<replace "#qcu">><<print ($home.clean.increment * 25)>>%<</replace>><</link>>
+<<link "50%">><<set $home.clean.increment = 2>><<replace "#qcu">><<print ($home.clean.increment * 25)>>%<</replace>><</link>>
+<<link "75%">><<set $home.clean.increment = 3>><<replace "#qcu">><<print ($home.clean.increment * 25)>>%<</replace>><</link>>
+<<link "100%">><<set $home.clean.increment = 4>><<replace "#qcu">><<print ($home.clean.increment * 25)>>%<</replace>><</link>>
+<<link "125%">><<set $home.clean.increment = 5>><<replace "#qcu">><<print ($home.clean.increment * 25)>>%<</replace>><</link>>
+<<link "150%">><<set $home.clean.increment = 6>><<replace "#qcu">><<print ($home.clean.increment * 25)>>%<</replace>><</link>>
+<br><br>
+<<include [[HomeMenuCleaning]]>>
+
+
+
+
+:: HomeMenuCleaning [nobr]
+
+
+<<radioset "cleaningup" "$home.clean.pickingUp">>Straightening Up Effort <<helpPop "Straightening Up" "Straightening up represents putting things back where they belong, and generally keeping things tidy. Examples: <i>putting dishes in the sink, putting magazines away, throwing away any trash, or repositioning throw pillows.</i> A very clean home that isn't straightened up will look dirtier than it is, while a tidy home tends to look cleaner than it is. <i><b>Most</b> characters will find a tidy home more relaxing.</i>">>
+<<radioitem 1>>Very Low
+<<radioitem 2>>Low
+<<radioitem 3>>Moderate
+<<radioitem 4>>high
+<<radioitem 5>>Very high
+<</radioset>>
+
+<table><tr class="divide"><td colspan=4>@@.head3;Chores Settings@@</td></tr>
+<tr><td width="30%">
+''Straightening Up:'' <<helpPop "Straightening Up" "Straightening up represents putting things back where they belong, and generally keeping things tidy. Examples: <i>putting dishes in the sink, putting magazines away, throwing away any trash, or repositioning throw pillows.</i> A very clean home that isn't straightened up will look dirtier than it is, while a tidy home tends to look cleaner than it is. <i><b>Most</b> characters will find a tidy home more relaxing.</i>">>
+</td><td width="25%">
+<span id="straights" class="ident"><<switch $home.clean.pickingUp>><<case 0>>!Manual!<<case 1>>Rarely<<case 2>>Infrequently<<case 3>>Occassionally<<case 4>>Frequently<<case 5>>Constantly<</switch>></span>
+</td><td width="30%">
+<<dropdown '_straightDrop' "Occassional" "Rarely" "Infrequent" "Frequent" "Constantly" "Manual">>
+</td><td width="15%">
+<<button "Set Cleaning">><<switch _straightDrop>><<case "Occassional">><<set $home.clean.pickingUp = 3>><<case "Rarely">><<set $home.clean.pickingUp = 1>><<case "Infrequent">><<set $home.clean.pickingUp = 2>><<case "Frequent">><<set $home.clean.pickingUp = 4>><<case "Constantly">><<set $home.clean.pickingUp = 5>><<case "Manual">><<set $home.clean.pickingUp = 0>><</switch>><<replace "#straights">><<switch $home.clean.pickingUp>><<case 0>>!Manual!<<case 1>>Rarely<<case 2>>Infrequently<<case 3>>Occassionally<<case 4>>Frequently<<case 5>>Constantly<</switch>><</replace>><</button>>
+</td></tr><tr><td>
+''Cleaning:'' <<helpPop "Cleaning" "Cleaning represents the more involved acts of cleaning such as sweeping, mopping, dusting, and other tasks. This is the activity that results in actual cleanliness, rather than the appearance of cleanliness. It takes more time, and has the largest effect on your home's cleanliness.">>
+</td><td>
+<span id="cleans" class="ident"><<switch $home.clean.doCleaning>><<case 0>>!Manual!<<case 1>>Rarely<<case 2>>Infrequently<<case 3>>Occassionally<<case 4>>Frequently<<case 5>>Constantly<</switch>></span>
+</td><td>
+<<dropdown '_cleanDrop' "Occassional" "Rarely" "Infrequent" "Frequent" "Constantly" "Manual">>
+</td><td>
+<<button "Set Cleaning">><<switch _cleanDrop>><<case "Occassional">><<set $home.clean.doCleaning = 3>><<case "Rarely">><<set $home.clean.doCleaning = 1>><<case "Infrequent">><<set $home.clean.doCleaning = 2>><<case "Frequent">><<set $home.clean.doCleaning = 4>><<case "Constantly">><<set $home.clean.doCleaning = 5>><<case "Manual">><<set $home.clean.doCleaning = 0>><</switch>><<replace "#cleans">><<switch $home.clean.doCleaning>><<case 0>>!Manual!<<case 1>>Rarely<<case 2>>Infrequently<<case 3>>Occassionally<<case 4>>Frequently<<case 5>>Constantly<</switch>><</replace>><</button>>
+</td></tr><tr><td>
+''Washing Dishes:'' <<helpPop "Dishes" "Dishes are pretty self-explanatory. Regardless of the setting chosen (except manual), time spent on the chore will be divided evenly between days. Doing dishes less frequently is more efficient, but can lower comfort and the appearance of cleanliness.<br><br>@@.note;You do actually have the modern equivilent of a dishwasher, which is a high-efficiency device that sanitizes dishes a couple at a time in under a minute. Despite being fast and environmentally friendly--particularly for those living alone with a relatively small amount of dishes--it still takes time to pre-rinse, insert, take out, and put away dishes.@@">>
+</td><td>
+<span id="dishs" class="ident"><<switch $home.clean.doDishes>><<case 0>>!Manual!<<case 1>>When Have To<<case 2>>When Sink Full<<case 3>>Daily<<case 4>>After Meals<<case 5>>After Using<</switch>></span>
+</td><td>
+<<dropdown '_dishDrop' "Daily" "When Have To" "When Sink Full" "After Meals" "After Using" "Manual">>
+</td><td>
+<<button "Set Cleaning">><<switch _dishDrop>><<case "Daily">><<set $home.clean.doDishes = 3>><<case "When Have To">><<set $home.clean.doDishes = 1>><<case "When Sink Full">><<set $home.clean.doDishes = 2>><<case "After Meals">><<set $home.clean.doDishes = 4>><<case "After Using">><<set $home.clean.doDishes = 5>><<case "Manual">><<set $home.clean.doDishes = 0>><</switch>><<replace "#dishs">><<switch $home.clean.doDishes>><<case 0>>!Manual!<<case 1>>When Have To<<case 2>>When Sink Full<<case 3>>Daily<<case 4>>After Meals<<case 5>>After Using<</switch>><</replace>><</button>>
+</td></tr><tr><td>
+''Washing Laundry:'' <<helpPop "Laundry" "Laundry is pretty self-explanatory. Regardless of the setting chosen (except manual), time spent on the chore will be divided evenly between days. Not doing laundry often enough will result in you wearing dirty clothes, which may not make the best impression on others.">>
+</td><td>
+<span id="laundrys" class="ident"><<switch $home.clean.doLaundry>><<case 0>>!Manual!<<case 1>>When Stinky<<case 2>>Out of Clothes<<case 3>>Weekly<<case 4>>Twice a Week<<case 5>>Daily<</switch>></span>
+</td><td>
+<<dropdown '_laundryDrop' "Weekly" "When Stinky" "Out of Clothes" "Twice a Week" "Daily" "Manual">>
+</td><td>
+<<button "Set Cleaning">><<switch _laundryDrop>><<case "Weekly">><<set $home.clean.doLaundry = 3>><<case "When Stinky">><<set $home.clean.doLaundry = 1>><<case "Out of Clothes">><<set $home.clean.doLaundry = 2>><<case "Twice a Week">><<set $home.clean.doLaundry = 4>><<case "Daily">><<set $home.clean.doLaundry = 5>><<case "Manual">><<set $home.clean.doLaundry = 0>><</switch>><<replace "#laundrys">><<switch $home.clean.doLaundry>><<case 0>>!Manual!<<case 1>>When Stinky<<case 2>>Out of Clothes<<case 3>>Weekly<<case 4>>Twice a Week<<case 5>>Daily<</switch>><</replace>><</button>>
+</td></tr><tr><td>
+''Making the Bed:'' <<helpPop "Bedding" "Making the bed is pretty self-explanatory. Regardless of the setting chosen (except manual), time spent on the chore will be divided evenly between days. This setting also affects the frequency you wash the sheets. Not making the bed probably won't be noticed by friends, but will likely make an impression on NPCs you invite into your bed.">>
+</td><td>
+<span id="beds" class="ident"><<switch $home.clean.doBed>><<case 0>>!Manual!<<case 1>>When Stinky<<case 2>>Infrequently<<case 3>>Make or Tidy<<case 4>>Every Day<<case 5>>Every Morning<</switch>></span>
+</td><td>
+<<dropdown '_bedDrop' "Make or Tidy" "When Stinky" "Infrequently" "Every Day" "Every Morning" "Manual">>
+</td><td>
+<<button "Set Cleaning">><<switch _bedDrop>><<case "Make or Tidy">><<set $home.clean.doBed = 3>><<case "When Stinky">><<set $home.clean.doBed = 1>><<case "Infrequently">><<set $home.clean.doBed = 2>><<case "Every Day">><<set $home.clean.doBed = 4>><<case "Every Morning">><<set $home.clean.doBed = 5>><<case "Manual">><<set $home.clean.doBed = 0>><</switch>><<replace "#beds">><<switch $home.clean.doBed>><<case 0>>!Manual!<<case 1>>When Stinky<<case 2>>Infrequently<<case 3>>Make or Tidy<<case 4>>Every Day<<case 5>>Every Morning<</switch>><</replace>><</button>>
+</td></tr></table>
+
+
+
+:: HomeCleaningDisplay [nobr]
+
+<<set _avg = Math.round(($home.clean.floors + $home.clean.surfaces + $home.clean.kitchen + $home.clean.bathroom + $home.clean.neatness + ($home.clean.dishes * 10) + ($home.clean.laundry * 10) + ($home.clean.bed * 10) + $home.clean.deepclean)/10)>>
+@@.head3;Y@@ou spend @@.monospace;<<= $home.clean.cleaningTime>>@@ minutes cleaning your home.
+<br><br>
+<table style="width:600px;margin:auto">
+  <tr class="divide"><td colspan=4>@@.head3;Current Cleanliness@@</td></tr>
+  <tr style="border-bottom:none;">
+    <td style="width:20%;">Floors</td><td style="width:30%;"><<cleanLevel $home.clean.floors>></td>
+    <td style="width:20%;">Surfaces</td><td style="width:30%;"><<cleanLevel $home.clean.surfaces>></td>
+  </tr><tr style="border-bottom:none;border-top:none;">
+    <td>Kitchen</td><td><<cleanLevel $home.clean.kitchen>></td>
+    <td>Bathrooms</td><td><<cleanLevel $home.clean.bathroom>></td>
+  </tr><tr style="border-bottom:none;border-top:none;">
+    <td>Neatness</td><td><<cleanLevel $home.clean.neatness>></td>
+    <td>Dishes</td><td><<cleanLevel "X" $home.clean.dishes>></td>
+  </tr><tr style="border-bottom:none;border-top:none;">
+    <td>Laundry</td><td><<cleanLevel "X" $home.clean.laundry>></td>
+    <td>Bed/s</td><td><<cleanLevel "X" $home.clean.bed>></td>
+  </tr><tr style="border-top:none;">
+    <td>Unobvious</td><td><<cleanLevel $home.clean.deepclean>></td>
+    <td><b>Average</b></td><td><b><<cleanLevel _avg>></b></td>
+  </tr>
+</table>
+
+

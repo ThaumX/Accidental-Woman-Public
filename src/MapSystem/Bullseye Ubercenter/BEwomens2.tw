@@ -5,55 +5,14 @@
 /*Basic settings. Most done by map control passage*/
 
 <</silently>>
-<div id="topbar">
-/* GAME MAP TABLE - Displays 4x4 map grid next to spot for area image. Grid simulates image map links, which are flakey in Twine */
-<center>
-<table id="navigation">
-<tr id="navigation">
-<td id="navigation">[img[Hardware|IMGbullseye11][controlBullseye][$map.destLoc = [1,1]]]</td>
-<td id="navigation">[img[Electronics|IMGbullseye12][controlBullseye][$map.destLoc = [1,2]]]</td>
-<td id="navigation">[img[Toys & Games|IMGbullseye13][controlBullseye][$map.destLoc = [1,3]]]</td>
-<td id="navigation">[img[Baby|IMGbullseye14][controlBullseye][$map.destLoc = [1,4]]]</td>
-<td id="navigation">[img[Grocery|IMGbullseye15][controlBullseye][$map.destLoc = [1,5]]]</td>
-<td rowspan="5" id="navigation"><<link [img[$map.imageName]]>><<dialog 'Detail Map'>>[img[IMGbullseyeBig]]<br>@@.note;You can not click this map to navigate.@@<</dialog>><</link>></td>
-</tr>
-<tr id="navigation">
-<td id="navigation">[img[Housewares|IMGbullseye21][controlBullseye][$map.destLoc = [2,1]]]</td>
-<td id="navigation">[img[Women's Clothing - Tops, Dresses, & Coats|IMGbullseye22][controlBullseye][$map.destLoc = [2,2]]]</td>
-<td id="navigation">[img[IMGbullseyeX23][controlBullseye][$map.destLoc = [2,3]]]</td>
-<td id="navigation">[img[Lingerie & Jewelry|IMGbullseye24][controlBullseye][$map.destLoc = [2,4]]]</td>
-<td id="navigation">[img[Grocery|IMGbullseye25][controlBullseye][$map.destLoc = [2,5]]]</td>
-</tr>
-<tr id="navigation">
-<td id="navigation">[img[Housewares|IMGbullseye31][controlBullseye][$map.destLoc = [3,1]]]</td>
-<td id="navigation">[img[Children's Clothing - Girls|IMGbullseye32][controlBullseye][$map.destLoc = [3,2]]]</td>
-<td id="navigation">[img[Children's Clothing - Boys|IMGbullseye33][controlBullseye][$map.destLoc = [3,3]]]</td>
-<td id="navigation">[img[Men's Clothing|IMGbullseye34][controlBullseye][$map.destLoc = [3,4]]]</td>
-<td id="navigation">[img[Grocery|IMGbullseye35][controlBullseye][$map.destLoc = [3,5]]]</td>
-</tr>
-<tr id="navigation">
-<td id="navigation">[img[Pharmacy|IMGbullseye41][controlBullseye][$map.destLoc = [4,1]]]</td>
-<td id="navigation">[img[Stationary & Optometrist|IMGbullseye42][controlBullseye][$map.destLoc = [4,2]]]</td>
-<td id="navigation">[img[Best Head Hair Salon|IMGbullseye43][controlBullseye][$map.destLoc = [4,3]]]</td>
-<td id="navigation">[img[Customer Service|IMGbullseye44][controlBullseye][$map.destLoc = [4,4]]]</td>
-<td id="navigation">[img[Produce, Deli, Bakery|IMGbullseye45][controlBullseye][$map.destLoc = [4,5]]]</td>
-</tr>
-<tr id="navigation">
-<td id="navigation">[img[Parking Lot|IMGbullseye51][controlBullseye][$map.destLoc = [5,1]]]</td>
-<td id="navigation">[img[Parking Lot|IMGbullseye52][controlBullseye][$map.destLoc = [5,2]]]</td>
-<td id="navigation">[img[Parking Lot|IMGbullseye53][controlBullseye][$map.destLoc = [5,3]]]</td>
-<td id="navigation">[img[Parking Lot|IMGbullseye54][controlBullseye][$map.destLoc = [5,4]]]</td>
-<td id="navigation">[img[Parking Lot|IMGbullseye55][controlBullseye][$map.destLoc = [5,5]]]</td>
-</tr>
-</table></center>
-</div>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPbullseye]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
 <div id="mainshits">
-<center>@@.pulseHead;<<=$map.name>>@@</center>
-<br><br>
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
-<<walkDescriptBullseye>><<= " ">><<mapEventBullseye>><br><br>
+<p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<<switch $map.weather>>
+<p class="weather-disc"><<switch $map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -78,22 +37,22 @@
 
 <<case "+sn">>
 
-<<case default>>
+<<default>>
 
 <</switch>>
+Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+</p>
 /*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
 @@.head3;Y@@ou are standing in Bullseye's large women's clothing department. This area seems to sell bottoms of all sorts, from skirts to slacks. There's also a small section with athletic clothes and swimwear.
 <br>
+</div>
 /*IN-PASSAGE span text*/
 <span id="locact"></span>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
-/*ACTION TABLE*/
-/*refactored to use the mousehover-based DOM macros, look prettier, and saves space*/
-<table id="Actions">
-<tr><td colspan=2>
-/*this controls the element that will appear on mouse hover NOTE that for reasons, the closing tag in these macros are <<endmacroname>> instead of <</macroname>>*/
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise hovLowerBody>>
-	<<button "LowerBody">><<set _time = 15>><<set _time += random(4,11)>><<set _time += random(3,12)>><<addTime _time>><<dialog "Shop for Skirts and Pants">><<include [[BElowerbody]]>><<onclose>>setup.refresh()<</dialog>><</button>>
+	<<button "LowerBody">><<set _time = 15>><<set _time += random(4,11)>><<set _time += random(3,12)>><<addTime _time>><<dialog "Shop for Skirts and Pants">><<include [[BElowerbody]] "div">><<onclose>>setup.refresh()<</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise hovSwimsuits>>
 	@@.disabled;<<button "Swimsuits">><</button>>@@
@@ -101,37 +60,28 @@
 <<hoverrevise hovAthletic>>
 	@@.disabled;<<button "Athletic Clothes">><</button>>@@
 <<endhoverrevise>>
-<<hoverrevise hovFitting>>
-	<<button [[Fitting Room|BEchanging]]>><</button>>
-<<endhoverrevise>>
-/*now we add spans for any event-based items, prior to the final info button*/
-<span id="weatherButton"></span>
-<span id="eventButton"></span>
-
-</td></tr>
-<tr><td style="width:10%">
-/*label, and keeps space more consistent with hover text if any description text is longer than 2 lines in-game (aproximately) then add another <br>*/
 <<hoverrevise hovCart>>
-	@@.imgbutton;.imgmax35;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
-<<endhoverrevise>>@@.head4;<br>Info@@
-</td><td>
-/*this contains the text that will appear on mouse hover NOTE that for reasons, the closing tag in these macros are <<endmacroname>> instead of <</macroname>>*/
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
 <<insertion hovLowerBody>>@@.exp;Check out Bullseye's selection of skirts and pants. [20-35min]@@<<endinsertion>>
 <<insertion hovSwimsuits>>@@.exp;Check out Bullseye's selection of swimsuits for sale. [25-40min]@@<<endinsertion>>
 <<insertion hovAthletic>>@@.exp;Check out Bullseye's selection of athletic clothes for sale. [15-30min]@@<<endinsertion>>
-<<insertion hovFitting>>@@.exp;Visit the fitting room to try on clothes or ''do something else''.@@<<endinsertion>>
 <<insertion hovCart>>@@.exp;launches a popup that contains an ordered list of all the items in your cart, along with the pre-membership discount price.@@<<endinsertion>>
-/*spans for the descriptions of randomized event actions*/
-<span id="weatherDesc"></span>
-<span id="eventDesc"></span>
-</td></tr>
-</table>
+</div>
 /*this contains randomized event options that will print inside the related spans*/
 /*Weather-based actions added, like opening an umbrella*/
 <<weatherBullseyeAct>>
 /*Event-based actions added*/
 <<mapEventBullseyeAct>>
-</div>
+
+
+:: BEwomens2LOC [nobr]
+
+[img[IMGbullseyeBig]]
 
 
 :: BElowerbody [nobr]
@@ -166,9 +116,25 @@
 	/*update clothing item with calculated price*/
 	<<set _items[_i][11] = _prices[_i]>>
 <</for>>
+<table id="noBorder">
+  <tr id="sortShop">
+    <td style="width:8%">
+      <span class="head3">Sort:</span>
+    </td>
+    <td class="shop_sort_buttons">
+      <<button "Appeal">><<set $BEshopLB = setup.clothSort($BEshopLB,1)>><<replace ".passage-belowerbody">><<include [[BElowerbody]]>><</replace>><</button>>
+      <<button "Sexy/Cute">><<set $BEshopLB = setup.clothSort($BEshopLB,2)>><<replace ".passage-belowerbody">><<include [[BElowerbody]]>><</replace>><</button>>
+      <<button "Formality">><<set $BEshopLB = setup.clothSort($BEshopLB,3)>><<replace ".passage-belowerbody">><<include [[BElowerbody]]>><</replace>><</button>>
+      <<button "Exposure">><<set $BEshopLB = setup.clothSort($BEshopLB,4)>><<replace ".passage-belowerbody">><<include [[BElowerbody]]>><</replace>><</button>>
+      <<button "Style">><<set $BEshopLB = setup.clothSort($BEshopLB,6)>><<replace ".passage-belowerbody">><<include [[BElowerbody]]>><</replace>><</button>>
+      <<button "Price">><<set $BEshopLB = setup.clothSort($BEshopLB,11)>><<replace ".passage-belowerbody">><<include [[BElowerbody]]>><</replace>><</button>>
+      <<info "Skirt Guide" "guideSkirts">>
+    </td>
+  </tr>
+</table>
 /*arrays are built, time to display them!*/
 <table id="noBorder">
-<<for _i to 0; _i < _num; _i++>>
+<<for _i to 0; _i < _num; _i++>>  
 	<tr id="noBorder">
 	/*old habits die hard... so used to using the width property, but it isn't supported by html5*/
 	<td style="width:85px">
@@ -181,13 +147,14 @@
 	/*end column 1*/
 	</td><td style="width:600px">
 	/*print out the name*/
-	@@.storeitem;<<print _items[_i][0]>>@@<br>
+	<<set _name = _items[_i][0]>>
+  @@.storeitem;<<clothingName _name>>@@<br>
 	/*print out remaining relevant content*/
-	@@.note;''Attractiveness'' <<print _items[_i][1]>> (//<<atrGarmentDiscript _items[_i][4]>>//), ''Exposure'' <<print _items[_i][4]>> (//<<exposureGarmentDiscript _items[_i][4]>>//)@@
+	@@.note;''Attractiveness'' <<print _items[_i][1]>> (//<<atrGarmentDiscript _items[_i][1]>>//), ''Exposure'' <<print Math.floor(_items[_i][4] / 10)>><<print ".">><<print (_items[_i][4] % 10)>> (//<<exposureGarmentDiscript _items[_i][4]>>//)@@
 	/*nobr removes newline, but often leaves an unwanted space instead. that's the reason why most text-formatting code is piled into a single line.*/
 	<br>@@.note;<<if _items[_i][2] > 0>>''Sexiness'' <<print _items[_i][2]>><<else>>''Cuteness'' <<print Math.abs(_items[_i][2])>><</if>> <<if _items[_i][2] >= 6>>(//very sexy//)<<elseif _items[_i][2] >= 3>>(//sexy//)<<elseif _items[_i][2] <= -3>>(//very cute//)<<elseif _items[_i][2] <= 0>>(//cute//)<</if>>, <<if _items[_i][3] > 5>>Formal<<elseif _items[_i][3] > 1>>Semi-Formal<<elseif _items[_i][3] > -3>>Casual<<else>>Very Casual<</if>> Attire@@
 	/*end column*/
-	</td><td style="width:85px%">
+	</td><td style="width:85px">
 	/*show the price*/
 	<center>
 	@@.exp;Price@@<br>

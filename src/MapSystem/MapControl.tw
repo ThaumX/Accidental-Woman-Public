@@ -1,0 +1,104 @@
+/******************************************
+|   ███╗   ███╗ █████╗ ██████╗ ███████╗   |
+|   ████╗ ████║██╔══██╗██╔══██╗██╔════╝   |
+|   ██╔████╔██║███████║██████╔╝███████╗   |
+|   ██║╚██╔╝██║██╔══██║██╔═══╝ ╚════██║   |
+|   ██║ ╚═╝ ██║██║  ██║██║     ███████║   |
+|   ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝     ╚══════╝   |
+|   ThaumX - Game area navigation code.   |
+******************************************/
+/*Primary purpose is to introduce a specific point for map transitions.
+This isn't really a thing yet, so for now it's mostly empty!*/
+
+:: intermapControl [nobr hidden]
+
+/*empty shopping carts*/
+<<set $cart = {}>>
+<<set $cart.panties = []>>
+<<set $cart.leg = []>>
+<<set $cart.lowBody = []>>
+<<set $cart.bra = []>>
+<<set $cart.upBody = []>>
+<<set $cart.dress = []>>
+<<set $cart.swimU = []>>
+<<set $cart.swimL = []>>
+<<set $cart.athU = []>>
+<<set $cart.athL = []>>
+<<set $cart.overWear = []>>
+<<set $cart.niteU = []>>
+<<set $cart.niteL = []>>
+<<set $cart.acc = []>>
+<<set $cart.bag = []>>
+<<set $cart.item = []>>
+
+/*set control passage*/
+<<switch $map.loc[0]>>
+<<case "bullseye">>
+  <<set _dest = "controlBullseye">>
+<<case "downtown">>
+  <<set _dest = "controlDowntown">>
+<<case "residential">>
+  <<set _dest = "controlResidential">>
+<<case "home">>
+  <<set _dest = "homeControl">>
+<<case "BFhome">>
+  <<set _dest = "BFhomeControl">>
+<<case "world">>
+  <<set _dest = "worldControl">>
+<<default>>
+  <<set _dest = "mapErrorPassage">>
+<</switch>>
+<<gotodev _dest>>
+
+
+
+
+:: mapErrorPassage [nobr hidden]
+
+<h1>Appologies!</h1>
+<p>It appears that there was some sort of error in reaching your destination. However, all is not lost. The game tried to send you to: <<print $map.loc[0]>>-<<print $map.loc[1]>>-<<print $map.loc[2]>>. You were traveling from: <<print $map.lastLoc[0]>>-<<print $map.lastLoc[1]>>-<<print $map.lastLoc[1]>>. If you have time, please report this error.</p>
+<p>
+<<link "go home">>
+<<set $map.loc[0] = "home">>
+<<set $map.loc[1] = "foyer">>
+<<set $map.loc[2] = "main">>
+<<goto [[homeControl]]>>
+<</link>>
+
+
+:: worldControl [nobr hidden]
+
+<<set $PC.status.inPublic = true>>
+<<mapProcessMove>>
+<<addTime _mapTime>>
+
+
+
+/*Determine current weather after time has passed*/
+/*<<weatherCheck>>*/
+
+/*Run some widgets to control NPC actions. */
+
+
+/*Control home cleanliness functionality*/
+
+
+/*EVENTS - selects event based on several possibilities*/
+
+
+
+/*SET THE SCENE! Describes the scene, including potential NPCs*/
+
+<<if $npc.active>>
+	<<set _NPCsingle = $npc.roomview>>
+<<else>>
+	<<set _NPCsingle = 0>>
+<</if>>
+
+<<setScene _mapDesc _NPCsingle $roomviewGroup "mainstreet">>
+
+/*forwarder to change passage*/
+
+/*<<link "debug link continue">>*/
+<<goto $map.passage>>
+/*<</link>>*/

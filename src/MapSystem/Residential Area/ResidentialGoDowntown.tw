@@ -1,7 +1,81 @@
 :: ResidentialGoDowntown [nobr]
 
-Trying to go downtown, you realize that the area hasn't been built yet. Instead, you set off into the unknown. 
-<br><br>
-After what feels like days of exploring, you come realize that @@.mono;it's turtles all the way down.@@
-<br><br>
-[[return|TOResidentialCommonArea]]
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPresidential]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptResidential>> <<mapEventResidential>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch $map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+</p>
+<p>
+@@.head3;Y@@ou're standing at the edge of your neighborhood, traveling in the direction of downtown. You could walk there from here, but it's a <<print ((6 - State.variables.home.stats.location)*10+5)>> minute walk.
+</p>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Walk Downtown">><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "Stand at the Corner">><<addTime 30>><<dialog "Hooking">><<include [[ResidentialGoDowntownHook]]>><</dialog>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Walk by foot to the Downtown Appletree area. Without any particular reason to go there by foot, it's too far of a walk for you right now.<<endinsertion>>
+<<insertion beta>>Strut your stuff at the side of the road. Perhaps someone will ask you out on a "date"! [30min]<<endinsertion>>
+</div>
+
+
+:: ResidentialGoDowntownLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+
+
+:: ResidentialGoDowntownHook [nobr]
+
+<p>
+Prostitution Skill: <<print $PC.skill.prostitute>><br>
+Appearance: @@.bad;Not Obvious to Customers@@<br>
+Attractiveness: @@.yellowgreen;Acceptable@@<br>
+Skankiness: @@.ship;Not Skanky@@
+</p><p>
+@@.head3;Y@@ou wait at the street corner for 30 minutes, trying to show off your <<pcBoobSize>> chest and <<pcAssSize>> ass and attract a "date".
+</p><p>
+The time passes, but the people driving past that notice you standing there don't seem to realize that you're hooking...
+</p>

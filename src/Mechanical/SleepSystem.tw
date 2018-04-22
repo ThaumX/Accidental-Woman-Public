@@ -1,0 +1,55 @@
+:: SleepStart [nobr hidden startmenu]
+
+
+<div class="sky_cunt">
+  <div class="sky_stars"></div>
+  <div class="sky_twinkling"></div>
+  <div class="sky_clouds"></div>
+  <div id="contentBoxer" class="sky_content">
+    <h2>...sleep...</h2>
+    <<print setup.sleep.dream()>>
+  </div>
+  <div id="sky_pbar_rapist" class="bottom_pBar bottom_pBar_full">
+    <<pbarnew "#skypbar" 5 100>>
+  </div>
+  <<timed 50ms>>
+    <<pbarfinish "#skypbar">>
+      <div id="butthold"><<button "Awaken">>
+        <<script>>
+        setup.sleep.opt = jQuery.extend(true, {}, State.temporary.opt);
+        <</script>>
+        <<goto [[SleepForward]]>>
+      <</button>></div>
+    <</pbarfinish>>
+  <</timed>>
+</div>
+
+
+
+:: SleepForward [nobr hidden autosave]
+
+
+<div id="cardback">
+<span style="font-size:120%;color:#ddd;" class="volkhorn">Starting your morning...<br>
+<<if setup.sleep.opt.enabled>>
+  <<timed 1s>>
+  Equipping Your stuffs...
+  <<run setup.hair.doSet(_hair)>>
+  <<run setup.makeup.applySet(_makeup)>>
+  /*State.temporary.clothes = "standard";
+  State.temporary.ling = "standard";
+  State.temporary.over = "standard";*/
+  <</timed>>
+<</if>></span>
+<center>
+<img data-passage="IMG-SunriseForest" class="fadeIn animated" style="border-width:6px;border-style:solid;border-color:#222;border-radius:6px;">
+</center>
+<<run setup.storeState()>>
+<<timed 3s>>
+<<if $date[0] == 1>>
+  <<goto [[WeekSystemMainPage]]>>
+<<else>>
+  <<goto setup.startsPassage>>
+<</if>>
+<</timed>>
+</div>

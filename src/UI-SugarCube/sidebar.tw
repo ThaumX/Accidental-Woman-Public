@@ -2,10 +2,12 @@
 
 /*PORTRAIT DIV*/
 <<silently>>
+<<if !tags().includes("startpage")>>
 <<include [[SidebarPortraitList]]>>
 <<set _numPortrait = $UIimg.length>>
 <<if ndef $picIndex || _numPortrait < $picIndex>>
 	<<set $picIndex = _numPortrait>>
+<</if>>
 <</if>>
 <<if $picIndex < 0>><<set $picIndex = 0>><</if>>
 <<if tags().includes("startpage")>>
@@ -17,8 +19,7 @@
 <</if>>
 <<timed 50ms>><<include [[SidebarPortraitColor]]>><</timed>>
 <</silently>>
-<div id="right-UI-proc-disp" class="ship px12 monospace"><span id="passage-transition-time"></span><br>
-<<print $proc.text>>: <<print $proc.time>>ms</div>
+
 <div id="right-sidebar-portrait" class="rsp-grey">
 	<span id="uiPortrait" class="right-sidebar-portrait-class">
 		<<print _portraitPrint>>
@@ -60,9 +61,9 @@
 	<div id="portrait-character-name">
 	<<if !tags().includes("startpage")>>
 		<<if $picIndex == 0>><<print $PC.main.name>> (me)<<else>>
-		<<set _indx = $picIndex - 1>>
-    <<if ndef $NPC[$activeNPC[_indx]].main>><<updatebar>><</if>>
-		<<print $NPC[$activeNPC[_indx]].main.name>><</if>>
+		<<set $AW.indx = $picIndex - 1>>
+    <<if ndef $NPC[$activeNPC[$AW.indx]].main>><<updatebar>><</if>>
+		<<print $NPC[$activeNPC[$AW.indx]].main.name>><</if>>
 	<<else>>
 		<<print "Dev Version Msg">>
 	<</if>>
@@ -104,16 +105,12 @@
 	</div>
 </div>
 /*STATUS DIV*/
-<div id="right-sidebar-status">
-<<if passage() == "Start">>
-	<<include [[RightSidebarInfoStartpage]]>>
-<<elseif tags().includes("sex")>>
+<<if tags().includes("sex")>>
+  <div id="right-sidebar-status">
 	<<include [[RightSidebarSexDisplay]]>>
-<<else>>
-	<<include [[RightSidebarInfoDisplay]]>>
+  </div>
 <</if>>
-</div>
-<div id="right-sidebar-command">
+/*<div id="right-sidebar-command">
 <<if $showMenuButton && $showData && not tags().includes("hidden")>>
 	<<silently>>
 	<<set _dropdown = "<<dropdown '$sidebarAction'">>
@@ -141,7 +138,7 @@
 <<else>>
 	@@.ship;font-size:130%;Quick Command<br>◄Locked►@@
 <</if>>
-</div>
+</div>*/
 <<if $debugTools>>
   <div id="right-sidebar-developer-button"><<link [img[Developer Toolkit|IMGdevToolkit]]>><<dialog "Dev Toolkit">><<include [[DeveloperToolkit]]>><</dialog>><</link>></div>
 <</if>>
@@ -149,17 +146,22 @@
 
 :: RightSidebarInfoDisplay [nobr]
 
-<<if $debu>>
-  @@.ship;<<link "StateDetail">><<bugreport passage()>><</link>>  <<link "Checkvars">><<checkvars>><</link>><br>@@
-<</if>>
-<<if $showData>>
-<<pcMood>><br>
-''<<print "Arousal: ">>'' @@.pink;<<pcArousal>>@@<br>
-<<cycleStatus>><br>
-''<<print "Status: ">>''<<pcStatus>>
+
+
+:: RightSidebarDebugDelayToggle [nobr]
+
+<<if $AW.debugPause>>
+  <<button "noDelay">><<set $AW.debugPause = false>><<replace "#debugtog">><<include [[RightSidebarDebugDelayToggle]]>><</replace>><</button>>
 <<else>>
-//''Display Locked''//<br>
-This area displays information about your character or about the current scene.
+  <<button "+Delay">><<set $AW.debugPause = true>><<replace "#debugtog">><<include [[RightSidebarDebugDelayToggle]]>><</replace>><</button>>
+<</if>>
+
+:: RightSidebarDebugVisToggle [nobr]
+
+<<if $AW.debugMenuVis>>
+  <<button "HIDE">><<set $AW.debugMenuVis = false>><<addclass "#debug-bar" "hide">><<replace "#debugtooltog">><<include [[RightSidebarDebugVisToggle]]>><</replace>><</button>>
+<<else>>
+  <<button "SHOW">><<set $AW.debugMenuVis = true>><<removeclass "#debug-bar" "hide">><<replace "#debugtooltog">><<include [[RightSidebarDebugVisToggle]]>><</replace>><</button>>
 <</if>>
 
 
@@ -177,7 +179,7 @@ This area displays information about your character or about the current scene.
 <<else>>
 	<<set _inuse = _inuse.slice(2)>>
 <</if>>
-<<decodeTimeDif $sex.startTime $time>>
+<<run setup.time.dif($sex.startTime,$time)>>
 <</silently>>
 <table id="invisTableNM"><tr><td style="width:35%">
 ''People:'' <<print ($sex.npcCount+1)>>
@@ -232,6 +234,7 @@ This area displays information about your character or about the current scene.
 	<</for>>
 	<<set $UIimgFlag = false>>
 	<<set _numPortrait = $UIimg.length>>
+  <<set $picIndex = ($UIimg.length - 1)>>
 <<elseif (tags().includes("sex") && not $UIimgSexFlag)>>
 	<<set $UIimg = [$AW.pcPortrait]>>
 	<<for _i to 0, _c to $activeNPC.length; _i < _c; _i++>>

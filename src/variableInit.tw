@@ -1,6 +1,7 @@
 :: variableInit [nobr startpage]
 
 
+<div id="cardback"></div>
 <<procS "varInit">>
 <<set $showNewGame = false>>
 <<set $location = "Initializing Variables">>
@@ -31,12 +32,16 @@
 <<set $PC.body.shoulders = 3>> /*Width of Shoulder - 1-V-Narrow, 2-Narrow, 3-Average, 4-Broad, 5-V-Broad*/
 <<set $PC.body.hips = 4>> /*Width of Hips - 1-V-Narrow, 2-Narrow, 3-Average, 4-Broad, 5-V-Broad, 6-Broodmother*/
 <<set $PC.body.waist = 3>> /*comparative size of waist - 1-straight, 2-masculine, 3-curvy, 4-hourglass*/
-<<set $PC.body.height = 68>> /*height in inches*/
+<<set $PC.body.height = 67>> /*height in inches*/
 <<set $PC.body.ass = 3>> /*Size of Butt - 1-practically none, 2-small, 3-normal, 4-large, 5-huge, 6-ridiculous*/
 <<set $PC.body.tits = {}>>
 <<set $PC.body.tits.size = 740>>
 <<set $PC.body.tits.shape = "perky">>
 <<set $PC.body.tits.nipple = "normal">> /*normal, large, puffy, partially inverted, inverted,cow teat*/
+<<set $PC.body.tits.nipLength = 5>> /*1 to 8 - 1=inverted grade 2, 3=flat, 5=med, 7=v-long 8=ridiculous*/
+<<set $PC.body.tits.nipGirth = 3>> /*1 to 5 - 3=normal*/
+<<set $PC.body.tits.areola = 3>> /*1 to 5 - 3=normal*/
+<<set $PC.body.tits.puffy = 2>> /*1=Flat 2=Average 3=Puffy 4=Very Puffy 5=bumpy*/
 <<set $PC.body.tits.band = 34>>
 <<set $PC.body.tits.cupNum = 16>>
 <<set $PC.body.tits.cupRaw = 16>>
@@ -72,6 +77,9 @@
 <<set $PC.fert.barren = false>>
 <<set $PC.fert.IUD = false>>
 <<set $PC.fert.Fflag = ["none"]>>
+<<set $PC.fert.cycle = 28>>
+<<set $PC.fert.cycStart = [1,1]>>
+<<set $PC.fert.ovuMod = either(-3,-3,-2,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,2,3,3)>>
 <<set $PC.body.pregTerm = 38>> /*normal time to give birth*/
 
 /***********************************************************************************/
@@ -94,6 +102,8 @@
 <<set $PC.mutate.pseudoPreg = false>>
 <<set $PC.mutate.elastic = false>>
 <<set $PC.mutate.litePhero = false>>
+<<set $PC.mutate.fertStorm = false>>
+<<set $PC.mutate.goddess = false>>
 
 /***********************************************************************************/
 /*              PC WORN CLOTHING VARIABLES  $PC.clothes                            */
@@ -151,13 +161,23 @@
 <<set $PC.status.BCineffective = false>>
 <<set $PC.status.alcohol = 0>> /*level of intoxication*/
 <<set $PC.status.drugs = 0>> /*level of intoxication 0-5*/
-<<set $PC.status.cycle = 1>> /*week of menstral cycle*/
-<<set $PC.status.fertText = "unset">>
+
+<<set $PC.status.fertText = "cycle starting...">>
 <<set $PC.status.risk = 0>> /*level of  risk for pregnancy based on cycle - 0 = no risk, 1 = very low, 2 = low, 3 = moderate, 4 = pre ovulation, 5 = ovulation day*/
-<<set $PC.status.pregA = 0>>
-<<set $PC.status.pregB = 0>>
-<<set $PC.status.wombAcount = 0>>
-<<set $PC.status.wombBcount = 0>>
+<<set $PC.status.wombA = {}>>
+<<set $PC.status.wombB = {}>>
+<<set $PC.status.wombA.preg = false>>
+<<set $PC.status.wombA.know = false>>
+<<set $PC.status.wombA.weeks = 0>>
+<<set $PC.status.wombA.days = 0>>
+<<set $PC.status.wombA.birth = 0>>
+<<set $PC.status.wombA.count = 0>>
+<<set $PC.status.wombB.preg = false>>
+<<set $PC.status.wombB.know = false>>
+<<set $PC.status.wombB.weeks = 0>>
+<<set $PC.status.wombB.days = 0>>
+<<set $PC.status.wombB.birth = 0>>
+<<set $PC.status.wombB.count = 0>>
 <<set $PC.status.period = 0>> /*0 = no period, 1= light, 2 = mdt, 3 = heavy*/
 <<set $PC.status.milk = 0>> /*Actual milk production, 0 = not lactating*/
 <<set $PC.status.milkStore = 0>>/*in ml*/
@@ -175,8 +195,6 @@
 <<set $PC.status.health = random(94,98)>>
 <<set $PC.status.healthOld = $PC.status.health>>
 <<set $PC.status.will = 3>> /*effective willpower for widget use to speed up willpower checks*/
-<<set $PC.status.knowPregA = false>>
-<<set $PC.status.knowPregB = false>>
 <<set $PC.status.overAnger = false>>
 <<set $PC.status.overStress = false>>
 <<set $PC.status.overDepress = false>>
@@ -336,190 +354,55 @@
 <<set $PC.groom.hairLength = 12>> /*HairLength in Inches*/
 <<set $PC.groom.hairColor = "brown">>
 <<set $PC.groom.hairCurl = 1>> /*0-straight 1-slightly wavy 2-wavy 3-very wavy 4-curly 5-very curly 6-kinked*/
+
+<<set $PC.groom.hairStyle = "unkempt">>
+<<set $PC.groom.hairFlag = 0>>
+<<set $PC.groom.hairSets = {"normal":"unkempt","fancy":"unkempt","casual":"unkempt","custom 1":"unkempt","custom 2":"unkempt","custom 3":"unkempt"}>>
+<<set $PC.groom.hairDefaultFancy = "unkempt">>
+<<set $PC.groom.hairDefaultCasual = "unkempt">>
+
 <<set $PC.groom.pubeColor = "black">>
 <<set $PC.groom.pubeStyle = "neatly trimmed">>
 <<set $PC.groom.pubeGrow = 3>>
 <<set $PC.groom.pubeFreq = 3>>
 <<set $PC.groom.pube = 1>>
 <<set $PC.groom.pubeCount = 0>>
-<<set $PC.groom.hairStyle = ["somewhat unkempt",true,6,-3,0,"IMGplaceholder75"]>>
-<<set $PC.groom.hairFlag = 0>>
-<<set $PC.groom.hairDefaultNorm = "unkempt">>
-<<set $PC.groom.hairDefaultFancy = "unkempt">>
-<<set $PC.groom.hairDefaultCasual = "unkempt">>
+
 <<set $PC.groom.leghair = 1>> /*length 0lazerd, 1none,5fullgrown*/
 <<set $PC.groom.leghairCount = 1>>
 <<set $PC.groom.leghairFreq = 1>>
 <<set $PC.groom.armpit = 1>> /*length 0lazerd, 1none,5fullgrown*/
 <<set $PC.groom.armpitCount = 0>>
 <<set $PC.groom.armpitFreq = 0>>
-<<set $PC.groom.eyeMU = ["none",0,0,5,10,50,0,"IMGnone75"]>>
-<<set $PC.groom.eyeMUdefaultNorm = "none">>
-<<set $PC.groom.eyeMUdefaultFancy = "none">>
-<<set $PC.groom.eyeMUdefaultCasual = "none">>
-<<set $PC.groom.lipMU = ["none",0,0,5,10,50,0,"IMGnone75"]>>/*name,atr,qual,time,dc,thresh,special */
-<<set $PC.groom.lipMUdefaultNorm = "none">>
-<<set $PC.groom.lipMUdefaultFancy = "none">>
-<<set $PC.groom.lipMUdefaultCasual = "none">>
-<<set $PC.groom.genMU = ["none",0,0,5,10,50,0,"IMGnone75"]>>
-<<set $PC.groom.genMUdefaultNorm = "none">>
-<<set $PC.groom.genMUdefaultFancy = "none">>
-<<set $PC.groom.genMUdefaultCasual = "none">>
-<<set $PC.groom.makeupATR = 0>>
-<<set $PC.groom.clownMU = false>>
-<<set $PC.groom.makeup = "is free of makeup.">>
-<<set $PC.groom.makeupT = 0>>
-<<set $PC.groom.facewash = false>>
-<<set $PC.groom.makeupWash = false>>
-<<set $PC.groom.makeupRetry = false>>
-<<set $PC.groom.makeupRetryFail = false>>
-<<set $PC.groom.makeupTimeLimit = 60>>
+
+<<set $PC.groom.eyeMU = "none">>
+<<set $PC.groom.lipMU = "none">>
+<<set $PC.groom.genMU = "none">>
+
+<<set $PC.groom.makeup = {atr:0,sexy:0,clown:false,type:"norm",desc:"is free of makeup.",look:"none"}>>
+
 <<set $PC.groom.teeth = "natural">>
 <<set $PC.groom.toothHealth = 5>>
 <<set $PC.groom.toothbrush = 1>>
+<<set $PC.groom.lastToothbrush = [6,1,1,4]>>/*hour day week month*/
 /***********************************************************************************/
 /*              PC WORN JEWELRY VARIABLES  $PC.jewel                               */
 /***********************************************************************************/
-<<set $PC.jewel = {}>>
-<<set $PC.jewel.jNeck = [true,"none",0,"IMGnone75"]>>
-<<set $PC.jewel.jRwrist = [true,"none",0,"IMGnone75"]>>
-<<set $PC.jewel.jLwrist = [true,"none",0,"IMGnone75"]>>
-<<set $PC.jewel.jRhand = [true,"none",0,"IMGnone75"]>>
-<<set $PC.jewel.jLhand = [true,"none",0,"IMGnone75"]>>
-<<set $PC.jewel.jNose = [false,"none",0,"IMGnone75"]>>
-<<set $PC.jewel.jLip = [false,"none",0,"IMGnone75"]>>
-<<set $PC.jewel.jTongue = [false,"none",0,"IMGnone75"]>>
-<<set $PC.jewel.jEyebrow = [false,"none",0,"IMGnone75"]>>
-<<set $PC.jewel.jEar = [false,"none",0,"IMGnone75"]>>
-<<set $PC.jewel.jUpear = [false,"none",0,"IMGnone75"]>>
-<<set $PC.jewel.jBelly = [false,"none",0,"IMGnone75"]>>
-<<set $PC.jewel.jRnip = [false,"none",0,"IMGnone75"]>>
-<<set $PC.jewel.jLnip = [false,"none",0,"IMGnone75"]>>
-<<set $PC.jewel.jClit = [false,"none",0,"IMGnone75"]>>
-<<set $PC.jewel.jLabia = [false,"none",0,"IMGnone75"]>>
-
-/***********************************************************************************/
-/*              JEWELRY VARIABLES  $jewel                                          */
-/***********************************************************************************/
-<<set $jewel = {}>>
-<<set $jewel.neck = {}>>
-<<set $jewel.wrist = {}>>
-<<set $jewel.hand = {}>>
-<<set $jewel.nose = {}>>
-<<set $jewel.lip = {}>>
-<<set $jewel.tongue = {}>>
-<<set $jewel.eyebrow = {}>>
-<<set $jewel.ear = {}>>
-<<set $jewel.upear = {}>>
-<<set $jewel.belly = {}>>
-<<set $jewel.nip = {}>>
-<<set $jewel.clit = {}>>
-<<set $jewel.labia = {}>>
-<<set $jewel.neck.none = [true,"none",0,"IMGnone75"]>>
-<<set $jewel.neck.silverChain = [false,"thin silver chain",0,"IMGjewelSchain"]>>
-<<set $jewel.neck.goldChain = [false,"thin gold chain",0,"IMGjewelGoldchain"]>>
-<<set $jewel.neck.whiteGoldChain = [false,"thin white-gold chain",0,"IMGjewelWGchain"]>>
-<<set $jewel.wrist.none = [true,"none",0,"IMGnone75"]>>
-<<set $jewel.wrist.spiralGoldBracelet = [false,"gold bracelet made of spiraling gold links",0,"IMGjewelTwistGoldB"]>>
-<<set $jewel.wrist.silverCharmBracelet = [false,"silver chain with several heart charms dangling from it",0,"IMGjewelSilverCharmB"]>>
-<<set $jewel.wrist.SWatchPink = [false,"pink Simple-Watch brand watch",0,"IMGjewelSWatchPink"]>>
-<<set $jewel.hand.none = [true,"none",0,"IMGnone75"]>>
-<<set $jewel.hand.catRing = [false,"silver ring with stylized cat ears",0,"IMGjewelCatRing"]>>
-<<set $jewel.hand.purityRing = [false,"purity ring",0,"IMGjewelPurityRing"]>>
-<<set $jewel.hand.goldHeartRing = [false,"gold ring with heart cutout",0,"IMGjewelGheartRing"]>>
-<<set $jewel.nose.none = [true,"none",0,"IMGnone75"]>>
-<<set $jewel.lip.none = [true,"none",0,"IMGnone75"]>>
-<<set $jewel.tongue.none = [true,"none",0,"IMGnone75"]>>
-<<set $jewel.eyebrow.none = [true,"none",0,"IMGnone75"]>>
-<<set $jewel.ear.none = [true,"none",0,"IMGnone75"]>>
-<<set $jewel.upear.none = [true,"none",0,"IMGnone75"]>>
-<<set $jewel.belly.none = [true,"none",0,"IMGnone75"]>>
-<<set $jewel.nip.none = [true,"none",0,"IMGnone75"]>>
-<<set $jewel.clit.none = [true,"none",0,"IMGnone75"]>>
-<<set $jewel.labia.none = [true,"none",0,"IMGnone75"]>>
+<<set $PC.jewel = {neck:"none",wristR:"none",wristL:"none",handR:"none",handL:"none",ringR:"none",ringL:"none",nose:"none",lip:"none",tongue:"none",brow:"none",earR:"none",earL:"none",upEar:"none",belly:"none",nipR:"none",nipL:"none",clit:"none",labia:"none",pierced:{},owned:[]}>>
+<<set $PC.jewel.pierced = {neck:true,wristR:true,wristL:true,handR:true,ringR:true,ringL:true,handL:true,nose:false,lip:false,tongue:false,brow:false,earR:false,earL:false,upEar:false,belly:false,nipR:false,nipL:false,clit:false,labia:false}>>
+<<set $PC.jewel.owned = ["silverChain","silverCharmBracelet","sWatchPink","catRing","purityRing","goldHeartRing"]>>
 
 /***********************************************************************************/
 /*              MAKEUP STYLES OBJECTS $makeup                                      */
 /***********************************************************************************/
-/*Known makeup ~~~~~ [textname,known,atr,time,DC,autopass,special] */
-<<set $makeup = {}>>
-<<set $makeup.eye = {}>>
-<<set $makeup.eye.none = ["none",true,0,0,1,1,-1,"IMGnone75"]>>
-<<set $makeup.eye.cateye = ["cat eyeshadow",true,1,5,10,50,0,"IMGeyeCateye"]>>
-<<set $makeup.eye.cutCreaseShadow = ["cut-crease eyeshadow",true,1,5,10,50,0,"IMGeyeCutcrease"]>>
-<<set $makeup.eye.doubleWing = ["double wing eyeshadow",true,1,5,10,50,0,"IMGeyeDoublewing"]>>
-<<set $makeup.eye.gradient = ["gradient eyeshadow",true,1,5,10,50,0,"IMGeyeGradient"]>>
-<<set $makeup.eye.graphicEyeliner = ["graphic eyeliner",true,1,5,10,50,0,"IMGeyeGraphic"]>>
-<<set $makeup.eye.heavyEyeliner = ["heavy eyeliner",true,1,5,10,50,0,"IMGeyeHeavyeyeliner"]>>
-<<set $makeup.eye.natural = ["natural looking eyeshadow",true,1,5,10,50,0,"IMGeyeNatural"]>>
-<<set $makeup.eye.sharpEdged = ["sharp-edged eyeshadow",true,1,5,10,50,0,"IMGeyeSharpedged"]>>
-<<set $makeup.eye.shimmery = ["shimmery eyeshadow",true,1,5,10,50,0,"IMGeyeShimmery"]>>
-<<set $makeup.eye.smokeyEyes = ["smokey eyeshadow",true,1,5,10,50,0,"IMGeyeSmokey"]>>
-<<set $makeup.lip = {}>>
-<<set $makeup.lip.none = ["none",true,0,0,1,1,-1,"IMGnone75"]>>
-<<set $makeup.lip.chapstick = ["simple chapstick for moist-looking lips.",true,1,5,10,50,0,"IMGlipChapstick"]>>
-<<set $makeup.lip.lipGloss = ["lip gloss for shiny-wet lips.",true,1,5,10,50,0,"IMGlipLipgloss"]>>
-<<set $makeup.lip.satinLipstick = ["satin lipstick for a classic appearance.",true,1,5,10,50,0,"IMGlipSatin"]>>
-<<set $makeup.lip.matteLipstick = ["matte lipstick for a slightly more conservative look.",true,1,5,10,50,0,"IMGlipMatte"]>>
-<<set $makeup.lip.liquidLipstick = ["liquid lipstick for plumper-looking lips.",true,1,5,10,50,0,"IMGlipLiquid"]>>
-<<set $makeup.lip.creamMatteLipstick = ["cream matte lipstick to make your lips look soft.",true,1,5,10,50,0,"IMGlipMattecream"]>>
-<<set $makeup.lip.pearlLipstick = ["pearlescent lipstick that catches the eye.",true,1,5,10,50,0,"IMGlipPearl"]>>
-<<set $makeup.lip.lipStain = ["lip stain that adds color while leaving the natural textue of your lips.",true,1,5,10,50,0,"IMGlipLipstain"]>>
-<<set $makeup.gen = {}>>
-<<set $makeup.gen.none = ["none",true,0,0,1,1,-1,"IMGnone75"]>>
-<<set $makeup.gen.natural = ["subtle natural",true,1,20,10,50,0,"IMGplaceholder75"]>>
-<<set $makeup.gen.evening = ["alluring evening",true,1,20,10,50,0,"IMGplaceholder75"]>>
-<<set $makeup.gen.prom = ["flashy prom",true,1,20,10,50,"F","IMGplaceholder75"]>>
-<<set $makeup.gen.formal = ["refined formal",true,1,20,10,50,"F","IMGplaceholder75"]>>
-<<set $makeup.gen.gothic = ["stark gothic",true,1,20,10,50,0,"IMGplaceholder75"]>>
-<<set $makeup.gen.minimal = ["no-makeup",true,1,20,10,50,0,"IMGplaceholder75"]>>
-<<set $makeup.gen.classic = ["50s glamour",true,1,20,10,50,0,"IMGplaceholder75"]>>
-<<set $makeup.gen.whorish = ["naughty bordello",true,1,20,10,50,"W","IMGplaceholder75"]>>
-<<set $makeup.gen.slut = ["hyper-sexualized",true,1,20,10,50,"S","IMGplaceholder75"]>>
-<<set $makeup.gen.bimbo = ["stereotypical bimbo",true,1,20,10,50,"B","IMGplaceholder75"]>>
+<<set $makeup = {eye:["none","shimmery"],lip:["none","chapstick"],gen:["none","slut"]}>>
+<<set $makeupSet = {"none":["none","none","none"],"casual":["none","none","none"],"standard":["none","none","none"],"fancy":["none","none","none"],"custom 1":["none","none","none"],"custom 2":["none","none","none"],"custom 3":["none","none","none"],}>>
 /***********************************************************************************/
 /*              HAIR STYLES OBJECTS $hair                                          */
 /***********************************************************************************/
 /*known hair styles ~~~ [textname, known, LearnDC, atr, special]*/
-<<set $hairStyle = {}>>
-<<set $hairStyle.neat = ["is neatly brushed",false,9,-1,0,"IMGplaceholder75"]>>
-<<set $hairStyle.unkempt = ["is somewhat unkempt",true,6,-3,0,"IMGplaceholder75"]>>
-<<set $hairStyle.messy = ["is very messy",true,3,-5,0,"IMGplaceholder75"]>>
-<<set $hairStyle.FrenchBun = ["is up in a french bun",false,18,3,0,"IMGplaceholder75"]>>
-<<set $hairStyle.FrenchTwist = ["is up in a french twist",false,21,4,0,"IMGplaceholder75"]>>
-<<set $hairStyle.twistedBun = ["is up in a twisted bun",false,18,3,0,"IMGplaceholder75"]>>
-<<set $hairStyle.chigonBun = ["is up in a chigon bun",false,17,2,0,"IMGplaceholder75"]>>
-<<set $hairStyle.looseBun = ["is up in a loose bun",false,14,1,0,"IMGplaceholder75"]>>
-<<set $hairStyle.bobbed = ["is bobbed",false,15,2,0,"IMGplaceholder75"]>>
-<<set $hairStyle.braided = ["is braided",false,13,1,0,"IMGplaceholder75"]>>
-<<set $hairStyle.putUp = ["is put up in a loose updo",false,13,1,0,"IMGplaceholder75"]>>
-<<set $hairStyle.fingerWave = ["is in a classic finger wave",false,20,4,0,"IMGplaceholder75"]>>
-<<set $hairStyle.bouffant = ["is a volumous bouffant",false,19,3,0,"IMGplaceholder75"]>>
-<<set $hairStyle.featheredFlip = ["has a feathered flip",false,15,2,0,"IMGplaceholder75"]>>
-<<set $hairStyle.libertySpikes = ["is styled into large spikes",false,13,1,0,"IMGplaceholder75"]>>
-<<set $hairStyle.cornrows = ["is braided into cornrows",false,15,2,0,"IMGplaceholder75"]>>
-<<set $hairStyle.dreadlocks = ["is a messy mass of dreadlocks",false,13,-4,0,"IMGplaceholder75"]>>
-<<set $hairStyle.sallyShag = ["is in a classic sally shag",false,18,3,0,"IMGplaceholder75"]>>
-<<set $hairStyle.retroWaves = ["has stylish retro waves",false,20,4,0,"IMGplaceholder75"]>>
-<<set $hairStyle.sideSweptUpdo  = ["is in a side-swept updo",false,16,2,0,"IMGplaceholder75"]>>
-<<set $hairStyle.highTopknot = ["is up in a high topnot",false,14,1,0,"IMGplaceholder75"]>>
-<<set $hairStyle.lowTopknot = ["is pulled into a topnot",false,13,1,0,"IMGplaceholder75"]>>
-<<set $hairStyle.highPonytail = ["is up in a high ponytail",false,11,0,0,"IMGplaceholder75"]>>
-<<set $hairStyle.ponytail = ["is up in a ponytail",false,10,0,0,"IMGplaceholder75"]>>
-<<set $hairStyle.flowery = ["is pulled back and hangs down in flowery waves",false,22,0,0,"IMGplaceholder75"]>>
-<<set $hairStyle.sideBraid = ["is in an off-center braid",false,14,1,0,"IMGplaceholder75"]>>
-<<set $hairStyle.sidePonytail = ["is in an off-center ponytail",false,11,0,0,"IMGplaceholder75"]>>
-<<set $hairStyle.fishtailBraid = ["is in an elegant fishtail braid",false,20,4,0,"IMGplaceholder75"]>>
-<<set $hairStyle.braidedUpdo = ["is pulled up in a braided updo",false,19,3,0,"IMGplaceholder75"]>>
-<<set $hairStyle.centerPart = ["is parted in the center",false,12,0,0,"IMGplaceholder75"]>>
-<<set $hairStyle.flaredBottom = ["hangs naturally with a flair at the bottom",false,14,1,0,"IMGplaceholder75"]>>
-<<set $hairStyle.spiralCurls = ["hangs down in spiraling curls",false,18,3,0,"IMGplaceholder75"]>>
-<<set $hairStyle.curled = ["hangs loosely in medium curls",false,13,1,0,"IMGplaceholder75"]>>
-<<set $hairStyle.tightCurl = ["is bouncy with tight curls",false,14,1,0,"IMGplaceholder75"]>>
-<<set $hairStyle.looseCurl = ["hangs naturally in loose curls",false,15,2,0,"IMGplaceholder75"]>>
-<<set $hairStyle.smoothStraight = ["hangs down very smooth and straight",false,12,1,0,"IMGplaceholder75"]>>
-<<set $hairStyle.shagStraight = ["looks slightly ruffled as it hangs naturally",false,17,2,0,"IMGplaceholder75"]>>
-<<set $hairStyle.pigtails = ["is pulled into pigtails",false,12,1,0,"IMGplaceholder75"]>>
+<<set $hairStyle = ["neat","unkempt","messy"]>>
+
 
 /***********************************************************************************/
 /*              PRIMARY GAME VARIABLES  $AW   or $                                 */
@@ -527,9 +410,12 @@
 <<set $SCresult = ["filler"]>>
 <<set $SCtext = ["filler"]>>
 <<set $return = "none">>
+<<set $scenario = []>>
 <<set $notes = []>>
+<<set $scene = {pc: "blank", npcs: ["none"], group: "blank", loc: "blank"}>>
 <<set $AW.metric = false>>
 <<set $AW.tutorials = true>>
+<<set $AW.startMale = true>>
 <<set $AW.door = {}>>
 <<set $AW.door.megaTits = 0>>
 <<set $AW.door.tries = 2>>
@@ -556,6 +442,7 @@
 <<set $AW.premade = 0>>
 <<set $AW.author = true>>
 <<set $AW.medChange = false>>
+<<set $AW.locOwner = "Spot Holder">>
 <<set $AW.error = "Errors">>
 <<set $AW.weather = []>>
 <<set $AW.wxChance = 0>>
@@ -567,35 +454,34 @@
 <<set $AW.pcPortrait = "[img[You|IMGpcPort]]">>
 
 /*TIME AND DATE STUFFS*/
-<<set $day = 5>>/*day of week*/
-/*play time*/
-<<set $week = 0>>
-<<set $year = 0>>
-<<set $time = 1800>>
-<<set $hour = 18>>
-<<set $min = 0>>
-<<set $date =[1,1,4,2032]>>/*in-game date*/
-<<set $dayTotal = 0>>
+<<set $time = [18,0,false]>>
+<<set $date =[1,1,4,2032]>>/*in-game date day, week, month, year*/
 <<set $dayChange = false>>
 <<set $timeChunk = 0>>
 <<set $timeCount = 0>>
+/*play time*/
+<<set $week = 0>>
+<<set $year = 0>>
+<<set $dayTotal = 0>>
 
 /***********************************************************************************/
 /*             MAP SYSTEM VARIABLES      $map                                      */
 /***********************************************************************************/
 <<set $map = {}>>
+<<set $map.loc = ["bullseye","parking",false]>> /*Map location - main, sub, tert/false*/
+<<set $map.lastLoc = ["bullseye","parking",false]>> /*previous location*/
 <<set $map.imageName = "none">> /*name of image for map location passage*/
-<<set $map.main = "none">> /*name of entire map, ie Bullseye*/
-<<set $map.lastMain = "none">>
-<<set $map.lastPassage = "none">> /*prev passage*/
-<<set $map.passage = "none">> /*name of map location passage*/
+<<set $map.history = []>>
 <<set $map.lastName = "none">> /*text descriptive name of previous location*/
 <<set $map.name = "none">> /*text descriptive name of current location*/
-<<set $map.destLoc = [0,0]>> /*coordinates for destination square, sent from location passage to controller*/
-<<set $map.loc = [0,0]>> /*coordinates of current or almost location (row,col)*/
-<<set $map.lastLoc = [0,0]>> /*prev location's coords*/
-<<set $map.movmt = 0>> /*map squares moved for time/fatigue purposes*/
-<<set $map.movmtList = []>> /*array containing coordinates for each step of journey to new map spot, format (row,col)*/
+<<set $map.movmt = 0>> /*map distance moved for time/fatigue purposes*/
+<<set $map.movmtList = []>> /*array containing locations for each step of journey to new map spot*/
+
+
+<<set $map.lastPassage = "none">> /*prev passage*/
+<<set $map.passage = "none">> /*name of map location passage*/
+
+
 <<set $map.dirNS = "north">> /*direction of journey*/
 <<set $map.dirEW = "south">> /*direction of journey*/
 <<set $map.wxCover = []>> /*array of variables for each step of journey, can add descript based on weather*/
@@ -698,6 +584,7 @@
 <<set $npc.roomview = 0>>
 <<set $npc.roomviewGroup = 0>>
 <<set $npc.activeHist = []>>
+<<set $npc.active = false>>
 /* NPC LISTS - LISTS OF NPCS THAT HAVE CERTAIN ATTRIBUTES */
 <<set $npc.single = []>>
 <<set $npc.rShip = []>>
@@ -722,6 +609,7 @@
 <<set $npc.interested = []>>
 <<set $npc.fling = []>>
 <<set $npc.exes = []>>
+<<set $npc.enemies = []>>
 
 /*several more lists can be added later*/
 <<include [[NPCsettingsInit]]>>
@@ -762,6 +650,7 @@
 <<set $sex.turns = 0>>
 <<set $sex.start = true>>
 <<set $sex.activeNPC = []>>
+<<set $sex.restoreAfter = []>>
 <<set $sex.npcCount = 0>>
 <<set $sex.startTime = 0>>
 <<set $sex.pcOutput = "none">>
@@ -797,6 +686,7 @@
 /*             GAME FLAG VARIABLES                                                 */
 /***********************************************************************************/
 <<set $flag = {}>>
+<<set $flag.triedForDeposit = false>>
 <<set $flag.BEnewClothes = true>>
 <<set $flag.Healthcare = true>>
 <<set $flag.organDonor = false>>
@@ -812,15 +702,28 @@
 <<set $flag.ProBoughtClothes = false>>
 <<set $flag.CarWreckDmg = 0>>
 <<set $flag.GaveTobyName = false>>
+<<set $flag.exes = []>>
 <<set $flag.finance = {}>>
 <<set $flag.finance.foodNoSpend = false>>
 <<set $flag.finance.goodsNoSpend = false>>
 <<set $flag.finance.supplyNoSpend = false>>
+<<set $flag.BEpharmacist = {met: false,firstMeet: 0,avail: true}>>
+<<set $flag.badEnd = "none">>
+<<set $flag.lily = {}>>
+<<set $flag.lily.weirdTalk = 0>>
+<<set $flag.lily.fuckedBathLesson = false>>
+<<set $flag.lily.fuckedBathLessonPCCame = false>>
+<<set $flag.lily.fuckedBathLessonLilyCumLoc = 0>>
+<<set $flag.proResistedFap = false>>
+<<set $flag.coffeeToday = 0>>
+<<set $flag.sawWeekPlanner = false>>
 
 /***********************************************************************************/
 /*              INVENTORY   VARIABLES                                              */
 /***********************************************************************************/
+
 <<set $items = {}>>
+<<set $items.temp = []>>
 <<set $items.list = ["car keys"]>>
 <<set $items.Condoms = [0,0,0,0,0,0]>>
 <<set $items.CondomSab = [0,0,0,0,0,0]>>
@@ -833,6 +736,7 @@
 <<set $items.MenstralCup = false>>
 <<set $items.FertiliTea = [0,0,0]>>
 <<set $items.FaceWipes = false>>
+<<set $items.hasDildo = false>>
 
 /***********************************************************************************/
 /*              HOME SYSTEM VARIABLES                                              */
@@ -840,6 +744,21 @@
 <<set $home = {}>>
 <<set $home.upgrade = {}>>
 <<set $home.item = {}>>
+<<set $home.item.owned = []>>
+<<set $home.item.furnature = []>>
+<<set $home.item.exercise = []>>
+<<set $home.item.electronic = []>>
+<<set $home.item.decor = []>>
+<<set $home.item.health = []>>
+<<set $home.item.other = []>>
+<<set $home.item.kitchen = []>>
+<<set $home.item.bath = []>>
+<<set $home.item.balcony = []>>
+<<set $home.item.bed2 = []>>
+<<set $home.item.bed3 = []>>
+<<set $home.item.bedroom = []>>
+<<set $home.item.living = []>>
+<<set $home.item.foyer = []>>
 <<set $home.decor = {}>>
 <<set $home.upgrade.toiletFert = false>>
 <<set $home.finance = {}>>
@@ -892,45 +811,69 @@
 <<set $home.finance.sett.goodsLevel = 3>>
 <<set $home.finance.sett.supplyLevel = 3>>
 <<set $home.clean = {}>>
-<<set $home.clean.floors = 100>>
-<<set $home.clean.surfaces = 100>>
-<<set $home.clean.bathroom = 100>>
-<<set $home.clean.kitchen = 100>>
-<<set $home.clean.dishes = 10>>
-<<set $home.clean.laundry = 10>>
-<<set $home.clean.neatness = 100>>
-<<set $home.clean.bed = 10>>
-<<set $home.clean.deepclean = 100>>
+<<set $home.clean.floors = 50>>
+<<set $home.clean.surfaces = 50>>
+<<set $home.clean.bathroom = 50>>
+<<set $home.clean.kitchen = 50>>
+<<set $home.clean.dishes = 5>>
+<<set $home.clean.laundry = 5>>
+<<set $home.clean.neatness = 50>>
+<<set $home.clean.bed = 5>>
+<<set $home.clean.deepclean = 50>>
 <<set $home.clean.doCleaning = 3>>
 <<set $home.clean.pickingUp = 3>>
 <<set $home.clean.doDishes = 3>>
 <<set $home.clean.doLaundry = 3>>
 <<set $home.clean.doBed = 3>>
+<<set $home.clean.increment = 4>>
+<<set $home.clean.cleaningTime = Math.round((($home.clean.doCleaning + $home.clean.doCleaning + $home.clean.doCleaning + $home.clean.pickingUp + $home.clean.pickingUp + $home.clean.doDishes + $home.clean.doLaundry + $home.clean.doBed)/8)*(5*$home.clean.increment))>>
+<<set $home.stats = {}>>
+<<set $home.stats.location = 3>>
 
+/*TEMPORARY PREVIEW - REMOVE ME!*/
+<<set $home.item = {}>>
+<<set $home.item.owned = []>>
+<<set $home.item.furnature = []>>
+<<set $home.item.exercise = []>>
+<<set $home.item.electronic = []>>
+<<set $home.item.decor = []>>
+<<set $home.item.health = []>>
+<<set $home.item.other = []>>
+<<set $home.item.kitchen = []>>
+<<set $home.item.bath = []>>
+<<set $home.item.balcony = []>>
+<<set $home.item.bed2 = []>>
+<<set $home.item.bed3 = []>>
+<<set $home.item.bedroom = []>>
+<<set $home.item.living = []>>
+<<set $home.item.foyer = []>>
+
+<<set $home.item.owned.push("brokenCoffee")>>
+<<set $home.item.owned.push("bustedStool")>>
+<<set $home.item.owned.push("someBlankets")>>
+<<set $home.item.owned.push("bustedLawnchair")>>
+<<set $home.item.owned.push("oldThrowPillow")>>
 
 /***********************************************************************************/
 /*              SCHEDULE SYSTEM  VARIABLES                                         */
 /***********************************************************************************/
 <<set $sched = {}>>
-<<set $sched.workTime = [40,[800,1700],[800,1700],[800,1700],[800,1700],[800,1700],[0,0],[0,0]]>>
+<<set $sched.workTime = [40,[8,0,17,0],[8,0,17,0],[8,0,17,0],[8,0,17,0],[8,0,17,0],[0,0,0,0],[0,0,0,0]]>>
 <<set $sched.workDays = [0,false,false,false,false,false,false,false]>>
 <<set $sched.vacation = [0,false,false,false,false,false,false,false]>>
 <<set $sched.sick = [0,false,false,false,false,false,false,false]>>
-<<set $sched.wakeTime = 700>>
-<<set $sched.sleepTime = 2300>>
-<<set $sched.sleepActual = 0>>
-<<set $sched.sleepWarn = 2200>>
+<<set $sched.wakeTime = [7,0]>>
+<<set $sched.sleepTime = [23,0]>>
+<<set $sched.sleepWarn = [22,0]>>
 <<set $sched.sleepWarnOn = false>>
-<<set $sched.alarmClock = false>>
+<<set $sched.alarmClock = [0,0,false]>>
 <<set $sched.actualWake = 700>>
 <<set $sched.alerts = true>>
 <<set $sched.extraAlerts = false>>
-<<set $sched.alertText = "none">>
-<<set $sched.alertPend = false>>
 <<set $sched.goto = false>>
 <<set $sched.fastForward = false>>
 <<set $sched.fastSleep = false>>
-<<set $sched.plans = [{total: 0, remain: 0},[],[],[],[],[],[],[],[]]>> /*days index 1-7 plus 8 for holiday*/
+<<set $plans = ["reserved",[{total: 0, remain: 0, kept: 0, missed: 0},[],[],[],[],[],[],[]],[{total: 0, remain: 0, kept: 0, missed: 0},[],[],[],[],[],[],[]],[{total: 0, remain: 0, kept: 0, missed: 0},[],[],[],[],[],[],[]],[{total: 0, remain: 0, kept: 0, missed: 0},[],[],[],[],[],[],[]]]>> /*days index 1-7 inside weeks 1-4*/
 <<set $sched.showChange = false>>
 <<set $sched.showMedical = false>>
 <<set $sched.dream = "none">>
@@ -941,13 +884,15 @@
 <<set $sched.runop = []>>
 <<set $sched.showered = false>>
 /*APPOINTMENT OBJECT FORMAT!
-{name: "date with joe", type: 1, alert: true, start: 1800, end: false, place: "Bullseye", locmap: "bullseye", loc: [0,0], code: 0, msg: false , missed: true}
+{name: "date with joe", type: 1, alert: true, start: [18,0], end: false, place: "Bullseye", locmap: "bullseye", loc: [0,0], code: 0, msg: false , missed: true}
 TYPE: 0-game or quest alert, 1-user set reminder, 2-appointment, 3-plans with NPC, 4-group NPC plans, 5-Date
 msg: delicious, and also additional message text used for reminders. set to false if there's no message.
 missed: important for tracking missed dates and such, because if you don't go to one, code isn't executed. this should be set to true, and changed to false if the date is kept!
 */
-<<set _tutorialReminder = {name: "Tutorial", type: 0, start: 1030, alert: true, msg: "This is a tutorial message, demonstrating how reminder alerts work. During the game, you'll get phone reminders about upcoming dates, appointments, and other events 1 hour before they start. You'll often see a link to take you straight to the event location. Other times, you'll see reminders from the game about quests or other happenings. You can even set reminders for yourself!"}>>
-<<set $sched.plans[2].push(_tutorialReminder)>>
+<<set _tutorialReminder = {name: "Tutorial", type: 0, start: [10,30], alert: true, msg: "This is a tutorial message, demonstrating how reminder alerts work. During the game, you'll get phone reminders about upcoming dates, appointments, and other events 1 hour before they start. You'll often see a link to take you straight to the event location. Other times, you'll see reminders from the game about quests or other happenings. You can even set reminders for yourself!", disc: "A tutorial reminder"}>>
+<<set $plans[1][2].push(_tutorialReminder)>>
+<<set _meetLily = {name: "Meet Lily", type: 0, start: [16,0], alert: true, msg: "You're supposed to be meeting Lily after she's done with work to get started on your new paperwork and identification. You don't want to miss it!", disc: "Get a fake ID"}>>
+<<set $plans[1][2].push(_meetLily)>>
 
 /***********************************************************************************/
 /*              JOB SYSTEM   VARIABLES                                             */
@@ -959,6 +904,7 @@ missed: important for tracking missed dates and such, because if you don't go to
 <<set $job.skills = "none">>
 <<set $job.percept = 0>>
 <<set $job.desc = "none">>
+<<set $job.loc = ["world","institute","main"]>>
 <<set $job.late = {}>>
 <<set $job.late.times = 0>>
 <<set $job.late.called = 0>>
@@ -997,15 +943,24 @@ missed: important for tracking missed dates and such, because if you don't go to
 <<set $job.stats.progress = 0>>
 <<set $job.stats.promote = false>>
 <<set $job.stats.fired = false>>
+<<set $job.stats.fireDanger = false>>
 <<set $job.stats.performance = 0>>
 <<set $job.stats.daysworked = 0>>
 <<set $job.stats.daysworkedTotal = 0>>
 <<set $job.stats.rank = 0>>
 <<set $job.stats.boss = 0>>
 <<set $job.stats.coworker = 0>>
-<<set $job.stats.subord = 0>>
+<<set $job.stats.subord = -10>>
 <<set $job.flag = {}>>
+<<set $job.choose = {}>>
+<<set $job.choose.effort = 2>>
+<<set $job.choose.focus = "none">>
 <<set $job.pay = 0>>
+<<set $job.moti = 0>>
+<<set $job.att = {}>>
+<<set $job.att.weekDays = 0>>
+<<set $job.att.showed = [0,false,false,false,false,false,false,false]>>
+<<set $job.att.weekHours = 0>>
 
 /***********************************************************************************/
 /*              SHOPPING SYSTEM  VARIABLES                                         */
@@ -1060,7 +1015,7 @@ missed: important for tracking missed dates and such, because if you don't go to
 /***********************************************************************************/
 /*              GAME PREFERENCE  VARIABLES                                         */
 /***********************************************************************************/
-<<set $pref = {}>>
+/*<<set $pref = {}>> set in story init*/
 
 <<set $pref.sexSceneSpeed = 0>>
 /*attractiveness settings*/
@@ -1077,6 +1032,7 @@ missed: important for tracking missed dates and such, because if you don't go to
 <<set $pref.dispSceneImg = true>>
 <<set $pref.dispNPCImg = true>>
 <<set $pref.dispPCImg = true>>
+<<set $pref.dispEmoji = true>>
 <<set $pref.enableMutation = 1>>
 <<set $pref.enableCheats = 1>>
 /*************************/
@@ -1128,11 +1084,7 @@ missed: important for tracking missed dates and such, because if you don't go to
 <<set $activeNPC.push("n101")>>
 <<status 0>>
 <<procE>>
-<<if $swim != "[dev]">>
-	<<goto [[Introduction]]>>
-<<else>>
-	<br><br>[[Introduction]]
-<</if>>
+<<gotodev "Introduction">>
 
 
 

@@ -34,8 +34,7 @@ setup.storeNPC = function(npcid){
 setup.restoreNPC = function(npcid){
   if("string" !=typeof npcid || npcid.search("n") != 0){
     let mess = "NPC storage function requires a valid npcid string!";
-    console.log(mess);
-    alert(mess);
+    setup.alert(mess);
     return false;
   }
   const id = "NPCStore-"+npcid;
@@ -50,8 +49,8 @@ setup.restoreNPC = function(npcid){
     console.log(msg);
     return false;
   }
-  if(State.active.variables.NPC[npcid] == "error"){
-    let m = "NPC decompression failed for NPC with id " + npcid + ".\n\nProcess aborted.";
+  if("string" == typeof State.active.variables.NPC[npcid]){
+    let m = "NPC decompression failed for NPC with id " + npcid + ".\n"+State.active.variables.NPC[npcid]+"\nProcess aborted.";
     alert(m);
     return false;
   }

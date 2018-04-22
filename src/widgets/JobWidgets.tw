@@ -14,39 +14,7 @@
   <<set $AW.error += ", Missing argument for job-setting function!">>
   <<run alert("Job not set, missing argument for job-setting function!")>>
 <<else>>
-  /*reset all the basic variables to zero*/
-  <<set $job = {}>>
-  <<set $job.late = {}>>
-  <<set $job.late.times = 0>>
-  <<set $job.late.called = 0>>
-  <<set $job.late.recent = 0>>
-  <<set $job.late.sick = 0>>
-  <<set $job.late.vacation = 0>>
-  <<set $job.missed = {}>>
-  <<set $job.missed.times = 0>>
-  <<set $job.missed.recent = 0>>
-  <<set $job.sick = {}>>
-  <<set $job.sick.balance = 0>>
-  <<set $job.sick.caught = 0>>
-  <<set $job.sick.used = 0>>
-  <<set $job.vacation = {}>>
-  <<set $job.vacation.balance = 0>>
-  <<set $job.vacation.used = 0>>
-  <<set $job.vacation.balPaid = 0>>
-  <<set $job.vacation.usedPaid = 0>>
-  <<set $job.rules = {}>>
-  <<set $job.stats = {}>>
-  <<set $job.stats.progress = 0>>
-  <<set $job.stats.promote = false>>
-  <<set $job.stats.fired = false>>
-  <<set $job.stats.performance = 0>>
-  <<set $job.stats.daysworked = 0>>
-  <<set $job.stats.daysworkedTotal = 0>>
-  <<set $job.stats.boss = 50>>
-  <<set $job.stats.coworker = 50>>
-  <<set $job.stats.subord = 50>>
-  <<set $job.flag = {}>>
-  /*set specifics based on job code*/
+  <<status 1>>
   <<switch $args[0]>>
     <<case "IS">>
       <<set $job.employer = "The Institute">>
@@ -55,12 +23,13 @@
       <<set $job.desc = "This job basically involves cleaning part of the large institute complex.">>
       <<set $PC.job = "services">>
       <<set $job.percept = 1>>
-      <<set $sched.workTime = [40,[0,0],[1000,1900],[1000,1900],[1000,1900],[0,0],[900,1800],[900,1800]]>>
+      <<set $sched.workTime = [40,[0,0,0,0],[8,0,17,0],[8,0,17,0],[8,0,17,0],[0,0,0,0],[8,0,17,0],[8,0,17,0]]>>
+      <<set $sched.workDays = [8,false,true,true,true,false,true,true]>>
       <<set $job.rules.taskratio = [60,22,10,5,2,1]>>
       <<set $job.rules.tasks = 4>>
       <<set $job.rules.taskA = {type: "CL",DC: 8, retry: true, effect: 1, stress: 3, hap: 0, desc: ["emptying the trash","sweeping the hallways","vacuuming offices","mopping the hallways","cleaning windows"]}>>
       <<set $job.rules.taskB = {type: "CL",DC: 10, retry: true, effect: 1, stress: 5,hap: 0, desc: ["cleaning the bathroom","wiping down the urinals","cleaning the break room","dusting"]}>>
-      <<set $job.rules.taskC = {type: "OG",DC: 10, retry: true, effect: 1, stress: 5, hap: 0, desc: ["putting away dishes","arranging the cleaning supplies","returning office items to where they belong."]}>>
+      <<set $job.rules.taskC = {type: "OG",DC: 10, retry: true, effect: 1, stress: 5, hap: 0, desc: ["putting away dishes","arranging the cleaning supplies","returning office items to where they belong"]}>>
       <<set $job.rules.taskD = {type: "OG",DC: 12, retry: false, effect: 1, stress: 8, hap: 0, desc: ["refilling toilet paper dispensers","refilling the hand sanitizer","stocking new paper towels"]}>>
       <<set $job.rules.taskE = {type: "CL",DC: 8, retry: false, effect: 2, stress: 8, hap: -2, desc: ["mopping up puke","flushing a stranded turd","scrubbing bathroom graffiti"]}>>
       <<set $job.rules.taskF = {type: "CL",DC: 14, retry: false, effect: 3, stress: 15, hap: -1, desc: ["mopping up a strange chemical spill","picking up broken glassware","emptying an overfull sharps bin"]}>>
@@ -114,7 +83,8 @@
       <<set $job.percept = 5>>
       <<set $job.rules.taskratio = [30,15,23,20,10,2]>>
       <<set $job.rules.tasks = 4>>
-      <<set $sched.workTime = [40,[800,1700],[800,1700],[800,1700],[800,1700],[800,1700],[0,0],[0,0]]>>
+      <<set $sched.workTime = [40,[8,0,17,0],[8,0,17,0],[8,0,17,0],[8,0,17,0],[8,0,17,0],[0,0,0,0],[0,0,0,0]]>>
+      <<set $sched.workDays = [8,true,true,true,true,true,false,false]>>
       <<set $job.rules.taskA = {type: "OG",DC: 10, retry: true, effect: 1, stress: 3, hap: 0, desc: ["organizing gradiated glassware","bringing the correct lasers out of storage","pre-measuring hundreds of vials of regents","labeling sample containers"]}>>
       <<set $job.rules.taskB = {type: "OG",DC: 12, retry: true, effect: 1, stress: 5,hap: 0, desc: ["placing petri dishes in the correct sample fridge","catalog research notes","refilling electronic component bins","setting up the requested light filters"]}>>
       <<set $job.rules.taskC = {type: "PS",DC: 10, retry: false, effect: 2, stress: 5, hap: 0, desc: ["figuring out the best arrangement of requested chemicals","decyphering handwritten lab requests","choosing the correct microscope slides","running the autoclave"]}>>
@@ -171,7 +141,8 @@
       <<set $job.percept = 4>>
       <<set $job.rules.taskratio = [40,24,20,8,6,2]>>
       <<set $job.rules.tasks = 4>>
-      <<set $sched.workTime = [40,[800,1700],[800,1700],[800,1700],[800,1700],[800,1700],[0,0],[0,0]]>>
+      <<set $sched.workTime = [40,[8,0,17,0],[8,0,17,0],[8,0,17,0],[8,0,17,0],[8,0,17,0],[0,0,0,0],[0,0,0,0]]>>
+      <<set $sched.workDays = [8,true,true,true,true,true,false,false]>>
       <<set $job.rules.taskA = {type: "CM",DC: 9, retry: true, effect: 1, stress: 5, hap: 0, desc: ["sending email","filing tps reports","adding things to the calendar","reading email","reading performance reports"]}>>
       <<set $job.rules.taskB = {type: "FI",DC: 9, retry: true, effect: 1, stress: 5,hap: 0, desc: ["entering figures into a spreadsheet","fixing timecard math","calculating office supply expenditures","copying figures from one spreadsheet to another"]}>>
       <<set $job.rules.taskC = {type: "OG",DC: 9, retry: true, effect: 1, stress: 5, hap: 0, desc: ["filing paper copies","organizing order requests","attaching performance reviews to employee records","sorting receipts by date"]}>>
@@ -219,7 +190,71 @@
         <<set $AW.error += ", bad rank value sent to job setting function">>
         <<run alert("Bad rank value sent to job setting function, setting to default.")>>
       <</if>>
+    <<default>>
+      <<set $job.employer = "The Institute">>
+      <<set $job.code = "IS">>
+      <<set $job.skills = "Cleaning & Organization">>
+      <<set $job.desc = "This job basically involves cleaning part of the large institute complex.">>
+      <<set $PC.job = "services">>
+      <<set $job.percept = 1>>
+      <<set $sched.workTime = [40,[0,0,0,0],[8,0,17,0],[8,0,17,0],[8,0,17,0],[0,0,0,0],[8,0,17,0],[8,0,17,0]]>>
+      <<set $sched.workDays = [8,false,true,true,true,false,true,true]>>
+      <<set $job.rules.taskratio = [60,22,10,5,2,1]>>
+      <<set $job.rules.tasks = 4>>
+      <<set $job.rules.taskA = {type: "CL",DC: 8, retry: true, effect: 1, stress: 3, hap: 0, desc: ["emptying the trash","sweeping the hallways","vacuuming offices","mopping the hallways","cleaning windows"]}>>
+      <<set $job.rules.taskB = {type: "CL",DC: 10, retry: true, effect: 1, stress: 5,hap: 0, desc: ["cleaning the bathroom","wiping down the urinals","cleaning the break room","dusting"]}>>
+      <<set $job.rules.taskC = {type: "OG",DC: 10, retry: true, effect: 1, stress: 5, hap: 0, desc: ["putting away dishes","arranging the cleaning supplies","returning office items to where they belong"]}>>
+      <<set $job.rules.taskD = {type: "OG",DC: 12, retry: false, effect: 1, stress: 8, hap: 0, desc: ["refilling toilet paper dispensers","refilling the hand sanitizer","stocking new paper towels"]}>>
+      <<set $job.rules.taskE = {type: "CL",DC: 8, retry: false, effect: 2, stress: 8, hap: -2, desc: ["mopping up puke","flushing a stranded turd","scrubbing bathroom graffiti"]}>>
+      <<set $job.rules.taskF = {type: "CL",DC: 14, retry: false, effect: 3, stress: 15, hap: -1, desc: ["mopping up a strange chemical spill","picking up broken glassware","emptying an overfull sharps bin"]}>>
+      <<set $job.rules.worktime = [40,0,8,8,8,0,8,8]>>
+      <<set $job.rules.breaktime = 60>>
+      <<set $job.rules.strict = true>>
+      /*set stats by starting rank*/
+      <<if $args[1] == 0>>
+        <<set $job.rules.cutoffs = [15,30,45,60,75]>>
+        <<set $job.vacation.rate = 0>>
+        <<set $job.vacation.ratePaid = 0>>
+        <<set $job.sick.rate = 0>>
+        <<set _pay = Math.round((7.5 * $AW.curBase)*4)>>
+        <<set $job.rules.payrate = _pay / 4>>
+        <<set $job.pay = Math.round($job.rules.payrate * $job.rules.worktime[0])>>
+        <<set $job.stats.rank = 0>>
+        <<set $job.name = "Temporary Associate Janitorial Assistant">>
+        <<set $job.rules.boss = "Jeb Cummings">>
+      <<elseif $args[1] == 1>>
+        <<set $job.rules.cutoffs = [20,35,50,65,80]>>
+        <<set $job.vacation.rate = 4>>
+        <<set $job.vacation.ratePaid = 0>>
+        <<set $job.sick.rate = 4>>
+        <<set _pay = Math.round((8 * $AW.curBase)*4)>>
+        <<set $job.rules.payrate = _pay / 4>>
+        <<set $job.pay = Math.round($job.rules.payrate * $job.rules.worktime[0])>>
+        <<set $job.stats.rank = 1>>
+        <<set $job.name = "Associate Janitorial Assistant">>
+        <<set $job.rules.boss = "Jeb Cummings">>
+      <<elseif $args[1] == 2>>
+        <<set $job.rules.cutoffs = [25,40,55,70,85]>>
+        <<set $job.vacation.rate = 4>>
+        <<set $job.vacation.ratePaid = 4>>
+        <<set $job.sick.rate = 8>>
+        <<set _pay = Math.round((9 * $AW.curBase)*4)>>
+        <<set $job.rules.payrate = _pay / 4>>
+        <<set $job.pay = Math.round($job.rules.payrate * $job.rules.worktime[0])>>
+        <<set $job.stats.rank = 2>>
+        <<set $job.name = "Janitorial Assistant">>
+        <<set $job.rules.boss = "Jeb Cummings">>
+      <<else>>
+        <<set $AW.error += ", bad rank value sent to job setting function">>
+        <<run alert("Bad rank value sent to job setting function, setting to default.")>>
+      <</if>>
   <</switch>>
+  <<set $job.choose = {}>>
+  <<set $job.choose.effort = 2>>
+  <<set $job.choose.focus = "none">>
+  <<set $job.pay = 0>>
+  <<set $job.loc = ["world","institute","main"]>>
+  <<status 0>>
 <</if>>
 <</silently>>
 <</widget>>

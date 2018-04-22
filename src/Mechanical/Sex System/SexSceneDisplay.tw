@@ -11,7 +11,7 @@
   <<set _npcStatBar = $sex.target>>
 <</if>>
 <<set _npcOrgPer = Math.round(($NPC[$sex.activeNPC[_npcStatBar]].status.pleasure / $sex.npcOrgasm[_npcStatBar])*100)>>
-<<if _npcOrgPer > 100>><<set _npcOrgPer = 100>><<set _npcOrgText = "Cumming!">><<else>><<set _npcOrgText = _pcOrgPer + "%">><</if>>
+<<if _npcOrgPer > 100>><<set _npcOrgPer = 100>><<set _npcOrgText = "Cumming!">><<else>><<set _npcOrgText = _npcOrgPer + "%">><</if>>
 <<set _printerB = "<div class='sex-stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + _npcOrgPer + "%; background: hotpink;'><span id='bitch'>" + _npcOrgText + "</span></span></div>">>
 <<set _npcNamePrint = $NPC[$sex.activeNPC[_npcStatBar]].main.name + " @@.red;♥@@">>
 <</silently>>
@@ -40,7 +40,7 @@
     <<set _npcNamePrint = $NPC[$sex.activeNPC[_npcStatBar]].main.name>>
   <</if>>
   <<set _npcOrgPer = Math.round(($NPC[$sex.activeNPC[_npcStatBar]].status.pleasure / $sex.npcOrgasm[_npcStatBar])*100)>>
-  <<if _npcOrgPer > 100>><<set _npcOrgPer = 100>><<set _npcOrgText = "Cumming!">><<else>><<set _npcOrgText = _pcOrgPer + "%">><</if>>
+  <<if _npcOrgPer > 100>><<set _npcOrgPer = 100>><<set _npcOrgText = "Cumming!">><<else>><<set _npcOrgText = _npcOrgPer + "%">><</if>>
   <<set _printerB = "<div class='sex-stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + _npcOrgPer + "%; background: hotpink;'><span id='bitch'>" + _npcOrgText + "</span></span></div>">>
   <<replace "#npcstatbarlabel">><<print _npcNamePrint>><</replace>>
   <<replace "#npcstatbar">><<print _printerB>><</replace>>
@@ -86,28 +86,32 @@
 <td>Last Act: <<print $sex.pcAct>></td></tr></table>
 
 </div>
-<div id="actionSex">
-<table>
-<tr><td colspan=2><table id="invisTable"><tr>
-<td id="actionSexTabs"><<include [[SexSceneDisplayTabs]]>></td><td style="width:160px"><<include [[sexSceneQuickButtons]]>></td>
-</tr></table>
-</td></tr><tr><td style="width:1px"><br><br><br><br><br></td><td id="sexActButtons">
-<<include [[sexSceneDisplayButts]]>>
-</td></tr><tr><td colspan=2 id="sexActHovertext">
-<span id="targetname" class="ship"><<if $sex.target != "none">>Target: <<print $NPC[$sex.activeNPC[$sex.target]].main.name>> <<print $NPC[$sex.activeNPC[$sex.target]].main.surname.slice(0,1)>>. <</if>></span><<insertion sexacttab1>>Do something involving your hands.<<endinsertion>><<insertion sexacttab2>>Do something involving your mouth.<<endinsertion>><<insertion sexacttab3>>Say something, or at least make some sort of noise.<<endinsertion>><<insertion sexacttab4>>Change your movement or change position.<<endinsertion>><<insertion sexacttab5>>Do something kinky!<<endinsertion>><<insertion sexacttab6>>Do something that doesn't fit into the other categories.<<endinsertion>><<insertion sexacttab9>>Change the NPC you are targeting with your action (if relevant). Not all actions require a target.<<endinsertion>><<insertion sexacttab7>>Repeat your previous action.<<endinsertion>><<insertion sexacttab8>>Go with the flow. Don't do anything special, and just keep going with whatever you're doing.<<endinsertion>>
-<<set _positions = Object.keys(setup.sexPos)>>
-<<set _posLength = _positions.length>>
-<<for _i = 0; _i < _posLength; _i++>>
-  <<print setup.sexPos[_positions[_i]].hovtext>>
-<</for>>
-<<set _acts = Object.keys(setup.sexActs)>>
-<<set _actLength = _acts.length>>
-<<for _i = 0; _i < _actLength; _i++>>
-  <<print setup.sexActs[_acts[_i]].hovtext>>
-<</for>>
-</td></tr>
-</table>
-</div>
+<<if $sex.orgCountPC < 1>>
+  <div id="actionSex">
+  <table>
+  <tr><td colspan=2><table id="invisTable"><tr>
+  <td id="actionSexTabs"><<include [[SexSceneDisplayTabs]]>></td><td style="width:160px"><<include [[sexSceneQuickButtons]]>></td>
+  </tr></table>
+  </td></tr><tr><td style="width:1px"><br><br><br><br><br></td><td id="sexActButtons">
+  <<include [[sexSceneDisplayButts]]>>
+  </td></tr><tr><td colspan=2 id="sexActHovertext">
+  <span id="targetname" class="ship"><<if $sex.target != "none">>Target: <<print $NPC[$sex.activeNPC[$sex.target]].main.name>> <<print $NPC[$sex.activeNPC[$sex.target]].main.surname.slice(0,1)>>. <</if>></span><<insertion sexacttab1>>Do something involving your hands.<<endinsertion>><<insertion sexacttab2>>Do something involving your mouth.<<endinsertion>><<insertion sexacttab3>>Say something, or at least make some sort of noise.<<endinsertion>><<insertion sexacttab4>>Change your movement or change position.<<endinsertion>><<insertion sexacttab5>>Do something kinky!<<endinsertion>><<insertion sexacttab6>>Do something that doesn't fit into the other categories.<<endinsertion>><<insertion sexacttab9>>Change the NPC you are targeting with your action (if relevant). Not all actions require a target.<<endinsertion>><<insertion sexacttab7>>Repeat your previous action.<<endinsertion>><<insertion sexacttab8>>Go with the flow. Don't do anything special, and just keep going with whatever you're doing.<<endinsertion>><<insertion actmenulicksomething>>Lick part of--or a place on--your target's body.<<endinsertion>>
+  <<set _positions = Object.keys(setup.sexPos)>>
+  <<set _posLength = _positions.length>>
+  <<for _i = 0; _i < _posLength; _i++>>
+    <<print setup.sexPos[_positions[_i]].hovtext>>
+  <</for>>
+  <<set _acts = Object.keys(setup.sexActs)>>
+  <<set _actLength = _acts.length>>
+  <<for _i = 0; _i < _actLength; _i++>>
+    <<print setup.sexActs[_acts[_i]].hovtext>>
+  <</for>>
+  </td></tr>
+  </table>
+  </div>
+<<else>>
+<<button "Continue">><<goto [[sexSceneControl]]>><</button>>
+<</if>>
 <<procE>>
 <<timed 3s>>
 <<replace "#right-UI-proc-disp">>
@@ -169,7 +173,7 @@
 :: sexSceneQuickButtons [nobr]
 
 <<hoverrevise sexacttab9>>@@.sex-redo-button;<<link [img[Choose Target|IMGsexTarget]]>><<include [[SexSceneChooseTarget]]>><</link>>@@<<endhoverrevise>>
-<<hoverrevise sexacttab7>>@@.sex-redo-button;<<link [img[Redo Action|IMGredoArrow]]>><<if setup.sexActs[$pcAct].allowed>><<set $sex.pcLastAct = $sex.pcAct>><<run $sex.pcActRecord.push($sex.pcAct)>><<run setup.sexActs[$sex.pcAct].action()>><<goto [[sexSceneControl]]>><<else>><<run alert("The previous action is no longer possible... Damn you sadflowerhappy... damn you!    Right now it's a known issue that you have to be on the correct tab for your last action to work.")>><</if>><</link>>@@<<endhoverrevise>>
+<<hoverrevise sexacttab7>>@@.sex-redo-button;<<link [img[Redo Action|IMGredoArrow]]>><<if setup.sexActs[$pcAct].allowed>><<set $sex.pcLastAct = $sex.pcAct>><<run $sex.pcActRecord.push($sex.pcAct)>><<run setup.sex.action($sex.pcAct)>><<goto [[sexSceneControl]]>><<else>><<run alert("The previous action is no longer possible...  Right now it's a known issue that you have to be on the correct tab for your last action to work.")>><</if>><</link>>@@<<endhoverrevise>>
 <<hoverrevise sexacttab8>>@@.sex-redo-button;<<link [img[Do Nothing|IMGdownChevCircle]]>><<set $sex.pcLastAct = $sex.pcAct>><<run $sex.pcActRecord.push("skip")>><<set $sex.pcAct = "skip">><<goto [[sexSceneControl]]>><</link>>@@<<endhoverrevise>>
 
 
@@ -206,7 +210,9 @@
   <<print setup.sexPos[_positions[_i]].button>>
 <</for>>
 <<elseif $sex.tabs == 6>>
-
+<<button "Quit">><<set $sex.orgCountPC = 1>><<goto [[sexSceneControl]]>><</button>>
+<<elseif $sex.tabs == 2>>
+<<hoverrevise actmenulicksomething>><<button "Lick Something">><<dialog "Lick Something">><<for _i = 0; _i < 16;_i++>><<print setup.sexActs.lickSomething.button>><</for>><br><<print setup.sexActs.lickSomething.hovtext>><</dialog>><</button>><<endhoverrevise>>
 <</if>>
 <<set _num = Object.keys(setup.sexActs).length>>
 <<for _i to 0, _k to Object.keys(setup.sexActs); _i < _num; _i++>>

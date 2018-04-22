@@ -1,3 +1,25 @@
+/*
+/*  ██████╗██╗      █████╗ ███████╗███████╗███████╗███████╗
+/* ██╔════╝██║     ██╔══██╗██╔════╝██╔════╝██╔════╝██╔════╝
+/* ██║     ██║     ███████║███████╗███████╗█████╗  ███████╗
+/* ██║     ██║     ██╔══██║╚════██║╚════██║██╔══╝  ╚════██║
+/* ╚██████╗███████╗██║  ██║███████║███████║███████╗███████║
+/*  ╚═════╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚══════╝
+*/
+class Timer {
+  constructor({
+    name,
+    start = State.variables.time,
+    date = State.variables.date,
+    end = false,
+    endDate = false,
+    dur = false,
+  }) {
+    this.start = jQuery.extend(true, [], start);
+    this.startDate = jQuery.extend(true, [], date);
+  }
+}
+
 /*define NPCs as a class with specific properties and methods*/
 class NPC {
   constructor(body, main, sched, bground, rship, sex, flag, friends, clothes, status, cond, outfit, mutate, pref, core, fert, sexPref, makeout) {
@@ -18,27 +40,44 @@ class NPC {
     this.core = jQuery.extend(true, {}, core);
     this.fert = jQuery.extend(true, {}, fert);
     this.makeout = jQuery.extend(true, [], makeout);
-    this.name = function () {
-      return (this.main.name + " " + this.main.surname);
-    };
+  }
+  get name() {
+    return (this.main.name + " " + this.main.surname);
   }
 }
+
 class SexAct {
-  constructor(name, key, library, effects, tags, cat, button, hovname, hovtext, action, allowList, req, tab, spec = "none") {
-    this.longName = name;
-    this.keyName = key;
-    this.lib = jQuery.extend(true, {}, library);
-    this.effect = jQuery.extend(true, {}, effects);
+  constructor({
+    name,
+    key,
+    tags,
+    cat,
+    button,
+    hovtext,
+    hovname,
+    allowList,
+    tab,
+    cumdest,
+    kinks,
+    req,
+    effectPC,
+    effectNPC,
+    action
+  }) {
+    this.name = name;
+    this.key = key;
     this.tags = tags;
     this.cat = cat;
-    this.hovname = hovname;
-    this.button = "<<hoverrevise " + hovname + ">><<button " + button + ">><<run setup.sexActs." + key + ".action()>><<set $sex.pcLastAct = $sex.pcAct>><<run $sex.pcActRecord.push('" + key + "')>><<set $sex.pcAct = '" + key + "'>><<goto [[sexSceneControl]]>><</button>><<endhoverrevise>>";
-    this.hovtext = "<<insertion " + hovname + ">>" + hovtext + "<<endinsertion>>";
+    this.cumdest = cumdest;
+    this.button = `<<hoverrevise "${hovname}">><<button "${button}">><<set $sex.pcLastAct = $sex.pcAct>><<run $sex.pcActRecord.push("${key}")>><<set $sex.pcAct = "${key}">><<run setup.sex.action("${key}")>><<goto [[sexSceneControl]]>><</button>><<endhoverrevise>>`;
+    this.hovtext = `<<insertion ${hovname}>>${hovtext}<<endinsertion>>`;
     this.action = action;
     this.allowList = allowList;
+    this.effectPC = jQuery.extend(true, {}, effectPC);
+    this.effectNPC = jQuery.extend(true, {}, effectNPC);
     this.req = jQuery.extend(true, {}, req);
     this.tab = tab;
-    this.spec = jQuery.extend(true, {}, spec);
+    this.kinks = kinks;
   }
   get allowed() { // HEY! ME! USE includesAll() instead of a for loop.
     /*return false quickly if wrong tab*/

@@ -1,18 +1,338 @@
 :: proRealEstate1 [nobr]
 
-It's time to rent a place. You can look at a few places, after seeing the options. This basically means taking a look at the enlarged view of the apartment's navigation map.
-<br><br>
-Because it's slightly complicated, I figure it'd be good to explain how apartments will work early on, and the design for finished housing. There will be a total of 5 maps, though this may be scaled back to 4 if it proves to take too long to develop. Initially, there will be only 1 map. <br>
-''the maps are:''<br>
-Studio Appartment - cheapest, least pleasing, most prone to problems.<br>
-One Bedroom - Middle-of-the-road offering, and initial map available.<br>
-Two Bedroom - Nicer apartment, more expensive. May be the cut map.<br>
-Luxury Townhome - Well-off BF/GFs may live here, can eventually achieve by making enough money. Extremely pleasing and pricy.<br>
-Lily's Place - You get the guest room and guest bathroom, and the rent is cheapest. There are also some challenges, and some downsides, but it'll probably be interesting from a story perspective. Will probably be an altered version of the luxury map.
-<br><br>
-All of the homes will use the same "residential area" map. It isn't really special enough to warrant separate maps.
-<br><br>
-There will be a small degree of randomness with available real estate. The same map will be reused multiple times, with somewhat different stats. You may see 3 one-bedroom apartments for rent when you look. One may be cheaper, but also more run-down or otherwise less pleasing. The opposite can also be true. Cost will also alter your commute time and other variables.
-<br><br>
-[[Timeskip Time|storyStart21a]]
+<<if $temp.reTime < 3>>
+  <<npcLike 20 "n1001" 2>>
+  <<set $temp.realtor = 3>>
+<<elseif $temp.reTime == 3>>
+  <<npcLike 10 "n1001" 2>>
+  <<set $temp.realtor = 2>>
+<<elseif $temp.reTime == 4>>
+  <<npcLike 5 "n1001" 2>>
+  <<set $temp.realtor = 1>>
+<<else>>
+  <<npcLike -5 "n1001" 2>>
+  <<set $temp.realtor = 0>>
+<</if>>
+<<switch $temp.reTime>>
+<<case 1>>
+  <<gotodev "proRealEstate2-1">>
+<<case 2>>
+  <<gotodev "proRealEstate2-2">>
+<<case 3>>
+  <<gotodev "proRealEstate2-3">>
+<<case 4>>
+  <<gotodev "proRealEstate2-4">>
+<<case 5>>
+  <<gotodev "proRealEstate2-5">>
+<<default>>
+  <<gotodev "proRealEstate2-3">>
+<</switch>>
 
+:: proRealEstate2-1 [nobr]
+
+@@.head3;Y@@ou step out of the front door and onto Lily's front stoop. The sun is shining overhead through a thin layer of puffy clouds. Parked on the curb is your Misubitchi (みすビッチ) Lingual, <<if $flag.CarWreckDmg == 0>>none the worse for wear after your near accident the other day.<<elseif $flag.CarWreckDmg == 1>>still missing its driver's side mirror.<<elseif $flag.CarWreckDmg == 2>>the damage to the front pretty obvious even from this distance.<<else>>still beat up from your accident the other day.<</if>> <<if $flag.CarWreckDmg == 0>>@@.mono;I'm glad I don't have to worry about fixing my car on top of everything else...@@<<else>>@@.mono;I had almost forgotten, I still need to get my car fixed after the accident...@@<</if>>
+<br><br>
+You take a look at your watch. @@.clock;<<print setup.timeDisp>>@@ @@.mono;Looks like there's still some time to go before the real estate agent is supposed to get here...@@ You take a seat on the stairs, and look around the quiet street. It's lined with townhouses that are very similar to Lily's, but just different enough to keep them distinguishable from each other. Overall it's a pleasant scene, and it gives you a very different feeling than the city.
+<br><br>
+Content to relax for a while, you <span id="waitin"><<link "wait">><<addTime 8>><<updatebar>><<replace "#waitin">>
+wait.
+<br><br>
+You don't have to wait long before a new-looking Sukayu Impregna pulls up at the curb. A woman in a nice skirt suit gets out, retrieving her purse before repositioning her suit jacket over her large breasts. She seems to check her reflection in her door window before finally looking up towards you. She seems startled for a moment, and you realize that she must not have noticed you sitting there when she pulled up to the curb.
+<br><br>
+She hurries over, giving you a view of her unusually-voluptuous figure as she hurries over with the short stride forced by her long skirt. @@.npc;Oh, you must be miss <<=$PC.main.surname>>! I'm so sorry for making you wait.@@ She reaches the stoop and stretches out her hand to shake. @@.npc;I'm Tiffany Williams, with Applecleft Real Estate.@@
+<br><br>
+Shaking the offered hand with a smile, you reply @@.pc;that's me, but <<=$PC.main.name>> is fine.@@
+<br><br>
+@@.npc;<<=$PC.main.name>> it is then!@@ Tiffany shifts her purse to retrieve a thin tablet. @@.npc;Miss Richards said that you're new in town, and looking for a place to rent right away?@@ she doesn't quite give you enough time to answer before continuing, flicking the screen of the tablet as she does. @@.npc;What kind of place are you looking for? What's your budget?@@
+<br><br>
+<<hoverrevise funfun>><<emo excited>><<tab>><<link "I was thinking about that...">><<addTime 27>><<goto [[proRealEstate3a]]>><</link>><<endhoverrevise>><<tab>><<insertion funfun>>@@.mono;I'm looking forward to finding a cool new place@@<<endinsertion>><br>
+<<hoverrevise ohnoes>><<emo disturbed>><<tab>><<link "Well...">><<addTime 33>><<goto [[proRealEstate3b]]>><</link>><<endhoverrevise>><<tab>><<insertion ohnoes>>@@.mono;Right away? Budget? What kind of place do I want?@@<<endinsertion>><br>
+<<hoverrevise dickhole>><<emo arrogant>><<link "The place absolutely has to have...">><<addTime 44>><<goto [[proRealEstate3c]]>><</link>><<endhoverrevise>><<tab>><<insertion dickhole>>@@.mono;If I'm going to be here a while, my new place ''better'' be nice!@@<<endinsertion>><br><br>
+<</replace>><</link>>.</span>
+
+
+:: proRealEstate2-2 [nobr]
+
+@@.head3;Y@@ou step out of the front door and onto Lily's front stoop. The sun is shining overhead through a thin layer of puffy clouds. Parked on the curb is your Misubitchi (みすビッチ) Lingual, <<if $flag.CarWreckDmg == 0>>none the worse for wear after your near accident the other day.<<elseif $flag.CarWreckDmg == 1>>still missing its driver's side mirror.<<elseif $flag.CarWreckDmg == 2>>the damage to the front pretty obvious even from this distance.<<else>>still beat up from your accident the other day.<</if>> <<if $flag.CarWreckDmg == 0>>@@.mono;I'm glad I don't have to worry about fixing my car on top of everything else...@@<<else>>@@.mono;I had almost forgotten, I still need to get my car fixed after the accident...@@<</if>>
+<br><br>
+You take a look at your watch. @@.clock;<<print setup.timeDisp>>@@ @@.mono;Looks like the real estate agent is running a little...@@ Your thought is interrupted by a new-looking Sukayu Impregna pulling up at the curb. A woman in a nice skirt suit quickly gets out, retrieving her purse before repositioning her suit jacket over her large breasts. She seems to check her reflection in her door window before finally looking up towards you. She seems startled for a moment, and you realize that she must not have noticed you standing there when she pulled up to the curb.
+<br><br>
+She hurries over, giving you a view of her unusually-voluptuous figure as she hurries over with the short stride forced by her long skirt. @@.npc;Oh, you must be miss <<=$PC.main.surname>>! I'm so sorry for making you wait.@@ She reaches the stoop and stretches out her hand to shake. @@.npc;I'm Tiffany Williams, with Applecleft Real Estate.@@
+<br><br>
+Shaking the offered hand with a smile, you reply @@.pc;that's me, but <<=$PC.main.name>> is fine.@@
+<br><br>
+@@.npc;<<=$PC.main.name>> it is then!@@ Tiffany shifts her purse to retrieve a thin tablet. @@.npc;Miss Richards said that you're new in town, and looking for a place to rent right away?@@ she doesn't quite give you enough time to answer before continuing, flicking the screen of the tablet as she does. @@.npc;What kind of place are you looking for? What's your budget?@@
+<br><br>
+<<hoverrevise funfun>><<emo excited>><<tab>><<link "I was thinking about that...">><<addTime 27>><<goto [[proRealEstate3a]]>><</link>><<endhoverrevise>><<tab>><<insertion funfun>>@@.mono;I'm looking forward to finding a cool new place@@<<endinsertion>><br>
+<<hoverrevise ohnoes>><<emo disturbed>><<tab>><<link "Well...">><<addTime 33>><<goto [[proRealEstate3b]]>><</link>><<endhoverrevise>><<tab>><<insertion ohnoes>>@@.mono;Right away? Budget? What kind of place do I want?@@<<endinsertion>><br>
+<<hoverrevise dickhole>><<emo arrogant>><<link "The place absolutely has to have...">><<addTime 44>><<goto [[proRealEstate3c]]>><</link>><<endhoverrevise>><<tab>><<insertion dickhole>>@@.mono;If I'm going to be here a while, my new place ''better'' be nice!@@<<endinsertion>><br><br>
+
+:: proRealEstate2-3 [nobr]
+
+@@.head3;A@@nswering Lily's door, you see a woman waiting there that appears to be in her mid to late 30s. Her surprisingly voluptuous figure isn't something you expected to see on a real estate agent, but then again, you don't exactly know a lot of real estate agents. She's wearing a skirt suit and has a kind-looking face, so pretty much nothing like what you expected.
+<br><br>
+She starts talking at just about the time you realize that you hadn't greeted her yet. @@.npc;Ah, hello, you must be miss <<=$PC.main.surname>>!@@ She quickly recovers from her hesitant start and stretches out her hand to shake. @@.npc;I'm Tiffany Williams, with Applecleft Real Estate.@@
+<br><br>
+You take the offered hand with an apologetic smile. @@.pc;That's me, but <<=$PC.main.name>> is fine.@@
+<br><br>
+@@.npc;<<=$PC.main.name>> it is then!@@ Tiffany shifts her purse to retrieve a thin tablet. @@.npc;Miss Richards said that you're new in town, and looking for a place to rent right away?@@ she doesn't quite give you enough time to answer before continuing, flicking the screen of the tablet as she does. @@.npc;What kind of place are you looking for? What's your budget?@@
+<br><br>
+<<hoverrevise funfun>><<emo excited>><<tab>><<link "I was thinking about that...">><<addTime 27>><<goto [[proRealEstate3a]]>><</link>><<endhoverrevise>><<tab>><<insertion funfun>>@@.mono;I'm looking forward to finding a cool new place@@<<endinsertion>><br>
+<<hoverrevise ohnoes>><<emo disturbed>><<tab>><<link "Well...">><<addTime 33>><<goto [[proRealEstate3b]]>><</link>><<endhoverrevise>><<tab>><<insertion ohnoes>>@@.mono;Right away? Budget? What kind of place do I want?@@<<endinsertion>><br>
+<<hoverrevise dickhole>><<emo arrogant>><<link "The place absolutely has to have...">><<addTime 44>><<goto [[proRealEstate3c]]>><</link>><<endhoverrevise>><<tab>><<insertion dickhole>>@@.mono;If I'm going to be here a while, my new place ''better'' be nice!@@<<endinsertion>><br><br>
+
+:: proRealEstate2-4 [nobr]
+
+@@.head3;F@@inally making it to answer the door, you see a woman waiting there that appears to be in her mid to late 30s. Her surprisingly voluptuous figure isn't something you expected to see on a real estate agent, but then again, you don't exactly know a lot of real estate agents. She's wearing a skirt suit and has a kind-looking face, so pretty much nothing like what you expected.
+<br><br>
+She's facing away from the door, looking at a mid-sized tablet while she waits. Realizing that she hasn't noticed you yet, you clear your throat to give her some warning. @@.pc;Sorry about the wait, I was a bit <i>occupied</i> when you rang.@@
+<br><br>
+You manage to avoid startling her, and she turns around to greet you. @@.npc;Ah, hello, you must be miss <<=$PC.main.surname>>!@@ She quickly recovers from her hesitant start and stretches out her hand to shake. @@.npc;I'm Tiffany Williams, with Applecleft Real Estate.@@
+<br><br>
+You take the offered hand with an apologetic smile. @@.pc;That's me, but <<=$PC.main.name>> is fine.@@
+<br><br>
+@@.npc;<<=$PC.main.name>> it is then!@@ Tiffany lifts her tablet back up, glancing down to unlock it. @@.npc;Miss Richards said that you're new in town, and looking for a place to rent right away?@@ she doesn't quite give you enough time to answer before continuing, flicking the screen of the tablet as she does. @@.npc;What kind of place are you looking for? What's your budget?@@
+<br><br>
+<<hoverrevise funfun>><<emo excited>><<tab>><<link "I was thinking about that...">><<addTime 27>><<goto [[proRealEstate3a]]>><</link>><<endhoverrevise>><<tab>><<insertion funfun>>@@.mono;I'm looking forward to finding a cool new place@@<<endinsertion>><br>
+<<hoverrevise ohnoes>><<emo disturbed>><<tab>><<link "Well...">><<addTime 33>><<goto [[proRealEstate3b]]>><</link>><<endhoverrevise>><<tab>><<insertion ohnoes>>@@.mono;Right away? Budget? What kind of place do I want?@@<<endinsertion>><br>
+<<hoverrevise dickhole>><<emo arrogant>><<link "The place absolutely has to have...">><<addTime 44>><<goto [[proRealEstate3c]]>><</link>><<endhoverrevise>><<tab>><<insertion dickhole>>@@.mono;If I'm going to be here a while, my new place ''better'' be nice!@@<<endinsertion>><br><br>
+
+:: proRealEstate2-5 [nobr]
+
+@@.head3;Y@@ou wait around waiting for the real estate agent to leave, but it seems that Lily must've warned her that you may still be asleep. The doorbell starts ringing nearly continuously, giving the impression of a pompous alarm clock. @@.mono;Well, since she isn't going away...@@
+<br><br>
+You open the door with a quick motion, startling the voluptuous real estate agent standing on the other side. @@.pc;Sorry about the wait, I was taking a massive shit.@@ You struggle to keep your face looking earnest as you enjoy the obvious confusion on the woman's face.
+<br><br>
+@@.npc;Y...You were... a shit?@@ Apparently your antics are too abnormal for her to wrap her mind around immediately.
+<br><br>
+@@.pc;Yeah, it was fucking massive too. I seriously thought I was going to have a prolapse for a minute there...@@ You barely manage to pull off a shrug and a "you know how it is" expression. @@.pc;I guess that means it's time to upgrade the ole rubber ass rocket eh?@@
+<br><br>
+Tiffany fixes you with a glare and a disapproving frown. @@.npc;Miss Richards told me you might try to find an excuse to freeload at her place.@@ She pulls out a tablet and starts flicking the screen. @@.npc;It won't work, she offered to double my commission to make sure you pick an apartment.@@
+<br><br>
+Confronted with an unexpected turn of events, you put your hands on your hips. @@.pc;And if I refuse?@@
+<br><br>
+She responds with a triumphant grin. @@.npc;She already sent over your approval in advance, so if you don't want to look, all I have to do is just pick a place for you...@@ The grin expands @@.npc;And my commission is based on the rent of the apartment.@@
+<br><br>
+@@.mono;FUCK@@ You realize that you're stuck. @@.pc;Fine... What do I need to do?@@
+<br><br>
+She quickly shifts back to her "kind real estate lady" persona, but a hint of the earlier grin remains. @@.npc;Let's get started then... What kind of place are you looking for? What's your budget?@@
+<br><br>
+<<hoverrevise funfun>><<emo excited>><<tab>><<link "I was thinking about that...">><<addTime 27>><<goto [[proRealEstate3a]]>><</link>><<endhoverrevise>><<tab>><<insertion funfun>>@@.mono;I'm looking forward to finding a cool new place@@<<endinsertion>><br>
+<<hoverrevise ohnoes>><<emo disturbed>><<tab>><<link "Well...">><<addTime 33>><<goto [[proRealEstate3b]]>><</link>><<endhoverrevise>><<tab>><<insertion ohnoes>>@@.mono;Right away? Budget? What kind of place do I want?@@<<endinsertion>><br>
+<<hoverrevise dickhole>><<emo arrogant>><<link "The place absolutely has to have...">><<addTime 44>><<goto [[proRealEstate3c]]>><</link>><<endhoverrevise>><<tab>><<insertion dickhole>>@@.mono;If I'm going to be here a while, my new place ''better'' be nice!@@<<endinsertion>><br>
+<br><br>
+
+:: proRealEstate3a [nobr]
+
+@@.head3;O@@ver the next 30 minutes or so the two of you discuss what's important to you, and what you'd like if possible, along with some discussion about budget. <<if $temp.realtor > 1>>At one point, despite the fact that she would get a larger commission with a larger apartment, she cautioned against biting off more than you could chew. @@.npc;<i>I know the rent out here is cheaper than you were used to in the city, but you may want to be careful not to overextend yourself.</i>@@<<else>>She seems perfectly happy to go along with your suggestions, but more features usually means more rent...<</if>>
+<br><br>
+<<include [[proRealEstate4]]>>
+
+:: proRealEstate3b [nobr]
+
+@@.head3;O@@ver the next 30 minutes or so, Tiffany asks you questions to help figure out what it is that you want out of your new home, and which aspects of a potential apartment are most important to you. <<if $temp.realtor > 1>>At one point, despite the fact that she would get a larger commission with a larger apartment, she cautioned against biting off more than you could chew. @@.npc;<i>I know the rent out here is cheaper than you were used to in the city, but you may want to be careful not to overextend yourself.</i>@@<<else>>She seems perfectly happy to go along with your suggestions, but more features usually means more rent...<</if>>
+<br><br>
+<<include [[proRealEstate4]]>>
+
+:: proRealEstate3c [nobr]
+
+@@.head3;A@@fter a solid 20 minutes of listing off features and amenities that you absolutely <i>have</i> to have, Tiffany finally sets you strait. @@.npc;Look, it's great that you have put some thought into what you want, and you obviously have some ambition... But you're not going to be able to afford this on only <<if $temp.jobber == "SPERM">><<mon>>1600<<elseif $temp.jobber == "Bcorps">><<mon>>1440<<else>><<mon>>1200<</if>> a month.@@ Realizing that it was pointless to keep asking about the impossible, you finally start to set out what it is that you really <i>need</i> from your new place.
+<br><br>
+<<include [[proRealEstate4]]>>
+
+:: proRealEstate4 [nobr]
+
+Overall, the experience is quite educational for you. You learn a bit more about what's important to look for in a new place to live...
+
+<h2>Real Estate Guide</h2>
+<p class="typewriter white">
+Your choice of apartment affects more than just what the map looks like. While you aren't stuck with a specific apartment throughout the game, you can't change apartments like you would change clothes. This means you should give a little thought to your choice in apartment beyond just looking at the rent. Generally, you'll only be able to change apartments after having lived in your current apartment for at least a month. Any time you rent an apartment, you're going to have to pay a month's rent up front as a deposit. Retrieving the deposit will be determined by how well you've taken care of the apartment you're vacating. The amount of stuff you own will determine amount of time and money a move costs.</p>
+<p class="typewriter white">
+Rent and certain other expenses will be deducted from your paycheck automatically each week. This ''can'' result in your credit account going into arrears, and owing interest to the bank. The week summary will show you your financial information for the week. There are a few different personality factors that determine how your character reacts to your apartment. Being materialistic, for example, will increase your dissatisfaction with low quality housing, but increase the satisfaction you gain from luxurious housing.</p>
+<p class="typewriter white">
+There are a few different attributes that each potential home has, including the homes of any romantic partners you stay with. As with real life, choosing a home often involves tradeoffs between different items as well as price. The "perfect place" is usually more expensive than you'd expect, because of the rarity of having everything in a single home.</p>
+<dl class="typewriter white">
+<dt class="head3">Tier</dt>
+<dd>Rather than representing quality, tier is just a short way of describing the size of the home. Even though you only need one bedroom as an individual person, having extra will allow for some "extra room" uses as well as causing the overall home to feel more spacious to your character.
+  <ol>
+    <li>A studio apartment, without a dedicated bedroom.</li>
+    <li>A one-bedroom apartment suitable for a single person.</li>
+    <li>A two-bedroom apartment, usually with at least 1.5 baths.</li>
+    <li>A three-bedroom, two-bathroom apartment.</li>
+    <li>A three-bedroom, 2.5 bathroom townhome. More spacious and private than an apartment.</li>
+  </ol>
+</dd>
+<dt class="head3">Finish</dt>
+<dd>The relative luxury of a home. Two separate apartments can have identical floorplans and even be in the same building, but still be quite different on the inside. Consider the difference between granite countertops and particle board, or real tile and laminate.
+</dd>
+<dt class="head3">Upkeep</dt>
+<dd>How well the unit has been cared for, or how recently it has been renovated. A home with a high score in upkeep has been better-maintained, and is generally nicer to live in. A home with a low score has a lot of wear and tear, and things like stained carpets and busted hinges are the norm. Things are also more likely to break down and need repair.
+</dd>
+<dt class="head3">Neighborhood</dt>
+<dd>A representation of a few factors affecting the quality of the immediate environment. How loud or obnoxious the neighbors are, and how nice the local amenities are, both contribute to this score. A less obvious factor is the criminal element in the area, though no area in Appletree is anywhere close to being "crime ridden".
+</dd>
+<dt class="head3">Location</dt>
+<dd>The convenience of the location for travel purposes, and probably the most straight-forward home attribute. The lower the score, the longer it will take to get to work, head downtown, or generally just leave your immediate residential area. While the effect is small for a single trip, it does add up.</dd>
+</dl>
+<p class="typewriter white">A romantic partner's place also has an effect on your character, mitigated by whether or not you are officially "living together". You can receive the benefits of a romantic partner's very nice home for yourself, but won't feel truly at home unless living together. Likewise, if your partner has a really crappy place, staying there will have a negative effect on you.</p>
+<p>
+<span class="pc"><<link "I think I know what I want now...">><<set $temp.homeop = [0,0,0,0,0]>><<goto [[proRealEstate5]]>><</link>></span>
+</p>
+
+:: proRealEstate5 [nobr]
+
+<h2>Choose what's important to you</h2>
+<table id="invisTable">
+<tr><td colspan=2>Rank 1: Not Important, 2: Neutral, 3: Important<<tab>><<info "Review Home Information" guideRealEstate>></td></tr>
+<tr>
+  <td style="width:25%;">Home Tier</td>
+  <td>''1:'' N/A<<tab>>''2:'' <<radiobutt "$temp.homeop[0]" 2 checked>><<tab>>''3:'' N/A<<tab>><<comment "Presently, only tier-2 homes are available for play, so that's the only option that you can choose. Later you will be able to pick a tier 1 or 3 home to start. Here's a sneak peak at an unfinished version of the T1 map: [img[IMGtier1home]]">></td>
+</tr>
+<tr>
+  <td>Finish</td>
+  <td>''1:'' <<radiobutt "$temp.homeop[1]" 1>><<tab>>''2:'' <<radiobutt "$temp.homeop[1]" 2 checked>><<tab>>''3:'' <<radiobutt "$temp.homeop[1]" 3>></td>
+</tr>
+<tr>
+  <td>Upkeep</td>
+  <td>''1:'' <<radiobutt "$temp.homeop[2]" 1>><<tab>>''2:'' <<radiobutt "$temp.homeop[2]" 2 checked>><<tab>>''3:'' <<radiobutt "$temp.homeop[2]" 3>></td>
+</tr>
+<tr>
+  <td>Neighborhood</td>
+  <td>''1:'' <<radiobutt "$temp.homeop[3]" 1>><<tab>>''2:'' <<radiobutt "$temp.homeop[3]" 2 checked>><<tab>>''3:'' <<radiobutt "$temp.homeop[3]" 3>></td>
+</tr>
+<tr>
+  <td>Location</td>
+  <td>''1:'' <<radiobutt "$temp.homeop[4]" 1>><<tab>>''2:'' <<radiobutt "$temp.homeop[4]" 2 checked>><<tab>>''3:'' <<radiobutt "$temp.homeop[4]" 3>></td>
+</tr>
+</table>
+<<link "Continue">><<goto [[proRealEstate6]]>><</link>>
+
+:: proRealEstate6 [nobr]
+
+<<set _dist = [true,[0,20,30,25,15,10],[0,10,25,30,25,10],[0,10,15,20,25,30]]>>
+<<set $homeOptions = []>>
+<<for _i to 0; _i < 7; _i++>>
+  <<set _ob = {}>>
+  <<set _ob.name = setup.home.apartmentNameGen()>>
+  <<set _ob.tier = 2>>
+  <<set _ob.finish = setup.randomDist(_dist[$temp.homeop[1]])>>
+  <<set _ob.upkeep = setup.randomDist(_dist[$temp.homeop[2]])>>
+  <<set _ob.nhood = setup.randomDist(_dist[$temp.homeop[3]])>>
+  <<set _tLoc = setup.randomDist(_dist[$temp.homeop[4]])>>
+  <<set _ob.location = _tLoc>>
+  <<set _ob.street = setup.home.apartmentStreetGen(_tLoc)>>
+  <<set _math = Math.round((((_ob.finish + 1) * (_ob.upkeep + 1) * (_ob.nhood + 1) * _ob.location)/2)/20) * 20>>
+  <<set _ob.rent = 750 + _math>>
+  <<run $homeOptions.push(_ob)>>
+<</for>>
+<<set $temp.homeChoice = "N/A">>
+<<gotodev "proRealEstateCards">>
+
+:: proRealEstateCards [nobr]
+
+<<uicardsinit "_cocker" "Virtual Tour" "Choose a home">>
+<<set _select = -1>>
+<h2>Virtual Tour</h2>
+<p>After setting up a search query based on your preferences, Tiffany takes you on a virtual tour of several locations. You rule out a couple of them, and then set off to take a quick look at the rest. Thankfully they're all pretty close together, so it doesn't take too much time to travel between the properties.</p>
+<p class="note">Examine the different available homes and choose the one that you prefer. Because this is your first home, you <b>must</b> choose one before continuing. (For subsequent homes, you can decide to choose none of them, but you lose the time you spent on the hunt.) Click the "Choose this Home" button to select a home and continue. Click the button now to choose a home at random. All sales are final!</p>
+
+<<nextcard $homeOptions[0].name>>
+<<set _select = 0>>
+<span class="head2"><<print $homeOptions[0].name>></span><<tab>><span class="head3"><<print $homeOptions[0].street>></span><br><br>
+<<print setup.home.apartmentDesc($homeOptions[0].tier, $homeOptions[0].location, $homeOptions[0].finish, $homeOptions[0].upkeep)>><br>
+<<button "View Home">><<dialog $homeOptions[0].name>>[img[IMGtier2home]]<br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<table id="invisTable">
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print $homeOptions[0].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[0].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[0].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[0].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[0].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print $homeOptions[0].rent>></td></tr>
+</table>
+<<nextcard $homeOptions[1].name>>
+<<set _select = 1>>
+<span class="head2"><<print $homeOptions[1].name>></span><<tab>><span class="head3"><<print $homeOptions[1].street>></span><br><br>
+<<print setup.home.apartmentDesc($homeOptions[1].tier, $homeOptions[1].location, $homeOptions[1].finish, $homeOptions[1].upkeep)>><br>
+<<button "View Home">><<dialog $homeOptions[1].name>>[img[IMGtier2home]]<br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<table id="invisTable">
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print $homeOptions[1].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[1].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[1].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[1].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[1].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print $homeOptions[1].rent>></td></tr>
+</table>
+<<nextcard $homeOptions[2].name>>
+<<set _select = 2>>
+<span class="head2"><<print $homeOptions[2].name>></span><<tab>><span class="head3"><<print $homeOptions[2].street>></span><br><br>
+<<print setup.home.apartmentDesc($homeOptions[2].tier, $homeOptions[2].location, $homeOptions[2].finish, $homeOptions[2].upkeep)>><br>
+<<button "View Home">><<dialog $homeOptions[2].name>>[img[IMGtier2home]]<br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<table id="invisTable">
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print $homeOptions[2].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[2].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[2].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[2].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[2].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print $homeOptions[2].rent>></td></tr>
+</table>
+<<nextcard $homeOptions[3].name>>
+<<set _select = 3>>
+<span class="head2"><<print $homeOptions[3].name>></span><<tab>><span class="head3"><<print $homeOptions[3].street>></span><br><br>
+<<print setup.home.apartmentDesc($homeOptions[3].tier, $homeOptions[3].location, $homeOptions[3].finish, $homeOptions[3].upkeep)>><br>
+<<button "View Home">><<dialog $homeOptions[3].name>>[img[IMGtier2home]]<br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<table id="invisTable">
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print $homeOptions[3].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[3].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[3].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[3].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[3].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print $homeOptions[3].rent>></td></tr>
+</table>
+<<nextcard $homeOptions[4].name>>
+<<set _select = 4>>
+<span class="head2"><<print $homeOptions[4].name>></span><<tab>><span class="head3"><<print $homeOptions[4].street>></span><br><br>
+<<print setup.home.apartmentDesc($homeOptions[4].tier, $homeOptions[4].location, $homeOptions[4].finish, $homeOptions[4].upkeep)>><br>
+<<button "View Home">><<dialog $homeOptions[4].name>>[img[IMGtier2home]]<br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<table id="invisTable">
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print $homeOptions[4].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[4].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[4].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[4].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[4].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print $homeOptions[4].rent>></td></tr>
+</table>
+<<nextcard $homeOptions[5].name>>
+<<set _select = 5>>
+<span class="head2"><<print $homeOptions[5].name>></span><<tab>><span class="head3"><<print $homeOptions[5].street>></span><br><br>
+<<print setup.home.apartmentDesc($homeOptions[5].tier, $homeOptions[5].location, $homeOptions[5].finish, $homeOptions[5].upkeep)>><br>
+<<button "View Home">><<dialog $homeOptions[5].name>>[img[IMGtier2home]]<br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<table id="invisTable">
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print $homeOptions[5].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[5].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[5].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[5].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[5].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print $homeOptions[5].rent>></td></tr>
+</table>
+<<nextbutton "Choose this Home!">>
+  <<if _select == -1>>
+    <<set _select = random(0,5)>>
+  <</if>>
+  <<status 1>>
+  <<set $home.stats = {name: $homeOptions[_select].name, tier: $homeOptions[_select].tier, finish: $homeOptions[_select].finish, upkeep: $homeOptions[_select].upkeep, nhood: $homeOptions[_select].nhood, location: $homeOptions[_select].location, rent: $homeOptions[_select].rent}>>
+  <<status 0>>
+  <<goto [[proRealEstate7]]>>
+<<nextbutton>>
+<center><<link [img[IMG_ForSale]]>><<if $pub>><<goto [[proRealEstate6]]>><</if>><</link>>
+<br><<if $pub>>Click to cheat refresh!<</if>>
+<br><br>
+<<info "Review Home Information" guideRealEstate>>
+</center>
+<</uicardsinit>>
+
+
+:: proRealEstate7 [nobr]
+
+Your home is set to the one at <<print $home.stats.name>>
+<br><br>
+<<link "Continue">><<deactivateNPC "n1001">><<goto [[storyStart20a]]>><</link>>

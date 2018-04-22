@@ -24,44 +24,44 @@ setup.status.stress = function (amt, tgt = -1, restore = false) {
   //restore is default false. it true, isActive function will restore them if stored.
   //first create a pattern to test any string to ensure the npcid is correct.
   const pattern = new RegExp(/n[0-9]{3,5}$/);
-  let result; //variable to hold result from isActive 
+  let result, pc, id, tit, trait; //variable to hold result from isActive
   //if it isn't the PC, we check that the input is valid, and that the NPC is active to edit.
   if (tgt == -1) {
-    const pc = true,
-      id = "none";
+    pc = true;
+    id = "none";
     //assign object key based on target since we don't know if PC or not.
-    const trait = "trait";
-    const tit = State.active.variables.PC; //create tit as reference to correct object
+    trait = "trait";
+    tit = State.active.variables.PC; //create tit as reference to correct object
   } else if ("number" == typeof tgt && tgt >= 0 && tgt < State.active.variables.activeNPC.length) {
-    const pc = false,
-      id = State.active.variables.activeNPC[tgt];
-    const trait = "core"; //notice NPC uses core instead of trait
-    const tit = State.active.variables.NPC[id]; //we're setting the reference to the NPC instead
+    pc = false;
+    id = State.active.variables.activeNPC[tgt];
+    trait = "core"; //notice NPC uses core instead of trait
+    tit = State.active.variables.NPC[id]; //we're setting the reference to the NPC instead
   } else if ("string" == typeof tgt && pattern.test(tgt)) {
-    const pc = false,
-      id = tgt;
-    const trait = "core"; //notice NPC uses core instead of trait
+    pc = false;
+    id = tgt;
+    trait = "core"; //notice NPC uses core instead of trait
     result = setup.isActive(tgt, restore);
     if (result == "stored") {
       let msg = "can't modify stress, NPC isn't active and restore isn't set to true. ID: " + id;
-      console.log(msg);
+      aw.con.warn(msg);
       if (State.active.variables.swim == "[dev]") {
         alert(msg);
       }
       return;
     } else if (result == "nonexist") {
       let msg = "The passed npcid doesn't exist! (stress function) ID: " + id;
-      console.log(msg);
+      aw.con.warn(msg);
       if (State.active.variables.swim == "[dev]") {
         alert(msg);
       }
       return;
     }
-    const tit = State.active.variables.NPC[id]; //we're setting the reference to the NPC instead
+    tit = State.active.variables.NPC[id]; //we're setting the reference to the NPC instead
   } else {
     //we have bad input, meaning we throw an error and return.
-    msg = "Stress function given invalid target, either not active, bad index, or bad id.";
-    console.log(msg);
+    let msg = "Stress function given invalid target, either not active, bad index, or bad id.";
+    aw.con.warn(msg);
     //need to do this more regularly so that players don't get alerts they don't need.
     if (State.active.variables.swim == "[dev]") {
       alert(msg);
@@ -116,14 +116,19 @@ setup.status.stress = function (amt, tgt = -1, restore = false) {
   mod = Math.min(2.5, mod);
   amt = Math.round(amt * mod); //finally adjust amount
   //for cheat
-  if (State.active.variables.cheatStress && amt >= 0) {
+  if (pc && aw.chad.stress && amt >= 0) {
     amt = 0;
   }
   tit.status.stress += amt;
   //check for over or under values
   if (tit.status.stress > 100) {
-    tit.status.overStress = true;
-    tit.status.stress = 100 - random(0, 4);
+    if (pc && tit.status.overStress) {
+      State.active.variables.flag.badEnd = "stress";
+    } else {
+      tit.status.overStress = true;
+      setup.AW.notify("You are dangerously stressed!","red");
+    }
+    tit.status.stress = 100 - random(0, 3);
   } else if (tit.status.stress < 0) {
     tit.status.stress = 0;
   }
@@ -134,170 +139,535 @@ setup.status.stress = function (amt, tgt = -1, restore = false) {
     setup.storeNPC(tgt);
   }
 };
+
+/*******************************************/
+/* ╔═╗┌┐┌┌─┐┌─┐┬─┐  Alters the N/PC anger  */
+/* ╠═╣││││ ┬├┤ ├┬┘  stat by accounting for */
+/* ╩ ╩┘└┘└─┘└─┘┴└─  other variables.       */
+/*******************************************/
+/* This function mirrors the functionality of the stress function */
+setup.status.anger = function (amt, tgt = -1, restore = false) {
+  const pattern = new RegExp(/n[0-9]{3,5}$/);
+  let result, pc, id, tit, trait;
+  if (tgt == -1) {
+    pc = true;
+    id = "none";
+    trait = "trait";
+    setup.statusLoad();
+    tit = State.active.variables.PC; //create tit as reference to correct object
+  } else if ("number" == typeof tgt && tgt >= 0 && tgt < State.active.variables.activeNPC.length) {
+    pc = false;
+    id = State.active.variables.activeNPC[tgt];
+    trait = "core"; //notice NPC uses core instead of trait
+    tit = State.active.variables.NPC[id]; //we're setting the reference to the NPC instead
+  } else if ("string" == typeof tgt && pattern.test(tgt)) {
+    pc = false;
+    id = tgt;
+    trait = "core"; //notice NPC uses core instead of trait
+    result = setup.isActive(tgt, restore);
+    if (result == "stored") {
+      let msg = "can't modify stress, NPC isn't active and restore isn't set to true. ID: " + id;
+      aw.con.warn(msg);
+      if (State.active.variables.swim == "[dev]") {
+        alert(msg);
+      }
+      return;
+    } else if (result == "nonexist") {
+      let msg = "The passed npcid doesn't exist! (stress function) ID: " + id;
+      aw.con.warn(msg);
+      if (State.active.variables.swim == "[dev]") {
+        alert(msg);
+      }
+      return;
+    }
+    tit = State.active.variables.NPC[id]; //we're setting the reference to the NPC instead
+  } else {
+    //we have bad input, meaning we throw an error and return.
+    let msg = "Stress function given invalid target, either not active, bad index, or bad id.";
+    aw.con.warn(msg);
+    //need to do this more regularly so that players don't get alerts they don't need.
+    if (State.active.variables.swim == "[dev]") {
+      alert(msg);
+    }
+    return false;
+  }
+  let anger = tit.status.anger;
+  let mod = 0;
+  const open = tit[trait].op,
+    closed = tit[trait].cl;
+  if (tit[trait].bitch == 1) {
+    mod += 0.25;
+  } else if (tit[trait].bitch == -1) {
+    mod -= 0.25;
+  }
+  if (tit[trait].op) {
+    mod -= 0.2;
+  } else if (tit[trait].cl) {
+    mod += 0.5;
+  }
+  if (tit.status.need > 4) {
+    mod += 1;
+  } else if (tit.status.need > 3) {
+    mod += 0.75;
+  } else if (tit.status.need > 2) {
+    mod += 0.5;
+  } else if (tit.status.need > 0) {
+    mod += 0.25;
+  }
+  /******************************/
+  /* SITUATION TAGS PLACEHOLDER */
+  /******************************/
+  //time for sign flip
+  if (amt < 0) {
+    mod *= -1;
+  }
+  mod += 1; //adjust to proper multiplier
+  mod = Math.max(0.25, mod); //keep modifier within range
+  mod = Math.min(2.5, mod);
+  amt = Math.round(amt * mod); //finally adjust amount
+  //for cheat
+  if (pc && aw.chad.anger && amt >= 0 && tit.status.anger >= 5) {
+    amt = 0;
+  }
+  tit.status.stress += amt;
+  //check for over or under values
+  if (tit.status.anger > 10) {
+    if (pc && tit.status.overAnger) {
+      State.active.variables.flag.badEnd = "anger";
+    } else {
+      tit.status.overAnger = true;
+      if (pc) {
+        setup.AW.notify("You are dangerously angry!","red");
+      }
+    }
+    tit.status.anger = 10;
+  } else if (tit.status.anger < 0) {
+    tit.status.anger = 0;
+  }
+  if (pc) {
+    setup.statusSave();
+  }
+  if (result == "restored") {
+    setup.storeNPC(tgt);
+  }
+};
+
+/*******************************************/
+/* ╦ ╦┌─┐┌─┐┌─┐┬ ┬  Yep, it's another one  */
+/* ╠═╣├─┤├─┘├─┘└┬┘  of these things.       */
+/* ╩ ╩┴ ┴┴  ┴   ┴                          */
+/*******************************************/
+
+setup.status.happy = function (amt, tgt = -1, restore = false) {
+  const pattern = new RegExp(/n[0-9]{3,5}$/);
+  let result, pc, id, tit, trait;
+  if (tgt == -1) {
+    pc = true;
+    id = "none";
+    //assign object key based on target since we don't know if PC or not.
+    trait = "trait";
+    setup.statusLoad();
+    tit = State.active.variables.PC; //create tit as reference to correct object
+  } else if ("number" == typeof tgt && tgt >= 0 && tgt < State.active.variables.activeNPC.length) {
+    pc = false;
+    id = State.active.variables.activeNPC[tgt];
+    trait = "core"; //notice NPC uses core instead of trait
+    tit = State.active.variables.NPC[id]; //we're setting the reference to the NPC instead
+  } else if ("string" == typeof tgt && pattern.test(tgt)) {
+    pc = false;
+    id = tgt;
+    trait = "core"; //notice NPC uses core instead of trait
+    result = setup.isActive(tgt, restore);
+    if (result == "stored") {
+      let msg = "can't modify happiness, NPC isn't active and restore isn't set to true. ID: " + id;
+      aw.con.warn(msg);
+      if (State.active.variables.swim == "[dev]") {
+        alert(msg);
+      }
+      return;
+    } else if (result == "nonexist") {
+      let msg = "The passed npcid doesn't exist! (happiness function) ID: " + id;
+      aw.con.warn(msg);
+      if (State.active.variables.swim == "[dev]") {
+        alert(msg);
+      }
+      return;
+    }
+    tit = State.active.variables.NPC[id]; //we're setting the reference to the NPC instead
+  } else {
+    //we have bad input, meaning we throw an error and return.
+    let msg = "Happiness function given invalid target, either not active, bad index, or bad id.";
+    aw.con.warn(msg);
+    //need to do this more regularly so that players don't get alerts they don't need.
+    if (State.active.variables.swim == "[dev]") {
+      alert(msg);
+    }
+    return false;
+  }
+  let mod = 0;
+  const open = tit[trait].op,
+    closed = tit[trait].cl,
+    intro = tit[trait].intro,
+    extro = tit[trait].extro;
+  if (open) {
+    mod += random(0, 2) / 10;
+  } else if (closed) {
+    mod -= random(2, 4) / 10;
+  }
+  if (intro) {
+    mod -= random(1, 2) / 10;
+  } else if (extro) {
+    mod += random(3, 5) / 10;
+  }
+  if (tit[trait].lowEsteem != 0) {
+    mod -= 0.2;
+  }
+  if (tit.status.need > 4) {
+    mod -= 1;
+  } else if (tit.status.need > 3) {
+    mod -= 0.75;
+  } else if (tit.status.need > 1) {
+    mod -= 0.5;
+  } else if (tit.status.need > 0) {
+    mod -= 0.25;
+  }
+  /******************************/
+  /* SITUATION TAGS PLACEHOLDER */
+  /******************************/
+  //time for sign flip
+  if (amt < 0) {
+    mod *= -1;
+  }
+  mod += 1; //adjust to proper multiplier
+  mod = Math.max(0, mod); //keep modifier within range
+  mod = Math.min(2.5, mod);
+  amt = Math.round(amt * mod); //finally adjust amount
+  //for cheat
+  if (pc && aw.chad.happy && amt <= 0 && tit.status.happy <= 0) {
+    amt = 0;
+  }
+  tit.status.happy += amt;
+  //check for over or under values
+  if (tit.status.happy < -9) {
+    if (pc && tit.status.overDepress) {
+      State.active.variables.flag.badEnd = "depression";
+    } else {
+      tit.status.overDepress = true;
+      if (pc) {
+        setup.AW.notify("You are dangerously depressed!","red");
+      }
+    }
+    tit.status.happy = -10 + random(1, 2);
+  } else if (tit.status.happy > 10) {
+    tit.status.happy = 10;
+  }
+  if (pc) {
+    setup.statusSave();
+  }
+  if (result == "restored") {
+    setup.storeNPC(tgt);
+  }
+};
+
+/*******************************************/
+/* ╔╦╗┬┬─┐┌─┐┌┬┐  Increases the fatigue of */
+/*  ║ │├┬┘├┤  ││  the N/PC. Reduces hp if  */
+/*  ╩ ┴┴└─└─┘─┴┘  fatigue is too high.     */
+/*******************************************/
+
+setup.status.tired = function (amt, tgt = -1, restore = false) {
+  const pattern = new RegExp(/n[0-9]{3,5}$/);
+  let result, pc, id, tit, trait;
+  if (tgt == -1) {
+    pc = true;
+    id = "none";
+    setup.statusLoad();
+    tit = State.active.variables.PC; //create tit as reference to correct object
+  } else if ("number" == typeof tgt && tgt >= 0 && tgt < State.active.variables.activeNPC.length) {
+    pc = false;
+    id = State.active.variables.activeNPC[tgt];
+    tit = State.active.variables.NPC[id]; //we're setting the reference to the NPC instead
+  } else if ("string" == typeof tgt && pattern.test(tgt)) {
+    pc = false;
+    id = tgt;
+    result = setup.isActive(tgt, restore);
+    if (result == "stored") {
+      let msg = "can't modify fatigue, NPC isn't active and restore isn't set to true. ID: " + id;
+      aw.con.warn(msg);
+      if (State.active.variables.swim == "[dev]") {
+        alert(msg);
+      }
+      return;
+    } else if (result == "nonexist") {
+      let msg = "The passed npcid doesn't exist! (fatigue function) ID: " + id;
+      aw.con.warn(msg);
+      if (State.active.variables.swim == "[dev]") {
+        alert(msg);
+      }
+      return;
+    }
+    tit = State.active.variables.NPC[id]; //we're setting the reference to the NPC instead
+  } else {
+    //we have bad input, meaning we throw an error and return.
+    let msg = "fatigue function given invalid target, either not active, bad index, or bad id.";
+    aw.con.warn(msg);
+    //need to do this more regularly so that players don't get alerts they don't need.
+    if (State.active.variables.swim == "[dev]") {
+      alert(msg);
+    }
+    return false;
+  }
+  let mod = 0;
+  mod += tit.status.disease.length > 1 ? 0.5 : 0;
+  mod += tit.status.withdrawl ? 0.3 : 0;
+  /******************************/
+  /* SITUATION TAGS PLACEHOLDER */
+  /******************************/
+  //time for sign flip
+  if (amt < 0) {
+    mod *= -1;
+  }
+  mod += 1; //adjust to proper multiplier
+  mod = Math.max(0.3, mod); //keep modifier within range
+  mod = Math.min(2, mod);
+  amt = Math.round(amt * mod); //finally adjust amount
+  //for cheat
+  if (pc && aw.chad.tired && amt > 0 && tit.status.fatigue >= 7) {
+    amt = 0;
+  }
+  tit.status.fatigue += amt;
+  //check for over or under values
+  if (tit.status.fatigue >= 10) {
+    if (pc) {
+      setup.AW.notify("You are extremely tired.","red");
+    }
+    tit.status.fatigue = 10;
+    tit.status.health -= random(1, 5);
+  } else if (tit.status.fatigue < 0) {
+    tit.status.fatigue = 0;
+  }
+  if (pc) {
+    setup.statusSave();
+  }
+  if (result == "restored") {
+    setup.storeNPC(tgt);
+  }
+};
+
+/**********************************************/
+/* ╔═╗┬─┐┌─┐┬ ┬┌─┐┌─┐┬    Adds arousal to     */
+/* ╠═╣├┬┘│ ││ │└─┐├─┤│    N/PC based on basic */
+/* ╩ ╩┴└─└─┘└─┘└─┘┴ ┴┴─┘  characteristics.    */
+/**********************************************/
+setup.status.arousal = function (amt, tgt = -1, restore = false) {
+  //tgt is set as default to -1. calling .status.stress(3); will target PC.
+  //restore is default false. it true, isActive function will restore them if stored.
+  //first create a pattern to test any string to ensure the npcid is correct.
+  const pattern = new RegExp(/n[0-9]{3,5}$/);
+  const coded = new RegExp(/(X|x)[0-9]{1,2}$/);
+  let result, pc, id, tit, trait, rolls, arousal, prob = 30,
+    cunt = 0; //variable to hold result from isActive
+  //if it isn't the PC, we check that the input is valid, and that the NPC is active to edit.
+  if (tgt == -1) {
+    pc = true;
+    id = "none";
+    //assign object key based on target since we don't know if PC or not.
+    trait = "trait";
+    setup.statusLoad();
+    tit = State.active.variables.PC; //create tit as reference to correct object
+  } else if ("number" == typeof tgt && tgt >= 0 && tgt < State.active.variables.activeNPC.length) {
+    pc = false;
+    id = State.active.variables.activeNPC[tgt];
+    trait = "core"; //notice NPC uses core instead of trait
+    tit = State.active.variables.NPC[id]; //we're setting the reference to the NPC instead
+  } else if ("string" == typeof tgt && pattern.test(tgt)) {
+    pc = false;
+    id = tgt;
+    trait = "core"; //notice NPC uses core instead of trait
+    result = setup.isActive(tgt, restore);
+    if (result == "stored") {
+      let msg = "can't modify arousal, NPC isn't active and restore isn't set to true. ID: " + id;
+      aw.con.warn(msg);
+      if (State.active.variables.swim == "[dev]") {
+        alert(msg);
+      }
+      return;
+    } else if (result == "nonexist") {
+      let msg = "The passed npcid doesn't exist! (arouse function) ID: " + id;
+      aw.con.warn(msg);
+      if (State.active.variables.swim == "[dev]") {
+        alert(msg);
+      }
+      return;
+    }
+    tit = State.active.variables.NPC[id]; //we're setting the reference to the NPC instead
+  } else {
+    //we have bad input, meaning we throw an error and return.
+    let msg = "Arouse function given invalid target, either not active, bad index, or bad id.";
+    aw.con.warn(msg);
+    //need to do this more regularly so that players don't get alerts they don't need.
+    if (State.active.variables.swim == "[dev]") {
+      alert(msg);
+    }
+    return false;
+  }
+  //Time to check for optional value that allow for reset
+  if (amt === "X" || amt === "x") { //entering X as amount zeros arousal
+    tit.status.arousal = 0;
+  } else if (coded.test(amt)) { //entering X# as amount sets to that amount
+    let v = Number(amt.slice(1));
+    v = Math.max(0, Math.min(15, v));
+    tit.status.arousal = v;
+  } else { //proceed normally
+    arousal = tit.status.arousal;
+    let mod = 0;
+    rolls = 0; //start with zero to make reversing sign easier later.
+    const open = tit[trait].op,
+      closed = tit[trait].cl,
+      extro = tit[trait].extro,
+      libido = tit[trait].libido;
+    /*first mod factor is based on general personality, slut impacts are different*/
+    if (open) {
+      mod += 0.1;
+    } else if (closed) {
+      mod -= 0.2;
+    }
+    if (extro) {
+      mod += 0.2;
+    }
+    const libmod = [-1, -0.6, -0.4,
+      0,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.8
+    ];
+    mod += libmod[libido];
+    /******************************/
+    /* TAG PLACEHOLDER # 1        */
+    /******************************/
+    //time for sign flip
+    if (amt < 0) {
+      mod *= -1;
+    }
+    mod += 1; //adjust to proper multiplier
+    mod = Math.max(0.1, mod);
+    rolls = Math.max(1, Math.round(3 * amt * mod)); //determine number of rolls
+    rolls = Math.min(rolls, (amt * 8));
+    /*second effect adjusts probability of each roll*/
+    prob -= arousal;
+    if (amt > 0) {
+      if (tit.status.need > 4) {
+        prob += 50;
+      } else if (tit.status.need > 3) {
+        prob += 45;
+      } else if (tit.status.need > 2) {
+        prob += 40;
+      } else if (tit.status.need > 1) {
+        prob += 30;
+      } else if (tit.status.need > 0) {
+        prob += 10;
+      }
+      if (pc) {
+        if (tit.kink.hyperSlut) {
+          prob += 40;
+          rolls += random(1, 2);
+        } else if (tit.kink.superSlut) {
+          prob += 25;
+          rolls += 1;
+        } else if (tit.kink.slut) {
+          prob += 10;
+          rolls += random(0, 1);
+        }
+      }
+      prob = Math.min(95, prob);
+    } else { //for subtracting from arousal, negative amt
+      if (tit.status.need > 3) {
+        prob = 5;
+      } else if (tit.status.need > 1) {
+        prob = 15;
+      } else if (tit.status.need > 0) {
+        prob = 20;
+      }
+      if (pc) {
+        if (tit.kink.hyperSlut) {
+          prob -= 20;
+          rolls -= random(1, 2);
+        } else if (tit.kink.superSlut) {
+          prob -= 15;
+          rolls -= 1;
+        } else if (tit.kink.slut) {
+          prob -= 10;
+          rolls -= random(0, 1);
+        }
+      }
+      prob = Math.max(5, prob);
+      rolls = Math.max(1, rolls);
+    }
+    //first set up maximum arousal
+    let max = 10 + Math.ceil((1 + libido) / 2);
+    let top;
+    for (let i = 0; i < rolls; i++) {
+      if(amt > 0){
+        top = Math.round((Math.max(0,(tit.status.arousal + cunt - 3)) / max)*500) + 100;
+      }else{
+        top = (tit.status.arousal <= (max/2)) ? (150) : 80;
+      }
+      let n = random(1, top);
+      if (n <= prob) {
+        cunt++;
+      }
+    }
+    if (amt < 0) { //flip final amount if subtracting
+      cunt *= -1;
+    } else if (pc && tit.kink.shame) {
+      if (tit.status.arousal + cunt > 2) {
+        tit.status.stress += cunt * random(1, 3);
+      }
+    }
+    tit.status.arousal += cunt;
+    //check for over or under values... more complicated!
+    if (pc && tit.kink.slut) {
+      max = 15;
+    }
+    if (tit.status.arousal >= (max - 2)) {
+      if (pc) {
+        setup.notify("You are dangerously aroused!","bad");
+        tit.status.bimbo += random(0, 2) + random(0, 2);
+        if (tit.status.bimbo > 100) {
+          tit.status.bimbo = 100;
+        }
+      } else {
+        tit.core.bimbo += random(3, 8);
+        if (tit.core.bimbo > 100) {
+          tit.core.bimbo = 100;
+        }
+      }
+    }
+    if (tit.status.arousal > max) {
+      tit.status.arousal = max;
+      if (pc && random(1, 4) == 1) {
+        tit.status.mindbreak = true;
+      }
+    }
+  }
+  if (State.variables.debu){
+    let ms = `Arousal details- amt:${amt}, rolls:${rolls} @${prob}%, added:${cunt}, start:${arousal}, final:` + tit.status.arousal + ", tgt:";
+    ms += pc ? "PC" : "NPC";
+    aw.con.info(ms);
+  }
+  if (pc) {
+    setup.statusSave();
+  }
+  if (result == "restored") {
+    setup.storeNPC(tgt);
+  }
+};
+
 /*
-	<<set $PC.status.stress += _temp>>
-	<<if $PC.status.stress > 100>>
-		<<set $PC.status.overStress = true>>
-		<<set $PC.status.stress = 100>>
-	<</if>>
-<<elseif _temp < 0>>
-	<<if $PC.trait.vert == "introverted" && $PC.trait.open == "open">>
-		<<set _temp *= 0.5>>
-	<<elseif $PC.trait.vert != "extroverted" && $PC.trait.open == "open">>
-		<<set _temp *= 0.7>>
-	<<elseif $PC.trait.vert == "introverted" && $PC.trait.open != "closed">>
-		<<set _temp *= 0.9>>
-	<<elseif $PC.trait.vert == "introverted" && $PC.trait.open == "closed">>
-		<<set _temp *= 1.2>>
-	<<elseif $PC.trait.vert == "extroverted" && $PC.trait.open == "open">>
-		<<set _temp *= 0.8>>
-	<<elseif $PC.trait.vert == "extroverted" && $PC.trait.open == "closed">>
-		<<set _temp *= 1.5>>
-	<<elseif $PC.trait.open == "closed">>
-		<<set _temp *= 1.3>>
-	<<elseif $PC.trait.vert == "extroverted">>
-		<<set _temp *= 1.1>>
-	<</if>>
-	<<if $PC.status.need > 1>>
-		<<set _temp *= 0.5>>
-	<</if>>
-	<<set $PC.status.stress += _temp>>
-	<<if $PC.status.stress < 0>>
-		<<set $PC.status.stress = 0>>
-	<</if>>
-<<else>>
-<</if>>
-<<status 0>>
-<</widget>>
-
-<<widget "anger">>
-<<if ndef $args[0]>>
-	<<set _temp = passage()>>
-	<<set $AW.error += ", anger setting error - no args sent to anger function in passage: ">>
-	<<set $AW.error += _temp>>
-	<<set _temp = 0>>
-<<else>>
-	<<set _temp = $args[0]>>
-<</if>>
-<<status 1>>
-<<if _temp > 0>>
-	<<if $PC.trait.open == "closed">>
-		<<set _temp *= 1.5>>
-	<</if>>
-	<<if $PC.trait.bitch == 1>>
-		<<set _temp *= 1.25>>
-	<<elseif $PC.trait.bitch == -1>>
-		<<set _temp *= 0.75>>
-	<</if>>
-	<<if $PC.status.need > 4>>
-		<<set _temp *= 2>>
-	<<elseif $PC.status.need == 4>>
-		<<set _temp *= 1.75>>
-	<<elseif $PC.status.need > 1>>
-		<<set _Temp *= 1.5>>
-	<<elseif $PC.status.need > 0>>
-		<<set _temp *= 1.25>>
-	<</if>>
-	<<set $PC.status.anger += _temp>>
-	<<if $PC.status.anger > 10>>
-		<<set $PC.status.overAnger = true>>
-		<<set $PC.status.anger = 10>>
-	<</if>>
-<<elseif _temp < 0>>
-	<<if $PC.trait.forgiving == -1>>
-		<<set _temp *= 0.75>>
-	<<elseif $PC.trait.forgiving == 1>>
-		<<set _temp *= 1.5>>
-	<</if>>
-	<<if $PC.status.need > 1>>
-		<<set _temp *= 0.5>>
-	<</if>>
-	<<set $PC.status.anger += _temp>>
-	<<if $PC.status.anger < 0>>
-		<<set $PC.status.anger = 0>>
-	<</if>>
-<</if>>
-<<status 0>>
-<</widget>>
-
-<<widget "happy">>
-<<if ndef $args[0]>>
-	<<set _temp = passage()>>
-	<<set $AW.error += ", setting error - no args sent to happiness function in passage: ">>
-	<<set $AW.error += _temp>>
-	<<set _temp = 0>>
-<<else>>
-	<<set _temp = $args[0]>>
-<</if>>
-<<status 1>>
-<<if _temp > 0>>
-	<<if $PC.trait.vert == "extroverted">>
-		<<set _temp *= 1.5>>
-	<</if>>
-	<<if $PC.trait.open == "closed">>
-		<<set _temp *= 2/3>>
-	<</if>>
-	<<if $PC.trait.lowEsteem != 0>>
-		<<set _temp *= 0.9>>
-	<</if>>
-	<<if $PC.status.need > 1>>
-		<<set _temp *= 0.75>>
-	<</if>>
-	<<set $PC.status.happy += _temp>>
-	<<if $PC.status.happy > 10>>
-		<<set $PC.status.happy = 10>>
-	<</if>>
-<<elseif _temp < 0>>
-	<<if $PC.trait.open == "closed">>
-		<<set _temp *= 2/3>>
-	<</if>>
-	<<if $PC.trait.vert == "introverted">>
-		<<set _temp *= 1.25>>
-	<</if>>
-	<<if $PC.trait.lowEsteem != 0>>
-		<<set _temp *= 1.2>>
-	<</if>>
-	<<if $PC.status.need > 1>>
-		<<set _temp *= 1.25>>
-	<</if>>
-	<<set $PC.status.happy += _temp>>
-	<<if $PC.status.happy < -10>>
-		<<set $PC.status.overDepress = true>>
-		<<set $PC.status.happy = -10>>
-	<</if>>
-<</if>>
-<<status 0>>
-<</widget>>
-
-<<widget "tired">>
-<<if ndef $args[0]>>
-	<<set _temp = passage()>>
-	<<set $AW.error += ", fatigue setting error - no args sent to tired function in passage: ">>
-	<<set $AW.error += _temp>>
-	<<set _temp = 0>>
-<<else>>
-	<<set _temp = $args[0]>>
-<</if>>
-<<status 1>>
-<<set $PC.status.fatigue += _temp>>
-	<<if $PC.status.fatigue > 10>>
-		<<set $PC.status.fatigue = 10>>
-		<<set $PC.status.health -= random(5,10)>>
-	<<elseif $PC.status.fatigue < 0>>
-		<<set $PC.status.fatigue = 0>>
-	<</if>>
-<<status 0>>
-<</widget>>
-
-<<widget "arousal">>
-<<if ndef $args[0]>>
-	<<set $AW.error += ", arousal setting error - no args sent to function in passage: ">>
-	<<set $AW.error += passage()>>
-	<<set $args[0] = 0>>
-<</if>>
-<<status 1>>
-<<if $args[0] == "X">>
-	<<set $PC.status.arousal = 0>>
 <<elseif $args[0] == "N">>
 	<<if ndef $args[1]>>
 		<<set $AW.error += ", arousal setting error - no args sent to function in passage: ">>
@@ -321,7 +691,6 @@ setup.status.stress = function (amt, tgt = -1, restore = false) {
 			<<set $PC.status.arousal = -1>>
 		<</switch>>
 	<</if>>
-<<elseif $PC.status.arousal < 0>>
 	<<set $PC.status.arousal += $args[0]>>
 	<<if $PC.kink.hyperSlut>>
 		<<set $PC.status.arousal += 2>>
@@ -337,153 +706,192 @@ setup.status.stress = function (amt, tgt = -1, restore = false) {
 		<<set $PC.status.arousal = -6>>
 	<<elseif $PC.status.arousal > 0>>
 		<<set $PC.status.arousal = 0>>
-	<</if>>
-<<else>>
-	<<if $args[0] < 0>>
-		<<set _mod = 1>>
-		<<switch $PC.trait.libido>>
-		<<case 1>>
-			<<set _mod += 0.6>>
-		<<case 2>>
-			<<set _mod += 0.3>>
-		<<case 3>>
-			<<set _mod += 0>>
-		<<case 4>>
-			<<set _mod -= 0.1>>
-		<<case 5>>
-			<<set _mod -= 0.2>>
-		<<case 6>>
-			<<set _mod -= 0.3>>
-		<<case 7>>
-			<<set _mod -= 0.4>>
-		<<case 8>>
-			<<set _mod -= 0.5>>
-		<<case 9>>
-			<<set _mod -= 0.6>>
-		<<case 10>>
-			<<set _mod -= 0.8>>
-		<</switch>>
-		<<if $PC.kink.slut && $PC.kink.liberate>>
-			<<set _mod -= 0.3>>
-		<<elseif $PC.kink.slut>>
-			<<set _mod -= 0.2>>
-		<<elseif $PC.kink.liberate || $PC.kink.exhibition || $PC.kink.cumSlut || $PC.kink.sub || $PC.kink.risky>>
-			<<set _mod -= 0.1>>
-		<</if>>
-		<<if $PC.kink.rape || $PC.kink.pregnancy || $PC.kink.masochist || $PC.kink.public || $PC.kink.sizequeen>>
-			<<set _mod -= 0.1>>
-		<</if>>
-		<<if $PC.mutate.acid || $PC.mutate.birthCon || $PC.mutate.multiple || $PC.mutate.cycle || $PC.mutate.twinWomb || $PC.mutate.phero>>
-			<<set _mod -= 0.1>>
-		<</if>>
-		<<if $PC.status.arousal > 9 && _mod < 0.5>>
-			<<set _mod = 0.5>>
-		<<elseif $PC.status.arousal > 9 && _mod < 1>>
-			<<set _mod = 1>>
-		<<elseif _mod <= 0>>
-			<<set _mod = 0.1>>
-		<</if>>
-		<<set _temp = Math.round($args[0] * _mod)>>
-	<<elseif $args[0] >= 0>>
-		<<set _mod = 1>>
-		<<switch $PC.trait.libido>>
-		<<case 1>>
-			<<set _mod -= 0.6>>
-		<<case 2>>
-			<<set _mod -= 0.3>>
-		<<case 3>>
-			<<set _mod -= 0>>
-		<<case 4>>
-			<<set _mod += 0.1>>
-		<<case 5>>
-			<<set _mod += 0.2>>
-		<<case 6>>
-			<<set _mod += 0.3>>
-		<<case 7>>
-			<<set _mod += 0.4>>
-		<<case 8>>
-			<<set _mod += 0.5>>
-		<<case 9>>
-			<<set _mod += 0.6>>
-		<<case 10>>
-			<<set _mod += 0.8>>
-		<</switch>>
-		<<if $PC.kink.slut && $PC.kink.liberate>>
-			<<set _mod += 0.3>>
-		<<elseif $PC.kink.slut>>
-			<<set _mod += 0.2>>
-		<<elseif $PC.kink.liberate || $PC.kink.exhibition || $PC.kink.cumSlut || $PC.kink.sub || $PC.kink.risky>>
-			<<set _mod += 0.1>>
-		<</if>>
-		<<if $PC.kink.rape || $PC.kink.pregnancy || $PC.kink.masochist || $PC.kink.public || $PC.kink.sizequeen>>
-			<<set _mod += 0.1>>
-		<</if>>
-		<<if $PC.mutate.acid || $PC.mutate.birthCon || $PC.mutate.multiple || $PC.mutate.cycle || $PC.mutate.twinWomb || $PC.mutate.phero>>
-			<<set _mod += 0.1>>
-		<</if>>
-		<<if $PC.status.arousal > 9 && _mod > 2>>
-			<<set _mod = 2>>
-		<<elseif $PC.status.arousal > 9 && _mod > 1.5>>
-			<<set _mod = 1.5>>
-		<<elseif $PC.status.arousal > 9 && _mod > 1>>
-			<<set _mod = 1>>
-		<</if>>
-		<<set _temp = Math.round($args[0] * _mod)>>
-	<</if>>
-	<<set $PC.status.arousal += _temp>>
-	<<if $PC.status.arousal > 15>>
-		<<set $PC.status.arousal = 15>>
-		<<status 1>>
-		<<if not $PC.status.mindbreak>>
-			<<set $PC.status.mindbreak = either(true,false,false,false,false,false,false,false)>>
-			<<if $PC.status.mindbreak>><<status 0>><<set alert("your mind is now broken")>><</if>>
-		<</if>>
-	<<elseif $PC.status.arousal < 0>>
-		<<set $PC.status.arousal = 0>>
-	<</if>>
-<</if>>
-<<status 0>>
-<<if $PC.status.arousal > 13>>
-	<<set alert("Your arousal is dangerously high!")>>
-<</if>>
-<</widget>>
-
-<<widget "satisfaction">>
-<<if ndef $args[0]>>
-	<<set $AW.error += ", satisfaction setting error - no args sent to function in passage: ">>
-	<<set $AW.error += passage()>>
-	<<set $args[0] = 0>>
-<</if>>
-<<status 1>>
-<<set $PC.status.satisfaction += $args[0]>>
-<<if $PC.kink.slut && $args[0] < 0>>
-	<<set $PC.status.satisfaction += Math.round($args[0] * 0.3)>>
-<</if>>
-<<if ( $PC.kink.superSlut || $PC.kink.hyperSlut ) && $args[0] < 0>>
-	<<set $PC.status.satisfaction += Math.round($args[0] * 0.5)>>
-<</if>>
-<<if $PC.trait.libido > 7 && $args[0] < 0>>
-	<<set $PC.status.satisfaction += Math.round($args[0] * 0.2)>>
-<</if>>
-<<if $PC.status.satisfaction < 0 >>
-	<<set $PC.status.underSatisfy += 1>>
-	<<set $PC.status.satisfaction = 2>>
-	<<set _rand = random(0,95)>>
-	<<if $PC.kink.slut>><<set _rand += 10>><</if>>
-	<<set _rand += $PC.trait.libido>>
-	<<if _rand > 50>>
-		<<status 1>>
-		<<set $PC.status.need += 1>>
-		<<status 0>>
-	<</if>>
-<<elseif $PC.status.satisfaction > 100>>
-	<<set $PC.status.satisfaction = 100>>
-	<<status 1>>
-	<<if $PC.status.need > 0>>
-		<<set $PC.status.need -= 1>>
-		<<status 0>>
-	<</if>>
-<</if>>
-<<status 0>>
-<</widget>>
+  <</if>>
 */
+/*****************************************
+  ╔═╗┌─┐┌┬┐┬┌─┐
+  ╚═╗├─┤ │ │└─┐───
+  ╚═╝┴ ┴ ┴ ┴└─┘
+┌─┐┌─┐┌─┐┌┬┐┬┌─┐┌┐┌
+├┤ ├─┤│   │ ││ ││││
+└  ┴ ┴└─┘ ┴ ┴└─┘┘└┘
+*****************************************/
+setup.status.satisfact = function (amt, tgt = -1, restore = false) {
+  //tgt is set as default to -1. calling .status.stress(3); will target PC.
+  //restore is default false. it true, isActive function will restore them if stored.
+  //first create a pattern to test any string to ensure the npcid is correct.
+  const pattern = new RegExp(/n[0-9]{3,5}$/);
+  let result, pc, id, tit, trait; //variable to hold result from isActive
+  //if it isn't the PC, we check that the input is valid, and that the NPC is active to edit.
+  if (tgt == -1) {
+    pc = true;
+    id = "none";
+    //assign object key based on target since we don't know if PC or not.
+    trait = "trait";
+    tit = State.active.variables.PC; //create tit as reference to correct object
+  } else if ("number" == typeof tgt && tgt >= 0 && tgt < State.active.variables.activeNPC.length) {
+    pc = false;
+    id = State.active.variables.activeNPC[tgt];
+    trait = "core"; //notice NPC uses core instead of trait
+    tit = State.active.variables.NPC[id]; //we're setting the reference to the NPC instead
+  } else if ("string" == typeof tgt && pattern.test(tgt)) {
+    pc = false;
+    id = tgt;
+    trait = "core"; //notice NPC uses core instead of trait
+    result = setup.isActive(tgt, restore);
+    if (result == "stored") {
+      let msg = "can't modify satisfaction, NPC isn't active and restore arg isn't set to true. ID: " + id;
+      aw.con.warn(msg);
+      if (State.active.variables.swim == "[dev]") {
+        alert(msg);
+      }
+      return;
+    } else if (result == "nonexist") {
+      let msg = "The passed npcid doesn't exist! (satisfaction function) ID: " + id;
+      aw.con.warn(msg);
+      if (State.active.variables.swim == "[dev]") {
+        alert(msg);
+      }
+      return;
+    }
+    tit = State.active.variables.NPC[id]; //we're setting the reference to the NPC instead
+  } else {
+    //we have bad input, meaning we throw an error and return.
+    let msg = "Satisfaction function given invalid target, either not active, bad index, or bad id.";
+    aw.con.warn(msg);
+    //need to do this more regularly so that players don't get alerts they don't need.
+    if (State.active.variables.swim == "[dev]") {
+      alert(msg);
+    }
+    return false;
+  }
+  if(!pc || !aw.chad.satisfy){
+    //load status !!important!!
+    if (pc) {
+      setup.statusLoad();
+    }
+    //now we have the correct N/PC to edit. let's set some default values for ease.
+    let stress = tit.status.stress; //returns character's stress, and we can manipulate freely.
+    let mod = 0; //start with zero to make reversing sign easier later.
+    //this isn't really necessary, but can save time if you're using the same thing a lot.
+    const open = tit[trait].op,
+      closed = tit[trait].cl,
+      intro = tit[trait].intro,
+      extro = tit[trait].extro;
+    if (open) {
+      mod += 0.1;
+    } else if (closed) {
+      mod += 0.1;
+    }
+    if (intro) {
+      mod += 0.3;
+    } else if (extro) {
+      mod -= 0.4;
+    }
+    if (pc && tit.kink.slut) {
+      if(tit.kink.hyperSlut){
+        mod -= 0.8;
+      }else if(tit.kink.superSlut){
+        mod -= 0.5;
+      }else{
+        mod -= 0.3;
+      }
+    }
+    if (pc){
+      if(tit[trait].lowEsteem == 1){
+        mod += 0.1;
+      }
+      if (tit[trait].picky == 1){
+        mod -= 0.15;
+      }else if(tit[trait].picky == -1){
+        mod += 0.15;
+      }
+      if (tit.kink.fap){
+        mod -= 0.1;
+      }
+      if (tit.kink.hard){
+        mod -= 0.25;
+      }
+      if (tit.kink.shame){
+        mod -= 0.2;
+      }
+    }
+    if (tit[trait].morality < 25){
+      mod -= 0.2;
+    }else if(tit[trait].morality < 50){
+      mod -= 0.1;
+    }
+    if (tit[trait].perversion >= 90 || tit[trait].bimbo >= 90){
+      mod -= 0.6;
+    }else if(tit[trait].perversion >= 60 || tit[trait].bimbo >= 60){
+      mod -= 0.4;
+    }else if(tit[trait].perversion >= 30 || tit[trait].bimbo >= 30){
+      mod -= 0.2;
+    }
+    /******************************/
+    /* SITUATION TAGS PLACEHOLDER */
+    /******************************/
+    //time for sign flip
+    let r,a = 1;
+    if (amt < 0) {
+      mod *= -1;
+      a = -1;
+    }
+    mod += 1; //adjust to proper multiplier
+    mod = Math.max(0.05, mod); //keep modifier within range
+    mod = Math.min(2, mod);
+    if(mod < 1){
+      let odds = Math.floor(mod * 100);
+      let nRoll = Math.abs(amt);
+      for(let i = 0; i < nRoll; i++){
+        r = random(0,99);
+        if (r < odds){
+          tit.status.satisfaction += a;
+        }
+      }
+    }else{
+      tit.status.satisfaction += amt;
+      let odds = Math.floor((mod-1) * 100);
+      let nRoll = Math.abs(amt);
+      for(let i = 0; i < nRoll; i++){
+        r = random(0,99);
+        if (r < odds){
+          tit.status.satisfaction += a;
+        }
+      }
+    }
+  }
+  //check for over or under values
+  if (tit.status.satisfaction > 100){
+    tit.status.satisfaction = 100;
+  }else if (tit.status.satisfaction <= 0) {
+    tit.status.underSatisfy += Math.abs(tit.status.satisfaction);
+    tit.status.satisfaction = random(5,15);
+    let x = 4 + Math.floor(tit[trait].libido / 2);
+    x += (pc && tit.kink.slut) ? 1 : 0;
+    if(x >= random(1,10)){
+      tit.status.need += 1;
+      if (pc && tit.status.need > 4) {
+        let o = random(0,4);
+        if(o === 0){
+          State.active.variables.flag.badEnd = "need";
+        }
+      } else if(tit.status.need > 3) {
+        let o = random(0,20);
+        if(o === 0){
+          State.active.variables.flag.badEnd = "need";
+        }
+      } else {
+        setup.AW.notify("Your sexual need has increased!","red");
+      }
+    }else{
+      setup.AW.notify("Your sexual satisfaction is very low!","orange");
+    }
+  }
+  if (pc) {
+    setup.statusSave();
+  }
+  if (result == "restored") {
+    setup.storeNPC(tgt);
+  }
+};

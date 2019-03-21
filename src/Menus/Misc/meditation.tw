@@ -1,0 +1,43 @@
+:: FuckThatMeditation [nobr startpage noui]
+
+      <<set _randomshit = random(-8,-15)>>
+      <<set _randomcum = random(-12,-22)>>
+      <<set _randompiss = random(20,35)>>
+      <<anger _randomshit>>
+      <<stress _randomcum>>
+      <<addTime _randompiss>>
+
+<<set _imgnum = 1>>
+<<set _imgseen = false>>
+<div class="yinyang" style="position:fixed;z-index:800;top:0px;bottom:0px;left:0px;right:0px;text-align:center;">
+  <div style="position:fixed;top:0px;bottom:0px;left:0px;right:0px;background-color:rgba(0,0,0,0.5);text-align:center;">
+    <div style="margin-top:60px;">[img[IMGmeditationSecret]]</div>
+    <div style="position:fixed;z-index:805;top:0px;left:0px;right:0px;height:781px;text-align:center;">
+      <div id="imgcont" style="margin-top:60px;"><<link [img[IMGmeditation1]]>><<set _imgnum += 1>><<if _imgnum == 46>><<set _imgnum = 1>><</if>><<replace "#imgcont">><<include [[FuckThatMeditationItem]]>><</replace>><</link>><br><span class="whiteOutline" style="color:yellowgreen;"><<print _imgnum>> of 45</span><br></div>
+    </div>
+    <span style="margin-top:60px;"><br><br>
+      <<button "&nbsp;↩&nbsp;">><<set _imgnum -= 1>><<if _imgnum == 0>><<set _imgnum = 45>><</if>><<replace "#imgcont">><<include [[FuckThatMeditationItem]]>><</replace>><</button>>
+      <<if aw.passage.previous[0] === "homeControl">>
+        <<set _ballsack = aw.passage.previous[2]>>
+        <<button "Return">><<run UI.alert("You feel more peaceful and free.")>><<go _ballsack>><</button>>
+      <<else>>
+      <<set _ballsack = aw.passage.previous[0]>>
+        <<button "Return">><<go _ballsack>><</button>>
+      <</if>>
+    </span>
+  </div>
+</div>
+
+
+:: FuckThatMeditationItem [nobr]
+
+<<set _oup = '<<link [img[IMGmeditation' + _imgnum + ']]>><<set _imgnum += 1>><<if _imgnum == 46>><<set _imgnum = 1>><</if>><<replace "#imgcont">><<include [[FuckThatMeditationItem]]>><</replace>><</link>><br><span class="whiteOutline" style="color:yellowgreen;"><<print _imgnum>> of 45<br></span>'>>
+
+<<if not _imgseen && random(1,20) == 1 && _imgnum > 15>>
+<<set _imgseen = true>>
+<<timed 250ms>>
+<<print _oup>>
+<</timed>>
+<<else>>
+<<print _oup>>
+<</if>>

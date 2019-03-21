@@ -5,11 +5,11 @@
   <td style="width:15%" class="head4">
     Hair Length:
   </td><td style="width:17%;">
-    <<unit $PC.groom.hairLength in>>
+    <<unit ↂpc.groom.hairLength in>>
   </td><td style="width:2%;"></td><td style="width:15%" class="head4">
     Hair Color:
   </td><td style="width:17%;">
-    <<print $PC.groom.hairColor>>
+    <<print ↂ.pc.groom.hairColor>>
   </td><td style="width:2%;"></td><td style="width:15%" class="head4">
     Hair Curliness:
   </td><td style="width:17%;">
@@ -27,7 +27,7 @@
   </td><td></td><td class="head4">
     Known:
   </td><td>
-    <<if $hairStyle.includes($PC.groom.hairStyle)>>@@.good;Yes@@<<else>>@@.import;No@@<</if>>
+    <<if ↂ.hairStyle.includes(ↂ.pc.groom.hairStyle)>>@@.good;Yes@@<<else>>@@.import;No@@<</if>>
   </td>
 </tr><tr>
   <td colspan=2>
@@ -38,7 +38,7 @@
   </td>
 </tr>
 </table>
-<span style="font-size:125%;font-weight:bold;">Known Hair Styles:</span>
+<span style="font-size:1.25rem;font-weight:bold;">Known Hair Styles:</span>
 <div style="width:98%;border-width:1px;border-style:solid;border-color:#AAA;border-radius:8px;padding:3px;text-align:center;">
 <<print setup.hair.printWear()>>
 </div>
@@ -49,15 +49,15 @@
 
 :: groomingHairSets [nobr hidden]
 
-<<set _hairSetNames = Object.keys($PC.groom.hairSets)>>
+<<set _hairSetNames = Object.keys(ↂ.pc.groom.hairSets)>>
 <table id="invisTable" class="groomButtCont">
 <tr><td style="width:33%;">
-<b>STYLE:</b> <<dropdown "_harSetEye" $hairStyle>>
+<b>STYLE:</b> <<dropdown "_harSetEye" ↂ.hairStyle>>
 </td><td style="width:33%;">
 <b>SET:</b> <<dropdown "_harSetSet" _hairSetNames>>
 </td><td>
 <<button "Update The Set">>
-  <<set $PC.groom.hairSets[_harSetSet] = _harSetEye>>
+  <<set ↂ.pc.groom.hairSets[_harSetSet] = _harSetEye>>
   <<replace "#hairupsets">>
     <<include [[groomingHairSetDisp]]>>
   <</replace>>
@@ -72,13 +72,13 @@
 
 :: groomingHairSetDisp [nobr]
 
-<<set _sety = Object.keys($PC.groom.hairSets)>>
-<<set _mspr = "<span style='font-size:120%;'>Your Hair Sets:</span><br>">>
+<<set _sety = Object.keys(ↂ.pc.groom.hairSets)>>
+<<set _mspr = "<span style='font-size:1.2rem;'>Your Hair Sets:</span><br>">>
 <<for _i = 0, _c = _sety.length; _i < _c; _i++>>
   <<set _mspr += "<div style='width:45%;height:40px;border-width:1px;border-style:solid;border-color:#666;border-radius:18px;margin:5px auto;padding-left:6px;display:inline-block;'><table id='invisTable'><tr><td class='head' style='width:35%'>">>
   <<set _mspr += aw.capital(_sety[_i])>>
   <<set _mspr += "</td>">>
-  <<set _mspr += "<td>" + $PC.groom.hairSets[_sety[_i]] + "</td></tr></table></div>">>
+  <<set _mspr += "<td>" + ↂ.pc.groom.hairSets[_sety[_i]] + "</td></tr></table></div>">>
 <</for>>
 <<print _mspr>>
 

@@ -1,0 +1,88 @@
+/*
+  !!!RORY BUS!!!
+*/
+
+:: GE_RoryBus [nobr]
+
+
+<<silently>>
+<<SCX>>
+<<script>>
+  const rory = /[RrLl][oO][RrLl][IiyY]/;
+  if (rory.test(ↂ.pc.main.name) || rory.test(ↂ.pc.main.surname)) {
+    State.temporary.isRory = true;
+    State.temporary.rDiff = 30;
+  } else {
+    State.temporary.rDiff = 10;
+    State.temporary.isRory = false;
+  }
+<</script>>
+<<SC "WI" _rDiff>>
+<<if $SCresult[1] && _isRory>>
+  <<set $SCresult[1] = false>>
+  <<run $SCresult.push(false)>>
+<<elseif !$SCresult[1]>>
+  <<SC "WI" _rDiff>>
+<<else>>
+  <<run $SCresult.push(true)>>
+<</if>>
+<</silently>>
+<<comment "This event was inspired by MistyLear19 on the AW Discord server. She describes herself as a 'legal loli' who is also a lolicon/pedophile, and who is really into being humilliated and degraded. I think that's probably a good thing for the children out there, because they can't treat her like a worthless cumdump... So maybe they'll be safe. Incidentally, if your character name is some version of loli or rory, you won't be able to escape this event...">>
+<p>
+<<f y>>ou were minding your own business, when suddenly an old van pulls up nearby. On the side of the van, the words @@.smear;Free Candy@@ are written in red spray paint. Despite your mind telling you that this is obviously dangerous, something about the van feels vaguely nostalgic and looking at it gives you the strangest feeling. It's like visiting your grandma's house; warm and comforting yet somehow peculiar with a hint of menthol in the air. <<if _isRory>>@@.mono;OOOOH! Free Candy, I am so there!@@ You find the van arousing, and of course you start walking toward it.<<else>>You find yourself inexplicably drawn to the van, and notice that almost subconsciously you've taken one step, and then another toward it.<</if>>
+</p>
+<p>
+As you draw slowly closer, you notice the sound of a cheerful melody. You cock your head and listen carefully, but you're unable to make out the individual notes of the music. Still, the joyful song brings to mind images of ice cream trucks<<if _isRory>>, circus clowns, and big veiny cocks<<else>> and circus clowns<</if>>. You keep moving closer to the van and your impression of the melody becomes clearer, though your still can't make out the actual song. Suddenly the van starts to rock slightly, as if someone is moving around inside. There is a loud metallic click that comes from the van, as if a heavy latch has been undone. The sudden sound startles you a bit.
+</p>
+<center><<= $SCtext[1]>></center>
+<p>
+<<if $SCresult[1]>>
+The noise dispels the illusory music for just a moment, as if hearing a real sound invalidates the false one in your head. It's only a brief moment, but it's long enough for fear to seep into your consciousness.</p>
+<<else>>
+The noise seems to dispel the jolly melody momentarily, annoying you greatly. You felt you were right on the verge of hearing it properly at last. Soon enough, however, the tune is back...
+<</if>>
+</p>
+<div id="firstchoice">
+<<dialogchoice>>
+<<dbutt "run" $SCresult[1]>><<replace "#firstchoice">><<include [[GE_RoryBus_run]]>><</replace>>
+<<dtext "scared">>Get out of there while you still can!
+<<dbutt "listen">><<replace "#firstchoice">><<include [[GE_RoryBus_next]]>><</replace>>
+<<dtext "laugh">>You're so close to hearing it... Just a little closer...
+<</dialogchoice>>
+</div>
+
+
+:: GE_RoryBus_run [nobr]
+
+<<addTime 20>>
+<p>
+Gathering your senses, you run off as fast as your small legs will carry you. You want nothing to do with that loli bus, or whatever it is. As you put some distance between you and it, the joyful pressure in your mind fades, until at last your left only with fear. You quickly duck away in a <<publicPrivacy>>, hiding until the shaking stops. When you emerge several minutes later there is no sign of the van anywhere. You reassure yourself that everything is fine, and go about your day.
+</p>
+<center><<button "CONTINUE">><<sceneclose>><</button>></center>
+
+:: GE_RoryBus_next [nobr]
+
+<p>
+You keep walking, slowly, toward the van. You're close enough to see the rough paint and flaking rust when the side door slides open. You can make out a figure, backlit by some sort of electronics. The music suddenly becomes stronger, but without becoming louder... you still can't make out the individual notes of the melody in your head. The figure in the van steps down and out. It's a woman, you think, though it wouldn't be obvious at a glance. She's short, wearing a plaid button-up shirt tucked into a pair of generic work slacks. Her hips are narrow, and her chest is all but flat... she looks like a 40-year-old woman who never went through puberty.
+</p>
+<p>
+She's staring at you through a pair of glasses with thick cokebottle lenses, her smile looks hungry rather than friendly. @@.npc;Hello little girl! My name's Rory, would you like to have some candy with me?@@ She gestures to the inside of the van. @@.npc;Let's listen to some music and have some.@@ You notice something in her hand, the shape sparks some recognition in your addled mind.
+</p><br>
+<center><<if $SCresult[1]>><<= $SCtext[1]>><<else>><<= $SCtext[2]>><</if>></center>
+<div id="second">
+<<dialogchoice>>
+<<dbutt "hell no" $SCresult[2]>><<replace "#second">><<include [[GE_RoryBus_run]]>><</replace>>
+<<dtext "scared">>No way, time to get out of here!
+<<dbutt "yummy">><<replace "#second">><<include [[GE_RoryBus_ending]]>><</replace>>
+<<dtext "laugh">>Candy sounds good... plus I'll finally hear that song...
+<</dialogchoice>>
+</div>
+
+:: GE_RoryBus_ending [nobr]
+
+
+<p>
+You keep walking, toward the music and the candy waiting for you in the van... You hardly even look at the strange woman as you approach the open door of the van. You're shocked when you feel the sharp prick of a needle in your neck.
+</p>
+<center><<button "CONTINUE">><<run setup.badEnd("roryBus")>><</button>></center>
+

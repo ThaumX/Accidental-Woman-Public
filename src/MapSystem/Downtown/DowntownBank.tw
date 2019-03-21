@@ -8,11 +8,17 @@
 /*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
 <<include [[MAPdowntown]]>>
 /*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
-<div id="mainshits">
+<div id="mainshits" class="extraRoomRight">
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptDowntown>> <<mapEventDowntown>></p>
+<div id="storeWindow">
+[img[IMG-Bank-Faust]]
+[img[IMG-Bank-IndigoDrake]]
+[img[IMG-Voyagasm]]
+[img[IMG-AppleCleftRealty]]
+</div>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 <<case "sct">>
 <<case "ovc">>
@@ -27,32 +33,64 @@
 <<case "+sn">>
 <<default>>
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 <p>
 @@.head3;Y@@ou're standing on the sidewalk of financial row, where all the money-related businesses have clustered. There's the ever-present Chase CitiBank of America, as well as the Applecleft real estate agency, among a few other drab buildings.
 </p>
 <p id="locact"></p>
+<<selfthought>>
 </div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Use ATM">><</button>>
+  <<button "Use Faust ATM">><<run setup.bank.atm("faust")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise alpha>>
+  <<button "Use Indigo Draon ATM">><<run setup.bank.atm("indigo")>><</button>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
-  <<button "Visit Bank">><</button>>
+  <<openhours 9 17>>
+    <<button "Visit Faust Bank">><</button>>
+  <<closed "Faust Bank">>
+  <</openhours>>
+<<endhoverrevise>>
+<<hoverrevise gamma>>
+  <<openhours 9 17>>
+    <<button "Visit Indigo Dragon">><</button>>
+  <<closed "Indigo Dragon">>
+  <</openhours>>
 <<endhoverrevise>>
 <<hoverrevise delta>>
-  <<button "Visit Applecleft">><</button>>
+  <<openhours 8 12>>
+    <<button "Visit Apple Cleft">>
+      <<addTime 4>><<go "AppleCleftRealty">>
+    <</button>>
+  <<closed "Apple Cleft">>
+  <</openhours>>
+<<endhoverrevise>>
+<<hoverrevise omega>>
+  <<openhours 10 18>>
+    <<button "Visit Voyagasm Travel Agency">>
+      <<dialog "Voyagasm Closed">>The Voyagasm Travel Agency is closed, it seems the proprietor left on vacation. <span class="note">[The travel agency is not yet implemented]</span> You can see a couple posters for local travel options being displayed in the window though. @@.mono;Interesting...@@<br><center>[img[IMG-Advert-LakeClitea]]<br>[img[IMG-Advert-Guam]]<br>[img[IMG-Advert-Siberia]]<br>[img[IMG-Advert-Woods]]<br>[img[IMG-Advert-Bed]]</center><</dialog>>
+    <</button>>
+  <<closed "Voyagasm Travel Agency">>
+  <</openhours>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
 </div>
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>Transfer credits to your spending account, or deposit them.<<endinsertion>>
-<<insertion beta>>Go to the bank where you can take out a loan or do any number of other bank-related things.<<endinsertion>>
-<<insertion delta>>Go to the real estate agency, perhaps Tiffany is there.<<endinsertion>>
+<<insertion alpha>>Use the ATM where you can view your bank account/s and Transfer credits to your spending account, or deposit them.<<endinsertion>>
+<<insertion beta>>Go to the Faust Bank where you can take out a loan or do any number of other bank-related things.<<endinsertion>>
+<<insertion gamma>>Go to the Indigo Dragon Capital Bank where you can take out a loan or do any number of other bank-related things.<<endinsertion>>
+<<insertion delta>>Go to the Apple Cleft Real Estate Agency, perhaps Tiffany is there. <span class="ctn">[open 0800 to 1200]</span><<endinsertion>>
+<<insertion omega>>Visit the Voyagasm Travel Agency to see what sorts of trips are on offer.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
 <<timed 50ms>>
@@ -63,5 +101,20 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 
 :: DowntownBankLOC [nobr]
 
-Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+The financial area seems to be less busy than other areas of downtown. @@.mono;Maybe because people only come here when they have something specific to do? It seems pretty boring, that's for sure.@@
+<br><br>
+<<if ↂ.pc.trait.perceptive > -1 && $items.has("Gene Therapy 03") && !$items.has("Gene Therapy 04")>><<addTime 20>>
+<p id="gene">
+<<f y>>ou spend some time looking around, checking out the bank lobbies. Indigo Dragon is a bust, so you head over to Faust Bank. You notice that a couple of bank employees have started looking at you with a mixture of curiosity and concern, so you walk over to a brochure stand that contains information about the bank's products. Picking a couple that seem at least marginally interesting, you happen to notice some folded paper that looks out of place. <<link "Pick it up">><<pickup "$items" "Gene Therapy 04">><<run Dialog.close()>><<run UI.alert("You pick up the paper documents")>><</link>>.
+</p>
+<</if>>
+
+
+
+/* ↂ.home.finance.bank */
+
+
+
+
+
 

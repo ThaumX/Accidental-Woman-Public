@@ -11,7 +11,7 @@
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptResidential>> <<mapEventResidential>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -39,7 +39,7 @@
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*Event notification spot*/
 /*<<mapEventHome>>*/
@@ -47,7 +47,7 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 @@.head3;Y@@ou are in the mail room of your apartment building. In addition to numerous small lock boxes for each apartment, there are several larger boxes where the postman can leave packages.
 /*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
 /*IN-PASSAGE span text*/
-<span id="locact"></span></div>
+<span id="locact"></span><<selfthought>></div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
@@ -57,12 +57,16 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <<hoverrevise beta>>
   @@.disabled;<<button "Send Mail">><</button>>@@
 <<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
 </div>
 
 /*Main display for information about actions*/
 <div id="actionInfo">
 <<insertion alpha>>Open the box for your apartment to see if you have any mail. Being essentially a brand new person, even getting junk mail is pretty unlikely...<<endinsertion>>
 <<insertion beta>>If you have a letter in your inventory, you'll be able to mail it here.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
 

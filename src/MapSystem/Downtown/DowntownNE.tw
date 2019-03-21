@@ -8,11 +8,16 @@
 /*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
 <<include [[MAPdowntown]]>>
 /*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
-<div id="mainshits">
+<div id="mainshits" class="extraRoomRight">
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptDowntown>> <<mapEventDowntown>></p>
+<div id="storeWindow">
+[img[IMG-Beauty-Handjob]]
+[img[IMG-Restaurant-OldDongHo]]
+[img[IMG-School-FreakDance]]
+</div>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 <<case "sct">>
 <<case "ovc">>
@@ -27,7 +32,8 @@
 <<case "+sn">>
 <<default>>
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
+<<selfthought>>
 </p>
 <p>
 @@.head3;Y@@ou're standing in the northeastern area of downtown, on a broad sidewalk. There are several shops and restaurants to visit if you are so inclined. The place has a clean and friendly appearance.
@@ -38,33 +44,40 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Restaurant">><</button>>
+  <<button "Old Dong Ho">><</button>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
-  <<button "Clothing Store">><</button>>
+  <<button "Restaurant">><</button>>
 <<endhoverrevise>>
 <<hoverrevise delta>>
-  <<button "Clothing Store">><</button>>
+  <<button "Hand Job Pros">><<addTime 4>><<go DowntownShopHandJob>><</button>>
 <<endhoverrevise>>
 <<hoverrevise gamma>>
-  <<button "Other Store">><</button>>
+  <<openhours 12 22>>
+    <<button "Visit Freak Dance">><<gotoSchool "freakDance">><</button>>
+  <<closed "Freak Dance">>
+  <</openhours>>
 <<endhoverrevise>>
 <<hoverrevise lambda>>
-  <<button "School">><</button>>
+  <<button "Misc Location">><</button>>
 <<endhoverrevise>>
 <<hoverrevise phi>>
-  <<button "Misc Location">><</button>>
+  <<button "Unique Location">><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
 </div>
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>A sit-down restaurant you'll be able to visit on a date or with friends.<<endinsertion>>
-<<insertion beta>>A Clothing Store. They'll be a little more focused or theme based, unlike Bullseye which is pretty random.<<endinsertion>>
-<<insertion delta>>A Clothing Store. Different stores will have different quality levels at of course, prices.<<endinsertion>>
-<<insertion gamma>>A spot for a non-clothing store, where you'll find different types of goods or services, such as a book store or pharmacy.<<endinsertion>>
-<<insertion lambda>>One of several places that you can sign up for classes to improve a specific skill. (or learn a hidden skill)<<endinsertion>>
-<<insertion phi>>Another more random location, includes things like a gym, private eye, or other unique place.<<endinsertion>>
+<<insertion alpha>>[not implemented] Chinese Cuisine <span class="money">₢</span><<endinsertion>>
+<<insertion beta>>[not implemented]<<endinsertion>>
+<<insertion delta>>Visit the Hand Job Pros Salon & Spa to get some pampering and perhaps a manicure or new hairstyle.<<endinsertion>>
+<<insertion gamma>>Visit Freak Dance Dancing School to check it out or sign up for a course. @@.ship;[DANCE⧫EXHIBITION]@@<<endinsertion>>
+<<insertion lambda>>[not implemented]<<endinsertion>>
+<<insertion phi>>[not implemented]<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
 <<timed 50ms>>

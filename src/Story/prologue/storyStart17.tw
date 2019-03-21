@@ -5,28 +5,29 @@
     <<setTime 22 5 true true>>
   <</if>>
   <<status 1>>
-    <<set $PC.status.fatigue = 8>>
+    <<set ↂ.pc.status.fatigue = 8>>
   <<status 0>>
   <<gotodev  "storyStart17a2">>
 
 :: storyStart17a2 [nobr]
 
-<<if $NPC.n101.rship.lovePC > 40 && $NPC.n101.rship.loveNPC > 44>>
+<<if aw.npc.n101.rship.lovePC > 40 && aw.npc.n101.rship.loveNPC > 44>>
   <<set _love = true>>
 <<else>>
   <<set _love = false>>
 <</if>>
-<<if $flag.lily.fuckedBathLessonLilyCumLoc >= 6>>
+<<if ↂ.sex.risky>>
   <<set _cream = true>>
 <<else>>
   <<set _cream = false>>
 <</if>>
 
-<<if $flag.lily.fuckedBathLessonLilyCumLoc > 0 && $flag.lily.fuckedBathLessonPCCame>>
-  @@.head3;A@@fter finishing in the shower with Lily, you finished your shower with Lily. <<if _love>>Things had gotten rather tense, as if something that wanted to grow was stunted. You wanted to help it, move it along to keep it from stagnating, but it seemed like neither of you really knew how.<<else>>Things had gotten a little awkward, but when you dropped the soap Lily waited until you had bent over at the waist before grabbing your hips. @@.npc;You trying to tell me you're ready for round two?@@ <<if $PC.trait.libido >= 4>>You certainly <i>were</i> ready, but you weren't able to hold back a laugh at the joke.<</if>><br><br>The two of you laughed, and things sort of snapped back to normal, like two old friends who just happened to sleep together.<</if>>
-  Afterward, you made your way back to your bedroom. <<if _cream>>Just before drifting to sleep, you wonder if it was already possible for you to get pregnant. @@.mono;No, I doubt it's possible yet; it hasn't even been a week.....@@<<else>>You lay down, drifting to sleep not long after your head meets the pillow.<</if>>
-<<elseif $flag.lily.fuckedBathLessonLilyCumLoc > 0>>
-  Your head explodes from frustration. The End. (route not yet written.)
+<<if ↂ.flag.lily.fuckedBathLessonLilyCumLoc > 0 && ↂ.sex.flag.pcCame>>
+  @@.head3;A@@fter you're done with Lily, you finish off showering. <<if _love>>Things had gotten rather tense, as if something that wanted to grow was stunted. You wanted to help it, to move it along to keep it from stagnating, but it seemed like neither of you really knew how.<<else>>Things had gotten a little awkward, but when you dropped the soap Lily waited until you had bent over at the waist before grabbing your hips. @@.npc;You trying to tell me you're ready for round two?@@ <<if ↂ.pc.trait.libido >= 4>>You certainly <i>were</i> ready, but you weren't able to hold back a laugh at the joke.<</if>><br><br>The two of you laughed, and things sort of snapped back to normal, like two old friends who just happened to sleep together.<</if>>
+  Afterward, you make your way back to your bedroom. <<if _cream>>Just before drifting to sleep, you wonder if it's already possible for you to get pregnant. @@.mono;No, I doubt it's possible yet; it hasn't even been a week.....@@<<else>>You lay down, drifting off to sleep not long after your head meets the pillow.<</if>>
+<<elseif ↂ.flag.lily.fuckedBathLessonLilyCumLoc > 0>>
+  Your head explodes from frustration. The End. (route not yet written.)<br><br>
+  Afterward, you made your way back to your bedroom. <<if _cream>>Just before drifting off to sleep, you wonder if it was already possible for you to get pregnant. @@.mono;No, I doubt it's possible yet; it hasn't even been a week.....@@<<else>>You lay down, drifting to sleep not long after your head meets the pillow.<</if>>
 <<else>>
   @@.head3;A@@fter the lesson finally ended, neither of you seem particularly interested in other activities for the evening. Lily had started looking tired by the end, and despite your nap earlier you feel like you haven't slept in days.
   <br><br>
@@ -39,70 +40,70 @@
   <</if>>
   <<sp 1>>Once you're in the hallway, you look back over your shoulder. @@.pc;Goodnight Lily.@@
   <br><br>
-  Lily gives you a tired smile. @@.npc;Goodnight, <<print $PC.main.name>>.@@ She closes her door, and you head to your room. You were planning on waiting until Lily was finished with her shower to take your own, but ended up falling asleep instead.
+  Lily gives you a tired smile. @@.npc;Goodnight, <<print ↂ.pc.main.name>>.@@ She closes her door, and you head to your room. You were planning on waiting until Lily was finished with her shower to take your own, but ended up falling asleep instead.
 <</if>>
 <br><br>
 <<link "Continue">>
-<<if $flag.LilyCoffeeSuc>>
+<<if ↂ.flag.LilyCoffeeSuc>>
   <<set $date[0] = 3>>
   <<setTime 10 42>>
   <<dateCalculate>>
   <<tired -8>>
-  <<goto [[storyStart17b1]]>>
+  <<go storyStart17b1>>
 <<else>>
   <<set $date[0] = 3>>
   <<setTime 10 42>>
   <<dateCalculate>>
   <<tired -7>>
-  <<goto [[storyStart17b2]]>>
+  <<go storyStart17b2>>
 <</if>>
 <</link>>
 
 :: storyStart17b1 [nobr]
 
 <<silently>>
-<<if ndef $flag.exes || $flag.exes[0] == null>>
-  <<set $flag.exes = []>>
-  <<run $flag.exes.push(either("Tiffany","Britany","Whitney"))>>
-  <<run $flag.exes.push(either("Krystal","Krysten","Karmen"))>>
+<<if ndef ↂ.flag.exes || ↂ.flag.exes[0] == null>>
+  <<set ↂ.flag.exes = []>>
+  <<run ↂ.flag.exes.push(either("Tiffany","Britany","Whitney"))>>
+  <<run ↂ.flag.exes.push(either("Krystal","Krysten","Karmen"))>>
 <</if>>
 <</silently>>
 @@.head3;Y@@ou wake up slowly over the course of a few minutes, eventually reaching up to grab the pillow covering your eyes in order to pull it away. You yawn slightly as your bleary eyes adjust to the light streaming in from the bedroom window. @@.mono;I must have slept in pretty late.@@ You grab your phone from its charging stand and confirm your suspicions. @@.mono;Yep... nearly eleven, doesn't feel like it though.@@
 <br><br>
 After a quick trip to the bathroom to relieve yourself, you make your way downstairs to the kitchen. This time, instead of an empty coffee maker you find a half-full pot with a note. Grabbing the yellow sticky note, you read see Lily's elegant handwriting. @@.white;.gab;Thanks for grabbing the coffee, I left some for you!@@
 <br><br>
-The coffee is room temperature, <<if $PC.trait.cl || ($PC.trait.extro && random(1,3) > 1)>>meaning that you'll need to warm it up or brew another pot. @@.mono;She could've left the coffee pot on for me...@@ As you go about heating up some of the old coffee in the microwave, you wonder @@.mono;why have I been sleeping so much? It would just be my luck if the accident means I'll need 12 hours of sleep a day. I really hope not...@@<<else>>and looking at the clock you realize that the auto-off safety feature probably kicked in  a couple hours ago. @@.mono;I guess I'll just have to make another pot...@@ As you go about making yourself some new coffee, you wonder @@.mono;why is it that I've been sleeping so much? Is it just recovering from the accident? I <b>hope</b> it's recovering... It'd be awful if it was permanent.@@<</if>>
+The coffee is room temperature, <<if ↂ.pc.trait.cl || (ↂ.pc.trait.extro && random(1,3) > 1)>>meaning that you'll need to warm it up or brew another pot. @@.mono;She could've left the coffee pot on for me...@@ As you go about heating up some of the old coffee in the microwave, you wonder @@.mono;why have I been sleeping so much? It would just be my luck if the accident means I'll need 12 hours of sleep a day. I really hope not...@@<<else>>and looking at the clock you realize that the auto-off safety feature probably kicked in  a couple hours ago. @@.mono;I guess I'll just have to make another pot...@@ As you go about making yourself some new coffee, you wonder @@.mono;why is it that I've been sleeping so much? Is it just recovering from the accident? I <b>hope</b> it's recovering... It'd be awful if it was permanent.@@<</if>>
 <br><br>
 <center><h3>（•ㅅ•）</h3></center>
 <br>
-@@.head3;A@@fter getting sufficiently caffeinated, you get to work dealing with your luggage and household goods that are still crammed into your small car. <<if $flag.triedForDeposit>>With all the time you spent working to get your apartment deposit back, on top of everything else you had to do, there wasn't much time for properly sorting and packing everything.<<else>>Even though you didn't spend any extra time trying to recover your apartment deposit, you were still pretty strapped for time when it came to sorting and packing everything.<</if>> Not that you really had all that much to pack after <<print $flag.exes[0]>> took most of your combined belongings when you broke up. Rather than leave it until you were unpacking this weekend, you decided to clean some of it up so it'd be less work later. @@.mono;At the very least, I'll need to do something about my old clothes. It'd probably be pretty suspicious if they were all just hanging in the closet or something.@@
+@@.head3;A@@fter getting sufficiently caffeinated, you get to work dealing with your luggage and household goods that are still crammed into your small car. <<if ↂ.flag.triedForDeposit>>With all the time you spent working to get your apartment deposit back, on top of everything else you had to do, there wasn't much time for properly sorting and packing everything.<<else>>Even though you didn't spend any extra time trying to recover your apartment deposit, you were still pretty strapped for time when it came to sorting and packing everything.<</if>> Not that you really had all that much to pack after <<print ↂ.flag.exes[0]>> took most of your combined belongings when you broke up. Rather than leave it until you were unpacking this weekend, you decided to clean some of it up so it'd be less work later. @@.mono;At the very least, I'll need to do something about my old clothes. It'd probably be pretty suspicious if they were all just hanging in the closet or something.@@
 <br><br>
-<span style="font-size:115%;"><<link "Get to work!">><<setTime 15 21>><<goto [[storyStart17b3]]>><</link>></span>
+<span style="font-size:1.15rem;"><<link "Get to work!">><<setTime 15 21>><<go storyStart17b3>><</link>></span>
 
 
 
 :: storyStart17b2 [nobr]
 
 <<silently>>
-<<if ndef $flag.exes || $flag.exes[0] == null>>
-  <<set $flag.exes = []>>
-  <<run $flag.exes.push(either("Tiffany","Britany","Whitney"))>>
-  <<run $flag.exes.push(either("Krystal","Krysten","Karmen"))>>
+<<if ndef ↂ.flag.exes || ↂ.flag.exes[0] == null>>
+  <<set ↂ.flag.exes = []>>
+  <<run ↂ.flag.exes.push(either("Tiffany","Britany","Whitney"))>>
+  <<run ↂ.flag.exes.push(either("Krystal","Krysten","Karmen"))>>
 <</if>>
 <</silently>>
-@@.head3;A@@t some point during your slumber you stir, roused slightly by a shout that carried all the way upstairs to your room. @@.npc;Goddamnit <<print $PC.main.name>>!@@ Afterward, it's quiet once more, and you drift back into a deep sleep.
+@@.head3;A@@t some point during your slumber you stir, roused slightly by a shout that carried all the way upstairs to your room. @@.npc;Goddamnit <<print ↂ.pc.main.name>>!@@ Afterward, it's quiet once more, and you drift back into a deep sleep.
 <br><br>
 Several hours later you wake up on your own, eventually reaching up to grab the pillow covering your eyes in order to pull it away. You yawn slightly as your bleary eyes adjust to the light streaming in from the bedroom window. @@.mono;I must have slept in pretty late.@@ You grab your phone from its charging stand and confirm your suspicions. @@.mono;Yep... nearly eleven, doesn't feel like it though.@@
 <br><br>
-After a quick trip to the bathroom to relieve yourself, you make your way downstairs to the kitchen. Once again you are confronted with an empty coffee maker, and you remember that you were supposed to buy coffee while you were at Bullseye.<<if $PC.trait.forgetful == 1>>@@.mono;Was I always so forgetful?@@<</if>> Unlike yesterday, you spot a note stuck to the cabinet above the coffee maker. You have a feeling that you already know what it's going to say as grab the yellow sticky note and read it. @@.white;.gab;You forgot to get coffee. Take a left when you walk out of the house, and there's a corner store a block and a half down the street.@@
+After a quick trip to the bathroom to relieve yourself, you make your way downstairs to the kitchen. Once again you are confronted with an empty coffee maker, and you remember that you were supposed to buy coffee while you were at Bullseye.<<if ↂ.pc.trait.forgetful == 1>>@@.mono;Was I always so forgetful?@@<</if>> Unlike yesterday, you spot a note stuck to the cabinet above the coffee maker. You have a feeling that you already know what it's going to say as grab the yellow sticky note and read it. @@.white;.gab;You forgot to get coffee. Take a left when you walk out of the house, and there's a corner store a block and a half down the street.@@
 <br><br>
 <div id="choicer">
 You weigh the options in your mind:<br>
 <<emo dead>> <<link "Go without caffeine">>
 <<addTime 40>>
 <<status 1>>
-<<set $PC.status.arousal += 2>>
-<<set $PC.status.addict.zone += 5>><<set $PC.status.addict.zone += random(1,3)>>
+<<set ↂ.pc.status.arousal += 2>>
+<<set ↂ.pc.status.addict.zone += 5>><<set ↂ.pc.status.addict.zone += random(1,3)>>
 <<status 0>>
   <<replace "#choicer">>
     With determination, you think to yourself @@.mono;I don't need coffee. It'd be good to cut back on the caffeine.@@
@@ -113,9 +114,9 @@ You weigh the options in your mind:<br>
     <br><br>
     You drink the soda, and find the flavor quickly growing on you. You quickly finish the can, enjoying the rush of energy that seems to fill you soon after. @@.mono;Oh! Cuke must be a cola-flavored energy drink. That explains the taste! Okay! Let's get going!@@
     <center><h3>（•ㅅ•）</h3></center>
-    @@.head3;A@@fter getting sufficiently caffeinated, you get to work dealing with your luggage and household goods that are still crammed into your small car. <<if $flag.triedForDeposit>>With all the time you spent working to get your apartment deposit back, on top of everything else you had to do, there wasn't much time for properly sorting and packing everything.<<else>>Even though you didn't spend any extra time trying to recover your apartment deposit, you were still pretty strapped for time when it came to sorting and packing everything.<</if>> Not that you really had all that much to pack after <<print $flag.exes[0]>> took most of your combined belongings when you broke up. Rather than leave it until you were unpacking this weekend, you decided to clean some of it up so it'd be less work later. @@.mono;At the very least, I'll need to do something about my old clothes. It'd probably be pretty suspicious if they were all just hanging in the closet or something.@@
+    @@.head3;A@@fter getting sufficiently caffeinated, you get to work dealing with your luggage and household goods that are still crammed into your small car. <<if ↂ.flag.triedForDeposit>>With all the time you spent working to get your apartment deposit back, on top of everything else you had to do, there wasn't much time for properly sorting and packing everything.<<else>>Even though you didn't spend any extra time trying to recover your apartment deposit, you were still pretty strapped for time when it came to sorting and packing everything.<</if>> Not that you really had all that much to pack after <<print ↂ.flag.exes[0]>> took most of your combined belongings when you broke up. Rather than leave it until you were unpacking this weekend, you decided to clean some of it up so it'd be less work later. @@.mono;At the very least, I'll need to do something about my old clothes. It'd probably be pretty suspicious if they were all just hanging in the closet or something.@@
     <br><br>
-    <span style="font-size:115%;"><<link "Get to work!">><<setTime 15 21>><<goto [[storyStart17b3]]>><</link>></span>
+    <span style="font-size:1.15rem;"><<link "Get to work!">><<setTime 15 21>><<go storyStart17b3>><</link>></span>
   <</replace>>
 <</link>><br>
 <<emo tired>> <<link "Go to the store">>
@@ -126,17 +127,17 @@ You weigh the options in your mind:<br>
   <<replace "#choicer">>
     @@.mono;I guess there's no helping it... might as well get going.@@
     <br><br>
-    Making sure you're at least decently covered, you slip on some of Lily's sandals and head out the front door. The walk passes in a blur as your tired mind wanders. <<if $PC.trait.cl || ($PC.trait.extro && random(1,3) > 1)>>As you walk, you wonder @@.mono;why have I been sleeping so much? It would just be my luck if the accident means I'll need 12 hours of sleep a day. I really hope not...@@<<else>> As you walk, you wonder @@.mono;why is it that I've been sleeping so much? Is it just recovering from the accident? I <b>hope</b> it's recovering... It'd be awful if it was permanent.@@<</if>> Eventually, you reach the store and get a large cup of coffee @@.bad;[<<mon>>5]@@. You find that it isn't as pleasant to drink as you remember, it tastes like you should have added more creamer and sugar, but you made it the way you always do. You walk back to Lily's place, drinking the coffee on the way.
+    Making sure you're at least decently covered, you slip on some of Lily's sandals and head out the front door. The walk passes in a blur as your tired mind wanders. <<if ↂ.pc.trait.cl || (ↂ.pc.trait.extro && random(1,3) > 1)>>As you walk, you wonder @@.mono;why have I been sleeping so much? It would just be my luck if the accident means I'll need 12 hours of sleep a day. I really hope not...@@<<else>> As you walk, you wonder @@.mono;why is it that I've been sleeping so much? Is it just recovering from the accident? I <b>hope</b> it's recovering... It'd be awful if it was permanent.@@<</if>> Eventually, you reach the store and get a large cup of coffee @@.bad;[<<mon>>5]@@. You find that it isn't as pleasant to drink as you remember, it tastes like you should have added more creamer and sugar, but you made it the way you always do. You walk back to Lily's place, drinking the coffee on the way.
     <center><h3>（•ㅅ•）</h3></center>
-    @@.head3;A@@fter getting sufficiently caffeinated, you get to work dealing with your luggage and household goods that are still crammed into your small car. <<if $flag.triedForDeposit>>With all the time you spent working to get your apartment deposit back, on top of everything else you had to do, there wasn't much time for properly sorting and packing everything.<<else>>Even though you didn't spend any extra time trying to recover your apartment deposit, you were still pretty strapped for time when it came to sorting and packing everything.<</if>> Not that you really had all that much to pack after <<print $flag.exes[0]>> took most of your combined belongings when you broke up. Rather than leave it until you were unpacking this weekend, you decided to clean some of it up so it'd be less work later. @@.mono;At the very least, I'll need to do something about my old clothes. It'd probably be pretty suspicious if they were all just hanging in the closet or something.@@
+    @@.head3;A@@fter getting sufficiently caffeinated, you get to work dealing with your luggage and household goods that are still crammed into your small car. <<if ↂ.flag.triedForDeposit>>With all the time you spent working to get your apartment deposit back, on top of everything else you had to do, there wasn't much time for properly sorting and packing everything.<<else>>Even though you didn't spend any extra time trying to recover your apartment deposit, you were still pretty strapped for time when it came to sorting and packing everything.<</if>> Not that you really had all that much to pack after <<print ↂ.flag.exes[0]>> took most of your combined belongings when you broke up. Rather than leave it until you were unpacking this weekend, you decided to clean some of it up so it'd be less work later. @@.mono;At the very least, I'll need to do something about my old clothes. It'd probably be pretty suspicious if they were all just hanging in the closet or something.@@
     <br><br>
-    <span style="font-size:115%;"><<link "Get to work!">><<setTime 15 21>><<goto [[storyStart17b3]]>><</link>></span>
+    <span style="font-size:1.15rem;"><<link "Get to work!">><<setTime 15 21>><<go storyStart17b3>><</link>></span>
   <</replace>>
 <</link>><br>
 <<emo smug>> <<link "Search for some tea instead">>
 <<addTime 15>>
 <<status 1>>
-<<set $PC.status.arousal += 2>>
+<<set ↂ.pc.status.arousal += 2>>
 /*TODO drinks fertilitea*/
 <<status 0>>
   <<replace "#choicer">>
@@ -148,9 +149,9 @@ You weigh the options in your mind:<br>
     <br><br>
     Eventually the tea is ready, and you're eager to get some caffeine into your system. Taking an experimental sip, you discover that the tea is quite nice. Perhaps a bit more floral than you would have preferred before, but to your current palate it's quite appealing.
     <center><h3>（•ㅅ•）</h3></center>
-    @@.head3;A@@fter getting sufficiently caffeinated, you get to work dealing with your luggage and household goods that are still crammed into your small car. <<if $flag.triedForDeposit>>With all the time you spent working to get your apartment deposit back, on top of everything else you had to do, there wasn't much time for properly sorting and packing everything.<<else>>Even though you didn't spend any extra time trying to recover your apartment deposit, you were still pretty strapped for time when it came to sorting and packing everything.<</if>> Not that you really had all that much to pack after <<print $flag.exes[0]>> took most of your combined belongings when you broke up. Rather than leave it until you were unpacking this weekend, you decided to clean some of it up so it'd be less work later. @@.mono;At the very least, I'll need to do something about my old clothes. It'd probably be pretty suspicious if they were all just hanging in the closet or something.@@
+    @@.head3;A@@fter getting sufficiently caffeinated, you get to work dealing with your luggage and household goods that are still crammed into your small car. <<if ↂ.flag.triedForDeposit>>With all the time you spent working to get your apartment deposit back, on top of everything else you had to do, there wasn't much time for properly sorting and packing everything.<<else>>Even though you didn't spend any extra time trying to recover your apartment deposit, you were still pretty strapped for time when it came to sorting and packing everything.<</if>> Not that you really had all that much to pack after <<print ↂ.flag.exes[0]>> took most of your combined belongings when you broke up. Rather than leave it until you were unpacking this weekend, you decided to clean some of it up so it'd be less work later. @@.mono;At the very least, I'll need to do something about my old clothes. It'd probably be pretty suspicious if they were all just hanging in the closet or something.@@
     <br><br>
-    <span style="font-size:115%;"><<link "Get to work!">><<setTime 15 21>><<goto [[storyStart17b3]]>><</link>></span>
+    <span style="font-size:1.15rem;"><<link "Get to work!">><<setTime 15 21>><<go storyStart17b3>><</link>></span>
   <</replace>>
 <</link>><br>
 </div>
@@ -160,14 +161,14 @@ You weigh the options in your mind:<br>
 
 @@.head3;A@@fter spending several hours going through the shadier boxes and tossing out the surprising amount of trash and nearly-empty or expired items, you finished up by storing all your male clothes in some boxes. @@.mono;I guess I'll ask Lily where I can store these until I can actually wear them again.@@
 <br><br>
-With main objective complete, you decide to sit on the couch for a few minutes to take a break. While you're considering what you should do next, you notice just how sleepy you've become. @@.mono;So tired... But I got all that sleep...@@ Without realizing it you drift off into an unintentional nap right there on the couch.
+With your main objective complete, you decide to sit on the couch for a few minutes to take a break. While you're considering what you should do next, you notice just how sleepy you've become. @@.mono;So tired... But I got all that sleep...@@ Without realizing it you drift off into an unintentional nap right there on the couch.
 <br><br>
-<<if $flag.lily.weirdTalk < 3>>
-<span class="npc"><<link "Wake up, sleepy-head.">><<addTime 100>><<addTime 43>><<goto [[storyStart17c]]>><</link>> I've got a surprise for you!</span>
-<<elseif $flag.lily.weirdTalk == 5>>
-<span class="npc"><<link "Hey! Wake up.">><<addTime 100>><<addTime 43>><<goto [[storyStart17c]]>><</link>> I have some things for you.</span>
+<<if ↂ.flag.lily.weirdTalk < 3>>
+<span class="npc"><<link "Wake up, sleepy-head.">><<addTime 100>><<addTime 43>><<go storyStart17c>><</link>> I've got a surprise for you!</span>
+<<elseif ↂ.flag.lily.weirdTalk == 5>>
+<span class="npc"><<link "Hey! Wake up.">><<addTime 100>><<addTime 43>><<go storyStart17c>><</link>> I have some things for you.</span>
 <<else>>
-<span class="npc"><<link "Wake up, sleepy-head.">><<addTime 100>><<addTime 43>><<goto [[storyStart17c]]>><</link>> I've brought you something.</span>
+<span class="npc"><<link "Wake up, sleepy-head.">><<addTime 100>><<addTime 43>><<go storyStart17c>><</link>> I've brought you something.</span>
 <</if>>
 
 
@@ -177,200 +178,35 @@ With main objective complete, you decide to sit on the couch for a few minutes t
 <<if $pub>>
   <h2>Thank you for supporting development!</h2>
   <p class="quest white">With the [cheats] version of Accidental Woman, you will be able to start with some additional clothes beyond what Lily normally supplies. For now, this is limited to a special sexy set and some higher quality normal items. In the future, there will be an option to select a starting "theme" of clothing, such as exhibitionist, seductive, cute, etc. Click "extra clothes" below for that option, or select "normal start" to start with only the standard items. Thanks again for your support!</p>
-  <<button "normal start">><<goto [[storyStart17c1]]>><</button>><<sp 3>><<button "extra clothes">>
-  <<genLowerBody 2 3 0 0 1 "UniHoe">>/*shorts*/
-  <<for _i to 0; _i < $storeInv.lowBody.length; _i++>>
-    <<set $ward.lowBody.push($storeInv.lowBody[_i])>>
-  <</for>>
-  <<genLowerBody 2 2 0 1 1 "UniHoe">>/*pants*/
-  <<for _i to 0; _i < $storeInv.lowBody.length; _i++>>
-    <<set $ward.lowBody.push($storeInv.lowBody[_i])>>
-  <</for>>
-  <<genLowerBody 2 4 0 0 1 "UniHoe">>/*skirt*/
-  <<for _i to 0; _i < $storeInv.lowBody.length; _i++>>
-    <<set $ward.lowBody.push($storeInv.lowBody[_i])>>
-  <</for>>
-  <<genLowerBody 1 5 0 2 2 "UniHoe">>/*sexy LB*/
-  <<for _i to 0; _i < $storeInv.lowBody.length; _i++>>
-    <<set $ward.lowBody.push($storeInv.lowBody[_i])>>
-  <</for>>
-  <<genDress 1 1 1 1 1 "UniHoe">>/*dress*/
-  <<for _i to 0; _i < $storeInv.dress.length; _i++>>
-  <<set $ward.dress.push($storeInv.dress[_i])>>
-<</for>>
-  <<genDress 1 3 1 2 2 "UniHoe">>/*sexy dress*/
-  <<for _i to 0; _i < $storeInv.dress.length; _i++>>
-  <<set $ward.dress.push($storeInv.dress[_i])>>
-<</for>>
-  <<genUpperBody 3 1 1 1 1 "UniHoe">>/*upper body*/
-<<for _i to 0; _i < $storeInv.upBody.length; _i++>>
-  <<set $ward.upBody.push($storeInv.upBody[_i])>>
-<</for>>
-  <<genUpperBody 1 4 2 2 2 "UniHoe">>/*sexy upper body*/
-<<for _i to 0; _i < $storeInv.upBody.length; _i++>>
-  <<set $ward.upBody.push($storeInv.upBody[_i])>>
-<</for>>
-  <<genStocking 2 1 0 0 1 "UniHoe">>/*normal stocking*/
-<<for _i to 0; _i < $storeInv.leg.length; _i++>>
-  <<set $ward.leg.push($storeInv.leg[_i])>>
-<</for>>
-  <<genStocking 1 2 0 0 2 "UniHoe">>/*SEXY stocking*/
-<<for _i to 0; _i < $storeInv.leg.length; _i++>>
-  <<set $ward.leg.push($storeInv.leg[_i])>>
-<</for>>
-  <<genBra 2 1 0 1 1 "UniHoe">>/*normal bra*/
-<<for _i to 0; _i < $storeInv.bra.length; _i++>>
-  <<set $ward.bra.push($storeInv.bra[_i])>>
-<</for>>
-  <<genBra 1 2 1 0 2 "UniHoe">>/*sexy bra*/
-<<for _i to 0; _i < $storeInv.bra.length; _i++>>
-  <<set $ward.bra.push($storeInv.bra[_i])>>
-<</for>>
-  <<genPanties 2 3 0 1 1 "UniHoe">>/*better panties*/
-<<for _i to 0; _i < $storeInv.panties.length; _i++>>
-  <<set $ward.panties.push($storeInv.panties[_i])>>
-<</for>>
-  <<genPanties 2 4 2 2 2 "UniHoe">>/*SEXY panties*/
-<<for _i to 0; _i < $storeInv.panties.length; _i++>>
-  <<set $ward.panties.push($storeInv.panties[_i])>>
-<</for>>
-  <<goto [[storyStart17c1]]>>
+  <<button "normal start">><<go storyStart17c1>><</button>><<sp 3>><<button "extra clothes">>
+    <<run setup.clothes.prologueGiver("cheat")>>
+  <<go storyStart17c1>>
   <</button>>
 <<elseif $swim == "[backer]">>
   <h2>Thank you for supporting development!</h2>
   <p class="quest white">While bonus clothing items at start is normally a cheat feature, I've decided to add in a special sexy set of clothing items to the normal items given to you by Lily. (presently, the cheat version gives the option of receiving this special sexy set, and some extra higher-quality items. Eventually it will allow the choice of "theme" to give something like an exhibitionist, cute, seductive, or other set.) Click "extra clothes" below to start with the extra sexy set, or select "normal start" to start with only the standard items. Thanks again for your support!</p>
-  <<button "normal start">><<goto [[storyStart17c1]]>><</button>><<sp 3>><<button "extra clothes">>
-  <<genDress 1 3 1 2 2 "UniHoe">>/*sexy dress*/
-  <<for _i to 0; _i < $storeInv.dress.length; _i++>>
-  <<set $ward.dress.push($storeInv.dress[_i])>>
-<</for>>
-  <<genLowerBody 1 5 0 2 2 "UniHoe">>/*sexy LB*/
-  <<for _i to 0; _i < $storeInv.lowBody.length; _i++>>
-    <<set $ward.lowBody.push($storeInv.lowBody[_i])>>
-  <</for>>
-  <<genUpperBody 1 4 2 2 2 "UniHoe">>/*sexy upper body*/
-<<for _i to 0; _i < $storeInv.upBody.length; _i++>>
-  <<set $ward.upBody.push($storeInv.upBody[_i])>>
-<</for>>
-  <<genStocking 1 2 0 0 2 "UniHoe">>/*SEXY stocking*/
-<<for _i to 0; _i < $storeInv.leg.length; _i++>>
-  <<set $ward.leg.push($storeInv.leg[_i])>>
-<</for>>
-  <<genBra 1 2 1 0 1 "UniHoe">>/*sexy bra*/
-<<for _i to 0; _i < $storeInv.bra.length; _i++>>
-  <<set $ward.bra.push($storeInv.bra[_i])>>
-<</for>>
-  <<genPanties 1 4 2 2 1 "UniHoe">>/*SEXY panties*/
-<<for _i to 0; _i < $storeInv.panties.length; _i++>>
-  <<set $ward.panties.push($storeInv.panties[_i])>>
-<</for>>
-  <<goto [[storyStart17c1]]>>
+  <<button "normal start">><<go storyStart17c1>><</button>><<sp 3>><<button "extra clothes">>
+    <<run setup.clothes.prologueGiver("backer")>>
+  <<go storyStart17c1>>
   <</button>>
 <<else>>
   <h3>Sorry, bonus and cheat starting clothing is a patron-only feature.</h3>
-  <<button "continue">><<goto [[storyStart17c1]]>><</button>>
+  <<button "continue">><<go storyStart17c1>><</button>>
 <</if>>
 
 :: storyStart17c1 [nobr]
 
 /*generate clothing and add to player's wardrobe inventory*/
-<<if $flag.lily.weirdTalk < 3 && $NPC.n101.rship.likePC > 50>>
-<<genLowerBody 1 3 0 1 0 "UniHoe">>/*shorts*/
-<<for _i to 0; _i < $storeInv.lowBody.length; _i++>>
-    <<set $ward.lowBody.push($storeInv.lowBody[_i])>>
-  <</for>>
-<<genLowerBody 1 2 0 1 0 "UniHoe">>/*pants*/
-<<for _i to 0; _i < $storeInv.lowBody.length; _i++>>
-    <<set $ward.lowBody.push($storeInv.lowBody[_i])>>
-  <</for>>
-<<genLowerBody 2 4 0 1 0 "UniHoe">>/*skirt*/
-<<for _i to 0; _i < $storeInv.lowBody.length; _i++>>
-    <<set $ward.lowBody.push($storeInv.lowBody[_i])>>
-  <</for>>
-<<genDress 1 1 1 1 0 "UniHoe">>/*dress*/
-<<for _i to 0; _i < $storeInv.dress.length; _i++>>
-  <<set $ward.dress.push($storeInv.dress[_i])>>
-<</for>>
-<<genUpperBody 3 1 1 1 0 "UniHoe">>/*upper body*/
-<<for _i to 0; _i < $storeInv.upBody.length; _i++>>
-  <<set $ward.upBody.push($storeInv.upBody[_i])>>
-<</for>>
-<<genStocking 2 1 0 0 0 "UniHoe">>/*normal stocking*/
-<<for _i to 0; _i < $storeInv.leg.length; _i++>>
-  <<set $ward.leg.push($storeInv.leg[_i])>>
-<</for>>
-<<genBra 2 1 0 1 0 "UniHoe">>/*normal bra*/
-<<for _i to 0; _i < $storeInv.bra.length; _i++>>
-  <<set $ward.bra.push($storeInv.bra[_i])>>
-<</for>>
-<<genPanties 3 5 1 1 0 "UniHoe">>/*normal panties*/
-<<for _i to 0; _i < $storeInv.panties.length; _i++>>
-  <<set $ward.panties.push($storeInv.panties[_i])>>
-<</for>>
+<<if ↂ.flag.lily.weirdTalk < 3 && aw.npc.n101.rship.likePC > 50>>
+  <<run setup.clothes.prologueGiver("good")>>
 <<set $temp = {lils:1}>>
-<<elseif $flag.lily.weirdTalk < 5 && $NPC.n101.rship.likePC > 35>>
-<<genLowerBody 1 2 0 1 -1 "UniHoe">>/*pants*/
-<<for _i to 0; _i < $storeInv.lowBody.length; _i++>>
-    <<set $ward.lowBody.push($storeInv.lowBody[_i])>>
-  <</for>>
-<<genLowerBody 2 4 0 1 -1 "UniHoe">>/*skirt*/
-<<for _i to 0; _i < $storeInv.lowBody.length; _i++>>
-    <<set $ward.lowBody.push($storeInv.lowBody[_i])>>
-  <</for>>
-<<genUpperBody 2 1 1 1 -1 "UniHoe">>/*upper body*/
-<<for _i to 0; _i < $storeInv.upBody.length; _i++>>
-  <<set $ward.upBody.push($storeInv.upBody[_i])>>
-<</for>>
-<<genStocking 1 1 0 0 -1 "UniHoe">>/*normal stocking*/
-<<for _i to 0; _i < $storeInv.leg.length; _i++>>
-  <<set $ward.leg.push($storeInv.leg[_i])>>
-<</for>>
-<<genPanties 2 5 1 1 -1 "UniHoe">>/*normal panties*/
-<<for _i to 0; _i < $storeInv.panties.length; _i++>>
-  <<set $ward.panties.push($storeInv.panties[_i])>>
-<</for>>
-<<genBra 1 1 0 1 -1 "UniHoe">>/*normal bra*/
-<<for _i to 0; _i < $storeInv.bra.length; _i++>>
-  <<set $ward.bra.push($storeInv.bra[_i])>>
-<</for>>
+<<elseif ↂ.flag.lily.weirdTalk < 5 && aw.npc.n101.rship.likePC > 35>>
+  <<run setup.clothes.prologueGiver("okay")>>
 <<set $temp = {lils:2}>>
 <<else>>
-<<genLowerBody 1 2 0 1 -2 "UniHoe">>/*pants*/
-<<for _i to 0; _i < $storeInv.lowBody.length; _i++>>
-    <<set $ward.lowBody.push($storeInv.lowBody[_i])>>
-  <</for>>
-<<genLowerBody 1 4 0 1 -2 "UniHoe">>/*skirt*/
-<<for _i to 0; _i < $storeInv.lowBody.length; _i++>>
-    <<set $ward.lowBody.push($storeInv.lowBody[_i])>>
-  <</for>>
-<<genLowerBody 1 4 0 1 -1 "UniHoe">>/*skirt*/
-<<for _i to 0; _i < $storeInv.lowBody.length; _i++>>
-    <<set $ward.lowBody.push($storeInv.lowBody[_i])>>
-  <</for>>
-<<genUpperBody 2 1 1 1 -2 "UniHoe">>/*upper body*/
-<<for _i to 0; _i < $storeInv.upBody.length; _i++>>
-  <<set $ward.upBody.push($storeInv.upBody[_i])>>
-<</for>>
-<<genUpperBody 1 1 1 1 -1 "UniHoe">>/*upper body*/
-<<for _i to 0; _i < $storeInv.upBody.length; _i++>>
-  <<set $ward.upBody.push($storeInv.upBody[_i])>>
-<</for>>
-<<genPanties 1 1 1 1 -2 "UniHoe">>/*granny panties*/
-<<for _i to 0; _i < $storeInv.panties.length; _i++>>
-  <<set $ward.panties.push($storeInv.panties[_i])>>
-<</for>>
-<<genPanties 1 1 1 1 -1 "UniHoe">>/*granny panties*/
-<<for _i to 0; _i < $storeInv.panties.length; _i++>>
-  <<set $ward.panties.push($storeInv.panties[_i])>>
-<</for>>
-<<genBra 1 1 0 1 -2 "UniHoe">>/*normal bra*/
-<<for _i to 0; _i < $storeInv.bra.length; _i++>>
-  <<set $ward.bra.push($storeInv.bra[_i])>>
-<</for>>
+  <<run setup.clothes.prologueGiver("poor")>>
 <<set $temp = {lils:3}>>
 <</if>>
-
-
 
 <<gotodev "storyStart17c2">>
 
@@ -380,9 +216,9 @@ With main objective complete, you decide to sit on the couch for a few minutes t
 
 <<silently>>
 <<notify>>@@.good;New clothing added to your wardrobe!@@<</notify>>
-<<if $PC.body.tits.cupNum >= 25 || $PC.body.ass > 5 || $PC.body.hips > 5>>
+<<if ↂ.pc.body.tits.cupNum >= 25 || ↂ.pc.body.ass > 5 || ↂ.pc.body.hips > 5>>
   <<set $temp.body = 2>>
-<<elseif $PC.body.shoulders > 3 || $PC.body.hips < 3 || $PC.body.tone > 5 || $PC.body.tone < 2 || $PC.body.weight > 5 || $PC.body.weight < 2 || $PC.body.tits.cupNum < 9>>
+<<elseif ↂ.pc.body.shoulders > 3 || ↂ.pc.body.hips < 3 || ↂ.pc.body.tone > 5 || ↂ.pc.body.tone < 2 || ↂ.pc.body.weight > 5 || ↂ.pc.body.weight < 2 || ↂ.pc.body.tits.cupNum < 9>>
   <<set $temp.body = 0>>
 <<else>>
   <<set $temp.body = 1>>
@@ -429,17 +265,17 @@ CLOTHING DISPLAY THINGY
 */
 <<include [[storyStart17clothing]]>>
 <br>
-<<button "Continue">><<addTime 13>><<goto [[storyStart17d]]>><</button>> <<comment "The clothing here--including bonus/cheat starting clothing--is all procedurally generated using the clothing generators. They are generally set to output more conservative items that would be at least acceptable at a workplace. Color is also set to be more conservative, depending on the item, making coordination easier. Similarly, the clothing is set to be more neutral in regard to sexiness or cuteness. The quality ranges from very low (Bullseye level) to average, depending on your relationship with Lily. Because the clothing is random, you'll always end up with a different set of clothing for each game, but it should maintain a similar character. Note that the bonus sexy clothes are very high quality, and the cheat extra clothes option contains many items of high quality. If you notice some odd clothing, or clothing that doesn't seem to fit for one reason or another, please let ThaumX know, it'll help to adjust the generators!">>
+<<button "Continue">><<addTime 13>><<go storyStart17d>><</button>> <<comment "The clothing here--including bonus/cheat starting clothing--is all procedurally generated using the clothing generators. They are generally set to output more conservative items that would be at least acceptable at a workplace. Color is also set to be more conservative, depending on the item, making coordination easier. Similarly, the clothing is set to be more neutral in regard to sexiness or cuteness. The quality ranges from very low (Bullseye level) to average, depending on your relationship with Lily. Because the clothing is random, you'll always end up with a different set of clothing for each game, but it should maintain a similar character. Note that the bonus sexy clothes are very high quality, and the cheat extra clothes option contains many items of high quality. If you notice some odd clothing, or clothing that doesn't seem to fit for one reason or another, please let ThaumX know, it'll help to adjust the generators!">>
 
 :: storyStart17d [nobr]
 
 <<silently>>
-<<set $storeInv.panties = []>>
-<<set $storeInv.leg = []>>
-<<set $storeInv.lowBody = []>>
-<<set $storeInv.bra = []>>
-<<set $storeInv.upBody = []>>
-<<set $storeInv.dress = []>>
+<<set ↂ.storeInv.panties = []>>
+<<set ↂ.storeInv.leg = []>>
+<<set ↂ.storeInv.bottom = []>>
+<<set ↂ.storeInv.bra = []>>
+<<set ↂ.storeInv.top = []>>
+<<set ↂ.storeInv.dress = []>>
 <</silently>>
 
 @@.head3;A@@fter you've spent some time going through your new clothing, Lily takes you to the laundry room to start washing the new clothes.
@@ -456,7 +292,7 @@ Lily grabs one of the new bras. @@.npc;Just a word of caution: even though there
 <br><br>
 Lily finishes starting the washing machine and <<if $temp.lils == 2>>grabs your hand to pull you<<else>>walks<</if>> back toward the living room. @@.npc;Come on, let's talk coordination.@@
 <br><br>
-<<link "Follow her">><<addTime 10>><<goto [[storyStart17e]]>><</link>>
+<<link "Follow her">><<addTime 10>><<go storyStart17e>><</link>>
 
 
 :: storyStart17e [nobr]
@@ -483,12 +319,12 @@ Setting the slate down on the couch beside you, you pick up the bag of assorted 
 <br><br>
 Lily walks to the kitchen, and you start getting your clothing scanned in so you can try out different combinations.
 <br><br>
-<<link "Continue">><<addTime 55>><<goto [[storyStart17f]]>><</link>>
+<<link "Continue">><<addTime 55>><<go storyStart17f>><</link>>
 
 :: storyStart17f [nobr]
 
-<div class="typewriter white">
-<p>@@.ship;font-size:120%;T@@he Wardrobe is where you manage your clothing and outfits, and is normally accessable from your home. Outfits allow you to equip clothing automatically, and make it much easier to quickly change what you're wearing. While you need to have a few special outfits set up so that clothing can automatically be worn, you can also use the wardrobe to get dressed directly one item at a time.</p>
+<div class="print white">
+<p>@@.ship;font-size:1.2rem;T@@he Wardrobe is where you manage your clothing and outfits, and is normally accessable from your home. Outfits allow you to equip clothing automatically, and make it much easier to quickly change what you're wearing. While you need to have a few special outfits set up so that clothing can automatically be worn, you can also use the wardrobe to get dressed directly one item at a time.</p>
 
 <p>''Laundry:'' While there is a system to do laundry along with other chores in the game, these aren't something that you have to do manually each time. Normally you set your cleaning options, turning chores into a simple 1-click affair. While you don't have to manually wash clothes each time you wear them, this doesn't mean that laundry doesn't matter. If you let your laundry chore fall behind, your clothing will be increasingly grungy, which applies a negative effect. Eventually people may start to avoid you because of the smell!</p>
 
@@ -507,212 +343,51 @@ Lily walks to the kitchen, and you start getting your clothing scanned in so you
 </dl>
 <p>To learn more about clothing, from individual styles to what different stats mean, check out the <<info "AW Encyclopedia" guideClothingStats>>!</p>
 </div>
-<<link "Continue">><<goto [[storyStart17g]]>><</link>>
+<<link "Continue">><<go storyStart17g>><</link>>
 
 
 :: storyStart17g [nobr]
 
-<<silently>>
-<<set $temp.ling = $outfitUnder.length>>
-<<set $temp.stan = $outfitOver.length>>
-<</silently>>
-<span class="megrim white" style="font-size: 130%;font-weight:bold;">
+<span class="megrim white" style="font-size:1.3rem;font-weight:bold;">
 Mission:
 </span>
 <br><br>
-You will enter the wardrobe on the next screen. You must make at least one lingerie outfit and one standard outfit before being allowed to continue.
+You will enter the wardrobe on the next screen. You need to create a Casual and Work outfit to continue. You can also create custom outfits, or fill the other default outfits (Fancy, Night, Home) if you'd like. Not having basic outfits that are suitable for outside wear could result in some problems, as Accidental Woman won't force you to stay inside just because you aren't dressed!
 <br><br>
-[[To wardrobe|wardrobeMain]]
+<center>[img[IMG-WardrobeInstructions]]<br>
+<<button [[To The Wardrobe!|MainWardrobe]]>><</button>></center>
 
 
 :: storyStart17clothing [nobr]
 
-
-<<set _num = $ward.panties.length>>
-<<set _items = []>>
-<<set _prices = []>>
-<<for _i to 0; _i < _num; _i++>>
-	<<run _items.push($ward.panties[_i])>>
-<</for>>
-<table id="noBorder">
-<<for _i to 1; _i < _num; _i++>>
-	<tr id="noBorder">
-	/*old habits die hard... so used to using the width property, but it isn't supported by html5*/
-	<td style="width:95px">
-	/*get the image data passage name, and hex color code*/
-	<<set _imgName = setup.pantiesIcon(_items[_i][6])>>
-	<<set _imgColor = setup.colorDecode(_items[_i][9])>>
-	/*prep image display html code for print macro, then print image*/
-	<<set _img = '<img data-passage="' + _imgName + '" style="background-color:' + _imgColor + '">'>>
-	<<print _img>>
-	/*end column 1*/
-	</td><td style="width:800px">
-	/*print out the name*/
-  <<set _name = _items[_i][0]>>
-	@@.storeitem;<<clothingName _name>>@@<br>
-	/*print out remaining relevant content*/
-	@@.note;''Attractiveness'' <<print _items[_i][1]>> (//<<atrGarmentDiscript _items[_i][1]>>//), ''Exposure'' <<print Math.floor(_items[_i][4] / 10)>><<print ".">><<print (_items[_i][4] % 10)>> (//<<exposureGarmentDiscript _items[_i][4]>>//)@@
-	/*nobr removes newline, but often leaves an unwanted space instead. that's the reason why most text-formatting code is piled into a single line.*/
-	<br>@@.note;<<if _items[_i][2] > 0>>''Sexiness'' <<print _items[_i][2]>><<else>>''Cuteness'' <<print Math.abs(_items[_i][2])>><</if>> <<if _items[_i][2] >= 6>>(//very sexy//)<<elseif _items[_i][2] >= 3>>(//sexy//)<<elseif _items[_i][2] <= -3>>(//very cute//)<<elseif _items[_i][2] <= 0>>(//cute//)<</if>>, <<if _items[_i][3] > 5>>Formal<<elseif _items[_i][3] > 1>>Semi-Formal<<elseif _items[_i][3] > -3>>Casual<<else>>Very Casual<</if>> Attire@@
-	/*end column*/
-	</td><td></td></tr>
-<</for>>
-/*label row and refresh button*/
-</table>
-
-<<set _num = $ward.bra.length>>
-<<set _items = []>>
-<<set _prices = []>>
-<<for _i to 0; _i < _num; _i++>>
-	<<run _items.push($ward.bra[_i])>>
-<</for>>
-<table id="noBorder">
-<<for _i to 1; _i < _num; _i++>>
-  <tr id="noBorder">
-	/*old habits die hard... so used to using the width property, but it isn't supported by html5*/
-	<td style="width:95px">
-	/*get the image data passage name, and hex color code*/
-	<<set _imgName = setup.brasIcon(_items[_i][6])>>
-	<<set _imgColor = setup.colorDecode(_items[_i][9])>>
-	/*prep image display html code for print macro, then print image*/
-	<<set _img = '<img data-passage="' + _imgName + '" style="background-color:' + _imgColor + '">'>>
-	<<print _img>>
-	/*end column 1*/
-	</td><td style="width:800px">
-	/*print out the name*/
-	<<set _name = _items[_i][0]>>
-  @@.storeitem;<<clothingName _name>>@@<br>
-	/*print out remaining relevant content*/
-	@@.note;''Attractiveness'' <<print _items[_i][1]>> (//<<atrGarmentDiscript _items[_i][1]>>//), ''Exposure'' <<print Math.floor(_items[_i][4] / 10)>><<print ".">><<print (_items[_i][4] % 10)>> (//<<exposureGarmentDiscript _items[_i][4]>>//)@@
-	/*nobr removes newline, but often leaves an unwanted space instead. that's the reason why most text-formatting code is piled into a single line.*/
-	<br>@@.note;<<if _items[_i][2] > 0>>''Sexiness'' <<print _items[_i][2]>><<else>>''Cuteness'' <<print Math.abs(_items[_i][2])>><</if>> <<if _items[_i][2] >= 6>>(//very sexy//)<<elseif _items[_i][2] >= 3>>(//sexy//)<<elseif _items[_i][2] <= -3>>(//very cute//)<<elseif _items[_i][2] <= 0>>(//cute//)<</if>>, <<if _items[_i][3] > 5>>Formal<<elseif _items[_i][3] > 1>>Semi-Formal<<elseif _items[_i][3] > -3>>Casual<<else>>Very Casual<</if>> Attire@@
-	/*end column*/
-	</td><td></td></tr>
-<</for>>
-</table>
-
-
-<<set _num = $ward.leg.length>>
-<<set _items = []>>
-<<set _prices = []>>
-<<for _i to 0; _i < _num; _i++>>
-	<<run _items.push($ward.leg[_i])>>
-<</for>>
-<table id="noBorder">
-<<for _i to 1; _i < _num; _i++>>
-  <tr id="noBorder">
-	/*old habits die hard... so used to using the width property, but it isn't supported by html5*/
-	<td style="width:95px">
-	/*get the image data passage name, and hex color code*/
-	<<set _imgName = setup.stockingsIcon(_items[_i][6])>>
-	<<set _imgColor = setup.colorDecode(_items[_i][9])>>
-	/*prep image display html code for print macro, then print image*/
-	<<set _img = '<img data-passage="' + _imgName + '" style="background-color:' + _imgColor + '">'>>
-	<<print _img>>
-	/*end column 1*/
-	</td><td style="width:800px">
-	/*print out the name*/
-	<<set _name = _items[_i][0]>>
-  @@.storeitem;<<clothingName _name>>@@<br>
-	/*print out remaining relevant content*/
-	@@.note;''Attractiveness'' <<print _items[_i][1]>> (//<<atrGarmentDiscript _items[_i][1]>>//), ''Exposure'' <<print Math.floor(_items[_i][4] / 10)>><<print ".">><<print (_items[_i][4] % 10)>> (//<<exposureGarmentDiscript _items[_i][4]>>//)@@
-	/*nobr removes newline, but often leaves an unwanted space instead. that's the reason why most text-formatting code is piled into a single line.*/
-	<br>@@.note;<<if _items[_i][2] > 0>>''Sexiness'' <<print _items[_i][2]>><<else>>''Cuteness'' <<print Math.abs(_items[_i][2])>><</if>> <<if _items[_i][2] >= 6>>(//very sexy//)<<elseif _items[_i][2] >= 3>>(//sexy//)<<elseif _items[_i][2] <= -3>>(//very cute//)<<elseif _items[_i][2] <= 0>>(//cute//)<</if>>, <<if _items[_i][3] > 5>>Formal<<elseif _items[_i][3] > 1>>Semi-Formal<<elseif _items[_i][3] > -3>>Casual<<else>>Very Casual<</if>> Attire@@
-	/*end column*/
-	</td><td></td></tr>
-<</for>>
-</table>
-
-<<set _num = $ward.upBody.length>>
-<<set _items = []>>
-<<set _prices = []>>
-<<for _i to 0; _i < _num; _i++>>
-	<<run _items.push($ward.upBody[_i])>>
-<</for>>
-<table id="noBorder">
-<<for _i to 1; _i < _num; _i++>>
-	<tr id="noBorder">
-	/*old habits die hard... so used to using the width property, but it isn't supported by html5*/
-	<td style="width:95px">
-	/*get the image data passage name, and hex color code*/
-	<<set _imgName = setup.topsIcon(_items[_i][6])>>
-	<<set _imgColor = setup.colorDecode(_items[_i][9])>>
-	/*prep image display html code for print macro, then print image*/
-	<<set _img = '<img data-passage="' + _imgName + '" style="background-color:' + _imgColor + '">'>>
-	<<print _img>>
-	/*end column 1*/
-	</td><td style="width:800px">
-	/*print out the name*/
-	<<set _name = _items[_i][0]>>
-  @@.storeitem;<<clothingName _name>>@@<br>
-	/*print out remaining relevant content*/
-	@@.note;''Attractiveness'' <<print _items[_i][1]>> (//<<atrGarmentDiscript _items[_i][1]>>//), ''Exposure'' <<print Math.floor(_items[_i][4] / 10)>><<print ".">><<print (_items[_i][4] % 10)>> (//<<exposureGarmentDiscript _items[_i][4]>>//)@@
-	/*nobr removes newline, but often leaves an unwanted space instead. that's the reason why most text-formatting code is piled into a single line.*/
-	<br>@@.note;<<if _items[_i][2] > 0>>''Sexiness'' <<print _items[_i][2]>><<else>>''Cuteness'' <<print Math.abs(_items[_i][2])>><</if>> <<if _items[_i][2] >= 6>>(//very sexy//)<<elseif _items[_i][2] >= 3>>(//sexy//)<<elseif _items[_i][2] <= -3>>(//very cute//)<<elseif _items[_i][2] <= 0>>(//cute//)<</if>>, <<if _items[_i][3] > 5>>Formal<<elseif _items[_i][3] > 1>>Semi-Formal<<elseif _items[_i][3] > -3>>Casual<<else>>Very Casual<</if>> Attire@@
-	/*end column*/
-	</td><td></td></tr>
-<</for>>
-</table>
-
-<<set _num = $ward.lowBody.length>>
-<<set _items = []>>
-<<set _prices = []>>
-<<for _i to 0; _i < _num; _i++>>
-	<<run _items.push($ward.lowBody[_i])>>
-<</for>>
-
-<table id="noBorder">
-<<for _i to 1; _i < _num; _i++>>  
-	<tr id="noBorder">
-	/*old habits die hard... so used to using the width property, but it isn't supported by html5*/
-	<td style="width:95px">
-	/*get the image data passage name, and hex color code*/
-	<<set _imgName = setup.bottomsIcon(_items[_i][6])>>
-	<<set _imgColor = setup.colorDecode(_items[_i][9])>>
-	/*prep image display html code for print macro, then print image*/
-	<<set _img = '<img data-passage="' + _imgName + '" style="background-color:' + _imgColor + '">'>>
-	<<print _img>>
-	/*end column 1*/
-	</td><td style="width:800px">
-	/*print out the name*/
-	<<set _name = _items[_i][0]>>
-  @@.storeitem;<<clothingName _name>>@@<br>
-	/*print out remaining relevant content*/
-	@@.note;''Attractiveness'' <<print _items[_i][1]>> (//<<atrGarmentDiscript _items[_i][1]>>//), ''Exposure'' <<print Math.floor(_items[_i][4] / 10)>><<print ".">><<print (_items[_i][4] % 10)>> (//<<exposureGarmentDiscript _items[_i][4]>>//)@@
-	/*nobr removes newline, but often leaves an unwanted space instead. that's the reason why most text-formatting code is piled into a single line.*/
-	<br>@@.note;<<if _items[_i][2] > 0>>''Sexiness'' <<print _items[_i][2]>><<else>>''Cuteness'' <<print Math.abs(_items[_i][2])>><</if>> <<if _items[_i][2] >= 6>>(//very sexy//)<<elseif _items[_i][2] >= 3>>(//sexy//)<<elseif _items[_i][2] <= -3>>(//very cute//)<<elseif _items[_i][2] <= 0>>(//cute//)<</if>>, <<if _items[_i][3] > 5>>Formal<<elseif _items[_i][3] > 1>>Semi-Formal<<elseif _items[_i][3] > -3>>Casual<<else>>Very Casual<</if>> Attire@@
-	/*end column*/
-	</td><td></td></tr>
-<</for>>
-</table>
-
-<<set _num = $ward.dress.length>>
-<<set _items = []>>
-<<set _prices = []>>
-<<for _i to 0; _i < _num; _i++>>
-	<<run _items.push($ward.dress[_i])>>
-<</for>>
-<table id="noBorder">
-<<for _i to 1; _i < _num; _i++>>
-  <tr id="noBorder">
-	/*old habits die hard... so used to using the width property, but it isn't supported by html5*/
-	<td style="width:95px">
-	/*get the image data passage name, and hex color code*/
-	<<set _imgName = setup.dressesIcon(_items[_i][6])>>
-	<<set _imgColor = setup.colorDecode(_items[_i][9])>>
-	/*prep image display html code for print macro, then print image*/
-	<<set _img = '<img data-passage="' + _imgName + '" style="background-color:' + _imgColor + '">'>>
-	<<print _img>>
-	/*end column 1*/
-	</td><td style="width:800px">
-	/*print out the name*/
-	<<set _name = _items[_i][0]>>
-  @@.storeitem;<<clothingName _name>>@@<br>
-	/*print out remaining relevant content*/
-	@@.note;''Attractiveness'' <<print _items[_i][1]>> (//<<atrGarmentDiscript _items[_i][1]>>//), ''Exposure'' <<print Math.floor(_items[_i][4] / 10)>><<print ".">><<print (_items[_i][4] % 10)>> (//<<exposureGarmentDiscript _items[_i][4]>>//)@@
-	/*nobr removes newline, but often leaves an unwanted space instead. that's the reason why most text-formatting code is piled into a single line.*/
-	<br>@@.note;<<if _items[_i][2] > 0>>''Sexiness'' <<print _items[_i][2]>><<else>>''Cuteness'' <<print Math.abs(_items[_i][2])>><</if>> <<if _items[_i][2] >= 6>>(//very sexy//)<<elseif _items[_i][2] >= 3>>(//sexy//)<<elseif _items[_i][2] <= -3>>(//very cute//)<<elseif _items[_i][2] <= 0>>(//cute//)<</if>>, <<if _items[_i][3] > 5>>Formal<<elseif _items[_i][3] > 1>>Semi-Formal<<elseif _items[_i][3] > -3>>Casual<<else>>Very Casual<</if>> Attire@@
-	/*end column*/
-	</td><td></td></tr>
-<</for>>
-</table>
+<div style="position:relative;height:800px;width:1000px;margin:20px 0px;padding:0px;">
+<<tabset "tomfuckery" "Panties">>
+  <div class="wardrobeLister argyle">
+    <<print setup.clothes.quickPrint("panties")>>
+  </div>
+<<newtab "Bras">>
+  <div class="wardrobeLister argyle">
+    <<print setup.clothes.quickPrint("bra")>>
+  </div>
+<<newtab "Legs">>
+  <div class="wardrobeLister argyle">
+    <<print setup.clothes.quickPrint("leg")>>
+  </div>
+<<newtab "Lower Body">>
+  <div class="wardrobeLister argyle">
+    <<print setup.clothes.quickPrint("bottom")>>
+  </div>
+<<newtab "Upper Body">>
+  <div class="wardrobeLister argyle">
+    <<print setup.clothes.quickPrint("top")>>
+  </div>
+<<newtab "Dresses">>
+  <div class="wardrobeLister argyle">
+    <<print setup.clothes.quickPrint("dress")>>
+  </div>
+<<newtab "Shoes">>
+  <div class="wardrobeLister argyle">
+    <<print setup.clothes.quickPrint("shoes")>>
+  </div>
+<</tabset>>
+</div>

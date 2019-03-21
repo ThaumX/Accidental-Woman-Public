@@ -1,0 +1,57 @@
+:: FemStart6 [nobr]
+
+
+<<if ndef ↂ.pc.main.ageID>>
+	<<set ↂ.pc.main.ageID = 21>>
+<</if>>
+<p>
+After a brief scene at the hospital where you realize the magnitude of what happened to you biologically, you get a visitor from the institute, a Mr. Gerald Mann:
+</p>
+<center>
+<img data-passage="IMG-GManPort" style="border-radius:6px;">
+</center>
+<<comment "So, I think most people will realize that this is a painted portrait of the G-Man from the Halflife series. I like that character, so it's the same kind of look and mannerisms I imagine for the character here. However, don't assume that all the fun Halflife story stuff actually applies to OUR G-man, for obvious reasons. :D">>
+<p>
+You learn some of the new restrictions and limitations for your second chance on life. The good news is that you're going to get a job that isn't Burger Tsar, and you get to live in Appletree. The bad news is that as far as the world is concerned, you're dead. Only Toby knows that you're "you", and you can't reveal your new identity... a bit like witness protection, except with a more credible threat of death for blowing your cover.
+</p>
+<<silently>>
+<<if !ↂ.flag.prologueFemPaid>>
+<<status 1>>
+<<set _cash = random(1550,1600)>>
+<<if ↂ.flag.prologuePassedScience>>
+<<set _cash += 200>>
+<</if>>
+<<set _cash += ↂ.flag.jobQuiz.science * 8>>
+<<set _cash += ↂ.flag.jobQuiz.hr * 7>>
+<<set _cash += ↂ.flag.jobQuiz.janitor * 3>>
+<<set _cash += ↂ.flag.jobQuiz.cow * 5>>
+<<set _cash += ↂ.flag.jobQuiz.breed * 6>>
+<<set _cash += ↂ.flag.jobQuiz.semen * 4>>
+<<set _cash += ↂ.flag.jobQuiz.retail>>
+<<set _cash -= ↂ.flag.jobQuiz.testSubject * 4>>
+<<set $AW.cash += _cash>>
+<<set ↂ.flag.prologueFemPaid = true>>
+<<status 0>>
+<</if>>
+<</silently>>
+<p>
+You get a certain amount of money to help start your new life, this number is partially random, partially based on the prologue events. <b>You received:</b> <span class="money">₢<<= _cash>></span>
+</p>
+<p>
+You need to finalize your name:<br>
+<<textbox "ↂ.pc.main.name" ↂ.pc.main.name>> <<textbox "ↂ.pc.main.surname" ↂ.pc.main.surname>>
+</p>
+<p>
+Determine your new official age: <<textbox "ↂ.pc.main.ageID" ↂ.pc.main.ageID>>
+</p>
+<h4>Medical Stuff</h4>
+[img[IMG-AppMD_InstiCare]]
+<p>
+How about InstiCare? <<button "YEP">><<set ↂ.flag.Healthcare = true>><<replace "#care">>YES<</replace>><</button>> <<button "NOPE">><<set ↂ.flag.Healthcare = false>><<replace "#care">>NO<</replace>><</button>><<tab>><span class="exp">Currently: <span id="care"><<if ↂ.flag.Healthcare>>YES<<else>>NO<</if>></span></span><br>
+Organ Donor? (<i>Shit's about to get real mode</i>)<<button "YEP">><<set ↂ.flag.organDonor = true>><<replace "#organ">>YES<</replace>><</button>> <<button "NOPE">><<set ↂ.flag.organDonor = false>><<replace "#organ">>NO<</replace>><</button>><<tab>><span class="exp">Currently: <span id="organ"><<if ↂ.flag.organDonor>>YES<<else>>NO<</if>></span></span>
+</p>
+
+<center>
+<<button "CONTINUE">><<set ↂ.pc.main.ageID = Number(ↂ.pc.main.ageID)>><<go "FemStart7">><</button>>
+</center>
+

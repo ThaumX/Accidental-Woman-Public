@@ -1,0 +1,83 @@
+
+:: BadEnd-Unknown [nobr hidden startpage]
+
+
+<<set _ri = 1>>
+<div id="ThisIsTheEndBlock">
+  <img data-passage="IMG-EndLaboratory">
+</div>
+<<repeat 5s>>
+<<replace "#ThisIsTheEndBlock">>
+  <<set _ri += 1>>
+  <<switch _ri>>
+    <<case 1>>
+      <img data-passage="IMG-EndLaboratory">
+    <<case 2>>
+      <img data-passage="IMG-EndTank">
+    <<case 3>>
+      <img data-passage="IMG-EndBreeder">
+    <<case 4>>
+      <img data-passage="IMG-EndCaptive">
+    <<case 5>>
+      <img data-passage="IMG-EndChaos">
+    <<case 6>>
+      <img data-passage="IMG-EndCryo">
+    <<case 7>>
+      <img data-passage="IMG-EndEggIncubator">
+    <<case 8>>
+      <img data-passage="IMG-EndFarmBreeder">
+    <<case 9>>
+      <img data-passage="IMG-EndIndustrial">
+    <<case 10>>
+      <img data-passage="IMG-EndLaboratory2">
+    <<case 11>>
+      <img data-passage="IMG-EndModTube">
+    <<case 12>>
+      <img data-passage="IMG-EndPregnant">
+    <<case 13>>
+      <img data-passage="IMG-EndPrison">
+    <<case 14>>
+      <img data-passage="IMG-EndStasis">
+    <<case 15>>
+      <img data-passage="IMG-EndToy">
+    <<case 16>>
+      <img data-passage="IMG-EndTunnel">
+    <<case 17>>
+      <img data-passage="IMG-EndGraveyard">
+      <<set _ri = 0>>
+  <</switch>>
+<</replace>>
+<</repeat>>
+<div id="ThisIsTheEndCunt">
+  <div id="ThisIsTheEndButt">
+  <<timed 6s>>
+    <<button "LOAD A SAVE">><<script>>UI.saves()<</script>><</button>>
+    <<button "RESTART">><<run Engine.restart()>><</button>>
+  <</timed>>
+  </div>
+  <div id="ThisIsTheEndImage">
+    <<fadein "4s">>[img[IMG-AppleEnd]]<</fadein>>
+  </div>
+  <div id="ThisIsTheEnd">
+  <center style="font-size:1.4rem;">
+  <<fadein "3s" "3s">>
+  <<if ↂ.pc != null>><<print ↂ.pc.name>><br>
+  <<print setup.monthName(ↂ.pc.main.bd[2])>> <<print ↂ.pc.main.bd[3]>> - <<print setup.monthName($date[2])>> <<print $date[3]>><<else>>Jane Doe<br>2002 to 2032*<</if>>
+  <</fadein>>
+  </center>
+  <br>
+  <<fadein "4s" "5s">>
+    Your time in Appletree has come to an end for unknown reasons... Really, it's just that the variations for this ending haven't been written yet! Sorry about that... I know it sucks to die without knowing <i>why</i>, so how about I share what I <b>do</b> know? It seems that the flag string for your end was "<<print ↂ.flag.badEnd>>". Hopefully that's enough of a clue! Stick around and we'll get these sorted out. :D
+  <</fadein>>
+  <br><br>
+  <<fadein "4s" "7s">>
+    <b style="font-size:1.25rem;">Game Statistics:</b><br>
+    <i>Have not been implemented, sorry.</i>
+  <</fadein>>
+  <br><br>
+  <<fadein "4s" "7s">>
+    <i>As you've probably noticed, the background images are changing. These are images prepared for some of the planned 'bad ends'. The bad-end system is also extensible, so it's quite easy to add new ones (preferably of the kinky variety)!</i>
+  <</fadein>>
+  </div>
+</div>
+<<achieve died>>

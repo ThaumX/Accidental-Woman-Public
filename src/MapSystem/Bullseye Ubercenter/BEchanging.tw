@@ -12,7 +12,7 @@
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -40,21 +40,19 @@
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 @@.head3;Y@@ou're in the changing room area located in the middle of all the clothing departments. There are several changing room doors lining the central corridor. There isn't a separate area for men or women, the changing area appears to be unisex. The rooms seem at least reasonably private though, unless someone was bold enough to walk right up to the door and peer underneath. There are blinking red lights on the cameras to help dissuade customers from shoplifting, though they're carefully positioned so that it's obvious they can't see inside the stalls.
 <br><br>
-@@.typewriter;font-size:120%;You can access special in-development stuff here!@@
+@@.print;font-size:1.2rem;You can access special in-development stuff here!@@
 <br>@@.import;Just to be safe, save first before entering any of these testing areas!@@
 <br><br>
 @@.com;This area will be phased out after completion of the prologue, which is soon.@@<br><br>
+<<selfthought>>
 <<set _cunt = 1>>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
-<<hoverrevise mapsplore>>
-  <span class="disabled"><<button "Explore Map">><</button>></span>
-<<endhoverrevise>>
 <<hoverrevise deepthink>>
 <<button "Deep Thoughts">>
 <<set _print = "<<set _name = setup.nameRandomizer(" + either(1,2) + "," + either("'white'","'white'","'white'","'black'","'Asian'","'hispanic'") + ")>>">>
@@ -69,37 +67,31 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
     <<dialog "NPC Groups">>
       <table>
       <tr><td colspan=3>@@.head3;''Your'' NPC Groups@@</td></tr>
-      <tr><td>''single:'' <<print $npc.single.length>></td>
-      <td>''in relationship:'' <<print $npc.rShip.length>></td>
-      <td>''married:'' <<print $npc.married.length>></td></tr>
-      <tr><td>''males:'' <<print $npc.male.length>></td>
-      <td>''females:'' <<print $npc.female.length>></td>
-      <td>''futas:'' <<print $npc.futa.length>></td></tr>
-      <tr><td>''18-21:'' <<print $npc.age18to21.length>></td>
-      <td>''22-27:'' <<print $npc.age22to27.length>></td>
-      <td>''28-33:'' <<print $npc.age28to33.length>></td></tr>
-      <tr><td>''34-39:'' <<print $npc.age34to39.length>></td>
-      <td>''40-49:'' <<print $npc.age40to49.length>></td>
-      <td>''50-59:'' <<print $npc.age50to59.length>></td></tr>
-      <tr><td>''poor:'' <<print $npc.poor.length>></td>
-      <td>''middle-income:'' <<print $npc.middle.length>></td>
-      <td>''wealthy:'' <<print $npc.wealthy.length>></td></tr>
-      <tr><td colspan=3>Dropouts: <<print $npc.education.dropout.length>>, Highschool: <<print $npc.education.hschool.length>>, Associates: <<print $npc.education.assoc.length>>, Bachelors: <<print $npc.education.bach.length>>, Masters: <<print $npc.education.master.length>>, Doctors: <<print $npc.education.doctor.length>></td></tr>
+      <tr><td>''single:'' <<print setup.npc.single.length>></td>
+      <td>''in relationship:'' <<print setup.npc.rShip.length>></td>
+      <td>''married:'' <<print setup.npc.married.length>></td></tr>
+      <tr><td>''males:'' <<print setup.npc.male.length>></td>
+      <td>''females:'' <<print setup.npc.female.length>></td>
+      <td>''futas:'' <<print setup.npc.futa.length>></td></tr>
+      <tr><td>''18-21:'' <<print setup.npc.age18to21.length>></td>
+      <td>''22-27:'' <<print setup.npc.age22to27.length>></td>
+      <td>''28-33:'' <<print setup.npc.age28to33.length>></td></tr>
+      <tr><td>''34-39:'' <<print setup.npc.age34to39.length>></td>
+      <td>''40-49:'' <<print setup.npc.age40to49.length>></td>
+      <td>''50-59:'' <<print setup.npc.age50to59.length>></td></tr>
+      <tr><td>''poor:'' <<print setup.npc.poor.length>></td>
+      <td>''middle-income:'' <<print setup.npc.middle.length>></td>
+      <td>''wealthy:'' <<print setup.npc.wealthy.length>></td></tr>
+      <tr><td colspan=3>Dropouts: <<print setup.npc.education.dropout.length>>, Highschool: <<print setup.npc.education.hschool.length>>, Associates: <<print setup.npc.education.assoc.length>>, Bachelors: <<print setup.npc.education.bach.length>>, Masters: <<print setup.npc.education.master.length>>, Doctors: <<print setup.npc.education.doctor.length>></td></tr>
       </table>
     <</dialog>>
   <</button>>
 <<endhoverrevise>>
-<<hoverrevise sexi>>
-<span class="disabled">
-<<button "Have Shitty Sex">>
-<</button>>
-</span>
-<<endhoverrevise>>
 <<hoverrevise wastetime>>
-<<button "Pass Time">><<set alert("You spend 15 minutes fapping")>><<addTime 15>><<updatebar>><</button>>
+<<button "Pass Time">><<set UI.alert("You spend 15 minutes fapping")>><<addTime 15>><<updatebar>><</button>>
 <<endhoverrevise>>
 <<hoverrevise punch>>
-  <<button "Punch yourself">><<set $PC.status.health -= 10>><<updatebar>><</button>>
+  <<button "Punch yourself">><<set ↂ.pc.status.health -= 10>><<updatebar>><</button>>
 <<endhoverrevise>>
 <<hoverrevise hovCart>>
 	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
@@ -146,9 +138,9 @@ take a peek...
 
 <<silently>>
 <<set _npcs = []>>
-<<for _i to 0, _k to 0, _c to $npc.male.length; _i < _c && _k < 10; _i++>>
-  <<if $npc.age22to27.includes($npc.male[_i])>>
-    <<run _npcs.push($npc.male[_i])>>
+<<for _i to 0, _k to 0, _c to setup.npc.male.length; _i < _c && _k < 10; _i++>>
+  <<if setup.npc.age22to27.includes(setup.npc.male[_i])>>
+    <<run _npcs.push(setup.npc.male[_i])>>
     <<set _k ++>>
   <</if>>
 <</for>>
@@ -172,9 +164,9 @@ take a peek...
 <<for _i = 0; _i < 10; _i++>>
 <<capture _i _key>>
 <tr><td><<set _pre = '<<checkboxB "_checkboxs[' + _i + ']" false true>>'>><<print _pre>></td>
-<td><<print $NPC[$activeNPC[_i]].main.name>> <<print $NPC[$activeNPC[_i]].main.surname>></td>
-<td><<set _gen = $NPC[$activeNPC[_i]].main.genes>><<if _gen == "XX">>Female<<elseif _gen == "XY">>Male<<else>>Futa<</if>></td>
-<td><<print $NPC[$activeNPC[_i]].main.age>></td>
+<td><<print aw.npc[$activeNPC[_i]].main.name>> <<print aw.npc[$activeNPC[_i]].main.surname>></td>
+<td><<set _gen = aw.npc[$activeNPC[_i]].main.genes>><<if _gen == "XX">>Female<<elseif _gen == "XY">>Male<<else>>Futa<</if>></td>
+<td><<print aw.npc[$activeNPC[_i]].main.age>></td>
 <td><<set _key = $activeNPC[_i]>><<popNPCinfo _key>></td></tr>
 <</capture>>
 <</for>>
@@ -189,11 +181,11 @@ take a peek...
   <</if>>
 <</for>>
 <<if _cunt == 0>>
-  <<run alert("You must choose at least 1 NPC for now")>>
+  <<run UI.alert("You must choose at least 1 NPC for now")>>
 <<else>>
   <<replace "#debugs">>
     Chosen: <<print _choice>><br>
     <<button "GO!">><<startSexScene 0 _choice 0 _tempTags "Hey, it's starting text!">><</button>>
   <</replace>>
 <</if>>
-<</button>></span> <<button "Nevermind... Return">><<goto [[BEchanging]]>><</button>>
+<</button>></span> <<button "Nevermind... Return">><<go BEchanging>><</button>>

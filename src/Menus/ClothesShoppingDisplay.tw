@@ -1,0 +1,58 @@
+:: ClothesShoppingDisplay [nobr]
+
+<<silently>>
+<<set _randFuck = random(20,30)>>
+<<switch _shop.slot>>
+  <<case "coat">>
+    <<set _randFuck = random(25,40)>>
+  <<case "bra">>
+    <<set _randFuck = random(30,45)>>
+  <<case "bottom">>
+    <<set _randFuck = random(25,35)>>
+<</switch>>
+<</silently>>
+<div id="shoppingBackground" class="clothBackground zoomInUp animated">
+  <<link '<img data-passage="IMG-Close" class="imgbutton" style="position:absolute;top:15px;right:15px;width:50px;height:50px;">'>><<addTime _randFuck>><<run setup.refresh()>><<animexit "shoppingBackground" "zoomInUp" "zoomOutDown" "#shoppingContainer">><</link>>
+  <<print setup.shop.shopBanner(_shop.name)>>
+  <div id="shopCunt">
+  <<print setup.clothes.shopList(_shop.name, _shop.slot)>>
+  </div>
+  <div class="shoppingStoreInfos blackOutline">
+    <<print setup.shop.storeText[_shop.name]>>
+  </div>
+  <div class="shopControlRow">
+    <<print setup.shop.sortButtons(_shop.array,"#shopCunt","<<print setup.clothes.shopList(_shop.name, _shop.slot)>>")>>
+    <div style="display:inline-block;background-color:rgba(0,0,0,0.5);padding:5px;border-radius:5px;width:225px;text-align:center;font-size:1.3rem;margin: 10px 0px 10px;">
+      <<info "Clothing Information" guideClothingStats>><br>
+      <<switch _shop.slot>>
+        <<case "panties">>
+          <<info "Panties Info" guidePanties>>
+        <<case "bra">>
+          <<info "Bras Info" guideBras>>
+        <<case "top">>
+          <<info "Tops Info" guideShirts>>
+        <<case "leg">>
+          <<info "Legwear Info" guideStockings>>
+        <<case "bottom">>
+          <<info "Skirts Info" guideSkirts>>
+        <<case "swimU">>
+          <<info "Swimwear Info" GuideSwimwear>>
+        <<case "swimL">>
+          <<info "Swimwear Info" GuideSwimwear>>
+        <<case "shoes">>
+          <<info "Shoes Info" GuideHeeledShoes>>
+      <</switch>>
+    </div>
+    <div id="cartTotal" style="display:inline-block;background-color:rgba(0,0,0,0.5);padding:5px;border-radius:5px;width:225px;text-align:center;margin: 10px 0px 10px;">
+      <<include [[ClothesShoppingCartTotal]]>>
+    </div>
+    <<button "VIEW CART">><<run setup.shop.viewCartShop()>><</button>>
+  </div>
+</div>
+
+
+
+:: ClothesShoppingCartTotal [nobr]
+
+Cart Total: <<print setup.shop.cartTotal()>><br>
+Available: <span class="bigmoney">₢<<print $AW.cash>></span>

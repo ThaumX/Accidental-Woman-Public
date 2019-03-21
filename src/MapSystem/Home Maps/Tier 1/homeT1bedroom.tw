@@ -1,0 +1,194 @@
+:: homeT1bedroom [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPhomeT1]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptHome>> <<mapEventHome>></p>
+<<homeItemDisp>>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+/*<<mapEventHome>>*/
+/*LOCATION description of  location*/
+<<print setup.homeItems.placeDescription("pcHome", "bedroom")>><br>
+@@.head3;Y@@ou are in your high-tech auto-sex-simulator bedroom. A flashing icon lights up one wall, beckoning you to push it...<br><br>
+/*<<deactivateNPC $activeNPC>>*/
+<<link [img[Play the demo sex scene (with real character benefits!)|IMGsexIcon]]>>
+<<set $temp = 0>>
+<<set _prin = "<<radioset 'sexchoice' '$temp'>>Choose Your Partner...">>
+
+<<set _prin += "<<radioitem n101>>Lily">>
+<<for _i to 1; _i < 8; _i++>>
+
+<<set _tx = aw.npc[setup.npc.male[_i]].main.name + " (" + aw.npc[setup.npc.male[_i]].main.age + ")">>
+<<set _prin += "<<radioitem " + setup.npc.male[_i] + ">>" + _tx>>
+<</for>>
+<<set _prin += "<</radioset>>">>
+<<set ↂ.sex.pcOutput = "You are magically teleported into Sex Land... Now fuck like you mean it.">>
+<<set ↂ.sex.enviroTags = ["bed","wall"]>>
+<<set ↂ.sex.passage = "homeT1bedroom">>
+<<dialog "Choose A Partner">>
+  <<print _prin>>
+  <<button "!!!GO!!!">>
+  <<run aw.S()>><<startSex $temp>><<run Dialog.close()>>
+  <</button>>
+<</dialog>>
+<</link>>
+/*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise masturbate>>
+  <<button "Masturbate">>
+    <<dialog “Masturbation”>>
+      <div style="width:700px;">
+        That is just a quick placeholder for bigger and more complicated masturbation system. Notice that simple toyless masturbation can't fully satisfy you.  /* I hope at least :) */
+        <br>
+        <<set _shra = '<img data-passage="IMG-masturbation1" style="border-radius:10px;float:left;margin-right:10px;height:500px;width:auto;">'>>
+        <<print _shra>>
+        <br>
+        <div style="width:50%; float:left;">
+          <<button "Quick fap [7-20 min]">>
+            <<if ↂ.pc.kink.hard>>
+              <<set _cumchance = random(0, 13)>>
+            <<else>>
+              <<set _cumchance = random(0, 10)>>
+            <</if>>
+            <<if _cumchance < 10>>
+              <<if ↂ.pc.status.satisfaction > 35>>
+                <<set _randomcum = 3>>
+              <<else>>
+                <<set _randomcum = random(10, 18)>>
+              <</if>>
+              <<set _randompiss = random(7, 20)>>
+              <<set _randomshit = random(-0,-3)>>
+              <<if ↂ.pc.kink.fap>>
+                <<set _randomcum = random(17, 23)>>
+              <</if>>
+              <<satisfy _randomcum>>
+              <<addTime _randompiss>>
+              <<stress _randomshit>>
+              <<arousal X2>>
+              <<updatebar>>
+              <<run Dialog.close()>>
+              <<run  setup.notify("You came and feel more satisfied.")>>
+            <<else>>
+              <<set _randomcum = random(10, 15) * -1>>
+              <<set _randompiss = random(7, 20)>>
+              <<set _randomshit = random(0, 6)>>
+              <<satisfy _randomcum>>
+              <<addTime _randompiss>>
+              <<stress _randomshit>>
+              <<run Dialog.close()>>
+              <<updatebar>>
+              <<run  setup.notify("You was not able to reach orgasm and feel less satisfied now.")>>
+            <</if>>
+            <<updatebar>>
+          <</button>>
+          <br>
+          <span style="font-size:0.65rem;">A fast session just to ease your libido.</span>
+        </div>
+        <div style="width:50%; float:left;">
+          <<button "Enjoy yourself [30-60 min]">>
+            <<if ↂ.pc.kink.hard>>
+              <<set _cumchance = random(0, 13)>>
+            <<else>>
+              <<set _cumchance = random(0, 10)>>
+            <</if>>
+            <<if _cumchance < 10>>
+              <<if ↂ.pc.status.satisfaction > 35>>
+                <<set _randomcum = 3>>
+              <<else>>
+                <<set _randomcum = random(19, 24)>>
+              <</if>>
+              <<set _randompiss = random(30, 60)>>
+              <<set _randomshit = random(-3,-5)>>
+              <<if ↂ.pc.kink.fap>>
+                <<set _randomcum = random(23, 29)>>
+              <</if>>
+              <<satisfy _randomcum>>
+              <<addTime _randompiss>>
+              <<stress _randomshit>>
+              <<arousal X2>>
+              <<updatebar>>
+              <<run Dialog.close()>>
+              <<run  setup.notify("You came and feel more satisfied.")>>
+            <<else>>
+              <<set _randomcum = random(12, 18) * -1>>
+              <<set _randompiss = random(30, 60)>>
+              <<set _randomshit = random(3, 7)>>
+              <<satisfy _randomcum>>
+              <<addTime _randompiss>>
+              <<stress _randomshit>>
+              <<updatebar>>
+              <<run Dialog.close()>>
+              <<run setup.notify("You was not able to reach orgasm and feel less satisfied now.")>>
+            <</if>>
+          <</button>>
+          <br>
+          <span style="font-size:0.65rem;">A long and relaxing session where you take the time to explore your body and work yourself toward a powerful orgasm.</span>
+        </div>
+      </div>
+    <</dialog>>
+  <</button>>
+<<endhoverrevise>>
+
+<<homeItemButtons>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion sleep>>@@.exp;This doesn't properly work right now. Pretend there's a sign here saying "under construction", or try it anyway, I guess...@@<<endinsertion>>
+<<insertion masturbate>>Pretty self-explanatory activity involving touching yourself in a sexual manner.<<endinsertion>>
+<<homeItemInfo>>
+
+</div>
+<<timed 50ms>>
+<<mapHomeEventAction>>
+<<mapHomeActions>>
+<</timed>>
+
+
+
+:: homeT1bedroomLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+
+

@@ -1,7 +1,7 @@
 :: jobSystemStart [nobr]
 
-<<if $sched.sleepPassage == "none">>
-	<<set $sched.sleepPassage = previous()>>
+<<if ↂ.sched.sleepPassage == "none">>
+	<<set ↂ.sched.sleepPassage = aw.passage.previous[0]>>
 <</if>>
 Welcome to Jobbing!<br>
 This is a placeholder for any introductory text that happens.<br>
@@ -12,28 +12,28 @@ Normally, you won't need to click [[continue|jobSystem1]].
 
 
 /*bunch o code here...*/
-<<set _ratioTotal = $job.rules.taskratio[0] + $job.rules.taskratio[1] + $job.rules.taskratio[2] + $job.rules.taskratio[3]>>
-<<set _ratioA = $job.rules.taskratio[0]>>
-<<set _ratioB = _ratioA + $job.rules.taskratio[1]>>
-<<set _ratioC = _ratioB + $job.rules.taskratio[2]>>
-<<set _ratioD = _ratioC + $job.rules.taskratio[3]>>
+<<set _ratioTotal = ↂ.job.rules.taskratio[0] + ↂ.job.rules.taskratio[1] + ↂ.job.rules.taskratio[2] + ↂ.job.rules.taskratio[3]>>
+<<set _ratioA = ↂ.job.rules.taskratio[0]>>
+<<set _ratioB = _ratioA + ↂ.job.rules.taskratio[1]>>
+<<set _ratioC = _ratioB + ↂ.job.rules.taskratio[2]>>
+<<set _ratioD = _ratioC + ↂ.job.rules.taskratio[3]>>
 <<set _tasks = []>>
-<<for _i to 0; _i < $job.rules.tasks; _i++>>
+<<for _i to 0; _i < ↂ.job.rules.tasks; _i++>>
 	<<set _rand = random(1,_ratioTotal)>>
 	<<if _rand <= _ratioA>>
-		<<set _tit = $job.rules.taskA>>
+		<<set _tit = ↂ.job.rules.taskA>>
 		<<set _tit.tasklet = "A">>
 		<<set _tasks.push(_tit)>>
 	<<elseif _rand <= _ratioB>>
-		<<set _tit = $job.rules.taskB>>
+		<<set _tit = ↂ.job.rules.taskB>>
 		<<set _tit.tasklet = "B">>
 		<<set _tasks.push(_tit)>>
 	<<elseif _rand <= _ratioC>>
-		<<set _tit = $job.rules.taskC>>
+		<<set _tit = ↂ.job.rules.taskC>>
 		<<set _tit.tasklet = "C">>
 		<<set _tasks.push(_tit)>>
 	<<elseif _rand <= _ratioD>>
-		<<set _tit = $job.rules.taskD>>
+		<<set _tit = ↂ.job.rules.taskD>>
 		<<set _tit.tasklet = "D">>
 		<<set _tasks.push(_tit)>>
 	<</if>>
@@ -74,7 +74,7 @@ Normally, you won't need to click [[continue|jobSystem1]].
 	<</if>>
 <</for>>
 <<set $temp = Math.round( _perf / _tasks.length)>>
-<<goto [[jobSystemResults]]>>
+<<go jobSystemResults>>
 
 :: jobSystemResults [nobr]
 
@@ -84,4 +84,4 @@ Normally, you won't need to click [[continue|jobSystem1]].
 <br><br>
 This is definitely placeholder text. You aren't really meant to be jobbing yet. The results are actually output into a couple variables that allow for pretty interesting storytelling results by combining the events of the day. @@.mono;I had to clean the vats again today, this time I slipped and fell into some pink goo! While my supervisor was pissed, the nerd types seemed to be really pleased with my work afterward...@@
 
-<<link "I'm done Jobbing">><<goto [[$sched.sleepPassage]]>><</link>>
+<<link "I'm done Jobbing">><<go ↂsched.sleepPassage>><</link>>

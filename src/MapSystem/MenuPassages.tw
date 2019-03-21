@@ -1,0 +1,50 @@
+:: instituteJobbingMenu [nobr]
+
+<<silently>>
+<<addTime 8>>
+<<switch ↂ.job.code>>
+<<case "IS">>
+<<set _title = "ASSED">>
+<<set _desc = "<<f Y>>ou find yourself at your workplace in the Services Division at the Asimov Support Services & Equipment Depot. You can tell that when designing and building this ugly cluster of buildings and warehouses, they spared just about every expense. <span class='mono'>Except for the surveillance equipment, that's top-notch for some reason...</span> It's a fairly depressing place to work, but then again, you spend a lot of your time 'servicing' in other, prettier, buildings anyway.">>
+<<case "IB">>
+<<set _title = "SAC">>
+<<set _desc = "<<f Y>>ou find yourself at your workplace in the Scott Administrative Complex. It's a nice set of buildings, if rather inoffensive and monotonous. If you had to describe the complex in one word, it'd probably be 'corporate'. You've definitely worked in worse places though, the administrative complex is fairly well appointed. Even the employee bathrooms set aside for the average drone are equiped with all sorts of fancy hygiene devices. @@.mono;I guess? I need to figure out how to use all of them...@@ The break rooms are similarly equiped. If the place wasn't so bland and regimented, it'd be amazing.">>
+<<case "IT">>
+<<set _title = "HaRD">>
+<<set _desc = "<<f Y>>ou find yourself at your workplace in the Harmwell Research Division. It's a somewhat esoteric assortment of facilities that are primarily research oriented, along with some supply depots, some office, research, and conference space, and even a building dedicated to prototype manufacturing. Apparently the odd layout makes sense when considering the different research departments that have operations here. @@.mono;It may make sense to bureaucrats or efficiency experts, but it's a pain in the ass to find your way around.">>
+<</switch>>
+<</silently>>
+<h2>Welcome to <<print _title>></h2>
+<p><<print _desc>></p>
+<p>For now there isn't much to do here, but things will be added later!</p>
+<center>
+<<if setup.job.time.today()>>
+  <<set _ut = setup.job.time.until()>>
+  <<if _ut > 120>>
+    <<hoverrevise disabled>><span class="disabled"><<button "Get Jobbin'">><<notify>>NOT AVAILABLE AT THIS TIME<</notify>><</button>></span><<endhoverrevise>><br><<insertion disabled>>It's a little bit too early to go to work... Try coming back closer to your shift starting time.<<endinsertion>>
+  <<elseif _ut < -240>>
+    <<hoverrevise disabled>><span class="disabled"><<button "Get Jobbin'">><<notify>>NOT AVAILABLE AT THIS TIME<</notify>><</button>></span><<endhoverrevise>><br><<insertion disabled>>You're way too late to just waltz in now!!!<<endinsertion>>
+  <<else>>
+    <<button "Get Jobbin'">><<run setup.job.startAt()>><<run Dialog.close()>><</button>>
+  <</if>>
+<<else>>
+  <<hoverrevise disabled>><span class="disabled"><<button "Get Jobbin'">><<notify>>NOT AVAILABLE AT THIS TIME<</notify>><</button>></span><<endhoverrevise>><br><<insertion disabled>>You don't even have work today...<<endinsertion>>
+<</if>>
+</center>
+
+
+
+:: instituteEnrichmentCenter [nobr]
+
+
+<h2 class="handwriting">Welcome to the T.I.T.S. Employee Enrichment Center!</h2>
+<p class="gab">
+Thank you for your interest in the Institute's Employee Enrichment center! Unfortunately, our new location conveniently located in the the ClITS facility isn't open just yet. We're hard at work preparing the new Enrichment Center for our Institute Family. In addition to the standard services we've been proud to offer over the last several years, we'll also be offering an expanded range of enrichment and family services. Thanks to our new location in the middle of the ClITS, we'll also be able to offer limited medical services! After all, <i>"A healthy employee is a productive employee"</i>! Keep an eye on your inbox for a memo announcing the grand opening celebration, it'll be great fun for the whole family!
+<br><br>
+See you then!
+<br><br>
+Werner Schmidt<br>Director of Employee Services
+</p>
+<p class="monospace">
+<b>Expected Opening:</b> <s>March 28th, 2032</s> June 7th, 2032
+</p>

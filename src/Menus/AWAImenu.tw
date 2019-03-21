@@ -1,0 +1,163 @@
+:: AWAIdemopage [nobr]
+
+<div id="AItrainingBG" class="aiTrainingBackground">
+  <div style="position:fixed;top:30px;right:30px;width:150px;height:70px;font-size:1.3rem;"><<button "EXIT">><<go Introduction>><</button>></div>
+  <<set _npcind = 0>>
+  <br>
+  <center>[img[IMG-AWAIbanner]]</center>
+  <center style="fadeInDown animated"><h2 class="megrim">AWAI Demonstration and Information</h2></center>
+  <p>A really complicated demonstration isn't ready just yet, because a lot more effort has been focused at preparing the AI Training Feedback System instead. <<if $swim == "[dev]" || $swim == "[elite]" || $swim == "[cheats]" || $swim == "[backer]">>You can access the system at most points in the game--including right now--via the @@.ident;GLADyS@@ eye icon on the right side of the screen.<<else>>Unfortunately this version of the game doesn't support training with @@.ident;GLADyS@@.<</if>> There's also the fact that the AI isn't finished just yet (version 13.5), so some of the reactions will be pretty basic. By version 14.0 comes out at the beginning of September, we should have a useable AI that will grow more adept with your help :D<br>
+  <b>Check out this encyclopedia info:</b><<sp 2>><<info "Instructions" "GuideAIinstructions">><<sp 2>><<info "General AI Info" "GuideAI">><<sp 2>><<info "AI Query Tags" "GuideAItags">><<sp 2>><<info "NPC Personality Values" "GuideNPCpersonality">> <span class="note">View these at any time, they will not interrupt your progress here.</span></p>
+  <div id="ask-lily" style="margin: 20px 50px; padding: 10px;border-style:dashed;border-width:2px;border-radius:15px;border-color:deepskyblue;">
+    <<include [[AI-Demo-Main]]>>
+  </div>
+  <p>
+    You can actually use this menu to create AI queries that you can then review to help train the AI! In fact, if you want to see the full functionality of the AI training system, you need to have at least one query in the record. You can perform that query here.
+  </p>
+</div>
+
+
+:: AI-Demo-Main [nobr]
+
+<h3>Ask an NPC how s/he feels!</h3>
+<center><<button "RESET">><<replace "#ask-lily">><<include [[AI-Demo-Main]]>><</replace>><</button>><<tab>><<button "QUERY">><<run setup.ai.tagger(setup.npc.ready[_npcind], "Generated with the AI Demo")>><</button>><<tab>><<button "NEXT NPC">>
+<<set _npcind += 1>>
+<<if _npcind >= setup.npc.ready.length>><<set _npcind = 0>><</if>>
+<<replace "#curNPC">>Current NPC: <<= aw.npc[setup.npc.ready[_npcind]].main.name>> <<= aw.npc[setup.npc.ready[_npcind]].main.surname>> -- Age: <<= aw.npc[setup.npc.ready[_npcind]].main.age>>, Sex: <<if aw.npc[setup.npc.ready[_npcind]].main.genes === "XXY">>Futanari<<elseif aw.npc[setup.npc.ready[_npcind]].main.female>>Female<<else>>Male<</if>>.<</replace>>
+<</button>><br>
+<span id="curNPC">Current NPC: <<= aw.npc[setup.npc.ready[_npcind]].main.name>> <<= aw.npc[setup.npc.ready[_npcind]].main.surname>> -- Age: <<= aw.npc[setup.npc.ready[_npcind]].main.age>>, Sex: <<if aw.npc[setup.npc.ready[_npcind]].main.genes === "XXY">>Futanari<<elseif aw.npc[setup.npc.ready[_npcind]].main.female>>Female<<else>>Male<</if>>.</span>
+</center>
+  <table id="invisTable">
+    <tr>
+      <td colspan=4>Query Tag Input:</td></tr>
+    <tr>
+      <td style="width:25%;">
+        @@.h4;Actor@@
+        <select id="tagActor">
+          <option value="0">None/General</option>
+          <option value="1">The NPC</option>
+          <option value="2">Lover</option>
+          <option value="3">Friend</option>
+          <option value="4">Stranger</option>
+          <option value="5">Enemy</option>
+          <option value="6">Nemisis</option>
+          <option value="0">None/General</option>
+        </select>
+      </td><td style="width:25%;">
+        @@.h4;Target@@
+        <select id="tagTarget">
+          <option value="0">None/General</option>
+          <option value="1">The NPC</option>
+          <option value="2">Lover</option>
+          <option value="3">Friend</option>
+          <option value="4">Stranger</option>
+          <option value="5">Enemy</option>
+          <option value="6">Nemisis</option>
+          <option value="0">None/General</option>
+        </select>
+      </td><td style="width:25%;">
+        @@.h4;Tense@@
+        <select id="tagTense">
+          <option value="0">Present</option>
+          <option value="1">Future</option>
+          <option value="2">Near Future</option>
+          <option value="3">Recent Past</option>
+          <option value="4">Past</option>
+          <option value="5">Dist Past</option>
+          <option value="0">Present</option>
+        </select>
+      </td><td>
+        @@.h4;Ethics@@
+        <select id="tagEthic">
+          <option value="0">None/NA</option>
+          <option value="1">V Good</option>
+          <option value="2">Good</option>
+          <option value="3">Neutral</option>
+          <option value="4">Bad</option>
+          <option value="5">V Bad</option>
+          <option value="0">None/NA</option>
+        </select>
+      </td>
+    </tr><tr>
+      <td>
+        @@.h4;Loyalty@@
+        <select id="tagLoyal">
+          <option value="0">None/NA</option>
+          <option value="1">V Loyal</option>
+          <option value="2">Loyal</option>
+          <option value="3">Neutral</option>
+          <option value="4">Disloyal</option>
+          <option value="5">V Disloyal</option>
+          <option value="0">None/NA</option>
+        </select>
+      </td><td>
+        @@.h4;Social@@
+        <select id="tagSocial">
+          <option value="0">None/NA</option>
+          <option value="1">Crowd/Party</option>
+          <option value="2">Group</option>
+          <option value="3">Intimate</option>
+          <option value="4">Alone</option>
+          <option value="0">None/NA</option>
+        </select>
+      </td><td>
+        @@.h4;Fancy@@
+        <select id="tagFancy">
+          <option value="0">None/NA</option>
+          <option value="1">Fancy</option>
+          <option value="2">Nice</option>
+          <option value="3">Casual</option>
+          <option value="4">Sloppy</option>
+          <option value="5">Crude</option>
+          <option value="0">None/NA</option>
+        </select>
+      </td><td>
+        @@.h4;Attractiveness@@
+        <select id="tagAtr">
+          <option value="0">None/NA</option>
+          <option value="1">Perfect</option>
+          <option value="2">Sexy/Hot</option>
+          <option value="3">Attractive</option>
+          <option value="4">Neutral</option>
+          <option value="5">Unattractive</option>
+          <option value="6">Ugly/Nasty</option>
+          <option value="7">Squick/Disgust</option>
+          <option value="0">None/NA</option>
+        </select>
+      </td>
+    </tr>
+  </table>
+  <table>
+    <tr>
+      <td colspan=2><b style="color:deepskyblue;">QUERY INPUT TAGS:</b></td>
+      <td><input type="checkbox" id="checker1">01 speak</td>
+      <td><input type="checkbox" id="checker2">02 get</td>
+      <td><input type="checkbox" id="checker3">03 travel</td>
+      <td><input type="checkbox" id="checker4">04 create</td>
+      <td><input type="checkbox" id="checker5">05 people</td>
+      <td><input type="checkbox" id="checker6">06 give</td>
+      <td><input type="checkbox" id="checker7">07 steal</td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" id="checker8">08 sex</td>
+      <td><input type="checkbox" id="checker9">09 violence</td>
+      <td><input type="checkbox" id="checker10">10 eat</td>
+      <td><input type="checkbox" id="checker11">11 child</td>
+      <td><input type="checkbox" id="checker12">12 sleep</td>
+      <td><input type="checkbox" id="checker13">13 time</td>
+      <td><input type="checkbox" id="checker14">14 party</td>
+      <td><input type="checkbox" id="checker15">15 cheat</td>
+      <td><input type="checkbox" id="checker16">16 stop</td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" id="checker17">17 clean</td>
+      <td><input type="checkbox" id="checker18">18 work</td>
+      <td><input type="checkbox" id="checker19">19 health</td>
+      <td><input type="checkbox" id="checker20">20 emotion</td>
+      <td><input type="checkbox" id="checker21">21 learn</td>
+      <td><input type="checkbox" id="checker22">22 life</td>
+      <td><input type="checkbox" id="checker23">23 bind</td>
+      <td><input type="checkbox" id="checker24">24 drink</td>
+      <td><input type="checkbox" id="checker25">25 play</td>
+    </tr>
+  </table>

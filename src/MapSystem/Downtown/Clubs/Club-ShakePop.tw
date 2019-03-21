@@ -1,0 +1,500 @@
+/*
+//  ███████╗██╗  ██╗ █████╗ ██╗  ██╗███████╗
+//  ██╔════╝██║  ██║██╔══██╗██║ ██╔╝██╔════╝
+//  ███████╗███████║███████║█████╔╝ █████╗
+//  ╚════██║██╔══██║██╔══██║██╔═██╗ ██╔══╝
+//  ███████║██║  ██║██║  ██║██║  ██╗███████╗
+//  ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
+//
+//     ██╗       ██████╗  ██████╗ ██████╗
+//     ██║       ██╔══██╗██╔═══██╗██╔══██╗
+//  ████████╗    ██████╔╝██║   ██║██████╔╝
+//  ██╔═██╔═╝    ██╔═══╝ ██║   ██║██╔═══╝
+//  ██████║      ██║     ╚██████╔╝██║
+//  ╚═════╝      ╚═╝      ╚═════╝ ╚═╝
+*/
+
+:: DowntownClubShakeEntrance [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPshakenpop]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p>
+@@.head3;Y@@ou stand in the dark passage that leads to the club.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+    <<button "Go out">><<gotomap "downtown" "club" "main">><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Leave the club.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+  <<mapEventDowntownAct>>
+<</timed>>
+
+:: DowntownClubShakeEntranceLOC [nobr]
+
+Besty didn't create anything for this one! Don't worry, we'll get some fun stuff here soon!
+
+:: DowntownClubShakeDance [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPshakenpop]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p>
+@@.head3;P@@assing the guard you walk inside the club. After going through a dark passage loud music and lights stuns you for a moment but soon you get used to it. Bunch of people on a dancefloor having pretty much fun.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+    <<if ↂ.pc.status.energy.amt < 2>>
+    @@.disabled;<<button "Dance [Too tired]">><</button>>@@
+  <<else>>
+    <<button "Dance">>
+      <<dialog "Dancing">>
+        <<include [[DowntownClubShakeDanceMenu]]>>
+      <</dialog>>
+    <</button>>
+  <</if>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Join the crowd on a dancefloor<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+  <<mapEventDowntownAct>>
+<</timed>>
+
+:: DowntownClubShakeDanceLOC [nobr]
+
+Besty didn't create anything for this one! Don't worry, we'll get some fun stuff here soon!
+
+:: DowntownClubShakeDanceMenu [nobr map]
+
+<center>
+[IMG[IMG-Dancing]]
+</center>
+<br>
+<<button "Dance freely [30min, +Happy, -Energy, -Lonely]">>
+<<status 1>>
+  <<set ↂ.pc.status.lonely -= random(5,7)>>
+  <<if ↂ.pc.status.lonely < 0>>
+    <<set ↂ.pc.status.lonely = 0>>
+  <</if>>
+  <<set _randomtime = random(25, 35)>>
+  <<set _randomhappy = random(0, 3)>>
+  <<if _randomhappy === 3>>
+    <<happy 1>>
+  <</if>>
+  <<SCX>>
+  <<SC "DA">>
+  <<if $SCresult[1]>>
+  <<run setup.notify("You danced for some time. You managed to catch up with the movements and overall did pretty well.")>>
+  <<else>>
+  <<run setup.notify("You danced for some time. You failed tripping over a couple of times and overall did not blend in with the crowd.")>>
+  <<stress 5>>
+  <<happy -1>>
+  <</if>>
+  <<addTime _randomtime>>
+  <<set ↂ.pc.status.energy.amt -= 2>>
+  <<status>>
+  <<updatebar>>
+  <<run Dialog.close()>>
+<</button>>
+&nbsp;Just enjoy the moving rhytmically along with other human beeings.
+<br>
+<<button "Dance suggestive [20min, -Energy]">>
+  <<set _randomtime = random(15, 25)>>
+  <<set _randomhappy = random(0, 3)>>
+  <<if _randomhappy === 3>>
+    <<happy 1>>
+  <</if>>
+  <<SCX>>
+  <<SC "DA">>
+  <<SC "SD">>
+  <<if $SCresult[1] && $SCresult[2]>>
+  <<run setup.notify("You danced pretty well and attracted attention of NPC. But that part is not ready yet :(")>>
+  <<else>>
+  <<run setup.notify("You danced for some time. You failed in attracting any attention. Nobody seems intrested in you. Nobody.")>>
+  <<stress 6>>
+  <<happy -1>>
+  <</if>>
+  <<addTime _randomtime>>
+  <<set ↂ.pc.status.energy.amt -= 2>>
+  <<updatebar>>
+  <<run Dialog.close()>>
+<</button>>
+&nbsp;Dance suggestive to attract some attention.
+<br>
+
+:: DowntownClubShakeBar [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPshakenpop]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p>
+@@.head3;Y@@ou sit on the empty bar stool and look at the drink card written on the chalkboard.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+    <<button "Take a drink">><<dialog "Shake & Pop Bar">><<print setup.food.bar("shakepop")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise looksie>>
+  <<button "Browse the alcohol">><<dialog "Shake & Pop">><<addTime 3>><center>You see all the standard brands of alcohol you'd expect to see in a club, and precious little else. No fine spirits here.<br>[img[IMG-SpermovVodka]]</center><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Go to the bar and order something flammable.<<endinsertion>>
+<<insertion looksie>>Just take a quick look at the alcohol lining the shelves of the bar.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+  <<mapEventDowntownAct>>
+<</timed>>
+
+:: DowntownClubShakeBarLOC [nobr]
+
+<center>[img[IMG-FreeDrinks]]</center><br>
+
+Some girl is clearly determinated to get some drinks for free.
+
+:: DowntownClubShakeWC [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPshakenpop]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p>
+@@.head3;Y@@ou enter the toilet which seems surprisingly empty.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+    <<button "Stall">><<dialog "Stall">><<include [[DowntownClubShakeWCStall]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+    <<button "Mirror">><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Go to the free stall.<<endinsertion>>
+<<insertion beta>>Look at yourself in the mirror.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+  <<mapEventDowntownAct>>
+<</timed>>
+
+:: DowntownClubShakeWCLOC [nobr]
+
+<center>[img[IMG-UnisexUrinal]]</center>
+You take a look at the unisex urinals. Frankly they're pretty convenient, and not having to wait in line for the bathroom at any public event, bar, or club is great. <<has "slut || sizeQueen">>@@.mono;And because they're unisex, I get to check out the guy's packages while I'm in here!@@<<or>>@@.mono;I'm not entirely convinced about using them in a unisex bathroom, but I guess with a skirt the men would never see anything anyway.@@<</has>>
+
+:: DowntownClubShakeWCStall [nobr]
+
+<div id="stallReplace">
+<center>[img[IMG-Gloryhole]]</center>
+There is a hole in the wall of the stall.<<has "slut">>@@.mono;Oh, I would certainly like to use it!@@<<orhas "shame">>@@.mono;Eww, this is disgusting!@@<<or>>@@.mono;Wow, a gloryhole! I wonder if it is popular...@@<</has>>
+<br><<button "Wait">><<replace "#stallReplace">><<addTime 14>><<include [[DowntownClubShakeWCStallHole]]>><</replace>><</button>>
+<<button "Go out">><<run Dialog.close()>><</button>>
+</div>
+
+:: DowntownClubShakeWCStallHole [nobr]
+
+<center>[img[IMG-Gloryhole]]</center>
+<<set _wait = random(0, 1)>>
+<<if _wait === 0>>
+  After waiting for some time you hear that somebody entered the adjacent stall.
+  <<dialogchoice>>
+      <<dbutt "Ask">><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleFull]]>><</replace>>
+      <<dtext "bimbo">>Ask the person to shove his dick into the hole
+      <<dbutt "Go out">><<run Dialog.close()>>
+      <<dtext "muted">>Go away from the stall.
+  <</dialogchoice>>
+<<else>>
+  You wait for some time. You hear a lot of people visiting WC but nobody comes to the stall next to yours.<br>
+  <<button "Wait more">><<replace "#stallReplace">><<addTime 14>><<include [[DowntownClubShakeWCStallHole]]>><</replace>><</button>>
+  <<button "Go out">><<updatebar>><<run Dialog.close()>><</button>>
+<</if>>
+
+
+:: DowntownClubShakeWCStallHoleFull [nobr]
+
+<<set _sex = random(0, 1)>>
+<<if _sex === 0>>
+  <<SCX>><<SC "SD" 5>>
+  <<if $SCresult[1]>><<set _cocksize = random(0, 2)>>
+    <center>[img[IMG-GloryholeFull]]</center>
+    <<has "shame">>@@.mono;I can't believe I am doing it...@@<br>
+    @@.pc;H-hello there... maybe you would like to get your uhm... cock sucked or something?@@<br>
+    <<or>>@@.pc;Hey, mister, wanna have some fun?@@<br><</has>>
+    @@.npc;You... you mean through this hole?@@<br>
+    <<has "shame">>@@.pc;Uhm, yes...@@<br><<or>>@@.pc;Yeah! Shove your meatstick here and I'll care about it!@@<br><</has>>
+    @@.npc;Oh, for free?@@<br>
+    @@.pc;No strings attached!@@<br>
+    You hear zipper sound and in seconds guy shoves his <<if _cocksize === 0>>big cock through the hole.<br><<has "sizeQueen">>@@.mono;Oh yeah, that is some serious beast to tame!@@<<or>>@@.mono;Oh my, I hope it will fit!@@<</has>><<elseif _cocksize === 1>>average cock through the hole.<<else>>small cock through the hole.<<has "sizeQueen">>@@.mono;Damn, this peepee is just tiny! Well, every cock is valuable, right? Right?@@<<or>>@@.mono;Poor guy... well maybe I'll be able to cheer him up!@@<</has>><</if>>
+    <<dialogchoice>>
+      <<dbutt "Suck">><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleSuck]]>><</replace>>
+      <<dtext "surprised">>Show your blowjob skills!
+      <<dbutt "Handjob">><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleHand]]>><</replace>>
+      <<dtext "slut">>Work it!
+      <<dbutt "Go out">><<run Dialog.close()>>
+      <<dtext "muted">>Go away from the stall.
+    <</dialogchoice>>
+  <<else>>
+    <center>[img[IMG-Gloryhole]]</center>
+    <<has "shame">>@@.mono;I can't believe I am doing it...@@
+    @@.pc;H-hello there... maybe you would like to get your uhm... cock sucked?@@
+    <<or>>@@.pc;Hey, mister, wanna have some fun?@@<</has>>
+    @@.npc;Are you a whore or something?@@<br>
+    @@.pc;No, It is...@@<br>
+    @@.npc;I am married man, you scunk! Get the fuck away before I called the cops!@@<br>
+    @@.mono;Oh shit.@@<br>
+    <<link "Go away">><<run Dialog.close()>><</link>><br>
+    <<link "Wait for another guy">><<updatebar>><<replace "#stallReplace">><<addTime 14>><<include [[DowntownClubShakeWCStallHole]]>><</replace>><</link>>
+  <</if>>
+<<else>>
+  <center>[img[IMG-Gloryhole]]</center>
+  <<has "shame">>@@.mono;I can't believe I am doing it...@@<br>
+  @@.pc;H-hello there... maybe you would like to get your uhm... cock sucked?@@<br>
+  <<or>>@@.pc;Hey, mister, wanna have some fun?@@<br><</has>>
+  You hear female voice from the stall.<br>
+  @@.npc;Hey, are you completely crazy there?@@<br>
+  @@.mono;Oh shit.@@<br>
+  <<link "Go away">><<run Dialog.close()>><</link>><br>
+  <<link "Wait for the next visitor">><<updatebar>><<replace "#stallReplace">><<addTime 14>><<include [[DowntownClubShakeWCStallHole]]>><</replace>><</link>>
+<</if>>
+
+:: DowntownClubShakeWCStallHoleSuck [nobr]
+
+<center>[img[IMG-GloryholeSuck]]</center>
+<<SCX>><<SC "OR" 15>><<addtime 11>>
+<<if $SCresult[1]>>You start licking the shaft and it get throbbing hard in no time. Working your tongue around the helmet you taste the first salty drips of the precum.<<has "oral">><br>@@.mono;Mm, this taste is delicious!@@<<or>><br>@@.mono;Eww, it tastes awful!@@<</has>><br>@@.npc;Oh, baby, you are good at this! Don't stop!@@<br>Getting enough licking you get straight to the sucking. His cockhead dissapears passing your tight lips and the guy moans. Rhytmically working his shaft you <<has "oral">><<arouse 2>>feel pretty aroused enjoying the process.<<or>>feel pretty awkward staying on your knees on the cold stall floor sucking stranger's cock.<br>@@.mono;Ugh, why did I ever decided to do that? I hate sucking cocks!@@<br><</has>>You feel that the guy meatpole got even harder and it seems he is ready to burst any moment now.<br>@@.npc;Oh yeah, oh yeah, I am... I am coming!@@<br><<run setup.omni.new("cumMouth")>><<set ↂ.pc.status.addict.cum += 2>>Your mouth is filling with cum and <<has "slut">><<set ↂ.pc.status.addict.cum += 3>>you savor the taste of salty thick liquid before happilly gulping it.<<orhas "shame">>you feel terribly lewd with that icky taste in your mouth and try to spew it on the floor.<<or>><<set ↂ.pc.status.addict.cum += 2>>after some moment of reluctance you swallow it.<</has>><br>@@.npc;Phew! That's my girl! You are the best on giving head, you know?@@<br>With visible efforts guy retracts his cock back from the hole and <<SCX>><<SC "PR" 15>><<if $SCresult[1]>><<set _money = random(7, 20)>> shoves some money into the gloryhole.<br>@@.npc;I know you said it is free, but I feel like... ugh... helping you with some money, just as... well as a sign of graditude.@@<br>After you take the money he go out of his stall leaving you with cum on your lips and @@.money;<<mon>><<print _money>>@@ in your hand.<<run aw.cash(_money, "whoring")>><<else>> leaves his stall.<</if>>
+<br><<link "Go away">><<run Dialog.close()>><<updatebar>><</link>><br>
+<<link "Wait for another guy">><<updatebar>><<replace "#stallReplace">><<addTime 14>><<include [[DowntownClubShakeWCStallHole]]>><</replace>><</link>>
+<<else>>
+You start licking the shaft but it seems you are not so perfect in this and it takes time until the guy finally gets hard. You suck it for some time trying to do your best.<br>@@.npc;Ugh, baby, you should try to help it with hands also.@@<br>Following his advice you start jerking guy's cock with your hands still sucking his cockhead.<br>@@.npc;Yeah, so much better! Oh, yeah, don't stop...@@It takes you time to get him to the point and he starts cumming.<<run setup.omni.new("cumMouth")>><<set ↂ.pc.status.addict.cum += 2>>Your mouth is filling with cum and <<has "slut">><<set ↂ.pc.status.addict.cum += 3>>you savor the taste of salty thick liquid before happilly gulping it.<<orhas "shame">>you feel terribly lewd with that icky taste in your mouth and try to spew it on the floor.<<or>><<set ↂ.pc.status.addict.cum += 2>>after some moment of reluctance you swallow it.<</has>><br>@@.npc;Oh, well at least you are better with this than my ex. Thanks... I guess.@@<br>With visible efforts guy retracts his cock back from the hole and leaves his stall.
+<br><<link "Go away">><<run Dialog.close()>><<updatebar>><</link>><br>
+<<link "Wait for another guy">><<updatebar>><<replace "#stallReplace">><<addTime 14>><<include [[DowntownClubShakeWCStallHole]]>><</replace>><</link>>
+<</if>>
+
+:: DowntownClubShakeWCStallHoleHand [nobr]
+
+<center>[img[IMG-GloryholeHand]]</center>
+<<SCX>><<SC "PR" 15>><<addtime 11>>
+You get down on your knees and start gently touching his cock. <<has "shame">><br>@@.mono;I feel so embarassed!@@<br>It gets hard and you have no choice now than start jerking it.<<or>>It gets throbbing hard soon and you spit on a cockhead to lubricate it.<</has>>Working your fingers along the shaft you force the guy to moan.<br>@@.npc;Yeah, jerk it, baby!@@<br>You pick up the pace and soon guy groan and start shooting his load right on your face.<br>@@.npc;That was really cool, whore!@@<br>With visible efforts guy retracts his cock back from the hole and<<if $SCresult[1]>><<set _money = random(7, 20)>> shoves some money into the gloryhole.<br>@@.npc;I know you said it is free, but I feel like... ugh... helping you with some money, just as... well as a sign of graditude.@@<br>After you take the money he go out of his stall leaving you with cum on your face and @@.money;<<mon>><<print _money>>@@ in your hand.<<run aw.cash(_money, "whoring")>><<else>> leaves his stall.<</if>>
+<<run setup.condition.add("face", 4, "pc", 5, "cum")>>
+<br><<link "Go away">><<run Dialog.close()>><<updatebar>><</link>><br>
+<<link "Wait for another guy">><<updatebar>><<replace "#stallReplace">><<addTime 14>><<include [[DowntownClubShakeWCStallHole]]>><</replace>><</link>>
+
+:: DowntownClubShakeChill [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPshakenpop]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p>
+@@.head3;Y@@ou enter the chillout zone of Shake & Pop. Place is decorated with modern looking red coaches and small tables.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+    <<button "Relax on the couch [15min] +Energy">><<set _randomtime = random(13, 17)>><<addTime _randomtime>><<set _randomenergy = random(0, 1)>><<set ↂ.pc.status.energy.amt += _randomenergy>><<run setup.notify("You rest on the couch for some time.")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Just relax in the chillout zone.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+  <<mapEventDowntownAct>>
+<</timed>>
+
+:: DowntownClubShakeChillLOC [nobr]
+
+This view is temporarily empty.
+

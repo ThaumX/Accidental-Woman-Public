@@ -1,0 +1,436 @@
+
+:: DowntownMallVoid [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmall]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<div id="storeWindow">
+[img[IMG-PleasureBuzzer]]
+</div>
+/*<p><<walkDescriptDowntown>> <<mapEventDowntown>></p>*/
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<<print setup.weather.curWeather()>>
+</p>
+<p>
+@@.head3;Y@@ou're standing in the "Pleasure Buzzer" arcade, most of the machines are off due to maintenance but some are beeping invitingly.<br><br>
+You feel a tickling, almost wet feeling on your inner thigh. You jump, startled, and instinctively slap at the spot as if to knock away whatever caused the sensation. Oddly, you barely feel the impact of your hand despite smacking your delicate inner thigh quite strongly. Lifting your hand, you notice a smear of slimy whitish goo that must've come from your thigh.<br><br>
+You move over near the wall and explore your lower body frantically looking for whatever the thing was. Aside from more of the strange goo on your thigh and groin, you find no trace of anything that could have left it behind. After a double and triple check without finding anything, you decide that you must have knocked it away--whatever it was--when you jumped and smacked at it.
+<<set ↂ.flag.parasite = true;>>
+</p>
+<p id="locact"></p><<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+
+<<hoverrevise alpha>>
+<<if $AW.cash > 1>>
+  <<button "Weegirl">><<run aw.cash(-1, "misc")>><<go "WeeGirlArcade">><</button>>
+<<else>>
+  @@.disabled;<<button "Weegirl [Not enough money]">><</button>>@@
+<</if>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  @@.disabled;<<button "Cockmongering">><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise delta>>
+  <<if $AW.cash > 0>>
+    <<button "Tomfuckery">><<run aw.cash(-1, "misc")>><<addTime 15>><<go "TomfuckeryArcade">><</button>>
+  <<else>>
+    @@.disabled;<<button "Tomfuckery [Not enough money]">><</button>>@@
+  <</if>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+
+/*
+<<hoverrevise gamma>>
+  <<button "">><</button>>
+<<endhoverrevise>>
+<<hoverrevise lambda>>
+  <<button "">><</button>>
+<<endhoverrevise>>
+<<hoverrevise phi>>
+  <<button "">><</button>>
+<<endhoverrevise>>
+*/
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Play the old arcade game funded by W.E.E. corporation to promote their brand. Still popular this days. 1₢ per game. [7+ minutes]<<endinsertion>>
+<<insertion beta>>Play new "Cockmongering" arcade. It seems the controls were broken so the machine is off. 2₢ per game. [5 minutes]<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+<<insertion delta>>Play the newest arcade game from Tomfuckery Interactive. Costs 1₢ to play. [15 minutes]<<endinsertion>>
+</div>
+
+/*
+<<insertion gamma>>A<<endinsertion>>
+<<insertion lambda>>O<<endinsertion>>
+<<insertion phi>>A<<endinsertion>>
+*/
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+  <<mapEventDowntownAct>>
+<</timed>>
+
+
+:: DowntownMallVoidLOC [nobr]
+
+<<if setup.omni.matching("Vaginal Parasite") === 0>>
+<<script>>
+  setup.omni.new({
+    name: "Vaginal Parasite",
+    type: "recurring",
+    output: "none",
+    interval: 60,
+    times: 12,
+    icon: "IMGstatus_PregnantAlien",
+    text: "A parasite is attempting to bond with your body!",
+    run: `setup.status.arousal(1);
+      if (this.times <= 0 && !Dialog.isOpen()) {
+        UI.alert("The vaginal parasite fails the permanently bond to your body, and dies.");
+      }`,
+  });
+<</script>>
+<</if>>
+<center>
+I wonder...<br>
+[img[IMG-VaginalParasite]]
+</center>
+
+
+:: TomfuckeryArcade [nobr hidden noui]
+
+<div id="cardback">
+<center><<button "RETURN to PLEASURE BUZZER">><<go "DowntownMallVoid">><</button>> | <<button "REFRESH">><<go "TomfuckeryArcade">><</button>></center>
+<iframe id="tomfuckery" src="resources/Tomfuckery/tomfuckery.html">
+If you are seeing this, it means that you need to download the optional tomfuckery game. By accident it was excluded from the compiled resource files. You can download it from the same place you downloaded this game.
+</iframe>
+
+</div>
+
+
+:: WeeGirlArcade [nobr noui hidden]
+
+<<addTime 7>>
+<<set _random = random(0, 10)>>
+<<if _random > 7>>
+  <<happy +1>>
+<</if>>
+
+<div id="weegirlPage" style="width:100%;height:100%;">
+  <<button "BACK">><<go "DowntownMallVoid">><</button>>
+  <<if $AW.cash > 1>>
+  <<button "Play again - 1₢">><<set $AW.cash -= 1>><<go "WeeGirlArcade">><</button>>
+  <<else>>
+  @@.disabled;<<button "Play again [Not enough money]">><</button>>@@
+  <</if>>
+    <div id="machine">
+  <div id="container">
+    <div id="can">
+      <div id="weegirl"><img src="data:image/gif;base64,R0lGODlhKAAoAJEAABWdVxhNMf///wAAACH5BAEAAAIALAAAAAAoACgAAALOlI+py+0PFZjA0Iuzpe7uDHKC14RXEJhgpwJoi7EhStepKYO2rebb6+IFJxsIaQLcIW/FCHE0DNaWz6remAk0Kgc3IYblTYr0SaXg6JpfRaDWLTbO6ERkxiY6Vl0/C+zefhqdVd8P15ydYeMNHlaaRAKaoNcn0xxCJaZaJtxYHg4GGmOX5SREqklhlJvYj1Kl6Zhhp+GoaKxdyGTXrehhTstvC8rYoDHyV2bbwqJvs2YwKDEcLCXg1XVnWJe2pPNdJqfddKqpGHv2drr6uUAAAOw=="></div>
+		<div id="monster"><img src="data:image/gif;base64,R0lGODlhKAAoAJEAABhMMRWdVxhNMf///yH/C05FVFNDQVBFMi4wAwEAAAAh/wtYTVAgRGF0YVhNUDw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NEFFQjIwMkVENzI1MTFFODg0Qzg5NkFGQTJBNDk2NjUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NEFFQjIwMkZENzI1MTFFODg0Qzg5NkFGQTJBNDk2NjUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0QUVCMjAyQ0Q3MjUxMUU4ODRDODk2QUZBMkE0OTY2NSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0QUVCMjAyREQ3MjUxMUU4ODRDODk2QUZBMkE0OTY2NSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgH//v38+/r5+Pf29fTz8vHw7+7t7Ovq6ejn5uXk4+Lh4N/e3dzb2tnY19bV1NPS0dDPzs3My8rJyMfGxcTDwsHAv769vLu6ubi3trW0s7KxsK+urayrqqmop6alpKOioaCfnp2cm5qZmJeWlZSTkpGQj46NjIuKiYiHhoWEg4KBgH9+fXx7enl4d3Z1dHNycXBvbm1sa2ppaGdmZWRjYmFgX15dXFtaWVhXVlVUU1JRUE9OTUxLSklIR0ZFRENCQUA/Pj08Ozo5ODc2NTQzMjEwLy4tLCsqKSgnJiUkIyIhIB8eHRwbGhkYFxYVFBMSERAPDg0MCwoJCAcGBQQDAgEAACH5BAUyAAMALAAAAAAoACgAAALInI+py70Bg5v0RFmzgqILqIUD54EiRV7dxWJnGq1t9AbAXdrevpsZ2dPxeL5GCzdMDosbFlIJ/bgqwGdUFqpeiVOGCvDVQpmJcEy6xVKnYrEaxRbmlGS41Z2r3remLbnm2t1VnAfiEF/Qj9xU16KV4xujneHNhcCjV+EdJM8LHlWmpYzLqKYNoJIpBSvfoUEkYGtQmSVi0mjN7ggCz6wmK+tbZpyss1WSmZ/yHLMILrJyV6iqtUTVoTTuZ99BaPePYEh3OPU5MXAAAIfkEBTIAAwAsEgAXAAwACgAAAhmMM6kihzvYMklCGu1qcPPOYGDzjCIUlkoBADs="></div>
+		<div id="vent"><img src="data:image/gif;base64,R0lGODlhKAAoAJEAABhNMRWdV////wAAACH/C05FVFNDQVBFMi4wAwEAAAAh/wtYTVAgRGF0YVhNUDw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDpEQUM3OENFOEMxRDZFODExQTY4NEMxNzJGNUMyNjU1MyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFQkNGNzg2Q0Q3MjUxMUU4QkE1MTlBODFBNTA1QUQ1MSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFQkNGNzg2QkQ3MjUxMUU4QkE1MTlBODFBNTA1QUQ1MSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjRENUZEQkQ3MjVEN0U4MTFBNjg0QzE3MkY1QzI2NTUzIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkRBQzc4Q0U4QzFENkU4MTFBNjg0QzE3MkY1QzI2NTUzIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Af/+/fz7+vn49/b19PPy8fDv7u3s6+rp6Ofm5eTj4uHg397d3Nva2djX1tXU09LR0M/OzczLysnIx8bFxMPCwcC/vr28u7q5uLe2tbSzsrGwr66trKuqqainpqWko6KhoJ+enZybmpmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgoGAf359fHt6remh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYWBfXl1cW1pZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBQD8+PTw7Ojk4NzY1NDMyMTAvLi0sKyopKCcmJSQjIiEgHx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQAAIfkECTIAAgAsAAAAACgAKAAAApSUj6nL7Q+jnLTaF7K+U29+ZWAljmRgdmgqlI4LwowcrghNU7h95NE+4+mELaLBB4Ehixylsfccsn5Rlcfz+kiu1+zyFgCIAZkxmYc9mctj5zfBjofP4ne2PpfjR2y8Z12VNOenAcjHtYIYiIF41BgzePbXtnhHObkHibdJd3bIqedp0teZmUKKWmn1OOWo2Aoby1EAACH5BAUyAAIALAIABgAgACAAAAJ9lI95wa0PU3OxGgaxzYFvH2nf0oXlKFpptZroKcGX/LSzYn95vu10/yONEDxBaoIMvpJFVgAABTCiUqWRMqNOo8VJtgrdimHeWPgJTh+xJC3S/XJP4DrmLLlE3vV1eYMO5Ld1FqeGNlY4dkY4NJjGOHTlBhh5xWQFdFkpUAAAOw=="></div>
+      <span id="Texter">❤ 0</span>
+    </div>
+    
+    <div id="controls">Control with <span style="color: white;">arrows</span>. Collect the vents, don't get caught! W.E.E. LLC, 2027</div>
+    <div id="endgame">
+      <img data-passage="IMG-WeegirlEndGame">
+      <div id="over">
+        <span id="served"></span>
+      </div>
+    </div>
+  </div>
+  <img data-passage="IMG-WeeGirlMachine" id="WeeGirlMachine">
+</div>
+</div>
+
+<script>
+if (true) {
+let Speed = 50;
+let difficulty = 20;
+let mCount = difficulty;
+let IfEndgame = false;
+let Score = 0;
+let VentCount = true;
+const PlayerPosition = [2,2];
+const PlayerMap = [
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+];
+const MonsterPosition = [6,6];
+const MonsterHistory = [1,1];
+let MonsterJump = false;
+const MonsterMap = [
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+];
+const WorldMap = [
+	[0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
+	[0, 1, 0, 1, 1, 1, 0, 1, 1, 0],
+	[0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
+	[1, 1, 1, 1, 0, 1, 0, 0, 0, 1],
+	[0, 0, 0, 0, 0, 1, 1, 1, 0, 1],
+	[0, 1, 1, 0, 1, 1, 0, 0, 0, 0],
+	[0, 1, 0, 0, 0, 1, 0, 1, 1, 0],
+	[0, 1, 0, 1, 0, 0, 0, 0, 1, 0],
+	[0, 0, 0, 1, 1, 1, 0, 1, 1, 0],
+	[0, 1, 1, 1, 0, 0, 0, 0, 0, 0]
+];
+let GirlX = [];
+let GirlY = [];
+let MonsterX = [];
+let MonsterY = [];
+
+
+var Texter = document.getElementById("Texter");
+var Fail = document.getElementById("fail");
+var Served = document.getElementById("served");
+var Endgame = document.getElementById("endgame");
+
+
+var Girl = document.getElementById("weegirl");
+var Monster = document.getElementById("monster");
+var Vent = document.getElementById("vent");
+var Mach = document.getElementById("WeeGirlMachine");
+Mach.style = "top: -420px;";
+let Keyboard = function(e) {
+  switch (e.keyCode) {
+    case 38: /* up*/
+    	PlayerMap[PlayerPosition[0]][PlayerPosition[1]] = 0;
+    	if (PlayerPosition[0] != 0){
+    		if (WorldMap[(PlayerPosition[0] - 1)][PlayerPosition[1]] != 1) {
+		    	PlayerPosition[0] -= 1;
+		    	GirlY -= 40;
+		    }
+    	}
+      	break;
+    case 39: /* right*/
+    	PlayerMap[PlayerPosition[0]][PlayerPosition[1]] = 0;
+    	if (PlayerPosition[1] != 9){
+    		if (WorldMap[PlayerPosition[0]][(PlayerPosition[1] + 1)] != 1) {
+		    	PlayerPosition[1] += 1;
+		    	GirlX += 40;
+    		}
+    	}
+      	break;
+    case 40: /* down*/
+    	PlayerMap[PlayerPosition[0]][PlayerPosition[1]] = 0;
+    	if (PlayerPosition[0] != 9){
+		    if (WorldMap[(PlayerPosition[0] + 1)][PlayerPosition[1]] != 1) {
+		    	PlayerPosition[0] += 1;
+		    	GirlY += 40;
+		    }
+    	}
+      	break;
+	case 37: /* left*/
+		PlayerMap[PlayerPosition[0]][PlayerPosition[1]] = 0;
+    	if (PlayerPosition[1] != 0){
+    		if (WorldMap[PlayerPosition[0]][(PlayerPosition[1] - 1)] != 1) {
+		    	PlayerPosition[1] -= 1;
+		    	GirlX -= 40;
+		    }
+    	}
+		break;
+	}
+	PlayerMap[PlayerPosition[0]][PlayerPosition[1]] = 1;
+ 	Girl.style="left:" + GirlX + "px;"+"top:" + GirlY + "px";
+ 	if (WorldMap[PlayerPosition[0]][PlayerPosition[1]] === 2) {
+    Score++;
+    difficulty--;
+ 		Texter.innerHTML = "❤ " + Score;
+ 		Texter.style.color = "#fff";
+ 		WorldMap[PlayerPosition[0]][PlayerPosition[1]] = 0;
+ 		VentsGenerator();
+ 	}
+};
+
+let VentsGenerator = function() {
+	const RandomX = (Math.floor(Math.random() * (10 - 1)) + 1) - 1;
+	const RandomY = (Math.floor(Math.random() * (10 - 1)) + 1) - 1;
+	if (WorldMap[RandomY][RandomX] != 1 && WorldMap[RandomY][RandomX] != 2) {
+		WorldMap[RandomY][RandomX] = 2;
+		let VentX = (40*(RandomX));
+		let VentY = (40*(RandomY));
+		Vent.style="left:" + VentX + "px;"+"top:" + VentY + "px";
+
+	} else {
+		VentsGenerator();
+	}
+};
+
+let MonsterMover = function() {
+  MonsterMap[MonsterPosition[0]][MonsterPosition[1]] = 0;
+  const dir = [];
+  const avail = ["can you?"];
+  if (MonsterPosition[0] !== 0 && WorldMap[MonsterPosition[0] - 1][MonsterPosition[1]] === 0) {
+    avail.push(true);
+  } else {
+    avail.push(false);
+  }
+  if (MonsterPosition[1] !== 9 && WorldMap[MonsterPosition[0]][MonsterPosition[1] + 1] === 0) {
+    avail.push(true);
+  } else {
+    avail.push(false);
+  }
+  if (MonsterPosition[0] !== 9 && WorldMap[MonsterPosition[0] + 1][MonsterPosition[1]] === 0) {
+    avail.push(true);
+  } else {
+    avail.push(false);
+  }
+  if (MonsterPosition[1] != 0 && WorldMap[MonsterPosition[0]][MonsterPosition[1] - 1] === 0) {
+    avail.push(true);
+  } else {
+    avail.push(false);
+  }
+  if (MonsterJump && avail[MonsterHistory[1]]){
+    dir.push(MonsterHistory[1]);
+    MonsterJump = false;
+  } else {
+    if (MonsterPosition[0] > PlayerPosition[0] && avail[1]) {
+      dir.push(1);
+    }
+    if (MonsterPosition[0] < PlayerPosition[0] && avail[3]) {
+      dir.push(3);
+    }
+    if (MonsterPosition[1] > PlayerPosition[1] && avail[4]) {
+      dir.push(4);
+    }
+    if (MonsterPosition[1] < PlayerPosition[1] && avail[2]) {
+      dir.push(2);
+    }
+    const cant = (dir.length === 0) ? true : false;
+    if (MonsterPosition[0] !== PlayerPosition[0] && cant) {
+      if (avail[4]) {
+        dir.push(4);
+      }
+      if (avail[2]) {
+        dir.push(2);
+      }
+      MonsterJump = true;
+    } else if (MonsterPosition[1] !== PlayerPosition[1] && cant) {
+      if (avail[1]) {
+        dir.push(1);
+      }
+      if (avail[3]) {
+        dir.push(3);
+      }
+      MonsterJump = true;
+    }
+  }
+  if (dir.length < 1) {
+    dir.push(Math.floor(Math.random() * 4) + 1); /*give up and move random*/
+  }
+  let LeftFoot;
+  if (dir.length === 1) {
+    LeftFoot = dir[0];
+  } else {
+    const r = Math.floor(Math.random() * dir.length);
+    LeftFoot = dir[r];
+  }
+  MonsterHistory.shift();
+  MonsterHistory.push(LeftFoot);
+	/* const LeftFoot = (Math.floor(Math.random() * (5 - 1)) + 1);*/
+	switch (LeftFoot) {
+    case 1: /* up*/
+    	if (MonsterPosition[0] != 0){
+    		if (WorldMap[(MonsterPosition[0] - 1)][MonsterPosition[1]] != 1) {
+		    	MonsterPosition[0] -= 1;
+		    	MonsterY -= 40;
+		    }
+    	}
+      	break;
+  	case 2: /* right*/
+    	if (MonsterPosition[1] != 9){
+    		if (WorldMap[MonsterPosition[0]][(MonsterPosition[1] + 1)] != 1) {
+		    	MonsterPosition[1] += 1;
+		    	MonsterX += 40;
+    		}
+    	}
+      	break;
+    case 3: /* down*/
+    	if (MonsterPosition[0] != 9){
+		    if (WorldMap[(MonsterPosition[0] + 1)][MonsterPosition[1]] != 1) {
+		    	MonsterPosition[0] += 1;
+		    	MonsterY += 40;
+		    }
+    	}
+      	break;
+	  case 4: /* left*/
+    	if (MonsterPosition[1] != 0){
+    		if (WorldMap[MonsterPosition[0]][(MonsterPosition[1] - 1)] != 1) {
+		    	MonsterPosition[1] -= 1;
+		    	MonsterX -= 40;
+		    }
+    	}
+		break;
+  	}
+  	MonsterMap[MonsterPosition[0]][MonsterPosition[1]] = 1;
+ 	Monster.style="left:" + MonsterX + "px;"+"top:" + MonsterY + "px";
+};
+
+
+
+let MainLoop = setInterval(function() {
+
+  mCount--;
+  if (mCount <= 0) {
+    MonsterMover();
+    mCount = difficulty;
+  }
+	Texter.style.color = "#159d57";
+
+	if (PlayerMap[MonsterPosition[0]][MonsterPosition[1]] === 1) {
+ 		IfEndgame = true;
+ 	}
+
+  	if (IfEndgame) {
+  		Endgame.style.display = "block";
+      Mach.style = "top: -820px;";
+  		Served.innerHTML = Score;
+  		clearInterval(MainLoop);
+    	removeEventListener("keydown", Keyboard);
+    	return false;
+      if (Score > 19) {
+        setup.achieve.new("weegirl");
+      }
+  	}
+}, Speed);
+
+
+addEventListener("keydown", Keyboard);
+/*addEventListener("keyup", KeyboardUp);*/
+VentsGenerator();
+GirlX = 80;
+GirlY = 80;
+MonsterX = 240;
+MonsterY = 240;
+};
+</script>

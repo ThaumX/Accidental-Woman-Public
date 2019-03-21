@@ -1,7 +1,7 @@
 :: RandomNumberTest [nobr startpage hidden]
 
 <<set _randerResult = false, _rander1 = 0, _rander2 = 0, _rander3 = 0, _rander4 = 0, _rander5 = 0, _rander6 = 0, _rander7 = 0, _rander8 = 0, _rander9 = 0, _rander0 = 0>>
-@@font-size:130%;[[RETURN|Start]]@@<br><br>
+@@font-size:1.3rem;[[RETURN|Start]]@@<br><br>
 This is a test designed to determine how random your browser's RNG method is. The way that each browser creates a pseudo-random number is different. All of them are generally plenty good-enough when it comes to creating a single random number. (Obviously, you probably shouldn't trust them for cryptography.) Some browsers, such as Firefox, base their RNG on the time. This is nice because it adds some randomness in because subsequent random numbers will have different time/date/etc, and the time for execution usually isn't strictly controlled.
 <br><br>
 But this can introduce a problem for games, particularly AW, which can call for a range of random numbers all within a very short time period. This can lead to "clumping" of the random numbers, because they are all being generated within the same second (or ms) as each other. So, let's test your browser to see if we get a fairly even distribution of numbers. @@.exp;^_^@@
@@ -182,7 +182,7 @@ function randomNumberTest(){
 }
 
 for (var i = 0; i < 100; i++){
-	setTimeout(randomNumberTest());
+	setTimeout(() => randomNumberTest());
 }
 while(randercount < 100);
 State.temporary["randerResult"]=true;
@@ -262,7 +262,7 @@ function randomNumberTest(){
 }
 
 for (var i = 0; i < 1000; i++){
-	setTimeout(randomNumberTest());
+	setTimeout(() => randomNumberTest());
 }
 while(randercount < 1000);
 State.temporary["randerResult"]=true;
@@ -344,14 +344,14 @@ var largerRanderCount = 0;
 	}
 
 	for (var i = 0; i < 1000; i++){
-		setTimeout(randomNumberTest());
+		setTimeout(() => randomNumberTest());
 	}
 	while(randercount < 1000);
 
 	largerRanderCount++;
 	}
 	for (var i = 0; i < 100; i++){
-		setTimeout(asyncRanderMarkTwo());
+		setTimeout(() => asyncRanderMarkTwo());
 	}
 	while(largerRanderCount < 100);
 	State.temporary["randerResult"]=true;
@@ -433,14 +433,14 @@ var largerRanderCount = 0;
 	}
 
 	for (var i = 0; i < 1000; i++){
-		setTimeout(randomNumberTest());
+		setTimeout(() => randomNumberTest());
 	}
 	while(randercount < 1000);
 
 	largerRanderCount++;
 	}
 	for (var i = 0; i < 1000; i++){
-		setTimeout(asyncRanderMarkTwo());
+		setTimeout(() => asyncRanderMarkTwo());
 	}
 	while(largerRanderCount < 1000);
 	State.temporary["randerResult"]=true;
@@ -475,4 +475,4 @@ Something went wrong somehow...
 <span id="random"></span>
 <br><br><br>
 @@.com;Not having very good random numbers doesn't mean that you can't play Accidental Woman! The usual problem with browser-based RNGs is clumping and uneven probability distribution. (i.e. a call for a random number from 1 to 10 should have a 10% chance of getting any particular number. An uneven distribution would make some numbers more likely than others.) Playing with a flawed RNG won't make the game unplayable, but it could make things easier or harder, and in particular can throw off weighted probabilities used for generating clothing and NPCs, resulting in a pool that is more random than it should be.@@
-<br><br>@@font-size:130%;[[RETURN|Start]]@@
+<br><br>@@font-size:1.3rem;[[RETURN|Start]]@@

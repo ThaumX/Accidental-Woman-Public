@@ -12,7 +12,7 @@
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptDowntown>> <<mapEventDowntown>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 <<case "sct">>
 <<case "ovc">>
@@ -27,12 +27,13 @@
 <<case "+sn">>
 <<default>>
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 <p>
 @@.head3;Y@@ou're standing on one of the several paths winding through the Samuel Steele Memorial Park. From here, you can still catch glimpses of the buildings outside the park, but in some areas the trees and brush are quite thick, allowing for a better appreciation of nature. There are several benches where you can sit and relax, and several gravel trails leading to small isolated that dot the northern area of the park.
 </p>
 <p id="locact"></p>
+<<selfthought>>
 </div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
@@ -49,6 +50,9 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <<hoverrevise gamma>>
   <<button "Walk to the Pond">><</button>>
 <<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
 </div>
 
 /*Main display for information about actions*/
@@ -57,6 +61,7 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <<insertion beta>>Choose a trail at random and follow it into the thicker area of the park.<<endinsertion>>
 <<insertion delta>>Run down one of the paved paths to get some exercise, and enjoy the environment while you do so.<<endinsertion>>
 <<insertion gamma>>Walk down to the pond, perhaps you'll see some ducks.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
 <<timed 50ms>>

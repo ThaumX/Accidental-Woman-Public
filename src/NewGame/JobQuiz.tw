@@ -1,0 +1,291 @@
+:: JOBquiz [nobr]
+
+<<silently>>
+<<set _quiz = {sci: 0, hr: 0, jan: 0, cow: 0, breed: 0, semen: 0, subject: 0, retail: 0}>>
+<<set _timer = 200>>
+<<set _timeStart = false>>
+<<set _comms = [0,0,1,2,3,4,5,6,7,8,9]>>
+<</silently>>
+<div class="Mountain-Background" style="position:fixed;top:0px;bottom:0px;left:0px;right:0px;z-index:500;">
+  <img data-passage="IMGinstituteExamTitle" title="Your curiosity has been noted." style="position:fixed;width:1200px;height:auto;bottom:5px;left:5px;">
+  <div id="quizBox">
+    <div id="question" style="position:absolute;width:670px;top:10px;left:10px;bottom:10px;text-align:justify;">
+      <span style="font-size:1.3rem;">Instructions</span><br>
+      Sometimes, you have to give someone an opportunity to fail. Because failure leads to learning, and learning is the heart of science. Or it would be, if science had a heart. Either way, the Institute cares about you. That's why we aren't going to burden you with rules* or boring information** about this test. We're giving you the freedom to fail, so that we can help you not fail.
+      <br><br>
+      Don't worry. We already know who you are, so there's no need to waste time filling out your personal information. We took the liberty of finding out everything about you already, to make this quiz better. Just like the world. We're making that better too.
+      <div class="finePrint" style="position:absolute;bottom:5px;left:5px;right:5px;">*Test subjects under the influence of the mind enhancement drug Focusol™ are prohibited from taking this test.<br>**This test will not be used to discriminate against potential Institute employees, unless it is. You're welcome.</div>
+    </div>
+    <div id="multipleChoiceBox">
+      <<button "<b>BEGIN THE EXAM</b><br>Taking this test constitutes your agreement to the Terms and Conditions.<br><span class='finePrint'><b>Terms and Conditions:</b> As an act of good faith, you agree to undergo human testing at the Institute's discretion. You acknowledge that, despite the ultimate decision of the Institute in regards to any future employment, you cannot revoke your agreement to be a test subject.</span>">><<set _timeStart = true>><<replace "#question">><<include [[JOBquizQ1]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA1]]>><</replace>><</button>>
+    </div>
+  </div>
+  <div id="timerbox" class="monospace" style="position:fixed;bottom:5px;right:5px;width:100px;height:25px;text-align:right;color:#fff;font-size:22px;font-weight:bold;">
+    5:00
+  </div>
+</div>
+<<timed 50ms>>
+<<script>>
+  function timo () {
+    if (State.temporary.timer != null && State.temporary.timer > 0) {
+      if (State.temporary.timeStart) {
+        State.temporary.timer -= random(1,2);
+        let m = Math.floor(State.temporary.timer / 60);
+        let s = State.temporary.timer % 60;
+        if (s < 10) {
+          s = "0" + s;
+        }
+        let time = m + ":" + s;
+        if (State.temporary.timer < 60) {
+          time = "<span style='color:#ff2828;'>" + time + "</span>";
+        }
+        aw.replace("#timerbox",time);
+      }
+      setTimeout(timo,1000);
+    }
+  }
+  timo();
+<</script>>
+<</timed>>
+<<widget "randComment">>
+<<set _r = _comms.pluck()>>
+<<switch _r>>
+<<case 6>>
+  <<notify>><i>Oh? that's interesting...</i><</notify>>
+<<case 5>>
+  <<notify>><i>Well there's always human testing...</i><</notify>>
+<<case 4>>
+  <<notify>><i>Rather low quality this year...</i><</notify>>
+<</switch>>
+<</widget>>
+
+
+:: JOBquizQ1 [nobr]
+
+<span style="font-size:1.3rem;">Question 3 of 84</span><br>
+You are at work, and head to the break room for your sanctioned break period. Upon arriving, you see a fellow employee standing at a table next to a spill of translucent green liquid. There is an overturned beaker nearby, and it seems the employee knocked it over, but is unsure of what the substance is. The employee has scooped some of the fluid onto a finger and is bringing toward their face. 
+<br><br>
+<b>What would you do in this situation?</b>
+
+
+:: JOBquizA1 [nobr]
+
+<<button "<b>A.</b> Tell the employee that the fluid is a new guacamole sauce that Carl is working on. Invite them to have a taste and record the results.">><<set _quiz.sci += 2>><<randComment>><<replace "#question">><<include [[JOBquizQ2]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA2]]>><</replace>><</button>>
+<<button "<b>B.</b> This is an obvious conduct violation. After returning from break, be sure to annotate the employee's file and deduct the materials cost from their pay.">><<set _quiz.hr += 2>><<randComment>><<replace "#question">><<include [[JOBquizQ2]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA2]]>><</replace>><</button>>
+<<button "<b>C.</b> Obviously the only correct course of action is to stop the foolish employee before they can do something unsafe.">><<set _quiz.subject += 3>><<randComment>><<replace "#question">><<include [[JOBquizQ2]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA2]]>><</replace>><</button>>
+<<button "<b>D.</b> Shame the employee for making a mess in the employee break room. Perhaps they will clean the mess up themselves.">><<set _quiz.jan += 2>><<set _quiz.retail += 1>><<randComment>><<replace "#question">><<include [[JOBquizQ2]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA2]]>><</replace>><</button>>
+
+
+:: JOBquizQ2 [nobr]
+
+<span style="font-size:1.3rem;">Question 23 of 84</span><br>
+It's a hot Sol day, and you've been outside enjoying the sunny weather. You're looking for some refreshment to cool off after your time outside. 
+<br><br>
+<b>Which would you choose?</b>
+
+
+:: JOBquizA2 [nobr]
+
+<<button "<b>A.</b> A Cuke™ Cola">><<set _quiz.jan += 1>><<if _quiz.sci > 0>><<set _quiz.sci += 1>><<else>><<set _quiz.retail += 2>><</if>><<randComment>><<replace "#question">><<include [[JOBquizQ3]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA3]]>><</replace>><</button>>
+<<button "<b>B.</b> A BullJuice™ Sports Drink">><<set _quiz.semen += 1>><<set _quiz.breed += 1>><<randComment>><<replace "#question">><<include [[JOBquizQ3]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA3]]>><</replace>><</button>>
+<<button "<b>C.</b> Some Tastee Teats™ Icecream">><<set _quiz.cow += 2>><<set _quiz.breed += 1>><<randComment>><<replace "#question">><<include [[JOBquizQ3]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA3]]>><</replace>><</button>>
+<<button "<b>D.</b> Some Ice Water">><<set _quiz.subject += 2>><<randComment>><<replace "#question">><<include [[JOBquizQ3]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA3]]>><</replace>><</button>>
+
+
+:: JOBquizQ3 [nobr]
+
+<span style="font-size:1.3rem;">Question 42 of 84</span><br>
+When considering breasts, including your own breasts, which size category to find most appealing?
+
+
+:: JOBquizA3 [nobr]
+
+<<button "<b>A.</b> I prefer small breasts (A to C cup)">><<set _quiz.cow = 0>><<set _quiz.semen += 1>><<set _quiz.jan += 2>><<set _quiz.retail += 1>><<randComment>><<replace "#question">><<include [[JOBquizQ4]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA4]]>><</replace>><</button>>
+<<button "<b>B.</b> I prefer average sized breasts (D to F cup)">><<set _quiz.hr += 2>><<randComment>><<replace "#question">><<include [[JOBquizQ4]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA4]]>><</replace>><</button>>
+<<button "<b>C.</b> I prefer large breasts (G to I cup)">><<set _quiz.sci += 1>><<set _quiz.cow += 2>><<set _quiz.breed += 1>><<randComment>><<replace "#question">><<include [[JOBquizQ4]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA4]]>><</replace>><</button>>
+<<button "<b>D.</b> The bigger the better (J cup or larger)">><<set _quiz.cow += 3>><<set _quiz.breed += 1>><<randComment>><<replace "#question">><<include [[JOBquizQ4]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA4]]>><</replace>><</button>>
+
+
+:: JOBquizQ4 [nobr]
+
+<span style="font-size:1.3rem;">Question 54 of 84</span><br>
+Knowing that the world faces a shortage of future customers (people), your choice* about becoming a mother is very important.
+<br><br>
+<b>How many children are you planning to have?</b>
+<div class="finePrint" style="position:absolute;bottom:5px;left:5px;right:5px;">
+*Assuming that you have a choice
+</div>
+
+
+:: JOBquizA4 [nobr]
+
+<<button "<b>A.</b> None. I don't want to be a mother.">><<set _quiz.jan += 1>><<set _quiz.hr += 1>><<set _quiz.subject += 2>><<randComment>><<replace "#question">><<include [[JOBquizQ5]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA5]]>><</replace>><</button>>
+<<button "<b>B.</b> One or two, let's not go overboard!">><<set _quiz.retail += 1>><<set _quiz.semen += 1>><<if _quiz.sci > _quiz.hr>><<set _quiz.sci += 1>><<else>><<set _quiz.hr += 1>><</if>><<randComment>><<replace "#question">><<include [[JOBquizQ5]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA5]]>><</replace>><</button>>
+<<button "<b>C.</b> I'd have children, for science.">><<set _quiz.sci += 3>><<if _quiz.breed > 1>><<set _quiz.breed += 2>><<else>><<set _quiz.breed += 1>><</if>><<randComment>><<replace "#question">><<include [[JOBquizQ5]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA5]]>><</replace>><</button>>
+<<button "<b>D.</b> I've always wanted plenty of kids!">><<set _quiz.breed += 3>><<set _quiz.cow += 2>><<set _quiz.semen += 1>><<randComment>><<replace "#question">><<include [[JOBquizQ5]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA5]]>><</replace>><</button>>
+<<button "<b>E.</b> Kids are too much work, and too expensive.">><<set _quiz.breed += 2>><<set _quiz.semen += 1>><<set _quiz.hr += 2>><<randComment>><<replace "#question">><<include [[JOBquizQ5]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA5]]>><</replace>><</button>>
+<<button "<b>F.</b> As many as I possibly can!">><<set _quiz.breed += 5>><<set _quiz.cow += 2>><<set _quiz.semen += 1>><<randComment>><<replace "#question">><<include [[JOBquizQ5]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA5]]>><</replace>><</button>>
+
+
+:: JOBquizQ5 [nobr]
+
+<span style="font-size:1.3rem;">Question 69 of 84</span><br>
+You've built up quite an appetite after a long day at work with voluntary* overtime.
+<br><br>
+<b>Which of these food options sounds most appealing to you?</b>
+<div class="finePrint" style="position:absolute;bottom:5px;left:5px;right:5px;">
+*Mandatory
+</div>
+
+:: JOBquizA5 [nobr]
+
+<<button "<b>33.</b> A flame-grilled medium-rare steak of premium Cowless Beef from Grand Peter's Halfway Inn">><<if _quiz.sci > _quiz.jan>><<set _quiz.sci += 2>><<else>><<set _quiz.jan += 2>><</if>><<set _quiz.subject += 1>><<randComment>><<replace "#question">><<include [[JOBquizQ6]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA6]]>><</replace>><</button>>
+<<button "<b>34.</b> A healthy meal composed of high-quality all-natural ingredients, probably from Nature's Treasury.">><<set _quiz.semen += 3>><<set _quiz.retail += 3>><<randComment>><<replace "#question">><<include [[JOBquizQ6]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA6]]>><</replace>><</button>>
+<<button "<b>35.</b> Who wants to cook after a long day? Visit a local restaurant like Hot Porking or Hindenburger.">><<set _quiz.sci += 1>><<set _quiz.hr += 2>><<if _quiz.cow > _quiz.jan>><<set _quiz.cow += 1>><</if>><<if _quiz.breed > _quiz.jan>><<set _quiz.breed += 2>><</if>><<randComment>><<replace "#question">><<include [[JOBquizQ6]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA6]]>><</replace>><</button>>
+<<button "<b>36.</b> A hearty caesar salad with Octo-Chicken from Cock of the Walk.">><<set _quiz.retail += 1>><<set _quiz.jan += 1>><<set _quiz.subject += 2>><<randComment>><<replace "#question">><<include [[JOBquizQ6]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizA6]]>><</replace>><</button>>
+
+
+:: JOBquizQ6 [nobr]
+
+<span style="font-size:1.3rem;">Question 81 of 84</span><br>
+You're transferred to a new team working on an important classified project. Soon afterward, you discover that the project involves what you consider to be a pretty major breach of ethics.
+<br><br>
+<b>What do you do?</b>
+
+
+:: JOBquizA6 [nobr]
+
+<<button "<b>A.</b> Check with the appropriate authority in the ethics oversight division of H.R. to make sure you won't be held liable for the breach later.">><<set _quiz.sci += 1>><<set _quiz.hr += 3>><<randComment>><<replace "#question">><<include [[JOBquizQR]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizAR]]>><</replace>><</button>>
+
+<<button "<b>B.</b> Sometimes progress demands sacrifice.<br><br>Science is worth it.">><<set _quiz.sci += 3>><<set _quiz.hr += 1>><<randComment>><<replace "#question">><<include [[JOBquizQR]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizAR]]>><</replace>><</button>>
+
+<<button "<b>C.</b> Sometimes things aren't always black and white. As long as people aren't getting hurt, it should be okay.">><<set _quiz.semen += 2>><<set _quiz.sci += 1>><<set _quiz.breed += 2>><<randComment>><<replace "#question">><<include [[JOBquizQR]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizAR]]>><</replace>><</button>>
+
+<<button "<b>D.</b> It's important to keep from being blinded by science. I'd report the issue to management, or even the authorities if necessary.">><<set _quiz.subject += 7>><<set _quiz.breed += 2>><<randComment>><<replace "#question">><<include [[JOBquizQR]]>><</replace>><<replace "#multipleChoiceBox">><<include [[JOBquizAR]]>><</replace>><</button>>
+
+
+:: JOBquizQR [nobr]
+
+<span style="font-size:1.3rem;">Congratulations on successfully completing* this employment evaluation!</span><br><br>
+Review your results to the left. An institute representative will contact you if your employment is desired.<br><br>
+<center><<button "CONTINUE">><<addTime 40>><<go "femStartFair0">><</button>></center>
+<div class="finePrint" style="position:absolute;bottom:5px;left:5px;right:5px;">*The Institute is proud to offer special assistance for mentally handicapped employees. The institute is an equal opportunity employer.</div>
+
+
+:: JOBquizAR [nobr]
+
+<<script>>
+	let keys = Object.keys(State.temporary.quiz);
+	let leng = keys.length;
+	let result, num, first = false, second = false, max = 0, mox = 0;
+	for(let i = 0; i < leng; i++){
+		if(keys[i] !== "next"){
+			if(State.temporary.quiz[keys[i]] > max){
+				mox = max;
+				max = State.temporary.quiz[keys[i]];
+				second = first;
+				first = keys[i];
+			}else if(State.temporary.quiz[keys[i]] > mox){
+				mox = State.temporary.quiz[keys[i]];
+				second = keys[i];
+			}
+		}
+	}
+	switch(first){
+		case "sci":
+			result = "Institute Laboratory Technician - S.P.E.R.M.";
+			num = 1;
+			break;
+		case "hr":
+			if(second === "breed" || second === "semen"){
+				result = "Progenerate Technologies GMbH - Inception Division";
+				num = 2;
+			}else{
+				result = "Institute Bureaucratic Corps";
+				num = 3;
+			}
+			break;
+		case "jan":
+			result = "Institute Services Division";
+			num = 4;
+			break;
+		case "cow":
+			if(second === "breed" || second === "semen"){
+				result = "Professional HuCow";
+				num = 5;
+			}else{
+				result = "Professional Dairy Production";
+				num = 6;
+			}
+			break;
+		case "breed":
+			if(second === "subject"){
+				result = "Experimental Subject - Human Breeding";
+				num = 7;
+			}else{
+				result = "Progenerate Technologies GMbH - Fecundate Division";
+				num = 8;
+			}
+			break;
+		case "semen":
+			if(second === "retail"){
+				result = "Hole Foods Marketplace Employee";
+				num = 9;
+			}else if(second === "subject"){
+				result = "Unaware Test Subject";
+				num = 10;
+			}else{
+				result = "ERROR: Prostitution is illegal in Appletree!";
+				num = 17;
+			}
+			break;
+		case "subject":
+			if(second === "breed" || second === "sci"){
+				result = "Industrial Clone Broodmother (involuntary)";
+				num = 11;
+			}else if(second === "cow"){
+				result = "Dairy Production Test Subject (involuntary)";
+				num = 12;
+			}else{
+				result = "Biomedical Experimentation Subject (involuntary)";
+				num = 13;
+			}
+			break;
+		case "retail":
+			if(second === "semen"){
+				result = "Hole Foods Product QA Technician";
+				num = 14;
+			}else if(second === "jan"){
+				result = "Institute Services Division (clerk)";
+				num = 15;
+			}else{
+				result = "General Purpose Subject (retail)";
+				num = 16;
+			}
+			break;
+		default:
+			result = "Institute Services Division";
+			num = 4;
+			break;
+  }
+  if (random(1,30) === 1) {
+    result = "<del style='color:crimson;'>" + result + "</del> Oral Pleasure Technician (involuntary)";
+		num = 18;
+  }
+  let vals = `<div class="finePrint" style="position:absolute;bottom:5px;left:5px;right:5px;height:20px;text-align:center;color:#888;">Science: ${State.temporary.quiz.sci}, HR: ${State.temporary.quiz.hr}, Janitorial: ${State.temporary.quiz.jan}, Cow: ${State.temporary.quiz.cow}, Breed: ${State.temporary.quiz.breed}, Semen: ${State.temporary.quiz.semen} Research Subject: ${State.temporary.quiz.subject}, Retail: ${State.temporary.quiz.retail}.</div>`;
+
+	State.temporary.txt = `<p style="text-align:center;font-size:28px;color:#222;">Based on this test, your ideal career is:<br><b>${result}</b><br><span style="font-size:20px;">Number ${num} of 18</span></p>${vals}`;
+	ↂ.flag.jobQuiz = {
+    result: result,
+    number: num,
+    science: State.temporary.quiz.sci,
+    hr: State.temporary.quiz.hr,
+    janitor: State.temporary.quiz.jan,
+    cow: State.temporary.quiz.cow,
+    breed: State.temporary.quiz.breed,
+    semen: State.temporary.quiz.semen,
+    testSubject: State.temporary.quiz.subject,
+    retail: State.temporary.quiz.retail,
+  };
+<</script>>
+<<print _txt>>

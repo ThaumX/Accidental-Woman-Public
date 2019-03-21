@@ -12,7 +12,7 @@
 <p><<walkDescriptHome>> <<mapEventHome>></p>
 <<homeItemDisp>>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -40,13 +40,13 @@
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*LOCATION description of  location*/
-@@.head3;Y@@ou are on your &undecorated& apartment balcony. &more placeholder for time and funishings&
+@@.head3;Y@@ou are on your apartment's balcony. For some reason, cat litter and animal droppings from your neighbors manages to wind up here as well. 
 /*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
 /*IN-PASSAGE span text*/
-<span id="locact"></span></div>
+<span id="locact"></span><<selfthought>></div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
@@ -54,7 +54,7 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <<hoverrevise flash>>
 	<<button "Flash Your Breasts">>
     <<arousal 1>><<addTime 3>>
-    <<dialog "Flashing">>@@.head3;Y@@ou lean against the railing and grab your <<if $PC.clothes.upper[0] == "none" && $PC.clothes.bra[0] == "none">>already-exposed breasts<<elseif $PC.clothes.upper[0] == "none">><<print $PC.clothes.bra[0]>><<elseif $PC.clothes.bra[0] == "none">><<print $PC.clothes.upper[0]>><<else>><<print $PC.clothes.upper[0]>> and <<print $PC.clothes.bra[0]>><</if>> with both hands, pulling upward and exposing your <<pcBoobSize>> breasts to the world. It's exhilarating, but there really wasn't anyone around to see you. Maybe when there's more people around...<</dialog>>
+    <<dialog "Flashing">>@@.head3;Y@@ou lean against the railing and grab your <<if ↂ.pc.clothes.keys.top == 0 && ↂ.pc.clothes.keys.bra == 0>>already-exposed breasts<<elseif ↂ.pc.clothes.keys.top == 0>><<print aw.slot.bra.style>><<elseif ↂ.pc.clothes.keys.bra == 0>><<print aw.slot.top.style>><<else>><<print aw.slot.top.style>> and <<print aw.slot.bra.style>><</if>> with both hands, pulling upward and exposing your <<pcBoobSize>> breasts to the world. It's exhilarating, but there really wasn't anyone around to see you. Maybe when there's more people around...<</dialog>>
   <</button>>
 <<endhoverrevise>>
 <<homeItemButtons>>

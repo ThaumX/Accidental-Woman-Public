@@ -11,7 +11,7 @@
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptResidential>> <<mapEventResidential>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -39,7 +39,7 @@
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*Event notification spot*/
 /*<<mapEventRes>>*/
@@ -47,18 +47,22 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 @@.head3;T@@his area isn't ready yet, I'm afraid.
 /*Time & furnishing descriptive addon! <<mapHomeRes>>*/
 /*IN-PASSAGE span text*/
-<span id="locact"></span></div>
+<span id="locact"></span><<selfthought>></div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Streaking">><</button>>
+@@.disabled;<<button "Streaking">><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
 </div>
 
 /*Main display for information about actions*/
 <div id="actionInfo">
 <<insertion alpha>>Let's go sunning [30min]<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
 

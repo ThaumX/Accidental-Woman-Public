@@ -1,259 +1,686 @@
 :: character [nobr hidden]
 
-<<silently>>
-<<if $prevPassage != "character" && $prevPassage != "scene" && $prevPassage != "relationships" && $prevPassage != "cheatMenu" && $prevPassage != "gameGuide" && $prevPassage != "debugPage">>
-	<<set $returnTo = $prevPassage>>
-<</if>>
-<<set $helpText = "There's a lot of information here, and some actions and settings to control your character. Everything here should be fairly self-explainatory, but if a question seems to come up often it'll be added to this information.">>
+
 <<pcTotalATR>>
-<<set _tab = 1>>
-<</silently>>
-<center>@@.head1;Character View@@</center>
-<div id="chartabs" class="tabs">
-<<include [[MENU-Character-Tabs]]>>
-</div>
-<div id="viewpane">
-<<include [[MENU-Character-General]]>>
-</div>
 
-
-:: MENU-Character-Tabs [nobr]
-
-
-<<if _tab == 1>>
-  <span class="curtab"><<button "General">><</button>></span>
-<<else>>
-  <<button "General">>
-    <<set _tab = 1>>
-    <<replace "#viewpane">>
-      <<include [[MENU-Character-General]]>>
-    <</replace>>
-    <<replace "#chartabs">>
-      <<include [[MENU-Character-Tabs]]>>
-    <</replace>>
-  <</button>>
-<</if>>
-<<if _tab == 2>>
-  <span class="curtab"><<button "Action">><</button>></span>
-<<else>>
-  <<button "Action">>
-    <<set _tab = 2>>
-    <<replace "#viewpane">>
-      <<include [[MENU-Character-Actions]]>>
-    <</replace>>
-    <<replace "#chartabs">>
-      <<include [[MENU-Character-Tabs]]>>
-    <</replace>>
-  <</button>>
-<</if>>
-<<if _tab == 3>>
-  <span class="curtab"><<button "Persona">><</button>></span>
-<<else>>
-  <<button "Persona">>
-    <<set _tab = 3>>
-    <<replace "#viewpane">>
-      <<include [[MENU-Character-Persona]]>>
-    <</replace>>
-    <<replace "#chartabs">>
-      <<include [[MENU-Character-Tabs]]>>
-    <</replace>>
-  <</button>>
-<</if>>
-<<if _tab == 4>>
-  <span class="curtab"><<button "Inventory">><</button>></span>
-<<else>>
-  <<button "Inventory">>
-    <<set _tab = 4>>
-    <<replace "#viewpane">>
-      <<include [[MENU-Character-Inventory]]>>
-    <</replace>>
-    <<replace "#chartabs">>
-      <<include [[MENU-Character-Tabs]]>>
-    <</replace>>
-  <</button>>
-<</if>>
-<<if _tab == 5>>
-  <span class="curtab"><<button "Clothing">><</button>></span>
-<<else>>
-  <<button "Clothing">>
-    <<set _tab = 5>>
-    <<replace "#viewpane">>
-      <<include [[MENU-Character-Clothes]]>>
-    <</replace>>
-    <<replace "#chartabs">>
-      <<include [[MENU-Character-Tabs]]>>
-    <</replace>>
-  <</button>>
-<</if>>
-<<if _tab == 6>>
-  <span class="curtab"><<button "Appear">><</button>></span>
-<<else>>
-  <<button "Appearance">>
-    <<set _tab = 6>>
-    <<replace "#viewpane">>
-      <<include [[MENU-Character-Appear]]>>
-    <</replace>>
-    <<replace "#chartabs">>
-      <<include [[MENU-Character-Tabs]]>>
-    <</replace>>
-  <</button>>
-<</if>>
-<<if _tab == 7>>
-  <span class="curtab"><<button "Skills">><</button>></span>
-<<else>>
-  <<button "Skills">>
-    <<set _tab = 7>>
-    <<replace "#viewpane">>
-      <<include [[MENU-Character-Skills]]>>
-    <</replace>>
-    <<replace "#chartabs">>
-      <<include [[MENU-Character-Tabs]]>>
-    <</replace>>
-  <</button>>
-<</if>>
-<<if _tab == 8>>
-  <span class="curtab"><<button "Details">><</button>></span>
-<<else>>
-  <<button "Details">>
-    <<set _tab = 8>>
-    <<replace "#viewpane">>
-      <<include [[MENU-Character-Detail]]>>
-    <</replace>>
-    <<replace "#chartabs">>
-      <<include [[MENU-Character-Tabs]]>>
-    <</replace>>
-  <</button>>
-<</if>>
-<<link [img[Exit|IMGclosebutton]]>><<goto [[returner]]>><</link>>
-
-
-:: MENU-Character-General [nobr]
+:: MENU-CharacterStatus [nobr]
 
 <<silently>>
 <<status 1>>
-<<colorpicker $PC.status.health>>
+<<colorpicker ↂ.pc.status.health>>
 <<set _healthColor = $ret>>
-<<set _energyPer = Math.round(100 * ( $PC.status.energy.amt / $PC.body.energy ))>>
+<<set _energyPer = Math.round(100 * ( ↂ.pc.status.energy.amt / ↂ.pc.body.energy ))>>
 <<colorpicker _energyPer>>
 <<set _energyColor = $ret>>
-<<set _calmPer = (100 - $PC.status.stress)>>
+<<set _calmPer = (100 - ↂ.pc.status.stress)>>
 <<colorpicker _calmPer>>
 <<set _calmColor = $ret>>
-<<set _vigorPer = (10 - $PC.status.fatigue) * 10>>
+<<set _vigorPer = (10 - ↂ.pc.status.fatigue) * 10>>
 <<colorpicker _vigorPer>>
 <<set _vigorColor = $ret>>
-<<set _happyPer = Math.round(100 * ($PC.status.happy + 10) / 20)>>
+<<set _happyPer = Math.round(100 * (ↂ.pc.status.happy + 10) / 20)>>
 <<colorpicker _happyPer>>
 <<set _happyColor = $ret>>
-<<set _satPer = $PC.status.satisfaction>>
+<<set _satPer = ↂ.pc.status.satisfaction>>
 <<colorpicker _satPer>>
 <<set _satColor = $ret>>
-<<set _lonePer = 100 - $PC.status.lonely>>
+<<set _lonePer = 100 - ↂ.pc.status.lonely>>
 <<colorpicker _lonePer>>
 <<set _loneColor = $ret>>
-<<if $PC.status.morality > 15>>
+<<if ↂ.pc.status.morality > 15>>
 	<<set _moralColor = "MediumBlue">>
-<<elseif $PC.status.morality >= -15>>
+<<elseif ↂ.pc.status.morality >= -15>>
 	<<set _moralColor = "MediumPurple">>
 <<else>>
 	<<set _moralColor = "Maroon">>
 <</if>>
-<<set _moralPer = $PC.status.morality + 50>>
+<<set _moralPer = ↂ.pc.status.morality + 50>>
 <</silently>>
-<table>
-<tr class="divide"><td colspan=2>
-@@.head3;General Status@@
-</td></tr>
-<tr id="stats"><td id="stats">
-<<print "<div class='stat-levels'><p id='fucker'>Health</p><div class='stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + $PC.status.health + "%; background: " + _healthColor + ";'><span id='bitch'>" + $PC.status.health + "%</span></span></div><p id='fucker'>Calm</p><div class='stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + _calmPer + "%; background: " + _calmColor + ";'><span id='bitch'>" + _calmPer + "%</span></span></div><p id='fucker'>Vigor</p><div class='stat-bar '><span class='stat-bar-rating' role='stat-bar' style='width: " + _vigorPer + "%; background: " + _vigorColor + ";'><span id='bitch'>" + _vigorPer + "%</span></span></div><p id='fucker'>Energy</p><div class='stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + _energyPer + "%; background: " + _energyColor + ";'><span id='bitch'>" + _energyPer + "%</span></span></div></div>">>
-</td><td id="stats">
+<table id="invisTable" style="margin:0px auto;">
+<tr id="stats"><td id="stats" style="width:49%;">
+<<print "<div class='stat-levels'><p id='fucker'>Health</p><div class='stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + ↂ.pc.status.health + "%; background: " + _healthColor + ";'><span id='bitch'>" + ↂ.pc.status.health + "%</span></span></div><p id='fucker'>Calm</p><div class='stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + _calmPer + "%; background: " + _calmColor + ";'><span id='bitch'>" + _calmPer + "%</span></span></div><p id='fucker'>Vigor</p><div class='stat-bar '><span class='stat-bar-rating' role='stat-bar' style='width: " + _vigorPer + "%; background: " + _vigorColor + ";'><span id='bitch'>" + _vigorPer + "%</span></span></div><p id='fucker'>Energy</p><div class='stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + _energyPer + "%; background: " + _energyColor + ";'><span id='bitch'>" + _energyPer + "%</span></span></div></div>">>
+</td><td id="stats" style="width:49%;">
 <<print "<div class='stat-levels'><p id='fucker'>Happiness</p><div class='stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + _happyPer + "%; background: " + _happyColor + ";'><span id='bitch'>" + _happyPer + "%</span></span></div><p id='fucker'>Satisfaction</p><div class='stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + _satPer + "%; background: " + _satColor + ";'><span id='bitch'>" + _satPer + "%</span></span></div><p id='fucker'>Companionship</p><div class='stat-bar '><span class='stat-bar-rating' role='stat-bar' style='width: " + _lonePer + "%; background: " + _loneColor + ";'><span id='bitch'>" + _lonePer + "%</span></span></div><p id='fucker'>Morality</p><div class='stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + _moralPer + "%; background: " + _moralColor + ";'><span id='bitch'>" + _moralPer + "%</span></span></div></div>">>
 </td></tr>
-<tr class="divide"><td>
-@@.head3;Other Status@@
-</td><td colspan=1>
-@@.head3;Body Status@@
-</td></tr>
+</table>
+<table id="InvisTable" style="margin:25px auto;width:95%;border-width:0px;border-style:none;">
+<tr>
+<td style="min-width:600px;width:60%;vertical-align:top;">
+  <h3 style="padding-bottom: 5px;">Health & Body</h3>
+  <table id="invisTable" style="margin:0px auto;">
+    <tr><td style="width:50%">
+      ''Health:'' <<if ↂ.pc.status.health >= 90>>@@.good;Excellent (<<= ↂ.pc.status.health>>)@@<<elseif ↂ.pc.status.health >= 80>>@@.good;Good (<<= ↂ.pc.status.health>>)@@<br><<elseif ↂ.pc.status.health >= 70>>@@.good;Okay (<<= ↂ.pc.status.health>>)@@<<elseif ↂ.pc.status.health >= 50>>@@.import;Poor (<<= ↂ.pc.status.health>>)@@<<elseif ↂ.pc.status.health >= 30>>@@.orange;Critical (<<= ↂ.pc.status.health>>)@@<<else>>@@.bad;Dying (<<= ↂ.pc.status.health>>)@@<</if>><br>
+      ''Cleanliness:'' @@.exp;<<pcCleanStatus>>@@<br>
+      <<if ↂ.pc.mutate.twinWomb>>
+      ''1st Womb Health: ''<<if ↂ.pc.fert.wombHealth < -1>>divine<<elseif ↂ.pc.fert.wombHealth == -1>>great<<elseif ↂ.pc.fert.wombHealth == 0>>good<<elseif ↂ.pc.fert.wombHealth == 1>>fine<<elseif ↂ.pc.fert.wombHealth == 2>>okay<<else>>poor<</if>>
+      <<else>>
+      ''Womb Health: ''<<if ↂ.pc.fert.wombHealth < -1>>divine<<elseif ↂ.pc.fert.wombHealth == -1>>great<<elseif ↂ.pc.fert.wombHealth == 0>>good<<elseif ↂ.pc.fert.wombHealth == 1>>fine<<elseif ↂ.pc.fert.wombHealth == 2>>okay<<else>>poor<</if>>
+      <</if>>
+      <<if ↂ.pc.status.wombA.weeks > 0 && ↂ.pc.status.wombA.know>>
+        pregnant, @@.exp;<<= ↂ.pc.status.wombA.weeks>>@@ weeks to term
+      <</if>>
+      <<if ↂ.pc.mutate.twinWomb>>
+        <br>
+        ''2nd Womb Health: ''<<if ↂ.pc.fert.wombHealth < -1>>divine<<elseif ↂ.pc.fert.wombHealth == -1>>great<<elseif ↂ.pc.fert.wombHealth == 0>>good<<elseif ↂ.pc.fert.wombHealth == 1>>fine<<elseif ↂ.pc.fert.wombHealth == 2>>okay<<else>>poor<</if>>
+        <<if ↂ.pc.status.wombB.weeks > 0 && ↂ.pc.status.wombB.know>>
+        pregnant, @@.exp;<<= ↂ.pc.status.wombA.weeks>>@@ weeks to term
+        <</if>>
+      <</if>>
+    </td><td style="width:50%">
+      ''Day of Menstrual Cycle:'' @@.exp;<<= setup.fert.dayOfCycle(0)>> of <<= ↂ.pc.fert.cycle>>@@
+      <br>
+      <<set _ovulate = setup.fert.daysTillOvulate(0)>>
+      <<if _ovulate === 0>>
+        <<set _ovulate = "Sometime Today">>
+      <</if>>
+      <<if ↂ.pc.mutate.twinWomb>>
+        <<if ↂ.pc.status.wombA.weeks > 0 && ↂ.pc.status.wombA.know && ↂ.pc.status.wombB.weeks > 0 && ↂ.pc.status.wombB.know>>
+          <<set _ovulate = "N/A">>
+        <</if>>
+      <<else>>
+        <<if ↂ.pc.status.wombA.weeks > 0 && ↂ.pc.status.wombA.know>>
+          <<set _ovulate = "N/A">>
+        <</if>>
+      <</if>>
+      <<if ↂ.pc.status.birthCon.hormoneType == "none">>
+        ''You should ovulate in:'' @@.exp;<<= _ovulate>> days@@
+      <<else>>
+        ''You <i>shouldn't</i> ovulate in:'' @@.exp;<<= _ovulate>> days@@<br>
+        You are using the @@.exp;<<= ↂ.pc.status.birthCon.hormoneType>>@@ for birth control.
+        <<if ↂ.pc.status.birthCon.hormoneType == "pill">>
+          <br>Birth control pill taken today: @@.exp;Yes@@
+        <</if>>
+        <<if ↂ.pc.status.birthCon.hormoneType == "patch">>
+          <br>Birth control patch age: @@.exp;0@@ day
+        <</if>>
+        <<if ↂ.pc.status.birthCon.hormoneType == "depo shot">>
+          <br>Days since injection: @@.exp;0@@
+        <</if>>
+      <</if>>
+      <br>
+      <<= ↂ.pc.status.fertText>>
+      <br>
+      <b>Breast Milk:</b> <<= ↂ.pc.status.milkStore>>ml of <<= ↂ.pc.body.totalMilkCapacity>>ml
+    </td></tr>
+  </table>
+  <h3 style="padding-bottom: 5px;">Status Effects</h3>
+  <div id="MENU-CHAR-statuseffect">
+    <<print setup.omni.iconPrint(true)>>
+  </div>
+</td>
+<td style="vertical-align:top;">
+  <h3 style="padding-bottom: 5px;">Addiction</h3>
+  <<set _tempScale = [40,60,80,100]>>
+  <table id="invisTable">
+    <tr class="head">
+      <td><b>SUBSTANCE</b></td>
+      <td style="width:30%;"><b>ADDICTION</b></td>
+      <td style="width:30%;"><b>NEED</b></td>
+    </tr><tr>
+      <td><b>Alcohol:</b></td><td><<colorcode ↂpc.status.addict.alc _tempScale>></td><td><<colorcode ↂpc.status.addict.alcNeed _tempScale>></td>
+    </tr><tr>
+      <td><b>Cum:</b></td><td><<colorcode ↂpc.status.addict.cum _tempScale>></td><td><<colorcode ↂpc.status.addict.cumNeed _tempScale>></td>
+    </tr><tr>
+      <td><b>Cream:</b></td><td><<colorcode ↂpc.status.addict.cream _tempScale>></td><td><<colorcode ↂpc.status.addict.creamNeed _tempScale>></td>
+    </tr><tr>
+      <td><b>Focus:</b></td><td><<colorcode ↂpc.status.addict.focus _tempScale>></td><td><<colorcode ↂpc.status.addict.focusNeed _tempScale>></td>
+    </tr><tr>
+      <td><b>Heat:</b></td><td><<colorcode ↂpc.status.addict.heat _tempScale>></td><td><<colorcode ↂpc.status.addict.heatNeed _tempScale>></td>
+    </tr><tr>
+      <td><b>Satyr:</b></td><td><<colorcode ↂpc.status.addict.satyr _tempScale>></td><td><<colorcode ↂpc.status.addict.satyrNeed _tempScale>></td>
+    </tr><tr>
+      <td><b>Sex:</b></td><td><<colorcode ↂpc.status.addict.sex _tempScale>></td><td><<colorcode ↂpc.status.addict.sexNeed _tempScale>></td>
+    </tr><tr>
+      <td><b>Zone:</b></td><td><<colorcode ↂpc.status.addict.zone _tempScale>></td><td><<colorcode ↂpc.status.addict.zoneNeed _tempScale>></td>
+    </tr>
+  </table>
+</td>
+</tr>
+</table>
+
+
+:: MENU-Character-Appear [nobr]
+
+<div style="float:right;width:350px;margin:0px 0px 50px 50px;text-align:left;">
+  <center class="head3">Stats</center>
+  @@.ident;''Attractiveness'' <<= ↂ.pc.status.ATR>>@@<br>
+  ''Cleanliness:'' @@.exp;<<pcCleanStatus>>@@<br>
+  ''Makeup:'' @@.note;<<print ↂ.pc.groom.makeup.desc>>@@<br>
+  ''Hair Style:'' @@.exp;<<= setup.hair.prop("name")>>@@<br>
+  ''Physical Atr:'' @@.exp;<<print ↂ.pc.body.ATR>>@@  @@.note;(<<print ↂ.pc.body.topATR>>/<<print ↂ.pc.body.botATR>>)@@<br>
+  ''Clothing Atr:'' <<set _catr = ↂ.pc.clothes.stats.atr>>@@.exp;<<print _catr>>@@<br>
+  ''Other Atr:'' <<set _oatr = ↂ.pc.status.ATR - ( ↂ.pc.body.ATR + _catr )>>@@.exp;<<print _oatr>>@@<br>
+  <center class="head3">Condition</center>
+  @@font-size:0.9rem;Hair -@@ @@font-size:0.9rem;.exp;<<print setup.condition.print("hair")>>@@<br>
+  @@font-size:0.9rem;Face -@@ @@font-size:0.9rem;.exp;<<print setup.condition.print("face")>>@@<br>
+  @@font-size:0.9rem;Chest -@@ @@font-size:0.9rem;.exp;<<print setup.condition.print("chest")>>@@<br>
+  @@font-size:0.9rem;Back -@@ @@font-size:0.9rem;.exp;<<print setup.condition.print("back")>>@@<br>
+  @@font-size:0.9rem;Hands -@@ @@font-size:0.9rem;.exp;<<print setup.condition.print("hands")>>@@<br>
+  @@font-size:0.9rem;Stomach -@@ @@font-size:0.9rem;.exp;<<print setup.condition.print("stomach")>>@@<br>
+  /*</td><td width=33%>*/
+  @@font-size:0.9rem;Butt -@@ @@font-size:0.9rem;.exp;<<print setup.condition.print("butt")>>@@<br>
+  @@font-size:0.9rem;Groin -@@ @@font-size:0.9rem;.exp;<<print setup.condition.print("groin")>>@@<br>
+  @@font-size:0.9rem;Vulva -@@ @@font-size:0.9rem;.exp;<<print setup.condition.print("genitals")>>@@<br>
+  @@font-size:0.9rem;Thighs -@@ @@font-size:0.9rem;.exp;<<print setup.condition.print("thighs")>>@@<br>
+  @@font-size:0.9rem;Legs -@@ @@font-size:0.9rem;.exp;<<print setup.condition.print("legs")>>@@<br>
+  @@font-size:0.9rem;Feet -@@ @@font-size:0.9rem;.exp;<<print setup.condition.print("feet")>>@@<br>
+  @@font-size:0.9rem;Vagina -@@ @@font-size:0.9rem;.exp;<<print setup.condition.fluid("pussy")>>@@<br>
+  @@font-size:0.9rem;Anus -@@ @@font-size:0.9rem;.exp;<<print setup.condition.fluid("anus")>>@@
+</div>
+
+<h3>Your Appearance</h3>
+<<include [[PlayerCharDescription]]>>
+
+
+:: MENU-Character-Actions [nobr]
+
+<br>
+<fieldset>
+<legend class="head3">General Actions</legend>
+<<button "CHAT ON EMNITY">>
+<<addTime 30>>
+<<status 1>>
+<<set ↂ.pc.status.lonely -= random(3,6)>>
+<<set _tr = random(1,5)>>
+<<if _tr > 3>>
+<<happy 1>>
+<<elseif _tr === 1>>
+<<anger 3>>
+<</if>>
+<<set _tra = random(1,3)>>
+<<arousal _tra>>
+<<status>>
+<<updatebar>>
+<<dialog "Emnity Server">>
+<img data-passage="IMG-BananaEmoji" style="float:right; margin: 0px 0px 10px 15px;">
+<<f y>>ou spend about thirty minutes talking to people on Emnity. <<if _tr > 3>>This time there were some pretty good memes going on, and you got a few laughs. You feel like you're in a better mood.<<elseif _tr === 1>>Some SJW kept getting offended at anything that anybody said, and you ended your session feeling seriously annoyed.<<else>>There weren't a lot of people talking this time, so you spent most of your time catching up on channels.<</if>> The semblance of human connection makes you feel a little less lonely.
+<</dialog>>
+<</button>> Spend 30 minutes talking to people on your favorite Emnity server. [+companionship]
+</fieldset>
+<fieldset>
+<legend class="head3">Breast Actions</legend>
+<span class="ship monospace" style="font-size:115%;">[<<= ↂ.pc.status.milkStore>> of <<= ↂ.pc.body.totalMilkCapacity>>ml]</span><br>
+<span id="handmilkn">
+<<if ↂ.pc.body.tits.lact.on>><<button "Hand Milk">><<run setup.status.getMilked()>><<dialog "Hand Milking">><<include [[MENU-AutoHandMilking]]>><</dialog>><<replace "#handmilkn">><span class="disabled"><<tooltip "You need milk in the tanks to squeeze it out!">><<button "Hand Milk">><</button>><</tooltip>></span><<tab>>Use your hands to squeeze the milk out of your breasts, just like a cow.<</replace>><</button>><<else>><span class="disabled"><<tooltip "You need milk in the tanks to squeeze it out!">><<button "Hand Milk">><</button>><</tooltip>></span><</if>><<tab>>Use your hands to squeeze the milk out of your breasts, just like a cow.
+</span>
+<br><br>
+<<if ↂ.pc.body.tits.lact.on && $items.has("NipJoy Manual Breast Pump", "Dainty-Tits Electric Breast Pump", "Happy Teats Breast Pump", "Pump-O-Tron Breast Pump")>><<button "PUMP MILK">><<dialog "Breast Pumping">><<include [[MENU-BreastPumpMilking]]>><</dialog>><</button>><<else>><span class="disabled"><<tooltip "You need a breast pump for this!">><<button "PUMP MILK">><</button>><</tooltip>></span><</if>><<tab>>Use a breast pump to express the milk from your breasts.
+</fieldset>
+<fieldset>
+<legend class="head3">Vagina Actions</legend>
+<<if ↂ.pc.status.birthCon.diaphragm.worn>>
+  <span id="diaphragmCunt">
+  <<button "REMOVE DIAPHRAGM">>
+    <<status 1>>
+    <<if ↂ.pc.status.birthCon.diaphragm.effect < 36>>
+      <<addconsumable "oldDiaphragm">>
+    <<else>>
+      <<addconsumable "usedDiaphragm">>
+    <</if>>
+    <<set ↂ.pc.status.birthCon.diaphragm.worn = false>>
+    <<set ↂ.pc.status.birthCon.diaphragm.health = 0>>
+    <<set ↂ.pc.status.birthCon.diaphragm.effect = 0>>
+    <<set ↂ.pc.status.birthCon.diaphragm.sabo = 0>>
+    <<set ↂ.pc.status.birthCon.diaphragm.type = "none">>
+    <<run setup.fert.spread("pc", "scoop out")>>
+    <<status 0>>
+    <<addTime 8>>
+    <<replace "#diaphragmCunt">>Removed!<</replace>>
+  <</button>> Remove the diaphragm you are currently wearing.
+  </span>
+<<else>>
+<span class="disabled"><<button "REMOVE DIAPHRAGM">><</button>></span> You must have a diaphragm inserted in order to remove it.
+<</if>><br>
+<span class="disabled"><<button "REMOVE SPONGE">><</button>></span> [not implemented]
+</fieldset>
+<fieldset>
+<legend class="head3">Pregnancy Actions</legend>
+<<if $items.has("Tummy Hugger")>>
+  <<button "USE TUMMY HUGGER">><<addTime 15>><<dialog "Tummy Hugger Results">><<print setup.fert.tummyHugger()>><</dialog>><</button>> Scan your belly with the Tummy Hugger.
+<<else>>
+  <span class="disabled"><<button "USE TUMMY HUGGER">><</button>></span> You must own a Tummy Hugger in order to use it.
+<</if>>
+</fieldset>
+
+
+:: MENU-Character-Persona [nobr]
+
+@@.note;NOT IMPLEMENTED - This is where you will set behavioral options such as your persona (seductive, demure, etc.), as well as what you will hide/lie/tell the truth about (birth control, for example). You will also find some options for your plans or what you intend to do. These behavior settings will sometimes be changed for you (such as becoming standoffish when angry), and available settings will change throughout the game.@@
+
+
+:: MENU-Character-Inventory [nobr]
+
+
+<div style="vertical-align:top;">
+  <div class="consumableDisplay">
+    <h3>Consumable Inventory</h3>
+    <<usableconsumables>>
+    <br>
+    <span class="consumableDisplay">
+    Click an item name to learn more, click Use to use the item.
+    </span>
+  </div>
+<<sort "$items">>
+  <div class="consumableDisplay">
+    <h3>Standard Inventory</h3>
+    <<inventorydisplay "$items">>
+    <br>
+    <span class="consumableDisplay">
+    Click an item name to learn more.
+    </span>
+  </div>
+</div>
+<center><<button "REFRESH">><<replace "#menuContent">><<include [[MENU-Character-Inventory]]>><</replace>><</button>></center>
+
+
+:: MENU-Character-Clothes [nobr]
+
+<br>
+<<silently>>
+<<set _wearBra = aw.slot.bra.wear>>
+<<set _wearPanties = aw.slot.panties.wear>>
+<<set _wearLeg = aw.slot.leg.wear>>
+<<set _wearTop = aw.slot.top.wear>>
+<<set _wearBottom = aw.slot.bottom.wear>>
+<<set _wearShoes = aw.slot.shoes.wear>>
+<<set _wearCoat = aw.slot.coat.wear>>
+<</silently>>
+<div id="wardrobeMenuContainer" class="argyle" style="text-align:left;margin:2px auto;">
+  <div id="wardrobePaperdoll" class="argyle charMenu">
+    <div id="buttonbox" style="position:absolute;top:5px;right:5px;height:40px;width:90px;">
+    <<link '<img data-passage="IMG-PD-InfinityIcon" class="imgButton" title="Toggle outer layer visibility">'>><<if $AW.paperOver>><<set $AW.paperOver = false>><<else>><<set $AW.paperOver = true>><</if>><<replace "#wardrobePaperdollCunt">><<print setup.clothes.PaperDollPrint()>><</replace>><<replace "#paperOptionsInfo">><<print setup.clothes.PaperDollOptions()>><</replace>><</link>><<link '<img data-passage="IMG-PD-StarIcon" class="imgButton" title="Cycle Through Options">'>><<set $AW.paperBlush += 1>><<if $AW.paperBlush > 3>><<set $AW.paperBlush = 0>><</if>><<replace "#wardrobePaperdollCunt">><<print setup.clothes.PaperDollPrint()>><</replace>><<replace "#paperOptionsInfo">><<print setup.clothes.PaperDollOptions()>><</replace>><</link>>
+    </div>
+    <div id="paperOptionsInfo" class="monospace blackOutline" style="position:absolute;top:5px;left:5px;height:40px;width:350px;text-align:left;font-size:15px;font-weight:bold;color:#fceccc;">
+      <<print setup.clothes.PaperDollOptions()>>
+    </div>
+    <div id="wardrobePaperdollCunt">
+      <<print setup.clothes.PaperDollPrint()>>
+    </div>
+    <div style="position:absolute;bottom:0px;left:0px;right:0px;height:150px;background-color:rgba(19,12,3,0.15);z-index:202;"></div>
+  </div>
+  <div id="wardrobeItemRow">
+    <div id="wardrobeBraBox" class="clothingslotMENU">
+      <div id="wardBra" class="wardCunts" style="right:0px;">
+        <<if ↂ.pc.clothes.keys.bra != 0>>
+          <<print aw.slot.bra.print()>>
+        <<else>>
+          <div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br>BRA EMPTY</div>
+        <</if>>
+      </div>
+      <div class="wardControlsMenu" style="right:2px;">
+        <<if ↂ.pc.clothes.keys.bra != 0>>
+          <span id="braWear"><<print setup.clothes.wearKeyParse(ↂ.pc.clothes.worn.bra)>></span>
+          <<dropdown "_wearbra" _wearBra>><br>
+          <<button "CHANGE WEAR">><<set ↂ.pc.clothes.worn.bra = _wearbra>><<replace "#braWear">><<print setup.clothes.wearKeyParse(ↂ.pc.clothes.worn.bra)>><</replace>><<status 0>><</button>>
+          <<button "ITEM DETAIL">><<if ↂ.pc.clothes.keys.bra != 0>><<dialog "Clothing Detail">><<print aw.slot.bra.details>><</dialog>><</if>><</button>>
+        <</if>>
+      </div>
+    </div>
+    <div id="wardrobePantyBox" class="clothingslotMENU">
+      <div id="wardPanties" class="wardCunts" style="right:0px;">
+        <<if ↂ.pc.clothes.keys.panties != 0>>
+          <<print aw.slot.panties.print()>>
+        <<else>>
+          <div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br>PANTIES EMPTY</div>
+        <</if>>
+      </div>
+      <div class="wardControlsMenu" style="right:2px;">
+        <<if ↂ.pc.clothes.keys.panties != 0>>
+          <span id="pantiesWear"><<print setup.clothes.wearKeyParse(ↂ.pc.clothes.worn.panties)>></span>
+          <<dropdown "_wearpanties" _wearPanties>><br>
+          <<button "CHANGE WEAR">><<set ↂ.pc.clothes.worn.panties = _wearpanties>><<replace "#pantiesWear">><<print setup.clothes.wearKeyParse(ↂ.pc.clothes.worn.panties)>><</replace>><<status 0>><</button>>
+          <<button "ITEM DETAIL">><<if ↂ.pc.clothes.keys.panties != 0>><<dialog "Clothing Detail">><<print aw.slot.panties.details>><</dialog>><</if>><</button>>
+        <</if>>
+      </div>
+    </div>
+    <div id="wardrobeLegBox" class="clothingslotMENU">
+      <div id="wardLeg" class="wardCunts" style="right:0px;">
+        <<if ↂ.pc.clothes.keys.leg != 0>>
+          <<print aw.slot.leg.print()>>
+        <<else>>
+          <div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br>LEGS EMPTY</div>
+        <</if>>
+      </div>
+      <div class="wardControlsMenu" style="right:2px;">
+        <<if ↂ.pc.clothes.keys.leg != 0>>
+          <span id="legWear"><<print setup.clothes.wearKeyParse(ↂ.pc.clothes.worn.leg)>></span>
+          <<dropdown "_wearleg" _wearLeg>><br>
+          <<button "CHANGE WEAR">><<set ↂ.pc.clothes.worn.leg = _wearleg>><<replace "#legWear">><<print setup.clothes.wearKeyParse(ↂ.pc.clothes.worn.leg)>><</replace>><<status 0>><</button>>
+          <<button "ITEM DETAIL">><<if ↂ.pc.clothes.keys.leg != 0>><<dialog "Clothing Detail">><<print aw.slot.leg.details>><</dialog>><</if>><</button>>
+        <</if>>
+      </div>
+    </div>
+    <div id="wardrobeTopBox" class="clothingslotMENU">
+      <div id="wardTop" class="wardCunts" style="left:0px;">
+        <<if ↂ.pc.clothes.keys.top != 0>>
+          <<print aw.slot.top.print()>>
+        <<else>>
+          <div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br>TOP EMPTY</div>
+        <</if>>
+      </div>
+      <div class="wardControlsMenu" style="right:2px;">
+        <<if ↂ.pc.clothes.keys.top != 0>>
+          <span id="topWear"><<print setup.clothes.wearKeyParse(ↂ.pc.clothes.worn.top)>></span>
+          <<dropdown "_weartop" _wearTop>><br>
+          <<button "CHANGE WEAR">><<set ↂ.pc.clothes.worn.top = _weartop>><<replace "#topWear">><<print setup.clothes.wearKeyParse(ↂ.pc.clothes.worn.top)>><</replace>><<status 0>><</button>>
+          <<button "ITEM DETAIL">><<if ↂ.pc.clothes.keys.top != 0>><<dialog "Clothing Detail">><<print aw.slot.top.details>><</dialog>><</if>><</button>>
+        <</if>>
+      </div>
+    </div>
+    <div id="wardrobeBottomBox" class="clothingslotMENU">
+      <div id="wardBottom" class="wardCunts" style="left:0px;">
+        <<if ↂ.pc.clothes.keys.bottom != 0>>
+          <<print aw.slot.bottom.print()>>
+        <<else>>
+          <div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br><br>BOTTOM EMPTY</div>
+        <</if>>
+      </div>
+      <div class="wardControlsMenu" style="right:2px;">
+        <<if ↂ.pc.clothes.keys.bottom != 0>>
+          <span id="bottomWear"><<print setup.clothes.wearKeyParse(ↂ.pc.clothes.worn.bottom)>></span>
+          <<dropdown "_wearbottom" _wearBottom>><br>
+          <<button "CHANGE WEAR">><<set ↂ.pc.clothes.worn.bottom = _wearbottom>><<replace "#bottomWear">><<print setup.clothes.wearKeyParse(ↂ.pc.clothes.worn.bottom)>><</replace>><<status 0>><</button>>
+          <<button "ITEM DETAIL">><<if ↂ.pc.clothes.keys.bottom != 0>><<dialog "Clothing Detail">><<print aw.slot.bottom.details>><</dialog>><</if>><</button>>
+        <</if>>
+      </div>
+    </div>
+    <div id="wardrobeShoesBox" class="clothingslotMENU">
+      <div id="wardShoes" class="wardCunts" style="left:0px;">
+        <<if ↂ.pc.clothes.keys.shoes != 0>>
+          <<print aw.slot.shoes.print()>>
+        <<else>>
+          <div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br><br>SHOES EMPTY</div>
+        <</if>>
+      </div>
+      <div class="wardControlsMenu" style="right:2px;">
+        <<if ↂ.pc.clothes.keys.shoes != 0>>
+          <span id="shoesWear"><<print setup.clothes.wearKeyParse(ↂ.pc.clothes.worn.shoes)>></span>
+          <<dropdown "_wearshoes" _wearShoes>><br>
+          <<button "CHANGE WEAR">><<set ↂ.pc.clothes.worn.shoes = _wearshoes>><<replace "#shoesWear">><<print setup.clothes.wearKeyParse(ↂ.pc.clothes.worn.shoes)>><</replace>><<status 0>><</button>>
+          <<button "ITEM DETAIL">><<if ↂ.pc.clothes.keys.shoes != 0>><<dialog "Clothing Detail">><<print aw.slot.shoes.details>><</dialog>><</if>><</button>>
+        <</if>>
+      </div>
+    </div>
+    <div id="wardrobeCoatBox" class="clothingslotMENU">
+      <div id="wardCoat" class="wardCunts" style="left:0px;">
+        <<if ↂ.pc.clothes.keys.coat != 0>>
+          <<print aw.slot.coat.print()>>
+        <<else>>
+          <div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br><br>OVERWEAR EMPTY</div>
+        <</if>>
+      </div>
+      <div class="wardControlsMenu" style="right:2px;">
+        <<if ↂ.pc.clothes.keys.coat != 0>>
+          <span id="coatWear"><<print setup.clothes.wearKeyParse(ↂ.pc.clothes.worn.coat)>></span>
+          <<dropdown "_wearCoat" _wearCoat>><br>
+          <<button "CHANGE WEAR">><<set ↂ.pc.clothes.worn.coat = _wearcoat>><<replace "#coatWear">><<print setup.clothes.wearKeyParse(ↂ.pc.clothes.worn.coat)>><</replace>><<status 0>><</button>>
+          <<button "ITEM DETAIL">><<if ↂ.pc.clothes.keys.coat != 0>><<dialog "Clothing Detail">><<print aw.slot.coat.details>><</dialog>><</if>><</button>>
+        <</if>>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+:: MENU-Character-Skills [nobr]
+
+<br>
+
+<div style="text-align:left;float:left;margin:0px 40px 50px 0px;">
+<<print "<ul id='skill'><li><span class='bar' style='width:" + ( ↂ.skill.sex / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Sex Skill [" + ↂ.skill.sex + "]</p></li><li><span class='bar' style='width:" + ( ↂ.skill.oral / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Oral Skill [" + ↂ.skill.oral + "]</p></li><li><span class='bar' style='width:" + ( ↂ.skill.prostitute / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Prostitution [" + ↂ.skill.prostitute + "]</p></li><li><span class='bar' style='width:" + ( ↂ.skill.seduction / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Seduction [" + ↂ.skill.seduction + "]</p></li><li><span class='bar' style='width:" + ( ↂ.skill.exhibition / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Exhibition [" + ↂ.skill.exhibition + "]</p></li><li><span class='bar' style='width:" + ( ↂ.skill.comm / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Communication [" + ↂ.skill.comm + "]</p></li><li><span class='bar' style='width:" + ( ↂ.skill.org / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Organization [" + ↂ.skill.org + "]</p></li><li><span class='bar' style='width:" + ( ↂ.skill.probSolving / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Problem Solving [" + ↂ.skill.probSolving + "]</p></li><li><span class='bar' style='width:" + ( ↂ.skill.finance / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Finance [" + ↂ.skill.finance + "]</p></li><li><span class='bar' style='width:" + ( ↂ.skill.art / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Aesthetics [" + ↂ.skill.art + "]</p></li><li><span class='bar' style='width:" + ( ↂ.skill.athletic / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Athletics [" + ↂ.skill.athletic + "]</p></li><li><span class='bar' style='width:" + ( ↂ.skill.clean / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Cleaning [" + ↂ.skill.clean + "]</p></li><li><span class='bar' style='width:" + ( ↂ.skill.cook / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Cooking [" + ↂ.skill.cook + "]</p></li><li><span class='bar' style='width:" + ( ↂ.skill.dancing / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Dancing [" + ↂ.skill.dancing + "]</p></li><li><span class='bar' style='width:" + ( ↂ.skill.shop / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Shopping [" + ↂ.skill.shop + "]</p></li></ul>">>
+</div>
+<span style="font-size:1.2rem;">@@.head;Background:@@ ↂpc.main.background </span><br>
+<h3>Courses</h3>
+[not implemented]
+<h3>Other Information</h3>
+[not implemented]
+
+
+:: MENU-Character-Detail [nobr]
+
+
+<table class="tablefuckin" style="margin:10px auto;padding:5px;width:98%;">
+  <tr><td colspan=6 class="head4">General</td></tr>
+  <tr>
+    <td style="width:13%;"><b>Name:</b></td>
+    <td style="width:20%;"><<= ↂ.pc.main.name>> <<= ↂ.pc.main.surname>></td>
+    <td style="width:13%;"><b>Age:</b></td>
+    <td style="width:20%;"><<= ↂ.pc.main.age>> (ID: <<= ↂ.pc.main.ageID>>)</td>
+    <td style="width:13%;"><b>Birthday:</b></td>
+    <td><<= ↂ.pc.main.bd[0] + ((ↂ.pc.main.bd[1] - 1) * 7)>> <<print setup.monthName(ↂ.pc.main.bd[2])>> <<= ↂ.pc.main.bd[3]>></td>
+  </tr>
+  <tr>
+    <td><b>Race:</b></td>
+    <td><<= ↂ.pc.body.race>></td>
+    <td><b>Skin:</b></td>
+    <td><<= ↂ.pc.body.skinColor>></td>
+    <td><b>Height:</b></td>
+    <td><<unit ↂpc.body.height "in">></td>
+  </tr>
+  <tr>
+    <td><b>Beauty:</b></td>
+    <td><<p beauty.q>></td>
+    <td><b>Eye Color:</b></td>
+    <td><<= ↂ.pc.body.eyeColor>></td>
+    <td><b>Face Type:</b></td>
+    <td><<= ↂ.pc.body.face>></td>
+  </tr>
+  <tr>
+    <td><b>Lips:</b></td>
+    <td><<p lips.q>></td>
+    <td><b>Brow:</b></td>
+    <td><<p brow.q>></td>
+    <td><b>Nose:</b></td>
+    <td><<= ↂ.pc.body.nose>></td>
+  </tr>
+  <tr>
+    <td><b>Tone:</b></td>
+    <td><<p tone.q>></td>
+    <td><b>Weight:</b></td>
+    <td><<p weight.q>></td>
+    <td><b>Shoulders:</b></td>
+    <td><<p shoulders.q>></td>
+  </tr>
+  <tr>
+    <td><b>Hips:</b></td>
+    <td><<p hips.q>></td>
+    <td><b>Waist:</b></td>
+    <td><<p waist.q>></td>
+    <td><b>Pelvis:</b></td>
+    <td><<p pelvis.q>></td>
+  </tr>
+  <tr><td colspan=6 class="head4">Breasts</td></tr>
+  <tr>
+    <td><b>Size:</b></td>
+    <td><<= ↂ.pc.body.tits.base.size>>cc (base)<br><<= ↂ.pc.body.tits.size>>cc (current)</td>
+    <td><b>Cup Size:</b></td>
+    <td><<= ↂ.pc.body.tits.base.cup>> (base)<br><<= ↂ.pc.body.tits.cup>> (cur)</td>
+    <td><b>Band Size:</b></td>
+    <td><<= ↂ.pc.body.tits.band>> [<<= Math.round(ↂ.pc.body.tits.band * 2.54)>>EU]</td>
+  </tr>
+  <tr>
+    <td><b>Silicone:</b></td>
+    <td><<= ↂ.pc.body.tits.silicone>></td>
+    <td><b>Shape:</b></td>
+    <td><<= ↂ.pc.body.tits.shape>></td>
+    <td><b>Areola Size:</b></td>
+    <td><<p areolasize.q>></td>
+  </tr>
+  <tr>
+    <td><b>Nip Length:</b></td>
+    <td><<p niplength.q>></td>
+    <td><b>Nip Girth:</b></td>
+    <td><<p nipwidth.q>></td>
+    <td><b>Puffiness:</b></td>
+    <td><<p areolapuffy.q>></td>
+  </tr>
+  <tr><td colspan=6 class="head">Lactation Information</td></tr>
+  <tr>
+    <td><b>Productivity:</b></td>
+    <td><<= ↂ.pc.body.lactation>></td>
+    <td><b>Capacity:</b></td>
+    <td><<= ↂ.pc.body.lactCapacity>> ml each</td>
+    <td><b>Lactating:</b></td>
+    <td><<if ↂ.pc.body.tits.lact.on>>YES<<else>>NO<</if>></td>
+  </tr>
+  <tr>
+    <td colspan=2><b>Breast Size When Full:</b></td>
+    <td><<= ↂ.pc.body.tits.lact.max>></td>
+    <td colspan=2><b>Cup Size When Full:</b></td>
+    <td><<= ↂ.pc.body.tits.lact.cup>></td>
+  </tr>
+  <tr><td colspan=6 class="head4">Vagina</td></tr>
+  <tr>
+    <td><b>Virgin:</b></td>
+    <td><<if ↂ.pc.body.pussy.virgin>>YES?!<<else>>NO<</if>></td>
+    <td><b>Tightness:</b></td>
+    <td><<p pussy.q>> (<<= ↂ.pc.body.pussy.tight>>)</td>
+    <td><b>Stretch:</b></td>
+    <td><<= ↂ.pc.body.pussy.stretch>></td>
+  </tr>
+  <tr>
+    <td><b>Wetness:</b></td>
+    <td><<p natwet.q>> (<<= ↂ.pc.body.pussy.wetness>>)</td>
+    <td><b>Clit:</b></td>
+    <td><<p clit.q>></td>
+    <td><b>Labia:</b></td>
+    <td><<p labia.q>></td>
+  </tr>
+  <tr><td colspan=6 class="head4">Anus</td></tr>
+  <tr>
+    <td><b>Virgin:</b></td>
+    <td><<if ↂ.pc.body.asshole.virgin>>YES<<else>>NO<</if>></td>
+    <td><b>Tightness:</b></td>
+    <td><<p asshole.q>> (<<= ↂ.pc.body.asshole.tight>>)</td>
+    <td><b>Stretch:</b></td>
+    <td><<= ↂ.pc.body.asshole.stretch>></td>
+  </tr>
+</table>
+
+<table style="margin:10px auto;width:98%;">
+  <tr>
+    <td style="width:50%;">@@.head3;Willpower and Personality@@<br>Willpower: ↂpc.trait.will<br>Intro/Extroversion: ↂpc.trait.vert<br>Open/Closed to Experience: ↂpc.trait.open</td>
+    <td>@@.head3;Height Attraction@@<br>Short: <<like ↂ.pref.height[0]>><br>Average: <<like ↂ.pref.height[1]>><br>Tall: <<like ↂ.pref.height[2]>><br>Very Tall: <<like ↂ.pref.height[3]>>
+    </td>
+  </tr>
+  <tr>
+    <td>@@.head3;Personality Traits@@<br>
+    <<if ↂ.pc.trait.caring == 1>>Caring<br><<elseif ↂ.pc.trait.caring == -1>>Uncaring<br><</if>><<if ↂ.pc.trait.bitch == 1>>Bitch<br><<elseif ↂ.pc.trait.bitch == -1>>Kind<br><</if>><<if ↂ.pc.trait.maternal == 1>>Maternal<br><<elseif ↂ.pc.trait.maternal == -1>>Bad With Kids<br><</if>><<if ↂ.pc.trait.romantic == 1>>Romantic<br><<elseif ↂ.pc.trait.romantic == -1>>Aromantic<br><</if>><<if ↂ.pc.trait.deceptive == 1>>Deceptive<br><<elseif ↂ.pc.trait.deceptive == -1>>Honest<br><</if>><<if ↂ.pc.trait.devious == 1>>Devious<br><<elseif ↂ.pc.trait.devious == -1>>Straight-Forward<br><</if>><<if ↂ.pc.trait.persuasive == 1>>Persuasive<br><<elseif ↂ.pc.trait.persuasive == -1>>Persuadable<br><</if>><<if ↂ.pc.trait.perceptive == 1>>Perceptive<br><<elseif ↂ.pc.trait.perceptive == -1>>Oblivious<br><</if>><<if ↂ.pc.trait.forgetful == 1>>Forgetful<br><<elseif ↂ.pc.trait.forgetful == -1>>Good Memory<br><</if>><<if ↂ.pc.trait.forgiving == 1>>Forgiving<br><<elseif ↂ.pc.trait.forgiving == -1>>Holds Grudges<br><</if>><<if ↂ.pc.trait.lowEsteem == 1>>Low Self Esteem<br><<elseif ↂ.pc.trait.lowEsteem == -1>>Narcissistic<br><</if>><<if ↂ.pc.trait.picky == 1>>Picky<br><<elseif ↂ.pc.trait.picky == -1>>Low Standards<br><</if>><<if ↂ.pc.trait.crude == 1>>Crude<br><<elseif ↂ.pc.trait.crude == -1>>Refined<br><</if>><<if ↂ.pc.trait.friendly == 1>>Friendly<br><<elseif ↂ.pc.trait.friendly == -1>>Unfriendly<br><</if>><<if ↂ.pc.trait.approachable == 1>>Approachable<br><<elseif ↂ.pc.trait.approachable == -1>>Unapproachable<br><</if>><<if ↂ.pc.trait.relaxed == 1>>Relaxed<br><<elseif ↂ.pc.trait.relaxed == -1>>Ambitious<br><</if>><<if ↂ.pc.trait.flirty == 1>>Flirty<br><<elseif ↂ.pc.trait.flirty == -1>>Shy<br><</if>><<if ↂ.pc.trait.materialist == 1>>Materialist<br><<elseif ↂ.pc.trait.materialist == -1>>Non-Material<br><</if>>
+    </td>
+    <td>@@.head3;Sexual Traits@@<br>
+    Libido: <<pcLibido>><<if ↂ.pc.kink.oral>><br>Likes Oral<</if>><<if ↂ.pc.kink.anal>><br>Likes Anal<</if>><<if ↂ.pc.kink.force>><br>Likes Forced<</if>><<if ↂ.pc.kink.risky>><br>Likes Bare Sex<</if>><<if ↂ.pc.kink.pregnancy>><br>Pregnancy Fetish<</if>><<if ↂ.pc.kink.sizequeen>><br>Size Queen<</if>><<if ↂ.pc.kink.sub>><br>Submissive<</if>><<if ↂ.pc.kink.cumSlut>><br>Cumslut<</if>> <<if ↂ.pc.kink.exhibition>><br>Exhibitionist<</if>> <<if ↂ.pc.kink.masochist>><br>Masochist<</if>> <<if ↂ.pc.kink.buttSlut>><br>Buttslut<</if>> <<if ↂ.pc.kink.public>><br>Likes Public Sex<</if>><<if ↂ.pc.kink.slut>><br>Slut<</if>><<if ↂ.pc.kink.rape>><br>Rape Fetish<</if>><<if ↂ.pc.kink.liberate>><br>Prostitute<</if>><<if ↂ.pc.kink.nips>><br>Sensitive Nipples<</if>><<if ↂ.pc.kink.easy>><br>Easy to Please<</if>><<if ↂ.pc.kink.dom>><br>Dominant Streak<</if>><<if ↂ.pc.kink.water>><br>Waterworks Okay<</if>><<if ↂ.pc.kink.bond>><br>Bondage Okay<</if>><<if ↂ.pc.kink.hard>><br>Hard to Please<</if>><<if ↂ.pc.kink.fap>><br>Fapper<</if>><<if ↂ.pc.kink.shame>><br>Shamefast<</if>>
+    </td>
+  </tr>
+  <tr>
+    <td colspan=2>@@.head3;Mutations@@<br>
+    <<if ↂ.pc.mutate.birthCon>>Abnormal Hormones <i>chemical birth control has a much higher failure rate for you</i><br><</if>>
+    <<if ↂ.pc.mutate.contort>>Contortionist <i>you have no penalty for extreme bondage</i><br><</if>>
+    <<if ↂ.pc.mutate.immune>>Ethanol Immunity <i>you do not get drunk</i><br><</if>>
+    <<if ↂ.pc.mutate.cycle>>Hyper Menstral Cycle <i>you ovulate multiple times per cycle</i><</if>>
+    <<if ↂ.pc.mutate.milk>>Hypermilky <i>you always lactate</i><br><</if>>
+    <<if ↂ.pc.mutate.multiple>>Multiple Ovulation <i>you release multiple eggs on each ovulation</i><br><</if>>
+    <<if ↂ.pc.mutate.gestate>>Rapid Gestation <i>your pregnancies come to term in 6 weeks</i><br><</if>>
+    <<if ↂ.pc.mutate.mouth>>Salivary Enzymes <i>your spit damages condoms</i><br><</if>>
+    <<if ↂ.pc.mutate.twinWomb>>Twin Wombs <i>you have two functioning uteruses</i><br><</if>>
+    <<if ↂ.pc.mutate.acid>>Vaginal Enzymes <i>your femlube damages condoms</i><br><</if>>
+    <<if ↂ.pc.mutate.pheromone>>Vulva Pheromones <i>the smell of your pussy is irresistable to men</i><br><</if>>
+    <<if ↂ.pc.mutate.litePhero>>Alluring Pheromones <i>you produce pheromones that make you more attractive to men and less to women</i><br><</if>>
+    <<if ↂ.pc.mutate.period>>Amenorrhea <i>you do not normally have a period</i><br><</if>>
+    <<if ↂ.pc.mutate.cumpire>>Lilith's Porphyria <i>you must feed on others or take expensive medicine to survive</i><br><</if>>
+    <<if ↂ.pc.mutate.pseudoPreg>>Pseudo-Pregnancy <i>non-viable or non-human semen results in a pseudo-pregnancy</i><br><</if>>
+    <<if ↂ.pc.mutate.elastic>>Elastic Orifices <i>Your orifices are less likely to become permanently stretched, and recover faster from temporary stretching</i><br><</if>>
+    <<if ↂ.pc.mutate.goddess>>@@.head4;Special Mutations@@<br>@@.good;''Fertility Goddess''@@ <i>your body is so perfect for breeding that it must be divine--literally</i> @@.note;you have a preternatural ability to gauge the fertility of potential mates, an unnatural attractiveness, and unmatched control over your reproductive system. People would probably worship you, if you permitted them to bask in your splendor.@@<<elseif ↂ.pc.mutate.fertStorm>>@@.head4;Special Mutations@@<br>@@.good;''Fertility Storm''@@ <i>your body is a perfect storm of fertility</i> @@.note;You get the feeling that your body has some other unknown advantage...@@<</if>>
+    </td>
+  </tr>
+</table>
+<br>
+<table style="margin:10px auto;width:98%;">
+<tr class="divide"><td colspan=4>@@.head3;Attraction@@</td></tr>
+<tr class="divide"><td colspan=4><h3>Male Attraction</h3></td></tr>
+<tr><td width="25%">
+''Muscle Attractions''
+<br>Frail: <<like ↂ.pref.muscle[0]>>
+<br>Weak: <<like ↂ.pref.muscle[1]>>
+<br>Normal: <<like ↂ.pref.muscle[2]>>
+<br>Toned: <<like ↂ.pref.muscle[3]>>
+<br>Muscular: <<like ↂ.pref.muscle[4]>>
+<br>He-Man: <<like ↂ.pref.muscle[5]>>
+</td><td width="25%">
+''Weight Attractions''
+<br>Anorexic: <<like ↂ.pref.weight[0]>>
+<br>Skinny: <<like ↂ.pref.weight[1]>>
+<br>Normal: <<like ↂ.pref.weight[2]>>
+<br>Plush: <<like ↂ.pref.weight[3]>>
+<br>Chubby: <<like ↂ.pref.weight[4]>>
+<br>Fat: <<like ↂ.pref.weight[5]>>
+</td><td width="25%">
+''Height Attractions''
+<br>Very Short: <<like ↂ.pref.height[0]>>
+<br>Short: <<like ↂ.pref.height[1]>>
+<br>Average: <<like ↂ.pref.height[2]>>
+<br>Tall: <<like ↂ.pref.height[3]>>
+<br>Very Tall: <<like ↂ.pref.height[4]>>
+</td><td width="25%">
+''Other Attractions''
+<br>Bald: <<like ↂ.pref.other[0]>>
+<br>Glasses: <<like ↂ.pref.other[1]>>
+<br>Facial Hair: <<like ↂ.pref.other[2]>>
+<br>Smart: <<like ↂ.pref.other[3]>>
+<br>Dumb: <<like ↂ.pref.other[4]>>
+<br>Wealthy: <<like ↂ.pref.other[5]>>
+<br>Poor: <<like ↂ.pref.other[6]>>
+<br>Stylish: <<like ↂ.pref.other[7]>>
+<br>Large Penis: <<like ↂ.pref.other[8]>>
+<br>Small Penis: <<like ↂ.pref.other[9]>>
+</td></tr><tr class="divide"><td colspan=4>
+<h3>Female Attraction</h3></td></tr>
 <tr><td>
-@@.ident;''Attractiveness'' <<= $PC.status.ATR>>@@<br>
-''Cleanliness:'' @@.exp;<<pcCleanStatus>>@@<br>
-''Makeup:'' @@.note;<<print $PC.groom.makeup>>@@<br>
-''Hair Style:'' @@.exp;<<= setup.hair.prop("name")>>@@<br>
-''Health:'' <<if $PC.status.health >= 90>>@@.good;Excellent (<<= $PC.status.health>>)@@<<elseif $PC.status.health >= 80>>@@.good;Good (<<= $PC.status.health>>)@@<br><<elseif $PC.status.health >= 70>>@@.good;Okay (<<= $PC.status.health>>)@@<<elseif $PC.status.health >= 50>>@@.import;Poor (<<= $PC.status.health>>)@@<<elseif $PC.status.health >= 30>>@@.orange;Critical (<<= $PC.status.health>>)@@<<else>>@@.bad;Dying (<<= $PC.status.health>>)@@<</if>><br>
-''Physical Atr:'' @@.exp;<<print $PC.body.ATR>>@@  @@.note;(<<print $PC.body.topATR>>/<<print $PC.body.botATR>>)@@<br>
-''Clothing Atr:'' <<set _catr = $PC.clothes.atr + $PC.clothes.statATR>>@@.exp;<<print _catr>>@@<br>
-''Other Atr:'' <<set _oatr = $PC.status.ATR - ( $PC.body.ATR + _catr )>>@@.exp;<<print _oatr>>@@<br>
-''Day of Menstrual Cycle:'' @@.exp;<<= $monthDate>>@@
-<br>
-<<if $monthDate == 14 || $PC.status.risk == 5>>
-	<<set _ovulate = "Today">>
-<<elseif $monthDate > 14>>
-	<<set _ovulate = (28 - $monthDate) + 14>>
-<<else>>
-	<<set _ovulate = 14 - $monthDate>>
-<</if>>
-<<if $PC.mutate.twinWomb>>
-	<<if $PC.status.wombA.weeks > 0 && $PC.status.wombA.know && $PC.status.wombB.weeks > 0 && $PC.status.wombB.know>>
-		<<set _ovulate = "N/A">>
-	<</if>>
-<<else>>
-	<<if $PC.status.wombA.weeks > 0 && $PC.status.wombA.know>>
-		<<set _ovulate = "N/A">>
-	<</if>>
-<</if>>
-<<if $PC.status.birthConType == "none">>
-	''You should ovulate in:'' @@.exp;<<= _ovulate>> days@@
-<<else>>
-	''You <i>shouldn't</i> ovulate in:'' @@.exp;<<= _ovulate>> days@@<br>
-	You are using the @@.exp;<<= $PC.status.birthConType>>@@ for birth control.
-	<<if $PC.status.birthConType == "pill">>
-		<br>Birth control pill taken today: @@.exp;Yes@@
-	<</if>>
-	<<if $PC.status.birthConType == "patch">>
-		<br>Birth control patch age: @@.exp;0@@ day
-	<</if>>
-	<<if $PC.status.birthConType == "depo shot">>
-		<br>Days since injection: @@.exp;0@@
-	<</if>>
-<</if>>
-<br>
-<<if $PC.mutate.twinWomb>>
-''1st Womb Health: ''<<if $PC.fert.wombHealth < -1>>divine<<elseif $PC.fert.wombHealth == -1>>great<<elseif $PC.fert.wombHealth == 0>>good<<elseif $PC.fert.wombHealth == 1>>fine<<elseif $PC.fert.wombHealth == 2>>okay<<else>>poor<</if>>
-<<else>>
-''Womb Health: ''<<if $PC.fert.wombHealth < -1>>divine<<elseif $PC.fert.wombHealth == -1>>great<<elseif $PC.fert.wombHealth == 0>>good<<elseif $PC.fert.wombHealth == 1>>fine<<elseif $PC.fert.wombHealth == 2>>okay<<else>>poor<</if>>
-<</if>>
-<<if $PC.status.wombA.weeks > 0 && $PC.status.wombA.know>>
-	pregnant, @@.exp;<<= $PC.status.wombA.weeks>>@@ weeks to term
-<<else>>
-	@@.good;Good@@
-<</if>>
-<<if $PC.mutate.twinWomb>>
-	<br>
-	''2nd Womb Health: ''<<if $PC.fert.wombHealth < -1>>divine<<elseif $PC.fert.wombHealth == -1>>great<<elseif $PC.fert.wombHealth == 0>>good<<elseif $PC.fert.wombHealth == 1>>fine<<elseif $PC.fert.wombHealth == 2>>okay<<else>>poor<</if>>
-	<<if $PC.status.wombB.weeks > 0 && $PC.status.wombB.know>>
-	pregnant, @@.exp;<<= $PC.status.wombA.weeks>>@@ weeks to term
-	<<else>>
-		@@.good;Good@@
-	<</if>>
-<</if>>
-</td><td width=50%>
-@@font-size:90%;Hair -@@ @@font-size:90%;.exp;<<cond $PC.cond.Hair>>@@<br>
-@@font-size:90%;Face -@@ @@font-size:90%;.exp;<<cond $PC.cond.Face>>@@<br>
-@@font-size:90%;Chest -@@ @@font-size:90%;.exp;<<cond $PC.cond.Chest>>@@<br>
-@@font-size:90%;Back -@@ @@font-size:90%;.exp;<<cond $PC.cond.Back>>@@<br>
-@@font-size:90%;Hands -@@ @@font-size:90%;.exp;<<cond $PC.cond.Hands>>@@<br>
-@@font-size:90%;Stomach -@@ @@font-size:90%;.exp;<<cond $PC.cond.Stomach>>@@<br>
-/*</td><td width=33%>*/
-@@font-size:90%;Butt -@@ @@font-size:90%;.exp;<<cond $PC.cond.Butt>>@@<br>
-@@font-size:90%;Pubis -@@ @@font-size:90%;.exp;<<cond $PC.cond.Pubis>>@@<br>
-@@font-size:90%;Vagina -@@ @@font-size:90%;.exp;<<cond $PC.cond.Vagina>>@@<br>
-@@font-size:90%;Anus -@@ @@font-size:90%;.exp;<<cond $PC.cond.Anus>>@@<br>
-@@font-size:90%;Legs -@@ @@font-size:90%;.exp;<<cond $PC.cond.Legs>>@@<br>
-@@font-size:90%;Feet -@@ @@font-size:90%;.exp;<<cond $PC.cond.Feet>>@@
+''Muscle Attractions''
+<br>Frail: <<like ↂ.pref.Fmuscle[0]>>
+<br>Weak: <<like ↂ.pref.Fmuscle[1]>>
+<br>Normal: <<like ↂ.pref.Fmuscle[2]>>
+<br>Toned: <<like ↂ.pref.Fmuscle[3]>>
+<br>Muscular: <<like ↂ.pref.Fmuscle[4]>>
+<br>Body Builder: <<like ↂ.pref.Fmuscle[5]>>
+</td><td>
+''Weight Attractions''
+<br>Anorexic: <<like ↂ.pref.Fweight[0]>>
+<br>Skinny: <<like ↂ.pref.Fweight[1]>>
+<br>Normal: <<like ↂ.pref.Fweight[2]>>
+<br>Plush: <<like ↂ.pref.Fweight[3]>>
+<br>Chubby: <<like ↂ.pref.Fweight[4]>>
+<br>Fat: <<like ↂ.pref.Fweight[5]>>
+</td><td>
+''Height Attractions''
+<br>Very Short: <<like ↂ.pref.Fheight[0]>>
+<br>Short: <<like ↂ.pref.Fheight[1]>>
+<br>Average: <<like ↂ.pref.Fheight[2]>>
+<br>Tall: <<like ↂ.pref.Fheight[3]>>
+<br>Very Tall: <<like ↂ.pref.Fheight[4]>>
+</td><td>
+''Other Attractions''
+<br>Large Breasts: <<like ↂ.pref.Fother[0]>>
+<br>Small Breasts: <<like ↂ.pref.Fother[1]>>
+<br>Large Hips: <<like ↂ.pref.Fother[2]>>
+<br>Small Hips: <<like ↂ.pref.Fother[3]>>
+<br>Smart: <<like ↂ.pref.Fother[4]>>
+<br>Dumb: <<like ↂ.pref.Fother[5]>>
+<br>Glasses: <<like ↂ.pref.Fother[6]>>
+<br>Stylish: <<like ↂ.pref.Fother[7]>>
+<br>Makeup: <<like ↂ.pref.Fother[8]>>
+<br>Large Butt: <<like ↂ.pref.Fother[9]>>
+<br>Small Butt: <<like ↂ.pref.Fother[10]>>
 </td></tr>
 </table>
+
+
+:: MENU-EmploymentINFO [nobr]
+
 <<print setup.job.workCalendar()>>
-<table>
+<table class="tablefuckin" style="margin:10px auto;padding:5px;width:98%;">
 <tr class="divide">
 <td colspan=4>
 @@.head2;Basic Employment Information@@
@@ -262,32 +689,32 @@
 <td width="20%">
 ''Employer:''
 </td><td width="30%">
-<<= $job.employer>>
+<<= ↂ.job.employer>>
 </td><td width="20%">
 ''Job Title:''
 </td><td width="30%">
-<<= $job.name>>
+<<= ↂ.job.name>>
 </td>
 </tr><tr><td>
 ''Supervisor:''<br>
 ''Skills Used:''
 </td><td>
-<<= $job.rules.boss>><br>
-<<= $job.skills>>
+<<= ↂ.job.rules.boss>><br>
+<<= ↂ.job.skills>>
 </td><td>
 ''Description:''
 </td><td>
-<<= $job.desc>>
+<<= ↂ.job.desc>>
 </td>
 </tr><tr>
 <td>
 ''With Employer:''
 </td><td>
-<<= $job.stats.daysworkedTotal>> days
+<<= ↂ.job.stats.daysworkedTotal>> days
 </td><td>
 ''In Position:''
 </td><td>
-<<= $job.stats.daysworked>> days
+<<= ↂ.job.stats.daysworked>> days
 </td>
 </tr><tr class="divide">
 <td colspan=4>
@@ -297,31 +724,31 @@
 <td>
 ''Times Late:''
 </td><td>
-<<= $job.late.recent>> recently, <<= $job.late.times>> total
+<<= ↂ.job.late.recent>> recently, <<= ↂ.job.late.times>> total
 </td><td>
 ''Sick Leave:''
 </td><td>
-balance: <<= $job.sick.balance>>hrs, used: <<= $job.sick.used>>
+balance: <<= ↂ.job.sick.balance>>hrs, used: <<= ↂ.job.sick.used>>
 </td>
 </tr><tr>
 <td>
 ''Times Missed:''
 </td><td>
-<<= $job.missed.recent>> recently, <<= $job.missed.times>> total
+<<= ↂ.job.missed.recent>> recently, <<= ↂ.job.missed.times>> total
 </td><td>
 ''Paid Leave:''
 </td><td>
-balance: <<= $job.vacation.balPaid>>hrs, used: <<= $job.vacation.usedPaid>>
+balance: <<= ↂ.job.vacation.balPaid>>hrs, used: <<= ↂ.job.vacation.usedPaid>>
 </td>
 </tr><tr>
 <td>
 ''Promotion Rank:''
 </td><td>
-Level <<= $job.stats.rank>>
+Level <<= ↂ.job.stats.rank>>
 </td><td>
 ''Unpaid Leave:''
 </td><td>
-balance: <<= $job.vacation.balance>>hrs, used: <<= $job.vacation.used>>
+balance: <<= ↂ.job.vacation.balance>>hrs, used: <<= ↂ.job.vacation.used>>
 </td>
 </tr><tr>
 <td colspan=4>
@@ -335,438 +762,192 @@ Other information, including relationship status with boss, coworkers, and subor
 <td>
 ''Hourly Wage:''
 </td><td>
-@@.money;<<mon>><<= $job.rules.payrate>>@@ per hour
+@@.money;<<mon>><<= ↂ.job.rules.payrate>>@@ per hour
 </td><td>
 ''Paid Sick Leave:''
 </td><td>
-<<= $job.sick.rate>> hours per month
+<<= ↂ.job.sick.rate>> hours per month
 </td>
 </tr><tr>
 <td>
 ''Hours per Week:''
 </td><td>
-<<= $job.rules.worktime[0]>> hours
+<<= ↂ.job.rules.worktime[0]>> hours
 </td><td>
 ''Unpaid Leave:''
 </td><td>
-<<= $job.vacation.rate>> hours per month
+<<= ↂ.job.vacation.rate>> hours per month
 </td>
 </tr><tr>
 <td>
 ''Weekly Income:''
 </td><td>
-@@.money;<<mon>><<= ( Math.round( $job.rules.worktime[0] * $job.rules.payrate))>>@@
+@@.money;<<mon>><<= ( Math.round( ↂ.job.rules.worktime[0] * ↂ.job.rules.payrate))>>@@
 </td><td>
 ''Paid Leave:''
 </td><td>
-<<= $job.vacation.ratePaid>> hours per month
+<<= ↂ.job.vacation.ratePaid>> hours per month
 </td>
 </tr>
 </table>
 
 
-:: MENU-Character-Actions [nobr]
 
-<center>@@.head3;Action Menu@@</center>
-@@.note;NOT IMPLEMENTED - This is where you will do things to your character, such as adjust your clothes, wipe your face, or use "standard" items from your purse.@@
+:: MENU-AutoHandMilking [nobr]
 
-
-:: MENU-Character-Persona [nobr]
-
-<center>@@.head3;Behavior Options Menu@@</center>
-
-@@.note;NOT IMPLEMENTED - This is where you will set behavioral options such as your persona (seductive, demure, etc.), as well as what you will hide/lie/tell the truth about (birth control, for example). You will also find some options for your plans or what you intend to do. These behavior settings will sometimes be changed for you (such as becoming standoffish when angry), and available settings will change throughout the game.@@
-
-
-:: MENU-Character-Inventory [nobr]
-
-<center>@@.head2;Inventory Menu@@<br>@@.note;NOT FULLY IMPLEMENTED@@</center>
-@@.head3;Inventory@@
-<table>
-@@.exp;<<print $items.list>>@@
-</table>
-@@.head3;Standard Items@@
-<table>
-<tr><td>
-''Condoms:'' <<if $items.Condoms[0] > 0>>Duremax PE: <<print $items.Condoms[0]>>, <</if>><<if $items.Condoms[1] > 0>>Duremax: <<print $items.Condoms[1]>>, <</if>><<if $items.Condoms[2] > 0>>TrojanCock: <<print $items.Condoms[2]>>, <</if>><<if $items.Condoms[3] > 0>>TC Uber Lube: <<print $items.Condoms[3]>>, <</if>><<if $items.Condoms[1] > 0>>TC Uber noLube: <<print $items.Condoms[4]>>, <</if>><<if $items.Condoms[5] > 0>>PleasureB: <<print $items.Condoms[5]>><</if>>
-<br>
-<<if ( $items.CondomSab[0] + $items.CondomSab[1] + $items.CondomSab[2] + $items.CondomSab[3] + $items.CondomSab[4] + $items.CondomSab[5] ) > 0>>
-''Sabotaged Condoms:'' <<if $items.CondomSab[0] > 0>>Duremax PE: <<print $items.CondomSab[0]>>, <</if>><<if $items.CondomSab[1] > 0>>Duremax: <<print $items.CondomSab[1]>>, <</if>><<if $items.CondomSab[2] > 0>>TrojanCock: <<print $items.CondomSab[2]>>, <</if>><<if $items.CondomSab[3] > 0>>TC Uber Lube: <<print $items.CondomSab[3]>>, <</if>><<if $items.CondomSab[1] > 0>>TC Uber noLube: <<print $items.CondomSab[4]>>, <</if>><<if $items.CondomSab[5] > 0>>PleasureB: <<print $items.CondomSab[5]>><</if>>
-<br>
-<</if>>
-<<if $items.FaceWipes>>Facial Wipes<br><</if>>
-<<if $items.Diaphram>>Diaphram<br><</if>>
-<<if $items.MenstralCup>>Menstral Cup<br><</if>>
-</td></tr>
-</table>
-
-
-:: MENU-Character-Clothes [nobr]
-
-<<calcOutfitCombine>>
-<center>
-  @@.clothHead1;Current Clothing@@
+<div id="milkContainer">
+<center><img data-passage="IMG-MilkHandPump" style="border-radius:6px;"></center><br>
+@@.head4;I@@t takes you <<= _milk.time>> minutes to slowly drain your <<p tits.n>> of about <<= _milk.amt * 2>> milliliters of milk. Manually squeezing your <<p areolapuffy.q>> teats takes time<<if ↂ.pc.body.tits.nipGirth > 3>>, but it's sped up a little by your <<p nipw.q>> <<p nips.n>>.<<elseif ↂ.pc.body.tits.nipGirth < 3>>, which isn't helped by your <<p nipw.q>> <<p nips.n>>.<<else>> to accomplish.<</if>> <<if _milk.cum>>Your sensitive body rewards you with a pleasant orgasm though, which makes the experience a lot more fun.<<else>>Squeezing your teats has heightened your arousal, which you keenly feel between your legs as a tingle along your <<p vulva.n>>.<</if>> <<if _milk.incr>><span class="change">The stimulation from milking has increased your milk production.</span><</if>>
 <br><br>
-<div id="clothHeader">
-@@.exp;<<if $PC.clothes.nite>>Sleepwear,<<elseif $PC.clothes.ath>>Athletic Wear,<<elseif $PC.clothes.swim>>Swimwear,<</if>> <<if $PC.clothes.skirtDanger == 1>>@@.import;Short Skirt@@, <<elseif $PC.clothes.skirtDanger == 2>>@@.change;Short Skirt Danger@@, <<elseif $PC.clothes.skirtDanger == 3>>@@.change;High Skirt Danger@@, <<elseif $PC.clothes.skirtDanger>>@@.peepbad;Extreme Skirt Danger@@, <</if>><<if $PC.clothes.coordOver>>coordinated <</if>><<if $PC.clothes.coordUnder>>coordinated underwear, <</if>><<if $PC.clothes.accessP && $PC.clothes.accessB>>Direct Access: @@.mediumorchid;Nipples & Pussy@@<<elseif $PC.clothes.accessB>>Direct Access: @@.mediumorchid;Nipples@@<<elseif $PC.clothes.accessP>>Direct Access: @@.mediumorchid;Pussy@@<</if>><br>
-Attractiveness  <<print $PC.clothes.atr>>,  <<print $PC.clothes.sex>>, <<print $PC.clothes.form>><br>Exposure: Top <<print $PC.clothes.exp[0]>>, Bottom <<print $PC.clothes.exp[1]>>
-@@
+Unfortunately, because you pumped it by hand your fresh cream goes to waste... @@.mono;I need to look into selling this stuff...@@
 </div>
-</center>
 
-<div id="clothDisDiv">
-<table class="clothTab1">
-<tr id="clothRow">
-  <td style="width:85px">
-    <<if $PC.clothes.bra[0] !== "none">>
-    <<set _imgName = setup.brasIcon($PC.clothes.bra[6])>>
-    <<set _imgColor = setup.colorDecode($PC.clothes.bra[9])>>
-    <<set _img = '<img data-passage="' + _imgName + '" style="background-color:' + _imgColor + '">'>>
-    <<print _img>>
-    <<else>>
-    [img[IMGnotavailable]]
-    <</if>>
-	</td>
-  <td>
-  <<set _name = $PC.clothes.bra[0]>>
-  <<set _temp = setup.clothStatus("b")>>  
-  @@.storeitem;<<clothingName _name>><<if _temp !== "normal">> - <<print _temp>><</if>>@@<br>
-  @@.clothDatDis;Attractiveness: <<print $PC.clothes.bra[1]>> (<<atrGarmentDiscript $PC.clothes.bra[1]>>)<br>
-  Exposure: <<print $PC.clothes.bra[4]>> (<<exposureGarmentDiscript $PC.clothes.bra[4]>>)<br>
-  <<if $PC.clothes.bra[2] > 0>>''Sexiness'' <<print $PC.clothes.bra[2]>><<else>>''Cuteness'' <<print Math.abs($PC.clothes.bra[2])>><</if>> <<if $PC.clothes.bra[2] >= 6>>(//very sexy//)<<elseif $PC.clothes.bra[2] >= 3>>(//sexy//)<<elseif $PC.clothes.bra[2] <= -3>>(//very cute//)<<elseif $PC.clothes.bra[2] <= 0>>(//cute//)<</if>>, <<if $PC.clothes.bra[3] > 5>>Formal<<elseif $PC.clothes.bra[3] > 1>>Semi-Formal<<elseif $PC.clothes.bra[3] > -3>>Casual<<else>>Very Casual<</if>> Attire@@
-  <<link [img[Adjust|IMG_Options]]>><</link>>
-  @@.clothDatTtlB;.clothDatTL;Bra@@
-  </td>
-</tr>
-<tr id="spacer"><td> </td></tr>
-<tr id="clothRow">
-  <td style="width:85px">
-    <<if $PC.clothes.panties[0] !== "none">>
-    <<set _imgName = setup.pantiesIcon($PC.clothes.panties[6])>>
-    <<set _imgColor = setup.colorDecode($PC.clothes.panties[9])>>
-    <<set _img = '<img data-passage="' + _imgName + '" style="background-color:' + _imgColor + '">'>>
-    <<print _img>>
-    <<else>>
-    [img[IMGnotavailable]]
-    <</if>>
-	</td>
-  <td>
-  <<set _name = $PC.clothes.panties[0]>>
-  <<set _temp = setup.clothStatus("p")>>  
-  @@.storeitem;<<clothingName _name>><<if _temp !== "normal">><br><<print _temp>><</if>>@@<br>
-  @@.clothDatDis;Attractiveness: <<print $PC.clothes.panties[1]>> (<<atrGarmentDiscript $PC.clothes.panties[1]>>)<br>
-  Exposure: <<print $PC.clothes.panties[4]>> (<<exposureGarmentDiscript $PC.clothes.panties[4]>>)<br>
-  <<if $PC.clothes.panties[2] > 0>>''Sexiness'' <<print $PC.clothes.panties[2]>><<else>>''Cuteness'' <<print Math.abs($PC.clothes.panties[2])>><</if>> <<if $PC.clothes.panties[2] >= 6>>(//very sexy//)<<elseif $PC.clothes.panties[2] >= 3>>(//sexy//)<<elseif $PC.clothes.panties[2] <= -3>>(//very cute//)<<elseif $PC.clothes.panties[2] <= 0>>(//cute//)<</if>>, <<if $PC.clothes.panties[3] > 5>>Formal<<elseif $PC.clothes.panties[3] > 1>>Semi-Formal<<elseif $PC.clothes.panties[3] > -3>>Casual<<else>>Very Casual<</if>> Attire@@
-  <<link [img[Adjust|IMG_Options]]>><</link>>
-  @@.clothDatTtlP;.clothDatTL;Panties@@
-  </td>
-</tr>
-<tr id="spacer"><td> </td></tr>
-<tr id="clothRow">
-  <td style="width:85px">
-    <<if $PC.clothes.leg[0] !== "none">>
-    <<set _imgName = setup.stockingsIcon($PC.clothes.leg[6])>>
-    <<set _imgColor = setup.colorDecode($PC.clothes.leg[9])>>
-    <<set _img = '<img data-passage="' + _imgName + '" style="background-color:' + _imgColor + '">'>>
-    <<print _img>>
-    <<else>>
-    [img[IMGnotavailable]]
-    <</if>>
-	</td>
-  <td>
-  <<set _name = $PC.clothes.leg[0]>>
-  <<set _temp = setup.clothStatus("le")>>  
-  @@.storeitem;<<clothingName _name>><<if _temp !== "normal">><br><<print _temp>><</if>>@@<br>
-  @@.clothDatDis;Attractiveness: <<print $PC.clothes.leg[1]>> (<<atrGarmentDiscript $PC.clothes.leg[1]>>)<br>
-  Exposure: <<print $PC.clothes.leg[4]>> (<<exposureGarmentDiscript $PC.clothes.leg[4]>>)<br>
-  <<if $PC.clothes.leg[2] > 0>>''Sexiness'' <<print $PC.clothes.leg[2]>><<else>>''Cuteness'' <<print Math.abs($PC.clothes.leg[2])>><</if>> <<if $PC.clothes.leg[2] >= 6>>(//very sexy//)<<elseif $PC.clothes.leg[2] >= 3>>(//sexy//)<<elseif $PC.clothes.leg[2] <= -3>>(//very cute//)<<elseif $PC.clothes.leg[2] <= 0>>(//cute//)<</if>>, <<if $PC.clothes.leg[3] > 5>>Formal<<elseif $PC.clothes.leg[3] > 1>>Semi-Formal<<elseif $PC.clothes.leg[3] > -3>>Casual<<else>>Very Casual<</if>> Attire@@
-  <<link [img[Adjust|IMG_Options]]>><</link>><br>
-  @@.clothDatTtlL;.clothDatTL;Legs@@
-  </td>
-</tr>
-</table>
-/* SECOND TABLE */
-<table class="clothTab2">
-<<if $PC.clothes.dress == false>>
-<tr id="clothRow">
-  <td style="width:85px">
-    <<if $PC.clothes.upper[0] !== "none">>
-    <<set _imgName = setup.topsIcon($PC.clothes.upper[6])>>
-    <<set _imgColor = setup.colorDecode($PC.clothes.upper[9])>>
-    <<set _img = '<img data-passage="' + _imgName + '" style="background-color:' + _imgColor + '">'>>
-    <<print _img>>
-    <<else>>
-    [img[IMGnotavailable]]
-    <</if>>
-	</td>
-  <td>
-  <<set _name = $PC.clothes.upper[0]>>
-  <<set _temp = setup.clothStatus("u")>>  
-  @@.storeitem;<<clothingName _name>><<if _temp !== "normal">> - <<print _temp>><</if>>@@<br>
-  @@.clothDatDis;Attractiveness: <<print $PC.clothes.upper[1]>> (<<atrGarmentDiscript $PC.clothes.upper[1]>>)<br>
-  Exposure: <<print $PC.clothes.upper[4]>> (<<exposureGarmentDiscript $PC.clothes.upper[4]>>)<br>
-  <<if $PC.clothes.upper[2] > 0>>''Sexiness'' <<print $PC.clothes.upper[2]>><<else>>''Cuteness'' <<print Math.abs($PC.clothes.upper[2])>><</if>> <<if $PC.clothes.upper[2] >= 6>>(//very sexy//)<<elseif $PC.clothes.upper[2] >= 3>>(//sexy//)<<elseif $PC.clothes.upper[2] <= -3>>(//very cute//)<<elseif $PC.clothes.upper[2] <= 0>>(//cute//)<</if>>, <<if $PC.clothes.upper[3] > 5>>Formal<<elseif $PC.clothes.upper[3] > 1>>Semi-Formal<<elseif $PC.clothes.upper[3] > -3>>Casual<<else>>Very Casual<</if>> Attire@@
-  <<link [img[Adjust|IMG_Options]]>><</link>><br>
-  @@.clothDatTtlT;.clothDatTL;Top@@
-  </td>
-</tr>
-<tr id="spacer"><td> </td></tr>
-<tr id="clothRow">
-  <td style="width:85px">
-    <<if $PC.clothes.lower[0] !== "none">>
-    <<set _imgName = setup.bottomsIcon($PC.clothes.lower[6])>>
-    <<set _imgColor = setup.colorDecode($PC.clothes.lower[9])>>
-    <<set _img = '<img data-passage="' + _imgName + '" style="background-color:' + _imgColor + '">'>>
-    <<print _img>>
-    <<else>>
-    [img[IMGnotavailable]]
-    <</if>>
-	</td>
-  <td>
-  <<set _name = $PC.clothes.lower[0]>>
-  <<set _temp = setup.clothStatus("lo")>>  
-  @@.storeitem;<<clothingName _name>><<if _temp !== "normal">><br><<print _temp>><</if>>@@<br>
-  @@.clothDatDis;Attractiveness: <<print $PC.clothes.lower[1]>> (<<atrGarmentDiscript $PC.clothes.lower[1]>>)<br>
-  Exposure: <<print $PC.clothes.lower[4]>> (<<exposureGarmentDiscript $PC.clothes.lower[4]>>)<br>
-  <<if $PC.clothes.lower[2] > 0>>''Sexiness'' <<print $PC.clothes.lower[2]>><<else>>''Cuteness'' <<print Math.abs($PC.clothes.lower[2])>><</if>> <<if $PC.clothes.lower[2] >= 6>>(//very sexy//)<<elseif $PC.clothes.lower[2] >= 3>>(//sexy//)<<elseif $PC.clothes.lower[2] <= -3>>(//very cute//)<<elseif $PC.clothes.lower[2] <= 0>>(//cute//)<</if>>, <<if $PC.clothes.lower[3] > 5>>Formal<<elseif $PC.clothes.lower[3] > 1>>Semi-Formal<<elseif $PC.clothes.lower[3] > -3>>Casual<<else>>Very Casual<</if>> Attire@@
-  <<link [img[Adjust|IMG_Options]]>><</link>><br>
-  @@.clothDatTtlBo;.clothDatTL;Bottom@@
-  </td>
-</tr>
-<tr id="spacer"><td> </td></tr>
+
+:: MENU-BreastPumpMilking [nobr]
+
+<div id="milkContainer">
+<center><h3>Choose A Breast Pump</h3></center>
+<img data-passage="IMG-ManualBreastPump" style="width:100px;height:auto;margin: 0px 15px 0px 0px;">
+<<if $items.has("NipJoy Manual Breast Pump")>>
+<<button "NIPJOY MANUAL PUMP">><<run setup.status.getMilked("manual")>><<replace "#milkContainer">><<include [[MENU-BreastMilkingResults]]>><</replace>><</button>>
 <<else>>
-<tr id="clothRow">
-  <td style="width:85px">
-    <<if $PC.clothes.upper[0] !== "none">>
-    <<set _imgName = setup.dressesIcon($PC.clothes.upper[6])>>
-    <<set _imgColor = setup.colorDecode($PC.clothes.upper[9])>>
-    <<set _img = '<img data-passage="' + _imgName + '" style="background-color:' + _imgColor + '">'>>
-    <<print _img>>
-    <<else>>
-    [img[IMGnotavailable]]
-    <</if>>
-	</td>
-  <td>
-  <<set _name = $PC.clothes.upper[0]>>
-  <<set _temp = setup.clothStatus("u")>>  
-  @@.storeitem;<<clothingName _name>><<if _temp !== "normal">><br><<print _temp>><</if>>@@<br>
-  @@.clothDatDis;Attractiveness: <<print $PC.clothes.upper[1]>> (<<atrGarmentDiscript $PC.clothes.upper[1]>>)<br>
-  Exposure: <<print $PC.clothes.upper[4]>> (<<exposureGarmentDiscript $PC.clothes.upper[4]>>)<br>
-  <<if $PC.clothes.upper[2] > 0>>''Sexiness'' <<print $PC.clothes.upper[2]>><<else>>''Cuteness'' <<print Math.abs($PC.clothes.upper[2])>><</if>> <<if $PC.clothes.upper[2] >= 6>>(//very sexy//)<<elseif $PC.clothes.upper[2] >= 3>>(//sexy//)<<elseif $PC.clothes.upper[2] <= -3>>(//very cute//)<<elseif $PC.clothes.upper[2] <= 0>>(//cute//)<</if>>, <<if $PC.clothes.upper[3] > 5>>Formal<<elseif $PC.clothes.upper[3] > 1>>Semi-Formal<<elseif $PC.clothes.upper[3] > -3>>Casual<<else>>Very Casual<</if>> Attire@@
-  <<link [img[Adjust|IMG_Options]]>><</link>><br>
-  @@.clothDatTtlD;.clothDatTL;Dress@@
-  </td>  
-</tr>
-<tr id="spacer"><td> </td></tr>
-<</if>>
-<tr id="clothRow">
-  <td style="width:85px">
-    <<if $PC.clothes.over[0] !== "none">>
-    <<set _imgName = setup.overwearIcon($PC.clothes.over[6])>>
-    <<set _imgColor = setup.colorDecode($PC.clothes.over[9])>>
-    <<set _img = '<img data-passage="' + _imgName + '" style="background-color:' + _imgColor + '">'>>
-    <<print _img>>
-    <<else>>
-    [img[IMGnotavailable]]
-    <</if>>
-	</td>
-  <td>
-  <<set _name = $PC.clothes.over[0]>>
-  <<set _temp = setup.clothStatus("o")>>  
-  @@.storeitem;<<clothingName _name>><<if _temp !== "normal">><br><<print _temp>><</if>>@@<br>
-  @@.clothDatDis;Attractiveness: <<print $PC.clothes.over[1]>> (<<atrGarmentDiscript $PC.clothes.over[1]>>)<br>
-  Exposure: <<print $PC.clothes.over[4]>> (<<exposureGarmentDiscript $PC.clothes.over[4]>>)<br>
-  <<if $PC.clothes.over[2] > 0>>''Sexiness'' <<print $PC.clothes.over[2]>><<else>>''Cuteness'' <<print Math.abs($PC.clothes.over[2])>><</if>> <<if $PC.clothes.over[2] >= 6>>(//very sexy//)<<elseif $PC.clothes.over[2] >= 3>>(//sexy//)<<elseif $PC.clothes.over[2] <= -3>>(//very cute//)<<elseif $PC.clothes.over[2] <= 0>>(//cute//)<</if>>, <<if $PC.clothes.over[3] > 5>>Formal<<elseif $PC.clothes.over[3] > 1>>Semi-Formal<<elseif $PC.clothes.over[3] > -3>>Casual<<else>>Very Casual<</if>> Attire@@
-  <<link [img[Adjust|IMG_Options]]>><</link>><br>
-  @@.clothDatTtlO;.clothDatTL;Overwear@@
-  </td>
-</tr>
-</table>
+You don't have a NipJoy manual pump.
+<</if>><br><br>
+<img data-passage="IMG-ElectricBreastPump" style="width:100px;height:auto;margin: 0px 15px 0px 0px;">
+<<if $items.has("Dainty-Tits Electric Breast Pump")>>
+<<button "DAINTY-TITS ELECTRIC PUMP">><<run setup.status.getMilked("electric")>><<replace "#milkContainer">><<include [[MENU-BreastMilkingResults]]>><</replace>><</button>>
+<<else>>
+You don't have a Dainty-Tits Electric breast pump.
+<</if>><br><br>
+<img data-passage="IMG-StrongBreastPump" style="width:100px;height:auto;margin: 0px 15px 0px 0px;">
+<<if $items.has("Happy Teats Breast Pump")>>
+<<button "HAPPY TEATS STRONG PUMP">><<run setup.status.getMilked("strong")>><<replace "#milkContainer">><<include [[MENU-BreastMilkingResults]]>><</replace>><</button>>
+<<else>>
+You don't have a Happy Teats breast pump.
+<</if>><br><br>
+<img data-passage="IMG-SuperBreastPump" style="width:100px;height:auto;margin: 0px 15px 0px 0px;">
+<<if $items.has("Pump-O-Tron Breast Pump")>>
+<<button "PUMP-O-TRON SUPER PUMP">><<run setup.status.getMilked("super")>><<replace "#milkContainer">><<include [[MENU-BreastMilkingResults]]>><</replace>><</button>>
+<<else>>
+You don't have a Pump-O-Tron breast pump.
+<</if>><br><br>
+<img data-passage="IMG-InventoryNoImage" style="width:100px;height:auto;margin: 0px 15px 0px 0px;">
+You don't have an Industrial HuCow breast pump.
+<br><br>
+<img data-passage="IMG-InventoryNoImage" style="width:100px;height:auto;margin: 0px 15px 0px 0px;">
+You don't have an Institute HuCow breast pump.
+<br><br>
+<center><span class="note">Stronger breast pumps take less time to pump and are more pleasurable.</span></center>
 </div>
-/* ACCESSORIES */
-<br>
+
+
+:: MENU-BreastMilkingResults [nobr]
+
+<<updatebar>>
 <center>
-<table class="clothTab3">
-<tr id="clothRow">
-  <td style="width:85px">   
-    [img[IMGnotavailable]]   
-	</td>
-  <td>    
-  @@.storeitem;<<print $PC.clothes.accA[0]>>@@<br>
-  @@.clothDatDis;Attractiveness: <<print $PC.clothes.accA[1]>>,
-  Exposure: <<print $PC.clothes.accA[4]>>@@<br>
-  <<link [img[Adjust|IMG_Options]]>><</link>><br>
-  @@.clothDatTtlAcA;.clothDatTL;Accessory A@@
+<<switch _milk.type>>
+<<case "manual">><img data-passage="IMG-MilkManualPump" style="border-radius:6px;">
+<<case "electric">><img data-passage="IMG-MilkElectricPump" style="border-radius:6px;">
+<<case "strong">><img data-passage="IMG-MilkStrongPump" style="border-radius:6px;">
+<<case "super">><img data-passage="IMG-MilkHeavyDuty" style="border-radius:6px;">
+<<case "industrial">><img data-passage="IMG-MilkIndustrialPump" style="border-radius:6px;">
+<<case "magic">><img data-passage="IMG-MilkMagicPump" style="border-radius:6px;">
+<</switch>>
+</center><br>
+@@.head4;I@@t takes you <<= _milk.time>> minutes to pump <<= _milk.amt>> milliliters of milk out of your <<p tits.n>>. Once you start letting down and get the suction just right, your <<p areolapuffy.q>> teats start <<has nips>>radiating pleasure. It feels great, so the milk seems like just a bonus.<<or>>feeling quite nice.<</has>> <<if ↂ.pc.body.tits.nipGirth > 3>>The milking session is over quicker than someone would expect thanks to your <<p nipw.q>> <<p nips.n>>.<<elseif ↂ.pc.body.tits.nipGirth < 3>>The milking takes longer than you'd like thanks to your <<p nipw.q>> <<p nips.n>>.<</if>> <<if _milk.cum>>Your sensitive body rewards you with a pleasant orgasm, which makes the experience a lot more fun.<<else>>Squeezing your teats has heightened your arousal, which you keenly feel between your legs as a tingle along your <<p vulva.n>>.<</if>> <<if _milk.cans > 0>>You pumped enough milk to fill up <<= _milk.cans>> cryo-canister<<if _milk.cans > 1>>s<</if>>.<<else>>You didn't produce enough milk to fill up a cryo-canister, but you're making progress.<</if>> <<if _milk.incr>><span class="change">The stimulation from milking has increased your milk production.</span><</if>>
+
+:: MENU-Character-Finance [nobr]
+
+<table id="invisTable" style="width:95%;margin:10px auto;">
+<tr class="head3" style="text-align: center;">
+  <td>Transaction Menu</td>
+  <td colspan=2>Credit</td>
+  <td colspan=2>Debit</td>
+</tr>
+<tr style="vertical-align:top;">
+  <td rowspan=2>
+  <b>CASH:</b> <span class="money"><<mon>>$AW.cash</span><<tab>><b>SAVINGS:</b> <span class="money"><<mon>>ↂhome.finance.bank</span><<tab>><b>CREDIT:</b> <span class="money"><<mon>>ↂhome.finance.credit</span><<tab>><b>LOAN:</b> <span class="money"><<mon>>ↂhome.finance.loan</span>
+  </td>
+  <td style="width:15%;">
+  employment<br>
+  lotto<br>
+  milk<br>
+  gambling<br>
+  sugarDaddy<br>
+  prostitute<br>
+  yardSale<br>
+  child<br>
+  surrogate<br>
+  oddjobs<br>
+  misc
+  </td>
+  <td class="good" style="width:10%;">
+  ₢ ↂhome.finance.jobIncome<br>
+  ₢ ↂhome.finance.income.lotto<br>
+  ₢ ↂhome.finance.income.milk<br>
+  ₢ ↂhome.finance.income.gambling<br>
+  ₢ ↂhome.finance.income.sugarDaddy<br>
+  ₢ ↂhome.finance.income.prostitute<br>
+  ₢ ↂhome.finance.income.yardSale<br>
+  ₢ ↂhome.finance.income.child<br>
+  ₢ ↂhome.finance.income.surrogate<br>
+  ₢ ↂhome.finance.income.oddjobs<br>
+  ₢ ↂhome.finance.miscIncome
+  </td>
+  <td style="width:15%;">
+  rent<br>
+  food<br>
+  goods<br>
+  supplies<br>
+  isp<br>
+  cable<br>
+  maid<br>
+  car<br>
+  gas<br>
+  maintenance<br>
+  insurance<br>
+  electric<br>
+  water<br>
+  grooming<br>
+  streaming<br>
+  porn<br>
+  patreon<br>
+  gym<br>
+  lessons<br>
+  misc
+  </td>
+  <td class="bad" style="width:10%;">
+  ₢ ↂhome.finance.rent<br>
+  ₢ ↂhome.finance.food<br>
+  ₢ ↂhome.finance.goods<br>
+  ₢ ↂhome.finance.supplies<br>
+  ₢ ↂhome.finance.isp<br>
+  ₢ ↂhome.finance.cable<br>
+  ₢ ↂhome.finance.maid<br>
+  ₢ ↂhome.finance.car<br>
+  ₢ ↂhome.finance.gas<br>
+  ₢ ↂhome.finance.maint<br>
+  ₢ ↂhome.finance.insurance<br>
+  ₢ ↂhome.finance.electric<br>
+  ₢ ↂhome.finance.water<br>
+  ₢ ↂhome.finance.grooming<br>
+  ₢ ↂhome.finance.streaming<br>
+  ₢ ↂhome.finance.porn<br>
+  ₢ ↂhome.finance.patreon<br>
+  ₢ ↂhome.finance.gym<br>
+  ₢ ↂhome.finance.lessons<br>
+  ₢ ↂhome.finance.misc
   </td>
 </tr>
-<<if $PC.clothes.accA[0] !== "none">>
-<tr id="spacer"><td> </td></tr>
-<tr id="clothRow">
-  <td style="width:85px">
-    [img[IMGnotavailable]]   
-	</td>
-  <td>
-  @@.storeitem;<<print $PC.clothes.accB[0]>>@@<br>
-  @@.clothDatDis;Attractiveness: <<print $PC.clothes.accB[1]>>,
-  Exposure: <<print $PC.clothes.accB[4]>>@@<br>
-  <<link [img[Adjust|IMG_Options]]>><</link>><br>
-  @@.clothDatTtlAcA;.clothDatTL;Accessory B@@
+<tr>
+  <td colspan=2 style="font-size:1.25rem;">
+    TOTAL: <span class="good">₢ ↂhome.finance.totalIncome</span>
+  </td>
+  <td colspan=2 style="font-size:1.25rem;">
+    TOTAL: <span class="bad">₢ ↂhome.finance.totalExpense</span>
   </td>
 </tr>
-<tr id="spacer"><td> </td></tr>
-<tr id="clothRow">
-  <td style="width:85px">
-    [img[IMGnotavailable]]   
-	</td>
-  <td>
-  @@.storeitem;<<print $PC.clothes.accC[0]>>@@<br>
-  @@.clothDatDis;Attractiveness: <<print $PC.clothes.accC[1]>>,
-  Exposure: <<print $PC.clothes.accC[4]>>@@<br>
-  <<link [img[Adjust|IMG_Options]]>><</link>><br>
-  @@.clothDatTtlAcA;.clothDatTL;Accessory C@@
-  </td>
-</tr>
-<tr id="spacer"><td> </td></tr>
-<tr id="clothRow">
-  <td style="width:85px">
-    [img[IMGnotavailable]]   
-	</td>
-  <td>
-  @@.storeitem;<<print $PC.clothes.accD[0]>>@@<br>
-  @@.clothDatDis;Attractiveness: <<print $PC.clothes.accD[1]>>,
-  Exposure: <<print $PC.clothes.accD[4]>>@@<br>
-  <<link [img[Adjust|IMG_Options]]>><</link>><br>
-  @@.clothDatTtlAcA;.clothDatTL;Accessory D@@
-  </td>
-</tr>
-<</if>>
 </table>
 
-</center>
-
-:: MENU-Character-Appear [nobr]
-
-<center>@@.head3;Current Appearance Menu@@</center>
-@@font-size:130%;.import;This is a placeholder description!@@<br>
-@@.head3;Y@@ou stand <<height>> tall, with healthy $PC.body.skinColor skin. You have $PC.groom.hairColor hair that is $PC.groom.hairLength <<units>> long, and $PC.groom.pubeStyle $PC.groom.pubeColor pubic hair. Your face <<pcFaceDescript>>, with piercing $PC.body.eyeColor eyes. You have a <<pcWeight>> body that has <<pcTone>>. You have <<pcShoulderSize>> shoulders and <<pcHipSize>> hips that are tied together by your <<pcWaist>> waist. On your chest rests two <<pcBoobSize>> $PC.body.tits.shape breasts with $PC.body.tits.nipple nipples, and you have a <<pcAssSize>> butt around back. Between your legs you have a shapely female vulva; your <<pcClitSize>> clit <<pcClitView>> your <<pcLabiaSize>> labia. Inside you have a naturally <<pcWetness>> <<pcPussySize>> vagina, and <<pcFertility>> womb.
 
 
-:: MENU-Character-Skills [nobr]
-
-<br>
-<center>@@.head2;Skills Display@@</center>
-<<print "<ul id='skill'><li><span class='bar' style='width:" + ( $PC.skill.sex / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Sex Skill [" + $PC.skill.sex + "]</p></li><li><span class='bar' style='width:" + ( $PC.skill.oral / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Oral Skill [" + $PC.skill.oral + "]</p></li><li><span class='bar' style='width:" + ( $PC.skill.prostitute / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Prostitution [" + $PC.skill.prostitute + "]</p></li><li><span class='bar' style='width:" + ( $PC.skill.seduction / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Seduction [" + $PC.skill.seduction + "]</p></li><li><span class='bar' style='width:" + ( $PC.skill.exhibition / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Exhibition [" + $PC.skill.exhibition + "]</p></li><li><span class='bar' style='width:" + ( $PC.skill.comm / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Communication [" + $PC.skill.comm + "]</p></li><li><span class='bar' style='width:" + ( $PC.skill.org / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Organization [" + $PC.skill.org + "]</p></li><li><span class='bar' style='width:" + ( $PC.skill.probSolving / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Problem Solving [" + $PC.skill.probSolving + "]</p></li><li><span class='bar' style='width:" + ( $PC.skill.finance / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Finance [" + $PC.skill.finance + "]</p></li><li><span class='bar' style='width:" + ( $PC.skill.art / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Aesthetics [" + $PC.skill.art + "]</p></li><li><span class='bar' style='width:" + ( $PC.skill.athletic / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Athletics [" + $PC.skill.athletic + "]</p></li><li><span class='bar' style='width:" + ( $PC.skill.clean / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Cleaning [" + $PC.skill.clean + "]</p></li><li><span class='bar' style='width:" + ( $PC.skill.cook / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Cooking [" + $PC.skill.cook + "]</p></li><li><span class='bar' style='width:" + ( $PC.skill.dancing / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Dancing [" + $PC.skill.dancing + "]</p></li><li><span class='bar' style='width:" + ( $PC.skill.shop / 2 ) + "%; background-color:#f674a4;'></span><p class='bartext'>Shopping [" + $PC.skill.shop + "]</p></li></ul>">>
-Background: $PC.main.background
-
-
-:: MENU-Character-Detail [nobr]
-
-<center>@@.head3;Character Menu@@</center>
-<table>
-<tr><td>@@.head3;Details@@</td><td colspan=3>Needs to be completed, will list various items like height, hair color, hair length, etc. etc. in a tabular format.
-</td></tr>
-<tr><td>@@.head3;Willpower and Personality@@</td><td>Willpower: $PC.trait.will<br>Intro/Extroversion: $PC.trait.vert<br>Open/Closed to Experience: $PC.trait.open</td><td>@@.head3;Height Attraction@@</td><td>Short: <<like $pref.height[0]>><br>Average: <<like $pref.height[1]>><br>Tall: <<like $pref.height[2]>><br>Very Tall: <<like $pref.height[3]>>
-</td></tr>
-<tr><td>@@.head3;Personality Traits@@</td><td>
-<<if $PC.trait.caring == 1>>Caring<br><<elseif $PC.trait.caring == -1>>Uncaring<br><</if>><<if $PC.trait.bitch == 1>>Bitch<br><<elseif $PC.trait.bitch == -1>>Kind<br><</if>><<if $PC.trait.maternal == 1>>Maternal<br><<elseif $PC.trait.maternal == -1>>Bad With Kids<br><</if>><<if $PC.trait.romantic == 1>>Romantic<br><<elseif $PC.trait.romantic == -1>>Aromantic<br><</if>><<if $PC.trait.deceptive == 1>>Deceptive<br><<elseif $PC.trait.deceptive == -1>>Honest<br><</if>><<if $PC.trait.devious == 1>>Devious<br><<elseif $PC.trait.devious == -1>>Straight-Forward<br><</if>><<if $PC.trait.persuasive == 1>>Persuasive<br><<elseif $PC.trait.persuasive == -1>>Persuadable<br><</if>><<if $PC.trait.perceptive == 1>>Perceptive<br><<elseif $PC.trait.perceptive == -1>>Oblivious<br><</if>><<if $PC.trait.forgetful == 1>>Forgetful<br><<elseif $PC.trait.forgetful == -1>>Good Memory<br><</if>><<if $PC.trait.forgiving == 1>>Forgiving<br><<elseif $PC.trait.forgiving == -1>>Holds Grudges<br><</if>><<if $PC.trait.lowEsteem == 1>>Low Self Esteem<br><<elseif $PC.trait.lowEsteem == -1>>Narcissistic<br><</if>><<if $PC.trait.picky == 1>>Picky<br><<elseif $PC.trait.picky == -1>>Low Standards<br><</if>><<if $PC.trait.crude == 1>>Crude<br><<elseif $PC.trait.crude == -1>>Refined<br><</if>><<if $PC.trait.friendly == 1>>Friendly<br><<elseif $PC.trait.friendly == -1>>Unfriendly<br><</if>><<if $PC.trait.approachable == 1>>Approachable<br><<elseif $PC.trait.approachable == -1>>Unapproachable<br><</if>><<if $PC.trait.relaxed == 1>>Relaxed<br><<elseif $PC.trait.relaxed == -1>>Ambitious<br><</if>><<if $PC.trait.flirty == 1>>Flirty<br><<elseif $PC.trait.flirty == -1>>Shy<br><</if>><<if $PC.trait.materialist == 1>>Materialist<br><<elseif $PC.trait.materialist == -1>>Non-Material<br><</if>>
-</td><td>@@.head3;Sexual Traits@@</td><td>
-Libido: <<pcLibido>><<if $PC.kink.oral>><br>Likes Oral<</if>><<if $PC.kink.anal>><br>Likes Anal<</if>><<if $PC.kink.force>><br>Likes Forced<</if>><<if $PC.kink.risky>><br>Likes Bare Sex<</if>><<if $PC.kink.pregnancy>><br>Pregnancy Fetish<</if>><<if $PC.kink.sizequeen>><br>Size Queen<</if>><<if $PC.kink.sub>><br>Submissive<</if>><<if $PC.kink.cumSlut>><br>Cumslut<</if>> <<if $PC.kink.exhibition>><br>Exhibitionist<</if>> <<if $PC.kink.masochist>><br>Masochist<</if>> <<if $PC.kink.buttSlut>><br>Buttslut<</if>> <<if $PC.kink.public>><br>Likes Public Sex<</if>><<if $PC.kink.slut>><br>Slut<</if>><<if $PC.kink.rape>><br>Rape Fetish<</if>><<if $PC.kink.liberate>><br>Prostitute<</if>><<if $PC.kink.nips>><br>Sensitive Nipples<</if>><<if $PC.kink.easy>><br>Easy to Please<</if>><<if $PC.kink.dom>><br>Dominant Streak<</if>><<if $PC.kink.water>><br>Waterworks Okay<</if>><<if $PC.kink.bond>><br>Bondage Okay<</if>><<if $PC.kink.hard>><br>Hard to Please<</if>><<if $PC.kink.fap>><br>Fapper<</if>><<if $PC.kink.shame>><br>Shamefast<</if>>
-</td></tr>
-<tr><td>@@.head3;Mutations@@</td><td colspan=3>
-<<if $PC.mutate.birthCon>>Abnormal Hormones <i>chemical birth control has a much higher failure rate for you</i><br><</if>>
-<<if $PC.mutate.contort>>Contortionist <i>you have no penalty for extreme bondage</i><br><</if>>
-<<if $PC.mutate.immune>>Ethanol Immunity <i>you do not get drunk</i><br><</if>>
-<<if $PC.mutate.cycle>>Hyper Menstral Cycle <i>you ovulate multiple times per cycle</i><</if>>
-<<if $PC.mutate.milk>>Hypermilky <i>you always lactate</i><br><</if>>
-<<if $PC.mutate.multiple>>Multiple Ovulation <i>you release multiple eggs on each ovulation</i><br><</if>>
-<<if $PC.mutate.gestate>>Rapid Gestation <i>your pregnancies come to term in 6 weeks</i><br><</if>>
-<<if $PC.mutate.mouth>>Salivary Enzymes <i>your spit damages condoms</i><br><</if>>
-<<if $PC.mutate.twinWomb>>Twin Wombs <i>you have two functioning uteruses</i><br><</if>>
-<<if $PC.mutate.acid>>Vaginal Enzymes <i>your femlube damages condoms</i><br><</if>>
-<<if $PC.mutate.phero>>Vulva Pheromones <i>the smell of your pussy is irresistable to men</i><br><</if>>
-<<if $PC.mutate.litePhero>>Alluring Pheromones <i>you produce pheromones that make you more attractive to men and less to women</i><br><</if>>
-<<if $PC.mutate.period>>Amenorrhea <i>you do not normally have a period</i><br><</if>>
-<<if $PC.mutate.cumpire>>Lilith's Porphyria <i>you must feed on others or take expensive medicine to survive</i><br><</if>>
-<<if $PC.mutate.pseudoPreg>>Pseudo-Pregnancy <i>non-viable or non-human semen results in a pseudo-pregnancy</i><br><</if>>
-<<if $PC.mutate.elastic>>Elastic Orifices <i>Your orifices are less likely to become permanently stretched, and recover faster from temporary stretching</i><br><</if>>
-</td></tr>
-<<if $PC.mutate.goddess>><tr class="divide"><td colspan=3>@@.head4;Special Mutations@@</td></tr><tr><td colspan=3>@@.good;''Fertility Goddess''@@ <i>your body is so perfect for breeding that it must be divine--literally @@.note;you have a preternatural ability to gauge the fertility of potential mates, an unnatural attractiveness, and unmatched control over your reproductive system. People would probably worship you, if you permitted them to bask in your splendor.@@</i></td></tr><<elseif $PC.mutate.fertStorm>><tr class="divide"><td colspan=3>@@.head4;Special Mutations@@</td></tr><tr><td colspan=3>@@.good;''Fertility Storm''@@ <i>your body is a perfect storm of pregnancy @@.note;You get the feeling that your body has some other unknown advantage...@@</i></td></tr><</if>>
-</table>
-<table>
-<tr class="divide"><td colspan=4>@@.head3;Attraction@@</td></tr>
-<tr class="divide"><td colspan=4><h3>Male Attraction</h3></td></tr>
-<tr><td width="25%">
-''Muscle Attractions''
-<br>Frail: <<like $pref.muscle[0]>>
-<br>Weak: <<like $pref.muscle[1]>>
-<br>Normal: <<like $pref.muscle[2]>>
-<br>Toned: <<like $pref.muscle[3]>>
-<br>Muscular: <<like $pref.muscle[4]>>
-<br>He-Man: <<like $pref.muscle[5]>>
-</td><td width="25%">
-''Weight Attractions''
-<br>Anorexic: <<like $pref.weight[0]>>
-<br>Skinny: <<like $pref.weight[1]>>
-<br>Normal: <<like $pref.weight[2]>>
-<br>Plush: <<like $pref.weight[3]>>
-<br>Chubby: <<like $pref.weight[4]>>
-<br>Fat: <<like $pref.weight[5]>>
-</td><td width="25%">
-''Height Attractions''
-<br>Very Short: <<like $pref.height[0]>>
-<br>Short: <<like $pref.height[1]>>
-<br>Average: <<like $pref.height[2]>>
-<br>Tall: <<like $pref.height[3]>>
-<br>Very Tall: <<like $pref.height[4]>>
-</td><td width="25%">
-''Other Attractions''
-<br>Bald: <<like $pref.other[0]>>
-<br>Glasses: <<like $pref.other[1]>>
-<br>Facial Hair: <<like $pref.other[2]>>
-<br>Smart: <<like $pref.other[3]>>
-<br>Dumb: <<like $pref.other[4]>>
-<br>Wealthy: <<like $pref.other[5]>>
-<br>Poor: <<like $pref.other[6]>>
-<br>Stylish: <<like $pref.other[7]>>
-<br>Large Penis: <<like $pref.other[8]>>
-<br>Small Penis: <<like $pref.other[9]>>
-</td></tr><tr class="divide"><td colspan=4>
-<h3>Female Attraction</h3></td></tr>
-<tr><td>
-''Muscle Attractions''
-<br>Frail: <<like $pref.Fmuscle[0]>>
-<br>Weak: <<like $pref.Fmuscle[1]>>
-<br>Normal: <<like $pref.Fmuscle[2]>>
-<br>Toned: <<like $pref.Fmuscle[3]>>
-<br>Muscular: <<like $pref.Fmuscle[4]>>
-<br>Body Builder: <<like $pref.Fmuscle[5]>>
-</td><td>
-''Weight Attractions''
-<br>Anorexic: <<like $pref.Fweight[0]>>
-<br>Skinny: <<like $pref.Fweight[1]>>
-<br>Normal: <<like $pref.Fweight[2]>>
-<br>Plush: <<like $pref.Fweight[3]>>
-<br>Chubby: <<like $pref.Fweight[4]>>
-<br>Fat: <<like $pref.Fweight[5]>>
-</td><td>
-''Height Attractions''
-<br>Very Short: <<like $pref.Fheight[0]>>
-<br>Short: <<like $pref.Fheight[1]>>
-<br>Average: <<like $pref.Fheight[2]>>
-<br>Tall: <<like $pref.Fheight[3]>>
-<br>Very Tall: <<like $pref.Fheight[4]>>
-</td><td>
-''Other Attractions''
-<br>Large Breasts: <<like $pref.Fother[0]>>
-<br>Small Breasts: <<like $pref.Fother[1]>>
-<br>Large Hips: <<like $pref.Fother[2]>>
-<br>Small Hips: <<like $pref.Fother[3]>>
-<br>Smart: <<like $pref.Fother[4]>>
-<br>Dumb: <<like $pref.Fother[5]>>
-<br>Glasses: <<like $pref.Fother[6]>>
-<br>Stylish: <<like $pref.Fother[7]>>
-<br>Makeup: <<like $pref.Fother[8]>>
-<br>Large Butt: <<like $pref.Fother[9]>>
-<br>Small Butt: <<like $pref.Fother[10]>>
-</td></tr>
-</table>

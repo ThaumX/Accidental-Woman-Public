@@ -1,13 +1,13 @@
 :: MenuThemeColorPicker [nobr hidden startpage]
 
-<<set _ret = previous()>>
+<<set _ret = aw.passage.previous[0]>>
 <<if _ret == "Start2">>
   <<set _ret = "Start">>
 <</if>>
 <h1>Custom Color Theme Settings</h1>
 <p class="quest white">
 To set up your custom color scheme for Accidental Woman, simply click the input boxes below and use the color picker to select your preferred color. When you're happy with your choices, click the save button to save your choices to local storage. If you already have the theme settings set to "Custom" in the system settings menu, you may need to return to the system settings menu and change it to another option and then change it back to refresh.</p>
-<<button "Return">><<goto _ret>><</button>><<tab>><span class="uibutton"><<button "SAVE">>
+<<button "Return">><<go _ret>><</button>><<tab>><span class="uibutton"><<button "SAVE">>
 <<run _result = setup.colorretrieve()>>
 <<if _result>>
   <<replace "#colorpickas">>Colors Saved to Local Store!<br><<boobgif>><</replace>>
@@ -15,15 +15,15 @@ To set up your custom color scheme for Accidental Woman, simply click the input 
   <<replace "#colorpickas">>Something fucked up.<</replace>>
 <</if>>
 <</button>><<tab>><<button "RESET">>
-  <<set $pref.theme = {}>>
-  <<set $pref.theme.bgMain = "#0f0009">>
-  <<set $pref.theme.bgMenus = "#222">>
-  <<set $pref.theme.toggle = "#ff54c8">>
-  <<set $pref.theme.uiBorder = "#8e014a">>
-  <<set $pref.theme.scrollbar = "rgba(181,0,108,0.8)">>
-  <<set $pref.theme.head = "#ff69b4">>
-  <<set $pref.theme.table = "#b40f46">>
-  <<set $pref.theme.link = "#edacf9">>
+  <<set aw.theme = {}>>
+  <<set aw.theme.bgMain = "#0f0009">>
+  <<set aw.theme.bgMenus = "#222">>
+  <<set aw.theme.toggle = "#ff54c8">>
+  <<set aw.theme.uiBorder = "#014f8e">>
+  <<set aw.theme.scrollbar = "rgba(181,0,108,0.8)">>
+  <<set aw.theme.head = "#ff69b4">>
+  <<set aw.theme.table = "#b40f46">>
+  <<set aw.theme.link = "#edacf9">>
 <<replace "#colorpickas">><<include [[MenuThemeColorPickerButtons]]>><</replace>><</button>>
 <<tab>><<button "REFRESH">><<replace "#colorpickas">><<include [[MenuThemeColorPickerButtons]]>><</replace>><</button>></span>
 <div id="colorpickas" style="width:75%;margin:auto;">
@@ -36,20 +36,20 @@ To set up your custom color scheme for Accidental Woman, simply click the input 
 
 <h3>Background Colors</h3>
 <table id="invisTable"><tr class="quest white">
-<td style="width:20%;font-size:115%;">Main: </td><td style="width:30%"><<colorpick "bgMain" $pref.theme.bgMain>></td>
-<td style="width:20%;font-size:115%;">UI: </td><td style="width:30%"><<colorpick "bgMenus" $pref.theme.bgMenus>></td>
+<td style="width:20%;font-size:1.15rem;">Main: </td><td style="width:30%"><<colorpick "bgMain" aw.theme.bgMain>></td>
+<td style="width:20%;font-size:1.15rem;">UI: </td><td style="width:30%"><<colorpick "bgMenus" aw.theme.bgMenus>></td>
 </tr></table>
 
 <h3>Element Colors</h3>
 <table id="invisTable"><tr class="quest white">
-<td style="width:20%;font-size:115%;">Heading: </td><td style="width:30%"><<colorpick "head" $pref.theme.head>></td>
-<td style="width:20%;font-size:115%;">Tables: </td><td style="width:30%"><<colorpick "table" $pref.theme.table>></td></tr>
+<td style="width:20%;font-size:1.15rem;">Heading: </td><td style="width:30%"><<colorpick "head" aw.theme.head>></td>
+<td style="width:20%;font-size:1.15rem;">Tables: </td><td style="width:30%"><<colorpick "table" aw.theme.table>></td></tr>
 <tr class="quest white">
-<td style="width:20%;font-size:115%;">UI: </td><td><<colorpick "uiBorder" $pref.theme.uiBorder>></td>
-<td style="width:20%;font-size:115%;">Links: </td><td><<colorpick "link" $pref.theme.link>></td></tr>
+<td style="width:20%;font-size:1.15rem;">UI: </td><td><<colorpick "uiBorder" aw.theme.uiBorder>></td>
+<td style="width:20%;font-size:1.15rem;">Links: </td><td><<colorpick "link" aw.theme.link>></td></tr>
 <tr class="quest white">
-<td style="width:20%;font-size:115%;">Toggles: </td><td><<colorpick "toggle" $pref.theme.toggle>></td>
-<td style="width:20%;font-size:115%;">Scrollbar: </td><td><<colorpick "scrollbar" $pref.theme.scrollbar>></td></tr>
+<td style="width:20%;font-size:1.15rem;">Toggles: </td><td><<colorpick "toggle" aw.theme.toggle>></td>
+<td style="width:20%;font-size:1.15rem;">Scrollbar: </td><td><<colorpick "scrollbar" aw.theme.scrollbar>></td></tr>
 </table>
 
 
@@ -84,15 +84,15 @@ To set up your custom color scheme for Accidental Woman, simply click the input 
         <<replace "#colorpickas">>Something fucked up.<</replace>>
       <</if>>
       <</button>><<tab>><<button "RESET">>
-        <<set $pref.theme = {}>>
-        <<set $pref.theme.bgMain = "#0f0009">>
-        <<set $pref.theme.bgMenus = "#222">>
-        <<set $pref.theme.toggle = "#ff54c8">>
-        <<set $pref.theme.uiBorder = "#8e014a">>
-        <<set $pref.theme.scrollbar = "rgba(181,0,108,0.8)">>
-        <<set $pref.theme.head = "#ff69b4">>
-        <<set $pref.theme.table = "#b40f46">>
-        <<set $pref.theme.link = "#edacf9">>
+        <<set aw.theme = {}>>
+        <<set aw.theme.bgMain = "#0f0009">>
+        <<set aw.theme.bgMenus = "#222">>
+        <<set aw.theme.toggle = "#ff54c8">>
+        <<set aw.theme.uiBorder = "#014f8e">>
+        <<set aw.theme.scrollbar = "rgba(181,0,108,0.8)">>
+        <<set aw.theme.head = "#ff69b4">>
+        <<set aw.theme.table = "#b40f46">>
+        <<set aw.theme.link = "#edacf9">>
       <<replace "#colorpickas">><<include [[MenuThemeColorPickerButtons]]>><</replace>><</button>>
       <<tab>><<button "REFRESH">><<replace "#colorpickas">><<include [[MenuThemeColorPickerButtons]]>><</replace>><</button>></span>
       <div id="colorpickas" style="width:75%;margin:auto;">
@@ -100,6 +100,7 @@ To set up your custom color scheme for Accidental Woman, simply click the input 
       </div>
     </td><td>
       <h2>Phone UI Settings</h2>
+      <<button "Phone Shortcut Buttons">><<dialog "Phone Shortcut Buttons">><<include [[MenuThemeSettingsButtons]]>><</dialog>><</button>> Change the default shortcuts<br>
       Data background opacity: <<textbox "$phoneDataBG" $phoneDataBG>><br>1 = 100% 0.5 = 50%<br>
       Phone background: <<button "<-">><<if $phoneBackground > 1>><<set $phoneBackground -= 1>><<else>><<set $phoneBackground = 25>><</if>><<replace "#BGnum">><<= $phoneBackground>><</replace>><<replace "#imgShower">><<print ("<img data-passage='IMG-phoneMenuBG" + $phoneBackground + "'>")>><</replace>><</button>> <span id="BGnum"><<= $phoneBackground>></span> <<button "->">><<if $phoneBackground < 25>><<set $phoneBackground += 1>><<else>><<set $phoneBackground = 1>><</if>><<replace "#BGnum">><<= $phoneBackground>><</replace>><<replace "#imgShower">><<print ("<img data-passage='IMG-phoneMenuBG" + $phoneBackground + "'>")>><</replace>><</button>><br>
       Phone Menu background: <<button "<-">><<if $phoneMenuBG > 1>><<set $phoneMenuBG -= 1>><<else>><<set $phoneMenuBG = 15>><</if>><<replace "#BGmenN">><<= $phoneMenuBG>><</replace>><</button>> <span id="BGmenN"><<= $phoneMenuBG>></span> <<button "->">><<if $phoneMenuBG < 15>><<set $phoneMenuBG += 1>><<else>><<set $phoneMenuBG = 1>><</if>><<replace "#BGmenN">><<= $phoneMenuBG>><</replace>><</button>>
@@ -111,3 +112,345 @@ To set up your custom color scheme for Accidental Woman, simply click the input 
     </table>
   </div>
 </div>
+
+:: MenuThemeSettingsIncorporated [nobr hidden]
+
+    <table id="invisTable">
+    <tr><td width="40%" style="padding: 15px;">
+      <h3>Custom Color Theme Settings</h3>
+      <p class="quest white">
+      Click the input boxes below and use the color picker to select your preferred color. Click the save button to save your choices to local storage. <b>Theme must be set to custom in the system menu!</b></p>
+
+      <div id="colorpickas">
+      <<include [[MenuThemeColorPickerButtons]]>>
+      </div>
+
+      <span class="uibutton">
+      <<button "SAVE">>
+        <<run _result = setup.colorretrieve()>>
+        <<if _result>>
+          <<script>>
+            setup.FontsizeHandler();
+            setup.backgroundThemeHandler();
+            setup.textThemeHandler();
+            setup.colorThemeHandler();
+
+          <</script>>
+          <<replace "#colorpickas">>Colors & bg choice Saved to Local Store!<br><<boobgif>><</replace>>
+        <<else>>
+          <<replace "#colorpickas">>Something fucked up.<</replace>>
+        <</if>>
+      <</button>>
+      <<tab>>
+      <<button "RESET">>
+        <<set aw.theme = {}>>
+        <<set aw.theme.bgMain = "#0f0009">>
+        <<set aw.theme.bgMenus = "#222">>
+        <<set aw.theme.toggle = "#ff54c8">>
+        <<set aw.theme.uiBorder = "#014f8e">>
+        <<set aw.theme.scrollbar = "rgba(181,0,108,0.8)">>
+        <<set aw.theme.head = "#ff69b4">>
+        <<set aw.theme.table = "#b40f46">>
+        <<set aw.theme.link = "#edacf9">>
+        <<replace "#colorpickas">>
+          <<include [[MenuThemeColorPickerButtons]]>>
+        <</replace>>
+      <</button>>
+      <<tab>>
+      </span>
+      <br><br>
+      <<button "Phone Shortcut Buttons">><<dialog "Phone Shortcut Buttons">><<include [[MenuThemeSettingsButtons]]>><</dialog>><</button>> Change the default shortcut buttons on your phone.
+    </td>
+    <td width="30%" style="padding: 15px;">
+      <h3>📱 Background</h3>
+      <span id="imgShower">
+        <<print ("<img data-passage='IMG-phoneMenuBG" + $phoneBackground + "'>")>>
+      </span>
+      <center>
+      <<button "<-">>
+        <<if $phoneBackground > 1>>
+          <<set $phoneBackground -= 1>>
+        <<else>>
+          <<set $phoneBackground = 30>>
+        <</if>>
+        <<replace "#BGnum">>
+          <<= $phoneBackground>>
+        <</replace>>
+        <<replace "#imgShower">>
+          <<print ("<img data-passage='IMG-phoneMenuBG" + $phoneBackground + "'>")>>
+        <</replace>>
+        <<run setup.refresh()>>
+      <</button>>
+      <span id="BGnum">
+      <<= $phoneBackground>>
+      </span>
+      <<button "->">>
+        <<if $phoneBackground < 30>>
+          <<set $phoneBackground += 1>>
+        <<else>>
+          <<set $phoneBackground = 1>>
+        <</if>>
+        <<replace "#BGnum">>
+          <<= $phoneBackground>>
+        <</replace>>
+        <<replace "#imgShower">>
+          <<print ("<img data-passage='IMG-phoneMenuBG" + $phoneBackground + "'>")>>
+        <</replace>>
+        <<run setup.refresh()>>
+      <</button>>
+      <br>
+      Data background opacity:<br><<textbox "$phoneDataBG" $phoneDataBG>><br>1 = 100% 0.5 = 50%
+      </center>
+    </td>
+    <td width="30%" style="padding: 15px;">
+      <h3>📱 Menu background</h3>
+      <span id="imgShower2">
+        <<print ("<img data-passage='IMG-MENUcon" + $phoneMenuBG + "'>")>>
+      </span>
+      <center>
+      <<button "<-">>
+        <<if $phoneMenuBG > 1>>
+          <<set $phoneMenuBG -= 1>>
+        <<else>>
+          <<set $phoneMenuBG = 3>>
+        <</if>>
+        <<replace "#BGmenN">>
+          <<= $phoneMenuBG>>
+        <</replace>>
+        <<replace "#imgShower2">>
+          <<print ("<img data-passage='IMG-MENUcon" + $phoneMenuBG + "'>")>>
+        <</replace>>
+        <<run setup.refresh()>>
+      <</button>>
+      <span id="BGmenN">
+      <<= $phoneMenuBG>></span>
+      <<button "->">>
+        <<if $phoneMenuBG < 3>>
+          <<set $phoneMenuBG += 1>>
+        <<else>>
+          <<set $phoneMenuBG = 1>>
+        <</if>>
+        <<replace "#BGmenN">>
+          <<= $phoneMenuBG>>
+        <</replace>>
+        <<replace "#imgShower2">>
+          <<print ("<img data-passage='IMG-MENUcon" + $phoneMenuBG + "'>")>>
+        <</replace>>
+        <<run setup.refresh()>>
+      <</button>>
+      </center>
+    </td></tr>
+    </table>
+
+
+:: MenuThemeSettingsButtons [nobr]
+
+<<silently>>
+<<set _bc = 0>>
+<<for _i to 0; _i < 12; _i++>>
+  <<if $pref.shortcuts[_i]>>
+    <<set _bc += 1>>
+  <</if>>
+<</for>>
+<</silently>>
+<h3>Phone Shortcut Settings</h3>
+Select the shortcuts you'd like displayed on the phone UI menu. Use the toggle button located next to each icon and description, to enable or disable the shortcut. You can have a max of 9 shortcut links active at one time. Other items can still be accessed from the menu interface as normal, with the exception of achievements.
+<br>
+<div id="ThemeButtCunt">
+<<include [[MenuThemeSettingsButtonsTab]]>>
+</div>
+
+
+:: MenuThemeSettingsButtonsTab [nobr]
+
+
+<table id="buttonToggleTable">
+<tr>
+<td style="width:45%;">
+<<if $pref.shortcuts[0]>>[img[Achievements|IMGachieve]]<<else>>[img[Achievements|IMGachieve_disabled]]<</if>>
+Shows your achievements and unlocks.
+<<button "TOGGLE">>
+  <<if $pref.shortcuts[0]>>
+    <<set $pref.shortcuts[0] = false>>
+    <<set _bc -= 1>>
+  <<elseif _bc < 9>>
+    <<set $pref.shortcuts[0] = true>>
+    <<set _bc += 1>>
+  <</if>>
+  <<replace "#ThemeButtCunt">><<include [[MenuThemeSettingsButtonsTab]]>><</replace>>
+<</button>>
+</td>
+<td style="width:10%;"></td>
+<td style="width:45%;">
+<<if $pref.shortcuts[1]>>[img[Cheat Menu|IMGcheatmenu]]<<else>>[img[Cheat Menu|IMGcheatmenu_disabled]]<</if>>
+Opens the cheat menu.
+<<button "TOGGLE">>
+  <<if $pref.shortcuts[1]>>
+    <<set $pref.shortcuts[1] = false>>
+    <<set _bc -= 1>>
+  <<elseif _bc < 9>>
+    <<set $pref.shortcuts[1] = true>>
+    <<set _bc += 1>>
+  <</if>>
+  <<replace "#ThemeButtCunt">><<include [[MenuThemeSettingsButtonsTab]]>><</replace>>
+<</button>>
+</td>
+</tr>
+<tr>
+<td>
+<<if $pref.shortcuts[2]>>[img[Theme Controls|IMGthemes]]<<else>>[img[Theme Controls|IMGthemes_disabled]]<</if>>
+Opens the theme settings menu.
+<<button "TOGGLE">>
+  <<if $pref.shortcuts[2]>>
+    <<set $pref.shortcuts[2] = false>>
+    <<set _bc -= 1>>
+  <<elseif _bc < 9>>
+    <<set $pref.shortcuts[2] = true>>
+    <<set _bc += 1>>
+  <</if>>
+  <<replace "#ThemeButtCunt">><<include [[MenuThemeSettingsButtonsTab]]>><</replace>>
+<</button>>
+</td>
+<td></td>
+<td>
+<<if $pref.shortcuts[3]>>[img[Debug Menu|IMGdebug]]<<else>>[img[Debug Menu|IMGdebug_disabled]]<</if>>
+Opens the debug page.
+<<button "TOGGLE">>
+  <<if $pref.shortcuts[3]>>
+    <<set $pref.shortcuts[3] = false>>
+    <<set _bc -= 1>>
+  <<elseif _bc < 9>>
+    <<set $pref.shortcuts[3] = true>>
+    <<set _bc += 1>>
+  <</if>>
+  <<replace "#ThemeButtCunt">><<include [[MenuThemeSettingsButtonsTab]]>><</replace>>
+<</button>>
+</td>
+</tr>
+<tr>
+<td>
+<<if $pref.shortcuts[4]>>[img[Sound Menu|IMGmusic]]<<else>>[img[Sound Menu|IMGmusic_disabled]]<</if>>
+Opens the music & sound settings (currently just rain).
+<<button "TOGGLE">>
+  <<if $pref.shortcuts[4]>>
+    <<set $pref.shortcuts[4] = false>>
+    <<set _bc -= 1>>
+  <<elseif _bc < 9>>
+    <<set $pref.shortcuts[4] = true>>
+    <<set _bc += 1>>
+  <</if>>
+  <<replace "#ThemeButtCunt">><<include [[MenuThemeSettingsButtonsTab]]>><</replace>>
+<</button>>
+</td>
+<td></td>
+<td>
+<<if $pref.shortcuts[5]>>[img[Actions Menu|IMGaction]]<<else>>[img[Actions Menu|IMGaction_disabled]]<</if>>
+Opens the character menu to the actions page.
+<<button "TOGGLE">>
+  <<if $pref.shortcuts[5]>>
+    <<set $pref.shortcuts[5] = false>>
+    <<set _bc -= 1>>
+  <<elseif _bc < 9>>
+    <<set $pref.shortcuts[5] = true>>
+    <<set _bc += 1>>
+  <</if>>
+  <<replace "#ThemeButtCunt">><<include [[MenuThemeSettingsButtonsTab]]>><</replace>>
+<</button>>
+</td>
+</tr>
+<tr>
+<td>
+<<if $pref.shortcuts[6]>>[img[Inventory Menu|IMGinventory]]<<else>>[img[Inventory Menu|IMGinventory_disabled]]<</if>>
+Opens the character menu to the inventory page.
+<<button "TOGGLE">>
+  <<if $pref.shortcuts[6]>>
+    <<set $pref.shortcuts[6] = false>>
+    <<set _bc -= 1>>
+  <<elseif _bc < 9>>
+    <<set $pref.shortcuts[6] = true>>
+    <<set _bc += 1>>
+  <</if>>
+  <<replace "#ThemeButtCunt">><<include [[MenuThemeSettingsButtonsTab]]>><</replace>>
+<</button>>
+</td>
+<td></td>
+<td>
+<<if $pref.shortcuts[7]>>[img[Calendar Menu|IMGcalendar]]<<else>>[img[Calendar Menu|IMGcalendar_disabled]]<</if>>
+Opens the social menu to the calendar page.
+<<button "TOGGLE">>
+  <<if $pref.shortcuts[7]>>
+    <<set $pref.shortcuts[7] = false>>
+    <<set _bc -= 1>>
+  <<elseif _bc < 9>>
+    <<set $pref.shortcuts[7] = true>>
+    <<set _bc += 1>>
+  <</if>>
+  <<replace "#ThemeButtCunt">><<include [[MenuThemeSettingsButtonsTab]]>><</replace>>
+<</button>>
+</td>
+</tr>
+<tr>
+<td>
+<<if $pref.shortcuts[8]>>[img[Work Menu|IMGworkstats]]<<else>>[img[Work Menu|IMGworkstats_disabled]]<</if>>
+Opens the social menu to the work/career page.
+<<button "TOGGLE">>
+  <<if $pref.shortcuts[8]>>
+    <<set $pref.shortcuts[8] = false>>
+    <<set _bc -= 1>>
+  <<elseif _bc < 9>>
+    <<set $pref.shortcuts[8] = true>>
+    <<set _bc += 1>>
+  <</if>>
+  <<replace "#ThemeButtCunt">><<include [[MenuThemeSettingsButtonsTab]]>><</replace>>
+<</button>>
+</td>
+<td></td>
+<td>
+<<if $pref.shortcuts[9]>>[img[Contacts Menu|IMGphonebook]]<<else>>[img[Contacts Menu|IMGphonebook_disabled]]<</if>>
+Opens the social menu to the contacts page
+<<button "TOGGLE">>
+  <<if $pref.shortcuts[9]>>
+    <<set $pref.shortcuts[9] = false>>
+    <<set _bc -= 1>>
+  <<elseif _bc < 9>>
+    <<set $pref.shortcuts[9] = true>>
+    <<set _bc += 1>>
+  <</if>>
+  <<replace "#ThemeButtCunt">><<include [[MenuThemeSettingsButtonsTab]]>><</replace>>
+<</button>>
+</td>
+</tr>
+<tr>
+<td>
+<<if $pref.shortcuts[10]>>[img[Nearby NPCs Menu|IMGnearby]]<<else>>[img[Nearby NPCs Menu|IMGnearby_disabled]]<</if>>
+Opens the social menu to the Nearby NPCs page.
+<<button "TOGGLE">>
+  <<if $pref.shortcuts[10]>>
+    <<set $pref.shortcuts[10] = false>>
+    <<set _bc -= 1>>
+  <<elseif _bc < 9>>
+    <<set $pref.shortcuts[10] = true>>
+    <<set _bc += 1>>
+  <</if>>
+  <<replace "#ThemeButtCunt">><<include [[MenuThemeSettingsButtonsTab]]>><</replace>>
+<</button>>
+</td>
+<td></td>
+<td>
+<<if $pref.shortcuts[11]>>[img[Notes Menu|IMGnotes]]<<else>>[img[Notes Menu|IMGnotes_disabled]]<</if>>
+Opens the social menu to the player notes page.
+<<button "TOGGLE">>
+  <<if $pref.shortcuts[11]>>
+    <<set $pref.shortcuts[11] = false>>
+    <<set _bc -= 1>>
+  <<elseif _bc < 9>>
+    <<set $pref.shortcuts[11] = true>>
+    <<set _bc += 1>>
+  <</if>>
+  <<replace "#ThemeButtCunt">><<include [[MenuThemeSettingsButtonsTab]]>><</replace>>
+<</button>>
+</td>
+</tr>
+</table>
+
+

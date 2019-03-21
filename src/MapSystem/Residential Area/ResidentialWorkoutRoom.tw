@@ -11,7 +11,7 @@
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptResidential>> <<mapEventResidential>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -39,25 +39,103 @@
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*Event notification spot*/
 /*<<mapEventRes>>*/
 /*LOCATION description of  location*/
-@@.head3;Y@@ou are in the tiny workout room provided by your apartment building, which is barely big enough to be the size of a normal bedroom. It contains some kind of multi-purpose muscle training machine, exercise bike, elliptical, and another machine you've never seen before that might be for working out your thighs or abs.
+@@.head3;Y@@ou are in the tiny workout room provided by your apartment building, which is barely big enough to be the size of a normal bedroom. It contains some kind of multi-purpose muscle training machine, exercise bike, treadmill, elliptical, and another machine you've never seen before that might be for working out your thighs or abs.
 /*Time & furnishing descriptive addon! <<mapHomeRes>>*/
 /*IN-PASSAGE span text*/
-<span id="locact"></span>
+<span id="locact"></span><<selfthought>>
 </div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise workout>>
-<<button "Work Out">><</button>>
-<<endhoverrevise>>
+<<button "Work Out">>
+  <<dialog "Work Out">>
+    <br>
+    [img[IMG-workout1]]
+    <br><center>
+    <<if ↂ.pc.status.energy.amt < 4>>
+      @@.disabled;<<button "Exercise on the treadmill [Too tired]">><</button>>@@
+    <<else>>
+      <<button "Exercise on the treadmill [30-40 min]">>
+        <<set _athl = ↂ.skill.athletic / 100>>
+        <<set _outcome = Math.round(_athl * 2)>>
+        <<set _shitHappens = random(0, 100) - _athl>>
+        <<if _shitHappens > 95>>
+          <<set ↂ.pc.status.health -= 7>>
+          <<set _randomtime = random(30, 40)>>
+          <<set _randomenergy = random(2, 4)>>
+          <<addTime _randomtime>>
+          <<set ↂ.pc.status.energy.amt -= _randomenergy>>
+          <<set ↂ.pc.status.exercise += _outcome>>
+          <<SCX>><<SC "AT">>
+          <<status 0>>
+          <<updatebar>>
+          <<run Dialog.close()>>
+          <<run setup.notify("Ouch! You accidentally fall and hit your knee while walking on the treadmill.")>>
+        <<else>>
+          <<set _randomtime = random(30, 40)>>
+          <<set _randomenergy = random(2, 4)>>
+          <<addTime _randomtime>>
+          <<set ↂ.pc.status.energy.amt -= _randomenergy>>
+          <<set ↂ.pc.status.exercise += _outcome>>
+          <<SCX>><<SC "AT">>
+          <<status 0>>
+          <<updatebar>>
+          <<run Dialog.close()>>
+          <<run setup.notify("You exercised on the threadmill for some time.")>>
+        <</if>>
+        
+      <</button>>
+    <</if>>
+    <br>
+    <<if ↂ.pc.status.energy.amt < 5>>
+      @@.disabled;<<button "Heavy muscle training [Too tired]">><</button>>@@
+    <<else>>
+      <<button "Heavy muscle training [20-30 min]">>
+        <<set _athl = ↂ.skill.athletic / 100>>
+        <<set _outcome = Math.round(_athl * 3)>>
+        <<set _shitHappens = random(0, 100) - _athl>>
+        <<if _shitHappens > 95>>
+          <<set ↂ.pc.status.health -= 7>>
+          <<set _randomtime = random(20, 30)>>
+          <<set _randomenergy = random(5, 6)>>
+          <<addTime _randomtime>>
+          <<set ↂ.pc.status.energy.amt -= _randomenergy>>
+          <<set ↂ.pc.status.exercise += _outcome>>
+          <<SCX>><<SC "AT">>
+          <<status 0>>
+          <<run Dialog.close()>>
+          <<run setup.notify("Ouch! You accidentaly strained a muscle while exercising.")>>
+        <<else>>
+          <<set _randomtime = random(20, 30)>>
+          <<set _randomenergy = random(5, 6)>>
+          <<addTime _randomtime>>
+          <<set ↂ.pc.status.energy.amt -= _randomenergy>>
+          <<set ↂ.pc.status.exercise += _outcome>>
+          <<SCX>><<SC "AT">>
+          <<status 0>>
+          <<run Dialog.close()>>
+          <<run setup.notify("You exercised on the multi-purpose muscle training machine for some time.")>>
+        <</if>>
+        <<updatebar>>
+      <</button>>
+    <</if>>
+    <br>
+    @@.disabled;<<button "Kegelator 3000 training [Need the proper training]">><</button>>@@
+    </center>
+  <</dialog>>
+<</button>>
 <<endhoverrevise>>
 <<hoverrevise emachine>>
   <<button "Examine Machine">><<addTime 5>><<dialog "Strange Gym Machine">>@@.head3;I@@t's unlike any gym machine you've ever seen, and has it's own power cable. The label on the side says "Kegelator 3000". Once you see the attachment point, you suddenly realize what the <<message "machine">>[img[IMG-GymMachine]]<</message>> is used for...<</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
 </div>
 
@@ -65,6 +143,7 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <div id="actionInfo">
 <<insertion workout>>Maybe you should take the time to get some exercise while nobody else is here?<<endinsertion>>
 <<insertion emachine>>Give the unusual machine a closer look, and see if you can figure out what it's supposed to do.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
 :: ResidentialWorkoutRoomLOC [nobr]

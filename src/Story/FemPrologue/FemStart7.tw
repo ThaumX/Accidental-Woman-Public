@@ -1,6 +1,73 @@
 :: FemStart7 [nobr]
 
-Get starting clothes courtesy of Toby's mom<br>
-Some adjustment dialog<br>
-Whirlwind readjustment about to begin<br>
-[[Le Continue|FemStart8]]
+<h3>Reunion with Toby</h3>
+<p>
+He's understandably very weirded out by the situation, sorry that he got you into it, and a little afraid that he might know more than he should since he knows about the whole incident.
+</p>
+<p>
+He does, however, help set you up with more than the Arbor Vitae hospital clothes. This is also where some players will be able to access bonus and cheat starting clothing.<br><br>
+<<if $pub>>
+  <b>Thanks for supporting development!</b>
+  <br><br>
+  <<checkboxA "_clo" false true>> Cheat Bonus Clothing
+<<elseif $swim == "[backer]">>
+  <b>Thanks for supporting development!</b>
+  <br><br>
+  <<checkboxA "_clo" false true>> Bonus Clothing
+<<else>>
+  <i>Your version of the game does not have access to cheat or bonus clothing at start</i>
+<</if>>
+</p>
+<center>
+<<button "CONTINUE">>
+<<if $pub && _clo>>
+  <<run setup.clothes.prologueGiver("cheat")>>
+<<elseif $swim == "[backer]" && _clo>>
+  <<run setup.clothes.prologueGiver("backer")>>
+<</if>>
+<<if ↂ.flag.prologuePassedScience>>
+  <<run setup.clothes.prologueGiver("good")>>
+<<else>>
+  <<run setup.clothes.prologueGiver("okay")>>
+<</if>>
+<<updatePlayerHistory>>
+<<go"FemStart7b">>
+<</button>><br>
+<span class="note" style="color:goldenrod;">NOTE: This button press may take slightly longer to load the next page than normal. Please don't spam click it, as that can break shit.</span>
+</center>
+
+
+
+
+:: FemStart7b [nobr]
+
+<h2>Your New Clothing</h2>
+<div style="position:relative;height:800px;width:1000px;margin:20px 0px;padding:0px;">
+<<tabset "tomfuckery" "Panties">>
+  <div class="wardrobeLister argyle">
+    <<print setup.clothes.quickPrint("panties")>>
+  </div>
+<<newtab "Bras">>
+  <div class="wardrobeLister argyle">
+    <<print setup.clothes.quickPrint("bra")>>
+  </div>
+<<newtab "Legs">>
+  <div class="wardrobeLister argyle">
+    <<print setup.clothes.quickPrint("leg")>>
+  </div>
+<<newtab "Lower Body">>
+  <div class="wardrobeLister argyle">
+    <<print setup.clothes.quickPrint("bottom")>>
+  </div>
+<<newtab "Upper Body">>
+  <div class="wardrobeLister argyle">
+    <<print setup.clothes.quickPrint("top")>>
+  </div>
+<<newtab "Dresses">>
+  <div class="wardrobeLister argyle">
+    <<print setup.clothes.quickPrint("dress")>>
+  </div>
+<</tabset>>
+</div>
+<center><<button "CUNTINUE">><<go "FemStart8">><</button>></center>
+

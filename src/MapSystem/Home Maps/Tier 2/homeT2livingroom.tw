@@ -12,7 +12,7 @@
 <p><<walkDescriptHome>> <<mapEventHome>></p>
 <<homeItemDisp>>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -40,26 +40,35 @@
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*Event notification spot*/
 /*<<mapEventHome>>*/
 /*LOCATION description of  location*/
-@@.head3;Y@@ou are in your &nearly-empty and undecorated& living room. &more placeholder for time and funishings&
+@@.head3;Y@@ou are in your tidy living room. The room has the necessities, but isn't really set up to have anyone over. The eclectic range of items causes a bit of a visual clash, but overall you're reasonably happy with the quality of the room.
 /*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
 /*IN-PASSAGE span text*/
-<span id="locact"></span></div>
+<span id="locact"></span><<selfthought>></div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise time>>
-<<button "Waste Time">><<addTime 60>><<goto [[homeT2livingroom]]>><</button>>
-<<endhoverrevise>>
-<<hoverrevise watch>>
-  @@.disabled;<<button "Watch TV">><</button>>@@
+<<button "Waste Time">><<addTime 60>><<updatebar>><</button>>
 <<endhoverrevise>>
 <<hoverrevise read>>
-  <<button "Read Something">><</button>>
+  <<button "Read Something">>
+    <<set _randomcum = random(0, 1)>>
+    <<set _randompiss = random(45, 55)>>
+    <<addTime _randompiss>>
+    <<happy _randomcum>>
+    <<updatebar>>
+    <<dialog "Browsing with your phone">><<include [[WasteTimeOnPhone]]>><</dialog>>
+  <</button>>
+<<endhoverrevise>>
+<<hoverrevise meditate>>
+  <<button "Meditate">>
+    <<go FuckThatMeditation >>
+  <</button>>
 <<endhoverrevise>>
 <<homeItemButtons>>
 </div>
@@ -67,8 +76,8 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 /*Main display for information about actions*/
 <div id="actionInfo">
 <<insertion time>>@@.exp;Eventually there will be options here allowing you to perform different ranges of activities. For now, clicking this button causes 1 hour of time to pass.@@<<endinsertion>>
-<<insertion watch>>You don't actually have a TV to watch.<<endinsertion>>
-<<insertion read>>Since you don't actually have anything to read, this really means browsing the internet on your phone. You could always search for an ebook though.<<endinsertion>>
+<<insertion meditate>>Spend some time clearing your mind. [20-35min]<<endinsertion>>
+<<insertion read>>Since you don't actually have anything to read, this really means browsing the internet on your phone. You could always search for an ebook though. [45-55 min].<<endinsertion>>
 <<homeItemInfo>>
 </div>
 <<timed 50ms>>

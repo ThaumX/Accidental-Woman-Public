@@ -1,11 +1,11 @@
 :: homeControl [nobr]
 
 
-<<set $PC.status.inPublic = false>>
+<<set ↂ.pc.status.inPublic = false>>
 /*
-<<set _main = "homeT" + $home.stats.tier>>
+<<set _main = "homeT" + ↂ.home.stats.tier>>
 */
-<<set $map.loc[0] = "homeT2">>
+<<set ↂ.map.loc[0] = "homeT" + ↂ.home.stats.tier>>
 <<mapProcessMove>>
 <<addTime _mapTime>>
 /*put away any inventory items*/
@@ -25,20 +25,20 @@
 
 
 /*SET THE SCENE! Describes the scene, including potential NPCs*/
-<<if $mapHomeEvent != 0>>
+<<if ↂ.mapHomeEvent != 0>>
 <</if>>
 <<if $npc.active>>
 	<<set _NPCsingle = $npc.roomview>>
 <<else>>
 	<<set _NPCsingle = 0>>
 <</if>>
-
-<<setScene _mapDesc _NPCsingle $roomviewGroup "t2home">>
+<<set _fuck = "t" + ↂ.home.stats.tier + "home">>
+<<setScene _mapDesc _NPCsingle $roomviewGroup _fuck>>
 
 /*forwarder to change passage*/
 
 /*<<link "debug link continue">>*/
-<<goto $map.passage>>
+<<go ↂmap.passage>>
 /*<</link>>*/
 
 

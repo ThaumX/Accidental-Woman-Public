@@ -12,7 +12,7 @@
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -40,13 +40,14 @@
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
 @@.head3;Y@@ou are in the Bullseye housewares department, standing in the area that sells things for your bed, bath, and ... kitchen.
 <br>
 /*IN-PASSAGE span text*/
 <span id="locact"></span>
+<<selfthought>>
 </div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
@@ -57,6 +58,9 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <<hoverrevise hovCart>>
 	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
 <<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
 </div>
 /**/
 
@@ -64,6 +68,7 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <div id="actionInfo">
 <<insertion hovShop>>@@.exp;Shop for home items, such as furniture, decor, and electronics. [15-25min]@@<<endinsertion>>
 <<insertion hovCart>>@@.exp;launches a popup that contains an ordered list of all the items in your cart, along with the price (prior to member discount). @@<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 /*this contains randomized event options that will print inside the related spans*/
 /*Weather-based actions added, like opening an umbrella*/
@@ -81,5 +86,5 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 :: BEhousewaresShop [nobr]
 
 <h3>Bullseye Home Items Selection</h3>
-<<print setup.homeItems.sales()>>
+<<print setup.homeItems.sales(false, false, false, false, false, "bullseye")>>
 Learn more about home items in the <<info "Encyclopedia" "guideHomeInventory">>

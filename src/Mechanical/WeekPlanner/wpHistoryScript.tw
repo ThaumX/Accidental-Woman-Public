@@ -15,13 +15,13 @@ var playerHistoryComparison = function(){
         catch(err) {
           State.variables.AW.error += 'error in history PC comparison loop, variable: ';
           State.variables.AW.error += State.variables.PC[names[i]] +'-'+ err;
-          alert('error in PC comparison loop, check debug for specific variable.');
+          UI.alert('error in PC comparison loop, check debug for specific variable.');
         }
       }
     }
     catch(errs) {
       State.variables.AW.error += ' loop run error in history PC comparison loop: '+errs+', ';
-      alert('ERROR: loop run error in history PC comparison loop!');
+      UI.alert('ERROR: loop run error in history PC comparison loop!');
     }
     try {
       /*yes, this is lazy as fuck. Ican add proper crap if needed*/
@@ -81,12 +81,12 @@ var playerHistoryComparison = function(){
       }
       if (chList.includes('tits')){
         if (State.variables.PC.body.tits > State.variables.PChistory.PC.tits){
-          State.temporary.pcChange.push("Your <<= $PC.body.tits.shape>> @@.good;breasts@@ have grown, swelling to a <<pcCupSize>> in size.");
+          State.temporary.pcChange.push("Your <<= ↂ.pc.body.tits.shape>> @@.good;breasts@@ have grown, swelling to a <<pcCupSize>> in size.");
         } else if (State.variables.PC.body.tits < (State.variables.PChistory.PC.tits - 1)){
           State.variables.PC.titShape = "saggy";
           State.temporary.pcChange.push("Your @@.bad;breasts@@ have deflated rapidly, becoming droopy, and are now only a <<pcCupSize>> in size.");
         } else {
-          State.temporary.pcChange.push("Your <<= $PC.body.tits.shape>> @@.change;breasts@@ have shrunk slightly, and are now only a <<pcCupSize>> in size.");
+          State.temporary.pcChange.push("Your <<= ↂ.pc.body.tits.shape>> @@.change;breasts@@ have shrunk slightly, and are now only a <<pcCupSize>> in size.");
         }
       }
       /*for orifice sizes*/
@@ -127,10 +127,10 @@ var playerHistoryComparison = function(){
         }
       }
       if (chList.includes('face')){
-        State.temporary.pcChange.push("Your @@.change;face@@ has changed somewhat, morphing ever so lightly, resulting in a more <<= $PC.body.face>> appearance.");
+        State.temporary.pcChange.push("Your @@.change;face@@ has changed somewhat, morphing ever so lightly, resulting in a more <<= ↂ.pc.body.face>> appearance.");
       }
       if (chList.includes('wetness')){
-        if (State.variables.PC.body.wetness > State.variables.PChistory.PC.wetness){
+        if (State.variables.PC.body.pussy.wetness > State.variables.PChistory.PC.wetness){
           State.temporary.pcChange.push("Your <<pcWetness>> pussy seems to have become more @@.change;wet@@ overall, and seems to get @@.change;wet@@ faster as well.");
         } else {
           State.temporary.pcChange.push("Your <<pcWetness>> pussy seems to have become less @@.change;wet@@ overall, and it also seems to take longer to get @@.change;wet@@ as well.");
@@ -144,7 +144,7 @@ var playerHistoryComparison = function(){
         }
       }
       if (chList.includes('pregTerm')){
-        if (State.variables.PC.body.pregTerm > State.variables.PChistory.PC.pregTerm){
+        if (State.variables.PC.fert.pregTerm > State.variables.PChistory.PC.pregTerm){
           State.temporary.pcChange.push("Your smart toilet has informed you that based on this week's hormonal analysis, it seems that your body's @@.change;gestation@@ process for babies will take longer.");
         } else {
           State.temporary.pcChange.push("Your smart toilet has informed you that based on this week's hormonal analysis, it seems that your body has gotten better at growing babies, meaning that @@.change;gestation@@ will be shorter.");
@@ -172,10 +172,10 @@ var playerHistoryComparison = function(){
         }
       }
       if (chList.includes('nipple')){
-        State.temporary.pcChange.push("You've noticed that your @@.change;nipples@@ look a bit different than before, and now look <<=$PC.body.tits.nipple>>.");
+        State.temporary.pcChange.push("You've noticed that your @@.change;nipples@@ look a bit different than before, and now look <<=ↂ.pc.body.tits.nipple>>.");
       }
       if (chList.includes('eyeColor')){
-        State.temporary.pcChange.push("your @@.change;eye color@@ has somehow changed! They are now <<= $PC.body.eyeColor>>.");
+        State.temporary.pcChange.push("your @@.change;eye color@@ has somehow changed! They are now <<= ↂ.pc.body.eyeColor>>.");
       }
       /*debatable... will have to see how this plays out, but it probably will be okay to include in a weekly report.*/
       if (chList.includes('ATR')){
@@ -190,7 +190,7 @@ var playerHistoryComparison = function(){
     }
     catch(err){
       State.variables.AW.error += "Error generating array of body change texts, PC changes in history function. Error: "+err;
-      alert('Error generating text for body changes, see debug menu for details.');
+      UI.alert('Error generating text for body changes, see debug menu for details.');
     }
     completecheck++;
   }
@@ -206,17 +206,17 @@ var playerHistoryComparison = function(){
         catch(err) {
           State.variables.AW.error += 'error in history status comparison loop, variable: ';
           State.variables.AW.error += State.variables.PC.status[names[i]] +'-'+ err;
-          alert('error in status comparison loop, check debug for specific variable.');
+          UI.alert('error in status comparison loop, check debug for specific variable.');
         }
       }
     }
     catch(errs) {
       State.variables.AW.error += ' loop run error in history status comparison loop: '+errs+', ';
-      alert('ERROR: loop run error in history status comparison loop!');
+      UI.alert('ERROR: loop run error in history status comparison loop!');
     }
     try {
       if (chList.includes('birthConType')){
-        State.temporary.statusChange.push("Your birth control changed this week, you're <<if $PC.status.birthConType == 'none'>>not using birth control anymore<<else>>now using <<= $PC.status.birthConType>>.");
+        State.temporary.statusChange.push("Your birth control changed this week, you're <<if ↂ.pc.status.birthCon.hormoneType == 'none'>>not using birth control anymore<<else>>now using <<= ↂ.pc.status.birthCon.hormoneType>>.");
       }
       if (chList.includes('pregA')){
         if (State.variables.PC.status.wombA.weeks !== 0){
@@ -372,7 +372,7 @@ var playerHistoryComparison = function(){
     }
     catch(err){
       State.variables.AW.error += "Error generating array of status change texts, status changes in history function. Error: "+err;
-      alert('Error generating text for status changes, see debug menu for details.');
+      UI.alert('Error generating text for status changes, see debug menu for details.');
     }
     completecheck++;
   }
@@ -388,19 +388,19 @@ var playerHistoryComparison = function(){
         catch(err) {
           State.variables.AW.error += 'error in history trait comparison loop, variable: ';
           State.variables.AW.error += State.variables.PC.trait[names[i]] +'-'+ err;
-          alert('error in trait comparison loop, check debug for specific variable.');
+          UI.alert('error in trait comparison loop, check debug for specific variable.');
         }
       }
     }
     catch(errs) {
       State.variables.AW.error += ' loop run error in history trait comparison loop: '+errs+', ';
-      alert('ERROR: loop run error in history trait comparison loop!');
+      UI.alert('ERROR: loop run error in history trait comparison loop!');
     }
     try {
       var cuntNoodle;
       for(var j = 0; j < chList.length; j++){
         if (chList[j] === 'IE' || chList[j] === 'IN' || chList[j] === 'EX' || chList[j] === 'OC' || chList[j] === 'OP' || chList[j] === 'CL' ){
-          State.temporary.traitChange.push("@@.bad;font-size:125%;You are the bad kind of cheater, that is, the one who breaks their game trying to cheat. Try again without editing a variable that will break the game.@@");
+          State.temporary.traitChange.push("@@.bad;font-size:1.25rem;You are the bad kind of cheater, that is, the one who breaks their game trying to cheat. Try again without editing a variable that will break the game.@@");
         }else{
           cuntNoodle = "You feel like your personality has changed somehow... Something to do with ";
           cuntNoodle += chList[j];
@@ -411,7 +411,7 @@ var playerHistoryComparison = function(){
     }
     catch(err){
       State.variables.AW.error += "Error generating array of trait change texts, trait changes in history function. Error: "+err;
-      alert('Error generating text for trait changes, see debug menu for details, motherfucker.');
+      UI.alert('Error generating text for trait changes, see debug menu for details, motherfucker.');
     }
     completecheck++;
   }
@@ -427,13 +427,13 @@ var playerHistoryComparison = function(){
         catch(err) {
           State.variables.AW.error += 'error in history kink comparison loop, variable: ';
           State.variables.AW.error += State.variables.PC.kink[names[i]] +'-'+ err;
-          alert('error in kink comparison loop, check debug for specific variable.');
+          UI.alert('error in kink comparison loop, check debug for specific variable.');
         }
       }
     }
     catch(errs) {
       State.variables.AW.error += ' loop run error in history kink comparison loop: '+errs+', ';
-      alert('ERROR: loop run error in history kink comparison loop!');
+      UI.alert('ERROR: loop run error in history kink comparison loop!');
     }
     try {
       var cuntNoodle = "empty";
@@ -449,7 +449,7 @@ var playerHistoryComparison = function(){
     }
     catch(err){
       State.variables.AW.error += "Error generating array of kink change texts, kink changes in history function. Error: "+err;
-      alert('Error generating text for kink changes, see debug menu for details.');
+      UI.alert('Error generating text for kink changes, see debug menu for details.');
     }
     completecheck++;
   }
@@ -465,13 +465,13 @@ var playerHistoryComparison = function(){
         catch(err) {
           State.variables.AW.error += 'error in history mutate comparison loop, variable: ';
           State.variables.AW.error += State.variables.PC.mutate[names[i]] +'-'+ err;
-          alert('error in mutate comparison loop, check debug for specific variable.');
+          UI.alert('error in mutate comparison loop, check debug for specific variable.');
         }
       }
     }
     catch(errs) {
       State.variables.AW.error += ' loop run error in history mutate comparison loop: '+errs+', ';
-      alert('ERROR: loop run error in history mutate comparison loop!');
+      UI.alert('ERROR: loop run error in history mutate comparison loop!');
     }
     try {
       var cuntNoodle;
@@ -487,7 +487,7 @@ var playerHistoryComparison = function(){
     }
     catch(err){
       State.variables.AW.error += "Error generating array of mutate change texts, mutate changes in history function. Error: "+err;
-      alert('Error generating text for mutate changes, see debug menu for details.');
+      UI.alert('Error generating text for mutate changes, see debug menu for details.');
     }
     completecheck++;
   }
@@ -503,13 +503,13 @@ var playerHistoryComparison = function(){
         catch(err) {
           State.variables.AW.error += 'error in history skill comparison loop, variable: ';
           State.variables.AW.error += State.variables.PC.skill[names[i]] +'-'+ err;
-          alert('error in skill comparison loop, check debug for specific variable.');
+          UI.alert('error in skill comparison loop, check debug for specific variable.');
         }
       }
     }
     catch(errs) {
       State.variables.AW.error += ' loop run error in history skill comparison loop: '+errs+', ';
-      alert('ERROR: loop run error in history skill comparison loop!');
+      UI.alert('ERROR: loop run error in history skill comparison loop!');
     }
     try {
       var tits;
@@ -712,7 +712,7 @@ var playerHistoryComparison = function(){
     }
     catch(err){
       State.variables.AW.error += "Error generating array of skill change texts, skill changes in history function. Error: "+err;
-      alert('Error generating text for skill changes, see debug menu for details.');
+      UI.alert('Error generating text for skill changes, see debug menu for details.');
     }
     completecheck++;
   }
@@ -744,13 +744,13 @@ var playerHistoryComparison = function(){
         catch(err) {
           State.variables.AW.error += 'error in history item comparison loop, variable: ';
           State.variables.AW.error += State.variables.items.names[i]] +'-'+ err;
-          alert('error in item comparison loop, check debug for specific variable.');
+          UI.alert('error in item comparison loop, check debug for specific variable.');
         }
       }
     }
     catch(errs) {
       State.variables.AW.error += ' loop run error in history item comparison loop: '+errs+', ';
-      alert('ERROR: loop run error in history item comparison loop!');
+      UI.alert('ERROR: loop run error in history item comparison loop!');
     }
     State.temporary.itemChange = "@@.head3;Inventory Changes@@<br>";
     if (newCunt === 0 && lostCunt === 0){
@@ -807,19 +807,19 @@ var playerHistoryComparison = function(){
     }
     catch(err){
       State.variables.AW.error += "Error generating job changes in history function. Error: "+err;
-      alert('Error generating text for job changes, see debug menu for details.');
+      UI.alert('Error generating text for job changes, see debug menu for details.');
     }
     completecheck++;
   }
-  setTimeout(pcChanges());
-  setTimeout(statusChanges());
-  setTimeout(traitChanges());
-  setTimeout(mutateChanges());
-  setTimeout(kinkChanges());
-  setTimeout(skillChanges());
-  setTimeout(itemChanges());
-  setTimeout(homeChanges());
-  setTimeout(jobChanges());
+  setTimeout(() => pcChanges());
+  setTimeout(() => statusChanges());
+  setTimeout(() => traitChanges());
+  setTimeout(() => mutateChanges());
+  setTimeout(() => kinkChanges());
+  setTimeout(() => skillChanges());
+  setTimeout(() => itemChanges());
+  setTimeout(() => homeChanges());
+  setTimeout(() => jobChanges());
   while(completecheck < 9);
 };
 playerHistoryComparison();

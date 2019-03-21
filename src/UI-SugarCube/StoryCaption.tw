@@ -1,45 +1,77 @@
 :: StoryCaption [nobr]
 
 /*variables here*/
-<div id="phoneDatas" class="blackOutline">
-  <<print setup.ui.mainPhone()>>
-  <<print setup.ui.warnIndicate()>>
-  <<print setup.ui.statusInfo()>>
-  <<if $showData>>
-    <<if not tags().includes("hidden")>>
-      <<print setup.time.upcoming()>>
-    <</if>>
-  <</if>>
-</div>
-
-
-
-<img id="ui-bar-phone" data-passage="IMG-phoneMenu">
-<div id="menuPhoneBackground">
-<<print setup.phoneBGprint()>>
-</div>
-<div id="gameMenu">
-<span id="phoneMenuBGspan"><<print setup.phoneMenuPrint()>></span>
-  <div id="gameMenuButtons">
-    <div class="systemButt">
-      <button id="menu-item-restart">restart</button>
-      <button id="menu-item-settings">system</button>
-      <button id="menu-item-saves">saves</button>
-      <<timed 50ms>><<run setup.menuItemRunSaves()>><<append "#menu-item-restart">>restart<</append>><<append "#menu-item-settings">>system<</append>><<append "#menu-item-saves">>saves<</append>><</timed>>
-    </div>
-    <div class="gameButt">
-      <<print setup.ui.menuButtons()>>
-    </div>
-    <div style="position:absolute;top:0px;left:10px;height:30px;width:260px;font-family:Questrial, sans-serif;color:#DDD;background-color:rgb(0, 0, 0,0.3);text-align:left;font-size:20px;" class="blackOutline">
-      Version: <<= $version>> <<= $swim>>
-    </div>
-    <<if $ver < setup.ver>>
-      <div id="menu-backward-compat">
-        <<link [img[Backward Compatibility|IMGbackwardcomp]]>><<set $prevPassage = passage()>><<goto [[backwardCompat]]>><</link>>
-      </div>
+<<if !aw.passage.tags.includes("noui")>>
+  <div id="phoneDatas" class="blackOutline">
+    <<print setup.ui.mainPhone()>>
+    <<print setup.ui.warnIndicate()>>
+    <<print setup.ui.statusInfo()>>
+    <<if $showData>>
+      <<if not aw.passage.tags.includes("hidden")>>
+        <<print setup.time.upcoming()>>
+      <</if>>
     <</if>>
   </div>
-</div>
-<<print setup.ui.debugToolers()>>
 
+  <img id="ui-bar-phone" data-passage="IMG-phoneMenu">
+  <div id="menuPhoneBackground">
+  <<print setup.phoneBGprint()>>
+  </div>
+  <div id="gameMenu">
+    <span id="phoneMenuBGspan"><<print setup.phoneMenuPrint()>></span>
+    <div id="gameMenuButtons">
+      <div class="systemButt">
+        <button id="menu-item-restart">restart</button>
+        <button id="menu-item-settings">system</button>
+        <button id="menu-item-saves">saves</button>
+        <<timed 50ms>>
+          <<run setup.ui.menuButtonTrigger()>>
+        <</timed>>
+      </div>
+      <div class="gameButt">
+        <<print setup.ui.menuButtons()>>
+      </div>
+      <div style="position:absolute;top:0px;left:10px;height:30px;width:260px;font-family:Questrial, sans-serif;color:#DDD;background-color:rgb(0, 0, 0,0.3);text-align:left;font-size:20px;" class="blackOutline">
+        Version: <<= $version>> <<= $swim>>
+      </div>
+      <div id="gameMenuStatusIcons">
+        <<if !aw.passage.tags.includes("startpage")>><<print setup.omni.iconPrint()>><</if>>
+      </div>
+    </div>
+  </div>
+  <<print setup.ui.debugToolers()>>
+<<elseif ↂ.flag.Prologue>>
+  <img data-passage="IMG-PrologueSidebar" style="position:absolute;top:0px;left:0px;">
+  <div id="gameMenu" style="opacity:1;">
+    <div id="gameMenuButtons" style="opacity:1;">
+      <div class="systemButt">
+        <button id="menu-item-restart">restart</button>
+        <button id="menu-item-settings">system</button>
+        <button id="menu-item-saves">saves</button>
+        <<timed 50ms>>
+          <<run setup.ui.menuButtonTrigger()>>
+        <</timed>>
+      </div>
+      <div id="gameMenuStatusIcons">
+        <<if !aw.passage.tags.includes("startpage")>><<print setup.omni.iconPrint()>><</if>>
+      </div>
+    </div>
+  </div>
+  <<print setup.ui.debugToolers()>>
+<<else>>
+<<print setup.ui.debugToolersFloat()>>
+<</if>>
+<<if $debugTools>>
+  <div id="right-sidebar-developer-button">
+    [img[IMGdevToolkit]]
+    <<button "Toolkit">><<dialog "Dev Toolkit">><<include [[DeveloperToolkit]]>><</dialog>><</button>>
+  </div>
+<</if>>
+
+<<if !aw.passage.tags.includes("noui") && !aw.passage.tags.includes("hidden")>>
+  <div id="AI-Training">
+    [img[IMG-AI-Icon]]
+    <<button "Training">><<dialog "AW AI Training Center">><<include [[AItrainingMenu]]>><</dialog>><</button>>
+  </div>
+<</if>>
 

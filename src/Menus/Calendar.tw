@@ -1,5 +1,7 @@
 :: infoCalendarDisplay [nobr]
 
+<<print setup.sched.calendar()>>
+/*
 <<silently>>
   <<set _orders = [0,[5,1,2,3,4],[5,2,3,4,6,1],[5,3,4,6,1,2],[5,4,6,1,2,3]]>>
   <<set _order = _orders[$date[1]]>>
@@ -31,41 +33,41 @@
       <<for _j to 1; _j < 8; _j++>>
         <<set _pr += "<td>">>
         <<if $date[1] == _wk && $date[0] >= _j>>
-          <<if $plans[_wk][_j].length == 0>>
+          <<if ↂ.plans[_wk][_j].length == 0>>
             <<set _pr += "None">>
           <<else>>
-            <<set _dLength = $plans[_wk][_j].length>>
+            <<set _dLength = ↂ.plans[_wk][_j].length>>
             <<for _k to 0; _k < _dLength; _k++>>
               <<if _k > 3>>
                 <<break>>
               <<elseif _k > 0>>
                 <<set _pr += "<br>">>
               <</if>>
-              <<set _pr += $plans[_wk][_j][_k].name>>
-              <<if $plans[_wk][_j][_k].type == 0>>
+              <<set _pr += ↂ.plans[_wk][_j][_k].name>>
+              <<if ↂ.plans[_wk][_j][_k].type == 0>>
                 <<set _pr += " <span class='monospace'>N/A</span>">>
-              <<elseif $plans[_wk][_j][_k].missed != true>>
-                <<set _pr += " <span class='monospace'>" + $plans[_wk][_j][_k].start[0] + ":" + $plans[_wk][_j][_k].start[1] + "</span>">>
+              <<elseif ↂ.plans[_wk][_j][_k].missed != true>>
+                <<set _pr += " <span class='monospace'>" + ↂ.plans[_wk][_j][_k].start[0] + ":" + ↂ.plans[_wk][_j][_k].start[1] + "</span>">>
               <<else>>
                 <<set _pr += " <span class='monospace'>missed</span>">>
               <</if>>
             <</for>>
           <</if>>
         <<else>>
-          <<if $plans[_wk][_j].length == 0>>
+          <<if ↂ.plans[_wk][_j].length == 0>>
             <<set _pr += "None">>
           <<else>>
-            <<set _dLength = $plans[_wk][_j].length>>
+            <<set _dLength = ↂ.plans[_wk][_j].length>>
             <<for _k to 0; _k < _dLength; _k++>>
               <<if _k > 3>>
                 <<break>>
               <<elseif _k > 0>>
                 <<set _pr += "<br>">>
               <</if>>
-              <<set _pr += $plans[_wk][_j][_k].name>>
-              <<if $plans[_wk][_j][_k].type == 0>>
+              <<set _pr += ↂ.plans[_wk][_j][_k].name>>
+              <<if ↂ.plans[_wk][_j][_k].type == 0>>
                 <<set _pr += " <span class='monospace'>N/A</span>">>
-              <<elseif $plans[_wk][_j][_k].missed != true>>
+              <<elseif ↂ.plans[_wk][_j][_k].missed != true>>
                 <<set _pr += " <span class='monospace'>went</span>">>
               <<else>>
                 <<set _pr += " <span class='monospace'>missed</span>">>
@@ -100,39 +102,39 @@
       <<for _j to 1; _j < 8; _j++>>
         <<set _pr += "<td>">>
         <<if $date[1] == _wk && $date[0] >= _j>>
-          <<if $plans[_wk][_j].length == 0>>
+          <<if ↂ.plans[_wk][_j].length == 0>>
             <<set _pr += "None">>
           <<else>>
-            <<set _dLength = $plans[_wk][_j].length>>
-            <<for _k to 0; _k < _dLength && _k < 4; _i++>>
+            <<set _dLength = ↂ.plans[_wk][_j].length>>
+            <<for _k to 0; _k < _dLength && _k < 4; _k++>>
               <<if _k > 0>>
                 <<set _pr += "<br>">>
               <</if>>
-              <<set _pr += $plans[_wk][_j][_k].name>>
-              <<if $plans[_wk][_j][_k].type == 0>>
+              <<set _pr += ↂ.plans[_wk][_j][_k].name>>
+              <<if ↂ.plans[_wk][_j][_k].type == 0>>
                 <<set _pr += " <span class='monospace'>N/A</span>">>
-              <<elseif $plans[_wk][_j][_k].missed != true>>
-                <<set _pr += " <span class='monospace'>" + $plans[_wk][_j][_k].start[0] + ":" + $plans[_wk][_j][_k].start[1] + "</span>">>
+              <<elseif ↂ.plans[_wk][_j][_k].missed != true>>
+                <<set _pr += " <span class='monospace'>" + ↂ.plans[_wk][_j][_k].start[0] + ":" + ↂ.plans[_wk][_j][_k].start[1] + "</span>">>
               <<else>>
                 <<set _pr += " <span class='monospace'>missed</span>">>
               <</if>>
             <</for>>
           <</if>>
         <<else>>
-          <<if $plans[_wk][_j].length == 0>>
+          <<if ↂ.plans[_wk][_j].length == 0>>
             <<set _pr += "None">>
           <<else>>
-            <<set _dLength = $plans[_wk][_j].length>>
+            <<set _dLength = ↂ.plans[_wk][_j].length>>
             <<for _k to 0; _k < _dLength; _k++>>
               <<if _k > 3>>
                 <<break>>
               <<elseif _k > 0>>
                 <<set _pr += "<br>">>
               <</if>>
-              <<set _pr += $plans[_wk][_j][_k].name>>
-              <<if $plans[_wk][_j][_k].type == 0>>
+              <<set _pr += ↂ.plans[_wk][_j][_k].name>>
+              <<if ↂ.plans[_wk][_j][_k].type == 0>>
                 <<set _pr += " <span class='monospace'>N/A</span>">>
-              <<elseif $plans[_wk][_j][_k].missed != true>>
+              <<elseif ↂ.plans[_wk][_j][_k].missed != true>>
                 <<set _pr += " <span class='monospace'>went</span>">>
               <<else>>
                 <<set _pr += " <span class='monospace'>missed</span>">>
@@ -167,39 +169,39 @@
       <<for _j to 1; _j < 8; _j++>>
         <<set _pr += "<td>">>
         <<if $date[1] == _wk && $date[0] >= _j>>
-          <<if $plans[_wk][_j].length == 0>>
+          <<if ↂ.plans[_wk][_j].length == 0>>
             <<set _pr += "None">>
           <<else>>
-            <<set _dLength = $plans[_wk][_j].length>>
-            <<for _k to 0; _k < _dLength && _k < 4; _i++>>
+            <<set _dLength = ↂ.plans[_wk][_j].length>>
+            <<for _k to 0; _k < _dLength && _k < 4; _k++>>
               <<if _k > 0>>
                 <<set _pr += "<br>">>
               <</if>>
-              <<set _pr += $plans[_wk][_j][_k].name>>
-              <<if $plans[_wk][_j][_k].type == 0>>
+              <<set _pr += ↂ.plans[_wk][_j][_k].name>>
+              <<if ↂ.plans[_wk][_j][_k].type == 0>>
                 <<set _pr += " <span class='monospace'>N/A</span>">>
-              <<elseif $plans[_wk][_j][_k].missed != true>>
-                <<set _pr += " <span class='monospace'>" + $plans[_wk][_j][_k].start[0] + ":" + $plans[_wk][_j][_k].start[1] + "</span>">>
+              <<elseif ↂ.plans[_wk][_j][_k].missed != true>>
+                <<set _pr += " <span class='monospace'>" + ↂ.plans[_wk][_j][_k].start[0] + ":" + ↂ.plans[_wk][_j][_k].start[1] + "</span>">>
               <<else>>
                 <<set _pr += " <span class='monospace'>missed</span>">>
               <</if>>
             <</for>>
           <</if>>
         <<else>>
-          <<if $plans[_wk][_j].length == 0>>
+          <<if ↂ.plans[_wk][_j].length == 0>>
             <<set _pr += "None">>
           <<else>>
-            <<set _dLength = $plans[_wk][_j].length>>
+            <<set _dLength = ↂ.plans[_wk][_j].length>>
             <<for _k to 0; _k < _dLength; _k++>>
               <<if _k > 3>>
                 <<break>>
               <<elseif _k > 0>>
                 <<set _pr += "<br>">>
               <</if>>
-              <<set _pr += $plans[_wk][_j][_k].name>>
-              <<if $plans[_wk][_j][_k].type == 0>>
+              <<set _pr += ↂ.plans[_wk][_j][_k].name>>
+              <<if ↂ.plans[_wk][_j][_k].type == 0>>
                 <<set _pr += " <span class='monospace'>N/A</span>">>
-              <<elseif $plans[_wk][_j][_k].missed != true>>
+              <<elseif ↂ.plans[_wk][_j][_k].missed != true>>
                 <<set _pr += " <span class='monospace'>went</span>">>
               <<else>>
                 <<set _pr += " <span class='monospace'>missed</span>">>
@@ -234,39 +236,39 @@
       <<for _j to 1; _j < 8; _j++>>
         <<set _pr += "<td>">>
         <<if $date[1] == _wk && $date[0] >= _j>>
-          <<if $plans[_wk][_j].length == 0>>
+          <<if ↂ.plans[_wk][_j].length == 0>>
             <<set _pr += "None">>
           <<else>>
-            <<set _dLength = $plans[_wk][_j].length>>
-            <<for _k to 0; _k < _dLength && _k < 4; _i++>>
+            <<set _dLength = ↂ.plans[_wk][_j].length>>
+            <<for _k to 0; _k < _dLength && _k < 4; _k++>>
               <<if _k > 0>>
                 <<set _pr += "<br>">>
               <</if>>
-              <<set _pr += $plans[_wk][_j][_k].name>>
-              <<if $plans[_wk][_j][_k].type == 0>>
+              <<set _pr += ↂ.plans[_wk][_j][_k].name>>
+              <<if ↂ.plans[_wk][_j][_k].type == 0>>
                 <<set _pr += " <span class='monospace'>N/A</span>">>
-              <<elseif $plans[_wk][_j][_k].missed != true>>
-                <<set _pr += " <span class='monospace'>" + $plans[_wk][_j][_k].start[0] + ":" + $plans[_wk][_j][_k].start[1] + "</span>">>
+              <<elseif ↂ.plans[_wk][_j][_k].missed != true>>
+                <<set _pr += " <span class='monospace'>" + ↂ.plans[_wk][_j][_k].start[0] + ":" + ↂ.plans[_wk][_j][_k].start[1] + "</span>">>
               <<else>>
                 <<set _pr += " <span class='monospace'>missed</span>">>
               <</if>>
             <</for>>
           <</if>>
         <<else>>
-          <<if $plans[_wk][_j].length == 0>>
+          <<if ↂ.plans[_wk][_j].length == 0>>
             <<set _pr += "None">>
           <<else>>
-            <<set _dLength = $plans[_wk][_j].length>>
+            <<set _dLength = ↂ.plans[_wk][_j].length>>
             <<for _k to 0; _k < _dLength; _k++>>
               <<if _k > 3>>
                 <<break>>
               <<elseif _k > 0>>
                 <<set _pr += "<br>">>
               <</if>>
-              <<set _pr += $plans[_wk][_j][_k].name>>
-              <<if $plans[_wk][_j][_k].type == 0>>
+              <<set _pr += ↂ.plans[_wk][_j][_k].name>>
+              <<if ↂ.plans[_wk][_j][_k].type == 0>>
                 <<set _pr += " <span class='monospace'>N/A</span>">>
-              <<elseif $plans[_wk][_j][_k].missed != true>>
+              <<elseif ↂ.plans[_wk][_j][_k].missed != true>>
                 <<set _pr += " <span class='monospace'>went</span>">>
               <<else>>
                 <<set _pr += " <span class='monospace'>missed</span>">>
@@ -281,7 +283,7 @@
       <<set _month = setup.time.monthName()>>
       <<set _pr += "<tr class='calendarTitle head1'>">>
       <<set _pr += "<td colspan=7>"+_month+"</td></tr>">>
-      <<set _pr += "<tr class='calendarDays tit' style='font-size:120%;'>">>
+      <<set _pr += "<tr class='calendarDays tit' style='font-size:1.2rem;'>">>
       <<set _pr += "<td>Monday</td><td>Tuesday</td><td>Wednesday</td><td>Thursday</td><td>Friday</td><td>Saturday</td><td>Sunday</td>">>
       <<set _pr += "</tr>">>
     <<case 6>>
@@ -294,3 +296,4 @@
   <<set _pr += "</table>">>
 <</silently>>
 <<print _pr>>
+*/

@@ -11,7 +11,7 @@
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptResidential>> <<mapEventResidential>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -39,7 +39,7 @@
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*Event notification spot*/
 /*<<mapEventRes>>*/
@@ -47,18 +47,22 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 @@.head3;Y@@ou are at the small playground in the community area of this block of buildings. In addition to classic playground items like swings and slides, there's also an area with several picnic tables and a half-court for basketball. It seems to be a hangout spot for teenagers. On the far side there's a tiny building housing a boy's and girl's restroom. On the opposite side, there are a few benches for parents to sit and keep an eye on smaller children.
 /*Time & furnishing descriptive addon! <<mapResDesc>>*/
 /*IN-PASSAGE span text*/
-<span id="locact"></span></div>
+<span id="locact"></span><<selfthought>></div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise look>>
   <<button "Take a look Around">><<dialog "Tutorial">>Clicking on the location image (the wide and short image at the top of the screen) is meant to represent taking a closer look at a location. Many locations haven't had additional things added yet, but eventually this will have more neat things to see. ''You should click the image here at the playground!''<</dialog>><</button>>
 <<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
 </div>
 
 /*Main display for information about actions*/
 <div id="actionInfo">
 <<insertion look>>Take a closer look at the people currently at the playground.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 
 </div>
 

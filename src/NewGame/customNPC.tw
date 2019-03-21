@@ -3,38 +3,38 @@
 <<silently>>
 <<set $helpText = "There's a ton of stuff here! I recommend reading the instructions, because if you don't read the instructions: 'You're gonna have a bad time'<br><br>In all seriousness, if you don't understand a setting, you should probably leave it alone. Using these settings moves the game away from intended play.">>
 <</silently>>
-<<widget "boober">><<print "@@.acme;.hotpink;Ѡ@@">><</widget>>
+<<widget "boober">><<print "@@.handwriting;.hotpink;Ѡ@@">><</widget>>
 
 <center>[img[IMGnpcgenerator]]<br><br>
 @@.contButt;<<button "Accept">>
 
-<<goto [[Introduction]]>>
-<</button>>@@ <<button "Save Template">><<goto [[saveNPCsettings]]>><</button>> <<button "Load Template">><<goto [[loadNPCsettings]]>><</button>> <<button "Cancel">>
+<<go Introduction>>
+<</button>>@@ <<button "Save Template">><<go saveNPCsettings>><</button>> <<button "Load Template">><<go loadNPCsettings>><</button>> <<button "Cancel">>
 <<include [[NPCsettingsInit]]>>
-<<goto [[Introduction]]>>
-<</button>> <<button [[Test NPCs!|npcGeneratorTest]]>><</button>></center>
+<<go Introduction>>
+<</button>> <<button [[Test NPCs (OUTDATED)|npcGeneratorTest]]>><</button>></center>
 <br><br>
 @@.head2;Instructions@@<br><br>
-@@.acme;.white;The NPC generator in Accidental Woman is a complicated piece of machinery. Fortunately, I'm here to supply you with a few monkey wrenches in the form of the@@ @@.ident;NPC Generator Settings@@ @@.acme;.white;and@@ @@.ident;Custom NPC Templates@@@@.acme;.white; (//custom npc templates are later in development, and give far more control over random NPCs as well as adding the ability to specify customized NPCs.//). These settings are designed to let you encounter the types of NPCs that you'd like in Appletree.<br><br>''NPC Settings''--The below options all control the way that NPCs are generated, but not in a uniform way. Each setting will have a basic description of it's purpose, and an on/off button. Leaving a setting off will mean that it won't have any effect.<br><br>In some cases these settings dramatically alter the way that NPCs are generated. In addition, making lots of changes to the NPC personality core can result in odd or predictable behavior, or NPCs that all behave the same. While being able to control the world you play in is part of the plan for Accidental Woman, giving control to you means less control for the game to provide the planned experience. Settings that have the boob symbol@@ <<boober>> @@.acme;.white;next to it means that the setting has potential to cause problems. The more boobs, the more potential for chaos it has.@@
+@@.handwriting;.white;The NPC generator in Accidental Woman is a complicated piece of machinery. Fortunately, I'm here to supply you with a few monkey wrenches in the form of the@@ @@.ident;NPC Generator Settings@@ @@.handwriting;.white;and@@ @@.ident;Custom NPC Templates@@@@.handwriting;.white; (//custom npc templates are later in development, and give far more control over random NPCs as well as adding the ability to specify customized NPCs.//). These settings are designed to let you encounter the types of NPCs that you'd like in Appletree.<br><br>''NPC Settings''--The below options all control the way that NPCs are generated, but not in a uniform way. Each setting will have a basic description of it's purpose, and an on/off button. Leaving a setting off will mean that it won't have any effect.<br><br>In some cases these settings dramatically alter the way that NPCs are generated. In addition, making lots of changes to the NPC personality core can result in odd or predictable behavior, or NPCs that all behave the same. While being able to control the world you play in is part of the plan for Accidental Woman, giving control to you means less control for the game to provide the planned experience. Settings that have the boob symbol@@ <<boober>> @@.handwriting;.white;next to it means that the setting has potential to cause problems. The more boobs, the more potential for chaos it has.@@
 <br><br>
 @@.head3;Primary Settings@@
 <br><br>
 ''Gender Ratio'' <<boober>><br>Set the percentage of females created when NPCs are generated. [ie "25" = 25 percent of NPCs will be female. "0" = no females, and "100" = no males.]<br><<set _gendercon = 50>>
-<<checkboxA "$npcSetting.gender[0]" false true>> current:<span id="genderrate"><<print $npcSetting.gender[1]>></span> <<textbox "_gendercon" _gendercon>> @@.uibutton;<<button "SET">><<set $npcSetting.gender[1] = Number(_gendercon)>><<replace "#genderrate">><<print $npcSetting.gender[1]>><</replace>><</button>>@@
+<<checkboxA "setup.npcSetting.gender[0]" false true>> current:<span id="genderrate"><<print setup.npcSetting.gender[1]>></span> <<textbox "_gendercon" _gendercon>> @@.uibutton;<<button "SET">><<set setup.npcSetting.gender[1] = Number(_gendercon)>><<replace "#genderrate">><<print setup.npcSetting.gender[1]>><</replace>><</button>>@@
 <br><br>
 ''Futa Ratio'' <<boober>><br>Set the rate that futas (hermaphrodites) occur. 10 is default, which is absurdly high. "10" = 0.1% or 1/1000th of NPCs. Set to "0" for no generated hermaphrodites. This setting does not effect fixed or semi-fixed NPCs, and no, it won't change Lily. [ie "5" = 0.05%, "100" = 1%]<br><<set _futarate = 10>>
-Current: <span id="futarate"><<print $npcSetting.futaRate>></span> <<textbox "_futarate" _futarate>> @@.uibutton;<<button "SET">><<set $npcSetting.futaRate = Number(_futarate)>><<replace "#futarate">><<print $npcSetting.futaRate>><</replace>><</button>>@@
+Current: <span id="futarate"><<print setup.npcSetting.futaRate>></span> <<textbox "_futarate" _futarate>> @@.uibutton;<<button "SET">><<set setup.npcSetting.futaRate = Number(_futarate)>><<replace "#futarate">><<print setup.npcSetting.futaRate>><</replace>><</button>>@@
 <br><br>
 ''Allow Male-Type Futas''<br>When futas are generated, 1/8th of them are of the male subtype, meaning they have a generally male body but have an extra vagina. Turn this off to disable, and 100% of futas will have a female body.<br>
-<<checkboxA "$npcSetting.futaMale" false true>>
+<<checkboxA "setup.npcSetting.futaMale" false true>>
 <br><br>
 ''Trap Occurrance''<br>Set whether NPCs will generate with opposite genitals, and at what rate for each gender. @@.note;"Trap" NPCs are not implemented yet, and should appear later in development.@@
 <br><br>
 ''Wealth Skew'' <<boober>><br>Skew the wealthiness of generated NPCs toward being more or less wealthy.<br>
-<<checkboxA "$npcSetting.wealth[0]" false true>> MALE: <<radiogaga "$npcSetting.wealth[1]" $npcSetting.wealth[1] "Poor" "Shoestring" "Neutral" "Well-Off" "Rich">>  FEMALE: <<radiogaga "$npcSetting.wealth[2]" $npcSetting.wealth[2] "Poor" "Shoestring" "Neutral" "Well-Off" "Rich">>
+<<checkboxA "setup.npcSetting.wealth[0]" false true>> MALE: <<radiogaga "setup.npcSetting.wealth[1]" setup.npcSetting.wealth[1] "Poor" "Shoestring" "Neutral" "Well-Off" "Rich">>  FEMALE: <<radiogaga "setup.npcSetting.wealth[2]" setup.npcSetting.wealth[2] "Poor" "Shoestring" "Neutral" "Well-Off" "Rich">>
 <br><br>
 ''Age Range'' <<boober>><<boober>><br>Enforce a range of potential ages for NPCs. Generated NPCs will fall within this age range. NPCs will be >= Min Age, and < Max Age. [ie "18" & "31" will generate NPCs 18 to 30 years old.] //I won't stop ridiculous values here, but it can bork your game.//<br><<set _minage = 18>><<set _maxage = 31>>
-<<checkboxA "$npcSetting.age[0]" false true>> Current:<span id="agerange"><<print $npcSetting.age[1][0]>> to <<print $npcSetting.age[1][1]>></span><br>MIN:<<textbox "_minage" _minage>> MAX:<<textbox "_maxage" _maxage>> @@.uibutton;<<button "SET">><<set $npcSetting.age[1][0] = Number(_minage)>><<set $npcSetting.age[1][1] = Number(_maxage)>><<replace "#agerange">><<print $npcSetting.age[1][0]>> to <<print $npcSetting.age[1][1]>><</replace>><<if $npcSetting.age[1][0] < 16>><<run alert("I see what you did there ;)")>><</if>><<if $npcSetting.age[1][0] >= $npcSetting.age[1][1]>><<set $npcSetting.age[1] = [18,31]>><<run alert("Max age must be greater than min age!")>><</if>><</button>>@@
+<<checkboxA "setup.npcSetting.age[0]" false true>> Current:<span id="agerange"><<print setup.npcSetting.age[1][0]>> to <<print setup.npcSetting.age[1][1]>></span><br>MIN:<<textbox "_minage" _minage>> MAX:<<textbox "_maxage" _maxage>> @@.uibutton;<<button "SET">><<set setup.npcSetting.age[1][0] = Number(_minage)>><<set setup.npcSetting.age[1][1] = Number(_maxage)>><<replace "#agerange">><<print setup.npcSetting.age[1][0]>> to <<print setup.npcSetting.age[1][1]>><</replace>><<if setup.npcSetting.age[1][0] < 16>><<run UI.alert("I see what you did there ;)")>><</if>><<if setup.npcSetting.age[1][0] >= setup.npcSetting.age[1][1]>><<set setup.npcSetting.age[1] = [18,31]>><<run UI.alert("Max age must be greater than min age!")>><</if>><</button>>@@
 <br><br>
 ''Race Distribution''<br>Set the relative likeliness of a generated NPC being a certain race. Enter values for each race category. Default values are: (845,43,35,50,24,3). [ie (10,1,1,1,1,1) would make white 10x more likely than any other race, and would be 66.6% of the generated population.] //Race doesn't play a role in NPC generation beyond basic cosmetic differences like skin and eye color//<br><<set _race1=845, _race2=43, _race3=35, _race4=50, _race5=24, _race6=3>>
 <<textbox "_race1" _race1>> 1. White @@.note;(includes Gaelic, Nordic, S European)@@<br>
@@ -43,12 +43,12 @@ Current: <span id="futarate"><<print $npcSetting.futaRate>></span> <<textbox "_f
 <<textbox "_race4" _race4>> 4. Asian @@.note;(includes Asian, South Asian, Southeast Asian)@@<br>
 <<textbox "_race5" _race5>> 5. Middle Eastern @@.note;(includes N Africa)@@<br>
 <<textbox "_race6" _race6>> 6. Native American @@.note;(will include Pacific Islander)@@<br>
-Current Setting: @@.monospace;<span id="racesetting">1) <<print $npcSetting.race[1][0]>>, 2) <<print $npcSetting.race[1][1]>>, 3) <<print $npcSetting.race[1][2]>>, 4) <<print $npcSetting.race[1][3]>>, 5) <<print $npcSetting.race[1][4]>>, 6) <<print $npcSetting.race[1][5]>>.</span>@@  @@.uibutton;<<button "SET">><<set $npcSetting.race[1] = [Number(_race1),Number(_race2),Number(_race3),Number(_race4),Number(_race5),Number(_race6)]>><<replace "#racesetting">>1) <<print $npcSetting.race[1][0]>>, 2) <<print $npcSetting.race[1][1]>>, 3) <<print $npcSetting.race[1][2]>>, 4) <<print $npcSetting.race[1][3]>>, 5) <<print $npcSetting.race[1][4]>>, 6) <<print $npcSetting.race[1][5]>>.<</replace>><</button>>@@ Enable: <<checkboxA "$npcSetting.race[0]" false true>>
+Current Setting: @@.monospace;<span id="racesetting">1) <<print setup.npcSetting.race[1][0]>>, 2) <<print setup.npcSetting.race[1][1]>>, 3) <<print setup.npcSetting.race[1][2]>>, 4) <<print setup.npcSetting.race[1][3]>>, 5) <<print setup.npcSetting.race[1][4]>>, 6) <<print setup.npcSetting.race[1][5]>>.</span>@@  @@.uibutton;<<button "SET">><<set setup.npcSetting.race[1] = [Number(_race1),Number(_race2),Number(_race3),Number(_race4),Number(_race5),Number(_race6)]>><<replace "#racesetting">>1) <<print setup.npcSetting.race[1][0]>>, 2) <<print setup.npcSetting.race[1][1]>>, 3) <<print setup.npcSetting.race[1][2]>>, 4) <<print setup.npcSetting.race[1][3]>>, 5) <<print setup.npcSetting.race[1][4]>>, 6) <<print setup.npcSetting.race[1][5]>>.<</replace>><</button>>@@ Enable: <<checkboxA "setup.npcSetting.race[0]" false true>>
 <br><br>
 ''Homosexuality'' <<boober>><<boober>><br>Set the relative rate of homosexuality in NPCs. You can turn homosexuality off for a gender, or adjust the rate it occurs.<br>
-<<checkboxA "$npcSetting.homo[0]" false true>> Setting Enabled<br>
-Male Homosexuality: <<checkboxA "$npcSetting.homo[1][0]" false true>> Rate: <<radiogaga "$npcSetting.homo[1][1]" $npcSetting.homo[1][1] "Rare" "Normal" "More" "Even More" "common">><br>
-Female Homosexuality: <<checkboxA "$npcSetting.homo[1][2]" false true>> Rate: <<radiogaga "$npcSetting.homo[1][3]" $npcSetting.homo[1][3] "Rare" "Normal" "More" "Even More" "common">><br><br>
+<<checkboxA "setup.npcSetting.homo[0]" false true>> Setting Enabled<br>
+Male Homosexuality: <<checkboxA "setup.npcSetting.homo[1][0]" false true>> Rate: <<radiogaga "setup.npcSetting.homo[1][1]" setup.npcSetting.homo[1][1] "Rare" "Normal" "More" "Even More" "common">><br>
+Female Homosexuality: <<checkboxA "setup.npcSetting.homo[1][2]" false true>> Rate: <<radiogaga "setup.npcSetting.homo[1][3]" setup.npcSetting.homo[1][3] "Rare" "Normal" "More" "Even More" "common">><br><br>
 ''Marriage Ratio:''<<boober>><<boober>><br>
 rate of marriage in generated NPCs.<br><br>
 @@.head3;Physical Body Settings@@
@@ -71,10 +71,10 @@ rate of marriage in generated NPCs.<br><br>
 <<textbox "_Fheight[3]" _Mheight[3]>> 4. Tall<br>
 <<textbox "_Fheight[4]" _Mheight[4]>> 5. V-Tall
 </td>
-</tr><tr><td colspan=2>Current: <span id="heightsetting">''Male:'' 1) <<print $npcSetting.height[1][0]>>, 2) <<print $npcSetting.height[1][1]>>, 3) <<print $npcSetting.height[1][2]>>, 4) <<print $npcSetting.height[1][3]>>, 5) <<print $npcSetting.height[1][4]>>. -- ''Female:'' 1) <<print $npcSetting.height[2][0]>>, 2) <<print $npcSetting.height[2][1]>>, 3) <<print $npcSetting.height[2][2]>>, 4) <<print $npcSetting.height[2][3]>>, 5) <<print $npcSetting.height[2][4]>>.</span>
+</tr><tr><td colspan=2>Current: <span id="heightsetting">''Male:'' 1) <<print setup.npcSetting.height[1][0]>>, 2) <<print setup.npcSetting.height[1][1]>>, 3) <<print setup.npcSetting.height[1][2]>>, 4) <<print setup.npcSetting.height[1][3]>>, 5) <<print setup.npcSetting.height[1][4]>>. -- ''Female:'' 1) <<print setup.npcSetting.height[2][0]>>, 2) <<print setup.npcSetting.height[2][1]>>, 3) <<print setup.npcSetting.height[2][2]>>, 4) <<print setup.npcSetting.height[2][3]>>, 5) <<print setup.npcSetting.height[2][4]>>.</span>
 </td></tr><tr><td colspan=2>
-Control Enabled: <<checkboxA "$npcSetting.height[0]" false true>> -- Change Setting: @@.uibutton;<<button "SET">>
-<<set $npcSetting.height[1] = [Number(_Mheight[0]),Number(_Mheight[1]),Number(_Mheight[2]),Number(_Mheight[3]),Number(_Mheight[4])]>><<set $npcSetting.height[2] = [Number(_Fheight[0]),Number(_Fheight[1]),Number(_Fheight[2]),Number(_Fheight[3]),Number(_Fheight[4])]>><<replace "#heightsetting">>''Male:'' 1) <<print $npcSetting.height[1][0]>>, 2) <<print $npcSetting.height[1][1]>>, 3) <<print $npcSetting.height[1][2]>>, 4) <<print $npcSetting.height[1][3]>>, 5) <<print $npcSetting.height[1][4]>>. -- ''Female:'' 1) <<print $npcSetting.height[2][0]>>, 2) <<print $npcSetting.height[2][1]>>, 3) <<print $npcSetting.height[2][2]>>, 4) <<print $npcSetting.height[2][3]>>, 5) <<print $npcSetting.height[2][4]>>.<</replace>><</button>>@@
+Control Enabled: <<checkboxA "setup.npcSetting.height[0]" false true>> -- Change Setting: @@.uibutton;<<button "SET">>
+<<set setup.npcSetting.height[1] = [Number(_Mheight[0]),Number(_Mheight[1]),Number(_Mheight[2]),Number(_Mheight[3]),Number(_Mheight[4])]>><<set setup.npcSetting.height[2] = [Number(_Fheight[0]),Number(_Fheight[1]),Number(_Fheight[2]),Number(_Fheight[3]),Number(_Fheight[4])]>><<replace "#heightsetting">>''Male:'' 1) <<print setup.npcSetting.height[1][0]>>, 2) <<print setup.npcSetting.height[1][1]>>, 3) <<print setup.npcSetting.height[1][2]>>, 4) <<print setup.npcSetting.height[1][3]>>, 5) <<print setup.npcSetting.height[1][4]>>. -- ''Female:'' 1) <<print setup.npcSetting.height[2][0]>>, 2) <<print setup.npcSetting.height[2][1]>>, 3) <<print setup.npcSetting.height[2][2]>>, 4) <<print setup.npcSetting.height[2][3]>>, 5) <<print setup.npcSetting.height[2][4]>>.<</replace>><</button>>@@
 </td></tr></table>
 <br>
 ''Muscle Tone'' <<boober>><br>Set the relative likeliness of a generated NPC being in a certain category. Enter values for each category values can be zero. [ie (10,1,1,1,1,) would make very short people 10x more likely than any other tone cateogory.]
@@ -97,10 +97,10 @@ Control Enabled: <<checkboxA "$npcSetting.height[0]" false true>> -- Change Sett
 <<textbox "_Ftone[4]" _Mtone[4]>> 5. Muscular<br>
 <<textbox "_Ftone[5]" _Mtone[4]>> 6. Body Builder
 </td>
-</tr><tr><td colspan=2>Current: <span id="tonesetting">''Male:'' 1) <<print $npcSetting.tone[1][0]>>, 2) <<print $npcSetting.tone[1][1]>>, 3) <<print $npcSetting.tone[1][2]>>, 4) <<print $npcSetting.tone[1][3]>>, 5) <<print $npcSetting.tone[1][4]>>, 6) <<print $npcSetting.tone[1][5]>>. -- ''Female:'' 1) <<print $npcSetting.tone[2][0]>>, 2) <<print $npcSetting.tone[2][1]>>, 3) <<print $npcSetting.tone[2][2]>>, 4) <<print $npcSetting.tone[2][3]>>, 5) <<print $npcSetting.tone[2][4]>>, 6) <<print $npcSetting.tone[2][5]>>.</span>
+</tr><tr><td colspan=2>Current: <span id="tonesetting">''Male:'' 1) <<print setup.npcSetting.tone[1][0]>>, 2) <<print setup.npcSetting.tone[1][1]>>, 3) <<print setup.npcSetting.tone[1][2]>>, 4) <<print setup.npcSetting.tone[1][3]>>, 5) <<print setup.npcSetting.tone[1][4]>>, 6) <<print setup.npcSetting.tone[1][5]>>. -- ''Female:'' 1) <<print setup.npcSetting.tone[2][0]>>, 2) <<print setup.npcSetting.tone[2][1]>>, 3) <<print setup.npcSetting.tone[2][2]>>, 4) <<print setup.npcSetting.tone[2][3]>>, 5) <<print setup.npcSetting.tone[2][4]>>, 6) <<print setup.npcSetting.tone[2][5]>>.</span>
 </td></tr><tr><td colspan=2>
-Control Enabled: <<checkboxA "$npcSetting.tone[0]" false true>> -- Change Setting: @@.uibutton;<<button "SET">>
-<<set $npcSetting.tone[1] = [Number(_Mtone[0]),Number(_Mtone[1]),Number(_Mtone[2]),Number(_Mtone[3]),Number(_Mtone[4]),Number(_Mtone[5])]>><<set $npcSetting.tone[2] = [Number(_Ftone[0]),Number(_Ftone[1]),Number(_Ftone[2]),Number(_Ftone[3]),Number(_Ftone[4]),Number(_Ftone[5])]>><<replace "#tonesetting">>''Male:'' 1) <<print $npcSetting.tone[1][0]>>, 2) <<print $npcSetting.tone[1][1]>>, 3) <<print $npcSetting.tone[1][2]>>, 4) <<print $npcSetting.tone[1][3]>>, 5) <<print $npcSetting.tone[1][4]>>, 6) <<print $npcSetting.tone[1][5]>>. -- ''Female:'' 1) <<print $npcSetting.tone[2][0]>>, 2) <<print $npcSetting.tone[2][1]>>, 3) <<print $npcSetting.tone[2][2]>>, 4) <<print $npcSetting.tone[2][3]>>, 5) <<print $npcSetting.tone[2][4]>>, 6) <<print $npcSetting.tone[2][5]>>.<</replace>><</button>>@@
+Control Enabled: <<checkboxA "setup.npcSetting.tone[0]" false true>> -- Change Setting: @@.uibutton;<<button "SET">>
+<<set setup.npcSetting.tone[1] = [Number(_Mtone[0]),Number(_Mtone[1]),Number(_Mtone[2]),Number(_Mtone[3]),Number(_Mtone[4]),Number(_Mtone[5])]>><<set setup.npcSetting.tone[2] = [Number(_Ftone[0]),Number(_Ftone[1]),Number(_Ftone[2]),Number(_Ftone[3]),Number(_Ftone[4]),Number(_Ftone[5])]>><<replace "#tonesetting">>''Male:'' 1) <<print setup.npcSetting.tone[1][0]>>, 2) <<print setup.npcSetting.tone[1][1]>>, 3) <<print setup.npcSetting.tone[1][2]>>, 4) <<print setup.npcSetting.tone[1][3]>>, 5) <<print setup.npcSetting.tone[1][4]>>, 6) <<print setup.npcSetting.tone[1][5]>>. -- ''Female:'' 1) <<print setup.npcSetting.tone[2][0]>>, 2) <<print setup.npcSetting.tone[2][1]>>, 3) <<print setup.npcSetting.tone[2][2]>>, 4) <<print setup.npcSetting.tone[2][3]>>, 5) <<print setup.npcSetting.tone[2][4]>>, 6) <<print setup.npcSetting.tone[2][5]>>.<</replace>><</button>>@@
 </td></tr></table>
 <br>
 ''Weight'' <<boober>><br>Set the relative likeliness of a generated NPC being in a certain category. Enter values for each category values can be zero. [ie (10,1,1,1,1,) would make very short people 10x more likely than any other weight cateogory.]
@@ -123,10 +123,10 @@ Control Enabled: <<checkboxA "$npcSetting.tone[0]" false true>> -- Change Settin
 <<textbox "_Fweight[4]" _Mweight[4]>> 5. Chubby<br>
 <<textbox "_Fweight[5]" _Mweight[4]>> 6. Fat
 </td>
-</tr><tr><td colspan=2>Current: <span id="weightsetting">''Male:'' 1) <<print $npcSetting.weight[1][0]>>, 2) <<print $npcSetting.weight[1][1]>>, 3) <<print $npcSetting.weight[1][2]>>, 4) <<print $npcSetting.weight[1][3]>>, 5) <<print $npcSetting.weight[1][4]>>, 6) <<print $npcSetting.weight[1][5]>>. -- ''Female:'' 1) <<print $npcSetting.weight[2][0]>>, 2) <<print $npcSetting.weight[2][1]>>, 3) <<print $npcSetting.weight[2][2]>>, 4) <<print $npcSetting.weight[2][3]>>, 5) <<print $npcSetting.weight[2][4]>>, 6) <<print $npcSetting.weight[2][5]>>.</span>
+</tr><tr><td colspan=2>Current: <span id="weightsetting">''Male:'' 1) <<print setup.npcSetting.weight[1][0]>>, 2) <<print setup.npcSetting.weight[1][1]>>, 3) <<print setup.npcSetting.weight[1][2]>>, 4) <<print setup.npcSetting.weight[1][3]>>, 5) <<print setup.npcSetting.weight[1][4]>>, 6) <<print setup.npcSetting.weight[1][5]>>. -- ''Female:'' 1) <<print setup.npcSetting.weight[2][0]>>, 2) <<print setup.npcSetting.weight[2][1]>>, 3) <<print setup.npcSetting.weight[2][2]>>, 4) <<print setup.npcSetting.weight[2][3]>>, 5) <<print setup.npcSetting.weight[2][4]>>, 6) <<print setup.npcSetting.weight[2][5]>>.</span>
 </td></tr><tr><td colspan=2>
-Control Enabled: <<checkboxA "$npcSetting.weight[0]" false true>> -- Change Setting: @@.uibutton;<<button "SET">>
-<<set $npcSetting.weight[1] = [Number(_Mweight[0]),Number(_Mweight[1]),Number(_Mweight[2]),Number(_Mweight[3]),Number(_Mweight[4]),Number(_Mweight[5])]>><<set $npcSetting.weight[2] = [Number(_Fweight[0]),Number(_Fweight[1]),Number(_Fweight[2]),Number(_Fweight[3]),Number(_Fweight[4]),Number(_Fweight[5])]>><<replace "#weightsetting">>''Male:'' 1) <<print $npcSetting.weight[1][0]>>, 2) <<print $npcSetting.weight[1][1]>>, 3) <<print $npcSetting.weight[1][2]>>, 4) <<print $npcSetting.weight[1][3]>>, 5) <<print $npcSetting.weight[1][4]>>, 6) <<print $npcSetting.weight[1][5]>>. -- ''Female:'' 1) <<print $npcSetting.weight[2][0]>>, 2) <<print $npcSetting.weight[2][1]>>, 3) <<print $npcSetting.weight[2][2]>>, 4) <<print $npcSetting.weight[2][3]>>, 5) <<print $npcSetting.weight[2][4]>>, 6) <<print $npcSetting.weight[2][5]>>.<</replace>><</button>>@@
+Control Enabled: <<checkboxA "setup.npcSetting.weight[0]" false true>> -- Change Setting: @@.uibutton;<<button "SET">>
+<<set setup.npcSetting.weight[1] = [Number(_Mweight[0]),Number(_Mweight[1]),Number(_Mweight[2]),Number(_Mweight[3]),Number(_Mweight[4]),Number(_Mweight[5])]>><<set setup.npcSetting.weight[2] = [Number(_Fweight[0]),Number(_Fweight[1]),Number(_Fweight[2]),Number(_Fweight[3]),Number(_Fweight[4]),Number(_Fweight[5])]>><<replace "#weightsetting">>''Male:'' 1) <<print setup.npcSetting.weight[1][0]>>, 2) <<print setup.npcSetting.weight[1][1]>>, 3) <<print setup.npcSetting.weight[1][2]>>, 4) <<print setup.npcSetting.weight[1][3]>>, 5) <<print setup.npcSetting.weight[1][4]>>, 6) <<print setup.npcSetting.weight[1][5]>>. -- ''Female:'' 1) <<print setup.npcSetting.weight[2][0]>>, 2) <<print setup.npcSetting.weight[2][1]>>, 3) <<print setup.npcSetting.weight[2][2]>>, 4) <<print setup.npcSetting.weight[2][3]>>, 5) <<print setup.npcSetting.weight[2][4]>>, 6) <<print setup.npcSetting.weight[2][5]>>.<</replace>><</button>>@@
 </td></tr></table>
 <br>
 ''Beauty'' <<boober>><br>Set the relative likeliness of a generated NPC being in a certain beauty category. Enter values for each category values can be zero. Default values are: (5,20,50,20,5). [ie (10,1,1,1,1,) would make very short people 10x more likely than any other beauty cateogory.]
@@ -147,178 +147,178 @@ Control Enabled: <<checkboxA "$npcSetting.weight[0]" false true>> -- Change Sett
 <<textbox "_Fbeauty[3]" _Mbeauty[3]>> 4. <br>
 <<textbox "_Fbeauty[4]" _Mbeauty[4]>> 5. 
 </td>
-</tr><tr><td colspan=2>Current: <span id="beautysetting">''Male:'' 1) <<print $npcSetting.beauty[1][0]>>, 2) <<print $npcSetting.beauty[1][1]>>, 3) <<print $npcSetting.beauty[1][2]>>, 4) <<print $npcSetting.beauty[1][3]>>, 5) <<print $npcSetting.beauty[1][4]>>. -- ''Female:'' 1) <<print $npcSetting.beauty[2][0]>>, 2) <<print $npcSetting.beauty[2][1]>>, 3) <<print $npcSetting.beauty[2][2]>>, 4) <<print $npcSetting.beauty[2][3]>>, 5) <<print $npcSetting.beauty[2][4]>>.</span>
+</tr><tr><td colspan=2>Current: <span id="beautysetting">''Male:'' 1) <<print setup.npcSetting.beauty[1][0]>>, 2) <<print setup.npcSetting.beauty[1][1]>>, 3) <<print setup.npcSetting.beauty[1][2]>>, 4) <<print setup.npcSetting.beauty[1][3]>>, 5) <<print setup.npcSetting.beauty[1][4]>>. -- ''Female:'' 1) <<print setup.npcSetting.beauty[2][0]>>, 2) <<print setup.npcSetting.beauty[2][1]>>, 3) <<print setup.npcSetting.beauty[2][2]>>, 4) <<print setup.npcSetting.beauty[2][3]>>, 5) <<print setup.npcSetting.beauty[2][4]>>.</span>
 </td></tr><tr><td colspan=2>
-Control Enabled: <<checkboxA "$npcSetting.beauty[0]" false true>> -- Change Setting: @@.uibutton;<<button "SET">>
-<<set $npcSetting.beauty[1] = [Number(_Mbeauty[0]),Number(_Mbeauty[1]),Number(_Mbeauty[2]),Number(_Mbeauty[3]),Number(_Mbeauty[4])]>><<set $npcSetting.beauty[2] = [Number(_Fbeauty[0]),Number(_Fbeauty[1]),Number(_Fbeauty[2]),Number(_Fbeauty[3]),Number(_Fbeauty[4])]>><<replace "#beautysetting">>''Male:'' 1) <<print $npcSetting.beauty[1][0]>>, 2) <<print $npcSetting.beauty[1][1]>>, 3) <<print $npcSetting.beauty[1][2]>>, 4) <<print $npcSetting.beauty[1][3]>>, 5) <<print $npcSetting.beauty[1][4]>>. -- ''Female:'' 1) <<print $npcSetting.beauty[2][0]>>, 2) <<print $npcSetting.beauty[2][1]>>, 3) <<print $npcSetting.beauty[2][2]>>, 4) <<print $npcSetting.beauty[2][3]>>, 5) <<print $npcSetting.beauty[2][4]>>.<</replace>><</button>>@@
+Control Enabled: <<checkboxA "setup.npcSetting.beauty[0]" false true>> -- Change Setting: @@.uibutton;<<button "SET">>
+<<set setup.npcSetting.beauty[1] = [Number(_Mbeauty[0]),Number(_Mbeauty[1]),Number(_Mbeauty[2]),Number(_Mbeauty[3]),Number(_Mbeauty[4])]>><<set setup.npcSetting.beauty[2] = [Number(_Fbeauty[0]),Number(_Fbeauty[1]),Number(_Fbeauty[2]),Number(_Fbeauty[3]),Number(_Fbeauty[4])]>><<replace "#beautysetting">>''Male:'' 1) <<print setup.npcSetting.beauty[1][0]>>, 2) <<print setup.npcSetting.beauty[1][1]>>, 3) <<print setup.npcSetting.beauty[1][2]>>, 4) <<print setup.npcSetting.beauty[1][3]>>, 5) <<print setup.npcSetting.beauty[1][4]>>. -- ''Female:'' 1) <<print setup.npcSetting.beauty[2][0]>>, 2) <<print setup.npcSetting.beauty[2][1]>>, 3) <<print setup.npcSetting.beauty[2][2]>>, 4) <<print setup.npcSetting.beauty[2][3]>>, 5) <<print setup.npcSetting.beauty[2][4]>>.<</replace>><</button>>@@
 </td></tr></table>
 <br>
 
 @@.head3;Sexual Characteristics@@<br><br>
 ''Breast Size:''<br>Skew the generation.<br>
-<<checkboxA "$npcSetting.tits[0]" false true>> <<radiogaga "$npcSetting.tits[1]" $npcSetting.tits[1] "Even Smaller" "Smaller" "Neutral" "Larger" "Even Larger">>
+<<checkboxA "setup.npcSetting.tits[0]" false true>> <<radiogaga "setup.npcSetting.tits[1]" setup.npcSetting.tits[1] "Even Smaller" "Smaller" "Neutral" "Larger" "Even Larger">>
 <br><br>
 ''Vaginal Tightness:''<br>Skew the generation.<br>
-<<checkboxA "$npcSetting.pussy[0]" false true>> <<radiogaga "$npcSetting.pussy[1]" $npcSetting.pussy[1] "Even Tighter" "Tighter" "Neutral" "Looser" "Even Looser">>
+<<checkboxA "setup.npcSetting.pussy[0]" false true>> <<radiogaga "setup.npcSetting.pussy[1]" setup.npcSetting.pussy[1] "Even Tighter" "Tighter" "Neutral" "Looser" "Even Looser">>
 <br><br>
 ''Circumcision:''<br>Skew the generation.<br>
-<<checkboxA "$npcSetting.circum[0]" false true>> <<radiogaga "$npcSetting.circum[1]" $npcSetting.circum[1] "-" "-" "Never" "Always" "Inverse">>
+<<checkboxA "setup.npcSetting.circum[0]" false true>> <<radiogaga "setup.npcSetting.circum[1]" setup.npcSetting.circum[1] "-" "-" "Never" "Always" "Inverse">>
 <br><br>
 ''Penis Size:''<br>Skew the generation.<br>
-<<checkboxA "$npcSetting.cock[0]" false true>> <<radiogaga "$npcSetting.cock[1]" $npcSetting.cock[1] "Smaller" "Bigger" "Biggerer" "MoreBiggerer" "SuperSize">>
+<<checkboxA "setup.npcSetting.cock[0]" false true>> <<radiogaga "setup.npcSetting.cock[1]" setup.npcSetting.cock[1] "Smaller" "Bigger" "Biggerer" "MoreBiggerer" "SuperSize">>
 <br><br>
 ''Orgasm Threshold:'' <<boober>> <br>Skew the generation.<br>
-<<checkboxA "$npcSetting.orgasm[0]" false true>> <<radiogaga "$npcSetting.orgasm[1]" $npcSetting.orgasm[1] "Even Smaller" "Smaller" "Neutral" "Larger" "Even Larger">>
+<<checkboxA "setup.npcSetting.orgasm[0]" false true>> <<radiogaga "setup.npcSetting.orgasm[1]" setup.npcSetting.orgasm[1] "Even Smaller" "Smaller" "Neutral" "Larger" "Even Larger">>
 <br><br>
 
 @@.head3;Reproduction@@<br><br>
 ''Fertility:'' <<boober>> <br>Skew the fertility of generated NPCs toward being more or less fertile.<br>
-<<checkboxA "$npcSetting.fertility[0]" false true>> MALE: <<radiogaga "$npcSetting.fertility[1]" $npcSetting.fertility[1] "Much Less" "Less" "Neutral" "More" "Much More">>  FEMALE: <<radiogaga "$npcSetting.fertility[2]" $npcSetting.fertility[2] "Much Less" "Less" "Neutral" "More" "Much More">>
+<<checkboxA "setup.npcSetting.fertility[0]" false true>> MALE: <<radiogaga "setup.npcSetting.fertility[1]" setup.npcSetting.fertility[1] "Much Less" "Less" "Neutral" "More" "Much More">>  FEMALE: <<radiogaga "setup.npcSetting.fertility[2]" setup.npcSetting.fertility[2] "Much Less" "Less" "Neutral" "More" "Much More">>
 <br><br>
 ''Pregnancy Term:''<br>Skew the generation.<br>
-<<checkboxA "$npcSetting.pregTerm[0]" false true>> <<radiogaga "$npcSetting.pregTerm[1]" $npcSetting.pregTerm[1] "44 weeks" "-6 weeks" "-12 weeks" "-18 weeks" "-24 weeks">>
+<<checkboxA "setup.npcSetting.pregTerm[0]" false true>> <<radiogaga "setup.npcSetting.pregTerm[1]" setup.npcSetting.pregTerm[1] "44 weeks" "-6 weeks" "-12 weeks" "-18 weeks" "-24 weeks">>
 <br><br>
 
 @@.head3;Mutations@@<br>
-<<checkboxA "$npcSetting.mutate[0]" false true>>
+<<checkboxA "setup.npcSetting.mutate[0]" false true>>
 <table><tr><td colspan=2>
 ''Male Mutations'' <<boober>> //how common they are//
 </td></tr><tr><td>
-Smooth Voice </td><td><<radiogaga "$npcSetting.mutate[1][0]" $npcSetting.mutate[1][0] "Never" "Less" "Normal" "More" "Much More">>
+Smooth Voice </td><td><<radiogaga "setup.npcSetting.mutate[1][0]" setup.npcSetting.mutate[1][0] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Lilith's Curse </td><td><<radiogaga "$npcSetting.mutate[1][1]" $npcSetting.mutate[1][1] "Never" "Less" "Normal" "More" "Much More">>
+Lilith's Curse </td><td><<radiogaga "setup.npcSetting.mutate[1][1]" setup.npcSetting.mutate[1][1] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-No Refractory </td><td><<radiogaga "$npcSetting.mutate[1][2]" $npcSetting.mutate[1][2] "Never" "Less" "Normal" "More" "Much More">>
+No Refractory </td><td><<radiogaga "setup.npcSetting.mutate[1][2]" setup.npcSetting.mutate[1][2] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Mega-Nuts </td><td><<radiogaga "$npcSetting.mutate[1][3]" $npcSetting.mutate[1][3] "Never" "Less" "Normal" "More" "Much More">>
+Mega-Nuts </td><td><<radiogaga "setup.npcSetting.mutate[1][3]" setup.npcSetting.mutate[1][3] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Killer Sperm </td><td><<radiogaga "$npcSetting.mutate[1][4]" $npcSetting.mutate[1][4] "Never" "Less" "Normal" "More" "Much More">>
+Killer Sperm </td><td><<radiogaga "setup.npcSetting.mutate[1][4]" setup.npcSetting.mutate[1][4] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Bitch-Breaker </td><td><<radiogaga "$npcSetting.mutate[1][5]" $npcSetting.mutate[1][5] "Never" "Less" "Normal" "More" "Much More">>
+Bitch-Breaker </td><td><<radiogaga "setup.npcSetting.mutate[1][5]" setup.npcSetting.mutate[1][5] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Mega-Long </td><td><<radiogaga "$npcSetting.mutate[1][6]" $npcSetting.mutate[1][6] "Never" "Less" "Normal" "More" "Much More">>
+Mega-Long </td><td><<radiogaga "setup.npcSetting.mutate[1][6]" setup.npcSetting.mutate[1][6] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Iron Muscles </td><td><<radiogaga "$npcSetting.mutate[1][7]" $npcSetting.mutate[1][7] "Never" "Less" "Normal" "More" "Much More">>
+Iron Muscles </td><td><<radiogaga "setup.npcSetting.mutate[1][7]" setup.npcSetting.mutate[1][7] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Virile </td><td><<radiogaga "$npcSetting.mutate[1][8]" $npcSetting.mutate[1][8] "Never" "Less" "Normal" "More" "Much More">>
+Virile </td><td><<radiogaga "setup.npcSetting.mutate[1][8]" setup.npcSetting.mutate[1][8] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Acid Pre </td><td><<radiogaga "$npcSetting.mutate[1][9]" $npcSetting.mutate[1][9] "Never" "Less" "Normal" "More" "Much More">>
+Acid Pre </td><td><<radiogaga "setup.npcSetting.mutate[1][9]" setup.npcSetting.mutate[1][9] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Girthy </td><td><<radiogaga "$npcSetting.mutate[1][10]" $npcSetting.mutate[1][10] "Never" "Less" "Normal" "More" "Much More">>
+Girthy </td><td><<radiogaga "setup.npcSetting.mutate[1][10]" setup.npcSetting.mutate[1][10] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Contortionist </td><td><<radiogaga "$npcSetting.mutate[1][11]" $npcSetting.mutate[1][11] "Never" "Less" "Normal" "More" "Much More">>
+Contortionist </td><td><<radiogaga "setup.npcSetting.mutate[1][11]" setup.npcSetting.mutate[1][11] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Lilith's Porphyria </td><td><<radiogaga "$npcSetting.mutate[1][12]" $npcSetting.mutate[1][12] "Never" "Less" "Normal" "More" "Much More">>
+Lilith's Porphyria </td><td><<radiogaga "setup.npcSetting.mutate[1][12]" setup.npcSetting.mutate[1][12] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Power Ejaculation </td><td><<radiogaga "$npcSetting.mutate[1][13]" $npcSetting.mutate[1][13] "Never" "Less" "Normal" "More" "Much More">>
+Power Ejaculation </td><td><<radiogaga "setup.npcSetting.mutate[1][13]" setup.npcSetting.mutate[1][13] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Multigasm </td><td><<radiogaga "$npcSetting.mutate[1][14]" $npcSetting.mutate[1][14] "Never" "Less" "Normal" "More" "Much More">>
+Multigasm </td><td><<radiogaga "setup.npcSetting.mutate[1][14]" setup.npcSetting.mutate[1][14] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Alcohol Immunity </td><td><<radiogaga "$npcSetting.mutate[1][15]" $npcSetting.mutate[1][15] "Never" "Less" "Normal" "More" "Much More">>
+Alcohol Immunity </td><td><<radiogaga "setup.npcSetting.mutate[1][15]" setup.npcSetting.mutate[1][15] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr></table>
 <br>
 <table><tr><td colspan=2>
 ''Female Mutations'' <<boober>> //how common they are//
 </td></tr><tr><td>
-Milk </td><td><<radiogaga "$npcSetting.mutate[2][0]" $npcSetting.mutate[2][0] "Never" "Less" "Normal" "More" "Much More">>
+Milk </td><td><<radiogaga "setup.npcSetting.mutate[2][0]" setup.npcSetting.mutate[2][0] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Acid </td><td><<radiogaga "$npcSetting.mutate[2][1]" $npcSetting.mutate[2][1] "Never" "Less" "Normal" "More" "Much More">>
+Acid </td><td><<radiogaga "setup.npcSetting.mutate[2][1]" setup.npcSetting.mutate[2][1] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-BC </td><td><<radiogaga "$npcSetting.mutate[2][2]" $npcSetting.mutate[2][2] "Never" "Less" "Normal" "More" "Much More">>
+BC </td><td><<radiogaga "setup.npcSetting.mutate[2][2]" setup.npcSetting.mutate[2][2] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Multiple </td><td><<radiogaga "$npcSetting.mutate[2][3]" $npcSetting.mutate[2][3] "Never" "Less" "Normal" "More" "Much More">>
+Multiple </td><td><<radiogaga "setup.npcSetting.mutate[2][3]" setup.npcSetting.mutate[2][3] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Gestate </td><td><<radiogaga "$npcSetting.mutate[2][4]" $npcSetting.mutate[2][4] "Never" "Less" "Normal" "More" "Much More">>
+Gestate </td><td><<radiogaga "setup.npcSetting.mutate[2][4]" setup.npcSetting.mutate[2][4] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Cycle </td><td><<radiogaga "$npcSetting.mutate[2][5]" $npcSetting.mutate[2][5] "Never" "Less" "Normal" "More" "Much More">>
+Cycle </td><td><<radiogaga "setup.npcSetting.mutate[2][5]" setup.npcSetting.mutate[2][5] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-TwinWomb </td><td><<radiogaga "$npcSetting.mutate[2][6]" $npcSetting.mutate[2][6] "Never" "Less" "Normal" "More" "Much More">>
+TwinWomb </td><td><<radiogaga "setup.npcSetting.mutate[2][6]" setup.npcSetting.mutate[2][6] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Pheromone </td><td><<radiogaga "$npcSetting.mutate[2][7]" $npcSetting.mutate[2][7] "Never" "Less" "Normal" "More" "Much More">>
+Pheromone </td><td><<radiogaga "setup.npcSetting.mutate[2][7]" setup.npcSetting.mutate[2][7] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Period </td><td><<radiogaga "$npcSetting.mutate[2][8]" $npcSetting.mutate[2][8] "Never" "Less" "Normal" "More" "Much More">>
+Period </td><td><<radiogaga "setup.npcSetting.mutate[2][8]" setup.npcSetting.mutate[2][8] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Immune </td><td><<radiogaga "$npcSetting.mutate[2][9]" $npcSetting.mutate[2][9] "Never" "Less" "Normal" "More" "Much More">>
+Immune </td><td><<radiogaga "setup.npcSetting.mutate[2][9]" setup.npcSetting.mutate[2][9] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Mouth </td><td><<radiogaga "$npcSetting.mutate[2][10]" $npcSetting.mutate[2][10] "Never" "Less" "Normal" "More" "Much More">>
+Mouth </td><td><<radiogaga "setup.npcSetting.mutate[2][10]" setup.npcSetting.mutate[2][10] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Contort </td><td><<radiogaga "$npcSetting.mutate[2][11]" $npcSetting.mutate[2][11] "Never" "Less" "Normal" "More" "Much More">>
+Contort </td><td><<radiogaga "setup.npcSetting.mutate[2][11]" setup.npcSetting.mutate[2][11] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Cumpire </td><td><<radiogaga "$npcSetting.mutate[2][12]" $npcSetting.mutate[2][12] "Never" "Less" "Normal" "More" "Much More">>
+Cumpire </td><td><<radiogaga "setup.npcSetting.mutate[2][12]" setup.npcSetting.mutate[2][12] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-PseudoPreg </td><td><<radiogaga "$npcSetting.mutate[2][13]" $npcSetting.mutate[2][13] "Never" "Less" "Normal" "More" "Much More">>
+PseudoPreg </td><td><<radiogaga "setup.npcSetting.mutate[2][13]" setup.npcSetting.mutate[2][13] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-Elastic </td><td><<radiogaga "$npcSetting.mutate[2][14]" $npcSetting.mutate[2][14] "Never" "Less" "Normal" "More" "Much More">>
+Elastic </td><td><<radiogaga "setup.npcSetting.mutate[2][14]" setup.npcSetting.mutate[2][14] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr><tr><td>
-LitePhero </td><td><<radiogaga "$npcSetting.mutate[2][15]" $npcSetting.mutate[2][15] "Never" "Less" "Normal" "More" "Much More">>
+LitePhero </td><td><<radiogaga "setup.npcSetting.mutate[2][15]" setup.npcSetting.mutate[2][15] "Never" "Less" "Normal" "More" "Much More">>
 </td></tr></table>
 <br>
 @@.head3;Primary Personality@@ <<boober>><<boober>><br><br>
 ''Personality Archetypes:''<br>
 This is a slightly dubious setting intended to make it easier for players to get more of a certain type of NPCs, however NPC personality doesn't actually work according to a system of archetypes or individual traits. Setting an archetype would simply constrain a lot of other actual variables during generation. While a nice idea, this will probably wait until later to implement because of the inherent difficulty of focing archetypes in a deliberately non-archetype system. ^_^<br><br>
 ''Openness:''<br> <<boober>><<boober>>Skew the generation of NPCs.<br>
-<<checkboxA "$npcSetting.open[0]" false true>> MALE: <<radiogaga "$npcSetting.open[1]" $npcSetting.open[1] "Much Less" "Less" "Neutral" "More" "Much More">>  FEMALE: <<radiogaga "$npcSetting.open[2]" $npcSetting.open[2] "Much Less" "Less" "Neutral" "More" "Much More">>
+<<checkboxA "setup.npcSetting.open[0]" false true>> MALE: <<radiogaga "setup.npcSetting.open[1]" setup.npcSetting.open[1] "Much Less" "Less" "Neutral" "More" "Much More">>  FEMALE: <<radiogaga "setup.npcSetting.open[2]" setup.npcSetting.open[2] "Much Less" "Less" "Neutral" "More" "Much More">>
 <br><br>
 ''Intro/Extroversion:'' <<boober>><<boober>><br>Skew the generation of NPCs.<br>
-<<checkboxA "$npcSetting.vert[0]" false true>> MALE: <<radiogaga "$npcSetting.vert[1]" $npcSetting.vert[1] "Much Less" "Less" "Neutral" "More" "Much More">>  FEMALE: <<radiogaga "$npcSetting.vert[2]" $npcSetting.vert[2] "Much Less" "Less" "Neutral" "More" "Much More">>
+<<checkboxA "setup.npcSetting.vert[0]" false true>> MALE: <<radiogaga "setup.npcSetting.vert[1]" setup.npcSetting.vert[1] "Much Less" "Less" "Neutral" "More" "Much More">>  FEMALE: <<radiogaga "setup.npcSetting.vert[2]" setup.npcSetting.vert[2] "Much Less" "Less" "Neutral" "More" "Much More">>
 <br><br>
 /*''Willpower:''<br>Skew the generation of NPCs.<br>
-<<checkboxA "$npcSetting.fertility[0]" false true>> MALE: <<radiogaga "$npcSetting.fertility[1]" $npcSetting.fertility[1] "Much Less" "Less" "Neutral" "More" "Much More">>  FEMALE: <<radiogaga "$npcSetting.fertility[2]" $npcSetting.fertility[2] "Much Less" "Less" "Neutral" "More" "Much More">>
+<<checkboxA "setup.npcSetting.fertility[0]" false true>> MALE: <<radiogaga "setup.npcSetting.fertility[1]" setup.npcSetting.fertility[1] "Much Less" "Less" "Neutral" "More" "Much More">>  FEMALE: <<radiogaga "setup.npcSetting.fertility[2]" setup.npcSetting.fertility[2] "Much Less" "Less" "Neutral" "More" "Much More">>
 <br><br>*/
 ''Intelligence Adjust:'' <<boober>><<boober>><br>Skew the generation of NPCs.<br>
-<<checkboxA "$npcSetting.iq[0]" false true>> MALE: <<radiogaga "$npcSetting.iq[1]" $npcSetting.iq[1] "Much Less" "Less" "Neutral" "More" "Much More">>  FEMALE: <<radiogaga "$npcSetting.iq[2]" $npcSetting.iq[2] "Much Less" "Less" "Neutral" "More" "Much More">>
+<<checkboxA "setup.npcSetting.iq[0]" false true>> MALE: <<radiogaga "setup.npcSetting.iq[1]" setup.npcSetting.iq[1] "Much Less" "Less" "Neutral" "More" "Much More">>  FEMALE: <<radiogaga "setup.npcSetting.iq[2]" setup.npcSetting.iq[2] "Much Less" "Less" "Neutral" "More" "Much More">>
 <br><br>
 
 @@.head3;Opinion System Personality Traits@@ <<boober>><<boober>><<boober>><br>
-<<checkboxA "$npcSetting.persCore[0]" false true>>
+<<checkboxA "setup.npcSetting.persCore[0]" false true>>
 <<set _list = [false,["strength","secure","preg","kids","evolve","pleasure"],["strength","life","liberty","property","honesty","integrity"],["strength","interest","empathy","caring","trust","altruism"],["strength","thoughtful","responsible","attention","trustworthy","structure"],["strength","betrayal","cheating","effort","permanence","family"],["strength","complex","learning","abstract","curiosity","novelty"],["strength","impulsive","unstable","addiction","anxiety","sensitive","anger","sadness"],["strength","selfinterest","selfworth","confidence","fragility","selfimage","mach","risk"]]>>
 <table>
 <tr><td colspan=2>''Procreation''</td></tr>
 <<set _c = 1>>
 <<for _i = 0; _i < _list[_c].length; _i++>>
-<<set _pri = '<<radiogaga "$npcSetting.persCore[' + _c +'][' + _i + ']" $npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
+<<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
 <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
 <</for>>
 <tr><td colspan=2>''Morality''</td></tr>
 <<set _c = 2>>
 <<for _i = 0; _i < _list[_c].length; _i++>>
-<<set _pri = '<<radiogaga "$npcSetting.persCore[' + _c +'][' + _i + ']" $npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
+<<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
 <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
 <</for>>
 <tr><td colspan=2>''Agreeableness''</td></tr>
 <<set _c = 3>>
 <<for _i = 0; _i < _list[_c].length; _i++>>
-<<set _pri = '<<radiogaga "$npcSetting.persCore[' + _c +'][' + _i + ']" $npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
+<<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
 <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
 <</for>>
 <tr><td colspan=2>''Conscientiousness''</td></tr>
 <<set _c = 4>>
 <<for _i = 0; _i < _list[_c].length; _i++>>
-<<set _pri = '<<radiogaga "$npcSetting.persCore[' + _c +'][' + _i + ']" $npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
+<<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
 <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
 <</for>>
 <tr><td colspan=2>''Loyalty''</td></tr>
 <<set _c = 5>>
 <<for _i = 0; _i < _list[_c].length; _i++>>
-<<set _pri = '<<radiogaga "$npcSetting.persCore[' + _c +'][' + _i + ']" $npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
+<<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
 <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
 <</for>>
 <tr><td colspan=2>''Curiosity''</td></tr>
 <<set _c = 6>>
 <<for _i = 0; _i < _list[_c].length; _i++>>
-<<set _pri = '<<radiogaga "$npcSetting.persCore[' + _c +'][' + _i + ']" $npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
+<<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
 <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
 <</for>>
 <tr><td colspan=2>''Neuroticism''</td></tr>
 <<set _c = 7>>
 <<for _i = 0; _i < _list[_c].length; _i++>>
-<<set _pri = '<<radiogaga "$npcSetting.persCore[' + _c +'][' + _i + ']" $npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
+<<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
 <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
 <</for>>
 <tr><td colspan=2>''Ego''</td></tr>
 <<set _c = 8>>
 <<for _i = 0; _i < _list[_c].length; _i++>>
-<<set _pri = '<<radiogaga "$npcSetting.persCore[' + _c +'][' + _i + ']" $npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
+<<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
 <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
 <</for>>
 </table>
@@ -338,9 +338,9 @@ This is a slightly dubious setting intended to make it easier for players to get
 ''Novel:''<br>
 <center>
 @@.contButt;<<button "Accept">>
-<<goto [[Introduction]]>>
+<<go Introduction>>
 <</button>>@@ <<button "Cancel">><<include [[NPCvariableInit]]>>
-<<goto [[Introduction]]>><</button>> <<button [[Test NPCs!|npcGeneratorTest]]>><</button>><br><br>
+<<go Introduction>><</button>> <<button [[Test NPCs (OUTDATED)|npcGeneratorTest]]>><</button>><br><br>
 [img[IMGnpcgenerator]]</center>
 
 
@@ -348,7 +348,7 @@ This is a slightly dubious setting intended to make it easier for players to get
 :: npcGeneratorTest [nobr hidden]
 
 @@.head2;NPC Generator Test@@<br>
-@@.acme;.white;This is a chance to test out the NPC generator to generate a bunch of NPCs at once and see their variables. Because the parser functions aren't implemented (and neither is a proper display passage to use them), you'll mostly see raw variable values instead of what they actually mean. in most cases, larger number = bigger, more, or better. These NPCs will use the NPC options you set on the previous passage (if you set any).@@<br><br>
+@@.handwriting;.white;This is a chance to test out the NPC generator to generate a bunch of NPCs at once and see their variables. Because the parser functions aren't implemented (and neither is a proper display passage to use them), you'll mostly see raw variable values instead of what they actually mean. in most cases, larger number = bigger, more, or better. These NPCs will use the NPC options you set on the previous passage (if you set any).@@<br><br>
 <<button [[Go Back|customNPC]]>><</button>><br>
 <br><<set _testingOutput = "waiting...">><<set _statsShit = "none">>
 <<button "generate NPC">><<generateNPC 5 0 0 50 0 [0,0] [0,0] [0,0] [0,0] 0 1>><<replace "#supercuntshit">>
@@ -438,8 +438,8 @@ This is a slightly dubious setting intended to make it easier for players to get
   @@.note;These are NPCs contained in the actual NPC Object that stores all NPCs. Each NPC is an object, and can be referenced dynamically by its ID. Rather than keep NPCs in a bunch of separate arrays, requiring that they be shuffled about, we instead use lists of NPCIDs and can access any NPC in the list dynamically. No moving, copying, and writing changes that causes slowdowns and problems in some games. It also allows us to keep a much larger variety of lists, so that we can use more varied and specific sets of NPCs based on the situation.@@
   <table><tr class="divide">
   <td width="15%">@@.ident;ID #@@</td><td width="35%">@@.ident;NPC Name@@</td><td>@@.ident;Other Info@@</td></tr>
-  <<for _i to 0, _names to $npc.ready; _i lt _names.length; _i++>>
-    <tr><td>@@.monospace;.white;font-size:80%;N<<print $NPC[_names[_i]].main.id>>@@</td><td>''<<print $NPC[_names[_i]].main.name>>'' <<if $NPC[_names[_i]].main.nickname != "none">>//<<print $NPC[_names[_i]].main.nickname>>//<</if>> ''<<print $NPC[_names[_i]].main.surname>>''</td><td><<print $NPC[_names[_i]].body.race>> <<if $NPC[_names[_i]].main.genes == "XX">>female<<elseif $NPC[_names[_i]].main.genes == "XY">>male<<else>>futa<</if>>, <<print $NPC[_names[_i]].main.age>> y/o.</td></tr>
+  <<for _i to 0, _names to setup.npc.ready; _i lt _names.length; _i++>>
+    <tr><td>@@.monospace;.white;font-size:0.8rem;N<<print aw.npc[_names[_i]].main.id>>@@</td><td>''<<print aw.npc[_names[_i]].main.name>>'' <<if aw.npc[_names[_i]].main.nickname != "none">>//<<print aw.npc[_names[_i]].main.nickname>>//<</if>> ''<<print aw.npc[_names[_i]].main.surname>>''</td><td><<print aw.npc[_names[_i]].body.race>> <<if aw.npc[_names[_i]].main.genes == "XX">>female<<elseif aw.npc[_names[_i]].main.genes == "XY">>male<<else>>futa<</if>>, <<print aw.npc[_names[_i]].main.age>> y/o.</td></tr>
   <</for>>
   </table>
 <</dialog>>
@@ -447,162 +447,162 @@ This is a slightly dubious setting intended to make it easier for players to get
 <<button "Peek Under Lily's Skirt">>
 <<replace "#supercuntshit">>
 <<set _testingOutput = {}>>
-<<set _testingOutput.n101 = clone($NPC.n101)>>
+<<set _testingOutput.n101 = clone(aw.npc.n101)>>
 <table><tr><td colspan=5>
 @@.ident;~ Lily ~ 8D ~ (o)(o)@@
 </td></tr>
   <tr><td width="20%">
   ''Main:''<br>
-  <<for _i to 0, _names to Object.keys($NPC.n101.main); _i lt _names.length; _i++>>
-    @@.note;<<print _names[_i]>>: <<print $NPC.n101.main[_names[_i]]>><br>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n101.main); _i lt _names.length; _i++>>
+    @@.note;<<print _names[_i]>>: <<print aw.npc.n101.main[_names[_i]]>><br>@@
   <</for>>
   <br>''Fertility:''<br>
-  <<for _i to 0, _names to Object.keys($NPC.n101.fert); _i lt _names.length; _i++>>
-    @@.note;<<print _names[_i]>>: <<print $NPC.n101.fert[_names[_i]]>><br>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n101.fert); _i lt _names.length; _i++>>
+    @@.note;<<print _names[_i]>>: <<print aw.npc.n101.fert[_names[_i]]>><br>@@
   <</for>>
   ''Flags:''
-  <<for _i to 0, _names to Object.keys($NPC.n101.flag); _i lt _names.length; _i++>>
-    <br>@@.note;<<print _names[_i]>>: <<print $NPC.n101.flag[_names[_i]]>>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n101.flag); _i lt _names.length; _i++>>
+    <br>@@.note;<<print _names[_i]>>: <<print aw.npc.n101.flag[_names[_i]]>>@@
   <</for>>
   </td><td width="20%">
   <br>''Body:''<br>
-  <<for _i to 0, _names to Object.keys($NPC.n101.body); _i lt _names.length; _i++>>
-    @@.note;<<print _names[_i]>>: <<print $NPC.n101.body[_names[_i]]>><br>@@
-    <<if $NPC.n101.main.genes != "XX" && (_names[_i] == "cock" || _names[_i] == "balls") >>
-      <<for _j to 0, _namo to Object.keys($NPC.n101.body[_names[_i]]); _j lt _namo.length; _j++>>
-        @@.note;--<<print _namo[_j]>>: <<print $NPC.n101.body[_names[_i]][_namo[_j]]>><br>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n101.body); _i lt _names.length; _i++>>
+    @@.note;<<print _names[_i]>>: <<print aw.npc.n101.body[_names[_i]]>><br>@@
+    <<if aw.npc.n101.main.genes != "XX" && (_names[_i] == "cock" || _names[_i] == "balls") >>
+      <<for _j to 0, _namo to Object.keys(aw.npc.n101.body[_names[_i]]); _j lt _namo.length; _j++>>
+        @@.note;--<<print _namo[_j]>>: <<print aw.npc.n101.body[_names[_i]][_namo[_j]]>><br>@@
       <</for>>
-    <<elseif $NPC.n101.main.genes != "XY" && (_names[_i] == "tits" || _names[_i] == "pussy")>>
-      <<for _j to 0, _namo to Object.keys($NPC.n101.body[_names[_i]]); _j lt _namo.length; _j++>>
-        @@.note;--<<print _namo[_j]>>: <<print $NPC.n101.body[_names[_i]][_namo[_j]]>>@@<br>
+    <<elseif aw.npc.n101.main.genes != "XY" && (_names[_i] == "tits" || _names[_i] == "pussy")>>
+      <<for _j to 0, _namo to Object.keys(aw.npc.n101.body[_names[_i]]); _j lt _namo.length; _j++>>
+        @@.note;--<<print _namo[_j]>>: <<print aw.npc.n101.body[_names[_i]][_namo[_j]]>>@@<br>
       <</for>>
     <<elseif _names[_i] == "asshole">>
-      @@.note;--<<print "virgin">>: <<print $NPC.n101.body.asshole.virgin>><br>
-      --<<print "tight">>: <<print $NPC.n101.body.asshole.tight>>@@<br>
+      @@.note;--<<print "virgin">>: <<print aw.npc.n101.body.asshole.virgin>><br>
+      --<<print "tight">>: <<print aw.npc.n101.body.asshole.tight>>@@<br>
       --Rest ommitted<br>
     <</if>>
   <</for>>
   <br>''Mutations:''
-  <<for _i to 0, _names to Object.keys($NPC.n101.mutate); _i lt _names.length; _i++>>
-    <<if $NPC.n101.mutate[_names[_i]]>><br>@@.note;<<print _names[_i]>>@@<</if>>
+  <<for _i to 0, _names to Object.keys(aw.npc.n101.mutate); _i lt _names.length; _i++>>
+    <<if aw.npc.n101.mutate[_names[_i]]>><br>@@.note;<<print _names[_i]>>@@<</if>>
   <</for>>
   <br><br>''Condition:''
-  <<for _i to 0, _names to Object.keys($NPC.n101.cond); _i lt _names.length; _i++>>
-    <br>@@.note;<<print _names[_i]>>: <<print $NPC.n101.cond[_names[_i]]>>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n101.cond); _i lt _names.length; _i++>>
+    <br>@@.note;<<print _names[_i]>>: <<print aw.npc.n101.cond[_names[_i]]>>@@
   <</for>>
   </td><td width="20%">
   ''Background:''
-  <<for _i to 0, _names to Object.keys($NPC.n101.bground); _i lt _names.length; _i++>>
-    <br>@@.note;<<print _names[_i]>>: <<print $NPC.n101.bground[_names[_i]]>>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n101.bground); _i lt _names.length; _i++>>
+    <br>@@.note;<<print _names[_i]>>: <<print aw.npc.n101.bground[_names[_i]]>>@@
   <</for>>
   <br><br>''Sex:''
-  <<for _i to 0, _names to Object.keys($NPC.n101.sex); _i lt _names.length; _i++>>
-    <br>@@.note;<<print _names[_i]>>: <<print $NPC.n101.sex[_names[_i]]>>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n101.sex); _i lt _names.length; _i++>>
+    <br>@@.note;<<print _names[_i]>>: <<print aw.npc.n101.sex[_names[_i]]>>@@
   <</for>>
   <br><br>''Outfits''<br>@@.note;8*42 variables<br>complete sets of clothes.@@
   <br><br>''Clothing''<br>@@.note;42 variables<br>currently worn clothes.@@
   </td><td width="20%">
   ''Personality:''<<set _corelist = ["ego","neurotic","curiosity","loyalty","conscient","agreeable","morality","procreate"]>>
-  <<for _i to 0, _names to Object.keys($NPC.n101.core); _i lt _names.length; _i++>>
+  <<for _i to 0, _names to Object.keys(aw.npc.n101.core); _i lt _names.length; _i++>>
     <<if _corelist.includes(_names[_i])>>
       <br><<print _names[_i]>>:
-      <<for _j to 0, _namo to Object.keys($NPC.n101.core[_names[_i]]); _j lt _namo.length; _j++>>
-        @@.note;--<<print _namo[_j]>>: <<print $NPC.n101.core[_names[_i]][_namo[_j]]>>@@<br>
+      <<for _j to 0, _namo to Object.keys(aw.npc.n101.core[_names[_i]]); _j lt _namo.length; _j++>>
+        @@.note;--<<print _namo[_j]>>: <<print aw.npc.n101.core[_names[_i]][_namo[_j]]>>@@<br>
       <</for>>
     <<else>>
-      <br>@@.note;<<print _names[_i]>>: <<print $NPC.n101.core[_names[_i]]>>@@
+      <br>@@.note;<<print _names[_i]>>: <<print aw.npc.n101.core[_names[_i]]>>@@
     <</if>>
   <</for>>
   </td><td>
   ''Status:''
-  <<for _i to 0, _names to Object.keys($NPC.n101.status); _i lt _names.length; _i++>>
-    <br>@@.note;<<print _names[_i]>>: <<print $NPC.n101.status[_names[_i]]>>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n101.status); _i lt _names.length; _i++>>
+    <br>@@.note;<<print _names[_i]>>: <<print aw.npc.n101.status[_names[_i]]>>@@
   <</for>>
   <br><br>''Preferences:''
-  <<for _i to 0, _names to Object.keys($NPC.n101.pref); _i lt _names.length; _i++>>
-    <br>@@.note;<<print _names[_i]>>: <<print $NPC.n101.pref[_names[_i]]>>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n101.pref); _i lt _names.length; _i++>>
+    <br>@@.note;<<print _names[_i]>>: <<print aw.npc.n101.pref[_names[_i]]>>@@
   <</for>>
   </td>
   </tr>
 </table>
 <</replace>><</button>>
-<<if Object.keys($NPC).length < 2>><<generateNPC 1 0 0 50 0 [0,0] [0,0] [0,0] [0,0] 0 0>><</if>>
+<<if Object.keys(aw.npc).length < 2>><<generateNPC 1 0 0 50 0 [0,0] [0,0] [0,0] [0,0] 0 0>><</if>>
 <<link "test of data compression code">><<run setup.AW.testStorage()>><<dialog "look at the compressed npc">>
 <<set _testingOutput = {}>>
-<<set _testingOutput.n101 = clone($NPC.n10001)>>
+<<set _testingOutput.n101 = clone(aw.npc.n10001)>>
 <table><tr><td colspan=5>
 @@.ident;~ NPC n10001@@
 </td></tr>
   <tr><td width="20%">
   ''Main:''<br>
-  <<for _i to 0, _names to Object.keys($NPC.n10001.main); _i lt _names.length; _i++>>
-    @@.note;<<print _names[_i]>>: <<print $NPC.n10001.main[_names[_i]]>><br>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n10001.main); _i lt _names.length; _i++>>
+    @@.note;<<print _names[_i]>>: <<print aw.npc.n10001.main[_names[_i]]>><br>@@
   <</for>>
   <br>''Fertility:''<br>
-  <<for _i to 0, _names to Object.keys($NPC.n10001.fert); _i lt _names.length; _i++>>
-    @@.note;<<print _names[_i]>>: <<print $NPC.n10001.fert[_names[_i]]>><br>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n10001.fert); _i lt _names.length; _i++>>
+    @@.note;<<print _names[_i]>>: <<print aw.npc.n10001.fert[_names[_i]]>><br>@@
   <</for>>
   ''Flags:''
-  <<for _i to 0, _names to Object.keys($NPC.n10001.flag); _i lt _names.length; _i++>>
-    <br>@@.note;<<print _names[_i]>>: <<print $NPC.n10001.flag[_names[_i]]>>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n10001.flag); _i lt _names.length; _i++>>
+    <br>@@.note;<<print _names[_i]>>: <<print aw.npc.n10001.flag[_names[_i]]>>@@
   <</for>>
   </td><td width="20%">
   <br>''Body:''<br>
-  <<for _i to 0, _names to Object.keys($NPC.n10001.body); _i lt _names.length; _i++>>
-    @@.note;<<print _names[_i]>>: <<print $NPC.n10001.body[_names[_i]]>><br>@@
-    <<if $NPC.n10001.main.genes != "XX" && (_names[_i] == "cock" || _names[_i] == "balls") >>
-      <<for _j to 0, _namo to Object.keys($NPC.n10001.body[_names[_i]]); _j lt _namo.length; _j++>>
-        @@.note;--<<print _namo[_j]>>: <<print $NPC.n10001.body[_names[_i]][_namo[_j]]>><br>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n10001.body); _i lt _names.length; _i++>>
+    @@.note;<<print _names[_i]>>: <<print aw.npc.n10001.body[_names[_i]]>><br>@@
+    <<if aw.npc.n10001.main.genes != "XX" && (_names[_i] == "cock" || _names[_i] == "balls") >>
+      <<for _j to 0, _namo to Object.keys(aw.npc.n10001.body[_names[_i]]); _j lt _namo.length; _j++>>
+        @@.note;--<<print _namo[_j]>>: <<print aw.npc.n10001.body[_names[_i]][_namo[_j]]>><br>@@
       <</for>>
-    <<elseif $NPC.n10001.main.genes != "XY" && (_names[_i] == "tits" || _names[_i] == "pussy")>>
-      <<for _j to 0, _namo to Object.keys($NPC.n10001.body[_names[_i]]); _j lt _namo.length; _j++>>
-        @@.note;--<<print _namo[_j]>>: <<print $NPC.n10001.body[_names[_i]][_namo[_j]]>>@@<br>
+    <<elseif aw.npc.n10001.main.genes != "XY" && (_names[_i] == "tits" || _names[_i] == "pussy")>>
+      <<for _j to 0, _namo to Object.keys(aw.npc.n10001.body[_names[_i]]); _j lt _namo.length; _j++>>
+        @@.note;--<<print _namo[_j]>>: <<print aw.npc.n10001.body[_names[_i]][_namo[_j]]>>@@<br>
       <</for>>
     <<elseif _names[_i] == "asshole">>
-      @@.note;--<<print "virgin">>: <<print $NPC.n10001.body.asshole.virgin>><br>
-      --<<print "tight">>: <<print $NPC.n10001.body.asshole.tight>>@@<br>
+      @@.note;--<<print "virgin">>: <<print aw.npc.n10001.body.asshole.virgin>><br>
+      --<<print "tight">>: <<print aw.npc.n10001.body.asshole.tight>>@@<br>
       --Rest ommitted<br>
     <</if>>
   <</for>>
   <br>''Mutations:''
-  <<for _i to 0, _names to Object.keys($NPC.n10001.mutate); _i lt _names.length; _i++>>
-    <<if $NPC.n10001.mutate[_names[_i]]>><br>@@.note;<<print _names[_i]>>@@<</if>>
+  <<for _i to 0, _names to Object.keys(aw.npc.n10001.mutate); _i lt _names.length; _i++>>
+    <<if aw.npc.n10001.mutate[_names[_i]]>><br>@@.note;<<print _names[_i]>>@@<</if>>
   <</for>>
   <br><br>''Condition:''
-  <<for _i to 0, _names to Object.keys($NPC.n10001.cond); _i lt _names.length; _i++>>
-    <br>@@.note;<<print _names[_i]>>: <<print $NPC.n10001.cond[_names[_i]]>>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n10001.cond); _i lt _names.length; _i++>>
+    <br>@@.note;<<print _names[_i]>>: <<print aw.npc.n10001.cond[_names[_i]]>>@@
   <</for>>
   </td><td width="20%">
   ''Background:''
-  <<for _i to 0, _names to Object.keys($NPC.n10001.bground); _i lt _names.length; _i++>>
-    <br>@@.note;<<print _names[_i]>>: <<print $NPC.n10001.bground[_names[_i]]>>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n10001.bground); _i lt _names.length; _i++>>
+    <br>@@.note;<<print _names[_i]>>: <<print aw.npc.n10001.bground[_names[_i]]>>@@
   <</for>>
   <br><br>''Sex:''
-  <<for _i to 0, _names to Object.keys($NPC.n10001.sex); _i lt _names.length; _i++>>
-    <br>@@.note;<<print _names[_i]>>: <<print $NPC.n10001.sex[_names[_i]]>>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n10001.sex); _i lt _names.length; _i++>>
+    <br>@@.note;<<print _names[_i]>>: <<print aw.npc.n10001.sex[_names[_i]]>>@@
   <</for>>
   <br><br>''Outfits''<br>@@.note;8*42 variables<br>complete sets of clothes.@@
   <br><br>''Clothing''<br>@@.note;42 variables<br>currently worn clothes.@@
   </td><td width="20%">
   ''Personality:''<<set _corelist = ["ego","neurotic","curiosity","loyalty","conscient","agreeable","morality","procreate"]>>
-  <<for _i to 0, _names to Object.keys($NPC.n10001.core); _i lt _names.length; _i++>>
+  <<for _i to 0, _names to Object.keys(aw.npc.n10001.core); _i lt _names.length; _i++>>
     <<if _corelist.includes(_names[_i])>>
       <br><<print _names[_i]>>:
-      <<for _j to 0, _namo to Object.keys($NPC.n10001.core[_names[_i]]); _j lt _namo.length; _j++>>
-        @@.note;--<<print _namo[_j]>>: <<print $NPC.n10001.core[_names[_i]][_namo[_j]]>>@@<br>
+      <<for _j to 0, _namo to Object.keys(aw.npc.n10001.core[_names[_i]]); _j lt _namo.length; _j++>>
+        @@.note;--<<print _namo[_j]>>: <<print aw.npc.n10001.core[_names[_i]][_namo[_j]]>>@@<br>
       <</for>>
     <<else>>
-      <br>@@.note;<<print _names[_i]>>: <<print $NPC.n10001.core[_names[_i]]>>@@
+      <br>@@.note;<<print _names[_i]>>: <<print aw.npc.n10001.core[_names[_i]]>>@@
     <</if>>
   <</for>>
   </td><td>
   ''Status:''
-  <<for _i to 0, _names to Object.keys($NPC.n10001.status); _i lt _names.length; _i++>>
-    <br>@@.note;<<print _names[_i]>>: <<print $NPC.n10001.status[_names[_i]]>>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n10001.status); _i lt _names.length; _i++>>
+    <br>@@.note;<<print _names[_i]>>: <<print aw.npc.n10001.status[_names[_i]]>>@@
   <</for>>
   <br><br>''Preferences:''
-  <<for _i to 0, _names to Object.keys($NPC.n10001.pref); _i lt _names.length; _i++>>
-    <br>@@.note;<<print _names[_i]>>: <<print $NPC.n10001.pref[_names[_i]]>>@@
+  <<for _i to 0, _names to Object.keys(aw.npc.n10001.pref); _i lt _names.length; _i++>>
+    <br>@@.note;<<print _names[_i]>>: <<print aw.npc.n10001.pref[_names[_i]]>>@@
   <</for>>
   </td>
   </tr>

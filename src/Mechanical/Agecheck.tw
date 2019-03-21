@@ -1,0 +1,146 @@
+:: AgeCheckTooYoung [nobr]
+<<if $ageCheckPassage === "AgePassShakeNPop">>
+  <div id="ageCheckDiv">
+    <center>[IMG[IMGbouncer]]</center><br>
+    @@.npc;Sorry kid, you've gotta be 21 to get into the club. We can't let underage kids in on account of the alcohol.@@
+    <<dialogchoice>>
+    <<dbutt "Bribe">><<addTime 2>><<replace "#ageCheckDiv">><<include [[AgeCheckBribe]]>><</replace>>
+    <<dtext "wink">>Hey, maybe we can settle it? Let's say I'd help you with some cash... [<<mon>>30]
+    <<dbutt "Seduce" "!ↂ.pc.kink.shame">><<addTime 2>><<replace "#ageCheckDiv">><<include [[AgeCheckSeduce]]>><</replace>>
+    <<dtext "smug">>Hmm, maybe I can convince such big and serious guy as you in some other way?
+    <<dbutt "Convince">><<addTime 2>><<replace "#ageCheckDiv">><<include [[AgeCheckConvince]]>><</replace>>
+    <<dtext "cry">>Please, I really need it!
+    <<dbutt "Okay">><<run Dialog.close()>>
+    <<dtext "sad">>Just go away.
+    <</dialogchoice>>
+  </div>
+<<elseif $ageCheckPassage === "AgePassPenetrated">>
+  <div id="ageCheckDiv">
+    <center>[IMG[IMGPiercingAge]]</center><br>
+    @@.npc;Yeah, I'm totally not going to give you a piercing. You need to be 18 or bring one of your parents.@@
+    <<dialogchoice>>
+    <<dbutt "Convince">><<addTime 2>><<replace "#ageCheckDiv">><<include [[AgeCheckConvince]]>><</replace>>
+    <<dtext "cry">>Please! I am an adult, really, believe me!
+    <<dbutt "Okay">><<run Dialog.close()>>
+    <<dtext "sad">>Okay, ehh.
+    <</dialogchoice>>
+  </div>
+<</if>>
+
+:: AgeCheckFakeId [nobr]
+
+<<if $ageCheckPassage === "AgePassShakeNPop">>
+  <div id="ageCheckDiv">
+    <center>[IMG[IMGbouncer]]</center><br>
+    @@.npc;Come on, kid. This I.D. is obviously fake. There's no way you're 21, so I can't let you in.@@
+    <<dialogchoice>>
+    <<dbutt "Bribe">><<addTime 2>><<replace "#ageCheckDiv">><<include [[AgeCheckBribe]]>><</replace>>
+    <<dtext "wink">>Hey, maybe we can settle it? Let's say I'd help you with some cash... [<<mon>>30]
+    <<dbutt "Seduce" "!ↂ.pc.kink.shame">><<addTime 2>><<replace "#ageCheckDiv">><<include [[AgeCheckSeduce]]>><</replace>>
+    <<dtext "smug">>Hmm, maybe I can conveince such big and serious guy as you in some other way?
+    <<dbutt "Convince">><<addTime 2>><<replace "#ageCheckDiv">><<include [[AgeCheckConvince]]>><</replace>>
+    <<dtext "cry">>Please, I really need it!
+    <<dbutt "Okay">><<run Dialog.close()>>
+    <<dtext "sad">>Just go away.
+    <</dialogchoice>>
+  </div>
+<<elseif $ageCheckPassage === "AgePassPenetrated">>
+  <div id="ageCheckDiv">
+    <center>[IMG[IMGPiercingAge]]</center><br>
+    The woman laughs after looking at your I.D. @@.npc;What'd you do, print this out at home? Sorry, but the rules say you have to be 18 or have a parent with you.@@
+    <<dialogchoice>>
+    <<dbutt "Convince">><<addTime 2>><<replace "#ageCheckDiv">><<include [[AgeCheckConvince]]>><</replace>>
+    <<dtext "cry">>Please! I am an adult, really, believe me!
+    <<dbutt "Okay">><<run Dialog.close()>>
+    <<dtext "sad">>Okay, ehh.
+    <</dialogchoice>>
+  </div>
+<</if>>
+
+:: AgeCheckVain [nobr]
+
+<<if $ageCheckPassage === "AgePassShakeNPop">>
+  <div id="ageCheckDiv">
+    <center>[IMG[IMGbouncer]]</center><br>
+    He stares at your I.D. occasionally glancing up at your face. @@.npc;Hmm, are you really only <<= ↂ.pc.main.ageID>> years old?@@ He shakes his head, mumbling @@.npc;some people...@@ under his breath. He hands you back the I.D. and continues thinking about it for a moment. @@.npc;I guess since you're obviously old enough to be here, I'll let you in. You need to fix up that I.D. though.@@
+    <br>
+    <center><<button "CONTINUE">><<addTime 4>><<replace "#ageCheckDiv">><<include [[$ageCheckPassage]]>><</replace>><</button>></center>
+  </div>
+<<elseif $ageCheckPassage === "AgePassPenetrated">>
+  <div id="ageCheckDiv">
+    <center>[IMG[IMGPiercingAge]]</center><br>
+    @@.npc;This id is really yours? I'm sorry but you don't look like you're that young...@@
+    <br>
+    <center><<button "CONTINUE">><<addTime 2>><<replace "#ageCheckDiv">><<include [[$ageCheckPassage]]>><</replace>><</button>></center>
+  </div>
+<</if>>
+
+:: AgeCheckBribe [nobr]
+
+<<SCX>><<SC "ps" 14>>
+@@.pc;Hey, maybe we can settle it? Let's say I'd help you with some cash...@@<br>
+<<if $SCresult[1] && $AW.cash > 29>><<cash -30>><<status>>
+  @@.npc;Okay, you can enter. But don't tell anybody, got it?@@<br>
+  <<link "Of course, thanks!">><<replace "#ageCheckDiv">><<include [[$ageCheckPassage]]>><</replace>><<run Dialog.close()>><</link>>
+<<else>>
+  <<if $AW.cash < 30>>
+    @@.npc;Well, and where are the money? It seems you have none. Go away, really, don't piss me off.@@<br>
+  <<else>>
+    @@.npc;No way, kid, I need that job too much. Go away until I called the cops.@@<br>
+  <</if>>
+<<link "Damn">><<run Dialog.close()>><</link>>
+<</if>>
+
+:: AgeCheckSeduce [nobr]
+
+<<SCX>><<SC "SD" 20>>
+@@.pc;Hmm, maybe I can convince such big and serious guy as you in some other way?@@<br>
+<<if $SCresult[1]>>
+  @@.npc;Go with me to the back room.@@<br>
+  He gives you some meat stick to polish and then let you go.
+  <<link "That was easy.">><<replace "#ageCheckDiv">><<include [[$ageCheckPassage]]>><</replace>><<run Dialog.close()>><</link>>
+<<else>>
+    @@.npc;No way! I am not going to the jail! Not again! Go the fuck out!@@<br>
+<<link "Damn">><<run Dialog.close()>><</link>>
+<</if>>
+
+:: AgeCheckConvince [nobr]
+
+<<SCX>><<SC "CM" 15>>
+@@.pc;Please, I really need it!@@<br>
+<<if $SCresult[1]>>
+  @@.npc;Okay, but don't tell anybody, got it?@@<br>
+  <<link "Of course, thanks!">><<replace "#ageCheckDiv">><<include [[$ageCheckPassage]]>><</replace>><<run Dialog.close()>><</link>>
+<<else>>
+  @@.npc;Sorry, I can't risk my job. Go away.@@<br>
+<<link "Damn">><<run Dialog.close()>><</link>>
+<</if>>
+
+:: AgePassShakeNPop [nobr]
+
+<<gotomap "downtown" "club" "shakenpopentrance">>
+
+:: AgePassPenetrated [nobr]
+
+<<go DowntownShopPenetrated>>
+
+:: AgePassPrude [nobr]
+
+<<go "PrudeShop">>
+
+:: AgeCheckPrudeShopkeeper [nobr]
+
+<img data-passage="IMG-FrumpyShopkeeper" style="float:left;margin:0px 20px 15px 0px;">
+<<f t>>he shopkeeper starts preparing the clothes you picked out for sale. She notices how sexy and revealing they are, and looks up at you before looking back at the clothes. She pauses for a moment, offending garment still in hand, before looking back at you once more. @@.npc;You know, girls your age really have no business wearing something so... scandalous. Why don't you go put this away and look for something that isn't so obviously indented for an adult?@@
+<br>
+<div id="diaDiv">
+<<dialogchoice>>
+<<dbutt "Hurry Up">><<run setup.shop.purchaseOver()>><<run Dialog.close()>>
+<<dtext "unamused">>Tell the shopkeeper to hurry up and ring up your items so you can pay. What you buy is none of her business.
+<<dbutt "Fuck Off">><<anger 5>><<replace "#diaDiv">><br>@@.pc;Shut the fuck up you decrepit old cunt! If I wanted to know your opinion, I would have fucking asked. Now hurry up and do your fucking job already.@@<br><br>The woman looks at you with a mixture of shock and outrage. @@.npc;I'm not going to sell you anything after being treated like that!@@<br><br>You stare at her hard. @@.pc;You better go get your manager then, bitch.@@ You start tapping your foot impatiently as she stalks off with a huff toward the back room.<br><br><center><<button "WAIT">><<set _ttt = random(8, 12)>><<addTime _ttt>><<run setup.shop.purchaseOver()>><<run Dialog.close()>><</button>></center><</replace>>
+<<dtext "angry">>Give her a piece of your mind, with more than a little attitude.
+<<dbutt "Okay...">><<run Dialog.close()>>
+<<dtext "unhappy">>Give in to the frumpy older woman and go back to shopping in the store.
+<</dialogchoice>>
+</div>
+

@@ -1,6 +1,6 @@
 :: storyStart19a [nobr]
 
-@@.head3;A@@fter finishing up the job acceptance form and finalizing everything, you find yourself relieved that the ambiguity over your employment situation is over. You have to admit that the position is pretty different from what you had been expecting, <<if $PC.trait.cl>>and you're more than a little peeved about the drop in salary.<<else>>and while the salary isn't what you expected, you find yourself cautiously optimistic.<</if>> After the long evening of clothes and employment decisions, the two of you call it a night.
+@@.head3;A@@fter finishing up the job acceptance form and finalizing everything, you find yourself relieved that the ambiguity over your employment situation is over. You have to admit that the position is pretty different from what you had been expecting, <<if ↂ.pc.trait.cl>>and you're more than a little peeved about the drop in salary.<<else>>and while the salary isn't what you expected, you find yourself cautiously optimistic.<</if>> After the long evening of clothes and employment decisions, the two of you call it a night.
 <br><br>
 After a quick shower you find yourself in bed. Despite your nap earlier, you're still able to fall asleep almost immediately.
 <br><br>
@@ -10,19 +10,19 @@ After a quick shower you find yourself in bed. Despite your nap earlier, you're 
   <<dateCalculate>>
   <<tired -8>>
   <<deactivateNPC "n101">>
-  <<goto [[storyStart19c]]>>
-  <<set _meetReal = {name: "Real Estate", type: 0, start: [10,0], alert: true, msg: "Lily made an appointment for you with Tiffany Williams, who is apparently a real estate agent. I guess this is Lily's way of saying you can't crash with her forever.", disc: "Meet Tiffany"}>>
-  <<set $plans[1][4].push(_meetReal)>>
+  <<go storyStart19c>>
+  <<set _meetReal = {"Real Estate", "reminder", true, 134000, false, false, false, true, false, "Lily made an appointment for you with Tiffany Williams, who is apparently a real estate agent. This is Lily's way of saying you can't crash with her forever.", "Meet Tiffany"}>>
+  <<run setup.sched.new(_meetReal)>>
 <</link>>
 
 :: storyStart19c [nobr]
 
-@@.head3;T@@he next morning you find your way downstairs, and like yesterday Lily has already headed off to work. <<if $flag.LilyCoffeeSuc>>You go to make yourself some coffee, but this time see that the keep-warm function is still turned on.<<else>>At the bottom of the stairs you remember the coffee situation, but are pleasantly surprised by half a pot still warm on the coffee machine. It seems Lily must've bought some coffee while she was out shopping yesterday.<</if>> Next to the coffee machine you see a note from Lily.
+@@.head3;T@@he next morning you find your way downstairs, and like yesterday Lily has already headed off to work. <<if ↂ.flag.LilyCoffeeSuc>>You go to make yourself some coffee, but this time see that the keep-warm function is still turned on.<<else>>At the bottom of the stairs you remember the coffee situation, but are pleasantly surprised by half a pot still warm on the coffee machine. It seems Lily must've bought some coffee while she was out shopping yesterday.<</if>> Next to the coffee machine you see a note from Lily.
 <br><br>
 <span class="writing white">
 Good morning Sleepyhead,
 <br><br>
-I'm off to work already, but if it isn't too late there should be some coffee for you. <<if not $flag.LilyCoffeeSuc>>Luckily, I __remembered__ to buy some coffee yesterday! <</if>>I made an appointment for you with the local real estate office, so you can go find a place. The agent is Tiffany Williams, and she'll be there around 10. She'll help you out, it's actually surprisingly easy to get a place here in town.
+I'm off to work already, but if it isn't too late there should be some coffee for you. <<if not ↂ.flag.LilyCoffeeSuc>>Luckily, I __remembered__ to buy some coffee yesterday! <</if>>I made an appointment for you with the local real estate office, so you can go find a place. The agent is Tiffany Williams, and she'll be there around 10. She'll help you out, it's actually surprisingly easy to get a place here in town.
 <br><br>
 I just realized, you might get a surprise this morning if you haven't woke up yet... 
 <<if $temp.lils == 2>>
@@ -42,4 +42,4 @@ I'll be back after work,<br>
 <br><br>
 After drinking a cup of coffee, you wander back into the living room.
 <br><br>
-<<link "Kill some time">><<addTime 13>><<set $temp.bell = true>><<goto [[LilyHouseProLivRoom]]>><</link>>
+<<link "Kill some time">><<addTime 13>><<set $temp.bell = true>><<go LilyHouseProLivRoom>><</link>>

@@ -17,19 +17,19 @@
 <</if>>
 <<set $AW = {}>>
 <<set $AW.sinceLastAlert = new Date()>>
-<<set $NPC = {}>>
-<<set $AW.moodColor = {}>>
-<<set $AW.moodColor.blue = "rsp-blue">>
-<<set $AW.moodColor.dblue = "rsp-deepblue">>
-<<set $AW.moodColor.orange = "rsp-orange">>
-<<set $AW.moodColor.grey = "rsp-grey">>
-<<set $AW.moodColor.pink = "rsp-pink">>
-<<set $AW.moodColor.print = '<<removeclass "#right-sidebar-portrait" "rsp-blue rsp-deepblue rsp-orange rsp-grey rsp-pink">>'>>
+
 <<set $AW.infoLink = "none">>
 <<set $AW.debugPause = false>>
 <<set $AW.debugMenuVis = true>>
 <<set $AW.sillyMode = true>>
 <<set $AW.cash = 0>>
+<<set $AW.wardrobeCount = 10000>>
+<<set $AW.wordKill = []>>
+<<set $AW.toStoreNPCs = []>>
+<<set $AW.recordAI = true>>
+<<set $tutorials = {}>>
+<<set ↂ.flag = {}>>
+<<set ↂ.flag.Prologue = true>>
 <<set $proc = {start:0,stop:0,time:0,text:"none"}>>
 <<set $time = [0,0,false]>>
 <<set $date =[1,1,4,2032]>>
@@ -45,6 +45,8 @@
 <<set Config.saves.version = setup.ver>>
 <<set $swim = setup.swim>>
 <<set $sidebarCmds = []>>
+<<run setup.weather.seedGen()>>
+<<set $wx = {sky:"CLR",con:"NA"}>>
 <<switch $swim>>
   <<case "[dev]" "[elite]">>
     <<set $debugTools = true>>
@@ -68,40 +70,45 @@
     <<set $pub = false>>
     <<set $showDebug = false>>
 <</switch>>
-<<set $sidebarCmds.push(["Testing Item","<<cmdTestItem>>"])>>
+
 <<set $prevPassage = "Start">>
 <<set $guideItem = "none">>
 <<set $runop = []>>
 <<set $UImap = "[img[IMGmap250]]">>
 <<set $UIimg = []>>
-<<set $UIimgCol = ["pink","blue","orange"]>>
 <<set $UIimgFlag = false>>
 <<set $UIimgSexFlag = false>>
 <<set $UIdefaultImg = "[img[Click for Info|IMG_defaultPortrait]]">>
 <<set $helpText = "This is an example of how help text will look.">>
 <<set $devmsg = true>>
 <<set $pref = {}>>
-<<set $pref.theme = {}>>
+<<include [[Consumables]]>>
+<<set aw.theme = {}>>
+<<set $pref.twentyFour = false>>
 <<script>>
   try{
-    State.variables.pref.theme = JSON.parse(localStorage.getItem('AWThemePref'));
+    aw.theme = JSON.parse(localStorage.getItem('AWThemePref'));
   }
   catch(e){
-    State.variables.pref.theme = null;
+    aw.theme = null;
     setup.alert(`Bad theme preference load with error ${e.name}: ${e.message}.`);
   }
 <</script>>
-<<if ndef $pref.theme || $pref.theme == null || ndef $pref.theme.bgMain || $pref.theme.bgMain == null>>
-  <<set $pref.theme = {}>>
-  <<set $pref.theme.bgMain = "#0f0009">>
-  <<set $pref.theme.bgMenus = "#222">>
-  <<set $pref.theme.toggle = "#ff54c8">>
-  <<set $pref.theme.uiBorder = "#8e014a">>
-  <<set $pref.theme.scrollbar = "rgba(181,0,108,0.8)">>
-  <<set $pref.theme.head = "#ff69b4">>
-  <<set $pref.theme.table = "#b40f46">>
-  <<set $pref.theme.link = "#edacf9">>
+<<if ndef aw.theme || aw.theme == null || ndef aw.theme.bgMain || aw.theme.bgMain == null>>
+  <<set aw.theme = {}>>
+  <<set aw.theme.bgMain = "#0f0009">>
+  <<set aw.theme.bgMenus = "#222">>
+  <<set aw.theme.toggle = "#00B2FF">>
+  <<set aw.theme.uiBorder = "#014F8E">>
+  <<set aw.theme.scrollbar = "rgba(61, 200, 255, 0.8)">>
+  <<set aw.theme.head = "#00B2FF">>
+  <<set aw.theme.table = "#0078AC">>
+  <<set aw.theme.link = "#00FFEF">>
 <</if>>
+<<if ↂ.map == null>>
+  <<set ↂ.map = {NPC: [], NPCactive: false}>>
+<</if>>
+
 <<script>>
-Setting.load()
+  setTimeout(setup.refreshTheme, 100);
 <</script>>

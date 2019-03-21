@@ -8,11 +8,17 @@
 /*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
 <<include [[MAPdowntown]]>>
 /*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
-<div id="mainshits">
+<div id="mainshits" class="extraRoomRight">
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptDowntown>> <<mapEventDowntown>></p>
+<div id="storeWindow">
+[img[IMG-School-DeepDrilling]]
+[img[IMG-School-MonsterTamer1]]
+[img[IMG-BoobiesRestaurant]]
+[img[IMG-prudeShop]]
+</div>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 <<case "sct">>
 <<case "ovc">>
@@ -27,36 +33,54 @@
 <<case "+sn">>
 <<default>>
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 <p>
 @@.head3;Y@@ou're standing on a walking street winding through a block of redbrick buildings. Unlike the strait and open sidewalks of the rest of downtown, the adult district is mostly narrow curving alleys. It has a mysterious or even romantic atmosphere, disrupted by the occasional sign reminding citizens that prostitution is illegal or any number of other public service messages.
 </p>
 <p id="locact"></p>
+<<selfthought>>
 </div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Visit [name]">><</button>>
+  <<openhours 11 24>>
+    <<button "Visit Prude">><<agecheck 18 3 "AgePassPrude">><</button>>
+  <<closed "Prude Closed">>
+  <</openhours>>
+<<endhoverrevise>>
+<<hoverrevise omnicron>>
+  <<openhours 16 24>>
+    <<button "Visit Deep Drilling">><<gotoSchool "deepDrill">><</button>>
+  <<closed "Deep Drilling">>
+  <</openhours>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
-  <<button "Visit [name]">><</button>>
+  <<openhours 16 24>>
+    <<button "Visit Monster Tamer Studio">><<gotoSchool "monster">><</button>>
+  <<closed "Monster Tamer Studio">>
+  <</openhours>>
 <<endhoverrevise>>
 <<hoverrevise delta>>
-  <<button "Explore">><</button>>
+  <span class="disabled"><<button "Explore">><</button>></span>
 <<endhoverrevise>>
 <<hoverrevise gamma>>
-  <<button "Visit [name]">><</button>>
+  <span class="disabled"><<button "Visit [name]">><</button>></span>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
 </div>
 
 /*Main display for information about actions*/
 <div id="actionInfo">
 <<insertion alpha>>Shop at the town's finest purveyor of adult devices and implements.<<endinsertion>>
-<<insertion beta>>Check out the [name] school and perhaps sign up for lessons in the erotic arts.<<endinsertion>>
+<<insertion beta>>Check out the Deep Drilling school and perhaps sign up for lessons in the erotic arts. @@.ship;[ORAL⧫PROSTITUTION]@@<<endinsertion>>
+<<insertion omnicron>>Check out the Monster Tamer Studio and perhaps sign up for lessons in the erotic arts. @@.ship;[SEX⧫PROSTITUTION]@@<<endinsertion>>
 <<insertion delta>>Wander the alleys and see what you find.<<endinsertion>>
 <<insertion gamma>>Stop in at the [name] lounge to see what it's about, exactly.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
 <<timed 50ms>>
@@ -69,3 +93,66 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 
 Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
 
+:: PrudeShop [nobr map]
+
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPdowntown]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptDowntown>> <<mapEventDowntown>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<<print setup.weather.curWeather()>>
+</p>
+<center><span style="width: 400px;">[img[IMG-prudeShop]]</span></center>
+<p>
+@@.head3;Y@@ou're standing in Prude, big luxorious sex shop. @@.import;Toys section is not yet implemented. We are as sad as you about that, yeah.@@</p>
+<p id="locact"></p><<selfthought>>
+</div>
+/*LOCATION description of location without any reference to time/weather and doesn't mention character.*/
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact">
+</span>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise hovShopFurniture>>
+	<<button "Shop For Furniture">><<set _time = 15>><<set _time += random(0,10)>><<set _time += random(2,10)>><<addTime _time>><<dialog "Shop for sex furniture items">><<include [[PrudehousewaresShop]] "div">><<onclose>>setup.refresh();<</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovShopToys>>
+	<<button "Shop For Toys">><<dialog "Shop for sex toys">>You take a look over some sex toys in store. Sadly, they aren't implemented yet so you can only stare at some advertisements and boxes anticipating delights waiting for you in the future releases.<br><center>[img[IMG-TsarPlugaReal]]<br>[img[IMG-RoryDildo]]</center><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+<<hoverrevise checkOut>>
+  <<button "Checkout">><<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<else>><<notify>><span class="bad">Insufficient Funds!<</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion hovShopFurniture>>@@.exp;Check out selection of sex furniture. [15-25min]@@<<endinsertion>>
+<<insertion hovShopToys>>@@.exp;Check out selection of sex toys. [15-25min]@@<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
+</div>
+
+:: PrudehousewaresShop [nobr]
+
+<h3>Prude Sex furniture selection</h3>
+<<print setup.homeItems.sales(false, false, false, false, false, "prude")>>
+Learn more about home items in the <<info "Encyclopedia" "guideHomeInventory">>
+
+
+:: PrudeShopLOC [nobr]
+
+<span id="PrudeShopLOCspan">
+<<if ↂ.pc.trait.perceptive !== -1>>You notice some customer obviously trying to shoplift some anal plug in her "secret pocket". <<link "Call the guard">><<replace "#PrudeShopLOCspan">>@@.pc;Hey! Here is a thief! This girl is trying to steal this buttplug!@@<br><br>Girl turns around looking on you, it seems she thought she is alone in this corner of the shop. She looks overly aroused with her cheeks red and eyes being not completly in focus on your face. The plug she has tried to steal is still in her hand and halfway into her asshole. She starts begging you to be quiet about it but it is too late, you hear the loud stomping of the shop guard.<br><br>@@.npc;Aah, <<set _namer = setup.nameRandomizer(0,'white')>><<= _namer>>, again! I already lost count to be honest. Is it fifth time this year?@@<br><br>Middle-aged guy in uniform is looking amused and angry at the same time looking at the girl still pressing pretty big toy against her arse. Finally she realises how ridiculous her pose is and stands up, now hiding the plug behind her back.<br><br>@@.npc;Please, you must understand, it is all this Satyr, I can't control...@@<br><br>@@.npc;Oh, come on, enough of this bullshit. This lady and me catched you red-handed! This time I won't let you slip, I am calling the police. Let's see if you will be able to satisfy your hungry butt in the jail. I heard they made it unisex nowadays.@@<br><br>@@.npc;But my husband will know that... Please! You can't do this to me!@@<br><br>Guard's grin gets unpleasant.<br><br>@@.npc;Bloody hell I can and gonna do it for sure!@@<br><br>You decide that it right time to leave until police arrive.<br><br>@@.mono;<<has caring>>Poor girl though, I never knew that drugs like Satyr can affect mind so hard.<<or>>Better abstain from showing them my fake ID...<</has>>@@<br><br>You leave the place passing by the guard and he nods to you.<br><br>@@.npc;Thanks for your help ma'am! Be sure police will teach this bitch a lesson!@@<br><br><</replace>><</link>> or <<link "Ignore it">><<run Dialog.close()>><</link>><br>[img[IMG-Prude-ShopLift]]<<else>>You see a salesgirl fixing the apperance of goods on the shelf.<br>[img[IMG-Prude-Girl]]<</if>>
+</span>

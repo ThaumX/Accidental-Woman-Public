@@ -1,0 +1,97 @@
+:: DowntownFoodcourt [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmall]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptDowntown>> <<mapEventDowntown>></p>
+<div id="storeWindow">
+[img[IMG-Restaurant-McDongalds]]
+[img[IMG-Restaurant-BurgerTsar]]
+[img[IMG-Restaurant-GenghisMons]]
+[img[IMG-Restaurant-Sbarfo]]
+[img[IMG-Restaurant-TacoHell]]
+[img[IMG-Restaurant-MilkMe]]
+[img[IMG-Restaurant-TeatTreats]]
+[img[IMG-Restaurant-Starsucks]]
+</div>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<<print setup.weather.curWeather()>>
+</p>
+<p>
+@@.head3;Y@@ou're in the Appletree food court, where a large variety of food is on offer. The food court is set in an atrium, giving it an open feeling, and escalators lead up to the second floor where those interested can catch watch a film at the Peeper's Cineplex. An assortment of aromas compete for your attention.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "McDongald's">><<dialog "McDongald's">><<print setup.food.fastfood("mcdongalds")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "Burger Tsar">><<dialog "Burger Tsar">><<print setup.food.fastfood("burgertsar")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise delta>>
+  <<button "Genghis Mons">><<dialog "Genghis Mons">><<print setup.food.fastfood("genghis")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise gamma>>
+  <<button "SBARFO">><<dialog "SBARFO">><<print setup.food.fastfood("sbarfo")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise lambda>>
+  <<button "Taco Hell">><<dialog "Taco Hell">><<print setup.food.fastfood("tacohell")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise phi>>
+  <<button "Milkme In A Cup">><<dialog "Milkme In A Cup">><<print setup.food.fastfood("milkme")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise pi>>
+  <<button "Teat Treats">><<dialog "Teat Treats">><<print setup.food.fastfood("teattreats")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise omega>>
+  <<button "Starsucks">><<dialog "Starsucks">><<print setup.food.fastfood("starsucks")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Take a look at McDongald's menu, and perhaps order a bite to eat.<<endinsertion>>
+<<insertion beta>>Take a look at Burger Tsar's menu, and perhaps order a bite to eat.<<endinsertion>>
+<<insertion delta>>Take a look at Genghis Mons' menu, and perhaps order a bite to eat.<<endinsertion>>
+<<insertion gamma>>Take a look at SBARFO's menu, and perhaps order a bite to eat.<<endinsertion>>
+<<insertion lambda>>Take a look at Taco Hell's menu, and perhaps order a bite to eat.<<endinsertion>>
+<<insertion phi>>Take a look at Milkme's menu, and perhaps grab a refreshing beverage.<<endinsertion>>
+<<insertion pi>>Take a look at Teat Treats, and perhaps grab a super-delicious desert. It's sure to improve your mood!<<endinsertion>>
+<<insertion omega>>The same coffee place that spread to the point of being ubiquitous, and can be found just about everywhere.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+  <<mapEventDowntownAct>>
+<</timed>>
+
+
+:: DowntownFoodcourtLOC [nobr]
+
+You take a look around the food court, watching some of the other people going about their business...<br>
+<<set _rando = either(true,false)>>
+<<if _rando>>
+You notice a woman ordering at the McDongald's who is wearing a nice-looking short skirt. It seems her purse got caught on the hem, and as she shifts it around to get her phone out the skirt gets pulled most of the way up her butt. It seems she isn't wearing any underwear either...<br>
+<center>[img[IMG-Mall-exhib3]]<br><span class="ship monospace" style="font-size:0.75rem;">1/2</span></center>
+<<else>>
+You notice a young woman eating what looks to be SBARFO, at one of the children's benches near the food court playground. She's wearing a button-down one-piece dress with a short skirt, and it looks like she's going commando. As you look, she nonchalantly spreads her legs and pulls the hem up farther to give anyone looking that direction a good view. You quickly glance up, worried that you had been caught staring, but she doesn't seem to be flashing you in particular...<br>
+<center>[img[IMG-DowntownEatingFlash]]<br><span class="ship monospace" style="font-size:0.75rem;">2/2</span></center>
+<</if>>
+
+

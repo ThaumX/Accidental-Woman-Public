@@ -1,7 +1,43 @@
 :: topCornerUIbox [nobr]
 
-<<print setup.ui.actionButts()>>
-
+<div id="corner-bar-contents">
+  <<print setup.ui.actionButts()>>
+</div>
+<<run setup.time.missedCheck()>>
+/*need to constantly check stats to prevent them from getting above max. why not here heh*/
+/*need to check besty code for typos, lolol. also, should SAVE the new values, as otherwise this basically only affects the status bars. ;)*/
+<<set _asdfjkl = false>>
+<<if ↂ.pc.status.energy.amt > ↂ.pc.body.energy>>
+  <<set ↂ.pc.status.energy.amt = ↂ.pc.body.energy>>
+  <<set _asdfjkl = true>>
+<</if>>
+<<if ↂ.pc.status.health > 100>>
+  <<set ↂ.pc.status.health = 100>>
+  <<set _asdfjkl = true>>
+<</if>>
+<<if ↂ.pc.status.satisfaction > 100>>
+  <<set ↂ.pc.status.satisfaction = 100>>
+  <<set _asdfjkl = true>>
+<</if>>
+<<if _asdfjkl>><<status>><</if>>
+<div id="corner-bar-info" class="lato blackOutline">
+  <center><span class="megrim" style="font-size:18px;font-weight:800;">Scene By : <<if ndef $AW.author>>Probably ThaumX<<elseif not $AW.author>>Probably ThaumX<<else>><<print $AW.author>><</if>>/*will display contributing author credits*/
+  </span></center>
+  <<if $showData>>
+    <<silently>>
+    
+    <<set _energyPercent = Math.round(100 * ( ↂ.pc.status.energy.amt / ↂ.pc.body.energy ))>>
+    <<set _companPercent = 100 - ↂ.pc.status.lonely>>
+    <</silently>>
+    <span class="lato whiteOutline" style="color:#000;">
+    <<progressbar ↂpc.status.health "Health" "green" "stripes">>
+    <<progressbar _energyPercent "Energy" "green" "stripes">>
+    <<progressbar ↂpc.status.satisfaction "Satisfaction" "blue" "stripes">>
+    <<progressbar _companPercent "Companionship" "blue" "stripes">>
+    <<progressbar ↂpc.status.stress "Stress" "orange" "stripes">>
+    </span>
+  <</if>>
+</div>
 
 
 :: bottomCornerUIbox [nobr]

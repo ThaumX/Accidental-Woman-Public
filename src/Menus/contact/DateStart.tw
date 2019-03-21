@@ -1,0 +1,40 @@
+
+:: DateStart [nobr]
+
+
+<p>
+<<f y>>ou meet up with <<= aw.date.name>> at <<print ↂ.map.name>>, ready to begin your date.
+<<if aw.date.npc.rship.dates < 4>>
+  <<if ↂ.pc.kink.slut || ↂ.pc.status.bimbo > 39>>
+    You can't wait to see if this ends up with some mind-blowing sex.
+    <<arouse 1>>
+  <<else>>
+    You can't help but be a <<has intro>>bundle of nerves<<or>>little nervous<</has>>,
+    <<if aw.date.npc.rship.dates === 0>>
+      as it's your first time going out with <<= aw.date.name>>.
+    <<elseif aw.date.npc.rship.dates === 1>>
+      because it's only your second date with <<= aw.date.name>>.
+    <<else>>
+      you've only went out with <<= aw.date.name>> <<print setup.numWord(aw.date.npc.rship.dates)>> times.
+    <</if>>
+  <</if>>
+<<else>>
+  <<has cl>>
+    You find yourself hoping that <<= aw.date.name>> doesn't end up dragging you into something ridiculous or crazy. @@.mono;Seriously, I just want to <<has slut>>do something nice, simple, and <b>quick</b> so we can get down to the fun part at the end.<<or>>have a nice relaxing night.<</has>>@@
+  <<orhas slut>>
+    You find that you're already anticipating what comes <i>after</i> the date. @@.mono;I could seriously use a good fucking tonight.@@
+  <<orhas op>>
+    You find that you're curious about what you'll be getting up to tonight, if <<= aw.date.name>> has any surprises in store for you. @@.mono;Well, I guess it's not like it needs to be an adventure <i>every</i> time, but I hope this time is...@@
+  <<or>>
+    You find yourself wondering what the two of you will be doing tonight, idly considering some potential options. @@.mono;It's been a while since I've been to <<print either("Nacho Daddy", "Cock of the Walk", "Hot Porking", "Remplir L'Uterus", "Udder Delights", "Grand Peter's Halfway Inn")>>...@@
+  <</has>>
+<</if>>
+</p>
+<p>
+Once the two of you meet up, you quickly work your way through the expected greetings and compliments. <<= aw.date.convoText>> After that, the two of you start thinking about the first stop on your date.
+</p>
+<<print setup.date.locationPicker()>>
+
+
+
+

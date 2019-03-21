@@ -9,366 +9,81 @@
 
 <<include [[bullseyeNPCunloader]]>>
 
-<<set $PC.status.inPublic = true>>
-<<set $map.wxCover = []>>
+<<set ↂ.pc.status.inPublic = true>>
+<<set ↂ.map.wxCover = []>>
 /*sets variables to destination based on mapLoc coordinates - Note walk description is separate*/
 
 <<mapProcessMove>>
 <<addTime _mapTime>>
 
-/*generate clothes if needed*/
-<<if $flag.BEnewClothes>>
-	<<set $flag.BEnewClothes = false>>
-	<<set _count = 20>>
-	<<if $pub>>
-		<<if $cheat.shop>>
-			<<set _count += 10>>
-		<</if>>
-	<</if>>
-	<<procS "gen-sort clothes">>
-	<<set _countHalf = _count / 2>>
-	<<genPanties _count 2 0 0 -2 "Bullseye">>
-	<<set $BEshopP = setup.clothSort($storeInv.panties,6)>>
-	<<set $storeInv.panties = []>>
-	<<genBra _count 1 0 0 -2 "Bullseye">>
-	<<set $BEshopB = setup.clothSort($storeInv.bra,6)>>
-	<<set $storeInv.bra = []>>
-	<<genStocking _countHalf 1 0 0 -2 "Bullseye">>
-	<<set $BEshopLeg = setup.clothSort($storeInv.leg,6)>>
-	<<set $storeInv.leg = []>>
-	<<genUpperBody _count 1 1 0 -2 "Bullseye">>
-	<<set $BEshopUB = setup.clothSort($storeInv.upBody,6)>>
-	<<set $storeInv.upBody = []>>
-	<<genOverWear _count 1 0 0 -2 "Bullseye">>
-	<<set $BEshopOW = setup.clothSort($storeInv.overWear,6)>>
-	<<set $storeInv.overWear = []>>
-	<<genDress _count 1 1 0 -2 "Bullseye">>
-	<<set $BEshopD = setup.clothSort($storeInv.dress,6)>>
-	<<set $storeInv.dress = []>>
-	<<set _count += 5>>
-	<<genLowerBody _count 1 0 0 -2 "Bullseye">>
-	<<set $BEshopLB = setup.clothSort($storeInv.lowBody,6)>>
-	<<set $storeInv.lowBody = []>>
-	<<procE>>
-<</if>>
+/* Wear shoes and coat */
+<<set ↂ.pc.clothes.worn.shoes = "normal">>
+<<set ↂ.pc.clothes.worn.coat = "normal">>
 
 /*Check for Checkout*/
-<<if $map.passage == "BEparking">>
-	<<set _price = 0>>
-	<<if ndef $cart.panties.length>>
-	<<elseif $cart.panties.length != 0>>
-		<<for _i to 0; _i < $cart.panties.length; _i++>>
-			<<set _item = $cart.panties[_i]>>
-			<<set _price += _item[11]>>
-		<</for>>
-	<</if>>
-	<<if ndef $cart.bra.length>>
-	<<elseif $cart.bra.length != 0>>
-		<<for _i to 0; _i < $cart.bra.length; _i++>>
-			<<set _item = $cart.bra[_i]>>
-			<<set _price += _item[11]>>
-		<</for>>
-	<</if>>
-	<<if ndef $cart.upBody.length>>
-	<<elseif $cart.upBody.length != 0>>
-		<<for _i to 0; _i < $cart.upBody.length; _i++>>
-			<<set _item = $cart.upBody[_i]>>
-			<<set _price += _item[11]>>
-		<</for>>
-	<</if>>
-	<<if ndef $cart.overWear.length>>
-	<<elseif $cart.overWear.length != 0>>
-		<<for _i to 0; _i < $cart.overWear.length; _i++>>
-			<<set _item = $cart.overWear[_i]>>
-			<<set _price += _item[11]>>
-		<</for>>
-	<</if>>
-	<<if ndef $cart.dress.length>>
-	<<elseif $cart.dress.length != 0>>
-		<<for _i to 0; _i < $cart.dress.length; _i++>>
-			<<set _item = $cart.dress[_i]>>
-			<<set _price += _item[11]>>
-		<</for>>
-	<</if>>
-	<<if ndef $cart.lowBody.length>>
-	<<elseif $cart.lowBody.length != 0>>
-		<<for _i to 0; _i < $cart.lowBody.length; _i++>>
-			<<set _item = $cart.lowBody[_i]>>
-			<<set _price += _item[11]>>
-		<</for>>
-	<</if>>
-	<<if ndef $cart.athU.length>>
-	<<elseif $cart.athU.length != 0>>
-		<<for _i to 0; _i < $cart.athU.length; _i++>>
-			<<set _item = $cart.athU[_i]>>
-			<<set _price += _item[11]>>
-		<</for>>
-	<</if>>
-	<<if ndef $cart.athL.length>>
-	<<elseif $cart.athL.length != 0>>
-		<<for _i to 0; _i < $cart.athL.length; _i++>>
-			<<set _item = $cart.athL[_i]>>
-			<<set _price += _item[11]>>
-		<</for>>
-	<</if>>
-	<<if ndef $cart.swimU.length>>
-	<<elseif $cart.swimU.length != 0>>
-		<<for _i to 0; _i < $cart.swimU.length; _i++>>
-			<<set _item = $cart.swimU[_i]>>
-			<<set _price += _item[11]>>
-		<</for>>
-	<</if>>
-	<<if ndef $cart.swimL.length>>
-	<<elseif $cart.swimL.length != 0>>
-		<<for _i to 0; _i < $cart.swimL.length; _i++>>
-			<<set _item = $cart.swimL[_i]>>
-			<<set _price += _item[11]>>
-		<</for>>
-	<</if>>
-	<<if ndef $cart.leg.length>>
-	<<elseif $cart.leg.length != 0>>
-		<<for _i to 0; _i < $cart.leg.length; _i++>>
-			<<set _item = $cart.leg[_i]>>
-			<<set _price += _item[11]>>
-		<</for>>
-	<</if>>
-	<<if ndef $cart.niteU.length>>
-	<<elseif $cart.niteU.length != 0>>
-		<<for _i to 0; _i < $cart.niteU.length; _i++>>
-			<<set _item = $cart.niteU[_i]>>
-			<<set _price += _item[11]>>
-		<</for>>
-	<</if>>
-	<<if ndef $cart.niteL.length>>
-	<<elseif $cart.niteL.length != 0>>
-		<<for _i to 0; _i < $cart.niteL.length; _i++>>
-			<<set _item = $cart.niteL[_i]>>
-			<<set _price += _item[11]>>
-		<</for>>
-	<</if>>
-	<<if $cart.acclength != 0>>
-	<</if>>
-	<<if ndef $cart.item.length>>
-	<<elseif $cart.item.length != 0>>
-		<<for _i to 0; _i < $cart.item.length; _i++>>
-			<<set _item = $cart.item[_i]>>
-			<<set _price += _item[1]>>
-		<</for>>
-	<</if>>
-	<<if $cart.bag.length != 0>>
-	<</if>>
-	<<if $PC.skill.shop > 100>>
-		<<set _priceMod = $PC.skill.shop / 20>>
-		<<set _priceMod = Math.round(_priceMod)>>
-		<<set _priceMod += 10>>
-		<<set _priceMod /= 100>>
-		<<set _priceMod = 1 - _priceMod>>
-		<<set _price *= _priceMod>>
-		<<set _price = Math.round(_price)>>
-	<<else>>
-		<<set _priceMod = Math.round($PC.skill.shop / 10)>>
-		<<set _priceMod /= 100>>
-		<<set _priceMod = 1 - _priceMod>>
-		<<set _price *= _priceMod>>
-		<<set _price = Math.round(_price)>>
-	<</if>>
-	<<if _price == 0>>
-		/*because bullshit*/
-	<<elseif _price > $AW.cash>>
-		<<if $time[0] >= 16 && $time[0] <= 20>>
-			<<set _tim = random(16,32)>>
-		<<else>>
-			<<set _tim = random(8,18)>>
-		<</if>>
-		<<addTime _tim>>
-		/*<<set _msg = "You're too poor to buy all the stuff in your cart! Put something back. Cart Price: " + _price>>*/
-		/*<<set alert(_msg)>>*/
-		<<dialog 'Unable to Check Out!'>>@@.exp;After waiting in line at the register for@@ @@.monospace;.white;<<print _tim>>@@ @@.exp;minutes, and having everything rung up, it turned out that you couldn't afford it.<br><br>Your total came to@@ @@.money;<<mon>><<= _price>>@@@@.exp;, but you only have@@ @@.money;<<mon>><<= $AW.cash>>@@ @@.exp;to spend. Looks like you'd better put something back.@@<</dialog>>
-		<<set $map.name = "Bullseye Customer Service">>
-		<<set $map.imageName = "IMGBullseye">>
-		<<set $map.passage = "BEcustserv">>
-		<<set _eventList = []>>
-		<<set _mapPCroom = "This area of the store is kind of depressing for some reason, so you try not to think about it.">>
-		<<set $location = "Bullseye - Checkout">>
-	<<else>>
-		<<status 1>>
-		<<set $AW.cash -= _price>>
-		<<status 0>>
-		<<if $time[0] >= 16 && $time[0] <= 20>>
-			<<set _tim = random(16,32)>>
-		<<else>>
-			<<set _tim = random(8,18)>>
-		<</if>>
-		<<addTime _tim>>
-		<<if !$flag.ProBoughtClothes>>
-			<<if ndef $questP>>
-				<<set $questP = false>>
-        <<if $PC.body.tits.cupNum <= 10>>
-          <<set $questB = true>>
-        <<else>>
-				  <<set $questB = false>>
+<<if ↂ.map.passage == "BEparking" && $cart.length > 0>>
+  <<if $time[0] >= 16 && $time[0] <= 20>>/*shopping "rush-hour"*/
+    <<set _tim = random(16,32)>>
+  <<else>>
+    <<set _tim = random(8,18)>>
+  <</if>>
+  <<addTime _tim>>
+  <<if ↂ.flag.Prologue && !ↂ.flag.ProBoughtClothes>>
+    <<set _questCheck = {panties: false, bra: false, top: false, bottom: false, dress: false}>>
+    <<for _i = 0, _c = $cart.length; _i < _c; _i++>>
+      <<set _gato = $cart[_i][1]>>
+      <<switch _gato>>
+        <<case "panties">>
+          <<set _questCheck.panties = true>>
+        <<case "bra">>
+          <<set _questCheck.bra = true>>
+        <<case "top">>
+          <<set _questCheck.top = true>>
+        <<case "bottom">>
+          <<set _questCheck.bottom = true>>
+        <<case "dress">>
+          <<set _questCheck.dress = true>>
+        <</switch>>
+    <</for>>
+  <</if>>
+  <<set _price = setup.shop.cartTotalNumber()>>
+  <<set _outcome = setup.shop.purchase()>>
+  <<if _outcome === "no afford">>
+    <<dialog 'Unable to Check Out!'>>@@.exp;After waiting in line at the register for@@ @@.monospace;.white;<<print _tim>>@@ @@.exp;minutes, and having everything rung up, it turned out that you couldn't afford it.<br><br>Your total came to@@ @@.money;<<mon>><<= _price>>@@@@.exp;, but you only have@@ @@.money;<<mon>><<= $AW.cash>>@@ @@.exp;to spend. Looks like you'd better put something back.@@<</dialog>>
+    <<set ↂ.map.name = "Bullseye Customer Service">>
+    <<set ↂ.map.imageName = "IMGBullseye">>
+    <<set ↂ.map.passage = "BEcustserv">>
+    <<set _eventList = []>>
+    <<set _mapPCroom = "This area of the store is kind of depressing for some reason, so you try not to think about it.">>
+    <<set $location = "Bullseye - Checkout">>
+  <<elseif _outcome === "age">>
+    <<set $location = "Bullseye - Checkout">>
+    <<run setup.map.nav("bullseye","custserv")>>
+  <<else>>
+    <<if ↂ.flag.Prologue && !ↂ.flag.ProBoughtClothes>>
+      <<if _questCheck.panties>>
+        <<set ↂ.flag.ProClothingQuest.panties = true>>
+      <</if>>
+      <<if _questCheck.bra>>
+        <<set ↂ.flag.ProClothingQuest.bra = true>>
+      <</if>>
+      <<if _questCheck.top>>
+        <<set ↂ.flag.ProClothingQuest.top = true>>
+      <</if>>
+      <<if _questCheck.bottom>>
+        <<set ↂ.flag.ProClothingQuest.bottom = true>>
+      <</if>>
+      <<if _questCheck.dress>>
+        <<set ↂ.flag.ProClothingQuest.dress = true>>
+      <</if>>
+      <<if ↂ.flag.ProClothingQuest.panties>>
+        <<if (ↂ.flag.ProClothingQuest.top && ↂ.flag.ProClothingQuest.bottom) || ↂ.flag.ProClothingQuest.dress>>
+          <<set ↂ.flag.ProBoughtClothes = true>>
         <</if>>
-			<</if>>
-			<<if ndef $questUB>>
-				<<set $questUB = false>>
-				<<set $questLB = false>>
-			<</if>>
-			<<if ndef $questD>>
-				<<set $questD = false>>
-			<</if>>
-		<</if>>
-		<<if ndef $cart.panties.length>>
-		<<elseif $cart.panties.length != 0>>
-			<<for _i to 0; _i < $cart.panties.length; _i++>>
-				<<set _item = $cart.panties[_i]>>
-				<<set $ward.panties.push(_item)>>
-			<</for>>
-			<<set $cart.panties = []>>
-			<<if def $questP>>
-				<<set $questP = true>>
-			<</if>>
-		<</if>>
-		<<if ndef $cart.bra.length>>
-		<<elseif $cart.bra.length != 0>>
-			<<for _i to 0; _i < $cart.bra.length; _i++>>
-				<<set _item = $cart.bra[_i]>>
-				<<set $ward.bra.push(_item)>>
-			<</for>>
-			<<set $cart.bra = []>>
-			<<if def $questB>>
-				<<set $questB = true>>
-			<</if>>
-		<</if>>
-		<<if ndef $cart.upBody.length>>
-		<<elseif $cart.upBody.length != 0>>
-			<<for _i to 0; _i < $cart.upBody.length; _i++>>
-				<<set _item = $cart.upBody[_i]>>
-				<<set $ward.upBody.push(_item)>>
-			<</for>>
-			<<set $cart.upBody = []>>
-			<<if def $questUB>>
-				<<set $questUB = true>>
-			<</if>>
-		<</if>>
-		<<if ndef $cart.overWear.length>>
-		<<elseif $cart.overWear.length != 0>>
-			<<for _i to 0; _i < $cart.overWear.length; _i++>>
-				<<set _item = $cart.overWear[_i]>>
-				<<set $ward.overWear.push(_item)>>
-			<</for>>
-			<<set $cart.overWear = []>>
-		<</if>>
-		<<if ndef $cart.dress.length>>
-		<<elseif $cart.dress.length != 0>>
-			<<for _i to 0; _i < $cart.dress.length; _i++>>
-				<<set _item = $cart.dress[_i]>>
-				<<set $ward.dress.push(_item)>>
-			<</for>>
-			<<set $cart.dress = []>>
-			<<if def $questD>>
-				<<set $questD = true>>
-			<</if>>
-		<</if>>
-		<<if ndef $cart.lowBody.length>>
-		<<elseif $cart.lowBody.length != 0>>
-			<<for _i to 0; _i < $cart.lowBody.length; _i++>>
-				<<set _item = $cart.lowBody[_i]>>
-				<<set $ward.lowBody.push(_item)>>
-			<</for>>
-			<<set $cart.lowBody = []>>
-			<<if def $questLB>>
-				<<set $questLB = true>>
-			<</if>>
-		<</if>>
-		<<if ndef $cart.athU.length>>
-		<<elseif $cart.athU.length != 0>>
-			<<for _i to 0; _i < $cart.athU.length; _i++>>
-				<<set _item = $cart.athU[_i]>>
-				<<set $ward.athU.push(_item)>>
-			<</for>>
-			<<set $cart.athU = []>>
-		<</if>>
-		<<if ndef $cart.athL.length>>
-		<<elseif $cart.athL.length != 0>>
-			<<for _i to 0; _i < $cart.athL.length; _i++>>
-				<<set _item = $cart.athL[_i]>>
-				<<set $ward.athL.push(_item)>>
-			<</for>>
-			<<set $cart.athL = []>>
-		<</if>>
-		<<if ndef $cart.swimU.length>>
-		<<elseif $cart.swimU.length != 0>>
-			<<for _i to 0; _i < $cart.swimU.length; _i++>>
-				<<set _item = $cart.swimU[_i]>>
-				<<set $ward.swimU.push(_item)>>
-			<</for>>
-			<<set $cart.swimU = []>>
-		<</if>>
-		<<if ndef $cart.swimL.length>>
-		<<elseif $cart.swimL.length != 0>>
-			<<for _i to 0; _i < $cart.swimL.length; _i++>>
-				<<set _item = $cart.swimL[_i]>>
-				<<set $ward.swimL.push(_item)>>
-			<</for>>
-			<<set $cart.swimL = []>>
-		<</if>>
-		<<if ndef $cart.niteU.length>>
-		<<elseif $cart.niteU.length != 0>>
-			<<for _i to 0; _i < $cart.niteU.length; _i++>>
-				<<set _item = $cart.niteU[_i]>>
-				<<set $ward.niteU.push(_item)>>
-			<</for>>
-			<<set $cart.niteU = []>>
-		<</if>>
-		<<if ndef $cart.niteL.length>>
-		<<elseif $cart.niteL.length != 0>>
-			<<for _i to 0; _i < $cart.niteL.length; _i++>>
-				<<set _item = $cart.niteL[_i]>>
-				<<set $ward.niteL.push(_item)>>
-			<</for>>
-			<<set $cart.niteL = []>>
-		<</if>>
-		<<if ndef $cart.leg.length>>
-		<<elseif $cart.leg.length != 0>>
-			<<for _i to 0; _i < $cart.leg.length; _i++>>
-				<<set _item = $cart.leg[_i]>>
-				<<set $ward.leg.push(_item)>>
-			<</for>>
-			<<set $cart.leg = []>>
-		<</if>>
-		<<if ndef $cart.acc.length>>
-		<<elseif $cart.acc.length != 0>>
-      <<for _i to 0; _i < $cart.acc.length; _i++>>
-				<<set _item = $cart.acc[_i]>>
-				<<set $ward.acc.push(_item)>>
-			<</for>>
-			<<set $cart.acc = []>>
-		<</if>>
-		<<if ndef $cart.bag.length>>
-		<<elseif $cart.bag.length != 0>>
-		<</if>>
-		<<if ndef $cart.item.length>>
-		<<elseif $cart.item.length != 0>>
-			<<for _i to 0; _i < $cart.item.length; _i++>>
-				<<set _item = $cart.item[_i]>>
-				<<set $items.temp.push(_item)>>
-			<</for>>
-			<<set $cart.item = []>>
-		<</if>>
-		<<if !$flag.ProBoughtClothes>>
-		<<if $questB && $questP && $questD>>
-			<<set $flag.ProBoughtClothes = true>>
-			<<unset $questP, $questB, $questD, $questUB, $questLB>>
-		<<elseif $questB && $questP && $questUB && $questLB>>
-			<<set $flag.ProBoughtClothes = true>>
-			<<unset $questP, $questB, $questD, $questUB, $questLB>>
-		<</if>>
-		<</if>>
-		<<run setup.processPurchases()>>
-		/*<<set _msg = "You checked out from Bullseye, spending: " + _price>>*/
-		/*<<set alert(_msg)>>*/
-		<<dialog 'Checked out from Bullseye!'>>@@.exp;After waiting in line at the register for@@ @@.monospace;.white;<<print _tim>> minutes@@@@.exp;, you successfully purchased everything in your cart.<br><br>After your membership discount, your total came to@@ @@.money;<<mon>><<= _price>>@@@@.exp;, leaving you with@@ @@.money;<<mon>><<= $AW.cash>>@@ @@.exp;remaining.@@<</dialog>>
-	<</if>>
+      <</if>>
+    <</if>>
+    <<dialog 'Checked out from Bullseye!'>>@@.exp;After waiting in line at the register for@@ @@.monospace;.white;<<print _tim>> minutes@@@@.exp;, you successfully purchased everything in your cart.<br><br>After your membership discount, your total came to@@ <span class="money">₢<<= _price>></span>@@.exp;, leaving you with@@ @@.money;₢<<= $AW.cash>>@@ @@.exp;remaining.@@<</dialog>>
+  <</if>>
 <</if>>
 
 /*determine local movement information
@@ -384,16 +99,16 @@
 <<mapPeople>> /*Allows adding standard NPCs to the location*/
 
 /*EVENTS - selects possible NPC/big event based on several possibilities*/
-<<set $map.mainEvent = 0>>
-<<set $map.minorEvent = 0>>
+<<set ↂ.map.mainEvent = 0>>
+<<set ↂ.map.minorEvent = 0>>
 <<mapMainEventSelect>>
-<<if $map.mainEvent == 0>>
+<<if ↂ.map.mainEvent == 0>>
 	<<mapMinorEventSelect>>
 <</if>>
 
 /*SET THE SCENE! Describes the scene, including potential NPCs*/
-<<if $map.mainEvent != 0 || $map.minorEvent != 0>>
-	<<set _eventAdd = $map.mainEvent + $map.minorEvent>>
+<<if ↂ.map.mainEvent != 0 || ↂ.map.minorEvent != 0>>
+	<<set _eventAdd = ↂ.map.mainEvent + ↂ.map.minorEvent>>
 	<<switch _eventAdd>>
 	<<default>>
 	<</switch>>
@@ -401,8 +116,8 @@
 <<if $npc.active>>
 	<<set _NPCsingle = $npc.roomview>>
 <<else>>
-	<<if $map.NPC.active>>
-		<<set _NPCsingle = $map.NPC.roomview>>
+	<<if ↂ.map.NPCactive>>
+		<<set _NPCsingle = ↂ.map.NPCroomview>>
 	<<else>>
 		<<set _NPCsingle = 0>>
 	<</if>>
@@ -413,7 +128,7 @@
 /*forwarder to change passage*/
 
 /*<<link "debug link continue">>*/
-<<gotodev $map.passage>>
+<<gotodev ↂ.map.passage>>
 /*<</link>>*/
 <</nobr>>
 

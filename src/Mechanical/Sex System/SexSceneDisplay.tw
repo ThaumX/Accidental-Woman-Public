@@ -2,18 +2,18 @@
 
 <<silently>>
 <<procS "display load">>
-<<set _pcOrgPer = Math.round(($PC.status.pleasure/$sex.pcOrgasm)*100)>>
+<<set _pcOrgPer = Math.round((ↂ.pc.status.pleasure/ↂ.sex.pcOrgasm)*100)>>
 <<if _pcOrgPer > 100>><<set _pcOrgPer = 100>><<set _pcOrgText = "Cumming!">><<else>><<set _pcOrgText = _pcOrgPer + "%">><</if>>
 <<set _printerA = "<div class='sex-stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + _pcOrgPer + "%; background: hotpink;'><span id='bitch'>" + _pcOrgText + "</span></span></div>">>
-<<if $sex.target == "none">>
+<<if ↂ.sex.target == "none">>
   <<set _npcStatBar = 0>>
 <<else>>
-  <<set _npcStatBar = $sex.target>>
+  <<set _npcStatBar = ↂ.sex.target>>
 <</if>>
-<<set _npcOrgPer = Math.round(($NPC[$sex.activeNPC[_npcStatBar]].status.pleasure / $sex.npcOrgasm[_npcStatBar])*100)>>
+<<set _npcOrgPer = Math.round((aw.npc[ↂ.sex.activeNPC[_npcStatBar]].status.pleasure / ↂ.sex.npcOrgasm[_npcStatBar])*100)>>
 <<if _npcOrgPer > 100>><<set _npcOrgPer = 100>><<set _npcOrgText = "Cumming!">><<else>><<set _npcOrgText = _npcOrgPer + "%">><</if>>
 <<set _printerB = "<div class='sex-stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + _npcOrgPer + "%; background: hotpink;'><span id='bitch'>" + _npcOrgText + "</span></span></div>">>
-<<set _npcNamePrint = $NPC[$sex.activeNPC[_npcStatBar]].main.name + " @@.red;♥@@">>
+<<set _npcNamePrint = aw.npc[ↂ.sex.activeNPC[_npcStatBar]].main.name + " @@.red;♥@@">>
 <</silently>>
 <div id="sexStats">
 <table id="invisTable">
@@ -29,17 +29,17 @@
 <span id="npcstatbar"><<print _printerB>></span>
 </td><td>
 <<link [img[Next NPC|IMGswitchright]]>>
-  <<if _npcStatBar < ($sex.npcCount - 1)>>
+  <<if _npcStatBar < (ↂ.sex.npcCount - 1)>>
     <<set _npcStatBar += 1>>
   <<else>>
     <<set _npcStatBar = 0>>
   <</if>>
-  <<if _npcStatBar == $sex.target>>
-    <<set _npcNamePrint = $NPC[$sex.activeNPC[_npcStatBar]].main.name + " @@.red;♥@@">>
+  <<if _npcStatBar == ↂ.sex.target>>
+    <<set _npcNamePrint = aw.npc[ↂ.sex.activeNPC[_npcStatBar]].main.name + " @@.red;♥@@">>
   <<else>>
-    <<set _npcNamePrint = $NPC[$sex.activeNPC[_npcStatBar]].main.name>>
+    <<set _npcNamePrint = aw.npc[ↂ.sex.activeNPC[_npcStatBar]].main.name>>
   <</if>>
-  <<set _npcOrgPer = Math.round(($NPC[$sex.activeNPC[_npcStatBar]].status.pleasure / $sex.npcOrgasm[_npcStatBar])*100)>>
+  <<set _npcOrgPer = Math.round((aw.npc[ↂ.sex.activeNPC[_npcStatBar]].status.pleasure / ↂ.sex.npcOrgasm[_npcStatBar])*100)>>
   <<if _npcOrgPer > 100>><<set _npcOrgPer = 100>><<set _npcOrgText = "Cumming!">><<else>><<set _npcOrgText = _npcOrgPer + "%">><</if>>
   <<set _printerB = "<div class='sex-stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + _npcOrgPer + "%; background: hotpink;'><span id='bitch'>" + _npcOrgText + "</span></span></div>">>
   <<replace "#npcstatbarlabel">><<print _npcNamePrint>><</replace>>
@@ -49,20 +49,20 @@
 </table>
 </div>
 <div id="mainshitsSex">
-<<if $sex.pcOutput != "none">>
-  <<set _pcOutA = $sex.pcOutput.slice(0,1)>>
-  <<set _pcOutB = $sex.pcOutput.slice(1)>>
+<<if ↂ.sex.pcOutput != "none">>
+  <<set _pcOutA = ↂ.sex.pcOutput.slice(0,1)>>
+  <<set _pcOutB = ↂ.sex.pcOutput.slice(1)>>
   @@.head3;<<print _pcOutA>>@@<<print _pcOutB>>
   <br><br>
 <<else>>
   @@.head3;N@@o PC text output for some reason...<br><br>
 <</if>>
 <<set _textC = 0>>
-<<if $sex.npcOutput.constructor === Array>>
-  <<for _i = 0, _c = $sex.npcOutput.length; _i < _c; _i++>>
-    <<if $sex.npcOutput[_i] != "none">>
-      <<set _npcOutA = $sex.npcOutput[_i].slice(0,1)>>
-      <<set _npcOutB = $sex.npcOutput[_i].slice(1)>>
+<<if ↂ.sex.npcOutput.constructor === Array>>
+  <<for _i = 0, _c = ↂ.sex.npcOutput.length; _i < _c; _i++>>
+    <<if ↂ.sex.npcOutput[_i] != "none">>
+      <<set _npcOutA = ↂ.sex.npcOutput[_i].slice(0,1)>>
+      <<set _npcOutB = ↂ.sex.npcOutput[_i].slice(1)>>
       <<set _textC += 1>>
       @@.head3;<<print _npcOutA>>@@<<print _npcOutB>>
       <br><br>
@@ -71,22 +71,22 @@
   <<if _textC == 0>>
     @@.head3;N@@o NPC text output for some reason...
   <</if>>
-<<elseif "string" == typeof $sex.npcOutput && $sex.npcOutput != "none">>
-  <<set _npcOutA = $sex.npcOutput.slice(0,1)>>
-  <<set _npcOutB = $sex.npcOutput.slice(1)>>
+<<elseif "string" == typeof ↂ.sex.npcOutput && ↂ.sex.npcOutput != "none">>
+  <<set _npcOutA = ↂ.sex.npcOutput.slice(0,1)>>
+  <<set _npcOutB = ↂ.sex.npcOutput.slice(1)>>
   @@.head3;<<print _npcOutA>>@@<<print _npcOutB>>
 <</if>>
 <table id="invisTable">
 <tr><td colspan=3 class="ident">Debug Info</td></tr>
-<tr><td>Position: <<print setup.sexPos[$sex.pos].longName>></td>
-<td>Connected: <<print setup.sexPos[$sex.pos].prime.connected>></td>
-<td>ConPoints: <<print setup.sexPos[$sex.pos].prime.pcConPoint>>,<<print setup.sexPos[$sex.pos].prime.npcConPoint>></td></tr>
-<tr><td>PC Facing: <<print setup.sexPos[$sex.pos].prime.pcFacing>></td>
-<td>NPC Facing: <<print setup.sexPos[$sex.pos].prime.npcFacing>></td>
-<td>Last Act: <<print $sex.pcAct>></td></tr></table>
+<tr><td>Position: <<print setup.sexPos[ↂ.sex.pos].longName>></td>
+<td>Connected: <<print setup.sexPos[ↂ.sex.pos].prime.connected>></td>
+<td>ConPoints: <<print setup.sexPos[ↂ.sex.pos].prime.pcConPoint>>,<<print setup.sexPos[ↂ.sex.pos].prime.npcConPoint>></td></tr>
+<tr><td>PC Facing: <<print setup.sexPos[ↂ.sex.pos].prime.pcFacing>></td>
+<td>NPC Facing: <<print setup.sexPos[ↂ.sex.pos].prime.npcFacing>></td>
+<td>Last Act: <<print ↂ.sex.pcAct>></td></tr></table>
 
 </div>
-<<if $sex.orgCountPC < 1>>
+<<if ↂ.sex.orgCountPC < 1>>
   <div id="actionSex">
   <table>
   <tr><td colspan=2><table id="invisTable"><tr>
@@ -95,7 +95,7 @@
   </td></tr><tr><td style="width:1px"><br><br><br><br><br></td><td id="sexActButtons">
   <<include [[sexSceneDisplayButts]]>>
   </td></tr><tr><td colspan=2 id="sexActHovertext">
-  <span id="targetname" class="ship"><<if $sex.target != "none">>Target: <<print $NPC[$sex.activeNPC[$sex.target]].main.name>> <<print $NPC[$sex.activeNPC[$sex.target]].main.surname.slice(0,1)>>. <</if>></span><<insertion sexacttab1>>Do something involving your hands.<<endinsertion>><<insertion sexacttab2>>Do something involving your mouth.<<endinsertion>><<insertion sexacttab3>>Say something, or at least make some sort of noise.<<endinsertion>><<insertion sexacttab4>>Change your movement or change position.<<endinsertion>><<insertion sexacttab5>>Do something kinky!<<endinsertion>><<insertion sexacttab6>>Do something that doesn't fit into the other categories.<<endinsertion>><<insertion sexacttab9>>Change the NPC you are targeting with your action (if relevant). Not all actions require a target.<<endinsertion>><<insertion sexacttab7>>Repeat your previous action.<<endinsertion>><<insertion sexacttab8>>Go with the flow. Don't do anything special, and just keep going with whatever you're doing.<<endinsertion>><<insertion actmenulicksomething>>Lick part of--or a place on--your target's body.<<endinsertion>>
+  <span id="targetname" class="ship"><<if ↂ.sex.target != "none">>Target: <<print aw.npc[ↂ.sex.activeNPC[ↂ.sex.target]].main.name>> <<print aw.npc[ↂ.sex.activeNPC[ↂ.sex.target]].main.surname.slice(0,1)>>. <</if>></span><<insertion sexacttab1>>Do something involving your hands.<<endinsertion>><<insertion sexacttab2>>Do something involving your mouth.<<endinsertion>><<insertion sexacttab3>>Say something, or at least make some sort of noise.<<endinsertion>><<insertion sexacttab4>>Change your movement or change position.<<endinsertion>><<insertion sexacttab5>>Do something kinky!<<endinsertion>><<insertion sexacttab6>>Do something that doesn't fit into the other categories.<<endinsertion>><<insertion sexacttab9>>Change the NPC you are targeting with your action (if relevant). Not all actions require a target.<<endinsertion>><<insertion sexacttab7>>Repeat your previous action.<<endinsertion>><<insertion sexacttab8>>Go with the flow. Don't do anything special, and just keep going with whatever you're doing.<<endinsertion>><<insertion actmenulicksomething>>Lick part of--or a place on--your target's body.<<endinsertion>>
   <<set _positions = Object.keys(setup.sexPos)>>
   <<set _posLength = _positions.length>>
   <<for _i = 0; _i < _posLength; _i++>>
@@ -110,7 +110,7 @@
   </table>
   </div>
 <<else>>
-<<button "Continue">><<goto [[sexSceneControl]]>><</button>>
+<<button "Continue">><<go sexSceneControl>><</button>>
 <</if>>
 <<procE>>
 <<timed 3s>>
@@ -122,48 +122,48 @@
 
 :: SexSceneDisplayTabs [nobr]
 
-<<switch $sex.tabs>>
+<<switch ↂ.sex.tabs>>
 <<case 1>>
   <<hoverrevise sexacttab1>>@@.curtab;<<button "Touch">><</button>>@@<<endhoverrevise>>
-  <<hoverrevise sexacttab2>><<button "Kiss">><<set $sex.tabs = 2>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab3>><<button "Speak">><<set $sex.tabs = 3>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab4>><<button "Move">><<set $sex.tabs = 4>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab5>><<button "Kink">><<set $sex.tabs = 5>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab6>><<button "Other">><<set $sex.tabs = 6>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab2>><<button "Kiss">><<set ↂ.sex.tabs = 2>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab3>><<button "Speak">><<set ↂ.sex.tabs = 3>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab4>><<button "Move">><<set ↂ.sex.tabs = 4>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab5>><<button "Kink">><<set ↂ.sex.tabs = 5>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab6>><<button "Other">><<set ↂ.sex.tabs = 6>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
 <<case 2>>
-  <<hoverrevise sexacttab1>><<button "Touch">><<set $sex.tabs = 1>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab1>><<button "Touch">><<set ↂ.sex.tabs = 1>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
   <<hoverrevise sexacttab2>>@@.curtab;<<button "Kiss">><</button>>@@<<endhoverrevise>>
-  <<hoverrevise sexacttab3>><<button "Speak">><<set $sex.tabs = 3>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab4>><<button "Move">><<set $sex.tabs = 4>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab5>><<button "Kink">><<set $sex.tabs = 5>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab6>><<button "Other">><<set $sex.tabs = 6>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab3>><<button "Speak">><<set ↂ.sex.tabs = 3>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab4>><<button "Move">><<set ↂ.sex.tabs = 4>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab5>><<button "Kink">><<set ↂ.sex.tabs = 5>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab6>><<button "Other">><<set ↂ.sex.tabs = 6>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
 <<case 3>>
-  <<hoverrevise sexacttab1>><<button "Touch">><<set $sex.tabs = 1>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab2>><<button "Kiss">><<set $sex.tabs = 2>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab1>><<button "Touch">><<set ↂ.sex.tabs = 1>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab2>><<button "Kiss">><<set ↂ.sex.tabs = 2>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
   <<hoverrevise sexacttab3>>@@.curtab;<<button "Speak">><</button>>@@<<endhoverrevise>>
-  <<hoverrevise sexacttab4>><<button "Move">><<set $sex.tabs = 4>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab5>><<button "Kink">><<set $sex.tabs = 5>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab6>><<button "Other">><<set $sex.tabs = 6>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab4>><<button "Move">><<set ↂ.sex.tabs = 4>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab5>><<button "Kink">><<set ↂ.sex.tabs = 5>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab6>><<button "Other">><<set ↂ.sex.tabs = 6>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
 <<case 4>>
-  <<hoverrevise sexacttab1>><<button "Touch">><<set $sex.tabs = 1>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab2>><<button "Kiss">><<set $sex.tabs = 2>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab3>><<button "Speak">><<set $sex.tabs = 3>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab1>><<button "Touch">><<set ↂ.sex.tabs = 1>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab2>><<button "Kiss">><<set ↂ.sex.tabs = 2>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab3>><<button "Speak">><<set ↂ.sex.tabs = 3>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
   <<hoverrevise sexacttab4>>@@.curtab;<<button "Move">><</button>>@@<<endhoverrevise>>
-  <<hoverrevise sexacttab5>><<button "Kink">><<set $sex.tabs = 5>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab6>><<button "Other">><<set $sex.tabs = 6>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab5>><<button "Kink">><<set ↂ.sex.tabs = 5>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab6>><<button "Other">><<set ↂ.sex.tabs = 6>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
 <<case 5>>
-  <<hoverrevise sexacttab1>><<button "Touch">><<set $sex.tabs = 1>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab2>><<button "Kiss">><<set $sex.tabs = 2>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab3>><<button "Speak">><<set $sex.tabs = 3>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab4>><<button "Move">><<set $sex.tabs = 4>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab1>><<button "Touch">><<set ↂ.sex.tabs = 1>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab2>><<button "Kiss">><<set ↂ.sex.tabs = 2>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab3>><<button "Speak">><<set ↂ.sex.tabs = 3>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab4>><<button "Move">><<set ↂ.sex.tabs = 4>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
   <<hoverrevise sexacttab5>>@@.curtab;<<button "Kink">><</button>>@@<<endhoverrevise>>
-  <<hoverrevise sexacttab6>><<button "Other">><<set $sex.tabs = 6>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab6>><<button "Other">><<set ↂ.sex.tabs = 6>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
 <<case 6>>
-  <<hoverrevise sexacttab1>><<button "Touch">><<set $sex.tabs = 1>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab2>><<button "Kiss">><<set $sex.tabs = 2>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab3>><<button "Speak">><<set $sex.tabs = 3>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab4>><<button "Move">><<set $sex.tabs = 4>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
-  <<hoverrevise sexacttab5>><<button "Kink">><<set $sex.tabs = 5>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab1>><<button "Touch">><<set ↂ.sex.tabs = 1>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab2>><<button "Kiss">><<set ↂ.sex.tabs = 2>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab3>><<button "Speak">><<set ↂ.sex.tabs = 3>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab4>><<button "Move">><<set ↂ.sex.tabs = 4>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
+  <<hoverrevise sexacttab5>><<button "Kink">><<set ↂ.sex.tabs = 5>><<replace "#actionSexTabs">><<include [[SexSceneDisplayTabs]]>><</replace>><<replace "#sexActButtons">><<include [[sexSceneDisplayButts]]>><</replace>><</button>><<endhoverrevise>>
   <<hoverrevise sexacttab6>>@@.curtab;<<button "Other">><</button>>@@<<endhoverrevise>>
 <<case default>>
   ERROR
@@ -173,16 +173,16 @@
 :: sexSceneQuickButtons [nobr]
 
 <<hoverrevise sexacttab9>>@@.sex-redo-button;<<link [img[Choose Target|IMGsexTarget]]>><<include [[SexSceneChooseTarget]]>><</link>>@@<<endhoverrevise>>
-<<hoverrevise sexacttab7>>@@.sex-redo-button;<<link [img[Redo Action|IMGredoArrow]]>><<if setup.sexActs[$pcAct].allowed>><<set $sex.pcLastAct = $sex.pcAct>><<run $sex.pcActRecord.push($sex.pcAct)>><<run setup.sex.action($sex.pcAct)>><<goto [[sexSceneControl]]>><<else>><<run alert("The previous action is no longer possible...  Right now it's a known issue that you have to be on the correct tab for your last action to work.")>><</if>><</link>>@@<<endhoverrevise>>
-<<hoverrevise sexacttab8>>@@.sex-redo-button;<<link [img[Do Nothing|IMGdownChevCircle]]>><<set $sex.pcLastAct = $sex.pcAct>><<run $sex.pcActRecord.push("skip")>><<set $sex.pcAct = "skip">><<goto [[sexSceneControl]]>><</link>>@@<<endhoverrevise>>
+<<hoverrevise sexacttab7>>@@.sex-redo-button;<<link [img[Redo Action|IMGredoArrow]]>><<if setup.sexActs[$pcAct].allowed>><<set ↂ.sex.pcLastAct = ↂ.sex.pcAct>><<run ↂ.sex.pcActRecord.push(ↂ.sex.pcAct)>><<run setup.sex.action(ↂ.sex.pcAct)>><<go sexSceneControl>><<else>><<run UI.alert("The previous action is no longer possible...  Right now it's a known issue that you have to be on the correct tab for your last action to work.")>><</if>><</link>>@@<<endhoverrevise>>
+<<hoverrevise sexacttab8>>@@.sex-redo-button;<<link [img[Do Nothing|IMGdownChevCircle]]>><<set ↂ.sex.pcLastAct = ↂ.sex.pcAct>><<run ↂ.sex.pcActRecord.push("skip")>><<set ↂ.sex.pcAct = "skip">><<go sexSceneControl>><</link>>@@<<endhoverrevise>>
 
 
 :: sexSceneDisplayButts [nobr]
 
 
-<<if $sex.tabs == 4>>
+<<if ↂ.sex.tabs == 4>>
 <<button "< Slow Down">><</button>><<silently>>
-<<switch $sex.speed>>
+<<switch ↂ.sex.speed>>
 <<case 0>>
   <<set _speedout = "N/A">>
 <<case 1>>
@@ -209,9 +209,9 @@
 <<for _i = 0; _i < _posLength; _i++>>
   <<print setup.sexPos[_positions[_i]].button>>
 <</for>>
-<<elseif $sex.tabs == 6>>
-<<button "Quit">><<set $sex.orgCountPC = 1>><<goto [[sexSceneControl]]>><</button>>
-<<elseif $sex.tabs == 2>>
+<<elseif ↂ.sex.tabs == 6>>
+<<button "Quit">><<set ↂ.sex.orgCountPC = 1>><<go sexSceneControl>><</button>>
+<<elseif ↂ.sex.tabs == 2>>
 <<hoverrevise actmenulicksomething>><<button "Lick Something">><<dialog "Lick Something">><<for _i = 0; _i < 16;_i++>><<print setup.sexActs.lickSomething.button>><</for>><br><<print setup.sexActs.lickSomething.hovtext>><</dialog>><</button>><<endhoverrevise>>
 <</if>>
 <<set _num = Object.keys(setup.sexActs).length>>
@@ -227,46 +227,46 @@
 <<dialog "Choose Target">>
 <table>
 <tr><td style="width:50%">
-<<if $sex.npcCount > 0>>
-  <<set _name = $NPC[$sex.activeNPC[0]].main.name + " " + $NPC[$sex.activeNPC[0]].main.surname>>
-  @@.butt90;<<button _name>><<set $sex.target = 0>><<goto [[SexSceneDisplay]]>><<run Dialog.close()>><</button>><br>@@
+<<if ↂ.sex.npcCount > 0>>
+  <<set _name = aw.npc[ↂ.sex.activeNPC[0]].main.name + " " + aw.npc[ↂ.sex.activeNPC[0]].main.surname>>
+  @@.butt90;<<button _name>><<set ↂ.sex.target = 0>><<go SexSceneDisplay>><<run Dialog.close()>><</button>><br>@@
 <</if>>
-<<if $sex.npcCount > 1>>
-  <<set _name = $NPC[$sex.activeNPC[1]].main.name + " " + $NPC[$sex.activeNPC[1]].main.surname>>
-  @@.butt90;<<button _name>><<set $sex.target = 1>><<goto [[SexSceneDisplay]]>><<run Dialog.close()>><</button>><br>@@
+<<if ↂ.sex.npcCount > 1>>
+  <<set _name = aw.npc[ↂ.sex.activeNPC[1]].main.name + " " + aw.npc[ↂ.sex.activeNPC[1]].main.surname>>
+  @@.butt90;<<button _name>><<set ↂ.sex.target = 1>><<go SexSceneDisplay>><<run Dialog.close()>><</button>><br>@@
 <</if>>
-<<if $sex.npcCount > 2>>
-  <<set _name = $NPC[$sex.activeNPC[2]].main.name + " " + $NPC[$sex.activeNPC[2]].main.surname>>
-  @@.butt90;<<button _name>><<set $sex.target = 2>><<goto [[SexSceneDisplay]]>><<run Dialog.close()>><</button>><br>@@
+<<if ↂ.sex.npcCount > 2>>
+  <<set _name = aw.npc[ↂ.sex.activeNPC[2]].main.name + " " + aw.npc[ↂ.sex.activeNPC[2]].main.surname>>
+  @@.butt90;<<button _name>><<set ↂ.sex.target = 2>><<go SexSceneDisplay>><<run Dialog.close()>><</button>><br>@@
 <</if>>
-<<if $sex.npcCount > 3>>
-  <<set _name = $NPC[$sex.activeNPC[3]].main.name + " " + $NPC[$sex.activeNPC[3]].main.surname>>
-  @@.butt90;<<button _name>><<set $sex.target = 3>><<goto [[SexSceneDisplay]]>><<run Dialog.close()>><</button>><br>@@
+<<if ↂ.sex.npcCount > 3>>
+  <<set _name = aw.npc[ↂ.sex.activeNPC[3]].main.name + " " + aw.npc[ↂ.sex.activeNPC[3]].main.surname>>
+  @@.butt90;<<button _name>><<set ↂ.sex.target = 3>><<go SexSceneDisplay>><<run Dialog.close()>><</button>><br>@@
 <</if>>
-<<if $sex.npcCount > 4>>
-  <<set _name = $NPC[$sex.activeNPC[4]].main.name + " " + $NPC[$sex.activeNPC[4]].main.surname>>
-  @@.butt90;<<button _name>><<set $sex.target = 4>><<goto [[SexSceneDisplay]]>><<run Dialog.close()>><</button>>@@
+<<if ↂ.sex.npcCount > 4>>
+  <<set _name = aw.npc[ↂ.sex.activeNPC[4]].main.name + " " + aw.npc[ↂ.sex.activeNPC[4]].main.surname>>
+  @@.butt90;<<button _name>><<set ↂ.sex.target = 4>><<go SexSceneDisplay>><<run Dialog.close()>><</button>>@@
 <</if>>
 </td><td>
-<<if $sex.npcCount > 5>>
-  <<set _name = $NPC[$sex.activeNPC[5]].main.name + " " + $NPC[$sex.activeNPC[5]].main.surname>>
-  @@.butt90;<<button _name>><<set $sex.target = 5>><<goto [[SexSceneDisplay]]>><<run Dialog.close()>><</button>><br>@@
+<<if ↂ.sex.npcCount > 5>>
+  <<set _name = aw.npc[ↂ.sex.activeNPC[5]].main.name + " " + aw.npc[ↂ.sex.activeNPC[5]].main.surname>>
+  @@.butt90;<<button _name>><<set ↂ.sex.target = 5>><<go SexSceneDisplay>><<run Dialog.close()>><</button>><br>@@
 <</if>>
-<<if $sex.npcCount > 6>>
-  <<set _name = $NPC[$sex.activeNPC[6]].main.name + " " + $NPC[$sex.activeNPC[6]].main.surname>>
-  @@.butt90;<<button _name>><<set $sex.target = 6>><<goto [[SexSceneDisplay]]>><<run Dialog.close()>><</button>><br>@@
+<<if ↂ.sex.npcCount > 6>>
+  <<set _name = aw.npc[ↂ.sex.activeNPC[6]].main.name + " " + aw.npc[ↂ.sex.activeNPC[6]].main.surname>>
+  @@.butt90;<<button _name>><<set ↂ.sex.target = 6>><<go SexSceneDisplay>><<run Dialog.close()>><</button>><br>@@
 <</if>>
-<<if $sex.npcCount > 7>>
-  <<set _name = $NPC[$sex.activeNPC[7]].main.name + " " + $NPC[$sex.activeNPC[7]].main.surname>>
-  @@.butt90;<<button _name>><<set $sex.target = 7>><<goto [[SexSceneDisplay]]>><<run Dialog.close()>><</button>><br>@@
+<<if ↂ.sex.npcCount > 7>>
+  <<set _name = aw.npc[ↂ.sex.activeNPC[7]].main.name + " " + aw.npc[ↂ.sex.activeNPC[7]].main.surname>>
+  @@.butt90;<<button _name>><<set ↂ.sex.target = 7>><<go SexSceneDisplay>><<run Dialog.close()>><</button>><br>@@
 <</if>>
-<<if $sex.npcCount > 8>>
-  <<set _name = $NPC[$sex.activeNPC[8]].main.name + " " + $NPC[$sex.activeNPC[8]].main.surname>>
-  @@.butt90;<<button _name>><<set $sex.target = 8>><<goto [[SexSceneDisplay]]>><<run Dialog.close()>><</button>><br>@@
+<<if ↂ.sex.npcCount > 8>>
+  <<set _name = aw.npc[ↂ.sex.activeNPC[8]].main.name + " " + aw.npc[ↂ.sex.activeNPC[8]].main.surname>>
+  @@.butt90;<<button _name>><<set ↂ.sex.target = 8>><<go SexSceneDisplay>><<run Dialog.close()>><</button>><br>@@
 <</if>>
-<<if $sex.npcCount > 9>>
-  <<set _name = $NPC[$sex.activeNPC[9]].main.name + " " + $NPC[$sex.activeNPC[9]].main.surname>>
-  @@.butt90;<<button _name>><<set $sex.target = 9>><<goto [[SexSceneDisplay]]>><<run Dialog.close()>><</button>>@@
+<<if ↂ.sex.npcCount > 9>>
+  <<set _name = aw.npc[ↂ.sex.activeNPC[9]].main.name + " " + aw.npc[ↂ.sex.activeNPC[9]].main.surname>>
+  @@.butt90;<<button _name>><<set ↂ.sex.target = 9>><<go SexSceneDisplay>><<run Dialog.close()>><</button>>@@
 <</if>>
 </td></tr></table>
 <</dialog>>

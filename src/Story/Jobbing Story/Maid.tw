@@ -1,0 +1,370 @@
+/*
+    888888  .d88888b.  888888b.        88888888888 888       888 8888888888 8888888888
+      "88b d88P" "Y88b 888  "88b           888     888   o   888 888        888
+       888 888     888 888  .88P           888     888  d8b  888 888        888
+       888 888     888 8888888K.           888     888 d888b 888 8888888    8888888
+       888 888     888 888  "Y88b          888     888d88888b888 888        888
+       888 888     888 888    888          888     88888P Y88888 888        888
+       88P Y88b. .d88P 888   d88P          888     8888P   Y8888 888        888
+       888  "Y88888P"  8888888P"           888     888P     Y888 8888888888 8888888888
+     .d88P
+   .d88P"
+  888P"
+  8888888b.     d8888  .d8888b.   .d8888b.        d8888  .d8888b.  8888888888 .d8888b.
+  888   Y88b   d88888 d88P  Y88b d88P  Y88b      d88888 d88P  Y88b 888       d88P  Y88b
+  888    888  d88P888 Y88b.      Y88b.          d88P888 888    888 888       Y88b.
+  888   d88P d88P 888  "Y888b.    "Y888b.      d88P 888 888        8888888    "Y888b.
+  8888888P" d88P  888     "Y88b.     "Y88b.   d88P  888 888  88888 888           "Y88b.
+  888      d88P   888       "888       "888  d88P   888 888    888 888             "888
+  888     d8888888888 Y88b  d88P Y88b  d88P d8888888888 Y88b  d88P 888       Y88b  d88P
+  888    d88P     888  "Y8888P"   "Y8888P" d88P     888  "Y8888P88 8888888888 "Y8888P"
+*/
+
+
+:: FirstDayEvent1 [nobr]
+
+<<set ↂ.flag.jobEvents.maid.firstDay = false>>
+When you arrive at the office, mademoiselle Souillon, a still beautiful woman in her mid-40 and the CEO of her company greets you to give you and the two other newcomers what she calls "a brief introduction". 
+<br><br>
+@@.npc; Oh, mon dieu! It is such a delight to see your pretty little faces, so eager to start your very first day! You can just call me Alice! Being "la femme de chambre" is much more than just a job, it is a form of art! A destination! Only le meilleur du meilleur can proudly call themselves my maids! And you are the ones, my petite little junior féminins!@@
+<br><br>
+You are pretty sure that the red haired girl to your left imperceptibly grunts something like @@.npc;If not the money you'd never see me here, french cunt.@@ It seems that your enthusiastic boss does not notice the remark.
+<br><br>
+Mademoiselle continues her excited twittering for about half an hour. After listening that terrible mess of both English and French you got some important information; the main thing was that all maids are contracted to a particular client which you must consider your "boss" for the duration of your contract. Achieving higher qualifications and generally getting things done can grant you a promotion, which usually means that you'll be assigned to more valuable and important clients. The progress in your workplace is usually gathered through getting feedback from your current boss and your "coworkers" - other personnel like gardeners, drivers and even other maids in especially big estates and mansions.
+<br><br>
+The second thing is that you're expected to wear a uniform - some kind of maid dress. Luckily, the outfit will be provided by the company, so your only concern will be keeping it clean.
+<br><br>
+While taking maid courses from the company is not obligatory it is heavily recommended for gaining the proper skills.
+<br><br>After wishing you all the best of luck mademoiselle Alice finally sends you to the Prime maid
+<<link "to get your uniform and advanced instructions">>
+  <<scenego "FirstDayEvent2">>
+<</link>>.
+
+
+:: FirstDayEvent2 [nobr]
+
+<<set ↂ.ward.dress.push("tvvv")>>
+<<run setup.clothes.remove("top")>>
+<<run setup.clothes.remove("bottom")>>
+<<run setup.clothes.wear("tvvv")>>
+Prime maid is a big woman with a stern bulldog face.
+<br><br>
+@@.npc;
+You are all new girls? Good. Now we will try to make proper ladies from you, redneck chumps.
+@@
+<br><br>
+You spend two hours with her, quickly learning all the rules of etiquette and proper behavior from a thick booklet. After ensuring that you will never ever forget all the ridiculous "A proper maid will always call the house owner Sir and his spouse Mistress" and such rules, she takes you three to the stockroom to supply you with uniform dresses of your size. 
+<br><br>
+@@.npc;
+Here are your assignments, these gentlemen are your bosses now. They say "Mop the floor once again" and you do that. They say "Clean it with your tongue" and you do that too, got it? Our clients always must be 100% satisfied, no matter what it takes. Now get dressed and get out of here already. Work awaits.
+@@
+<br><br>
+A little bit shocked you take your gowns and get dresses one after another in the small WC stall. You are first and after changing realized that dress is really short and barely covers your butt.
+<<if ↂ.pc.kink.exhibition>>
+<br><br>
+@@.mono;Wow, these maids are pro in showing the tasty bits, I already like this job!@@
+<br><br>
+<<elseif ↂ.pc.kink.liberate || ↂ.pc.kink.slut>>
+<br><br>
+@@.mono;Well this dress can't be called the most modest, but I am certainly not the one who will blame for that.@@
+<br><br>
+<<elseif ↂ.pc.kink.shame>>
+<br><br>
+@@.mono;Uh-oh, that dress is terrible! How I will do my duties when it gets my... "upper thighs" so revealed when I bend forward even a bit?!@@
+<br><br>
+<<else>>
+<br><br>
+@@.mono;Oh, that dress is really short!@@
+<br><br>
+<</if>>
+The next is the red-haired girl and she comes out as red as a tomato, desperately trying to pull the hem of her uniform down. You decide that you don't really need to wait for the other girls to change. You were all intended to head to different mansions, so after wishing them luck with their "bosses" you head to the car to get to the house of your first "client" to <<link "start your first work day">><<sceneclose>><</link>>...
+
+
+:: MaidNoDress [nobr]
+
+You enter the clients house and go straight to the storage room to get your cleaning supplies. On your way you meet mister <<= ↂ.job.rules.boss>>, your current client and the owner of the house.
+<br><br>
+<<has flirty||extro>>@@.pc;Good morning, what a nice day, isn't it?@@
+<<orhas shy||intro>>@@.pc;mmhm... Good morning.@@<<or>>
+@@.pc;Good morning!@@<</has>>
+<br><br>
+<<if ↂ.pc.trait.perceptive != -1>>It seems, your boss is frowning<</if>>
+<br><br>
+@@.npc;Ms.<<= ↂ.pc.main.surname>>, why are not dressed properly today?@@
+<br><br>
+@@.mono;Oops.@@
+<<dialogchoice>>
+  <<dbutt "Lie" "(ↂ.pc.trait.devious > -1)">><<scenego "MaidNoDress-Dirty">>
+  <<dtext "sad">>Tell some lies to avoid punishment.
+  <<dbutt "Sorry">><<scenego "MaidNoDress-Sorry">>
+  <<dtext "angel">>I am so sorry, this will never happen again!
+  <<dbutt "Redeem" "ↂ.pc.kink.slut">><<scenego "MaidNoDress-Redeem">>
+  <<dtext "bimbo">>Oh, I was a bad girl for sure, but maybe we can settle this out?
+  <<dbutt "Not sorry" "ↂ.pc.trait.bitch">><<scenego "MaidNoDress-NotSorry">>
+  <<dtext "mad">>I am dressed the way it is convenient to do this shitty job.
+<</dialogchoice>>
+
+
+:: MaidNoDress-Dirty [nobr]
+
+<<set _rand = random(1,3)>><<if _rand === 1>>@@.pc;I just fell on my way here and it got dirty! I had no time to clean it. I even hit my knee and now it really hurts. Somebody must do something with those sidewalks, really!@@
+<<elseif _rand === 2>>@@.pc;My current uniform got ripped and they need to send me the replacement but it seems that something got wrong and I got wrong sized dress!@@
+<<else>>@@.pc;My dog chewed the dress yesterday! Dumb dog literally ripped it to pieces! Please, don't call the office or they will kill me!@@
+<</if>>
+<br><br>
+<<SCX>><<SC "CM" "20">><<if $SCresult[1]>>It seems he believed in your lies.
+<br><br>
+@@.npc;I am sorry to hear it. Of course, you can work in your regular clothes today, I will not tell your office.@@
+<br><br>
+@@.pc;Oh, thank you so much! I will clean it and will be dressed properly next time!@@
+<br><br>
+@@.npc;No problem. Okay, I have to go to the important meeting and I will be late so you will already finish your work probably. Pay special attention to the bathroom today, there is some smell I don't like.@@
+<br><br>
+<<link "You nod and start your duties.">><<sceneclose>><</link>>
+<<else>><<set ↂ.job.stats.boss -= 8>>
+@@.npc;I am supposed to believe this?@@
+<br><br>
+@@.pc;Well, it is... I mean it is true, I fell and...@@
+<br><br>
+@@.npc;I really doubt your story, ms.<<= ↂ.pc.main.surname>>. I guess I should call the office and ask them what is happening. I pay enough money to get proper service I believe.@@
+<br><br>
+<<dialogchoice>>
+  <<dbutt "Sorry">><<scenego "MaidNoDress-Sorry">>
+  <<dtext "angel">>I am so sorry, this will never happen again, sir!
+  <<dbutt "Seduce" "ↂ.pc.kink.slut">><<scenego "MaidNoDress-Redeem">>
+  <<dtext "bimbo">>Please, don't do that! I am sure I can convince you... some way...
+<</dialogchoice>>
+<</if>>
+
+
+:: MaidNoDress-Sorry [nobr]
+
+<<set ↂ.job.stats.boss -= 6>><<set ↂ.flag.jobEvents.maid.fuckedUp += 1>>
+@@.pc;I am so sorry, this will never happen again, sir!@@
+<br><br>
+@@.npc;I really hope for this. You better try harder if you want this job, ms.<<= ↂ.pc.main.surname>>.@@
+<br><br>
+<<link "Of course I will, sir.">><<sceneclose>><</link>>
+
+
+:: MaidNoDress-Redeem [nobr]
+
+@@.pc;Oh, I was a bad girl for sure, but maybe we can settle this out?@@
+<br><br>
+@@.npc;You mean like...?@@
+<br><br>
+You take a few steps to him and place the palm on his crotch.
+<br><br>
+@@.pc;...like this way.@@
+<br><br>
+<<SCX>><<SC "SD" "5">><<SC "OR" "15">><<if $SCresult[1]>><<set ↂ.job.stats.boss += 6>>
+@@.npc;Oh... I guess... it can solve the situation...@@
+<br><br>
+You stand on your knees and undone his zipper. <<if ↂ.job.stats.rank === 2>>His boner is raging already and it takes you some effort to free it from his pants.<<else>>His limp noodle is barely filled with blood and it takes you some mintues to finally get it at least semi-erect. <</if>>You wrap your <<p lips.q ["mod" v]>> lips around his cock and start sucking it with increasing vigor. <<if $SCresult[2]>><<set ↂ.job.stats.boss += 5>>Your boss seems to like your apology a lot with his eyes clothed and breathing heavily.<<else>>Your boss seems to be not that impressed by your cocksucker skills but still gaining at least some pleasure from it.<</if>> You slowly work your way lower and lower onto the shaft, finally deeptroating it. <<has oral>><br><br>@@.mono;Mmmhm, I fucking love sucking it. If ever any problem could be solved like this...@@<br><br><</has>>You start sucking his prick on a full speed bumping into his pubes with your nose. <<if $SCresult[2]>>Without any visible efforts you deeptroat him over and over again.<<else>>You gag furiously on his cock while trying to deeptroat it, you are clearly lacking skills to do it properly.<</if>> After hitting the back of your throat for a dozen of times, his body starts jerking and hot spruts of warm cum fills your mouth. <<run setup.omni.new("cumMouth")>><<has cumslut>><br><br>@@.mono;Yeas, give me that sticky cum of yours!@@<br><br><</has>>You lick all the drips from his member and lean back a bit letting him to put his pants back on.
+<br><br>
+<<if $SCresult[1]>>
+@@.npc;Damn, you are good at it, girl! It seems I pay this maid company so much for a reason after all!@@
+<br><br>
+@@.pc;Did I earn my pardon today, sir?@@
+<br><br>
+@@.npc;Oh yeah. But you better wear this slutty dress next time, I like it.@@
+<br><br>
+<<link "Of course, sir.">><<sceneclose>><</link>>
+<<else>>
+@@.npc;Okay, you can consider yourself redeemed today. But next time I will really call your office, slut.@@
+<br><br>
+<<link "I will not dissapoint you, sir!">><<sceneclose>><</link>>
+<</if>>
+<<else>><<set ↂ.job.stats.boss -= 6>>
+He suddenly leans back from you.
+<br><br>
+@@.npc;Are you mad, bitch? You are here for cleaning the toilets, not my precious dick.@@
+<br><br>
+@@.pc;But I...@@
+<br><br>
+@@.npc;I can afford any whore I want and I don't need some questionable services from some cleaner girl. Go better scrub the shit from the floors or something.@@
+<br><br>
+<<link "Ugh.">><<sceneclose>><</link>>
+<</if>>
+
+
+:: MaidNoDress-NotSorry [nobr]
+
+<<set ↂ.job.stats.boss -= 18>><<set ↂ.flag.jobEvents.maid.fuckedUp += 3>>
+@@.pc;I am dressed the way it is convenient to do this shitty job.@@
+<br><br>
+@@.npc;Are you mad, bitch? I pay a fortune for this shit not for listening bullshit from arrogant cunts like you! I will call the office and I hope they will teach you some manners there. Now get the fuck out of here until I kick you out myself.@@
+<br><br>
+@@.pc;Screw you, dickhead! This job is a crap anyway.@@
+<br><br>
+<<link "Leave.">><<sceneclose>><<run setup.job.endJob()>><</link>>
+
+
+:: MaidFuckedUp [nobr]
+
+<<set ↂ.flag.jobEvents.maid.fuckedUp = 0>><<run setup.forbiddenList()>><<if !$censor.includes("bdsm") || !$censor.includes("torture") || !$censor.includes("sadomasochism")>>
+You are heading to the luxorious villa, your current workplace when you hear your phone buzzing.
+<br><br>
+<<texting "Maid Pouffiasse - HR department">>
+<<textnpc>>Miss <<= ↂ.pc.main.surname>>, you are required to visit the main office before your shift today.
+<<textpc>>Something is wrong?
+<<textnpc>>Prime maid expects your arrival withing one hour.
+<<textpc>>Okay, I'll be soon.
+<</texting>>
+<br><br>
+@@.mono;It seems they really want to see me for some reason...@@
+<br><br>
+<<link "Steer to the main office">><<scenego "MaidFuckedUp-2">><</link>>.
+<<else>><<run aw.cash(-100, "misc")>>
+You are heading to the luxorious villa, your current workplace when you hear your phone buzzing.
+<br><br>
+<<texting "Maid Pouffiasse - HR department">>
+<<textnpc>>Miss <<= ↂ.pc.main.surname>>, as we've been informed by your current client, quality of your work have dropped significantly, which is highly unnaceptable. Following the contract you have signed on accepting the job offer, 100₢ was substracted from your account to motivate you to pay more attention for your responsibilities. Maid Pouffiasse HR department wish you most good and productive day. 
+<</texting>>
+<br><br>
+@@.mono;Damn.@@
+<br><br>
+<<link "Drive to the villa">><<sceneclose>><</link>>.
+<</if>>
+
+
+:: MaidFuckedUp-2 [nobr]
+
+You arrive and park your car before making your way to the employee entrance around the building. It is much less pretensious and the hall is, ironically, not very clean with cofee spots on the cheap carpet and dumb motivational posters. The building insides are pretty confusing but thanks to your previous visit you know the way. Heading upstairs you arrive at the prime maid office door.
+<<if ↂ.pc.trait.perceptive === 1>><br><br>@@.mono;I have a bad feeling about all this...@@<br><br><</else>><br><br>@@.mono;I hope they want to give me a rise or something!@@<br><br><</if>>
+<<if ↂ.pc.trait.extro>>Without any second thoughts you bravely open and go in.<<elseif ↂ.pc.trait.extro>>Hestitating, you first knock the door before coming in.<<else>>You open the door and go inside.<</if>> Prime maid and mademoiselle Souillon are both there, sitting at the small coffee table having a morning cofee.
+<br><br>
+It takes you some time to notice the third person, young slim girl dressed in standard maid uniform though it seems to be even shorter that yours. She is holding a plate with teapot and some bisquits looking straight into the wall. Despite of holding obviously heavy plate she is staying so still she is barely distinguishable from the furniture.
+<br><br>
+@@.npc;Ah, miss <<= ↂ.pc.main.surname>> at last!@@
+<br><br>
+Mademoiselle seems to be less more cheerful than first time you saw her. She is watching at you clearly expecting something.
+<br><br>
+<<if ↂ.pc.trait.crude == -1>>Remembering your first-day training you manage to curtsy gracefully to the company owner.
+<br><br>
+@@.pc;Good morning, mademoiselle. You wanted to see me?@@
+<br><br>
+@@.npc;Good to see you remember at least something about how the proper maid shoud act. But reverence is not the only thing you need to do properly at this job. Your client complained a lot about quality of your service lately.@@
+<<else>> 
+You reach out for a handshake but mademoiselle ignores it.
+<br><br>
+@@.mono;Oh, I guess she was waiting me to do this silly reverence. If I'd only remember how to do that propely in the first place.@@
+<br><br>
+Under her cold stare you do something that resembles a curtsy.
+<br><br>
+@@.npc;Such a pathethical attempt, you look like a cow trying balance on the ice. С'est is not surprising that your current client complained about your services!@@
+<</if>>
+<br><br>
+@@.pc;Mister <<= ↂ.job.rules.boss>> was complaining about me?@@
+<br><br>
+@@.npc;Exactement. As you may know, the contract you've signed at your first day grants us wide opportunities to impy disciplinary measures on the employees. I hope todays will be enough to fix your flagrant behaviour, miss <<= ↂ.pc.main.surname>>. Camilla, darling, you can begin.@@
+<br><br>
+@@.pc;Begin what?!@@
+<br><br>
+Prime maid makes her way to you and you feel uneasy in the shadow of her sturdy figure.
+<br><br>
+@@.npc;Well, miss, could you kindly turn around, bend and put your hands on the back of this chair?@@
+<br><br>
+@@.pc;What are you going to...?@@
+<br><br>
+@@.npc;Right now, miss <<= ↂ.pc.main.surname>>!@@
+<br><br>
+<<dialogchoice>>
+  <<dbutt "Obey">><<scenego "MaidFuckedUp-2Caning">>
+  <<dtext "tired">>Do as Camilla told you.
+  <<dbutt "Refuse" "ↂ.pc.trait.will > 4">><<scenego "MaidFuckedUp-2Struggle">>
+  <<dtext "mad">>Resist her demands.
+<</dialogchoice>>
+
+
+:: MaidFuckedUp-2Caning [nobr]
+
+<<gate "sadomasochism" "bdsm" "torture">><<stress 5>><<set ↂ.pc.status.health -= 7>><<addtime 27>><<run setup.omni.new("soreButt")>>You do as you've been told assuming the embarassing position. With your hands on the chair you are bending with your <<p buttshape.q>> butt pointed towards all people in the room. You hear the fingersnap and heels knocking. Slim maid graciously goes around the chair and hold your wrists in position with her hands so her indifferent face is right in front of yours.
+<br><br>
+@@.npc;Good. Let's get you prepared now.@@
+<br><br>
+Camilla evenly undress your bottom making your <<if ↂ.pc.clothes.keys.panties === 0>>bare <<p ass.n>> to shine.
+<br><br>
+@@.pc;Why, what a view! I see you are not fond of wearing panties at all. Well, it is even better.@@
+<br><br>
+<<else>><<p ass.n>> to be covered only with panties. Prime maid put her hands on your hips and slide them down to your ankles leaving you completely nude.
+<br><br>
+<</if>>
+<<has slut || exhibition>><<arousal 1>>You feel excited being exposed like that and the arousal kicks in fast.<<orhas shame>><<stress 12>>You feel awful being exposed like that going tomato red in bare seconds. You  notice that maid holding your hands are watching your embarassed face with more intrested expression now.<<or>><<stress 5>>You feel terrible being exposed like that slowly blushing.<</has>>
+<br><br>
+@@.npc;How much, mademoiselle?@@
+<br><br>
+@@.npc;I guess 30 will be enough for now.@@
+<br><br>
+<<has maso>>
+You stay silently expecting pain in any moment. For some perverted reason the idea arouses you.<<arousal 1>>
+<<or>>
+You try to escape but maid is holding your wrists surprisingly hard and you just struggle for some time before firm slap on your <<p ass.n>> stops you.
+<br><br>
+<<if ↂ.pc.trait.bitch>><<anger 3>>
+@@.pc;Damn, let me out, you!@@
+<br><br>
+@@.npc;Well-well, what a language, mon chérie. I guess we will make it 40 just to be sure. You can begin, Camilla.@@
+<br><br>
+<<else>>
+@@.pc;Oh please, don't do this to me!@@
+<br><br>
+@@.npc;It is for your best, mon chérie. You can begin, Camilla.@@
+<br><br>
+<</if>>
+<</has>>
+You feel something cold gently touches your bare butt while Prime maid evaluates the target. Suddenly pressure dissapears and you squint expecting the hit. For a second or two nothing happens...
+<br><br>
+Without any warning your ass explodes with stinging pain when cane hits both asscheeks. You can't hold your squeal and jerk still being strictly held. The next stroke goes before the pain subsides and you almost jump once again. Again and again, Camilla tortures your poor ass with long and sturdy cane and soon tears start to un down your cheeks. <<has "masochist">>You start to get into trance-like state and evry new hit becomes less painful, it is almost pleasureable feeling now.<br><br>@@.mono;Why I enoy it so-OUCH-much? I feel I'm lea-OUCH-king like a whore now!@@<br><br><</has>>You open your eyes and see a smirk on slim maid's face, she is obviously enjoing your situation.<br><br>
+Suddenly, everything ends. You stand bended shivering and panting heavily expecting new strokes but it seems it is finally over. You hear clinging of the porcelane tea cup and heels knocking while mademoiselle Souillon approach you from behind.
+<br><br>
+@@.npc;Well, let's see if the lesson was understood.@@
+<br><br>
+She strokes your <<p ass.n>> with fingers and you tingle when she gets over slightly bumping marks with her fingertips. Satisfied with results, she wave her hand and maid lets you free. Taking you for the elbow, mademoiselle leads you to the mirror in the corner of the room and rotate you slightly so you can see your poor ass with long bright red marks going over it.
+<br><br>
+@@.npc;Now, tell me that you will be a very good girl and will work with your best determination, my darling.@@
+<br><br>
+You still catching with your breath and only able to nod embarassingly.
+<br><br>
+@@.npc;Admirablement! Now dress yourself properly and you can proceed to do your job.@@
+<br><br>
+Under three stares you put your clothes back on and almost run out of the room. Your butt now aching badly and when you take your soft seat in a car it hits you with new pain. You spend some time regaining your senses and wiping tears before finally starting the engine.
+<br><br>
+<<has shame>><<stress 9>>@@.mono;This was the worst thing ever... I... I just feel like crushed...@@
+<<orhas maso | sub>>@@.mono;I... did I like it? It was so humiliating, embarassing and painful and I still like... want... more of it?@@
+<<or>>
+@@.mono;They... did they really had rights to do that to me by conract? I can't believe it!@@
+<</has>>
+<br><br>
+<</gate>>
+<<link "Drive to the villa">><<sceneclose>><</link>>.
+
+
+:: MaidFuckedUp-2Struggle [nobr]
+
+<<stress 5>><<anger 2>><<addtime 1>>After hestitating for a moment you resolutely shake your head.
+<br><br>
+@@.pc;Whatever you want to do to me I am a free person not your property. I am out of here.@@
+<br><br>
+You make a few steps out to the door when cold mademoiselles voice stops you.
+<br><br>
+@@.npc;Miss <<= ↂ.pc.main.surname>>, I insist you to reconsider you decision. If you will leave through this door you will break your contract and will be fired with worst recommendations, not to mention financial penalization. In your situation I would reccomend you to obey Camilla and don't make your situation worse.@@
+<br><br>
+<<dialogchoice>>
+  <<dbutt "Leave">><<scenego "MaidFuckedUp-3Leave">>
+  <<dtext "arrogant">>Go through the door.
+  <<dbutt "Return">><<scenego "MaidFuckedUp-2Caning">>
+  <<dtext "sad">>Get back to the Prime maid to accept your correction.
+<</dialogchoice>>
+
+
+:: MaidFuckedUp-3Leave [nobr]
+
+<<stress 7>><<addtime 3>>You go out from the door and make your way out to the parking lot and sit in the car.
+<br><br>
+@@.mono;It seems I just lost my job. At least I avoided this tomfuckery they was preparing for me...@@
+<br><br>
+<<comment "For now you can't be really fired due to framework limitations. But soon this decision will lead to some real consequences!">>
+<<link "You get into the car and start the engine.">><<sceneclose>><</link>>
+
+

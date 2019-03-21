@@ -2,38 +2,26 @@
 
 <div id="cardback">
 <<status 1>>
-<<if !$gamestate.completePrologue>>
-  <<set $gamestate.completePrologue = true>>
-  <<set $gamestate.unlocks.push("Prologue");>>
-  <<run setup.storeState()>>
+<<if !setup.achieve.isUnlocked("Prologue skip")>>
+  <<unlock "Prologue skip">>
 <</if>>
-<<set $flag.Prologue = false>>
-<<set $plans[1][2] = []>>
-<<run setup.time.set(11,37,false,true)>>
-<<set _days = 7 - $date[0]>>
-<<if _days > 0>>
-  <<for _i to 0; _i < _days; _i++>>
-    <<set $dayChange = false>>
-    <<run setup.time.dateChange()>>
-    <<set $PC.status.satisfaction -= random(1,5)>>
-  <</for>>
-<</if>>
-<<set $dayChange = false>>
-<<set $PC.status.arousal = 1>>
-<<if $PC.status.satisfaction < 7>>
-  <<set $PC.status.satisfaction = random(5,7)>>
-<</if>>
-<<set $PC.status.fatigue = 1>>
-<<set $PC.status.inPublic = false>>
-<<set $PC.status.energy.amt = ($PC.body.energy - 1)>>
-<<if $date[0] != 7 || $date[1] != 1 || $date[2] != 4>>
-  <<set $date[0] = 7>>
-  <<set $date[1] = 1>>
-  <<set $date[2] = 4>>
-<</if>>
-<<set $sched.sleepWarnOn = true>>
+<<set aw.omni = {}>>
+<<set ↂ.flag.Prologue = false>>
+<<set ↂ.plans.upcoming = []>>
+<<set aw.time = aw.tBase>>
+<<run setup.time.dateChange()>>
+<<set ↂ.pc.status.arousal = 1>>
+<<set ↂ.pc.status.fatigue = 1>>
+<<set ↂ.pc.status.inPublic = false>>
+<<set ↂ.pc.status.energy.amt = (ↂ.pc.body.energy - 1)>>
+<<set ↂ.sched.sleepWarnOn = true>>
+<<run setup.npcSched.generate()>>
 <<status 0>>
-<<gotodev "FinalProloguePage">>
+<<run setup.status.bind()>>
+<<status 0>>
+<<set ↂ.map.loc = ["home","foyer"]>>
+<<set $activeNPC = []>>
+<<goto "FinalProloguePage">>
 </div>
 
 
@@ -46,13 +34,14 @@
 <div id="cocker" style="position:fixed;width:50%;text-align:center;height:9%;top:90%;left:25%;z-index:105;"></div>
 </center>
 <<timed 1500ms>>
-  <<achieve "I Made It!--//Completed the prologue//">>
+  <<achieve prologue>>
 <</timed>>
 <<timed 3000ms>>
   <<replace "#cocker">>
     <span class="megrim blackOutline" style="font-size:40px;font-weight:bolder;"><<link "It All Starts Here">>
       <<replace "#cocker">>
         <<animexit "biggo" "fadeInUp" "fadeOutUp">>
+        <<status>>
         <<timed 500ms>>
           <<gotomap "home" "living">>
         <</timed>>

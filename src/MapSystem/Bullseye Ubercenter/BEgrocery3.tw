@@ -12,7 +12,7 @@
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -40,22 +40,21 @@
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
 @@.head3;I@@f you've been in one grocery department, you've been in all of them. Bullseye's doesn't have anything unexpected. This area has a wide selection of food.
 <br>
-<<if $flag.LilyCoffee>>
+<<if ↂ.flag.Prologue && ↂ.flag.LilyCoffee>>
 	<<set _incart = false>>
-	<<for _i to 0; _i < $cart.item.length; _i++>>
-		<<if $cart.item[_i][0] == "Focker's Dark Roast">>
-			<<set _incart = true>>
-		<</if>>
-	<</for>>
+  <<if setup.shop.cartCheck("Focker's Dark Roast")>>
+    <<set _incart = true>>
+  <</if>>
 <</if>>
 /*IN-PASSAGE span text*/
 <span id="locact">
 </span>
+<<selfthought>>
 </div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
@@ -63,15 +62,22 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <<hoverrevise hovShop>>
 	@@.disabled;<<button "Shop">><</button>>@@
 <<endhoverrevise>>
-<<if _incart>>
-  <<hoverrevise gotcoffee>>
-	  @@.disabled;<<button "Find Coffee">><</button>>@@
-  <<endhoverrevise>>
+<<if ↂ.flag.Prologue && ↂ.flag.LilyCoffee>>
+  <<if _incart>>
+    <<hoverrevise gotcoffee>>
+      @@.disabled;<<button "Find Coffee">><</button>>@@
+    <<endhoverrevise>>
+  <<else>>
+    <<hoverrevise searchcoffee>>
+      <<button "Find Coffee">><<addTime 5>><<dialog "coffee">>A few minutes and a few aisles later, you find the coffee section. You aren't sure what Lily drinks, so you settle on a tub of <i>Focker's Dark Roast</i>. It's only @@.money;₢5@@. <span id="buylink"><<link "Buy the coffee">><<set $cart.push(["Focker's Dark Roast","simple",5,"Focker's Dark Roast"])>><<replace "#buylink">>@@.mono;That's one errand taken care of.@@<</replace>><</link>></span><br><</dialog>><</button>>
+    <<endhoverrevise>>
+  <</if>>
 <<else>>
-  <<hoverrevise searchcoffee>>
-		<<button "Find Coffee">><<addTime 5>><<dialog "coffee">>A few minutes and a few aisles later, you find the coffee section. You aren't sure what Lily drinks, so you settle on a tub of <i>Focker's Dark Roast</i>. It's only @@.money;<<mon>>5@@. <span id="buylink"><<link "Buy the coffee">><<set _temp = ["Focker's Dark Roast",5]>><<set $cart.item.push(_temp)>><<replace "#buylink">>@@.mono;That's one errand taken care of.@@<</replace>><</link>></span><br><</dialog>><</button>>
-  <<endhoverrevise>>
+  <<hoverrevise coffeeMess>><<button "Find Coffee">><<dialog "Found It...">><<addTime 3>>You search down a couple aisles to find the coffee section. You don't have a permanent residence or coffee maker just yet, but you want to be ready once you do! When you find the coffee, it looks like some sort of caffeine-deprived zombie has rummaged through the section, tossing things aside before finally making a choice... There are tubs of Focker's Dark Roast laying about everywhere.<br><br>Safely informed of the coffee's location, you return to other business.<</dialog>><</button>><<endhoverrevise>>
 <</if>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
 <<hoverrevise hovCart>>
 	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
 <<endhoverrevise>>
@@ -83,6 +89,8 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <<insertion hovCart>>@@.exp;launches a popup that contains an ordered list of all the items in your cart, along with the price (prior to member discount). @@<<endinsertion>>
 <<insertion gotcoffee>>@@.exp;You already have some Focker's in your cart, no need to look for more.@@<<endinsertion>>
 <<insertion searchcoffee>>@@.exp;Search around for some coffee like Lily asked.@@<<endinsertion>>
+<<insertion coffeeMess>>@@.exp;Get ready for life in Appletree by locating your caffeine source in advance.@@<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 /*this contains randomized event options that will print inside the related spans*/
 /*Weather-based actions added, like opening an umbrella*/

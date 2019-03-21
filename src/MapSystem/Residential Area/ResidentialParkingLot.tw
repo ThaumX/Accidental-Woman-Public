@@ -11,7 +11,7 @@
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptResidential>> <<mapEventResidential>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -39,7 +39,7 @@
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*Event notification spot*/
 /*<<mapEventRes>>*/
@@ -47,7 +47,7 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 @@.head3;Y@@ou are standing in the parking lot near your Misubitchi Lingual.
 /*Time & furnishing descriptive addon! <<mapResDesc>>*/
 /*IN-PASSAGE span text*/
-<span id="locact"></span></div>
+<span id="locact"></span><<selfthought>></div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
@@ -55,7 +55,10 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
   <<button "DRIVE">><<run setup.map.nav("world","appletree")>><</button>>
 <<endhoverrevise>>
 <<hoverrevise mani>>
-  <<button "Manage Vehicle">><<dialog "Vehicle Management">>Here you will be able to manage your vehicle, whether taking it for an oil change, or simply washing it. You'll also be able to customize a few options and perhaps even add some ricer gear like a giant triple-spoiler. You won't be stuck with your Lingual for the entire game, though purchasing a new car isn't scheduled for implementation anytime soon.<</dialog>><</button>>
+  <<button "Manage Vehicle">><<addTime 3>><<replace "#awUIcontainer">><<include [[MENU-VehicleManagement]]>><</replace>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
 </div>
 
@@ -63,6 +66,7 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <div id="actionInfo">
 <<insertion drive>>Get in your car and drive somewhere. (Provides access to the Appletree and World maps.)<<endinsertion>>
 <<insertion mani>>Manage your current vehicle - maintenance, cleaning, upgrades, repairs.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
 

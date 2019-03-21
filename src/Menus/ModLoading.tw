@@ -1,0 +1,22 @@
+:: modLoadingPage [nobr startpage hidden noui]
+
+<div id="custom-content-loader">
+  <div id="custom-content-texts">
+    <span class="quest" style="font-size:1.5rem;">Custom Content Loading Page</span><br><br>
+    <input type=file id="fileselector" name="fileselector" multiple><<tab>>
+    <<button "ADD">><<run aw.conLoad.add()>><</button>><br>
+    <<button "Instructions">><<dialog "Instructions">><div style="text-align:justify;font-size:115%;">Select files on your computer using the file selector. You can select files individually or select multiple files at once. <span class="import"><b>.awm files only!</b></span> After selecting the files, click the "ADD" button. You will see boxes appear in the load order list to the right. Continue selecting as many files as you wish to load. When you're done, drag and drop the files in the load order list to set the order that you'd like. By default, items are loaded in the order you added them. Items at the top are loaded first, and items below are loaded after. This means that the lower items in the order will overwrite any data in upper items if there is a conflict. You can drag an item to the trash if you decide not to load it. Once you are satisfied with the order, click the "Load Mod Files!" button. The game will assimilate the data and integrate it into the game. This may take a few seconds if you are loading a lot of data. You'll receive confirmation when loading is complete.<br><b>Enjoy!</b></div><</dialog>><</button>><<tab>><<button "Load Mod Files!">><<run aw.conLoad.loadMods()>><</button>><<tab>><<button "View Game Images">><<go "ImageModDisplay">><</button>><<tab>><<button "Return">><<go Start>><</button>><br><br>
+    <span id="cautionLabel" class="tit" style="font-size:1.5rem;color:goldenrod;font-weight:bold;">CAUTION:</span><br>
+    <div id="cautionArea" style="text-align:justify;font-size:1rem;padding:0px 5px;">
+    Accidental Woman has been designed from the ground up to support player customization and modding. Despite this, loading custom items, sex actions/positions, scenes, events, and scenarios (or whatever else) <i><b>can</b></i> result in all manner of bugs, including game-breaking ones. While basic checks on mod file data will be performed, it's impossible to verify every possible aspect of loaded data. There are limits on what is possible, especially for an independant develper... If you are using mods and encounter an error, please try without the mod (or in a different order) before reporting it as a bug.
+    </div>
+  </div>
+  <div class="list-label">LOAD ORDER: drag and drop</div>
+  <div id="custom-content-list">
+  </div>
+  <div id="custom-content-trash">TRASH</div>
+</div>
+<<timed 50ms>>
+<<run aw.conLoad.start()>>
+<</timed>>
+<<link "return">><<go Start>><</link>>

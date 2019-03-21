@@ -8,11 +8,15 @@
 /*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
 <<include [[MAPdowntown]]>>
 /*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
-<div id="mainshits">
+<div id="mainshits" class="extraRoomRight">
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptDowntown>> <<mapEventDowntown>></p>
+<div id="storeWindow">
+  [img[IMG-AppletreeFlag]]
+  [img[IMG-CareerPlacement]]
+</div>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 <<case "sct">>
 <<case "ovc">>
@@ -27,32 +31,45 @@
 <<case "+sn">>
 <<default>>
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 <p>
 @@.head3;T@@he large town hall building towers over you. It's built on a false platform, so that entering the front requires you to climb a large flight of stairs. Unlike most of the buildings downtown, this one is clad with white marble.
 </p>
 <p id="locact"></p>
+<<selfthought>>
 </div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Go Inside">><</button>>
+  <<openhours 7 12 13 17>>
+    <<button "Visit RAPES Office">><<addTime 5>><<go "DowntownTHrapes">><</button>>
+  <<closed "Visit RAPES Office">>
+  <</openhours>>
 <<endhoverrevise>>
-<<hoverrevise beta>>
+/*<<hoverrevise beta>>
   <<button "Start Protesting">><</button>>
+<<endhoverrevise>>*/
+<<hoverrevise end>>
+  <<button "Warn citizens">><<run setup.notify("You have no sign.")>><</button>>
 <<endhoverrevise>>
+
 <<hoverrevise delta>>
 @@.disabled;<<button "Flash the Building">><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
 </div>
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>Go inside town hall, where you can take care of any number of tasks, from paying fines to paying taxes.<<endinsertion>>
+<<insertion alpha>>Visit the RAPES office to check for employment opportunities. [Open 7-12 13-17]<<endinsertion>>
 <<insertion beta>>Protest something. It's the government, you're bound to think of a reason.<<endinsertion>>
+<<insertion end>>Stand with "The end is nigh" sign near the road [30min]<<endinsertion>>
 <<insertion delta>>Flip up your skirt and give any government workers who happen to be looking out the window a look at your snatch. [Must be wearing a skirt]<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
 <<timed 50ms>>
@@ -63,5 +80,138 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 
 :: DowntownTownhallLOC [nobr]
 
-Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+<center>
+[img[IMG-DowntownProtester1]]
+</center>
+<p>
+<<f a>> young woman is walking around topless protesting for free semen for women. She is handing out brochures that explain how free government-supplied semen is required for equality. Occasionally she shouts out @@.npc;We shouldn't have to pleasure men to get the semen they produce for free!@@ or @@.npc;End semen as a male privilege!@@ Most people seem to be ignoring her, however.
+</p>
+
+<<if ↂ.pc.trait.perceptive > -1 && $items.has("Gene Therapy 02") && !$items.has("Gene Therapy 03")>>
+<p id="gene">
+<<f y>>ou spend a little time looking around the large townhall building. Eventually you decide to take a walk through the building to see what's inside. Passing down the main first-floor corridor, you notice a few waiting areas. You wonder at the possibility of some documents getting scooped up with the magazines, and sort through the piles in each area. You leave the magazines neater than when you started, so you don't draw any attention as you continue your search. You decide that you ran out of luck once you finished stacking up the magazines in a small waiting chamber at the end of the hall. You turn to leave, but accidentally undo some of your work and knock a magazine to the floor. As you bend down to pick it up, you notice a familiar sight under the bureau that the magazines are sitting on. <<link "Pick it up">><<pickup "$items" "Gene Therapy 03">><<run Dialog.close()>><<run UI.alert("You pick up the paper documents")>><</link>>.
+</p>
+<</if>>
+
+
+:: DowntownTHrapes [nobr]
+
+<center>[img[IMG-RapedEmployment]]</center>
+<div id="rep">
+<p>
+<<f i>>n the small waiting room of the RAPES office there is little indication that anyone actually works here. You walk over to a small "take a number" kiosk and learn that you are number J37. After that you take a seat in one of the bland and mildly-uncomfortable seats. Every so often someone exits the door opposite your seat and a new number flashes up on a small LED screen on the wall, accompanied by a mechanical voice calling the new number. You see <<link "some booklets">><<dialog "Booklets">><center>[img[IMG-Advert-Thornton]]<br>[img[IMG-Advert-Maid]]<br></center><</dialogue>><</link>>on the little wobbly table.
+</p>
+<p>
+There's nothing to do but <<link "wait for your number to be called.">>
+<<set _time = random(10, 30)>>
+<<addTime _time>>
+<<anger 2>>
+<<replace "#rep">>
+<<f a>>fter what feels like an eternity of sitting in the waiting room, your number is finally called. You make your way over to the office door that the last person stepped out of, and open it. You're met with a tiny office and no sign of a RAPES employee. Instead there's a cheap desk, with a simple and rather outdated terminal on top. An swivel office chair that's seen better days is the only other piece of furniture.
+<br><br>
+With nothing else to be done, you <<link "sit down">>
+<<addTime 2>>
+<<replace "#rep">>
+<<f s>>itting down at the desk, you notice a small sign underneath the discolored plastic of the terminal. It says "Follow the instructions to log in to the RAPES Computer User Management terminal. Select a job you are interested in, and follow the instructions to apply." the old terminal is displaying a log-in screen, requesting you to scan a finger print and hold your eye open for a retina scan. There are helpful diagrams explaining what to do, so you probably would be able to figure it out without being able to read.
+<br><br>
+<center><<button "LOG IN">><<addTime 15>><<go "DowntownTHrapes2">><</button>></center>
+<</replace>>
+<</link>>.
+<</replace>>
+<</link>>
+</p>
+</div>
+
+:: DowntownTHrapes2 [nobr]
+
+<<replace "#awUIcontainer">><<print setup.job.jobChoose(false)>><</replace>>
+<<timed 200ms>>
+<<f h>>aving made your decision, the terminal presents you with two options.
+<br>
+<center>
+<<button "REVIEW JOB INFORMATION">><<addTime 5>><<go "DowntownTHrapes3">><</button>> <<button "LOG OUT">><<addTime 3>><<go "DowntownTownhall">><</button>>
+</center>
+<</timed>>
+
+:: DowntownTHrapes3 [nobr]
+
+You silently review the details of your new job.
+<table>
+<tr class="divide">
+<td colspan=4>
+@@.handwriting;.head;font-size:1.3rem;Job Offer Details@@
+</td>
+</tr><tr>
+<td width="20%">
+''Employer:''
+</td><td width="30%">
+<<= ↂ.job.employer>>
+</td><td width="20%">
+''Job Title:''
+</td><td width="30%">
+<<= ↂ.job.name>>
+</td>
+</tr><tr><td>
+''Boss:''<br>
+''Skills Used:''
+</td><td>
+<<= ↂ.job.rules.boss>><br>
+<<= ↂ.job.skills>>
+</td><td>
+''Description:''
+</td><td>
+<<= ↂ.job.desc>>
+</td>
+</tr><tr class="divide">
+<td colspan=4>
+@@.handwriting;.head;font-size:1.1rem;Compensation Information@@
+</td>
+</tr><tr>
+<td>
+''Hourly Wage:''
+</td><td>
+@@.money;<<mon>><<= ↂ.job.rules.payrate>>@@ per hour
+</td><td>
+''Paid Sick Leave:''
+</td><td>
+<<= ↂ.job.sick.rate>> hours per month
+</td>
+</tr><tr>
+<td>
+''Hours per Week:''
+</td><td>
+<<= ↂ.job.rules.worktime[0]>> hours
+</td><td>
+''Unpaid Leave:''
+</td><td>
+<<= ↂ.job.vacation.rate>> hours per month
+</td>
+</tr><tr>
+<td>
+''Weekly Income:''
+</td><td>
+@@.money;<<mon>><<= ( Math.round( ↂ.job.rules.worktime[0] * ↂ.job.rules.payrate))>>@@
+</td><td>
+''Paid Leave:''
+</td><td>
+<<= ↂ.job.vacation.ratePaid>> hours per month
+</td>
+</tr>
+</table>
+<center>
+<<button "LOG OUT">><<addTime 3>><<go "DowntownTownhall">><</button>>
+</center>
+
+<<silently>>
+<<switch ↂ.job.code>>
+  <<case MD>>
+    <<achieve maid>>
+  <<case IB>>
+    <<achieve bCorps>>
+  <<case IT>>
+    <<achieve sperm>>
+  <<case IS >>
+    <<achieve serviceDivision>>
+<</switch>>
+<</silently>>
 

@@ -1,0 +1,182 @@
+:: CharCreateRandomizer [nobr hidden]
+
+<<silently>>
+	<<set ↂ.pc.body.height = either(60,61,62,63,64,64,65,65,65,66,66,66,67,67,67,67,67,68,68,68,68,68,69,69,69,69,70,70,70,71,71,72,73,74)>>
+	<<set ↂ.pc.body.heightInch = Math.round(ↂ.pc.body.height % 12)>>
+	<<set ↂ.pc.body.heightFoot = Math.floor(ↂ.pc.body.height / 12)>>
+	<<set ↂ.pc.body.heightCM = Math.round(ↂ.pc.body.height * 0.254)>>
+	<<set ↂ.pc.body.heightCM /= 10>>
+	<<set ↂ.pc.body.race = either("white","white","white","hispanic","black","Asian","SE Asian","native American","Southern european","Gaelic","Nordic")>>
+	<<switch ↂ.pc.body.race>>
+	<<case "white">>
+		<<set ↂ.pc.body.skinColor = either("fair","tanned")>>
+		<<set ↂ.pc.groom.hairColor = either("red","blonde","strawberry blonde","brown","auburn","dark blonde")>>
+		<<set ↂ.pc.body.eyeColor = either("brown","hazel","blue","light blue","blue-green","green")>>
+	<<case "hispanic">>
+		<<set ↂ.pc.body.skinColor = "brown">>
+		<<set ↂ.pc.groom.hairColor = "black">>
+		<<set ↂ.pc.body.eyeColor = either("brown","hazel")>>
+	<<case "black">>
+		<<set ↂ.pc.body.skinColor = "dark brown">>
+		<<set ↂ.pc.groom.hairColor = "black">>
+		<<set ↂ.pc.body.eyeColor = either("brown","hazel")>>
+	<<case "asian">>
+		<<set ↂ.pc.body.skinColor = "light">>
+		<<set ↂ.pc.groom.hairColor = "black">>
+		<<set ↂ.pc.body.eyeColor = either("brown","hazel")>>
+	<<case "SE asian">>
+		<<set ↂ.pc.body.skinColor = "dark">>
+		<<set ↂ.pc.groom.hairColor = "black">>
+		<<set ↂ.pc.body.eyeColor = either("brown","hazel")>>
+	<<case "native american">>
+		<<set ↂ.pc.body.skinColor = "brown">>
+		<<set ↂ.pc.groom.hairColor = "black">>
+		<<set ↂ.pc.body.eyeColor = either("brown","hazel")>>
+	<<case "southern european">>
+		<<set ↂ.pc.body.skinColor = either("tanned","bronzed","bronzed","brown")>>
+		<<set ↂ.pc.groom.hairColor = either("black","brown")>>
+		<<set ↂ.pc.body.eyeColor = either("brown","hazel","blue")>>
+	<<case "gaelic">>
+		<<set ↂ.pc.body.skinColor = either("pale","pale","fair")>>
+		<<set ↂ.pc.groom.hairColor = either("red","blonde","strawberry blonde","auburn")>>
+		<<set ↂ.pc.body.eyeColor = either("blue","blue-green","green")>>
+	<<case "nordic">>
+		<<set ↂ.pc.body.skinColor = either("pale","fair","fair","tanned")>>
+		<<set ↂ.pc.groom.hairColor = either("blonde","strawberry blonde","brown","dark blonde")>>
+		<<set ↂ.pc.body.eyeColor = either("blue","light blue","blue-green")>>
+	<</switch>>
+	<<set ↂ.pc.groom.pubeColor = ↂ.pc.groom.hairColor>>
+	<<set ↂ.pc.body.face = either("normal","normal","normal","sensual","cute","exotic","androgynous")>>
+	<<set ↂ.pc.body.beauty = either(1,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,4,4,4,4,4,5)>>
+	<<set ↂ.pc.body.tone = either(1,2,2,3,3,3,4,4,5)>>
+	<<set ↂ.pc.body.weight = either(1,2,2,3,3,3,4,4,5,5,6)>>
+	<<set ↂ.pc.body.shoulders = either(1,2,2,3,3,3,4,4,5)>>
+	<<set ↂ.pc.body.hips = either(1,2,2,3,3,3,4,4,5,5,6)>>
+	<<set ↂ.pc.body.shoulders = either(1,2,2,3)>>
+	<<set ↂ.pc.body.tits.base.size = 280>>
+	<<set ↂ.pc.body.tits.base.size += random(40,100)>>
+	<<set ↂ.pc.body.tits.base.size += random(40,100)>>
+	<<set ↂ.pc.body.tits.base.size += random(40,100)>>
+	<<set ↂ.pc.body.tits.base.size += random(40,100)>>
+	<<set ↂ.pc.body.tits.base.size += random(40,100)>>
+	<<set ↂ.pc.body.tits.base.size += random(40,100)>>
+	<<pcBreastCalc>><<tempTitLimits>>
+	<<set ↂ.pc.body.ass = either(1,2,2,3,3,3,4,4,5)>>
+	<<set ↂ.pc.body.tits.shape = either("athletic", "round", "bell", "teardrop", "relaxed", "thin")>>
+	<<set ↂ.pc.body.tits.nipLength = random(1,8)>> /*1 to 8 - 1=inverted grade 2, 3=flat, 5=med, 7=v-long 8=ridiculous*/
+  <<set ↂ.pc.body.tits.nipGirth = random(1,5)>> /*1 to 5 - 3=normal*/
+  <<set ↂ.pc.body.tits.areola = random(1,5)>> /*1 to 5 - 3=normal*/
+  <<set ↂ.pc.body.tits.puffy = random(1,5)>>
+  <<set ↂ.pc.body.pelvis = random(1,6)>>
+	<<set ↂ.pc.body.clit = either(1,2,2,2,3,3,4,5)>>
+	<<set ↂ.pc.body.labia = either(1,2,2,3,3,4)>>
+	<<set ↂ.pc.body.pussy.wetness = either(1,1,2,2,2,3,3,4)>>
+	<<set ↂ.pc.groom.pubeStyle = either("bushy","trimmed","trimmed","triangular","landing strip","shaved")>>
+	<<set ↂ.pc.fert.fertility = either(0,2,3,3,3,4,5)>>
+	<<set ↂ.pc.body.lactation = either(0,1,1,2,2,2,3)>>
+	<<set ↂ.pc.main.age = either(18,19,20,21,22,23,24,25,26,27,28,29,30)>>
+  <<set ↂ.pref.muscle[0] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.muscle[1] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.muscle[2] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.muscle[3] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.muscle[4] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.muscle[5] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.weight[0] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.weight[1] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.weight[2] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.weight[3] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.weight[4] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.weight[5] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.height[0] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.height[1] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.height[2] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.height[3] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.height[4] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.other[0] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.other[1] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.other[2] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.other[3] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.other[4] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.other[5] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.other[6] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.other[7] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.other[8] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.other[9] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.Fmuscle[0] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.Fmuscle[1] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.Fmuscle[2] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.Fmuscle[3] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.Fmuscle[4] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.Fmuscle[5] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.Fweight[0] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.Fweight[1] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.Fweight[2] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.Fweight[3] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.Fweight[4] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.Fweight[5] = either(-2,-1,-1,0,0,0,0,1,1,2)>>
+<<set ↂ.pref.Fheight[0] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.Fheight[1] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.Fheight[2] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.Fheight[3] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.Fheight[4] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.Fother[0] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.Fother[1] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.Fother[2] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.Fother[3] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.Fother[4] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.Fother[5] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.Fother[6] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.Fother[7] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.Fother[8] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pref.Fother[9] = either(-1,-1,0,0,0,0,1,1)>>
+<<set ↂ.pc.trait.will = either(2,3,3,4)>>
+<<set ↂ.pc.trait.vert = either("neither","neither","introverted","extroverted")>>
+<<set ↂ.pc.trait.open = either("neither","neither","open","closed")>>
+<<set ↂ.pc.trait.caring = either(-1,0,0,0,1)>> /*uncaring*/
+<<set ↂ.pc.trait.bitch = either(-1,0,0,0,1)>> /*kind*/
+<<set ↂ.pc.trait.maternal = either(-1,0,0,0,1)>> /*hateskids*/
+<<set ↂ.pc.trait.romantic = either(-1,0,0,0,1)>> /*aromantic*/
+<<set ↂ.pc.trait.deceptive = either(-1,0,0,0,1)>> /*honest*/
+<<set ↂ.pc.trait.devious = either(-1,0,0,0,1)>> /*straightforward*/
+<<set ↂ.pc.trait.persuasive = either(-1,0,0,0,1)>> /*follower*/
+<<set ↂ.pc.trait.perceptive = either(-1,0,0,0,1)>> /*oblivious*/
+<<set ↂ.pc.trait.forgetful = either(-1,0,0,0,1)>> /*good memory*/
+<<set ↂ.pc.trait.forgiving = either(-1,0,0,0,1)>> /*vengeful*/
+<<set ↂ.pc.trait.lowEsteem = either(-1,0,0,0,1)>> /*narsisistic*/
+<<set ↂ.pc.trait.picky = either(-1,0,0,0,1)>> /*low standards*/
+<<set ↂ.pc.trait.crude = either(-1,0,0,0,1)>> /*refined*/
+<<set ↂ.pc.trait.friendly = either(-1,0,0,0,1)>> /*unfriendly*/
+<<set ↂ.pc.trait.approachable = either(-1,0,0,0,1)>> /*unapproachable*/
+<<set ↂ.pc.trait.relaxed = either(-1,0,0,0,1)>> /*ambitious*/
+<<set ↂ.pc.trait.flirty = either(-1,0,0,0,1)>> /*shy*/
+<<set ↂ.pc.trait.materialist = either(-1,0,0,0,1)>>
+<<set ↂ.pc.kink.risky = either(false,false,true)>>
+<<set ↂ.pc.kink.pregnancy = either(false,false,false,true)>>
+<<set ↂ.pc.kink.sizequeen = either(false,false,false,false,true)>>
+<<set ↂ.pc.kink.cumSlut = either(false,false,false,false,true)>>
+<<set ↂ.pc.kink.sub = either(false,false,false,false,true)>>
+<<set ↂ.pc.kink.exhibition = either(false,false,true)>>
+<<set ↂ.pc.kink.masochist = either(false,false,false,false,true)>>
+<<set ↂ.pc.kink.buttSlut = either(false,false,false,false,true)>>
+<<set ↂ.pc.kink.public = either(false,false,false,true)>>
+<<set ↂ.pc.kink.slut = either(false,false,true)>>
+<<set ↂ.pc.kink.oral = either(false,true)>>
+<<set ↂ.pc.kink.anal = either(false,true)>>
+<<set ↂ.pc.kink.force = either(false,true)>>
+<<set ↂ.pc.kink.rape = either(false,false,false,false,true)>>
+<<set ↂ.pc.kink.liberate = either(false,false,false,false,true)>>
+<<set ↂ.pc.trait.libido = either(1,2,2,3,3,3,4,4,5,6,7)>>
+<<set ↂ.pc.mutate.milk = either(false,false,false,false,true)>>
+<<set ↂ.pc.mutate.acid = either(false,false,true)>>
+<<set ↂ.pc.mutate.birthCon = either(false,false,true)>>
+<<set ↂ.pc.mutate.multiple = either(false,false,false,false,true)>>
+<<set ↂ.pc.mutate.gestate = either(false,false,false,false,false,false,true)>>
+<<set ↂ.pc.mutate.cycle = either(false,false,false,false,false,false,false,true)>>
+<<set ↂ.pc.mutate.twinWomb = either(false,false,false,false,false,false,false,true)>>
+<<set ↂ.pc.mutate.pheromone = either(false,false,true)>>
+<<set ↂ.pc.mutate.litePhero = either(false,false,false,false,false,false,false,true)>>
+<</silently>>
+<h1>RaNdoMIziNg!</h1>
+<<timed 1s>>
+<<gotodev "characterCreateB">>
+<</timed>>

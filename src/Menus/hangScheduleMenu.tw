@@ -1,0 +1,35 @@
+:: hangScheduleMenu [nobr]
+
+<<set _npc = setup.interact.status.npc>>
+<<set _weekdays = ["errorday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]>>
+<<set ↂ.sched.npcHang[_npc][4] = false>>
+<div id="npcSchedBox">
+<center>
+  @@.npc;<<print setup.hang.propose(_npc)>>@@
+  <<set _weekday = ↂ.sched.npcHang[_npc][0]>>
+  <<set _nextweek = ↂ.sched.npcHang[_npc][1]>>
+  <<set _time = ↂ.sched.npcHang[_npc][2]>>
+  <<set _place = ↂ.sched.npcHang[_npc][5]>>
+  &nbsp;
+  <<link "Okies!">><<run setup.hang.scheduleHang(ↂ.sched.npcHang[_npc][0], ↂ.sched.npcHang[_npc][1], ↂ.sched.npcHang[_npc][2], ↂ.sched.npcHang[_npc][5], ↂ.sched.npcHang[_npc][3])>><<replace '#npcSchedBox'>><center>@@.npc;Nice! <<if _nextweek === true>>Next<<else>>This<</if>>&nbsp;<<print _weekdays[_weekday]>>&nbsp;then, at <<print _time>>:00 !@@</center><</replace>><</link>>
+  <br><br>
+  Or propose your own time and place:
+  <br>
+  <<button "[-]">><<set _weekday -= 1>><<if _weekday < 1>><<set _weekday = 1>><</if>><<if _weekday > 7>><<set _weekday = 7>><</if>><<replace "#weekdayDiv">><<print _weekdays[_weekday]>><</replace>><</button>>&nbsp;&nbsp;<span id="weekdayDiv"><<print _weekdays[_weekday]>></span>&nbsp;&nbsp;<<button "[+]">><<set _weekday += 1>><<if _weekday < 1>><<set _weekday = 1>><</if>><<if _weekday > 7>><<set _weekday = 7>><</if>><<replace "#weekdayDiv">><<print _weekdays[_weekday]>><</replace>><</button>>
+  &nbsp;&nbsp;
+  <<button "[-]">><<set _time -= 1>><<if _time < 7>><<set _time = 7>><</if>><<if _time > 23>><<set _time = 23>><</if>><<replace "#timedayDiv">><<print _time>><</replace>><</button>>&nbsp;&nbsp;<span id="timedayDiv"><<print _time>></span>:00&nbsp;&nbsp;<<button "[+]">><<set _time += 1>><<if _time < 7>><<set _time = 7>><</if>><<if _time > 23>><<set _time = 23>><</if>><<replace "#timedayDiv">><<print _time>><</replace>><</button>>
+  <br>
+  Next week?&nbsp;<<checkboxA "_nextweek" false true>>
+  <br><br>
+  <<dropdown '_hangPlace' "park" "gloryhole" "mall" "amusement">>
+  <br><br>
+  <<button "Propose">><<replace '#npcSchedBox'>><center>@@.npc;<<print setup.hang.checkIfFree(_weekday, _nextweek, _time, _hangPlace, _npc)>>@@&nbsp;<<if ↂ.sched.npcHang[_npc][4] === false>><<link "Another time maybe?">><<replace '#npcSchedBox'>><<hangscheduler _npc>><</replace>><</link>><</if>></center><</replace>><</button>>
+</center>
+</div>
+
+:: hangScheduleMenuAlreadySet [nobr]
+<div id="npcSchedBox">
+<center>
+@@.npc;We already have a hangout arranged, did you forgot?@@
+</center>
+</div>

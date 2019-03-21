@@ -3,9 +3,9 @@
 <<set $helpText = "Follow the instructions on this page.">>
 @@.head1;Backward Compatibility Tool@@
 <br><br>
-@@.lightcoral;.rumble;font-size:125%;DO NOT Click Any UI Bar Buttons! (Unless the BCtool output instructs you to.)@@
+@@.lightcoral;.rumble;font-size:1.25rem;DO NOT Click Any UI Bar Buttons! (Unless the BCtool output instructs you to.)@@
 <br><br>
-@@.acme;The game has detected that your save is from a previous version of Accidental Woman. This tool will check for undefined variables and other issues, and fix them. It will attempt to make your game compatible with the current version. Unfortunately, I can't guarantee that it'll work every time. These are some reasons the tool might not work, and some other notes~
+@@.handwriting;The game has detected that your save is from a previous version of Accidental Woman. This tool will check for undefined variables and other issues, and fix them. It will attempt to make your game compatible with the current version. Unfortunately, I can't guarantee that it'll work every time. These are some reasons the tool might not work, and some other notes~
 <br><br>
 <list>
 <li>If you were in the middle of an event or scenario, there's a chance that it will play incorrectly (mostly if the event/scenario in question has been updated). For best results, save during a normal map-view screen or during the week planner on the page that says "save here".</li>
@@ -20,7 +20,7 @@
  Okay, let's get started.<br>
  <<button "Run BC Tool">>
  <<replace "#output">>
-	<<if $ver < (setup.ver - 12)>>
+	<<if $ver < (setup.ver - 5)>>
 		<<= "Your save version is completely incompatible, sorry. It's a consequence of heavy development on core game code.">><br>
 		<<= "Quitting...">><br>
 	<<elseif $ver == setup.ver || $version == setup.version>>
@@ -32,122 +32,21 @@
 		Your save is from version: <<= $version>> <<= $swim>><br>
 		<<set $version = setup.version>>
     <<set $ver == setup.ver>>
-    <<set $flag.triedForDeposit = false>>
-    <<set $flag.exes = []>>
-    <<set $pref.dispEmoji = true>>
-    /*<<set $home.item = {}>>
-    <<set $home.item.owned = []>>
-    <<set $home.item.furnature = []>>
-    <<set $home.item.exercise = []>>
-    <<set $home.item.electronic = []>>
-    <<set $home.item.decor = []>>
-    <<set $home.item.health = []>>
-    <<set $home.item.other = []>>
-    <<set $home.item.kitchen = []>>
-    <<set $home.item.bath = []>>
-    <<set $home.item.balcony = []>>
-    <<set $home.item.bed2 = []>>
-    <<set $home.item.bed3 = []>>
-    <<set $home.item.bedroom = []>>
-    <<set $home.item.living = []>>
-    <<set $home.item.foyer = []>>*/
-    <<set $home.item = {}>>
-    <<set $home.item.owned = []>>
-    <<set $home.item.furnature = []>>
-    <<set $home.item.exercise = []>>
-    <<set $home.item.electronic = []>>
-    <<set $home.item.decor = []>>
-    <<set $home.item.health = []>>
-    <<set $home.item.other = []>>
-    <<set $home.item.kitchen = []>>
-    <<set $home.item.bath = []>>
-    <<set $home.item.balcony = []>>
-    <<set $home.item.bed2 = []>>
-    <<set $home.item.bed3 = []>>
-    <<set $home.item.bedroom = []>>
-    <<set $home.item.living = []>>
-    <<set $home.item.foyer = []>>
-    <<set $home.item.owned.push("brokenCoffee")>>
-    <<set $home.item.owned.push("bustedStool")>>
-    <<set $home.item.owned.push("someBlankets")>>
-    <<set $home.item.owned.push("bustedLawnchair")>>
-    <<set $home.clean = {}>>
-    <<set $home.clean.floors = 50>>
-    <<set $home.clean.surfaces = 50>>
-    <<set $home.clean.bathroom = 50>>
-    <<set $home.clean.kitchen = 50>>
-    <<set $home.clean.dishes = 5>>
-    <<set $home.clean.laundry = 5>>
-    <<set $home.clean.neatness = 50>>
-    <<set $home.clean.bed = 5>>
-    <<set $home.clean.deepclean = 50>>
-    <<set $home.clean.doCleaning = 3>>
-    <<set $home.clean.pickingUp = 3>>
-    <<set $home.clean.doDishes = 3>>
-    <<set $home.clean.doLaundry = 3>>
-    <<set $home.clean.doBed = 3>>
-    <<set $home.clean.increment = 4>>
-    <<set $home.clean.cleaningTime = Math.round((($home.clean.doCleaning + $home.clean.doCleaning + $home.clean.doCleaning + $home.clean.pickingUp + $home.clean.pickingUp + $home.clean.doDishes + $home.clean.doLaundry + $home.clean.doBed)/8)*(5*$home.clean.increment)>>
-		/*here is where it goes*/
-    <<set $PC.groom = {}>>
-    <<set $PC.groom.hairLength = 12>> /*HairLength in Inches*/
-    <<set $PC.groom.hairColor = "brown">>
-    <<set $PC.groom.hairCurl = 1>> /*0-straight 1-slightly wavy 2-wavy 3-very wavy 4-curly 5-very curly 6-kinked*/
-
-    <<set $PC.groom.hairStyle = "unkempt">>
-    <<set $PC.groom.hairFlag = 0>>
-    <<set $PC.groom.hairSets = {"normal":"unkempt","fancy":"unkempt","casual":"unkempt","custom 1":"unkempt","custom 2":"unkempt","custom 3":"unkempt"}>>
-    <<set $PC.groom.hairDefaultFancy = "unkempt">>
-    <<set $PC.groom.hairDefaultCasual = "unkempt">>
-
-    <<set $PC.groom.pubeColor = "black">>
-    <<set $PC.groom.pubeStyle = "neatly trimmed">>
-    <<set $PC.groom.pubeGrow = 3>>
-    <<set $PC.groom.pubeFreq = 3>>
-    <<set $PC.groom.pube = 1>>
-    <<set $PC.groom.pubeCount = 0>>
-
-    <<set $PC.groom.leghair = 1>> /*length 0lazerd, 1none,5fullgrown*/
-    <<set $PC.groom.leghairCount = 1>>
-    <<set $PC.groom.leghairFreq = 1>>
-    <<set $PC.groom.armpit = 1>> /*length 0lazerd, 1none,5fullgrown*/
-    <<set $PC.groom.armpitCount = 0>>
-    <<set $PC.groom.armpitFreq = 0>>
-
-    <<set $PC.groom.eyeMU = "none">>
-    <<set $PC.groom.lipMU = "none">>
-    <<set $PC.groom.genMU = "none">>
-
-    <<set $PC.groom.makeup = {atr:0,sexy:0,clown:false,type:"norm",desc:"is free of makeup.",look:"none"}>>
-
-    <<set $PC.groom.teeth = "natural">>
-    <<set $PC.groom.toothHealth = 5>>
-    <<set $PC.groom.toothbrush = 1>>
-    <<set $PC.groom.lastToothbrush = [6,1,1,4]>>/*hour day week month*/
-    /***********************************************************************************/
-    /*              PC WORN JEWELRY VARIABLES  $PC.jewel                               */
-    /***********************************************************************************/
-    <<set $PC.jewel = {neck:"none",wristR:"none",wristL:"none",handR:"none",handL:"none",ringR:"none",ringL:"none",nose:"none",lip:"none",tongue:"none",brow:"none",earR:"none",earL:"none",upEar:"none",belly:"none",nipR:"none",nipL:"none",clit:"none",labia:"none",pierced:{},owned:[]}>>
-    <<set $PC.jewel.pierced = {neck:true,wristR:true,wristL:true,handR:true,ringR:true,ringL:true,handL:true,nose:false,lip:false,tongue:false,brow:false,earR:false,earL:false,upEar:false,belly:false,nipR:false,nipL:false,clit:false,labia:false}>>
-    <<set $PC.jewel.owned = ["silverChain","silverCharmBracelet","sWatchPink","catRing","purityRing","goldHeartRing"]>>
-
-    /***********************************************************************************/
-    /*              MAKEUP STYLES OBJECTS $makeup                                      */
-    /***********************************************************************************/
-    <<set $makeup = {eye:["none"],lip:["none"],gen:["none"]}>>
-    <<set $makeupSet = {"none":["none","none","none"],"casual":["none","none","none"],"standard":["none","none","none"],"fancy":["none","none","none"],"custom 1":["none","none","none"],"custom 2":["none","none","none"],"custom 3":["none","none","none"],}>>
-    /***********************************************************************************/
-    /*              HAIR STYLES OBJECTS $hair                                          */
-    /***********************************************************************************/
-    /*known hair styles ~~~ [textname, known, LearnDC, atr, special]*/
-    <<set $hairStyle = ["neat","unkempt","messy"]>>
-		<<status 0>>
-	<</if>>
-	<<= "BC Tool finished running. If you see red stuff above, there were errors, sorry. If not, awesome! I knew this would work!">>
+    <<set ↂ.sched.school = []>>
+    <<set ↂ.pc.status.exercise = 0>>
+    <<script>>
+    ↂ.flag.bank = {
+    faust: {saving: false, loan: false, credit: false},
+    indigo: {saving: false, loan: false, credit: false}
+    };
+    ↂ.home.finance.credit = 0;
+    <</script>>
+    Update Complete
+  <</if>>
  <</replace>>
  <</button>>
  <table>
  <tr><td>@@.head3;Output Area@@</td></tr>
- <tr><td>@@.monospace;font-size:75%;<span id="output">Empty.....</span>@@</td></tr>
+ <tr><td>@@.monospace;font-size:0.75rem;<span id="output">Empty.....</span>@@</td></tr>
  </table>
- @@font-size:150%;<<return>>@@
+ @@font-size:1.5rem;<<return>>@@

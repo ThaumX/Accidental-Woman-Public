@@ -11,7 +11,7 @@
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptResidential>> <<mapEventResidential>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -39,11 +39,12 @@
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 <p>
-@@.head3;Y@@ou're standing at the edge of your neighborhood, traveling in the direction of downtown. You could walk there from here, but it's a <<print ((6 - State.variables.home.stats.location)*10+5)>> minute walk.
+@@.head3;Y@@ou're standing at the edge of your neighborhood, traveling in the direction of downtown. You could walk there from here, but it's a <<print ((6 - ↂ.home.stats.location)*10+5)>> minute walk.
 </p>
+<<selfthought>>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
@@ -53,12 +54,17 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <<hoverrevise beta>>
   <<button "Stand at the Corner">><<addTime 30>><<dialog "Hooking">><<include [[ResidentialGoDowntownHook]]>><</dialog>><</button>>
 <<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
 </div>
 
 /*Main display for information about actions*/
 <div id="actionInfo">
 <<insertion alpha>>Walk by foot to the Downtown Appletree area. Without any particular reason to go there by foot, it's too far of a walk for you right now.<<endinsertion>>
 <<insertion beta>>Strut your stuff at the side of the road. Perhaps someone will ask you out on a "date"! [30min]<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
 
@@ -70,7 +76,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 :: ResidentialGoDowntownHook [nobr]
 
 <p>
-Prostitution Skill: <<print $PC.skill.prostitute>><br>
+Prostitution Skill: <<print ↂ.skill.prostitute>><br>
 Appearance: @@.bad;Not Obvious to Customers@@<br>
 Attractiveness: @@.yellowgreen;Acceptable@@<br>
 Skankiness: @@.ship;Not Skanky@@
@@ -79,3 +85,4 @@ Skankiness: @@.ship;Not Skanky@@
 </p><p>
 The time passes, but the people driving past that notice you standing there don't seem to realize that you're hooking...
 </p>
+<p class="import"><center><b>PROSTITUTION IS NOT IMPLEMENTED</b></center></p>

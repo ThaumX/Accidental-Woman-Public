@@ -12,233 +12,233 @@
 /*This is very much a placeholder at this point, very simplistic and inefficient*/
 /*<<widget "processCycle">>
 <<if $week == 0 && $day < 3>>
-	<<set $PC.status.period = 0>>
-	<<set $PC.status.risk = 0>>
-	<<set $PC.status.fertText = "Starting">>
-<<elseif $PC.status.wombA.weeks != 0 && $PC.status.wombB.weeks != 0>>
-	<<set $PC.status.period = 0>>
-	<<set $PC.status.risk = 0>>
-	<<set $PC.status.fertText = "Fully Pregnant">>
-<<elseif $PC.status.wombA.weeks != 0 && not $PC.mutate.twinWomb>>
-	<<set $PC.status.period = 0>>
-	<<set $PC.status.risk = 0>>
-	<<set $PC.status.fertText = "Pregnant">>
-<<elseif $PC.fert.fertility == 0>>
-	<<set $PC.status.risk = 0>>
-	<<if $PC.mutate.period>>
-		<<set $PC.status.fertText = "Barren">>
-		<<set $PC.status.period = 0>>
-	<<elseif $PC.status.cycle == 1 && $day == 1>>
-		<<set $PC.status.fertText = "Barren - Start of Period">>
-		<<set $PC.status.period = 2>>
-	<<elseif $PC.status.cycle == 1 && $day == 2>>
-		<<set $PC.status.fertText = "Barren - Heavy Period">>
-		<<set $PC.status.period = 3>>
-	<<elseif $PC.status.cycle == 1 && $day == 3>>
-		<<set $PC.status.fertText = "Barren - Heavy Period">>
-		<<set $PC.status.period = 3>>
-	<<elseif $PC.status.cycle == 1 && $day == 4>>
-		<<set $PC.status.fertText = "Barren - Period">>
-		<<set $PC.status.period = 2>>
-	<<elseif $PC.status.cycle == 1 && $day == 5>>
-		<<set $PC.status.fertText = "Barren - Period">>
-		<<set $PC.status.period = 2>>
-	<<elseif $PC.status.cycle == 1 && $day == 6>>
-		<<set $PC.status.fertText = "Barren - Light Period">>
-		<<set $PC.status.period = 1>>
+	<<set ↂ.pc.status.period = 0>>
+	<<set ↂ.pc.status.risk = 0>>
+	<<set ↂ.pc.status.fertText = "Starting">>
+<<elseif ↂ.pc.status.wombA.weeks != 0 && ↂ.pc.status.wombB.weeks != 0>>
+	<<set ↂ.pc.status.period = 0>>
+	<<set ↂ.pc.status.risk = 0>>
+	<<set ↂ.pc.status.fertText = "Fully Pregnant">>
+<<elseif ↂ.pc.status.wombA.weeks != 0 && not ↂ.pc.mutate.twinWomb>>
+	<<set ↂ.pc.status.period = 0>>
+	<<set ↂ.pc.status.risk = 0>>
+	<<set ↂ.pc.status.fertText = "Pregnant">>
+<<elseif ↂ.pc.fert.fertility == 0>>
+	<<set ↂ.pc.status.risk = 0>>
+	<<if ↂ.pc.mutate.period>>
+		<<set ↂ.pc.status.fertText = "Barren">>
+		<<set ↂ.pc.status.period = 0>>
+	<<elseif ↂ.pc.status.cycle == 1 && $day == 1>>
+		<<set ↂ.pc.status.fertText = "Barren - Start of Period">>
+		<<set ↂ.pc.status.period = 2>>
+	<<elseif ↂ.pc.status.cycle == 1 && $day == 2>>
+		<<set ↂ.pc.status.fertText = "Barren - Heavy Period">>
+		<<set ↂ.pc.status.period = 3>>
+	<<elseif ↂ.pc.status.cycle == 1 && $day == 3>>
+		<<set ↂ.pc.status.fertText = "Barren - Heavy Period">>
+		<<set ↂ.pc.status.period = 3>>
+	<<elseif ↂ.pc.status.cycle == 1 && $day == 4>>
+		<<set ↂ.pc.status.fertText = "Barren - Period">>
+		<<set ↂ.pc.status.period = 2>>
+	<<elseif ↂ.pc.status.cycle == 1 && $day == 5>>
+		<<set ↂ.pc.status.fertText = "Barren - Period">>
+		<<set ↂ.pc.status.period = 2>>
+	<<elseif ↂ.pc.status.cycle == 1 && $day == 6>>
+		<<set ↂ.pc.status.fertText = "Barren - Light Period">>
+		<<set ↂ.pc.status.period = 1>>
 	<<else>>
-		<<set $PC.status.fertText = "Barren">>
-		<<set $PC.status.period = 0>>
+		<<set ↂ.pc.status.fertText = "Barren">>
+		<<set ↂ.pc.status.period = 0>>
 	<</if>>
-<<elseif $PC.fert.fertility == 1>>
-	<<set $PC.status.risk = 0>>
-	<<if $PC.mutate.period>>
-		<<set $PC.status.fertText = "IUD">>
-		<<set $PC.status.period = 0>>
-	<<elseif $PC.status.cycle == 1 && $day == 1 && $PC.mutate.cycle>>
-		<<set $PC.status.fertText = "IUD - Start of Period">>
-		<<set $PC.status.period = 1>>
-	<<elseif $PC.status.cycle == 1 && $day == 2 && $PC.mutate.cycle>>
-		<<set $PC.status.fertText = "IUD - Period">>
-		<<set $PC.status.period = 2>>
-	<<elseif $PC.status.cycle == 1 && $day == 3 && $PC.mutate.cycle>>
-		<<set $PC.status.period = 1>>
-		<<set $PC.status.fertText = "IUD - Light Period">>
-	<<elseif $PC.status.cycle == 1 && $day == 1>>
-		<<set $PC.status.fertText = "IUD - Start of Period">>
-		<<set $PC.status.period = 2>>
-	<<elseif $PC.status.cycle == 1 && $day == 2>>
-		<<set $PC.status.fertText = "IUD - Heavy Period">>
-		<<set $PC.status.period = 3>>
-	<<elseif $PC.status.cycle == 1 && $day == 3>>
-		<<set $PC.status.fertText = "IUD - Period">>
-		<<set $PC.status.period = 2>>
-	<<elseif $PC.status.cycle == 1 && $day == 4>>
-		<<set $PC.status.fertText = "IUD - Period">>
-		<<set $PC.status.period = 2>>
-	<<elseif $PC.status.cycle == 1 && $day == 5>>
-		<<set $PC.status.fertText = "IUD - Light Period">>
-		<<set $PC.status.period = 1>>
-	<<elseif $PC.status.cycle == 1 && $day == 6>>
-		<<set $PC.status.fertText = "IUD - Light Period">>
-		<<set $PC.status.period = 1>>
+<<elseif ↂ.pc.fert.fertility == 1>>
+	<<set ↂ.pc.status.risk = 0>>
+	<<if ↂ.pc.mutate.period>>
+		<<set ↂ.pc.status.fertText = "IUD">>
+		<<set ↂ.pc.status.period = 0>>
+	<<elseif ↂ.pc.status.cycle == 1 && $day == 1 && ↂ.pc.mutate.cycle>>
+		<<set ↂ.pc.status.fertText = "IUD - Start of Period">>
+		<<set ↂ.pc.status.period = 1>>
+	<<elseif ↂ.pc.status.cycle == 1 && $day == 2 && ↂ.pc.mutate.cycle>>
+		<<set ↂ.pc.status.fertText = "IUD - Period">>
+		<<set ↂ.pc.status.period = 2>>
+	<<elseif ↂ.pc.status.cycle == 1 && $day == 3 && ↂ.pc.mutate.cycle>>
+		<<set ↂ.pc.status.period = 1>>
+		<<set ↂ.pc.status.fertText = "IUD - Light Period">>
+	<<elseif ↂ.pc.status.cycle == 1 && $day == 1>>
+		<<set ↂ.pc.status.fertText = "IUD - Start of Period">>
+		<<set ↂ.pc.status.period = 2>>
+	<<elseif ↂ.pc.status.cycle == 1 && $day == 2>>
+		<<set ↂ.pc.status.fertText = "IUD - Heavy Period">>
+		<<set ↂ.pc.status.period = 3>>
+	<<elseif ↂ.pc.status.cycle == 1 && $day == 3>>
+		<<set ↂ.pc.status.fertText = "IUD - Period">>
+		<<set ↂ.pc.status.period = 2>>
+	<<elseif ↂ.pc.status.cycle == 1 && $day == 4>>
+		<<set ↂ.pc.status.fertText = "IUD - Period">>
+		<<set ↂ.pc.status.period = 2>>
+	<<elseif ↂ.pc.status.cycle == 1 && $day == 5>>
+		<<set ↂ.pc.status.fertText = "IUD - Light Period">>
+		<<set ↂ.pc.status.period = 1>>
+	<<elseif ↂ.pc.status.cycle == 1 && $day == 6>>
+		<<set ↂ.pc.status.fertText = "IUD - Light Period">>
+		<<set ↂ.pc.status.period = 1>>
 	<<else>>
-		<<set $PC.status.fertText = "IUD">>
+		<<set ↂ.pc.status.fertText = "IUD">>
 	<</if>>
-<<elseif $PC.status.cycle == 1 && $PC.mutate.cycle>>
-	<<if $day == 1 && $PC.fert.fertility > 3>>
-		<<set $PC.status.period = 3>>
-		<<set $PC.status.risk = 0>>
-		<<set $PC.status.fertText = "Safe Day - Start Period">>
-	<<elseif $day == 2 && $PC.fert.fertility > 3>>
-		<<set $PC.status.period = 2>>
-		<<set $PC.status.risk = 0>>
-		<<set $PC.status.fertText = "Safe Day - Period">>
-	<<elseif $day == 3 && $PC.fert.fertility > 3>>
-		<<set $PC.status.period = 0>>
-		<<set $PC.status.risk = 1>>
-		<<set $PC.status.fertText = "Safe Day">>
+<<elseif ↂ.pc.status.cycle == 1 && ↂ.pc.mutate.cycle>>
+	<<if $day == 1 && ↂ.pc.fert.fertility > 3>>
+		<<set ↂ.pc.status.period = 3>>
+		<<set ↂ.pc.status.risk = 0>>
+		<<set ↂ.pc.status.fertText = "Safe Day - Start Period">>
+	<<elseif $day == 2 && ↂ.pc.fert.fertility > 3>>
+		<<set ↂ.pc.status.period = 2>>
+		<<set ↂ.pc.status.risk = 0>>
+		<<set ↂ.pc.status.fertText = "Safe Day - Period">>
+	<<elseif $day == 3 && ↂ.pc.fert.fertility > 3>>
+		<<set ↂ.pc.status.period = 0>>
+		<<set ↂ.pc.status.risk = 1>>
+		<<set ↂ.pc.status.fertText = "Safe Day">>
 	<<elseif $day == 1>>
-		<<set $PC.status.period = 2>>
-		<<set $PC.status.risk = 0>>
-		<<set $PC.status.fertText = "Safe Day - Start Period">>
+		<<set ↂ.pc.status.period = 2>>
+		<<set ↂ.pc.status.risk = 0>>
+		<<set ↂ.pc.status.fertText = "Safe Day - Start Period">>
 	<<elseif $day == 2>>
-		<<set $PC.status.period = 3>>
-		<<set $PC.status.risk = 0>>
-		<<set $PC.status.fertText = "Safe Day - Heavy Period">>
+		<<set ↂ.pc.status.period = 3>>
+		<<set ↂ.pc.status.risk = 0>>
+		<<set ↂ.pc.status.fertText = "Safe Day - Heavy Period">>
 	<<elseif $day == 3>>
-		<<set $PC.status.period = 1>>
-		<<set $PC.status.risk = 1>>
-		<<set $PC.status.fertText = "Safe Day - Light Period">>
+		<<set ↂ.pc.status.period = 1>>
+		<<set ↂ.pc.status.risk = 1>>
+		<<set ↂ.pc.status.fertText = "Safe Day - Light Period">>
 	<<elseif $day == 4>>
-		<<set $PC.status.period = 0>>
-		<<set $PC.status.risk = 1>>
-		<<set $PC.status.fertText = "Safe Day">>
+		<<set ↂ.pc.status.period = 0>>
+		<<set ↂ.pc.status.risk = 1>>
+		<<set ↂ.pc.status.fertText = "Safe Day">>
 	<<else>>
-		<<set $PC.status.period = 0>>
-		<<set $PC.status.risk = 2>>
-		<<set $PC.status.fertText = "Likely Safe">>
+		<<set ↂ.pc.status.period = 0>>
+		<<set ↂ.pc.status.risk = 2>>
+		<<set ↂ.pc.status.fertText = "Likely Safe">>
 	<</if>>
-<<elseif $PC.status.cycle == 2 && $PC.mutate.cycle>>
-	<<set $PC.status.period = 0>>
+<<elseif ↂ.pc.status.cycle == 2 && ↂ.pc.mutate.cycle>>
+	<<set ↂ.pc.status.period = 0>>
 	<<if $day < 3>>
-		<<set $PC.status.risk = 3>>
-		<<set $PC.status.fertText = "Should be Safe">>
+		<<set ↂ.pc.status.risk = 3>>
+		<<set ↂ.pc.status.fertText = "Should be Safe">>
 	<<elseif $day == 7>>
-		<<set $PC.status.risk = 5>>
-		<<set $PC.status.fertText = "Ovulating">>
+		<<set ↂ.pc.status.risk = 5>>
+		<<set ↂ.pc.status.fertText = "Ovulating">>
 	<<elseif $day == 6>>
-		<<set $PC.status.risk = 4.5>>
-		<<set $PC.status.fertText = "Dangerous Day">>
+		<<set ↂ.pc.status.risk = 4.5>>
+		<<set ↂ.pc.status.fertText = "Dangerous Day">>
 	<<else>>
-		<<set $PC.status.risk = 4>>
-		<<set $PC.status.fertText = "Dangerous Day">>
+		<<set ↂ.pc.status.risk = 4>>
+		<<set ↂ.pc.status.fertText = "Dangerous Day">>
 	<</if>>
-<<elseif $PC.status.cycle == 3 && $PC.mutate.cycle>>
-	<<set $PC.status.period = 0>>
+<<elseif ↂ.pc.status.cycle == 3 && ↂ.pc.mutate.cycle>>
+	<<set ↂ.pc.status.period = 0>>
 	<<if $day < 3>>
-		<<set $PC.status.risk = 5>>
-		<<set $PC.status.fertText = "Ovulating">>
+		<<set ↂ.pc.status.risk = 5>>
+		<<set ↂ.pc.status.fertText = "Ovulating">>
 	<<elseif $day == 7>>
-		<<set $PC.status.risk = 3.5>>
-		<<set $PC.status.fertText = "Should be Safe">>
+		<<set ↂ.pc.status.risk = 3.5>>
+		<<set ↂ.pc.status.fertText = "Should be Safe">>
 	<<else>>
-		<<set $PC.status.risk = 4>>
-		<<set $PC.status.fertText = "Dangerous Day">>
+		<<set ↂ.pc.status.risk = 4>>
+		<<set ↂ.pc.status.fertText = "Dangerous Day">>
 	<</if>>
-<<elseif $PC.status.cycle == 4 && $PC.mutate.cycle>>
-	<<set $PC.status.period = 0>>
+<<elseif ↂ.pc.status.cycle == 4 && ↂ.pc.mutate.cycle>>
+	<<set ↂ.pc.status.period = 0>>
 	<<if $day == 1>>
-		<<set $PC.status.risk = 3.5>>
-		<<set $PC.status.fertText = "Should be Safe">>
+		<<set ↂ.pc.status.risk = 3.5>>
+		<<set ↂ.pc.status.fertText = "Should be Safe">>
 	<<elseif $day < 5>>
-		<<set $PC.status.risk = 2>>
-		<<set $PC.status.fertText = "Likely Safe">>
+		<<set ↂ.pc.status.risk = 2>>
+		<<set ↂ.pc.status.fertText = "Likely Safe">>
 	<<else>>
-		<<set $PC.status.risk = 1>>
-		<<set $PC.status.fertText = "Safe Day">>
+		<<set ↂ.pc.status.risk = 1>>
+		<<set ↂ.pc.status.fertText = "Safe Day">>
 	<</if>>
-<<elseif $PC.status.cycle == 1>>
-	<<if $day == 1 && $PC.fert.fertility > 3>>
-		<<set $PC.status.period = 2>>
-		<<set $PC.status.risk = 0>>
-		<<set $PC.status.fertText = "Safe Day - Start Period">>
-	<<elseif $day == 2 && $PC.fert.fertility > 3>>
-		<<set $PC.status.period = 3>>
-		<<set $PC.status.risk = 0>>
-		<<set $PC.status.fertText = "Safe Day - Heavy Period">>
-	<<elseif $day == 3 && $PC.fert.fertility > 3>>
-		<<set $PC.status.period = 2>>
-		<<set $PC.status.risk = 0>>
-		<<set $PC.status.fertText = "Safe Day - Period">>
-	<<elseif $day == 4 && $PC.fert.fertility > 3>>
-		<<set $PC.status.period = 1>>
-		<<set $PC.status.risk = 1>>
-		<<set $PC.status.fertText = "Safe Day - Light Period">>
-	<<elseif $day == 5 && $PC.fert.fertility > 3>>
-		<<set $PC.status.period = 0>>
-		<<set $PC.status.risk = 1>>
-		<<set $PC.status.fertText = "Safe Day">>
+<<elseif ↂ.pc.status.cycle == 1>>
+	<<if $day == 1 && ↂ.pc.fert.fertility > 3>>
+		<<set ↂ.pc.status.period = 2>>
+		<<set ↂ.pc.status.risk = 0>>
+		<<set ↂ.pc.status.fertText = "Safe Day - Start Period">>
+	<<elseif $day == 2 && ↂ.pc.fert.fertility > 3>>
+		<<set ↂ.pc.status.period = 3>>
+		<<set ↂ.pc.status.risk = 0>>
+		<<set ↂ.pc.status.fertText = "Safe Day - Heavy Period">>
+	<<elseif $day == 3 && ↂ.pc.fert.fertility > 3>>
+		<<set ↂ.pc.status.period = 2>>
+		<<set ↂ.pc.status.risk = 0>>
+		<<set ↂ.pc.status.fertText = "Safe Day - Period">>
+	<<elseif $day == 4 && ↂ.pc.fert.fertility > 3>>
+		<<set ↂ.pc.status.period = 1>>
+		<<set ↂ.pc.status.risk = 1>>
+		<<set ↂ.pc.status.fertText = "Safe Day - Light Period">>
+	<<elseif $day == 5 && ↂ.pc.fert.fertility > 3>>
+		<<set ↂ.pc.status.period = 0>>
+		<<set ↂ.pc.status.risk = 1>>
+		<<set ↂ.pc.status.fertText = "Safe Day">>
 	<<elseif $day == 1>>
-		<<set $PC.status.period = 2>>
-		<<set $PC.status.risk = 0>>
-		<<set $PC.status.fertText = "Safe Day - Start Period">>
+		<<set ↂ.pc.status.period = 2>>
+		<<set ↂ.pc.status.risk = 0>>
+		<<set ↂ.pc.status.fertText = "Safe Day - Start Period">>
 	<<elseif $day == 2>>
-		<<set $PC.status.period = 3>>
-		<<set $PC.status.risk = 0>>
-		<<set $PC.status.fertText = "Safe Day - Heavy Period">>
+		<<set ↂ.pc.status.period = 3>>
+		<<set ↂ.pc.status.risk = 0>>
+		<<set ↂ.pc.status.fertText = "Safe Day - Heavy Period">>
 	<<elseif $day == 3>>
-		<<set $PC.status.period = 3>>
-		<<set $PC.status.risk = 0>>
-		<<set $PC.status.fertText = "Safe Day - Heavy Period">>
+		<<set ↂ.pc.status.period = 3>>
+		<<set ↂ.pc.status.risk = 0>>
+		<<set ↂ.pc.status.fertText = "Safe Day - Heavy Period">>
 	<<elseif $day == 4>>
-		<<set $PC.status.period = 2>>
-		<<set $PC.status.risk = 0>>
-		<<set $PC.status.fertText = "Safe Day - Period">>
+		<<set ↂ.pc.status.period = 2>>
+		<<set ↂ.pc.status.risk = 0>>
+		<<set ↂ.pc.status.fertText = "Safe Day - Period">>
 	<<elseif $day == 5>>
-		<<set $PC.status.period = 1>>
-		<<set $PC.status.risk = 1>>
-		<<set $PC.status.fertText = "Safe Day - Light Period">>
+		<<set ↂ.pc.status.period = 1>>
+		<<set ↂ.pc.status.risk = 1>>
+		<<set ↂ.pc.status.fertText = "Safe Day - Light Period">>
 	<<elseif $day == 6>>
-		<<set $PC.status.period = 0>>
-		<<set $PC.status.risk = 1.5>>
-		<<set $PC.status.fertText = "Safe Day">>
+		<<set ↂ.pc.status.period = 0>>
+		<<set ↂ.pc.status.risk = 1.5>>
+		<<set ↂ.pc.status.fertText = "Safe Day">>
 	<<else>>
-		<<set $PC.status.period = 0>>
-		<<set $PC.status.risk = 2>>
-		<<set $PC.status.fertText = "Likely Safe">>
+		<<set ↂ.pc.status.period = 0>>
+		<<set ↂ.pc.status.risk = 2>>
+		<<set ↂ.pc.status.fertText = "Likely Safe">>
 	<</if>>
-<<elseif $PC.status.cycle == 2>>
-	<<set $PC.status.period = 0>>
+<<elseif ↂ.pc.status.cycle == 2>>
+	<<set ↂ.pc.status.period = 0>>
 	<<if $day == 1>>
-		<<set $PC.status.risk = 2.5>>
-		<<set $PC.status.fertText = "Likely Safe">>
+		<<set ↂ.pc.status.risk = 2.5>>
+		<<set ↂ.pc.status.fertText = "Likely Safe">>
 	<<elseif $day < 3>>
-		<<set $PC.status.risk = 3.5>>
-		<<set $PC.status.fertText = "Should be Safe">>
+		<<set ↂ.pc.status.risk = 3.5>>
+		<<set ↂ.pc.status.fertText = "Should be Safe">>
 	<<elseif $day == 7>>
-		<<set $PC.status.risk = 5>>
-		<<set $PC.status.fertText = "Ovulating">>
+		<<set ↂ.pc.status.risk = 5>>
+		<<set ↂ.pc.status.fertText = "Ovulating">>
 	<<else>>
-		<<set $PC.status.risk = 4>>
-		<<set $PC.status.fertText = "Dangerous Day">>
+		<<set ↂ.pc.status.risk = 4>>
+		<<set ↂ.pc.status.fertText = "Dangerous Day">>
 	<</if>>
-<<elseif $PC.status.cycle == 3>>
-	<<set $PC.status.period = 0>>
+<<elseif ↂ.pc.status.cycle == 3>>
+	<<set ↂ.pc.status.period = 0>>
 	<<if $day == 1>>
-		<<set $PC.status.risk = 4>>
-		<<set $PC.status.fertText = "Dangerous Day">>
+		<<set ↂ.pc.status.risk = 4>>
+		<<set ↂ.pc.status.fertText = "Dangerous Day">>
 	<<elseif $day < 4>>
-		<<set $PC.status.risk = 3>>
-		<<set $PC.status.fertText = "Should be Safe">>
+		<<set ↂ.pc.status.risk = 3>>
+		<<set ↂ.pc.status.fertText = "Should be Safe">>
 	<<else>>
-		<<set $PC.status.risk = 2>>
-		<<set $PC.status.fertText = "Likely Safe">>
+		<<set ↂ.pc.status.risk = 2>>
+		<<set ↂ.pc.status.fertText = "Likely Safe">>
 	<</if>>
-<<elseif $PC.status.cycle == 4>>
-	<<set $PC.status.period = 0>>
-	<<set $PC.status.risk = 1>>
-	<<set $PC.status.fertText = "Safe Day">>
+<<elseif ↂ.pc.status.cycle == 4>>
+	<<set ↂ.pc.status.period = 0>>
+	<<set ↂ.pc.status.risk = 1>>
+	<<set ↂ.pc.status.fertText = "Safe Day">>
 <</if>>
 <</widget>>*/
 

@@ -12,7 +12,7 @@
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -40,7 +40,7 @@
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
 @@.head3;Y@@ou're standing at the front of the store near the stationary and gift cards. There is also a small storefront for @@.ident;Bat's Optometry Clinic@@, through the windows you can see rows of glasses on display.
@@ -57,6 +57,9 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <<hoverrevise hovEnter>>
 	<<button "Enter the Clinic">><<dialog "Bat's Optometry Clinic">><br>Walking into the optometry clinic, you notice a sign in the window that says: "@@.info;Help Wanted! Inquire Within@@". The inside of the clinic looks exactly as you'd expect, with walls covered with glasses displays, and plenty of mirrors. There's a nice little waiting nook with couches and some magazines, and a glassed-in room with machines you assume are there to customize a patient's lenses. You see a fairly handsome man in his late 20s standing behind the reception counter, wearing a doctor's white lab coat.<br><br>He looks up after you walk in, and greets you with a smile. "@@.npc;Welcome to Bat's! Are you a new patient, or did you want to ask about the help wanted sign? I'd be glad to help either way.@@"<br><br>@@.head4;Get an eye exam@@ @@.exp;Will 'discover' a vision defecit, and you will need glasses.@@ @@.note;Not Implemented.@@<br>@@.head4;Ask about employment@@ @@.exp;See what kind of job is being offered.@@ @@.note;Not Implemented.@@<br>@@.head4;Just browse the glasses.@@ @@.exp;Look around for frames that would suit you.@@ @@.note;Also, Not Implemented.@@<</dialog>><</button>>
 <<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
 <<hoverrevise hovCart>>
 	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
 <<endhoverrevise>>
@@ -67,6 +70,7 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <<insertion hovShop>>@@.exp;Look for items you need, and add them to your cart. [20-40min]@@<<endinsertion>>
 <<insertion hovEnter>>@@.exp;Take a look around, and perhaps even get an eye exam.@@<<endinsertion>>
 <<insertion hovCart>>@@.exp;launches a popup that contains an ordered list of all the items in your cart, along with the price (prior to member discount). @@<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 /*this contains randomized event options that will print inside the related spans*/
 /*Weather-based actions added, like opening an umbrella*/

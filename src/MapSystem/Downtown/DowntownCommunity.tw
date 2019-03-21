@@ -8,11 +8,11 @@
 /*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
 <<include [[MAPdowntown]]>>
 /*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
-<div id="mainshits">
+<div id="mainshits" class="extraRoomRight">
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptDowntown>> <<mapEventDowntown>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 <<case "sct">>
 <<case "ovc">>
@@ -27,12 +27,13 @@
 <<case "+sn">>
 <<default>>
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 <p>
 @@.head3;Y@@ou look around the community area set into the side of central park. There are a few people playing some kind of collectable card game at one of the tables in the covered area, and there's a small refreshment stand set into the closed side of the building. A bored-looking teenager is standing behind the counter. Behind that is a public restroom, and off to the side is a large playground.
 </p>
 <p id="locact"></p>
+<<selfthought>>
 </div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
@@ -49,6 +50,9 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <<hoverrevise gamma>>
   <<button "Sit on the Swings">><</button>>
 <<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
 </div>
 
 /*Main display for information about actions*/
@@ -57,6 +61,7 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <<insertion beta>>Walk over to the refreshment stand and get a drink or snack.<<endinsertion>>
 <<insertion delta>>Go to the lady's room to freshen up or use the facilities.<<endinsertion>>
 <<insertion gamma>>You're never too old to swing.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
 <<timed 50ms>>

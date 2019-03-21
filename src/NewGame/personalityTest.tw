@@ -125,29 +125,26 @@ Where would you rather take a vacation?
     <<set _oRes += _opens[_i]>>
   <</for>>
   <<if _eRes < -13>>
-    <<set $PC.trait.vert = "introverted">>
+    <<set ↂ.pc.trait.vert = "introverted">>
     <<set _e = "Introverted">>
   <<elseif _eRes > 7>>
-    <<set $PC.trait.vert = "extroverted">>
+    <<set ↂ.pc.trait.vert = "extroverted">>
     <<set _e = "Extroverted">>
   <<else>>
-    <<set $PC.trait.vert = "neither">>
+    <<set ↂ.pc.trait.vert = "neither">>
     <<set _e = "Neutral">>
   <</if>>
   <<if _oRes > 14>>
-    <<set $PC.trait.open = "open">>
+    <<set ↂ.pc.trait.open = "open">>
     <<set _o = "High">>
   <<elseif _oRes < -5>>
-    <<set $PC.trait.open = "closed">>
+    <<set ↂ.pc.trait.open = "closed">>
     <<set _o = "Low">>
   <<else>>
-    <<set $PC.trait.open = "neither">>
+    <<set ↂ.pc.trait.open = "neither">>
     <<set _o = "Neutral">>
   <</if>>
-  <<replace "#open">><<print _o>><</replace>>
-  <<replace "#extro">><<print _e>><</replace>>
+  <<replace "#wifeisanidiot">>Extroversion: <<print _e>><br><br>Openness: <<print _o>><</replace>>
   <<replace "#pertestbutton">><center>Test Complete!</center><</replace>>
-  <<replace "#openPoint">>Locked<</replace>>
-  <<replace "#vertPoint">>Locked<</replace>>
   <<run Dialog.close()>>
 <</button>>

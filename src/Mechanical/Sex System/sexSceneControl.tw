@@ -4,15 +4,15 @@
 /*start with seeing if it's the beginning of a scene*/
 
 <<procS "sexact">>
-<<set $sex.turns += 1>>
+<<set ↂ.sex.turns += 1>>
 <<set _time = either(1,1,1,1,2,2,3)>>
 <<addTime _time>>
-<<if $sex.orgCountPC > 0>>
-  <<goto [[SexSceneCleanup]]>>
+<<if ↂ.sex.orgCountPC > 0>>
+  <<go SexSceneCleanup>>
 <</if>>
-<<if $PC.status.pleasure > $sex.pcOrgasm>>
-  <<set $sex.pcOutput = "You cum super hard or something... In the future, the PC having an orgasm won't end the sex scene like it does right now. In fact, the sex scene will use set of triggers to transition into intermediary scenes in the same system. Getting a creampie will trigger a scene for what to do about it, such as running to the bathroom to clean it out, or propping your hips up, etc. (options will include just continuing on with another partner if in a group.) The only limit to the length of a scene is the stamina of your character and the involved NPCs.">>
-  <<set $sex.orgCountPC += 1>>
+<<if ↂ.pc.status.pleasure > ↂ.sex.pcOrgasm>>
+  <<set ↂ.sex.pcOutput = "You cum super hard or something... In the future, the PC having an orgasm won't end the sex scene like it does right now. In fact, the sex scene will use set of triggers to transition into intermediary scenes in the same system. Getting a creampie will trigger a scene for what to do about it, such as running to the bathroom to clean it out, or propping your hips up, etc. (options will include just continuing on with another partner if in a group.) The only limit to the length of a scene is the stamina of your character and the involved NPCs.">>
+  <<set ↂ.sex.orgCountPC += 1>>
 <</if>>
 
 <<procE>>
@@ -22,20 +22,20 @@
 :: SexSceneCleanup [nobr]
 
 <<set _pusher = {mouth: false,handL: false,handR: false,titL: false,titR: false,pussy: false,clit: false,asshole: false,cock: false,balls: false}>>
-<<set $sex.pcOccupied = _pusher>>
-<<set $sex.npcOccupied = []>>
+<<set ↂ.sex.pcOccupied = _pusher>>
+<<set ↂ.sex.npcOccupied = []>>
 <<for _i = 0; _i < 10; _i++>>
-  <<run $sex.npcOccupied.push(_pusher)>>
+  <<run ↂ.sex.npcOccupied.push(_pusher)>>
 <</for>>
-<<set _pusher = {dia:false,diaType:"none",diaEf:0,diaHealth:0,diaBreak:false,diaSab:0,femCon:false,femConHealth:0,femConEf:0,femConType:"none",femConBreak:false,femConSab:0,menCup:false,menCupType:"none",menCupHealth:0,menCupEf:0,menCupBreak:false,menCupSab:0,sponge:false,spongeType:"none",spongeEf:0,spongeSab:0,condom:false,condomType:"none",condomHealth:0,condomEf:0,condomBreak:false,condomSab:0,headCap:false,headCapType:"none",headCapHealth:0,headCapEf:0,headCapBreak:false,headCapSab:0}>>
-<<set $sex.pcBC = _pusher>>
-<<set $sex.npcBC = []>>
+<<set _pusher = {dia:false,diaType:"none",diaEf:0,diaHealth:0,diaBreak:false,diaSab:0,femCon:false,femConHealth:0,femConEf:0,femConType:"none",femConBreak:false,femConSab:0,menCup:false,menCupType:"none",menCupHealth:0,menCupEf:0,menCupBreak:false,menCupSab:0,sponge:false,spongeType:"none",spongeEf:0,spongeSab:0,condom:false,condomType:"none",condom.health:0,condomEf:0,condom.break:false,condomSab:0,headCap:false,headCapType:"none",headCapHealth:0,headCapEf:0,headCapBreak:false,headCapSab:0}>>
+<<set ↂ.sex.pcBC = _pusher>>
+<<set ↂ.sex.npcBC = []>>
 <<for _i = 0; _i < 10; _i++>>
-  <<run $sex.npcBC.push(_pusher)>>
+  <<run ↂ.sex.npcBC.push(_pusher)>>
 <</for>>
-<<set $sex.pcOutput = "none">>
-<<set $sex.npcOutput = ["none"]>>
-<<set $sex.encounter = ["none"]>>
+<<set ↂ.sex.pcOutput = "none">>
+<<set ↂ.sex.npcOutput = ["none"]>>
+<<set ↂ.sex.encounter = ["none"]>>
 <<run setup.library.killSA()>>
 <<arousal -8>>
 
@@ -51,59 +51,59 @@
   <<run setup.defineSexPositions()>>
   <<run setup.library.initSA()>>
 /*<</timed>>*/
-<<set $sex.turns = 0>>
-<<set $sex.lastPos = "none">>
-<<set $sex.pcLastAct = "none">>
-<<set $sex.pcActRecord = ["start"]>>
-<<set $sex.npcCount = $sex.activeNPC.length>>
-<<set $sex.npcLastAct = []>>
-<<set $sex.npcActRecord = []>>
-<<set $sex.npcOrgasm = []>>
-<<for _i = 0; _i < $sex.npcCount; _i++>>
-  <<run $sex.npcLastAct.push("none")>>
-  <<run $sex.npcActRecord.push(["start"])>>
-  <<set _norg = (($NPC[$sex.activeNPC[_i]].body.orgasm + (($pref.sexSceneSpeed + $sex.situOrg)* 5)) * 8)*5>>
-  <<run $sex.npcOrgasm.push(_norg)>>
+<<set ↂ.sex.turns = 0>>
+<<set ↂ.sex.lastPos = "none">>
+<<set ↂ.sex.pcLastAct = "none">>
+<<set ↂ.sex.pcActRecord = ["start"]>>
+<<set ↂ.sex.npcCount = ↂ.sex.activeNPC.length>>
+<<set ↂ.sex.npcLastAct = []>>
+<<set ↂ.sex.npcActRecord = []>>
+<<set ↂ.sex.npcOrgasm = []>>
+<<for _i = 0; _i < ↂ.sex.npcCount; _i++>>
+  <<run ↂ.sex.npcLastAct.push("none")>>
+  <<run ↂ.sex.npcActRecord.push(["start"])>>
+  <<set _norg = ((aw.npc[ↂ.sex.activeNPC[_i]].body.orgasm + (($pref.sexSceneSpeed + ↂ.sex.situOrg)* 5)) * 8)*5>>
+  <<run ↂ.sex.npcOrgasm.push(_norg)>>
 <</for>>
-<<set $sex.pcOrgasm = (($PC.body.orgasm + (($pref.sexSceneSpeed + $sex.situOrg) * 5)) * 8)*5>>
-<<set $sex.encounter = []>>
-<<if $sex.target == "none">>
-  <<set $sex.target = 0>>
+<<set ↂ.sex.pcOrgasm = ((ↂ.pc.body.orgasm + (($pref.sexSceneSpeed + ↂ.sex.situOrg) * 5)) * 8)*5>>
+<<set ↂ.sex.encounter = ["none","none","none"]>>
+<<if ↂ.sex.target == "none">>
+  <<set ↂ.sex.target = 0>>
 <</if>>
-<<set $sex.tabs = 1>>/*activetab*/
-<<set $sex.lastPos = "none">>/*setup.sexPos key*/
-<<set $sex.pcAct = "start">>/*setup.sexAct key*/
-<<set $sex.pcLastAct = "none">>/*setup.sexAct key*/
-<<set $sex.pcActRecord = []>>
-<<set $sex.npcAct = []>>
+<<set ↂ.sex.tabs = 1>>/*activetab*/
+<<set ↂ.sex.lastPos = "none">>/*setup.sexPos key*/
+<<set ↂ.sex.pcAct = "start">>/*setup.sexAct key*/
+<<set ↂ.sex.pcLastAct = "none">>/*setup.sexAct key*/
+<<set ↂ.sex.pcActRecord = []>>
+<<set ↂ.sex.npcAct = []>>
 <<for _i = 0; _i < 10; _i++>>
-  <<run $sex.npcAct.push("none")>>
+  <<run ↂ.sex.npcAct.push("none")>>
 <</for>>
-<<set $sex.npcLastAct = []>>
+<<set ↂ.sex.npcLastAct = []>>
 <<for _i = 0; _i < 10; _i++>>
-  <<run $sex.npcLastAct.push("none")>>
+  <<run ↂ.sex.npcLastAct.push("none")>>
 <</for>>
-<<set $sex.npcActRecord = [[],[],[],[],[],[],[],[],[],[]]>>
+<<set ↂ.sex.npcActRecord = [[],[],[],[],[],[],[],[],[],[]]>>
 <<for _i = 0; _i < 10; _i++>>
-  <<run $sex.npcActRecord[_i].push("none")>>
+  <<run ↂ.sex.npcActRecord[_i].push("none")>>
 <</for>>
-<<set $sex.inPosition = []>>/*npc/s in sex position with pc. index*/
-<<if $sex.npcOutput == "---">>
-  <<set $sex.npcOutput = "The strangers look around with confusion at being brought here, seemingly unsure of what is happening.">>
+<<set ↂ.sex.inPosition = []>>/*npc/s in sex position with pc. index*/
+<<if ↂ.sex.npcOutput == "---">>
+  <<set ↂ.sex.npcOutput = "The strangers look around with confusion at being brought here, seemingly unsure of what is happening.">>
 <</if>>
-<<set $sex.speed = 0>>
+<<set ↂ.sex.speed = 0>>
 <<set _pusher = {mouth: false,handL: false,handR: false,titL: false,titR: false,pussy: false,clit: false,asshole: false,cock: false,balls: false}>>
-<<set $sex.pcOccupied = _pusher>>
-<<set $sex.npcOccupied = []>>
+<<set ↂ.sex.pcOccupied = _pusher>>
+<<set ↂ.sex.npcOccupied = []>>
 <<for _i = 0; _i < 10; _i++>>
-  <<run $sex.npcOccupied.push(_pusher)>>
+  <<run ↂ.sex.npcOccupied.push(_pusher)>>
 <</for>>
-<<set $sex.npcBC = []>>
+<<set ↂ.sex.npcBC = []>>
 <<for _i = 0; _i < 10; _i++>>
-  <<run $sex.npcBC.push(_pusher)>>
+  <<run ↂ.sex.npcBC.push(_pusher)>>
 <</for>>
-<<set $sex.fucking = false>>
-<<switch $PC.body.wetness>>
+<<set ↂ.sex.fucking = false>>
+<<switch ↂ.pc.body.pussy.wetness>>
   <<case 1>>
     <<set _t = 8>>
   <<case 2>>
@@ -115,43 +115,43 @@
   <<case 5>>
     <<set _t = 1>>
 <</switch>>
-<<set _t = Math.min(6,Math.round($PC.status.arousal / _t))>>
-<<set $sex.pcWetness = _t>>
-<<set $sex.npcWetness = [0,0,0,0,0,0,0,0,0,0]>>
+<<set _t = Math.min(6,Math.round(ↂ.pc.status.arousal / _t))>>
+<<set ↂ.sex.pcWetness = _t>>
+<<set ↂ.sex.npcWetness = [0,0,0,0,0,0,0,0,0,0]>>
 <<set _pusher = {used:false,amt:0,effective:0,type:"none",pleasure:0,prevType:"none"}>>
-<<set $sex.pcLube = _pusher>>
-<<set $sex.npcLube = []>>
+<<set ↂ.sex.pcLube = _pusher>>
+<<set ↂ.sex.npcLube = []>>
 <<for _i = 0; _i < 10; _i++>>
-  <<run $sex.npcLube.push(_pusher)>>
+  <<run ↂ.sex.npcLube.push(_pusher)>>
 <</for>>
-<<set $sex.earlyOut = false>>
-<<set $sex.orgCountPC = 0>>
-<<set $sex.orgCountNPC = [0,0,0,0,0,0,0,0,0,0]>>
+<<set ↂ.sex.earlyOut = false>>
+<<set ↂ.sex.orgCountPC = 0>>
+<<set ↂ.sex.orgCountNPC = [0,0,0,0,0,0,0,0,0,0]>>
 /*=============================*/
 /*  fucking add position tags  */
 /*=============================*/
-<<set $sex.posTags = []>>
+<<set ↂ.sex.posTags = []>>
 /*set default starting access tags*/
 <<set _tagA = ["face","lips","head","armL","armR","handL","handR","titL","titR","nipL","nipR","chest","belly","hips","ass","groin","pubic","clit","pussy","asshole","cock","balls","thighR","thighL","calfR","calfL","footR","footL"]>>
 <<set _tagF = ["face","lips","head","armL","armR","handL","handR","titL","titR","nipL","nipR","chest","belly","hips","ass","groin","pubic","clit","pussy","asshole","thighR","thighL","calfR","calfL","footR","footL"]>>
 <<set _tagM = ["face","lips","head","armL","armR","handL","handR","nipL","nipR","chest","belly","hips","ass","groin","pubic","asshole","cock","balls","thighR","thighL","calfR","calfL","footR","footL"]>>
-<<set $sex.pcAccessTags = _tagF>>
-<<set $sex.pcAccessMtags = _tagF>>
-<<set $sex.npcAccessTags = []>>
-<<set $sex.npcAccessMtags = []>>
-<<for _i = 0; _i < $sex.npcCount;_i++>>
-  <<if $NPC[$sex.activeNPC[_i]].body.genes == "XX">>
-    <<run $sex.npcAccessTags.push(_tagF)>>
-    <<run $sex.npcAccessMtags.push(_tagF)>>
-  <<elseif $NPC[$sex.activeNPC[_i]].body.genes == "XY">>
-    <<run $sex.npcAccessTags.push(_tagM)>>
-    <<run $sex.npcAccessMtags.push(_tagM)>>
+<<set ↂ.sex.pcAccessTags = _tagF>>
+<<set ↂ.sex.pcAccessMtags = _tagF>>
+<<set ↂ.sex.npcAccessTags = []>>
+<<set ↂ.sex.npcAccessMtags = []>>
+<<for _i = 0; _i < ↂ.sex.npcCount;_i++>>
+  <<if aw.npc[ↂ.sex.activeNPC[_i]].body.genes == "XX">>
+    <<run ↂ.sex.npcAccessTags.push(_tagF)>>
+    <<run ↂ.sex.npcAccessMtags.push(_tagF)>>
+  <<elseif aw.npc[ↂ.sex.activeNPC[_i]].body.genes == "XY">>
+    <<run ↂ.sex.npcAccessTags.push(_tagM)>>
+    <<run ↂ.sex.npcAccessMtags.push(_tagM)>>
   <<else>>
-    <<run $sex.npcAccessTags.push(_tagA)>>
-    <<run $sex.npcAccessMtags.push(_tagA)>>
+    <<run ↂ.sex.npcAccessTags.push(_tagA)>>
+    <<run ↂ.sex.npcAccessMtags.push(_tagA)>>
   <</if>>
 <</for>>
-<<set $sex.start = false>>
+<<set ↂ.sex.start = false>>
 <<procE>>
 <<if $swim == "[dev]">>
   <<gotodev "SexSceneDisplay" 6000>>
@@ -163,5 +163,5 @@
   <</replace>>
   <</timed>>
 <<else>>
-  <<goto [[SexSceneDisplay]]>>
+  <<go SexSceneDisplay>>
 <</if>>

@@ -3,12 +3,56 @@
 <div style="position:fixed;top:0px;bottom:0px;left:0px;right:0px;z-index:250;background-color:#222;color:#DDD;overflow:auto;text-align:justify;padding:10px;">
 <center>
 @@.head2;Test and Demo Page@@
-<br>
-<span class="white" style="font-size:115%;"><i>This page is used primarily to help test new functionality. It isn't intended to be clean, neat, or fully functional.</i></span>
+<span class="white" style="font-size:1.15rem;"><i>This page is used primarily to help test new functionality. It isn't intended to be clean, neat, or fully functional.</i></span>
 </center>
 <br>
-<<hoverrevise shit>><<link "ESCAPE THIS REALM OF CHAOS!">><<goto[[Start]]>><</link>><<endhoverrevise>>
+<<hoverrevise shit>><<button "ESCAPE THIS REALM OF CHAOS!">><<goto[[Start]]>><</button>><<endhoverrevise>>
 <<insertion shit>> This is a test of hovertext for info purposes.<<endinsertion>>
+<br>
+<<set ↂtemp = "Testes-Test">>print macro w/dot: <<= ↂ.temp>>, print macro w/o dot: <<= ↂtemp>>.
+<<button "ↂTEST">><<run setup.test(ↂ.temp)>><</button>>
+<br>
+<<button "piercing parlor">><<go DowntownShopPenetrated>><</button>>
+<br>
+<<button "Dating menu">><<interact "This is a dating menu test">>@@.npc;So, you have a vagina? Let's date then!@@<br><div id="dateScheduler"><<link "Sure!">><<intreplace>><<datescheduler n101>><</intreplace>><</link>></div><</interact>><</button>>
+<br>
+Achievements:
+<<button "1">><<achieve prologue>><</button>>
+<<button "2">><<achieve tomfuckery>><</button>>
+<<button "3">><<achieve sperm>><</button>>
+<<button "4">><<achieve tsar>><</button>>
+<<button "5">><<achieve bCorps>><</button>>
+<<button "Unlock Prologue skip">><<unlock "Prologue skip">><</button>>
+<<button "Unlock Mega Tits">><<unlock "Mega Tits">><</button>>
+<<button "Reset localstorage">><<run setup.achieve.reset()>><</button>>
+<br>
+Jobdata:
+<br>
+<<button "Let's work at Sperm 1">><<setNewJob IT 0>><</button>>
+<<button "2">><<setNewJob IT 1>><</button>>
+<<button "3">><<setNewJob IT 2>><</button>>
+<<button "4">><<setNewJob IT 3>><</button>>
+<<button "5">><<setNewJob IT 4>><</button>>
+<br>
+<<button "Let's work at Services 1">><<setNewJob IS 0>><</button>>
+<<button "2">><<setNewJob IS 1>><</button>>
+<<button "3">><<setNewJob IS 2>><</button>>
+<<button "4">><<setNewJob IS 3>><</button>>
+<<button "5">><<setNewJob IS 4>><</button>>
+<br>
+<<button "Let's work at Bcrops 1">><<setNewJob IB 0>><</button>>
+<<button "2">><<setNewJob IB 1>><</button>>
+<<button "3">><<setNewJob IB 2>><</button>>
+<<button "4">><<setNewJob IB 3>><</button>>
+<<button "5">><<setNewJob IB 4>><</button>>
+<br>
+<<button "I've been a good girl, promote me daddy!">><<promote false false>><</button>><br>
+<<button "Ich bin ein schlecht Mädchen, bitte bestrafe mich!">><<demote false false>><</button>><br>
+<br>
+<<link "terminal test">><<go "terminalTestWindow">><</link>><<tab>>
+<<link "shower menu">><<dialog "Shower">><<include [[groomingShowerMenu]]>><</dialog>><</link>>
+<br><<button "INTERACT">><<interact "This is a Demonstration Title" "IMGbounce21">>This is a test of the interact window.<br>This is only a test!<br><br>Enjoy the boobs I guess. The windows are draggable. they can be minimized too.<</interact>><</button>><<tab>>
+<<button "INTERACT WITH BG">><<interact "This is a Demonstration Title" true>>This is a test of the interact window.<br>This is only a test!<br><br>this version has the option for a background set to true. the main job is to hide the window and prevent clicksies. Note that this one doesn't have a minimize button, because what's the point?<</interact>><</button>>
 <br>
 [img[RNG Test|IMGrandomdice][RandomNumberTest]]
 <br>
@@ -16,15 +60,17 @@
 <br>
 <<silly>>Silly mode test<</silly>>
 <br>
+<<button "Colony Ship">><<go "ColonyShipMain">><</button>>
+<br>
 <<set _testingnum = 0>>
 <<link "test new dialog functionality">><<dialog "testing">>This is a test of on-close functionality.<br>Closing it adds 1 to the counter variable, demonstrating "on close" functionality.<<onclose>>State.temporary.testingnum += 1;<</dialog>><</link>>
 <br><<link "display">><<replace "#testCunt">><<print _testingnum>><</replace>><</link>>  <span id="testCunt"><<print _testingnum>></span>
 <br><br>
 <<button "test notification">><<notify>>This is a @@.bad;demonstration@@ image!<</notify>><</button>>
 <br>
-<<button "View Sleep Screen">><<goto [[SleepScreenDemo]]>><</button>>
+<<button "View Sleep Screen">><<go SleepScreenDemo>><</button>>
 <br>
-<<button "test clothing icons">><<goto [[testingClothing]]>><</button>>
+<<button "test clothing icons">><<go testingClothing>><</button>>
 <br>
 Emo Macro: <<emo cute>>
 <br>
@@ -32,7 +78,7 @@ Emo Macro: <<emo cute>>
 <br>
 <<button "New Portrait">><<replace "#right-sidebar-portraitTEST">><<include [[godamnedasa]]>><</replace>><</button>>
 <br>
-<<button "Attempt Sync">><<run setup.porn.gifrefresh(_targ, _sorc)>><</button>>
+<<button "Attempt Sync">><<run setup.porn.gifrefresh(_targ, _sorc)>><</button>> <<button "danger">><<go TestingChat>><</button>>
 <br>
 <<set $temp = {}>>
 <<set $temp.oogabooga = 4>>
@@ -63,44 +109,30 @@ Measurement Unit Testings:<<tab>>Metric? <span id="unitshit"><<= $AW.metric>></s
 <<link "Switch to American">><<set $AW.metric = false>><<replace "#unitshit">>false<</replace>><</link>> | <<link "Switch to French">><<set $AW.metric = true>><<replace "#unitshit">>true<</replace>><</link>> | <<link "Print em">><<replace "#unitshitoo">><<= _inch>><br><<= _feet>><br><<= _cm>><br><<= _m>><br><<= _yd>><br><<= _mi>><br><<= _km>><</replace>><</link>><br>
 <span id="unitshitoo">
 <<= _inch>><br><<= _feet>><br><<= _cm>><br><<= _m>><br><<= _yd>><br><<= _mi>><br><<= _km>>
-</span></center>
+</span>
 <br><br>
+<br>
+<<link "dead end">><<go ClothesShoppingDisplay>><</link>>
+<br>
+<br>
 
-
-<<tabset "tabs" "Testing">>
-I was having a hard time coming up with a post image that's related to what I've been doing (writing code) and lactation, so this little piece of wtf is the result. :D Unsurprisingly, it turns out that giant (fake) breasts spraying milk is a whole thing in porn... Though I feel kind of disappointed that it didn't turn out to be Japanese.<br><br><<mon>><br>See? even macros work and whatnot.<br><br>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-<<newtab "Again">>
-Look into my nipples... You're feeling sleepy... Sleepy... oh so sleepy... But you can't get comfortable... Your wallet has too many Dollar bills in it... You want to give your ones to the hypnotits... mmmmm hypnotits...
-<<newtab "With ACCORDION HERE!">>
-<<accordion "accordMoFo" "The First One">>
-There's stuff here!
-<<accord "The Secondish">>
-And even more stuff, like printing the money symbol <<mon>>!
-<<accord "The Finalism">>
-<div style="width:80%;background-color:#fc3c3c;border-width:2px;border-style:dotted;border-color:#f9bc20;border-radius:6px;text-align:center;padding:8px;margin 2px 5px 15px 5px;font-size:24px;font-weight:900;">
-  WARNING: You look like a clown!<br>[img[IMGclownMU]]
-</div>
-<</accordion>>
-<</tabset>>
-/*<div id="tabs">
-  <ul>
-    <li><a href="#fragment-1">One</a></li>
-    <li><a href="#fragment-2">Two</a></li>
-    <li><a href="#fragment-3">Three</a></li>
-  </ul>
-  <div id="fragment-1">
-    
-  </div>
-  <div id="fragment-2">
-    
-  </div>
-  <div id="fragment-3">
-    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-  </div>
-</div>*/
+<<link "Medical Map Test">><<go testingDeadEndMap>><</link>>
+<<link "Institute Map Test">><<go testingDeadEndMapTwo>><</link>>
 <br><br><br><br>
 
+<<dialogchoice>>
+<<dbutt "OPTION A">><<run alert("hey, you clicked option A!")>>
+<<dtext "angry">>Just testin stuffs
+<<dbutt "OPTION B" "ↂ.flag.Prologue">><<run alert("hey, looks like the eval expression worked!")>>
+<<dtext>>this is checkin some internal logic shit.
+<<if true>>
+<<dbutt "option c" "false">><<run alert("you clicked something")>>
+<<dtext>>This should be disabled if it worked properly!
+<</if>>
+<</dialogchoice>>
+<br><br>
 
+</div>
 
 
 :: SleepScreenDemo [nobr hidden]
@@ -122,7 +154,7 @@ And even more stuff, like printing the money symbol <<mon>>!
   </div>
   <<timed 50ms>>
     <<pbarfinish "#skypbar">>
-      <div id="butthold"><<button "Return To Start">><<goto [[Start]]>><</button>></div>
+      <div id="butthold"><<button "Return To Start">><<go Start>><</button>></div>
     <</pbarfinish>>
   <</timed>>
 </div>
@@ -134,7 +166,30 @@ And even more stuff, like printing the money symbol <<mon>>!
 <<set _num = 0>>
 <h3>Clothing Image Test</h3>
 <p>select a number from 0 to 27 using the arrows, and click "load" to display the clothing in that color.</p>
-<<button "◄">><<if _num == 0>><<set _num = 27>><<else>><<set _num -= 1>><</if>><<replace "#curnum">><<print _num>> <<print setup.colorWord(_num)>><</replace>><</button>> <span id="curnum" class="ident"><<print _num>> <<print setup.colorWord(_num)>></span> <<button "►">><<if _num == 27>><<set _num = 0>><<else>><<set _num += 1>><</if>><<replace "#curnum">><<print _num>> <<print setup.colorWord(_num)>><</replace>><</button>> <<button "load">><<set _col = setup.colorDecode(_num)>><<replace "#outshit">>
+<<button "◄">><<if _num == 0>><<set _num = 27>><<else>><<set _num -= 1>><</if>><<replace "#curnum">><<print _num>> <<print setup.clothes.colorWord(_num)>><</replace>><</button>> <span id="curnum" class="ident"><<print _num>> <<print setup.clothes.colorWord(_num)>></span> <<button "►">><<if _num == 27>><<set _num = 0>><<else>><<set _num += 1>><</if>><<replace "#curnum">><<print _num>> <<print setup.clothes.colorWord(_num)>><</replace>><</button>> <<button "load">><<set _col = setup.clothes.colorHex(_num)>><<replace "#outshit">>
+@@.head3;swimming@@<br>
+<<print ("<img data-passage='IMG-CI-BandeauTop' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-ExtremeNanoBikiniTop' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-NanoBikiniTop' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-MicroBikiniTop' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-OpenCupBikini' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-TriangleTop' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-StraplessTop2' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-StraplessTop' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-HalterTop' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-FlounceTop' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-OnepiecePlunge' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-SwimOnepiece' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-SwimHighLeg' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-BandageOnepiece' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-TankiniTop' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-OpenBottom' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-OnepieceAthletic' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-NanoGstring' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-CheekyBottom' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-Boyshorts' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-BikiniBottom' style='background-color:" + _col + ";' />")>>
+<<print ("<img data-passage='IMG-CI-Vbottom' style='background-color:" + _col + ";' />")>>
 @@.head3;Bras@@<br>
 <<print ("<img data-passage='IMG-bra-1' style='background-color:" + _col + ";' />")>>
 <<print ("<img data-passage='IMG-bra-2' style='background-color:" + _col + ";' />")>>
@@ -302,7 +357,7 @@ And even more stuff, like printing the money symbol <<mon>>!
 <<print ("<img data-passage='IMG_dress_34' style='background-color:" + _col + ";' />")>>
 <<print ("<img data-passage='IMG_dress_35' style='background-color:" + _col + ";' />")>>
 <br>
-<</replace>><</button>> <<button "return">><<goto [[motherfuckerbitchwhore]]>><</button>><br><br>
+<</replace>><</button>> <<button "return">><<go motherfuckerbitchwhore>><</button>><br><br>
 <span id="outshit"></span>
 
 :: godamnedasa [nobr]
@@ -321,7 +376,7 @@ thus it can't run game js for us. instead, we make use of a fun little workaroun
 <<timed 50ms>>
 <<script>>
   $("area.navBEhardware").click(function(){
-    alert("works!");
+    UI.alert("works!");
     setup.map.nav("start","hardware");
   });
 <</script>>
@@ -414,3 +469,509 @@ thus it can't run game js for us. instead, we make use of a fun little workaroun
 <<weatherBullseyeAct>>
 /*Event-based actions added*/
 <<mapEventBullseyeAct>>
+
+
+
+
+:: parserTestPassage [hidden nobr startpage]
+
+ParserTestio!<br><br>
+You have <<p breast.s>> breasts with a <<p pussy.q>> pussy
+
+
+
+:: consumableTestPassage [hidden nobr startpage noui]
+
+
+<<button "return">><<go Introduction>><</button>><br>
+<div style="vertical-align:top;">
+<div class="consumableDisplay">
+<<addconsumable "GarglierFaceWipes" 12>>
+<<addconsumable "DuremaxSafeT" 6>>
+<<addconsumable "DuremaxSafePE" 6>>
+<<addconsumable "trojancockS" 12>>
+<<addconsumable "trojancockUL" 12>>
+<<addconsumable "trojancockUNL" 12>>
+<<addconsumable "pleasureburst" 6>>
+<<addconsumable "fertilitea" 18>>
+<<addconsumable "sultryDouche" 4>>
+<<addconsumable "premiumLube" 40>>
+<<addconsumable "proseedLube" 6>>
+<h3>Consumable Inventory</h3>
+<<usableconsumables>>
+<br>
+<span class="consumableDisplay">
+Click an item name to learn more, click Use to use the item.
+</span>
+</div>
+<<pickup "$items" "Menstrual Cup">>
+<<pickup "$items" "Generic Lubricant">>
+<<pickup "$items" "Focker's Dark Roast">>
+<<pickup "$items" "Sultry Eve Enema Kit">>
+<<pickup "$items" "Smart Toilet Fertility Module">>
+<<sort "$items">>
+<div class="consumableDisplay">
+<h3>Standard Inventory</h3>
+<<inventorydisplay "$items">>
+<br>
+<span class="consumableDisplay">
+Click an item name to learn more.
+</span>
+</div>
+</div>
+<br><br>
+<h3>Clothing stuff</h3>
+<<button "Swim">><<go testingClothingPassage>><</button>>
+<<button "Generate More">><<include [[DevShortcutCloGen]]>><<go consumableTestPassage>><</button>> <<button "Gen Quality 0">><<genPanties 50 0 0 0 0 "Bullseye">><<genBra 50 1 0 0 0 "Bullseye">><<genStocking 50 0 0 0 0 "Bullseye">><<genUpperBody 50 0 0 0 0 "Bullseye">><<genDress 50 0 0 0 0 "Bullseye">><<genLowerBody 50 0 0 0 0 "Bullseye">><<go consumableTestPassage>><</button>> <<button "Gen Quality 2">><<genPanties 50 0 0 0 2 "Bullseye">><<genBra 50 1 0 0 2 "Bullseye">><<genStocking 50 0 0 0 2 "Bullseye">><<genUpperBody 50 0 0 0 2 "Bullseye">><<genDress 50 0 0 0 2 "Bullseye">><<genLowerBody 50 0 0 0 2 "Bullseye">><<go consumableTestPassage>><</button>><br>
+Examine: <<button "Panties">><<dialog "Clothing Detail">><<print setup.clothes.details(ↂ.storeInv.panties[0])>><</dialog>><</button>>
+<<button "Bra">><<dialog "Clothing Detail">><<print setup.clothes.details(ↂ.storeInv.bra[0])>><</dialog>><</button>>
+<<button "Stockings">><<dialog "Clothing Detail">><<print setup.clothes.details(ↂ.storeInv.leg[0])>><</dialog>><</button>>
+<<button "Top">><<dialog "Clothing Detail">><<print setup.clothes.details(ↂ.storeInv.top[0])>><</dialog>><</button>>
+<<button "Bottom">><<dialog "Clothing Detail">><<print setup.clothes.details(ↂ.storeInv.bottom[0])>><</dialog>><</button>>
+<<button "Dress">><<dialog "Clothing Detail">><<print setup.clothes.details(ↂ.storeInv.dress[0])>><</dialog>><</button>>
+
+<br>
+<<silently>>
+<<set _pantiesATR = 0>>
+<<set _pantiesNum = ↂ.storeInv.panties.length>>
+<<set _pantiesList = []>>
+<<for _i to 0; _i < _pantiesNum; _i++>>
+  <<set _pantiesATR += aw.clothes[ↂ.storeInv.panties[_i]].values.atr>>
+  <<set _pantiesList.push(aw.clothes[ↂ.storeInv.panties[_i]].values.atr)>>
+<</for>>
+<<set _pantiesAvg = Math.round((_pantiesATR / _pantiesNum))>>
+<<set _pantiesWhole = Math.floor(_pantiesAvg)>>
+<<set _pantiesFrac = Math.round((_pantiesAvg - _pantiesWhole)*100)>>
+<<set _pantiesMax = Math.max(_pantiesList)>>
+<</silently>>
+<b>Panties:</b> Number: <<print _pantiesNum>>, Average ATR: <<print _pantiesWhole>>.<<print _pantiesFrac>>, Max ATR: <<print _pantiesMax>><br>
+<<silently>>
+<<set _braATR = 0>>
+<<set _braNum = ↂ.storeInv.bra.length>>
+<<set _braList = []>>
+<<for _i to 0; _i < _braNum; _i++>>
+  <<set _braATR += aw.clothes[ↂ.storeInv.bra[_i]].values.atr>>
+  <<set _braList.push(aw.clothes[ↂ.storeInv.bra[_i]].values.atr)>>
+<</for>>
+<<set _braAvg = Math.round((_braATR / _braNum))>>
+<<set _braWhole = Math.floor(_braAvg)>>
+<<set _braFrac = Math.round((_braAvg - _braWhole)*100)>>
+<<set _braMax = Math.max(_braList)>>
+<</silently>>
+<b>Bras:</b> Number: <<print _braNum>>, Average ATR: <<print _braWhole>>.<<print _braFrac>>, Max ATR: <<print _braMax>><br>
+<<silently>>
+<<set _legATR = 0>>
+<<set _legNum = ↂ.storeInv.leg.length>>
+<<set _legList = []>>
+<<for _i to 0; _i < _legNum; _i++>>
+  <<set _legATR += aw.clothes[ↂ.storeInv.leg[_i]].values.atr>>
+  <<set _legList.push(aw.clothes[ↂ.storeInv.leg[_i]].values.atr)>>
+<</for>>
+<<set _legAvg = Math.round((_legATR / _legNum))>>
+<<set _legWhole = Math.floor(_legAvg)>>
+<<set _legFrac = Math.round((_legAvg - _legWhole)*100)>>
+<<set _legMax = Math.max(_legList)>>
+<</silently>>
+<b>Stockings:</b> Number: <<print _legNum>>, Average ATR: <<print _legWhole>>.<<print _legFrac>>, Max ATR: <<print _legMax>><br>
+<<silently>>
+<<set _upBodyATR = 0>>
+<<set _upBodyNum = ↂ.storeInv.top.length>>
+<<set _upBodyList = []>>
+<<for _i to 0; _i < _upBodyNum; _i++>>
+  <<set _upBodyATR += aw.clothes[ↂ.storeInv.top[_i]].values.atr>>
+  <<set _upBodyList.push(aw.clothes[ↂ.storeInv.top[_i]].values.atr)>>
+<</for>>
+<<set _upBodyAvg = Math.round((_upBodyATR / _upBodyNum))>>
+<<set _upBodyWhole = Math.floor(_upBodyAvg)>>
+<<set _upBodyFrac = Math.round((_upBodyAvg - _upBodyWhole)*100)>>
+<<set _upBodyMax = Math.max(_upBodyList)>>
+<</silently>>
+<b>Tops:</b> Number: <<print _upBodyNum>>, Average ATR: <<print _upBodyWhole>>.<<print _upBodyFrac>>, Max ATR: <<print _upBodyMax>><br>
+<<silently>>
+<<set _lowBodyATR = 0>>
+<<set _lowBodyNum = ↂ.storeInv.bottom.length>>
+<<set _lowBodyList = []>>
+<<for _i to 0; _i < _lowBodyNum; _i++>>
+  <<set _lowBodyATR += aw.clothes[ↂ.storeInv.bottom[_i]].values.atr>>
+  <<set _lowBodyList.push(aw.clothes[ↂ.storeInv.bottom[_i]].values.atr)>>
+<</for>>
+<<set _lowBodyAvg = Math.round((_lowBodyATR / _lowBodyNum))>>
+<<set _lowBodyWhole = Math.floor(_lowBodyAvg)>>
+<<set _lowBodyFrac = Math.round((_lowBodyAvg - _lowBodyWhole)*100)>>
+<<set _lowBodyMax = Math.max(_lowBodyList)>>
+<</silently>>
+<b>Bottoms:</b> Number: <<print _lowBodyNum>>, Average ATR: <<print _lowBodyWhole>>.<<print _lowBodyFrac>>, Max ATR: <<print _lowBodyMax>><br>
+<<silently>>
+<<set _dressATR = 0>>
+<<set _dressNum = ↂ.storeInv.dress.length>>
+<<set _dressList = []>>
+<<for _i to 0; _i < _dressNum; _i++>>
+  <<set _dressATR += aw.clothes[ↂ.storeInv.dress[_i]].values.atr>>
+  <<set _dressList.push(aw.clothes[ↂ.storeInv.dress[_i]].values.atr)>>
+<</for>>
+<<set _dressAvg = Math.round((_dressATR / _dressNum))>>
+<<set _dressWhole = Math.floor(_dressAvg)>>
+<<set _dressFrac = Math.round((_dressAvg - _dressWhole)*100)>>
+<<set _dressMax = Math.max(_dressList)>>
+<</silently>>
+<b>Dresses:</b> Number: <<print _dressNum>>, Average ATR: <<print _dressWhole>>.<<print _dressFrac>>, Max ATR: <<print _dressMax>><br>
+<h2>Generated Clothes:</h2>
+<h3>Panties</h3>
+<<for _i to 0, _c to ↂ.storeInv.panties.length; _i < _c; _i++>>
+  <<print aw.clothes[ↂ.storeInv.panties[_i]].print("big")>>
+<</for>>
+<h3>Bras</h3>
+<<for _i to 0, _c to ↂ.storeInv.bra.length; _i < _c; _i++>>
+  <<print aw.clothes[ↂ.storeInv.bra[_i]].print("big")>>
+<</for>>
+<h3>Stockings</h3>
+<<for _i to 0, _c to ↂ.storeInv.leg.length; _i < _c; _i++>>
+  <<print aw.clothes[ↂ.storeInv.leg[_i]].print("big")>>
+<</for>>
+<h3>Tops</h3>
+<<for _i to 0, _c to ↂ.storeInv.top.length; _i < _c; _i++>>
+  <<print aw.clothes[ↂ.storeInv.top[_i]].print("big")>>
+<</for>>
+<h3>Bottoms</h3>
+<<for _i to 0, _c to ↂ.storeInv.bottom.length; _i < _c; _i++>>
+  <<print aw.clothes[ↂ.storeInv.bottom[_i]].print("big")>>
+<</for>>
+<h3>Dresses</h3>
+<<for _i to 0, _c to ↂ.storeInv.dress.length; _i < _c; _i++>>
+  <<print aw.clothes[ↂ.storeInv.dress[_i]].print("big")>>
+<</for>>
+
+
+
+:: testingClothingPassage [nobr]
+
+
+<<genSwimBottom 50 0 0 0 0 "ThighGap">>
+<<genSwimTop 60 0 0 0 0 "ThighGap">>
+<<genOverWear 20 1 0 0 0 "ThighGap">>
+<<for _i to 0, _c to ↂ.storeInv.swimL.length; _i < _c; _i++>>
+  <<print aw.clothes[ↂ.storeInv.swimL[_i]].print("big")>>
+<</for>>
+<<for _i to 0, _c to ↂ.storeInv.swimU.length; _i < _c; _i++>>
+  <<print aw.clothes[ↂ.storeInv.swimU[_i]].print("big")>>
+<</for>>
+<<for _i to 0, _c to ↂ.storeInv.coat.length; _i < _c; _i++>>
+  <<print aw.clothes[ↂ.storeInv.coat[_i]].print("big")>>
+<</for>>
+
+
+:: testingDeadEndMap [nobr map]
+
+<<include [[MAPmedical]]>>
+<<button "return">><<go motherfuckerbitchwhore>><</button>>
+
+
+:: testingDeadEndMapTwo [nobr map]
+
+<<include [[MAPinstitute]]>>
+<<button "return">><<go motherfuckerbitchwhore>><</button>>
+
+
+:: testingWeeGirl [nobr noui hidden]
+
+<div id="weegirlPage" style="width:100%;height:100%;">
+  <<button "BACK">><<go "motherfuckerbitchwhore">><</button>>
+  <br><br>
+  <div id="container">
+  <center>
+    <h1>Weegirl!</h1>
+    <span class="rulez">Close as many vents as you can! Don't get caught by the monster!</span>
+  </center>
+    <div id="can">
+      <div id="weegirl"><img src="data:image/gif;base64,R0lGODlhKAAoAJEAABWdVxhNMf///wAAACH5BAEAAAIALAAAAAAoACgAAALOlI+py+0PFZjA0Iuzpe7uDHKC14RXEJhgpwJoi7EhStepKYO2rebb6+IFJxsIaQLcIW/FCHE0DNaWz6remAk0Kgc3IYblTYr0SaXg6JpfRaDWLTbO6ERkxiY6Vl0/C+zefhqdVd8P15ydYeMNHlaaRAKaoNcn0xxCJaZaJtxYHg4GGmOX5SREqklhlJvYj1Kl6Zhhp+GoaKxdyGTXrehhTstvC8rYoDHyV2bbwqJvs2YwKDEcLCXg1XVnWJe2pPNdJqfddKqpGHv2drr6uUAAAOw=="></div>
+		<div id="monster"><img src="data:image/gif;base64,R0lGODlhKAAoAJEAABhMMRWdVxhNMf///yH/C05FVFNDQVBFMi4wAwEAAAAh/wtYTVAgRGF0YVhNUDw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NEFFQjIwMkVENzI1MTFFODg0Qzg5NkFGQTJBNDk2NjUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NEFFQjIwMkZENzI1MTFFODg0Qzg5NkFGQTJBNDk2NjUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0QUVCMjAyQ0Q3MjUxMUU4ODRDODk2QUZBMkE0OTY2NSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0QUVCMjAyREQ3MjUxMUU4ODRDODk2QUZBMkE0OTY2NSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgH//v38+/r5+Pf29fTz8vHw7+7t7Ovq6ejn5uXk4+Lh4N/e3dzb2tnY19bV1NPS0dDPzs3My8rJyMfGxcTDwsHAv769vLu6ubi3trW0s7KxsK+urayrqqmop6alpKOioaCfnp2cm5qZmJeWlZSTkpGQj46NjIuKiYiHhoWEg4KBgH9+fXx7enl4d3Z1dHNycXBvbm1sa2ppaGdmZWRjYmFgX15dXFtaWVhXVlVUU1JRUE9OTUxLSklIR0ZFRENCQUA/Pj08Ozo5ODc2NTQzMjEwLy4tLCsqKSgnJiUkIyIhIB8eHRwbGhkYFxYVFBMSERAPDg0MCwoJCAcGBQQDAgEAACH5BAUyAAMALAAAAAAoACgAAALInI+py70Bg5v0RFmzgqILqIUD54EiRV7dxWJnGq1t9AbAXdrevpsZ2dPxeL5GCzdMDosbFlIJ/bgqwGdUFqpeiVOGCvDVQpmJcEy6xVKnYrEaxRbmlGS41Z2r3remLbnm2t1VnAfiEF/Qj9xU16KV4xujneHNhcCjV+EdJM8LHlWmpYzLqKYNoJIpBSvfoUEkYGtQmSVi0mjN7ggCz6wmK+tbZpyss1WSmZ/yHLMILrJyV6iqtUTVoTTuZ99BaPePYEh3OPU5MXAAAIfkEBTIAAwAsEgAXAAwACgAAAhmMM6kihzvYMklCGu1qcPPOYGDzjCIUlkoBADs="></div>
+		<div id="vent"><img src="data:image/gif;base64,R0lGODlhKAAoAJEAABhNMRWdV////wAAACH/C05FVFNDQVBFMi4wAwEAAAAh/wtYTVAgRGF0YVhNUDw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDpEQUM3OENFOEMxRDZFODExQTY4NEMxNzJGNUMyNjU1MyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFQkNGNzg2Q0Q3MjUxMUU4QkE1MTlBODFBNTA1QUQ1MSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFQkNGNzg2QkQ3MjUxMUU4QkE1MTlBODFBNTA1QUQ1MSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjRENUZEQkQ3MjVEN0U4MTFBNjg0QzE3MkY1QzI2NTUzIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkRBQzc4Q0U4QzFENkU4MTFBNjg0QzE3MkY1QzI2NTUzIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Af/+/fz7+vn49/b19PPy8fDv7u3s6+rp6Ofm5eTj4uHg397d3Nva2djX1tXU09LR0M/OzczLysnIx8bFxMPCwcC/vr28u7q5uLe2tbSzsrGwr66trKuqqainpqWko6KhoJ+enZybmpmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgoGAf359fHt6remh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYWBfXl1cW1pZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBQD8+PTw7Ojk4NzY1NDMyMTAvLi0sKyopKCcmJSQjIiEgHx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQAAIfkECTIAAgAsAAAAACgAKAAAApSUj6nL7Q+jnLTaF7K+U29+ZWAljmRgdmgqlI4LwowcrghNU7h95NE+4+mELaLBB4Ehixylsfccsn5Rlcfz+kiu1+zyFgCIAZkxmYc9mctj5zfBjofP4ne2PpfjR2y8Z12VNOenAcjHtYIYiIF41BgzePbXtnhHObkHibdJd3bIqedp0teZmUKKWmn1OOWo2Aoby1EAACH5BAUyAAIALAIABgAgACAAAAJ9lI95wa0PU3OxGgaxzYFvH2nf0oXlKFpptZroKcGX/LSzYn95vu10/yONEDxBaoIMvpJFVgAABTCiUqWRMqNOo8VJtgrdimHeWPgJTh+xJC3S/XJP4DrmLLlE3vV1eYMO5Ld1FqeGNlY4dkY4NJjGOHTlBhh5xWQFdFkpUAAAOw=="></div>
+      <span id="Texter">❤ 0</span>
+    </div>
+    
+    <div id="controls">Control the weegirl with <span style="color: white;">arrows</span></div>
+    <div id="endgame">
+      <img data-passage="IMG-WeegirlEndGame">
+      <div id="over">
+        <span id="served"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+if (true) {
+let Speed = 50;
+let difficulty = 20;
+let mCount = difficulty;
+let IfEndgame = false;
+let Score = 0;
+let VentCount = true;
+const PlayerPosition = [2,2];
+const PlayerMap = [
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+];
+const MonsterPosition = [6,6];
+const MonsterHistory = [1,1];
+let MonsterJump = false;
+const MonsterMap = [
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+];
+const WorldMap = [
+	[0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
+	[0, 1, 0, 1, 1, 1, 0, 1, 1, 0],
+	[0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
+	[1, 1, 1, 1, 0, 1, 0, 0, 0, 1],
+	[0, 0, 0, 0, 0, 1, 1, 1, 0, 1],
+	[0, 1, 1, 0, 1, 1, 0, 0, 0, 0],
+	[0, 1, 0, 0, 0, 1, 0, 1, 1, 0],
+	[0, 1, 0, 1, 0, 0, 0, 0, 1, 0],
+	[0, 0, 0, 1, 1, 1, 0, 1, 1, 0],
+	[0, 1, 1, 1, 0, 0, 0, 0, 0, 0]
+];
+let GirlX = [];
+let GirlY = [];
+let MonsterX = [];
+let MonsterY = [];
+
+
+var Texter = document.getElementById("Texter");
+var Fail = document.getElementById("fail");
+var Served = document.getElementById("served");
+var Endgame = document.getElementById("endgame");
+
+var Girl = document.getElementById("weegirl");
+var Monster = document.getElementById("monster");
+var Vent = document.getElementById("vent");
+
+let Keyboard = function(e) {
+  switch (e.keyCode) {
+    case 38: /* up*/
+    	PlayerMap[PlayerPosition[0]][PlayerPosition[1]] = 0;
+    	if (PlayerPosition[0] != 0){
+    		if (WorldMap[(PlayerPosition[0] - 1)][PlayerPosition[1]] != 1) {
+		    	PlayerPosition[0] -= 1;
+		    	GirlY -= 40;
+		    }
+    	}
+      	break;
+    case 39: /* right*/
+    	PlayerMap[PlayerPosition[0]][PlayerPosition[1]] = 0;
+    	if (PlayerPosition[1] != 9){
+    		if (WorldMap[PlayerPosition[0]][(PlayerPosition[1] + 1)] != 1) {
+		    	PlayerPosition[1] += 1;
+		    	GirlX += 40;
+    		}
+    	}
+      	break;
+    case 40: /* down*/
+    	PlayerMap[PlayerPosition[0]][PlayerPosition[1]] = 0;
+    	if (PlayerPosition[0] != 9){
+		    if (WorldMap[(PlayerPosition[0] + 1)][PlayerPosition[1]] != 1) {
+		    	PlayerPosition[0] += 1;
+		    	GirlY += 40;
+		    }
+    	}
+      	break;
+	case 37: /* left*/
+		PlayerMap[PlayerPosition[0]][PlayerPosition[1]] = 0;
+    	if (PlayerPosition[1] != 0){
+    		if (WorldMap[PlayerPosition[0]][(PlayerPosition[1] - 1)] != 1) {
+		    	PlayerPosition[1] -= 1;
+		    	GirlX -= 40;
+		    }
+    	}
+		break;
+	}
+	PlayerMap[PlayerPosition[0]][PlayerPosition[1]] = 1;
+ 	Girl.style="left:" + GirlX + "px;"+"top:" + GirlY + "px";
+ 	if (WorldMap[PlayerPosition[0]][PlayerPosition[1]] === 2) {
+    Score++;
+    difficulty--;
+ 		Texter.innerHTML = "❤ " + Score;
+ 		Texter.style.color = "#fff";
+ 		WorldMap[PlayerPosition[0]][PlayerPosition[1]] = 0;
+ 		VentsGenerator();
+ 	}
+};
+
+let VentsGenerator = function() {
+	const RandomX = (Math.floor(Math.random() * (10 - 1)) + 1) - 1;
+	const RandomY = (Math.floor(Math.random() * (10 - 1)) + 1) - 1;
+	if (WorldMap[RandomY][RandomX] != 1 && WorldMap[RandomY][RandomX] != 2) {
+		WorldMap[RandomY][RandomX] = 2;
+		let VentX = (40*(RandomX));
+		let VentY = (40*(RandomY));
+		Vent.style="left:" + VentX + "px;"+"top:" + VentY + "px";
+
+	} else {
+		VentsGenerator();
+	}
+};
+
+let MonsterMover = function() {
+  MonsterMap[MonsterPosition[0]][MonsterPosition[1]] = 0;
+  const dir = [];
+  const avail = ["can you?"];
+  if (MonsterPosition[0] !== 0 && WorldMap[MonsterPosition[0] - 1][MonsterPosition[1]] === 0) {
+    avail.push(true);
+  } else {
+    avail.push(false);
+  }
+  if (MonsterPosition[1] !== 9 && WorldMap[MonsterPosition[0]][MonsterPosition[1] + 1] === 0) {
+    avail.push(true);
+  } else {
+    avail.push(false);
+  }
+  if (MonsterPosition[0] !== 9 && WorldMap[MonsterPosition[0] + 1][MonsterPosition[1]] === 0) {
+    avail.push(true);
+  } else {
+    avail.push(false);
+  }
+  if (MonsterPosition[1] != 0 && WorldMap[MonsterPosition[0]][MonsterPosition[1] - 1] === 0) {
+    avail.push(true);
+  } else {
+    avail.push(false);
+  }
+  if (MonsterJump && avail[MonsterHistory[1]]){
+    dir.push(MonsterHistory[1]);
+    MonsterJump = false;
+  } else {
+    if (MonsterPosition[0] > PlayerPosition[0] && avail[1]) {
+      dir.push(1);
+    }
+    if (MonsterPosition[0] < PlayerPosition[0] && avail[3]) {
+      dir.push(3);
+    }
+    if (MonsterPosition[1] > PlayerPosition[1] && avail[4]) {
+      dir.push(4);
+    }
+    if (MonsterPosition[1] < PlayerPosition[1] && avail[2]) {
+      dir.push(2);
+    }
+    const cant = (dir.length === 0) ? true : false;
+    if (MonsterPosition[0] !== PlayerPosition[0] && cant) {
+      if (avail[4]) {
+        dir.push(4);
+      }
+      if (avail[2]) {
+        dir.push(2);
+      }
+      MonsterJump = true;
+    } else if (MonsterPosition[1] !== PlayerPosition[1] && cant) {
+      if (avail[1]) {
+        dir.push(1);
+      }
+      if (avail[3]) {
+        dir.push(3);
+      }
+      MonsterJump = true;
+    }
+  }
+  if (dir.length < 1) {
+    dir.push(Math.floor(Math.random() * 4) + 1); /*give up and move random*/
+  }
+  let LeftFoot;
+  if (dir.length === 1) {
+    LeftFoot = dir[0];
+  } else {
+    const r = Math.floor(Math.random() * dir.length);
+    LeftFoot = dir[r];
+  }
+  MonsterHistory.shift();
+  MonsterHistory.push(LeftFoot);
+	/* const LeftFoot = (Math.floor(Math.random() * (5 - 1)) + 1);*/
+	switch (LeftFoot) {
+    case 1: /* up*/
+    	if (MonsterPosition[0] != 0){
+    		if (WorldMap[(MonsterPosition[0] - 1)][MonsterPosition[1]] != 1) {
+		    	MonsterPosition[0] -= 1;
+		    	MonsterY -= 40;
+		    }
+    	}
+      	break;
+  	case 2: /* right*/
+    	if (MonsterPosition[1] != 9){
+    		if (WorldMap[MonsterPosition[0]][(MonsterPosition[1] + 1)] != 1) {
+		    	MonsterPosition[1] += 1;
+		    	MonsterX += 40;
+    		}
+    	}
+      	break;
+    case 3: /* down*/
+    	if (MonsterPosition[0] != 9){
+		    if (WorldMap[(MonsterPosition[0] + 1)][MonsterPosition[1]] != 1) {
+		    	MonsterPosition[0] += 1;
+		    	MonsterY += 40;
+		    }
+    	}
+      	break;
+	  case 4: /* left*/
+    	if (MonsterPosition[1] != 0){
+    		if (WorldMap[MonsterPosition[0]][(MonsterPosition[1] - 1)] != 1) {
+		    	MonsterPosition[1] -= 1;
+		    	MonsterX -= 40;
+		    }
+    	}
+		break;
+  	}
+  	MonsterMap[MonsterPosition[0]][MonsterPosition[1]] = 1;
+ 	Monster.style="left:" + MonsterX + "px;"+"top:" + MonsterY + "px";
+};
+
+
+
+let MainLoop = setInterval(function() {
+
+  mCount--;
+  if (mCount <= 0) {
+    MonsterMover();
+    mCount = difficulty;
+  }
+	Texter.style.color = "#159d57";
+
+	if (PlayerMap[MonsterPosition[0]][MonsterPosition[1]] === 1) {
+ 		IfEndgame = true;
+ 	}
+
+  	if (IfEndgame) {
+  		Endgame.style.display = "block";
+  		Served.innerHTML = Score;
+  		clearInterval(MainLoop);
+    	removeEventListener("keydown", Keyboard);
+    	return false;
+      if (Score > 10) {
+        setup.achieve.new("weegirl");
+      }
+  	}
+}, Speed);
+
+
+addEventListener("keydown", Keyboard);
+/*addEventListener("keyup", KeyboardUp);*/
+VentsGenerator();
+GirlX = 80;
+GirlY = 80;
+MonsterX = 240;
+MonsterY = 240;
+};
+</script>
+

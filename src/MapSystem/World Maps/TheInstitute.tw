@@ -1,0 +1,81 @@
+:: MapInstitute [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPinstitute]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptResidential>> <<mapEventResidential>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+/*<<mapEventRes>>*/
+/*LOCATION description of  location*/
+<p>@@.head3;T@@he Thornton Institute of Technology & Science. A vast complex of research and testing facilities for all manner of scientific and technological pursuits, it employs tens of thousands of people<<if setup.job.institute()>> including you. After a quick scan at the gate to confirm your identity, you're admitted to the campus. It seems like the place always has something going on, but you suppose that not all science can be confined to business hours.<<else>>. Unfortunately that doesn't include you, so you have to sign a bunch of forms and wear a bright yellow visitor's pass.<</if>></p>
+<<tutorial "mapInstitute">>This area is the primary workplace in the game. You'll be able to manage some job-related affairs here, as well as participate in some other activities such as visiting the Employee Enrichment Center. While you won't need to come here very often, you may want to consider stopping by occasionally to see what's going on.<</tutorial>>
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <span class="disabled"><<button "Visit Employee Center">><</button>></span>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <span class="disabled"><<button "Explore...">><</button>></span>
+<<endhoverrevise>>
+<<hoverrevise gamma>>
+  <span class="disabled"><<button "Volunteer">><</button>></span>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Visit the large and well-appointed Employee Center. Maintained by the Employee Services Division, it offers a range of activities, and even offers genetic matchmaking services to pair you with the perfect coworker. [15-min]<<endinsertion>>
+<<insertion beta>>This probably isn't a good idea, but hell, you're curious. [30-min]<<endinsertion>>
+<<insertion gamma>>Give in to the pressure--and try to score some brownie points--by volunteering for one of the Institute's testing initiatives. [unknown duration]<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: MapInstituteLOC [nobr]
+
+@@.head3;Y@@ou notice another one of the ubiquitous safety "posters" being displayed on a nearby display screen. @@.mono;Uck... I hope they don't mean that those things escaped and are still roaming around somewhere...<br><br>
+<center>[img[Penimorph 3|IMG-Facefuckers]]</center>

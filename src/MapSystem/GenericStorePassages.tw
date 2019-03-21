@@ -1,0 +1,986 @@
+:: DowntownShopUniHoe [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+<<set _storeID = "UniHoe">>
+<<set _storeIMG = "[img[" + setup.shop.storeImages[_storeID] + "]]">>
+<<set _storeText = setup.shop.storeText[_storeID]>>
+<<set _storeName = setup.shop.storeName[_storeID]>>
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmall]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<center><<print _storeIMG>><br><h2><<= _storeName>></h2></center>
+</p>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+<<print _storeText>>
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise hovPanties>>
+	<<button "Panties">><<run setup.shop.launch.clothes(_storeID,"panties")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovBra>>
+	<<button "Bras">><<run setup.shop.launch.clothes(_storeID,"bra")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovLeg>>
+	<<button "Legs">><<run setup.shop.launch.clothes(_storeID,"leg")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovUpperBody>>
+	<<button "Tops">><<run setup.shop.launch.clothes(_storeID,"top")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovBottom>>
+	<<button "Bottoms">><<run setup.shop.launch.clothes(_storeID,"bottom")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovDresses>>
+	<<button "Dresses">><<run setup.shop.launch.clothes(_storeID,"dress")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovOverWear>>
+	<<button "OverWear">><<run setup.shop.launch.clothes(_storeID,"coat")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovSwimsuits>>
+	<<button "Swim Tops">><<run setup.shop.launch.clothes(_storeID,"swimU")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovSwimsuits>>
+	<<button "Swim Bottoms">><<run setup.shop.launch.clothes(_storeID,"swimL")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+<<hoverrevise checkOut>>
+  <<button "Checkout">><<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<elseif _result === "no afford">><<notify>><span class="bad">Insufficient Funds!<</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion hovUpperBody>>@@.exp;Check out <<= _storeName>>'s selection of tops. [20-30min]@@<<endinsertion>>
+<<insertion hovOverWear>>@@.exp;Check out <<= _storeName>>'s selection of coats for sale. [25-40min]@@<<endinsertion>>
+<<insertion hovDresses>>@@.exp;Check out <<= _storeName>>'s selection of dresses for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovBottom>>@@.exp;Check out <<= _storeName>>'s selection of skirts and pants. [25-35min]@@<<endinsertion>>
+<<insertion hovSwimsuits>>@@.exp;Check out <<= _storeName>>'s selection of swimsuits for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovAthletic>>@@.exp;Check out <<= _storeName>>'s selection of athletic clothes for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovShoes>>@@.exp;Check out <<= _storeName>>'s selection of women's footwear for sale. [20-40min]@@<<endinsertion>>
+<<insertion hovPanties>>@@.exp;Check out <<= _storeName>>'s selection of panties. [20-30min]@@<<endinsertion>>
+<<insertion hovBras>>@@.exp;Check out <<= _storeName>>'s selection of bras for sale. [30-45min]@@<<endinsertion>>
+<<insertion hovLeg>>@@.exp;Check out <<= _storeName>>'s selection of legwear for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
+</div>
+
+
+:: DowntownShopThighGap [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+<<set _storeID = "ThighGap">>
+<<set _storeIMG = "[img[" + setup.shop.storeImages[_storeID] + "]]">>
+<<set _storeText = setup.shop.storeText[_storeID]>>
+<<set _storeName = setup.shop.storeName[_storeID]>>
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmall]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<center><<print _storeIMG>><br><h2><<= _storeName>></h2></center>
+</p>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+<<print _storeText>>
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise hovPanties>>
+	<<button "Panties">><<run setup.shop.launch.clothes(_storeID,"panties")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovBra>>
+	<<button "Bras">><<run setup.shop.launch.clothes(_storeID,"bra")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovLeg>>
+	<<button "Legs">><<run setup.shop.launch.clothes(_storeID,"leg")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovUpperBody>>
+	<<button "Tops">><<run setup.shop.launch.clothes(_storeID,"top")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovBottom>>
+	<<button "Bottoms">><<run setup.shop.launch.clothes(_storeID,"bottom")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovDresses>>
+	<<button "Dresses">><<run setup.shop.launch.clothes(_storeID,"dress")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovOverWear>>
+	<<button "OverWear">><<run setup.shop.launch.clothes(_storeID,"coat")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovSwimsuits>>
+	<<button "Swim Tops">><<run setup.shop.launch.clothes(_storeID,"swimU")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovSwimsuits>>
+	<<button "Swim Bottoms">><<run setup.shop.launch.clothes(_storeID,"swimL")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+<<hoverrevise checkOut>>
+  <<button "Checkout">><<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<elseif _result === "no afford">><<notify>><span class="bad">Insufficient Funds!<</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion hovUpperBody>>@@.exp;Check out <<= _storeName>>'s selection of tops. [20-30min]@@<<endinsertion>>
+<<insertion hovOverWear>>@@.exp;Check out <<= _storeName>>'s selection of coats for sale. [25-40min]@@<<endinsertion>>
+<<insertion hovDresses>>@@.exp;Check out <<= _storeName>>'s selection of dresses for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovBottom>>@@.exp;Check out <<= _storeName>>'s selection of skirts and pants. [25-35min]@@<<endinsertion>>
+<<insertion hovSwimsuits>>@@.exp;Check out <<= _storeName>>'s selection of swimsuits for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovAthletic>>@@.exp;Check out <<= _storeName>>'s selection of athletic clothes for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovShoes>>@@.exp;Check out <<= _storeName>>'s selection of women's footwear for sale. [20-40min]@@<<endinsertion>>
+<<insertion hovPanties>>@@.exp;Check out <<= _storeName>>'s selection of panties. [20-30min]@@<<endinsertion>>
+<<insertion hovBras>>@@.exp;Check out <<= _storeName>>'s selection of bras for sale. [30-45min]@@<<endinsertion>>
+<<insertion hovLeg>>@@.exp;Check out <<= _storeName>>'s selection of legwear for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
+</div>
+
+
+:: DowntownShopCucci [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+<<set _storeID = "Cucci">>
+<<set _storeIMG = "[img[" + setup.shop.storeImages[_storeID] + "]]">>
+<<set _storeText = setup.shop.storeText[_storeID]>>
+<<set _storeName = setup.shop.storeName[_storeID]>>
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmall]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<center><<print _storeIMG>><br><h2><<= _storeName>></h2></center>
+</p>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+<<print _storeText>>
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise hovPanties>>
+	<<button "Panties">><<run setup.shop.launch.clothes(_storeID,"panties")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovBra>>
+	<<button "Bras">><<run setup.shop.launch.clothes(_storeID,"bra")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovLeg>>
+	<<button "Legs">><<run setup.shop.launch.clothes(_storeID,"leg")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovUpperBody>>
+	<<button "Tops">><<run setup.shop.launch.clothes(_storeID,"top")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovBottom>>
+	<<button "Bottoms">><<run setup.shop.launch.clothes(_storeID,"bottom")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovDresses>>
+	<<button "Dresses">><<run setup.shop.launch.clothes(_storeID,"dress")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovOverWear>>
+	<<button "OverWear">><<run setup.shop.launch.clothes(_storeID,"coat")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovSwimsuits>>
+	<<button "Swim Tops">><<run setup.shop.launch.clothes(_storeID,"swimU")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovSwimsuits>>
+	<<button "Swim Bottoms">><<run setup.shop.launch.clothes(_storeID,"swimL")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+<<hoverrevise checkOut>>
+  <<button "Checkout">><<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<elseif _result === "no afford">><<notify>><span class="bad">Insufficient Funds!<</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion hovUpperBody>>@@.exp;Check out <<= _storeName>>'s selection of tops. [20-30min]@@<<endinsertion>>
+<<insertion hovOverWear>>@@.exp;Check out <<= _storeName>>'s selection of coats for sale. [25-40min]@@<<endinsertion>>
+<<insertion hovDresses>>@@.exp;Check out <<= _storeName>>'s selection of dresses for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovBottom>>@@.exp;Check out <<= _storeName>>'s selection of skirts and pants. [25-35min]@@<<endinsertion>>
+<<insertion hovSwimsuits>>@@.exp;Check out <<= _storeName>>'s selection of swimsuits for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovAthletic>>@@.exp;Check out <<= _storeName>>'s selection of athletic clothes for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovShoes>>@@.exp;Check out <<= _storeName>>'s selection of women's footwear for sale. [20-40min]@@<<endinsertion>>
+<<insertion hovPanties>>@@.exp;Check out <<= _storeName>>'s selection of panties. [20-30min]@@<<endinsertion>>
+<<insertion hovBras>>@@.exp;Check out <<= _storeName>>'s selection of bras for sale. [30-45min]@@<<endinsertion>>
+<<insertion hovLeg>>@@.exp;Check out <<= _storeName>>'s selection of legwear for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
+</div>
+
+
+:: DowntownShopCazzoFottere [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+<<set _storeID = "CazzoFottere">>
+<<set _storeIMG = "[img[" + setup.shop.storeImages[_storeID] + "]]">>
+<<set _storeText = setup.shop.storeText[_storeID]>>
+<<set _storeName = setup.shop.storeName[_storeID]>>
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmall]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<center><<print _storeIMG>><br><h2><<= _storeName>></h2></center>
+</p>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+<<print _storeText>>
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise hovPanties>>
+	<<button "Panties">><<run setup.shop.launch.clothes(_storeID,"panties")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovBra>>
+	<<button "Bras">><<run setup.shop.launch.clothes(_storeID,"bra")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovLeg>>
+	<<button "Legs">><<run setup.shop.launch.clothes(_storeID,"leg")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovUpperBody>>
+	<<button "Tops">><<run setup.shop.launch.clothes(_storeID,"top")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovBottom>>
+	<<button "Bottoms">><<run setup.shop.launch.clothes(_storeID,"bottom")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovDresses>>
+	<<button "Dresses">><<run setup.shop.launch.clothes(_storeID,"dress")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovOverWear>>
+	<<button "OverWear">><<run setup.shop.launch.clothes(_storeID,"coat")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovSwimsuits>>
+	<<button "Swim Tops">><<run setup.shop.launch.clothes(_storeID,"swimU")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovSwimsuits>>
+	<<button "Swim Bottoms">><<run setup.shop.launch.clothes(_storeID,"swimL")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+<<hoverrevise checkOut>>
+  <<button "Checkout">><<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<elseif _result === "no afford">><<notify>><span class="bad">Insufficient Funds!<</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion hovUpperBody>>@@.exp;Check out <<= _storeName>>'s selection of tops. [20-30min]@@<<endinsertion>>
+<<insertion hovOverWear>>@@.exp;Check out <<= _storeName>>'s selection of coats for sale. [25-40min]@@<<endinsertion>>
+<<insertion hovDresses>>@@.exp;Check out <<= _storeName>>'s selection of dresses for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovBottom>>@@.exp;Check out <<= _storeName>>'s selection of skirts and pants. [25-35min]@@<<endinsertion>>
+<<insertion hovSwimsuits>>@@.exp;Check out <<= _storeName>>'s selection of swimsuits for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovAthletic>>@@.exp;Check out <<= _storeName>>'s selection of athletic clothes for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovShoes>>@@.exp;Check out <<= _storeName>>'s selection of women's footwear for sale. [20-40min]@@<<endinsertion>>
+<<insertion hovPanties>>@@.exp;Check out <<= _storeName>>'s selection of panties. [20-30min]@@<<endinsertion>>
+<<insertion hovBras>>@@.exp;Check out <<= _storeName>>'s selection of bras for sale. [30-45min]@@<<endinsertion>>
+<<insertion hovLeg>>@@.exp;Check out <<= _storeName>>'s selection of legwear for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
+</div>
+
+
+:: DowntownShopVaginaSecrets [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+<<set _storeID = "VaginaSecrets">>
+<<set _storeIMG = "[img[" + setup.shop.storeImages[_storeID] + "]]">>
+<<set _storeText = setup.shop.storeText[_storeID]>>
+<<set _storeName = setup.shop.storeName[_storeID]>>
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmall]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<center><<print _storeIMG>><br><h2><<= _storeName>></h2></center>
+</p>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+<<print _storeText>>
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise hovPanties>>
+	<<button "Panties">><<run setup.shop.launch.clothes(_storeID,"panties")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovBra>>
+	<<button "Bras">><<run setup.shop.launch.clothes(_storeID,"bra")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovLeg>>
+	<<button "Legs">><<run setup.shop.launch.clothes(_storeID,"leg")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+<<hoverrevise hovSwimsuits>>
+	<<button "Swim Tops">><<run setup.shop.launch.clothes(_storeID,"swimU")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovSwimsuits>>
+	<<button "Swim Bottoms">><<run setup.shop.launch.clothes(_storeID,"swimL")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise checkOut>>
+  <<button "Checkout">>
+		<<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<elseif _result === "no afford">><<notify>><span class="bad">Insufficient Funds!<</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>>
+	<</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion hovSwimsuits>>@@.exp;Check out <<= _storeName>>'s selection of swimsuits for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovPanties>>@@.exp;Check out <<= _storeName>>'s selection of panties. [20-30min]@@<<endinsertion>>
+<<insertion hovBras>>@@.exp;Check out <<= _storeName>>'s selection of bras for sale. [30-45min]@@<<endinsertion>>
+<<insertion hovLeg>>@@.exp;Check out <<= _storeName>>'s selection of legwear for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
+</div>
+
+
+
+:: DowntownShopTightThreads [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+<<set _storeID = "TightThreads">>
+<<set _storeIMG = "[img[" + setup.shop.storeImages[_storeID] + "]]">>
+<<set _storeText = setup.shop.storeText[_storeID]>>
+<<set _storeName = setup.shop.storeName[_storeID]>>
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmall]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<center><<print _storeIMG>><br><h2><<= _storeName>></h2></center>
+</p>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+<<print _storeText>>
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise hovPanties>>
+	<<button "Panties">><<run setup.shop.launch.clothes(_storeID,"panties")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovBra>>
+	<<button "Bras">><<run setup.shop.launch.clothes(_storeID,"bra")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovLeg>>
+	<<button "Legs">><<run setup.shop.launch.clothes(_storeID,"leg")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovUpperBody>>
+	<<button "Tops">><<run setup.shop.launch.clothes(_storeID,"top")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovBottom>>
+	<<button "Bottoms">><<run setup.shop.launch.clothes(_storeID,"bottom")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovDresses>>
+	<<button "Dresses">><<run setup.shop.launch.clothes(_storeID,"dress")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovOverWear>>
+	<<button "OverWear">><<run setup.shop.launch.clothes(_storeID,"coat")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovSwimsuits>>
+	<<button "Swim Tops">><<run setup.shop.launch.clothes(_storeID,"swimU")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovSwimsuits>>
+	<<button "Swim Bottoms">><<run setup.shop.launch.clothes(_storeID,"swimL")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+<<hoverrevise checkOut>>
+  <<button "Checkout">><<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<elseif _result === "no afford">><<notify>><span class="bad">Insufficient Funds!<</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion hovUpperBody>>@@.exp;Check out <<= _storeName>>'s selection of tops. [20-30min]@@<<endinsertion>>
+<<insertion hovOverWear>>@@.exp;Check out <<= _storeName>>'s selection of coats for sale. [25-40min]@@<<endinsertion>>
+<<insertion hovDresses>>@@.exp;Check out <<= _storeName>>'s selection of dresses for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovBottom>>@@.exp;Check out <<= _storeName>>'s selection of skirts and pants. [25-35min]@@<<endinsertion>>
+<<insertion hovSwimsuits>>@@.exp;Check out <<= _storeName>>'s selection of swimsuits for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovAthletic>>@@.exp;Check out <<= _storeName>>'s selection of athletic clothes for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovShoes>>@@.exp;Check out <<= _storeName>>'s selection of women's footwear for sale. [20-40min]@@<<endinsertion>>
+<<insertion hovPanties>>@@.exp;Check out <<= _storeName>>'s selection of panties. [20-30min]@@<<endinsertion>>
+<<insertion hovBras>>@@.exp;Check out <<= _storeName>>'s selection of bras for sale. [30-45min]@@<<endinsertion>>
+<<insertion hovLeg>>@@.exp;Check out <<= _storeName>>'s selection of legwear for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
+</div>
+
+
+:: DowntownShopThotTopic [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+<<set _storeID = "thotTopic">>
+<<set _storeIMG = "[img[" + setup.shop.storeImages[_storeID] + "]]">>
+<<set _storeText = setup.shop.storeText[_storeID]>>
+<<set _storeName = setup.shop.storeName[_storeID]>>
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmall]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<center><<print _storeIMG>><br><h2><<= _storeName>></h2></center>
+</p>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+<<print _storeText>>
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise hovPanties>>
+	<<button "Panties">><<run setup.shop.launch.clothes(_storeID,"panties")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovBra>>
+	<<button "Bras">><<run setup.shop.launch.clothes(_storeID,"bra")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovLeg>>
+	<<button "Legs">><<run setup.shop.launch.clothes(_storeID,"leg")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovUpperBody>>
+	<<button "Tops">><<run setup.shop.launch.clothes(_storeID,"top")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovBottom>>
+	<<button "Bottoms">><<run setup.shop.launch.clothes(_storeID,"bottom")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovDresses>>
+	<<button "Dresses">><<run setup.shop.launch.clothes(_storeID,"dress")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovOverWear>>
+	<<button "OverWear">><<run setup.shop.launch.clothes(_storeID,"coat")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovShoes>>
+	<<button "Shoes">><<run setup.shop.launch.clothes(_storeID,"shoes")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+<<hoverrevise checkOut>>
+  <<button "Checkout">><<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<elseif _result === "no afford">><<notify>><span class="bad">Insufficient Funds!<</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion hovUpperBody>>@@.exp;Check out <<= _storeName>>'s selection of tops. [20-30min]@@<<endinsertion>>
+<<insertion hovOverWear>>@@.exp;Check out <<= _storeName>>'s selection of coats for sale. [25-40min]@@<<endinsertion>>
+<<insertion hovDresses>>@@.exp;Check out <<= _storeName>>'s selection of dresses for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovBottom>>@@.exp;Check out <<= _storeName>>'s selection of skirts and pants. [25-35min]@@<<endinsertion>>
+<<insertion hovShoes>>@@.exp;Check out <<= _storeName>>'s selection of women's footwear for sale. [20-40min]@@<<endinsertion>>
+<<insertion hovPanties>>@@.exp;Check out <<= _storeName>>'s selection of panties. [20-30min]@@<<endinsertion>>
+<<insertion hovBras>>@@.exp;Check out <<= _storeName>>'s selection of bras for sale. [30-45min]@@<<endinsertion>>
+<<insertion hovLeg>>@@.exp;Check out <<= _storeName>>'s selection of legwear for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
+</div>
+
+
+:: DowntownShopBallSack [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+<<set _storeID = "BallSack">>
+<<set _storeIMG = "[img[" + setup.shop.storeImages[_storeID] + "]]">>
+<<set _storeText = setup.shop.storeText[_storeID]>>
+<<set _storeName = setup.shop.storeName[_storeID]>>
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmall]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<center><<print _storeIMG>><br><h2><<= _storeName>></h2></center>
+</p>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+<<print _storeText>>
+<br><br>
+<span class="big bad">[Sportswear Generators not yet built, only athletic swimsuits and shoes available here for now.]</span>
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<span class="disabled">
+<<hoverrevise hovPanties>>
+	<<button "Shoes 1">><<run setup.shop.launch.clothes(_storeID,"panties")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovBra>>
+	<<button "Bras">>/*<<run setup.shop.launch.clothes(_storeID,"bra")>>*/<</button>>
+<<endhoverrevise>>
+<<hoverrevise hovLeg>>
+	<<button "Legs">>/*<<run setup.shop.launch.clothes(_storeID,"leg")>>*/<</button>>
+<<endhoverrevise>>
+<<hoverrevise hovUpperBody>>
+	<<button "Tops">>/*<<run setup.shop.launch.clothes(_storeID,"top")>>*/<</button>>
+<<endhoverrevise>>
+<<hoverrevise hovBottom>>
+	<<button "Bottoms">>/*<<run setup.shop.launch.clothes(_storeID,"bottom")>>*/<</button>>
+<<endhoverrevise>>
+<<hoverrevise hovDresses>>
+	<<button "Dresses">>/*<<run setup.shop.launch.clothes(_storeID,"dress")>>*/<</button>>
+<<endhoverrevise>>
+<<hoverrevise hovOverWear>>
+	<<button "OverWear">>/*<<run setup.shop.launch.clothes(_storeID,"coat")>>*/<</button>>
+<<endhoverrevise>>
+</span>
+<<hoverrevise hovShoes>>
+	<<button "Shoes">><<run setup.shop.launch.clothes(_storeID,"shoes")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovSwimsuits>>
+	<<button "Swim Tops">><<run setup.shop.launch.clothes(_storeID,"swimU")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+<<hoverrevise checkOut>>
+  <<button "Checkout">><<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<elseif _result === "no afford">><<notify>><span class="bad">Insufficient Funds!<</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion hovUpperBody>>@@.exp;Check out <<= _storeName>>'s selection of tops. [20-30min]@@<<endinsertion>>
+<<insertion hovOverWear>>@@.exp;Check out <<= _storeName>>'s selection of coats for sale. [25-40min]@@<<endinsertion>>
+<<insertion hovDresses>>@@.exp;Check out <<= _storeName>>'s selection of dresses for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovBottom>>@@.exp;Check out <<= _storeName>>'s selection of skirts and pants. [25-35min]@@<<endinsertion>>
+<<insertion hovSwimsuits>>@@.exp;Check out <<= _storeName>>'s selection of swimsuits for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovAthletic>>@@.exp;Check out <<= _storeName>>'s selection of athletic clothes for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovShoes>>@@.exp;Check out <<= _storeName>>'s selection of women's footwear for sale. [20-40min]@@<<endinsertion>>
+<<insertion hovPanties>>@@.exp;Check out <<= _storeName>>'s selection of panties. [20-30min]@@<<endinsertion>>
+<<insertion hovBras>>@@.exp;Check out <<= _storeName>>'s selection of bras for sale. [30-45min]@@<<endinsertion>>
+<<insertion hovLeg>>@@.exp;Check out <<= _storeName>>'s selection of legwear for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovShoes>>@@.exp;Check out <<= _storeName>>'s selection of shoes for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
+</div>
+
+
+
+:: DowntownShopShoegasm [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+<<set _storeID = "Shoegasm">>
+<<set _storeIMG = "[img[" + setup.shop.storeImages[_storeID] + "]]">>
+<<set _storeText = setup.shop.storeText[_storeID]>>
+<<set _storeName = setup.shop.storeName[_storeID]>>
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmall]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<center><<print _storeIMG>><br><h2><<= _storeName>></h2></center>
+</p>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+<<print _storeText>>
+
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise hovShoes>>
+	<<button "Shoes">><<run setup.shop.launch.clothes(_storeID,"shoes")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovShoes2>>
+	<<button "Shoes 2">><<run setup.shop.launch.clothes(_storeID,"shoes2")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovShoes3>>
+	<<button "Shoes 3">><<run setup.shop.launch.clothes(_storeID,"shoes3")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+<<hoverrevise checkOut>>
+  <<button "Checkout">><<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<elseif _result === "no afford">><<notify>><span class="bad">Insufficient Funds!<</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion hovShoes>>@@.exp;Check out <<= _storeName>>'s selection of shoes for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovShoes2>>@@.exp;Check out <<= _storeName>>'s selection of shoes for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovShoes3>>@@.exp;Check out <<= _storeName>>'s selection of shoes for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
+</div>
+
+
+
+
+:: DowntownShopANails [nobr map]
+
+<<silently>>
+<<addTime 13>>
+<<set _storeIMG = "[img[IMG-Beauty-Anails]]">>
+<<set _nailcolor = either("red","yellow","orange","hot-pink","colorful")>>
+<<set _hair = either("A","B","C")>>
+<<set _time = false>>
+<<set _length = ↂ.pc.groom.hairLength>>
+<<switch _hair >>
+<<case "A">>
+<<set _style = "carefully-arranged pixie-length black hair with yellowish blonde streaks.">>
+<<set ↂ.flag.StylistVisitA += 1>>
+<<set _stylist = ↂ.flag.StylistVisitA>>
+<<case "B">>
+<<set _style = "long black hair that is up in an elaborate bun complete with ornamental hairpin.">>
+<<set ↂ.flag.StylistVisitB += 1>>
+<<set _stylist = ↂ.flag.StylistVisitB>>
+<<case "C">>
+<<set _style = "silky shoulder-length hair that has been skillfully dyed a vibrant blue hue.">>
+<<set ↂ.flag.StylistVisitC += 1>>
+<<set _stylist = ↂ.flag.StylistVisitA>>
+<</switch>>
+<<set _name = ↂ.pc.main.name>>
+<<if _name.startsWith("A") || _name.startsWith("E") || _name.startsWith("O") || _name.startsWith("U")>>
+	<<set _name = _name.slice(1)>>
+	<<set _name = "I" + _name>>
+<<elseif _name.startsWith("I")>>
+	<<set _name = _name.toLowerCase()>>
+	<<set _name = "R" + _name>>
+<<else>>
+	<<set _name = _name.slice(1)>>
+	<<set _name = "R" + _name>>
+<</if>>
+<<set _cost = 0>>
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmall]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<center><<print _storeIMG>><br><span class="ship" style="font-size:0.7rem">Unfortunately, the salons aren't finished, but you can still use them to change your hair and see some styles unavailable in Bullseye.</span></center>
+</p>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+@@.head3;A@@fter waiting for your number to be called, it's finally your turn in the stylist's chair. You make your way over, and cringe inwardly at yourself for expecting the stereotype of a stylist only to have the stereotype turn out to be true this time. She's Southeast Asian, with smock-like work clothes obscuring her short frame. She would be rather plain except for her long <<print _nailcolor>> nails and <<print _style>>
+<br><br>
+<<if _stylist < 3>>She looks you up and down as you approach, and greets you with a heavy accent. <<if ↂ.pc.body.beauty > 2>>"@@.npc;Oh! you new! So pretty, you have man?@@"<<else>>"@@.npc;Oh! you new! I help you get man for you!@@"<</if>> She gestures to her barber's chair, almost immediately switching to patting it impatiently. "@@.npc;Seat, seat!@@"<br><br>After you sit in the chair she looks at you in the mirror. "@@.npc;What yo name?@@"<br><br>"@@.pc;<<print ↂ.pc.main.name>>@@", you answer.<br><br>She nods like someone who isn't paying attention. "@@.npc;Ah, okay okay@@"
+<<elseif _stylist < 10>>She looks you up and down as you approach, and you see a spark of recognition as she greets you with her heavy accent. <<if ↂ.pc.body.beauty > 2>>"@@.npc;Oh! you come again! You man happi lass time I cut?@@"<<else>>"@@.npc;Oh! you come again! You got you man now?@@"<</if>> She gestures to her barber's chair, almost immediately switching to patting it impatiently. "@@.npc;Come <<print _name>>, seat, seat!@@"
+<<else>>
+She smiles as you approach "@@.npc;Oh! <<print _name>>, you come again!@@" She gestures to her barber's chair, almost immediately switching to patting it impatiently. "@@.npc;Come <<print _name>>, seat, seat, I cut fo you!@@"
+<</if>>
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise haircut>>
+  <<button "Get Your Hair Cut">><<dialog "Haircut!">><<include [[salonChangeHairLengthCut]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hairgrow>>
+  <<button "Get A Hair Growth Treatment">><<dialog "Fro-Gain!">><<include [[salonChangeHairLengthGrow]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hairstraight>>
+  <<button "Get Your Hair Straightened">><<dialog "Straight!">><<include [[salonChangeHairStraight]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise haircurl>>
+  <<button "Get Your Hair Curled">><<dialog "Curl!">><<include [[salonChangeHairCurl]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hairstyle>>
+  <<button "Get Your Hair Styled">><<dialog "Style!">><<include [[salonChangeHairStyle]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise haircolor>>
+  <<button "Get Your Hair Dyed">><<dialog "Dye!">><<include [[salonChangeHairColor]]>><</dialog>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion haircut>>Get your hair cut to a shorter length. @@.money;₢18@@ <i>Hair grows with time, so this will occassionally be necessary if you don't want your hair to get too long.</i> [15min]<<endinsertion>>
+<<insertion hairgrow>>Get a special Fro-Gain treatment that will cause your hair to grow very rapidly. @@.money;₢75@@ [45min]<<endinsertion>>
+<<insertion hairstraight>>Reduce the natural curliness of your hair. @@.money;₢36@@ <i>This change is permanent unless you receive a new treatment.</i> [35min]<<endinsertion>>
+<<insertion haircurl>>Increase the natural curliness of your hair. @@.money;₢36@@ <i>This change is permanent unless you receive a new treatment.</i> [35min]<<endinsertion>>
+<<insertion hairstyle>>Have your hair styled in a new hairstyle. @@.money;₢28@@ <span class="good">This is how you learn to do new hair styles yourself at home.</span> <i>Includes split-end trim.</i> [varies]<<endinsertion>>
+<<insertion haircolor>>Changes the color of your hair. @@.money;₢48@@ <i>This change is permanent unless you receive a new treatment.</i> [40min]<<endinsertion>>
+</div>
+
+
+:: DowntownShopANailsLOC [nobr]
+
+It seems like someone <i>really</i> likes getting their hair cut.<br>
+<center>[img[IMG-HairSalonFappin]]</center>
+
+
+:: DowntownShopHandJob [nobr map]
+
+<<silently>>
+<<addTime 15>>
+<<set _storeIMG = "[img[IMG-Beauty-Handjob]]">>
+<<set _nailcolor = either("red","yellow","orange","hot-pink","colorful")>>
+<<set _hair = either("A","B","C")>>
+<<set _time = false>>
+<<set _length = ↂ.pc.groom.hairLength>>
+<<switch _hair >>
+<<case "A">>
+<<set _style = "carefully-arranged pixie-length black hair with yellowish blonde streaks.">>
+<<set ↂ.flag.StylistVisitA += 1>>
+<<set _stylist = ↂ.flag.StylistVisitA>>
+<<case "B">>
+<<set _style = "long black hair that is up in an elaborate bun complete with ornamental hairpin.">>
+<<set ↂ.flag.StylistVisitB += 1>>
+<<set _stylist = ↂ.flag.StylistVisitB>>
+<<case "C">>
+<<set _style = "silky shoulder-length hair that has been skillfully dyed a vibrant blue hue.">>
+<<set ↂ.flag.StylistVisitC += 1>>
+<<set _stylist = ↂ.flag.StylistVisitA>>
+<</switch>>
+<<set _name = ↂ.pc.main.name>>
+<<if _name.startsWith("A") || _name.startsWith("E") || _name.startsWith("O") || _name.startsWith("U")>>
+	<<set _name = _name.slice(1)>>
+	<<set _name = "I" + _name>>
+<<elseif _name.startsWith("I")>>
+	<<set _name = _name.toLowerCase()>>
+	<<set _name = "R" + _name>>
+<<else>>
+	<<set _name = _name.slice(1)>>
+	<<set _name = "R" + _name>>
+<</if>>
+<<set _cost = 0>>
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPdowntown]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<center><<print _storeIMG>><br><span class="ship" style="font-size:0.7rem">Unfortunately, the salons aren't finished, but you can still use them to change your hair and see some styles unavailable in Bullseye.</span></center>
+</p>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+@@.head3;A@@fter waiting for your number to be called, it's finally your turn in the stylist's chair. You make your way over, and cringe inwardly at yourself for expecting the stereotype of a stylist only to have the stereotype turn out to be true this time. She's Southeast Asian, with smock-like work clothes obscuring her short frame. She would be rather plain except for her long <<print _nailcolor>> nails and <<print _style>>
+<br><br>
+<<if _stylist < 3>>She looks you up and down as you approach, and greets you with a heavy accent. <<if ↂ.pc.body.beauty > 2>>"@@.npc;Oh! you new! So pretty, you have man?@@"<<else>>"@@.npc;Oh! you new! I help you get man for you!@@"<</if>> She gestures to her barber's chair, almost immediately switching to patting it impatiently. "@@.npc;Seat, seat!@@"<br><br>After you sit in the chair she looks at you in the mirror. "@@.npc;What yo name?@@"<br><br>"@@.pc;<<print ↂ.pc.main.name>>@@", you answer.<br><br>She nods like someone who isn't paying attention. "@@.npc;Ah, okay okay@@"
+<<elseif _stylist < 10>>She looks you up and down as you approach, and you see a spark of recognition as she greets you with her heavy accent. <<if ↂ.pc.body.beauty > 2>>"@@.npc;Oh! you come again! You man happi lass time I cut?@@"<<else>>"@@.npc;Oh! you come again! You got you man now?@@"<</if>> She gestures to her barber's chair, almost immediately switching to patting it impatiently. "@@.npc;Come <<print _name>>, seat, seat!@@"
+<<else>>
+She smiles as you approach "@@.npc;Oh! <<print _name>>, you come again!@@" She gestures to her barber's chair, almost immediately switching to patting it impatiently. "@@.npc;Come <<print _name>>, seat, seat, I cut fo you!@@"
+<</if>>
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise haircut>>
+  <<button "Get Your Hair Cut">><<dialog "Haircut!">><<include [[salonChangeHairLengthCut]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hairgrow>>
+  <<button "Get A Hair Growth Treatment">><<dialog "Fro-Gain!">><<include [[salonChangeHairLengthGrow]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hairstraight>>
+  <<button "Get Your Hair Straightened">><<dialog "Straight!">><<include [[salonChangeHairStraight]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise haircurl>>
+  <<button "Get Your Hair Curled">><<dialog "Curl!">><<include [[salonChangeHairCurl]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hairstyle>>
+  <<button "Get Your Hair Styled">><<dialog "Style!">><<include [[salonChangeHairStyle]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise haircolor>>
+  <<button "Get Your Hair Dyed">><<dialog "Dye!">><<include [[salonChangeHairColor]]>><</dialog>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion haircut>>Get your hair cut to a shorter length. @@.money;₢18@@ <i>Hair grows with time, so this will occassionally be necessary if you don't want your hair to get too long.</i> [15min]<<endinsertion>>
+<<insertion hairgrow>>Get a special Fro-Gain treatment that will cause your hair to grow very rapidly. @@.money;₢75@@ [45min]<<endinsertion>>
+<<insertion hairstraight>>Reduce the natural curliness of your hair. @@.money;₢36@@ <i>This change is permanent unless you receive a new treatment.</i> [35min]<<endinsertion>>
+<<insertion haircurl>>Increase the natural curliness of your hair. @@.money;₢36@@ <i>This change is permanent unless you receive a new treatment.</i> [35min]<<endinsertion>>
+<<insertion hairstyle>>Have your hair styled in a new hairstyle. @@.money;₢28@@ <span class="good">This is how you learn to do new hair styles yourself at home.</span> <i>Includes split-end trim.</i> [varies]<<endinsertion>>
+<<insertion haircolor>>Changes the color of your hair. @@.money;₢48@@ <i>This change is permanent unless you receive a new treatment.</i> [40min]<<endinsertion>>
+</div>
+
+
+:: DowntownShopHandJobLOC [nobr]
+
+It seems like someone <i>really</i> likes getting their hair cut.<br>
+<center>[img[IMG-HairSalonFappin]]</center>
+
+
+:: salonChangeHairLengthCut [nobr]
+
+<<run setup.statusLoad()>>
+<div id="result" style="min-width:800px;">
+<<f Y>>ou tell the stylist that you want to get a haircut.<br><br>
+@@.npc;How shore you wan it?@@ <<textbox "_length" ↂ.pc.groom.hairLength>> <<button "CUT">><<set _length = Math.clamp(_length, 0, ↂ.pc.groom.hairLength)>><<set _length = Math.round(_length)>><<set ↂ.pc.groom.hairLength = _length>><<run setup.statusSave()>><<run aw.cash(-18, "salon")>><<addTime 15>><<replace "#result">>She expertly trims your hair<<if _length == 0>>. You can't imagine why you decided to @@.change;shave your head bald@@.<<else>>, leaving it @@.change;<<print _length>> <<units>> long@@.<</if>><</replace>><<run setup.refresh()>><</button>>
+</div>
+
+
+:: salonChangeHairLengthGrow [nobr]
+
+<<run setup.statusLoad()>>
+<div id="result" style="min-width:800px;">
+<<f Y>>ou tell the stylist that you want to get your hair grown out.<br><br>
+@@.npc;How long you wan it?@@ <<textbox "_length" ↂ.pc.groom.hairLength>> <<button "GROW">><<set _length = Math.clamp(_length, ↂ.pc.groom.hairLength, ↂ.pc.body.height)>><<set _length = Math.round(_length)>><<set _new = _height - ↂ.pc.groom.hairLength>><<set ↂ.pc.groom.hairLength = _length>><<run setup.statusSave()>><<run aw.cash(-75, "salon")>><<addTime 45>><<replace "#result">>She grabs the correct bottle of @@.ident;Fro-Gain@@ for the length you want from the product rack. She spreads the translucent white goop all over your head, working it into your scalp. Even though you know it's a high-tech nano product, everything about it screams 'cum' to your senses... The intense unique-but-pleasant smell, the way the translucent fluid is streaked with denser areas of white, and the unusual consistency that makes it seem alive... It definitely feels like you have a head coated in semen as you sit and wait for it to work. <<if ↂ.pc.kink.cumSlut>><<arousal 2>>You can't help but get aroused as your forced to breath in the rich smell of jism, you have to stop yourself more than once from absentmindedly transferring some of the fluid from your head to your mouth.<<elseif ↂ.pc.status.arousal < 6>><<arousal 1>>Being forced to breath in the rich smell while you wait causes some tingles of arousal to course through you.<</if>><br><br>When you're finally done, and the cum-like fluid has crusted in a familiar way, the stylist washes your hair which is now @@.change;<<print _length>> <<units>> long@@. <<if _new < 4>>You can't help but feel that the price probably wasn't worth it when you only wanted to grow <<print _new>> inches.<</if>><</replace>><<run setup.refresh()>><</button>>
+</div>
+
+
+:: salonChangeHairCurl [nobr]
+
+<<run setup.statusLoad()>>
+<div id="result" style="min-width:800px;">
+<<f Y>>ou tell the stylist that you want to get your hair permed.<br><br>
+"@@.npc;How curl you wan it?@@"
+<<radioset "haircurl" "_tempHairCurl">>Hair Curliness
+  <<radioitem 1>>Slightly Wavy
+  <<radioitem 2>>Wavy
+  <<radioitem 3>>Very Wavy
+  <<radioitem 4>>Curly
+  <<radioitem 5>>Very Curly
+  <<radioitem 6>>Kinked
+<</radioset>>
+@@.note;Your stylist won't complain if you try to get a pointless treatment... <i>currently <<p "haircurl.q">></i>@@
+<br><center>
+<<button "CURL IT!">><<if _tempHairCurl > ↂ.pc.groom.hairCurl>><<set ↂ.pc.groom.hairCurl = _tempHairCurl>><</if>><<run setup.statusSave()>><<run aw.cash(-36, "salon")>><<addTime 35>>
+<<replace "#result">>She expertly applies a @@.change;curling@@ treatment to your hair.<</replace>><<run setup.refresh()>><</button>></center>
+</div>
+
+
+:: salonChangeHairStraight [nobr]
+
+<<run setup.statusLoad()>>
+<div id="result" style="min-width:800px;">
+<<f Y>>ou tell the stylist that you want to get your hair straightened.<br><br>
+@@.npc;How stray you wan it?@@<br>
+<<radioset "haircurl" "_tempHairCurl">>Hair Straightness
+  <<radioitem 0>>Completely Straight
+  <<radioitem 1>>Slightly Wavy
+  <<radioitem 2>>Wavy
+  <<radioitem 3>>Very Wavy
+  <<radioitem 4>>Curly
+  <<radioitem 5>>Very Curly
+<</radioset>>
+@@.note;Your stylist won't complain if you try to get a pointless treatment... <i>currently <<p "haircurl.q">></i>@@
+<br><center>
+<<button "STRAIGHTEN IT!">><<if _tempHairCurl < ↂ.pc.groom.hairCurl>><<set ↂ.pc.groom.hairCurl = _tempHairCurl>><</if>><<run setup.statusSave()>><<run aw.cash(-36, "salon")>><<addTime 35>>
+<<replace "#result">>She expertly applies a @@.change;straightening@@ treatment to your hair.<</replace>><<run setup.refresh()>><</button>></center>
+</div>
+
+
+:: salonChangeHairStyle [nobr]
+
+<<run setup.statusLoad()>>
+<div id="result" style="min-width:1200px;">
+<<f Y>>ou tell the stylist that you want to get your hair styled.<br><br>
+@@.npc;Wha styl you wan?@@<br>
+  <div id="changestyle" style="width:95%;height:500px;display:flex;flex-flow: row wrap;align-content:flex-start;align-items: flex-start;padding: 3px;overflow: auto;">
+  <<print setup.hair.printButton("#changestyle",25)>>
+  </div>
+</div>
+
+:: salonChangeHairColor [nobr]
+
+<<run setup.statusLoad()>>
+<div id="result" style="min-width:800px;">
+<<f Y>>ou tell the stylist that you want to get your hair dyed a new color.<br><br>
+@@.npc;Wha color you wan?@@
+<<radioset "haircolor" "_tempHairColor">>Select your new hair color!
+  <<radioitem "black">>Black
+  <<radioitem "cafe noir">>Cafe Noir
+  <<radioitem "brunette">>Brunette
+  <<radioitem "brown">>Brown
+  <<radioitem "light brown">>Light Brown
+  <<radioitem "dark blonde">>Dark Blonde
+  <<radioitem "strawberry blonde">>Strawberry Blonde
+  <<radioitem "sandy blonde">>Sandy Blonde
+  <<radioitem "blonde">>Blonde
+  <<radioitem "platinum blonde">>Platinum Blonde
+  <<radioitem "auburn">>Auburn
+  <<radioitem "light auburn">>Light Auburn
+  <<radioitem "copper">>Copper
+  <<radioitem "ginger">>Ginger
+  <<radioitem "white">>White
+<</radioset>>
+@@.note;Unnatural colors will be available soon, presently they cause issues with the PC portrait.@@<br>
+<center><<button "DYE IT!">><<set ↂ.pc.groom.hairColor = _tempHairColor>><<run setup.statusSave()>><<run aw.cash(-48, "salon")>><<addTime 40>>
+<<replace "#result">>She gets an oversized tub from a rack, and after getting your hair thoroughly wet she starts the process of coating your hair with the contents. The stuff inside is thick like putty, and the tool she uses to take it out of the tub and smear it on your head strongly resembles a mortar trowel. The oddest thing is the neutral warm-grey color of the substance, which is nothing like the color you picked. Eventually though, as you sit under a special lamp, the substance starts to react, changing color and becoming uncomfortably warm. When the whole process is over, @@.change;your hair color is <<print ↂ.pc.groom.hairColor>>.@@<</replace>><<run setup.refresh()>><</button>></center>
+</div>
+
+
+
+
+

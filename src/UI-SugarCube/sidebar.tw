@@ -1,8 +1,8 @@
 :: StoryRightSidebar [nobr rightUIbarStyle]
 
-/*PORTRAIT DIV*/
+/*PORTRAIT DIV
 <<silently>>
-<<if !tags().includes("startpage")>>
+<<if !aw.passage.tags.includes("startpage")>>
 <<include [[SidebarPortraitList]]>>
 <<set _numPortrait = $UIimg.length>>
 <<if ndef $picIndex || _numPortrait < $picIndex>>
@@ -10,26 +10,26 @@
 <</if>>
 <</if>>
 <<if $picIndex < 0>><<set $picIndex = 0>><</if>>
-<<if tags().includes("startpage")>>
+<<if aw.passage.tags.includes("startpage")>>
 	<<set _portraitPrint = "<<link "+$UIdefaultImg+">><<popup devNotes>><</link>>">>
-<<elseif $UIimg.length == 0>>/*if no portraits for some reason, print blank portrait*/
+<<elseif $UIimg.length == 0>>/*if no portraits for some reason, print blank portrait/
 	<<set _portraitPrint = "[img[IMGsil250]]">>
-<<else>>/*show most recent addition first*/
+<<else>>/*show most recent addition first/
 	<<set _portraitPrint = "<<print $UIimg[$picIndex]>>">>
 <</if>>
 <<timed 50ms>><<include [[SidebarPortraitColor]]>><</timed>>
 <</silently>>
 
-<div id="right-sidebar-portrait" class="rsp-grey">
+/*<div id="right-sidebar-portrait" class="rsp-grey">
 	<span id="uiPortrait" class="right-sidebar-portrait-class">
 		<<print _portraitPrint>>
-	</span>
+	</span>*/
 	/*<span id="uiPortraitbg" class="right-sidebar-portrait-bg">
 		[img[IMGgradient]]
 	</span>*/
-	<div id="portrait-left-button">
+	/*<div id="portrait-left-button">
 	<<link [img[Previous Portrait|IMGswitchleft]]>>
-	<<if !tags().includes("startpage")>>
+	<<if !aw.passage.tags.includes("startpage")>>
 		<<if _numPortrait > 0>>
 			<<if $picIndex > 0>>
 				<<set $picIndex -= 1>>
@@ -42,47 +42,47 @@
 		<<else>>
 			<<set _toprint = "<<print $UIimg[$picIndex]>>">>
 		<</if>>
-		/*actually changes the image*/
+		/*actually changes the image/
 		<<include [[SidebarPortraitColor]]>>
 		<<replace "#uiPortrait">><<print _toprint>><</replace>>
-		<<replace "#portrait-character-name">><<if $picIndex == 0>><<print $PC.main.name>> (me)<<else>><<print $NPC[$activeNPC[($picIndex-1)]].main.name>><</if>><</replace>>
+		<<replace "#portrait-character-name">><<if $picIndex == 0>><<print ↂ.pc.main.name>> (me)<<else>><<print aw.npc[$activeNPC[($picIndex-1)]].main.name>><</if>><</replace>>
 	<</if>>
 	<</link>>
-	</div>
-	<div id="portrait-expand-button">
+	</div>*/
+	/*<div id="portrait-expand-button">
 	<<link [img[Expand|IMGswitchExpand]]>>
-	<<if !tags().includes("startpage")>>
+	<<if !aw.passage.tags.includes("startpage")>>
 		<<if $UIimg.length > 0>>
 			<<dialog "Zoom">><<print $UIimg[$picIndex]>><</dialog>>
 		<</if>>
 	<</if>>
 	<</link>>
-	</div>
-	<div id="portrait-character-name">
-	<<if !tags().includes("startpage")>>
-		<<if $picIndex == 0>><<print $PC.main.name>> (me)<<else>>
+	</div>*/
+	/*<div id="portrait-character-name">
+	<<if !aw.passage.tags.includes("startpage")>>
+		<<if $picIndex == 0>><<print ↂ.pc.main.name>> (me)<<else>>
 		<<set $AW.indx = $picIndex - 1>>
-    <<if ndef $NPC[$activeNPC[$AW.indx]].main>><<updatebar>><</if>>
-		<<print $NPC[$activeNPC[$AW.indx]].main.name>><</if>>
+    <<if ndef aw.npc[$activeNPC[$AW.indx]].main>><<updatebar>><</if>>
+		<<print aw.npc[$activeNPC[$AW.indx]].main.name>><</if>>
 	<<else>>
 		<<print "Dev Version Msg">>
 	<</if>>
 	</div>
 	<div id="portrait-player-button">
 	<<link [img[PC Portrait|IMGswitchPlayer]]>>
-	<<if !tags().includes("startpage")>>
+	<<if !aw.passage.tags.includes("startpage")>>
 		<<if $UIimg.length > 0>>
 			<<set $picIndex = 0>>
 			<<include [[SidebarPortraitColor]]>>
 			<<replace "#uiPortrait">><<print $UIimg[$picIndex]>><</replace>>
-			<<replace "#portrait-character-name">><<if $picIndex == 0>><<print $PC.main.name>> (me)<<else>>N/A<</if>><</replace>>
+			<<replace "#portrait-character-name">><<if $picIndex == 0>><<print ↂ.pc.main.name>> (me)<<else>>N/A<</if>><</replace>>
 		<</if>>
 	<</if>>
 	<</link>>
-	</div>
-	<div id="portrait-right-button">
+	</div>8/
+	/*<div id="portrait-right-button">
 	<<link [img[Next Portrait|IMGswitchright]]>>
-	<<if !tags().includes("startpage")>>
+	<<if !aw.passage.tags.includes("startpage")>>
 		<<if _numPortrait > 0>>
 			<<if $picIndex < (_numPortrait - 1)>>
 				<<set $picIndex += 1>>
@@ -96,22 +96,18 @@
 			<<set _toprint = "<<print $UIimg[$picIndex]>>">>
 		<</if>>
 		/*give a slight interaction delay to make the image change more obvious*/
-		/*actually changes the image*/
+		/*actually changes the image/
 		<<include [[SidebarPortraitColor]]>>
 		<<replace "#uiPortrait">><<print _toprint>><</replace>>
-		<<replace "#portrait-character-name">><<if $picIndex == 0>><<print $PC.main.name>> (me)<<else>><<print $NPC[$activeNPC[($picIndex-1)]].main.name>><</if>><</replace>>
+		<<replace "#portrait-character-name">><<if $picIndex == 0>><<print ↂ.pc.main.name>> (me)<<else>><<print aw.npc[$activeNPC[($picIndex-1)]].main.name>><</if>><</replace>>
 	<</if>>
 	<</link>>
 	</div>
-</div>
+</div>*/
 /*STATUS DIV*/
-<<if tags().includes("sex")>>
-  <div id="right-sidebar-status">
-	<<include [[RightSidebarSexDisplay]]>>
-  </div>
-<</if>>
+
 /*<div id="right-sidebar-command">
-<<if $showMenuButton && $showData && not tags().includes("hidden")>>
+<<if $showMenuButton && $showData && not aw.passage.tags.includes("hidden")>>
 	<<silently>>
 	<<set _dropdown = "<<dropdown '$sidebarAction'">>
 	<<if $sidebarCmds.length == 0>>
@@ -138,10 +134,10 @@
 <<else>>
 	@@.ship;font-size:130%;Quick Command<br>◄Locked►@@
 <</if>>
-</div>*/
+</div>
 <<if $debugTools>>
   <div id="right-sidebar-developer-button"><<link [img[Developer Toolkit|IMGdevToolkit]]>><<dialog "Dev Toolkit">><<include [[DeveloperToolkit]]>><</dialog>><</link>></div>
-<</if>>
+<</if>>*/
 
 
 :: RightSidebarInfoDisplay [nobr]
@@ -165,91 +161,42 @@
 <</if>>
 
 
-:: RightSidebarSexDisplay [nobr]
 
-<<silently>>
-<<set _inuse = ".">>
-<<if $sex.pcOccupied.mouth>><<set _inuse += ", Mouth">><</if>>
-<<if $sex.pcOccupied.handR>><<set _inuse += ", R-Hand">><</if>>
-<<if $sex.pcOccupied.handL>><<set _inuse += ", L-Hand">><</if>>
-<<if $sex.pcOccupied.pussy>><<set _inuse += ", Vagina">><</if>>
-<<if $sex.pcOccupied.asshole>><<set _inuse += ", Anus">><</if>>
-<<if _inuse == ".">>
-	<<set _inuse = " Nothing">>
-<<else>>
-	<<set _inuse = _inuse.slice(2)>>
-<</if>>
-<<run setup.time.dif($sex.startTime,$time)>>
-<</silently>>
-<table id="invisTableNM"><tr><td style="width:35%">
-''People:'' <<print ($sex.npcCount+1)>>
-</td><td>
-''Duration:'' <<print _difMinTotal>> min
-</td></tr></table>
-''Position:'' <<print $sex.pos>><br>
-''In Use:''<<print _inuse>><br>
-''Wetness:'' <<print $sex.pcWetness>> @@font-size:12px;(will be words!)@@<br>
-''Pace:'' <<silently>>
-<<switch $sex.speed>>
-<<case 0>>
-  <<set _speedout = "N/A">>
-<<case 1>>
-  <<set _speedout = "Not Moving">>
-<<case 2>>
-  <<set _speedout = "Grinding">>
-<<case 3>>
-  <<set _speedout = "Slow">>
-<<case 4>>
-  <<set _speedout = "Leisurely">>
-<<case 5>>
-  <<set _speedout = "Average">>
-<<case 6>>
-  <<set _speedout = "Quick">>
-<<case 7>>
-  <<set _speedout = "Intense">>
-<<case 8>>
-  <<set _speedout = "Hard Pounding">>
-<</switch>>
-<</silently>><<print _speedout>><br>
-''Toys:''<br>
-<table id="invisTableNM" style="font-size:16px">
-<tr><td id="right-sidebar-table-limit">@@.ship;NAME@@</td><td>@@.ship;BirthCon@@</td><td>@@.ship;Oh!@@</td></tr>
-<tr><td>@@.ship;★@@ <<print $PC.main.name>> <<print $PC.main.surname.slice(0,1)>>.</td><td id="right-sidebar-table-limit"><<if $sex.pcBC.dia>>Diaphram<<elseif $sex.pcBC.femCon>>FemCondom<<elseif $sex.pcBC.menCup>>M-Cup<<elseif $sex.pcBC.sponge>>Sponge<<else>>None<</if>></td><td><<print (Math.min(100,Math.round(($PC.status.pleasure/$sex.pcOrgasm)*100))+"%")>></td></tr>
-<<for _j = 0; _j < $sex.npcCount; _j++>>
-	<tr><td id="right-sidebar-table-limit"><<silently>><<set _np = "<<link '"+$NPC[$sex.activeNPC[_j]].main.name+" "+$NPC[$sex.activeNPC[_j]].main.surname.slice(0,1)+".'>><<dialog 'Info'>>This will eventually provide a quick display of the NPC's appearance and status.<</dialog>><</link>>">><<if $NPC[$sex.activeNPC[_j]].main.female && $NPC[$sex.activeNPC[_j]].main.male>><<set _ns = "♀♂">><<elseif $NPC[$sex.activeNPC[_j]].main.female>><<set _ns = "@@.hotpink;♀@@ ">><<else>><<set _ns = "@@.ship;♂@@ ">><</if>><<if _j == $sex.target>><<set _np += " @@.red;♥@@">><</if>><</silently>><<print (_ns + _np)>>
-	</td><td><<if $sex.npcBC[_j].dia>>Diaphram<<elseif $sex.npcBC[_j].femCon>>FemCondom<<elseif $sex.npcBC[_j].menCup>>M-Cup<<elseif $sex.npcBC[_j].sponge>>Sponge<<elseif $sex.npcBC[_j].condom>>Condom<<elseif $sex.npcBC[_j].headCap>>Head-Cap<<else>>None<</if>>
-	</td><td>
-	<<print (Math.min(100,Math.round(($NPC[$sex.activeNPC[_j]].status.pleasure/$sex.npcOrgasm[_j])*100))+"%")>>
-	</td></tr>
-<</for>>
-</table>
 
 
 :: SidebarPortraitList [nobr]
 
-<<if $UIimgFlag || (($activeNPC.length + 1) != $UIimg.length)>>
+<<if $UIimgFlag || (($activeNPC.length + 1 + ↂ.map.NPC.length) != $UIimg.length)>>
 	<<set $UIimg = [$AW.pcPortrait]>>
 	<<for _i to 0, _c to $activeNPC.length; _i < _c; _i++>>
-		<<set $UIimg.push($NPC[$activeNPC[_i]].main.portrait)>>
+		<<set $UIimg.push(aw.npc[State.active.variables.activeNPC[_i]].main.portrait)>>
 	<</for>>
+  <<for _i to 0, _c to ↂ.map.NPC.length; _i < _c; _i++>>
+    <<if ↂ.map.NPC[_i].slice(0,1) === "n">>
+        <<set $UIimg.push(aw.npc[ↂ.map.NPC[_i]].main.portrait)>>
+    <<else>>
+      <<set $UIimg.push("[img[" + aw.fakeNPC[ↂ.map.NPC[_i]].portrait + "]]")>>
+    <</if>>
+  <</for>>
 	<<set $UIimgFlag = false>>
 	<<set _numPortrait = $UIimg.length>>
-  <<set $picIndex = ($UIimg.length - 1)>>
-<<elseif (tags().includes("sex") && not $UIimgSexFlag)>>
+  /*<<set $picIndex = ($UIimg.length - 1)>> commented out for persistence*/
+
+/*<<elseif (aw.passage.tags.includes("sex") && not $UIimgSexFlag)>>
 	<<set $UIimg = [$AW.pcPortrait]>>
 	<<for _i to 0, _c to $activeNPC.length; _i < _c; _i++>>
-		<<set $UIimg.push($NPC[$sex.activeNPC[_i]].main.portrait)>>
+		<<set $UIimg.push(aw.npc[ↂ.sex.activeNPC[_i]].main.portrait)>>
 	<</for>>
 	<<set _numPortrait = $UIimg.length>>
 	<<set $UIimgSexFlag = true>>
-<<elseif (not tags().includes("sex") && $UIimgSexFlag)>>
+<<elseif (not aw.passage.tags.includes("sex") && $UIimgSexFlag)>>
 	<<set $UIimg = [$AW.pcPortrait]>>
 	<<for _i to 0, _c to $activeNPC.length; _i < _c; _i++>>
-		<<set $UIimg.push($NPC[$activeNPC[_i]].main.portrait)>>
+		<<set $UIimg.push(aw.npc[$activeNPC[_i]].main.portrait)>>
 	<</for>>
 	<<set _numPortrait = $UIimg.length>>
 	<<set $UIimgSexFlag = false>>
-<<else>>
+<<else>>*/
 	/*nothing for now*/
 <</if>>
 
@@ -257,13 +204,14 @@
 :: SidebarPortraitColor [nobr]
 
 <<if $UIimg.length == 0>>
-	<<set _colorset = $AW.moodColor.grey>>
+	<<set _colorset = "grey">>
+<<elseif $picIndex === 0>>
+  <<set _colorset = "pink">>
 <<else>>
-	<<set _colorset = $AW.moodColor[$UIimgCol[$picIndex]]>>
+	<<set _colorset = either("blue","dblue","orange","red","green")>>
 <</if>>
-<<set _colprint = '<<addclass "#right-sidebar-portrait" "'+_colorset+'">>'>>
-<<print $AW.moodColor.print>>
-<<print _colprint>>
+<<run setup.ui.clearPortBGcolor()>>
+<<run setup.ui.addPortBGcolor(_colorset)>>
 
 :: RightSidebarInfoStartpage [nobr]
 
@@ -273,7 +221,7 @@
 
 :: StoryRightSidebarHelp [nobr rightUIbarStyle]
 
-<table id="helpmenu"><tr id="helpmenu"><td id="helpmenu">''Help Menu'' ID: <<print passage()>></td><td id="helpmenu" width="41px"><<button [img[IMGclosebutton]]>><<script>>
+<table id="helpmenu"><tr id="helpmenu"><td id="helpmenu">''Help Menu'' ID: <<print aw.passage.title>></td><td id="helpmenu" width="41px"><<button [img[IMGclosebutton]]>><<script>>
 setPageElement('right-ui-bar-body', 'StoryRightSidebar');
 <</script>><</button>></td></tr></table>
 <table id="helpmenu"><tr><td id="helpmenu"><<print $helpText>></td></tr></table>

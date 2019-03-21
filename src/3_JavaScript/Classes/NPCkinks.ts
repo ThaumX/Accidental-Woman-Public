@@ -1,0 +1,91 @@
+
+
+class NPCkinks {
+  public position: string[];
+  public sexact: string[];
+  public risky: boolean;
+  public pregnancy: boolean;
+  public sizequeen: boolean;
+  public cumSlut: boolean;
+  public sub: boolean;
+  public exhibition: boolean;
+  public masochist: boolean;
+  public buttSlut: boolean;
+  public publix: boolean;
+  public slut: boolean;
+  public superSlut: boolean;
+  public hyperSlut: boolean;
+  public oral: boolean;
+  public anal: boolean;
+  public force: boolean;
+  public rape: boolean;
+  public liberate: boolean;
+  public easy: boolean;
+  public nips: boolean;
+  public dom: boolean;
+  public water: boolean;
+  public bond: boolean;
+  public hard: boolean;
+  public fap: boolean;
+  public shame: boolean;
+  public _k: string;
+  constructor(key, {
+    position,
+    sexact,
+    risky = false,
+    pregnancy = false,
+    sizequeen = false,
+    cumSlut = false,
+    sub = false,
+    exhibition = false,
+    masochist = false,
+    buttSlut = false,
+    publix = false,
+    slut = false,
+    superSlut = false,
+    hyperSlut = false,
+    oral = false,
+    anal = false,
+    force = false,
+    rape = false,
+    liberate = false,
+    easy = false,
+    nips = false,
+    dom = false,
+    water = false,
+    bond = false,
+    hard = false,
+    fap = false,
+    shame = false,
+  }: DataKink) {
+    this._k = key;
+    this.position = clone(position);
+    this.sexact = clone(sexact);
+    this.risky = risky;
+    this.pregnancy = pregnancy;
+    this.sizequeen = sizequeen;
+    this.cumSlut = cumSlut;
+    this.sub = sub;
+    this.exhibition = exhibition;
+    this.masochist = masochist;
+    this.buttSlut = buttSlut;
+    this.publix = publix;
+    this.slut = slut;
+    this.superSlut = superSlut;
+    this.hyperSlut = hyperSlut;
+    this.oral = oral;
+    this.anal = anal;
+    this.force = force;
+    this.rape = rape;
+    this.liberate = liberate;
+    this.easy = easy;
+    this.nips = nips;
+    this.dom = dom;
+    this.water = water;
+    this.bond = bond;
+    this.hard = hard;
+    this.fap = fap;
+    this.shame = shame;
+  }
+}
+

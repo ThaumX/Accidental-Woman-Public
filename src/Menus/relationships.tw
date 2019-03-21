@@ -1,186 +1,95 @@
-:: relationships [nobr hidden]
-
-<<silently>>
-<<if $prevPassage != "character" && $prevPassage != "scene" && $prevPassage != "relationships" && $prevPassage != "cheatMenu" && $prevPassage != "gameGuide" && $prevPassage != "debugPage">>
-	<<set $returnTo = $prevPassage>>
-<</if>>
-<<set $helpText = "This is where you'll find information about NPCs that you have formed a relationship with, and get a better look at NPCs that are in the same location as you. It's also where you can see your appointment list.">>
-<<set _tab = 1>>
-<</silently>>
-<center>@@.head1;Cellphone@@<br></center>
-<div id="chartabs" class="tabs">
-<<include [[MENU-Rship-Tabs]]>>
-</div>
-<div id="viewpane">
-<<include [[MENU-Rship-Dashboard]]>>
-</div>
-
-
-:: MENU-Rship-Tabs [nobr]
-
-<<if _tab == 1>>
-  <span class="curtab"><<button "Dashboard">><</button>></span>
-<<else>>
-  <<button "Dashboard">>
-    <<set _tab = 1>>
-    <<replace "#viewpane">>
-      <<include [[MENU-Rship-Dashboard]]>>
-    <</replace>>
-    <<replace "#chartabs">>
-      <<include [[MENU-Rship-Tabs]]>>
-    <</replace>>
-  <</button>>
-<</if>>
-<<if _tab == 2>>
-  <span class="curtab"><<button "Calendar">><</button>></span>
-<<else>>
-  <<button "Calendar">>
-    <<set _tab = 2>>
-    <<replace "#viewpane">>
-      <<include [[infoCalendarDisplay]]>>
-    <</replace>>
-    <<replace "#chartabs">>
-      <<include [[MENU-Rship-Tabs]]>>
-    <</replace>>
-  <</button>>
-<</if>>
-<<if _tab == 3>>
-  <span class="curtab"><<button "Reminder">><</button>></span>
-<<else>>
-  <<button "Reminder">>
-    <<set _tab = 3>>
-    <<replace "#viewpane">>
-      <<include [[MENU-Rship-Reminder]]>>
-    <</replace>>
-    <<replace "#chartabs">>
-      <<include [[MENU-Rship-Tabs]]>>
-    <</replace>>
-  <</button>>
-<</if>>
-<<if _tab == 4>>
-  <span class="curtab"><<button "Notes">><</button>></span>
-<<else>>
-  <<button "Notes">>
-    <<set _tab = 4>>
-    <<replace "#viewpane">>
-      <<include [[MENU-Rship-Notes]]>>
-    <</replace>>
-    <<replace "#chartabs">>
-      <<include [[MENU-Rship-Tabs]]>>
-    <</replace>>
-  <</button>>
-<</if>>
-<<if _tab == 5>>
-  <span class="curtab"><<button "Contact">><</button>></span>
-<<else>>
-  <<button "Contact">>
-    <<set _tab = 5>>
-    <<replace "#viewpane">>
-      <<include [[MENU-Rship-Contact]]>>
-    <</replace>>
-    <<replace "#chartabs">>
-      <<include [[MENU-Rship-Tabs]]>>
-    <</replace>>
-  <</button>>
-<</if>>
-<<if _tab == 6>>
-  <span class="curtab"><<button "Near by">><</button>></span>
-<<else>>
-  <<button "Nearby">>
-    <<set _tab = 6>>
-    <<replace "#viewpane">>
-      <<include [[MENU-Rship-Nearby]]>>
-    <</replace>>
-    <<replace "#chartabs">>
-      <<include [[MENU-Rship-Tabs]]>>
-    <</replace>>
-  <</button>>
-<</if>>
-<<if _tab == 7>>
-  <span class="curtab"><<button "Friends">><</button>></span>
-<<else>>
-  <<button "Friends">>
-    <<set _tab = 7>>
-    <<replace "#viewpane">>
-      <<include [[MENU-Rship-Friends]]>>
-    <</replace>>
-    <<replace "#chartabs">>
-      <<include [[MENU-Rship-Tabs]]>>
-    <</replace>>
-  <</button>>
-<</if>>
-<<if _tab == 8>>
-  <span class="curtab"><<button "Lovers">><</button>></span>
-<<else>>
-  <<button "Lovers">>
-    <<set _tab = 8>>
-    <<replace "#viewpane">>
-      <<include [[MENU-Rship-Lovers]]>>
-    <</replace>>
-    <<replace "#chartabs">>
-      <<include [[MENU-Rship-Tabs]]>>
-    <</replace>>
-  <</button>>
-<</if>>
-<<link [img[Exit|IMGclosebutton]]>><<goto [[returner]]>><</link>>
-
 
 :: MENU-Rship-Dashboard [nobr]
 
 <<set _today = setup.time.dayplansFull()>>
-<table>
-<tr class="divide"><td colspan=2 class="divide">
-@@.head2;Dashboard@@
-</td></tr>
+<table id="invisTable" style="width:98%;margin:15px auto;">
 <tr><td style="width:50%">
 <<print _today>>
 </td><td>
 <span class="head4">Relationship Status:</span> Single<br>
-<span class="head4">Best Friends:</span> <<print $npc.bFriend.length>><br>
-<span class="head4">Friends:</span> <<print $npc.friends.length>><br>
-<span class="head4">Paramours:</span> <<print $npc.interested.length>><br>
-<span class="head4">Flings:</span> <<print $npc.fling.length>><br>
-<span class="head4">Exes:</span> <<print $npc.exes.length>><br>
-<span class="head4">Enemies:</span> <<print $npc.enemies.length>>
+<span class="head4">Best Friends:</span> <<print setup.npc.bff.length>><br>
+<span class="head4">Friends:</span> <<print setup.npc.friends.length>><br>
+<span class="head4">Paramours:</span> <<print setup.npc.interested.length>><br>
+<span class="head4">Flings:</span> <<print setup.npc.fling.length>><br>
+<span class="head4">Exes:</span> <<print setup.npc.exes.length>><br>
+<span class="head4">Enemies:</span> <<print setup.npc.enemies.length>>
 </td></tr>
 </table>
 
 
 :: MENU-Rship-Reminder [nobr]
 
-
-Temporary 'Make a Reminder' tool. Use it to set an alert for yourself on your phone.<br><br>
-<<textbox "_Time" 1000>>Time--Make sure it's a number.<br>
-<<textbox "_Name" "My Reminder">>Name.<br>
-<<textbox "_msg" "type a message here">>Message text. Don't leave this blank.<br>
-<<button "save message">><<set _Tim to Number(_Time)>><<set _Tim += 100>><<set _tutorialReminder = {name: _Name, type: 1, start: _Tim, alert: true, msg: _msg, desc: _msg}>><<set $sched.plans[2].push(_tutorialReminder)>><</button>>Push once only, or face the wrath of spam!
-
-
+<<set _weekdays = ["errorday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]>>
+<<set _weekday = 1>>
+<<set _time = 8>>
+Reminder Name: <<textbox "_Name" "My Reminder">><br>
+Reminder Day:
+<<button "[-]">><<set _weekday -= 1>><<if _weekday < 1>><<set _weekday = 1>><</if>><<if _weekday > 7>><<set _weekday = 7>><</if>><<replace "#weekdayDiv">><<print _weekdays[_weekday]>><</replace>><</button>>&nbsp;&nbsp;<span id="weekdayDiv"><<print _weekdays[_weekday]>></span>&nbsp;&nbsp;<<button "[+]">><<set _weekday += 1>><<if _weekday < 1>><<set _weekday = 1>><</if>><<if _weekday > 7>><<set _weekday = 7>><</if>><<replace "#weekdayDiv">><<print _weekdays[_weekday]>><</replace>><</button>>
+&nbsp;&nbsp;
+Reminder Time:
+<<button "[-]">><<set _time -= 1>><<if _time < 7>><<set _time = 7>><</if>><<if _time > 23>><<set _time = 23>><</if>><<replace "#timedayDiv">><<print _time>><</replace>><</button>>&nbsp;&nbsp;<span id="timedayDiv"><<print _time>></span>:00&nbsp;&nbsp;<<button "[+]">><<set _time += 1>><<if _time < 7>><<set _time = 7>><</if>><<if _time > 23>><<set _time = 23>><</if>><<replace "#timedayDiv">><<print _time>><</replace>><</button>>
+<br>
+<<textarea "_msg" "Enter Your Reminder Text Here">><br>
+<br>
+<<button "ADD REMINDER">>
+<<set _tim = setup.time.dateToVal([_weekday, aw.timeArray[3], aw.timeArray[4], aw.timeArray[5]])>>
+<<set _damnTwine = _time * 60>>
+<<set _unixTime = _tim + _damnTwine>>
+<<set setup.sched.new(_Name, "reminder", true, _unixTime, false, false, false, true, false, _msg, _msg)>><</button>>
 
 
 :: MENU-Rship-Notes [nobr]
 
-@@.head3;Not yet implemented@@<br><br>
-This is where you will be able to save notes about the game.
+<table id="invisTable" style="width:98%;margin:10px auto;">
+  <tr>
+    <td id="noteprint" style="width:50%;vertical-align:top;">
+      <<include [[MENU-Rship-Notes-Printer]]>>
+    </td>
+    <td style="vertical-align:top;border-left-width:3px;border-left-style:dashed;border-left-color:#364557;">
+      <<set _newNote = "">>
+      <span id="notesave">
+      <<textarea "_newNote" _newNote>>
+      </span><br>
+      <center>
+      <<button "SAVE">><<set ↂ.flag.playerNotes.push(_newNote)>><<set _newNote = "">><<replace "#notesave">><<textarea "_newNote" _newNote>><</replace>><<replace "#noteprint">><<include [[MENU-Rship-Notes-Printer]]>><</replace>><</button>> <<button "CLEAR">><<set _newNote = "">><<replace "#notesave">><<textarea "_newNote" _newNote>><</replace>><</button>>
+      <<button "SAVE TO BROWSER">>
+      <<run setup.AW.localStore("AWplayerNotes", JSON.stringify(ↂ.flag.playerNotes))>>
+      <<notify>>Notes saved to browser!<</notify>>
+      <</button>> <<button "IMPORT">>
+      <<set _news = JSON.parse(setup.AW.localRestore("AWplayerNotes"))>>
+      <<if Array.isArray(_news)>>
+        <<for _i = 1, _c = _news.length; _i < _c; _i++>>
+          <<set ↂ.flag.playerNotes.push(_news[_i])>>
+        <</for>>
+        <<replace "#noteprint">><<include [[MENU-Rship-Notes-Printer]]>><</replace>>
+        <<notify>>Notes imported from browser!<</notify>>
+      <<else>>
+        <<notify>><span class="bad">No notes to import!</span><</notify>>
+      <</if>>
+      <</button>></center><br>
+      <span class="note">You can use this tool to save notes about your game, which are displayed to the left. Notes will persist in a saved game. You can use the "SAVE TO BROWSER" button to save your notes to your browser's local storage, this will overwrite any notes currently saved there. You can also import saves from local storage using the "IMPORT" button, this will <b>not</b> overwrite your existing notes.</span><br>
+    </td>
+  </tr>
+</table>
 
 
-:: MENU-Rship-Contact [nobr]
+:: MENU-Rship-Notes-Printer [nobr]
 
-@@.head3;Not yet implemented@@<br><br>
-This is where you will be able to contact NPCs to set up dates, hang out, or just collect dick-pics.
+<<set _print = "">>
+<<if ↂ.flag.playerNotes.length > 1>>
+<<for _i = 1, _c = ↂ.flag.playerNotes.length; _i < _c; _i++>>
+  <<set _print += "<p id='playerNote-" + _i + "'><span class='head3'>" + _i + ".</span> ">>
+  <<set _print += "<<link '🗑'>><<run ↂ.flag.playerNotes.deleteAt(" + _i + ")>>">>
+  <<set _print += "<<replace '#playerNote-" + _i + "'>>Deleted.<</replace>><</link>><br>">>
+  <<set _print += ↂ.flag.playerNotes[_i] + "</p>">>
+<</for>>
+<<print _print>>
+<<else>>
+<b>Currently No Saved Notes</b>
+<</if>>
 
 
-:: MENU-Rship-Nearby [nobr]
 
-@@.head3;Not yet implemented@@<br><br>
-This is where you will see a list of near by NPCs, and can access their character sheets to see more about them.
 
-:: MENU-Rship-Friends [nobr]
 
-@@.head3;Not yet implemented@@<br><br>
-This is where you will see a list of friends and acquaintances, and will be able to see their character sheets to see their details.
 
-:: MENU-Rship-Lovers [nobr]
-
-@@.head3;Not yet implemented@@<br><br>
-This is where you will see a list of lovers (and exes), and will be able to see their character sheets to see their details.

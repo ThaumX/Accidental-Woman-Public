@@ -30,7 +30,7 @@
 
 :: proRealEstate2-1 [nobr]
 
-@@.head3;Y@@ou step out of the front door and onto Lily's front stoop. The sun is shining overhead through a thin layer of puffy clouds. Parked on the curb is your Misubitchi (みすビッチ) Lingual, <<if $flag.CarWreckDmg == 0>>none the worse for wear after your near accident the other day.<<elseif $flag.CarWreckDmg == 1>>still missing its driver's side mirror.<<elseif $flag.CarWreckDmg == 2>>the damage to the front pretty obvious even from this distance.<<else>>still beat up from your accident the other day.<</if>> <<if $flag.CarWreckDmg == 0>>@@.mono;I'm glad I don't have to worry about fixing my car on top of everything else...@@<<else>>@@.mono;I had almost forgotten, I still need to get my car fixed after the accident...@@<</if>>
+@@.head3;Y@@ou step out of the front door and onto Lily's front stoop. The sun is shining overhead through a thin layer of puffy clouds. Parked on the curb is your Misubitchi (みすビッチ) Lingual, <<if ↂ.flag.CarWreckDmg == 0>>none the worse for wear after your near accident the other day.<<elseif ↂ.flag.CarWreckDmg == 1>>still missing its driver's side mirror.<<elseif ↂ.flag.CarWreckDmg == 2>>the damage to the front pretty obvious even from this distance.<<else>>still beat up from your accident the other day.<</if>> <<if ↂ.flag.CarWreckDmg == 0>>@@.mono;I'm glad I don't have to worry about fixing my car on top of everything else...@@<<else>>@@.mono;I had almost forgotten, I still need to get my car fixed after the accident...@@<</if>>
 <br><br>
 You take a look at your watch. @@.clock;<<print setup.timeDisp>>@@ @@.mono;Looks like there's still some time to go before the real estate agent is supposed to get here...@@ You take a seat on the stairs, and look around the quiet street. It's lined with townhouses that are very similar to Lily's, but just different enough to keep them distinguishable from each other. Overall it's a pleasant scene, and it gives you a very different feeling than the city.
 <br><br>
@@ -39,47 +39,62 @@ wait.
 <br><br>
 You don't have to wait long before a new-looking Sukayu Impregna pulls up at the curb. A woman in a nice skirt suit gets out, retrieving her purse before repositioning her suit jacket over her large breasts. She seems to check her reflection in her door window before finally looking up towards you. She seems startled for a moment, and you realize that she must not have noticed you sitting there when she pulled up to the curb.
 <br><br>
-She hurries over, giving you a view of her unusually-voluptuous figure as she hurries over with the short stride forced by her long skirt. @@.npc;Oh, you must be miss <<=$PC.main.surname>>! I'm so sorry for making you wait.@@ She reaches the stoop and stretches out her hand to shake. @@.npc;I'm Tiffany Williams, with Applecleft Real Estate.@@
+She hurries over, giving you a view of her unusually-voluptuous figure as she hurries over with the short stride forced by her long skirt. @@.npc;Oh, you must be miss <<=ↂ.pc.main.surname>>! I'm so sorry for making you wait.@@ She reaches the stoop and stretches out her hand to shake. @@.npc;I'm Tiffany Williams, with Applecleft Real Estate.@@
 <br><br>
-Shaking the offered hand with a smile, you reply @@.pc;that's me, but <<=$PC.main.name>> is fine.@@
+Shaking the offered hand with a smile, you reply @@.pc;that's me, but <<=ↂ.pc.main.name>> is fine.@@
 <br><br>
-@@.npc;<<=$PC.main.name>> it is then!@@ Tiffany shifts her purse to retrieve a thin tablet. @@.npc;Miss Richards said that you're new in town, and looking for a place to rent right away?@@ she doesn't quite give you enough time to answer before continuing, flicking the screen of the tablet as she does. @@.npc;What kind of place are you looking for? What's your budget?@@
+@@.npc;<<=ↂ.pc.main.name>> it is then!@@ Tiffany shifts her purse to retrieve a thin tablet. @@.npc;Miss Richards said that you're new in town, and looking for a place to rent right away?@@ she doesn't quite give you enough time to answer before continuing, flicking the screen of the tablet as she does. @@.npc;What kind of place are you looking for? What's your budget?@@
 <br><br>
-<<hoverrevise funfun>><<emo excited>><<tab>><<link "I was thinking about that...">><<addTime 27>><<goto [[proRealEstate3a]]>><</link>><<endhoverrevise>><<tab>><<insertion funfun>>@@.mono;I'm looking forward to finding a cool new place@@<<endinsertion>><br>
-<<hoverrevise ohnoes>><<emo disturbed>><<tab>><<link "Well...">><<addTime 33>><<goto [[proRealEstate3b]]>><</link>><<endhoverrevise>><<tab>><<insertion ohnoes>>@@.mono;Right away? Budget? What kind of place do I want?@@<<endinsertion>><br>
-<<hoverrevise dickhole>><<emo arrogant>><<link "The place absolutely has to have...">><<addTime 44>><<goto [[proRealEstate3c]]>><</link>><<endhoverrevise>><<tab>><<insertion dickhole>>@@.mono;If I'm going to be here a while, my new place ''better'' be nice!@@<<endinsertion>><br><br>
-<</replace>><</link>>.</span>
 
+<<dialogchoice>>
+  <<dbutt "Excited">><<addTime 27>><<go proRealEstate3a>>
+    <<dtext "excited">>I'm looking forward to finding a cool new place
+  <<dbutt "Unsure">><<addTime 33>><<go proRealEstate3b>>
+    <<dtext "disturbed">>Right away? Budget? What kind of place do I want?
+  <<dbutt "Picky">><<addTime 44>><<go proRealEstate3c>>
+    <<dtext "arrogant">>If I'm going to be here a while, my new place ''better'' be nice!
+<</dialogchoice>>
+<</replace>><</link>></span>
 
 :: proRealEstate2-2 [nobr]
 
-@@.head3;Y@@ou step out of the front door and onto Lily's front stoop. The sun is shining overhead through a thin layer of puffy clouds. Parked on the curb is your Misubitchi (みすビッチ) Lingual, <<if $flag.CarWreckDmg == 0>>none the worse for wear after your near accident the other day.<<elseif $flag.CarWreckDmg == 1>>still missing its driver's side mirror.<<elseif $flag.CarWreckDmg == 2>>the damage to the front pretty obvious even from this distance.<<else>>still beat up from your accident the other day.<</if>> <<if $flag.CarWreckDmg == 0>>@@.mono;I'm glad I don't have to worry about fixing my car on top of everything else...@@<<else>>@@.mono;I had almost forgotten, I still need to get my car fixed after the accident...@@<</if>>
+@@.head3;Y@@ou step out of the front door and onto Lily's front stoop. The sun is shining overhead through a thin layer of puffy clouds. Parked on the curb is your Misubitchi (みすビッチ) Lingual, <<if ↂ.flag.CarWreckDmg == 0>>none the worse for wear after your near accident the other day.<<elseif ↂ.flag.CarWreckDmg == 1>>still missing its driver's side mirror.<<elseif ↂ.flag.CarWreckDmg == 2>>the damage to the front pretty obvious even from this distance.<<else>>still beat up from your accident the other day.<</if>> <<if ↂ.flag.CarWreckDmg == 0>>@@.mono;I'm glad I don't have to worry about fixing my car on top of everything else...@@<<else>>@@.mono;I had almost forgotten, I still need to get my car fixed after the accident...@@<</if>>
 <br><br>
 You take a look at your watch. @@.clock;<<print setup.timeDisp>>@@ @@.mono;Looks like the real estate agent is running a little...@@ Your thought is interrupted by a new-looking Sukayu Impregna pulling up at the curb. A woman in a nice skirt suit quickly gets out, retrieving her purse before repositioning her suit jacket over her large breasts. She seems to check her reflection in her door window before finally looking up towards you. She seems startled for a moment, and you realize that she must not have noticed you standing there when she pulled up to the curb.
 <br><br>
-She hurries over, giving you a view of her unusually-voluptuous figure as she hurries over with the short stride forced by her long skirt. @@.npc;Oh, you must be miss <<=$PC.main.surname>>! I'm so sorry for making you wait.@@ She reaches the stoop and stretches out her hand to shake. @@.npc;I'm Tiffany Williams, with Applecleft Real Estate.@@
+She hurries over, giving you a view of her unusually-voluptuous figure as she hurries over with the short stride forced by her long skirt. @@.npc;Oh, you must be miss <<=ↂ.pc.main.surname>>! I'm so sorry for making you wait.@@ She reaches the stoop and stretches out her hand to shake. @@.npc;I'm Tiffany Williams, with Applecleft Real Estate.@@
 <br><br>
-Shaking the offered hand with a smile, you reply @@.pc;that's me, but <<=$PC.main.name>> is fine.@@
+Shaking the offered hand with a smile, you reply @@.pc;that's me, but <<=ↂ.pc.main.name>> is fine.@@
 <br><br>
-@@.npc;<<=$PC.main.name>> it is then!@@ Tiffany shifts her purse to retrieve a thin tablet. @@.npc;Miss Richards said that you're new in town, and looking for a place to rent right away?@@ she doesn't quite give you enough time to answer before continuing, flicking the screen of the tablet as she does. @@.npc;What kind of place are you looking for? What's your budget?@@
+@@.npc;<<=ↂ.pc.main.name>> it is then!@@ Tiffany shifts her purse to retrieve a thin tablet. @@.npc;Miss Richards said that you're new in town, and looking for a place to rent right away?@@ she doesn't quite give you enough time to answer before continuing, flicking the screen of the tablet as she does. @@.npc;What kind of place are you looking for? What's your budget?@@
 <br><br>
-<<hoverrevise funfun>><<emo excited>><<tab>><<link "I was thinking about that...">><<addTime 27>><<goto [[proRealEstate3a]]>><</link>><<endhoverrevise>><<tab>><<insertion funfun>>@@.mono;I'm looking forward to finding a cool new place@@<<endinsertion>><br>
-<<hoverrevise ohnoes>><<emo disturbed>><<tab>><<link "Well...">><<addTime 33>><<goto [[proRealEstate3b]]>><</link>><<endhoverrevise>><<tab>><<insertion ohnoes>>@@.mono;Right away? Budget? What kind of place do I want?@@<<endinsertion>><br>
-<<hoverrevise dickhole>><<emo arrogant>><<link "The place absolutely has to have...">><<addTime 44>><<goto [[proRealEstate3c]]>><</link>><<endhoverrevise>><<tab>><<insertion dickhole>>@@.mono;If I'm going to be here a while, my new place ''better'' be nice!@@<<endinsertion>><br><br>
+<<dialogchoice>>
+  <<dbutt "Excited">><<addTime 27>><<go proRealEstate3a>>
+    <<dtext "excited">>I'm looking forward to finding a cool new place
+  <<dbutt "Unsure">><<addTime 33>><<go proRealEstate3b>>
+    <<dtext "disturbed">>Right away? Budget? What kind of place do I want?
+  <<dbutt "Picky">><<addTime 44>><<go proRealEstate3c>>
+    <<dtext "arrogant">>If I'm going to be here a while, my new place ''better'' be nice!
+<</dialogchoice>>
 
 :: proRealEstate2-3 [nobr]
 
 @@.head3;A@@nswering Lily's door, you see a woman waiting there that appears to be in her mid to late 30s. Her surprisingly voluptuous figure isn't something you expected to see on a real estate agent, but then again, you don't exactly know a lot of real estate agents. She's wearing a skirt suit and has a kind-looking face, so pretty much nothing like what you expected.
 <br><br>
-She starts talking at just about the time you realize that you hadn't greeted her yet. @@.npc;Ah, hello, you must be miss <<=$PC.main.surname>>!@@ She quickly recovers from her hesitant start and stretches out her hand to shake. @@.npc;I'm Tiffany Williams, with Applecleft Real Estate.@@
+She starts talking at just about the time you realize that you hadn't greeted her yet. @@.npc;Ah, hello, you must be miss <<=ↂ.pc.main.surname>>!@@ She quickly recovers from her hesitant start and stretches out her hand to shake. @@.npc;I'm Tiffany Williams, with Applecleft Real Estate.@@
 <br><br>
-You take the offered hand with an apologetic smile. @@.pc;That's me, but <<=$PC.main.name>> is fine.@@
+You take the offered hand with an apologetic smile. @@.pc;That's me, but <<=ↂ.pc.main.name>> is fine.@@
 <br><br>
-@@.npc;<<=$PC.main.name>> it is then!@@ Tiffany shifts her purse to retrieve a thin tablet. @@.npc;Miss Richards said that you're new in town, and looking for a place to rent right away?@@ she doesn't quite give you enough time to answer before continuing, flicking the screen of the tablet as she does. @@.npc;What kind of place are you looking for? What's your budget?@@
+@@.npc;<<=ↂ.pc.main.name>> it is then!@@ Tiffany shifts her purse to retrieve a thin tablet. @@.npc;Miss Richards said that you're new in town, and looking for a place to rent right away?@@ she doesn't quite give you enough time to answer before continuing, flicking the screen of the tablet as she does. @@.npc;What kind of place are you looking for? What's your budget?@@
 <br><br>
-<<hoverrevise funfun>><<emo excited>><<tab>><<link "I was thinking about that...">><<addTime 27>><<goto [[proRealEstate3a]]>><</link>><<endhoverrevise>><<tab>><<insertion funfun>>@@.mono;I'm looking forward to finding a cool new place@@<<endinsertion>><br>
-<<hoverrevise ohnoes>><<emo disturbed>><<tab>><<link "Well...">><<addTime 33>><<goto [[proRealEstate3b]]>><</link>><<endhoverrevise>><<tab>><<insertion ohnoes>>@@.mono;Right away? Budget? What kind of place do I want?@@<<endinsertion>><br>
-<<hoverrevise dickhole>><<emo arrogant>><<link "The place absolutely has to have...">><<addTime 44>><<goto [[proRealEstate3c]]>><</link>><<endhoverrevise>><<tab>><<insertion dickhole>>@@.mono;If I'm going to be here a while, my new place ''better'' be nice!@@<<endinsertion>><br><br>
+<<dialogchoice>>
+  <<dbutt "Excited">><<addTime 27>><<go proRealEstate3a>>
+    <<dtext "excited">>I'm looking forward to finding a cool new place
+  <<dbutt "Unsure">><<addTime 33>><<go proRealEstate3b>>
+    <<dtext "disturbed">>Right away? Budget? What kind of place do I want?
+  <<dbutt "Picky">><<addTime 44>><<go proRealEstate3c>>
+    <<dtext "arrogant">>If I'm going to be here a while, my new place ''better'' be nice!
+<</dialogchoice>>
 
 :: proRealEstate2-4 [nobr]
 
@@ -87,15 +102,20 @@ You take the offered hand with an apologetic smile. @@.pc;That's me, but <<=$PC.
 <br><br>
 She's facing away from the door, looking at a mid-sized tablet while she waits. Realizing that she hasn't noticed you yet, you clear your throat to give her some warning. @@.pc;Sorry about the wait, I was a bit <i>occupied</i> when you rang.@@
 <br><br>
-You manage to avoid startling her, and she turns around to greet you. @@.npc;Ah, hello, you must be miss <<=$PC.main.surname>>!@@ She quickly recovers from her hesitant start and stretches out her hand to shake. @@.npc;I'm Tiffany Williams, with Applecleft Real Estate.@@
+You manage to avoid startling her, and she turns around to greet you. @@.npc;Ah, hello, you must be miss <<=ↂ.pc.main.surname>>!@@ She quickly recovers from her hesitant start and stretches out her hand to shake. @@.npc;I'm Tiffany Williams, with Applecleft Real Estate.@@
 <br><br>
-You take the offered hand with an apologetic smile. @@.pc;That's me, but <<=$PC.main.name>> is fine.@@
+You take the offered hand with an apologetic smile. @@.pc;That's me, but <<=ↂ.pc.main.name>> is fine.@@
 <br><br>
-@@.npc;<<=$PC.main.name>> it is then!@@ Tiffany lifts her tablet back up, glancing down to unlock it. @@.npc;Miss Richards said that you're new in town, and looking for a place to rent right away?@@ she doesn't quite give you enough time to answer before continuing, flicking the screen of the tablet as she does. @@.npc;What kind of place are you looking for? What's your budget?@@
+@@.npc;<<=ↂ.pc.main.name>> it is then!@@ Tiffany lifts her tablet back up, glancing down to unlock it. @@.npc;Miss Richards said that you're new in town, and looking for a place to rent right away?@@ she doesn't quite give you enough time to answer before continuing, flicking the screen of the tablet as she does. @@.npc;What kind of place are you looking for? What's your budget?@@
 <br><br>
-<<hoverrevise funfun>><<emo excited>><<tab>><<link "I was thinking about that...">><<addTime 27>><<goto [[proRealEstate3a]]>><</link>><<endhoverrevise>><<tab>><<insertion funfun>>@@.mono;I'm looking forward to finding a cool new place@@<<endinsertion>><br>
-<<hoverrevise ohnoes>><<emo disturbed>><<tab>><<link "Well...">><<addTime 33>><<goto [[proRealEstate3b]]>><</link>><<endhoverrevise>><<tab>><<insertion ohnoes>>@@.mono;Right away? Budget? What kind of place do I want?@@<<endinsertion>><br>
-<<hoverrevise dickhole>><<emo arrogant>><<link "The place absolutely has to have...">><<addTime 44>><<goto [[proRealEstate3c]]>><</link>><<endhoverrevise>><<tab>><<insertion dickhole>>@@.mono;If I'm going to be here a while, my new place ''better'' be nice!@@<<endinsertion>><br><br>
+<<dialogchoice>>
+  <<dbutt "Excited">><<addTime 27>><<go proRealEstate3a>>
+    <<dtext "excited">>I'm looking forward to finding a cool new place
+  <<dbutt "Unsure">><<addTime 33>><<go proRealEstate3b>>
+    <<dtext "disturbed">>Right away? Budget? What kind of place do I want?
+  <<dbutt "Picky">><<addTime 44>><<go proRealEstate3c>>
+    <<dtext "arrogant">>If I'm going to be here a while, my new place ''better'' be nice!
+<</dialogchoice>>
 
 :: proRealEstate2-5 [nobr]
 
@@ -117,10 +137,14 @@ She responds with a triumphant grin. @@.npc;She already sent over your approval 
 <br><br>
 She quickly shifts back to her "kind real estate lady" persona, but a hint of the earlier grin remains. @@.npc;Let's get started then... What kind of place are you looking for? What's your budget?@@
 <br><br>
-<<hoverrevise funfun>><<emo excited>><<tab>><<link "I was thinking about that...">><<addTime 27>><<goto [[proRealEstate3a]]>><</link>><<endhoverrevise>><<tab>><<insertion funfun>>@@.mono;I'm looking forward to finding a cool new place@@<<endinsertion>><br>
-<<hoverrevise ohnoes>><<emo disturbed>><<tab>><<link "Well...">><<addTime 33>><<goto [[proRealEstate3b]]>><</link>><<endhoverrevise>><<tab>><<insertion ohnoes>>@@.mono;Right away? Budget? What kind of place do I want?@@<<endinsertion>><br>
-<<hoverrevise dickhole>><<emo arrogant>><<link "The place absolutely has to have...">><<addTime 44>><<goto [[proRealEstate3c]]>><</link>><<endhoverrevise>><<tab>><<insertion dickhole>>@@.mono;If I'm going to be here a while, my new place ''better'' be nice!@@<<endinsertion>><br>
-<br><br>
+<<dialogchoice>>
+  <<dbutt "Excited">><<addTime 27>><<go proRealEstate3a>>
+    <<dtext "excited">>I'm looking forward to finding a cool new place
+  <<dbutt "Unsure">><<addTime 33>><<go proRealEstate3b>>
+    <<dtext "disturbed">>Right away? Budget? What kind of place do I want?
+  <<dbutt "Picky">><<addTime 44>><<go proRealEstate3c>>
+    <<dtext "arrogant">>If I'm going to be here a while, my new place ''better'' be nice!
+<</dialogchoice>>
 
 :: proRealEstate3a [nobr]
 
@@ -145,17 +169,17 @@ She quickly shifts back to her "kind real estate lady" persona, but a hint of th
 Overall, the experience is quite educational for you. You learn a bit more about what's important to look for in a new place to live...
 
 <h2>Real Estate Guide</h2>
-<p class="typewriter white">
+<p class="print white">
 Your choice of apartment affects more than just what the map looks like. While you aren't stuck with a specific apartment throughout the game, you can't change apartments like you would change clothes. This means you should give a little thought to your choice in apartment beyond just looking at the rent. Generally, you'll only be able to change apartments after having lived in your current apartment for at least a month. Any time you rent an apartment, you're going to have to pay a month's rent up front as a deposit. Retrieving the deposit will be determined by how well you've taken care of the apartment you're vacating. The amount of stuff you own will determine amount of time and money a move costs.</p>
-<p class="typewriter white">
+<p class="print white">
 Rent and certain other expenses will be deducted from your paycheck automatically each week. This ''can'' result in your credit account going into arrears, and owing interest to the bank. The week summary will show you your financial information for the week. There are a few different personality factors that determine how your character reacts to your apartment. Being materialistic, for example, will increase your dissatisfaction with low quality housing, but increase the satisfaction you gain from luxurious housing.</p>
-<p class="typewriter white">
+<p class="print white">
 There are a few different attributes that each potential home has, including the homes of any romantic partners you stay with. As with real life, choosing a home often involves tradeoffs between different items as well as price. The "perfect place" is usually more expensive than you'd expect, because of the rarity of having everything in a single home.</p>
-<dl class="typewriter white">
+<dl class="print white">
 <dt class="head3">Tier</dt>
 <dd>Rather than representing quality, tier is just a short way of describing the size of the home. Even though you only need one bedroom as an individual person, having extra will allow for some "extra room" uses as well as causing the overall home to feel more spacious to your character.
   <ol>
-    <li>A studio apartment, without a dedicated bedroom.</li>
+    <li>A studio apartment, because who needs doors to separate living areas.</li>
     <li>A one-bedroom apartment suitable for a single person.</li>
     <li>A two-bedroom apartment, usually with at least 1.5 baths.</li>
     <li>A three-bedroom, two-bathroom apartment.</li>
@@ -174,19 +198,20 @@ There are a few different attributes that each potential home has, including the
 <dt class="head3">Location</dt>
 <dd>The convenience of the location for travel purposes, and probably the most straight-forward home attribute. The lower the score, the longer it will take to get to work, head downtown, or generally just leave your immediate residential area. While the effect is small for a single trip, it does add up.</dd>
 </dl>
-<p class="typewriter white">A romantic partner's place also has an effect on your character, mitigated by whether or not you are officially "living together". You can receive the benefits of a romantic partner's very nice home for yourself, but won't feel truly at home unless living together. Likewise, if your partner has a really crappy place, staying there will have a negative effect on you.</p>
+<p class="print white">A romantic partner's place also has an effect on your character, mitigated by whether or not you are officially "living together". You can receive the benefits of a romantic partner's very nice home for yourself, but won't feel truly at home unless living together. Likewise, if your partner has a really crappy place, staying there will have a negative effect on you.</p>
 <p>
-<span class="pc"><<link "I think I know what I want now...">><<set $temp.homeop = [0,0,0,0,0]>><<goto [[proRealEstate5]]>><</link>></span>
+<span class="pc"><<link "I think I know what I want now...">><<set $temp.homeop = [0,0,0,0,0]>><<go proRealEstate5>><</link>></span>
 </p>
 
 :: proRealEstate5 [nobr]
 
+<<set $temp = {homeop: [0,0,0,0,0]}>>
 <h2>Choose what's important to you</h2>
 <table id="invisTable">
 <tr><td colspan=2>Rank 1: Not Important, 2: Neutral, 3: Important<<tab>><<info "Review Home Information" guideRealEstate>></td></tr>
 <tr>
   <td style="width:25%;">Home Tier</td>
-  <td>''1:'' N/A<<tab>>''2:'' <<radiobutt "$temp.homeop[0]" 2 checked>><<tab>>''3:'' N/A<<tab>><<comment "Presently, only tier-2 homes are available for play, so that's the only option that you can choose. Later you will be able to pick a tier 1 or 3 home to start. Here's a sneak peak at an unfinished version of the T1 map: [img[IMGtier1home]]">></td>
+  <td>''1:'' <<radiobutt "$temp.homeop[0]" 1 checked>><<tab>>''2:'' <<radiobutt "$temp.homeop[0]" 2>><<tab>>''3:'' <<radiobutt "$temp.homeop[0]" 3>><<tab>><<comment "Now that tier 1 and 3 homes are in the game, it's important to note that affording a T2 home will be difficult if you don't have a good starting salary. Affording a T3 home right off the bat is likely impossible unless you turn to extra means of collecting money...">></td>
 </tr>
 <tr>
   <td>Finish</td>
@@ -205,28 +230,8 @@ There are a few different attributes that each potential home has, including the
   <td>''1:'' <<radiobutt "$temp.homeop[4]" 1>><<tab>>''2:'' <<radiobutt "$temp.homeop[4]" 2 checked>><<tab>>''3:'' <<radiobutt "$temp.homeop[4]" 3>></td>
 </tr>
 </table>
-<<link "Continue">><<goto [[proRealEstate6]]>><</link>>
+<<link "Continue">><<set $temp.homeChoice = "N/A">><<run setup.homesGenerator(6, $temp.homeop)>><<goto proRealEstateCards>><</link>>
 
-:: proRealEstate6 [nobr]
-
-<<set _dist = [true,[0,20,30,25,15,10],[0,10,25,30,25,10],[0,10,15,20,25,30]]>>
-<<set $homeOptions = []>>
-<<for _i to 0; _i < 7; _i++>>
-  <<set _ob = {}>>
-  <<set _ob.name = setup.home.apartmentNameGen()>>
-  <<set _ob.tier = 2>>
-  <<set _ob.finish = setup.randomDist(_dist[$temp.homeop[1]])>>
-  <<set _ob.upkeep = setup.randomDist(_dist[$temp.homeop[2]])>>
-  <<set _ob.nhood = setup.randomDist(_dist[$temp.homeop[3]])>>
-  <<set _tLoc = setup.randomDist(_dist[$temp.homeop[4]])>>
-  <<set _ob.location = _tLoc>>
-  <<set _ob.street = setup.home.apartmentStreetGen(_tLoc)>>
-  <<set _math = Math.round((((_ob.finish + 1) * (_ob.upkeep + 1) * (_ob.nhood + 1) * _ob.location)/2)/20) * 20>>
-  <<set _ob.rent = 750 + _math>>
-  <<run $homeOptions.push(_ob)>>
-<</for>>
-<<set $temp.homeChoice = "N/A">>
-<<gotodev "proRealEstateCards">>
 
 :: proRealEstateCards [nobr]
 
@@ -236,94 +241,94 @@ There are a few different attributes that each potential home has, including the
 <p>After setting up a search query based on your preferences, Tiffany takes you on a virtual tour of several locations. You rule out a couple of them, and then set off to take a quick look at the rest. Thankfully they're all pretty close together, so it doesn't take too much time to travel between the properties.</p>
 <p class="note">Examine the different available homes and choose the one that you prefer. Because this is your first home, you <b>must</b> choose one before continuing. (For subsequent homes, you can decide to choose none of them, but you lose the time you spent on the hunt.) Click the "Choose this Home" button to select a home and continue. Click the button now to choose a home at random. All sales are final!</p>
 
-<<nextcard $homeOptions[0].name>>
+<<nextcard ↂhomeOptions[0].name>>
 <<set _select = 0>>
-<span class="head2"><<print $homeOptions[0].name>></span><<tab>><span class="head3"><<print $homeOptions[0].street>></span><br><br>
-<<print setup.home.apartmentDesc($homeOptions[0].tier, $homeOptions[0].location, $homeOptions[0].finish, $homeOptions[0].upkeep)>><br>
-<<button "View Home">><<dialog $homeOptions[0].name>>[img[IMGtier2home]]<br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<span class="head2"><<print ↂ.homeOptions[0].name>></span><<tab>><span class="head3"><<print ↂ.homeOptions[0].street>></span><br><br>
+<<print setup.home.apartmentDesc(ↂ.homeOptions[0].tier, ↂ.homeOptions[0].location, ↂ.homeOptions[0].finish, ↂ.homeOptions[0].upkeep)>><br>
+<<button "View Home">><<dialog ↂhomeOptions[0].name>><<print "[img[IMGtier" + ↂ.homeOptions[0].tier + "home]]">><br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
 <table id="invisTable">
-<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print $homeOptions[0].tier>></td></tr>
-<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[0].finish)>></td></tr>
-<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[0].upkeep)>></td></tr>
-<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[0].nhood)>></td></tr>
-<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[0].location)>></td></tr>
-<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print $homeOptions[0].rent>></td></tr>
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print ↂ.homeOptions[0].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[0].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[0].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[0].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[0].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print ↂ.homeOptions[0].rent>></td></tr>
 </table>
-<<nextcard $homeOptions[1].name>>
+<<nextcard ↂhomeOptions[1].name>>
 <<set _select = 1>>
-<span class="head2"><<print $homeOptions[1].name>></span><<tab>><span class="head3"><<print $homeOptions[1].street>></span><br><br>
-<<print setup.home.apartmentDesc($homeOptions[1].tier, $homeOptions[1].location, $homeOptions[1].finish, $homeOptions[1].upkeep)>><br>
-<<button "View Home">><<dialog $homeOptions[1].name>>[img[IMGtier2home]]<br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<span class="head2"><<print ↂ.homeOptions[1].name>></span><<tab>><span class="head3"><<print ↂ.homeOptions[1].street>></span><br><br>
+<<print setup.home.apartmentDesc(ↂ.homeOptions[1].tier, ↂ.homeOptions[1].location, ↂ.homeOptions[1].finish, ↂ.homeOptions[1].upkeep)>><br>
+<<button "View Home">><<dialog ↂhomeOptions[1].name>><<print "[img[IMGtier" + ↂ.homeOptions[1].tier + "home]]">><br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
 <table id="invisTable">
-<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print $homeOptions[1].tier>></td></tr>
-<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[1].finish)>></td></tr>
-<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[1].upkeep)>></td></tr>
-<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[1].nhood)>></td></tr>
-<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[1].location)>></td></tr>
-<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print $homeOptions[1].rent>></td></tr>
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print ↂ.homeOptions[1].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[1].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[1].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[1].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[1].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print ↂ.homeOptions[1].rent>></td></tr>
 </table>
-<<nextcard $homeOptions[2].name>>
+<<nextcard ↂhomeOptions[2].name>>
 <<set _select = 2>>
-<span class="head2"><<print $homeOptions[2].name>></span><<tab>><span class="head3"><<print $homeOptions[2].street>></span><br><br>
-<<print setup.home.apartmentDesc($homeOptions[2].tier, $homeOptions[2].location, $homeOptions[2].finish, $homeOptions[2].upkeep)>><br>
-<<button "View Home">><<dialog $homeOptions[2].name>>[img[IMGtier2home]]<br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<span class="head2"><<print ↂ.homeOptions[2].name>></span><<tab>><span class="head3"><<print ↂ.homeOptions[2].street>></span><br><br>
+<<print setup.home.apartmentDesc(ↂ.homeOptions[2].tier, ↂ.homeOptions[2].location, ↂ.homeOptions[2].finish, ↂ.homeOptions[2].upkeep)>><br>
+<<button "View Home">><<dialog ↂhomeOptions[2].name>><<print "[img[IMGtier" + ↂ.homeOptions[2].tier + "home]]">><br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
 <table id="invisTable">
-<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print $homeOptions[2].tier>></td></tr>
-<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[2].finish)>></td></tr>
-<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[2].upkeep)>></td></tr>
-<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[2].nhood)>></td></tr>
-<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[2].location)>></td></tr>
-<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print $homeOptions[2].rent>></td></tr>
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print ↂ.homeOptions[2].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[2].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[2].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[2].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[2].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print ↂ.homeOptions[2].rent>></td></tr>
 </table>
-<<nextcard $homeOptions[3].name>>
+<<nextcard ↂhomeOptions[3].name>>
 <<set _select = 3>>
-<span class="head2"><<print $homeOptions[3].name>></span><<tab>><span class="head3"><<print $homeOptions[3].street>></span><br><br>
-<<print setup.home.apartmentDesc($homeOptions[3].tier, $homeOptions[3].location, $homeOptions[3].finish, $homeOptions[3].upkeep)>><br>
-<<button "View Home">><<dialog $homeOptions[3].name>>[img[IMGtier2home]]<br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<span class="head2"><<print ↂ.homeOptions[3].name>></span><<tab>><span class="head3"><<print ↂ.homeOptions[3].street>></span><br><br>
+<<print setup.home.apartmentDesc(ↂ.homeOptions[3].tier, ↂ.homeOptions[3].location, ↂ.homeOptions[3].finish, ↂ.homeOptions[3].upkeep)>><br>
+<<button "View Home">><<dialog ↂhomeOptions[3].name>><<print "[img[IMGtier" + ↂ.homeOptions[3].tier + "home]]">><br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
 <table id="invisTable">
-<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print $homeOptions[3].tier>></td></tr>
-<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[3].finish)>></td></tr>
-<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[3].upkeep)>></td></tr>
-<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[3].nhood)>></td></tr>
-<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[3].location)>></td></tr>
-<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print $homeOptions[3].rent>></td></tr>
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print ↂ.homeOptions[3].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[3].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[3].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[3].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[3].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print ↂ.homeOptions[3].rent>></td></tr>
 </table>
-<<nextcard $homeOptions[4].name>>
+<<nextcard ↂhomeOptions[4].name>>
 <<set _select = 4>>
-<span class="head2"><<print $homeOptions[4].name>></span><<tab>><span class="head3"><<print $homeOptions[4].street>></span><br><br>
-<<print setup.home.apartmentDesc($homeOptions[4].tier, $homeOptions[4].location, $homeOptions[4].finish, $homeOptions[4].upkeep)>><br>
-<<button "View Home">><<dialog $homeOptions[4].name>>[img[IMGtier2home]]<br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<span class="head2"><<print ↂ.homeOptions[4].name>></span><<tab>><span class="head3"><<print ↂ.homeOptions[4].street>></span><br><br>
+<<print setup.home.apartmentDesc(ↂ.homeOptions[4].tier, ↂ.homeOptions[4].location, ↂ.homeOptions[4].finish, ↂ.homeOptions[4].upkeep)>><br>
+<<button "View Home">><<dialog ↂhomeOptions[4].name>><<print "[img[IMGtier" + ↂ.homeOptions[4].tier + "home]]">><br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
 <table id="invisTable">
-<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print $homeOptions[4].tier>></td></tr>
-<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[4].finish)>></td></tr>
-<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[4].upkeep)>></td></tr>
-<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[4].nhood)>></td></tr>
-<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[4].location)>></td></tr>
-<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print $homeOptions[4].rent>></td></tr>
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print ↂ.homeOptions[4].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[4].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[4].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[4].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[4].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print ↂ.homeOptions[4].rent>></td></tr>
 </table>
-<<nextcard $homeOptions[5].name>>
+<<nextcard ↂhomeOptions[5].name>>
 <<set _select = 5>>
-<span class="head2"><<print $homeOptions[5].name>></span><<tab>><span class="head3"><<print $homeOptions[5].street>></span><br><br>
-<<print setup.home.apartmentDesc($homeOptions[5].tier, $homeOptions[5].location, $homeOptions[5].finish, $homeOptions[5].upkeep)>><br>
-<<button "View Home">><<dialog $homeOptions[5].name>>[img[IMGtier2home]]<br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<span class="head2"><<print ↂ.homeOptions[5].name>></span><<tab>><span class="head3"><<print ↂ.homeOptions[5].street>></span><br><br>
+<<print setup.home.apartmentDesc(ↂ.homeOptions[5].tier, ↂ.homeOptions[5].location, ↂ.homeOptions[5].finish, ↂ.homeOptions[5].upkeep)>><br>
+<<button "View Home">><<dialog ↂhomeOptions[5].name>><<print "[img[IMGtier" + ↂ.homeOptions[5].tier + "home]]">><br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
 <table id="invisTable">
-<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print $homeOptions[5].tier>></td></tr>
-<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[5].finish)>></td></tr>
-<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[5].upkeep)>></td></tr>
-<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[5].nhood)>></td></tr>
-<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp($homeOptions[5].location)>></td></tr>
-<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print $homeOptions[5].rent>></td></tr>
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print ↂ.homeOptions[5].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[5].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[5].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[5].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[5].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print ↂ.homeOptions[5].rent>></td></tr>
 </table>
 <<nextbutton "Choose this Home!">>
   <<if _select == -1>>
     <<set _select = random(0,5)>>
   <</if>>
   <<status 1>>
-  <<set $home.stats = {name: $homeOptions[_select].name, tier: $homeOptions[_select].tier, finish: $homeOptions[_select].finish, upkeep: $homeOptions[_select].upkeep, nhood: $homeOptions[_select].nhood, location: $homeOptions[_select].location, rent: $homeOptions[_select].rent}>>
+  <<set ↂ.home.stats = {name: ↂ.homeOptions[_select].name, tier: ↂ.homeOptions[_select].tier, finish: ↂ.homeOptions[_select].finish, upkeep: ↂ.homeOptions[_select].upkeep, nhood: ↂ.homeOptions[_select].nhood, location: ↂ.homeOptions[_select].location, rent: ↂ.homeOptions[_select].rent}>>
   <<status 0>>
-  <<goto [[proRealEstate7]]>>
+  <<go proRealEstate7>>
 <<nextbutton>>
-<center><<link [img[IMG_ForSale]]>><<if $pub>><<goto [[proRealEstate6]]>><</if>><</link>>
+<center><<link [img[IMG_ForSale]]>><<if $pub>><<go proRealEstate5>><</if>><</link>>
 <br><<if $pub>>Click to cheat refresh!<</if>>
 <br><br>
 <<info "Review Home Information" guideRealEstate>>
@@ -333,6 +338,6 @@ There are a few different attributes that each potential home has, including the
 
 :: proRealEstate7 [nobr]
 
-Your home is set to the one at <<print $home.stats.name>>
+Your home is set to the one at <<print ↂ.home.stats.name>>
 <br><br>
-<<link "Continue">><<deactivateNPC "n1001">><<goto [[storyStart20a]]>><</link>>
+<<link "Continue">><<deactivateNPC "n1001">><<go storyStart20a>><</link>>

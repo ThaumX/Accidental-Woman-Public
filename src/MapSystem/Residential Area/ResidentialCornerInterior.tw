@@ -11,7 +11,7 @@
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptResidential>> <<mapEventResidential>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -39,34 +39,94 @@
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*LOCATION description of  location*/
 @@.head3;Y@@ou are near the checkout counter of your local convenience store. It has several small displays filled with dubious supplements and drugs that don't seem to be the kind that have ever had any real safety testing. A small sign near some miniature shopping carts invites customers to "drop a load".
 /*IN-PASSAGE span text*/
-<span id="locact"></span></div>
+<span id="locact"></span><<selfthought>></div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise shop>>
-  <<button "Shop">><</button>>
+  <<button "Shop">><<dialog 'Cum & Go Shopping:'>>
+		<<include [[ResidentialCornerInteriorDRUGS]]>>
+	<</dialog>><</button>>
 <<endhoverrevise>>
-<<hoverrevise pay>>
-<<button "Pay for Items">><</button>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+<<hoverrevise checkOut>>
+  <<button "Checkout">><<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<else>><<notify>><span class="bad">Insufficient Funds!<</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
 </div>
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion shop>>@@.exp;Browse the store's selection of import Chinese pharmaceuticals and novelty lighters.@@<<endinsertion>>
-<<insertion pay>>@@.exp;Pay for your goods rather than simply walking out of the store with them.@@<<endinsertion>>
+<<insertion shop>>@@.exp;Browse the store's selection of imported pharmaceuticals and novelty lighters.@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
+
+:: ResidentialCornerInteriorDRUGS [nobr]
+
+You browse through the sketchy diplay of foreign drugs, which consist mostly of performance enhancers.<br><br>
+<table id="noBorder">
+<tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Sexual Performance Enhancers</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  ROBOTHROAT Oral Sex Spray
+  <img data-passage="IMG-Items-ROBOTHROAT" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A special aerosol spray intended to make you better at oral sex. This appears to be an Indian knockoff of the more popular chinese product "Perfect Oral", which seems to be a knockoff of yet another product. @@.print;"2 times more !!metals power max!! than the leading brand!"@@ <i>You don't know of any other oral spray that acts like metallic spraypaint, so perhaps they got the original's formula wrong and just decided to roll with it.</i>
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>30@@ <span id="buyshit1"></span><br><<button "Add to Cart">><<set $cart.push(["ROBOTHROAT Oral Sex Spray", "consume", 30, "RoboThroat", 5])>><<replace "#buyshit1">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Perfect Oral Oral Sex Spray
+  <img data-passage="IMG-Item-PerfectOral" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A special aerosol spray intended to make you better at oral sex. This appears to be a Chinese knockoff of the more popular Japanese product "楽しい子供の口のスプレー | Tanoshī Kodomo no Kuchi no Supurē", which your phone tells you means "fun kid mouth spray". @@.print;"Mune wa ima wa daijōbudesu!!!"@@ 
+</td><td style="width:15%;padding-left:15px;">
+  [NOT IMPLEMENTED]
+</td></tr>
+<tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Other Performance Enhancers</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Argentinian Cumquat
+  <img data-passage="IMG-Cumquat" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  Popular South American fruit which is known for arousing effects. It temporary boosts your sexuality but there were scarse reports about some odd side effects.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>25@@ <span id="buyshit2"></span><br><<button "Add to Cart">><<set $cart.push(["Argentinian Cumquat", "consume", 25, "Cumquat", 1])>><<replace "#buyshit2">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Sketchy Body Mods</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Kukragene Breast creme
+  <img data-passage="IMG-BreastCreme" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A small metal container with pink creme from some distant mysterious land. There is not much English text on the container. On the bottom part you see some small text: "Kukragene zur eshley. X2 kuberek! CAUTION! Dimliluk kiltererge muemkin!" Which isn't all that helpful. Helpfully, the label on the lid mentions that it enlarges breasts. You probably need to rub it into your skin. Probably.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>70@@ <span id="buyshit3"></span><br><<button "Add to Cart">><<set $cart.push(["Kukragene Breast creme", "consume", 70, "Kukragene", 1])>><<replace "#buyshit3">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  PowerTits
+  <img data-passage="IMG-Item-Powertits" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A small cheap box about the size of a condom three-pack box, that contains a single suppository. Most of the writing is in Cyrillic letters that you assume are Russian. There are a few sentences in English that give some clues: "Watching as cheast and muscles is growing!" and "(Using only 1 for the cheast grow)". Based on the name "PowerTits", you guess this will increase your breast size while bulking up your muscles.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>25@@ <span id="buyshit3"></span><br><<button "Add to Cart">><<set $cart.push(["PowerTits Suppository", "consume", 75, "Powertits", 1])>><<replace "#buyshit2">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+</table>
 
 
 :: ResidentialCornerInteriorALOC [nobr]
 
-Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+You run into a neighbor in the aisle, you don't know her but you've seen her before. Seems she just ran over to grab something real quick, didn't even bother with a shirt.<br>
+[img[IMG-CumGo-Exhib]]
 
 
 :: ResidentialCornerInteriorB [nobr]
@@ -82,7 +142,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptResidential>> <<mapEventResidential>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -110,12 +170,12 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*LOCATION description of  location*/
-@@.head3;Y@@ou are in the section the store that has cleaning, hygiene, and medicine items.
+@@.head3;Y@@ou are in the section the store that has cleaning, hygiene, and medicine items. It even has "protein shakes", if you use the term very <<message "generously">>[img[IMG-Item-Spooge]]<</message>>.
 /*IN-PASSAGE span text*/
-<span id="locact"></span></div>
+<span id="locact"></span><<selfthought>></div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
@@ -135,7 +195,8 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 
 :: ResidentialCornerInteriorBLOC [nobr]
 
-Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+You run into a neighbor in the aisle, you don't know her but you've seen her before. Seems she just ran over to grab something real quick, didn't even bother with a shirt.<br>
+[img[IMG-CumGo-Exhib]]
 
 
 :: ResidentialCornerInteriorC [nobr]
@@ -151,7 +212,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptResidential>> <<mapEventResidential>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -179,12 +240,12 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*LOCATION description of  location*/
 @@.head3;Y@@ou are in the cooler section that has all the refrigerated food and drinks.
 /*IN-PASSAGE span text*/
-<span id="locact"></span></div>
+<span id="locact"></span><<selfthought>></div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
@@ -203,7 +264,8 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 
 :: ResidentialCornerInteriorCLOC [nobr]
 
-Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+You run into a neighbor in the aisle, you don't know her but you've seen her before. Seems she just ran over to grab something real quick, didn't even bother with a shirt.<br>
+[img[IMG-CumGo-Exhib]]
 
 
 
@@ -220,7 +282,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptResidential>> <<mapEventResidential>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -248,12 +310,19 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*LOCATION description of  location*/
-@@.head3;Y@@ou are in the area where everything that doesn't really fit into a common category is all shoved together instead. You can find anything from jugs of car blinker fluid to greeting cards and some magazines. <<comment "Yes, I know blinker fluid isn't a thing. It's a joke.">>
+@@.head3;Y@@ou are in the area where everything that doesn't really fit into a common category is all shoved together instead. You can find anything from jugs of car blinker fluid to greeting cards and some magazines. <<if ↂ.pc.trait.perceptive > -1 && $items.has("Gene Therapy 05") && !$items.has("Gene Therapy 06")>><<addTime 1
+0>>
+<p id="gene">
+<br><br>
+Browsing around the Cum & Go closest to your own home, you have a sudden flash of insight as you look at the small rack of magazines. @@.mono;I don't know who would even buy these things these days, but based on the trend so far...@@ You start pulling stacks of magazines forward to look behind them. You aren't even a quarter of the way done when you spot a familiar sheaf of paper behind some "#16&Fuckin" magazines. <<link "Pick it up">><<pickup "$items" "Gene Therapy 06">><<run Dialog.close()>><<run UI.alert("You pick up the paper documents")>><</link>>.
+</p>
+<</if>>
+<br><<comment "Yes, I know blinker fluid isn't a thing. It's a joke.">>
 /*IN-PASSAGE span text*/
-<span id="locact"></span></div>
+<span id="locact"></span><<selfthought>></div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
@@ -270,7 +339,8 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 
 :: ResidentialCornerInteriorALOD [nobr]
 
-Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+You run into a neighbor in the aisle, you don't know her but you've seen her before. Seems she just ran over to grab something real quick, didn't even bother with a shirt.<br>
+[img[IMG-CumGo-Exhib]]
 
 
 :: ResidentialCornerInteriorE [nobr]
@@ -286,7 +356,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptResidential>> <<mapEventResidential>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -314,12 +384,12 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*LOCATION description of  location*/
 @@.head3;Y@@ou are surrounded by items that could technically be called food, though you have to look at a few labels to be sure.
 /*IN-PASSAGE span text*/
-<span id="locact"></span></div>
+<span id="locact"></span><<selfthought>></div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
@@ -337,4 +407,5 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 
 :: ResidentialCornerInteriorELOC [nobr]
 
-Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+You run into a neighbor in the aisle, you don't know her but you've seen her before. Seems she just ran over to grab something real quick, didn't even bother with a shirt.<br>
+[img[IMG-CumGo-Exhib]]

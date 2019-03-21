@@ -1,0 +1,78 @@
+
+:: DowntownMallWest [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmall]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+/*<p><<walkDescriptDowntown>> <<mapEventDowntown>></p>*/
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<div id="storeWindow">
+[img[IMG-ClothingBrand-BallSack]]
+[img[IMG-ClothingBrand-UniHoe]]
+[img[IMG-ClothingBrand-ThighGap]]
+[img[IMG-Beauty-Anails]]
+</div>
+<p class="weather-disc">
+<<print setup.weather.curWeather()>>
+</p>
+<p>
+@@.head3;Y@@ou're standing in the western concourse of the Applewood Mall. Some of the larger shops and staples of malls everywhere occupy this part of the mall. To the south of the T intersection is the interior entrance to Fitta, the Swedish furniture and household goods store.
+</p>
+<p id="locact"></p><<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Ball Sack Sports Wear">><<addTime 2>><<go DowntownShopBallSack>><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "Uni-Hoe Clothing">><<addTime 2>><<go DowntownShopUniHoe>><</button>>
+<<endhoverrevise>>
+<<hoverrevise delta>>
+  <<button "Thigh-GAP Clothing">><<addTime 2>><<go DowntownShopThighGap>><</button>>
+<<endhoverrevise>>
+<<hoverrevise gamma>>
+  <<button "FingerMe! Accessories">><</button>>
+<<endhoverrevise>>
+<<hoverrevise lambda>>
+  <<button "A*Nails Salon">><<addTime 2>><<go DowntownShopANails>><</button>>
+<<endhoverrevise>>
+<<hoverrevise phi>>
+  <<button "Sunglass Slut">><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>A clothing store focused on sports and active clothing.<<endinsertion>>
+<<insertion beta>>Reasonable quality clothing that won't break the bank.<<endinsertion>>
+<<insertion delta>>A ubiquitous clothing outlet that sells fairly average clothing at fairly average prices.<<endinsertion>>
+<<insertion gamma>>A store full of all sorts of fashion and beauty accessories. @@.import;[Not Implemented]@@<<endinsertion>>
+<<insertion lambda>>A full-service salon focusing primarily on manicures and pedicures, but also offering services such as haircuts, waxing, and makeup.<<endinsertion>>
+<<insertion phi>>A shop almost exclusively selling sunglasses, with numerous brands and styles that still manage to look much the same. @@.import;[Not Implemented]@@<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+  <<mapEventDowntownAct>>
+<</timed>>
+
+
+:: DowntownMallWestLOC [nobr]
+
+Near the main escalators you notice a woman taking advantage of the opportunity to give the people below a little show.<br>
+<<set _randi = either(1,2)>>
+<center><<print ("[img[IMG_MallEscalator" + _randi + "]]")>><br><span class="ship monospace" style="font-size:0.75rem;"><<= _randi>>/2</span></center>
+
+

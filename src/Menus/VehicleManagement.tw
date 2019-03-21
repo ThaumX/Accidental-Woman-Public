@@ -1,0 +1,21 @@
+
+:: MENU-VehicleManagement [nobr]
+
+<div id="VehicleManageCunt" style="position:fixed;top:0px;bottom:0px;left:0px;right:0px;z-index:5000;background-color:#000;" class="animated zoomInUp">
+<img data-passage="IMG-VehicleManagement" style="position:absolute;top:0px;left:0px;width:100%;height:auto;">
+  <div id="VehicleManage" class="blackOutline">
+    <center><img data-passage="IMG-Car-MissibitchiLancer"></center>
+    <h2>Current Vehicle</h2>
+    <p>
+      <b>Make:</b> <<= ↂ.flag.car.make>><br>
+      <b>Model:</b> <<= ↂ.flag.car.model>><br>
+      <b>Year:</b> <<= ↂ.flag.car.year>><br>
+      <b>Odometer:</b> <<if $AW.metric>><<print setup.thousandComma(Math.round(ↂ.flag.car.mileage * 1.60934))>>km <<else>><<print setup.thousandComma(ↂ.flag.car.mileage)>> miles<</if>><br>
+      <<comment "This menu currently shows accurate information about your vehicle, including the mileage. However, game features like the ability to modify your car or purchase a new vehicle have not been implemented. We'll get there eventually!">>
+    </p>
+    <br>
+    <center>
+    <span class="disabled"><<button "MODIFY">><</button>> <<button "REPAIR">><</button>> <<button "NEW CAR">><</button>></span><br>
+    <<button "RETURN">><<replace "#awUIcontainer">><</replace>><</button>></center>
+  </div>
+</div>

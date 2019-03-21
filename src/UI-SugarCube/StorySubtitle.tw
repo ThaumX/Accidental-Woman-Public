@@ -3,21 +3,108 @@
 /*<span class="megrim" style="font-weight:bold;">@@.white;A@@ @@font-size:120%;color:deepskyblue;T@@@@.white;haum@@@@font-size:120%;color:deepskyblue;X@@ @@.white;Creation@@</span>
 <br>*/
 /*<div id="titleimage">[img[IMG-AWlogoSmall]]</div>*/
-<img data-passage="IMG-SmallDisplay" class="small-phone-display">
-
-<div id="smallUIleftButt">
-[img[IMG-SmallDisplayMenu-Left]]
-</div>
-<div id="smallUIcentButt">
-[img[IMG-SmallDisplayMenu-Cent]]
-</div>
-<div id="smallUIriteButt">
-[img[IMG-SmallDisplayMenu-Right]]
-</div>
-
+<<if !aw.passage.tags.includes("noui")>>
+  <img data-passage="IMG-SmallDisplay" class="small-phone-display">
+  <<silently>>
+  <<if !aw.passage.tags.includes("startpage")>>
+  <<set _portArray = []>>
+  <<if $activeNPC.length > 0>>
+    <<set _portArray.push(...State.active.variables.activeNPC)>>
+  <</if>>
+  <<if ↂ.map.NPC.length > 0>>
+    <<set _portArray.push(...ↂ.map.NPC)>>
+  <</if>>
+  <<include [[SidebarPortraitList]]>>
+  <<set _numPortrait = $UIimg.length>>
+  <<if ndef $picIndex || _numPortrait < $picIndex>>
+    <<set $picIndex = 0>>
+  <</if>>
+  <</if>>
+  <<if $picIndex < 0>><<set $picIndex = 0>><</if>>
+  <<if aw.passage.tags.includes("startpage")>>
+    <<set _portraitPrint = $UIdefaultImg>>
+  <<elseif $UIimg.length == 0>>/*if no portraits for some reason, print blank portrait*/
+    <<set _portraitPrint = "[img[IMGsil250]]">>
+  <<else>>/*show most recent addition first*/
+    <<set _portraitPrint = "<<print $UIimg[$picIndex]>>">>
+  <</if>>
+  <<timed 50ms>><<include [[SidebarPortraitColor]]>><</timed>>
+  <</silently>>
+  <div id="right-sidebar-portrait" class="rsp-grey">
+    <span id="uiPortrait" class="right-sidebar-portrait-class">
+      <<print _portraitPrint>>
+    </span>
+  </div>
+  <<print setup.ui.npcCount()>>
+  <div id="smallUIleftButt">
+    <<link [img[PREV|IMG-SmallDisplayMenu-Left]]>>
+    <<if !aw.passage.tags.includes("startpage")>>
+      <<if _numPortrait > 0>>
+        <<if $picIndex > 0>>
+          <<set $picIndex -= 1>>
+        <<else>>
+          <<set $picIndex = (_numPortrait - 1)>>
+        <</if>>
+        <<set _toprint = "<<print $UIimg[$picIndex]>>">>
+      <<elseif $UIimg.length == 0>>
+        <<set _toprint = "[img[IMGsil250]]">>
+      <<else>>
+        <<set _toprint = "<<print $UIimg[$picIndex]>>">>
+      <</if>>
+      /*actually changes the image*/
+      <<include [[SidebarPortraitColor]]>>
+      <<replace "#uiPortrait">><<print _toprint>><</replace>>
+      <<replace "#portrait-character-name">><<if $picIndex == 0>><<print ↂ.pc.main.name>> (me)<<elseif _portArray.length > 0>>
+        <<if _portArray[($picIndex-1)].slice(0,1) === "n">><<print aw.npc[_portArray[($picIndex-1)]].main.name>><<else>><<print aw.fakeNPC[_portArray[($picIndex-1)]].name>><</if>>
+      <</if>><</replace>>
+    <</if>>
+    <</link>>
+  </div>
+  <div id="smallUIcentButt">
+    <<link [img[Player|IMG-SmallDisplayMenu-Cent]]>>
+      <<if !aw.passage.tags.includes("startpage")>>
+        <<if $UIimg.length > 0>>
+          <<set $picIndex = 0>>
+          <<include [[SidebarPortraitColor]]>>
+          <<replace "#uiPortrait">><<print $UIimg[$picIndex]>><</replace>>
+          <<replace "#portrait-character-name">><<if $picIndex == 0>><<print ↂ.pc.main.name>> (me)<<else>>N/A<</if>><</replace>>
+        <</if>>
+      <</if>>
+    <</link>>
+  </div>
+  <div id="portrait-character-name">
+    <<if !aw.passage.tags.includes("startpage")>>
+      <<if $picIndex == 0>><<print ↂ.pc.main.name>> (me)<<else>><<updatebar>><</if>>
+      <<if $picIndex > 0 && _portArray.length > 0 && _portArray[($picIndex-1)].slice(0,1) === "n">><<print aw.npc[_portArray[($picIndex-1)]].main.name>><<elseif $picIndex > 0 && _portArray.length > _portArray.length > 0>><<print aw.fakeNPC[_portArray[($picIndex-1)]].name>><</if>>
+    <</if>>
+  </div>
+  <div id="smallUIriteButt">
+  <<link [img[NEXT|IMG-SmallDisplayMenu-Right]]>>
+    <<if !aw.passage.tags.includes("startpage")>>
+      <<if _numPortrait > 0>>
+        <<if $picIndex < (_numPortrait - 1)>>
+          <<set $picIndex += 1>>
+        <<else>>
+          <<set $picIndex = 0>>
+        <</if>>
+        <<set _toprint = "<<print $UIimg[$picIndex]>>">>
+      <<elseif $UIimg.length == 0>>
+        <<set _toprint = "[img[IMGsil250]]">>
+      <<else>>
+        <<set _toprint = "<<print $UIimg[$picIndex]>>">>
+      <</if>>
+      /*give a slight interaction delay to make the image change more obvious*/
+      /*actually changes the image*/
+      <<include [[SidebarPortraitColor]]>>
+      <<replace "#uiPortrait">><<print _toprint>><</replace>>
+      <<replace "#portrait-character-name">><<if $picIndex == 0>><<print ↂ.pc.main.name>> (me)<<elseif _portArray[($picIndex-1)].slice(0,1) === "n">><<print aw.npc[_portArray[($picIndex-1)]].main.name>><<else>><<print aw.fakeNPC[_portArray[($picIndex-1)]].name>><</if>><</replace>>
+    <</if>>
+    <</link>>
+  </div>
+<</if>>
 /*<span class="lightgrey px16">Playtime:</span> <span id="playtime" class="monospace lightgrey px16"><<playtime true>></span> @@.px16;<<fullscreenlink 'Fullscreen'>>@@
 <<silently>>
-<<if $ver < 60>><<goto [[IncompatVersion]]>><</if>>
+<<if $ver < 60>><<go IncompatVersion>><</if>>
 <<repeat 1s>>
 <<replace "#playtime">>
 <<playtime true>>

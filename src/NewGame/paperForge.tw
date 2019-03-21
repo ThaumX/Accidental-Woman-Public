@@ -2,29 +2,29 @@
 
 <<set $helpText = "What's in a name? The default surname is picked randomly for each game. It isn't terribly important, because NPCs will mostly refer to you by your first name. Just pick something you like, or go with the default.">>
 @@.npc;...your official name.@@ She deftly starts pulling up the correct forms. @@.npc;So, what's it going to be?@@<br><br>
-@@.pc;I think I'm good with@@ <<textbox "$PC.main.name" $PC.main.name>><<textbox "$PC.main.surname" $PC.main.surname>>.
+@@.pc;I think I'm good with@@ <<textbox "ↂ.pc.main.name" ↂ.pc.main.name>><<textbox "ↂ.pc.main.surname" ↂ.pc.main.surname>>.
 <br><br>
 @@.npc;You're Sure?@@
 <br><br>
-You think about it for a moment. @@.pc;<<link "Yes, I'm sure">><<addTime 4>><<goto [[paperForgea]]>><</link>>.@@
+You think about it for a moment. @@.pc;<<link "Yes, I'm sure">><<status>><<addTime 4>><<go paperForgea>><</link>>.@@
 
 :: paperForgea [nobr]
 
 <<set $helpText = "There are consequences to age, which was already covered. Similarly, having an age on your ID significantly different from your apparent age will have consequences. The minimum age you can set is 18 because you have to be able to work. The highest is 40.">>
-<<if ndef $PC.main.ageID>>
-	<<set $PC.main.ageID = 21>>
+<<if ndef ↂ.pc.main.ageID>>
+	<<set ↂ.pc.main.ageID = 21>>
 <</if>>
-@@.npc;Aaaand, now you need to decide how old you'll be. Your documents have to say you're at least 18, though I'd stick with 21 for obvious reasons.@@ <<if $PC.main.age < 18>>@@.npc;Of course, with the way you look people are seriously going to think you have fake ID. Don't worry though, I've got you covered.@@<<elseif $PC.main.age < 21>>@@.npc;I think you can pull off the whole 'just looks young for her age' thing, especially since you're actually <<print $PC.main.ageOriginal>>.@@<<elseif $PC.main.age > 28>>@@.npc;I'd really avoid trying to go too young... You'd look like one of those delusional ladies if you tried 21.@@<<else>>@@.npc;Somewhere in your twenties should probably be fine.@@<</if>>
+@@.npc;Aaaand, now you need to decide how old you'll be. Your documents have to say you're at least 18, though I'd stick with 21 for obvious reasons.@@ <<if ↂ.pc.main.age < 18>>@@.npc;Of course, with the way you look people are seriously going to think you have fake ID. Don't worry though, I've got you covered.@@<<elseif ↂ.pc.main.age < 21>>@@.npc;I think you can pull off the whole 'just looks young for her age' thing, especially since you're actually <<print ↂ.pc.main.ageOriginal>>.@@<<elseif ↂ.pc.main.age > 28>>@@.npc;I'd really avoid trying to go too young... You'd look like one of those delusional ladies if you tried 21.@@<<else>>@@.npc;Somewhere in your twenties should probably be fine.@@<</if>>
 <br><br>
-@@.pc;Okay, let's go with <<textbox "$PC.main.ageID" $PC.main.ageID>>.@@
+@@.pc;Okay, let's go with <<textbox "ↂ.pc.main.ageID" ↂ.pc.main.ageID>>.@@
 
-<<link "continue...">><<set $PC.main.ageID = Number($PC.main.ageID)>><<addTime 5>><<goto [[paperForgeb]]>><</link>>
+<<link "continue...">><<set ↂ.pc.main.ageID = Number(ↂ.pc.main.ageID)>><<status>><<addTime 5>><<go paperForgeb>><</link>>
 
 :: paperForgeb [nobr]
 
 <<set $helpText = "Not having healthcare will make the game more difficult due to the cost of healthcare, but you can opt in later if a major medical situation develops. Additionally, not signing up for healthcare removes the chance for interesting treatments and consequences, which includes some minor transformation content.">>
-<<if $PC.main.ageID < 18>><<set $PC.main.ageID = 18>><<elseif $PC.main.ageID > 40>><<set $PC.main.ageID = 40>><</if>>
-@@.head3;L@@ily gives you a grin. @@.npc;Okay, you're now officially Miss <<print $PC.main.name>> <<print $PC.main.surname>>, A <<print $PC.main.ageID>> year old woman.@@ Lily takes a few minutes to go through the forms still requiring your name or age, before looking up again. @@.npc;So this is a bit of a complicated one. Hmmm...@@ She seems to be thinking of the best way to explain something.
+<<if ↂ.pc.main.ageID < 18>><<set ↂ.pc.main.ageID = 18>><<elseif ↂ.pc.main.ageID > 40>><<set ↂ.pc.main.ageID = 40>><</if>>
+@@.head3;L@@ily gives you a grin. @@.npc;Okay, you're now officially Miss <<print ↂ.pc.main.name>> <<print ↂ.pc.main.surname>>, A <<print ↂ.pc.main.ageID>> year old woman.@@ Lily takes a few minutes to go through the forms still requiring your name or age, before looking up again. @@.npc;So this is a bit of a complicated one. Hmmm...@@ She seems to be thinking of the best way to explain something.
 <br><br>
 That of course concerns you a little bit, because she only does it when the thing she's explaining is... dubious. @@.pc;Give it to me straight Lils, what is it?@@
 <br><br>
@@ -46,7 +46,8 @@ That doesn't really sound all that bad... @@.pc;So what's the big deal then?@@
 <br><br>
 Lily shrugs. @@.npc;There really isn't one, since outside insurers won't insure residents. Basically the other option is paying out of pocket. You could always sign up later if you had to for something major, but you know how crazy basic healthcare and prescription prices have gotten.@@
 <br><br>
-[[Sign up for AppleCare|paperForgec][$flag.Healthcare = true]] or [[Just Pay Out-of-Pocket|paperForgec][$flag.Healthcare = false]]
+[[Sign up for InstiCare|paperForgec][ↂ.flag.Healthcare = true]] or [[Just Pay Out-of-Pocket|paperForgec][ↂ.flag.Healthcare = false]]
+<center>[img[IMG-AppMD_InstiCare]]</center>
 
 
 :: paperForgec [nobr]
@@ -62,7 +63,7 @@ Of course you do, since they're so obvious about it. You never opted out before 
 <br><br>
 @@.npc;Well, normally I'd just say 'be an organ donor', cause it's the right thing and whatnot, but here in Appletree... Let's just say that some of the people here tend to be a little, umm, overzealous. Sooo, yeah, just thought I'd ask. You want to opt out?@@
 <br><br>
-<<link "Be a Donor">><<set $flag.organDonor = true>><<addTime 7>><<goto [[paperForged]]>><</link>> <<link "Opt Out">><<set $flag.organDonor = false>><<addTime 7>><<goto [[paperForged]]>><</link>>
+<<link "Be a Donor">><<set ↂ.flag.organDonor = true>><<status>><<addTime 7>><<go paperForged>><</link>> <<link "Opt Out">><<set ↂ.flag.organDonor = false>><<status>><<addTime 7>><<go paperForged>><</link>>
 <<comment "Being an organ donor doesn't increase difficulty per se, but it does make thresholds for getting a bad end less forgiving. If you ever think 'how is the pc going on like nothing happened?' you should be an organ donor.">>
 
 
@@ -82,13 +83,13 @@ Lily is still grinning like crazy, but you can tell she's making an effort to be
 <br><br>
 Seeing how serious she's gotten, you decide you'd better pay attention. @@.pc;Okay Lily. I get it, so teach me Sensei.@@
 <br><br>
-<<if $PC.trait.perceptive == 1>>You see her shoulders drop slightly as she relaxes a little, apparently she was getting pretty tense. <</if>>@@.npc;I won't harp on it, but you don't want to be suspicious, not when it comes to something this major. Not in Appletree. I'm not your mother, I won't stop you from sharing what happened with people. You just need to be careful who finds out. This is a small town, and gossip spreads fast.@@
+<<if ↂ.pc.trait.perceptive == 1>>You see her shoulders drop slightly as she relaxes a little, apparently she was getting pretty tense. <</if>>@@.npc;I won't harp on it, but you don't want to be suspicious, not when it comes to something this major. Not in Appletree. I'm not your mother, I won't stop you from sharing what happened with people. You just need to be careful who finds out. This is a small town, and gossip spreads fast.@@
 <br><br>
 After one last serious look, she stands up and offers you her hand. @@.npc;Come on, let's go.@@
 <br><br>
 You take her hand, and by the time you're standing, her lips have curled back up into an amused grin.
 <br><br>
-<<link "Continue">><<goto [[storyStart16a]]>><</link>>
+<<link "Continue">><<go storyStart16a>><</link>>
 <br>
 
 

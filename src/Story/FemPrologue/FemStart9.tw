@@ -1,4 +1,110 @@
 :: FemStart9 [nobr]
 
-Meet the real estate woman, pick your place.<br>
-[[continue|FemStartFinal]]
+
+<<silently>>
+<<set ↂ.flag.exes = []>>
+<<run ↂ.flag.exes.push(either("Tiffany","Britany","Whitney"))>>
+<<run ↂ.flag.exes.push(either("Krystal","Krysten","Karmen"))>>
+<<set ↂ.flag.lily.weirdTalk = 1>>
+
+<</silently>>
+<h2>You need to pick a place to live</h2>
+<div id="replacemo">
+<<set $temp = {homeop: [0,0,0,0,0]}>>
+<h3>Choose what's important to you</h3>
+<table id="invisTable">
+<tr><td colspan=2>Rank 1: Not Important, 2: Neutral, 3: Important<<tab>><<info "Review Home Information" guideRealEstate>></td></tr>
+<tr>
+  <td style="width:25%;">Home Tier</td>
+  <td>''1:'' <<radiobutt "$temp.homeop[0]" 1 checked>><<tab>>''2:'' <<radiobutt "$temp.homeop[0]" 2>><<tab>>''3:'' <<radiobutt "$temp.homeop[0]" 3>><<tab>><<comment "Now that tier 1 and 3 homes are in the game, it's important to note that affording a T2 home will be difficult if you don't have a good starting salary. Affording a T3 home right off the bat is likely impossible unless you turn to extra means of collecting money...">></td>
+</tr>
+<tr>
+  <td>Finish</td>
+  <td>''1:'' <<radiobutt "$temp.homeop[1]" 1>><<tab>>''2:'' <<radiobutt "$temp.homeop[1]" 2 checked>><<tab>>''3:'' <<radiobutt "$temp.homeop[1]" 3>></td>
+</tr>
+<tr>
+  <td>Upkeep</td>
+  <td>''1:'' <<radiobutt "$temp.homeop[2]" 1>><<tab>>''2:'' <<radiobutt "$temp.homeop[2]" 2 checked>><<tab>>''3:'' <<radiobutt "$temp.homeop[2]" 3>></td>
+</tr>
+<tr>
+  <td>Neighborhood</td>
+  <td>''1:'' <<radiobutt "$temp.homeop[3]" 1>><<tab>>''2:'' <<radiobutt "$temp.homeop[3]" 2 checked>><<tab>>''3:'' <<radiobutt "$temp.homeop[3]" 3>></td>
+</tr>
+<tr>
+  <td>Location</td>
+  <td>''1:'' <<radiobutt "$temp.homeop[4]" 1>><<tab>>''2:'' <<radiobutt "$temp.homeop[4]" 2 checked>><<tab>>''3:'' <<radiobutt "$temp.homeop[4]" 3>></td>
+</tr>
+</table>
+<<button "Continue">><<set $temp.homeChoice = "N/A">><<run setup.homesGenerator(6, $temp.homeop)>><<replace "#replacemo">><<include [[FemStart9b]]>><</replace>><</button>>
+</div>
+
+
+:: FemStart9b [nobr]
+
+
+<table style="font-size:0.9rem">
+<tr>
+  <td style="width:33%;">
+    <<radiobutt "_select" 0>><b><span class="head"><<print ↂ.homeOptions[0].name>></span><<tab>><<print ↂ.homeOptions[0].street>></b><br>
+    Tier: <<print ↂ.homeOptions[0].tier>><br>
+    Finish: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[0].finish)>><br>
+    Upkeep: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[0].upkeep)>><br>
+    Nhood: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[0].nhood)>><br>
+    Location: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[0].location)>><br>
+    Rent:<<print ↂ.homeOptions[0].rent>>
+  </td>
+  <td style="width:33%">
+    <<radiobutt "_select" 1>><b><span class="head"><<print ↂ.homeOptions[1].name>></span><<tab>><<print ↂ.homeOptions[1].street>></b><br>
+    Tier: <<print ↂ.homeOptions[1].tier>><br>
+    Finish: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[1].finish)>><br>
+    Upkeep: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[1].upkeep)>><br>
+    Nhood: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[1].nhood)>><br>
+    Location: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[1].location)>><br>
+    Rent: <<print ↂ.homeOptions[1].rent>>
+  </td>
+  <td style="width:33%">
+    <<radiobutt "_select" 2>><b><span class="head"><<print ↂ.homeOptions[2].name>></span><<tab>><<print ↂ.homeOptions[2].street>></b><br>
+    Tier: <<print ↂ.homeOptions[2].tier>><br>
+    Finish: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[2].finish)>><br>
+    Upkeep: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[2].upkeep)>><br>
+    Nhood: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[2].nhood)>><br>
+    Location: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[2].location)>><br>
+    Rent: <<print ↂ.homeOptions[2].rent>>
+  </td>
+</tr>
+<tr>
+  <td style="width:33%;">
+    <<radiobutt "_select" 3>><b><span class="head"><<print ↂ.homeOptions[3].name>></span><<tab>><<print ↂ.homeOptions[3].street>></b><br>
+    Tier: <<print ↂ.homeOptions[3].tier>><br>
+    Finish: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[3].finish)>><br>
+    Upkeep: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[3].upkeep)>><br>
+    Nhood: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[3].nhood)>><br>
+    Location: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[3].location)>><br>
+    Rent: <<print ↂ.homeOptions[3].rent>>
+  </td>
+  <td style="width:33%">
+    <<radiobutt "_select" 4>><b><span class="head"><<print ↂ.homeOptions[4].name>></span><<tab>><<print ↂ.homeOptions[4].street>></b><br>
+    Tier: <<print ↂ.homeOptions[4].tier>><br>
+    Finish: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[4].finish)>><br>
+    Upkeep: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[4].upkeep)>><br>
+    Nhood: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[4].nhood)>><br>
+    Location: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[4].location)>><br>
+    Rent: <<print ↂ.homeOptions[4].rent>>
+  </td>
+  <td style="width:33%">
+    <<radiobutt "_select" 5>><b><span class="head"><<print ↂ.homeOptions[5].name>></span><<tab>><<print ↂ.homeOptions[5].street>></b><br>
+    Tier: <<print ↂ.homeOptions[5].tier>><br>
+    Finish: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[5].finish)>><br>
+    Upkeep: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[5].upkeep)>><br>
+    Nhood: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[5].nhood)>><br>
+    Location: <<print setup.home.apartmentScoreDisp(ↂ.homeOptions[5].location)>><br>
+    Rent: <<print ↂ.homeOptions[5].rent>>
+  </td>
+</tr>
+</table>
+<center><<button "CONTINUE">>
+<<set ↂ.home.stats = {name: ↂ.homeOptions[_select].name, tier: ↂ.homeOptions[_select].tier, finish: ↂ.homeOptions[_select].finish, upkeep: ↂ.homeOptions[_select].upkeep, nhood: ↂ.homeOptions[_select].nhood, location: ↂ.homeOptions[_select].location, rent: ↂ.homeOptions[_select].rent}>>
+<<status 0>>
+<<go "FemStartFinal">>
+<</button>>
+</center>

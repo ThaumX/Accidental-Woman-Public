@@ -8,15 +8,15 @@
 <br><br>
 You grab a can of @@.ident;Slurm Energy@@ from the shelf and close the fridge. Opening the can, you turn around in place and lean back against the cool stainless steel refrigerator. Distractedly, you notice that the sensation is different thanks to your <<pcAssSize>> tush. You drink the energy drink quickly, noticing that Slurm's energy variant doesn't really taste all that different from Slurm Classic.
 <br><br>
-Just as you were finishing off the can, Lily walks in wearing a rather smart pantsuit. @@.npc;Hey <<print $PC.main.name>>, I've gotta go or I'll be late. I left some sweats that should fit you on the couch, you should really head to Bullseye and grab some clothes.@@
+Just as you're finishing off the can, Lily walks in wearing a rather smart pantsuit. @@.npc;Hey <<print ↂ.pc.main.name>>, I've gotta go or I'll be late. I left some sweats that should fit you on the couch, you should really head to Bullseye and grab some clothes.@@
 <br><br>
-"@@.pc;Got it@@" you say as you step out of the way of the fridge.
+@@.pc;Got it@@. you say as you step out of the way of the fridge.
 <br><br>
-Lily opens it to grab her lunch and hurries to leave. She's just leaving the kitchen when she calls over her shoulder "@@.npc;Grab some coffee too, would you?@@"
+Lily opens it to grab her lunch and hurries to leave. She's just leaving the kitchen when she calls over her shoulder @@.npc;Grab some coffee too, would you?@@.
 <br><br>
-You nod to agree, but quickly realize she wouldn't see you. "@@.pc;Sure thing, need anything else?@@"
+You nod to agree, but quickly realize she wouldn't see you. @@.pc;Sure thing, need anything else?@@.
 <br><br>
-Lily is at the front door, and she pauses for a moment to look back your way. "@@.npc;Nope, thanks!@@" And with that, she steps out of the house and closes the door behind her. 
+Lily is at the front door, and she pauses for a moment to look back your way. @@.npc;Nope, thanks!@@. And with that, she steps out of the house and closes the door behind her. 
 <br><br>
 You stand in the kitchen for a while, mostly thinking about the challenge of buying clothes, but also taking a moment to remember what you like about Lily's rear end. @@.mono;Those pantsuit pants were tight in all the right places...@@
 <br><br>
@@ -24,26 +24,30 @@ After a few minutes of wondering how you're supposed to buy clothes when you've 
 <br><br>
 While they don't exactly look stylish, it seems like they'll do a better job of covering you, particularly your bra-less chest. Of course, it's only Bullseye, so it doesn't really matter what you wear. People go in all the time wearing all sorts of ridiculous outfits.
 <br><br>
-<span id="change"><<link "Put on the sweats">><<set $PC.clothes.lower = ["Lilys  Sweatpants (grey)",-2,-1,-3,0,0,0,0,0,0,"Lily",0,"A"]>><<set $PC.clothes.upper = ["Lilys  Sweatshirt (grey)",-2,-1,-3,0,0,0,0,0,0,"Lily",0,"A"]>><<set $PC.clothes.nite = false>><<set $PC.clothes.ath = true>><<set $PC.clothes.atr = -2>><<set $PC.clothes.sexCode = -2>><<set $PC.clothes.formCode = -3>><<set $PC.clothes.exp = [0,0]>><<replace "#change">>First stripping out of your pajamas, you grab the sweatpants and start putting them on. <<if $PC.body.ass > $NPC.n101.body.ass>>You have a little difficulty getting them up over your large posterior; you <<else>>You <</if>><<if $PC.body.hips > $NPC.n101.body.hips>>have to stretch them a good deal to get them over hips that are somehow even wider than Lily's.<<elseif $PC.body.hips == $NPC.n101.body.hips>>notice that your hips must be a similar size to Lily's, because they fit quite comfortably.<<else>>find that you have to pull the drawstrings tight to keep them from slipping down, you can't match Lily's wide hips.<</if>> Picking up the bulky sweatshirt, you see that it's decorated with a fading "property of" label. Instead of some athletic department though, it just says "your mom". You pull it on over your head, it's so big that it would be hard for it ''not'' to fit.<<if $PC.body.tits.cupNum > 27>> Your huge breasts still manage to stretch it taunt around your chest though, despite not wearing a bra.<</if>> Ready to go, you head toward the door.<</replace>><<set _sweat = true>><</link>></span>
+<<if ↂ.flag.proTookSweats == null || ↂ.flag.proTookSweats == undefined || !ↂ.flag.proTookSweats>>
+<span id="change"><<link "Put on the sweats">><<set ↂ.ward.athU.push("ttvt")>><<set ↂ.ward.athL.push("tttz")>><<run setup.clothes.wear("ttvt")>><<run setup.clothes.wear("tttz")>><<replace "#change">>First stripping out of your pajamas, you grab the sweatpants and start putting them on. <<if ↂ.pc.body.ass > aw.npc.n101.body.ass>>You have a little difficulty getting them up over your large posterior; you <<else>>You <</if>><<if ↂ.pc.body.hips > aw.npc.n101.body.hips>>have to stretch them a good deal to get them over hips that are somehow even wider than Lily's.<<elseif ↂ.pc.body.hips == aw.npc.n101.body.hips>>notice that your hips must be a similar size to Lily's, because they fit quite comfortably.<<else>>find that you have to pull the drawstrings tight to keep them from slipping down, you can't match Lily's wide hips.<</if>> Picking up the bulky sweatshirt, you see that it's decorated with a fading "property of" label. Instead of some athletic department though, it just says "your mom". You pull it on over your head, it's so big that it would be hard for it ''not'' to fit.<<if ↂ.pc.body.tits.cupNum > 27>> Your huge breasts still manage to stretch it taunt around your chest though, despite not wearing a bra.<</if>> Ready to go, you head toward the door.<</replace>><<set ↂ.flag.proTookSweats = true>><</link>></span>
+<<else>>
+<s>Put on the sweats</s>
+<</if>>
 <br><br>
-<<link "Drive to Bullseye">><<setTime 7 30>><<if _sweat>><<set _temp = [0,-2,-1,-3,0,0,"N","N","N","N","Lily",0,0,"A"]>><<set _temp[0] = ["Lilys  Sweatpants (grey)"]>><<set $ward.athL.push(_temp)>><<set _temp = [0,-2,-1,-3,0,0,"N","N","N","N","Lily",0,0,"A"]>><<set _temp[0] = ["Lilys  Sweatshirt (grey)"]>><<set $ward.athU.push(_temp)>><</if>><<deactivateNPC "n101">><<goto [[storyStart12b]]>><</link>>
+<<link "Drive to Bullseye">><<setTime 7 30>><<deactivateNPC "n101">><<go storyStart12b>><</link>>
 <br><br>
 <</nobr>>
 
 
 :: storyStart12b [nobr]
 
-@@.big;<<link [[Go to Bullseye|controlBullseye]]>><<set $map.destLoc = [5,4]>><<addTime 22>><</link>>@@
+@@.big;<<link [[Go to Bullseye|controlBullseye]]>><<set ↂ.map.destLoc = [5,4]>><<addTime 22>><</link>>@@
 <br><br>
 @@.ident;This is a Safe Save Location@@
 <br><br>
-@@.typewriter;.ship;font-size:120%;''M''@@@@.typewriter;.white;''ap''@@ @@.typewriter;.ship;font-size:120%;''T''@@@@.typewriter;.white;''utorial''@@
+@@.print;.ship;font-size:1.2rem;''M''@@@@.print;.white;''ap''@@ @@.print;.ship;font-size:1.2rem;''T''@@@@.print;.white;''utorial''@@
 <br><br>
-@@.typewriter;.ship;font-size:120%;A@@@@.typewriter;.white;fter the game's prologue is over, you will travel to Bullseye--and most other locations--via the main map. For now, you'll be sent directly to Bullseye's Parking Lot. While in a map location (and not in a scenario) you will see two images at the top of most screens. The image on the left is your map, and the image on the right is a look at your current location. ''To navigate, simply click on the part of the map that you want to go to'', and you will walk there automatically. Click on the right location image to see an enlarged view of the map with more information.@@
+@@.print;.ship;font-size:1.2rem;A@@@@.print;.white;fter the game's prologue is over, you will travel to Bullseye--and most other locations--via the main map. For now, you'll be sent directly to Bullseye's Parking Lot. While in a map location (and not in a scenario) you will see two images at the top of most screens. The image on the left is your map, and the image on the right is a look at your current location. ''To navigate, simply click on the part of the map that you want to go to'', and you will walk there automatically. Click on the right location image to see an enlarged view of the map with more information.@@
 <br><br>
-@@.typewriter;.ship;font-size:120%;O@@@@.typewriter;.white;ne last thing: Don't worry about going to the register to pay for items you added to your shopping cart (like clothes or Lily's coffee). You will automatically pay once you click on the parking lot to leave the store. You may want to be careful though, and make sure you have enough money before you try to leave.@@
+@@.print;.ship;font-size:1.2rem;O@@@@.print;.white;ne last thing: don't worry about going to the register to pay for items you added to your shopping cart (like clothes or Lily's coffee). You will automatically pay once you click on the parking lot to leave the store. You may want to be careful though, and make sure you have enough money before you try to leave.@@
 <br><br>
 @@.note;Keep an eye out while you're there, there's plenty of little things hidden around!@@
 <br><br>
-@@.big;<<link "Go to Bullseye">><<set $timeChunk = 0>><<set $map.prevLoc = ["home","foyer","main"]>><<set $timeCount = 0>><<gotomap "bullseye" "parking">><</link>>@@
+@@.big;<<link "Go to Bullseye">><<set $timeChunk = 0>><<set ↂ.map.prevLoc = ["home","foyer","main"]>><<set $timeCount = 0>><<gotomap "bullseye" "parking">><</link>>@@
 

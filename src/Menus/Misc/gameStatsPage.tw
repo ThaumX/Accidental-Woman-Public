@@ -1,56 +1,83 @@
 :: gameStatsPage [nobr startpage hidden]
-
-<center>@@.head1;Game Stats@@</center>
-<br>
-@@.head3;Caution@@ ~ Game stats are saved to the browser cache. Resetting your browser cache will result in deleting your game stats. This may be troublesome for users of a version/setup of Mozilla Firefox prone to errors requiring a cache reset, I'm sorry for the trouble. You can restore your game stats from a save file, by entering the game settings menu and using the command there to restore your gameplay stats.
-<br><br>
-<<if ndef $gamestate>>
-@@.ident;You do not currently have a game stats save. One will be created automatically when you play the game.@@
-<<elseif $gamestate === null>>
-@@.ident;You do not currently have a game stats save. One will be created automatically when you play the game.@@
-<<else>>
-''Ѡ General Stats Ѡ''<br>
-Completed Prologue--<<if $gamestate.completePrologue>>Yep<<else>>Nope<</if>><br>
-Finished a Playthrough--<<if $gamestate.completeGame>>Yep<<else>>Nope<</if>><br>
-Characters Created--<<= $gamestate.characters>><br>
-Roleplay Points--<<= $gamestate.points>><br>
-Total Unlocks--<<= $gamestate.unlocks.length>>
-<br><br>
-''Ѡ Achievements Ѡ''
-<<if $gamestate.achieve.length == 0>>
-	<br>//You haven't earned any achievements yet...//
-<<else>>
-	<<for _i = 0; _i < $gamestate.achieve.length; _i++>>
-	<br><<print $gamestate.achieve[_i]>>
-	<</for>>
-<</if>>
-<br><br>
-''Ѡ Unlocked Starting Options Ѡ''
-<<if $gamestate.unlocks.length < 1>>
-<br>Nothing unlocked yet, better get started!
-<</if>>
-<<if $gamestate.unlocks.includes("Prologue")>>
-<br>Unlocked skipping the Prologue
-<</if>>
-<<if $gamestate.unlocks.includes("megaTits")>>
-<br>Unlocked larger starting breast volume
-<</if>>
-<br><br>
-
-<<button "Reset Game Stats">>
-	<<set $gamestate = {}>>
-	<<set $gamestate.playedIntro = false>>
-	<<set $gamestate.completePrologue = false>>
-	<<set $gamestate.completeGame = false>>
-	<<set $gamestate.points = 0>>
-	<<set $gamestate.characters = 0>>
-	<<set $gamestate.unlocks = []>>
-	<<set $gamestate.achieve = []>>
-	<<set $gamestate.unlockTotal = 0>>
-	<<set $gamestate.lastversion = "none">>
-	<<run setup.storeState()>>
-  <<replace "#doner">>Game stats have been reset!<</replace>>
-<</button>> <span id="doner" class="acme import">''This can not be undone!''</span>
-<</if>>
-<br><br>
-<<button [[Return|Start]]>><</button>>
+<<run setup.achieve.load()>>
+  /* dont forget to add system.blahblah.load here in before */
+<div class="creditsBackground" style="position:fixed;z-index:200;top:0px;bottom:0px;left:0px;right:0px;overflow:auto;text-align:center;font-size:22px;">
+<h2>Accidental Woman Game Statistics</h2>
+<div id="statsContainer">
+  <div class="statsCaution">
+    <div class="statsBlock">
+      @@.head3;Caution@@ ~ Game stats are saved to the browser cache. Resetting your browser cache will result in deleting your game stats. You can restore your game stats from a save file, by entering the game settings menu and using the command there to restore your gameplay stats.
+    </div>
+  </div>
+  <<if ndef $gamestate>>
+    @@.ident;You do not currently have a game stats save. One will be created automatically when you play the game.@@
+    <<elseif $gamestate === null>>
+    @@.ident;You do not currently have a game stats save. One will be created automatically when you play the game.@@
+    <<else>>
+      <div class="statsLeft">
+        <div class="statsBlock">
+          Completed Prologue: <<if $gamestate.unlocks.includes("Prologue skip")>>Yep<<else>>Nope<</if>><br>
+          Finished a Playthrough: <<if $gamestate.completeGame>>Yep<<else>>Nope<</if>><br>
+          Characters Created: <<= $gamestate.characters>><br>
+          Roleplay Points: <<= $gamestate.points>><br>
+          Total Unlocks: <<= $gamestate.unlocks.length -1>>
+          <hr>
+          <<if $gamestate.unlocks.length < 2>>
+            Nothing unlocked yet, better get started!
+          <</if>>
+          <<if $gamestate.unlocks.includes("Prologue skip")>>
+            Unlocked skipping the Prologue
+          <</if>>
+          <<if $gamestate.unlocks.includes("Mega Tits")>>
+            Unlocked larger starting breast volume
+          <</if>>
+        </div>
+      </div>
+      <div class="statsRight">
+        <div class="statsBlock">
+          <<if $gamestate.achieve.length == 0>>
+            <br>//You haven't earned any achievements yet...//
+          <<elseif $gamestate.achieve.length == 1>>
+            <br>//You haven't earned any achievements yet...//
+          <<else>>
+            <<for _i = 1; _i < $gamestate.achieve.length; _i++>>
+              <<set _stupidTwine = $gamestate.achieve[_i]>>
+              <<set _doubleFuckThis = aw.achieve[_stupidTwine].image>>
+              <<set _tripleFuckThis = aw.achieve[_stupidTwine].description>>
+              <<if ndef aw.achieve[_stupidTwine].name>>
+                /* well lets do nothing about that */
+              <<elseif aw.achieve[_stupidTwine].name == "none">>
+                /* just in case */
+              <<else>>
+                <span class = "statsAchieveBlock">
+                  [img[_tripleFuckThis|_doubleFuckThis]]<br>
+                  <span class="achieveName"><<print aw.achieve[_stupidTwine].name>></span><br>
+                </span>                
+              <</if>>
+            <</for>>
+          <</if>>
+        </div>
+      </div>
+    <</if>>
+    <div class="statsBlockLevel"><br>
+      <<button "Reset Game Preferences">>
+          <<run setup.initialize.resetPrefs()>>
+      <</button>>
+      <<sp 3>>
+      <span id="doner" class="handwriting import">
+        <<button "Reset Game Stats">>
+          <<replace "#doner">>
+            <<button "Sure? Can't be undone!">>
+              <<run setup.achieve.reset()>>
+              <<go gameStatsPage>>
+            <</button>>
+          <</replace>>
+        <</button>>
+      </span>
+      <br>
+      <<button "RETURN">>
+        <<go Start>>
+      <</button>>
+    </div>
+  </div> 
+</div>

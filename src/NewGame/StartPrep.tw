@@ -1,0 +1,38 @@
+:: PostSkillStartPrep [nobr hidden noui]
+
+<<run setup.scc()>>
+<<status>>
+<<pcTotalATR>>
+
+<<run setup.fert.goddessCheck()>>
+<<run setup.fert.playerStatsCalc()>>
+<<set ↂ.pc.status.arousal = 2>>
+<<if ↂ.skill.athletic >= 100>>
+	<<set ↂ.pc.body.energy = 20>>
+<<else>>
+	<<set _add = Math.trunc(ↂ.skill.athletic / 10)>>
+	<<set ↂ.pc.body.energy = 10 + _add>>
+<</if>>
+<<run setup.calcEnergyRate()>>
+<<status 0>>
+<<include [[DEFsemiNPC-Prologue]]>>
+
+<<procS "Init PC History">>
+<<run setup.updatePlayerHistory()>>
+<<procE>>
+
+/*<<updatePlayerHistory>>*/
+
+<<set _num = $npcMax - setup.npc.ready.length>>
+<<if _num > 0>>
+	<<procS "generate NPCs">>
+	<<generateNPC _num 0 0 50 0 [0,0] [0,0] [0,0] [0,0] 0 0>>
+  <<run setup.fakeNPC.fillTo()>>
+	<<procE>>
+<</if>>
+
+<<timed 100ms>>
+<<run setup.npcSched.generate()>>
+<<next>>
+<<goto nameCharacterB>>
+<</timed>>

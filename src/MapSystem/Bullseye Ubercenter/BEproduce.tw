@@ -12,7 +12,7 @@
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -40,19 +40,23 @@
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
 @@.head3;Y@@ou're standing in Bullseye's combination bakery/deli/produce department. They seem to have a decent selection, and lots of bright signs exclaiming 'ORGANIC!^^*^^'
 <br>
 /*IN-PASSAGE span text*/
 <span id="locact"></span>
+<<selfthought>>
 </div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise hovExamine>>
-	<<button "Examine Produce">><<dialog "Examining">>You walk over to the oddly-popular chiller display with giant cucumbers to take a closer look. The vegetables are clean and look to be in good shape, with a deep green color. Picking one up, you're surprised at the weight. It's over a foot long, and ranges from three to four inches in diameter.<<if $PC.trait.libido > 3>> The cucumber looks delicious in more ways than one, and you had almost decided to buy it before you realize that there's no way you could fit it into your 'cart'.<<else>> You put the cucumber back down, unsure what the big deal is.<</if>><</dialog>><</button>>
+	<<button "Examine Produce">><<dialog "Examining">>You walk over to the oddly-popular chiller display with giant cucumbers to take a closer look. The vegetables are clean and look to be in good shape, with a deep green color. Picking one up, you're surprised at the weight. It's over a foot long, and ranges from three to four inches in diameter.<<if ↂ.pc.trait.libido > 3>> The cucumber looks delicious in more ways than one, and you had almost decided to buy it before you realize that there's no way you could fit it into your 'cart'.<<else>> You put the cucumber back down, unsure what the big deal is.<</if>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
 <<hoverrevise hovCart>>
 	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
@@ -63,6 +67,7 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <div id="actionInfo">
 <<insertion hovExamine>>@@.exp;Take a closer look at those usual giant cucumbers.@@<<endinsertion>>
 <<insertion hovCart>>@@.exp;launches a popup that contains an ordered list of all the items in your cart, along with the price (prior to member discount). @@<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 /*this contains randomized event options that will print inside the related spans*/
 /*Weather-based actions added, like opening an umbrella*/

@@ -1,14 +1,14 @@
 :: groomingMakeupStatus [nobr hidden]
 
-/*$PC.groom.makeup = {atr:0,sexy:0,clown:false,type:"norm",desc:"is free of makeup.",look:"none"}*/
-  <<if $PC.groom.makeup.clown>>
+/*ↂ.pc.groom.makeup = {atr:0,sexy:0,clown:false,type:"norm",desc:"is free of makeup.",look:"none"}*/
+  <<if ↂ.pc.groom.makeup.clown>>
   <div style="width:80%;background-color:#fc3c3c;border-width:2px;border-style:dotted;border-color:#f9bc20;border-radius:6px;text-align:center;padding:8px;margin 2px 5px 15px 5px;font-size:24px;font-weight:900;">
     WARNING: You look like a clown!<br>[img[IMGclownMU]]
   </div>
-  <<elseif $PC.groom.eyeMU == "smeared" || $PC.groom.lipMU == "smeared" || $PC.groom.genMU == "smeared">>
+  <<elseif ↂ.pc.groom.eyeMU == "smeared" || ↂ.pc.groom.lipMU == "smeared" || ↂ.pc.groom.genMU == "smeared">>
   <div style="width:80%;background-color:#a56401;border-width:2px;border-style:dotted;border-color:#f9bc20;border-radius:6px;text-align:center;padding:8px;margin 2px 5px 15px 5px;font-size:24px;font-weight:900;">
     CAUTION: You have smeared makeup!<br>
-    <<if $PC.groom.eyeMU == "smeared">>[img[IMGeyeFail]]<</if>><<if $PC.groom.lipMU == "smeared">>[img[IMGlipFail]]<</if>><<if $PC.groom.genMU == "smeared">>[img[IMGgenFail]]<</if>>
+    <<if ↂ.pc.groom.eyeMU == "smeared">>[img[IMGeyeFail]]<</if>><<if ↂ.pc.groom.lipMU == "smeared">>[img[IMGlipFail]]<</if>><<if ↂ.pc.groom.genMU == "smeared">>[img[IMGgenFail]]<</if>>
   </div>
   <</if>>
   <table id="invisTable">
@@ -18,21 +18,21 @@
       Attractiveness:
     </td>
     <td style="width:15%;" class="monospace">
-      <<if $PC.groom.makeup.atr > 3>>High<<elseif $PC.groom.makeup.atr > 1>>Medium<<elseif $PC.groom.makeup.atr < 0>>Awful<<else>>Low<</if>><<sp 2>>[<<= $PC.groom.makeup.atr>>]
+      <<if ↂ.pc.groom.makeup.atr > 3>>High<<elseif ↂ.pc.groom.makeup.atr > 1>>Medium<<elseif ↂ.pc.groom.makeup.atr < 0>>Awful<<else>>Low<</if>><<sp 2>>[<<= ↂ.pc.groom.makeup.atr>>]
     </td>
     <td style="width:5%"></td>
     <td style="width:15%;font-weight:bold;">
       Sexiness:
     </td>
     <td style="width:15%;" class="monospace">
-      <<if $PC.groom.makeup.sexy >= 3>>Very Sexy<<elseif $PC.groom.makeup.sexy == 2>>Sexy<<elseif $PC.groom.makeup.sexy == 1>>Slightly Sexy<<elseif $PC.groom.makeup.sexy == 0>>Neutral<<elseif $PC.groom.makeup.sexy == -1>>Cute<<else>>Very Cute<</if>>
+      <<if ↂ.pc.groom.makeup.sexy >= 3>>Very Sexy<<elseif ↂ.pc.groom.makeup.sexy == 2>>Sexy<<elseif ↂ.pc.groom.makeup.sexy == 1>>Slightly Sexy<<elseif ↂ.pc.groom.makeup.sexy == 0>>Neutral<<elseif ↂ.pc.groom.makeup.sexy == -1>>Cute<<else>>Very Cute<</if>>
     </td>
     <td style="width:5%"></td>
     <td style="width:15%;font-weight:bold;">
       Type:
     </td>
     <td style="width:15%;" class="monospace">
-      <<= $PC.groom.makeup.type>>
+      <<= ↂ.pc.groom.makeup.type>>
     </td>
   </tr>
   <tr>
@@ -40,18 +40,18 @@
       Appearance:
     </td>
     <td class="monospace">
-      <<= $PC.groom.makeup.look>>
+      <<= ↂ.pc.groom.makeup.look>>
     </td>
     <td></td>
     <td style="font-weight:bold">
       Description:
     </td>
     <td colspan=4>
-      <<= $PC.groom.makeup.desc>>
+      <<= ↂ.pc.groom.makeup.desc>>
     </td>
   </tr>
   </table>
-  <<print aw.makeup.eye[$PC.groom.eyeMU].print()>><<print aw.makeup.lip[$PC.groom.lipMU].print()>><<print aw.makeup.gen[$PC.groom.genMU].print()>>
+  <<print aw.makeup.eye[ↂ.pc.groom.eyeMU].print()>><<print aw.makeup.lip[ↂ.pc.groom.lipMU].print()>><<print aw.makeup.gen[ↂ.pc.groom.genMU].print()>>
 
 
 :: groomingMakeupApply [nobr hidden]
@@ -73,28 +73,28 @@
   </tr>
   <tr style="height:450px;">
   <td style="overflow-x:hidden;overflow-y:auto;">
-    <<for _i = 0, _c = $makeup.eye.length; _i < _c; _i ++>>
-      <<if $makeup.eye[_i] != "none">>
-        <<set _tits = "<<notify>><<print aw.makeup.eye['" + $makeup.eye[_i] + "'].putOn()>><</notify>>">>
-        <<print aw.makeup.eye[$makeup.eye[_i]].button(_tits)>>
+    <<for _i = 0, _c = ↂ.makeup.eye.length; _i < _c; _i ++>>
+      <<if ↂ.makeup.eye[_i] != "none">>
+        <<set _tits = "<<notify>><<print aw.makeup.eye['" + ↂ.makeup.eye[_i] + "'].putOn()>><</notify>>">>
+        <<print aw.makeup.eye[ↂ.makeup.eye[_i]].button(_tits)>>
       <</if>>
     <</for>>
   </td>
   <td></td>
   <td style="overflow-x:hidden;overflow-y:auto;">
-    <<for _i = 0, _c = $makeup.lip.length; _i < _c; _i ++>>
-      <<if $makeup.lip[_i] != "none">>
-        <<set _tits = "<<notify>><<print aw.makeup.lip['" + $makeup.lip[_i] + "'].putOn()>><</notify>>">>
-        <<print aw.makeup.lip[$makeup.lip[_i]].button(_tits)>>
+    <<for _i = 0, _c = ↂ.makeup.lip.length; _i < _c; _i ++>>
+      <<if ↂ.makeup.lip[_i] != "none">>
+        <<set _tits = "<<notify>><<print aw.makeup.lip['" + ↂ.makeup.lip[_i] + "'].putOn()>><</notify>>">>
+        <<print aw.makeup.lip[ↂ.makeup.lip[_i]].button(_tits)>>
       <</if>>
     <</for>>
   </td>
   <td></td>
   <td style="overflow-x:hidden;overflow-y:auto;">
-    <<for _i = 0, _c = $makeup.gen.length; _i < _c; _i ++>>
-      <<if $makeup.gen[_i] != "none">>
-        <<set _tits = "<<notify>><<print aw.makeup.gen['" + $makeup.gen[_i] + "'].putOn()>><</notify>>">>
-        <<print aw.makeup.gen[$makeup.gen[_i]].button(_tits)>>
+    <<for _i = 0, _c = ↂ.makeup.gen.length; _i < _c; _i ++>>
+      <<if ↂ.makeup.gen[_i] != "none">>
+        <<set _tits = "<<notify>><<print aw.makeup.gen['" + ↂ.makeup.gen[_i] + "'].putOn()>><</notify>>">>
+        <<print aw.makeup.gen[ↂ.makeup.gen[_i]].button(_tits)>>
       <</if>>
     <</for>>
   </td>
@@ -104,14 +104,14 @@
 
 :: groomingMakeupSets [nobr hidden]
 
-<<set _makeupSetNames = Object.keys($makeupSet)>>
+<<set _makeupSetNames = Object.keys(ↂ.makeupSet)>>
 <table id="invisTable" class="groomButtCont">
 <tr><td style="width:33%;">
-<b>EYES:</b> <<dropdown "_mUpSetEye" $makeup.eye>>
+<b>EYES:</b> <<dropdown "_mUpSetEye" ↂ.makeup.eye>>
 </td><td style="width:33%;">
-<b>LIPS:</b> <<dropdown "_mUpSetLip" $makeup.lip>>
+<b>LIPS:</b> <<dropdown "_mUpSetLip" ↂ.makeup.lip>>
 </td><td>
-<b>FACE:</b> <<dropdown "_mUpSetGen" $makeup.gen>>
+<b>FACE:</b> <<dropdown "_mUpSetGen" ↂ.makeup.gen>>
 </td>
 </tr>
 <tr>
@@ -120,9 +120,9 @@
 </td>
 <td colspan=2>
 <<button "Update The Set">>
-  <<set $makeupSet[_mUpSetSet][0] = _mUpSetEye>>
-  <<set $makeupSet[_mUpSetSet][1] = _mUpSetLip>>
-  <<set $makeupSet[_mUpSetSet][2] = _mUpSetGen>>
+  <<set ↂ.makeupSet[_mUpSetSet][0] = _mUpSetEye>>
+  <<set ↂ.makeupSet[_mUpSetSet][1] = _mUpSetLip>>
+  <<set ↂ.makeupSet[_mUpSetSet][2] = _mUpSetGen>>
   <<replace "#makeupsets">>
     <<include [[groomingMakeupSetDisp]]>>
   <</replace>>
@@ -137,14 +137,14 @@
 
 :: groomingMakeupSetDisp [nobr]
 
-<<set _set = Object.keys($makeupSet)>>
-<<set _mspr = "<span style='font-size:120%;'>Your Makeup Sets:</span><br>">>
+<<set _set = Object.keys(ↂ.makeupSet)>>
+<<set _mspr = "<span style='font-size:1.2rem;'>Your Makeup Sets:</span><br>">>
 <<for _i = 0, _c = _set.length; _i < _c; _i++>>
   <<set _mspr += "<div style='width:95%;height:40px;border-width:1px;border-style:solid;border-color:#666;border-radius:18px;margin:5px auto;padding-left:6px;'><table id='invisTable'><tr><td class='head' style='width:25%'>">>
   <<set _mspr += _set[_i]>>
   <<set _mspr += "</td>">>
-  <<set _mspr += "<td style='width:25%'>[eyes: " + $makeupSet[_set[_i]][0] + "]</td>">>
-  <<set _mspr += "<td style='width:25%'>[lips: " + $makeupSet[_set[_i]][1] + "]</td>">>
-  <<set _mspr += "<td style='width:25%'>[face: " + $makeupSet[_set[_i]][2] + "]</td></tr></table></div>">>
+  <<set _mspr += "<td style='width:25%'>[eyes: " + ↂ.makeupSet[_set[_i]][0] + "]</td>">>
+  <<set _mspr += "<td style='width:25%'>[lips: " + ↂ.makeupSet[_set[_i]][1] + "]</td>">>
+  <<set _mspr += "<td style='width:25%'>[face: " + ↂ.makeupSet[_set[_i]][2] + "]</td></tr></table></div>">>
 <</for>>
 <<print _mspr>>

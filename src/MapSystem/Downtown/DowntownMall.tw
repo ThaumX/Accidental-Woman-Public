@@ -8,11 +8,15 @@
 /*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
 <<include [[MAPdowntown]]>>
 /*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
-<div id="mainshits">
+<div id="mainshits" class="extraRoomRight">
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptDowntown>> <<mapEventDowntown>></p>
+<div id="storeWindow">
+[img[IMG-Location-ApplewoodSign]]
+[img[IMG-PublicService]]
+</div>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 <<case "sct">>
 <<case "ovc">>
@@ -27,32 +31,39 @@
 <<case "+sn">>
 <<default>>
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 <p>
 @@.head3;Y@@ou're standing outside of a huge building that proclaims itself to be the Applewood mall. It has the same redbrick exterior as the other buildings downtown, but looks a bit more like a warehouse or mill from the outside. There's a sign displaying the movies currently playing at the Peeper Theaters, like "Come Fill the Cup", "5 Fingers", and "Journey for a Happy Ending".
 </p>
 <p id="locact"></p>
+<<selfthought>>
 </div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Go Inside">><</button>>
+  <<openhours 8 22>>
+    <<button "ENTER MALL [foodcourt]">><<gotomap "downtown" "mall" "foodcourt">><</button>>
+  <<closed "MALL [foodcourt]">>
+  <</openhours>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
-  <<button "Jump to Theater">><</button>>
+  <<openhours 8 22>>
+    <<button "ENTER MALL [south]">><<gotomap "downtown" "mall" "southshop">><</button>>
+  <<closed "MALL [south]">>
+  <</openhours>>
 <<endhoverrevise>>
-<<hoverrevise delta>>
-  <<button "Walk the Mall">><</button>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
 </div>
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>Walk into the Applewood mall to go shopping, visit the food court, or enjoy a recreation like the holo-arcade.<<endinsertion>>
-<<insertion beta>>Travel directly to the movie theater to watch a movie.<<endinsertion>>
-<<insertion delta>>Just take a stroll around the mall to pass the time and see if you find something interesting.<<endinsertion>>
+<<insertion alpha>>Walk into the Applewood mall via the food court entrance. You can go shopping, eat at the food court, or enjoy a recreational activity like the holo-arcade.<<endinsertion>>
+<<insertion beta>>Walk into the Applewood mall via the south concourse entrance. You can go shopping, eat at the food court, or enjoy a recreational activity like the holo-arcade.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
 <<timed 50ms>>

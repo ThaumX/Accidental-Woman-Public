@@ -18,7 +18,7 @@
         <<script>>
         setup.sleep.opt = jQuery.extend(true, {}, State.temporary.opt);
         <</script>>
-        <<goto [[SleepForward]]>>
+        <<go SleepForward>>
       <</button>></div>
     <</pbarfinish>>
   <</timed>>
@@ -26,20 +26,17 @@
 
 
 
-:: SleepForward [nobr hidden autosave]
+:: SleepForward [nobr hidden noui]
 
 
 <div id="cardback">
-<span style="font-size:120%;color:#ddd;" class="volkhorn">Starting your morning...<br>
+<<set setup.eventAllowed = true>>
+<span style="font-size:1.2rem;color:#ddd;" class="volkhorn">Starting your morning...<br>
 <<if setup.sleep.opt.enabled>>
-  <<timed 1s>>
   Equipping Your stuffs...
   <<run setup.hair.doSet(_hair)>>
   <<run setup.makeup.applySet(_makeup)>>
-  /*State.temporary.clothes = "standard";
-  State.temporary.ling = "standard";
-  State.temporary.over = "standard";*/
-  <</timed>>
+  <<run setup.clothes.outfit.wear(_clothes)>>
 <</if>></span>
 <center>
 <img data-passage="IMG-SunriseForest" class="fadeIn animated" style="border-width:6px;border-style:solid;border-color:#222;border-radius:6px;">
@@ -47,9 +44,33 @@
 <<run setup.storeState()>>
 <<timed 3s>>
 <<if $date[0] == 1>>
-  <<goto [[WeekSystemMainPage]]>>
+  <<go WeekSystemMainPage>>
 <<else>>
-  <<goto setup.startsPassage>>
+  <<go setup.startsPassage>>
 <</if>>
 <</timed>>
+</div>
+
+
+:: SleepSaver [nobr hidden noui]
+
+<div id="cardback">
+<center><h1>LOAD</h2></center>
+<<timed 100ms>>
+  <<goto "SleepSaver2">>
+<</timed>>
+</div>
+
+:: SleepSaver2 [nobr hidden noui]
+
+<div id="cardback">
+<center>
+<img data-passage="IMG-SunriseForest" class="fadeIn animated" style="border-width:6px;border-style:solid;border-color:#222;border-radius:6px;">
+<br>
+<span style="font-size:1.2rem;color:#ddd;" class="volkhorn">Welcome Back to Appletree...</span>
+<br>
+<<button "CONTINUE">>
+  <<go setup.startsPassage>>
+<</button>>
+</center>
 </div>

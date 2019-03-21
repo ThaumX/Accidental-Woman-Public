@@ -8,11 +8,18 @@
 /*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
 <<include [[MAPdowntown]]>>
 /*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
-<div id="mainshits">
+<div id="mainshits" class="extraRoomRight">
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptDowntown>> <<mapEventDowntown>></p>
+<div id="storeWindow">
+[img[IMG-Restaurant-CockoftheWalk]]
+[img[IMG-Restaurant-UdderDelights]]
+[img[IMG-Store-PhoenixNest]]
+[img[IMG-School-Maid]]
+[img[IMG-Restaurant-TeatTreats]]
+</div>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 <<case "sct">>
 <<case "ovc">>
@@ -27,44 +34,56 @@
 <<case "+sn">>
 <<default>>
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 <p>
 @@.head3;Y@@ou're standing in the eastern area of downtown, on a broad sidewalk. There are several shops and restaurants to visit if you are so inclined. The place has a clean and friendly appearance.
 </p>
 <p id="locact"></p>
+<<selfthought>>
 </div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Restaurant">><</button>>
+  <<button "Cock of the Walk">><</button>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
-  <<button "Clothing Store">><</button>>
-<<endhoverrevise>>
-<<hoverrevise delta>>
-  <<button "Clothing Store">><</button>>
-<<endhoverrevise>>
-<<hoverrevise gamma>>
-  <<button "Other Store">><</button>>
-<<endhoverrevise>>
-<<hoverrevise lambda>>
-  <<button "School">><</button>>
+  <<button "Udder Delights">><</button>>
 <<endhoverrevise>>
 <<hoverrevise phi>>
+  <<button "The Phoenix Next">><</button>>
+<<endhoverrevise>>
+<<hoverrevise gamma>>
+  <<openhours 8 12 16 20>>
+    <<button "Visit Maid Pouffiasse">><<gotoSchool "maid">><</button>>
+  <<closed "Maid Pouffiasse">>
+  <</openhours>>
+<<endhoverrevise>>
+<<hoverrevise lambda>>
   <<button "Misc Location">><</button>>
+<<endhoverrevise>>
+<<hoverrevise pi>>
+  <<openhours 10 22>>
+    <<button "Visit Teat Treats">><<dialog "Teat Treats">><<print setup.food.fastfood("teattreats")>><</dialog>><</button>>
+  <<closed "Teat Treats">>
+  <</openhours>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
 </div>
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>A sit-down restaurant you'll be able to visit on a date or with friends.<<endinsertion>>
-<<insertion beta>>A Clothing Store. They'll be a little more focused or theme based, unlike Bullseye which is pretty random.<<endinsertion>>
-<<insertion delta>>A Clothing Store. Different stores will have different quality levels at of course, prices.<<endinsertion>>
-<<insertion gamma>>A spot for a non-clothing store, where you'll find different types of goods or services, such as a book store or pharmacy.<<endinsertion>>
-<<insertion lambda>>One of several places that you can sign up for classes to improve a specific skill. (or learn a hidden skill)<<endinsertion>>
-<<insertion phi>>Another more random location, includes things like a gym, private eye, or other unique place.<<endinsertion>>
+<<insertion alpha>>[not implemented] Eat at Cock of the Walk. <span class="money">₢₢₢</span><<endinsertion>>
+<<insertion beta>>[not implemented] Eat at Udder Delights. <span class="money">₢₢₢</span><<endinsertion>>
+<<insertion delta>>[not implemented]<<endinsertion>>
+<<insertion gamma>>Visit the Maid Pouffiasse training school to check it out or sign up for a course. @@.ship;[CLEANING⧫SEDUCTION]@@<<endinsertion>>
+<<insertion lambda>>[not implemented]<<endinsertion>>
+<<insertion phi>>[not implemented] Visit The Phoenix Nest bookstore and member's club.<<endinsertion>>
+<<insertion pi>>Take a look at Teat Treats, and perhaps grab a super-delicious desert. It's sure to improve your mood!<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
 <<timed 50ms>>
@@ -74,6 +93,6 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 
 
 :: DowntownELOC [nobr]
-
-Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+You notice some girls on the street, dressed in rather revealing university uniform.<br>
+[img[IMG-UniversityGirls]]
 

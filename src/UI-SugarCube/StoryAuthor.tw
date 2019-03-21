@@ -1,24 +1,26 @@
 :: StoryAuthor [nobr]
 
 
-<div id="smalldisplayer" style="margin-top:10px">
-<center>@@.tit;.ship;font-size:20px;<<print $location>>@@<br>Scene By : <<if ndef $AW.author>>Probably ThaumX<<elseif not $AW.author>>Probably ThaumX<<else>><<print $AW.author>><</if>>/*will display contributing author credits*/
-</center>
+/*<div id="smalldisplayer" style="margin-top:10px">
+<center>@@.tit;.ship;font-size:18px;<<print $location>>@@<br>Scene By : <<if ndef $AW.author>>Probably ThaumX<<elseif not $AW.author>>Probably ThaumX<<else>><<print $AW.author>><</if>>/*will display contributing author credits*/
+/*</center>
 <<if $showData>>
-<div class="lato blackOutline" style="margin:0px 10px 0px 16px;">
+/*<div class="lato blackOutline" style="margin:0px 10px 0px 16px;">
 <<silently>>
-<<set _energyPercent = Math.round(100 * ( $PC.status.energy.amt / $PC.body.energy ))>>
-<<set _companPercent = 100 - $PC.status.lonely>>
+<<set _energyPercent = Math.round(100 * ( ↂ.pc.status.energy.amt / ↂ.pc.body.energy ))>>
+<<set _companPercent = 100 - ↂ.pc.status.lonely>>
 <</silently>>
-<<progressbar $PC.status.health "Health" "green" "stripes">>
+<<progressbar ↂ.pc.status.health "Health" "green" "stripes">>
 <<progressbar _energyPercent "Energy" "green" "stripes">>
-<<progressbar $PC.status.satisfaction "Satisfaction" "blue" "stripes">>
+<<progressbar ↂ.pc.status.satisfaction "Satisfaction" "blue" "stripes">>
 <<progressbar _companPercent "Companionship" "blue" "stripes">>
-<<progressbar $PC.status.stress "Stress" "orange" "stripes">>
-</div>
-<<else>>
+<<progressbar ↂ.pc.status.stress "Stress" "orange" "stripes">>
+</div>*/
+/*<<else>>
 <center><span class="ship">[Welcome to AW]</span><br>this area will display portraits<br>as well as status info<br>controlled by the buttons below.</center>
 <</if>>
 </div>
-<<if $swim == "[public]">><div class="annoyer">Public Version -- Support Development on [[Patreon|https://www.patreon.com/thaumx]]!</div><</if>>
+<<if $swim == "[public]">><div class="annoyer">Public Version -- Support Development on [[Patreon|https://www.patreon.com/thaumx]]!</div><</if>>*/
+<<if !aw.passage.tags.includes("noui")>>
 <<print setup.ui.charList()>>
+<</if>>

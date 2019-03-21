@@ -12,7 +12,7 @@
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -40,19 +40,23 @@
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
 @@.head3;Y@@ou're standing near Bullseye's main entrance. There are a few cashiers who seem entirely unconcerned about how many people are in line, judging by their leisurely pace.
 <br>
 /*IN-PASSAGE span text*/
 <span id="locact"></span>
+<<selfthought>>
 </div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise hovPaying>>
 	@@.disabled;<<button "Paying">><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
 <<hoverrevise hovCart>>
 	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
@@ -63,6 +67,7 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <div id="actionInfo">
 <<insertion hovPaying>>@@.exp;You won't have to stop at the registers to pay, you'll just be charged automatically when you head back to the parking lot. If you don't have enough money though, you'll see an embarrassing "put something back" scene.@@<<endinsertion>>
 <<insertion hovCart>>@@.exp;launches a popup that contains an ordered list of all the items in your cart, along with the price (prior to member discount). @@<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 /*this contains randomized event options that will print inside the related spans*/
 /*Weather-based actions added, like opening an umbrella*/

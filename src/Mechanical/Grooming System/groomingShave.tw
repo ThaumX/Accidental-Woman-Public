@@ -5,13 +5,13 @@
 <table id="invisTable">
 <tr><td style="width:16%" class="head4">
 Body Hair Color:
-</td><td style="width:16%;font-size:95%;">
-<<print $PC.groom.pubeColor>>
+</td><td style="width:16%;font-size:0.95rem;">
+<<print ↂ.pc.groom.pubeColor>>
 </td>
 <td  style="width:16%" class="head4">
 Leg Hair:
-</td><td style="width:16%;font-size:95%;">
-<<switch $PC.groom.leghair>>
+</td><td style="width:16%;font-size:0.95rem;">
+<<switch ↂ.pc.groom.leghair>>
 <<case 0>>Doesn't Grow
 <<case 1>>Smooth
 <<case 2>>Prickly
@@ -22,14 +22,14 @@ Leg Hair:
 </td>
 <td  style="width:16%" class="head4">
 Pube Style:
-</td><td  style="width:16%;font-size:95%;">
-<<print $PC.groom.pubeStyle>>
+</td><td  style="width:16%;font-size:0.95rem;">
+<<print ↂ.pc.groom.pubeStyle>>
 </td>
 </tr><tr>
 <td class="head4">
 Armpit Hair:
-</td><td style="font-size:95%;">
-<<switch $PC.groom.armpit>>
+</td><td style="font-size:0.95rem;">
+<<switch ↂ.pc.groom.armpit>>
 <<case 0>>Doesn't Grow
 <<case 1>>Smooth
 <<case 2>>Prickly
@@ -40,20 +40,21 @@ Armpit Hair:
 </td>
 <td class="head4">
 Pubic Hair:
-</td><td style="font-size:95%;">
-<<switch $PC.groom.pubeGrow>>
+</td><td style="font-size:0.95rem;">
+<<switch ↂ.pc.groom.pubeGrow>>
 <<case 0>>Doesn't Grow
 <<case 1>>Shaved
-<<case 2>>Short
-<<case 3>>Neatly Trimmed
-<<case 4>>Trimmed
-<<case 5>>Total Bush
+<<case 2>>Stubble
+<<case 3>>Short
+<<case 4>>Neatly Trimmed
+<<case 5>>Trimmed
+<<case 6>>Total Bush
 <</switch>>
 </td>
 <td class="head4">
 Bikini Line:
-</td><td style="font-size:95%;">
-<<switch $PC.groom.pube>>
+</td><td style="font-size:0.95rem;">
+<<switch ↂ.pc.groom.pube>>
 <<case 0>>Doesn't Grow
 <<case 1>>Smooth
 <<case 2>>Prickly
@@ -66,13 +67,13 @@ Bikini Line:
 <tr>
 <td class="head4">
 Teeth:
-</td><td style="font-size:95%;">
-<<print $PC.groom.teeth>>
+</td><td style="font-size:0.95rem;">
+<<print ↂ.pc.groom.teeth>>
 </td>
 <td class="head4">
 Mouth Health:
 </td><td colspan=3>
-<<switch $PC.groom.toothHealth>>
+<<switch ↂ.pc.groom.toothHealth>>
 <<case 0>>No Teeth
 <<case 1>>@@.bad;Awful@@
 <<case 2>>@@.bad;Poor@@
@@ -87,14 +88,14 @@ Mouth Health:
 <br>
 <table id="invisTable">
 <tr><td width="30%">
-<<button "Groom">><<status 1>><<set $PC.groom.pubeColor = _tempColor>><<status 0>><<set _timecunt = random(50,63)>><<addTime _timecunt>><<replace "#colorresult">>Your body hair is now <<print $PC.groom.pubeColor>>.<</replace>><</button>> @@.head4;Body Hair Color@@
+<<button "Groom">><<status 1>><<set ↂ.pc.groom.pubeColor = _tempColor>><<status 0>><<set _timecunt = random(50,63)>><<addTime _timecunt>><<replace "#colorresult">>Your body hair is now <<print ↂ.pc.groom.pubeColor>>.<</replace>><</button>> @@.head4;Body Hair Color@@
 </td><td width="25%">
 <<dropdown '_tempColor' "white" "platinum blonde" "blonde" "sandy blonde" "dark blonde" "strawberry blonde" "light brown" "light auburn" "brown" "auburn" "copper" "ginger" "brunette" "cafe noir" "black" "red" "pink" "orange" "yellow" "green" "blue" "purple">>
 </td><td>
 @@.note;<span id="colorresult">The process takes apx. 60 minutes.</span>@@
 </td></tr>
 <tr><td>
-<<button "Groom">><<status 1>><<set $PC.groom.pubeStyle = _tempStyle>><<status 0>><<set _timecunt = random(27,33)>><<addTime _timecunt>><<replace "#styleresult">>Your pubic hair is now <<print $PC.groom.pubeStyle>>.<</replace>><</button>> @@.head4;Body Hair Style@@
+<<button "Groom">><<status 1>><<set ↂ.pc.groom.pubeStyle = _tempStyle>><<status 0>><<set _timecunt = random(27,33)>><<addTime _timecunt>><<replace "#styleresult">>Your pubic hair is now <<print ↂ.pc.groom.pubeStyle>>.<</replace>><</button>> @@.head4;Body Hair Style@@
 </td><td>
 <<dropdown '_tempStyle' "bushy" "trimmed" "neatly trimmed" "triangular" "neat patch" "landing strip" "shaved">>
 </td><td>
@@ -102,31 +103,32 @@ Mouth Health:
 </td></tr>
 <tr>
 <td class="head4">Daily Face Cleansing</td>
-<td colspan=2><<checkboxA "$PC.groom.facewash" false true>></td></tr>
+<td colspan=2><<checkboxA "ↂ.pc.groom.facewash" false true>></td></tr>
 <tr><td class="head4">
 Leg Shaving Frequency
 </td><td colspan=2>
-<<radiobutt "$PC.groom.leghairFreq" 0>>Never<<tab>><<radiobutt "$PC.groom.leghairFreq" 1 >>Daily<<tab>><<radiobutt "$PC.groom.leghairFreq" 2>>Every Other day<<tab>><<radiobutt "$PC.groom.leghairFreq" 3>>Weekly
+<<radiobutt "ↂ.pc.groom.leghairFreq" 0>>Never<<tab>><<radiobutt "ↂ.pc.groom.leghairFreq" 1 >>Daily<<tab>><<radiobutt "ↂ.pc.groom.leghairFreq" 2>>Every Other day<<tab>><<radiobutt "ↂ.pc.groom.leghairFreq" 3>>Weekly
 </td></tr>
 <tr><td class="head4">
 Armpit Shaving Frequency
 </td><td colspan=2>
-<<radiobutt "$PC.groom.armpitFreq" 0>>Never<<tab>><<radiobutt "$PC.groom.armpitFreq" 1>>Daily<<tab>><<radiobutt "$PC.groom.armpitFreq" 2>>Every Other Day<<tab>><<radiobutt "$PC.groom.armpitFreq" 3>>Weekly
+<<radiobutt "ↂ.pc.groom.armpitFreq" 0>>Never<<tab>><<radiobutt "ↂ.pc.groom.armpitFreq" 1>>Daily<<tab>><<radiobutt "ↂ.pc.groom.armpitFreq" 2>>Every Other Day<<tab>><<radiobutt "ↂ.pc.groom.armpitFreq" 3>>Weekly
 </td></tr>
 <tr><td class="head4">
-Pube Grooming Frequency
+Bikini (groin) Shaving Frequency
 </td><td colspan=2>
-<<radiobutt "$PC.groom.pubeFreq" 0>>Never<<tab>><<radiobutt "$PC.groom.pubeFreq" 1>>Daily<<tab>><<radiobutt "$PC.groom.pubeFreq" 2>>Every Other Day<<tab>><<radiobutt "$PC.groom.pubeFreq" 3>>Weekly
+<<radiobutt "ↂ.pc.groom.bikiniFreq" 0>>Never<<tab>><<radiobutt "ↂ.pc.groom.bikiniFreq" 1>>Daily<<tab>><<radiobutt "ↂ.pc.groom.bikiniFreq" 2>>Every Other Day<<tab>><<radiobutt "ↂ.pc.groom.bikiniFreq" 3>>Weekly
+</td></tr>
+<tr><td class="head4">
+Pube Grooming (trimming/shaving) Frequency
+</td><td colspan=2>
+<<radiobutt "ↂ.pc.groom.pubeFreq" 0>>Never<<tab>><<radiobutt "ↂ.pc.groom.pubeFreq" 1>>Daily<<tab>><<radiobutt "ↂ.pc.groom.pubeFreq" 2>>Every Other Day<<tab>><<radiobutt "ↂ.pc.groom.pubeFreq" 3>>Weekly
 </td></tr>
 <tr><td class="head4">
 Tooth Brushing Frequency
 </td><td colspan=2>
-<<radiobutt "$PC.groom.toothbrush" 0>>Never<<tab>><<radiobutt "$PC.groom.toothbrush" 1>>Twice a Day<<tab>><<radiobutt "$PC.groom.toothbrush" 2>>Daily<<tab>><<radiobutt "$PC.groom.toothbrush" 3>>Every Other Day
+<<radiobutt "ↂ.pc.groom.toothbrush" 0>>Never<<tab>><<radiobutt "ↂ.pc.groom.toothbrush" 1>>Twice a Day<<tab>><<radiobutt "ↂ.pc.groom.toothbrush" 2>>Daily<<tab>><<radiobutt "ↂ.pc.groom.toothbrush" 3>>Every Other Day
 </td></tr>
 </table>
 
 
-<span id="orideoutput">Frequency Override</span><br>
-<span id="legbutt"><<button "Shave Legs">><<replace "#orideoutput">>You will shave your legs the next time you take a shower.<</replace>><<replace "#legbutt">><span class="disabled"><<button "Shave Legs">><</button>></span><</replace>><</button>></span><<sp 2>>
-<span id="armbutt"><<button "Shave Armpits">><<replace "#orideoutput">>You will shave your armpits the next time you take a shower.<</replace>><<replace "#armbutt">><span class="disabled"><<button "Shave Armpits">><</button>></span><</replace>><</button>></span><<sp 2>>
-<span id="vagbutt"><<button "Groom Pubic Hair">><<replace "#orideoutput">>You will groom your pubic hair the next time you take a shower.<</replace>><<replace "#vagbutt">><span class="disabled"><<button "Groom Pubic Hair">><</button>></span><</replace>><</button>></span>

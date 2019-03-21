@@ -2,7 +2,7 @@
 
 
 <<silently>>
-<<set _barnone = "<ul id='skill' class='megrim noDisplay' style='width:80%;text-align:left;margin:0;'><li><span id='pBar' class='bar' style='width:0%; background-color:#35d3ff;'></span><p class='bartext megrim white'><span id='pBarText' style='font-size:130%;font-weight:bold;'>Progress:</span></p></li></ul>">>
+<<set _barnone = "<ul id='skill' class='megrim noDisplay' style='width:80%;text-align:left;margin:0;'><li><span id='pBar' class='bar' style='width:0%; background-color:#35d3ff;'></span><p class='bartext megrim white'><span id='pBarText' style='font-size:1.3rem;font-weight:bold;'>Progress:</span></p></li></ul>">>
 <<set _barprog = 0>>
 <<set _count = 0>>
 <</silently>>
@@ -48,14 +48,14 @@ function proccer() {
       }
     } else {
       $("#outputcodeblock").prepend(`Sorry, ${cock[i].name} isn't a valid filename, and will be skipped. Use only .awr files.`);
-      alert(`Sorry, ${cock[i].name} isn't a valid filename, and will be skipped. Use only .awr files.`);
+      UI.alert(`Sorry, ${cock[i].name} isn't a valid filename, and will be skipped. Use only .awr files.`);
       setup.fwait -= 1;
     }
   }
   let usl = usFiles.length;
   if (usl > 0) {
     $("#outputcodeblock").prepend(`<span class="import">Preparing load of ${usl} overwrite awr files.</span>`);
-    setTimeout(proccerTwo(usFiles), 2000);
+    setTimeout(() => proccerTwo(usFiles), 2000);
   }
 }
 
@@ -68,7 +68,7 @@ function proccerTwo(files) {
 proccer();
 <</script>>
 <<procE>>
-<</button>><<button "Cancel">><<goto [[Start]]>><</button>><br>[img[IMG_AWRfile]]</span>
+<</button>><<button "Cancel">><<go Start>><</button>><br>[img[IMG_AWRfile]]</span>
 <<print _barnone>>
 </center>
 </div>

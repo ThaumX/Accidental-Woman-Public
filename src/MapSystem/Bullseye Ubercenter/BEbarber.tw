@@ -12,7 +12,7 @@
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p><<walkDescriptBullseye>> <<mapEventBullseye>></p>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
-<p class="weather-disc"><<switch $map.weather>>
+<p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
 
 <<case "sct">>
@@ -40,22 +40,25 @@
 <<default>>
 
 <</switch>>
-Some kind of magic is keeping all of Muschi Valley blessed with perfect weather. (Weather not yet implemented.)
+<<print setup.weather.curWeather()>>
 </p>
 /*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
 @@.head3;Y@@ou're standing in front of a bunch of registers, near a small Unisex hair salon. At the very front is a rental space occupied by a place called "@@.ident;BEST HEAD!@@". Upon closer inspection it appears to be a hair salon rather than massage parlor.
 <br>
 /*IN-PASSAGE span text*/
 <span id="locact"></span>
+<<selfthought>>
 <<mapRoll>>
 </div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise hovEnterBH>>
-	<<button "Enter BEST HEAD">><<dialog "BEST HEAD - Barbershop">>You walk into the salon and take a number to [[wait for your turn|BestHeadSalon]] (apx @@.ident;<<=$map.dice>>@@ minutes). A sign helpfully describes the available services, which include hair cuts, extensions, Fro-Gain hair growth treatment, and general hair styling. As this is a unisex salon, it doesn't seem to offer some of the more detailed services like waxing.<</dialog>><</button>>
+	<<button "Enter BEST HEAD">><<dialog "BEST HEAD - Barbershop">>You walk into the salon and take a number to [[wait for your turn|BestHeadSalon]] (apx @@.ident;<<=ↂ.map.dice>>@@ minutes). A sign helpfully describes the available services, which include hair cuts, extensions, Fro-Gain hair growth treatment, and general hair styling. As this is a unisex salon, it doesn't seem to offer some of the more detailed services like waxing.<</dialog>><</button>>
 <<endhoverrevise>>
-
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
 <<hoverrevise hovCart>>
 	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
 <<endhoverrevise>>
@@ -65,6 +68,7 @@ Some kind of magic is keeping all of Muschi Valley blessed with perfect weather.
 <div id="actionInfo">
 <<insertion hovEnterBH>>@@.exp;Take a look inside the hair salon, and see what the wait is like.@@<<endinsertion>>
 <<insertion hovCart>>@@.exp;launches a popup that contains an ordered list of all the items in your cart, along with the price (prior to member discount). @@<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
 /*this contains randomized event options that will print inside the related spans*/

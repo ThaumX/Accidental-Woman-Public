@@ -1,0 +1,735 @@
+/*
+. ████████╗███████╗██╗  ██╗████████╗    ███████╗████████╗██╗   ██╗██╗     ███████╗
+. ╚══██╔══╝██╔════╝╚██╗██╔╝╚══██╔══╝    ██╔════╝╚══██╔══╝╚██╗ ██╔╝██║     ██╔════╝
+.    ██║   █████╗   ╚███╔╝    ██║       ███████╗   ██║    ╚████╔╝ ██║     █████╗
+.    ██║   ██╔══╝   ██╔██╗    ██║       ╚════██║   ██║     ╚██╔╝  ██║     ██╔══╝
+.    ██║   ███████╗██╔╝ ██╗   ██║       ███████║   ██║      ██║   ███████╗███████╗
+.    ╚═╝   ╚══════╝╚═╝  ╚═╝   ╚═╝       ╚══════╝   ╚═╝      ╚═╝   ╚══════╝╚══════╝
+*/
+
+
+/*************************************************
+  HTML ELEMENT & MAIN AREA FONT STYLES
+*************************************************/
+
+body {
+  font-size: inherit;
+}
+
+html {
+  font-family: $fontHumanist;
+  font-size: 40px;
+}
+
+dt {
+  font-size: 1.15rem;
+  font-weight: bold;
+  font-family: $fontEmphasis;
+}
+
+p {
+  font-family: $fontHumanist;
+  text-align: justify;
+}
+
+a {
+  color: #7fffee;
+  font-family: $fontPrint;
+}
+
+input {
+  line-height: normal;
+}
+
+.dlist dt {
+  font-weight: bold;
+  font-size: 1.15rem;
+}
+
+dl.heads dt {
+  font-family: $fontEmphasis;
+  font-size: 1.15rem;
+  color: rgb(131, 218, 255);
+}
+
+.passage {
+  font-family: $fontHumanist;
+  font-size: 1rem;
+}
+
+#story-caption {
+  color: #eae5d7;
+  font-family: $fontHumanist;
+  font-size: 1rem;
+}
+
+#story {
+  font-family: $fontHumanist;
+  font-size: inherit;
+}
+
+#passages {
+  font-family: $fontHumanist;
+  font-size: 1rem;
+}
+
+#ui-bar {
+  font-family: $fontLabel;
+  font-size: 18px;
+}
+
+#ui-bar-tray {
+  font-family: $fontLabel;
+  font-size: 18px
+}
+
+#ui-bar-body {
+  line-height: 1.5;
+  font-family: $fontLabel;
+  font-size: 18px;
+}
+
+#story-subtitle {
+  font-family: $fontNiceHumanist;
+  font-size: 18px
+}
+
+#StoryTitleBanner {
+  font-weight: 900;
+  color: $cAW;
+  font-family: $fontTitle;
+  font-size: 30px;
+}
+
+#story-author {
+  font-weight: bold;
+  font-family: $fontPrint;
+  font-size: 18px
+}
+
+#ui-bar a {
+  text-decoration: none;
+  font-family: $fontLabel;
+  font-size: 16px;
+}
+
+
+/*************************************************
+  SPECIAL GAME TEXT
+*************************************************/
+
+.awtheme {
+  color: $cAW;
+}
+
+.bigmoney {
+  color: $cMoney;
+  font-family: $fontMonospace;
+  font-size: 1.3rem;
+}
+
+.money {
+  color: $cMoney;
+  font-family: $fontMonospace;
+}
+
+.ident {
+  color: $cIdent;
+  font-family: $fontSans;
+}
+
+.idcol {
+  color: $cIdent;
+}
+
+.import {
+  color: $cImportant;
+}
+
+.head {
+  color: $cHeader;
+}
+
+.change {
+  color: $cChange;
+}
+
+.good {
+  color: $cGood;
+}
+
+.bad {
+  color: $cBad;
+}
+
+.vbad {
+  color: $cBad;
+}
+
+.peepgood {
+  color: $cPeepGood;
+}
+
+.peepbad {
+  color: $cPeepBad;
+}
+
+.ship {
+  color: $cCommentary;
+}
+
+.besty {
+  color: $cBesty;
+}
+
+.pc,
+.pc p {
+  color: $cPC;
+  font-family: $fontSans;
+  a {
+    text-decoration: underline;
+  }
+}
+
+.npc,
+.npc p {
+  color: $cNPC;
+  font-family: $fontSans;
+  a {
+    text-decoration: underline;
+  }
+}
+
+.mono,
+.mono p {
+  color: $cPC;
+  font-family: $fontHandMessy;
+  a {
+    text-decoration: underline;
+  }
+}
+
+.writing {
+  font-family: $fontHandMessy;
+  /*font-weight: bold;*/
+}
+
+span.sthought {
+  display: block;
+  margin: 15px 0px 10px 35px;
+  font-size: 1.1rem;
+  color: $cPC;
+  font-family: $fontHandMessy;
+  text-align: center;
+}
+
+.inst {
+  font-size: 0.95rem;
+  color: $cInstruct;
+  font-family: $fontPrint;
+}
+
+.link,
+.link-external {
+  color: $cComputer;
+  font-size: 1.1rem;
+  font-family: $fontNiceHumanist;
+}
+
+.head1 {
+  font-size: 1.55rem;
+  color: $cHeader;
+  font-family: $fontNiceHumanist;
+}
+
+.head2 {
+  font-size: 1.4rem;
+  color: $cHeader;
+  font-family: $fontNiceHumanist
+}
+
+.head3 {
+  font-size: 1.25rem;
+  color: $cHeader;
+  font-family: $fontNiceHumanist;
+}
+
+.head4 {
+  font-size: 1.1rem;
+  color: $cHeader;
+  font-family: $fontNiceHumanist;
+}
+
+h1 {
+  color: $cHeader;
+  font-family: $fontNiceHumanist;
+  font-size: 1.55rem;
+}
+
+h2 {
+  color: $cHeader;
+  font-family: $fontNiceHumanist;
+  font-size: 1.4rem;
+}
+
+h3 {
+  color: $cHeader;
+  font-family: $fontNiceHumanist;
+  font-size: 1.25rem;
+}
+
+h4 {
+  color: $cHeader;
+  font-family: $fontNiceHumanist;
+  font-size: 1.1rem;
+}
+
+h5 {
+  color: $cHeader;
+  font-family: $fontNiceHumanist;
+  font-size: 0.95rem;
+}
+
+h6 {
+  color: $cHeader;
+  font-family: $fontNiceHumanist;
+  font-size: 0.8rem;
+}
+
+.note {
+  font-size: 0.8rem;
+  color: white;
+  font-family: $fontSans;
+  font-weight: light;
+}
+
+.note a {
+  font-size: 0.8rem;
+  font-family: $fontSans;
+}
+
+.exp {
+  font-size: 0.95rem;
+  color: $cExplain;
+  font-family: $fontSans;
+}
+
+.weather-disc {
+  font-size: 0.95rem;
+  font-family: $fontSans;
+  color: #bbb;
+  font-style: italic;
+}
+
+.exp a {
+  font-size: 0.95rem;
+  font-family: $fontSans;
+}
+
+.big {
+  font-size: 1.2rem;
+}
+
+.big a {
+  font-size: 1.2rem;
+}
+
+.big button {
+  font-size: 1.5rem;
+}
+
+.com {
+  color: $cCommentary;
+  font-size: 1.1rem;
+  font-family: $fontCurly;
+}
+
+.commentary {
+  width: 80%;
+  text-align: justify;
+}
+
+.clock {
+  color: $cWhite;
+  font-size: 1.2rem;
+  font-family: $fontMonospace;
+}
+
+.warn {
+  font-family: $fontLabel;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black, 0px 0px 3px black;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: $cWarning;
+}
+
+.sceneauthor {
+  font-size: 0.95rem;
+  color: white;
+  font-family: $fontNiceHumanist;
+}
+
+.smallauthor {
+  font-size: 0.85rem;
+  color: white;
+  font-family: $fontNiceHumanist;
+}
+
+.ctn {
+  font-family: $fontComputer;
+  font-size: 1rem;
+  color: #7ddcfc;
+}
+
+#guideText {
+  font-family: $fontHumanist;
+}
+
+#guideLinks {
+  font-size: 1rem;
+  font-family: $fontLabel;
+}
+
+#guideLinks a {
+  font-family: $fontLabel;
+}
+
+.linkencyclo a {
+  color: #a5e4ff;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: $fontEmphasis;
+}
+
+div#guidewindow {
+  color: #DDDDDD;
+}
+
+div#guidewindow div#guideLinks {
+  font-size: 0.9rem;
+  font-family: $fontLabel;
+}
+
+div#guidewindow div#guideLinks a {
+  font-family: $fontLabel;
+}
+
+div#guidewindow div#guideText {
+  font-family: $fontSans;
+}
+
+.storeitem {
+  font-family: $fontNiceHumanist;
+  font-size: 1.1rem;
+  color: #caffed;
+}
+
+.warnButton button {
+  border-color: $cDarkWarn !important;
+  color: $cDarkWarn !important;
+}
+
+.warnButton button:hover {
+  border-color: $cWarning !important;
+  background-color: $cWarning !important;
+  color: #fffb15 !important;
+}
+
+
+/*************************************************
+  FONT/TYPEFACE CLASSES
+*************************************************/
+
+.walter,
+.walter a,
+.walter p {
+  font-family: $fontPrint;
+}
+
+.lato,
+.lato a,
+.lato p {
+  font-family: $fontNiceHumanist;
+}
+
+.megrim,
+.megrim a,
+.megrim p,
+.megrim h1,
+.megrim h2,
+.megrim h3,
+.megrim h4,
+.megrim h5,
+.megrim h6 {
+  font-family: $fontTitle;
+}
+
+.print,
+.print a,
+.print p {
+  font-family: $fontPrint;
+}
+
+
+.monospace,
+.monospace a,
+.monospace p {
+  font-family: $fontMonospace;
+}
+
+.handwriting,
+.handwriting a,
+.handwriting p {
+  font-family: $fontHand;
+}
+
+.quest,
+.quest a,
+.quest p {
+  font-family: $fontSans;
+}
+
+.gab,
+.gab a,
+.gab p {
+  font-family: $fontCurly;
+}
+
+.alme,
+.alme a,
+.alme p {
+  font-family: $fontArab;
+}
+
+.tit,
+.tit a,
+.tit p {
+  font-family: $fontLabel;
+}
+
+.ctext,
+.ctext a,
+.ctext p {
+  font-family: $fontComputer;
+  font-size: 1.2rem;
+  h1 {
+    font-size: 1.5rem;
+  }
+  h2 {
+    font-size: 1.4rem
+  }
+  h3 {
+    font-size: 1.3rem
+  }
+}
+
+
+/*************************************************
+  TEXT ALIGNMENT CLASSES
+*************************************************/
+
+.justify {
+  text-align: justify !important;
+}
+
+.center {
+  text-align: center !important;
+}
+
+.right {
+  text-align: right !important;
+}
+
+.left {
+  text-align: left !important;
+}
+
+
+/*************************************************
+  FONT SIZE OVERRIDE CLASSES
+*************************************************/
+
+.px10,
+.px10 a,
+.px10 input {
+  font-size: 0.5rem !important;
+}
+
+.px12,
+.px12 a,
+.px12 input {
+  font-size: 0.6rem !important;
+}
+
+.px14,
+.px14 a,
+.px14 input {
+  font-size: 0.7rem !important;
+}
+
+.px16,
+.px16 a,
+.px16 input {
+  font-size: 0.8rem !important;
+}
+
+.px18,
+.px18 a,
+.px18 input {
+  font-size: 0.9rem !important;
+}
+
+.px20,
+.px20 a,
+.px20 input {
+  font-size: 1rem !important;
+}
+
+
+
+/*************************************************
+  BASIC COLOR CLASSES
+*************************************************/
+
+.aquamarine {
+  color: $cAquaMarine
+}
+
+.coral {
+  color: $cCoral
+}
+
+.cyan {
+  color: $cCyan
+}
+
+.darkgoldenrod {
+  color: $cDarkGoldrod
+}
+
+.darkred {
+  color: $cDarkRed
+}
+
+.darkviolet {
+  color: $cDarkViolet
+}
+
+.deeppink {
+  color: $cDeepPink
+}
+
+.gold {
+  color: $cGold
+}
+
+.goldenrod {
+  color: $cGoldrod
+}
+
+.gray, .grey {
+  color: $cGrey
+}
+
+.darkgreen {
+  color: $cDarkGreen
+}
+
+.green {
+  color: $cGreen
+}
+
+.blue {
+  color: $cHeader
+}
+
+.pink {
+  color: $cHeader
+}
+
+.lawngreen {
+  color: $cLawn
+}
+
+.lightcoral {
+  color: $cLiteCoral
+}
+
+.lightgreen {
+  color: $cLightGreen
+}
+
+.lightgrey {
+  color: $cLightGrey;
+}
+
+.lightpink {
+  color: $cLightPink
+}
+
+.lightsalmon {
+  color: $cLightSalmon
+}
+
+.lime {
+  color: $cLime
+}
+
+.magenta {
+  color: $cMagenta
+}
+
+.aqua {
+  color: $cAqua
+}
+
+.mediumorchid, .purple {
+  color: $cPurple
+}
+
+.mediumseagreen, .seagreen {
+  color: $cSea
+}
+
+.orange {
+  color: $cOrange
+}
+
+.orangered {
+  color: $cOrangeRed
+}
+
+.orchid {
+  color: orchid
+}
+
+.red {
+  color: $cRed
+}
+
+.darksea {
+  color: $cDarkSea
+}
+
+.springgreen, .spring {
+  color: $cSpring
+}
+
+.tan {
+  color: $cTan
+}
+
+.yellow {
+  color: $cYellow;
+}
+
+.yellowgreen {
+  color: $cYellowGreen
+}
+
+.white {
+  color: $cWhite
+}
+
+
+

@@ -1,0 +1,67 @@
+
+
+:: DowntownMallPeeper [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmall]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+/*<p><<walkDescriptDowntown>> <<mapEventDowntown>></p>*/
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<div id="storeWindow">
+[img[IMG-Peeper-Cineplex]]
+[img[IMG-Movie-HowToTrain]]
+</div>
+<p class="weather-disc">
+<<print setup.weather.curWeather()>>
+</p>
+<p>
+@@.head3;A@@fter making your way up the escalator to the second floor, you find yourself in a reasonably-sized lobby overlooking the food court. The lobby contains a ticket booth on the far wall along with the entrance to the cineplex, one wall is dedicated to posters of the "Now-Playing" movies, and there is also a few chairs and small tables to relax or wait for friends. The Now-Playing wall is currently decorated with a banner that says "Classic Film Exposé: Take A Peek!"
+</p>
+<p id="locact"></p><<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Buy Tickets">><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "Now-Playing">><<addTime 5>><<dialog "Now Playing">>You walk along the wall and take a look at all the now-playing posters. @@.mono;This classic film thing looks pretty interesting. I don't know how many times I've seen the reference '<i>cumming like in the sexorcist</i>,' but I've never actually watched the film...@@<br><center>
+  [img[IMG-MoviePosters-DongoftheDead]] [img[IMG-MoviePosters-Sexorcist]] [img[IMG-MoviePosters-Ejacula]] [img[IMG-MoviePosters-Cockfest]] [img[IMG-MoviePosters-SpaceOrgy]] [img[IMG-MoviePosters-UncleFuck]] [img[IMG-MoviePosters-FillBill]]<br>@@.mono;And this one is a new blockbuster I guess...@@<br>[img[IMG-MoviePosters-Icedildo]]
+  </center>
+  <</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>@@.import;[Not Implemented]@@ Buy tickets to see a movie.<<endinsertion>>
+<<insertion beta>>Check out the posters on the now-playing wall to see what movies are available to watch. [5 minutes]<<endinsertion>>
+<<insertion delta>>A<<endinsertion>>
+<<insertion gamma>>A<<endinsertion>>
+<<insertion lambda>>O<<endinsertion>>
+<<insertion phi>>A<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+  <<mapEventDowntownAct>>
+<</timed>>
+
+
+:: DowntownMallPeeperLOC [nobr]
+
+You notice a young woman who seems to be waiting for a friend or date to show up. She seems rather bored, and has slipped off her shoes to put her feet up on the chair. She's swinging her knees open and closed, likely in time to the beat of some music. She either forgot that she's not wearing panties or pants, or simply doesn't care that she's exposing herself so boldly.<br>
+<center>[img[IMG-Mall-exhib5]]</center>
+
+

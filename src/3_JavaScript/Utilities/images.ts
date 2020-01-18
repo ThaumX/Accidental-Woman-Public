@@ -177,7 +177,11 @@ setup.newImageLoader = function(): void {
     let j: number = 0;
     (function loadImage() {
       if (keys[j] !== "imgCount" && keys[j] !== "fVer") {
-        aw.imagedata[keys[j]] = window[dataName][keys[j]];
+        if (aw.imagedata[keys[j]] == null) {
+          aw.imagedata[keys[j]] = window[dataName][keys[j]];
+        } else {
+          aw.con.warn(`Existing image with key found for key ${keys[j]}. Using existing image data`);
+        }
         setup.loadcunt ++;
       } else if (keys[j] === "imgCount") {
         asa[0] = window[dataName][keys[j]];
@@ -242,6 +246,10 @@ setup.newImageLoader = function(): void {
     setup.imageloaded = true;
     State.active.variables.imageloaded = true;
     setup.totalloadedimages = Object.keys(aw.imagedata).length;
+    if (setup.totalloadedimages < setup.loadcunt) {
+      aw.con.info(`IMAGES: ${setup.loadcunt - setup.totalloadedimages} duplicated image key in resource files. two images have the same key.`);
+      setup.totalloadedimages = setup.loadcunt;
+    }
     if (setup.totalloadedimages < setup.expectedImageLength) {
       let ex = false;
       if (State.active.variables.swim === "[dev]") {
@@ -250,7 +258,7 @@ setup.newImageLoader = function(): void {
         ex = true;
       }
       if (ex) {
-        aw.replace("#testingloaderdiv", `<div style='position:fixed;top:10%;bottom:10%;left:10%;right:10%;z-index:99999999;background-color:#222;color:#ffce54;border-width:4px;border-style:solid:border-color:#ffce54;border-radius:10px;padding:15px;text-align:justify;font-size:22px;font-family:Questrial;'><<include [[StartTooFewImagesWarning]]>><div style="position:absolute;height:35px;bottom:3px;left:10px;">Images P:${counters[0]} A:${counters[1]} B:${counters[2]} C:${counters[3]} D:${counters[4]} E:${counters[5]} F:${counters[6]}</div></div>`);
+        aw.replace("#testingloaderdiv", `<div style='position:fixed;top:10%;bottom:10%;left:10%;right:10%;z-index:99999999;background-color:#222;color:#ffce54;border-width:4px;border-style:solid:border-color:#ffce54;border-radius:10px;padding:15px;text-align:justify;font-size:22px;font-family:Questrial;'><<include [[StartTooFewImagesWarning]]>><div style="position:absolute;height:35px;bottom:3px;left:10px;">Images P1:${counters[0]} P2:${counters[1]} A:${counters[2]} B:${counters[3]} C:${counters[4]} D:${counters[5]} E:${counters[6]} F:${counters[7]}</div></div>`);
         return;
       }
     }

@@ -1,0 +1,103 @@
+:: HomeControlMenu [nobr hidden]
+
+<<timed 50ms>>
+<<switch ↂ.home.stats.tier>>
+  <<case 1>>
+    <<run setup.drag.create(true,{ident:"owned",max:false,min:false},{ident:"trash",max:false,min:false},{ident:"living",max:8,min:false},{ident:"kitchen",max:3,min:false},{ident:"foyer",max:2,min:false},{ident:"bedroom",max:6,min:false},{ident:"bath",max:3,min:false},{ident:"balcony",max:2,min:false})>>
+  <<case 2>>
+    <<run setup.drag.create(true,{ident:"owned",max:false,min:false},{ident:"trash",max:false,min:false},{ident:"living",max:10,min:false},{ident:"kitchen",max:6,min:false},{ident:"foyer",max:3,min:false},{ident:"bedroom",max:8,min:false},{ident:"bath",max:4,min:false},{ident:"balcony",max:4,min:false})>>
+  <<case 3>>
+    <<run setup.drag.create(true,{ident:"owned",max:false,min:false},{ident:"trash",max:false,min:false},{ident:"living",max:12,min:false},{ident:"kitchen",max:8,min:false},{ident:"foyer",max:4,min:false},{ident:"bedroom",max:10,min:false},{ident:"bath",max:5,min:false},{ident:"balcony",max:5,min:false},{ident:"bed2",max:8,min:false})>>
+<</switch>>
+<<run setup.drag.homeListener()>>
+<</timed>>
+<<switch ↂ.home.stats.tier>>
+  <<case 1>>
+    <<set _k = [8,3,2,6,3,2,"N/A","N/A"]>>
+  <<case 2>>
+    <<set _k = [10,6,3,8,4,4,"N/A","N/A"]>>
+  <<case 3>>
+    <<set _k = [12,8,4,10,5,5,8,"N/A"]>>
+<</switch>>
+<div id="homeBackground" class="menu-bg zoomInUp animated">
+<div id="mainDisp" class="menu-main">
+  <div class="homeLabel">
+    <<button "EXIT">><<run aw.drake.destroy()>><<set aw.drake = 0>><<set ↂ.home.item.trash = []>><<status 0>><<animexit "homeBackground" "zoomInUp" "zoomOutDown" "invHolder">><</button>><<tab>><span style="font-size:30px;">Home Inventory:</span><br>
+    <<info "Home Items Guide" "guideHomeInventory">><br>
+  </div>
+  <div class="bigCuntainer">
+    Your Inventory [∞]
+  </div>
+  <div id="owned" class="dragZone homeInven">
+  <<print setup.drag.formatHome(ↂ.home.item.owned)>>
+  </div>
+
+  <div id="trash" class="dragZone homeTrash" style="top: 30px; left: 430px;">
+  </div>
+
+  <div class="cuntainer" style="top:15px;left:560px;">
+    Living Room [<<= _k[0]>>]
+  </div>
+  <div id="living" class="dragZone homeLiving" style="top:50px;left:560px;">
+  <<print setup.drag.formatHome(ↂ.home.item.living)>>
+  </div>
+
+  <div class="cuntainer" style="top:15px;left:850px;">
+    Kitchen [<<= _k[1]>>]
+  </div>
+  <div id="kitchen" class="dragZone homeKitchen" style="top:50px;left:850px;">
+  <<print setup.drag.formatHome(ↂ.home.item.kitchen)>>
+  </div>
+
+  <div class="cuntainer" style="top:15px;left:1140px;">
+    Foyer [<<= _k[2]>>]
+  </div>
+  <div id="foyer" class="dragZone homeFoyer" style="top:50px;left:1140px;">
+  <<print setup.drag.formatHome(ↂ.home.item.foyer)>>
+  </div>
+
+  <div class="cuntainer" style="top:415px;left:560px;">
+    Bedroom [<<= _k[3]>>]
+  </div>
+  <div id="bedroom" class="dragZone homeBedroom" style="top:450px;left:560px;">
+  <<print setup.drag.formatHome(ↂ.home.item.bedroom)>>
+  </div>
+
+  <div class="cuntainer" style="top:415px;left:850px;">
+    Bathroom [<<= _k[4]>>]
+  </div>
+  <div id="bath" class="dragZone homeBath" style="top:450px;left:850px;">
+  <<print setup.drag.formatHome(ↂ.home.item.bath)>>
+  </div>
+
+  <div class="cuntainer" style="top:15px;left:1430px;">
+    Balcony [<<= _k[5]>>]
+  </div>
+  <div id="balcony" class="dragZone homeBalcony" style="top:50px;left:1430px;">
+  <<print setup.drag.formatHome(ↂ.home.item.balcony)>>
+  </div>
+
+  <div class="cuntainer" style="top:415px;left:1140px;opacity:0.6;">
+    Bedroom Two [<<= _k[6]>>]
+  </div>
+  <div id="bed2" class="dragZone homeBed2" style="top:450px;left:1140px;opacity:0.6;">
+  </div>
+
+  <div class="cuntainer" style="top:415px;left:1430px;opacity:0.6;">
+    Bedroom Three [<<= _k[7]>>]
+  </div>
+  <div id="bed3" class="dragZone homeBed3" style="top:450px;left:1430px;opacity:0.6;">
+  </div>
+
+</div>
+</div>
+
+
+:: HomeControlMenuScreenReader [nobr hidden]
+
+<<timed 50ms>>
+<<info "Home Items Guide" "guideHomeInventory">><br>
+<<print setup.access.homeItemList()>>
+<br>
+<<button "Exit">><<go returner>><</button>>
+<</timed>>

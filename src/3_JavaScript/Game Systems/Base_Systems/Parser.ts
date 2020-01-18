@@ -30,7 +30,7 @@ Macro.add("p", {
       out = aw.parse(-1, this.args[0]);
     }
     if (out == null || out === false) {
-      out = "[PARSE ERROR: no return value]";
+      out = `[PARSE ERROR: no return value "${this.args[0]}"]`;
     }
     return new Wikifier(this.output, out);
   },
@@ -52,7 +52,7 @@ Macro.add("w", {
       out = aw.parse("word", this.args[0]);
     }
     if (out == null || out === false) {
-      out = "[PARSE ERROR: no return value]";
+      out = `[PARSE ERROR: no return value "${this.args[0]}"]`;
     }
     return new Wikifier(this.output, out);
   },
@@ -92,11 +92,74 @@ Macro.add("n", {
       out = aw.parse(npc, this.args[1]);
     }
     if (out == null || out === false) {
-      out = "[PARSE ERROR: no return value]";
+      out = `[PARSE ERROR: no return value "${this.args[1]}"]`;
     }
     return new Wikifier(this.output, out);
   },
 });
+
+/* --------------------------------------------------
+    Handy Macros!
+-------------------------------------------------- */
+
+Macro.add("he", {
+  handler() {
+    if (this.args.length > 1) {
+      return this.error("The he macro requires a single argument, the npcid. <<he npcid>>");
+    }
+    let arg;
+    if (this.args.length === 1) {
+      arg = this.args[0];
+    } else if (State.temporary.t != null) {
+      arg = State.temporary.t;
+    } else {
+      return this.error("The he macro requires a single argument, the npcid. <<he npcid>>");
+    }
+    const out = aw.parse(arg, "heshe.q");
+    return new Wikifier(this.output, out);
+  },
+});
+
+Macro.add("him", {
+  handler() {
+    if (this.args.length > 1) {
+      return this.error("The he macro requires a single argument, the npcid. <<he npcid>>");
+    }
+    let arg;
+    if (this.args.length === 1) {
+      arg = this.args[0];
+    } else if (State.temporary.t != null) {
+      arg = State.temporary.t;
+    } else {
+      return this.error("The he macro requires a single argument, the npcid. <<he npcid>>");
+    }
+    const out = aw.parse(arg, "himher.q");
+    return new Wikifier(this.output, out);
+  },
+});
+
+Macro.add("his", {
+  handler() {
+    if (this.args.length > 1) {
+      return this.error("The he macro requires a single argument, the npcid. <<he npcid>>");
+    }
+    let arg;
+    if (this.args.length === 1) {
+      arg = this.args[0];
+    } else if (State.temporary.t != null) {
+      arg = State.temporary.t;
+    } else {
+      return this.error("The he macro requires a single argument, the npcid. <<he npcid>>");
+    }
+    const out = aw.parse(arg, "hisher.q");
+    return new Wikifier(this.output, out);
+  },
+});
+
+
+/*************************************************
+    MAIN FUNCTION
+*************************************************/
 
 aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
   let ᛔ = State.active.variables; // sortcut reference
@@ -188,6 +251,8 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
           return noun.mouth();
         case "belly":
           return noun.belly();
+        default:
+          return `parser error - ${cmd}.n function unavailable`;
       }
     } else if (func === "desc" || func === "d") {
       // detailed description
@@ -270,7 +335,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         case "wet":
         case "curwet":
         case "curwetness":
-          return status.wetness(v, m);
+          return qual.curwet(v, m);
         case "labia":
           return qual.labia(v, m);
         case "clitview":
@@ -289,6 +354,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         case "nipwidth":
         case "nipw":
           return qual.nipWidth(v, m);
+        case "areola":
         case "areolasize":
         case "areolawidth":
           return qual.areolaSize(v, m);
@@ -370,6 +436,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         case "cocklong":
           return qual.cockLength(v, m);
         case "ballsize":
+        case "balls":
           return qual.ballSize(v, m);
         case "ballsack":
           return qual.ballsack(v, m);
@@ -403,6 +470,12 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
           return qual.energy(v, m);
         case "health":
           return qual.health(v, m);
+        case "pregBelly":
+        case "pregbelly":
+          return qual.pregBelly(v, m);
+        case "babysize":
+        case "babySize":
+          return qual.babySize(v, m);
         case "makeup":
           return qual.makeup(v, m);
         case "makeuplip":
@@ -430,11 +503,17 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         case "clothese":
         case "clothesx":
           return qual.clothesExp(v, m);
+        case "tail":
+        case "tailDesc":
+          return qual.tail_descript(v, m);
+        case "ear":
+        case "ears":
+          return qual.ear_descript(v, m);
         case "qual":
           ar = Object.keys(qual);
           return `There are ${ar.length} qualitative parser functions.`;
         default:
-          return `parser error - ${cmd} function unavailable`;
+          return `parser error - ${cmd}.s function unavailable`;
       }
     } else if (func === "none") {
       // standard description
@@ -445,7 +524,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         case "tits":
         case "breasts":
         case "boobs":
-          return comp.breasts();
+          return qual.COMP_breasts();
       }
     } else {
       return `[Parsing Error: bad command function {${func}}]`;
@@ -454,8 +533,14 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
   /******************************************************
    * Section for compound word functions
    * ****************************************************/
-  const comp = {
-    breasts() {
+  const compound = {}; // neutered due to uglifyJS issues
+  /******************************************************
+   * Section for single word functions
+   * ****************************************************/
+  const adj = {};
+  /*SIZE LIBRARY*/
+  const qual = {
+    COMP_breasts(): string {
       let non;
       let size;
       if (target.status.milk > 0 && random(1, 2) === 2) {
@@ -472,66 +557,48 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       }
       return size + non;
     },
-  };
-  /******************************************************
-   * Section for single word functions
-   * ****************************************************/
-  const status = {
-    wetness(size, mod = 0) {
-      ᛔ = State.active.variables;
+    tail_descript(size, mod) {
       if (size == null) {
-        size = target.status.wetness;
-        if (ↂ.sex.scene) {
-          if (target.main.id === undefined) {
-            size = ↂ.sex.pcWetness;
-          } else {
-            let nid = ↂ.sex.activeNPC.indexOf(target.main.id);
-            if (nid === -1) {nid = 0; }
-            size = ↂ.sex.npcWetness[nid];
-          }
-        }
+        size = target.body.tail;
       }
-      size = Number(size) + Number(mod);
       switch (size) {
-        case 0:
-          return eth("bone dry", "totally dry");
-        case 1:
-        case 2:
-          return eth({dry: 6, unexcited: 1, unaroused: 1});
-        case 3:
-        case 4:
-          return eth("slightly moist", "slightly damp");
-        case 5:
-        case 6:
-          return eth("moist", "damp");
-        case 7:
-        case 8:
-          return eth("wet", "wet", "ready", "aroused");
-        case 9:
-        case 10:
-          return eth("saturated", "soaked", "soaked");
-        case 11:
-        case 12:
-          return eth("sodden", "drenched", "dripping");
-        case 13:
-        case 14:
-        case 15:
-        case 16:
-          return eth("pouring", "running", "streaming");
-        case 17:
-        case 18:
-        case 19:
-        case 20:
-          return eth("gushing", "flooding", "cascading");
-        default:
-          return "[[55 gallon drum|"
-          + "https://www.amazon.com/Passion-Lubes-Natural-Water-Based-Lubricant/dp/B005MR3IVO?th=1]]";
+        case "none":
+          return "tailless behind";
+        case "cat":
+          return either("agile feline tail", "long furry cat tail");
+        case "dog":
+          return either("short fluffy dog tail", "stout canine tail");
+        case "fox":
+          return either("long fluffy fox tail", "soft poofy fox tail");
+        case "cow":
+          return either("delicate tufted hucow tail", "long hucow tail with a poof at the end");
       }
+      return "[error tail description]";
     },
-  };
-  const adj = {};
-  /*SIZE LIBRARY*/
-  const qual = {
+    ear_descript(size, mod) {
+      if (size == null) {
+        size = target.body.ears;
+      }
+      switch (size) {
+        case "cat":
+          return either("fluffy cat ears", "pointed feline ears") + either(" rest atop your head", " peak out from your hair");
+        case "dog":
+          return either("floppy dog ears", "hairy canine ears") + either(" rest atop your head", " peak out from your hair");
+        case "fox":
+          return either("furry fox ears", "long fox ears") + either(" rest atop your head", " peak out from your hair");
+        case "cow":
+          return either("floppy hucow ears", "delicate hucow ears") + either(" extend from the sides of your head", " peak out from your hair");
+        case "normal":
+          return either("normal ears", "average ears");
+        case "large":
+          return either("big ears", "large ears");
+        case "protruding":
+          return either("protruding ears", "obvious ears");
+        case "cauliflower":
+          return either("cauliflower ears", "boxer's ears");
+      }
+      return "[error ear description]";
+    },
     ass(size, mod = 0) {
       if (size == null) {
         size = target.body.ass;
@@ -630,68 +697,73 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
           return "nonexistent";
         }
         try {
-          size = target.body.tits.lact.cupNum;
+          size = target.body.tits.cupNum;
         } catch (e) {
           size = target.body.tits.cupNum;
         }
       }
       size = Number(size) + Number(mod);
       switch (size) {
-        case 0:
+        case -1: // male
+        case 0: // none
+        case 1: // AA-Cup
           return eth("nonexistent", "flat");
-        case 1:
-        case 2:
+        case 2: // small A-cup
         case 3:
-          return eth("budding", "budding", "minuscule", "washboard");
-        case 4:
+        case 4: // large A-cup
+          return eth("budding", "bee-sting", "minuscule", "washboard");
         case 5:
-        case 6:
-          return eth("tiny", "very small", "insubstantial", "meager");
+        case 6: // B-cup
         case 7:
+          return eth("tiny", "very small", "insubstantial", "meager");
         case 8:
-        case 9:
+        case 9: // C-cup
         case 10:
-        case 11:
           return eth("small", "compact", "underdeveloped");
-        case 12:
+        case 11:
+        case 12: // D-Cup
         case 13:
+          return eth("below-average", "smallish", "disadvantaged");
         case 14:
-          return eth("below-average", "slightly-small", "disadvantaged");
-        case 15:
+        case 15: // E-Cup
         case 16:
+          return eth("average-size", "unexceptional", "normal-size");
         case 17:
-          return eth("average size", "unexceptional", "normal size");
-        case 18:
+        case 18: // F-Cup
         case 19:
         case 20:
-        case 21:
+        case 21: // G-Cup
         case 22:
+          return eth("above-average", "full", "healthy", "full", "ample");
         case 23:
-          return eth("above-average size", "full", "healthy", "full", "ample");
-        case 24:
+        case 24: // H-Cup
         case 25:
         case 26:
-          return eth("large", "big", "heavy", "heavy");
-        case 27:
+        case 27: // I-Cup
         case 28:
+          return eth("large", "big", "heavy", "heavy");
         case 29:
-          return eth("huge", "ponderous", "substantial");
-        case 30:
+        case 30: // J-Cup
         case 31:
         case 32:
-          return eth("enormous", "massive", "gigantic");
-        case 33:
+        case 33: // K-Cup
         case 34:
+          return eth("huge", "ponderous", "substantial");
         case 35:
-        case 36:
+        case 36: // L-Cup
         case 37:
         case 38:
-        case 39:
+        case 39: // M-Cup
         case 40:
         case 41:
-          return eth("titanic", "gargantuan", "humongous");
-        default:
-          return eth("unbelievably-large", "ridiculously-big");
+        case 42: // N-Cup
+        case 43:
+          return eth("enormous", "massive", "gigantic");
+      }
+      if (size < 71) {
+        return eth("titanic", "gargantuan", "humongous");
+      } else {
+        return eth("unbelievably-large", "monsterous", "colossal");
       }
     },
     shoulder(size, mod = 0) {
@@ -963,9 +1035,9 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         case 1:
           return eth("tiny", "vestigial", "miniature");
         case 2:
-          return eth("average-size", "unremarkable", "normal-size");
+          return eth("delicate", "sensitive", "petite");
         case 3:
-          return eth("large", "big", "bigger than usual");
+          return eth("large", "big", "sizeable");
         case 4:
           return eth("huge", "giant", "sizeable");
         case 5:
@@ -991,6 +1063,62 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
           return eth("overly-lubricated", "normally-soaked");
         default:
           return `wetness out of bounds (${size})`;
+      }
+    },
+    curwet(size, mod = 0) {
+      if (size == null) {
+        if (ↂ.sex.scene) {
+          try {
+            if (setup.testes.test(target.main.id)) {
+              let nid = ↂ.sex.activeNPC.indexOf(target.main.id);
+              if (nid === -1) { nid = 0; }
+              size = ↂ.sex.npcWetness[nid];
+            } else {
+              size = ↂ.sex.pcWetness;
+            }
+          } catch (e) {
+            aw.con.warn(`Error retrieving sex wetness.\n ${e.name}: ${e.message}`);
+            size = target.status.wetness;
+          }
+        } else {
+          size = target.status.wetness;
+        }
+      }
+      size = Number(size) + Number(mod);
+      switch (size) {
+        case 0:
+          return eth("bone dry", "totally dry");
+        case 1:
+        case 2:
+          return eth({ dry: 6, unexcited: 1, unaroused: 1 });
+        case 3:
+        case 4:
+          return eth("slightly moist", "slightly damp");
+        case 5:
+        case 6:
+          return eth("moist", "damp");
+        case 7:
+        case 8:
+          return eth("wet", "wet", "ready", "aroused");
+        case 9:
+        case 10:
+          return eth("saturated", "soaked", "soaked");
+        case 11:
+        case 12:
+          return eth("sodden", "drenched", "dripping");
+        case 13:
+        case 14:
+        case 15:
+        case 16:
+          return eth("pouring", "running", "streaming");
+        case 17:
+        case 18:
+        case 19:
+        case 20:
+          return eth("gushing", "flooding", "cascading");
+        default:
+          return "[[55 gallon drum|"
+            + "https://www.amazon.com/Passion-Lubes-Natural-Water-Based-Lubricant/dp/B005MR3IVO?th=1]]";
       }
     },
     labia(size, mod = 0) {
@@ -1209,8 +1337,9 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       }
       switch (size) {
         case "athletic":
+        case "perky":
           if (target.body.tits.size < 500) {
-            return eth("washboard", "underdeveloped", "underwhelming");
+            return eth("pointy", "underdeveloped", "underwhelming");
           } else {
             return eth("cone-shaped", "pointy", "angular");
           }
@@ -1856,7 +1985,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         case 4:
           return eth("underwhelming", "meager", "diminutive", "short");
         case 5:
-          return eth("average", "unremarkable", "passable", "middling", "moderate", "ordinary");
+          return eth("average-length", "unremarkable", "passable", "middling", "moderate", "ordinary");
         case 6:
         case 7:
           return eth("big", "large", "lengthy", "impressive", "lengthy", "outstanding", "superior");
@@ -1948,6 +2077,8 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       if (size == null) {
         size = target.body.cock.length;
       }
+      /*
+      TODO figure out way to describe cock girth in non-confusing way.
       size = Math.floor(size / 10);
       mod = target.body.cock.girth;
       let r = random(1, 10);
@@ -1959,8 +2090,10 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       if (r > 8) {
         return qual.cockGirth(null);
       } else {
-        return qual.cockLength(null);
+        
       }
+      */
+      return qual.cockLength(null);
     },
     ballSize(size, mod = 0) {
       if (size == null) {
@@ -2115,7 +2248,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         size = target.status.energy.amt;
       }
       size = Number(size) + Number(mod);
-      const max = target.body.energy;
+      const max = target.status.energy.max;
       size = Math.round((size / max) * 10);
       if (size > 8) {
         return eth("rested", "vigorous", "energetic", "spirited");
@@ -2154,6 +2287,178 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
           return eth("healthy", "healthful", "healthy", "able-bodied");
         default:
           return `health out of bounds (${size})`;
+      }
+    },
+    pregBelly(size, mod = 0) {
+      // describe size of the pregnancy belly
+      if (size == null) {
+        size = target.status.fundalHeight;
+      }
+      size = Number(size) + Number(mod);
+      if (size < 10) {
+        return "Your pregnancy isn't showing yet.";
+      }
+      switch (size) {
+        case 10:
+        case 11:
+          return "You don't have the telltale bump yet, but maybe your belly looks a little bigger.";
+        case 12:
+        case 13:
+        case 14:
+          return "You have a slight curve on your lower belly, but it isn't much of a bump yet.";
+        case 15:
+        case 16:
+        case 17:
+          return "You have a small baby bump on your lower belly, but it isn't really obvious yet.";
+        case 18:
+        case 19:
+        case 20:
+          return "You have a baby bump on your lower tummy, but isn't very noticeable yet.";
+        case 21:
+        case 22:
+        case 23:
+          return "You have a baby bump that sits mostly on your lower belly, it's starting to become obvious that you're pregnant.";
+        case 24:
+        case 25:
+        case 26:
+          return "You have a noticeable baby bump that curves your stomach. It's fairly obvious that you're pregnant.";
+        case 27:
+        case 28:
+        case 29:
+          return "You have an obvious baby bump that has started to extend outward from your stomach.";
+        case 30:
+        case 31:
+        case 32:
+        case 33:
+          return "Your stomach has grown a good deal and it's obvious at a glance that you're pregnant.";
+        case 34:
+        case 35:
+        case 36:
+        case 37:
+          return "Your belly has grown quite large, extending out in front of you and hiding your feet.";
+        case 38:
+        case 39:
+        case 40:
+        case 41:
+          return "Your belly is swollen with child, and has become somewhat inconvenient to carry around.";
+        case 42:
+        case 43:
+        case 44:
+        case 45:
+          return "Your belly has grown to be so large that it's obvious you're pregnant with more than one child.";
+        case 46:
+        case 47:
+        case 48:
+        case 49:
+        case 50:
+          return "Your tummy has expanded to be quite large, sticking out far in front of you.";
+      }
+      if (size < 61) {
+        return "Your pregnant belly has grown to a huge size, and seems to droop down below your pubic bone as it grows ever outward.";
+      } else if (size < 71) {
+        return "Your hugely gravid stomach now seems to curve upward from your ribcage, and you often find yourself supporting it from underneath with your hands.";
+      } else if (size < 91) {
+        return "Your truly enormous belly has started growing out to the sides, becoming more round.";
+      } else if (size < 111) {
+        return "Your ponderous tummy is now the widest part of your body. You're forced to keep your back arched while standing to maintain your balance.";
+      } else if (size < 131) {
+        return "Your enormous baby-filled belly has extended so far that you find it painful to go too long without supporting it with your arms.";
+      } else if (size < 151) {
+        return "Your gigantic baby-filled tummy is now so large that you're no longer able to touch your belly button.";
+      } else if (size < 181) {
+        return "Your colossal baby-stuffed belly has come to dominate your frame. You're forced to sit with your legs spread wide to make room for it.";
+      } else {
+        return "Your titanic baby-stuffed midsection has grown so large that it resembles an inflatable exercise ball. Remaining mobile, or even just resting comfortably has become a major ordeal.";
+      }
+    },
+    babySize(size, mod = 0) {
+      if (size == null) {
+        const a = target.status.wombA.growth;
+        const b = target.status.wombB.growth;
+        const g = (a >= b) ? a : b;
+        size = Math.round(40 * (g / 100));
+      }
+      switch (size) {
+        case 1:
+        case 2:
+        case 3:
+          return "smaller than a poppy seed";
+        case 4:
+          return "a seasame seed";
+        case 5:
+          return "an apple seed";
+        case 6:
+          return "a sweet pea";
+        case 7:
+          return "a blueberry";
+        case 8:
+          return "a raspberry";
+        case 9:
+          return "a green olive";
+        case 10:
+          return "a prune";
+        case 11:
+          return "a lime";
+        case 12:
+          return "a plum";
+        case 13:
+          return "a peach";
+        case 14:
+          return "an apple";
+        case 15:
+          return "a navel orange";
+        case 16:
+          return "an avocado";
+        case 17:
+          return "a large onion";
+        case 18:
+          return "a sweet potato";
+        case 19:
+          return "a mango";
+        case 20:
+          return "an artichoke";
+        case 21:
+          return "a pomegranate";
+        case 22:
+          return "a papaya";
+        case 23:
+          return "a grapefruit";
+        case 24:
+          return "a cantaloupe";
+        case 25:
+          return "a head of cauliflower";
+        case 26:
+          return "a head of lettuce";
+        case 27:
+          return "a rutabaga";
+        case 28:
+          return "an eggplant";
+        case 29:
+          return "a cabbage";
+        case 30:
+          return "an acorn squash";
+        case 31:
+          return "a squash";
+        case 32:
+          return "a pineapple";
+        case 33:
+          return "a durian";
+        case 34:
+          return "a butternut squash";
+        case 35:
+          return "a coconut";
+        case 36:
+          return "a honeydew";
+        case 37:
+          return "a winter melon";
+        case 38:
+          return "a pumpkin";
+        case 39:
+          return "a watermelon";
+        case 40:
+          return "a jackfruit";
+        default:
+          return "error in baby size parse";
       }
     },
     makeup(size, mod = 0) {
@@ -2347,18 +2652,16 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         "badonkadonk": a(4, 5),
         "behind": a(15, 2),
         "booty": a(5, 4),
-        "bon-bon": a(1, 3),
         "butt": a(15, 0),
-        "bum": a(1, 3),
+        "bum": a(2, 3),
         "buns": a(2, 3),
         "caboose": a(2, 3),
         "fanny": a(2, 2),
         "keister": a(2, 0),
-        "rear": a(3, 0),
-        "rump": a(2, 4),
+        "rear": a(4, 0),
+        "rump": a(3, 4),
         "tush": a(2, 3),
         "tushie": a(4, 1),
-        "trunk": a(2, 0),
         "tuchus": a(1, 0),
       };
       const list = Object.keys(lib); // get object keys "words"
@@ -2463,7 +2766,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         } else {
           if (target.body.tits.cupNum >= 22) {
             v = 3;
-          } else if (target.body.tits.cupNum < 12) {
+          } else if (target.body.tits.cupNum < 6) {
             v = 1;
           }
         }
@@ -2531,7 +2834,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         } else {
           if (target.body.tits.cupNum >= 22) {
             v = 3;
-          } else if (target.body.tits.cupNum < 12) {
+          } else if (target.body.tits.cupNum < 6) {
             v = 1;
           }
         }
@@ -2546,11 +2849,11 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       }
       // use function to assign weighted value
       const lib = {
-        "breasts": a(24, 0),
-        "rack": a(6, 4),
-        "boobs": a(18, 0),
+        "breasts": a(36, 0),
+        //"rack": a(6, 4),
+        "boobs": a(22, 0),
         "boobies": a(2, 0),
-        "tits": a(30, 4),
+        "tits": a(38, 4),
         "breasticles": a(1, 3),
         "cans": a(1, 2),
         "chesticles": a(1, 3),
@@ -2563,7 +2866,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         "mosquito bites": a(4, 1),
         "mammaries": a(1, 0),
         "sweater puppies": a(4, 4),
-        "titties": a(24, 4),
+        "titties": a(28, 4),
         "udders": a(6, 5, true),
         "bee stings": a(8, 1),
         "itty-bitty-titties": a(4, 1),
@@ -2925,7 +3228,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         "yam bag": a(3, 4),
         "plum pouch": a(4, 5),
         "nutsack": a(12, 0),
-        "cherrybag": a(6, 1),
+        //"cherrybag": a(6, 1),
         "gear bag": a(3, 3),
       };
       const list = Object.keys(lib); // get object keys "words"
@@ -2941,7 +3244,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       return pops[r];
     },
     clit() {
-      return eth({"clit": 8, "rosebud": 5, "bean": 3, "hooded lady": 2, "little man in the boat": 1});
+      return eth({"clit": 12, "rosebud": 8, "bean": 5, "hooded lady": 1, "little man in the boat": 1});
     },
     pussy() {
       let v = 2;
@@ -2967,27 +3270,27 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       const lib = {
         "pussy": a(40, 0),
         "box": a(6, 0),
-        "cock pocket": a(2, 3),
+        //"cock pocket": a(2, 3),
         "cooch": a(1, 0),
         "cunny": a(2, 0),
         "cunt": a(12, 0),
         "cherry": a(16, 1),
-        "bat cave": a(4, 5),
-        "jizz cave": a(4, 5),
+        //"bat cave": a(4, 5),
+        //"jizz cave": a(4, 5),
         "fuck hole": a(4, 4),
-        "hoo-hoo": a(2, 1),
+        //"hoo-hoo": a(2, 1),
         "kitty": a(12, 2),
         "nookie": a(2, 0),
         "sausage wallet": a(4, 4),
         "sausage cavern": a(4, 5),
-        "poon": a(1, 0),
+        //"poon": a(1, 0),
         "quim": a(8, 2),
         "snatch": a(12, 0),
         "love tunnel": a(6, 5),
-        "cock cave": a(8, 5),
+        //"cock cave": a(8, 5),
         "vag": a(6, 0),
-        "baby cannon": a(4, 4),
-        "clown hole": a(2, 4),
+        //"baby cannon": a(4, 4),
+        //"clown hole": a(2, 4),
         "main cum dump": a(12, 4),
       };
       const list = Object.keys(lib); // get object keys "words"
@@ -3020,14 +3323,20 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       }
       // call weight function to assign relative weight
       function a(n, s= 0, hair = 0) {
+        let hl = 0;
+        try {
+          hl = target.groom.pube;
+        } catch (e) {
+          hl = 0;
+        }
         if (hair === 2) {
-          if (qual.pubeShape(null) === "bush" || target.groom.pube > 1) {
+          if (hl > 1) {
             return weight(n, s, v);
           } else {
             return 0;
           }
         } else if (hair === 1) {
-          if (qual.pubeShape(null) === "bush" || target.groom.pube > 1) {
+          if (hl > 1) {
             return 0;
           } else {
             return weight(n, s, v);
@@ -3038,31 +3347,32 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       }
       // use function to assign weighted value
       const lib = {
-        "bearded clam": a(4, 0, 2),
+        //"bearded clam": a(4, 0, 2),
         "beaver": a(8, 0, 2),
         "beef curtains": a(6, 5, 1),
         "clunge": a(2, 0, 2),
         "cooter": a(4, 2, 0),
         "fish taco": a(4, 2, 1),
-        "fur burger": a(2, 3, 2),
-        "fur pie": a(2, 3, 2),
-        "ham wallet": a(6, 4, 0),
-        "axe wound": a(2, 1, 0),
-        "love taco": a(2, 3, 0),
-        "meat curtains": a(6, 6, 0),
-        "meat wallet": a(2, 3, 0),
+        //"fur burger": a(2, 3, 2),
+        //"fur pie": a(2, 3, 2),
+        //"ham wallet": a(6, 4, 0),
+        //"axe wound": a(2, 1, 0),
+        //"love taco": a(2, 3, 0),
+        //"meat curtains": a(6, 6, 0),
+        //"meat wallet": a(2, 3, 0),
         "minge": a(4, 2, 2),
-        "pink canoe": a(4, 1, 1),
+        //"pink canoe": a(4, 1, 1),
         "muff": a(6, 0, 2),
-        "quiff": a(2, 2, 0),
-        "roast beef": a(2, 4, 0),
-        "roast beef curtains": a(4, 5, 0),
+        "quim": a(2, 2, 0),
+        //"roast beef": a(2, 4, 0),
+        //"roast beef curtains": a(4, 5, 0),
         "slit": a(24, 2, 1),
         "twat": a(18, 2, 0),
         "trim": a(12, 2, 0),
-        "vertical smile": a(1, 0, 1),
-        "whisker biscuit": a(2, 0, 2),
-        "wizard sleeve": a(2, 5, 0),
+        "cunt": a(12, 2, 0),
+        //"vertical smile": a(1, 0, 1),
+        //"whisker biscuit": a(2, 0, 2),
+        //"wizard sleeve": a(2, 5, 0),
       };
       const list = Object.keys(lib); // get object keys "words"
       const pops: string[] = [];
@@ -3095,7 +3405,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       }
       // use function to assign weighted value
       const lib = {
-        "cum depository": a(15, 1),
+        //"cum depository": a(15, 1),
         "baby chamber": a(2, 0),
         "baby room": a(2, 1),
         "sperm bank": a(3, 1),
@@ -3103,7 +3413,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         "womb": a(24, 0),
         "uterus": a(9, 0),
         "baby factory": a(18, 0),
-        "jizz vacuum": a(6, 1),
+        //"jizz vacuum": a(6, 1),
         "mommy bag": a(8, 1),
       };
       const list = Object.keys(lib); // get object keys "words"

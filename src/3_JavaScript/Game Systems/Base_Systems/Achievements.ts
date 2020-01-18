@@ -335,7 +335,7 @@ aw.achieve = {
   weegirl: {
     name: "Wee girl",
     image: "IMG-MegaWetAch",
-    description: "You have closed 20 vents in the Weegirl minigame which is 30% better than dev's best result.",
+    description: "You have closed 20 vents in the Weegirl minigame which is 30% better than Besty's best!",
   },
   lucky: {
     name: "Lucky",
@@ -347,5 +347,30 @@ aw.achieve = {
     image: "IMG_chainBangedAch",
     description: "Ended up as a prison pacifier.",
   },
+  spelunker: {
+    name: "Spelunker",
+    image: "IMG-SpelunkerAch",
+    description: "Escaped Hoden Cavern with your life.",
+  },
+  indianaJones: {
+    name: "Indiana Jones",
+    image: "IMG-IndianaJonesAch",
+    description: "Collected both relics in Hoden Cavern.",
+  },
+  doubleDead: {
+    name: "Double Dead",
+    image: "IMG-DiedTwiceAch",
+    description: "Died twice in the female prologue.",
+  },
+  worstFriend: {
+    name: "Worst Friend",
+    image: "IMG-WorstFriendAch",
+    description: "Being the worst-possible friend in the male prologue.",
+  },
+  heartbreaker: {
+    name: "Heartbreaker",
+    image: "IMG-HeartbreakerAch",
+    description: "You finally won Lily's heart, only to break it.",
+  },
 };
-aw.unlocks = ["Prologue skip", "Mega Tits", "Mega Fertile", "Mega Wet"];
+aw.unlocks = ["Prologue skip", "Mega Tits", "Mega Fertile", "Mega Wet", "FemaleQuickStart", "contentMessage"];

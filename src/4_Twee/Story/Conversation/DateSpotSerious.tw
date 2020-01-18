@@ -1,0 +1,45 @@
+
+:: DateSpotSerious [nobr]
+
+<<silently>>
+  <<set _canAdv = false>>
+  <<set _advText = "error">>
+  <<set _advButt = "None">>
+  <<switch aw.date.eligible[0]>>
+    <<case "engaged">>
+      <<set _canAdv = true>>
+      <<set _advText = "Ask your date to marry you.">>
+      <<set _advButt = "PROPOSE">>
+    <<case "lovers">>
+      <<set _canAdv = true>>
+      <<set _advText = "Tell your date you love them.">>
+      <<set _advButt = "I LOVE YOU">>
+    <<case "exclusive">>
+      <<set _canAdv = true>>
+      <<set _advText = "Ask to make your relationship official.">>
+      <<if aw.date.npc.main.female>>
+        <<set _advButt = "BE MY GIRLFRIEND">>
+      <<else>>
+        <<set _advButt = "BE MY BOYFRIEND">>
+      <</if>>
+    <<default>>
+      <<set _canAdv = false>>
+      <<set _advText = "You can't currently advance your relationship...">>
+  <</switch>>
+<</silently>>
+<p><<f y>>ou decide it's time to bring up something serious with <<= aw.date.name>>, so you steel your nerves...</p>
+<div id="seriousness">
+<<if _canAdv>>
+  <<sp 8>><<button _advButt>><<replace "#seriousness">><<print setup.date.pcQuestion()>><</replace>><</button>> <<= _advText>>
+<<else>>
+  <<sp 8>><span class="disabled"><button>ADVANCE</button></span> <<= _advText>>
+<</if>>
+<br><br>
+<<sp 8>><span class="disabled"><button>YOU'RE THE FATHER</button></span> <<ctn>>Not Implemented<</ctn>>
+<br><br>
+<<sp 8>><span class="disabled"><button>OPEN RELATIONSHIP</button></span> Tell your date that you'd like an open relationship.
+<br><br>
+<<sp 8>><<button "BREAK UP">><<replace "#seriousness">><<print setup.date.breakUp()>><</replace>><</button>> End your relationship with <<= aw.date.name>> <<ctn>>[This can not be undone!]<</ctn>><br><br>
+<<sp 8>><<button "CANCEL">><<replace "#seriousness">><p>...and decide not to say anything after all.</p><<print aw.dateSpots[aw.date.spot].buttonGen()>><</replace>><</button>> You changed your mind...
+</div>
+

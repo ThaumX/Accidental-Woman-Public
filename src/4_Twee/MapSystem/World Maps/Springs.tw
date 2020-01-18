@@ -1,0 +1,418 @@
+:: MapSpringsParking [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPsprings]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+<<mapEvent>>
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou are standing in a secluded little parking lot that is mostly surrounded by trees. It almost looks like the parking lot for some forest campground, except for the signs directing you toward Hoden Spring.</p>
+<p>
+<<ctn>>The Hoden Springs area is not complete<</ctn>>
+</p>
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "DRIVE">><<run setup.map.nav("world","main")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Hop into your car and drive somewhere.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: MapSpringsParkingLOC [nobr]
+
+<center>
+Nothing here.
+</center>
+
+
+:: MapSpringsRecreation [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPsprings]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+<<mapEvent>>
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou're at the Hoden Springs Recreation Center, which looks a lot more governmental than you'd expect for a public park. Still, it has everything you'd need to enjoy the springs in comfort, including a mini convenience store and food stand.</p>
+<p>
+<<ctn>>The Hoden Springs area is not complete<</ctn>>
+</p>
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <span class="disabled"><<button "Ask for services">><</button>></span>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>The reception is empty.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: MapSpringsRecreationLOC [nobr]
+
+<center>
+Nothing here.</center>
+
+
+:: MapSpringsChanging [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPsprings]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+<<mapEvent>>
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou are standing in the changing room building next to the recreation center. There is a line of changing rooms on one wall, while the rest of the building is taken up with standard unisex restroom facilities. The changing rooms are rather nice, they are surprisingly spacious and have benches with wooden doors.</p>
+<p>
+<<ctn>>The Hoden Springs area is not complete<</ctn>>
+</p>
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <span class="disabled"><<button "Change">><</button>></span>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <span class="disabled"><<button "Peek">><</button>></span>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Go to the stall to change your clothes.<<endinsertion>>
+<<insertion beta>>Try too peek some nude visitors.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: MapSpringsChangingLOC [nobr]
+
+<center>
+You see some girls changing in the corner of the room, they look pretty cheerful.<br>
+[IMG[IMG-changingBoothGirls]]</center>
+
+
+:: MapSpringsWoods [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPsprings]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+<<mapEvent>>
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou're standing amongst the trees a short distance from the springs, and the area is surprisingly nice. The undergrowth is remarkably sparse, and there's several moss-covered rocks strewn about. <<if not ↂ.pc.trait.isOblivious>>When the wind shifts just right you get a hint of a delicious smell that seems to be coming from deeper in the woods. It reminds you of a patisserie, but there's a strong floral note to the smell as well...<</if>></p>
+<p>
+<<ctn>>The Hoden Springs area is not complete<</ctn>>
+</p>
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Pinecone Hunting">><<addtime 3>>
+    <<if random(1, 5) < 5>>
+      <<run UI.alert("There are plenty of pinecones on the ground, but so far you haven't found the perfect one to keep. You need to search more.")>>
+    <<elseif setup.consumables.hasConsumable("gapecone")>>
+      <<run UI.alert("It seems like you've already found the only perfect pinecone, perhaps you should come back later.")>>
+    <<else>>
+      <<addconsumable "gapecone">>
+      <<dialog "Perfect cone!">>You got lucky and were able to find the perfect pinecone!<br>[img[IMG-Item-PineCone]]<br><<ctn>>Pinecone x 1 added to your inventory<</ctn>><</dialog>>
+    <</if>>
+  <</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+<<if not ↂ.pc.trait.isOblivious>>
+  <<hoverrevise nose>>
+    <span class="disabled"><<button "Follow your Nose">><</button>></span>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise blind>>
+    <span class="disabled"><button>???????</button></span>
+  <<endhoverrevise>>
+<</if>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Look for a nice pinecone.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+<<insertion nose>>Follow your nose, and search deeper in the woods for the lovely smell. <span class="import">[Caution: the woods can be dangerous for the unprepared]</span> <<ctn>>Not Implemented<</ctn>><<endinsertion>>
+<<insertion blind>><i>Perhaps if you weren't so <b>oblivious</b>...</i><<endinsertion>>
+</div>
+
+
+:: MapSpringsWoodsLOC [nobr]
+
+<center>
+For a moment you think you see movement deeper in the woods, perhaps a flash of blue fabric, but the it's too hard to tell with all the trees playing tricks on your vision.<br>
+<<fadeout "2s" "2s">>
+<img data-passage="IMG-TentaGirl4" style="border-radius:20px;">
+<</fadeout>>
+</center>
+
+
+:: MapSpringsBeach [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPsprings]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+<<mapEvent>>
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou are standing in the sand of the artificial beach set up on the west side of Hoden Springs. The water of the springs is cool and crystal-clear, though the constant ripples from the falling water of springs on the cliff face keep you from seeing anything too clearly. You can tell that the pond is quite deep, though, with some dark shadows at the base of the cliff.</p>
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <span class="disabled"><<button "Swim">><</button>></span>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <span class="disabled"><<button "Tan">><</button>></span>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Go to the water for some swimming.<<endinsertion>>
+<<insertion beta>>Work on your tan.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: MapSpringsBeachLOC [nobr]
+
+<center>
+Some of the local girls are tanning naked on the beach.<br><br><<has exhibition>>@@.mono;Wow, that's a great idea! If I tan naked, everyone will be able to see my body too!@@<<orhas shame>>>@@.mono;Ugh, that's just gross. Why do they have to get naked in front of everybody, even if it's on the beach!?@@<<or>>>@@.mono;Interesting, is this is a nudist beach?@@<</has>><br>
+[IMG[IMG-SpringsBeachGirlNude]]</center>
+
+
+:: MapSpringsCave [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPsprings]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+<<mapEvent>>
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou are standing in front of a dark hole at the base of the cliff face. While the hole is rather small, it is still large enough to crawl through. The darkness inside indicates that this is an opening to a larger cavern. It seems the place is rarely visited though, you can't see any human footprints in the sand in front of the entrance.</p>
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<if not ↂ.flag.caveAdventure >>
+  <<hoverrevise alpha>>
+    <<button "Go inside">><<go "CaveAdventureStart">><</button>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise nope>>
+    <span class="disabled"><button>Go Inside</button></span>
+  <<endhoverrevise>>
+<</if>>
+<<hoverrevise beta>>
+  <<button "Test the Echo">><<addtime 3>><<dialog "Echo">>@@.pc;PENIS!@@<br><br>@@.pc;...enis@@<br><br>@@.pc;...nis@@<br><br>@@.pc;...is@@<br><br>@@.pc;...is@@<</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Do a little spelunking, crawl in to see how deep the cave is. <<ctn>>[@@.gold;CAUTION@@: Save before entering]<</ctn>><<endinsertion>>
+<<insertion beta>>Shout something into the cave.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+<<insertion nope>>No way in hell am I going back in there!<<endinsertion>>
+</div>
+
+
+:: MapSpringsCaveLOC [nobr]
+
+<center>
+Nope, nothing inresting here... <i>for now.</i></center>
+
+

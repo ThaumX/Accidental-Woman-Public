@@ -1,0 +1,80 @@
+:: ResidentialMedicalAppleCare [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmedical]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p style="width: 950px;">@@.head3;Y@@ou stand in front of the insticare building and god damn me if I know what Thaum has in plans for this location. 
+</p>
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact" style="width: 950px; text-align: left;"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<if ↂ.flag.Healthcare>>
+    <<button "Cancel Your Applecare">><<set _ttt = random(30,90)>><<addtime _ttt>><<set ↂ.flag.Healthcare = false>><<status 0>><<dialog "Applecare Canceled">>You have successfully canceled your Applecare membership. The process took you <<= _ttt>> minutes.<</dialog>>
+    <</button>>
+  <</if>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<if not ↂ.flag.Healthcare>>
+    <<button "Sign Up for Applecare">><<set _ttt = random(60,90)>><<addtime _ttt>><<set ↂ.flag.Healthcare = true>><<status 0>><<dialog "Enrolled In Applecare">>You have successfully enrolled in the Applecare healthcare program. The process took you <<= _ttt>> minutes.<</dialog>>
+    <</button>>
+  <</if>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Wait to see a clerk so that you can convince them you want to drop your health coverage. <<ctn>>[30-90min]<</ctn>><<endinsertion>>
+<<insertion beta>>Wait to see a clerk so that you can enroll in Applecare health coverage <<ctn>>[60-90min]<</ctn>><<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: ResidentialMedicalAppleCareLOC [nobr]
+
+@@.head3;Y@@ou look around and can't see anything interesting, sadly.

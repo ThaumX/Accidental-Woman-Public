@@ -1,0 +1,398 @@
+:: DowntownNE [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPdowntown]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+<div id="storeWindow">
+[img[IMG-Beauty-Handjob]]
+[img[IMG-Restaurant-OldDongHo]]
+[img[IMG-School-FreakDance]]
+[img[IMG-PumpDumpFirearms]]
+</div>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+<<selfthought>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<p>
+@@.head3;Y@@ou're standing in the northeastern area of downtown, on a broad sidewalk. There are several shops and restaurants to visit if you are so inclined. The place has a clean and friendly appearance.
+</p>
+<p id="locact"></p>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Old Dong Ho">><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "Restaurant">><</button>>
+<<endhoverrevise>>
+<<hoverrevise delta>>
+  <<button "Hand Job Pros">><<addTime 4>><<go DowntownShopHandJob>><</button>>
+<<endhoverrevise>>
+<<hoverrevise gamma>>
+  <<openhours 12 22>>
+    <<button "Visit Freak Dance">><<gotoSchool "freakDance">><</button>>
+  <<closed "Freak Dance">>
+  <</openhours>>
+<<endhoverrevise>>
+<<hoverrevise lambda>>
+  <<openhours 10 20>>
+    <<button "Pump & Dump">><<addTime 3>><<go "DowntownNEpumpdump">><</button>>
+  <<closed "Pump & Dump">>
+  <</openhours>>
+<<endhoverrevise>>
+<<hoverrevise phi>>
+  <<button "Unique Location">><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>[not implemented] Chinese Cuisine <span class="money">₢</span><<endinsertion>>
+<<insertion beta>>[not implemented]<<endinsertion>>
+<<insertion delta>>Visit the Hand Job Pros Salon & Spa to get some pampering and perhaps a manicure or new hairstyle.<<endinsertion>>
+<<insertion gamma>>Visit Freak Dance Dancing School to check it out or sign up for a course. @@.ship;[DANCE⧫EXHIBITION]@@<<endinsertion>>
+<<insertion lambda>>Visit the Pump & Dump pawn shop and gun store.<<endinsertion>>
+<<insertion phi>>[not implemented]<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+
+:: DowntownNELOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+
+
+:: DowntownNEpumpdump [nobr map]
+
+<<timed 50ms>>
+<<script>>
+  $("area.navleave").click(function(){
+    setup.map.nav("world","appletree");
+  });
+  $("area.navholefoods").click(function(){
+    setup.map.nav("downtown","holefoods");
+  });
+  $("area.navcorp").click(function(){
+    setup.map.nav("downtown","corp");
+  });
+  $("area.navbank").click(function(){
+    setup.map.nav("downtown","bank");
+  });
+  $("area.navsouthwest").click(function(){
+    setup.map.nav("downtown","southwest");
+  });
+  $("area.navwest").click(function(){
+    setup.map.nav("downtown","west");
+  });
+  $("area.navnorthwest").click(function(){
+    setup.map.nav("downtown","northwest");
+  });
+  $("area.navsoutheast").click(function(){
+    setup.map.nav("downtown","southeast");
+  });
+  $("area.naveast").click(function(){
+    setup.map.nav("downtown","east");
+  });
+  $("area.navnortheast").click(function(){
+    setup.map.nav("downtown","northeast");
+  });
+  $("area.navtownhall").click(function(){
+    setup.map.nav("downtown","townhall");
+  });
+  $("area.navtownsquare").click(function(){
+    setup.map.nav("downtown","square");
+  });
+  $("area.navpark").click(function(){
+    setup.map.nav("downtown","park");
+  });
+  $("area.navcommunity").click(function(){
+    setup.map.nav("downtown","community");
+  });
+  $("area.navmall").click(function(){
+    setup.map.nav("downtown","mall","exterior");
+  });
+  $("area.navclub").click(function(){
+    setup.map.nav("downtown","club", "main");
+  });
+  $("area.navamuse").click(function(){
+    setup.map.nav("downtown","amuse");
+  });
+  $("area.navadult").click(function(){
+    setup.map.nav("downtown","adult");
+  });
+<</script>>
+<</timed>>
+<div id="location-bar">
+  <div id="location-bar-map">
+    <img data-passage="IMGdowntownMap" usemap="#downtownMap">
+    <map name="downtownMap" id="downtownMap">
+      <area data-passage="" alt="Leave Downtown" title="Leave Downtown" coords="27,499,26,54,138,51,138,0,-1,1,0,499" shape="poly" class="map-red-area navleave">
+      <area data-passage="" alt="Leave Downtown" title="Leave Downtown" coords="402,499,402,390,473,391,473,0,498,0,499,499,483,499,430,499" shape="poly" class="map-red-area navleave">
+      <area data-passage="" alt="Hole Foods" title="Hole Foods" coords="28,390,138,499" shape="rect" class="map-green-area navholefoods">
+      <area data-passage="" alt="Corporate Park" title="Corporate Park" coords="141,391,358,499" shape="rect" class="navcorp">
+      <area data-passage="" alt="Wells-Citibank of America" title="Wells-Citibank of America" coords="361,390,400,499" shape="rect" class="navbank">
+      <area data-passage="" alt="Southwest Downtown" title="Southwest Downtown" coords="28,388,138,279" shape="rect" class="navsouthwest">
+      <area data-passage="" alt="West Downtown" title="West Downtown" coords="29,168,138,277" shape="rect" class="navwest">
+      <area data-passage="" alt="Northwest Downtown" title="Northwest Downtown" coords="30,57,138,166" shape="rect" class="navnorthwest">
+      <area data-passage="" alt="Town Hall" title="Town Hall" coords="143,374,143,289,198,290,198,335,301,336,301,291,356,291,355,375,283,375,281,381,220,381,216,375" shape="poly" class="navtownhall">
+      <area data-passage="" alt="Town Square" title="Town Square" coords="200,334,299,267" shape="rect" class="navtownsquare">
+      <area data-passage="" alt="Central Park" title="Central Park" coords="147,282,196,282,196,263,301,263,302,281,351,281,352,176,193,177,193,199,168,226,147,226" shape="poly" class="navpark">
+      <area data-passage="" alt="Community Center" title="Community Center" coords="143,225,167,225,191,199,191,172,144,172" shape="poly" class="navcommunity">
+      <area data-passage="" alt="Applewood Mall" title="Applewood Mall" coords="142,161,311,58" shape="rect" class="map-green-area navmall">
+      <area data-passage="" alt="Southeast Downtown" title="Southeast Downtown" coords="471,387,363,280" shape="rect" class="navsoutheast">
+      <area data-passage="" alt="East Downtown" title="East Downtown" coords="363,168,470,277" shape="rect" class="naveast">
+      <area data-passage="" alt="Northeast Downtown" title="Northeast Downtown" coords="363,164,471,57" shape="rect" class="navnortheast">
+      <area data-passage="" alt="Club District" title="Club District" coords="310,57,360,166" shape="rect" class="navclub">
+      <area data-passage="" alt="Amusement District" title="Amusement District" coords="141,55,360,-1" shape="rect" class="map-green-area navamuse">
+      <area data-passage="" alt="Adult District" title="Adult District" coords="363,55,471,-1" shape="rect" class="navadult">
+    </map>
+  </div>
+  <img id="location-bar-cover" data-passage="IMGdowntownMap">
+  <div id="location-bar-image">
+    <<if random(1,2) > 1>>
+      <<link [img[IMG-PumpDumpInterior2]]>><<set _pasg = "DowntownNEpumpdumpLOC">><<dialog ↂmap.name>><<include _pasg>><</dialog>><</link>>
+    <<else>>
+      <<link [img[IMG-PumpDumpInterior]]>><<set _pasg = "DowntownNEpumpdumpLOC">><<dialog ↂmap.name>><<include _pasg>><</dialog>><</link>>
+    <</if>>
+    <div id="namediv" class="locationNameDiv head1"><<print "Pump & Dump Guns & Pawn">></div>
+  </div>
+</div>
+<<if ↂ.flag.pumpDumpUnlock == null>>
+  <<set ↂ.flag.pumpDumpUnlock = false>>
+<</if>>
+<div id="mainshits">
+<p>
+<<selfthought>>
+</p>
+<p>
+@@.head3;Y@@ou're standing in the Pump & Dump Guns and Pawn store. It's quite a bit different on the inside than you'd expect, with a lot of the display area dedicated to fetish gear and sex toys. There are several cases dedicated to firearms though, many of which seem to be used. It's certainly an odd combination, and you hope that the used goods are limited to the guns and doesn't include the store's other merchandise.
+</p>
+<p id="locact"></p>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Shop for Firearms">><<addTime 15>><<dialog "Firearms Shopping">><<include [[FirearmsShopping]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "Special Inventory">><<dialog "Pump & Dump Special Inventory">><<include [[DowntownNEpumpdumpSpecInv]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise phi>>
+  @@.disabled;<<button "Bondage Equipment">><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise phi>>
+  @@.disabled;<<button "Fetish Wear">><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise phi>>
+  @@.disabled;<<button "Sex Toys">><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+<<hoverrevise checkOut>>
+  <<button "Checkout">><<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<elseif _result === "no afford">><<notify>><span class="bad">Insufficient Funds!</span><</notify>><<elseif _result === "already has">><<notify>><span class="bad">You already has same item in your wardrobe!</span><</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Browse Pump & Dump's selection of firearms available for purchase<<endinsertion>>
+<<insertion beta>><<if ↂ.flag.pumpDumpUnlock>>The special merchandise is already unlocked, but you can repeat the scene if you'd like.<<else>>Ask the clerk to see Pump & Dump's inventory of items that have dubious legality.<</if>><<endinsertion>>
+<<insertion phi>>Sorry, this area of Pump & Dump is <<ctn>>[not implemented]<</ctn>><<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+
+:: DowntownNEpumpdumpLOC [nobr]
+
+<<if random(1, 2) === 1>>
+<center>[img[IMG-PumpDumpLoc]]</center>
+<p>
+<<f y>>ou notice a woman "trying out" a pair of used handguns. It'd be a really arousing sight, except that her lack of trigger discipline is too distracting.
+</p>
+<<else>>
+<center>[img[IMG-PumpDumpLoc2]]</center>
+<p>
+<<f y>>ou spot an Asian woman reclining on one of the store's leather chairs. She has her skirt flipped up, and seem to be testing the feel of a used handgun against her most delicate skin. @@.mono;That looks nice...@@
+</p>
+<</if>>
+
+
+:: DowntownNEpumpdumpSpecInv [nobr]
+
+<div id="repbox">
+<p>
+<<f y>>ou walk up to the clerk working behind the counter. When he looks up at you, you get right to it. @@.pc;Hey, can I see the store's <i>special</i> inventory of guns?@@
+</p>
+<p>
+The clerk pretends to be confused. @@.npc;Special inventory? What's that?@@
+</p>
+<p>
+You raise your eyebrow at him. @@.pc;This is a pawn shop right? You're telling me you don't have a special selection of items for the more... ethically creative customer?@@
+</p>
+<p>
+He smiles at you. @@.npc;Well, that depends...@@
+</p>
+<p>
+@@.pc;Depends on what?@@
+</p>
+<p>
+@@.npc;On whether or not you're a cop.@@ He gazes lecherously at your body. @@.npc;You'll have to prove it, of course.@@
+</p>
+<p>
+@@.pc;And how exactly do I prove that?@@
+</p>
+<p>
+His grin grows. @@.npc;By letting me fuck that hot cunt of yours right now. Raw, of course. No cop's gonna put up with that for a minor bust.@@
+</p>
+<<dialogchoice>>
+<<dbutt "Come get it">><<addTime 28>><<eatdrug "cream" 20>><<run ↂ.pc.fert.creampie("unknown", 60, "deep")>><<run ↂ.pc.fert.inseminate("unknown", 10, "womb")>><<set ↂ.flag.pumpDumpUnlock = true>><<run ↂ.pc.body.pussy.insert(4)>><<status 0>><<has risky || pregnancy>><<satisfy 50 "A Pump & Dump fuck with a creampie finish">><<happy 2 "A Pump & Dump fuck with a creampie finish">><<stress -20 "A Pump & Dump fuck with a creampie finish">><<or>><<satisfy 35 "A nice Pump & Dump fuck">><<stress -5 "A nice Pump & Dump fuck">><</has>><<run setup.devirgin("P")>><<scrolltop "#repbox">><<replace "#repbox">><<include [[DowntownNEpumpdumpSpec2]]>><</replace>>
+<<dtext "slut">>Let the Pump & Dump clerk fuck your pussy.
+<<dbutt "No Thanks">><<addTime 3>><<run Dialog.close()>>
+<<dtext "arrogant">>You're not letting some guy creampie you.
+<</dialogchoice>>
+</div>
+
+:: DowntownNEpumpdumpSpec2 [nobr]
+
+
+<p>
+@@.pc;Come get it.@@ You make yourself ready as the clerk rapidly strips off his clothes. You gasp involuntarily when his big cock springs free of his pants. It's not particularly girthy, but its length is impressive. @@.pc;That's quite the impressive weapon you've got there, but I don't think you'll be able to fit it all in my holster...@@
+</p>
+<p>
+The clerk grins. @@.npc;I'll certainly give it my best shot!@@ He steps closer, his long rod poking your belly before he can get close enough for a hug. He reaches his arms out, grabbing you by the hips and pulling you closer; his cock forced upward between you, it still presses firmly against your abdomen. He bends down for a kiss as his hands slide lower to grip your ass cheeks. Just as you were starting to find the insistent pressure of his cock on your belly uncomfortable, he takes a firm hold of your upper thighs and lifts you up. From there he takes a few steps and lays you down on a leather-upholstered bench.
+</p>
+<center>[img[IMG-PumpDumpClerkFuck]]</center>
+<p>
+It takes only a few moments more for his cock to be lodged firmly inside you. You sigh in pleasure as his engorged member invades you seemingly without end, inch after inch sliding into your depths. You feel a delightful tingle as his head lifts your cervix before finally pressing against your deepest spot. He keeps pushing for a moment, delightfully stretching you before finally retreating. That's when he truly begins to fuck you, each powerful thrust hitting your depths before retreating in a staccato rhythm. The pleasure you feel is intense, your awareness rapidly narrowing to encompass only the two of you. Instinctively responding to the building pleasure, your insides shift as your womb begins to drop hungrily. The change means little because the clerk's hard cock needs no help reaching your depths, but it does place your cervix directly in the way of the invading member.
+</p>
+<p>
+With each thrust the clerk's cockhead scrapes against your G-spot before ramming that sensitive donut of flesh, and the pleasure overwhelms you. It takes only moments before your first orgasm crests over you. You're given no chance to recover, the pleasure continues to wash over you mercilessly. You lose track of time and simply scream out in pleasure as your second and then third orgasms rock you to the core. You're barely aware when the clerk makes one final vicious thrust, his tip shoving against your cervix as if to penetrate even it. It's then that the first of many thick ropes of cum are sprayed into the small space left by the opening of your cervix pressing against his cockhead. Some of the virile cum is forced further into you, and you swear you can feel every drop.
+</p>
+<center>@@.h2;. . .@@</center>
+<p>
+There's some clapping, and you suddenly remember that the two of you weren't alone in the store. A couple of the female customers seem to have taken a sudden interest in getting the clerk's assistance, and he quickly gets dressed. @@.npc;You can take a look at the special collection whenever you'd like.@@
+</p>
+
+
+:: FirearmsShopping [nobr]
+
+
+<table id="noBorder">
+<tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Standard Handguns</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Tauran Union Compact Pistol
+  <img data-passage="IMG-Firearm-Tauran" style="width:150px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  The Tauran Union Compact Pistol CP38 is a small semi-automatic handgun intended to be easy to carry for self defense or as a backup weapon. The weapon is unique because it has a curved frame, allowing it to be carried more snugly against the hip or leg. The curved handgrip requires that you use the correct hand, and can take a little getting used to. The weapon comes equipped with a compact LED flashlight in front of the trigger guard.<br><br>Ammunition: .38 ACP | 8 rounds | Semi Auto
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>299@@ <span id="buyshit1"></span><br><<button "Add to Cart">><<set $cart.push(["Compact Pistol","simple",299,"Compact Pistol"])>><<append "#buyshit1">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+
+<tr><td class="storeitem" style="width:20%;">
+  Lugie Light Compact Revolver
+  <img data-passage="IMG-Firearm-LCR" style="width:150px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  The Lugie Light Compact Revolver is exactly what the name implies: it's both light and compact. Designed to be reliable and easy to carry, this weapon is focused on self defense. A laser sight is built into the firearm between the barrel and trigger guard, improving accuracy at short range and reducing the likelihood of the weapon getting caught on something. Because of its short barrel, this weapon has rapidly decreasing accuracy for distances beyond 10m.<br><br>Ammunition: 9mm | 5 rounds | Double Action
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>399@@ <span id="buyshit2"></span><br><<button "Add to Cart">><<set $cart.push(["LCR","simple",399,"LCR"])>><<append "#buyshit2">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+
+<tr><td class="storeitem" style="width:20%;">
+  Simpson Armory Model 1911
+  <img data-passage="IMG-Firearm-1911" style="width:150px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  Designed over 100 years ago, the Simpson's Armory Model 1911 is still around, and has been copied, customized, and modified by countless firearms manufacturers over the decades. While there's no single reason for the design's persistance, and newer designs have surpassed it in every category but nostalgia, it remains a functional and effective weapon.<br><br>Ammunition: .45 ACP | 8 rounds | Semi Auto
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>499@@ <span id="buyshit3"></span><br><<button "Add to Cart">><<set $cart.push(["Model 1911","simple",499,"Model 1911"])>><<append "#buyshit3">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+
+<tr><td class="storeitem" style="width:20%;">
+  Gluck G20 gen5
+  <img data-passage="IMG-Firearm-G20" style="width:150px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  The Gluck G20 is a full-frame handgun used primarily by law enforcement. While sharing the same basic design as all the Gluck full-frame weapons, this one is chambered to fire 10mm ammunition. The basic Gluck design has been around for decades, though occasional minor updates are made to improve the design. This particular weapon is a Gen5 design. While somewhat more expensive than other options, the Gluck G20 has proven to be reliable and effective.<br><br>Ammunition: 10mm | 15 rounds | Semi Auto
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>599@@ <span id="buyshit4"></span><br><<button "Add to Cart">><<set $cart.push(["Gluck G20","simple",599,"Gluck G20"])>><<append "#buyshit4">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+
+<tr><td class="storeitem" style="width:20%;">
+  E7 Plasma Pistol
+  <img data-passage="IMG-Firearm-E7Plasma" style="width:150px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  The E7 Plasma Pistol from EAF is the only plasma weapon available to the civilian market. Because of the extreme lethality of plasma weapons combined with their ability to ignore most types of police body armor, they are expected to be banned in the near future. This has made the E7 very popular due to the 'buy it while you still can' mentality. Despite this popularity, the weapon has several drawbacks: its bulk and weight make single-handed operation impractical, it requires a warmup period before firing the first time, and both the weapon and ammunition are very expensive.<br><br>Ammunition: E7 Cartridge | 10-20 shots | Semi Auto
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>1999@@ <span id="buyshit5"></span><br><<button "Add to Cart">><<set $cart.push(["E7","simple",1999,"E7"])>><<append "#buyshit5">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Special Inventory</td></tr>
+<<if ↂ.flag.pumpDumpUnlock>>
+<tr><td class="storeitem" style="width:20%;">
+  Cyka Firearms Blyat 22
+  <img data-passage="IMG-Firearm-CykaBlyat" style="width:150px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  Cyka is a Slavic firearms company in North Asia. The Blyat design started as a whale project to create a machine pistol in the United Kingdom. In a rare bout of good decision-making, the UK government decided to give up on designing their own weapons and instead bought from the Germans. The abandoned design was appropriated by Cyka and eventually turned into their signature weapon. They solved the most pressing issues with the design by using lighter ammunition, but it still has a high rate of jams and misfires. Despite the overall poor quality of the design and manufacturing, it has remained popular because it is extremely simple to modify the civilian model to fire in full automatic.<br><br>Ammunition: 22LR | 33 rounds | Automatic
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>499@@ <span id="buyshit6"></span><br><<button "Add to Cart">><<set $cart.push(["Blyat 22","simple",499,"Blyat 22"])>><<append "#buyshit6">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+
+<tr><td class="storeitem" style="width:20%;">
+  Milwaukee Brewery & Firearms Kraft 11
+  <img data-passage="IMG-Firearm-Kraft10" style="width:150px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  The Milwaukee Brewery and Firearms Kraft 11 is a civilian version of a weapon originally produced by the now-defunct Wisconsin Armaments Corporation. The original M11 subcompact machine pistol--commonly called the WAC-11--was manufactured in the 1970s and intended for military use. The Kraft 11 is an almost exact copy of the original design, however the fire mode selection mechanism is not included. A knowledgeable individual can manually chance to automatic firing mode by disassembling the weapon, though this is illegal. MBF maintains that nostalgia for 1980s action movies is the largest driver of Kraft 11 sales, and not the potential for automatic fire.<br><br>Ammunition: .38 ACP | 30 rounds | Automatic
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>699@@ <span id="buyshit7"></span><br><<button "Add to Cart">><<set $cart.push(["Kraft 11","simple",699,"Kraft 11"])>><<append "#buyshit7">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+
+<tr><td class="storeitem" style="width:20%;">
+  Institute Sidearm
+  <img data-passage="IMG-Firearm-Institute" style="width:150px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  This firearm was most likely obtained illegally from the Institute. Civilian possession is likely illegal due to the presence of a burst fire mode. The weapon seems to fire frangible flechettes at extremely high speed. Little else is known about the weapon. Acquiring new ammunition is likely to be extremely difficult or outright impossible.<br><br>Ammunition: Flechette | 75 | Semi Auto / 4 Round Burst
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>1799@@ <span id="buyshit8"></span><br><<button "Add to Cart">><<set $cart.push(["Institute Sidearm","simple",1799,"Institute Sidearm"])>><<append "#buyshit8">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<<else>>
+<tr><td colspan=3>The clerk doesn't show you the "special inventory", perhaps you should ask him about it.</td></tr>
+<</if>>
+</table>
+
+

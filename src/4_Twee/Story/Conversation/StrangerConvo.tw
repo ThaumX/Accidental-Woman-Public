@@ -1,0 +1,457 @@
+:: NPCinteraction-RandomStranger [nobr]
+
+<<silently>>
+<<set _npc = setup.interact.status.npc>>
+/* get the high priority tags that would interrupt normal initial meeting */
+<<set setup.interact.status.temp.tags1 = setup.cTag.priority(1)>>
+<<if setup.interact.status.temp.tags1.length > 0>> /* want opportunity to customize this later */
+  <<set setup.interact.status.temp.interrupt = true>>
+  <<set setup.interact.status.temp.cTag = setup.cTag.getTag(1, false)>>
+<<else>>
+  <<set setup.interact.status.temp.interrupt = false>>
+  <<set setup.interact.status.temp.cTag = "none">>
+<</if>>
+<</silently>>
+<p>
+<<f Y>>ou approach the <<if aw.npc[_npc].main.female>>woman<<else>>man<</if>> that caught your eye, trying to come up with a suitable way to start a conversation with a complete stranger without looking like a total weirdo. <<if ↂ.pc.trait.intro>>You try to avoid panicking as you get closer, something easier said than done.<<elseif ↂ.pc.kink.slut>>You’re pretty sure that being a weirdo won’t get in the way of sex, so you’re not too worried.<<else>>@@.mono;Well, what’s the worst that could happen?@@<</if>>
+</p>
+<<dialogchoice>>
+<<dbutt "honest">><<addTime 3>><<intgo "NPCinteraction-StrangerHonest">>
+<<dtext "awkward">>Just be honest, say you found them interesting and wanted to come and say hello.
+<<dbutt "pickup" "ↂ.pc.trait.flirty != -1">><<intgo "NPCinteraction-StrangerPickup">>
+<<dtext "slut">>Just approach them and tell them flat-out you think that they're hot.
+<<dbutt "be cool" "ↂ.pc.trait.vert !== 'introverted'">><<intgo "NPCinteraction-StrangerCool">>
+<<dtext "cool">>Try and play it cool, acting as if it's totally normal to walk up to a stranger and start talking to them.
+<<dbutt "excuse" false>><<intgo "NPCinteraction-StrangerExcuse">>
+<<dtext "angel">>Try to use an excuse to explain why you're there trying to speak to them. <span class="bad">[not implemented yet]</span>
+<<dbutt "Deceive">><<intgo "NPCinteraction-StrangerLie">>
+<<dtext "smug">>Pretend like you've met the person before and say hello.
+<</dialogchoice>>
+
+
+:: NPCinteraction-StrangerHonest [nobr]
+
+
+<<silently>>
+/* warning - these temp variables are for initial load only, no DOM/buttons! */
+<<set _npc = setup.interact.status.npc>>
+<<set _int = setup.interact.status.temp.interrupt>>
+<<set _ctag = setup.interact.status.temp.cTag>>
+<</silently>>
+<<if ↂ.pc.trait.flirty === -1 && random(2,10) > ↂ.pc.status.will>>
+  <p>
+  <<f y>>ou nearly get there, but a sudden moment of shyness left you frozen during the moment of truth. By the time you get back your will to talk, the opportunity to introduce yourself had passed. @@.mono;I wish I wasn't so shy... I guess I'll just have to try again.@@
+  </p>
+  <<safetoclose>>
+<<else>>
+  <<if ↂ.pc.trait.flirty === -1>>
+    <p>
+    <<f r>>ight before you're about to speak, you're hit with a sudden bout of shyness. There's a pause, but you're able to use your willpower to force yourself to continue with your greeting.
+    </p>
+    <<dp x>>Umm... Hello. I'm, umm, <<print ↂ.pc.main.name>>. I umm, saw you earlier, and I umm thought you'd be interesting to talk to... So, umm, hi.<</dp>>
+  <<elseif ↂ.pc.trait.intro>>
+    <p>
+    <<f y>>ou manage to fight off a last bout of nerves as you approach the stranger. Steeling yourself, you begin your introduction.
+    </p>
+    <<dp x>>Umm... Hello there, I'm <<print ↂ.pc.main.name>>. I saw you earlier, and I thought you'd be an interesting person to talk to... Sooooo, I decided to come over and say hello for some reason.<</dp>>
+  <<else>>
+    <p>
+    <<f y>>ou walk up the the stranger nonchalantly, having already determined to introduce yourself.
+    </p>
+    <<dp x>>Hey, how's it going? I'm <<print ↂ.pc.main.name>>. I saw you, and I just knew you'd be someone interesting to talk to, so I decided to come over here and introduce myself.<</dp>>
+  <</if>>
+  <<if aw.npc[_npc].rship.rejected>>
+    <<dn>>Seriously, I'm not interested. Take a hint already.<</dn>>
+    <<safetoclose>>
+  <<elseif _int>>
+    <<ctagcontent "stranger" _ctag>>
+    /*<center><span style="note">Normally tags contain their own dialog options.</span></center>
+    <<dialogchoice>>
+      <<dbutt "chat">><<addTime 2>><<intgo "NPCinteraction-StrangerTryChat">>
+      <<dtext "awkward">>Now that you're acquaintances, try to make a little small talk.
+      <<dbutt "Gnumber">><<set _randy = random(1,3)>><<if _randy == 1>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
+      <<dtext "cute">>Just get the person's number so you can talk or hang out some time.
+      <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = random(1,3)>><<if _randy < 3>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
+      <<dtext "kissheart">>Get straight to the point, and ask them out on a date sometime.
+      <<dbutt "lets Fuck" false>>
+      <<dtext "slut">>Convince them that sexytimes should commence immediately.
+    <</dialogchoice>>*/
+  <<else>>
+    <p>
+    <<if aw.npc[_npc].main.female>>She<<else>>He<</if>> looks at you for a moment before answering. <<dn>>Oh, umm, hi. I'm <<= aw.npc[_npc].main.name>>... Nice to meet you, I guess?<</dn>>
+    </p>
+    <<dialogchoice>>
+      <<dbutt "chat">><<addTime 2>><<intgo "NPCinteraction-StrangerTryChat">>
+      <<dtext "awkward">>Now that you're acquaintances, try to make a little small talk.
+      <<dbutt "number">><<set _randy = random(1,3)>><<if _randy == 1>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
+      <<dtext "cute">>Just get the person's number so you can talk or hang out some time.
+      <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = random(1,3)>><<if _randy < 3>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
+      <<dtext "kissheart">>Get straight to the point, and ask them out on a date sometime.
+      <<dbutt "lets Fuck" "ↂ.pc.kink.slut || ↂ.pc.liberate">><<intgo "NPCinteraction-StrangerSex">>
+      <<dtext "slut">>Convince them that sexytimes should commence immediately.
+    <</dialogchoice>>
+  <</if>>
+<</if>>
+
+
+:: NPCinteraction-StrangerContinue [nobr]
+
+<<dialogchoice>>
+  <<dbutt "chat">><<addTime 2>><<intgo "NPCinteraction-StrangerTryChat">>
+  <<dtext "awkward">>Now that you're acquaintances, try to make a little small talk.
+  <<dbutt "number">><<set _randy = random(1,3)>><<if _randy == 1>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
+  <<dtext "cute">>Just get the person's number so you can talk or hang out some time.
+  <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = random(1,3)>><<if _randy < 3>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
+  <<dtext "kissheart">>Get straight to the point, and ask them out on a date sometime.
+  <<dbutt "lets Fuck" "ↂ.pc.kink.slut || ↂ.pc.liberate">><<intgo "NPCinteraction-StrangerSex">>
+  <<dtext "slut">>Convince them that sexytimes should commence immediately.
+<</dialogchoice>>
+
+
+:: NPCinteraction-StrangerPickup [nobr]
+
+<<silently>>
+/* warning - these temp variables are for initial load only, no DOM/buttons! */
+<<set _npc = setup.interact.status.npc>>
+<<set _int = setup.interact.status.temp.interrupt>>
+<<set _ctag = setup.interact.status.temp.cTag>>
+<</silently>>
+<<if _int>>
+    <<ctagcontent "stranger" _ctag>>
+<<else>>
+    <p><<print either("@@.pc;Can I follow you? Cause my mom told me to follow my dreams.@@","@@.pc;I’d never play hide and seek with you because someone like you is impossible to find@@","@@.pc;Do you have a name or can I call you mine?@@","@@.pc;Is my vagina crying, or are you just sexy? @@","@@.pc;Did you invent the airplane? Cause you seem Wright for me. @@","@@.pc;Do you have a pencil? Cause I want to erase your past and write our future.@@","@@.pc;Do you have a map? I'm getting lost in your eyes.@@","@@.pc;Excuse me, is your name Earl Grey? Because you look like a hot-tea!@@","@@.pc;I'm no organ donor but I'd be happy to give you my heart.@@")>></p>
+  <<SCX>><<set _try = 0>><<has pheromone>><<set _try += 7>><<orhas litePhero>><<set _try += 8>><<or>><<set _try += 10>><</has>><<SC "SD" _try>>
+  <<if $SCresult[1]>><<set aw.npc.n1014.rship.lovePC += 2>><<set aw.npc.n1014.rship.likePC += 12>><<run setup.npcInfo.level(_npc, {bodyGeneral: true})>><<set aw.npc[_npc].rship.acquaint = true>><<run setup.npc.acquainted.push(_npc)>>
+    <p><<print either("@@.npc;Oh, hai! This was pretty sweet to be honest, he-he. I am <<= aw.npc[_npc].main.name>>, nice to meet you!@@","@@.npc;He-he, I like it. Name's <<= aw.npc[_npc].main.name>>, you look awesome and it is a pleasure to meet you!@@", "@@.npc;Wow, that was unexpected... and rather nice! I am <<= aw.npc[_npc].main.name>>!@@")>></p>
+    <<set _blah = setup.cTag.getTag(3, false)>><p><<set _pff = aw.npc[_npc].main.name>><<print setup.interactionMisc.tagText(_blah, _pff)>></p>
+    <<dialogchoice>>
+      <<dbutt "number">><<set _randy = random(1,10)>><<if _randy < 3>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
+      <<dtext "cute">>Just get the person's number so you can talk or hang out some time.
+      <<dbutt "Ask Out">><<set _randy = random(1,10)>><<if _randy < 4>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
+      <<dtext "kissheart">>Get straight to the point, and ask them out on a date sometime.
+      <<dbutt "lets Fuck" "ↂ.pc.kink.slut || ↂ.pc.liberate">><<intgo "NPCinteraction-StrangerSex">>
+      <<dtext "slut">>Convince them that sexytimes should commence immediately.
+    <</dialogchoice>>
+  <<else>><<set aw.npc[_npc].rship.rejected = true>><<set aw.npc.n1014.rship.likePC -= 5>>
+    <p><<print either("@@.npc;Oh, really? I... I just have no words to describe how cringy it was. I better go now.@@","@@.npc;Oh, this one was bad, like really terrible. No offence but we should never meet again, sorry.@@","@@.npc;Mmmhm, sorry, you are just not in my taste, bye!@@")>></p>
+    <p>@@.mono;Shit.@@</p>
+    <<safetoclose>>
+  <</if>>
+<</if>>
+
+
+:: NPCinteraction-StrangerSex [nobr]
+
+
+<<silently>>
+/* warning - these temp variables are for initial load only, no DOM/buttons! */
+<<set _npc = setup.interact.status.npc>>
+<<set _int = setup.interact.status.temp.interrupt>>
+<<set _ctag = setup.interact.status.temp.cTag>>
+<</silently>>
+<<if _int>>
+    <<ctagcontent "stranger" _ctag>>
+<<else>>
+  <p><<print either("@@.pc;Oh hai! I just saw you and I think you are super hot, wanna have some nice time?@@","@@.pc;Hi! I am <<print ↂ.pc.main.name>>, you are a cutie and I could really use some good fucking, are you in?@@","@@.pc;<<greetings>> You look like a perfect one-night stand, interested?@@","@@.pc;How much woman can you handle? Because I really want to scratch my taco on you right now.@@","@@.pc;I lost my teddy bear. Can I sleep with you tonight?@@","@@.pc;You know what would make your face look better? If I sat on it.@@","@@.pc;Do you eat tacos? Because my Taco Bell is open.@@")>></p>
+  <<SCX>><<set _try = 0>><<has pheromone>><<set _try += 10>><<orhas litePhero>><<set _try += 15>><<or>><<set _try += 20>><</has>><<if aw.npc[_npc].kink.liberate>><<set _try -= 5>><</if>><<if aw.npc[_npc].kink.slut>><<set _try -= 5>><</if>><<if aw.npc[_npc].kink.shame>><<set _try += 10>><</if>><<SC "SD" _try>><<if $SCresult[1]>>
+  <p><<print either("@@.npc;Oh like really? Damn, count me in!@@","@@.npc;Oh... this is pretty unexpected but on the second thought... ah. screw it, let's fuck!@@","@@.npc;Emmm... No joking? You really want to? I mean this is the first time I have ever got such proposition and... oh, damn, yes, I am in!@@")>></p>
+  <<dialogchoice>>
+    <<dbutt "My place">><<addTime 2>><<intgo "NPCinteraction-StrangerSex-Myplace">>
+    <<dtext "bimbo">>Let's go to my place, mm?
+    <<dbutt "Here">><<addTime 2>><<intgo "NPCinteraction-StrangerSex-Here">>
+    <<dtext "bimbo">>I want to do it right here!
+    <<dbutt "Second">><<addTime 2>><<intgo "NPCinteraction-StrangerSex-Second">>
+    <<dtext "disturbed">>On a second thought...
+  <</dialogchoice>>
+  <<else>>
+    <<set _randFail = random(1,100)>>
+    <<if _randFail < 20>><<set aw.npc[_npc].rship.rejected = true>>
+      <p><<print either("@@.npc;Are you mad or something? Get lost, crazy cunt!@@","@@.npc;Do I look like I am insane? Go fuck away from here, horny slut!@@", "@@.npc;What is wrong with this fucking city, everybody is batshit crazy here. Fuck it, I am out.@@","@@.npc;Wha-? Are you fucking serious? No, go look for some cocks somewhere else.@@","@@.npc;I am married you whore! Get lost.@@")>></p>
+      <<safetoclose>>
+      <<set aw.npc.n1014.rship.lovePC -= 5>>
+      <<set aw.npc.n1014.rship.likePC -= 16>>
+    <<elseif _randFail < 70>><<set aw.npc[_npc].rship.rejected = true>>
+      <p><<print either("@@.npc;Ehmm. Sorry, I am not interested... I need to go.@@","@@.npc;Ugh? I don't use hooker's services, sorry. Mmm, goodbye.@@","@@npc;Ugh, what? I don't know what you are thinking, but sorry, I am not from thins kind of... I guess I better go now.@@")>></p>
+      <<safetoclose>><<set aw.npc[_npc].rship.rejected = true>>
+      <<set aw.npc.n1014.rship.lovePC -= 3>>
+      <<set aw.npc.n1014.rship.likePC -= 8>>
+    <<elseif _randFail < 90>><<set aw.npc[_npc].rship.rejected = true>>
+      <p><<print either("@@.npc;Like really? Oh, I'd wish to to be honest, but you don't know my spouse. I better go until somebody sees me talking with you... but mmm good luck I guess?@@","@@npc;Mmmhm, sorry, I don't want to offend you and such, but you are just not my type.@@")>></p>
+      <<safetoclose>>
+      <<set aw.npc.n1014.rship.lovePC += 2>>
+      <<set aw.npc.n1014.rship.likePC += 6>>
+    <<else>>
+      <p><<print either("@@.npc;Mmm. Sounds like a nice idea to my surprise. I mean, you look gorgeous and if you are serious with it I would like to catch up with you later. Maybe we should trade info, mm?@@","@@.npc;It seems my prayers have led to something at last! Gosh, you are gorgeous, but... shit, I really have some things to take care of. Maybe I can write your number and text you later?@@")>></p>
+      <<run setup.npcInfo.level(_npc, {bodyGeneral: true})>>
+      <<set aw.npc[_npc].rship.acquaint = true>>
+      <<set aw.npc[_npc].rship.fling = true>>
+      <<run setup.npc.acquainted.push(_npc)>>
+      <<run setup.npc.fling.push(_npc)>>
+      <p>The two of you bring your phones close together, and after clicking the accept popup your phones beep. <<p pronounheshe.q _npc>> winks you before leaving.</p>
+      <p>@@.npc;Hey, I've got to go. See you, cutie.@@</p>
+      <<safetoclose>>
+    <</if>>
+  <</if>>
+<</if>>
+
+
+:: NPCinteraction-StrangerSex-Here [nobr]
+
+<<silently>>
+/* warning - these temp variables are for initial load only, no DOM/buttons! */
+<<set _npc = setup.interact.status.npc>>
+<<set _int = setup.interact.status.temp.interrupt>>
+<<set _ctag = setup.interact.status.temp.cTag>>
+/* AWAI CHECK GOES HERE */
+/* But since I can't create it there will be this lol: */
+<<set _aiRes = either(true, false)>>
+<</silently>>
+<<if _aiRes>>
+  <p><<print either("@@.npc;Sure, let's go!@@","@@.npc;If you invite, hehe...@@")>></p>
+  <p>@@.pc;Oh yes, hop on into my car, cutie!@@</p>
+  <center>
+  <<button "Rock-n-roll!">>
+  <<addtime 39>>
+  <<run setup.npcInfo.level(_npc, {bodyGeneral: true})>>
+  <<run setup.npcInfo.level(_npc, {bodyJunk: true})>>
+  <<run setup.npcInfo.level(_npc, {bodyDetail: 1})>>
+  <<set aw.npc[_npc].rship.likePC += random(7, 12)>>
+  <<set aw.npc[_npc].lovePC += random(1, 3)>>
+  <<set ↂ.sex.passage = aw.passage.title>>
+  <<set ↂ.sex.pcOutput = "It takes not that long to get to your bedroom together.">>
+  <<set ↂ.sex.enviroTags = ["wall"]>>
+  <<set aw.npc[_npc].rship.companion += 15>>
+  <<set aw.npc[_npc].sleptover += 1>>
+  <<set setup.sexitimes = _npc>>
+  <<sceneclose>><<status 0>>
+  <<script>>
+  setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
+  <</script>>
+  <<set ↂ.pc.status.morality -= random(2,5)>>
+  <</button>>
+  </center>
+<<else>>
+  <p><<print either("@@.npc;Oh, not like this, sorry... I am too afraid somebody gona see us. Maybe we could do it in your's place or somewhere?@@","@@.npc;Ugh, you mean right here? But anybody can see us here, this is too much, sorry. Maybe we could get to your place instead, mm?@@")>></p>
+  <<dialogchoice>>
+    <<dbutt "Okay">><<addTime 2>><<intgo "NPCinteraction-StrangerSex-Myplace">>
+    <<dtext "bimbo">>Okay, pussy, hop on into my car then.
+    <<dbutt "Nope">><<addTime 2>><<intgo "NPCinteraction-StrangerSex-Second">>
+    <<dtext "neutral">>This is not what I want.
+  <</dialogchoice>>
+<</if>>
+
+
+:: NPCinteraction-StrangerSex-Myplace [nobr]
+
+<<silently>>
+/* warning - these temp variables are for initial load only, no DOM/buttons! */
+<<set _npc = setup.interact.status.npc>>
+<<set _int = setup.interact.status.temp.interrupt>>
+<<set _ctag = setup.interact.status.temp.cTag>>
+/* AWAI CHECK GOES HERE */ 
+<</silently>>
+<p><<print either("@@.pc;Wanna go back to my place and watch porn on my flat screen mirror?@@","@@.pc;Hop into my car, it is near, cutie!@@")>></p>
+  <p><<print either("@@.npc;Sure, let's go!@@","@@.npc;If you invite, hehe...@@")>></p>
+  <p>@@.pc;Oh yes, hop on into my car, cutie!@@</p>
+  <center>
+  <<button "Rock-n-roll!">>
+  <<addtime 39>>
+  <<gotomap "home" "bedroom">>
+  <<run setup.npcInfo.level(_npc, {bodyGeneral: true})>>
+  <<run setup.npcInfo.level(_npc, {bodyJunk: true})>>
+  <<run setup.npcInfo.level(_npc, {bodyDetail: 1})>>
+  <<set aw.npc[_npc].rship.likePC += random(7, 12)>>
+  <<set aw.npc[_npc].lovePC += random(1, 3)>>
+  <<set ↂ.sex.passage = aw.passage.title>>
+  <<set ↂ.sex.pcOutput = "It takes not that long to get to your bedroom together.">>
+  <<set ↂ.sex.enviroTags = ["bed","wall","chair"]>>
+  <<set aw.npc[_npc].rship.companion += 15>>
+  <<set aw.npc[_npc].sleptover += 1>>
+  <<set setup.sexitimes = _npc>>
+  <<sceneclose>><<status 0>>
+  <<script>>
+  setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
+  <</script>>
+  <<set ↂ.pc.status.morality -= random(0,2)>>
+  <</button>>
+  </center>
+
+
+:: NPCinteraction-StrangerSex-Second [nobr]
+
+
+<<silently>>
+/* warning - these temp variables are for initial load only, no DOM/buttons! */
+<<set _npc = setup.interact.status.npc>>
+<<set _int = setup.interact.status.temp.interrupt>>
+<<set _ctag = setup.interact.status.temp.cTag>>
+<<set aw.npc[_npc].rship.likePC -= random(3, 9)>>
+<</silently>>
+<p><<print either("@@.pc;You know, it was probably a mistake, forget it, bye.@@","@@.pc;Nope, this is not what I want. I guess I'll go now, bye.@@")>></p>
+<p><<print either("@@.npc;Eeemmmm...@@","@@.npc;Wha-? Oh, okay... weirdo...@@")>></p>
+<<safetoclose>>
+
+
+
+:: NPCinteraction-StrangerCool [nobr]
+
+
+<<silently>>
+/* warning - these temp variables are for initial load only, no DOM/buttons! */
+<<set _npc = setup.interact.status.npc>>
+<<set _int = setup.interact.status.temp.interrupt>>
+<<set _ctag = setup.interact.status.temp.cTag>>
+<</silently>>
+<<if _int>>
+    <<ctagcontent "stranger" _ctag>>
+<<else>>
+<p><<print either("@@.pc;Hi! I am <<name>>, nice to meet you!@@","@@.pc;<<greetings>> I am <<name>>, what's up?@@","@@.pc;Hey there, I am <<name>>, how do you do?@@", "@@.pc;Howdy, name's <<name>>, what's you are up to?@@")>></p>
+  <<SCX>><<SC "CM" 10>><<if $SCresult[1]>><<set aw.npc.n1014.rship.likePC += 3>>
+    <p><<print either("@@.npc;Mmm, Hi. I am <<name _npc>>, nice to meet you too... I guess.@@","@@.npc;Oh, hi! I am <<name _npc>>, you are pretty straigtforward, hehe. But it is in my taste.@@", "@@.npc;Why hello, nice to meet you! I am <<name _npc>>!@@")>></p>
+    <<dialogchoice>>
+      <<dbutt "chat">><<addTime 2>><<intgo "NPCinteraction-StrangerTryChat">>
+      <<dtext "awkward">>Now that you're acquaintances, try to make a little small talk.
+      <<dbutt "number">><<set _randy = random(1,4)>><<if _randy == 1>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
+      <<dtext "cute">>Just get the person's number so you can talk or hang out some time.
+      <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = random(1,3)>><<if _randy < 2>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
+      <<dtext "kissheart">>Get straight to the point, and ask them out on a date sometime.
+      <<dbutt "lets Fuck" "ↂ.pc.kink.slut || ↂ.pc.liberate">><<intgo "NPCinteraction-StrangerSex">>
+      <<dtext "slut">>Convince them that sexytimes should commence immediately.
+    <</dialogchoice>>
+  <<else>><<set aw.npc[_npc].rship.rejected = true>><<set aw.npc.n1014.rship.likePC -= 3>>
+    <p><<print either("@@.npc;Sorry, I am busy, find somebody else to bother please.@@","@@.npc;Umm, sorry but I have no time for this to be honest.@@","@@.npc;No time, sorry. bye!@@")>></p>
+    <<safetoclose>>
+  <</if>>
+<</if>>
+
+
+:: NPCinteraction-StrangerExcuse [nobr]
+
+
+<<silently>>
+/* warning - these temp variables are for initial load only, no DOM/buttons! */
+<<set _npc = setup.interact.status.npc>>
+<<set _int = setup.interact.status.temp.interrupt>>
+<<set _ctag = setup.interact.status.temp.cTag>>
+<</silently>>
+<<if _int>>
+    <<ctagcontent "stranger" _ctag>>
+<<else>>
+<center><h3>Sorry! This path hasn't been implemented yet.</h3></center>
+<<safetoclose>>
+<</if>>
+
+
+:: NPCinteraction-StrangerLie [nobr]
+
+
+<<silently>>
+/* warning - these temp variables are for initial load only, no DOM/buttons! */
+<<set _npc = setup.interact.status.npc>>
+<<set _int = setup.interact.status.temp.interrupt>>
+<<set _ctag = setup.interact.status.temp.cTag>>
+<</silently>>
+<<if _int>>
+    <<ctagcontent "stranger" _ctag>>
+<<else>>
+  <p><<print either("@@.pc;Hi! You forgot me? It is me, <<name>>!@@","@@.pc;Hi, remember me, I am <<name>>, we have met last week!@@","@@.pc;Oh, cool to see you here too! Remember, we have met already?@@")>></p>
+  <<SCX>><<SC "LIE" 10>><<if $SCresult[1]>><<set aw.npc.n1014.rship.likePC += 3>><<run setup.npcInfo.level(_npc, {bodyGeneral: true})>><<set aw.npc[_npc].rship.acquaint = true>><<run setup.npc.acquainted.push(_npc)>>
+    <p><<print either("<<p pronounheshe.q _npc>> frowns obviously trying to remember your face and makes an unconvincingly surprised face.","<<name _npc>> freezes for a second fruitlessly trying to remember you then smiles.")>></p>
+    <p><<print either("@@.npc;Ah, sure, hi! I have such a bad memory, tee-hee.@@","@@.npc;Hi! Nice to see you again too!@@")>></p>
+    <<dialogchoice>>
+      <<dbutt "chat">><<addTime 2>><<intgo "NPCinteraction-StrangerTryChat">>
+      <<dtext "awkward">>Try to make a little small talk.
+      <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = random(1,3)>><<if _randy < 3>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
+      <<dtext "kissheart">>Get straight to the point, and ask them out on a date sometime.
+      <<dbutt "lets Fuck" "ↂ.pc.kink.slut || ↂ.pc.liberate">><<intgo "NPCinteraction-StrangerSex">>
+      <<dtext "slut">>Convince them that sexytimes should commence immediately.
+    <</dialogchoice>>
+  <<else>><<set aw.npc[_npc].rship.rejected = true>><<set aw.npc.n1014.rship.likePC -= 1>>
+    <p><<print either("<<p pronounheshe.q _npc>> frowns obviously trying to remember your face.","<<name _npc>> freezes for a second fruitlessly trying to remember you then shakes <<p pronounhisher.q _npc>> head.")>></p>
+    <p><<print either("@@.npc;Sorry, I am sure you had mistaken. Ugh... bye!@@","@@.npc;Hmm. I can't remember you, sorry. I guess it is some kind of a misapprehension. Bye!@@")>></p>
+    <<safetoclose>>
+  <</if>>
+<</if>>
+
+
+:: NPCinteraction-StrangerReject [nobr]
+
+
+<<silently>>
+<<set _npc = setup.interact.status.npc>> /* warning - for initial load only, no DOM! */
+<<set aw.npc[_npc].rship.rejected = true>>
+<</silently>>
+<<if _tt === "number">>
+<<dp x>>Hey, you should give me your number so I can call you.<</dp>>
+<<dn x>>Sorry, umm, I don't give my number out to strangers that just walk up to me and ask for it.<</dn>>
+<<dp x>>Ahhh, yeah, that's fair... well, um, how about I give you mine?<</dp>>
+<<dn x>>Oh, look at the time... I've got to get going, busy day. Maybe some other time...<</dn>>
+<<else>>
+<<dp x>>Hey, why don't we go out sometime? You can take me for a nice dinner or something, and heh, we'll see where things go.<</dp>>
+<<dn x>>Yeah... about that... how about no?<</dn>>
+<<dp x>>Well, umm, what about a bar or club or something?<</dp>>
+<<dn x>>Sorry, definitely still a no. I'm gonna go now...<</dn>>
+<</if>>
+<<safetoclose>>
+
+
+:: NPCinteraction-StrangerContactInfo [nobr]
+
+
+<<silently>>
+<<set _npc = setup.interact.status.npc>> /* warning - for initial load only, no DOM! */
+<<run setup.npcInfo.level(_npc, {bodyGeneral: true})>>
+<<set aw.npc[_npc].rship.acquaint = true>>
+<<run setup.npc.acquainted.push(_npc)>>
+<</silently>>
+You take out your phone.
+<<dp>>Hey, let's trade info. I'll send you a text sometime.<</dp>>
+<<dn x>>Yeah, okay.<</dn>>
+<p>The two of you bring your phones close together, and after clicking the accept popup your phones beep.</p>
+<<dn x>>Hey, I've got to go. It was nice, umm, meeting you.<</dn>>
+<<safetoclose>>
+
+
+:: NPCinteraction-StrangerDate [nobr]
+
+
+<<silently>>
+<<set _npc = setup.interact.status.npc>> /* warning - for initial load only, no DOM! */
+<<run setup.npcInfo.level(_npc, {bodyGeneral: true})>>
+<<set aw.npc[_npc].rship.acquaint = true>>
+<<run setup.npc.acquainted.push(_npc)>>
+<<run setup.npc.interested.push(_npc)>>
+<</silently>>
+<p>@@.pc;Would you like to go out with me sometime?@@</p>
+<p>@@.npc;Are you asking me out on a date?@@</p>
+<p><span class="pc">
+<<has bitch>>No shit, Sherlock.
+<<or>>Absolutely
+<</has>></span></p>
+<p>@@.npc;Okay, let's set it up!@@</p>
+
+<<datescheduler _npc>>
+
+
+:: NPCinteraction-StrangerTryChat [nobr]
+
+<<silently>>
+<<set _npc = setup.interact.status.npc>> /* warning - for initial load only, no DOM! */
+<</silently>>
+<<SCX>><<SC "CM" 5>><<if $SCresult[1]>>
+  <<set _r = random(0,1)>><<if _r == 0>>
+    <<set _blah = setup.cTag.getTag(3, false)>><p><<set _pff = aw.npc[_npc].main.name>><<print setup.interactionMisc.tagText(_blah, _pff)>></p>
+  <<else>>
+    <<ctagcontent "stranger" "random">>
+  <</if>>
+  <<include "NPCinteraction-StrangerContinue">>
+<<else>>
+  <<set aw.npc[_npc].rship.rejected = true>>
+  You search around for some topic to talk about.
+  <<dp>>So, uhh, nice weather we've been having, huh?<</dp>>
+  <<dn x>>Yeah, I guess so...<</dn>>
+  <<dp x>>Have you seen any interesting movies lately?<</dp>>
+  <<dn x>>Umm, not really... Look, I've got some stuff to take care of, so uhh, I'll see you around<</dn>>
+  <<safetoclose>>
+<</if>>
+

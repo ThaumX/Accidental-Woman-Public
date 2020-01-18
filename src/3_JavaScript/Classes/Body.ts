@@ -43,6 +43,7 @@ class Body {
     ATR,
     tags,
     ears,
+    tail,
     dta,
   }: DataBody) {
     this._k = key;
@@ -77,9 +78,15 @@ class Body {
       setTimeout(() => aw.con.obj(balls), 250);
     }
     if (dta == null) {
+      if (tail == null) {
+        tail = "none";
+      }
       // tslint:disable-next-line:max-line-length
-      this.dta = [race, skinColor, tone, weight, shoulders, hips, waist, pelvis, height, ass, clit, labia, beauty, face, brow, nose, lips, jaw, eyeColor, lactation, lactCapacity, orgasm, energy, ears, topATR, botATR, ATR];
+      this.dta = [race, skinColor, tone, weight, shoulders, hips, waist, pelvis, height, ass, clit, labia, beauty, face, brow, nose, lips, jaw, eyeColor, lactation, lactCapacity, orgasm, energy, ears, topATR, botATR, ATR, tail];
     } else {
+      if (dta.length < 28) {
+        dta.push("none"); // TEMPORARY PUSH TAIL BACKWARDS COMPATIBILITY
+      }
       this.dta = clone(dta);
     }
     this.tags = clone(tags);
@@ -87,7 +94,18 @@ class Body {
   get totalMilkCapacity(): number {
     return this.lactCapacity * 2;
   }
-  // DATA VALIDATION GETTER-SETTERS ==============
+  public get hasTail(): boolean {
+    return (this.tail === "none") ? false : true;
+  }
+  public get hasEars(): boolean {
+    const earList = ["cat", "dog", "fox", "cow"];
+    if (earList.includes(this.ears)) {
+      return true;
+    }
+    return false;
+  }
+  // ====================================================================================
+  // DATA VALIDATION GETTER-SETTERS =====================================================
   public get race(): string {
     return this.dta[0];
   }
@@ -99,7 +117,21 @@ class Body {
     }
   }
   public get skinColor(): string {
-    return this.dta[1];
+    if (ↂ.flag.tan > 0) {
+      const skins = ["pale", "fair", "tanned", "bronzed", "light", "dusky", "dark", "light brown", "brown", "dark brown", "midnight"];
+      const number = skins.indexOf(this.dta[1]);
+      if (number < 7) {
+        if (number + ↂ.flag.tan < 11) {
+          return (skins[(number + ↂ.flag.tan)]);
+        } else {
+          return "midnight";
+        }
+      } else {
+        return this.dta[1];
+      }
+    } else {
+      return this.dta[1];
+    }
   }
   public set skinColor(val: string) {
     if (typeof val !== "string") {
@@ -358,8 +390,8 @@ class Body {
     if (isNaN(val)) {
       aw.con.warn(`Attempted to set ${this._k} lactation to non-number value!`);
     } else {
-      if (val > 5) {
-        val = 5;
+      if (val > 6) {
+        val = 6;
       } else if (val < 0) {
         val = 0;
       }
@@ -468,6 +500,16 @@ class Body {
         val = -10;
       }
       this.dta[26] = val;
+    }
+  }
+  public get tail(): string {
+    return this.dta[27];
+  }
+  public set tail(val: string) {
+    if (typeof val !== "string") {
+      aw.con.warn(`Attempted to set ${this._k} ears to non-string value!`);
+    } else {
+      this.dta[27] = val;
     }
   }
 }

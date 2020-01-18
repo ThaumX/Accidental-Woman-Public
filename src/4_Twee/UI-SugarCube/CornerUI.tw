@@ -1,0 +1,49 @@
+:: topCornerUIbox [nobr]
+
+<div id="corner-bar-contents">
+  <<print setup.ui.actionButts()>>
+</div>
+<<run setup.time.missedCheck()>>
+/*need to constantly check stats to prevent them from getting above max. why not here heh*/
+/*need to check besty code for typos, lolol. also, should SAVE the new values, as otherwise this basically only affects the status bars. ;)*/
+<div id="corner-bar-info" class="lato blackOutline">
+  <center><span class="megrim" style="font-size:18px;font-weight:800;">Scene By : <<if ndef $AW.author>>Probably ThaumX<<elseif not $AW.author>>Probably ThaumX<<else>><<print $AW.author>><</if>>/*will display contributing author credits*/
+  </span></center>
+  <<if $showData>>
+    <<silently>>
+    <<set _energyPercent = Math.round(100 * ( ↂ.pc.status.energy.amt / ↂ.pc.body.energy ))>>
+    <<set _happy = (ↂ.pc.status.happy + 10) * 5>>
+    <<set _hapCol = "green">>
+    <<if ↂ.pc.status.happy < -1>><<set _hapCol = "orange">><<elseif ↂ.pc.status.happy > 5>><<set _hapCol = "blue">><</if>>
+    <<set _companPercent = 100 - ↂ.pc.status.lonely>>
+    <<set _milkPercent = Math.round((ↂ.pc.status.milkStore / ↂ.pc.body.totalMilkCapacity) * 100)>>
+    <<set _milkCol = "white">>
+    <<if _milkPercent > 94>>
+      <<set _milkCol = "orange">>
+    <</if>>
+    <</silently>>
+    <span class="lato whiteOutline" style="color:#000;">
+    <<if ↂ.pc.body.tits.lact.on>>
+      <<if random(1,2) === 2>><<progressbar _energyPercent "Energy" "green" "stripes">><<else>><<progressbar ↂpc.status.health "Health" "green" "stripes">><</if>>
+      <<progressbar _happy "Happiness" _hapCol "stripes">>
+      <<progressbar ↂpc.status.satisfaction "Satisfaction" "blue" "stripes">>
+      <<progressbar _companPercent "Companionship" "blue" "stripes">>
+      <<progressbar ↂpc.status.stress "Stress" "orange" "stripes">>
+      <<progressbar _milkPercent "Milk" _milkCol "stripes">>
+    <<else>>
+      <<progressbar ↂpc.status.health "Health" "green" "stripes">>
+      <<progressbar _energyPercent "Energy" "green" "stripes">>
+      <<progressbar _happy "Happiness" _hapCol "stripes">>
+      <<progressbar ↂpc.status.satisfaction "Satisfaction" "blue" "stripes">>
+      <<progressbar _companPercent "Companionship" "blue" "stripes">>
+      <<progressbar ↂpc.status.stress "Stress" "orange" "stripes">>
+    <</if>>
+    </span>
+  <</if>>
+</div>
+
+
+:: bottomCornerUIbox [nobr]
+
+<div id="right-UI-proc-disp" class="ship px12 monospace"><span id="passage-transition-time"></span><br>
+<<print $proc.text>>: <<print $proc.time>>ms</div>

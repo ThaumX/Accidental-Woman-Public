@@ -36,28 +36,28 @@ aw.tagContent.exes.random = [
   @@.pc;Well, yeah, better dress warm...@@<br>
   @@.npc;Weather guy said yesterday  it will get better next week.@@<br>
   @@.pc;Yeah...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.randomPerfect = [
   `<<set aw.npc[setup.interact.status.npc].rship.likePC -= 9 >>@@.pc;I am doing well lately. I'd even say wonderful.@@<br>
   @@.npc;Ugh. Glad that you... got back in the saddle so quickly.@@<br>
   @@.pc;Yeah...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.randomOkay = [
   `@@.pc;Well, it is okay I guess. And how do you do?@@<br>
   @@.npc;Mmmm... I am fine too.@@<br>
   @@.pc;Yeah...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.randomOpen = [
   `<<set aw.npc[setup.interact.status.npc].rship.likePC += 3 >>@@.pc;Not that good actually. Still recovering and everything like this.@@<br>
   @@.npc;Ouch, sorry to hear that.@@<br>
   @@.pc;Yeah...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 
@@ -78,13 +78,13 @@ aw.tagContent.exes.seriousIllnessBitchy = [
   `<<set aw.npc[setup.interact.status.npc].rship.lovePC -= 10 >>@@.pc;Oh just look, now you care!@@<br>
   @@.npc;Hey, I just trying to be nice.@@<br>
   @@.pc;Yeah, "trying". So...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.seriousIllnessOkay = [
   `@@.npc;Maybe it is none of my business now, but I still advise you to see a doc.@@<br>
   @@.pc;Be sure I will. So...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.seriousIllnessHelp = [
@@ -111,24 +111,24 @@ aw.tagContent.exes.illness = [
 aw.tagContent.exes.illnessBitchy = [
   `<<set aw.npc[setup.interact.status.npc].rship.lovePC -= 10 >@@.npc;Huh, okay, please calm down. I just tried to be friendly.@@<br>
   @@.pc;Yeah, whatever. So...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.illnessOkay = [
   `@@.pc;It is okay, thanks@@<br>
   @@.npc;Well... good for you. You better take care.@@<br>
   @@.pc;Yeah. So...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.illnessBad = [
   `@@.npc;You should really seek some medical assistance.@@<br>
   @@.pc;Yeah, I know, will do. So...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.nakedBottom = [
-  `You notice that <<print aw.npc[setup.interact.status.npc].main.name>> is <<if aw.npc[setup.interact.status.npc].kink.exhibition>><<set aw.npc[setup.interact.status.npc].rship.likePC += 3 >> looking at your naked bottom smiling.<<elseif aw.npc[setup.interact.status.npc].kink.liberate>> staring at your nudity with interest.<<elseif aw.npc[setup.interact.status.npc].kink.shame>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 3 >> blushing heavily averting eyes your naked bottom.<<else>> making quick amused glances at your bare bottom.<</if>><<has exhibition>>You can't but wiggle your <<assSize>> butt a bit, presenting your nakedness.<br>@@.mono;Oh yes, stare at me. Remember what are you missing now? Damn, this is exciting!@@<br><<arouse 2>><<orhas slut>><<arouse 2>>You can't but enjoy the attention to your naked bottom and pussy.<br><<orhas liberate>>You feel pretty comfortable with your lower part naked.<br><<orhas shame>><<stress 15>>You feel terribly insecure and going tomato red from embarassment. <br><<arouse -2>>@@.mono;How did I ever allow that to happen? I want just die right now. I wonder what <<print aw.npc[setup.interact.status.npc].main.name>> will think about me now.@@<br><<or>><<stress 7>>You feel pretty uncomfortable being exposed like this.<br><<arouse -1>><<stress 5>><</has>>
+  `You notice that <<print aw.npc[setup.interact.status.npc].main.name>> is <<if aw.npc[setup.interact.status.npc].kink.exhibition>><<set aw.npc[setup.interact.status.npc].rship.likePC += 3 >> looking at your naked bottom smiling.<<elseif aw.npc[setup.interact.status.npc].kink.liberate>> staring at your nudity with interest.<<elseif aw.npc[setup.interact.status.npc].kink.shame>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 3 >> blushing heavily averting eyes your naked bottom.<<else>> making quick amused glances at your bare bottom.<</if>><<has exhibition>>You can't but wiggle your <<assSize>> butt a bit, presenting your nakedness.<br>@@.mono;Oh yes, stare at me. Remember what are you missing now? Damn, this is exciting!@@<br><<arouse 2>><<orhas slut>><<arouse 2>>You can't but enjoy the attention to your naked bottom and pussy.<br><<orhas liberate>>You feel pretty comfortable with your lower part naked.<br><<orhas shame>><<stress 15 "Naked pussy convo">>You feel terribly insecure and going tomato red from embarassment. <br><<arouse -2>>@@.mono;How did I ever allow that to happen? I want just die right now. I wonder what <<print aw.npc[setup.interact.status.npc].main.name>> will think about me now.@@<br><<or>><<stress 7 "Naked pussy convo">>You feel pretty uncomfortable being exposed like this.<br><<arouse -1>><<stress 5 "Naked pussy convo">><</has>>
   <<dialogchoice>>
       <<dbutt "Present" "ↂ.pc.kink.exhibition">><<intreplace>><<ctagcontent "exes" "NakedBottomPresent">><</intreplace>>
       <<dtext "smug">>Give a bit better view on your lady bits.
@@ -145,7 +145,7 @@ aw.tagContent.exes.NakedBottomPresent = [
   That arouses <<print aw.npc[setup.interact.status.npc].main.name>>.
   @@.npc;Oh, shit. You are still as gorgeous as the day we met, babe!@@<br>
   @@.pc;Thanks, heh. So...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   <<else>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 5 >>You failed the check and NPC is pissed off.<br>
   @@.npc;What for you are doing this? Not to say you are running around the streets with your bare ass visible to all the people but damn, <<print ↂ.pc.main.name>>, that is your way to return me? Really?@@
   <<dialogchoice>>
@@ -160,21 +160,21 @@ aw.tagContent.exes.NakedBottomPresent = [
 aw.tagContent.exes.NakedBottomPresentChat = [
   `@@.pc;Ehh.. sure, sorry...@@<br>
   You try to go on with the convo as if nothing happened.<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.NakedBottomCover = [
   `You try to cover yourself and go on with the convo.<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.NakedBottomCool = [
   `You prefer to act normally and go on with your convo.<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.practNakedBottom = [
-  `<<print aw.npc[setup.interact.status.npc].main.name>>s look make you remember that your bottom is practically naked.<br><br><<has exhibition>><<arouse 2>>@@.mono;Maybe I should lean just a tiny bit to show my goods?@@<br><<orhas slut || liberate>>@@.mono;I guess this will remind <<if aw.npc[setup.interact.status.npc].main.female>>her<<else>>him<</if>> what <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> has lost, ha.@@<br><<orhas shame>><<arouse -2>><<stress 10>>@@.mono;Perfect. Just perfect. Now <<print aw.npc[setup.interact.status.npc].main.name>> will think that I became a total slut.@@<br><<or>><<stress 5>>@@.mono;Well, I am dressed risky today for sure. I wonder if <<print aw.npc[setup.interact.status.npc].main.name>> is regretting now about our past together.@@<br><</has>>
+  `<<print aw.npc[setup.interact.status.npc].main.name>>s look make you remember that your bottom is practically naked.<br><br><<has exhibition>><<arouse 2>>@@.mono;Maybe I should lean just a tiny bit to show my goods?@@<br><<orhas slut || liberate>>@@.mono;I guess this will remind <<if aw.npc[setup.interact.status.npc].main.female>>her<<else>>him<</if>> what <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> has lost, ha.@@<br><<orhas shame>><<arouse -2>><<stress 10 "Naked pussy convo">>@@.mono;Perfect. Just perfect. Now <<print aw.npc[setup.interact.status.npc].main.name>> will think that I became a total slut.@@<br><<or>><<stress 5 "Naked pussy convo">>@@.mono;Well, I am dressed risky today for sure. I wonder if <<print aw.npc[setup.interact.status.npc].main.name>> is regretting now about our past together.@@<br><</has>>
   <<dialogchoice>>
       <<dbutt "Present" "ↂ.pc.kink.exhibition">><<intreplace>><<ctagcontent "exes" "practNakedBottomPresent">><</intreplace>>
       <<dtext "smug">>Give a bit better view on your lady bits.
@@ -190,7 +190,7 @@ aw.tagContent.exes.practNakedBottomPresent = [
   That arouses <<print aw.npc[setup.interact.status.npc].main.name>>.<br>
   @@.npc;Oh, shit. You are still as gorgeous as the day we met, babe!@@<br>
   @@.pc;Thanks, heh. So...@@
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   <<else>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 5 >><br>You failed the check and NPC is pissed off.<br>
   @@.npc;What for you are doing this? Not to say you are running around the streets with your bare ass visible to all the people but damn, <<print ↂ.pc.main.name>>, that is your way to return me? Really?@@<br>
   <<dialogchoice>>
@@ -205,16 +205,16 @@ aw.tagContent.exes.practNakedBottomPresent = [
 aw.tagContent.exes.practNakedBottomPresentChat = [
   `@@.pc;Oh... Yes, you are right...sorry.@@<br>
   You try to go on with the convo as if nothing happened.<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.practNakedBottomCover = [
   `You prefer to act normally and go on with your convo.<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.buckNaked = [
-  `<<print aw.npc[setup.interact.status.npc].main.name>> stare at your nude body.<br><<has exhibition>><<aroused 2>>@@.mono;Oh yeah, look at me!@@<br><<orhas slut || liberate>>@@.mono;That is prety exciting! I wonder, what <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> is thinking about now?@@<br><<orhas shame>><<aroused -2>><<stress 25>>@@.mono;Oh my. Oh my. I want to die right now.@@<br><<or>><<stress 15>>@@.mono;Oh, shit. I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will not tell anybody.@@<br><</has>>
+  `<<print aw.npc[setup.interact.status.npc].main.name>> stare at your nude body.<br><<has exhibition>><<aroused 2>>@@.mono;Oh yeah, look at me!@@<br><<orhas slut || liberate>>@@.mono;That is prety exciting! I wonder, what <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> is thinking about now?@@<br><<orhas shame>><<aroused -2>><<stress 25 "Naked convo">>@@.mono;Oh my. Oh my. I want to die right now.@@<br><<or>><<stress 15 "Naked convo">>@@.mono;Oh, shit. I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will not tell anybody.@@<br><</has>>
   <<dialogchoice>>
       <<dbutt "Present" "ↂ.pc.kink.exhibition">><<intreplace>><<ctagcontent "exes" "buckNakedPresent">><</intreplace>>
       <<dtext "smug">>Rotate exposing yourself further.
@@ -230,7 +230,7 @@ aw.tagContent.exes.buckNakedPresent = [
   `<<SCX>><<SC "SD" "20">>You expose your buck naked body to the ex.<br>
   @@.pc;Like what you see?@@<br>
   <<if $SCresult[1]>><<set aw.npc[setup.interact.status.npc].rship.likePC += 10 >>@@.npc;Oh... yeah. You look gorgeous!@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   <<else>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 5 >>You failed the check and NPC is pissed off.<br>
   @@.npc;Please, can you cover or something? That is plain obscene to be naked like that.@@<br>
   <<dialogchoice>>
@@ -244,28 +244,28 @@ aw.tagContent.exes.buckNakedPresent = [
 aw.tagContent.exes.buckNakedPresentChat = [
   `@@.pc;Ehh.. sure, sorry...@@<br>
   You try to go on with the convo as if nothing happened.<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.buckNakedCover = [
   `You try to cover your body with hands which is not super effective. NPC tries his best to ignore your clothing choice.<br>
   @@.npc;W-well, what were we talking about?@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.buckNakedCool = [
   `You prefer to act normally and go on with your convo. NPC is nervous.<br>
   <<if ↂ.pc.trait.bitch === 1>>@@.pc;My eyes are up here by the way.@@<br>
   @@.npc;S-sorry... So what were we talking about?@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   <<else>>@@.pc;Sorry for that.@@<br>
   @@.npc;Yeah... So what were we talking about?@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   <</if>>`,
 ];
 aw.tagContent.exes.wetClothes = [
   `<<if ↂ.pc.clothes.keys.bra === 0>>You notice the exes looks at your chest and realise that your <<p nipl.q>> nipples are visible through the wet clothes.<br>
-  <<has exhibition>><<arouse 1>>@@.mono;Oh yeah, I like that.@@<br><<orhas slut>>@@.mono;That is certainly drawing <<if aw.npc[setup.interact.status.npc].main.female>>her<<else>>his<</if>> attention.@@<br><<orhas shame>><<stress 7>>@@.mono;Oh shit, shit, shit, my nipples are showing!@@<br><<or>><<stress 2>>@@.mono;Oops, better cover that!@@<br><</has>>
+  <<has exhibition>><<arouse 1>>@@.mono;Oh yeah, I like that.@@<br><<orhas slut>>@@.mono;That is certainly drawing <<if aw.npc[setup.interact.status.npc].main.female>>her<<else>>his<</if>> attention.@@<br><<orhas shame>><<stress 7 "Wet clothes convo">>@@.mono;Oh shit, shit, shit, my nipples are showing!@@<br><<or>><<stress 2 "Wet clothes convo">>@@.mono;Oops, better cover that!@@<br><</has>>
   <<dialogchoice>>
       <<dbutt "Cover" "!ↂ.pc.kink.exhibition">><<intreplace>><<ctagcontent "exes" "wetClothesCover">><</intreplace>>
       <<dtext "disturbed">>Try to cover yourself with hands.
@@ -277,33 +277,33 @@ aw.tagContent.exes.wetClothes = [
   <<else>>
   @@.npc;Hey, somebody forgot to take an umbrella today?@@<br>
   @@.pc;Yeah... such a shame. So...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   <</if>>`,
 ];
 aw.tagContent.exes.wetClothesCover = [
   `You cover your <<p breasts.n>> breast with your hand.<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.wetClothesCool = [
   `<<if ↂ.pc.trait.bitch === 1>>@@.pc;My eyes are up here by the way.@@<br>
   @@.npc;S-sorry... So what were we talking about?@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   <<else>>@@.pc;Brr, it is really chilly today.@@<br>
   @@.npc;Yeah... So what were we talking about?@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   <</if>>`,
 ];
 aw.tagContent.exes.lightPheromones = [
   `@@.npc;Hmm, I felt that smell again. You still use this weird parfume?@@<br>
   @@.pc;Don't know what are you talking about. So...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.pheromones = [
   `@@.npc;Hmm, I felt that smell again. You still use this weird parfume?@@<br>
   @@.pc;Don't know what are you talking about. So...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.goddess = [
@@ -311,11 +311,11 @@ aw.tagContent.exes.goddess = [
   @@.pc;What's wrong?@@<br>
   @@.npc;I suddenly felt... that does not matter, forget about it.@@<br>
   @@.pc;Hmm, okay. So...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>`,
+  <<include [[NPCinteraction-ExesContinue]]>>`,
 ];
 aw.tagContent.exes.hairyPits = [
   `While talking your realise that your hairy armpit bushes are showing through the thin fabric. The exes seems to be <<set _r = random(0,5)>><<if _r > 2 >><<set aw.npc[setup.interact.status.npc].rship.likePC -= 5 >>pretty disgusted by <<else>>okay with <</if>>that.<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 aw.tagContent.exes.clownMakeup = [
@@ -335,7 +335,7 @@ aw.tagContent.exes.clownMakeup = [
   @@.npc;Well, it is your makeup, <<print ↂ.pc.main.name>>. Like totally ruined.@@<br>
   @@.pc;Yeah, I am aware of that, thanks.@@<br>
   @@.mono;Oh shit, I better clean makeup asap. That is just embarassing.@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   <</if>>`,
 ];
 aw.tagContent.exes.clownMakeupConfront = [
@@ -351,23 +351,23 @@ aw.tagContent.exes.clownMakeupAsk = [
   @@.npc;Well, it is your makeup, <<print ↂ.pc.main.name>>. Like totally ruined.@@<br>
   @@.pc;Well, yeah, that was a tough morning for sure.@@<br>
   @@.mono;Oh shit, I better clean makeup asap. That is just embarrassing.@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>`,
+  <<include [[NPCinteraction-ExesContinue]]>>`,
 ];
 aw.tagContent.exes.clownMakeupCool = [
   `You go on with the convo as if nothing happened.<br>
-  <<include [[NPCinteraction-ExesTag]]>>`,
+  <<include [[NPCinteraction-ExesContinue]]>>`,
 ];
 aw.tagContent.exes.clownMakeupSarcasm = [
   `<<set aw.npc[setup.interact.status.npc].rship.likePC -= 5 >>@@.pc;My makeup is so good it made you histerical, yeah?@@<br>
   @@.npc;What?@@<br>
   @@.pc;Whatever.@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>`,
+  <<include [[NPCinteraction-ExesContinue]]>>`,
 ];
 aw.tagContent.exes.withdrawal = [
   `@@.mono;Shit, I need to find a way to beat that withdrawal soon.@@<br>
   @@.npc;Hey, <<print ↂ.pc.main.name>>, are you ok?@@<br>
   @@.pc;Ah? Y-yep.@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>`,
+  <<include [[NPCinteraction-ExesContinue]]>>`,
 ];
 aw.tagContent.exes.latePreg = [
   `@@.npc;You look like a watermelon with legs. Any time soon, yeah?@@<br>
@@ -375,7 +375,7 @@ aw.tagContent.exes.latePreg = [
   <<else>>@@.pc;Yeah. This is hard to carry around already, hope I ll give birth soon!@@<br>
   <</if>>@@.npc;Well... I hope it will go well.@@<br>
   @@.pc;Thanks! So...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>`,
+  <<include [[NPCinteraction-ExesContinue]]>>`,
 ];
 aw.tagContent.exes.drunk = [
   `@@.pc;Ha, you again! Long tme no see!@@<br>
@@ -421,8 +421,8 @@ aw.tagContent.exes.mindbreak = [
   <<if ↂ.pc.trait.will > 4 >>You somehow manage to gain your reason back.<br>
   <<set aw.npc[setup.interact.status.npc].rship.lovePC += 5 >>@@.pc;I am so sorry. It was really tough times lately.@@<br>
   @@.npc;Oh, it is okay.@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
-  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10>>You start histerically giggling.<br>
+  <<include [[NPCinteraction-ExesContinue]]>>
+  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10 "Mindbroken convo">>You start histerically giggling.<br>
   @@.npc;Oh, I better go, you... just be safe you know? I ll call you later...maybe...@@<br>
   You cry ang laugh alone sitting on the floor for some time before you finally start to feel better.<br>
   <<link "Get up">><<run setup.interact.exit()>><</link>>
@@ -433,12 +433,12 @@ aw.tagContent.exes.flooded = [
     You feel your juices running down your inner thights with no panties in a way to stop them.<br>
     <<has exhibition>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will notice that. That is so embarassingly exciting!@@<br><<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will not notice that.@@<br><</has>>
   <<else>>You feel your juices making a slippery mess slowly soaking through your panties.<br><<has slut>>@@.mono;Speaking with a person while being flooded like that is so naughty!@@<br><<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will not notice that.@@<br><</has>>
-  <</if>><<include [[NPCinteraction-ExesTag]]>>`,
+  <</if>><<include [[NPCinteraction-ExesContinue]]>>`,
 ];
 
 aw.tagContent.exes.pussyAccess = [
-  `Apologies. No content has been written for this tag [pussyAccess].<br>
-  <<include [[NPCinteraction-ExesTag]]>>`,
+  `<p>@@.mono;Oh, I fell a breeze on my bare pussy. I wonder if <<n setup.interact.status.npc "heshe.q">> notices that I don't wear any panties, tee-hee.@@</p>
+  <<include [[NPCinteraction-ExesContinue]]>>`,
 ];
 
 // OTHER TAGS
@@ -459,14 +459,14 @@ aw.tagContent.exes.stressed = [
 aw.tagContent.exes.stressedNope = [
   `@@.pc;It is okay. Don't worry.@@<br>
   @@.npc;Oh, sorry then, I just thought you was... whatever.@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 
 aw.tagContent.exes.stressedAbit = [
-  `<<has extro>>@@.pc;Yeah, I feel not that good. Work and everything in general you know. Don't know if I can deal with all this much longer...<<stress -1>>@@<<or>>@@.pc;Yeah, it was not very nice last days.@@<</has>><<set aw.npc[setup.interact.status.npc].rship.likePC += 5 >><br>
+  `<<has extro>>@@.pc;Yeah, I feel not that good. Work and everything in general you know. Don't know if I can deal with all this much longer...<<stress -1 "Talking about stress">>@@<<or>>@@.pc;Yeah, it was not very nice last days.@@<</has>><<set aw.npc[setup.interact.status.npc].rship.likePC += 5 >><br>
   @@.npc;Oh, I am sure it will be okay...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 
@@ -474,7 +474,7 @@ aw.tagContent.exes.tipsy = [
   `@@.npc;What is that smell? Did you drink?@@<br>
   @@.pc;Well, you think I can't? It is not like it is your business now.@@<br>
   @@.npc;Well no, I just was...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 
@@ -482,19 +482,19 @@ aw.tagContent.exes.athleticClothes = [
   `@@.npc;Going for a jog or something?@@<br>
   @@.pc;Well, yeah, trying to keep myself in shape.@@<br>
   @@.npc;Good for you I guess...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
   `@@.npc;Got ready to pump iron?@@<br>
   @@.pc;It is really good for health and weight too actually.@@<br>
   @@.npc;Way too go then.@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 
 aw.tagContent.exes.kinkyClothes = [
   `<<if aw.npc[setup.interact.status.npc].kink.liberate>>@@.npc;It seems that you enjoying your life, heh. Glad that you recovered.@@<<elseif aw.npc[setup.interact.status.npc].kink.shame>><<set aw.npc[setup.interact.status.npc].rship.lovePC -= 7 >>@@.npc;Oh, now I suddenly remember why we separated. Those clothes are... lewd.@@<<else>>@@.npc;You seem to be not that upset now, <<print ↂ.pc.main.name>>. At least you find a way to cheer yourself up with those clothes.@@<</if>><br>
-  <<has liberate>>@@.pc;Life is too short to dress modestly, <<print aw.npc[setup.interact.status.npc].main.name>>!@@<br><<orhas slut>>@@.pc;I just like drawing attention to my most delicious parts you always knew that.@@<br><<orhas shame>><<stress 8>>@@.pc;I just thought I will feel sexy in those and now I regret every moment.@@<br><<or>>@@.pc;Well, can a girl wear something sexy from time to time, right?@@<br><</has>><br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<has liberate>>@@.pc;Life is too short to dress modestly, <<print aw.npc[setup.interact.status.npc].main.name>>!@@<br><<orhas slut>>@@.pc;I just like drawing attention to my most delicious parts you always knew that.@@<br><<orhas shame>><<stress 8 "kinky clothes convo">>@@.pc;I just thought I will feel sexy in those and now I regret every moment.@@<br><<or>>@@.pc;Well, can a girl wear something sexy from time to time, right?@@<br><</has>><br>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 
@@ -502,32 +502,32 @@ aw.tagContent.exes.nightwear = [
   `@@.npc;Is this a nightwear? Why are you dressed in it here?@@<br>
   @@.pc;I have nothing to answer actually.@@<br>
   @@.npc;Well, that's why we are now not together. Because you are weird.@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 
 aw.tagContent.exes.cuteClothes = [
   `@@.npc;Hey, pretty cute dress.@@<<set aw.npc[setup.interact.status.npc].rship.lovePC += 1 >><br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 
 aw.tagContent.exes.cuteClothes = [
   `@@.npc;Hey, very cute dress!@@<<set aw.npc[setup.interact.status.npc].rship.lovePC += 1 >><br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 
 aw.tagContent.exes.slovenlyClothes = [
   `@@.npc;Well, <<print ↂ.pc.main.name>>, you really should care about yourself. This clothes are a disaster.@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 
 aw.tagContent.exes.swimwear = [
   `@@.npc;Care for swimming? Nice swimsuit by the way.@@<br>
   @@.pc;Thanks, heh. So...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 
@@ -536,16 +536,16 @@ aw.tagContent.exes.damagedClothes = [
   @@.pc;What?@@<br>
   @@.npc;Buy new clothes, chill a bit, really. It is not the end of the world.@@<br>
   <<has bitch>>@@.pc;I did not ask for an advice by the way. So...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>><<or>>@@.pc;You are right. So...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>><</has>>
+  <<include [[NPCinteraction-ExesContinue]]>><<or>>@@.pc;You are right. So...@@<br>
+  <<include [[NPCinteraction-ExesContinue]]>><</has>>
   `,
 ];
 
 aw.tagContent.exes.stainedClothes = [
-  `@@.npc;Your clothes are stained in something you know?@@<<stress 3>><br>
+  `@@.npc;Your clothes are stained in something you know?@@<<stress 3 "stained clothes convo">><br>
   @@.mono;Now <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will think that I am a slob, perfect.@@<br>
   @@.pc;Yeah, I am aware. So...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];
 
@@ -554,6 +554,6 @@ aw.tagContent.exes.angry = [
   <<has bitch>>@@.pc;Because I am, dammit!@@<<or>>@@.pc;Yeah, I am really pissed off now.@@<</has>><br>
   @@.npc;Oh, don't be like that. I know you are not like this usually.@@<<anger -1>><br>
   @@.pc;Maybe. So...@@<br>
-  <<include [[NPCinteraction-ExesTag]]>>
+  <<include [[NPCinteraction-ExesContinue]]>>
   `,
 ];

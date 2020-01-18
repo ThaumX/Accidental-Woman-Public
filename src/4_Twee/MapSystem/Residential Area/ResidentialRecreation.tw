@@ -1,0 +1,72 @@
+:: ResidentialRecreation [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPrecreation]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+@@.head3;Y@@u are in the common area at the center of a block of buildings that includes your apartment building. The square block of buildings has a large opening at the center, leaving plenty of room for parking as well as a small neighborhood park. While there isn't a lot of space, they've managed to fit a small playground, some picnic tables, a half-sized basketball court, a BBQ area, and a small grassy area for tanning in the park.
+/*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise look>>
+  <<button "Walk Around">><<addTime 10>><<dialog "Recreational Area">>@@.head3;Y@@ou walk around the area, looking for something (or someone) interesting. Unfortunately, you don't find anything this time.<</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion look>>Take a walk around the park and see if you find any trouble to get into.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+
+</div>
+
+
+:: ResidentialRecreationLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+
+

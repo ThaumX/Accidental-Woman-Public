@@ -1,0 +1,1011 @@
+/*
+    888888  .d88888b.  888888b.        88888888888 888       888 8888888888 8888888888
+      "88b d88P" "Y88b 888  "88b           888     888   o   888 888        888
+       888 888     888 888  .88P           888     888  d8b  888 888        888
+       888 888     888 8888888K.           888     888 d888b 888 8888888    8888888
+       888 888     888 888  "Y88b          888     888d88888b888 888        888
+       888 888     888 888    888          888     88888P Y88888 888        888
+       88P Y88b. .d88P 888   d88P          888     8888P   Y8888 888        888
+       888  "Y88888P"  8888888P"           888     888P     Y888 8888888888 8888888888
+     .d88P
+   .d88P"
+  888P"
+  8888888b.     d8888  .d8888b.   .d8888b.        d8888  .d8888b.  8888888888 .d8888b.
+  888   Y88b   d88888 d88P  Y88b d88P  Y88b      d88888 d88P  Y88b 888       d88P  Y88b
+  888    888  d88P888 Y88b.      Y88b.          d88P888 888    888 888       Y88b.
+  888   d88P d88P 888  "Y888b.    "Y888b.      d88P 888 888        8888888    "Y888b.
+  8888888P" d88P  888     "Y88b.     "Y88b.   d88P  888 888  88888 888           "Y88b.
+  888      d88P   888       "888       "888  d88P   888 888    888 888             "888
+  888     d8888888888 Y88b  d88P Y88b  d88P d8888888888 Y88b  d88P 888       Y88b  d88P
+  888    d88P     888  "Y8888P"   "Y8888P" d88P     888  "Y8888P88 8888888888 "Y8888P"
+*/
+
+
+:: BestyServicesEvent1-A [nobr]
+
+<<sceneinforeplace>><b>Thornton Institute</b><br>Service Tunnels<</sceneinforeplace>>
+<<f Y>>ou were <<if ↂ.job.stats.rank < 5>>mopping the floors in the sector D high security test labs facility<<else>>going to the sector D high security test labs facility to check your subordinate's work<</if>> when you hear the odd sound of multiple heavy boots running and some shouts. The sound comes from the perpendicular hall and it is really <<link "none of your business">>
+  <<scenego "BestyServicesEvent1-B">>
+<</link>> ,but who knows, maybe it is <<link "worth checking out">>
+  <<scenego "BestyServicesEvent1-C">>
+<</link>>?
+
+
+:: BestyServicesEvent1-B [nobr]
+
+<<f Y>>ou decide that it is better to avoid any funny business and quickly head to your destination; ignoring the noises coming from the door.
+<br><br>
+Later in the day you find out that you successfully avoided some serious trouble. It would seem that something serious was happening down there, because you hear some rumors about some intruders who infiltrated sector D. According to Carl, somebody was seriously hurt as well. He seems pretty sure that the intruders were searching for some particularly valuable information or experimental data; maybe it was a foreign government, or perhaps even Black Butte? Black Butte seems seriously sketchy from what you've heard, but maybe that's just because they're the Institute's competitor?
+<br>
+<<link "Back to work">><<sceneclose>><</link>>
+
+
+:: BestyServicesEvent1-C [nobr]
+
+<<if ndef ↂ.flag.jobEvents.services.sawChinese>>
+<<set ↂ.flag.jobEvents.services.sawChinese = true>>
+<</if>>
+<<set ↂ.flag.jobEvents.services.sawChinese = true>>
+<<f Y>>ou open the door and peer into the slit. Armed soldiers in unrecognizable military uniforms and ski masks are moving through the hall.
+<br><br>
+@@.npc;移动，我们需要找到数据！@@
+<br><br>
+You notice somebody in a lab coat lying behind the interlopers. As they move closer to the door you are standing behind, you decide that it's time to retreat. The door must not have been oiled very well because when you close it, it makes a long, loud, groaning noise. You wince as you hear the soldiers running towards the door. You quickly turn to run, only to be brought up short by a short woman pointing two handguns directly at you.
+<center>[img[IMG-BestysChineseAgentSubby]]</center>
+Unsure of what to do, you start to back back away from her. Unfortunately, this is in the direction of the door you had just tried to escape from. It explodes open and in moments several guns are pointed at your chest. The woman in black hurriedly walks towards you.
+<br><br>
+@@.npc;You, answer! Papers where? Project breeding genetical papers? 回答我！@@
+<br><br>
+<<if ↂ.skill.comm >= 60>>
+  With gestures and simple words you manage to explain that you are just a janitor.
+  <br><br>
+  @@.npc;You sit here then, no make sound！ You see us not!@@
+  <br><br>
+  They quickly lose interest in you and run to the entrance of the next facility, checking every door.
+  <br><br>
+  A few minutes later another group of people dressed in Institute security uniforms enter the hall. @@.npc;...HQ, chasing the intruders, copy...@@ They notice you sitting near the wall and point their personal stunners at you. Seeing your work jumpsuit they relax and lower their weapons.
+  <br><br>
+  @@.npc;Operative Craig, security division. Did you see anything unusual, miss?@@
+  <br><br>
+  @@.pc;Some armed people went in that direction about two minutes ago, what's happening?!@@
+  <br><br>
+  @@.npc;Nothing to worry about miss, just a ...drill. Get back to your duties. We'll manage this from here.@@
+  <br><br>
+  With gentle force Craig gets you on your feet and pushes you towards the doors. Before you realize it, you are pushed back to the sector D hall and an operative locks the door behind you, making it impossible for you to return. You finally notice that your hands are trembling for some reason.
+  <br>
+  <<link "Back to work">><<sceneclose>><</link>>
+  <<stress 30 "Intruders at the Institute">>
+<<else>>
+  @@.pc;Who are you? What the heck is going on here?!@@
+  <br><br>
+  @@.npc;Answer now! Papers, where?@@
+  <br><br>
+  @@.pc;I have no idea what you're talking about. What pa...@@
+  <br><br>
+  Your brow lights up with pain as the soldier talking to you smacks you with the butt of his rifle.<<link "you lose consciousness">>
+    <<scenereplace>>
+      @@.npc;Operative Craig, security division. Are you okay, miss?@@
+      <br><br>
+      A person in an Institute security uniform stands in front of you with an intense look.
+      <br><br>
+      @@.npc;Who did this to you, and do you know where they went?@@
+      <br><br>
+      You still feel dizzy, but you manage to give a brief description of the soldiers and tell him that you didn't see where they went.
+      <br><br>
+      @@.npc;Okay miss, just sit tight, help should be here soon.@@
+      <br><br>
+      Craig leaves you in the hall and it takes another 15 minutes before the hall becomes crowded. In the fuss, you and the other person with the lab coat on manage to get some medical attention. An hour later and you are feeling much better thanks to all the medication they fed you. You answer all the questions the security guys ask you. Your headache is still terrible though.
+      <br>
+      <<link "Back to work">><<sceneclose>><</link>>
+      <<stress +50 "Getting knocked out by intruders at the Institute">><<set ↂ.pc.status.health -= 23>><<run setup.status.record("health", -23, "A concussion")>><<run setup.omni.new("concussion")>>
+      <<timed 50ms>><<updatebar>><</timed>>
+    <</scenereplace>>
+  <</link>>.
+<</if>>
+
+
+:: JobEvent-Services-B [nobr]
+
+/*Meeting A Coworker: Marta*/
+<<set setup.npc.acquainted.push("n1025")>>
+<<npcLike 15 "n1025" 2>>
+<img data-passage="IMG-JobEventIS-MartaMeeting" class="jobEventImage">
+<p>
+<<f y>>ou run into someone from the services division in one of the numerous underground corridors of the Institute research complex. She seems to be in her early thirties, with bleached blonde hair and flashy makeup.
+</p>
+<p>
+When you get a little closer, you decide to say hello. @@.pc;Hello there, I don't think we've met yet. I'm <<name>>.@@
+</p>
+<p>
+She looks a little surprised that you started talking to her. @@.npc;Oh! Hello <<name>>, it's nice to meet you. Sorry I was off in my own little world there, my name is Marta.@@ She looks you up and down, and gives you a kind smile. @@.npc;You're really cute <<name>>, so I'm sure I would've remembered you if we had met. It's a shame that us services people end up spread out all over the place, otherwise we would have met sooner.@@
+</p>
+<p>
+You return her smile. @@.npc;I know what you mean! I've only seen a handful of services employees; if it wasn't for the above ground services building, I'd really wonder how things are kept clean.@@
+</p>
+<p>
+She nods in understanding. @@.npc;All the more reason for us services people to stick together, yeah? What zones do you work? I'm usually in D, but sometimes I help out in C.@@
+</p>
+<p>
+@@.pc;That's a cool coincidence. I started out training in zone C, but now it seems I'm going to be mostly working in zone D.@@
+</p>
+<p>
+Marta's smile gets bigger. @@.npc;It seems like we're coworkers then! We should totally be friends. Let me know if you need any help getting used to zone D, okay?@@
+</p>
+<p>
+You smile back. @@.pc;I'd like that, and thanks! I'll be sure to ask you if I have any problems.@@
+</p>
+<p>
+She gives you a thumbs up. @@.npc;I've gotta get started on this next building. I'll see you around!@@ The thumbs up turns into a wave and she starts pushing her cleaning cart again.
+</p>
+<p>
+You wave back. @@.pc;Yep, see you around!@@
+</p>
+<center><<button "BACK TO WORK">><<sceneclose>><</button>></center>
+
+
+:: JobEvent-Services-C [nobr]
+
+/*An Unusual Coworker: Marta*/
+<<npcLike 5 "n1025" 2>>
+<img data-passage="IMG-JobEventIS-toplessJanitor" class="jobEventImage">
+<p>
+<<f y>>ou happen upon Marta--a senior janitor--in the hallway outside one of the underground cleaning supply depots. Alarmingly, she's naked except for a pair of floral panties. With her large tits, it's practically like she's putting them on display.
+</p>
+<p>
+She notices her approach and looks up from what she's doing with her mop. @@.npc;Oh hi <<name>>, did you finish sector D3 already? You're getting good!@@
+</p>
+<p>
+You smile at the complement. @@.pc;Yep, I just finished. It was pretty easy today though. What are <b><i>you</i></b> up to?@@
+</p>
+<p>
+@@.npc;Oh, I'm just trying to get this new mop head attached. They're always a pain, you know?@@ She seems to completely miss the point of your question.
+</p>
+<p>
+@@.pc;Yeah, they really are.@@ You decided to ask directly. @@.pc;But what I really was curious about was your change in uniform.@@
+</p>
+<p>
+She pauses, looking down before realizing what you mean. @@.npc;Ohhh, this. haha.@@ She starts to blush. @@.npc;You see there's some labs in D13, they have some interesting animals over there... I always volunteer for their weekly cleaning.@@ The explanation isn't very helpful, but leaves her squeezing her thighs together.
+</p>
+<p>
+Her unusual behavior throws you off, so it takes a moment before you reply. @@.pc;"Good Employees Volunteer" after all... but that doesn't explain why you're nearly naked Marta.@@
+</p>
+<p>
+She looks a little embarrassed as she answers. @@.npc;Oh, haha. I got thinking about those cute animals and forgot why I was telling you. Those animals, you see, they're ''really'' passionate.@@ She gives you a knowing grin. @@.npc;They can make quite a mess when they get excited, so I spend some time playing with them first before I clean. Instead of having to get new clothes each time, I just get naked before I go in.@@ She gestures to her panties. @@.npc;I take these off when I get there.@@
+</p>
+<p>
+@@.pc;Oh, that's good thinking.@@ <<has slut>>You pause for a moment, jealous.<<or>>You wonder about her methods though.<</has>> @@.pc;Why don't you take of your uniform when you get there too? You're going to distract anyone you run into like that...@@
+</p>
+<p>
+She giggles. @@.npc;I don't mind distracting people... Sometimes it's nice when I can take a little 'break' with someone that likes what they see.@@ She gives you a wink. @@.npc;Perks of the job, you know? I love how they don't count sex time against our work hours here!@@ You can tell she's already worked herself up into quite a state of arousal. @@.npc;Anyway, there's not enough room on this cart for my uniform, so it's easy to get it dirty on accident while cleaning up a lot of spunk...@@ She shrugs as if to say "what can you do?"
+</p>
+<p>
+@@.pc;It seems like you've got it all figured out Marta, I'm jealous.@@
+</p>
+<p>
+She beams happily at your complement. @@.npc;Thanks! You know, a tip from one girl to another... There's no rule that says you can't take off your uniform yourself to do some cleaning... or some distracting!@@
+</p>
+<p>
+@@.pc;I'll keep that in mind... Have fun Marta!@@ You start to head into the supply depot.
+</p>
+<p>
+Marta answers you as you walk away. @@.npc;oooohhhh, I will.@@ Her words are dripping with arousal.
+</p>
+<center><<button "BACK TO WORK">><<sceneclose>><</button>></center>
+
+
+:: JobEvent-Services-D [nobr]
+
+/*Running into Marta*/
+<<npcLike 1 "n1025" 2>>
+<<set _sec = random(1,10)>>
+<<set _cock = ["error","a lot of cubicles", "all those private offices", "plenty of floors to mop", "all that equipment", "all those tank things", "so many shelves to dust", "corridors like a maze", "all that water everywhere", "those creepy machines", "all that medical equipment"]>>
+<<if random(1,2) === 1>>
+<img data-passage="IMG-JobEventIS-Marta1" class="jobEventImage">
+<<else>>
+<img data-passage="IMG-JobEventIS-MartaAnnoyed" class="jobEventImage">
+<</if>>
+<p>
+<<f y>>ou <<= either("run into Marta near the beginning of your shift", "happen upon Marta in the early afternoon", "encounter marta on the way to your next assignment")>>. You're assigned to give sector D-<<= _sec>> a more thorough cleaning, and wonder if she's assigned the same sector. @@.pc;Hi Marta, are you assigned to clean sector D-<<= _sec>> too?@@
+</p>
+<p>
+Marta looks at you and smiles. @@.npc;Yep, I'm also scheduled for the D-<<= _sec>> deep-clean. I'm glad I have you to help!@@
+</p>
+<p>
+You give her a relaxed smile of your own. @@.pc;For real, doing a deep clean by yourself really sucks. So how do you want to do this one?@@ You let Marta divide up the work because she's pretty good at keeping it fair, and also at making sure the two of you are working together as much as possible so you can chat while performing the mindless cleaning.
+</p>
+<p>
+She stops to think for a bit before answering. @@.npc;Well, D-<<= _sec>> has <<= _cock[_sec]>>, so let's handle it like this...@@
+</p>
+<p>
+The two of you spend a little time working out your respective tasks, and then get to work.
+</p>
+
+<center><<button "BACK TO WORK">><<sceneclose>><</button>></center>
+
+
+:: JobEvent-Services-E [nobr]
+
+/*Marta to the Rescue!*/
+<<npcLike 10 "n1025" 2>>
+<p>
+<<f y>>our in one of the lab buildings of zone D, mindlessly collecting garbage from the thousand or so small trash cans scattered throughout the place. Your mind drifts, thinking about <<has cumSlut>>that delicious jizz-flavored shake they have at Teat Treats.<<orhas  slut || sizeQueen>>that giant cock you saw on TV last night.<<orhas pregnancy || risky>>the remote-control creampie toy you saw in a TV ad.<<orhas rape>>that news report on the local rape epidemic<<orhas public>>a couple you saw fucking in an alley on the way to work.<<or>>what you're going to do after you escape work.<</has>> You close the door to the nondescript lab behind you and dump the trash in your cart.
+</p>
+<p>
+@@.mono;That makes a total of three Cuke cans and one Dickers bar wrapper for the last three labs... This is such a waste of time.@@ You push your cart down the corridor to the next door, completely oblivious to your surroundings. You turn the door handle and push, only to halfway run into the door when it doesn't swing open like you expected. @@.mono;God damnit!@@
+</p>
+<p>
+Grabbing your ID card from its retractable lanyard, you touch it against the door until you hear a beep indicating that the door has been unlocked. You let go of the card, letting it retract, and once again turn the handle and push the door. It opens this time, but you're shocked out of your reverie when you see what's on the other side of the door. It's some kind of human-insect hybrid <<message "creature">>[img[IMG-JobEventIS-Bug]]<</message>> that stands taller than you. A giant insectile ovipositor juts out from its crotch, dripping goo and dropping the occasional translucent egg. There's a small pile of eggs between its legs on the floor.
+</p>
+<p>
+As soon as it sees you, you hear a low frequency buzzing sound start to come from its wings and some kind of drool starts dripping from its proboscis. It takes a step forward, and then another before you finally regain control of yourself. You back out of the doorway and yank the door closed behind you. You start to run, leaving your cart behind as your panicked mind demands you to flee.
+</p>
+<p>
+You run down the corridor and then burst through the door to the stairwell. You take three steps at a time as you descend two flights of stairs. At the bottom you again charge straight through the door, emerging into a service tunnel. You sprint the <<unit 20 "yd">> to the nearby junction, and start to turn, only for your legs to go sliding out from under you. You land on your hip and arm in something wet before sliding into the wall.
+</p>
+<img data-passage="IMG-JobEventIS-MartaRescue" class="jobEventImage">
+<p>
+@@.npc;Holy cock, what was all that about‽@@
+</p>
+<p>
+You look up and see Marta standing over you. @@.pc;Oh thank god... it's you...@@ you manage to choke out as you try to catch your breath. Looking down, you see that you slipped in a puddle of translucent white goop.
+</p>
+<p>
+Marta looks down at you with concern on her face. @@.npc;Are you okay? What happened?@@
+</p>
+<p>
+You take a few more breaths, your nose picking up an unmistakable scent as you do. @@.pc;I wasn't paying attention and went in a restricted room on accident... there was a... monster in there.@@ You shudder. @@.pc;I think it used to be human...@@
+</p>
+<p>
+Her eyes go wide. @@.npc;Oh my... That's why those rooms are restricted. You have to watch what you're doing girl!@@ She offers her hand to help you up.
+</p>
+<p>
+You grab her hand, using your other hand to push off the ground and get up onto your knees. From there you're able to stand up, though your legs are a little unsteady. You gesture to the ground @@.pc;What's all this?@@
+</p>
+<p>
+Marta looks at the floor and grimaces. @@.npc;Sorry you slipped. It seems some technicians had an accident and spilled some vat semen on their way to refill the feeders in D-11. I got the call to come clean it up.@@ She shakes her head wistfully. @@.npc;I was standing here, thinking it would be such a waste to just mop it up, when you came barreling down the corridor.@@
+</p>
+<<if ↂ.pc.kink.cumSlut || ↂ.pc.status.addict.cum > 20>>
+<p>
+You lift your baby-batter-coated left forearm up to your face, running your tongue along it to scoop up some of the cum. You savor the taste for a moment before swallowing. @@.pc;That's some high-quality stuff Marta, it's delicious!@@ You start cleaning your arm with your tongue, enjoying the unexpected treat. @@.pc;At least it won't <i>all</i> go to waste.@@
+</p><<eatdrug "cum" 100>>
+<<else>>
+<p>
+You lift your baby-batter-coated left forearm up to your face and give the goo an experimental sniff before sticking your tongue out for a small taste. @@.pc;Yep, definitely cum. It seems like high quality stuff, too. I can't believe those techs are so careless that they can just spill gallons of the stuff like it's nothing.@@
+</p><<eatdrug "cum" 2>>
+<</if>>
+<center>@@.head2;. . .@@</center>
+<p>
+You spend some time helping Marta clean up the cum-spill. By the time you're done, you've managed to calm down from your earlier fright. Saying goodbye to Marta, you head back the way you came to finish collecting the trash.
+</p>
+<<run setup.condition.add({ loc: "hands", amt: 30, tgt: "pc", wet: 50, type: "cum"})>>
+<<run setup.condition.add({ loc: "chest", amt: 50, tgt: "pc", wet: 50, type: "cum"})>>
+<<run setup.condition.add({ loc: "back", amt: 50, tgt: "pc", wet: 50, type: "cum"})>>
+<<run setup.condition.add({ loc: "butt", amt: 50, tgt: "pc", wet: 50, type: "cum"})>>
+<<run setup.condition.add({ loc: "thighs", amt: 50, tgt: "pc", wet: 50, type: "cum"})>>
+<<run setup.condition.add({ loc: "legs", amt: 50, tgt: "pc", wet: 50, type: "cum"})>>
+<center><<button "BACK TO WORK">><<sceneclose>><</button>></center>
+
+
+:: JobEvent-Services-F [nobr]
+
+/*A Break with Marta*/
+<<if random(1,2) === 2>>
+  <<npcLike 1 "n1025" 2>>
+<</if>>
+<<silently>>
+<<if ↂ.flag.job.IS.martaBreak>>
+  <<set _rando = random(1,3)>>
+<<else>>
+  <<set _rando = 1>>
+<</if>>
+<</silently>>
+<<if _rando < 3>>
+  <<if _rando === 1>>
+  <img data-passage="IMG-JobEventIS-MartaBreakroom" class="jobEventImage">
+  <<set _cha = "a chair">>
+  <<else>>
+  <img data-passage="IMG-JobEventIS-MartaBreakAdvice" class="jobEventImage">
+  <<set _cha = "the couch next to Marta">>
+  <</if>>
+  <<if not ↂ.flag.job.IS.martaBreak>>
+    <p>
+    <<f h>>eading to the breakroom, you're unsurprised to see Marta already there sitting on the couch. Because you both work in zone D, you share the same break room. Normally you take breaks in between cleaning in different sectors, so it's not too unusual to end up with your breaks overlapping.
+    </p>
+    <p>
+    You say @@.pc;Hey Marta@@ before plopping down on <<= _cha>>.
+    </p>
+    <p>
+    Marta looks over at you and smiles. @@.npc;Hi <<name>>.@@
+    She's wearing some casual clothes rather than a uniform, and has her sizeable tits hanging out of her top.
+    </p>
+    <p>
+    You return her smile and decide to ask her about her clothes. @@.pc;Sorry Marta, but I've gotta ask; what's going on with your clothes?@@
+    </p>
+    <p>
+    She looks down for a second and grins @@.npc;The other day I finally took the plunge and gave up my uniform. Now I either go nude or wear some panties while I'm working, and it's totally the best.@@ She gives you a big smile. @@.npc;No need to keep track of and wash uniforms, no need to change, more freedom, more fun, and best of all more sex breaks!@@
+    </p>
+    <p>
+    <<has exhibition || public>>@@.mono;That actually sounds ''really'' appealing...@@<<orhas shame>>@@.mono;I could never be so shameless...@@<<or>>@@.mono;Huh, that's actually pretty interesting.@@<</has>> You nod in understanding. @@.pc;I guess with how easy it is to get dirty on shift, it's gotta be nice to just hop in one of the showers, dry off, and be done. What's with the street clothes though?@@
+    </p>
+    <p>
+    She actually looks a little embarrassed. @@.npc;It's a bit silly to put on clothes, right? I just throw on this top, and maybe some shorts after I take a quick shower. I suppose it's mostly just a habit I guess, but it feels relaxing to wear casual clothes at work.@@
+    </p>
+    <p>
+    You give her a reassuring smile. @@.pc;Hey, if it makes you comfortable or makes it easier to relax, there's nothing silly about it!@@
+    </p>
+    <p>
+    Marta seems relieved to have your approval. @@.npc;Thanks <<name>>! Sorry I can't stay longer to chat, it seems my break is already over.@@ She stands up and pulls off her top. @@.npc;See you later <<name>>!@@
+    </p>
+    <p>
+    You give her a wave. @@.pc;Later Marta!@@
+    </p>
+  <<else>>
+    <p>
+    <<= either("<<f i>>t's finally time for your much-anticipated break, and you enter the small zone D breakroom.","<<f a>>fter too long spent mindlessly cleaning, you're finally able to enter the breakroom for your break.","<<f y>>ou sigh as you make your way into the breakroom, worn out after cleaning a ridiculous mess in D-8.")>> <<= either("You're unsurprised to find Marta already there, sitting on the couch.", "It seems like your break overlaps with Marta's because she's already in the room.", "You break into a wry smile when you see Marta fiddling with her nipples, looking relaxed.")>> You say @@.pc;<<= either("Hey", "Hi", "Hola", "Hello", "Hey")>> Marta@@ before <<= either("plopping", "sitting", "collapsing")>> down on <<= _cha>>.
+    </p>
+    <p>
+    Marta looks over at you and smiles. @@.npc;Hi <<name>>.@@ She's wearing her usual tits-out casual clothes, though you sometimes wonder how long she'll keep putting on clothes just for her break.
+    </p>
+    <<set _convo = random(1,3)>>
+    <<switch _convo>>
+      <<case 1>>
+        <p>
+        After a few moments of silence while you settle in, Marta speaks up. @@.npc;Hey <<name>>, have you ever visited the Employee Enrichment Center?@@ She looks a little excited.
+        </p>
+        <p>
+        You think about it for a moment before answering. @@.pc;I think I've seen the building, but I've never actually gone there. I am a little curious about that genetic matchmaking service though...@@
+        </p>
+        <p>
+        It seems your negative answer isn't enough to put a damper on her excitement. @@.npc;I heard that the Enrichment center was offering several new medical enhancements to employees for free before they go on market. Sandra says they've got one that makes your nipples as sensitive as a clit. That sounds pretty awesome, don't you think?@@
+        </p>
+        <p>
+        You raise your eyebrows as your imagination goes a little wild. @@.pc;<<has nips>>My nipples are already pretty sensitive... I can only imagine how good it'd feel if they were even more pleasurable.<<or>>I've always wished my nipples were a little more sensitive... that sounds really cool.<</has>> Still... I'm not sure being a guinea pig for some new treatments is the best idea.@@
+        </p>
+        <p>
+        Marta nods. @@.npc;That's kinda my concern as well... According to Sandra though, these treatments have already been tested, and they just want to do some tests on a wider population to check for adverse reactions.@@
+        </p>
+        <p>
+        You shrug. @@.pc;It's a tough call... I guess it wouldn't hurt to go there and check it out sometime. Maybe they have a treatment that's worth the risk, I think I could wait for that nipple treatment to get FDA approval though.@@
+        </p>
+        <p>
+        Marta looks a little conflicted @@.npc;You're probably right. I'll let you know if I check it out.@@
+        </p>
+        <p>
+        The two of you spend the rest of your breaks with chitchat and some idle gossip.
+        </p>
+      <<case 2>>
+        <p>
+        The two of you chitchat for a while. When the topic naturally drifts to new gossip, Marta's face lights up. @@.npc;Oh my tits, have you heard about arnold?@@
+        </p>
+        <p>
+        You shake your head, unable to even remember anyone you know with that name. @@.pc;No, I don't think I even know who that is.@@
+        </p>
+        <p>
+        Marta starts giggling. @@.npc;Get this: Arnold from the supply warehouse is pregnant!@@
+        </p>
+        <p>
+        It takes you a moment to process what she said. @@.pc;Arnold, a man, is pregnant? Was he a FtM or something?@@
+        </p>
+        <p>
+        Marta looks at you with glee; it's not often one finds gossip so juicy. @@.npc;No, he was born a man. Apparently there's only been a couple dozen anal pregnancies so far, and this is only the third time a man has been pregnant.@@ She pauses for a moment to grab a breath. @@.npc;The best part is that he has no idea how he got pregnant!@@
+        </p>
+        <p>
+        You look at Marta with a little concern. Mysteriously ending up pregnant isn't something that is exactly unusual in Appletree. @@.pc;Wow, that really sucks for him... I can only imagine what labor's going to be like...@@
+        </p>
+        <p>
+        Marta pulls out her phone from somewhere and after tapping the screen a few times shows you a <<message "picture">>[img[IMG-PregnantManArnold]]<</message>>.
+        </p>
+        <p>
+        @@.pc;Wow! I recognize that guy.@@
+        </p>
+        <p>
+        The two of you spend a few more minutes discussing the improbable pregnancy before Marta has to get back to work. You take a few minutes to rest before your own break is up.
+        </p>
+      <<case 3>>
+        <p>
+        Marta looks a little unsure. @@.npc;Hey <<name>>, one of my guy "friends" was trying to convince me to join this new social network in Muschi Valley called rapeBook. Have you heard anything about it?@@
+        </p>
+        <p>
+        You shake your head. @@.pc;Sorry Marta, I've never heard of it. Still... ''RAPE''-book sounds pretty damned sketchy.@@
+        </p>
+        <p>
+        Marta nods. @@.npc;Yeah... I looked it up. I guess it's something about arranging to get raped or rape people in advance, so that you can enjoy the fantasy safely or something.@@ She sighs. @@.npc;I mean, I like a little force or noncon as much as the next girl, but full on rape isn't my thing.@@
+        </p>
+        <p>
+        You consider the situation for a moment before you think you might have an answer. @@.pc;Hey Marta, maybe your friend really wants to rape <b><i>you</i></b> in particular, but is too shy to ask?@@
+        </p>
+        <p>
+        Marta lights up as she makes the connection. @@.npc;I bet you're right <<name>>! It makes so much more sense now...@@ She gives you a devilish smile. @@.npc;I think I'll just let him know that he doesn't need some app to get in my pants.@@
+        </p>
+        <p>
+        You laugh. @@.pc;Marta, if it's at work, you're probably not even wearing pants.@@
+        </p>
+        <p>
+        She laughs along with you for a few moments. @@.npc;Thanks for your help, I'm so glad I asked you about it!@@
+        </p>
+    <</switch>>
+  <</if>>
+<<set ↂ.flag.job.IS.martaBreak = true>>
+<<else>>/*advice*/
+  <img data-passage="IMG-JobEventIS-MartaBreakAdvice2" class="jobEventImage">
+  <<if not ↂ.flag.job.IS.martaAsked>>
+    <<set ↂ.flag.job.IS.martaAsked = true>>
+    <p>
+    <<f y>>ou walk into the breakroom and sit down on the far end of the couch. Not even a minute later Marta walks in, and you greet her with a simple @@.pc;hi Marta.@@
+    </p>
+    <p>
+    She sits down on the couch before turning to you and saying @@.npc;hi <<name>>.@@ She has a mischievous glint in her eyes as she looks at you. She leans forward, climbing toward you on all fours.
+    @@.pc;So, <<name>>, what do you think about going uniform free?@@ She gets really close, her breasts squished and bulging out between her arms.
+    </p>
+    <p>
+    You're a little surprised by the ever-enthusiastic Marta, causing you to stammer out your reply. @@.pc;Uhh, w-what do y-you mean?@@
+    </p>
+    <p>
+    She gives you a naughty smile. @@.npc;I think you know what I mean... not wearing a uniform when you're working, like me. You can just give it a try for a day and see what you think.@@
+    </p>
+    <p>
+    <<has exhibition || public>>Recovering from the surprise attack, you smile. @@.pc;I've already been thinking about giving it a try.@@<<or>>After recovering from the surprise attack, you give her an apologetic smile. @@.pc;I'm not sure I'm ready for something like that yet... but I might give it a try someday...@@<</has>>
+    </p>
+    <p>
+    After getting your answer <<has exhibition || public>>her naughty smile gets even bigger. @@.npc;You're gonna love it, I promise.@@<<or>>she doesn't pressure you. @@.npc;It's totally up to you, but I think you'll like it if you try it.@@<</has>> She sits back down on the couch.
+    </p>
+    <p>
+    The two of you make some smalltalk until your break is over, and you leave to resume working.
+    </p>
+  <<else>>
+    <p>
+    <<f w>>alking into the breakroom, you notice that Marta is already there. @@.pc;Hello Marta!@@ You sit down on the couch next to her.
+    </p>
+    <p>
+    She doesn't give you a moment to relax before jumping you. Unlike that first time, you aren't shocked by an excited Marta on all fours. @@.npc;Hey <<name>>, have you tried going uniformless yet?@@
+    </p>
+    <p>
+    Her squished breasts are once again almost touching you. @@.pc;If you keep shoving those tits of yours at me, I'm just going to have to start playing with those cute little nipples!@@
+    </p>
+    <p>
+    Marta gives you a naughty smile. @@.npc;Promise?@@
+    </p>
+    <p>
+    You shake your head. @@.npc;Anyway, <<has public||exhibition>>You know I've went uniformless a couple times now, but it's just too much to do it for the whole day.<<or>>no, not yet Marta.<</has>>@@
+    </p>
+    <p>
+    <<has public || exhibition>>Marta's smile only grows, and she answers in a sing-song voice. @@.npc;It only counts if you go aaaaaalllll day!@@<<or>>Marta puffs out her cheeks a bit but quickly calms down. @@.npc;Hurry up so we can be bossom buddies, okay?@@<</has>> She doesn't bother to sit back down, instead climbing off the couch to stand up. She pulls her shirt off over her head, and with a wink gives her tits a little shake. @@.npc;Time to get back to work, see you later <<name>>!@@
+    </p>
+    <p>
+    She prances out right after, but you manage to get out a short @@.pc;see you@@ to her retreating back.
+    </p>
+  <</if>>
+
+<</if>>
+<center><<button "BACK TO WORK">><<sceneclose>><</button>></center>
+
+
+:: JobEvent-Services-G [nobr]
+
+/*Marta Found Something*/
+<<npcLike 3 "n1025" 2>>
+<img data-passage="IMG-JobEventIS-MartaToy" class="jobEventImage">
+<p>
+<<f y>>ou walk into the small zone D office, and see Marta sitting behind one of the two plain desks. She is sitting facing away from you, so you start to walk over.
+</p>
+<p>
+She looks over her shoulder and greets you before you get a chance to say anything. @@.npc;Hey <<name>>, look what I found!@@ she spins the chair around and you see she's got big pink dildo squished between her tits. A big smile lights up her face as she starts laughing.
+</p>
+<p>
+@@.pc;You found a dildo? Do I even want to ask?@@ You can't help but grin at her antics.
+</p>
+<p>
+With the dildo between her tits, which are bouncing wildly as she laughs, it looks like she's giving the dildo a titfuck. She finally manages to stop laughing. @@.npc;haaahh... One of the engineers in sector D-4 gave it to me as a gift. It's an extra prototype for this "smart memetic" stuff. Apparently it's able to adjust it's firmness, and even slightly change its shape to better pleasure its user.@@
+</p>
+<p>
+You take another look at the dildo in appreciation. @@.pc;That sounds really cool, I'm kind-of jealous. Does it vibrate?@@
+</p>
+<p>
+Marta pouts a little. @@.npc;No, it's just a plain dildo... I guess because it's a prototype they haven't gotten around to making them vibrate yet.@@ She takes the dildo out from between her tits. @@.npc;It still needs a battery though... but John said it should last a really long time.@@
+</p>
+<p>
+You take another look at the big pink dildo. @@.pc;Maybe I should start spending a little more time in D-4@@ you say with a chuckle.
+</p>
+<p>
+Marta stands up. @@.npc;Sorry, I didn't mean to brag; I was just excited.@@ She picks up the dildo and heads for the door. @@.npc;I already finished my report, so I'm gettin' out of here!@@
+</p>
+<p>
+You give her a smile. @@.pc;I'll be heading out soon too. Have a good night Marta!@@
+</p>
+<p>
+Marta walks out the door with a wave, and you set down at the desk she vacated. @@.mono;Let's get this report over with so I can go home!@@.
+</p>
+<center><<button "BACK TO WORK">><<sceneclose>><</button>></center>
+
+
+:: JobEvent-Services-H [nobr]
+
+/*Marta Interupted*/
+
+<<npcLike 5 "n1025" 2>>
+<p>
+<<f t>>oday a rather unusual event occurs; your boss passes down orders to report to a certain lab in sector D-12. You get handed a lot of cleaning assignments, sure, but this assignment just seems to be going to a "testing room 3". Frankly, you're a little bit scared. All the rumors and gossip about fellow employees does anything but ease your mind.
+</p>
+<p>
+You head to the specified building at the indicated time, and ride up the elevator to the second floor. The hallways are practically deserted, you see only one other person on the other end of a hallway as you make your way to the designated room. @@.mono;Thank goodness for the Institute Map app, I'd never find anything otherwise.@@ You finally arrive at Testing room three, and push open the door.
+</p>
+<img data-passage="IMG-JobEventIS-MartaInterupted" class="jobEventImage">
+<p>
+You're surprised by the sight of Marta sitting on something resembling a massage table. The walls are draped in soft white fabric, probably somebody's idea of relaxing decor. The green line near the ceiling with an occasional label "testing room 3" pretty much ruins whatever calming effect the room was supposed to have.
+</p>
+<p>
+When you enter, Marta is looking toward the door with a sultry smile. Once she recognizes you, however, she cocks her head to the side with an annoyed expression. @@.npc;Hey <<name>>, why are you here? Don't tell me you're muscling in on my product testing!@@
+</p>
+<p>
+For a moment you're confused, you weren't expecting to see her here in the first place. @@.pc;Product testing? What are you talking about?@@
+</p>
+<p>
+Marta narrows her eyes, suspicious. @@.npc;This is <i>my</i> assignment. You had to have known something to get sent here.@@
+</p>
+<p>
+Marta's behavior isn't making much sense to you, after all, you spent the whole morning dreading whatever this is supposed to be. @@.pc;Look, I just came here cause the boss told me to. I was actually pretty worried; I thought it might be something bad if you hadn't volunteered for it.@@
+</p>
+<p>
+Marta sits there quietly for a little bit, thinking. @@.npc;So you really didn't volunteer to test out sex toys?@@
+</p>
+<p>
+@@.pc;<b><i>That's</i></b> what this is?@@ You shake your head and pull out your phone. @@.pc;Here, take a look at the message.@@
+</p>
+<p>
+Marta quickly scans the message from your boss. @@.npc;That idiot. He probably got a message to verify a participant, and the dumbass just assigned you to it because he didn't remember that I have a standing volunteer status.@@
+</p>
+<p>
+@@.pc;That <i>does</i> sound like him...@@
+</p>
+<p>
+Realizing what happened, Marta looks genuinely apologetic. @@.npc;I'm sorry <<name>>. There used to be a bitch who worked here that was always trying to steal the good volunteer assignments, she wouldn't even share.@@ She sighs. @@.npc;She got a little too ruthless and volunteered for some experimental neurosurgery on accident. Bitch spends most of the day orgasming now. Anyway, I know you normally avoid all the crazy assignments, I shouldn't have been so quick to jump to conclusions.@@
+</p>
+<p>
+You give her a wry smile. @@.pc;Well now that I see how interested you are in this... product testing... I have to admit I'm a little curious.@@
+</p>
+<p>
+Marta winks at you with a knowing smile. @@.npc;Basically it's to test new advanced sex toys. Sometimes they send someone to use it on me, but mostly it's a solo-play sort of toy. So every few weeks I come to be part of the test group for some new prototype; I get to cum my brains out while a bunch of lab geeks are staring at me from the other end of all the cameras.@@ She shivers as she mentions being watched. @@.npc;It's pretty relaxing, honestly. I think it's a chance to get rid of some of my built-up stress.@@
+</p>
+<p>
+You nod your head knowingly. @@.pc;I see. Well, as fun as that sounds I'm not going to get in your way. I think I'll just take an extra-long break courtesy of the boss' fuckup.@@
+</p>
+<p>
+Marta hops off the table--sending her tits bouncing everywhere--and gives you a hug. @@.npc;Thanks so much <<name>>. If you want, you can take the next trial; we could start splitting them.@@
+</p>
+<p>
+You return the hug and step back. @@.pc;I might take you up on that, it'd probably be fun to give it a try sometime.@@ You start heading back to the still-open door. @@.pc;I'm going to get out of here before I interrupt anything... Have fun!@@
+</p>
+<p>
+Marta beams at you as she hops back onto the table. @@.npc;Thanks, I will!@@
+</p>
+<p>
+You exit the room and close the door behind you before you start making your way to the services breakroom.
+</p>
+<center><<button "TAKE A LONG BREAK">><<sceneclose>><</button>></center>
+
+
+:: JobEvent-Services-I [nobr]
+
+/*Marta and the Forbidden Lounge*/
+<<set _ir = random(1,2)>>
+<<if random(1,2) === 2>>
+  <<npcLike 1 "n1025" 2>>
+<</if>>
+<<if _ir === 1>>
+  <img data-passage="IMG-JobEventIS-Marta2" class="jobEventImage">
+<<else>>
+  <img data-passage="IMG-JobEventIS-Marta3" class="jobEventImage">
+<</if>>
+<<if not ↂ.flag.job.IS.martaLounge>>
+  <<set ↂ.flag.job.IS.martaLounge = true>>
+  <p>
+  <<f y>>ou're working your way through one of your cleaning assignments as usual, mindlessly collecting trash and cleaning the floors. You walk into one of the building's employee lounges, which is basically just a fancy breakroom for the scientists who work in the building. You notice someone is using the room, but aren't really paying much attention.
+  </p>
+  <p>
+  You hear a familiar voice. @@.npc;Hey <<name>>, fancy seeing you here! You going to take a break as well?@@
+  </p>
+  <p>
+  You look up and are surprised to see Marta standing near the lounge water cooler. @@.pc;Whoa! you startled me Marta. What're you doing here?@@
+  </p>
+  <p>
+  Marta gives you a smile. @@.npc;Oh, I had an assignment in the building and I thought I'd take a quick break as a reward for finishing so quickly.@@
+  </p>
+  <p>
+  Your eyebrows raise on their own, the new surprise evident to anyone who looks at you. @@.pc;Wait, Marta. You're taking a break <b><i>HERE</i></b>? You know using the facilities designated for the other employees can get you in a lot of trouble if someone complains! What if you get sent to reeducation?@@ You're genuinely concerned about Marta.
+  </p>
+  <p>
+  Marta gives you a conspiratorial smile. @@.npc;Don't worry <<name>>, I'm not taking an <i>official</i> break here.@@ She gives you a wink. @@.npc;I've found that in certain offices, being naked more than makes up for the fact that you're not supposed to be using the room. Plus, the handbook says we're allowed to offer "stress relief" services anywhere as long as it isn't outside and isn't a restricted or controlled area.@@
+  </p>
+  <p>
+  You examine Marta dubiously. @@.pc;So you're gonna service random guys so you can use their breakroom?@@
+  </p>
+  <p>
+  Marta laughs and waves her hand. @@.npc;No way, they just get a little eye candy. Though if a certain guy or girl catches my eye, I don't mind having a little fun.@@ She points over to the beverages bar. @@.npc;I usually only stay long enough to make a cup of coffee, I'm pretty sure the stuff we've got downstairs is only partially coffee.@@
+  </p>
+  <p>
+  You grimace, unable to help recalling the taste of the "coffee beverage" downstairs. @@.pc;That stuff is awful. I guess if you're already dressed for it, you might as well take advantage of the decent coffee...@@
+  </p>
+  <p>
+  Marta nods before you catch a hint of her patented devilish smile. @@.npc;You know <<name>>, if you dropped the uniform you could enjoy some decent coffee too...@@
+  </p>
+  <<has shamefast>>
+    <p>
+    You're a little annoyed by Marta's shameless suggestion, but you don't let it show. @@.pc;No, I don't think that's for me. I think I'll just get back to cleaning...@@
+    </p>
+    <p>
+    Marta gives you a sad smile. @@.npc;That's a shame, but I understand. I'll see you later!@@ She grabs her cup of coffee and heads out, and you get back to cleaning.
+    </p>
+    <center><<hovrev coffee>><button class="disabled">GET NAKED FOR COFFEE</button><</hovrev>> <<button "BACK TO WORK">><<stress 5 "To ashamed to get naked for coffee">><<sceneclose>><</button>><br>
+    <<hovins coffee>><<ctn>>You're too ashamed to get naked<</ctn>><</hovins>></center>
+  <<orhas slut && exhibition>>
+    <p>
+    Getting naked with Marta sounds like fun, even without the added bonus of real coffee. @@.pc;Sure, that sounds great!@@
+    </p>
+    <div id="coveffe">
+    <center><<button "GET NAKED FOR COFFEE">><<replace "#coveffe">>
+    <p>
+    You quickly strip off your already-revealing uniform and toss it on your cart. @@.pc;Mmmm, real coffee.@@
+    </p>
+    <p>
+    Marta gives your <<p "butt.s">> <<p "butt.n">> a quick grab before helping you make your own cup. The two of you spend several minutes chatting while you drink your coffee. During the break you're treated to several appreciative stares by other employees coming for their own breaks.
+    </p>
+    <p>
+    You find the experience arousing, and surprisingly a little relaxing. The coffee helps give you a boost of energy as well.
+    </p>
+    <center><<button "BACK TO WORK">><<arouse 3>><<stress -3 "Warm nude coffee">><<tired -1 "Warm nude coffee">><<status 0>><<sceneclose>><</button>></center>
+    <</replace>><</button>> <<hovrev slut>><button class="disabled">BACK TO WORK</button><</hovrev>><br>
+    <<hovins slut>>No way are you passing this up!<</hovins>>
+    </div>
+  <<orhas exhibition || public>>
+    <p>You have to admit that the idea of getting nude is more than a little fun, at least while you're not busy cleaning. @@.pc;That sounds pretty nice, actually.@@
+    </p>
+    <div id="coveffe">
+    <center><<button "GET NAKED FOR COFFEE">><<replace "#coveffe">>
+    <p>
+    You quickly strip off your already-revealing uniform and toss it on your cart. @@.pc;Mmmm, real coffee.@@
+    </p>
+    <p>
+    Marta gives your <<p "butt.s">> <<p "butt.n">> a quick grab before helping you make your own cup. The two of you spend several minutes chatting while you drink your coffee. During the break you're treated to several appreciative stares by other employees coming for their own breaks.
+    </p>
+    <p>
+    You find the experience arousing, and it surprisingly lets you blow off some steam. The coffee helps give you a boost of energy as well.
+    </p>
+    <center><<button "BACK TO WORK">><<arouse 3>><<stress -5 "Warm nude coffee">><<tired -1 "Warm nude coffee">><<status 0>><<sceneclose>><</button>></center>
+    <</replace>><</button>> <<button "BACK TO WORK">><<sceneclose>><</button>></center>
+    </div>
+  <<or>>
+    <p>You aren't sure you want naked just for coffee, but you aren't entirely against it either... @@.pc;Hmmm... that's kind-of a tough choice Marta.@@
+    </p>
+    <div id="coveffe">
+    <center><<button "GET NAKED FOR COFFEE">><<replace "#coveffe">>
+    <p>
+    You quickly strip off your already-revealing uniform and toss it on your cart. @@.pc;Mmmm, real coffee.@@
+    </p>
+    <p>
+    Marta gives your <<p "butt.s">> <<p "butt.n">> a quick grab before helping you make your own cup. The two of you spend several minutes chatting while you drink your coffee. During the break you're treated to several appreciative stares by other employees coming for their own breaks.
+    </p>
+    <p>
+    You can't help but find the experience arousing, though it's also a little stressful. The coffee helps give you a boost of energy as well.
+    </p>
+    <center><<button "BACK TO WORK">><<arouse 2>><<stress 5 "You skipped out on good coffee">><<tired -1 "Warm nude coffee">><<status 0>><<sceneclose>><</button>></center>
+    <</replace>><</button>> <<button "BACK TO WORK">><<sceneclose>><</button>></center>
+    </div>
+  <</has>>
+<<else>>
+    <p>
+    <<= either("<<f a>>s you make your way through one of the several buildings you're assigned to clean, you see Marta making a cup of coffee through the open door of an employee lounge.", "<<f w>>alking down the hallway of one of your assigned areas, you notice a cleaning cart parked outside an open door. When you look inside, you see Marta taking an extra break.", "<<f f>>inally finishing your work in one lab area where scientists kept forcing you to wait to do your job, you trudge down one of the many hallways toward the elevator. As you shamble along, you suddenly hear a voice. @@.npc;Hey <<name>>, in here!@@ You turn around and follow the voice, only to find Marta holding a cup of coffee in another employee lounge.")>>
+    </p>
+    <p>
+    You greet your colleague with a simple @@.pc;Hey Marta@@ as you enter.
+    </p>
+    <p>
+    Marta gives you a warm smile. @@.npc;I'm taking a break after <<= either("cleaning this lab that looked like there was a bukkake orgy. There was stale cum <i>everywhere</i>.", "handling this idiotic special cleaning request. If you're gonna cook up a scheme to get your junk 'cleaned' by a beautiful girl like us, you'd better be packing more than a Vienna-sausage-sized microdick!", "I got roped into helping out with some ridiculous taste testing. I thought I might get to try some new semen substitute or something, but it turns out they just wanted me to clean up the vomit from the actual testers... I guess when I think about it, it's pretty lucky I didn't end up tasting whatever it was.")>>@@ She gestures to the beverage counter. @@.npc;You want to have a cup of coffee with me?@@
+    </p>
+  <<has shame>>
+    <p>
+    Annoyed, you shake your head. @@.pc;No, I already told you that I'm not going to get naked.@@
+    </p>
+    <p>
+    Marta gives you a sad smile. @@.npc;That's a shame, but I understand. I'll see you later!@@ She grabs her cup of coffee and heads out, and you get back to work.
+    </p>
+    <center><<hovrev coffee>><button class="disabled">GET NAKED FOR COFFEE</button><</hovrev>> <<button "BACK TO WORK">><<stress 5 "You skipped out on good coffee">><<sceneclose>><</button>><br>
+    <<hovins coffee>><<ctn>>You're too ashamed to get naked<</ctn>><</hovins>></center>
+  <<orhas slut && exhibition>>
+    <p>
+    Getting naked with Marta is always fun, even without the added bonus of real coffee. @@.pc;Sure, that sounds great!@@
+    </p>
+    <div id="coveffe">
+    <center><<button "GET NAKED FOR COFFEE">><<replace "#coveffe">>
+    <p>
+    You quickly strip off your already-revealing uniform and toss it on your cart. @@.pc;Mmmm, real coffee.@@
+    </p>
+    <p>
+    <<= either("Marta gives your <<p butt.s>> <<p butt.n>> a quick grab", "Marta gives your <<p niplength.s>> <<p nipple.n>> a playful pinch", "Marta grabs one of your <<p breast.s>> <<p breasts.n>> appraisingly")>> before helping you make your own cup. The two of you spend several minutes chatting while you drink your coffee. During the break you're treated to several appreciative stares by other employees coming for their own breaks.
+    </p>
+    <p>
+    You find the experience arousing, and surprisingly a little relaxing. The coffee helps give you a boost of energy as well.
+    </p>
+    <center><<button "BACK TO WORK">><<arouse 3>><<stress -3 "Warm nude coffee">><<tired -1 "Warm nude coffee">><<status 0>><<sceneclose>><</button>></center>
+    <</replace>><</button>> <<hovrev slut>><button class="disabled">BACK TO WORK</button><</hovrev>><br>
+    <<hovins slut>>No way are you passing this up!<</hovins>>
+    </div>
+  <<orhas exhibition || public>>
+    <p>You have to admit that the idea of getting nude is more than a little fun, at least while you're not busy cleaning. @@.pc;That sounds pretty nice, actually.@@
+    </p>
+    <div id="coveffe">
+    <center><<button "GET NAKED FOR COFFEE">><<replace "#coveffe">>
+    <p>
+    You quickly strip off your already-revealing uniform and toss it on your cart. @@.pc;Mmmm, real coffee.@@
+    </p>
+    <p>
+    <<= either("Marta gives your <<p butt.s>> <<p butt.n>> a quick grab", "Marta gives your <<p niplength.s>> <<p nipple.n>> a playful pinch", "Marta grabs one of your <<p breast.s>> <<p breasts.n>> appraisingly")>> before helping you make your own cup. The two of you spend several minutes chatting while you drink your coffee. During the break you're treated to several appreciative stares by other employees coming for their own breaks.
+    </p>
+    <p>
+    You find the experience arousing, and it surprisingly lets you blow off some steam. The coffee helps give you a boost of energy as well.
+    </p>
+    <center><<button "BACK TO WORK">><<arouse 3>><<stress -5 "Warm nude coffee">><<tired -1 "Warm nude coffee">><<status 0>><<sceneclose>><</button>></center>
+    <</replace>><</button>> <<button "BACK TO WORK">><<sceneclose>><</button>></center>
+    </div>
+  <<or>>
+    <p>You aren't sure you want naked just for coffee, but you aren't entirely against it either... @@.pc;Hmmm... that's kind-of a tough choice Marta.@@
+    </p>
+    <div id="coveffe">
+    <center><<button "GET NAKED FOR COFFEE">><<replace "#coveffe">>
+    <p>
+    You quickly strip off your already-revealing uniform and toss it on your cart. @@.pc;Mmmm, real coffee.@@
+    </p>
+    <p>
+    <<= either("Marta gives your <<p butt.s>> <<p butt.n>> a quick grab", "Marta gives your <<p niplength.s>> <<p nipple.n>> a playful pinch", "Marta grabs one of your <<p breast.s>> <<p breasts.n>> appraisingly")>> before helping you make your own cup. The two of you spend several minutes chatting while you drink your coffee. During the break you're treated to several appreciative stares by other employees coming for their own breaks.
+    </p>
+    <p>
+    You can't help but find the experience arousing, though it's also a little stressful. The coffee helps give you a boost of energy as well.
+    </p>
+    <center><<button "BACK TO WORK">><<arouse 2>><<stress 5 "You skipped out on good coffee">><<tired -1 "Warm nude coffee">><<status 0>><<sceneclose>><</button>></center>
+    <</replace>><</button>> <<button "BACK TO WORK">><<sceneclose>><</button>></center>
+    </div>
+  <</has>>
+<</if>>
+
+
+
+:: JobEvent-Services-J [nobr]
+
+/*Marta Goes Home*/
+<<silently>>
+<<set _apt = setup.sched.appointments(setup.time.nowDay())>>
+<<if not _apt>>
+  <<set _pl = "none">>
+<<else>>
+  <<set _pl = "other">>
+  <<for _i = 0, _c = _apt.length;>>
+    <<if _apt[_i].type === "date">>
+      <<set _pl = "date">>
+      <<break>>
+    <<elseif _apt[_i].type === "hangout">>
+      <<set _pl = "hangout">>
+    <</if>>
+  <</for>>
+<</if>>
+<</silently>>
+<img data-passage="IMG-JobEventIS-MartaHome" class="jobEventImage">
+<p>
+<<f f>>inally finished for the day, you make your way back to the small zone D services office. When you arrive, you see Marta already using one of the desks to write her work summary report. @@.mono;It never ceases to amaze me how quickly she's able to finish her work. She even spends time on sex breaks and still finishes before me. <<has bitch>>She's probably blown the right guy to get the easy assignments.<<or>>I guess that's the benefit of experience...<</has>>@@
+</p>
+<p>
+Unfortunately, one of your other coworkers also finished before you, so you'll have to wait to use a terminal. Just as you start thinking about getting changed out of your uniform while you wait, Marta stands up. @@.npc;All done, finally! Hey <<name>>, come grab this desk so you can get out of here too.@@
+</p>
+<p>
+You give her an appreciative smile. @@.pc;Thanks Marta. You have any plans for tonight?@@ You ask as you pass by her to sit down at the desk.
+</p>
+<p>
+Marta heads back to her locker and opens it before answering. @@.npc;<<= either("Not much really, I'm actually pretty tired.", "This hawt guy who's massively hung texted me for a booty call", "I need to swing by Hole Foods and get some grocieries, my fridge is totally empty.", "I've got a class at Deep Drilling to get too. I swear, I'm finally gonna reach my stomach this time!","Not too much. I got a new toy though, so I think I'll give it a trial run after a nice shower.")>>@@ She quickly starts putting on her clothes.
+</p>
+<p>
+You log into your terminal, and by the time you're done, she's leaning on the desk. @@.npc;How about you? Anything fun?@@
+</p>
+<<if _pl === "date">>
+<p>
+You grin. @@.pc;Yeah, actually. I've got a date tonight!@@
+</p>
+<p>
+Marta starts grinning as well. @@.npc;You go girl, go get it!@@
+</p>
+<<elseif _pl === "hang">>
+<p>
+You give Marta a smile. @@.pc;Yeah, I'm going to go hang out with a friend for a while.@@
+</p>
+<p>
+Marta returns your smile. @@.npc;Good! It's always nice to get out of the house and have fun once in a while.@@
+</p>
+<<elseif _pl === "other">>
+<p>
+You shrug. @@.pc;Nothing fun, but I've got a few things to take care of after work.@@
+</p>
+<p>
+Marta gives you a gentle smile. @@.npc;Hey, it's probably better than sitting around the house and watching TV, right?@@
+</p>
+<<else>>
+<p>
+You shrug. @@.pc;Nope, I don't have any plans. I'm probably just going to clean up a bit and spend the rest of the night relaxing.@@
+</p>
+<p>
+Marta gives you a naughty grin. @@.npc;You can always spice things up with a few fingers or a girl's best friend.@@
+</p>
+<</if>>
+<p>
+You chuckle a little. @@.pc;Thanks Marta, I hope you have a good night.@@
+</p>
+<p>
+Marta stands up and starts heading to the door. @@.npc;You too, I'll see you later.@@ With a wave she's gone.
+</p>
+<center><<button "WRITE YOUR REPORT">><<sceneclose>><</button>></center>
+
+
+:: JobEvent-Services-K [nobr]
+
+/*Interrupting Marta Again [fucking]*/
+<<set _ri = random(1,2)>>
+<<if _ri === 1>>
+  <img data-passage="IMG-JobEventIS-MartaFucking" class="jobEventImage">
+<<else>>
+  <img data-passage="IMG-JobEventIS-MartaFucking2" class="jobEventImage">
+<</if>>
+<p>
+<<f t>>urning the corner to walk down yet another of the uncountable Institute hallways, you see a cleaning cart parked halfway down the hallway. @@.mono;I wonder if it's Marta's?@@ you wonder as you approach. Sure enough, as you get closer you spot Marta's panties on the cart. @@.mono;Yep, it's her!@@
+</p>
+<p>
+You decide to stop and say hello, and walk into the nearby employee lounge. To your surprise, however, the breakroom is empty. Exiting the employee lounge, <<= either("you notice another door is open a little further down the hallway, with some rather loud noises of flesh slapping flesh escaping from inside.", "you hear some lascivious sounds coming from the room next door.", "you notice that the door next to Marta's cart is cracked, and you see what appears to be some legs hanging off the table.")>> You approach without thinking, and enter the room in question.
+</p>
+<p>
+You're not really surprised to find Marta eagerly riding another institute employee. She's bouncing her hips up and down with expert skill, each downstroke causing the room to echo with the sound of her ass slapping against the nameless employee.
+</p>
+<p>
+Marta is facing the door--putting her whole body on display--and almost immediately notices your entry. @@.npc;Hey <<name>>@@ she manages to say between moans. She really seems to be enjoying herself.
+</p>
+<<has shame>>
+  <p>
+  You reflexively let out a @@.pc;hi Marta@@ before turning around and fleeing from the room. @@.mono;Why did I go in there‽@@ You grab your cleaning cart and set off toward your next destination without looking back.
+  </p>
+  <center><<button "BACK TO WORK">><<sceneclose>><</button>></center>
+<<orhas fapper>>
+  <<arouse 2>>
+  <p>
+  You stare at the scene in front of you in fascination. @@.pc;Hi Marta... Looks like you're having fun.@@ You can't look away from the people fucking right in front of you. It's like a live action porn.
+  </p>
+  <p>
+  Marta doesn't seem to mind you watching, if anything, she seems to like being watched. She continues to moan as she rides the cock beneath her; you can tell how much she's enjoying it. Without you realizing it, your hand has slipped into your uniform. It's already rubbing against your <<p vulva.n>> by the time you notice.
+  </p>
+  <<set _dc = 12 + ↂ.pc.status.arousal>>
+  <div id="xtra">
+  <center><<button "MASTURBATE">><</button>> <<button "LEAVE">><<SCX>><<SC "wi" _dc>><<if $SCresult[1]>><<replace "#xtra">><center><<= $SCtext[1]>></center><p>Somehow you're able to resist your urge to pleasure yourself; you pull your hand out of your pants and slowly leave the room.</p><center><<button "BACK TO WORK">><<sceneclose>><</button>></center><</replace>><<else>><<replace "#xtra">><center><<= $SCtext[1]>></center><p>You try desperately to resist the urge to schlick to the sight before you. Unfortunately, the feeling of your warm hand against your damp folds prevents you from even pulling your hand out of your pants. After a few moments of resistance, you give in to your urges.</p><<include [[JobEvent-Services-Kfap]]>><</replace>><</if>><</button>></center>
+  </div>
+<<orhas slut>>
+  <<arouse 3>>
+  <p>
+  You stare at the scene in front of you in fascination. @@.pc;Hi Marta... Looks like you're having fun.@@ You can feel your arousal spiking, your <<p pussy.n>> suddenly feeling terribly empty.
+  </p>
+  <p>
+  Marta doesn't seem to mind you being here, if anything, she seems to like being watched. She continues to moan as she rides the cock beneath her; you can tell how much she's enjoying it. Without you realizing it, you've approached the rutting pair, and are standing at the edge of the desk they're using.
+  </p>
+  <<set _dc = 13 + ↂ.pc.status.arousal>>
+  <div id="xtra">
+  <center><<button "JOIN IN">><<replace "#xtra">><p>you decide to join in on the action, but you still have to decide how to do so.</p><<include [[JobEvent-Services-Kopt]]>><</replace>><</button>> <<button "LEAVE">><<SCX>><<SC "wi" _dc>><<if $SCresult[1]>><<replace "#xtra">><center><<= $SCtext[1]>></center><p>Somehow you're able to resist your urge to join in the pleasurable activity. You back away, staring longingly the entire time. With a final burst of willpower, you leave the room.</p><center><<button "BACK TO WORK">><<sceneclose>><</button>></center><</replace>><<else>><<replace "#xtra">><center><<= $SCtext[1]>></center><p>You try desperately to resist the urge to join the two in their pleasurable activity. Unfortunately, you don't seem to have the willpower to do so. Rather than backing away as you intended, you find that your will to resist evaporates.</p><<include [[JobEvent-Services-Klick]]>><</replace>><</if>><</button>></center>
+  </div>
+<<or>>
+  <<arouse 2>>
+  <p>
+  You stare at the scene in front of you in fascination. @@.pc;Hi Marta... Looks like you're having fun.@@ You can feel your arousal spiking, your <<p pussy.n>> suddenly feeling terribly empty.
+  </p>
+  <p>
+  Marta doesn't seem to mind you being here, if anything, she seems to like being watched. She continues to moan as she rides the cock beneath her; you can tell how much she's enjoying it. Without you realizing it, you've approached the rutting pair, and are standing at the edge of the desk they're using.
+  </p>
+  <<set _dc = 13 + ↂ.pc.status.arousal>>
+  <div id="xtra">
+  <center><<button "JOIN IN">><<replace "#xtra">><p>you decide to join in on the action, but you still have to decide how to do so.</p><<include [[JobEvent-Services-Kopt]]>><</replace>><</button>> <<button "LEAVE">><p>Somehow you're able to resist your urge to join in the pleasurable activity. You back away, staring longingly the entire time. With a final burst of willpower, you leave the room.</p><center><<button "BACK TO WORK">><<sceneclose>><</button>></center><</replace>><</button>></center>
+  </div>
+<</has>>
+
+
+:: JobEvent-Services-Kopt [nobr]
+
+<center><<hovrev lick>><<button "USE YOUR TONGUE">><<replace "#xtra">><<include [[JobEvent-Services-Klick]]>><</replace>><</button>><</hovrev>> <<hovrev face>><<button "GET BEHIND MARTA">><<replace "#xtra">><<include [[JobEvent-Services-Ksit]]>><</replace>><</button>><</hovrev>> <<hovrev fap>><<button "MASTURBATE">><<replace "#xtra">><<include [[JobEvent-Services-Kfap]]>><</replace>><</button>><</hovrev>><br>
+ <<ctn>><<hovins lick>>Get between their legs and pleasure them with your tongue<</hovins>><<hovins face>>Climb on the table behind Marta and play with her while putting your pussy on the man's face<</hovins>><<hovins fap>>Just enjoy the show and masturbate<</hovins>><</ctn>>
+</center>
+
+
+:: JobEvent-Services-Kfap [nobr]
+
+<<satisfy 5 "Having a good work fap">>
+<<npcLike 1 "n1025" 2>>
+<p>
+You pull your uniform shorts down to your mid thighs and open your legs. Both of your hands delve downward over the <<if ↂ.pc.groom.pubeGrow < 2>>smooth skin of your mons<<else>><<p 'pubelength.q'>> hair of your mons<</if>> before reaching your <<p vulva.n>>. <<if ↂ.pc.body.pussy.wetness < 2>>Your <<p labia.s>> lips are still dry, so you quickly bring a hand to your mouth to lubricate it with saliva.<<elseif ↂ.pc.body.pussy.wetness > 2>>Your <<p labia.s>> lips are totally wet with your arousal, so you're able to start pleasuring yourself immediately.<<else>>Your <<p labia.s>> lips are damp with arousal, so you quickly dip two fingers in your honeypot to get them wet.<</if>> Your other hand deftly spreads your <<p labia.n>>, leaving your sensitive clit fully exposed. You use your fingers to start caressing your clit, your back arching reflexively as the tingles of pleasure shoot through your body.
+</p>
+<p>
+You keep your eyes focused on the couple fucking before you, letting their passion wash over your senses. The sweet smell of Marta's arousal, the sharp sound of flesh slapping against flesh, and the glistening light reflecting from the cock plunging in and out of Marta's pussy. Marta's tits bounce and sway in a hypnotic pattern as she rides the cock below her.
+</p>
+<p>
+You stroke yourself faster to match the increasing speed of Marta's pace, the pleasure of your loins spreading to reach every part of your body. Your focus is interrupted when you notice a woman in a lab coat staring at you from the doorway. Her hand has already reached up to grasp at her nipple through her clothing, her own arousal growing. You continue to pleasure yourself without pause and turn back to watch the fucking in front of you.
+</p>
+<p>
+Marta is breathing roughly in a cross between moaning and panting as she rides the <<w cock.n>> as fast as her body will let her. The man's ball sack has tightened up into a wrinkled bulge that is soaked with Marta's juices. He's nearing orgasm, his body arching upward in an attempt to bury itself as deeply as possible inside her before releasing his seed.
+</p>
+<p>
+Suddenly the man thrusts upward into Marta, his body going rigid as he starts to spray his baby batter inside her. Marta reacts almost instantly, her head thrown back, body shaking, as her own climax hits her. Her hips collapse on top of him, burying him still deeper as they share an orgasm. Your own orgasm is rapidly approaching, and you stare transfixed by the pulsing motions of the man's cock as he pumps more and more <<w cum.n>> inside her.
+</p>
+<p>
+The sight sends you over the edge and your eyes squeeze closed involuntarily as the spasms of orgasm overtake you. You somehow manage to stay standing as your vision is seemingly assaulted by bright white. By the time you open your eyes once more, Marta has collapsed on top of the man, his cock still buried inside her. You take a few steps to steady yourself against the wall, and pull your uniform shorts back up.
+</p>
+<p>
+Deciding to leave before things can become awkward, you ignore <<switch ↂ.pc.body.pussy.wetness>><<case 1>>your still-tingling <<p vulva.n>><<case 2>>wet <<p vulva.n>><<case 3>>sodden <<p vulva.n>> and wet thighs<<default>>sodden <<p vulva.n>>, wet shorts, and rivulets of moisture running down your legs<</switch>>. You quickly make your way past the woman standing in the doorway, and head back to your cleaning cart.
+</p>
+<center><<button "BACK TO WORK">><<sceneclose>><</button>></center>
+
+
+:: JobEvent-Services-Klick [nobr]
+
+
+<<eatdrug "cum" 10>>
+<<satisfy 5 "Having a good work fap">>
+<<npcLike 3 "n1025" 2>>
+<p>
+Placing your hands on either side of the desk they're using, you lean forward until your face is mere inches from their union. Your nose is assaulted by the heady mixture of Marta's arousal and the man's masculine scent. Marta continues to ride the large cock despite your approach, and you watch in fascination as the large member disappears and reappears from her twitching cunt. Looking down, you see that the man's balls are actually quite large, that fact initially obscured by his loose sack.
+</p>
+<p>
+Unable to resist any longer, you open your mouth and extend your tongue. You move forward and lightly touch your tongue against the temporarily exposed cock while Marta moves upward. As she begins to drop downward again, you let your tongue drag onto her vulva. It passes between her lips before making a long stroke over her clit. The taste of her arousal fills your mouth as you repeat the action over the course of a few more bounces of Marta's hips.
+</p>
+<p>
+You move your head downward, and begin to lick your way from the base of the man's <<w cock.n>> down his loose sack. You reach one of his nuts and continue moving downward until you're able to lift the testicle with your tongue and envelop it in your mouth. It's as large as you thought, filling your mouth. His manly flavor fills your mouth--slightly salty and savory--as you rub your tongue against it.
+</p>
+<p>
+You feel his sack start to tighten and you reluctantly let the testicle slide out of your mouth. At this point Marta has started slamming her hips up and down at a rapid speed, her breathing a blurred mix of moaning and panting as she rides his cock faster and faster. You start making long strokes with your tongue, starting at the top of the man's balls and moving upward until you get a chance to lick Marta's clit.
+</p>
+<p>
+You keep it up as the man's sack tightens up and his back begins to arch beneath Marta's bouncing hips. You can practically feel the tension building, when suddenly the man suddenly thrusts upward and starts pumping Marta full of cum. Marta seems to collapse on top of him as her own orgasm starts, and you're treated to an up-close view of their shared climax. Marta's cunt visibly twitches, while you see a regular throbbing from the man's rod as he sends rope after rope of jizz into Marta.
+</p>
+<p>
+You gently lick in various places as their orgasms die down. Marta's exhausted body shifts as she lies back on the man's chest. He shifts his hips, causing his large <<w cock.n>> to spring out of Marta's pussy and slap against your face. You take the still-hard member deep into your mouth and suck it clean of Marta's nectar and the dregs of his ejaculation.
+</p>
+<p>
+Pulling away from the tasty <<w cock.n>>, you focus your attention on Marta's <<w pussy.n>>. You can see some of the thick semen just beginning to leak out of her creampied pussy. You quickly plant your lips on her cunt to give her a deep kiss, your tongue delving inside her to scoop up the fresh cum. You continue your ministrations for a couple minutes before you finally pull your mouth away. You stand up and smile down at Marta. @@.pc;That was fun.@@
+</p>
+<p>
+Marta grins back at you. @@.npc;Thanks for cleaning me up.@@ The man groans as she finally lifts herself up off of him, and eases her way off the desk.
+</p>
+<p>
+You take a glance at your phone and realize that a surprising amount of time has passed. @@.pc;Oh crap, I'm going to be late! I'll see you later Marta!@@
+</p>
+<p>
+Marta replies with a shaky @@.npc;See you@@ as hurry to the door.
+</p>
+<center><<button "BACK TO WORK">><<sceneclose>><</button>></center>
+
+
+:: JobEvent-Services-Ksit [nobr]
+
+<<satisfy 5 "Having a good work fap">>
+<<npcLike 2 "n1025" 2>>
+<p>
+Quickly stripping off your uniform, you make your way around the desk the two are fucking on. Finally able to see the man's face, you see that he isn't anything special. Neither handsome nor ugly, Marta's deciding factor was probably the size of his manhood. He smiles up at you, and you smile back, before you climb onto the desk and can no longer see his face.
+</p>
+<p>
+You reach around Marta and grab her large tits before carefully positioning yourself and lowering your <<if ↂ.pc.body.pussy.wetness === 2>>wet <<elseif ↂ.pc.body.pussy.wetness > 2>>soaked <</if>><<p labia.n>> onto the man's face. His tongue dutifully stretches out to start licking your folds before homing in on your clit. The sudden pleasure sends a shiver up your spine. Marta turns her head to look at you. You press your <<p breasts.s>> <<p breasts.n>> against her back as you lean forward to give her a kiss.
+</p>
+<p>
+The two of you kiss as deeply as you can while Marta rides the man's <<w cock.n>>. You spend a little time feeling the weight of Marta's <<w breasts.n>> while you make out. Marta soon stops kissing you to focus on moving her hips, so you begin to tug and twist her nipples playfully. You spend some time like that, playing with Marta's tits while you enjoy getting your clit licked; the whole time Marta continues to move faster and faster.
+</p>
+<p>
+Before long you notice the tongue beneath you is slacking, while Marta is moving at a breakneck pace. You feel the man underneath you move suddenly as he thrusts up into Marta's pussy and begins filling it with seed. Almost immediately Marta starts her own orgasm, falling back into you as she shudders in pleasure. You help support her while she enjoys her climax.
+</p>
+<p>
+After ejaculating the man seems to have lost interest in licking you, so once Marta is stable you climb down off the desk. @@.mono;Damn, I didn't cum. I'm <i>sooo</i> worked up now though.@@ You decide that you'll have to take a break soon to get yourself off. You start putting on your uniform again.
+</p>
+<p>
+Marta looks over at you with a dreamy expression. @@.npc;Thanks for joining in <<name>>, that was nice.@@
+</p>
+<p>
+@@.pc;You're welcome, it was fun.@@ You take a look at your phone and realize that a surprising amount of time has passed. @@.pc;Oh crap, I'm going to be late! I'll see you later Marta!@@
+</p>
+<p>
+Marta replies with a shaky @@.npc;See you@@ as hurry to the door.
+</p>
+<center><<button "BACK TO WORK">><<sceneclose>><</button>></center>

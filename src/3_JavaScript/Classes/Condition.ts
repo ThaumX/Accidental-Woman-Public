@@ -13,8 +13,12 @@ class Condition {
   public thighs: ConditionItem;
   public legs: ConditionItem;
   public feet: ConditionItem;
-  public vagFluid: ConditionItem;
-  public anusFluid: ConditionItem;
+  public vagFluid: {
+    [propName: string]: number;
+  };
+  public anusFluid: {
+    [propName: string]: number;
+  };
   public _k: string;
   // tslint:disable-next-line:max-line-length
   constructor(key, { hair = {}, face = {}, chest = {}, back = {}, hands = {}, stomach = {}, butt = {}, groin = {}, genitals = {}, thighs = {}, legs = {}, feet = {}, vagFluid = {}, anusFluid = {}}: { hair: ConditionItem, face: ConditionItem, chest: ConditionItem, back: ConditionItem, hands: ConditionItem, stomach: ConditionItem, butt: ConditionItem, groin: ConditionItem, genitals: ConditionItem, thighs: ConditionItem, legs: ConditionItem, feet: ConditionItem, vagFluid: ConditionItem, anusFluid: ConditionItem}) {

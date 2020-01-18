@@ -198,15 +198,15 @@ class HangSpot {
     setup.scenario.replace(output);
     aw.con.info(`Arrived at hang spot ${this.name}.`);
     const lon = random(5, 12) * -1;
-    setup.status.lonely(lon);
+    setup.status.lonely(lon, "Interacting with a presumably human person");
     if (aw.hang.enjoy[0] > 35 && aw.hang.arouse > 24) {
       setup.status.arousal(1);
       const hap = Math.max(0, (random(1, 3) - 2));
       if (hap > 0) {
-        setup.status.happy(hap);
+        setup.status.happy(hap, "Enjoying the hangout spot");
       }
     } else if (aw.hang.enjoy[0] < 35 || aw.hang.enjoy[1] < 35) {
-      setup.status.happy(-1);
+      setup.status.happy(-1, "Disliking the hangout spot");
     }
   }
   public allowedActs(): string[] {
@@ -272,9 +272,11 @@ class HangSpot {
           },
           prep() {
             State.active.variables.luterusDinner = false;
+            setup.food.eat(35, "junk");
             aw.cash(random(-15, -30), "food");
             aw.hang.enjoy[1] += random(3, 7);
             aw.hang.qual += random(7, 12);
+            aw.S();
             return true;
           },
           gate: [],
@@ -284,7 +286,7 @@ class HangSpot {
           key: "hindenburgerBeer",
           label: "Order beer",
           info: "Decide what beer you want.",
-          twee: `<span id="buylink">@@.pc;Hey, <<= aw.hang.name>> wanna drink something?@@<<if ↂ.pc.status.alcohol < 6>><br><br>@@.npc;Hm, why not. I'd go for some beer! I heard they have a wide choice here!@@<br><br><<else>><br><br>@@.npc;Are you sure you hadn't got enough already?@@<br><br>@@pc;Hey, you are not my mom! Let's get drunk!@@<br><br><</if>>Calling the waitress you ask her for a beer card. <<= aw.hang.name>> gets a glass first and you look at the menu trying to get what beer <<link "you actually want.">><<dialog "Hinden Burger Beer">><<print setup.food.bar("hindenburger")>><</dialog>><<replace "#buylink">><<addtime 18>>Waitress brings your glasses full of beer. You clink your glasses and smile, the beer <<print either("tastes very good", "is pretty nice")>>. As you sip from your glass you feel warmth spreading through your body and making you<<if ↂ.pc.trait.extro>> even<</if>>more talkative than usual. You decide to ask <<= aw.hang.name>> something.<<print setup.storythread.getStory(aw.hang.npcid)>><</replace>><</link>></span>.`,
+          twee: `<span id="buylink">@@.pc;Hey, <<= aw.hang.name>> wanna drink something?@@<<if ↂ.pc.status.alcohol < 6>><br><br>@@.npc;Hm, why not. I'd go for some beer! I heard they have a wide choice here!@@<br><br><<else>><br><br>@@.npc;Are you sure you hadn't got enough already?@@<br><br>@@pc;Hey, you are not my mom! Let's get drunk!@@<br><br><</if>>Calling the waitress you ask her for a beer card. <<= aw.hang.name>> gets a glass first and you look at the menu trying to get what beer <<link "you actually want.">><<dialog "Hinden Burger Beer">><<print setup.food.bar("hindenburger")>><</dialog>><<replace "#buylink">><<addtime 18>>Waitress brings your glasses full of beer. You clink your glasses and smile, the beer <<print either("tastes very good", "is pretty nice")>>. As you sip from your glass you feel warmth spreading through your body and making you more talkative than usual. You decide to ask <<= aw.hang.name>> something.<<print setup.storythread.getStory(aw.hang.npcid)>><</replace>><</link>></span>.`,
           check() {
               return true;
           },
@@ -340,8 +342,10 @@ class HangSpot {
           },
           prep() {
             aw.cash(random(-5, -8), "food");
+            setup.food.eat(35, "junk");
             aw.hang.enjoy[1] += random(1, 4);
             aw.hang.qual += random(2, 4);
+            aw.S();
             return true;
           },
           gate: [],
@@ -390,8 +394,10 @@ class HangSpot {
           },
           prep() {
             aw.cash(random(-20, -45), "food");
+            setup.food.eat(35, "normal");
             aw.hang.enjoy[1] += random(3, 7);
             aw.hang.qual += random(10, 15);
+            aw.S();
             return true;
           },
           gate: [],
@@ -410,6 +416,7 @@ class HangSpot {
             aw.hang.enjoy[1] += random(4, 9);
             aw.hang.qual += random(12, 15);
             setup.food.drink("priceyWine");
+            aw.S();
             return true;
           },
           gate: [],
@@ -420,7 +427,7 @@ class HangSpot {
           key: "luterusTalk",
           label: "Talk",
           info: "Have a nice chit-chat about things.",
-          twee: `<<if ↂ.pc.trait.intro>>You struggle with starting a proper conversation trying your best to find a topic to talk about. To your relief, <<= aw.hang.name>> break the silence before it gets too awkard.<<else>>You feel pretty comfortable starting a chat with <<= aw.hang.name>> and discuss things.<</if>><<print setup.storythread.getStory(aw.date.npcid)>><<addtime 16>>`,
+          twee: `<<if ↂ.pc.trait.intro>>You struggle with starting a proper conversation trying your best to find a topic to talk about. To your relief, <<= aw.hang.name>> break the silence before it gets too awkard.<<else>>You feel pretty comfortable starting a chat with <<= aw.hang.name>> and discuss things.<</if>><<print setup.storythread.getStory(aw.hang.npcid)>><<addtime 16>>`,
           check() {
               return true;
           },
@@ -459,9 +466,11 @@ class HangSpot {
           },
           prep() {
             State.active.variables.olddonghoDinner = false;
+            setup.food.eat(35, "junk");
             aw.cash(random(-6, -9), "food");
             aw.hang.enjoy[1] += random(2, 7);
             aw.hang.qual -= random(1, 6);
+            aw.S();
             return true;
           },
           gate: [],
@@ -480,6 +489,7 @@ class HangSpot {
             aw.hang.enjoy[1] += random(4, 7);
             aw.hang.qual -= random(1, 6);
             setup.food.drink("beer");
+            aw.S();
             return true;
           },
           gate: [],
@@ -527,12 +537,12 @@ class HangSpot {
             return true;
           },
           prep() {
-            ↂ.pc.status.addict.cum += 1;
-            ↂ.pc.status.addict.cumNeed = 0;
-            State.active.variables.happyCreamDonut = false;
+            setup.drug.eatDrug("cum", 10);
+            setup.food.eat(35, "dessert");
             aw.cash(random(-6, -9), "food");
             aw.hang.enjoy[1] += random(4, 14);
             aw.hang.qual += random(4, 9);
+            aw.S();
             return true;
           },
           gate: [],
@@ -544,7 +554,7 @@ class HangSpot {
           key: "happyCreamTalk",
           label: "Talk",
           info: "Have a nice chit-chat about things.",
-          twee: `<<if ↂ.pc.trait.intro>>You struggle with starting a proper conversation trying your best to find a topic to talk about. To your relief, <<= aw.hang.name>> break the silence before it gets too awkard.<<else>>You feel pretty comfortable starting a chat with <<= aw.hang.name>> and discuss things.<</if>><<print setup.storythread.getStory(aw.date.npcid)>><<addtime 16>>`,
+          twee: `<<if ↂ.pc.trait.intro>>You struggle with starting a proper conversation trying your best to find a topic to talk about. To your relief, <<= aw.hang.name>> break the silence before it gets too awkard.<<else>>You feel pretty comfortable starting a chat with <<= aw.hang.name>> and discuss things.<</if>><<print setup.storythread.getStory(aw.hang.npcid)>><<addtime 16>>`,
           check() {
               return true;
           },
@@ -583,8 +593,10 @@ class HangSpot {
           },
           prep() {
             aw.cash(random(-9, -14), "food");
+            setup.food.eat(35, "dessert");
             aw.hang.enjoy[1] += random(6, 12);
             aw.hang.qual += random(5, 10);
+            aw.S();
             return true;
           },
           gate: [],
@@ -594,7 +606,7 @@ class HangSpot {
           key: "teatTreatsTalk",
           label: "Talk",
           info: "Have a nice chit-chat about things.",
-          twee: `<<if ↂ.pc.trait.intro>>You try to think about something to ask <<= aw.hang.name> for some time.<<else>>You ask <<= aw.hang.name>> about life.<</if>><<print setup.storythread.getStory(aw.date.npcid)>><p>@@.pc;Oh, I see.@@</p><<addtime 16>>`,
+          twee: `<<if ↂ.pc.trait.intro>>You try to think about something to ask <<= aw.hang.name> for some time.<<else>>You ask <<= aw.hang.name>> about life.<</if>><<print setup.storythread.getStory(aw.hang.npcid)>><p>@@.pc;Oh, I see.@@</p><<addtime 16>>`,
           check() {
               return true;
           },
@@ -636,6 +648,7 @@ class HangSpot {
             aw.cash(random(-15, -20), "misc");
             aw.hang.enjoy[1] += random(5, 10);
             aw.hang.qual += random(3, 6);
+            aw.S();
             return true;
           },
           gate: [],
@@ -662,7 +675,7 @@ class HangSpot {
           key: "firingrangeShoot",
           label: "Shoot",
           info: "Go and shoot some targets together.",
-          twee: `<<addtime 30>><<dialog "Choose your gun">><<print either("You come to the reception with a ", "Approaching the reception you see a")>> <<print either("bearded middle-aged", "pretty girl with tattoos", "sturdy fit woman in a leather jacket")>> standing beneath.<br><br>@@.pc;Welcome to the "Hot loads"! Wanna shoot some today?@@<br><br>After greeting and short safety instructions you are proposed to choose a gun for target shooting. It seems they have some interesting choice of firearms there and you pause for a moment trying to figure out what you like to shoot today.<br><br>@@.npc;I guess I ll try <<print either("Gluck 69", "0.40 Rimmington", "Double action Cunt navy", "Pussberg 500 Pump-action", "Beawer M9")>> today. What will be your choice, mm?@@<br><br>@@.pc;Hmmm...@@<br><br>You take a look on the list again.<br><<button "Gluck 69">><<run Dialog.close()>><</button>><<button "0.40 Rimmington">><<run Dialog.close()>><</button>><<button "Double action Cunt navy">><<run Dialog.close()>><</button>><<button "Pussberg 500 Pump-action">><<run Dialog.close()>><</button>><<button "Beawer M9">><<run Dialog.close()>><</button>><</dialog>>After paying, you get your guns, headphones and a cardboard with rounds.<br><br>@@.npc;<<print either("Good luck and stay safe, folk!", "Have fun and don't dorget about safety!", "I hope you know how to handle this, have a nice time!")>>@@<br><br>You go to the range and take a stall next to <<= aw.hang.name>>.<<SCX>><<SC "FA" 10>><<if $SCresult[1]>>After loading the gun you start shooting the paper target. <<SC "FA" 20>><<if $SCresult[2]>>You feel pretty confident and after shooting you evaluate your results as <<print either("good", "excellent", "mediocre but still okay")>><<happy 1>><br><br>@@.npc;Wow, you are good at it! You are a natural-born shooter!@@<br><br>@@.pc;Thanks!@@<br><br><<stress -5>><<else>>You are still not that familiar with firearms <<print either("so your results are average", "but your results are surprisingly good today", "so your results are mediocre")>><<stress -3>><br><br>@@.npc;Hey, not bad!@@<br><br><</if>><<else>>It takes you a long time and some additional help from <<= aw.hang.name>> to finally load and shoot your gun.<br><br>@@.npc;<<print either("It is okay, you just need some practice.", "It seems you are shooting for the first time, right?", "See, you need to pull the trigger softly, do not twitch...")>>@@<br><br>After shooting you evaluate your results and it seems <<print either("you miss most of the time", "you hit the target 3 or 4 times", "somehow you managed to hit the target with more than a half of bullets")>>.<</if>> It seems that <<= either("you was more successful than", "you did worse than", "you got the same results as")>> <<= aw.hang.name>>. Still slightly stunned by loud shots you go upstairs and leave the range.`,
+          twee: `<<addtime 30>><<dialog "Choose your gun">><<print either("You come to the reception with a ", "Approaching the reception you see a")>> <<print either("bearded middle-aged", "pretty girl with tattoos", "sturdy fit woman in a leather jacket")>> standing beneath.<br><br>@@.pc;Welcome to the "Hot loads"! Wanna shoot some today?@@<br><br>After greeting and short safety instructions you are proposed to choose a gun for target shooting. It seems they have some interesting choice of firearms there and you pause for a moment trying to figure out what you like to shoot today.<br><br>@@.npc;I guess I ll try <<print either("Gluck 69", "0.40 Rimmington", "Double action Cunt navy", "Pussberg 500 Pump-action", "Beawer M9")>> today. What will be your choice, mm?@@<br><br>@@.pc;Hmmm...@@<br><br>You take a look on the list again.<br><<button "Gluck 69">><<run Dialog.close()>><</button>><<button "0.40 Rimmington">><<run Dialog.close()>><</button>><<button "Double action Cunt navy">><<run Dialog.close()>><</button>><<button "Pussberg 500 Pump-action">><<run Dialog.close()>><</button>><<button "Beawer M9">><<run Dialog.close()>><</button>><</dialog>>After paying, you get your guns, headphones and a cardboard with rounds.<br><br>@@.npc;<<print either("Good luck and stay safe, folk!", "Have fun and don't dorget about safety!", "I hope you know how to handle this, have a nice time!")>>@@<br><br>You go to the range and take a stall next to <<= aw.hang.name>>.<<SCX>><<SC "FA" 10>><<if $SCresult[1]>>After loading the gun you start shooting the paper target. <<SC "FA" 20>><<if $SCresult[2]>>You feel pretty confident and after shooting you evaluate your results as <<print either("good", "excellent", "mediocre but still okay")>><<happy 1 "Fun at the shooting range">><br><br>@@.npc;Wow, you are good at it! You are a natural-born shooter!@@<br><br>@@.pc;Thanks!@@<br><br><<stress -5 "Shooting a gun">><<else>>You are still not that familiar with firearms <<print either("so your results are average", "but your results are surprisingly good today", "so your results are mediocre")>><<stress -3 "Shooting a gun">><br><br>@@.npc;Hey, not bad!@@<br><br><</if>><<else>>It takes you a long time and some additional help from <<= aw.hang.name>> to finally load and shoot your gun.<br><br>@@.npc;<<print either("It is okay, you just need some practice.", "It seems you are shooting for the first time, right?", "See, you need to pull the trigger softly, do not twitch...")>>@@<br><br>After shooting you evaluate your results and it seems <<print either("you miss most of the time", "you hit the target 3 or 4 times", "somehow you managed to hit the target with more than a half of bullets")>>.<</if>> It seems that <<= either("you was more successful than", "you did worse than", "you got the same results as")>> <<= aw.hang.name>>. Still slightly stunned by loud shots you go upstairs and leave the range.`,
           check() {
               return true;
           },
@@ -670,6 +683,7 @@ class HangSpot {
             aw.cash(random(-20, -25), "misc");
             aw.hang.enjoy[1] += random(9, 14);
             aw.hang.qual += random(3, 6);
+            aw.S();
             return true;
           },
           gate: [],
@@ -704,6 +718,7 @@ class HangSpot {
             aw.cash(random(-15, -20), "misc");
             aw.hang.enjoy[1] += random(7, 12);
             aw.hang.qual += random(3, 6);
+            aw.S();
             return true;
           },
           gate: [],
@@ -753,6 +768,7 @@ class HangSpot {
           prep() {
             aw.cash(random(-5, -6), "misc");
             aw.hang.qual += random(3, 6);
+            aw.S();
             return true;
           },
           gate: [],

@@ -113,6 +113,14 @@ setup.totalATR = function(): void {
   const PC = ↂ.pc;
   let atrM = PC.body.ATR;
   atrM += (PC.clothes.stats.atr > 0) ? Math.round(PC.clothes.stats.atr / 4) : PC.clothes.stats.atr;
+  if (ↂ.pc.tattoo.has) {
+    const places = ["face", "neck", "shoulderLeft", "shoulderRight", "armLeft", "armRight", "palmLeft", "palmRight", "breast", "belly", "pubic", "thighLeft", "thighRight", "calfLeft", "calfRight", "feetLeft", "feetRight", "backUpper", "backLower", "butt", "asshole", "vagina"];
+    for (let index = 0; index < places.length; index++) {
+      for (let ii = 0; ii < ↂ.pc.tattoo[places[index]].length; ii++) {
+        atrM += ↂ.pc.tattoo[places[index]][ii].atr;
+      }
+    }
+  }
   atrM -= (PC.status.clean - 1);
   if (PC.mutate.goddess) {
     atrM += 4;
@@ -164,7 +172,7 @@ setup.totalATR = function(): void {
   } else if (PC.groom.armpit > 2) {
     atrM -= 2;
   }
-  PC.status.atr = atrM;
+  ↂ.pc.status.atr = atrM;
   setup.statusSave();
 };
 

@@ -1,0 +1,68 @@
+
+:: MapFarmCoopBarn [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPcoop]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou're standing in "The Barn", a sort of recreation and community center. It has a rustic feel to it, and is dominated by a large open area filled with various arrangements of couches, tables, and chairs. One corner has a collection of game equipment like pool tables and dart boards, while another consists of a dining area that has a concessions window. You can spot a small milking bay for hucows too busy having fun to make it to the dairy. You also notice that some of the furniture in the room seems to have a more sexual purpose, not that that stops the girls from fooling around with each other wherever they happen to be sitting. A rustic wooden staircase leads upstairs where there seem to be more individual rooms rather than a large open area.</p>
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: MapFarmCoopBarnLOC [nobr]
+
+<center>
+<h3>HuCow Life</h3>
+[img[IMG-MilkIndustrialPump]]</center>

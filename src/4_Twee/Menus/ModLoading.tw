@@ -1,0 +1,302 @@
+:: modLoadingPage [nobr startpage hidden noui]
+
+<div id="custom-content-loader">
+  <div id="custom-content-texts">
+    <span class="quest" style="font-size:1.5rem;">Custom Content Loading Page</span><br><br>
+    <input type=file id="fileselector" name="fileselector" multiple><<tab>>
+    <<button "ADD">><<run aw.conLoad.add()>><</button>><br>
+    <<button "<span style='color:#f45042;'>Instructions</span>">><<dialog "Instructions">><div style="text-align:justify;font-size:115%;">Select files on your computer using the file selector. You can select files individually or select multiple files at once. <span class="import"><b>.awm files only!</b></span> After selecting the files, click the "ADD" button. You will see boxes appear in the load order list to the right. Continue selecting as many files as you wish to load. When you're done, drag and drop the files in the load order list to set the order that you'd like. By default, items are loaded in the order you added them. Items at the top are loaded first, and items below are loaded after. This means that the lower items in the order will overwrite any data in upper items if there is a conflict. You can drag an item to the trash if you decide not to load it. Once you are satisfied with the order, you have two options. You can click the "Load Mod Files!" button, or click the "Create Autoload Package".<br><br><b class="ship">Load Mod Files:</b> This option will load your mod files immediately, and only for this game session. The game will assimilate the data and integrate it into the game. This may take a few seconds if you are loading a lot of data. You'll receive confirmation when loading is complete.<br><br><b class="ship">Create Autoload Package:</b> This option will combine your mod files into a single autoload package, and prompt you to save it. This package is automatically loaded each time you play Accidental Woman. When creating an autoload package, be sure to include EVERY mod that you want to load automatically in the package (such as the official mods). <span class="note">It does not modify your existing package, it creates an entirely new one.</span> When you create an autoload package, it will prompt you to save the file that is created. In order for it to load automatically, you MUST save it as "mod-package.awp" inside your /resources folder! This will replace the existing default file.<br><i>You can share this autoload package with others to allow them to play with the same set of mods as you!</i>
+    <br><br>
+    IMPORTANT NOTE: mod autoloading occurs <b>after</b> clicking the "Start" button on the main page. This means that you can save a new mod package and use it without restarting the game. It also means that any mods you load immediately using Load Mod Files <i>could</i> be overwritten by your mod package, for example if your mod package contains an older version of the mod you loaded. You can avoid this by clicking start, and then using the "go back" button to return to the main menu, as the mod autoloading only occurs once.<br><br></div><</dialog>><</button>><<tab>><<button "Load Mod Files!">><<run aw.conLoad.loadMods()>><</button>><<tab>><<button "Create Autoload Package">><<run aw.conLoad.packageMods()>><</button>><<tab>><<button "View Game Images">><<go "ImageModDisplay">><</button>><<tab>><br><br>
+    <span id="cautionLabel" class="tit" style="font-size:1.5rem;color:goldenrod;font-weight:bold;">CAUTION:</span><br>
+    <div id="cautionArea" style="text-align:justify;font-size:1rem;padding:0px 10px;">
+    Accidental Woman has been designed from the ground up to support player customization and modding. Despite this, loading custom items, sex actions/positions, scenes, events, and scenarios (or whatever else) <i><b>can</b></i> result in all manner of bugs, including game-breaking ones. While basic checks on mod file data will be performed, it's impossible to verify every possible aspect of loaded data. There are limits on what is possible, especially for an independent developer... If you are using mods and encounter an error, please try without the mod (or in a different order) before reporting it as a bug.
+    </div>
+  </div>
+  <div class="list-label">LOAD ORDER: drag and drop</div>
+  <div id="custom-content-list">
+  </div>
+  <div id="custom-content-trash">TRASH</div>
+  <div style="position:absolute;z-index:10000;top:20px;right:20px;width:150px;text-align:right;font-size:1.5rem;">
+  <<button "Return">><<go Start>><</button>>
+  </div>
+</div>
+<<timed 50ms>>
+<<run aw.conLoad.start()>>
+<</timed>>
+<<link "return">><<go Start>><</link>>
+
+
+:: ClothesCreator [nobr]
+
+<span id="creatorSpan">
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+  This tool helps you to create your own clothes. After creating you will be able to immediately buy it for your character in-game or download it as a standalone mod for distribution. Note that this menu is a simplified graphical interface for more complex clothes modding system which you can find in the resources folder. (The full system needs a text editor and a little bit of manual reading for using it properly, but you are able to make more customized things with it.) Also, note that there is almost no protection from silly choices (value validation), so you can create a "swimming overcoat"; if you do, the results can be unpredictable. Try to follow common sense in your creations, and be sure to save your game before creating anything just in case.
+  </div>
+	<<radioset "customSlot" "$customSlot">>Slot
+    <<radioitem "top">>top
+    <<radioitem "bottom">>bottom
+    <<radioitem "panties">>panties
+    <<radioitem "bra">>bra
+    <<radioitem "leg">>legs
+    <<radioitem "shoes">>shoes
+    <<radioitem "coat">>overwear
+  <</radioset>><br>
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+  Slot is a variable which tells the game where does the cloth will be situated. "Legs" means stockings and such. Also please note that dress-styled clothes must fit the "top" slot. 
+  </div>
+  <<radioset "customType" "$customType">>Type
+    <<radioitem "panties">>panties
+    <<radioitem "bra">>bra
+    <<radioitem "stocking">>stocking
+    <<radioitem "top">>top
+    <<radioitem "pants">>pants
+    <<radioitem "shorts">>shorts
+    <<radioitem "skirt">>skirt
+    <<radioitem "dress">>dress
+    <<radioitem "coat">>coat
+    <<radioitem "swimBottom">>swim Bottom
+    <<radioitem "swimTop">>swim Top
+    <<radioitem "swimOnePiece">>swim One Piece
+    <<radioitem "athleticBottom">>athletic Bottom
+    <<radioitem "athleticTop">>athletic Top
+    <<radioitem "athleticBra">>athletic Bra
+    <<radioitem "sportTop">>sport Top
+    <<radioitem "sports bra">>sports Bra
+    <<radioitem "heels">>heels
+    <<radioitem "sneakers">>sneakers
+    <<radioitem "boots">>boots
+  <</radioset>><br>
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+  Type means more precise description of the garment. Keep in mind that this value affects how the game will handle the item mechanically. And for dark gods sake, don't mix up wrong Slot and Type values. Creating something with "Shoes" slot and "athletic Bra" type will lead to unpredictable results lol.
+  </div>
+	<<radioset "customColor" "$customColor">>Color
+    <<radioitem 0>>beige
+    <<radioitem 1>>white
+    <<radioitem 3>>pink
+    <<radioitem 4>>pastel-blue
+    <<radioitem 5>>pastel-green
+    <<radioitem 6>>pastel-yellow
+    <<radioitem 7>>pastel-purple
+    <<radioitem 8>>black
+    <<radioitem 9>>red
+    <<radioitem 10>>blue
+    <<radioitem 11>>green
+    <<radioitem 12>>purple
+    <<radioitem 13>>brown
+    <<radioitem 14>>yellow
+    <<radioitem 15>>navy blue
+    <<radioitem 16>>khaki
+    <<radioitem 17>>dark green
+    <<radioitem 18>>burgundy
+    <<radioitem 19>>light grey
+    <<radioitem 20>>grey
+    <<radioitem 21>>clear
+    <<radioitem 22>>light bluejean
+    <<radioitem 23>>bluejean
+    <<radioitem 24>>dark bluejean
+    <<radioitem 25>>orange
+    <<radioitem 26>>fleshtone
+  <</radioset>><br>
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+  Simple and obvious value, not much to say here.
+  </div><br>
+  <<textbox "$customStyleWord" setup.clothesCreator.temporary.item.styleWord>> Style
+  <<textbox "$customSubStyleWord" setup.clothesCreator.temporary.item.subStyleWord>> Sub style
+  <<textbox "$customTertiaryWord" setup.clothesCreator.temporary.item.tertiaryWord>> Tert style<br>
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+  Style means the name of the item, "tee-shirt", "blouse" or "top". Sub- and tertiary style are words describing the cloth, e.g. "crotchless", "sheer" or "laced". You must only write "Style" and leave other two empty if you wish. Final name of the item will be assembled as Color + Fabric + Sub Style + Tertiary Style + Style. 
+  </div>
+  <<textbox "$customFabricWord" setup.clothesCreator.temporary.item.fabricWord>> Fabric<br>
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+  You can name any fabric you wish, no limitations here.
+  </div>
+  <<textbox "$customAtr" setup.clothesCreator.temporary.item.atr>> Attractiveness (0-20)<br>
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+  General quality of the item. 0 means totally ugly and 30 is absolutely amazing. Note that this value greatly affects final price of the item.
+  </div>
+  <<radioset "customSexy" "$customSexy">>Sexy/cute
+    <<radioitem -7>>super cute
+    <<radioitem -5>>very cute
+    <<radioitem -2>>cute
+    <<radioitem 0>>average
+    <<radioitem 3>>sexy
+    <<radioitem 6>>very sexy
+    <<radioitem 9>>super sexy
+  <</radioset>><br>
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+  Pretty obvious gradation between item being observed as nice and good-looking or aggresively sexy.
+  </div>
+  <<radioset "customFormal" "$customFormal">>Formal/casual
+    <<radioitem -4>>very casual
+    <<radioitem -2>>casual
+    <<radioitem 0>>slovenly
+    <<radioitem 2>>business casual
+    <<radioitem 3>>business
+    <<radioitem 4>>semi-formal
+    <<radioitem 7>>formal
+  <</radioset>><br>
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+  This value affects formality of the item. Keep in mind that coming to work in casual clothes can be frowned upon and, of course, hanging out with friends while being overdressed can affect your realtions.
+  </div>
+  <<radioset "customExposure" "$customExposure">>Exposure
+    <<radioitem 0>>conservative
+    <<radioitem 10>>normal
+    <<radioitem 20>>slightly revealing
+    <<radioitem 30>>revealing
+    <<radioitem 35>>very revealing
+    <<radioitem 40>>exhibitionist
+    <<radioitem 50>>practically naked
+  <</radioset>><br>
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+  Amount of flesh shown by the item. Values above "very revealing" basically means that the item doesn't effectively cover the wearer's body. 
+  </div>
+  <<radioset "customSwimwear" "$customSwimwear">>Swimwear
+    <<radioitem false>>Nope
+    <<radioitem true>>Yes
+  <</radioset>>
+  <<radioset "customNightwear" "$customNightwear">>Nightwear
+    <<radioitem false>>Nope
+    <<radioitem true>>Yes
+  <</radioset>>
+  <<radioset "customAthletic" "$customAthletic">>Athletic
+    <<radioitem false>>Nope
+    <<radioitem true>>Yes
+  <</radioset>>
+  <<radioset "customKinky" "$customKinky">>Kinky
+    <<radioitem false>>Nope
+    <<radioitem true>>Yes
+  <</radioset>><br>
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+  First 3 flags are used by the game to determine the situations where you can use the item. Swimwear in example, means that the item doesn't stop the character from swimming but it will be strange to wear it on the street. Use your common sense here. Kinky is a flag which mostly affects NPC's reaction to your appearance.
+  </div>
+  <<radioset "customAccessNip" "$customAccessNip">>Nipple Access
+    <<radioitem false>>Nope
+    <<radioitem true>>Yes
+  <</radioset>>
+  <<radioset "customAccessPussy" "$customAccessPussy">>Pussy Access
+    <<radioitem false>>Nope
+    <<radioitem true>>Yes
+  <</radioset>>
+  <<radioset "customAccessButt" "$customAccessButt">>Butt Access
+    <<radioitem false>>Nope
+    <<radioitem true>>Yes
+  <</radioset>>
+  <<radioset "customAccessTits" "$customAccessTits">>Tits Access
+    <<radioitem false>>Nope
+    <<radioitem true>>Yes
+  <</radioset>>
+  <<radioset "customAccessAss" "$customAccessAss">>Ass Access
+    <<radioitem false>>Nope
+    <<radioitem true>>Yes
+  <</radioset>><br>
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+  These flags means that the item allows the direct access to some part of the wearer's anatomy. Note that you need to turn on "Tits Access" flag for the skirt and so on. Also, keep in mind the fact that skirts usually allows access to the ass, pussy and butt and thongs allows access to the ass.
+  </div><br>
+   <<textbox "$customPadoImg" setup.clothesCreator.temporary.item.padoImg>> Paper doll image
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+  Write the name of the image for using as a paper doll clothes item. This need .AWM file with the image to be loaded in the main mod loading screen. You can use "none" if you want the game to try to choose most fitting image from existing pic database.
+  </div><br>
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+  Click the icon you want to assign to your item. If you want to add custom image you need to create the .AWM file with your image using the AWM Image Creator and edit downloaded or manually created clothing mod to set the image name.
+  </div><br>
+  <<print setup.clothesCreator.images()>><br>
+<br><center><<button "Create!">><<status 0>><<replace "#creatorSpan">><<print setup.clothesCreator.create()>><</replace>><</button>></center>
+</span>
+
+
+:: UseDesign [nobr]
+
+This tool is made for loading single-item clothes mods made directly in the game by other players. For more complex mod loading, use button "Mods" in the main menu of the game. (Note, that in that case you will need to start a new game.)<br>
+<span id="UseSpan"><br>
+<input type=file id='modUpload' name='modUpload'>
+<<button "LOAD">><<status 0>><<replace "#UseSpan">>
+<<script>>
+  function processFile(e) {
+      var file = e.target.result,
+          results;
+      if (file && file.length) {
+        try{
+          console.log(file);
+          setup.clothesCreator.upload(file);
+        }
+        catch(err){
+          alert("Error: File could not be decoded.");
+        }
+      }else{
+        alert("Error: File could not be read!");
+      }
+  }
+  function uploadButton(filename) {
+    var reader = new FileReader();
+    var textFile = filename;
+    reader.readAsText(textFile);
+    $(reader).on('load', processFile);
+  }
+  var cock = document.getElementById('modUpload').files[0];
+  uploadButton(cock);
+<</script>>
+<</replace>>
+<</button>>
+</span>
+
+
+:: TattooCreator [nobr]
+
+<<set $tattooImgFile>>
+<span id="creatorSpan">
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+  This tool helps you to create your own text tattoos. After creating you will be able to immediately buy it for your character in-game or download it as a standalone mod for distribution. Note that this menu is a simplified graphical interface and have only limited support. Also, note that there is almost no protection from silly choices (value validation) and doesn't stop you from creating a tattoo with ridiculously long name or something. Try to follow common sense in your creations, and be sure to save your game before creating anything just in case. Ah, and also dont create multiple tattoos with the same name! 
+  <br>In case you need a skin background for your tattoo image:<br>
+  [img[IMG-Tattoo-SkinBg]]
+  </div><br>
+  <<textbox "$TcustomKey" setup.tattoo.temporary.item.key>> Name<br><br>
+  <<textbox "$TcustomShortDesc" setup.tattoo.temporary.item.shortDesc>> Short description (e.g. "Veiny Cock") (Can be the same as the Name)<br><br>
+  <<textbox "$TcustomLongDesc" setup.tattoo.temporary.item.longDesc>> Long description (e.g. "a "Born to Fuck" cursive writing")<br><br>
+  <<textbox "$TcustomAtr" setup.tattoo.temporary.item.atr>> Attractiveness (0-4)<br><br>
+  <input type=file id="fileselector" name="fileselector"> 200x200 image (jpg, png)<br>
+  <<radioset "TcustomLewd" "$TcustomLewd">>Type of the tattoo (Will affect NPC opinion)
+    <<radioitem false>>Normal
+    <<radioitem true>>Lewd
+  <</radioset>>
+  <br><center><<button "Create!">><<status 0>><<replace "#creatorSpan">><<run setup.tattoo.imgUpload()>><<timed 500ms>><<print setup.tattoo.create()>><</timed>><</replace>><</button>></center>
+  </span>
+
+
+:: UseTattooDesign [nobr]
+
+This tool is made for loading single-item tattoo mods made directly in the game by other players. For now on it is the only way to load tattoo mods.<br>
+<span id="UseSpan"><br>
+<input type=file id='modUpload' name='modUpload'>
+<<button "LOAD">><<status 0>><<replace "#UseSpan">>
+<<script>>
+  function processFile(e) {
+      var file = e.target.result,
+          results;
+      if (file && file.length) {
+        try{
+          console.log(file);
+          setup.tattoo.upload(file);
+        }
+        catch(err){
+          alert("Error: File could not be decoded.");
+        }
+      }else{
+        alert("Error: File could not be read!");
+      }
+  }
+  function uploadButton(filename) {
+    var reader = new FileReader();
+    var textFile = filename;
+    reader.readAsText(textFile);
+    $(reader).on('load', processFile);
+  }
+  var cock = document.getElementById('modUpload').files[0];
+  uploadButton(cock);
+<</script>>
+<<timed 100ms>>
+  <<print setup.tattoo.showLast()>><br>
+<</timed>>
+<</replace>>
+<</button>>
+</span>

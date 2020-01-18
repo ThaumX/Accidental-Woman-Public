@@ -1,0 +1,405 @@
+
+:: CaveAdventureStart [nobr hidden]
+
+
+<<set aw.cave = {}>>
+<<set aw.cave.batt = random(73, 81)>>
+<<set aw.cave.tut = true>>
+<<set aw.cave.time = 0>>
+<<set aw.cave.x = 7>>
+<<set aw.cave.y = 12>>
+<<set aw.cave.unlocked = false>>
+<<set aw.cave.foundDildo = false>>
+<<set aw.cave.foundFunnel = false>>
+<div id="advent">
+<p>
+You start crawling into the hole at the base of the cliff, making your way into the cave. Right away you notice that the smooth stone beneath your hands is quite damp. <i>I guess that isn't unexpected for a cave right next to some springs...</i>
+</p><p>
+While the first few feet of the tunnel is level, it soon starts to slope downward as the tunnel widens past the initial bottleneck. You notice that your hands start to feel slimy, but with your body blocking most of the light, you can't tell what is on your hands... <i>Eww...</i>
+</p>
+<br><br>
+<center>
+<<hoverrevise phone>>
+<<button "get your phone">><<go "CaveAdventureS-Phone">><</button>>
+<<endhoverrevise>>
+<<hoverrevise around>>
+<<button "turn around">><<go "CaveAdventureS-Turn">><</button>>
+<<endhoverrevise>>
+<br>
+<<insertion phone>>Dig around in your inventory to get your phone out so you can use its light.<<endinsertion>>
+<<insertion around>>Squirm to turn around in the tunnel so you're facing the entrance and can see.<<endinsertion>>
+</center>
+</div>
+
+
+:: CaveAdventureS-Phone [nobr hidden]
+
+<<set aw.cave.time += 3>>
+<<set aw.cave.phone = true>>
+<div id="advent">
+<p>
+You fumble around a bit with one hand, trying to grab your phone while pointedly ignoring your hand smearing slime in places you'd rather not think about. You finally manage to pull your phone out, when your other hand slips out from underneath you!
+</p>
+<p>
+You fall forward, but manage to catch yourself with your elbows before banging your face into the ground. You don't manage to stop yourself from sliding, however, and your phone goes clattering out of your grip. You can see the light from outside fade as you start to slide down the cave tunnel. The slime coating the walls is quickly replaced with running water, and it soon feels like you're traveling down a water slide head-first.
+</p>
+<p>
+Your stomach lurches as you suddenly feel the ground beneath you disappear. A moment later you splash into a shallow pool, cold water shooting up your nose and into your open mouth. Your body is greeted by another shock as what's left of your momentum is stopped by what seems to be a stalagmite.
+</p>
+<center><<button "continue">><<go "CaveAdventureEntrance">><</button>></center>
+</div>
+
+
+:: CaveAdventureS-Turn [nobr hidden]
+
+<<set aw.cave.time += 3>>
+<<set aw.cave.phone = false>>
+<div id="advent">
+<p>
+You compress yourself as much as possible to try and turn around in the confined space. You end up with a shoulder pressed against one wall, while your rump is firmly pressed against the other. You keep pushing, dragging your ass across the damp stone. Suddenly, your ass pops free, and you finish turning around all at once!
+</p>
+<p>
+Your legs slip backwards, and your hands slide out from under you, dropping you to your belly and causing your forehead to smack against the stone floor. In a daze, you notice that your body has started to slide down the cave tunnel. The slime coating the walls is quickly replaced with running water, and it soon feels like you're traveling down a water slide ass-first.
+</p>
+<p>
+Your stomach lurches as you suddenly feel the ground beneath you disappear. A moment later you splash into a shallow pool, cold water shooting up your nose and into your open mouth. Your body is greeted by another shock as what's left of your momentum is stopped by what seems to be a stalagmite.
+</p>
+<center><<button "continue">><<go "CaveAdventureEntrance">><</button>></center>
+</div>
+
+
+:: CaveAdventureEntrance [nobr hidden]
+
+<div id="advent">
+<p>
+You are on your hands and knees in a pool of water that is about <<unit 2 "ft">> deep. Your surroundings are pitch-black, and the air is filled with the sounds of water echoing around the cavern.
+</p>
+<center>
+<<if aw.cave.phone>>
+  <<button "find your phone">><<go CaveAdventureEntranceFind>><</button>>
+<<else>>
+  <<button "get your phone out">><<go CaveAdventureEntranceGet>><</button>>
+<</if>>
+</center>
+</div>
+
+
+:: CaveAdventureEntranceFind [nobr hidden]
+
+<<set aw.cave.time += 10>>
+<div id="advent">
+<p>
+<i>Oh shit, oh shit, where is it?</i> You start searching blind in the water around you, patting the floor and hoping to feel the smooth rectangle of your phone. You search for what seems like forever, and start crawling in different directions toward where you think your phone may have fallen. It isn't long before you realize that you don't even know where you started from.
+</p>
+<p>
+Just before you start to really freak out, you notice a brief little flash of light off to your left. <i>Are my eyes playing tricks on me in the dark?</i> After a couple seconds it repeats. <i>It's my phone's notification light!</i> With your eyes adjusted to the dark, you're able to use the occasional flash of the LED to finally retrieve your phone.
+</p>
+<div id="con">
+<center>
+<<button "turn it on">><<replace "#con">>
+<center>[img[IMG-AdventureCaveSelfie]]</center>
+<p>"Oh thankyou Samdong!" The phone turns on without issue after its tumble. "I'm so glad my phone is waterproof." The light from the screen casts a little light on your surroundings as you start trying to call for help. "Beeep beeep beeep..." It doesn't connect. You're confused for a moment, until you see a no-network icon in the status area. "Apparently caves aren't great for cell service..."</p>
+<center><<button "continue">><<go "CaveAdventureTutorial">><</button>></center>
+<</replace>><</button>>
+</center>
+</div>
+</div>
+
+:: CaveAdventureEntranceGet [nobr hidden]
+
+<<set aw.cave.time += 3>>
+<div id="advent">
+<p>You pull your phone out of your inventory, and thankfully it doesn't feel to be any worse for wear. You can see an occasional flash of the notification light, which seems quite bright in the darkness of the cave.
+</p>
+<div id="con">
+<center>
+<<button "turn it on">><<replace "#con">>
+<center>[img[IMG-AdventureCaveSelfie]]</center>
+<p> "I'm so glad my phone is waterproof." The light from the screen casts a little light on your surroundings as you start trying to call for help. "Beeep beeep beeep..." It doesn't connect. You're confused for a moment, until you see a no-network icon in the status area. "Apparently caves aren't great for cell service..."</p>
+<center><<button "continue">><<go "CaveAdventureTutorial">><</button>></center>
+<</replace>><</button>>
+</center>
+</div>
+</div>
+
+
+:: CaveAdventureTutorial [nobr hidden]
+
+<div id="advent">
+<center>[img[IMG-CaveGirl]]</center>
+<p>Hoden Cavern holds many secrets, and plenty of dangers. It is a natural maze of soluble rock and water. Will you survive, or will you end up dead... or worse? Legends speak of an ancient treasure hidden somewhere inside: the Golden Funnel of Life. Will you search for it?
+</p>
+<p>
+Click the direction buttons (or use the wasd/arrow keys) to move through the cavern. Each move corresponds to about <<unit 5 "yd">> if you're the type of person that likes to map things out... If not, well, good luck. Other action buttons may appear, click to perform the listed action. Your cellphone battery won't power the flashlight forever, so don't linger too long... You won't last long in the dark.
+</p>
+<center><<button "continue">><<go "CaveFloorOne">><</button>></center>
+</div>
+
+
+:: CaveAdventureClimbEnt [nobr hidden]
+
+<<set aw.cave.batt -= random(0, 1)>>
+<<set _batt = aw.cave.batt>>
+<<set aw.cave.time += 3>>
+<div id="advent">
+<<cavebat _batt>>
+<<cavemap nw nw>>
+<p>
+You jump, kick, and struggle to get into the tunnel you entered from. No matter how hard you try, however, you are unable to get enough of a grip on the smooth rock to pull yourself up. <i>There has to be another exit, right?</i>
+</p>
+<center><<button "continue">><<go "CaveFloorOne">><</button>></center>
+</div>
+
+
+:: CaveAdventureEscape [nobr hidden]
+
+<<set aw.cave.batt -= random(0, 1)>>
+<<set _batt = aw.cave.batt>>
+<<set _time = aw.cave.time + 3>>
+
+<div id="advent">
+<<cavebat _batt>>
+<<cavemap nsew nw sw ne se>>
+<<achieve "spelunker">>
+<<timed 2s>>
+<<if aw.cave.foundDildo && aw.cave.foundFunnel>>
+  <<achieve "indianaJones">>
+<</if>>
+<</timed>>
+<p>
+You carefully make your way through the final tunnel, and then lower yourself from the cave opening on the cliff face down to the grassy ground. Despite all the walking you did underground, you didn't end up all that far away from where you entered in the first place.
+</p>
+<<timed 2s>>
+<center><<button "continue">><<addTime _time>><<go "MapSpringsWoods">><</button>></center>
+<</timed>>
+</div>
+
+
+:: CaveAdventureJump [nobr hidden]
+
+
+<<set aw.cave.time += 5>>
+<<set aw.cave.batt -= 1>>
+<div id="advent">
+<p>
+You carefully prepare yourself some distance from the edge, and then take off at a sprint. At the last moment you jump as hard as you can into the air over the chasm. You soar toward the ledge on the other side, but your jump isn't powerful enough for a clean landing. Instead your body slams into the ledge, knocking the wind out of you and leaving your legs dangling over the edge.
+</p>
+<p>
+You pull yourself all the way onto the ledge and then take a few moments to catch your breath. Eventually, you're ready to continue, and you climb to your feet.
+</p>
+<center><<button "continue">><<go "CaveFloorOne">><</button>></center>
+
+</div>
+
+
+:: CaveAdventureDildo [nobr hidden]
+
+<<set aw.cave.time += 5>>
+<<set aw.cave.batt -= 1>>
+<<set aw.cave.foundDildo = true>>
+<div id="advent">
+<p>
+You crawl over to where you see the whitish object. Getting closer, you recognize it as a dildo. It is quite veiny, and appears to be carved from Ivory. <<has slut>><i>Oh yay! It's so cute!</i><<or>><i>Maybe it's worth something... it looks old.</i><</has>> You pick it up and put it in your "inventory". <i>MMMpff!</i>
+</p>
+<center>
+<<button "continue">><<run $items.pickUp("Ivory Dildo")>><<go "CaveFloorOne">><</button>>
+</center>
+</div>
+
+
+:: CaveAdventurePitfall [nobr hidden]
+
+<div id="advent">
+<p>
+Not watching where you're going, you step over the ledge and fall into a deep crevice. The fall doesn't kill you instantly, instead you're left with two broken legs and a broken arm. Your phone shattered on impact with the ground, and you remained conscious long enough to see the battery sputtering with flames before leaving you in the inky blackness.
+</p>
+<center>. . .</center>
+<p>
+You don't make it out of Hoden Cavern with your life. You can't see where to go to climb out, and even if you could, your injuries leave you incapable of doing so. It takes you several days of pain-wracked and delirious life before you eventually die of infection.
+</p>
+<center>[img[IMG-CaveSkull]]<br>
+<<button "continue">><<run setup.badEnd("cave")>><</button>></center>
+</div>
+
+:: CaveAdventureDarkPool [nobr hidden]
+
+<div id="advent">
+<p>
+You wade out into the dark lake, instantly feeling the cold seep inside you. It gets deep surprisingly quickly, until suddenly when you take a step, the ground is no longer underneath you. With a yelp you splash all the way into the cold water, and suddenly you're underwater.
+</p>
+<p>
+You start kicking and paddling in a frenzy, and soon your head breaks the surface. You take a gasp of air, sputtering, as you tread water. Luckily you managed to keep hold of your phone during your fall. <i>It could have fallen too deep for me to reach... Scary!</i> You start to orient yourself to swim back to the shore, when you feel something rub against your leg!
+</p>
+<p>
+You turn back and forth in a panic, shining your phone light into the dark lake to see what touched you. You don't see anything, however. <i>Shit... could it have been some sort of cave fish? I'm not staying to find out!</i> You swim over to the ledge closer to the shore, managing to bang your knee on some rock in the process.
+</p>
+<center><<button "Climb out">><<go "CaveAdventureDarkPtwo">><</button>></center>
+</div>
+
+
+:: CaveAdventureDarkPtwo [nobr hidden]
+
+<div id="advent">
+<p>
+You clamber up onto the ledge, standing up so the water is only waist deep, and breathe a sigh of relief. Your legs are suddenly squeezed together and yanked out from under you. With a splash you're underwater, your nose flooded as you're pulled toward the center of the lake. You open your eyes, and brief glipse of the creature in the light of your dropped cellphone.
+</p>
+<center>[img[IMG-CaveTentCreature]]<br>
+<<button "continue">><<go "CaveAdventureSeedBed">><</button>></center>
+</div>
+
+
+:: CaveAdventureSeedBed [nobr hidden]
+
+<div id="advent">
+<center>
+Some time later...<br>
+[img[IMG-CaveSeedbeed]]
+</center>
+<p>
+You spend the surprising amount of time that makes up the remainder of your life as a seed bed for the dark water tentacle creature that captured you. You never learned what it actually is, of even whether it is plant, fungus, or animal. It's not like you had the chance to ask anyone, and you spend most of your time delirious between the crests of pain or pleasure. Toward the end it was much more commonly the former. After your lafinal birthing, you watch some of your spawn float along on a current toward the dim sunlight making it into your chamber. <i>I wonder where they'll end up...</i> Soon after you close your eyes for the last time.
+</p>
+<center><<button "continue">><<run setup.badEnd("cave")>><</button>></center>
+</div>
+
+:: CaveAdventureDrown [nobr hidden]
+
+<div id="advent">
+<center>[img[IMG-CaveDrowned]]</center>
+<p>
+Splashing down into the water, you are surprised to find the water far deeper than you expected. Unlike the other side of the slab where the water is only a few feet deep, this area has water that is easily <<unit 12 "ft">> deep. You also realize that you made a very grave mistake by coming here. Without anything to stand on, it's impossible for you to climb back up onto the slab. That doesn't keep you from trying, however the effort only serves to tire you out.
+</p>
+<p>
+It takes a few days before you finally drown, when falling asleep while floating in the dark leads to lungs full of water you find yourself physically too tired to expel.
+</p>
+<center><<button "continue">><<run setup.badEnd("cave")>><</button>></center>
+</div>
+
+
+:: CaveAdventureUnder [nobr hidden]
+
+<div id="advent">
+<center>[img[IMG-CaveUnderwater]]</center>
+<p>
+You carefully slide down the sloped passage toward the source of the light. At the end you suddenly find yourself dumped into some deep water. Most concerning is the sudden presence of a strong current in the water, pushing you toward the faintest shimmer of light in the darkness. You're able to take one last breath before the tunnel you're traveling in is totally submerged.
+</p>
+<p>
+The current has only gotten stronger as you struggle to hold your breath. In a panic you start trying to swim back toward where you entered the tunnel in order to get some air, but the current is far to strong for you to make any real progress. Your rational side finally reasserts control, and you start swimming <i>with</i> the current.
+</p>
+<p>
+By the time you reach the source of the light you've already started to spasm, having already expelled the stale air from your lungs. The source of the light is a series of narrow crevices in a mass of dark rock. The water pushes you towards them, but they are far too small for you to fit through. Your hopes dashed, your body reflexively breathes in the water around you. As your consciousness quickly fades, you notice a glimmer through one of the cracks that looks like the roof of a building...
+</p>
+<center><<button "continue">><<run setup.badEnd("cave")>><</button>></center>
+</div>
+
+
+:: CaveAdventureBeast [nobr hidden]
+
+<div id="advent">
+<center>[img[IMG-CaveMonster]]</center>
+<<if aw.cave.batt > 0>>
+<p>
+You suddenly find yourself face-to-face with a huge creature! "Holy shit!" is all you manage to yell out before a large clawed hand knocks you unconscious.
+</p>
+<<else>>
+<p>
+Just as your phone's battery starts to die, you find yourself face-to-face with a huge creature. Something hits you hard in the head, and you aren't sure if it's your battery finally dying or simply losing consciousness as your vision fades to black.
+</p>
+<</if>>
+<<gate "rape" "violent" "extreme">>
+<p>
+You awake to a stabbing pain between your legs. A trickle of light from somewhere above paints the cave creature as a silhouette of black above you. You quickly realize that the monster is raping you, and that the pain you're feeling is its rough member banging against your womb. The creature must have some intelligence, because you discover your hands and neck are bound by some kind of fibrous plant material.
+</p>
+<p>
+You barely have a chance to struggle for your freedom before the creature mounting you lets out a noise that's somewhere between a snort and a grunt. You suddenly feel a flood of hot liquid pouring into you. The quantity is astounding and the pressure painful as the cum stretches your poor pussy to its limits.
+</p>
+<</gate>>
+<center><<button "continue">><<go "CaveAdventurePreg">><</button>></center>
+</div>
+
+
+:: CaveAdventurePreg [nobr hidden]
+
+<div id="advent">
+<center>A few weeks later...<br>[img[IMG-CaveSuperPreggo]]</center>
+<<gate "rape" "violent" "extreme">>
+<p>
+Judging by the cycle in the small amount of light that filters through some cracks in the cavern, you figure that it's been about three weeks since you were captured by the cave beast. It fucked you a few more times in the first day or two, but since then it has been content to let you swell with its offspring. Once you were pregnant it started forcing you to eat each day, keeping you from starving to death. You resisted the mixture of slimy algae and some kind of fungus or mold at first, but quickly learned that the monster was going to force you to eat no matter what you did.
+</p>
+<p>
+Most concerning to you is how fast your stomach has grown. You already look like you have an overdue pregnancy with triplets, but there's no sign of the growth stopping. Lately it's gotten a lot more painful, and you've started to get the distinct impression that whatever is inside of you won't be coming out the normal way. Whether you burst or get torn open, the odds don't favor you surviving this pregnancy...
+</p>
+<</gate>>
+<center><<button "continue">><<run setup.badEnd("cave")>><</button>></center>
+</div>
+
+:: CaveAdventureFunnel [nobr hidden]
+
+<<set aw.cave.foundFunnel = true>>
+<div id="advent">
+<p>
+You take the golden funnel and place it in your inventory. There is a very brief noise of stone grinding against stone, but nothing else happens. <i>Thank goodness it's been too long for any traps they left behind to still work!</i> You breath a sigh of relief. <i>I'll have to remember to examine this funnel more closely when I get out of here...</i>
+</p>
+<center>[img[IMG-Item-GoldenFunnel]]<br>
+<<button "continue">><<run $items.pickUp("Golden Funnel")>><<go "CaveFloorTwo">><</button>>
+</center>
+</div>
+
+
+:: CaveAdventureFunCheck [nobr hidden]
+
+<<set aw.cave.time += 5>>
+<<set aw.cave.batt -= 1>>
+<div id="advent">
+<p>
+The golden object appears to be a funnel on closer inspection. The exterior is made of gold, but the inside of the funnel appears to be glazed pottery. The altar it stands on has several carvings that give some clues to its purpose... namely that it's something like a cum funnel for fertility rituals.
+</p>
+<center>[img[IMG-Item-GoldenFunnel]]<br>
+<<button "continue">><<go "CaveFloorTwo">><</button>>
+</center>
+</div>
+
+
+:: CaveAdventureLook [nobr hidden]
+
+<div id="advent">
+<p>
+You look into the large cavern, shining your phone light into it to get a sense of it's scale. Most disturbingly you discover that the cavern is not empty... It seems to have a rather large, and angry, inhabitant.
+</p>
+<center>[img[IMG-CaveMonster]]</center>
+<p>
+You quickly jump back from the entrance. <i>I hope I can find my way out of here before that thing finds</i> me!
+</p>
+<center><<button "continue">><<go "CaveFloorTwo">><</button>></center>
+</div>
+
+
+:: CaveAdventureExamine [nobr hidden]
+
+
+<<set aw.cave.batt -= 1>>
+<<set aw.cave.time += 4>>
+<div id="advent">
+<center>[img[IMG-CaveDoorLock]]</center>
+<p>
+You see what appears to be an elaborate stone lock inside a stone door. There are a couple of stone rings with a large handle in the middle, it looks like a primitive combination lock. You've watched enough television to figure that you have a chance of getting it open if you play with it, but you also worry that the door may somehow be booby trapped.
+</p>
+<center>
+<<button "play with it">><<set aw.cave.unlocked = true>><<go "CaveAdventureCrumble">><</button>>
+<<button "leave it alone">><<go "CaveFloorTwo">><</button>>
+</center>
+</div>
+
+
+:: CaveAdventureCrumble [nobr hidden]
+
+<<set aw.cave.batt -= 2>>
+<<set aw.cave.time += 10>>
+<div id="advent">
+<p>
+You start cautiously prodding the door. The symbols on the rings have mostly been worn away by time and water, meaning that you'll have to guess the correct combination. You decide to start by aligning the rings the best you can, giving you a known starting point. When you start trying to rotate the inner ring, however, it crumbles under your hands!
+</p>
+<p>
+The whole lock mechanism seemed to be made out of limestone for easy carving and some simple metals that have long-since corroded away. Once the first bit of rock breaks and crumbles away, it's a simple matter to break away the rest of the lock mechanism. You're left with a <<unit 30 "in">> wide opening in the large stone door, plenty wide enough for you to slip through.
+</p>
+<center><<button "continue">><<go "CaveFloorTwo">><</button>></center>
+</div>

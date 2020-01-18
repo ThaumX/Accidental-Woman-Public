@@ -1,0 +1,275 @@
+:: storyStart18a [nobr noui]
+
+
+<<if setup.clothes.outfit.prologue()>>
+<span class="good big">PASS</span><br><br>
+Looks like you passed the mission! To be honest, the check is <b><i>very</i></b> simple to give you the most freedom. Please note though that as the exhibition system becomes more mature, wearing very revealing clothes that expose certain anatomy--or simply walking around in underwear--will result in things happening. Usually these things are not good.
+<br><br>
+[[Back to the story|storyStart18b]]
+<<else>>
+@@.warning;FAIL@@<br><br>
+Looks like you didn't manage to make the two outfits in a suitable manner. This check is <b><i>very</i></b> simple to give you the most freedom. All that is required is having on 2 pieces of clothing, equipped in any of these slots: bra, panties, top, bottom. After equipping the clothes, click the save icon next to the outfit name buttons (Casual and Work) in the upper right of the wardrobe menu.
+<br><br>
+<<emo silly>> [[Try Again|MainWardrobe]]
+<</if>>
+
+:: storyStart18b [nobr]
+
+@@.head3;B@@y the time you have finished exploring a new world of women's clothing, Lily finished preparing dinner. The two of you have a simple but unexpectedly delicious dinner, over a conversation about fashion. <<if ↂ.pc.kink.slut || ↂ.pc.kink.liberate || (ↂ.pc.trait.extro && random(1,2) == 1)>>Lily notes that your outfit choices are about as slutty as possible given your options, though she doesn't go so far as to say so directly. She spends some extra time helping you tell the difference between looking sexy and looking slutty.<<elseif ↂ.pc.kink.exhibition || ↂ.pc.kink.public>>Lily notices that your outfit choices are about as revealing as you can make them with the clothes you have, and complements you on embracing the change.<<elseif ↂ.pc.kink.shame || ↂ.pc.trait.cl>>Lily notices that your clothes are about as conservative as possible under the circumstances. After explaining that most of the clothes aren't meant for layering, she elaborates on how being so prude with your outfits would stand out in town.<<else>>Lily seems pretty pleased with your outfit choices, and appears happy that you've gotten the hang of things so quickly.<</if>> Despite being something you'd never have expected to enjoy only a week ago, it turns out that you have a lot of fun talking clothes with Lily. By the end of the evening you actually find yourself looking forward to going shopping again, this time in some nicer stores.
+<br><br>
+<<link "Continue">><<go storyStart18c>><</link>>
+
+:: storyStart18c [nobr]
+
+@@.head3;A@@fter finishing dinner and putting the dishes away, the two of you head back to Lily's living room to go over your employment situation. @@.mono;Lily isn't very specific about what the institute job would entail, but I suppose beggars can't be choosers...@@ You take a seat next to Lily, realizing that anxiety about your employment was affecting you more strongly than you would have thought.
+<br><br>
+Lily looks up and seems like she's about to say something, but then stops, and she grimaces slightly before resolving herself to continue. @@.npc;So... Because of the accident and your new identity, the job I originally had lined up for you isn't going to work out... I'm really sorry.@@ She shrugs apologetically as if to say <i>what can you do?</i> @@.npc;Anyways, I did look into some other options for you, and I can help you get in pretty much automatically, but you'll probably have to start off at entry-level...@@
+<br><br>
+You are:<br>
+<<dialogchoice>>
+  <<dbutt "Upset">><<set $temp.jch = 1>><<go storyStart18d>>
+    <<dtext "dismayed">>You are upset that your whole reason for moving here is gone.
+  <<dbutt "Annoyed">><<set $temp.jch = 2>><<go storyStart18d>>
+    <<dtext "unamused">>You are annoyed that you have to start off at entry-level.
+  <<dbutt "Neutral">><<set $temp.jch = 3>><<go storyStart18d>>
+    <<dtext "neutral">>Because you weren't expecting much anyway.
+  <<dbutt "Thankful">><<set $temp.jch = 4>><<go storyStart18d>>
+    <<dtext "smile">>At least Lily's able to get you a job.
+<</dialogchoice>>
+  
+:: storyStart18d [nobr]
+
+<<switch $temp.jch>>
+<<case 1>>/*#### UPSET ###########################################################################*/
+<<anger 6>><<stress 10 "Lily Resolution">><<npclike -8 "n101">>
+<p>
+<<f s>>aying that you are upset about this news is a bit of an understatement. @@.pc;So let me get this straight... I come out here because you promised me a job, but now that you've turned me into a woman, you can't give me the job? What the fuck Lils?!@@
+</p>
+<p>
+Lily raises an eyebrow in a classic expression that says she's getting annoyed as well. @@.npc;Hey, first of all, I'm still getting you a job. Obviously, I'd rather have you come work for me, but let's be real here <<= ↂ.pc.main.name>>. Just because I'm middle management, it doesn't mean that I can just ignore Institute policy. Trust me when I say you don't want them finding out your <i>unique</i> circumstances. If you're really unhappy being here, you can go back to the city.@@
+</p>
+<p>
+You sigh. @@.pc;Yeah, there's no way that would work out now.@@
+</p>
+<<case 3>>/*#### ANNOYED #########################################################################*/
+<<anger 1>><<stress 5 "Lily Resolution">><<npclike -4 "n101">>
+<p>
+<<f y>>ou find yourself annoyed by the prospect of starting off at entry level. @@.pc;Look, I get that the original job offer isn't going to work out, but starting at the ground floor really sucks Lils.@@
+</p>
+<p>
+Lily shrugs. @@.npc;I know, it really does suck. At least the promotion potential is pretty good, and if you do well on the entrance exam, you can start a couple floors up, at least.@@
+</p>
+<p>
+You resign yourself to the situation. You may be displeased about starting at the bottom, but you know there isn't much that can be done about it. @@.pc;Okay, I guess I'll just have to ace that test then.@@
+</p>
+<<case 3>>/*#### NEUTRAL #########################################################################*/
+<p>
+<<f y>>ou just sigh quietly. @@.pc;Okay then Lils, it is what it is.@@
+</p>
+<<case 4>>/*#### THANKFUL ########################################################################*/
+<<npclike 4 "n101">><<stress -5 "Lily Resolution">>
+<p>
+  <<f y>>ou try to stay positive about the whole thing. @@.npc;Well, I won't lie; it wasn't what I was hoping for... But if I'm honest, given my situation, I'm really just glad you're able to get me a job at all.@@
+</p>
+<p>
+Lily gives you a thankful smile. @@.pc;I'm really glad you're taking it so well. There's some good news too, you'll be taking an entrance exam, and that means that if you do well, you won't have to start at the absolute bottom.@@
+</p>
+<p>
+@@.pc;Hey, that's something at least. I'll just have to do my best on that exam.@@
+</p>
+<</switch>>/*#####################################################################################*/
+<p>
+Lily does something of an impression of a university professor. @@.npc;Okay, before we get to the actual exam and everything, I figure I should tell you a bit about the Institute, and give you some info on your options.@@ She gives you a questioning look. @@.npc;That sound good to you?@@
+</p>
+<div id="repho">
+<<dialogchoice>>
+<<dbutt "yep">><<replace "#repho">><<include [[storyStart18d2]]>><</replace>>
+<<dtext "smile">>Yes, you'd like to know more about the Institute before trying to get a job there.
+<<dbutt "nope">><<replace "#repho">>
+  <<npclike -5 "n101">><<npclove -10 "n101">>
+  <p>@@.pc;Nope, I really don't care about all that stuff... just let me apply for a job already.@@</p>
+  <p>Lily gives you an incredulous look. @@.npc;Well, okay then...@@ She starts tapping on her slate to get it ready and then hands it over. @@.npc;Here you go.@@ She gets up and leaves the room, leaving you to it.</p>
+  <center><<button "CONTINUE">><<go "storyStart18k">><</button>></center>
+<</replace>>
+<<dtext "smug">>You're sure it will be boring, so whatever. <<ctn>>[has consequences]<</ctn>>
+<</dialogchoice>>
+</div>
+
+
+
+:: storyStart18d2 [nobr]
+
+<p>
+@@.npc;Ahem@@ Lily does a rather cute job of clearing her throat. @@.npc;The Thornton Institute of Technology and Science. "TITS" though originally it was just "TIT". It has been around over 100 years, long enough that just about everyone calls it simply "the Institute".@@ She smiles. @@.npc;Well, that and nobody want's to spell out tits every time they refer to it. If you really want to know more about its history, you can always look it up later online, or I guess just believe whatever is in the "History of the Institute" exhibit at the expo center on campus, I guess.@@
+</p>
+<p>
+@@.npc;One of the important things to know about the Institute is that it's like a hydra, if each of the hydra's heads was another hydra... It's just hydras, all the way down.@@ She chuckles at her reference. @@.npc;The Institute is a very secretive organization, and also quite competitive internally. A lot of the divisions are in competition with each other for funding, and there are shifting alliances of sorts where different groups work together...@@ Lily pauses in thought for a moment, thinking of an example. @@.npc;Like if one division produces clones, and another needs clones for research, the latter might bump themselves up in the priority list by procuring some more "donor" material for clone stock. Anyways, it's complicated. Just don't assume that the Institute is monolithic, even if it seems like it from the outside.@@
+</p>
+<p>
+@@.npc;That said, the Institute is still a single entity of sorts, and there's a good deal of competition and espionage, especially when it comes to the defense contractor and intelligence services portion of the Institute. The institute can be rather... extreme when it comes to protecting its interests.@@ She gives you a wry smile. @@.npc;After all, why waste good research material by simply executing traitors? As long as you don't do anything shady, you <i>should</i> be fine.@@
+</p>
+<p>
+Something about that last part struck you as a little odd... @@.pc;What do you mean by "should" be?@@
+</p>
+<p>
+Lily shrugs with a classic "what can you do" expression. @@.npc;I'll be frank, there are no guarantees. There are industrial accidents, dramatic experimental failures, unauthorized research of all kinds, as well as the propensity for the Institute to use low-value employees and Appletree residents as test subjects. It all combines to mean that there's a chance something could happen. As long as you're a good employee, the odds are low... It's the price you pay for a good job these days.@@
+</p>
+<center>
+<<button "CONTINUE">><<go "storyStart18e">><</button>><br>
+[img[IMG-InstituteScienceFair5]]
+</center>
+
+
+:: storyStart18e [nobr]
+
+<p>
+<<f l>>ily gives you a smile. @@.npc;Okay, enough of that depressing stuff, lets go over your options. Before we start, I want you to keep in mind that you don't <b>have</b> to work for the Institute to live in Appletree. There are other jobs available in town, I'm sure, but I highly recommend you give the institute a try first. It'll make your Muschi Valley Citizenship a lot easier, and to be honest, the institute will probably be your best bet for decent pay and advancement unless you're looking to check out some more... <i>alternative</i> employment options such as Progenerate Technologies.@@
+</p>
+<p>
+@@.npc;Anyway, I've limited your options to three divisions that manage to avoid a lot of the internal strife at the Institute, and should be pretty safe for you to work and even thrive at.@@ She holds up one finger, as if counting on her hand. @@.npc;First is the Services Division. I won't lie, there's nothing glamorous about this path at the bottom. On the bright side, you should find advancing here comparatively easy, you could probably make a line manager slot in 6 months if you work at it. The down side is that you're going to start as a janitor, and well, there are plenty of messes of all kinds to clean up at the Institute. I think you'll find services to be the easiest option, but it's also the lowest paid.@@
+</p>
+<p>
+Finger number two joins the first. @@.npc;Number two is what is commonly referred to as the bureaucratic corps, but is really the trifecta of the financial division, human resources division, and records division. It's not uncommon for people to move around between those divisions, and here at the Muschi Valley Campus the three divisions are all collocated in the same office building. You'll be working in H.R. specifically, it has the lowest entry requirements for a stable career track. The pay is decent, though the work can be mind-numbing, infuriating, or infuriatingly mind-numbing.@@
+</p>
+<p>
+Finally Lily raises the third finger on her hand. @@.npc;Last is the Special Projects in Engineering and Research, Management Division. And before you say anything, <b>everyone</b> is aware of what that acronym spells. Officially it's said 'spur' management, but of course everyone just calls it sperm.@@ Lily chuckles a little bit. @@.npc;Basically there are a lot of projects that either don't fit into an existing research org, or that straddles the line between two or more orgs. The people running the special projects are from other orgs, and SPERM handles all the other aspects such as managing facilities, supplying technicians and lab assistants, handling budgets, and everything else. It's a useful setup despite the strange name. If you work for SPERM, you'll probably find it more demanding, and there are more safety concerns... The pay is really good though, and you'll actually be involved with science stuff, which I think is a plus.@@
+</p>
+<p>
+Having finished her list, Lily puts her hand back down. @@.npc;That's about it. I suppose I could show you some job listings for some non-Institute jobs if you want to see what's available.@@
+</p>
+<<dialogchoice>>
+<<dbutt "show me">><<go "storyStart18h">>
+<<dtext "smile">>Take a look at some job postings to see what is available aside from the institute.
+<<dbutt "no thanks">><<go "storyStart18f">>
+<<dtext "smile">>You don't feel the need to look at non-Institute jobs, as you have to take an Institute job anyway.
+<</dialogchoice>>
+<center>
+[img[IMG-InstituteScienceFair4]]
+</center>
+
+
+:: storyStart18f [nobr]
+
+<p>
+<<f l>>ily looks at you with a smile. @@.npc;Okay then, I guess the only thing left is to let you make your choice and take the exam. You ready?@@
+</p>
+<p>
+@@.pc;I guess so...@@
+</p>
+<p>
+Lily starts tapping on her slate. @@.npc;That's good enough for me... Here you go!@@ She hands you the slate and stands up. @@.npc;I'll leave you to it then!@@
+</p>
+<center><<button "CONTINUE">><<go "storyStart18k">><</button>></center>
+
+
+:: storyStart18h [nobr]
+
+
+<p>
+<<f l>>ily spends a moment tapping on her slate before showing it to you. @@.npc;Here's a list of some of the non-Institute jobs with a brief description for each.@@ She passes you the slate. @@.npc;Just let me know when you're done looking.@@
+</p>
+<p>
+Taking the tablet you give Lily a small smile. @@.pc;Thanks.@@
+</p>
+<div style="border: 2px solid deepskyblue; padding: 15px; margin: 20px 0px;">
+<dl>
+<dt>Office Clerk, Fecundate Division--''Progenerate Technologies GmbH''</dt>
+<dd>Pay that's quite good (with a note about guaranteed performance bonuses on top), seven hour workday plus one hour for lunch, and an entire benefits package. Based on the posting, you meet all the requirements, and the advert states that no direct experience is necessary. Seems like a great option, but you feel like it might be a stressful, aggravating, or demanding job because it'd be too good otherwise.</dd>
+<dt>Maid--''Maid Poufiasse Cleaning Service''</dt>
+<dd>This one looks like a job as an actual maid, complete with a French maid uniform. It looks like you'd be assigned to clean the homes of different well-to-do clients in town. It's only a part-time job, but the pay isn't too bad as far as that kind of work goes.</dd>
+<dt>Cashier--''Bullseye Ubercenter''</dt>
+<dd>A job all the way out at Bullseye, overseeing automated checkout counters, and other miscellaneous tasks. It's part time, the wages are low, and there's very little opportunity for advancement. That said, it's probably a pretty easy job.</dd>
+<dt>Stripper--''Pole Riders''</dt>
+<dd>Not exactly the most prestigious employment, but you've heard that strippers make good money. The hours per week are pretty short, but they're all over the weekend.</dd>
+<dt>Dairy Farmhand--''Farm Cooperative Dairy Center''</dt>
+<dd>Definitely an interesting job, you'd be working with hucows to help produce milk and dairy products for Appletree and the surrounding area. The job involves a whole range of tasks, and there seems to be potential for advancement.</dd>
+<dt>Masseuse--''Fairy Tail massage parlor''</dt>
+<dd>A masseuse job in a massage parlor, focused on giving <i>good treatments</i> to the clients. Working the full shift may be harsh but <i>your income is in your hands</i>!</dd>
+</dl>
+</div>
+<p>You hand the slate back to Lily @@.pc;Thanks for letting me take a look.@@</p>
+<center><<button "CONTINUE">><<go "storyStart18f">><</button>></center>
+
+
+:: storyStart18k [nobr]
+
+<div id="contents">
+<<f a>>fter the public RAPES portal on Lily's slate finishes loading, you see a whole list of potential jobs...
+<br><br>
+<center><<button "CONTINUE">><<addTime 15>><<replace "#awUIcontainer">><<print setup.job.jobChoose()>><</replace>>
+<<replace "#contents">>
+@@.head3;Y@@ou hold your breath as you wait for the the automated HR system to review your application and determine the details of your new job. You wait a few minutes, and just as you're starting to get impatient, you hear the notification sound signaling a new email. You forgot that the response would be going to your email and not Lily's device. You press the button to wake up the device, and hurry to check your email.<br><br>
+<<link "find out more about your new job">><<addTime 5>><<go storyStart18m>><</link>>
+<</replace>><</button>>
+</center>
+</div>
+
+:: storyStart18m [nobr]
+
+
+You silently review the details of your new job.
+<table>
+<tr class="divide">
+<td colspan=4>
+@@.handwriting;.head;font-size:1.3rem;Job Offer Details@@
+</td>
+</tr><tr>
+<td width="20%">
+''Employer:''
+</td><td width="30%">
+<<= ↂ.job.employer>>
+</td><td width="20%">
+''Job Title:''
+</td><td width="30%">
+<<= ↂ.job.name>>
+</td>
+</tr><tr><td>
+''Boss:''<br>
+''Skills Used:''
+</td><td>
+<<= ↂ.job.rules.boss>><br>
+<<= ↂ.job.skills>>
+</td><td>
+''Description:''
+</td><td>
+<<= ↂ.job.desc>>
+</td>
+</tr><tr class="divide">
+<td colspan=4>
+@@.handwriting;.head;font-size:1.1rem;Compensation Information@@
+</td>
+</tr><tr>
+<td>
+''Hourly Wage:''
+</td><td>
+@@.money;<<mon>><<= ↂ.job.rules.payrate>>@@ per hour
+</td><td>
+''Paid Sick Leave:''
+</td><td>
+<<= ↂ.job.sick.rate>> hours per month
+</td>
+</tr><tr>
+<td>
+''Hours per Week:''
+</td><td>
+<<= ↂ.job.rules.worktime[0]>> hours
+</td><td>
+''Unpaid Leave:''
+</td><td>
+<<= ↂ.job.vacation.rate>> hours per month
+</td>
+</tr><tr>
+<td>
+''Weekly Income:''
+</td><td>
+@@.money;<<mon>><<= ( Math.round( ↂ.job.rules.worktime[0] * ↂ.job.rules.payrate))>>@@
+</td><td>
+''Paid Leave:''
+</td><td>
+<<= ↂ.job.vacation.ratePaid>> hours per month
+</td>
+</tr>
+</table>
+<center>
+<<button "CONTINUE">><<addTime 14>><<go storyStart19a>><</button>>
+</center>

@@ -1,0 +1,103 @@
+:: NPCinteraction-Lover [nobr]
+
+<<silently>>
+<<set _npc = setup.interact.status.npc>>
+<<set _amt = random(3,4) * -1>>
+<<lonely _amt "Talking to someone">>
+<<set setup.interact.status.temp.usedTags = []>>
+<<set setup.interact.status.temp.priority = setup.cTag.priority(1)>> /*Is an array of tags*/
+<<set setup.interact.status.temp.ctag = "none">>
+<</silently>>
+<p>
+<<f a>>fter noticing on Twatter that <<= aw.npc[_npc].main.name>> was nearby, you decide to walk over and say hello. You give a little wave after you spot them, waiting until you're closer to say anything.
+</p>
+<p>
+@@.pc;Hey <<= aw.npc[_npc].main.name>>, sweetheart, I am glad you see you!@@
+</p>
+<<include [[NPCinteraction-LoverTag]]>>
+
+
+:: NPCinteraction-LoverTag [nobr]
+
+<<silently>>
+  <<set _ctag = "none">>
+  <<if setup.interact.status.temp.ctag != null && setup.interact.status.temp.ctag !== "none">>
+    <<set _ctag = setup.interact.status.temp.ctag>>
+  <<elseif setup.interact.status.temp.priority.length > 0>>
+    <<set _ctag = either(setup.interact.status.temp.priority)>>
+    <<run setup.interact.status.temp.priority.delete(_ctag)>>
+    <<run setup.interact.status.temp.usedTags.push(_ctag)>>
+    <<set setup.interact.status.temp.ctag = _ctag>>
+  <<else>>
+    <<for _i = 0; _i < 3; _i++>>
+      <<set _t = setup.cTag.getTag(3, false)>>
+      <<if !setup.interact.status.temp.usedTags.includes(_t)>>
+        <<set _ctag = _t>>
+        <<break>>
+      <</if>>
+    <</for>>
+    <<if _cTag !== "none">>
+      <<run setup.interact.status.temp.usedTags.push(_ctag)>>
+      <<if random(1,10) === 1>>
+        <<set _ctag = "none">>
+      <</if>>
+    <</if>>
+    <<set setup.interact.status.temp.ctag = _ctag>>
+  <</if>>
+<</silently>>
+<<if _ctag !== "none">>
+  <<ctagcontent "lover" _ctag>>
+<<else>>
+  <<include [[NPCinteraction-LoverContinue]]>>
+<</if>>
+
+
+:: NPCinteraction-LoverContinue [nobr]
+
+<<silently>>
+/* warning - these temp variables are for initial load only, no DOM/buttons! */
+<<set _npc = setup.interact.status.npc>>
+<<set _int = setup.interact.status.temp.interrupt>>
+<<set _ctag = setup.interact.status.temp.cTag>>
+<</silently>>
+<<dialogchoice>>
+<<dbutt "Saying Hello" false>><<set setup.interact.status.temp.ctag = "none">><<addTime 3>><<intgo "NPCinteraction-LoverTag">>
+<<dtext "happy">>You don't have an objective, you just wanted to say hello since you were nearby.
+<<dbutt "Arrange Date" false>><<set setup.interact.status.temp.ctag = "none">><<addTime 5>><<set _rr = random(1,3)>><<if !aw.npc[_npc].rship.rejected && _rr > 1>><<intgo "NPCinteraction-LoverDate">><<else>><<intgo "NPCinteraction-LoverNoDate">><</if>>
+<<dtext "bimbo">>You want to go out on a date!
+<<dbutt "Hang Out" false>><<set setup.interact.status.temp.ctag = "none">><<addTime 5>><<intgo "NPCinteraction-Loverhang">>
+<<dtext "happy">>You thought you'd see about getting together sometime to hang out.
+<</dialogchoice>>
+
+
+:: NPCinteraction-LoverDate [nobr]
+
+<<set _npc = setup.interact.status.npc>>
+<p>@@.pc;So... I was wondering if you'd like to get together sometime, for dinner or a movie or something?@@</p>
+<p>@@.npc;You mean like on a date?@@</p>
+<p><span class="pc">
+<<has shy||intro>>well, umm... sheesh! if you're going to make me say it, yes, a date!
+<<orhas slut||liberate||extro>>Of course! What else would I be talking about?
+<<or>>Yeah, a date would be nice, right?
+<</has>></span></p>
+<p>@@.npc;Okay, let's set it up!@@</p>
+
+<<datescheduler _npc>>
+
+
+:: NPCinteraction-LoverHang [nobr]
+
+<<set _npc = setup.interact.status.npc>>
+<p>@@.pc;<<print either("Hey, don't you want to get together? I mean some hangout and whatnot.", "I think we totally shoud have a hangout together!", "I thought about spending some time together, buddy up style, what do you think?")>>@@</p>
+<p>@@.npc;<<print either("Oh, it would be cool!", "Yeah, why not.", "Okies, count me in!")>>@@</p>
+<p>@@.npc;<<print either("Okay, let's set it up!", "Nice! When you will be free?", "Cool! Let's schedule it!")>>@@</p>
+
+<<hangscheduler _npc>>
+
+
+:: NPCinteraction-LoverNoDate [nobr]
+
+<<set _npc = setup.interact.status.npc>>
+<p>@@.pc;So... I was wondering if you'd like to get together sometime, for dinner or a movie or something?@@</p>
+<p>@@.npc;Hey, sorry <<= ↂ.pc.main.name>>, I'm just not interested in you that way...@@</p>
+<p><span class="pc"><<link "Oh... I see... Okay then, well I'd better get going...">><<run setup.interact.exit()>><</link>></span></p>

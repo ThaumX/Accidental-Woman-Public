@@ -30,6 +30,7 @@ interface IntSetupMapNPC {
   time: (zoneName: string) => number;
   getFakes: (amt: number) => string[];
   assignedNPCs: (main: string, sub: string, tert: string|false) => string[] | "none";
+  locCheq: () => boolean;
 }
 
 interface IntMapNPCSetting {
@@ -108,6 +109,9 @@ setup.mapNPC.setting = {
 setup.mapNPC.get = function(main: string, secondary: string, tertiary: string|false = "main"): string[] {
   if (!tertiary) {
     tertiary = "main";
+  }
+  if (!setup.mapNPC.locCheq()) {
+    return [];
   }
   const zoneName = setup.mapNPC.zoneName(main, secondary, tertiary);
   const numNPC = setup.mapNPC.time(zoneName);
@@ -284,7 +288,18 @@ setup.mapNPC.assignedNPCs = function(main: string, sub: string, tert: string|fal
   }
 };
 
-
+setup.mapNPC.locCheq = function(): boolean {
+  if (aw.passage.title.slice(8) === "FemStart") {
+    return false;
+  }
+  if (aw.passage.title.slice(10) === "storyStart") {
+    return false;
+  }
+  if (aw.passage.tags.includes("hidden")) {
+    return false;
+  }
+  return true;
+};
 
 
 // MACROS

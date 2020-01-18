@@ -292,6 +292,7 @@ setup.npcDataFormat = function({body, main, sched, bground, rship, sex, flags, f
         PCsuspicion: flags.PCsuspicion || 0,
         thinkPCfaithful: flags.thinkPCfaithful || false,
         thinkNPCfaithful: flags.thinkNPCfaithful || false,
+        knowsAcidVag: flags.knowsAcidVag || false,
       },
     };
   } catch (e) { aw.con.warn(`Data failed on .record with ${e.name}: ${e.message}.`); }
@@ -310,6 +311,7 @@ setup.npcDataFormat = function({body, main, sched, bground, rship, sex, flags, f
       pref: (info != null && info.pref != null) ? info.pref : 0,
       sched: (info != null && info.sched != null) ? info.sched : false,
       bGround: (info != null && info.bGround != null) ? info.bGround : 0,
+      stories: (info != null && info.stories != null) ? info.stories : [false, false, false, false, false, false, false, false, false],
     };
   } catch (e) { aw.con.warn(`Data failed on .record.info with ${e.name}: ${e.message}.`); }
   try {
@@ -409,6 +411,7 @@ setup.npcDataFormat = function({body, main, sched, bground, rship, sex, flags, f
         fetus: [],
         zygote: [],
         total: 0,
+        boost: 0,
       },
       wombB: {
         exists: (main.female && mutate.twinWomb) ? true : false,
@@ -420,6 +423,7 @@ setup.npcDataFormat = function({body, main, sched, bground, rship, sex, flags, f
         fetus: [],
         zygote: [],
         total: 0,
+        boost: 0,
       },
       period: status.period || 0,
       milk: status.milk || 0,
@@ -642,6 +646,7 @@ setup.npcDataFormat = function({body, main, sched, bground, rship, sex, flags, f
         ovary: [],
       },
       ovuFlag: (fert.ovuFlag == null) ? false : fert.ovuFlag,
+      aftOvulate: (fert.aftOvulate == null) ? false : fert.aftOvulate,
     };
   } catch (e) { aw.con.warn(`Data failed on .fert with ${e.name}: ${e.message}.`); }
   try {

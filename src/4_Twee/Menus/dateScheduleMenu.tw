@@ -1,0 +1,41 @@
+:: dateScheduleMenu [nobr]
+
+<<set aw.besty.npc = setup.interact.status.npc>>
+<<set aw.besty.weekdays = ["errorday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]>>
+<div id="npcSchedBox">
+<center>
+  @@.npc;<<print setup.npcDate.propose(aw.besty.npc)>>@@
+  <<set aw.besty.weekday = ↂ.sched.npcDate[aw.besty.npc][0]>>
+  <<set aw.besty.nextweek = ↂ.sched.npcDate[aw.besty.npc][1]>>
+  <<set aw.besty.time = ↂ.sched.npcDate[aw.besty.npc][2]>>
+  <<set aw.besty.place = ↂ.sched.npcDate[aw.besty.npc][5]>>
+  &nbsp;
+  <<link "Okies!">><<run setup.npcDate.scheduleDate(ↂ.sched.npcDate[aw.besty.npc][0], ↂ.sched.npcDate[aw.besty.npc][1], ↂ.sched.npcDate[aw.besty.npc][2], ↂ.sched.npcDate[aw.besty.npc][5], ↂ.sched.npcDate[aw.besty.npc][3])>><<replace '#npcSchedBox'>><center>@@.npc;Nice! <<if aw.besty.nextweek>>Next<<else>>This<</if>>&nbsp;<<print aw.besty.weekdays[aw.besty.weekday]>>&nbsp;then, at <<print aw.besty.time>>:00 !@@</center><</replace>><</link>>
+  <br><br>
+  Or propose your own time and place:
+  <br>
+  <<button "[-]">><<set aw.besty.weekday -= 1>><<if aw.besty.weekday < 1>><<set aw.besty.weekday = 1>><</if>><<if aw.besty.weekday > 7>><<set aw.besty.weekday = 7>><</if>><<replace "#weekdayDiv">><<print aw.besty.weekdays[aw.besty.weekday]>><</replace>><</button>>&nbsp;&nbsp;<span id="weekdayDiv"><<print aw.besty.weekdays[aw.besty.weekday]>></span>&nbsp;&nbsp;<<button "[+]">><<set aw.besty.weekday += 1>><<if aw.besty.weekday < 1>><<set aw.besty.weekday = 1>><</if>><<if aw.besty.weekday > 7>><<set aw.besty.weekday = 7>><</if>><<replace "#weekdayDiv">><<print aw.besty.weekdays[aw.besty.weekday]>><</replace>><</button>>
+  &nbsp;&nbsp;
+  <<button "[-]">><<set aw.besty.time -= 1>><<if aw.besty.time < 7>><<set aw.besty.time = 7>><</if>><<if aw.besty.time > 23>><<set aw.besty.time = 23>><</if>><<replace "#timedayDiv">><<print aw.besty.time>><</replace>><</button>>&nbsp;&nbsp;<span id="timedayDiv"><<print aw.besty.time>></span>:00&nbsp;&nbsp;<<button "[+]">><<set aw.besty.time += 1>><<if aw.besty.time < 7>><<set aw.besty.time = 7>><</if>><<if aw.besty.time > 23>><<set aw.besty.time = 23>><</if>><<replace "#timedayDiv">><<print aw.besty.time>><</replace>><</button>>
+  <br>
+  <span id="fuckbesty"><<if aw.besty.nextweek>>Next<<else>>This<</if>></span>&nbsp;<<button "Week">><<if aw.besty.nextweek>><<set aw.besty.nextweek = false>><<else>><<set aw.besty.nextweek = true>><</if>><<replace "#fuckbesty">><<if aw.besty.nextweek>>Next<<else>>This<</if>><</replace>><</button>>
+  <br><br>
+  <<set ↂ.datePlace = "park">>
+  <<radioset "datePlace" "ↂ.datePlace">>
+    <<radioitem "park">>City park
+    <<radioitem "club">>Club district
+    <<radioitem "mall">>Applewood mall
+    <<radioitem "amusement">>Amusement district
+  <</radioset>>
+  <br><br>
+  <<= setup.curTimeDisplay()>>
+  <br>
+  <<button "Propose">><<replace '#npcSchedBox'>><center>@@.npc;<<print setup.npcDate.checkIfFree(aw.besty.weekday, aw.besty.nextweek, aw.besty.time,  ↂ.datePlace, aw.besty.npc)>>@@&nbsp;<<if ↂ.sched.npcDate[aw.besty.npc][4] === false>><<link "Another time maybe?">><<replace '#npcSchedBox'>><<set _npc = aw.besty.npc>><<datescheduler _npc>><</replace>><</link>><</if>></center><</replace>><</button>>
+</center>
+</div>
+
+
+:: dateScheduleMenuAlreadySet [nobr]
+
+<p><<print either("@@.npc;Oh sure, we can just reschedule it, no problemo!@@","@@.npc;We have already set a date, right? Gosh, it may just slipped out of my mind to be honest, so much is going on lately. Sure, let's schedule it!@@", "@@.npc;Sure thing, let's see if we both have free time...@@")>></p>
+<<include [[dateScheduleMenu]]>>

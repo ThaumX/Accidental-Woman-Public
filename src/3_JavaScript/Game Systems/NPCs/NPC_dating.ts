@@ -93,6 +93,11 @@ setup.npcDate.checkIfFree = function(weekday, next, time, datePlace, npcId) {
     aw.con.warn(`Setup.npcDate.checkIfFree was supplied with npcid ${npcId} which was not found in aw.npc!`);
     return "Sorry, seems like some error happened :(";
   }
+  for (let i = 0; i < ↂ.plans.current.length; i++) {
+    if (ↂ.plans.current[i].npc[0] === npcId) {
+      return "Hey, one date per day is enough, don't you think?";
+    }
+  }
   if (next === false) {
     if (weekday > State.active.variables.date[0]) {
       aw.con.info("weekday > State.active.variables.date[0]");
@@ -150,16 +155,27 @@ setup.npcDate.checkIfFree = function(weekday, next, time, datePlace, npcId) {
 };
 
 setup.npcDate.scheduleDate = function(weekday, next, time, datePlace, npcId) { // Poltergeist!
+  aw.con.info(`scheduleDate: ${weekday}, ${next}, ${time}, ${datePlace}, ${npcId}`);
   const name = `Date - ${aw.npc[npcId].main.name}.`;
-  let bliniWeek;
+  let bliniWeek = aw.timeArray[3];
+  let bliniMonth = aw.timeArray[4];
+  let bliniYear = aw.timeArray[5];
   if (next) {
-    bliniWeek = (aw.timeArray[3] + 1);
-  } else {
-    bliniWeek = aw.timeArray[3];
+    if (aw.timeArray[3] === 4) {
+      bliniWeek = 1;
+      bliniMonth = aw.timeArray[4] + 1;
+    } else {
+      bliniWeek = aw.timeArray[3] + 1;
+    }
+    if (aw.timeArray[4] === 13 && aw.timeArray[3] === 4) {
+      bliniWeek = 1;
+      bliniMonth = 1;
+      bliniYear = aw.timeArray[5] + 1;
+    }
   }
-  aw.con.info(`${weekday}, ${bliniWeek}, ${aw.timeArray[4]}, ${aw.timeArray[5]} and time is ${time}`);
-  const helloPapa = (setup.time.dateToVal([weekday, bliniWeek, aw.timeArray[4], aw.timeArray[5]])) + (time * 60);
-  setup.sched.new(name, "date", true, helloPapa, false, aw.datePlaces[datePlace][3], datePlace, true, [npcId], `You have arranged a date with ${aw.npc[npcId].main.name} ${aw.npc[npcId].main.surname}. Better don't miss it!`);
+  aw.con.info(`${weekday}, ${bliniWeek}, ${bliniMonth}, ${bliniYear} and time is ${time}`);
+  const helloPapa = (setup.time.dateToVal([weekday, bliniWeek, bliniMonth, bliniYear])) + (time * 60);
+  setup.sched.new(name, "date", true, helloPapa, false, aw.datePlaces[datePlace][3], datePlace, true, [npcId], `You have arranged a date with ${aw.npc[npcId].main.name} ${aw.npc[npcId].main.surname}. Better not miss it!`);
   ↂ.sched.npcDate[npcId][4] = true;
   ↂ.sched.npcDate[npcId][5] = datePlace;
   ↂ.flag.schedDates.push(npcId);
@@ -168,8 +184,11 @@ setup.npcDate.scheduleDate = function(weekday, next, time, datePlace, npcId) { /
 
 setup.npcDate.create = function(npcId) {
   if (ↂ.flag.schedDates.includes(npcId)) {
+    // aw.replace("#datescheduler", "<<include [[dateScheduleMenuAlreadySet]]>>");
+    // return false;
+    ↂ.sched.npcDate[npcId][3] = npcId;
     aw.replace("#datescheduler", "<<include [[dateScheduleMenuAlreadySet]]>>");
-    return false;
+    return true;
   } else {
     ↂ.sched.npcDate[npcId][3] = npcId;
     aw.replace("#datescheduler", "<<include [[dateScheduleMenu]]>>");
@@ -243,7 +262,7 @@ Macro.add("datescheduler", {
 
 aw.datePlaces = {
   park: ["downtown", "park", false, "Central park"],
-  shakenpop: ["downtown", "club", "shakenpopentrance", "Shake & Pop"],
+  club: ["downtown", "club", "main", "Club district"],
   mall: ["downtown", "mall", false, "Mall"],
   amuse: ["downtown", "amuse", false, "Amusement district"],
 };

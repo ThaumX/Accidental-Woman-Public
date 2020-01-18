@@ -1,0 +1,66 @@
+:: FinalProloguePrep [nobr hidden]
+
+<div id="cardback">
+<<status 1>>
+<<if !setup.achieve.isUnlocked("Prologue skip")>>
+  <<unlock "Prologue skip">>
+<</if>>
+<<set aw.omni = {}>>
+<<set ↂ.flag.Prologue = false>>
+<<set ↂ.plans.upcoming = []>>
+<<set aw.time = aw.tBase - 135>>
+<<set $midnight = Math.floor(aw.time / 1440) * 1440>>
+<<run setup.time.dateChange()>>
+<<set ↂ.pc.status.arousal = 1>>
+<<set ↂ.pc.status.fatigue = 1>>
+<<set ↂ.pc.status.inPublic = false>>
+<<set ↂ.pc.status.energy.amt = (ↂ.pc.status.energy.max - 1)>>
+<<set ↂ.sched.sleepWarnOn = true>>
+<<script>>
+  ↂ.flag.BackupTraits = clone(ↂ.pc.trait);
+  ↂ.flag.BackupKinks = (ↂ.pc.kink);
+  ↂ.pc.status.nutrition.realWeight = setup.initialWeight();
+<</script>>
+<<run setup.npcSched.generate()>>
+<<status 0>>
+<<run setup.status.bind()>>
+<<status 0>>
+<<if $AW.startMale>>
+  <<run setup.lilyOutcomeSetter()>>
+  <<set ↂ.flag.LilyHouseAvailable = true>>
+  <<status 0>>
+<</if>>
+<<set ↂ.map.loc = ["home","foyer"]>>
+<<set $activeNPC = []>>
+<<goto "FinalProloguePage">>
+</div>
+
+
+:: FinalProloguePage [nobr hidden]
+
+<div id="cardback">
+<center>
+<div id="biggo" class="fadeInUp animated"><img data-passage="IMG-EndOfPrologue"></div>
+<br><br>
+<div id="cocker" style="position:fixed;width:50%;text-align:center;height:9%;top:90%;left:25%;z-index:105;"></div>
+</center>
+<<timed 1500ms>>
+  <<achieve prologue>>
+<</timed>>
+<<timed 3000ms>>
+  <<replace "#cocker">>
+    <span class="megrim blackOutline" style="font-size:40px;font-weight:bolder;"><<link "It All Starts Here">>
+      <<replace "#cocker">>
+        <<animexit "biggo" "fadeInUp" "fadeOutUp">>
+        <<status>>
+        <<timed 500ms>>
+          <<gotomap "home" "living">>
+          <<script>>
+            setTimeout(() => setup.dialog("Player Home", "<<include [[TutorialPlayerHome]]>>"), 1000);
+          <</script>>
+        <</timed>>
+      <</replace>>
+    <</link>></span>
+  <</replace>>
+<</timed>>
+</div>

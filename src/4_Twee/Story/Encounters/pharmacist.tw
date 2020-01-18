@@ -1,0 +1,333 @@
+:: BEtalkPharmacist1 [nobr]
+
+@@.head3;I@@t seems like the Bullseye pharmacy isn't very busy this time of day, because the pharmacist doesn't seem to be doing much. At least, you assume she's the pharmacist because of her traditional white lab coat. You've only just started browsing, but keep getting the feeling that the attractive woman is watching you. Every time you look over at her though, she seems to be organizing the contents of a counter display. @@.mono;Am I being paranoid?@@
+<br><br>
+You pretend to browse some toothbrushes as you think about it. <<if ↂ.pc.trait.cl>>@@.mono;She should mind her own business. I bet she thinks I'm going to shoplift or something...@@<<elseif ↂ.pc.trait.extro>>@@.mono;Maybe something is wrong with my clothes?@@ You look down to see if one of your new breasts is hanging out or something. @@.mono;Well maybe it's just that these clothes are weird?@@<<else>>@@.mono;Maybe something's wrong with my clothes?@@ You're hit with a minor bout of worry as you try to stealthily check and make sure all your new anatomy is safely covered.<<if ↂ.pc.kink.exhibition>> Despite your initial worry, you can't help but find the idea of being exposed erotic.<</if>> It seems your clothes are all in order though. @@.mono;Maybe the security system flagged me as a suspicious character, and she's just watching in case I try to shoplift?@@<</if>> Now that you've been paying attention, it's become pretty obvious that the pharmacist really is watching you, though you still don't know why.
+<br><br>
+
+<<dialogchoice>>
+  <<dbutt "Confront her">><<addTime 8>><<go BEtalkPharmacist-2a>>
+    <<dtext "arrogant">>Hey you, why are you staring at me?
+  <<dbutt "Ask her">><<addTime 8>><<SCX>><<SC "ps" 14>><<go BEtalkPharmacist-2c>>
+    <<dtext "suspicious">>Think of a question to ask her
+  <<dbutt "Ignore">><<addTime 8>><<go BEpharmacy>>
+    <<dtext "neutral">>Just ignore it, it doesn't really matter.
+  <<dbutt "Act cool" "ↂ.pc.trait.flirty != -1 && ↂ.pc.trait.friendly != -1">><<addTime 8>><<SCX>><<SC "com" 12>><<go BEtalkPharmacist-2b>>
+    <<dtext "cool">>Roll with it and say hello
+<</dialogchoice>>
+
+:: BEtalkPharmacist-2a [nobr]
+
+<div id="pharmatalk">
+<<set ↂ.flag.BEpharmacist.met = true>>
+@@.head3;D@@eciding that all this pussyfooting around is ridiculous, you march straight over to the counter where the pharmacist is standing. @@.pc;Hey you, why are you staring at me?@@
+<br><br>
+The woman starts, almost knocking over a display of Extenzer supplements. @@.npc;Staring at you? What are you talking about?@@ She looks around, as if seeking out someone who understands what's going on.
+<br><br>
+
+<<dialogchoice>>
+  <<dbutt "Mad">><<anger 3>><<replace "#pharmatalk">><<include [[BEtalkPharmacist-2a1]]>><</replace>>
+    <<dtext "mad">>Don't play dumb...
+  <<dbutt "Comfort her">><<set ↂ.flag.BEpharmacist.firstMeet = "notangry">><<replace "#pharmatalk">><<include [[BEtalkPharmacist-2a2]]>><</replace>>
+    <<dtext "unamused">>I'm not angry...
+  <<dbutt "Flirt" "!ↂ.pc.trait.intro">><<if ↂ.pc.status.ATR >= 8>><<SC "sed" 18>><<else>><<SC "sed" 26>><</if>><<replace "#pharmatalk">><<include [[BEtalkPharmacist-2a3]]>><</replace>>
+    <<dtext "wink">>Flirt with the girl
+<</dialogchoice>>
+
+</div>
+
+
+:: BEtalkPharmacist-2a1 [nobr]
+
+@@.head3;Y@@ou give the best no-nonsense glare your new <<print ↂ.pc.main.age>>-year-old body can manage. @@.pc;Don't play dumb with me, I want to know why you were staring at me.@@
+<br><br>
+The woman takes a step back from the counter, and places her hand on a small control panel. @@.npc;Ma'am, I need you to calm down, or I'm going to have to call security. There's no reason to get angry, Okay?@@
+<br><br>
+
+  <<dialogchoice>>
+    <<dbutt "Back down">><<anger 3>><<go BEtalkPharmacist-3a>>
+      <<dtext "dismay">>Fine. I'm calm.
+    <<dbutt "Rage">><<anger 3>><<addTime 3>><<SCX>><<SC "com" 14>><<SC "ps" 16>><<go BEtalkPharmacist-3b>>
+      <<dtext "angry">>Show her what angry is!
+  <</dialogchoice>>
+
+
+:: BEtalkPharmacist-2a2 [nobr]
+
+@@.head3;T@@he pharmacist gives you an odd look, and seems unsure of what to do for a moment. @@.npc;I'm sorry. It's time for my break.@@ She presses a button on the panel, and a security barrier starts to close. The pharmacist stands there with same "sorry, I can't help you" expression seen on customer service employees everywhere, until the prescription medications are safely behind the polycarbonate mesh. Reaching beneath the counter, she retrieves an "on break, back in 15 minutes" sign and places it on the counter. She walks off and disappears through a door on the pharmacy interior.<br><br><<link "continue">><<addTime 3>><<deactivateNPC "n1002">><<set ↂ.flag.BEpharmacist.avail = false>><<go BEpharmacy>><</link>>
+
+:: BEtalkPharmacist-2a3 [nobr]
+
+<<print $SCtext[1]>><br>
+<<if $SCresult[1]>>
+  @@.pc;Damn... I was hoping you were into me. Sorry, I'm really not good at this whole pick-up thing.@@
+  <br><br>
+  She looks surprised for a moment, and then starts laughing. After a moment, she gets control of herself enough to answer. @@.npc;Sorry, I just found that really funny. I mean, come on, "Why are you staring at me"?@@ She starts laughing again. @@.npc;I'll be honest, I needed a good laugh. I don't think I've seen you around before, are you new in town?@@
+  <br><br>
+  Glad that you can play your opening line off as a joke, you answer. @@.pc;Yeah, I just moved into town a couple days ago. I'm <<= ↂ.pc.main.name>>, by the way.@@
+  <br><br>
+  @@.npc;As you can probably tell from the nametag, I'm Sara. If you don't mind me asking, why would you move to Appletree of all places?@@
+  <br><br>
+  <<dialogchoice>>
+    <<dbutt "For work">><<addTime 3>><<go BEtalkPharmacist-5a>>
+      <<dtext "awkward">>I am here for work.
+    <<dbutt "Girlfriend">><<addTime 3>><<go BEtalkPharmacist-5b>>
+      <<dtext "awkward">>Girlfriend left me.
+    <<dbutt "Nice city">><<addTime 3>><<go BEtalkPharmacist-5c>>
+      <<dtext "awkward">>Seems like a nice place.
+    <<dbutt "Rude">><<addTime 3>><<go BEtalkPharmacist-5d>>
+      <<dtext "unamused">>None of your business.
+  <</dialogchoice>>
+<<else>>
+  @@.pc;Are you a beaver? Cause Damn!@@
+  <br><br>
+  She stares at you for a moment, unsure if you were serious with that line. @@.npc;Wow... Did you think that was going to work somehow?@@
+  <br><br>
+  <<dialogchoice>>
+    <<dbutt "Retarded">><<addTime 3>><<set ↂ.flag.BEpharmacist.firstMeet = "retarded">><<addTime 3>><<go BEtalkPharmacist-2a2>>
+      <<dtext "silly">>I like macaroni!
+    <<dbutt "Confused">><<addTime 3>><<set ↂ.flag.BEpharmacist.firstMeet = "stupid">><<addTime 3>><<go BEtalkPharmacist-2a2>>
+      <<dtext "confused">>I don't know, did it?
+  <</dialogchoice>>
+<</if>>
+
+
+:: BEtalkPharmacist-2b [nobr]
+
+<<set ↂ.flag.BEpharmacist.met = true>>/*Option B - say hello[[return|BEpharmacy]]*/
+<center><<print $SCtext[1]>></center><br>
+@@.head3;D@@eciding that the best thing to do is simply say hello to the watchful pharmacist, you casually stroll over to the counter. As you get closer, you can tell that she's a little unsure of what to do. @@.mono;Her body is gorgeous... even hidden underneath that lab coat she's wearing. Her face is quite nice too, cute and almost innocent looking...@@<br>
+@@.mono;... I bet those lips would look even better wrapped around my... God damnit.@@ Momentarily caught up in your thoughts, you suddenly realize that you haven't come up with anything to actually say. You reach the counter, and just go with the first thing that comes to mind.
+<br><br>
+<<if $SCresult[1]>>
+  @@.pc;Hello there, umm@@ you take a quick glance at her nametag @@.pc;Sara Templeton - Pharmacist. I'm <<= ↂ.pc.main.name>>, I just moved into town, so I thought I'd say hello.@@
+  <br><br>
+  She smiles. @@.npc;Just Sara is fine, <<= ↂ.pc.main.name>>. If you don't mind me asking, why would you move to Appletree of all places?@@
+<<else>>
+  @@.pc;Hey there cutie, I saw you checking me out. You wanna give me a more thorough examination somewhere a little more private?@@
+  <br><br>
+  <<if ↂ.pc.status.ATR >= 8>>
+    She chuckles for a moment, before giving the potion of your body not hidden beneath the counter a thorough look. @@.npc;That might be a good idea on another occasion, but for now I can't spare the time for a proper exam. What's your name?@@
+    <br><br>
+    You return her smile, a little surprised you got away with calling a stranger "cutie". @@.pc;I'm <<= ↂ.pc.main.name>>, I just moved into town.@@
+    <br><br>
+    She gestures to her very healthy chest, which swells her lab coat. @@.npc;As you can probably tell from the nametag, I'm Sara. If you don't mind me asking, why would you move to Appletree of all places?@@
+  <<else>>
+    She looks surprised for a moment, and then starts laughing at you. After a moment, she gets control of herself enough to answer. @@.npc;That's a pretty good ice-breaker you got there. I'll be honest, I needed a good laugh. I don't think I've seen you around before, are you new in town?@@
+    <br><br>
+    Glad that you can play your opening line off as a joke, you answer. @@.pc;Yeah, I just moved into town a couple days ago. I'm <<= ↂ.pc.main.name>>, by the way.@@
+    <br><br>
+    @@.npc;As you can probably tell from the nametag, I'm Sara. If you don't mind me asking, why would you move to Appletree of all places?@@
+  <</if>>
+<</if>>
+<br><br>
+
+  <<dialogchoice>>
+    <<dbutt "For work">><<addTime 3>><<go BEtalkPharmacist-5a>>
+      <<dtext "awkward">>I am here for work.
+    <<dbutt "Girlfriend">><<addTime 3>><<go BEtalkPharmacist-5b>>
+      <<dtext "awkward">>Girlfriend left me.
+    <<dbutt "Nice city">><<addTime 3>><<go BEtalkPharmacist-5c>>
+      <<dtext "awkward">>Seems like a nice place.
+    <<dbutt "Rude">><<addTime 3>><<go BEtalkPharmacist-5d>>
+      <<dtext "arrogant">>None of your business.
+  <</dialogchoice>>
+
+:: BEtalkPharmacist-2c [nobr]
+
+<<set ↂ.flag.BEpharmacist.met = true>>/*Option C - ask question [[return|BEpharmacy]]*/
+<center><<print $SCtext[1]>></center><br>
+@@.head3;Y@@ou think about it, and decide that the safest approach would be to ask a question about something to get a conversation started. You walk over to the counter. As you get closer, you can tell that she's a little unsure of what to do about your approach. @@.mono;Her body is gorgeous... even hidden underneath that lab coat she's wearing. Her face is quite nice too, cute and almost innocent looking...@@<br>
+@@.mono;... I bet those lips would look even better wrapped around my... God damnit.@@ Momentarily caught up in your thoughts, you suddenly realize that you haven't come up with a question to ask. You reach the counter, and utter a simple @@.pc;Hello, umm...@@ to buy yourself time.
+<br><br>
+<<if $SCresult[1]>><<silently>>
+  <<set _mass = ↂ.pc.body.weight + ↂ.pc.body.tone>>
+  <<if ↂ.pc.body.tits.size >= 1000>>
+    <<set _mass += 1>>
+  <<elseif ↂ.pc.body.tits.size < 500>>
+    <<set _mass -= 1>>
+  <</if>>
+  <<if ↂ.pc.body.ass >= 5>>
+    <<set _mass += 1>>
+  <<elseif ↂ.pc.body.ass <= 2>>
+    <<set _mass -= 1>>
+  <</if>>
+  <<if ↂ.pc.body.hips >= 5>>
+    <<set _mass += 1>>
+  <<elseif ↂ.pc.body.hips <= 2>>
+    <<set _mass -= 1>>
+  <</if>>
+  <<if _mass < 6>>
+    <<set _weight = "is a bit lower than average">>
+    <<set _mg = "400">>
+  <<elseif _mass > 9>>
+    <<set _weight = "is a bit above average">>
+    <<set _mg = "600">>
+  <<else>>
+    <<set _weight = "is about average">>
+    <<set _mg = "500">>
+  <</if>>
+<</silently>>
+@@.pc;I just moved into town, and I've been having problems with waking up and not being able to fall back asleep. Is there anything you'd recommend to help me sleep without making me groggy the next day?@@
+<br><br>
+She thinks about it for a moment before answering; @@.npc;I would say melatonin is your best bet.@@ Almost under her breath she adds @@especially in //this// town.@@ She sizes you up in a rather clinical fashion, peering over the counter and paying extra attention to your <<pcBoobSize>> breasts, <<pcHipSize>> hips, and <<pcAssSize>> rear-end. @@.npc;Your body mass <<print _weight>>, so I would go with <<print _mg>>mcg to start.@@
+<br><br>
+You smile in appreciation. @@.pc;Thanks,@@ you glance at her nametag @@.pc;Sara. I'm <<print ↂ.pc.main.name>>, by the way.@@
+<br><br>
+Having come up with a natural way of starting a conversation, she seems to be a lot more comfortable with you than she was when you first approached. @@.npc;So, <<print ↂ.pc.main.name>>, if you don't mind me asking, why did you move to Appletree of all places?@@
+<<else>><<silently>>
+<<set _rand = random(0,1)>>
+<<if _rand == 0>>
+  <<set _question = "I want to start using tampons, but I'm worried about what'll happen if it gets lost in there or something. Sorry, I know it's weird...">>
+  <<set _answer = "She looks at you with wide eyes for a moment before answering. @@.npc;It's pretty unlikely that would happen, but if it does get 'lost' in there, you'll probably be able to push it out on your own... if not you can always go to the ER. You'll be fine as long as you don't just leave it in there.@@">>
+<<else>>
+  <<set _question = "I was just wondering what the best condom for anal would be, I don't want a bunch of cum in my butt... Do you have any recommendations?">>
+  <<set _answer = "Surprisingly, she looks nonplussed at the unusual question. @@.npc;Any standard lubricated condom should work just fine, but if you're using a condom don't use oil-based lubricant. Most anal lubricants are oil based, so that's something to watch out for. Just be sure to use proper lube... or you're in for a bad time.@@">>
+<</if>>
+<</silently>>
+@@.pc;<<print _question>>@@
+<br><br>
+<<print _answer>> <<comment "One of two different questions ^_^">>
+<br><br>
+You smile in appreciation. @@.pc;Thanks,@@ you glance at her nametag @@.pc;Sara. I'm <<print ↂ.pc.main.name>>, by the way.@@
+<br><br>
+Having come up with a natural--if embarrassing--way of starting a conversation, she seems to be a lot more comfortable with you than she was when you first approached. @@.npc;So, <<print ↂ.pc.main.name>>, if you don't mind me asking, why did you move to Appletree of all places?@@
+<</if>>
+<br><br>
+<<dialogchoice>>
+    <<dbutt "For work">><<addTime 3>><<go BEtalkPharmacist-5a>>
+      <<dtext "awkward">>I am here for work.
+    <<dbutt "Girlfriend">><<addTime 3>><<go BEtalkPharmacist-5b>>
+      <<dtext "awkward">>Girlfriend left me.
+    <<dbutt "Nice city">><<addTime 3>><<go BEtalkPharmacist-5c>>
+      <<dtext "awkward">>Seems like a nice place.
+    <<dbutt "Rude">><<addTime 3>><<go BEtalkPharmacist-5d>>
+      <<dtext "arrogant">>None of your business.
+  <</dialogchoice>>
+
+:: BEtalkPharmacist-3a [nobr]
+
+@@.head3;Y@@ou grumble inwardly at your lack of options, you certainly don't want to be in the middle of a scene involving security. @@.pc;Fine. I'm calm.@@
+<br><br>
+The woman relaxes a little, saying @@.npc;Thank you Ma'am.@@ and continuing to watch you. It's obvious she has no intention of answering your original question, and now it seems she has the perfect excuse to watch you openly. You back away, eventually turning to walk out of the pharmacy and leave the odd woman behind.
+<br><br>
+<<link "continue">><<happy -1 "Disagreement with a pharmacist">><<anger 1>><<set ↂ.map.destLoc = [4,2]>><<go controlBullseye>><</link>>
+
+:: BEtalkPharmacist-3b [nobr]
+
+<<if ↂ.pc.trait.bitch == 1>>@@.bad;[✘ bitch]@@<<set $SCresult[1] == false>><<else>><<print $SCtext[1]>> <<if $SCresult[1]>><<print $SCtext[2]>><</if>><</if>><br>
+<span class="mono">@@.head3;S@@he wants to see angry? I'll show her angry!</span> You walk right up against the counter. <<if $SCresult[1]>>@@.pc;How dare you treat a customer this way? I was perfectly polite, and you know it.@@<<if $SCresult[2]>> You give one of the ubiquitous security cameras a meaningful glance. @@.pc;I'm also sure that the security cameras know it too.@@<</if>><br><br>She looks unsure of what to do for a moment. @@.npc;I'm sorry. It's time for my break.@@ She presses a button on the panel, and a security barrier starts to close. The pharmacist stands there with a look of defiance until the prescription medications are safely behind the polycarbonate mesh. With excessive force, she sets an "on break, back in 15 minutes" sign on the counter and stalks off.<br><br><<link "continue">><<addTime 3>><<deactivateNPC "n1002">><<set ↂ.flag.BEpharmacist.firstMeet = "angry">><<set ↂ.flag.BEpharmacist.avail = false>><<go BEpharmacy>><</link>><<else>>@@.pc;You dumb bitch! What the fuck is wrong with you?! Just answer my fucking question already, you hose-gobbling skank!@@<br><br>The pharmacist looks slightly fearful at your outburst, but you can tell she's had to deal with her share of crazy people from the way she decisively presses the alarm button. Polycarbonate mesh security barriers quickly drop down to seal the pharmacy, and red strobe lights start firing to give the area an intermittent pink tint. By the time you look back to where the pharmacist was standing, she had already ducked out of sight.<br><br>
+You hear the kind of squeak that tennis shoes make on a basketball court, and you turn around in time to see an ugly security bot come to a stop a few paces from where you stand. <span class="npc">@@.print;Halt valued customer! Stay where you are and place your hands on top of your head.@@</span> The thing looks like some kind of ungainly tripod, and is covered in Bullseye logos. @@.mono;Perhaps target rings aren't the best thing to plaster all over a security robot.@@<br><br>
+<span class="npc">@@.print;Valued customer! This is your final warning. Place your hands on your head.@@</span><br><br>
+The robot doesn't look threatening; with its complete lack of symmetry it looks like it was designed by a 5-year-old. What will you do?<br>
+<<emo scared>> <<link "Comply">><<addTime 8>><<set ↂ.flag.BEpharmacist.firstMeet = "angry-security">><</link>>
+<<emo mad>> <<link "Just Leave">>
+<<set $cart.panties = []>>
+<<set $cart.leg = []>>
+<<set $cart.lowBody = []>>
+<<set $cart.bra = []>>
+<<set $cart.upBody = []>>
+<<set $cart.dress = []>>
+<<set $cart.swimU = []>>
+<<set $cart.swimL = []>>
+<<set $cart.athU = []>>
+<<set $cart.athL = []>>
+<<set $cart.overWear = []>>
+<<set $cart.niteU = []>>
+<<set $cart.niteL = []>>
+<<set $cart.acc = []>>
+<<set $cart.bag = []>>
+<<set $cart.item = []>><<go BEtalkPharmacist-4b>><</link>>
+<</if>>
+
+
+:: BEtalkPharmacist-4a [nobr hidden]
+
+@@.head3;Y@@ou place your hand on your head and comply with the robot's orders. It escorts you to the front of the store, but is "kind" enough to "let" you purchase everything in your cart before escorting you outside.
+<br><br>
+<<link "Continue">><<set ↂ.map.destLoc == [5,4]>><<go controlBullseye>><</link>>
+
+:: BEtalkPharmacist-4b [nobr hidden]
+
+
+<div id="tomfuckery">
+@@.head3;T@@here is a sudden sting of pain as you start walking toward the front of the store. You don't have time to recognize what the pain was until the current starts coursing through your body. You fall to the floor as you begin to convulse, <span class="npc">@@.print;thank you for shopping at Bullseye@@</span> echoing through your head as you lose consciousness.
+<br><br>
+<<link "continue">>
+<<set _max = Math.round($cash * 0.5)>><<set _min = Math.round($cash * 0.3)>>
+<<set _lost = random(_min,_max)>>
+<<status 1>><<set $cash -= _lost>><<status 0>><<set _time = random(35,45)>>
+<<addTime _time>>
+<<updatebar>>
+<<replace "#tomfuckery">>
+@@.head3;Y@@ou wake up several minutes later sprawled out on the sidewalk not too far from the store entrance. Groaning, and slowly standing up, you realize that some enterprising individual has relieved you of most of the credits you were carrying on you.
+<br><br>
+<<link "damn...">><<happy -4 "Disagreement with a pharmacist">><<set ↂ.flag.BEpharmacist.firstMeet = "angry-tased">><<set ↂ.map.destLoc == [5,4]>><<set ↂ.flag.BEpharmacist.avail = false>><<go controlBullseye>><</link>>
+<</replace>>
+<</link>>
+</div>
+
+
+:: BEtalkPharmacist-5a [nobr]
+
+/*for work*/
+@@.head3;Y@@ou think about it for a moment before answering, because you don't have an easy-to-explain reason for your move. @@.pc;My last job laid me off, so I needed to find a new one, and the Institute was hiring.@@ You shrug and continue. @@.pc;That's pretty much all there is to it.@@
+<br><br>
+Sara's eyebrows go up in surprise. @@.npc;Your company must've been on it's last leg to lay you off, what with the Matriarchy Act and all. Still, you should've been able to find another job without coming here...@@
+<br><br>
+@@.mono;I get the feeling she knows something I don't...@@ @@.pc;What do you mean? Is there something bad about living in Appletree?@@
+<br><br>
+She leans in and lowers her voice @@.npc;The town is run by the Institute, and there's a lot of shady things going on. Most people pretend not to notice, but this doesn't seem to be the //healthiest// place to live. It even affects this pharmacy, cause I'm pretty sure that they swap some of the medications and other items that come in our supply shipments...@@
+<br><br>
+@@.pc;Swap it out? Like substituting generics for name brand drugs like that Drugs 'R Us scandal?@@
+<br><br>
+@@.npc;No, I mean like switching it with placebos or something else entirely... They especially like messing with the contraceptives...@@ She looks up all of a sudden, seeming to realize where she is. Leaning back down, she whispers @@.npc;look, I shouldn't be talking about this here, it's too risky. Just make sure you come to me if you want to be certain you're getting the right prescription, okay?@@ Standing back up again, she says in a louder voice @@.npc;looks like it's time for my break, sorry. If you need assistance I'll be back later to help.@@
+<br><br>
+She pushes a button behind the counter, and security shutters start lowering to seal off the pharmacy. She gives you a small hidden wave before moving away from the counter and deeper into the pharmacy. Once-again alone, there's nothing for you to do but go back to browsing.
+<br><br>
+<<link "continue">><<addTime 7>><<deactivateNPC "n1002">><<set ↂ.flag.BEpharmacist.firstMeet = "work">><<set ↂ.flag.BEpharmacist.avail = false>><<go BEpharmacy>><</link>>
+
+:: BEtalkPharmacist-5b [nobr]
+
+/*girlfriend left*/
+@@.head3;Y@@ou think about it for a moment before answering, because you don't have an easy-to-explain reason for your move. @@.pc;My girlfriend was cheating on me, and we broke up...@@ You shrug and continue. @@.pc;I guess I just needed a change of pace, or maybe it be somewhere new.@@
+<br><br>
+Sara gives you a sympathetic look. @@.npc;I'm sorry about your girlfriend, but there had to be plenty of other places you could have went instead of moving here...@@
+<br><br>
+@@.mono;I get the feeling she knows something I don't...@@ @@.pc;What do you mean? Is there something bad about living in Appletree?@@
+<br><br>
+She leans in and lowers her voice @@.npc;The town is run by the Institute, and there's a lot of shady things going on. Most people pretend not to notice, but this doesn't seem to be the //healthiest// place to live. It even affects this pharmacy, cause I'm pretty sure that they swap some of the medications and other items that come in our supply shipments...@@
+<br><br>
+@@.pc;Swap it out? Like substituting generics for name brand drugs like that Drugs 'R Us scandal?@@
+<br><br>
+@@.npc;No, I mean like switching it with placebos or something else entirely... They especially like messing with the contraceptives...@@ She looks up all of a sudden, seeming to realize where she is. Leaning back down, she whispers @@.npc;look, I shouldn't be talking about this here, it's too risky. Just make sure you come to me if you want to be certain you're getting the right prescription, okay?@@ Standing back up again, she says in a louder voice @@.npc;looks like it's time for my break, sorry. If you need assistance I'll be back later to help.@@
+<br><br>
+She pushes a button behind the counter, and security shutters start lowering to seal off the pharmacy. She gives you a small hidden wave before moving away from the counter and deeper into the pharmacy. Once-again alone, there's nothing for you to do but go back to browsing.
+<br><br>
+<<link "continue">><<addTime 7>><<deactivateNPC "n1002">><<set ↂ.flag.BEpharmacist.firstMeet = "girlfriend">><<set ↂ.flag.BEpharmacist.avail = false>><<go BEpharmacy>><</link>>
+
+
+:: BEtalkPharmacist-5c [nobr]
+
+/*nice place*/
+@@.head3;Y@@ou think about it for a moment before answering, because you don't have an easy-to-explain reason for your move. @@.pc;I used to live in the city, but I just got so sick of it. The decay, the people...@@ You shrug and continue. @@.pc;I needed to get away, and Appletree seems like a nice place.@@
+<br><br>
+Sara's eyebrows go up in surprise. @@.npc;You didn't do any research about this place before deciding to up and move here? Sure, it looks nice, but there had to be plenty of better options to pick from!@@
+<br><br>
+@@.mono;I get the feeling she knows something I don't...@@ @@.pc;What do you mean? Is there something bad about living in Appletree?@@
+<br><br>
+She leans in and lowers her voice @@.npc;The town is run by the Institute, and there's a lot of shady things going on. Most people pretend not to notice, but this doesn't seem to be the //healthiest// place to live. It even affects this pharmacy, cause I'm pretty sure that they swap some of the medications and other items that come in our supply shipments...@@
+<br><br>
+@@.pc;Swap it out? Like substituting generics for name brand drugs like that Drugs 'R Us scandal?@@
+<br><br>
+@@.npc;No, I mean like switching it with placebos or something else entirely... They especially like messing with the contraceptives...@@ She looks up all of a sudden, seeming to realize where she is. Leaning back down, she whispers @@.npc;look, I shouldn't be talking about this here, it's too risky. Just make sure you come to me if you want to be certain you're getting the right prescription, okay?@@ Standing back up again, she says in a louder voice @@.npc;looks like it's time for my break, sorry. If you need assistance I'll be back later to help.@@
+<br><br>
+She pushes a button behind the counter, and security shutters start lowering to seal off the pharmacy. She gives you a small hidden wave before moving away from the counter and deeper into the pharmacy. Once-again alone, there's nothing for you to do but go back to browsing.
+<br><br>
+<<link "continue">><<addTime 7>><<deactivateNPC "n1002">><<set ↂ.flag.BEpharmacist.firstMeet = "niceplace">><<set ↂ.flag.BEpharmacist.avail = false>><<go BEpharmacy>><</link>>
+
+:: BEtalkPharmacist-5d [nobr]
+
+@@.head3;Y@@ou answer almost immediately, @@.pc;it's complicated.@@ Taking a moment to find the right words, you add @@.pc;and it doesn't really matter, anyway.@@
+<br><br>
+Sara seems to be a little suspicious of your answer, or at least her face lost most of the jovility it had held previously. She glances over at a digital clock on the wall @@.npc;I'm sorry <<= ↂ.pc.main.name>>, it's time for my break.@@ She presses a button on the panel, and a security barrier starts to close. She gives you an apologetic smile and says @@.npc;sorry, I have to take my breaks when I can.@@ Once the prescription medications are safely behind the polycarbonate mesh, she retrieves an "on break, back in 15 minutes" sign and places it on the counter. With an awkward wave, she walks off and disappears through a door in the pharmacy interior.<br><br><<link "continue">><<addTime 3>><<deactivateNPC "n1002">><<set ↂ.flag.BEpharmacist.firstMeet = "suspicious">><<set ↂ.flag.BEpharmacist.avail = false>><<go BEpharmacy>><</link>>

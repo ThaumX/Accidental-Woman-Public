@@ -74,9 +74,13 @@ setup.suicide.check = function(): number {
 setup.suicide.test = function(id: npcid): boolean {
   const ᚥ = aw.npc[id];
   if (ᚥ.main.suicide) { // npc is obviously set for suicide in this case.
+    aw.con.info(`${ᚥ}`);
     return true;
   }
   if (!ᚥ.main.seen) { // if never seen, it's a "fresh" NPC still.
+    return false;
+  }
+  if (ᚥ.main.lifetime < 21) { // NPC is too young to die!
     return false;
   }
   if (ᚥ.main.relation) { // if had a relationship, not a target for suicide.
@@ -85,7 +89,7 @@ setup.suicide.test = function(id: npcid): boolean {
   if (Number(id.slice(1)) < 10000) { // do not kill "permanent" NPCs
     return false;
   }
-  if (!ᚥ.main.interact && ᚥ.main.count >= 20) { // no interaction after seeing 20 times -> suicide
+  if (!ᚥ.main.interact && ᚥ.main.count >= 30) { // no interaction after seeing 20 times -> suicide
     return true;
   }
   if (ᚥ.main.interact && ᚥ.main.lifetime >= 21 && ᚥ.main.count >= 35) {
@@ -164,7 +168,7 @@ setup.suicide.list = function(): string[] {
   const keys = Object.keys(aw.npc);
   const list: string[] = [];
   for (let i = 0, c = keys.length; i < c; i++) {
-    if (Number(keys[i].slice(1)) < 10000) {
+    if (Number(keys[i].slice(1)) > 10000) {
       list.push(keys[i]);
     }
   }

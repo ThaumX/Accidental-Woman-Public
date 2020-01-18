@@ -16,6 +16,7 @@ interface Storythread {
   assign: (npcId: string) => boolean;
   conditionCheck: (npcId: string, condition: "dadDead" | "momDead" | "sisterYounger" | "brotherYounger" | "sister" | "brother" | "parentDivorced" | "stepParent" | "married" | "exSpouse" | "highSchool" | "college" | "associate" | "bachelor" | "master" | "doctor") => boolean;
   getStory: (npcId: string) => string;
+  uniqueStories: {};
 }
 
 interface Threads {
@@ -71,6 +72,14 @@ setup.storythread.assign = function(npcId: string): boolean {
     }
     aw.npc[npcId].background.stories.push(winner);
   }
+  if (typeof setup.storythread.uniqueStories[npcId] === "object") { // npc has unique stories, assigning
+    const tt = ["childhood", "teenage", "familyGen", "familyPar", "familySib", "familySib", "college", "job", "moving", "marriage"];
+    for (const thread of Object.keys(setup.storythread.uniqueStories[npcId])) {
+      if (tt.indexOf(thread) !== -1) {
+        aw.npc[npcId].background.stories[(tt.indexOf(thread) - 1)] = setup.storythread.uniqueStories[npcId][thread][0];
+      }
+    }
+  }
   return true;
 };
 
@@ -104,7 +113,7 @@ setup.storythread.getStory = function(npcId: string): string {
   }
   if (aw.npc[npcId].background.stories == null || aw.npc[npcId].background.stories.length < 9) {
     setup.storythread.assign(npcId); // TODO: placeholder fix
-    aw.con.warn(`setup.storythread.getStory error: ${npcId} have no proper story threads :( Gonna assign some to fix the issue.`);
+    aw.con.warn(`setup.storythread.getStory error: ${npcId} has no proper story threads :( Gonna assign some to fix the issue.`);
   }
   const bullshit = aw.npc[npcId].background.stories;
   const randomStory = random(0, 8);
@@ -153,9 +162,25 @@ setup.storythread.getStory = function(npcId: string): string {
       storyType = "childhood";
       break;
     }
-    const origin = aw.storythreads[storyType][bullshit[randomStory]];
-    story += `@@.npc;${origin[2]}@@<br><br>`;
+    let origin = [];
+    aw.con.info(`setup.storythread.getStory results: 1: ${setup.storythread.uniqueStories[npcId]} 2:${setup.storythread.uniqueStories[npcId][storyType]} of ${storyType}`);
+    if (setup.storythread.uniqueStories[npcId] !== undefined && setup.storythread.uniqueStories[npcId][storyType] !== undefined) {
+      origin = setup.storythread.uniqueStories[npcId][storyType];
+      aw.con.info(`setup.storythread.getStory choosen 1`)
+      story += `@@.npc;${origin[2]}@@<br><br>`;
+    } else {
+      if (aw.storythreads[storyType][bullshit[randomStory]] !== undefined) {
+        aw.con.info(`setup.storythread.getStory choosen 2`)
+        origin = aw.storythreads[storyType][bullshit[randomStory]];
+        story += `@@.npc;${origin[2]}@@<br><br>`;
+      } else {
+        aw.con.info(`setup.storythread.getStory choosen 3`)
+        story += `@@.npc;Don't really want to talk about this now, sorry.@@<br><br>`;
+      }
+    }
   }
+  aw.npc[npcId].record.info.stories[randomStory] = true;
+  aw.S();
   if (origin[3] === "none" && randomStory !== 6) {
     setup.npcInfo.level(npcId, {bGround: 1});
   } else if (randomStory === 6) {
@@ -247,3 +272,57 @@ aw.storythreads = {
     marriage6: ["marriage6", 100, "Well, it was my greatest mistake in the whole life. At first, it all looked cool and we had a great time together but after a year I just found that I was cucked and I really respect myself way too much to tolerate such things. So I just waved goodbye and left.", "exSpouse"],
   },
 };
+
+setup.storythread.uniqueStories = {
+  n101 : {
+    childhood: ["LilyChi", 100, `Well, growing up with two sets of genitalia was really weird. My parents didn't know if they were supposed to raise me as a boy, a girl, or something in between. I think I gravitated to more feminine things pretty early, because I started elementary school as a girl. Luckily, my body seemed to agree with my choice, and I ended up looking feminine. In elementary school there was an incident where some girls found out I had a penis, and I was teased a ''lot''... so after that I was really careful not to let anyone know. Let me tell you though... those random boners during puberty really sucked.`, "none"],
+    teenage: ["LilyTeen", 100, `<<if $AW.startMale>>Well, you knew me in highschool, so you know most of it.<<else>>Most of my highschool life was just like other girls I suppose... nothing too special.<</if>> I guess the interesting part was going through school as a futa. Let me tell you, nobody should have to deal with periods ''AND'' hair-trigger boners. I had to be careful, so I didn't wear skirts or revealing clothing very often. Fortunately my cock isn't really long or anything, but it's thick and damn-near impossible to angle downward. More than once I had to use "female cramps" to explain away a painful boner. Asside from the physical aspect, I ended up avoiding romance or getting intimate which was pretty lonely in the end. <<if $AW.startMale>>I couldn't even bring myself to tell you about it, after all... I was just so scared at the time.<<else>>There was actually a boy I had a major crush on starting in high school, but I could never let our relationship advance because of my secret. I still kinda regret it.<</if>>`, "none"],
+    familyGen: ["LilyFam", 100, `My family life wasn't crazy or anything, but it was lonely. My parents were both busy with work all the time. As I got older and better able to take care of myself, that only resulted in my parents spending more time away with their work. I guess I shouldn't complain too much, because I had a lot of freedoms that other people my age didn't. Still, I think I would have rather have had strict parents if it meant being more of a family. Now I'm practically estranged from my parents. When I have kids, I really want to be part of a family with them.`, "none"],
+    familyPar: ["LilyPar", 100, `My parents are both scientists, and of course I followed in their footsteps. They worked as professors at a university, however, while I decided to go into the private sector. I think they might have been a little disappointed that I wasn't pursuing "pure" science or teaching, but by the time I was finished with college we were so estranged that I think they didn't feel they had the right to say anything... which they didn't. To be honest, I don't think about them much. We talk maybe once a year on the phone for a few minutes sometime around the holidays. I want a big family, and unlike my parents I'm going to be there for my kids.`, "none"],
+    familySib: ["LilySib", 100, `<<if $AW.startMale>>You know I was an only child,<<else>>I was an only child,<</if>> that was becoming pretty common in those days. I always wanted to have a brother or sister though, probably more than most kids. I think I was craving more of a family connection, after all. I guess I had this notion that even if my parents weren't really around, my sibling and I would have each other. One of the things I decided when I got older was that I wouldn't settle for having less than two kids, though personally I think four is my perfect number. That way, my kids are sure to have the siblings I didn't have.`, "none"],
+    college: ["LilyCol", 100, `Heh, college was a pretty interesting time. While I was an undergrad, I was still pretty focused on <<if $AW.startMale>>my crush on you<<else>>the boy I was in love with<</if>>. Once I got into graduate school though, that's when I finally started to explore my sexuality. I had always been ashamed of my body, especially after my experience in elementary school. As a grad student though, I finally realized how much fun it was to be a futa. In addition to being able to have fun with girls, I also found to my surprise that most guys didn't mind my extra equipment. In fact, I'd say a lot of them actually rather like it. I did learn that I need to be somewhat upfront about it though, some people don't like surprise cock.`, "none"],
+    job: ["LilyJob", 100, `My job is pretty cool, I have to admit. I can't really tell you what I do, but I'm the head of a department in the BioMedical Division. The pay is quite nice, I suppose my only complaint would be that I spend more time on administrative tasks than I used to. It's part of moving up though, so it is what it is.`, "none"],
+    moving: ["LilyMov", 100, `I moved here not too long after finishing school, Appletree was just opening up then. While the structure hasn't changed much, there's a lot more here. More businesses and shops moved in, and of course more people. I've noticed that it feels like things are changing around here compared to how it was before, but it's something really hard to put your finger on, you know?`, "none"],
+  },
+  n102: {
+    childhood: ["TobyChi", 100, `I grew up in the sticks, just farmland for miles and miles. Because of corporate agriculture, there weren't even a lot of farmers around. There weren't really any kids to play with outside of school, so I did a lot of stuff outdoors. When we moved to the city while I was in highschool, I finally started to appreciate growing up with all that space. Once I was living in the city, I had to take a long drive before I could go hiking, camping, or anything like that.`, "none"],
+    teenage: ["TobyTeen", 100, `I guess I was a pretty normal teenager, thought I knew everything there was to know. Moving into the city really challenged that perception. There I was, 16 and driving an old pickup truck, totally unprepared for how things worked in the city. I really didn't fit in at all at first. I made a couple good friends, thankfully, so it worked out. I remember being really excited about there being enough people for sports though. Unfortunately my mom would only let me sign up for Soccer. I tried it, but the locker room anal orgies really weren't for me.`, "none"],
+    familyGen: ["TobyFam", 100, `<<if not $AW.startMale>>My family is really fucked up.<<else>>As you know, my family is pretty fucked up.<</if>> I guess everything was pretty normal for most of my childhood though. Then of course my mom murdered my father during my senior year... So I was basically on my own while she was in Jail for mariticide. <<if $AW.startMale>>You helped me a lot during that rough patch. <</if>>My mom eventually got out of jail, the reduced sentences for mariticide, combined with good behavior and Institute sponsorship for her parole. It's... complicated.`, "none"],
+    familyPar: ["TobyPar", 100, `Well, my dad used to be a veterinarian before my mom killed him. My mom is some sort of bio-agri-tech researcher that focuses on dairy production. We lived out in the boonies, and which worked out well because my dad was the vet for the farm livestock. Eventually the area was bought out by a big agricorp, and they had to get new jobs. That's when we moved to the city. Apparently my mom was using some puppies as test subjects for precocious milk production. The puppies were in a lot of pain when my dad found them, and it seemed like a failure, so he put them down. I guess that ruined more than six months of my mom's work though, so she murdered him in a rage. Now she's working on hucow milk production I think. She tries to act like nothing happened and still be my mom, but I can't really forgive her.`, "none"],
+    familySib: ["TobySib", 100, `I don't really have any siblings, but I suppose technically I have a younger half sister out there somewhere. My mom got pregnant when I was three, but when the baby was born, it wasn't the right color. I guess it was pretty obvious that it wasn't dad's. My mom gave her up for adoption, and that was it. I was too young to really understand what was going on, so I only know most of this from what little family members have let slip. My parents were totally silent about it, so I didn't realize that I had a sister until my mom was in prison. Still, even if we're technically related, it's not like we grew up together.`, "none"],
+    college: ["TobyCol", 100, `<<if $AW.startMale>>Well you know what college was like, I mean you were there with me for over two years. I guess the last year and a half was a lot like before, but it was less fun without you around. I was able to focus a little better on studying though, so there's that! After you left I was eventually able to enjoy having such a high girl-to-boy ratio. I was always waiting to see what would happen with us before that, so...<<else>>College was college, I suppose. I wasn't one of the really wild guys, and I didn't join a fraternity or anything. I mostly went to class and hung out with my friends. Having more than 2 girls for every guy did make things more interesting, but I spent three years hung up over this girl that was also my best friend. I finally started to live a little when she dropped out in the middle of our Junior year.<</if>>`, "none"],
+    job: ["TobyJob", 100, `Man my job is boring as fuck. I studied business administration in school, so I didn't exactly have a lot of options, you know? I work as a paper-pusher in Meta-Materials Manufacturing. Basically I'm an embedded part of the bureaucrat corps. I basically just handle paperwork all day. Orders, production reports, inventories, and anything else boring. Still... I'm pretty happy to have a stable job that pays decently.`, "none"],
+    moving: ["TobyMov", 100, `I actually wasn't having any luck after graduation finding a job, and there was no way to afford grad school without a student loan shark. Right about when I was giving up hope, my mom was released from prison to work for the Institute. I hadn't forgiven her or anything, but I ended up moving in with her because that was the only decent option left. I lived in Appletree for a few months before getting my job here, which is pretty unusual. I really like how easy it is to get out into nature here, while still having all the stuff you could want right in town.`, "none"],
+  },
+  n103: {
+    childhood: ["gmanChild", 100, `It's classified.`, "none"],
+    teenage: ["gmanTeen", 100, `It's classified.`, "none"],
+    familyGen: ["gmanGen", 100, `It's classified.`, "none"],
+    familyPar: ["gmanPar", 100, `It's classified.`, "none"],
+    familySib: ["gmanSib", 100, `It's classified.`, "none"],
+    college: ["gmanCol", 100, `It's classified.`, "none"],
+    job: ["gmanJob", 100, `It's classified.`, "none"],
+    moving: ["gmanMov", 100, `It's classified.`, "none"],
+  },
+  n1019 : {
+    job : ["GraciePartonJob", 100, "Yeah, I have been working for... let's see... hmm about 8 years here already. Phew, quite a ride, mm? I just... look, don't get me wrong, I like this job and being a milk donor is bliss. It’s just, I'm not getting any younger and it is getting harder to be as productive as I was before. New girls from the dorms will beat me with daily outcome really soon... and I hate to think about it to be honest. I... I don't really know what I should do after I retire.", "none"],
+  },
+  n1020 : {
+    job : ["ZoeKagavaJob", 100, "story KAGAVA", "none"],
+  },
+  n1021 : {
+    job : ["OliviaBaxterJob", 100, "Hmm, where should I start? Well, I was a promising manager, new luxurious car, corporate bonuses, all this stuff. Spent all my free time on self-education, reading, courses, aspiring to be more, blah-blah-blah. But I really wasn’t that happy to be honest. That life was... just not for me, can you understand? It’s hard to explain, just that constant feeling of being in the wrong place that poisons you every day. Anyway, one day I just visited this co-op on my way home from work and talked with a manager for twenty minutes. Next day I quit my job, packed some stuff, got there and signed a five-year contract. And you know what? I haven't read a single book since then. But the most important part is that I am finally happy.", "none"],
+  },
+  n1024 : {
+    teenage : ["MyaOwenTeenage", 100, "I rarely talk about this... I... I am barren. Phew, that was not as hard as I suspected it will be. I got some heavy bacterial infection when I was 13 and it hit my hormonal functions. Like a lot. You can see that my breasts are pretty much non-existent and I can't have children. My parents and everybody else were supportive and such but when girls of my age started getting pregnant, having children... damn, at least they wore a bra! I guess this is the reason I became a genetic specialist, I hope maybe working with subjects in the Co-op will help me to find some cure for my condition.", "none"],
+    job : ["MyaOwenJob", 100, "Yeah, so I am working in Farm Co-op as a lead medical specialist. I conduct tests, apply some gene vectors, we even perform some pretty serious research on fertility and lactation. For me this job is a love-hate relationship. I mean, I like my work but seeing these happy dumb cows with their udders popping a child or two every year when I am being denied all of this is some form of mental torture.", "none"],
+  },
+  n1014 : {
+    teenage : ["HannaBowenTeenage", 100, "storytext", "none"],
+    college : ["HannaBowenCollege", 100, "storytext", "none"],
+    moving : ["HannaBowenMoving", 100, "storytext", "none"],
+    job : ["HannaBowenJob", 100, "storytext", "none"],
+  },
+};
+
+// TODO n1018 n1020

@@ -1,0 +1,183 @@
+:: MedicalPsychiatrist [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+<<script>>
+if (ↂ.flag.psychoAttend == null) {
+ↂ.flag.psychoAttend = {lecter: [false, 0, 0, 0]}
+}
+<</script>>
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmedical]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p></p>
+<div id="storeWindow">
+[img[IMG-Shop-Lecter]]
+</div>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou're sitting in the waiting room of Dr. Lecter's psychiatric clinic. The waiting room isn't very large, but it's tastefully appointed. The artistic photo prints on the walls are interesting to look at, though they leave you with a bit of an appetite.
+</p>
+
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact" style="width: 950px; text-align: left;"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise beta>>
+  <<button "Emergency Treatment">><<dialog "Emergency Treatment">><<include [[ResidentialMedicalPsycho]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise alpha>>
+  <<if ↂ.flag.psychoAttend.lecter[0] === false>>
+    <<button "Sign Up for Appointments">><<dialog "Psychiatry Signup">><<include [[ResidentialHypnoSignup]]>><</dialog>><</button>>
+  <<else>>
+    <<button "Cancel Appointments">><<dialog "Psychiatry Cancel">><<include [[ResidentialHypnoCanx]]>><</dialog>><</button>>
+  <</if>>
+<<endhoverrevise>>
+<<if ↂ.flag.psychoAttend.lecter[0]>>
+  <<if ↂ.flag.psychoAttend.lecter[1] === State.active.variables.date[1] && ↂ.flag.psychoAttend.lecter[2] === State.active.variables.date[2]>>
+    <<hoverrevise delta>>
+      <button class="disabled">Attend Appointment</button>
+    <<endhoverrevise>>
+  <<else>>
+    <<hoverrevise gamma>>
+      <<button "Attend Appointment">><<dialog "Psychiatry Appointment">><<include [[ResidentialMedicalHypno]]>><</dialog>><</button>>
+    <<endhoverrevise>>
+  <</if>>
+<</if>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>><<if ↂ.flag.psychoAttend.lecter[0] === false>>Enroll for weekly therapy appointments with Dr. Lecter. <<ctn>>[₢25-100 per visit based on AppleCare coverage]<</ctn>><<else>>Cancel your weekly therapy sessions.<</if>><<endinsertion>>
+<<insertion beta>>Ask for an emergency appointment to stabilize your mental state. <<ctn>>[30-60 min ₢150-350]<<endinsertion>>
+<<insertion delta>>You have already attended this week's appointment.<<endinsertion>>
+<<insertion gamma>>Attend your weekly therapy appointment.<<endinsertion>>
+</div>
+
+
+:: MedicalPsychiatristLOC [nobr]
+
+<<ctn>>No Content Here Yet, Sorry<</ctn>>
+
+
+:: ResidentialMedicalPsycho [nobr]
+
+<<silently>>
+<<set _time = random(45, 60)>>
+<<set _add = random(20, 60)>>
+<<addTime _time>>
+<<if ↂ.flag.Healthcare>>
+  <<set _cost = 150>>
+  <<set _total = _cost + _add>>
+  <<run aw.cash((_total * -1), "medical")>>
+<<else>>
+  <<set _cost = 350>>
+  <<set _total = _cost + _add>>
+  <<run aw.cash((_total * -1), "medical")>>
+<</if>>
+<<status 1>>
+<<run setup.status.mentalUnfuck()>>
+<<status 0>>
+<</silently>>
+<p>
+<<f y>>ou're quickly taken back for your emergency appointment, where doctor Lecter is waiting for you already. He does some quick tests asking you to draw some animals and houses. After inspecting the cock-shaped scribbles you managed to draw he shakes his head and picks up the phone to talk to his nurse. @@.npc;Hello, Nurse Fillme. I need to to take this patient to the radical psychotherapy room and get her prepped for treatment. Thanks.@@ He looks back at you while waiting for the nurse to arrive. @@.npc;It seems you need a little extra help, thankfully we're set up with some advanced equipment that should give you some immediate relief from your symptoms.@@
+</p>
+<p>
+The nurse enters shortly afterward and escorts you to a new room that is mostly empty except for a simple bed and a counter with various pieces of equipment resting on it. To your surprise, nurse starts by telling you to get undressed. @@.mono;This must be part of the treatment...@@ You go along with her instructions, getting undressed while the nurse quickly folds your clothes and places them on the counter. When you're completely naked, she has you lie down on the bed.
+</p>
+<p>
+You're even more surprised when the nurse lifts some straps that had been dangling by the side of the bed and begins attaching them to your wrists and ankles. You suddenly realize that you're unable to move or free yourself, but before you're able to protest she shoves a rubber retainer into your mouth. Afterward she starts to apply adhesive electrodes to <i>various</i> places all over your body. You stare in horror as you see her lube up what appears to be a large dildo with wires coming out of it. You struggle against your bindings, but it doesn't stop her from easily sliding the device all the way into your pussy. Unfortunately she doesn't stop there, however. She pulls out a butt-plug-like device and starts to lube it up as well.
+</p>
+<p>
+@@.npc;This will be a lot easier if you relax, okay?@@ she says, positioning the plug between your legs. Before you can even really consider taking her advice, you feel the cool pointy end of the plug pressing firmly against your asshole. The tender ring of flesh is unable to resist the steady pressure, and is slowly slips inside you. Eventually the uncomfortable stretching sensation fades as the plug pops into place. The nurse removes her gloves silently before bringing over a trio of large plastic boxes. She begins plugging the various leads into the boxes.
+</p>
+<p>
+Doctor Lecter enters the room--unabashedly staring at your naked body--just as the nurse finishes setting up the electronic boxes. You're not really able to pay attention as the doctor explains the procedure to you. You look over at him after several moments when you realize that he isn't talking anymore. Doctor Lecter nods at the nurse and says @@.npc;Go ahead with level 5.@@ You hear some clicking noises as the nurse starts adjusting the boxes...
+</p>
+<center>[img[IMG-RapidMentalUnfuck]]</center>
+<p>
+Before you realize it the nurse has started removing the electrodes from your body. You can barely remember anything and are unsure how long you've been in the room, but you have the impression that whatever happened was very painful. You notice that doctor Lecter is no longer in the room as the nurse removes the devices plugging up your holes. Once you're no longer wired up like a Christmas tree the nurse undoes the straps on your ankles and wrists. You notice your body shaking as she helps you to your feet.
+</p>
+<p>
+You notice that your mind feels a lot clearer as the nurse leads you out to the waiting room. You make your way over to the reception desk to pay. <<if ↂ.flag.Healthcare>>Thanks to InstiCare the cost is pretty low.<<else>>Without any insurance the bill is painful.<</if>> Your total was @@.money;₢<<= _total>>@@ for the visit.
+</p>
+
+
+:: ResidentialHypnoCanx [nobr]
+
+<<set ↂ.flag.psychoAttend.lecter[0] = false>>
+<<f y>>ou successfully cancel your ongoing appointments with Dr. Lecter.
+
+
+:: ResidentialHypnoSignup [nobr]
+
+<span id="lecterSpan">
+<<f y>>ou walk up to the reception desk of doctor Lecter's clinic and the receptionist asks you if you want to set up a weekly appointment for therapy with him.
+<br>
+<<if ↂ.flag.Healthcare>><<button "Enroll with Insticare - 25 ₢ per visit">><<replace "#lecterSpan">><<set ↂ.flag.psychoAttend.lecter[0] = true>><<f y>>ou sign up for weekly therapy visits with doctor Lecter. The receptionist informs you that you may show up at a suitable time each week.<<status 0>><</replace>><</button>>
+<<else>><<button "Enroll - 100 ₢ per visit">><<replace "#lecterSpan">><<set ↂ.flag.psychoAttend.lecter[0] = true>><<f y>>ou sign up for weekly therapy visits with doctor Lecter. The receptionist informs you that you may show up at a suitable time each week.<<status 0>><</replace>><</button>><</if>>
+</span>
+
+:: ResidentialMedicalHypno [nobr]
+
+<span id="lecterSpan">
+    <<set _timeWait = random(0, 30)>>
+      <<f y>>ou enter the stylish office of dr. H. Lecter and his secretary asks if you want to attend the weekly appointment. <<if _timeWait > 5>>Dr. Lecter is with a client now so you need to wait about <<= _timeWait>> minutes before he will be ready to see you.<<else>>Dr. Lecter is ready to invite you right now.<</if>> <<if ↂ.flag.Healthcare>>Because you have signed for AppleCare the visit will only cost @@.money;₢25@@.<<else>>You are not a member of AppleCare program so the visit will cost @@.money;₢100@@.<</if>>
+      <br><<button "Pay and Appoint">><<replace "#lecterSpan">>
+      <<silently>>
+      <<set _time = random(60, 75)>>
+      <<addTime _time>>
+      <<if ↂ.flag.Healthcare>>
+      <<run aw.cash(-25, "medical")>>
+      <<else>>
+      <<run aw.cash(-100, "medical")>>
+      <</if>><<status 0>><</silently>>
+      <<switch ↂ.flag.psychoAttend.lecter[3]>>
+      <<case 0>>
+        <<set ↂ.flag.psychoAttend.lecter[3] += 1>>
+        <<f y>>ou have a therapy session 0.
+        <center>[img[IMG-HypnotistImage]]</center>
+        <<run setup.status.mentalUnfuck()>>
+        
+      <<case 1>>
+        <<set ↂ.flag.psychoAttend.lecter[3] += 1>>
+        <<f y>>ou have a therapy session 1.
+        <center>[img[IMG-LecterHypno1]]</center>
+        <<run setup.status.mentalUnfuck()>>
+
+      <<case 2>>
+        <<set ↂ.flag.psychoAttend.lecter[3] += 1>>
+        <<f y>>ou have a therapy session 2.
+        <center>[img[IMG-LecterHypno2]]</center>
+        <<run setup.status.mentalUnfuck()>>
+
+      <<case 3>>
+        <<set ↂ.flag.psychoAttend.lecter[3] += 1>>
+        <<f y>>ou have a therapy session 3.
+        <center>[img[IMG-LecterHypno3]]</center>
+        <<run setup.status.mentalUnfuck()>>
+
+      <<case 4>>
+        <<set ↂ.flag.psychoAttend.lecter[3] = 0>>
+        <<f y>>ou have a therapy session 4.
+        <center>[img[IMG-LecterHypno4]]</center>
+        <<run setup.status.mentalUnfuck()>>
+
+      <</switch>>
+      <<status 0>>
+      <</replace>><</button>>
+
+</span>
+
+
+

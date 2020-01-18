@@ -1,0 +1,247 @@
+/* TRANSFORMATIVES */
+
+:: Transformatives [nobr hidden startpage]
+
+<<if !setup.consumables.consumableExists("Kukragene")>>
+<<newconsumable "Kukragene Breast Cream" "Kukragene">>
+<<status 1>>
+<<addTime 4>>
+<<if setup.omni.matching("Kukragene") >= 1>>
+  <<script>>
+    aw.L();
+    let hl = 0;
+    if (random(1, 3) > 2) {
+      hl = random(7, 15) * -1;
+      ↂ.pc.status.health += hl;
+      setup.status.record("health", hl, "Kukragene effects");
+      ↂ.pc.body.tits.base.size += random(10, 50);
+      ↂ.pc.status.energy.amt -= random(2, 5);
+      ↂ.pc.body.tits.shape = "relaxed";
+      setup.dialog("Kukragene Breast Cream","<center>[img[IMG-BreastCream2]]</center><<f y>>ou rub more cream into your tits. It hurts like hell, making you feel nauseous by the time you're done. Your breasts practically seem to puddle in your hands afterward.");
+    } else {
+      hl = random(7, 15) * -1;
+      ↂ.pc.status.health += hl;
+      setup.status.record("health", hl, "Kukragene effects");
+      ↂ.pc.body.tits.base.size += random(10, 50);
+      ↂ.pc.status.energy.amt -= random(2, 5);
+      setup.dialog("Kukragene Breast Cream","<center>[img[IMG-BreastCream2]]</center><<f y>>ou rub more cream into your tits. It aches like hell, and your breasts almost seem to sag in your hands for a while afterward.");
+    }
+    aw.S();
+  <</script>>
+<<else>>
+  <<run setup.omni.new("kukragene")>>
+  <<dialog "Kukragene Breast Cream">><center>[img[IMG-BreastCream1]]</center><<f y>>ou rub the cream into your tits. It itches a bit.<</dialog>>
+<</if>>
+<<status 0>>
+<<description>>
+<div class="consumable">
+[img[IMG-BreastCreme]]
+<h3>Kukragene Breast Cream</h3>
+A small metal container with pink creme from some distant mysterious land. There is not much English text on the container. On the bottom part you see some small text: "Kukragene zur eshley. X2 kuberek! CAUTION! Dimliluk kiltererge muemkin!" Which isn't all that helpful. Helpfully, the label on the lid mentions that it enlarges breasts. You probably need to rub it into your skin. Probably.
+</div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
+<</newconsumable>>
+<</if>>
+
+<<if !setup.consumables.consumableExists("Powertits")>>
+<<newconsumable "PowerTits Suppository" "Powertits">>
+<<run setup.omni.new("powerTits")>>
+<<addTime 5>>
+<<run UI.alert("You open up the Russian suppository package, and break the foil seal covering the suppository. It appears to be pre-lubricated, so grasping it firmly with one hand, you reach down and push it into your asshole. Nearly immediately you notice a strong itching sensation as the unusual drug does its work.")>>
+<<description>>
+<div class="consumable">
+[img[IMG-Item-Powertits]]
+<h3>PowerTits Suppository</h3>
+A small cheap box about the size of a condom three-pack box, that contains a single suppository. Most of the writing is in Cyrillic letters that you assume are Russian. There are a few sentences in English that give some clues: "Watching as cheast and muscles is growing!" and "(Using only 1 for the cheast grow)". Based on the name "PowerTits", you guess this will increase your breast size while bulking up your muscles.
+<p>
+??? Increases breast size and muscle tone ??? [3 hours]
+</p>
+</div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
+<</newconsumable>>
+<</if>>
+
+<<if !setup.consumables.consumableExists("LactaMax")>>
+<<newconsumable "LactaMax Autoinjector" "LactaMax">>
+<<run setup.omni.new("lactaMax")>>
+<<addTime 10>>
+<<dialog "LactaMax Injection">><img data-passage="IMG-LactaMaxInjection" style="border-radius:8px;float:right;margin:0px 0px 15px 20px;"><<f o>>pening the LactaMax container, you find a foil covered tray containing the autoinjector as well as an instruction booklet. After skipping past the warnings and legalese, you find the instructions. It seems pretty straight forward... Locate the injection site on your buttocks. Wipe the injection site with the included alcohol swab. Remove the lid from the LactaMax autoinjector. Making sure that the injector is pointed directly at your buttock, press the red opened end firmly against your skin until the needle deploys. After ten seconds, pull the autoinjector directly away from the skin. Apply pressure with the included gauze against the injection site for 3 minutes or until any bleeding stops. You follow the instructions and are rewarded with what feels like a lump of peanut butter in your ass. @@.mono;Now I just have to wait...@@<</dialog>>
+<<description>>
+<div class="consumable">
+[img[IMG-Item-LactaMax]]
+<h3>LactaMax Injection</h3>
+A simple white box with a lot of very medical-looking text and a label that says "LactaMax: Metoclopramidedomperidone 80mg IM Injection". It definitely doesn't look like a consumer product, rather appearing to be a prescription you'd get from a pharmacy. While only officially approved for improving lactation, it's strongly suggested that it will cause breast growth. It seems pretty common to the dairy industry, and judging by the racks those hucow girls have, it probably does.
+<p>
+Increases lactation. Increases breast size. May also cause an improvement in your body's ability to produce milk, as well as other potential side effects. [4 days]
+</p>
+</div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
+<</newconsumable>>
+<</if>>
+
+<<if !setup.consumables.consumableExists("Mammarex")>>
+<<newconsumable "Mammarex Autoinjector" "Mammarex">>
+<<run setup.omni.new("mammarex")>>
+<<addTime 10>>
+<<dialog "LactaMax Injection">><img data-passage="IMG-MammarexInjection" style="border-radius:8px;float:right;margin:0px 0px 15px 20px;"><<f o>>pening the Mammarex box, you find a foil covered tray containing the autoinjector as well as an instruction booklet. After skipping past the warnings and legalese, you find the instructions. It seems pretty straight forward... Locate the injection site on your buttocks. Wipe the injection site with the included alcohol swab. Remove the lid from the Mammarex autoinjector. Making sure that the injector is pointed directly at your buttock, press the orange end firmly against your skin until the needle deploys. After ten seconds, pull the autoinjector directly away from the skin. Apply pressure with the included gauze against the injection site for 3 minutes or until any bleeding stops. You follow the instructions and are rewarded with a slightly sore ass cheek.<</dialog>>
+<<description>>
+<div class="consumable">
+[img[IMG-Item-Mammorex]]
+<h3>Mammorex Autoinjector</h3>
+A simple orange box with some medical-looking text and a label that says "Mammarex: Methylrespiridone 25mg". Mammarex is a unique drug for breast growth. The formula essentially tricks all breast tissue into growing, as if experiencing a growth-spurt during puberty. The amount of growth experienced by users is largely proportional to breast size before taking the medication; the more tissue available to grow, the more growth is possible. It's also been noted to have increased efficacy with subsequent doses. Because it doesn't affect lactation beyond simple breast size and has very minimal side effects, it was originally intended for cosmetic purposes. It never became popular in the cosmetic market, however, because women with small breasts see comparatively little benefit. Though not originally intended for hucows, its effectiveness at breast growth--particularly for already-large udders and with multiple doses--makes it very useful in a dairy setting.
+<p>
+Increases breast size. Side Effects: a small increase in lactation training. There is also a small--though increasing with use--chance of increased nipple pleasure response. [20 hours]
+</p>
+</div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
+<</newconsumable>>
+<</if>>
+
+<<if !setup.consumables.consumableExists("testItem")>>
+<<newconsumable "Bestyfication drug" "Bestyficator">>
+<<run setup.omni.new("testItem")>>
+<<addTime 10>>
+<<dialog "Booze time">>You drunk the bottle. Tastes as good as your fathers milk.<</dialog>>
+<<description>>
+<div class="consumable">
+[img[IMG-Item-LactaMax]]
+<h3>Bestyfication drug</h3>
+A small bottle of "Spermoff" vodka.
+</div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
+<</newconsumable>>
+<</if>>
+
+<<if !setup.consumables.consumableExists("gapecone")>>
+<<newconsumable "Mysterious Pinecone" "gapecone">>
+<<dialog "Mysterious Pinecone">><center>
+You hold the mysterious pinecone in your hand. How are you going to use it?<br><br>
+<<button "Vaginally">>
+<<status 1>>
+<<run setup.omni.new("sorePuss")>>
+<<addTime 30>>
+<<set ↂ.pc.body.pussy.tight += 2>>
+<<status 0>>
+<<run UI.alert("You spend some time using the mysterious pinecone in your pussy. It's not exactly pleasant, but when you're done you can tell that you'll be able to take larger insertions than before.")>>
+<<run Dialog.close()>>
+<</button>><<tab>><<button "Anally">>
+<<run setup.omni.new("soreButt")>>
+<<addTime 30>>
+<<set ↂ.pc.body.asshole.tight += 2>>
+<<status 0>>
+<<run UI.alert("You spend some time using the mysterious pinecone in your ass. It's not exactly pleasant, but when you're done you can tell that you'll be able to take larger insertions than before.")>>
+<<run Dialog.close()>>
+<</button>>
+</center><</dialog>>
+<<description>>
+<div class="consumable">
+[img[IMG-Item-PineCone]]
+<h3>Mysterious Pinecone</h3>
+You found this in the woods near Hoden Springs. It looks surprisingly uniform and smooth for a pinecone, it's almost perfect. You're tempted to try it out, but at the same time you know that it's going to hurt like a bitch...
+<p>
+Reduces Orifice Tightness
+</p>
+</div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
+<</newconsumable>>
+<</if>>
+
+<<if !setup.consumables.consumableExists("Cumquat")>>
+<<newconsumable "Argentinian Cumquat" "Cumquat">>
+<<addTime 4>>
+<<arouse 2>>
+<<if setup.omni.matching("Cumquat") >= 1>>
+  <<run UI.alert("It seems that the effect of Cumquats is not cummulative.")>>
+<<else>>
+  <<status 1>>
+  <<set ↂ.flag.tempSkillBoost.sex += 5>>
+  <<status 0>>
+  <<run setup.omni.new("cumquat")>>
+  <<run setup.omni.new("cumquatBoost")>>
+  <<run UI.alert("You savor the sweet cumquat fruit.")>>
+<</if>>
+<<description>>
+<div class="consumable">
+[img[IMG-Cumquat]]
+<h3>Argentinian Cumquat</h3>
+Popular South American fruit which is known for arousing effects. It temporary boosts your sexuality but there were scarce reports about some odd side effects.
+</div>
+<</newconsumable>>
+<</if>>
+
+<<if !setup.consumables.consumableExists("RoboThroat")>>
+<<newconsumable "ROBOTHROAT Oral Spray" "RoboThroat">>
+<<status 1>>
+<<if setup.omni.matching("RoboThroat") >= 1>>
+  <<script>>
+    ↂ.pc.status.bimbo += random(4,8);
+    ↂ.skill.comm -= 2;
+    ↂ.pc.groom.lipMU = "fail";
+    aw.S();
+    setup.status.satisfact((random(8,16) * -1), "Side Effect from RoboThroat");
+    setup.makeup.calc();
+    setup.status.arousal(3);
+    UI.alert("Your attempt at overdosing on RoboThroat did not go well.");
+  <</script>>
+<<elseif ↂ.flag.tempSkillBoost.oral <= 10 && ↂ.skill.oral <= 180>>
+  <<set ↂ.flag.tempSkillBoost.oral += 15>>
+  <<set ↂ.pc.status.bimbo += random(2,3)>>
+  <<set ↂ.flag.tempSkillBoost.comm -= 5>>
+  <<set ↂ.pc.groom.lipMU = "fail">>
+  <<status 0>>
+  <<run setup.makeup.calc()>>
+  <<arousal 3>>
+  <<run setup.omni.new("roboThroat")>>
+<<else>>
+  <<set ↂ.pc.status.bimbo += random(2,5)>>
+  <<set ↂ.flag.tempSkillBoost.comm -= 5>>
+  <<set ↂ.pc.groom.lipMU = "fail">>
+  <<status 0>>
+  <<run setup.makeup.calc()>>
+  <<arousal 3>>
+  <<run setup.omni.new("roboThroatCannibal")>>
+<</if>>
+<<description>>
+<div class="consumable">
+[img[IMG-Items-ROBOTHROAT]]
+<h3>ROBOTHROAT Oral Spray</h3>
+A special aerosol spray intended to make you better at oral sex. This appears to be an Indian knockoff of the more popular chinese product "Perfect Oral", which seems to be a knockoff of yet another product. @@.print;"2 times more !!metals power max!! than the leading brand!"@@ <i>You don't know of any other oral spray that acts like metallic spraypaint, so perhaps they got the original's formula wrong and just decided to roll with it.</i>
+<p>
+Increases oral sex skill. [lasts 180 minutes] Do not take more than directed.
+</p>
+</div>
+<</newconsumable>>
+<</if>>
+
+
+

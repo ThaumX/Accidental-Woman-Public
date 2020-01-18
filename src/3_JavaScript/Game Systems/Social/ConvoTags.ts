@@ -108,6 +108,10 @@ setup.cTag.tList = {
   wet: [0, 3],
   fullTits: [3, 3],
   milky: [0, 2],
+  tattoo: [3, 2],
+  scar: [3, 2],
+  bodywriting: [1, 4],
+  lewdTattoo: [2, 4],
 };
 
 setup.cTag.priority = function(level: number = 3): string[] {
@@ -165,6 +169,9 @@ setup.cTag.getTag = function(minLevel: number = 1, location: boolean = true): st
       return tag;
     }
     rand -= num;
+  }
+  if (tags.length === 0) {
+    return "random";
   }
   aw.con.warn("Somehow didn't find a valid conversation tag! setup.cTag.getTag");
   return either(...tags);
@@ -263,8 +270,13 @@ setup.cTag.location = function(): string[] {
           t.push("institute");
           break;
         case "coop":
-          t.push("farmCOOP");
-          break;
+          if (map[2] === "FertCorpsFair") {
+            t.push("FertCorpsFair");
+            break;
+          } else {
+            t.push("farmCOOP");
+            break;
+          }
       }
       break;
   }
@@ -309,16 +321,16 @@ setup.cTag.build = function(async: boolean = true): void {
     } else if (setup.clothes.desc.sexy < -3) {
       ᛟ.push("cuteClothes");
     }
-    if (setup.clothes.desc.exposureBottom === 50) {
+    if (ↂ.pc.clothes.stats.exposureBot === 50) {
       ᛟ.push("nakedBottom");
-    } else if (setup.clothes.desc.exposureBottom >= 45) {
+    } else if (ↂ.pc.clothes.stats.exposureBot >= 45) {
       ᛟ.push("practNakedBottom");
-    } else if (setup.clothes.desc.exposureBottom >= 40) {
+    } else if (ↂ.pc.clothes.stats.exposureBot >= 40) {
       ᛟ.push("exhibitBottom");
     }
-    if (setup.clothes.desc.exposureTop === 50) {
+    if (ↂ.pc.clothes.stats.exposureTop === 50) {
       ᛟ.push("nakedTop");
-      if (setup.clothes.desc.exposureBottom === 50) {
+      if (ↂ.pc.clothes.stats.exposureBot === 50) {
         ᛟ.push("buckNaked");
       }
     } else if (setup.clothes.desc.exposureTop >= 45) {
@@ -474,6 +486,18 @@ setup.cTag.build = function(async: boolean = true): void {
     if (pc.status.milkStore > pc.body.lactCapacity) {
       ᛟ.push("fullTits");
     }
+    if (ↂ.pc.tattoo.visible[0] && ↂ.pc.tattoo.visible[2]) {
+      ᛟ.push("tattoo");
+    }
+    if (ↂ.pc.tattoo.visible[0] && ↂ.pc.tattoo.visible[1] && ↂ.pc.tattoo.visible[2]) {
+      ᛟ.push("lewdTattoo");
+    }
+    if (ↂ.pc.tattoo.visible[0] && ↂ.pc.tattoo.visible[3]) {
+      ᛟ.push("bodywriting");
+    }
+    if (ↂ.pc.tattoo.visible[0] && ↂ.pc.tattoo.visible[4]) {
+      ᛟ.push("scar");
+    }
     aw.con.info(`Conversation Tags Generated.`);
   }
   if (async) {
@@ -487,12 +511,13 @@ setup.cTag.build = function(async: boolean = true): void {
 setup.cTag.getContent = function(cluster: string, tag: string): string {
   if (aw.tagContent[cluster] == null || aw.tagContent[cluster][tag] == null) {
     aw.con.warn(`Invalid cluster or tag names (${cluster}, ${tag}) given to setup.cTag.getContent()!`);
-    return "Apologies, there has been an error retrieving conversation content. This conversation is probably dead. If you have time, please report this bug! :D";
+    return `Our appologies, the ${cluster} conversation tag ${tag} content hasn't been written just yet. We'll be getting more of these written and edited soon, so thanks for your patience!<br><<include "NPCinteraction-AcquaintContinue">>`;
   }
   const amt = aw.tagContent[cluster][tag].length - 1;
   if (amt < 0) {
-    aw.con.warn(`empty array at (${cluster}, ${tag}) found by setup.cTag.getContent().`);
-    return "Apologies, there has been an error retrieving conversation content. This conversation is probably dead. If you have time, please report this bug! :D";
+    aw.con.warn(`empty array at (${cluster}, ${tag}) found by setup.cTag.getContent(). Let's shove some random line to fix thing.`);
+    return aw.tagContent[cluster].random[random(0, (aw.tagContent[cluster].random.length - 1))];
+    // return "Apologies, there has been an error retrieving conversation content. This conversation is probably dead. If you have time, please report this bug! :D";
   }
   const r = (amt === 0) ? 0 : random(0, amt);
   return aw.tagContent[cluster][tag][r];
@@ -505,8 +530,17 @@ Macro.add("ctagcontent", {
     if (this.args.length < 2 || this.args.length > 2) {
       return this.error(`Incorrect number of arguments. ${this.args.length} were given, 2 are required. cluster, tag`);
     }
-    const output = setup.cTag.getContent(this.args[0], this.args[1]);
-    // setup.interact.status.npc = "n101"; // FOR TESTING!!! REMOVE ME!!!
+    let output: string;
+    try {
+      output = setup.cTag.getContent(this.args[0], this.args[1]);
+    } catch (e) {
+      aw.con.info(`Unable to retrieve conversation tag [${this.args[0]}, ${this.args[1]}].`);
+      output = `Our appologies, the ${this.args[0]} conversation tag ${this.args[1]} content hasn't been written just yet. We'll be getting more of these written and edited soon, so thanks for your patience!`;
+    }
+    if (output == null) {
+      aw.con.info(`Unable to retrieve conversation tag [${this.args[0]}, ${this.args[1]}].`);
+      output = `Our appologies, the ${this.args[0]} conversation tag ${this.args[1]} content hasn't been written just yet. We'll be getting more of these written and edited soon, so thanks for your patience!`;
+    }
     return new Wikifier(this.output, output);
   },
 });
@@ -539,13 +573,21 @@ Macro.add("selfthought", {
           probs.push(0);
         }
       }
-      const r = randomDist(probs); // get random tag based on weighting
-      output = tags[r];
+      aw.con.info(`selfthought results 1: ${probs}`);
+      if (probs !== null && probs.length > 1){ // more failsafe
+        const r = randomDist(probs); // get random tag based on weighting
+        output = tags[r];
+      }
     }
-    const max = setup.cTag.selfThoughts[output].length - 1;
-    output = setup.cTag.selfThoughts[output][random(0, max)];
-    const text = `<span class='sthought'>${output}</span>`;
-    return new Wikifier(this.output, text);
+    aw.con.info(`selfthought results 2: ${output}, ${setup.cTag.selfThoughts[output]} `);
+    if (setup.cTag.selfThoughts[output] != null && output != null) {
+      const max = setup.cTag.selfThoughts[output].length - 1;
+      output = setup.cTag.selfThoughts[output][random(0, max)];
+      const text = `<span class='sthought'>${output}</span>`;
+      return new Wikifier(this.output, text);
+    } else {
+      return new Wikifier(this.output, `<span class='sthought'><<= either("I wonder if birds have penises", "How does my voice sounds to other people?", "Did I lock the door last time I left home?", "...", "...", "...", "...", "...")>></span>`);
+    }
   },
 });
 
@@ -614,7 +656,9 @@ setup.cTag.selfThoughts = {
   assAccess: [
     "<i>Ahhh,</i> it feels nice not to have any clothing chafing between my legs.",
   ],
-  // buttAccess: [],
+  buttAccess: [
+    "This feeling of the wind on my butt... thee-hee.",
+  ],
   nipAccess: [
     "My nipples have gotten pretty hard, haven't they?",
   ],
@@ -646,7 +690,7 @@ setup.cTag.selfThoughts = {
   // sponge: [],
   // menstrualCup: [],
   onThePill: [
-    "<<if ↂ.pc.trait.forgetful === 1>>...<<else>>Did I remember to take my birth control pill today?",
+    "<<if ↂ.pc.trait.forgetful === 1>>...<<else>>Did I remember to take my birth control pill today?<</if>>",
   ],
   hairyLegs: [
     "People will definitely notice I haven't shaved my legs in a while... maybe I should do that.",
@@ -731,6 +775,21 @@ setup.cTag.selfThoughts = {
     "Damn my boobs ache... they're rock-hard too. I need to get milked asap!",
     "I need to pump, my tits are killing me!",
   ],
+  tattoo: [
+    "Mmm, I like my tattoos, they make me feel unique",
+  ],
+  scar: [
+    "Hmm. Maybe I need to remove this scar surgically?",
+    "This scar looks ugly.",
+  ],
+  bodywriting: [
+    "Oh, anybody can notice this lewdness written on my body!",
+    "Wearing this writings on my body for everybody too see is so humiliating...",
+  ],
+  lewdTattoo: [
+    "Oh, these tattoos are so lewd and visible to anybody...",
+    "I wonder if anyone will notice my not-that-modest tattoos...",
+  ],
   milky: [
     "The way my breasts tingle is pretty nice when I stop to think about it.",
   ],
@@ -741,6 +800,9 @@ setup.cTag.selfThoughts = {
   ],
   mall: [
     "So many choices... where should I go first?",
+  ],
+  FertCorpsFair: [
+    "Never been to a country fair, it is interesting to see how local country folk have fun.",
   ],
   // holefoods: [],
   park: [

@@ -96,7 +96,7 @@ setup.npcDisplay = {
     output += `<<button "VIEW 🕵">><<set _npcViewerID = "${npcid}">><<replace "#labler">>${ᛝ.main.fullName}<</replace>><<replace "#menuContent">><<include [[NPC-DetailView]]>><</replace>><</button>><br>`;
     // the text/contact button, if so that it can be hidden for "nearby npcs"
     if (!noContact) {
-      output += `<<button "TEXT 💬">><<set _launch = {passage: "NPC-Contact-Phone", block: false, content: "<<set _npcContactID = '${npcid}'>>", npcid: "${npcid}", title: "Phone Contact: ${ᛝ.main.name}", size: 2, callback: function(){aw.con.info("NPC Contact callback fired.");}, onclose: function(){aw.con.info("NPC Contact on-close fired. :D");}}>><<run setup.npcInfo.daySinceReset("${npcid}")>><<run setup.interact.launch(_launch)>><</button>>`;
+      output += `<<button "TEXT 💬">><<set _launch = {passage: "NPC-Contact-Phone", block: false, content: "<<set _npcContactID = '${npcid}'>>", npcid: "${npcid}", title: "Phone Contact: ${ᛝ.main.name}", size: 3, callback: function(){aw.con.info("NPC Contact callback fired.");}, onclose: function(){aw.con.info("NPC Contact on-close fired. :D");}}>><<run setup.npcInfo.daySinceReset("${npcid}")>><<run setup.interact.launch(_launch)>><</button>>`;
     }
     output += `</div></div>`;
     return output;
@@ -280,7 +280,7 @@ setup.npcDisplay = {
         output += `<div class="npcMenuGrid" style="grid-column: 4 / span 1; grid-row: 4 / span 3;">`;
         let homes;
         // determine correct term based on background
-        if (!ᚥ.bGround[0]) {
+        if (!ᚥ.bGround[0] && !aw.chad.psychic) {
           homes = redact;
         } else if (ᛝ.background.homeParents) {
           homes = "<i>with parents</i>";
@@ -292,9 +292,9 @@ setup.npcDisplay = {
           homes = "Apartment";
         }
         // determine if info is redacted or not, then include in output later
-        const edju = (ᚥ.bGround > 0) ? ᛝ.background.highestSchool : redact;
-        const jobu = (ᚥ.bGround > 0) ? ᛝ.background.job : redact;
-        const caru = (ᚥ.bGround > 0) ? ᛝ.background.car : redact;
+        const edju = (ᚥ.bGround > 0 || aw.chad.psychic) ? ᛝ.background.highestSchool : redact;
+        const jobu = (ᚥ.bGround > 0 || aw.chad.psychic) ? ᛝ.background.job : redact;
+        const caru = (ᚥ.bGround > 0 || aw.chad.psychic) ? ᛝ.background.car : redact;
         // add items to output, using above variables
         output += `<b>Residence:</b> ${homes}<br>`;
         output += `<b>Education:</b> ${edju}<br>`;
@@ -363,12 +363,18 @@ setup.npcDisplay = {
         let temp1: string|number = redact;
         let temp2: string|number = redact;
         let temp3: string|number = redact;
-        if (realShip) {
-          temp1 = (ᚥ.core > 0 && ᚥ.trait > 0 && ᚥ.pref > 0) ? ᛝ.rship.mesh : redact;
-          temp2 = (ᚥ.core > 0 && ᚥ.trait > 1 && ᚥ.status > 0) ? ᛝ.rship.space : redact;
-          temp3 = (ᚥ.core > 1 && ᚥ.trait > 1 && ᚥ.pref > 1) ? ᛝ.rship.domsub : redact;
+        if (realShip || aw.chad.psychic) {
+          if (aw.chad.psychic) {
+            temp1 = ᛝ.rship.mesh;
+            temp2 = ᛝ.rship.space;
+            temp3 = ᛝ.rship.domsub;
+          } else {
+            temp1 = (ᚥ.core > 0 && ᚥ.trait > 0 && ᚥ.pref > 0) ? ᛝ.rship.mesh : redact;
+            temp2 = (ᚥ.core > 0 && ᚥ.trait > 1 && ᚥ.status > 0) ? ᛝ.rship.space : redact;
+            temp3 = (ᚥ.core > 1 && ᚥ.trait > 1 && ᚥ.pref > 1) ? ᛝ.rship.domsub : redact;
+          }
         }
-        if (friendy) {
+        if (friendy || aw.chad.psychic) {
           output += `<<progressbar ${ᛝ.rship.companion} "Companionship" "blue">>`;
         } else {
           output += `<b>Companionship:</b> ${redact}<br>`;
@@ -399,11 +405,11 @@ setup.npcDisplay = {
         // check if we show how the NPC feels about the player
         let toShowA = false;
         let toShowB = false;
-        if (ᚥ.core > 1 && ᚥ.pref > 1 && ᚥ.status > 1 && ᚥ.trait > 1) {
+        if ((ᚥ.core > 1 && ᚥ.pref > 1 && ᚥ.status > 1 && ᚥ.trait > 1) || aw.chad.psychic) {
           toShowA = true;
         }
         // harder check for love value!
-        if (ᚥ.core > 2 && ᚥ.pref > 2 && ᚥ.bGround > 2 && ᚥ.status > 2 && ᚥ.trait > 2) {
+        if ((ᚥ.core > 2 && ᚥ.pref > 2 && ᚥ.bGround > 2 && ᚥ.status > 2 && ᚥ.trait > 2) || aw.chad.psychic) {
           toShowB = true;
         }
         output += `<div class="npcMenuGrid" style="grid-column: 6 / span 1; grid-row: 4 / span 3;">`;
@@ -444,52 +450,53 @@ setup.npcDisplay = {
       // subfunction to print body NPC details - calls next in line.
       // body general, body detail, tits, junk
       let output = "";
-      output += `<div class="npcSectionTitle npcMenuGrid">Body Information (Implemented on a basic level, only numbers now)</div>`;
+      output += `<div class="npcSectionTitle npcMenuGrid">Body Information</div>`;
       try {
         output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">`;
-        if (ᚥ.bodyGeneral) {
+        if (ᚥ.bodyGeneral || aw.chad.psychic) {
           output += "<b>Basic information:</b><br>";
-          output += `A ${ᛝ.body.race} person with ${ᛝ.body.skinColor} skin, ${ᛝ.body.tone} and ${ᛝ.body.weight} body about ${ᛝ.body.height}. `;
-          output += `Regarding body you notice ${ᛝ.body.shoulders} shoulders, ${ᛝ.body.hips} hips, ${ᛝ.body.waist} waist and ${ᛝ.body.ass} ass. `;
-          output += `Considering ${ᛝ.body.face} face with ${ᛝ.body.eyeColor} eyes, ${ᛝ.body.brow} brow, ${ᛝ.body.nose} nose and ${ᛝ.body.jaw} jaw the NPC in question can be described as ${ᛝ.body.beauty}. `;
-          output += (ᛝ.body.ears === "pierced") ? `Both ears are pierced.<br>` : "";
+          output += `A ${ᛝ.body.race} person with ${ᛝ.body.skinColor} skin, ${aw.parse(npcid, "tone.q")} ${aw.parse(npcid, "weight.q")} body ${aw.parse(npcid, "height.q")} tall. `;
+          output += `Regarding body you notice ${aw.parse(npcid, "shoulder.q")} shoulders, ${aw.parse(npcid, "hip.q")} hips, ${aw.parse(npcid, "waist.q")} waist and a ${aw.parse(npcid, "ass.q")} butt. `;
+          output += `Considering ${ᛝ.body.face} face with ${ᛝ.body.eyeColor} eyes, ${ᛝ.body.brow} brows, ${ᛝ.body.nose} nose and ${ᛝ.body.jaw} jaw ${ᛝ.main.name} can be described as ${aw.parse(npcid, "beauty.q")}. `;
+          output += (ᛝ.body.ears === "pierced") ? `Both ears are pierced. ` : "";
+          const atrList = ["hideous", "unattractive", "unprepossessing", "normal", "nice", "adorable", "splendid"];
+          output += `It is safe to say that ${aw.parse(npcid, "pronounhisher.q")} overall attractiveness is ${atrList[Math.floor(aw.npc.n101.status.atr / 2)]}.<br>`;
         } else {
           output += `<b>Basic information:</b>${redact}<br>`;
         }
-        if (ᚥ.bodyTits) {
+        if (ᚥ.bodyTits || aw.chad.psychic) {
           if (ᛝ.main.female) {
-          output += "<b>Tits information:</b><br>";
-          output += `She has ${ᛝ.body.tits.shape} ${ᛝ.body.tits.band} tits of ${ᛝ.body.tits.base.cup} cup size`;
+          output += "<br><b>Tits information:</b><br>";
+          output += `She has ${aw.parse(npcid, "breastshape.q")} ${aw.parse(npcid, "breast.q")} tits of ${aw.parse(npcid, "cupsize.q")} size`;
           output += (ᛝ.body.tits.lact.on) ? ` which are lactating. ` : ". ";
-          output += `Nipples are ${ᛝ.body.tits.shape} shaped, ${ᛝ.body.tits.nipLength} length and ${ᛝ.body.tits.nipGirth} girth. Areolas are ${ᛝ.body.tits.areola} and ${ᛝ.body.tits.puffy}.<br>`;
+          output += `${ᛝ.main.name}'s nipples are ${ᛝ.body.tits.shape} shaped, ${aw.parse(npcid, "niplength.q")} and ${aw.parse(npcid, "nipwidth.q")}. Areolas are ${aw.parse(npcid, "areolapuffy.q")} and ${aw.parse(npcid, "areolasize.q")}.<br>`;
           }
         } else {
           if (ᛝ.main.female) {
-          output += `<b>Tits information:</b>${redact}<br>`;
+          output += `<br><b>Tits information:</b>${redact}<br>`;
           }
         }
-        if (ᚥ.bodyJunk) {
+        if (ᚥ.bodyJunk || aw.chad.psychic) {
           output += "<b>Junk information:</b><br>";
           if (ᛝ.main.male) {
-            output += `Cock length is ${ᛝ.body.cock.length}, girth is ${ᛝ.body.cock.girth} with ${ᛝ.body.cock.head} head.`;
-            output += (ᛝ.body.cock.circum) ? " The cock is circumsized. " : " ";
-            output += `The ${ᛝ.body.balls.hang} ballsack is`;
+            output += `${ᛝ.main.name}'s cock length is ${aw.parse(npcid, "cock.q")}, girth is ${aw.parse(npcid, "cockgirth.q")} and the head is ${aw.parse(npcid, "cockhead.q")},`;
+            output += (ᛝ.body.cock.circum) ? " the cock is circumsized. " : " ";
+            output += `${aw.parse(npcid, "pronounhisher.q")} ${aw.parse(npcid, "ballsag.q")} ${aw.parse(npcid, "ballsack.q")} ballsack is`;
             if (ᛝ.body.balls.count === 2) { // typical AW
-              output += " filled with testicles ";
+              output += ` filled with ${aw.parse(npcid, "ballsize.q")} testicles. `;
             } else if (ᛝ.body.balls.count > 2) {
-              output += ` filled with ${ᛝ.body.balls.count} testicles`;
+              output += ` filled with ${ᛝ.body.balls.count} ${aw.parse(npcid, "ballsize.q")} testicles. `;
             } else if (ᛝ.body.balls.count === 1) {
-              output += " filled with only one lonely testicle ";
+              output += ` filled with only one lonely ${aw.parse(npcid, "ballsize.q")} testicle. `;
             } else { // poor guy
-              output += " empty.";
+              output += " empty. ";
             }
-            output += (ᛝ.body.balls.count !== 0) ? `of ${ᛝ.body.balls.size} size. ` : " ";
           }
           if (ᛝ.main.female) {
-            output += `Her pussy is ${ᛝ.body.pussy.virgin} and ${ᛝ.body.pussy.tight} with ${ᛝ.body.clit} clit and ${ᛝ.body.labia} labia.`;
+            output += `Her ${(ᛝ.body.pussy.virgin) ? "virgin" : ""} pussy is ${aw.parse(npcid, "pussy.q")} with the ${aw.parse(npcid, "clit.q")} clit and ${aw.parse(npcid, "labia.q")} labia. `;
           }
-          output += "Asshole is ";
-          output += (ᛝ.body.asshole.virgin) ? `virgin and ${ᛝ.body.asshole.tight}.<br>` : `not virgin and ${ᛝ.body.asshole.tight}.<br>`;
+          output += "Asshole can be described as ";
+          output += (ᛝ.body.asshole.virgin) ? `virgin and ${aw.parse(npcid, "anus.q")}.<br>` : `not virgin and ${aw.parse(npcid, "anus.q")}.<br>`;
         } else {
           output += `<b>Junk information:</b>${redact}<br>`;
         }
@@ -508,7 +515,7 @@ setup.npcDisplay = {
       try {
         let mutationsu = "";
         output += `<div class="npcMenuGrid" style="grid-column: 2 / 7; grid-row: 4 / span 2;">`;
-        if (ᚥ.mutate) {
+        if (ᚥ.mutate || aw.chad.psychic) {
           for (const item in ᛝ.mutate) {
             if (ᛝ.mutate[item] === true) {
               switch (item) {
@@ -626,12 +633,12 @@ setup.npcDisplay = {
       output += `<div class="npcSectionTitle npcMenuGrid">Fertility Information</div>`;
       try {
         output += `<div class="npcMenuGrid" style="grid-column: 2 / span 1; grid-row: 4 / span 1;">`;
-        if (ᚥ.fert === 0 || ᚥ.fert === 1) {
+        if ((ᚥ.fert === 0 || ᚥ.fert === 1) && !aw.chad.psychic) {
           output += `<b>Fertility:</b> ${redact}`;
-        } else if (ᚥ.fert === 2) {
+        } else if (ᚥ.fert === 2 && !aw.chad.psychic) {
           const fertCaption = ["seems not very", "seems not very", "seems not very", "seems fertile", "seems fertile", "seems fertile", "seems fertile", "seems fertile", "seems fertile"];
           output += `<b>Fertility:</b> ${fertCaption[ᛝ.fert.fertility]}.`;
-        } else if (ᚥ.fert > 2) {
+        } else if (ᚥ.fert > 2 || aw.chad.psychic) {
           let fertCaption = [] as string[];
           if (ᛝ.main.female) {
           fertCaption = ["iud-protected", "barren", "barely fertile", "fertile", "very fertile", "super fertile", "extremely fertile", "insanely fertile", "fertility goddess"];
@@ -654,14 +661,14 @@ setup.npcDisplay = {
       output += `<div class="npcSectionTitle npcMenuGrid">Status Information</div>`;
       try {
         output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">`;
-        if (ᚥ.status === 0) {
+        if (ᚥ.status === 0 && !aw.chad.psychic) {
           output += `<b>Status:</b> ${redact}`;
         } else if (ᚥ.status === 1) {
           output += "<b>General condition:</b> ";
           output += (ᛝ.status.sleep) ? "Is sleeping. " : "Awake. ";
           output += (ᛝ.status.clean) ? "Appears clean. " : "Appears dirty. ";
-          output += (ᛝ.status.injury[0] !== "0") ? "There are noticeable injuries. " : "";
-          output += (ᛝ.status.injury[0] !== "0") ? "There are noticeable signs of disease. " : "";
+          output += (ᛝ.status.injury[0] === "0") ? "There are noticeable injuries. " : "";
+          output += (ᛝ.status.injury[0] === "0") ? "There are noticeable signs of disease. " : "";
           output += (ᛝ.status.overAnger) ? "Looks very angry. " : "";
           output += (ᛝ.status.overStress) ? "Looks in stress. " : "";
           output += (ᛝ.status.overDepress) ? "Looks depressed. " : "";
@@ -670,7 +677,13 @@ setup.npcDisplay = {
           output += "<br><b>Fatigue:</b> ";
           output += (ᛝ.status.fatigue > 70) ? "very tired." : (ᛝ.status.fatigue > 30) ? "tired." : "alert.";
           output += "<br><b>Alcohol:</b> ";
-          output += (ᛝ.status.alcohol > 7) ? "very drunk." : (ᛝ.status.alcohol > 2) ? "drunk." : "sober.";
+          if (ᛝ.status.alcohol > 7) {
+            output += "very drunk.";
+          } else if (ᛝ.status.alcohol > 2) {
+            output += "drunk.";
+          } else {
+            output += "sober.";
+          }
           if (ᛝ.status.wombA.preg || ᛝ.status.wombB.preg) {
             if (ᛝ.status.wombA.weeks > 5 || ᛝ.status.wombB.weeks > 5) {
               output += "<br><b>Pregnancy:</b> looks pregnant.";
@@ -681,8 +694,8 @@ setup.npcDisplay = {
           output += "<b>General condition:</b> ";
           output += (ᛝ.status.sleep) ? "Is sleeping. " : "Awake. ";
           output += (ᛝ.status.clean) ? "Appears clean. " : "Appears dirty. ";
-          output += (ᛝ.status.injury[0] !== "0") ? "There are noticeable injuries. " : "";
-          output += (ᛝ.status.injury[0] !== "0") ? "There are noticeable signs of disease. " : "";
+          output += (ᛝ.status.injury[0] === "0") ? "There are noticeable injuries. " : "";
+          output += (ᛝ.status.injury[0] === "0") ? "There are noticeable signs of disease. " : "";
           output += (ᛝ.status.overAnger) ? "Looks very angry. " : "";
           output += (ᛝ.status.overStress) ? "Looks in stress. " : "";
           output += (ᛝ.status.overDepress) ? "Looks depressed. " : "";
@@ -700,12 +713,12 @@ setup.npcDisplay = {
             }
           }
           output += `<br><b>Birth Control:</b> ${redact}`;
-        } else if (ᚥ.status > 2) {
+        } else if (ᚥ.status > 2 || aw.chad.psychic) {
           output += "<b>General condition:</b> ";
           output += (ᛝ.status.sleep) ? "Is sleeping. " : "Awake. ";
           output += (ᛝ.status.clean) ? "Appears clean. " : "Appears dirty. ";
-          output += (ᛝ.status.injury[0] !== "0") ? "There are noticeable injuries. " : "";
-          output += (ᛝ.status.injury[0] !== "0") ? "There are noticeable signs of disease. " : "";
+          output += (ᛝ.status.injury[0] === "0") ? "There are noticeable injuries. " : "";
+          output += (ᛝ.status.injury[0] === "0") ? "There are noticeable signs of disease. " : "";
           output += (ᛝ.status.overAnger) ? "Looks very angry. " : "";
           output += (ᛝ.status.overStress) ? "Looks in stress. " : "";
           output += (ᛝ.status.overDepress) ? "Looks depressed. " : "";
@@ -747,7 +760,7 @@ setup.npcDisplay = {
         output += `<div class="npcMenuGrid" style="grid-column: 2 / span 1; grid-row: 4 / span 1;">`;
         const cock1 = (ᚥ.sched) ? ᛝ.sched.workLoc : redact;
         output += `<b>Work place:</b>${cock1}<br></div><div class="npcMenuGrid" style="grid-column: 2 / 7; grid-row: 5 / span 3;">`;
-        if (ᚥ.sched) {
+        if (ᚥ.sched || aw.chad.psychic) {
           const futa = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
           ᛝ.sched.workdays.forEach(function(item, i) {
             const tempPiss = futa[i];
@@ -791,7 +804,11 @@ setup.npcDisplay = {
       output += `<div class="npcSectionTitle npcMenuGrid">Kink Information</div>`;
       try {
         output += `<div class="npcMenuGrid" style="grid-column: 2 / 7; grid-row: 4 / span 1;">`;
-        switch (ᚥ.kink) {
+        let kinkShown = clone(ᚥ.kink);
+        if (aw.chad.psychic) {
+          kinkShown = 3;
+        }
+        switch (kinkShown) {
           case 3:
             for (const item in ᛝ.kink) {
               if (ᛝ.kink[item] === true) {
@@ -1074,9 +1091,9 @@ setup.npcDisplay = {
       }
       output += `<div class="npcSectionTitle npcMenuGrid">Preferences Information</div>`;
       try {
-        if (ᚥ.pref === 0) {
+        if (ᚥ.pref === 0 && !aw.chad.psychic) {
           output += redact;
-        } else if (ᚥ.pref === 1) {
+        } else if (ᚥ.pref === 1 && !aw.chad.psychic) {
           const Wlabels = ["Prefers anorexic", "Prefers skinny", "Prefers normal", "Prefers plush", "Prefers chubby", "Prefers fat"];
           const Hlabels = ["Prefers very short", "Prefers short", "Prefers average", "Prefers tall", "Prefers very tall"];
           const Mlabels = ["Prefers frail", "Prefers weak", "Prefers toned", "Prefers muscular", "Prefers body builder"];
@@ -1099,7 +1116,7 @@ setup.npcDisplay = {
           output += `<b>Other female preferences:</b>${redact}<br>`;
           output += `<b>Other male preferences:</b>${redact}`;
           output += "</div>";
-        } else if (ᚥ.pref === 2) { // ALL HAIL THE GREAT OUTPUT OF BESTY!!!
+        } else if (ᚥ.pref === 2 && !aw.chad.psychic) { // ALL HAIL THE GREAT OUTPUT OF BESTY!!!
           output += `<div class="npcMenuGrid" style="grid-column: 2 / span 1; grid-row: 4 / span 1;">`;
           output += "<b>Female weight preferences:</b><br>";
           output += "Anorexic: " + attitudeReplacer (ᛝ.pref.Fweight[0], 1) + "<br>";
@@ -1179,7 +1196,7 @@ setup.npcDisplay = {
           output += "Large Penis:" +  attitudeReplacer (ᛝ.pref.Mother[8], 1) + "<br>";
           output += "Small Penis:" +  attitudeReplacer (ᛝ.pref.Mother[8], 1) + "<br>&nbsp;"; // NPC HAD NOT ENOUGH PARAMETERS!!! AARGH!!
           output += "</div>";
-        } else if (ᚥ.pref === 3) {
+        } else if (ᚥ.pref === 3 || aw.chad.psychic) {
           output += `<div class="npcMenuGrid" style="grid-column: 2 / span 1; grid-row: 4 / span 1;">`;
           output += "<b>Female weight preferences:</b><br>";
           output += "Anorexic: " + attitudeReplacer (ᛝ.pref.Fweight[0], 2) + "<br>";
@@ -1272,11 +1289,11 @@ setup.npcDisplay = {
       let output = "";
       output += `<div class="npcSectionTitle npcMenuGrid">Background Information</div>`;
       try {
-        if (ᚥ.bGround === 0) {
+        if (ᚥ.bGround === 0 && !aw.chad.psychic) {
           output += `<div class="npcMenuGrid" style="grid-column: 2 / span 1; grid-row: 4 / span 1;">`;
           output += `<b>Background information:</b> ${redact}`;
           output += "</div>";
-        } else if (ᚥ.bGround === 1) {
+        } else if (ᚥ.bGround === 1 && !aw.chad.psychic) {
           const cockWealth = ["Seems poor", "Seems poor", "middle", "Seems rich", "Seems rich"];
           output += `<div class="npcMenuGrid" style="grid-column: 2 / span 2; grid-row: 4 / span 4;">`;
           output += `<b>Wealth:</b> ${cockWealth[ᛝ.background.wealth]}<br>`;
@@ -1288,7 +1305,7 @@ setup.npcDisplay = {
           output += `<b>Relatives:</b> ${redact}`;
           output += `<br><b>Relations:</b> ${redact}`;
           output += "</div>";
-        } else if (ᚥ.bGround === 2) {
+        } else if (ᚥ.bGround === 2 && !aw.chad.psychic) {
           const cockWealth = ["Seems poor", "Seems poor", "middle", "Seems rich", "Seems rich"];
           const happyFamily = [] as string[];
           output += `<div class="npcMenuGrid" style="grid-column: 2 / span 2; grid-row: 4 / span 4;">`;
@@ -1310,7 +1327,7 @@ setup.npcDisplay = {
           output += `${happyFamily}`;
           output += (ᛝ.background.rShip) ? "<br><b>Relations:</b> in relationship." : "<br><b>Relations:</b> free";
           output += "</div>";
-        } else if (ᚥ.bGround > 2) {
+        } else if (ᚥ.bGround > 2 || aw.chad.psychic) {
           const cockWealth = ["poor", "shoestring", "middle", "well-off", "rich"];
           let happyFamily = [] as string[];
           output += `<div class="npcMenuGrid" style="grid-column: 2 / span 2; grid-row: 4 / span 4;">`;
@@ -1339,6 +1356,31 @@ setup.npcDisplay = {
         output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Appologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
       }
       aw.replace("#npcMenuBGround", output);
+      setTimeout(() => stories(), 25);
+    }
+    function stories() {
+      // subfunction to print stories NPC told ya
+      let output = "";
+      const tt = ["childhood", "teenage", "familyGen", "familyPar", "familySib", "familySib", "college", "job", "moving", "marriage"];
+      output += `<div class="npcSectionTitle npcMenuGrid">Life stories</div><div class="npcMenuGrid" style="grid-column: 2 / 7; grid-row: 4 / span 3;">`;
+      try {
+        for (let index = 0; index < aw.npc[npcid].background.stories.length; index++) {
+          if (ᛝ.record.info.stories[index]) {
+            if (setup.storythread.uniqueStories[npcid] !== null && setup.storythread.uniqueStories[npcid][tt[index]] !== null) {
+              output += "<br>" + setup.storythread.uniqueStories[npcid][tt[index]][2] + "<br>";
+            } else {
+              output += "<br>" + aw.storythreads[tt[index]][aw.npc[npcid].background.stories[index]][2] + "<br>";
+            }
+          } else {
+            output += "<br><br>" + redact + "<br>";
+          }
+        }
+        output += "</div>";
+      } catch (e) {
+        aw.con.warn(`Error in setup.npcDisplay.detailView (stories). ${e.name}: ${e.message}.`);
+        output += `<div class="npcMenuGrid">Appologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
+      }
+      aw.replace("#npcMenuStories", output);
     }
     setTimeout(() => main(), 50);
   },

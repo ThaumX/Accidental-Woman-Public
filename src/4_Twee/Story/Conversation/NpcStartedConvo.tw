@@ -1,0 +1,363 @@
+
+:: NPCinteraction-StrangerSayHi [nobr]
+
+<<status 1>>
+<<set ↂ.flag.npcInducedInteractions.destination = 0>>
+<<set _npc = ↂ.flag.npcInducedInteractions.intNPC>>
+<<set setup.interact.status.npc = ↂ.flag.npcInducedInteractions.intNPC>>
+<<if setup.npc.enemies.includes(ↂ.flag.npcInducedInteractions.intNPC)>>
+  <<set ↂ.flag.npcInducedInteractions.intNPC = "NPCinteraction-Enemy">>
+<<elseif setup.npc.lover.includes(ↂ.flag.npcInducedInteractions.intNPC)>>
+  <<set ↂ.flag.npcInducedInteractions.destination = "NPCinteraction-Lover">>
+<<elseif setup.npc.exes.includes(ↂ.flag.npcInducedInteractions.intNPC)>>
+  <<set ↂ.flag.npcInducedInteractions.destination = "NPCinteraction-Exes">>
+<<elseif setup.npc.bff.includes(ↂ.flag.npcInducedInteractions.intNPC)>>
+  <<set ↂ.flag.npcInducedInteractions.destination = "NPCinteraction-Friends">>
+<<elseif setup.npc.fling.includes(ↂ.flag.npcInducedInteractions.intNPC)>>
+  <<set ↂ.flag.npcInducedInteractions.destination = "NPCinteraction-Fling">>
+<<elseif setup.npc.friends.includes(ↂ.flag.npcInducedInteractions.intNPC)>>
+  <<set ↂ.flag.npcInducedInteractions.destination = "NPCinteraction-Friends">>
+<<elseif setup.npc.interested.includes(ↂ.flag.npcInducedInteractions.intNPC)>>
+  <<set ↂ.flag.npcInducedInteractions.destination = "NPCinteraction-Flirty">>
+<<elseif setup.npc.acquainted.includes(ↂ.flag.npcInducedInteractions.intNPC)>>
+  <<set ↂ.flag.npcInducedInteractions.destination = "NPCinteraction-Acquaint">>
+<<else>>
+  <<if ↂ.flag.npcInducedInteractions.intType == "school">>
+    <<set ↂ.flag.npcInducedInteractions.destination =  random(1, 2)>>
+  <<elseif ↂ.flag.npcInducedInteractions.intType == "work">>
+    <<if ↂ.job.code == "IS" || ↂ.job.code == "IT" || ↂ.job.code == "IB">>
+      <<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].sched.workLoc = "institute">>
+    <<elseif ↂ.job.code == "FT">>
+      <<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].sched.workLoc = "fairy tail">>
+    <<elseif ↂ.job.code == "MD">>
+      <<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].sched.workLoc = "maid poufiasse">>
+    <<else>>
+      <<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].sched.workLoc = ↂ.job.employer>>
+    <</if>>
+    <<set ↂ.flag.npcInducedInteractions.destination = random(1, 2)>>
+  <<else>>
+    <<set setup.interact.status.npc = ↂ.flag.npcInducedInteractions.intNPC>>
+    <<set ↂ.flag.npcInducedInteractions.destination = "NPCinteraction-RandomStranger">>
+  <</if>>
+<</if>>
+<<status 0>>
+<<run setup.npcInfo.encounter(ↂ.flag.npcInducedInteractions.intNPC)>>
+<<if ↂ.flag.npcInducedInteractions.destination == 1>>
+  <<set _npc = ↂ.flag.npcInducedInteractions.intNPC>><p><<if ↂ.job.code !== "MD" || ↂ.flag.npcInducedInteractions.intType == "school">>On the break<<else>>When you get to the Poufiasse office to get some papers<</if>> a <<p tall.q ↂ.flag.npcInducedInteractions.intNPC>> <<p age.q ↂ.flag.npcInducedInteractions.intNPC>> <<if aw.npc[ↂ.flag.npcInducedInteractions.intNPC].main.male>>man<<else>>woman<</if>> approaches you.</p>
+  <p><<print either("@@.npc;Hi! Saw you here a couple of times, decided to say hello! Name's <<= aw.npc[ↂ.flag.npcInducedInteractions.intNPC].main.name>>.@@","@@.npc;<<greetings>> I am new, thought about getting in touch with folk here! I am <<= aw.npc[ↂ.flag.npcInducedInteractions.intNPC].main.name>> by the way!@@","@@.npc;Hello, my name is <<= aw.npc[ↂ.flag.npcInducedInteractions.intNPC].main.name>>, You must be <<= ↂ.pc.main.name>>, right? I just want to meet new people so decided to say hello, hehe.@@")>></p>
+  <<dialogchoice>>
+    <<dbutt "Hi">><<intgo "NPCinteraction-StrangerSayHi1-Hi">>
+    <<dtext "smile">>Nice to meet you! I am <<= ↂ.pc.main.name>>!
+    <<dbutt "Sorry">><<intgo "NPCinteraction-StrangerSayHiSchool-Sorry">>
+    <<dtext "confused">>Ugh, sorry, I am a little busy right now.
+    <<dbutt "Get lost" "!ↂ.pc.trait.kind">><<intgo "NPCinteraction-StrangerSayHiSchool-Bitch">>
+    <<dtext "arrogant">>Go look for friends in some other place, friendly face.
+  <</dialogchoice>>
+<<elseif ↂ.flag.npcInducedInteractions.destination == 2>>
+  <<set _npc = ↂ.flag.npcInducedInteractions.intNPC>><<run setup.npcInfo.level(ↂ.flag.npcInducedInteractions.intNPC, {bodyGeneral: true})>>
+  <p><<if ↂ.job.code == "MD" && ↂ.flag.npcInducedInteractions.intType !== "school">>You are going to the coffee machine on the break in obligatory maid courses in the office<<else>>You are going to the coffee machine on the break<</if>>. As you approach you notice a <<p tall.q ↂ.flag.npcInducedInteractions.intNPC>> <<p age.q ↂ.flag.npcInducedInteractions.intNPC>> <<if aw.npc[ↂ.flag.npcInducedInteractions.intNPC].main.male>>man<<else>>woman<</if>> you have noticed earlier. You are pretty sure that <<p pronounheshe.q ↂ.flag.npcInducedInteractions.intNPC>> ogled you for some time earlier today.</p>
+  <<if ↂ.pc.trait.flirty == -1>>
+    <p>@@.mono;I wonder why <<p pronounheshe.q ↂ.flag.npcInducedInteractions.intNPC>> stares on me. I feel uncomfortable with this...@@</p>
+    <p>You just nod in a bit awkard way when <<p pronounheshe.q ↂ.flag.npcInducedInteractions.intNPC>> comes to the coffee machine.</p>
+    <p><<print either("@@.npc;Mmm... <<greetings>>@@","@@.npc;Emm, Hi?@@")>></p>
+    <p><<print either("@@.pc;Umm, Hello, I saw you earlier here?@@","@@.pc;Hi! New here?@@")>></p>
+    <p><<print either("@@.npc;Yep, and you?@@","@@.npc;Not really, been here for 6 month already. Or wait, is it 5? Yeah, my fifth month here.@@")>></p>
+  <<else>>
+    <p>@@.mono;Probably <<p pronounheshe.q ↂ.flag.npcInducedInteractions.intNPC>> is interested in me, maybe I should just make a first step?@@</p>
+    <p>You decide to start a convo to see if you are right.</p>
+    <p><<print either("@@.pc;Well, hi there! You are new here, right?@@","@@.pc;<<greetings>> Nice day today, isn't it?@@")>></p>
+    <p><<print either("@@.npc;Oh, hai! Yes! I wanted to say hi myself but did not know if this would be appropriate.@@","@@.npc;<<greetings>> Phew, well, I was not sure it is okay just to say hi to you, you know, I am a bit of shy in such things...@@")>></p>
+  <</if>>
+  <<dialogchoice>>
+    <<dbutt "Nice">><<intgo "NPCinteraction-StrangerSayHi2-Amicable">>
+    <<dtext "smile">>Well, nice to meet you! I am <<= ↂ.pc.main.name>>!
+    <<dbutt "Okay">><<intgo "NPCinteraction-StrangerSayHi2-Nope">>
+    <<dtext "confused">>You are not in the mood to make new friends.
+  <</dialogchoice>>
+<<else>>
+  <p>You see somebody you know.</p>
+  <<button "Say hello">><<set _desto = ↂ.flag.npcInducedInteractions.destination>><<intgo _desto>><<set setup.interact.status.npc = ↂ.flag.npcInducedInteractions.intNPC>><</button>>
+<</if>>
+
+:: NPCinteraction-StrangerSayHi1 [nobr]
+
+
+
+
+:: NPCinteraction-StrangerSayHi1-Hi [nobr]
+
+<<set _npc = ↂ.flag.npcInducedInteractions.intNPC>><<run setup.npcInfo.level(ↂ.flag.npcInducedInteractions.intNPC, {bodyGeneral: true})>>
+<<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.acquaint = true>>
+<<run setup.npc.acquainted.push(ↂ.flag.npcInducedInteractions.intNPC)>>
+<<set _lefttesticle = random(0,1)>><<if _lefttesticle == 1>><<run setup.npc.interested.push(ↂ.flag.npcInducedInteractions.intNPC)>><<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.lovePC += random(3,7)>><</if>>
+<<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.likePC += 3>>
+<p><<print either("@@.pc;Nice to meet you! I am <<= ↂ.pc.main.name>>!@@","@@.pc;Hello! I am <<= ↂ.pc.main.name>>!@@")>></p>
+<p><<print either("@@.npc;Oh cool! So... uhm... how it is going?@@","@@.npc;Pleasure to meet you, what's up?@@")>></p>
+<p><<print either("@@.pc;Well I am mostly fine I guess...@@","@@.pc;I am new in town so I am trying to make new friends here too!@@")>></p>
+<<set _blah = setup.cTag.getTag(3, false)>><p><<set _pff = aw.npc[ↂ.flag.npcInducedInteractions.intNPC].main.name>><<print setup.interactionMisc.tagText(_blah, _pff)>> In the end you exchange contacts with <<= aw.npc[ↂ.flag.npcInducedInteractions.intNPC].main.name>>.</p>
+<p><<print either("@@.npc;Well you look like an okay girl, see ya!@@","@@.pc;It was nice to meet you, hope we get in touch again!@@")>></p>
+<<safetoclose>>
+
+
+:: NPCinteraction-StrangerSayHiSchool-Sorry [nobr]
+
+<<set _npc = ↂ.flag.npcInducedInteractions.intNPC>><<run setup.npcInfo.level(ↂ.flag.npcInducedInteractions.intNPC, {bodyGeneral: true})>>
+<p>@@.pc;Ugh, sorry, I am a little busy right now.@@</p>
+<p>@@.npc;Oh, I see. Well, another time maybe?@@</p>
+<p>@@.pc;Umm, sure. See you.@@</p>
+<<safetoclose>>
+
+
+:: NPCinteraction-StrangerSayHiSchool-Bitch [nobr]
+
+<<set _npc = ↂ.flag.npcInducedInteractions.intNPC>><<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.likePC -= random(5,11)>>
+<p>@@.pc;Go look for friends in some other place, friendly face.@@</p>
+<p>@@.npc;Oh... well okay, no need to be like this, I was just trying to be friendly...@@</p>
+<p>@@.pc;Yeah, you tried to. Get lost please.@@</p>
+<<safetoclose>>
+
+
+:: NPCinteraction-StrangerSayHi2 [nobr]
+
+
+
+
+:: NPCinteraction-StrangerSayHi2-Amicable [nobr]
+
+<<set _npc = ↂ.flag.npcInducedInteractions.intNPC>><p>@@.pc;Well, nice to meet you! I am <<= ↂ.pc.main.name>>!@@</p>
+<p>@@.npc;I am <<= aw.npc[ↂ.flag.npcInducedInteractions.intNPC].main.name>>! I thought... maybe we should meet later, I mean in the evening?@@</p>
+<p>@@.pc;You mean?...@@</p>
+<p>@@.npc;Like eat something, you know...@@</p>
+<<dialogchoice>>
+  <<dbutt "Sure">><<intreplace>><<set setup.interact.status.npc = ↂ.flag.npcInducedInteractions.intNPC>><<set _npc = ↂ.flag.npcInducedInteractions.intNPC>><<timed 200ms>><<datescheduler _npc>><</timed>><</intreplace>><<run setup.npc.interested.push(ↂ.flag.npcInducedInteractions.intNPC)>><<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.lovePC += random(7,17)>><<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.likePC += 9>><<status 0>>
+  <<dtext "wink">>He-he, okay, sounds like a nice idea!
+  <<dbutt "Maybe">><<intgo "NPCinteraction-StrangerSayHi2-Nope">>
+  <<dtext "muted">>Mmmm. Well... I am not sure about it...
+<</dialogchoice>>
+
+
+:: NPCinteraction-StrangerSayHi2-Nope [nobr]
+
+<<set _npc = ↂ.flag.npcInducedInteractions.intNPC>><<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.likePC -= random(2,5)>>
+<p>@@.pc;Mmmm. Well... it was nice to meet you, but I need to go now, till next time!@@</p>
+<p>@@.npc;Oh... sure...@@</p>
+<p>You go away and <<p pronounheshe.q ↂ.flag.npcInducedInteractions.intNPC>> looks you in the back.</p>
+<<safetoclose>>
+
+
+:: NPCinteraction-Dirty [nobr]
+
+<<set _npc = ↂ.flag.npcInducedInteractions.intNPC>>
+<p><<print either("@@.npc;Hey, miss, do you need help?@@","@@.npc;I am sorry miss, is everything okay?@@","@@.npc;Ummm... sorry to bother you, but you look like you are in trouble. Do you need help?@@")>></p>
+<p><<print either("@@.pc;Sorry?@@","@@.pc;Why do you think so?@@")>></p>
+<p><<print either("@@.npc;Well... it is your clothes, they are all dirty, I thought maybe you fall or something...@@","@@.npc;Emmm... I just thought maybe... I mean your clothes look stained so I thought maybe something happened and you need help...@@")>></p>
+<<dialogchoice>>
+  <<dbutt "No">><<intgo "NPCinteraction-Dirty-No">>
+  <<dtext "neutral">>I am okay, thanks!
+  <<dbutt "Bitch" "ↂ.pc.trait.bitch">><<intgo "NPCinteraction-Dirty-Bitch">>
+  <<dtext "mad">>It is none of your business, idiot!
+  <<dbutt "Tell">><<intgo "NPCinteraction-Dirty-Tell">>
+  <<dtext "disturbed">>It was the hell of a story!
+<</dialogchoice>>
+
+
+:: NPCinteraction-Dirty-No [nobr]
+
+<<set _npc = ↂ.flag.npcInducedInteractions.intNPC>>
+<p>@@.pc;I am okay, thanks!@@</p>
+<p><<print either("@@.npc;Oh... okay, then I won't bother you anymore... have a nice day!@@","@@.npc;Um? Oh, good to hear, good luck then!@@")>></p>
+<<safetoclose>>
+
+
+:: NPCinteraction-Dirty-Bitch [nobr]
+
+<<set _npc = ↂ.flag.npcInducedInteractions.intNPC>>
+<p>@@.pc;It is none of your business, idiot!@@</p>
+<p><<print either("@@.npc;Hey, no need to be so angry! I just wanted to help... bitch.@@","@@.npc;Shit, trying to help strangers was certainly a bad idea in the first place...@@")>></p>
+<<safetoclose>>
+
+:: NPCinteraction-Dirty-Tell [nobr]
+
+<<set _npc = ↂ.flag.npcInducedInteractions.intNPC>>
+<<set setup.interact.status.npc = ↂ.flag.npcInducedInteractions.intNPC>>
+<p>@@.pc;It was the hell of a story! So...@@</p>
+<p>You tell <<p pronounhisher.q ↂ.flag.npcInducedInteractions.intNPC>> the whole story about this accident.</p>
+<p>@@.npc;Ugh. Sorry to hear that... Anyway, I am glad you are kinda okay now, heh.@@</p>
+<<dialogchoice>>
+  <<dbutt "chat">><<addTime 2>><<intgo "NPCinteraction-StrangerTryChat">>
+  <<dtext "awkward">>Now that you're acquaintances, try to make a little small talk.
+  <<dbutt "number">><<set _randy = random(1,5)>><<if _randy == 1>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
+  <<dtext "cute">>Just get the person's number so you can talk or hang out some time.
+  <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = random(1,3)>><<if _randy < 2>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
+  <<dtext "kissheart">>Get straight to the point, and ask them out on a date sometime.
+  <<dbutt "lets Fuck" "ↂ.pc.kink.slut || ↂ.pc.liberate">><<intgo "NPCinteraction-StrangerSex">>
+  <<dtext "slut">>Convince them that sexytimes should commence immediately.
+<</dialogchoice>>
+
+
+:: NPCinteraction-cumNgoDaisy [nobr]
+
+<<set _npc = ↂ.flag.npcInducedInteractions.intNPC>>
+<p>You notice that cashier girl is trying to hide her tears.</p>
+<<dialogchoice>>
+  <<dbutt "Hey">><<addTime 2>><<intgo "NPCinteraction-cumNgoDaisy-Hey">>
+  <<dtext "smile">>Hey, whats happened? Can I help?
+  <<dbutt "Meh">><<intclose>>
+  <<dtext "neutral">>That's none of my business.
+<</dialogchoice>>
+
+
+:: NPCinteraction-cumNgoDaisy-Hey [nobr]
+
+<<set _npc = ↂ.flag.npcInducedInteractions.intNPC>>
+<p>@@.pc;Hey, whats happened? Can I help?@@</p>
+<<SCX>><<SC "CM" "5">><<if $SCresult[1]>><<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.likePC += random(2,5)>>
+<p>@@.npc;It is... just the manager, she cut my bloody wage again! You know, there is some shoplifting from time to time and she forces me to pay for it from my own pocket!@@</p>
+<p>She takes a deep breath and remove tears with a back side of her palm</p>
+<p>@@.npc;Sorry, I don't know why I am bothering you with all this nonsense, it is really not your trouble...@@</p>
+<<dialogchoice>>
+  <<dbutt "Cheer">><<addTime 2>><<intgo "NPCinteraction-cumNgoDaisy-Cheer">>
+  <<dtext "kiss">>It is okay, all of us have bad days. It will be okay!
+  <<dbutt "Okay">><<intclose>>
+  <<dtext "arrogant">>Yeah. That's sucks but I guess it is really none of my business. Good luck with this!
+<</dialogchoice>>
+<<else>>
+<p>@@.npc;S-sorry. It is nothing. I'll b-be in a minute, feel free to browse the g-goods...@@</p>
+<p>She almost runs to the back room before you can say anything.</p>
+<p>@@.mono;I wonder what happened to her...@@</p>
+<<safetoclose>>
+<</if>>
+
+
+:: NPCinteraction-cumNgoDaisy-Cheer [nobr]
+
+<<set _npc = ↂ.flag.npcInducedInteractions.intNPC>>
+<p>@@.pc;It is okay, all of us have bad days. It will be okay!@@</p>
+<p>@@.npc;Oh, thank you, you are really kind! I am Daisy by the way, it is nice and a bit embarassing to meet you like this, but I still happy to find somebody who cares!@@</p>
+<p>@@.pc;I am <<print ↂ.pc.main.name>>!@@</p>
+<p><<set _blah = setup.cTag.getTag(3, false)>><p><<set _pff = aw.npc[_npc].main.name>><<print setup.interactionMisc.tagText(_blah, _pff)>></p>
+<<dialogchoice>>
+  <<dbutt "Number">><<addTime 5>><<intgo "NPCinteraction-cumNgoDaisy-Cheer-Contact">>
+  <<dtext "cute">>Get her number so you can talk or hang out some time.
+  <<dbutt "Go">><<intclose>>
+  <<dtext "happy">>Sorry, was nice to chat but I need to go! See ya!
+<</dialogchoice>>
+
+
+:: NPCinteraction-cumNgoDaisy-Cheer-Contact [nobr]
+
+<<silently>>
+<<set setup.interact.status.npc = ↂ.flag.npcInducedInteractions.intNPC>>
+<<set _npc = ↂ.flag.npcInducedInteractions.intNPC>>
+<<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.likePC += random(2,5)>>
+<<set _npc = setup.interact.status.npc>> /* warning - for initial load only, no DOM! */
+<<run setup.npcInfo.level(_npc, {bodyGeneral: true})>>
+<<set aw.npc[_npc].rship.acquaint = true>>
+<<run setup.npc.acquainted.push(_npc)>>
+<</silently>>
+You take out your phone.
+<<dp>>Hey, let's trade info. I'll send you a text sometime.<</dp>>
+<<dn x>>Yeah, okay.<</dn>>
+<p>The two of you bring your phones close together, and after clicking the accept popup your phones beep.</p>
+<<dn x>>Oh, thank you! I guess I will write you soon! I need to get back to work now but let's keep in touch!<</dn>>
+<<safetoclose>>
+
+
+:: NPCinteraction-publicOpinion [nobr]
+
+<p><i>RRRIIING! RRRIIING!</i></p>
+<p>The loud sound of the door bell made you almost jump.</p>
+<<set _randNPCid = either(setup.npc.friends)>><<set _randNPCname = aw.npc[_randNPCid].main.name>>
+<p>@@.pc;Hm, who can it be? Maybe it is <<= _randNPCname>>?@@</p>
+<p>You come to the door and open it to see a weathered middle aged man in a suit holding some papers.</p>
+<p>@@.npc;<<greetings>>! I am conducting the public opinion research for Thornton Institute. Would you kindly answer some questions about your life in Appletree?@@</p>
+<<dialogchoice>>
+  <<dbutt "Sure">><<addTime 5>><<intgo "NPCinteraction-publicOpinion-Go">>
+  <<dtext "silly">>Of course, why not.
+  <<dbutt "No">><<intclose>>
+  <<dtext "unhappy">>Sorry, I have no time for this.
+  <<dbutt "Bitch" "ↂ.pc.trait.bitch">><<intclose>>
+  <<dtext "mad">>Go the fuck away, idiot!
+<</dialogchoice>>
+
+
+:: NPCinteraction-publicOpinion-Go [nobr]
+
+<<addtime 17>>
+<p>@@.pc;Of course, why not.@@</p>
+<p>@@.npc;Like really? Oh, great! It will not take much time I can assure you! Let me just take this questionnaire... Ah, here it is! So, the first one is your full name...@@</p>
+<p>After some initial questions about your age and occupation you finally get to the main part. It seems, that most of the questions are related to your fertilty and number of children you are willing to gestate. You even start having a feeling that the author of the poll already had a "correct answers" in their mind when wrote it. Most questions have underlaying assumption that every female wants to have at least 5 kids and you think for a second how much you want to have.</p>
+<<dialogchoice>>
+  <<dbutt "0">><<addTime 1>><<intgo "NPCinteraction-publicOpinion-End">>
+  <<dtext "neutral">>I really don't want any children at all, mark it in all questions to save us time please.
+  <<dbutt "1">><<addTime 1>><<intgo "NPCinteraction-publicOpinion-End">>>
+  <<dtext "smile">>Well, one or maybe two seems like a limit for me.
+  <<dbutt "3">><<addTime 1>><<intgo "NPCinteraction-publicOpinion-End">>>
+  <<dtext "smile">>I guess three is my choice.
+  <<dbutt "5">><<addTime 1>><<intgo "NPCinteraction-publicOpinion-End">>>
+  <<dtext "smile">>Hmm. I thought about five maybe?
+  <<dbutt "A lot">><<addTime 1>><<intgo "NPCinteraction-publicOpinion-End">>>
+  <<dtext "cool">>As much as I will be able to have!
+<</dialogchoice>>
+
+
+:: NPCinteraction-publicOpinion-End [nobr]
+
+<p>Guy nods and writes down your answers and put the paper in his bag.</p>
+<p>@@.npc;On behalf of Thornton Institute thank you so much for participating! This research will be anonymous of course if you have any concerns about this.@@</p>
+<p>@@.pc;But why you wrote my full name then?@@</p>
+<p>@@.npc;Bye!@@</p>
+<<safetoclose>>
+
+
+:: NPCinteraction-DancingNpc [nobr]
+
+<<set _npc = ↂ.flag.npcInducedInteractions.intNPC>>
+<p><<print either("You see that some <<n $DancingNpc age.q>> guy ogling your body, when he sees that you have noticed him he approaches. ","After some time you find yourself dancing with a <<n $DancingNpc age.q>> guy, he starts talking to you loudly while your bodies almost rub together on a dance floor.")>></p>
+<p><<print either("@@.npc;Having a good time, gorgous?@@","@@.npc;Oh, you dance so good, baby!@@")>></p>
+<p><<print either("@@.pc;Tee-hee! I am <<= ↂ.pc.main.name>>!@@","@@.pc;Hello! I am <<= ↂ.pc.main.name>>!@@")>></p>
+<p><<print either("@@.npc;Cool, I am <<= aw.npc[ↂ.flag.npcInducedInteractions.intNPC].main.name>>@@, wanna have some good times together?","@@.npc;<<= aw.npc[ↂ.flag.npcInducedInteractions.intNPC].main.name>>! Looking for some fun?@@")>></p>
+
+  <<dialogchoice>>
+    <<dbutt "Sure">><<intgo "NPCinteraction-DancingNpc-yes">>
+    <<dtext "smile">>Sure, why not, you seem like a nice guy!
+    <<dbutt "Sorry">><<intclose>>
+    <<dtext "confused">>You are not in the mood to make new friends.
+  <</dialogchoice>>
+
+
+:: NPCinteraction-DancingNpc-yes [nobr]
+
+<<run setup.npcInfo.level(ↂ.flag.npcInducedInteractions.intNPC, {bodyGeneral: true})>><<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.acquaint = true>><<run setup.npc.acquainted.push(ↂ.flag.npcInducedInteractions.intNPC)>><<set _lefttesticle = random(0,1)>><<if _lefttesticle == 1>><<run setup.npc.interested.push(ↂ.flag.npcInducedInteractions.intNPC)>><<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.lovePC += random(3,7)>><</if>><<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.likePC += 3>><<has slut>><<arousal 2 "Sexy dancing with a guy.">><<or>><<arousal 1 "Sexy dancing with a guy.">><</has>>
+<p><<print either("You continue to dance for some time enjoying the intimacy in the center of the crowd.","It is too loud to talk so you just dance for ten more minutes feeling his hot body in mere inches of yours.")>> <<print either("You can't but notice his hand slipping to your butt more often as time goes by until he finally starts to grope you shamelessly.","As you push yourself closer you can feel his <<n $DancingNpc cocklength.q>> boner through the clothes.")>> <<print either("Looking into his eyes you can see his lust growing.","He is obviously have <i>something</i> in his mind about this evening.")>> <<print either("@@.pc;Hey, shouldn't we take a drink or something?@@","@@.pc;Oh, maybe we should take a break at the chillout?@@")>></p>
+<p><<print either("He takes you by the hand with a grin.","Smiling he shakes gets closer to your ear.")>> <<print either("@@.npc;I have a better idea, maybe there is a free stall?@@","@@.npc;Or we could just go straight to the stall...@@")>></p>
+  <<dialogchoice>>
+    <<dbutt "Oh yeah" "!ↂ.pc.kink.shame">><<intgo "NPCinteraction-DancingNpc-sex">>
+    <<dtext "bimbo">>Oh I would like to!
+    <<dbutt "Nope" "!ↂ.pc.kink.slut">><<intclose>>
+    <<dtext "muted">>Sorry... I have to go... it was uhm... nice to meet you...
+  <</dialogchoice>>
+
+
+  :: NPCinteraction-DancingNpc-yes [nobr]
+  
+  @@.head3;Y@@ou get to the WC and luckily, there is a free stall there. He pushes you inside not even bothering to lock the door properly. His hands travels over your body and teasing your most intimate parts while you kiss his lips...
+<<button "Time to fuck!">>
+<<run setup.npcInfo.level($DancingNpc, {bodyGeneral: true})>>
+<<run setup.npcInfo.level($DancingNpc, {bodyJunk: true})>>
+<<run setup.npcInfo.level($DancingNpc, {bodyDetail: 1})>>
+<<set aw.npc[$DancingNpc].rship.likePC += random(3, 6)>>
+<<set aw.npc[$DancingNpc].lovePC += random(1, 3)>>
+<<set ↂ.sex.passage = aw.passage.title>>
+<<set ↂ.sex.pcOutput = "You stand in front of the guy.">>
+<<set ↂ.sex.enviroTags = ["wall","chair"]>>
+<<set aw.npc[$DancingNpc].rship.companion += 15>>
+<<set aw.npc[$DancingNpc].sleptover += 1>>
+<<set setup.sexitimes = $DancingNpc>>
+<<if random(1,10) === 1>><<set _drip = true>><<run setup.omni.new("sstd_dripsA")>><</if>>
+<<intclose>><<status 0>>
+<<script>>
+setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
+<</script>>
+<<set ↂ.pc.status.morality -= random(2,5)>>
+<</button>> 

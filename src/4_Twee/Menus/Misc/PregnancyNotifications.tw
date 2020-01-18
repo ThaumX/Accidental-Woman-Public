@@ -1,0 +1,131 @@
+:: MorningSicknessEvent [nobr]
+
+<<silently>>
+<<happy -2 "Morning Sickness">>
+<<stress 10 "Morning Sickness">>
+<<switch ↂ.map.loc[0]>>
+<<case "bullseye">>
+  <<set _puke = "You head the Bullseye restroom as fast as you can without running, barely making it in time before spewing the contents of your stomach into a dingy toilet.">>
+<<case "downtown">>
+  <<if ↂ.map.loc[1] === "mall">>
+    <<set _puke = "You head the closest mall restroom as fast as you can without running, barely making it in time before spewing the contents of your stomach into one of the toilets.">>
+  <<elseif ↂ.map.loc[1] === "park" || ↂ.map.loc[1] === "community" || ↂ.map.loc[1] === "square">>
+    <<set _puke = "You stagger away from the concrete and into the park grass around you. Putting your hand on tree for support, you lean over and begin throwing up into the grass.">>
+  <<else>>
+    <<set _puke = "You stagger into an alley between two large downtown buildings. Placing a hand against the wall for support, you start to vomit uncontrollably. At least you were able to make it off the sidewalk first.">>
+  <</if>>
+<<case "residential">>
+  <<if ↂ.map.loc[1] === "cumandgo">>
+    <<set _puke = "You head the Cum & Go restroom as fast as you can without running, barely making it in time before spewing the contents of your stomach into a dingy toilet.">>
+  <<elseif ↂ.map.loc[1] === "medical">>
+    <<set _puke = "You stagger into a grassy area between two medical center buildings. Placing a hand against the wall of one of them for support, you start to vomit uncontrollably.">>
+  <<else>>
+    <<set _puke = "You quickly walk off the sidewalk and into some grass. Grabbing onto a decorative lamppost, you begin emptying the contents of your stomach into the manicured grass.">>
+  <</if>>
+<<case "home">>
+  <<set _puke = "You run to the bathroom, nearly slipping on the way in your bid to make it to the toilet on time. You barely manage; as soon as you have the lid up you start to vomit powerfully.">>
+<<case "BFhome">>
+  <<set _puke = "You run to the bathroom, nearly slipping on the way in your bid to make it to the toilet on time. You barely manage; as soon as you have the lid up you start to vomit powerfully.">>
+<<case "world">>
+  <<if ↂ.map.loc[1] === "visitor" || ↂ.map.loc[1] === "institute">>
+    <<set _puke = "You head the closest restroom as fast as you can without running, barely making it in time before spewing the contents of your stomach into one of the toilets.">>
+  <<elseif ↂ.map.loc[1] === "coop">>
+  <<set _puke = "Spotting a trashcan nearby, you lurch your way over to it. You fumble for a moment, but manage to get the lid off in time to start puking inside.">>
+  <<else>>
+    <<set _puke = "You stagger away from the concrete and into the grassy area nearby. Putting your hand on tree for support, you lean over and begin throwing up into the grass.">>
+<<default>>
+  <<set _puke = "Spotting a trashcan nearby, you lurch your way over to it. You fumble for a moment, but manage to get the lid off in time to start puking inside.">>
+<</switch>>
+<</silently>>
+<div style="width:1000px;height:400px;text-align:justify;">
+<<if random(1,3) < 3>>
+  <img data-passage="IMG-MorningSicknessPuke1" style="float:right;margin:0px 0px 0px 30px;">
+<<else>>
+  <img data-passage="IMG-MorningSicknessPuke2" style="float:right;margin:0px 0px 0px 30px;">
+<</if>>
+<<= either("<<f y>>ou suddenly feel extremely nauseated.", "<<f y>>our stomach suddenly lurches violently.", "<<f o>>ut of nowhere, you start to experience severe nausea.")>> You are unsure of what could have caused your sudden discomfort. @@.mono;<<= either("Maybe it was something I ate?", "I suddenly smelled something really disgusting", "Oh holy cock, what's wrong with my stomach?")>>@@ Regardless of the cause, your response is dictated to you by your body: throwing up violently. <<= _puke>> Eventually, once your stomach is totally empty and the dry heaves have settled down, you're able to stand back up. Some of the nausea still lingers, as if waiting for you to eat or drink something so that you can throw it up too. <<if ↂ.pc.status.wombA.knows || ↂ.pc.status.wombB.knows>>Once you're able to think clearly again, you realize that this must be the result of morning sickness.<<else>>Finally able to think clearly again, you start to wonder what really could have caused this. @@.mono;Could it be... that I'm pregnant?@@<</if>> Cleaning yourself up the best you can, you try to put it behind you and get back to what you were doing.
+</div>
+
+
+:: BabyFirstKick [nobr]
+
+
+/* note slight difference if ↂ.flag.preg.firstKick = false because it's very first time feeling kick */
+<<silently>>
+<<set _pki = "<img data-passage='IMG_PregnantBelly" + random(1,12) + "' style='float:right;margin:0px 0px 0px 30px;'>">>
+<<if ↂ.pc.status.wombA.count > 1 || ↂ.pc.status.wombB.count > 1>>
+  <<set _baby = "babies">>
+  <<set _babs = "babies'">>
+  <<set _they = "they're">>
+<<else>>
+  <<set _baby = "baby">>
+  <<set _babs = "baby's">>
+  <<set _they = either("he's", "she's")>>
+<</if>>
+<</silently>>
+<div style="width:1000px;height:400px;text-align:justify;">
+<<= _pki>>
+<<if not ↂ.flag.preg.firstKick>> /* Very first pregnancy kick */
+  <<f y>>ou suddenly feel a very strange sensation in your belly. @@.mono;Oh! There it is again!@@ It takes you a few moments to realize what's going on. @@.mono;It's my <<= _baby>>, <<= _they>> kicking!@@
+  <br><br>
+  You soon realize that it's your <<= _babs>> first kicks. It's also the first time you've ever experienced this, and you find yourself filled with wonder at the life inside you. The motions continue for several minutes until your <<= _baby>> finally calms down. The experience brightens your day considerably, and you find yourself in a much better mood. <<if ↂ.pc.kink.pregnant || ↂ.pc.kink.risky || ↂ.pc.trait.isMaternal>>@@.mono;I love being pregnant!@@<</if>>
+  <<happy 3 "Baby's first kick">><<stress -10 "Baby's first kick">>
+<<else>>
+  <<f a>>s you were going about your day, you suddenly notice a shifting sensation followed by a few very light bumps from your stomach. Having experienced pregnancy before, you're quick to recognize it for what it is. @@.mono;Oh! My <<= _baby>> has finally started moving!@@
+  <br><br>
+  You instinctually start to rub your belly and begin talking in a soothing tone. @@.pc;Hello there my precious little <<= _baby>>, everything is okay, mamma loves you...@@ You feel a couple more slight bumps, but soon <<= _they>> fast asleep. Your mood brightens at their progress, and you happily go about your day. <<if ↂ.pc.kink.pregnant || ↂ.pc.kink.risky || ↂ.pc.trait.isMaternal>>@@.mono;I love being pregnant!@@<</if>>
+  <<happy 2 "Baby's first kick">><<stress -5 "Baby's first kick">>
+<</if>>
+</div>
+<<set ↂ.flag.preg.firstKick = true;>>
+
+
+:: PregnancyCravings [nobr]
+
+
+<<silently>>
+<<set _food = random(1,4)>>
+<<set _pki = "<img data-passage='IMG_PregnantCraving" + _food + "' style='float:right;margin:0px 0px 0px 30px;'>">>
+<<satisfy -5 "Pregnancy cravings include more than food">>
+<<stress 10 "Pregnancy food cravings">>
+<<happy -1 "Pregnancy food cravings">>
+<<arouse 1>>
+<<updatebar>>
+<</silently>>
+<div style="width:1000px;height:400px;text-align:justify;">
+<<= _pki>>
+<<switch _food>>
+<<case 1>>/* cum */
+<<f a>> peculiar hunger builds in your stomach. You feel ravenous, yet the thought of most foods sounds completely unappetizing. You mentally start running through a list of foods you could eat, rejecting each one, when you suddenly realize what it is you want to eat: cum. Specifically, fresh and warm semen straight from the tap.<br><br>You realize that the only way to sate your appetite is to buy some from the store; you feel like you could easily gulp down a liter of the stuff. You resolve yourself to stop by the store as soon as you get a chance, but the craving stays in the back of your mind. It won't be satisfied until you can taste the cum filling your mouth. @@.mono;These pregnancy food cravings can be so hard to deal with sometimes.@@ You do your best to push forward through your day.
+<<case 2>>/* mushrooms */
+<<f g>>rowing hungry, you find yourself craving a certain musky flavor. Before you know it, you've latched on to the idea of eating a whole bowl of sautéed mushrooms. For some reason, your imagination seems fixed on a specific--and highly phallic--variety of mushroom.<br><br>@@.mono;Damn, those mushrooms are probably going to be expensive. I guess I should be thankful I didn't end up craving cock instead, these food cravings are crazy!@@ You decide to go to the grocery store when you get the chance, and try to push the constant thoughts of mushrooms out of your mind.
+<<case 3>>/* carrots */
+<<f a>> random memory comes to you unbidden, eating raw carrots with ranch dressing as a healthy snack. Suddenly you absolutely ''HAVE'' to have some fresh carrots with a thick white dressing. You can't get the thought and the imagined taste and texture out of your mind.<br><br>@@.mono;It seems like I'm having a pregnancy craving...@@ Your mind's eye is filled with a vision of licking thick ranch off a carrot, somehow it feels sensual and almost erotic. You resolve yourself to visit the grocery store to grab some carrots and ranch when you get the chance.
+<<case 4>>/* strawberries & cream */
+<<f y>>our sweet-tooth is acting up, and you feel like you <i>need</i> to eat something sweet. Your mind casts about, searching for what exactly you want. After rejecting several options you realize that what you need is something that's also a little bit sour. Suddenly the perfect thing pops into your mind: strawberries and cream.<br><br>You can't help but start to imagine it, dipping fresh sugar-sprinkled strawberries into a rich and luxurious cream. No matter how you try to imagine the taste, however, it doesn't sate your craving. @@.mono;This must be a craving because of my pregnancy...@@ You promise yourself that you'll stop at the grocery store soon to buy everything you'll need for your sweet treat.
+<</switch>>
+</div>
+
+
+:: PregnancyHorny [nobr]
+
+
+<<silently>>
+<<set _pki = "<img data-passage='IMG_PregnantBelly" + random(12,20) + "' style='float:right;margin:0px 0px 0px 30px;'>">>
+<<addTime 10>>
+<<updatebar>>
+<</silently>>
+<div style="width:1000px;height:400px;text-align:justify;">
+<<= _pki>>
+<<f i>>t hits you like a searing tsunami; a wave of arousal so intense it forces you to stop what you're doing just to keep your body in control. Your large belly, swollen with life, seems to be the center of this phenomenon, but it's your <<if ↂ.pc.body.pussy.wetness < 3>>suddenly wet<<else>>suddenly soaked and dripping<</if>> <<p pussy.n>> that is burning with need.<br><br>@@.mono;Holy cock I ''need'' something to fuck me right now!@@ You squeeze your legs together as you try to regain control of your lust. It takes several minutes, but you're finally able to reign in your lust. Your arousal remains very high, however, and you can't help but imagine different ways to sate your need.
+</div>
+
+
+:: PregnancyActive [nobr]
+
+<center><img data-passage="IMG-KickingBabyBelly" style="width:495px;height:auto;"></center>
+<p>
+<<f y>>ou are suddenly hit by a sense of discomfort--like mild cramps--coming from your pregnant belly. Of course your mind immediately jumps to the idea that you may be going into labor, but after calming down you realize that your baby is simply stretching inside your womb. You look down, taking in the strange sight. <<p "pregbelly.q">> A bulge pushes out a good deal from the rest of your stomach, traveling a short distance before disappearing. @@.mono;It's nice that <<if ↂ.pc.status.wombA.count > 1 || ↂ.pc.status.wombB.count > 1>>they<<else>>it<</if>> is happy and healthy, but I wish it wasn't so uncomfortable!@@
+</p>
+
+

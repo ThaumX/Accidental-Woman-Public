@@ -1,0 +1,84 @@
+
+:: MapFarmCoopDorms [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPcoop]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou're standing in the middle of a large quadrangle formed by four hucow dormitory buildings. The buildings all look like modern residential buildings, they're several stories tall and clad in red brick and look like they'd be at home on most university campuses. The quad itself looks to be a large communal space and seems to be very popular, at least during the warmer months. There are gazebos, barbeque equipment, a pool, a well-maintained pond, some gardens, countless chairs and tables, and plenty of lawn space that looks perfect for relaxing in the sun.</p>
+<<if $time[0] > 7 && $time[0] < 20>>
+<p>While certainly not crowded, there are currently plenty of hucows enjoying the quad. It's unusual to see one wearing more than a pair of panties, but plenty seem to be perfectly happy without clothes at all. A few girls are relaxing in the sun, swimming, or participating in some other activity, but most are sitting in the shade in small groups and talking. Occasionally one of these girls will get up to go sit with another group and continue chatting happily. Social activities seem to be a very important part of a hucow's life.</p>
+<<elseif $time[0] > 19>>
+<p>With the sun down, gentle lighting casts the quadrangle in a dim warm glow. While the quad isn't empty, it's' well below capacity. A few small groups of hucows are relaxing in chairs and chatting, but it seems like friskier activities are more popular. You can spot quite a few pairs, threesomes, and foursomes pleasing each other in various ways, along with a lone hucow getting pounded by a bull. Over the girl's moans you can hear the occasional burst of laughter drifting from the group of hot tubs at the far side of the quad. It seems those are quite popular in the evenings.</p>
+<<else>>
+<p>The quad is gently lit and mostly deserted, this late at night. The hucows seem to do a pretty good job of cleaning up after themselves, and the area looks pretty tidy. A lone hucow walks languidly from one building to another, probably heading home from some sort of sexual escapade. You can't make out her face, but you see that one hand has remained clued to her crotch for most of the trip.
+</p>
+<</if>>
+
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: MapFarmCoopDormsLOC [nobr]
+
+<center>
+<h3>HuCow Life</h3>
+[img[IMG-MilkIndustrialPump]]</center>
+<br>
+<<if ↂ.pc.trait.perceptive > -1 && $items.has("Gene Therapy 04") && !$items.has("Gene Therapy 05")>><<addTime 20>>
+<p id="gene">
+<<f o>>nce you made your way over to the hucow dorms, you try to act casual as you look around for likely areas to find more of the documents the clumsy agent seems to have left all over Muschi Valley. It's a little uncomfortable here, while it isn't like the area is restricted or anything, there certainly isn't anything encouraging people to visit either. @@.mono;This feels like wandering around a strange apartment complex where you don't know anyone.@@<br><br>
+You start searching around the various benches and sitting areas in the courtyard, aware that the other documents all seem to have been left behind while the agent was waiting on someone. Your search is rewarded faster than you expected when you find a familiar stack of papers mixed in with newspaper and some old magazines sitting under the counter of a barbeque area. @@.mono;They were probably going to use it to fire up the grill...@@ <<link "Pick it up">><<pickup "$items" "Gene Therapy 05">><<run Dialog.close()>><<run UI.alert("You pick up the paper documents")>><</link>>.
+</p>
+<</if>>

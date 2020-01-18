@@ -1,0 +1,47 @@
+:: variableInit [nobr startpage noui hidden]
+
+<<set _bypass = true>>
+<div id="cardback">
+<br><br>
+<center><img data-passage="IMG-GreatBounce" style="border-radius:12px;"><br><span class="ship px24 monospace">Initializing Game Data structure...</span><br>
+<span id="infos" class="ship monospace px20">Preparing...</span>
+<br><br><br><br>
+<div id="barCunt" style="width:500px">
+<span class="megrim white" style="font-size: 1.25rem;">Autoloading Mods</span><br>
+<<pbarnew "#modbar" 0 10>>
+</div>
+
+<<timed 100ms>>
+  <<run setup.loadScript("resources/mod-package.awp")>>
+  <<pbarfinish "#modbar">>
+    <<run setup.initialize.zero()>>
+  <</pbarfinish>>
+<</timed>>
+</center>
+<<timed 15s>>
+  <<if _bypass>>
+    <<run setup.initialize.one()>>
+  <</if>>
+<</timed>>
+<<silently>>
+<<if setup.initialized>>
+  <<go "Introduction">>
+<<else>>
+  <<timed 50ms>>
+  <<set setup.initialized = true;>>
+  <<set $items = []>>
+  <<newinventory "$items">>
+  <<pickup "$items" "Car Keys">>
+  <<set $bath = []>>
+  <<newinventory "$bath">>
+  <<set $cart = []>>
+  <<if $pub>>
+    <<cVar>>
+  <</if>>
+  <</timed>>
+<</if>>
+<</silently>>
+</div>
+
+
+

@@ -1,0 +1,66 @@
+
+:: DowntownMallBeyond [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmall]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<<print setup.weather.curWeather()>>
+</p>
+<center>[img[IMG-Store-BBaB]]</center>
+<p>
+@@.head3;Y@@ou're standing in Bordello Boudoir & Beyond, which sells home items and furniture.
+</p>
+<p id="locact"></p><<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise hovShop>>
+	<<button "Shop For Home Items">><<set _time = 15>><<set _time += random(0,10)>><<set _time += random(2,10)>><<addTime _time>><<dialog "Shop for Home Items">><<include [[BBBhousewaresShop]] "div">><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+<<hoverrevise checkOut>>
+  <<button "Checkout">><<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<else>><<notify>><span class="bad">Insufficient Funds!</span><</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion hovShop>>@@.exp;Check out selection of housewares. [15-25min]@@<<endinsertion>>
+<<insertion beta>>A<<endinsertion>>
+<<insertion delta>>A<<endinsertion>>
+<<insertion gamma>>A<<endinsertion>>
+<<insertion lambda>>O<<endinsertion>>
+<<insertion phi>>A<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+
+:: DowntownMallBeyondLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+
+
+:: BBBhousewaresShop [nobr]
+
+<h3>BBB Home Items Selection</h3>
+<<print setup.homeItems.sales(false, false, false, false, false, "BBB")>>
+Learn more about home items in the <<info "Encyclopedia" "guideHomeInventory">>

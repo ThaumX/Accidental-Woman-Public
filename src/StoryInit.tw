@@ -12,6 +12,9 @@
 <<if ndef $commentary>>
   <<set $commentary = true>>
 <</if>>
+<<if ndef $screenReader>>
+  <<set $screenReader = true>>
+<</if>>
 <<if ndef $showSkillCheck>>
   <<set $showSkillCheck = false>>
 <</if>>
@@ -44,7 +47,6 @@
 <<set $ver = setup.ver>>
 <<set Config.saves.version = setup.ver>>
 <<set $swim = setup.swim>>
-<<set $sidebarCmds = []>>
 <<run setup.weather.seedGen()>>
 <<set $wx = {sky:"CLR",con:"NA"}>>
 <<switch $swim>>
@@ -52,7 +54,6 @@
     <<set $debugTools = true>>
     <<set $debu = true>>
     <<set $pub = true>>
-    <<set $sidebarCmds.push(["Debug Tools","<<cmdToggleDebug>>"])>>
     <<set $showDebug = true>>
   <<case "[cheats]">>
     <<set $debugTools = false>>
@@ -108,6 +109,18 @@
 <<if ↂ.map == null>>
   <<set ↂ.map = {NPC: [], NPCactive: false}>>
 <</if>>
+
+<<cacheaudio "utopia" "resources/audio/GameMusic_Utopia.mp3">>
+/*<<cacheaudio "oblivion" "resources/audio/GameMusic_Oblivion.mp3">>*/
+<<createplaylist "bgm_utopia">>
+	<<track "utopia" volume 1>>
+<</createplaylist>>
+/*
+<<createplaylist "bgm_oblivion">>
+  <<track "oblivion" volume 1>>
+<</createplaylist>>
+*/
+<<waitforaudio>>
 
 <<script>>
   setTimeout(setup.refreshTheme, 100);

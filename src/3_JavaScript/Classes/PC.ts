@@ -12,9 +12,10 @@ class PC {
   public persona!: Persona;
   public kink!: Kinks;
   public groom!: PCgroom;
+  public tattoo!: Tattoo;
   public jewel!: Jewelry;
   public clothes!: Clothes;
-  constructor({main, fert, body, mutate, status, cond, trait, persona, kink, groom, jewel, clothes}) {
+  constructor({main, fert, body, mutate, status, cond, trait, persona, kink, groom, jewel, tattoo, clothes}) {
     this.key = "pc";
     try {
       this.main = new PCmain(this.key, main);
@@ -46,6 +47,9 @@ class PC {
     try {
       this.groom = new PCgroom(this.key, groom);
     } catch (e) { console.log(`Error constructing PC subclass groom - ${e.name}: ${e.message}.`); }
+    try {
+      this.tattoo = new Tattoo(this.key, tattoo);
+    } catch (e) { console.log(`Error constructing PC subclass tattoo - ${e.name}: ${e.message}.`); }
     try {
       this.jewel = new Jewelry(this.key, jewel);
     } catch (e) { console.log(`Error constructing PC subclass jewel - ${e.name}: ${e.message}.`); }

@@ -1,0 +1,114 @@
+:: ResidentialMedical [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmedical]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<div id="storeWindow">
+[img[IMG-Loc-GeneralPractice]]
+[img[IMG-Shop-OedipusRx]]
+[img[IMG-Shop-Lecter]]
+[img[IMG-GestiqueFertility]]
+</div>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou're standing in the private practice area of the medical district. It's a cluster of small buildings next to Schrodinger Boulevard and the large Arbor Vitae hospital. The medical district as a whole has a large assortment of different buildings, but the gigantic hospital building in the west dwarfs all of them. It's not particularly tall, just large. It's so big that it has a tunnel for traffic passing through it so that the grid of Appletree's streets isn't interrupted. On the other side sits a large assortment of different buildings of varying purposes, housing the private practices of doctors of various specialties and even outpatient medical centers. <<if ↂ.pc.trait.op && ↂ.pc.trait.perceptive != -1 && ( ↂ.skill.probSolving >= 30 || ↂ.skill.org >= 40)>><i>It seems odd to you that there is so much medical capacity for a town with less than 100,000 people. You decide that it must be a combination of the semi-remote location and medical research funded by the institute...</i><<else>><span class="grey"><i>You don't notice anything unusual about the area.</i></span><</if>>
+</p>
+<p>
+Nearby you notice something of a kiosk with a map of the area and several advertisements for various clinics.
+</p>
+<<tutorial "mapMedical">>This area is where you will be able to receive medical services, everything from your basic checkup to advanced body modification can be found here. Be sure to explore your options--and read the fine print--as there is usually more than one way to accomplish what you're after!<</tutorial>>
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact" style="width: 950px; text-align: left;"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise omega>>
+  <<openhours 9 18>>
+    <<button "General Practice">><<gotomap "residential" "medical" "doctor">><</button>>
+  <<closed "General Practice">>
+  <</openhours>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<openhours 8 21>>
+    <<button "Oedipus ℞">><<go "ResidentialMedicalPharmacy">><</button>>
+  <<closed "Oedipus ℞">>
+  <</openhours>>
+<<endhoverrevise>>
+<<hoverrevise delta>>
+  <<openhours 8 20>>
+    <<button "Gestique Clinic">><<gotomap "residential" "medical" "gestique">><</button>>
+  <<closed "Gestique Clinic">>
+  <</openhours>>
+<<endhoverrevise>>
+<<hoverrevise gamma>>
+  <<openhours 10 20>>
+    <<button "H. Lecter">><<gotomap "residential" "medical" "lecter">><</button>>
+  <<closed "H. Lecter">>
+  <</openhours>>
+<<endhoverrevise>>
+<<hoverrevise alpha>>
+  <<button "Look at Adverts">><<addTime 5>><<dialog "Clinic Ads">>The ads seem to focus largely on cosmetic and fertility services, but you find the line between the two to be a little blurry...<br><br><center>[img[IMG-ProliferantHealthCenter]]<br>@@.mono;I've heard of Proliferant before, it's the latest and greatest at... cosmetic enhancement I guess?@@<br>[img[IMG-DollmakerSurgery]]<br>@@.mono;Something seems off about this name, it takes doll-like too far...@@<br>[img[advert]]<br><<if ↂ.pc.kink.pregnancy>>@@.mono;Sounds good to me!@@<<else>>@@.mono;Really? The government must be getting desperate...@@<</if>><br>[img[IMG-IrresistableMedical]]<br>@@.mono;Oh wow, I really like this non-invasive approach...@@<br>[img[IMG-GestiqueFertility]]<br>@@.mono;This is certainly a unique take on things, might as well get treatment in comfort, right?@@<br>[img[IMG-SurrogacyCenter]]<br>@@.mono;Oh, those surrogates look really happy. Seems odd to pay someone to gestate your baby though.@@ <<if ↂ.pc.kink.pregnancy>>@@.mono;Why would anyone <b>EVER</b> give up having their own baby?@@<</if>><br>[img[IMG-EnvyAdvert]]<br>@@.mono;Hmmm... Not sure what to make of this one...@@</center><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion omega>>Visit Dr. Weiner's office for medical treatment. Open 9 to 18 <<ctn>>[time and cost varies by treatment]<</ctn>><<endinsertion>>
+<<insertion alpha>>Check out some of the displayed advertisements for medical services. [5-min]<<endinsertion>>
+<<insertion gamma>>Visit Dr. Lecter's Psychiatric Clinic for mental health treatment. Open 10 to 20 <<ctn>>[time and cost varies by treatment]<</ctn>><<endinsertion>>
+<<insertion beta>>Shop at the fully-stocked Oedipus ℞ Pharmacy or get a prescription filled. Open 8 to 21<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+<<insertion delta>>Visit the Gestique Fertility Clinic & Spa. Open 8 to 20 <<ctn>>[time and cost varies by treatment]<</ctn>><<endinsertion>>
+</div>
+
+
+:: ResidentialMedicalLOC [nobr]
+
+@@.head3;L@@ooking around, there's not a whole lot of activity on the streets, probably due to the time. @@.mono;Well, it's not like people would come here to hang out...@@ You see the occasional patient or doctor heading to one building or another, but that's about it. You see a patient wheeled out of a building up ahead, being pushed by a burly orderly. She has bandages on her head, so you assumes she must've had some cosmetic work done. The odd thing is the fact that she's totally topless, with her breasts on display... But there's probably a reason for that, right?<br><br>
+<center>[img[IMG-ResidentialMedicalPatient]]</center>
+
+
+

@@ -103,8 +103,8 @@ class PCgroom {
     if (isNaN(val)) {
       aw.con.warn(`Attempted to set ${this._k} hairLength to non-number value!`);
     } else {
-      if (val > 10) {
-        val = 10;
+      if (val > 100) {
+        val = 100;
       }
       if (val < 0) {
         val = 0;

@@ -29,19 +29,34 @@ aw.tagContent.acquaintance.random = [
   @@.pc;That is weird. I hope everything will be okay.@@<br>
   @@.npc;Hope so. If they find the poor guy or gal I have no idea what they will do.@@<br>
   @@.pc;Ugh.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>`,
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
   `@@.npc;Aah. So, where do you work?@@<br>
-  @@.pc;Oh, I am <<print ↂ.job.name>> at <<print ↂ.job.employer>>.@@<br>
+  <<if ↂ.job.name == "Unemployed">> @@.pc;Oh, I am unemployed.@@<br>
+  @@.npc;Aah. Cool.@@<br><<set aw.npc[setup.interact.status.npc].rship.likePC -= 5>>
+  <<else>>@@.pc;Oh, I am <<print ↂ.job.name>> at <<print ↂ.job.employer>>.@@<br>
   <<if ↂ.job.percept > 2>>@@.npc;Oh, nice place!@@<<set aw.npc[setup.interact.status.npc].rship.likePC += 5>><<else>>@@.npc;Aah. Cool.@@<br><<set aw.npc[setup.interact.status.npc].rship.likePC -= 5>><</if>>
-  @@.pc;Well, it is just a job as many others.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>`,
-  `She looks at you with a curious expression on her face.<br>
+  @@.pc;Well, it is just a job as many others.@@<br><</if>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
+  `<<n setup.interact.status.npc "heshe.q">> looks at you with a curious expression on the face.<br>
   @@.npc;How long are you in Appletree?@@<br>
   @@.pc;Not very much actually, I am still new here.@@<br>
   You take an expansive look around for show, as if seeing the place for the first time.<br>
   @@.npc;Well, I hope you like it as much as I do!@@<br>
   @@.pc;We'll see.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>`,
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
+  `@@.npc;Ugh, my <<= either("friend","uncle","coworker")>> is a local lore gatherer and he told me super interesting things about Muchi Valley yesterday. It seems there is a net of ancient tunnels under the ground on the north-west part, around springs and such. I wonder if somebody went there.@@<br>
+  @@.pc;Well, maybe they should make an expedition to see how deep the rabbit hole is.@@<br>
+  @@.npc;Yeah, I even feel tempted to go and look there by myself, but to be honest I am afraid of small places and darkness so I am not sure I'll get enough courage.@@<br>
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
+  `@@.npc;So, have you ever been to Shake'n Pop club? This place is wicked!@@<br>
+  @@.pc;Oh, maybe I should pay it a visit this week.@@<br>
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
+  `@@.npc;Have you been in medical district? My aunt is super into these transformatives.@@<br>
+  @@.pc;Ugh? Like body changing drugs?@@<br>
+  @@.npc;Yep, ugh indeed. She already spent like all the money she had after divorce, and to be honest I barely recognize her now.@@<br>
+  @@.pc;Well, they seem to do wonders now with these things.@@<br>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
+  `,
 ];
 
 // PRIORITY ONE TAGS
@@ -60,7 +75,7 @@ aw.tagContent.acquaintance.seriousIllnessOkay = [
   <<if ↂ.pc.trait>>@@.pc;Oh, nice to see somebody care. I ll be fine soon, I hope.@@<<else>>@@.pc;I really hope I get well soon, I am feeling even worse than I look.@@<</if>><br>
   @@.npc;Ugh, really, go see a doctor or something, I don't want you to die on my hands goddamit.@@<br>
   @@.pc;Gonna do that.@@<br>
-<<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+<<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 aw.tagContent.acquaintance.seriousIllnessHelp = [
@@ -90,24 +105,24 @@ aw.tagContent.acquaintance.illnessBitchy = [
   `<<set aw.npc[setup.interact.status.npc].rship.likePC -= 3 >>
   @@.npc;Oh, come on, no need to act like this all the time, <<print ↂ.pc.main.name>>.@@<br>
   @@.pc;Then don't tell me what to do.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 aw.tagContent.acquaintance.illnessOkay = [
   `@@.npc;Well if you think so... be safe anyway.@@<br>
   @@.pc;Thanks.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 aw.tagContent.acquaintance.illnessBad = [
   `@@.npc;You should totally see a doctor, better not ignore such things.@@<br>
   @@.pc;Yeah, I know.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 aw.tagContent.acquaintance.nakedBottom = [
   `<<if aw.npc[setup.interact.status.npc].kink.exhibition || aw.npc[setup.interact.status.npc].kink.liberate>>@@.npc;Oh, wow. Nice day for giving your kitten some fresh air, mm? Looking good by the way, I certainly like the view!@@<br><<elseif aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Oh, damn, <<print ↂ.pc.main.name>> please, cover your butt with something!@@<br><<else>>@@.npc;Oh... well... I am pretty sure that you are aware that you are half naked, huh?@@<br><</if>>
-  <<has exhibition>>You can't but wiggle your <<p assSize>> butt a bit, presenting your nakedness to <<if aw.npc[setup.interact.status.npc].main.female>>her<<else>>him<</if>>.<br><br>@@.mono;Oh yes, stare at me. Damn, that is exciting!@@<br>@@.pc;Do you like it?@@<br><<arouse 2>><<orhas slut>><<arouse 2>>You can't but enjoy the attention to your naked bottom and pussy.<br><br><<orhas liberate>>You feel pretty comfortable with your lower part naked.<br><br><<orhas shame>><<stress 10>>You feel terribly insecure and going tomato red from embarassment.<br><<arouse -2>>@@.mono;How did I ever allow that to happen? I want just die right now.@@<br><<or>><<stress 7>>You feel pretty uncomfortable being exposed like this especially in front of the person you know.<br><<arouse -1>><</has>>
+  <<has exhibition>>You can't but wiggle your <<p assSize>> butt a bit, presenting your nakedness to <<if aw.npc[setup.interact.status.npc].main.female>>her<<else>>him<</if>>.<br><br>@@.mono;Oh yes, stare at me. Damn, that is exciting!@@<br>@@.pc;Do you like it?@@<br><<arouse 2>><<orhas slut>><<arouse 2>>You can't but enjoy the attention to your naked bottom and pussy.<br><br><<orhas liberate>>You feel pretty comfortable with your lower part naked.<br><br><<orhas shame>><<stress 10 "Naked Pussy Convo">>You feel terribly insecure and going tomato red from embarassment.<br><<arouse -2>>@@.mono;How did I ever allow that to happen? I want just die right now.@@<br><<or>><<stress 7 "Naked Pussy Convo">>You feel pretty uncomfortable being exposed like this especially in front of the person you know.<br><<arouse -1>><</has>>
   <<dialogchoice>>
       <<dbutt "Present" "ↂ.pc.kink.exhibition">><<intreplace>><<ctagcontent "acquaintance" "NakedBottomPresent">><</intreplace>>
       <<dtext "smug">>Give <<print aw.npc[setup.interact.status.npc].main.name>> a bit better view on your lady bits.
@@ -144,7 +159,7 @@ aw.tagContent.acquaintance.NakedBottomPresent = [
 aw.tagContent.acquaintance.NakedBottomPresentChat = [
   `@@.pc;Ehh.. sure, sorry...@@<br>
   You try to go on with the convo as if nothing happened.<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 aw.tagContent.acquaintance.NakedBottomPresentNotsorry = [
@@ -155,24 +170,24 @@ aw.tagContent.acquaintance.NakedBottomPresentNotsorry = [
 ];
 aw.tagContent.acquaintance.NakedBottomCover = [
   `You try to cover yourself and go on with the convo.<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>`,
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
 ];
 aw.tagContent.acquaintance.NakedBottomCool = [
   `<<if aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Oh, really, I can't stand it. We better talk some another day, really. When you will be dressed properly.@@<br>
   <<link "Go away">><<run setup.interact.exit()>><</link>><<else>>You prefer to act normally and go on with your convo.<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>><</if>>
+  <<include [[NPCinteraction-AcquaintContinue]]>><</if>>
   `,
 ];
 aw.tagContent.acquaintance.NakedBottomPresentRefuse = [
   `<<if aw.npc[setup.interact.status.npc].sub>><<set aw.npc[setup.interact.status.npc].rship.likePC += 1>>@@.npc;Oh, you are such a tease, you know? Damn.@@<br><<else>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 1>>@@.npc;Well, that all is pretty weird to be honest. If that was a way to move forward with our relations then I am really confused.@@<br><</if>>
-  <<link "Well... So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<link "Well... So...">><<intgo "NPCinteraction-AcquaintContinue">><</link>>
   `,
 ];
 aw.tagContent.acquaintance.practNakedBottom = [
   `
   <<print aw.npc[setup.interact.status.npc].main.name>>'s stare reminds you about your risky dress choice. Your pussy and ass are almost visible to <<if aw.npc[setup.interact.status.npc].main.female>>her<<else>>him<</if>> <<has exhibition>><<arouse 2>>which makes you more aroused.<br>
   @@.mono;If I lean a bit all my private parts will be visible, mmm...@@<br><<orhas slut || liberate>>which is pretty comfortable for you in fact.<br>
-  @@.mono;I am pretty sure <<print aw.npc[setup.interact.status.npc].main.name>> likes the view, hehe.@@<br><<orhas shame>><<arouse -2>><<stress 5>>which makes you really nervous.<br>@@.mono;I shoudn't dress like that in a first place, oh, what I was even thinking about?@@<br><<or>><<stress 3>>which makes you feel a bit uneasy.<br>
+  @@.mono;I am pretty sure <<print aw.npc[setup.interact.status.npc].main.name>> likes the view, hehe.@@<br><<orhas shame>><<arouse -2>><<stress 5 "Naked Pussy Convo">>which makes you really nervous.<br>@@.mono;I shoudn't dress like that in a first place, oh, what I was even thinking about?@@<br><<or>><<stress 3 "Naked Pussy Convo">>which makes you feel a bit uneasy.<br>
   @@.mono;Well, I am dressed risky today for sure. What will <<print aw.npc[setup.interact.status.npc].main.name>> think about me?@@<br><</has>>
   <<if aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Oh, you have really risky clothes today. I'd never dare to dress like that being in your place!@@<br>
   <<else>>@@.npc;Wow, pretty revealing clothes you have there. Enjoying the fresh air, huh?@@<br><</if>>
@@ -209,17 +224,17 @@ aw.tagContent.acquaintance.practNakedBottomPresent = [
 ];
 aw.tagContent.acquaintance.practNakedBottomCool = [
   `You prefer to act normally and go on with your convo.<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>`,
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
 ];
 aw.tagContent.acquaintance.practNakedBottomPresentChat = [
   `@@.pc;Ehh.. sure, sorry...@@<br>
   You try to go on with the convo as if nothing happened.<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 aw.tagContent.acquaintance.practNakedBottomPresentRefuse = [
   `<<if aw.npc[setup.interact.status.npc].sub>><<set aw.npc[setup.interact.status.npc].rship.likePC += 1>>@@.npc;Oh, you are such a tease, you know? Damn.@@<br><<else>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 1>>@@.npc;Well, that all is pretty weird to be honest.@@<br><</if>>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 aw.tagContent.acquaintance.practNakedBottomPresentNotsorry = [
@@ -231,8 +246,8 @@ aw.tagContent.acquaintance.practNakedBottomPresentNotsorry = [
 aw.tagContent.acquaintance.buckNaked = [
   `<<print aw.npc[setup.interact.status.npc].main.name>> stares at your nude body <<has exhibition>><<aroused 2>>which makes you more aroused<br>
   @@.mono;Oh yeah, I can't believe I am doing that!@@<br><<orhas slut || liberate>>which you can deal with.<br>
-  @@.mono;That is prety exciting!@@<br><<orhas shame>><<aroused -2>><<stress 25>>which makes you panic.<br>
-  @@.mono;AAA! I am totally naked in view of <<print aw.npc[setup.interact.status.npc].main.name>>!!!@@<br><<or>><<stress 15>>which makes you feel terrible.<br>
+  @@.mono;That is prety exciting!@@<br><<orhas shame>><<aroused -2>><<stress 25 "Naked Convo">>which makes you panic.<br>
+  @@.mono;AAA! I am totally naked in view of <<print aw.npc[setup.interact.status.npc].main.name>>!!!@@<br><<or>><<stress 15 "Naked Convo">>which makes you feel terrible.<br>
   @@.mono;Oops, I am totally naked.@@<br><</has>>
   <<if aw.npc[setup.interact.status.npc].kink.shame>>
   @@.npc;Oh my gosh, <<print ↂ.pc.main.name>>, why are you naked?@@<<else>>@@.npc;Oh. Well, you have left all your clothes somewhere, huh?@@<</if>>
@@ -271,13 +286,13 @@ aw.tagContent.acquaintance.buckNakedPresent = [
 aw.tagContent.acquaintance.buckNakedPresentChat = [
   `@@.pc;Ehh... Sorry...@@<br>
   You try to go on with the convo as if nothing happened.<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 aw.tagContent.acquaintance.buckNakedCover = [
   `You try to cover your body with hands which is not super effective. NPC tries his best to ignore your nakedness.<br>
   @@.npc;W-well, what were we talking about?@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>`,
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
 ];
 aw.tagContent.acquaintance.buckNakedCool = [
   `<<if aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Oh, really, I can't stand it. We better talk some another day, really. When you will be dressed.@@<br>
@@ -285,15 +300,15 @@ aw.tagContent.acquaintance.buckNakedCool = [
   <<if ↂ.pc.trait.bitch === 1>>@@.pc;My eyes are up here by the way.@@<br>
   @@.npc;S-sorry... So what were we talking about?@@<br>
   @@.pc;So...@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   <<else>>@@.pc;Yeah...@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   <</if>>
   <</if>>`,
 ];
 aw.tagContent.acquaintance.buckNakedBottomPresentRefuse = [
   `<<if aw.npc[setup.interact.status.npc].sub>><<set aw.npc[setup.interact.status.npc].rship.likePC += 1>>@@.npc;Oh, you are such a tease, you know? Damn.@@<br><<else>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 1>>@@.npc;Well, you are such a weirdo, you know?@@<br><</if>>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 aw.tagContent.acquaintance.buckNakedBottomPresentNotsorry = [
@@ -305,7 +320,7 @@ aw.tagContent.acquaintance.buckNakedBottomPresentNotsorry = [
 aw.tagContent.acquaintance.wetClothes = [
   `<<if ↂ.pc.clothes.keys.bra === 0>>
   You notice <<print aw.npc[setup.interact.status.npc].main.name>> looks at your chest and realise that your <<p nipl.q>> <<p nipples.n>> are visible through the wet clothes.<br>
-  <<has exhibition>><<arouse 1>>@@.mono;Oh yeah, I like that.@@<br><<orhas slut>>@@.mono;That is certainly drawing some attention.@@<br><<orhas shame>><<stress 7>>@@.mono;Oh shit, my nipples are showing!@@<br><<or>><<stress 2>>@@.mono;Oops, better cover that!@@<br><</has>>
+  <<has exhibition>><<arouse 1>>@@.mono;Oh yeah, I like that.@@<br><<orhas slut>>@@.mono;That is certainly drawing some attention.@@<br><<orhas shame>><<stress 7 "Wet Clothes Convo">>@@.mono;Oh shit, my nipples are showing!@@<br><<or>><<stress 2 "Wet Clothes Convo">>@@.mono;Oops, better cover that!@@<br><</has>>
   <<if aw.npc[setup.interact.status.npc].kink.shame>>It seems, <<if aw.npc[setup.interact.status.npc].main.female>>she is doing her<<else>>he is doing his best<</if>> to ignore your clearly visible nipples.<<else>>It seems, <<print aw.npc[setup.interact.status.npc].main.name>> is pretty okay with your nipples showing.<</if>>
   <<dialogchoice>>
       <<dbutt "Cover" "!ↂ.pc.kink.exhibition">><<intreplace>><<ctagcontent "acquaintance" "wetClothesCover">><</intreplace>>
@@ -316,30 +331,30 @@ aw.tagContent.acquaintance.wetClothes = [
   <<else>>
   @@.npc;You better change before you catch cold.@@<br>
   @@.pc;Yeah... that was pretty hilarious situation that got me wet like this. So...@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   <</if>>`,
 ];
 aw.tagContent.acquaintance.wetClothesCover = [
   `You cover your <<p breastShape>> breast with your hand.<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>`,
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
 ];
 aw.tagContent.acquaintance.wetClothesCool = [
   `<<if ↂ.pc.trait.bitch === 1>>@@.pc;My eyes are up here by the way.@@<br>
   @@.npc;Ugh, yeah... were we talking about?@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   <<else>>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   <</if>>`,
 ];
 aw.tagContent.acquaintance.lightPheromones = [
   `<<if aw.npc[setup.interact.status.npc].main.female>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 3 >><<set aw.npc[setup.interact.status.npc].rship.lovePC -= 3 >>
   <<else>><<set aw.npc[setup.interact.status.npc].rship.likePC += 3 >><<set aw.npc[setup.interact.status.npc].rship.lovePC += 3 >><</if>>
-  <<intgo "NPCinteraction-AcquaintTag">>`,
+  <<intgo "NPCinteraction-AcquaintContinue">>`,
 ];
 aw.tagContent.acquaintance.pheromones = [
   `<<if aw.npc[setup.interact.status.npc].main.female>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 5 >><<set aw.npc[setup.interact.status.npc].rship.lovePC -= 5 >>
-  <<intgo "NPCinteraction-AcquaintTag">><<else>><<set aw.npc[setup.interact.status.npc].rship.likePC += 5 >><<set aw.npc[setup.interact.status.npc].rship.lovePC += 5 >>You notice some sexual interest sparkling in the eyes of <<print aw.npc[setup.interact.status.npc].main.name>>.<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>><</if>>
+  <<intgo "NPCinteraction-AcquaintContinue">><<else>><<set aw.npc[setup.interact.status.npc].rship.likePC += 5 >><<set aw.npc[setup.interact.status.npc].rship.lovePC += 5 >>You notice some sexual interest sparkling in the eyes of <<print aw.npc[setup.interact.status.npc].main.name>>.<br>
+  <<include [[NPCinteraction-AcquaintContinue]]>><</if>>
   `,
 ];
 aw.tagContent.acquaintance.goddess = [
@@ -347,17 +362,17 @@ aw.tagContent.acquaintance.goddess = [
   @@.npc;Oh, you know that you are some kind of magnetical? What do you do to be like that? Pilates? Yoga? Meditations? Really, it is just not fair to be so attractive!@@<br>
   <<if aw.npc[setup.interact.status.npc].main.female>>She<<else>>He<</if>> looks a bit confused with sudden confession but still feels comfortable around you glancing with some awe.<br>
   @@.pc;Hehe, thanks. No idea actually.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>`,
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
 ];
 aw.tagContent.acquaintance.hairyPits = [
   `<<set aw.npc[setup.interact.status.npc].rship.lovePC -= 5 >>
   <<print aw.npc[setup.interact.status.npc].main.name>> noticed your armpit bushes and it seems <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> is not very fond of them.<br>
   @@.mono;Ugh, I need to get rid of them I guess?@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
 `,
 ];
 aw.tagContent.acquaintance.clownMakeup = [
-  `<<stress 5>><<print aw.npc[setup.interact.status.npc].main.name>> starts laughing.<br>
+  `<<stress 5 "Clown Makeup Convo">><<print aw.npc[setup.interact.status.npc].main.name>> starts laughing.<br>
   @@.npc;He-he, ugh, sorry. Just... your makeup, it is pretty... destroyed, you know?@@<br>
   <<dialogchoice>>
     <<dbutt "Laugh" "!ↂ.pc.trait.intro">><<intreplace>><<ctagcontent "acquaintance" "clownMakeupLaugh">><</intreplace>>
@@ -371,28 +386,28 @@ aw.tagContent.acquaintance.clownMakeup = [
 aw.tagContent.acquaintance.clownMakeupLaugh = [
   `@@.pc;Yeah, I know, he-he, looking pretty ridiculous.@@<br>
   @@.npc;Oh, so fix it, he-he. You are a lady or who after all?@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>`,
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
 ];
 aw.tagContent.acquaintance.clownMakeupCool = [
   `You go on with the convo as if nothing happened.<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>`,
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
 ];
 aw.tagContent.acquaintance.clownMakeupSad = [
-  `<<stress 5>>
+  `<<stress 5 "Clown Makeup Convo">>
   @@.pc;Oh, I really look that bad?@@<br>
   Your eyes start watering and <<print aw.npc[setup.interact.status.npc].main.name>> finally stops giggling.<br>
   @@.npc;Oww, sorry I didn't meant to...@@<br>
   @@.pc;You think this is funny? That I look like a scank?@@<br>
   @@.npc;No, I was just... See, I am sorry! Please don't cry.@@<br>
   After some time you feel better and stop crying.<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>`,
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
 ];
 aw.tagContent.acquaintance.withdrawal = [
   `@@.mono;Oh I actually feel pretty shitty.@@<br>
   @@.npc;Hey, <<print ↂ.pc.main.name>>, are you ok?@@<br>
   @@.pc;Ah? Yes-yes, it is okay, I just drifted in thoughts for a moment.@@<br>
   @@.mono;Ugh, I really need to deal with that withdrawal soon.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>`,
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
 ];
 aw.tagContent.acquaintance.latePreg = [
   `@@.npc;Oh, that is some solid belly, congratulations!@@<br>
@@ -400,7 +415,7 @@ aw.tagContent.acquaintance.latePreg = [
   <<else>>@@.pc;Yeah. This is hard to carry around already, hope I ll give birth soon!@@<br>
   <</if>>@@.npc;I am so happy for you!@@<br>
   @@.pc;Thanks!@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>`,
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
 ];
 aw.tagContent.acquaintance.drunk = [
   `@@.pc;Hii, <<print aw.npc[setup.interact.status.npc].main.name>>! Long time no see!@@<br>
@@ -412,7 +427,7 @@ aw.tagContent.acquaintance.drunk = [
     <<dtext "proud">>Bloody hell I am!
     <<dbutt "Horny">><<intreplace>><<ctagcontent "acquaintance" "drunkFuck">><</intreplace>>
     <<dtext "love">>Wanna fuck me? I want to fuck rght now!
-    <<dbutt "Pass out">><<run setup.interact.exit()>><<run setup.sleep.start();>>
+    <<dbutt "Pass out">><<run setup.interact.exit()>><<run setup.sleep.go();>>
     <<dtext "sleep">>I am sooo slepy, beter lay dwn just fur a tiny sec...
   <</dialogchoice>>`,
 ];
@@ -446,7 +461,7 @@ aw.tagContent.acquaintance.mindbreak = [
   <<if ↂ.pc.trait.will > 4 >>You somehow manage to gain your reason back<br><<set aw.npc[setup.interact.status.npc].rship.likePC += 5 >><<set aw.npc[setup.interact.status.npc].rship.lovePC += 5 >>
   @@.pc;I am so sorry. It was really tough times lately.@@<br>
   @@.npc;Oh, it is okay.@@<br>
-  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10>>You start histerically giggling.<br>
+  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10 "Mindbroken Convo">>You start histerically giggling.<br>
   @@.npc;Oh, poor you. Try to calm down, I ll drive you home...@@<br>
   You cry all the way while <<print aw.npc[setup.interact.status.npc].main.name>> drive the car to your house, but start to feel better when you get to the house. <<print aw.npc[setup.interact.status.npc].main.name>> leaves you in your house after getting sure you are okay now.<br>
   <<link "Say goodbye">><<addtime 54>><<gotomap "home" "foyer">><<run setup.interact.exit()>><</link>>
@@ -457,12 +472,12 @@ aw.tagContent.acquaintance.flooded = [
     <<has exhibition>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will notice that. That is so embarassingly exciting!@@<br><<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<br><</has>>
   <<else>>You feel your juices making a slippery mess slowly soaking through your panties.<br><<has slut>>@@.mono;Speaking with a person while being flooded like that is so naughty!@@<br><<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<br><</has>>
   <</if>>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>`,
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
 ];
 
 aw.tagContent.acquaintance.pussyAccess = [
-  `Apologies. No content has been written for this tag [pussyAccess].
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>`,
+  `<p>@@.mono;Oh, I fell a breeze on my bare pussy. I wonder if <<n setup.interact.status.npc "heshe.q">> notices that I don't wear any panties, tee-hee.@@</p>
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
 ];
 
 // OTHER TAGS
@@ -484,15 +499,15 @@ aw.tagContent.acquaintance.stressedNope = [
   `@@.pc;It is okay. Don't worry.@@<br>
   @@.npc;Oh, sorry then, I just thought you was... whatever.@@<br>
   @@.pc;No problems.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 
 aw.tagContent.acquaintance.stressedAbit = [
-  `<<has extro>>@@.pc;Yeah, I feel not that good. Work and everything in general you know. Don't know if I can deal with all this much longer...<<stress -1>>@@<br><<or>>@@.pc;Yeah, it was not very nice last days.@@<br><</has>><<set aw.npc[setup.interact.status.npc].rship.likePC += 5 >>
+  `<<has extro>>@@.pc;Yeah, I feel not that good. Work and everything in general you know. Don't know if I can deal with all this much longer...<<stress -1 "Talking about stress">>@@<br><<or>>@@.pc;Yeah, it was not very nice last days.@@<br><</has>><<set aw.npc[setup.interact.status.npc].rship.likePC += 5 >>
   @@.npc;Ouch, hang in there, girl. Maybe you should play some games or something? I heard they have this arcades in the mall...@@<br>
   @@.pc;Well, maybe.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 
@@ -511,14 +526,14 @@ aw.tagContent.acquaintance.depressedNo = [
   `@@.pc;I am okay, don't worry. Just a lack of sleep.@@<br>
   @@.npc;Yeah, I got to bed late yesterday too. Hang in there, girl!@@<br>
   @@.pc;Will do.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>`,
+  <<include [[NPCinteraction-AcquaintContinue]]>>`,
 ];
 
 aw.tagContent.acquaintance.depressedYes = [
   `@@.pc;Eh, it is true, I feel depressed lately...@@<br><<set aw.npc[setup.interact.status.npc].rship.likePC += 3 >>
   @@.npc;Hey, you know what will cheer you up? A nice night in a club! Try going to the Shake'n Pop today! Pretty cool place it is.@@<br>
   @@.pc;Well, maybe I ll go, thanks.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 
@@ -526,7 +541,7 @@ aw.tagContent.acquaintance.tipsy = [
   `@@.npc;Hey, party time! Where I can find booze for myself too?@@<br>
   @@.pc;Ha-ha, jealous?@@<br>
   @@.npc;You bet!@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 
@@ -534,19 +549,19 @@ aw.tagContent.acquaintance.athleticClothes = [
   `@@.npc;Going for a jog or something?@@<br>
   @@.pc;Well, yeah, trying to keep myself in shape.@@<br>
   @@.npc;Good for you I guess...@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
   `@@.npc;Got ready to pump iron?@@<br>
   @@.pc;It is really good for health and weight too actually.@@<br>
   @@.npc;Way too go then.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 
 aw.tagContent.acquaintance.kinkyClothes = [
   `<<if aw.npc[setup.interact.status.npc].kink.liberate>>@@.npc;Pretty sexy view, girl! I like it!@@<br><<elseif aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Oh my, this clothes are so lewd, are you sure it is okay to wear it in public?@@<br><<else>>@@.npc;He-he, decided to dress sexy, <<print ↂ.pc.main.name>>?@@<br><</if>>
-  <<has liberate>>@@.pc;Life is too short to dress modestly!@@<br><<orhas slut>>@@.pc;I like drawing attention to my most delicious parts you know.@@<br><<orhas shame>><<stress 3>>@@.pc;I really don't know how I wound up wearing this, I am really blushing all the day long.@@<br><<or>>@@.pc;Well, can a girl wear something sexy from time to time, right?@@<br><</has>>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<has liberate>>@@.pc;Life is too short to dress modestly!@@<br><<orhas slut>>@@.pc;I like drawing attention to my most delicious parts you know.@@<br><<orhas shame>><<stress 3 "Kinky clothes convo">>@@.pc;I really don't know how I wound up wearing this, I am really blushing all the day long.@@<br><<or>>@@.pc;Well, can a girl wear something sexy from time to time, right?@@<br><</has>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 
@@ -555,35 +570,49 @@ aw.tagContent.acquaintance.nightwear = [
   @@.pc;Well... yeah...@@<br>
   @@.npc;It is okay, my uncle also walked in his sleep. Nothing to worry about, I can understand it, really. He was rolled over by a train though.@@<br>
   @@.pc;Well thanks for this lovely story.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 
 aw.tagContent.acquaintance.cuteClothes = [
   `@@.npc;Cute outfit you have there!@@<br><<set aw.npc[setup.interact.status.npc].rship.likePC += 1 >>
   @@.pc;Thanks!@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 
 aw.tagContent.acquaintance.superCuteClothes = [
   `@@.npc;You would win a "Cutest outfit of the year" competition for sure!@@<br><<set aw.npc[setup.interact.status.npc].rship.likePC += 2 >>
   @@.pc;Of course I'd win!@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 
 aw.tagContent.acquaintance.slovenlyClothes = [
   `@@.npc;Well, to be honest you look a bit slovenly.@@<br>
   @@.pc;I am aware, gosh.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 
 aw.tagContent.acquaintance.swimwear = [
   `@@.npc;Care for swimming? Nice swimsuit by the way!@@<br>
   @@.pc;Thanks, heh.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
+  `,
+];
+
+aw.tagContent.acquaintance.sexyClothes = [
+  `@@.npc;Oh, you look pretty hot, you know it? I mean this clothes are... well pretty sexy.@@<br>
+  @@.pc;Thanks, heh.@@<br>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
+  `,
+];
+
+aw.tagContent.acquaintance.superSexyClothes = [
+  `@@.npc;Oh, you look pretty hot, you know it? I mean this clothes are... well pretty sexy.@@<br>
+  @@.pc;Thanks, heh.@@<br>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 
@@ -592,8 +621,8 @@ aw.tagContent.acquaintance.damagedClothes = [
   @@.pc;What?@@<br>
   @@.pc;Well, maybe you should consider buying new ones.@@<br>
   <<has bitch>>@@.pc;I did not ask for an advice.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>><<or>>@@.pc;Well it seems so.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>><</has>>
+  <<include [[NPCinteraction-AcquaintContinue]]>><<or>>@@.pc;Well it seems so.@@<br>
+  <<include [[NPCinteraction-AcquaintContinue]]>><</has>>
   `,
 ];
 
@@ -614,16 +643,16 @@ aw.tagContent.acquaintance.stainedClothesCum = [
   `@@.pc;This is cum, silly.@@<br><<set aw.npc[setup.interact.status.npc].rship.likePC -= 3 >><<set aw.npc[setup.interact.status.npc].rship.lovePC -= 4 >>
   @@.npc;Well, you are not a shamefest, don't you? Better clean yourself anyway.@@<br>
   @@.pc;Well, will do.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 
 aw.tagContent.acquaintance.stainedClothesDunno = [
   `@@.pc;He-he. I don't know what is this, pretty silly, yeah? I am such a clumsy!@@<br>
-  <<has shame>>@@.mono;Oh shit! <<if aw.npc[setup.interact.status.npc].main.female>>She<<else>>He<</if>>noticed! Panic!@@<br><<stress 8>><</has>>
+  <<has shame>>@@.mono;Oh shit! <<if aw.npc[setup.interact.status.npc].main.female>>She<<else>>He<</if>>noticed! Panic!@@<br><<stress 8 "Stained clothe convo">><</has>>
   @@.npc;Heh. We all are like this sometimes. Just clean this and you'll be okay.@@<br>
   @@.pc;Yeah, will do.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 
@@ -632,13 +661,29 @@ aw.tagContent.acquaintance.angry = [
   <<has bitch>>@@.pc;I am grumpy? DID I FUCKING ASKED FOR YOUR OPINION? I AM MAD AS FUCK! Goddamit, you better hide from my view now, before I'll go berserk!!@@<br><<or>>@@.pc;Yes, I am angry. If you'll keep asking you'll be the next victim.@@<br><</has>>
   @@.npc;Ugh, okay, calm down girl!@@<br>
   @@.pc;It is not that easy.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
   `,
 ];
 
 aw.tagContent.acquaintance.poorHealth = [
   `@@.npc;Hey, you looks ill@@<br>
   @@.pc;I am okay.@@<br>
-  <<link "So...">><<intgo "NPCinteraction-AcquaintTag">><</link>>
+  <<include [[NPCinteraction-AcquaintContinue]]>>
+  `,
+];
+
+aw.tagContent.acquaintance.bodywriting = [
+  `@@.npc;Emm, sorry, what is written there?@@<br>
+  @@.pc;Umm, where?@@<br>
+  @@.npc;Is it... oh, "<<= ↂ.pc.tattoo.getText>>", really? Did not know you are into such things to be honest.@@<br>
+  <<link "Uhm...">><<intgo "NPCinteraction-AcquaintContinue">><</link>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 4>>
+  `,
+];
+
+aw.tagContent.acquaintance.lewdTattoo = [
+  `@@.npc;Nice tattoo you have there... oh.@@<br>
+  @@.pc;What?@@<br>
+  @@.npc;It is just... ugh, nevermind...@@<br>
+  <<link "Emm...">><<intgo "NPCinteraction-AcquaintContinue">><</link>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 4>>
   `,
 ];

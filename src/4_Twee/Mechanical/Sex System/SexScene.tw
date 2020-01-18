@@ -1,0 +1,559 @@
+:: SexScenePrimaryDisplay [nobr hidden]
+
+<<set _t = ↂ.sex.activeNPC[ↂ.sex.target]>>
+<div id="sexBackground" class="dark-dot-background" style="position:fixed;top:0px;bottom:0px;left:0px;right:0px;z-index:600;">
+<div id="sexInfoDisp">
+  <<include [[SexSceneInfoDisplay]]>>
+</div>
+<div id="endTarget" style="position:fixed;bottom:0px;right:0px;height:1px;width:1px;z-index:501;"></div>
+<div id="actTarget" style="position:fixed;bottom:0px;right:0px;height:1px;width:1px;z-index:502;"></div>
+<div id="sexActionBarMain">
+  <<include [[SexSceneActionBarContents]]>>
+</div>
+<div id="sexMainShitter">
+  <<include [[SexSceneTextDisplay]]>>
+</div>
+<<if ↂ.flag.sexTutorial && $AW.tutorials>>
+  <div id="sexTutorial">
+    <div class="dark-dot-background" style="position:fixed;z-index:800;top:25px;bottom:25px;left:25px;right:25px;border-width:3px;border-style:solid;border-radius:15px;border-color:#666;text-align:center;">
+      <div style="position:absolute;width:80px;top:5px;right:5px;font-size:1.6rem;z-index:900;">
+        <<button "&nbsp;&nbsp;X&nbsp;&nbsp;">><<replace "#sexTutorial">><</replace>><</button>>
+      </div>
+    <br><br>[img[IMG_SexTutorial]]</div>
+  </div>
+<</if>>
+</div>
+
+
+
+:: SexSceneInfoDisplay [nobr]
+
+
+<<silently>>
+<<switch ↂ.sex.speed>>
+<<case 0>>
+  <<set _speedout = "N/A">>
+<<case 1>>
+  <<set _speedout = "Not Moving">>
+<<case 2>>
+  <<set _speedout = "Grinding">>
+<<case 3>>
+  <<set _speedout = "Slow">>
+<<case 4>>
+  <<set _speedout = "Leisurely">>
+<<case 5>>
+  <<set _speedout = "Average">>
+<<case 6>>
+  <<set _speedout = "Quick">>
+<<case 7>>
+  <<set _speedout = "Intense">>
+<<case 8>>
+  <<set _speedout = "Hard Pounding">>
+<</switch>>
+<</silently>>
+<div id="sexPleasureDisp">
+  <<print setup.sex.statusBars()>>
+</div>
+<<print setup.sex.occupyPrinter(0)>>
+<div id="sexInfoPositionDia">
+  <<print aw.sexPos[ↂ.sex.pos].img>>
+  <div id="sexInfoPositionDiaLabel">
+  <b><<print aw.sexPos[ↂ.sex.pos].name>></b><br>
+  <span style="font-size:18px;"><<print aw.sexPos[ↂ.sex.pos].desc>></span>
+  </div>
+</div>
+<div id="sexInfoPositionSide" class="tit">
+  <span class="monospace white" style="font-size:26px;"><<print setup.timeDisp>></span><br>
+  <span class="monospace" style="font-size:20px;"><<print setup.time.dif(ↂ.sex.startTime,$time)>></span> mins<br>
+  ''NPCs:'' <<print ↂ.sex.npcCount>><br>
+  ''Turns:'' <<print ↂ.sex.turns>>
+</div>
+<span class="tit" style="font-size:16px;">RAMMING SPEED: <<print _speedout>></span><<tab>><<link "⤦">><</link>><<link "⤤">><</link>>
+<<print setup.ui.segmentBar(ↂ.sex.speed)>>
+<<print setup.sex.characterButtons()>>
+
+
+:: SexSceneActionBarContents [nobr]
+
+
+<<silently>>
+<<run setup.sex.actionButtonPrinter()>>
+<</silently>>
+<div id="sexActionInfoDisp">
+  /*<<insertion selecttarget>>Change the NPC you are targeting with your action (if relevant). Not all actions require a target.<<endinsertion>><<insertion redobutt>>Repeat your previous action.<<endinsertion>><<insertion nothinglink>>Go with the flow. Don't do anything special, and just let your partner/s do the work.<<endinsertion>><<insertion refreshdisp>>Refresh the action button display. This should not be necessary in most circumstances.<<endinsertion>><<insertion escapebutton>><b>Just Say No!</b> (to fun) - Tell the NPC/s to stop (and possibly pull out). This will end the sex scene pretty quick, and depending on the circumstances may result in negative outcomes. More information is available after clicking the button. <span style="color:goldenrod;font-size:80%;"><i>Caution: May result in rape.</i></span><<endinsertion>>*/
+  <<print setup.sex.printText.hover>>
+</div>
+<div id="sexActionShortcut">
+  <<if ↂ.sex.endFlag>>
+    <span class="megrim">The Sex Scene is Over</span>
+  <<elseif ↂ.sex.menu>>
+    <span class="megrim">Special Menu</span>
+  <<else>>
+    <<link "[img[Select Target|IMG_SexTarget]]">><<run setup.sex.characterTargets()>><</link>>
+    <span id="actside-redobutt" onclick="window.SugarCube.Engine.link(&quot;sex.sexAction('repeat')&quot;)">[img[Repeat Action|IMG_SexRedoAct]]</span>
+    <<link "[img[Do Nothing|IMG_SexWait]]">><<run setup.sex.sexAction('doNothing')>><</link>>
+    <<link "[img[Refresh|IMG_SexRefresh]]">><<run aw.go('SexScenePrimaryDisplay')>><</link>>
+    <<link "[img[Escape|IMG_SexCancel]]">><<dialog 'Stop The Scene'>><<include [[SexEarlyEscapeMenu]]>><</dialog>><</link>>
+  <</if>>
+</div>
+<div id="sexActionTabCont">
+  <<if ↂ.sex.endFlag>>
+    <div id="sex-special-menu">
+      <span class="note">You've reached the end of the sex scene. In the future, there will be more options to end the scene or start round two.</span><br>
+      <<if ↂ.sex.risky>>
+        <b>CUM OUT:</b>
+        <<if setup.consumables.hasConsumable("sultryDouche")>>
+          <span id="endsexbutt1">
+          <<button "Use A Douche">><<useconsumable "sultryDouche">><<replace "#endsexbutt1">>Success<</replace>><<dialog "Use A Douche">><<include [[SexSceneUseDouche]]>><</dialog>><</button>>
+          </span>
+        <<else>>
+          <button class="disabled">Use A Douche</button>
+        <</if>>
+        <span id="endsexbutt2">
+        <<button "Scoop Out Semen">><<run setup.fert.spread("pc","scoop out")>><<status>><<set ↂ.sex.timer += 8>><<replace "#endsexbutt2">>Success<</replace>><<dialog "Scoop Out">><<include [[SexSceneScoopOut]]>><</dialog>><</button>>
+        <<button "Push Out Semen">><<run setup.fert.spread("pc","out")>><<status>><<set ↂ.sex.timer += 5>><<replace "#endsexbutt2">>Success<</replace>><<dialog "Push Out">><<include [[SexScenePushOut]]>><</dialog>><</button>>
+        </span>
+        <br><b>CUM IN:</b>
+        <<if setup.consumables.hasConsumable("diaphragm") || setup.consumables.hasConsumable("usedDiaphragm") || setup.consumables.hasConsumable("oldDiaphragm")>>
+          <span id="endsexbutt3">
+          <<button "Insert Diaphragm">><<run setup.fert.spread("pc","diaphragm")>><<status>><<if hasConsumable("diaphragm")>><<useconsumable "diaphragm">><<elseif hasConsumable("usedDiaphragm")>><<useconsumable "usedDiaphragm">><<else>><<useconsumable "oldDiaphragm">><</if>><<replace "#endsexbutt3">>Success<</replace>><</button>>
+          </span>
+        <<else>>
+          <button class="disabled">Insert Diaphragm</button>
+        <</if>>
+        <span id="endsexbuttgroup1">
+        <<button "Elevate Your Hips">><<run setup.fert.spread("pc","in")>><<run setup.fert.spread("pc","in")>><<run setup.fert.spread("pc","in")>><<status>><<set ↂ.sex.timer += 15>><<replace "#endsexbuttgroup1">>Success<</replace>><<dialog "Elevate Hips">><<include [[SexSceneRaiseHips]]>><</dialog>><</button>>
+          <span id="endsexbutt4">
+          <<button "Scoop Semen Into Vagina">><<run setup.fert.spread("pc","scoop in")>><<status>><<set ↂ.sex.timer += 5>><<replace "#endsexbutt4">>Success<</replace>><<dialog "Scoop Semen Into Vagina">><<include [[SexSceneScoopIn]]>><</dialog>><</button>>
+          </span>
+          <span id="endsexbutt5">
+          <<button "Push Semen Inward">><<run setup.fert.spread("pc","push in")>><<status>><<set ↂ.sex.timer += 5>><<replace "#endsexbutt5">>Success<</replace>><<dialog "Push Semen Inward">><<include [[SexScenePushIn]]>><</dialog>><</button>>
+          </span>
+        </span>
+      <</if>>
+      <br>
+      <<button "Exit">><<run setup.sex.close()>><</button>>
+    </div>
+  <<elseif ↂ.sex.menu>>
+    <div id="sex-special-menu">
+      <<print ↂ.sex.menu>>
+    </div>
+    <<set ↂ.sex.menu = false>>
+  <<else>>
+    <div id="sex-category-row">
+      <div class="dropdown">
+        <button class="dropbtn">TOUCH</button>
+        <div class="dropdown-content">
+          <<print setup.sex.printText.touch>>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">MOUTH</button>
+        <div class="dropdown-content">
+          <<print setup.sex.printText.kiss>>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">SPEAK</button>
+        <div class="dropdown-content">
+          <<print setup.sex.printText.speak>>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">KINK</button>
+        <div class="dropdown-content">
+          <<print setup.sex.printText.kink>>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">MOVE</button>
+        <div class="dropdown-content">
+          <<print setup.sex.printText.move>>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">POSITION</button>
+        <div class="dropdown-content">
+          <<print setup.sex.printText.position>>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">ITEM</button>
+        <div class="dropdown-content">
+          <<print setup.sex.printText.item>>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">OTHER</button>
+        <div class="dropdown-content">
+          <<radioset "personaSetter" "ↂ.sex.persona">>Player Persona <<helpPop "Persona" "Your persona is the aspect of your character that you show to others. It influences the way you say things, as well as non-verbal cues. Personas are often changed to match the situation, you rarely use the same persona with someone all the time. The persona you use can have different effects based on the situation and NPCs involved. Acting romantic/intimate while having sex with a boyfriend may improve your relationship, while acting romantic with someone you just met at the club would probably come off as being very creepy. In rare circumstances your persona may be switched for you, but usually they are not changed or reset on their own.">>
+        <<radioitem "norm">>Normal
+        <<radioitem "eager">>Eager
+        <<radioitem "reluctant">>Reluctant
+        <<radioitem "romantic">>Romantic
+        <<radioitem "sensual">>Sensual
+        <<radioitem "meek">>Submissive
+        <<radioitem "angry">>Dominant
+        <</radioset>>
+        <<print setup.sex.printText.other>>
+        </div>
+      </div>
+    </div>
+  <</if>>
+</div>
+
+
+
+:: SexSceneTextDisplay [nobr]
+
+
+<<if ↂ.sex.encounter[0] != "none">>
+<p><<print ↂ.sex.encounter[0]>></p>
+<</if>>
+<<if ↂ.sex.pcOutput != "none">>
+<p style="color:#ffe8f6;"><<print ↂ.sex.pcOutput>></p>
+<</if>>
+<<if ↂ.sex.orgText.pca != null && ↂ.sex.orgText.pca != undefined>>
+<p style="color:#ffe8f6;"><<print ↂ.sex.orgText.pca>></p>
+<</if>>
+<<if ↂ.sex.orgText.npca != null && ↂ.sex.orgText.npca != undefined>>
+  <<if Array.isArray(ↂ.sex.orgText.npca)>>
+  <<for _i to 0, _c to ↂ.sex.orgText.npca.length; _i < _c; _i++>>
+  <p style="color:#e8f0ff;border-width:1px;border-style:solid;border-radius:3px;border-color:hotpink;"><<print ↂ.sex.orgText.npca[_i]>></p>
+  <</for>>
+  <<else>>
+  <p style="color:#e8f0ff;border-width:1px;border-style:solid;border-radius:3px;border-color:hotpink;"><<print ↂ.sex.orgText.npca>></p>
+  <</if>>
+<</if>>
+<<if ↂ.sex.encounter[1] != "none">>
+<p><<print ↂ.sex.encounter[1]>></p>
+<</if>>
+<<if ↂ.sex.npcOutput.length > 0>>
+  <<for _i to 0, _c to ↂ.sex.npcOutput.length; _i < _c; _i++>>
+  <p style="color:#e8f0ff;"><<print ↂ.sex.npcOutput[_i]>></p>
+  <</for>>
+<</if>>
+<<if ↂ.sex.orgText.pcb != null && ↂ.sex.orgText.pcb != undefined>>
+<p style="color:#ffe8f6;border-width:1px;border-style:solid;border-radius:3px;border-color:hotpink;"><<print ↂ.sex.orgText.pcb>></p>
+<</if>>
+<<if ↂ.sex.orgText.npcb != null && ↂ.sex.orgText.npcb != undefined>>
+  <<if Array.isArray(ↂ.sex.orgText.npcb)>>
+  <<for _i to 0, _c to ↂ.sex.orgText.npcb.length; _i < _c; _i++>>
+  <p style="color:#e8f0ff;"><<print ↂ.sex.orgText.npcb[_i]>></p>
+  <</for>>
+  <<else>>
+  <p style="color:#e8f0ff;"><<print ↂ.sex.orgText.npcb>></p>
+  <</if>>
+<</if>>
+<<if ↂ.sex.encounter[2] != "none">>
+<p><<print ↂ.sex.encounter[2]>></p>
+<</if>>
+<<if ↂ.sex.cumInfo.length > 0>>
+<p class="lato white smear" style="margin-left:100px;">
+<<for _i to 0, _c to ↂ.sex.cumInfo.length; _i < _c; _i++>>
+[<<print ↂ.sex.cumInfo[_i]>>]<<sp 2>>
+<</for>>
+</p>
+<</if>>
+<<if $swim == "[dev]">>
+<br>
+<div class="monospace ship" style="font-size:80%;padding:3px;margin:0px 400px 10px 5px;background-color:#222;border-radius:15px;">
+PC Orgasm: <<= ↂ.pc.status.pleasure>> of <<= ↂ.sex.pcOrgasm>> ᛝ NPC Orgasm: <<= ↂ.sex.npc[0].status.pleasure>> of <<= ↂ.sex.npcOrgasm[0]>><br>
+PC wetness: ↂ.sex.pcWetness ᛝ NPC wetness: <<= ↂ.sex.npcWetness[0]>><<tab>>PC arousal: ↂ.pc.status.arousal 🜣 NPC arousal <<= ↂ.sex.npc[0].status.arousal>>
+</div>
+<</if>>
+
+
+
+:: SexSceneCharacterDisplay [nobr]
+
+
+<<if _char == "PC">>
+This is the PC information display.
+Current Action: <<print ↂ.sex.pcAct>><<tab>>Previous:
+<<for _i to ↂ.sex.pcActRecord.length - 1; _i >= 0; _i-->>
+  <<set _printie = " " + ↂ.sex.pcActRecord[_i]>>
+  <<if _i > 0>>
+    <<set _printie += ",">>
+  <<else>>
+    <<set _printie += ".">>
+  <</if>>
+  <<print _printie>>
+<</for>>
+<<silently>>
+<<status 1>>
+<<colorpicker ↂ.pc.status.health>>
+<<set _healthColor = $ret>>
+<<set _energyPer = Math.round(100 * ( ↂ.pc.status.energy.amt / ↂ.pc.status.energy.max ))>>
+<<colorpicker _energyPer>>
+<<set _energyColor = $ret>>
+<<set _calmPer = (100 - ↂ.pc.status.stress)>>
+<<colorpicker _calmPer>>
+<<set _calmColor = $ret>>
+<<set _vigorPer = (10 - ↂ.pc.status.fatigue) * 10>>
+<<colorpicker _vigorPer>>
+<<set _vigorColor = $ret>>
+<<set _happyPer = Math.round(100 * (ↂ.pc.status.happy + 10) / 20)>>
+<<colorpicker _happyPer>>
+<<set _happyColor = $ret>>
+<<set _satPer = ↂ.pc.status.satisfaction>>
+<<colorpicker _satPer>>
+<<set _satColor = $ret>>
+<<set _lonePer = 100 - ↂ.pc.status.lonely>>
+<<colorpicker _lonePer>>
+<<set _loneColor = $ret>>
+<<if ↂ.pc.status.morality > 15>>
+	<<set _moralColor = "MediumBlue">>
+<<elseif ↂ.pc.status.morality >= -15>>
+	<<set _moralColor = "MediumPurple">>
+<<else>>
+	<<set _moralColor = "Maroon">>
+<</if>>
+<<set _moralPer = ↂ.pc.status.morality + 50>>
+<</silently>>
+<table id="invisTable">
+<tr class="divide"><td colspan=2>
+@@.head3;General Status@@
+</td></tr>
+<tr id="stats"><td id="stats">
+<<print "<div class='stat-levels'><p id='fucker'>Health</p><div class='stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + ↂ.pc.status.health + "%; background: " + _healthColor + ";'><span id='bitch'>" + ↂ.pc.status.health + "%</span></span></div><p id='fucker'>Calm</p><div class='stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + _calmPer + "%; background: " + _calmColor + ";'><span id='bitch'>" + _calmPer + "%</span></span></div><p id='fucker'>Vigor</p><div class='stat-bar '><span class='stat-bar-rating' role='stat-bar' style='width: " + _vigorPer + "%; background: " + _vigorColor + ";'><span id='bitch'>" + _vigorPer + "%</span></span></div><p id='fucker'>Energy</p><div class='stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + _energyPer + "%; background: " + _energyColor + ";'><span id='bitch'>" + _energyPer + "%</span></span></div></div>">>
+</td><td id="stats">
+<<print "<div class='stat-levels'><p id='fucker'>Happiness</p><div class='stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + _happyPer + "%; background: " + _happyColor + ";'><span id='bitch'>" + _happyPer + "%</span></span></div><p id='fucker'>Satisfaction</p><div class='stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + _satPer + "%; background: " + _satColor + ";'><span id='bitch'>" + _satPer + "%</span></span></div><p id='fucker'>Companionship</p><div class='stat-bar '><span class='stat-bar-rating' role='stat-bar' style='width: " + _lonePer + "%; background: " + _loneColor + ";'><span id='bitch'>" + _lonePer + "%</span></span></div><p id='fucker'>Morality</p><div class='stat-bar'><span class='stat-bar-rating' role='stat-bar' style='width: " + _moralPer + "%; background: " + _moralColor + ";'><span id='bitch'>" + _moralPer + "%</span></span></div></div>">>
+</td></tr>
+<tr class="divide"><td>
+@@.head3;Other Status@@
+</td><td colspan=1>
+@@.head3;Body Status@@
+</td></tr>
+<tr><td>
+@@.ident;''Attractiveness'' <<= ↂ.pc.status.atr>>@@<br>
+''Cleanliness:'' @@.exp;<<pcCleanStatus>>@@<br>
+''Makeup:'' @@.note;<<print ↂ.pc.groom.makeup.desc>>@@<br>
+''Hair Style:'' @@.exp;<<= setup.hair.prop("name")>>@@<br>
+''Health:'' <<if ↂ.pc.status.health >= 90>>@@.good;Excellent (<<= ↂ.pc.status.health>>)@@<<elseif ↂ.pc.status.health >= 80>>@@.good;Good (<<= ↂ.pc.status.health>>)@@<br><<elseif ↂ.pc.status.health >= 70>>@@.good;Okay (<<= ↂ.pc.status.health>>)@@<<elseif ↂ.pc.status.health >= 50>>@@.import;Poor (<<= ↂ.pc.status.health>>)@@<<elseif ↂ.pc.status.health >= 30>>@@.orange;Critical (<<= ↂ.pc.status.health>>)@@<<else>>@@.bad;Dying (<<= ↂ.pc.status.health>>)@@<</if>><br>
+''Physical Atr:'' @@.exp;<<print ↂ.pc.body.ATR>>@@  @@.note;(<<print ↂ.pc.body.topATR>>/<<print ↂ.pc.body.botATR>>)@@<br>
+''Clothing Atr:'' <<set _catr = ↂ.pc.clothes.atr + ↂ.pc.clothes.statATR>>@@.exp;<<print _catr>>@@<br>
+''Other Atr:'' <<set _oatr = ↂ.pc.status.atr - ( ↂ.pc.body.ATR + _catr )>>@@.exp;<<print _oatr>>@@<br>
+''Day of Menstrual Cycle:'' @@.exp;<<= setup.fert.dayOfCycle(0)>>@@
+<br>
+<<set _ovulate = setup.fert.daysTillOvulate(0)>>
+<<if _ovulate === 0>>
+  <<set _ovulate = "Sometime Today">>
+<</if>>
+<<if ↂ.pc.mutate.twinWomb>>
+	<<if ↂ.pc.status.wombA.weeks > 0 && ↂ.pc.status.wombA.know && ↂ.pc.status.wombB.weeks > 0 && ↂ.pc.status.wombB.know>>
+		<<set _ovulate = "N/A">>
+	<</if>>
+<<else>>
+	<<if ↂ.pc.status.wombA.weeks > 0 && ↂ.pc.status.wombA.know>>
+		<<set _ovulate = "N/A">>
+	<</if>>
+<</if>>
+<<if ↂ.pc.status.birthCon.hormoneType == "none">>
+	''You should ovulate in:'' @@.exp;<<= _ovulate>> days@@
+<<else>>
+	''You <i>shouldn't</i> ovulate in:'' @@.exp;<<= _ovulate>> days@@<br>
+	You are using the @@.exp;<<= ↂ.pc.status.birthCon.hormoneType>>@@ for birth control.
+	<<if ↂ.pc.status.birthCon.hormoneType == "pill">>
+		<br>Birth control pill taken today: @@.exp;Yes@@
+	<</if>>
+	<<if ↂ.pc.status.birthCon.hormoneType == "patch">>
+		<br>Birth control patch age: @@.exp;0@@ day
+	<</if>>
+	<<if ↂ.pc.status.birthCon.hormoneType == "depo shot">>
+		<br>Days since injection: @@.exp;0@@
+	<</if>>
+<</if>>
+<br>
+<<if ↂ.pc.mutate.twinWomb>>
+''1st Womb Health: ''<<if ↂ.pc.fert.wombHealth < -1>>divine<<elseif ↂ.pc.fert.wombHealth == -1>>great<<elseif ↂ.pc.fert.wombHealth == 0>>good<<elseif ↂ.pc.fert.wombHealth == 1>>fine<<elseif ↂ.pc.fert.wombHealth == 2>>okay<<else>>poor<</if>>
+<<else>>
+''Womb Health: ''<<if ↂ.pc.fert.wombHealth < -1>>divine<<elseif ↂ.pc.fert.wombHealth == -1>>great<<elseif ↂ.pc.fert.wombHealth == 0>>good<<elseif ↂ.pc.fert.wombHealth == 1>>fine<<elseif ↂ.pc.fert.wombHealth == 2>>okay<<else>>poor<</if>>
+<</if>>
+<<if ↂ.pc.status.wombA.weeks > 0 && ↂ.pc.status.wombA.know>>
+	pregnant, @@.exp;<<= ↂ.pc.status.wombA.weeks>>@@ weeks to term
+<<else>>
+	@@.good;Good@@
+<</if>>
+<<if ↂ.pc.mutate.twinWomb>>
+	<br>
+	''2nd Womb Health: ''<<if ↂ.pc.fert.wombHealth < -1>>divine<<elseif ↂ.pc.fert.wombHealth == -1>>great<<elseif ↂ.pc.fert.wombHealth == 0>>good<<elseif ↂ.pc.fert.wombHealth == 1>>fine<<elseif ↂ.pc.fert.wombHealth == 2>>okay<<else>>poor<</if>>
+	<<if ↂ.pc.status.wombB.weeks > 0 && ↂ.pc.status.wombB.know>>
+	pregnant, @@.exp;<<= ↂ.pc.status.wombA.weeks>>@@ weeks to term
+	<<else>>
+		@@.good;Good@@
+	<</if>>
+<</if>>
+</td><td width=50%>
+@@font-size:90%;Hair -@@ @@font-size:90%;.exp;<<print setup.condition.print("hair")>>@@<br>
+@@font-size:90%;Face -@@ @@font-size:90%;.exp;<<print setup.condition.print("face")>>@@<br>
+@@font-size:90%;Chest -@@ @@font-size:90%;.exp;<<print setup.condition.print("chest")>>@@<br>
+@@font-size:90%;Back -@@ @@font-size:90%;.exp;<<print setup.condition.print("back")>>@@<br>
+@@font-size:90%;Hands -@@ @@font-size:90%;.exp;<<print setup.condition.print("hands")>>@@<br>
+@@font-size:90%;Stomach -@@ @@font-size:90%;.exp;<<print setup.condition.print("stomach")>>@@<br>
+/*</td><td width=33%>*/
+@@font-size:90%;Butt -@@ @@font-size:90%;.exp;<<print setup.condition.print("butt")>>@@<br>
+@@font-size:90%;Groin -@@ @@font-size:90%;.exp;<<print setup.condition.print("groin")>>@@<br>
+@@font-size:90%;Vulva -@@ @@font-size:90%;.exp;<<print setup.condition.print("genitals")>>@@<br>
+@@font-size:90%;Thighs -@@ @@font-size:90%;.exp;<<print setup.condition.print("thighs")>>@@<br>
+@@font-size:90%;Legs -@@ @@font-size:90%;.exp;<<print setup.condition.print("legs")>>@@<br>
+@@font-size:90%;Feet -@@ @@font-size:90%;.exp;<<print setup.condition.print("feet")>>@@<br>
+@@font-size:90%;Vagina -@@ @@font-size:90%;.exp;<<print setup.condition.fluid("pussy")>>@@<br>
+@@font-size:90%;Anus -@@ @@font-size:90%;.exp;<<print setup.condition.fluid("anus")>>@@
+</td></tr>
+</table>
+<<else>>
+This is the information display for NPC #<<print (_char + 1)>> of <<print ↂ.sex.activeNPC.length>>.<br>
+Current Action: <<print ↂ.sex.npcAct[_char]>><<tab>>Previous:
+<<for _i to ↂ.sex.npcActRecord[_char].length - 1; _i >= 0; _i-->>
+  <<set _printie = " " + ↂ.sex.npcActRecord[_char][_i]>>
+  <<if _i > 0>>
+    <<set _printie += ",">>
+  <<else>>
+    <<set _printie += ".">>
+  <</if>>
+  <<print _printie>>
+<</for>>
+<</if>>
+
+<br><br>
+<span class="quest" style="color:goldenrod">This is the character information screen, but it is (obviously) not complete. It will be similar to the standard character information screen, with the primary information area converted to show more information related to sex. Because the character information display isn't coded yet, it's absent here for now. It will be added as we start expanding on NPC capabilities in the near future.</span>
+<br><br><center>
+<h3>Demo Image - Generally what it will look like.</h3>
+[img[IMGcharInfoDemoSex]]
+</center>
+
+
+:: SexPositionChangeMenu [nobr]
+
+<div style="width:905px;height:755px;">
+  <div style="position:absolute;top:60px;left:5px;width:350px;height:750px;text-align:center;">
+    <<print _posc.pc>><br>
+    <div id="SexCharOrder" class="dragZone" style="height:600px;">
+      <<print _posc.npc>>
+    </div>
+  </div>
+  <div style="position:absolute;top:50px;right:10px;width:500px;height:750px;margin-left:50px;text-align:justify;overflow-y:auto;">
+    <<print _posc.info>>
+    <br>
+    <div style="border-width:1px;border-style:dashed;border-color:deepskyblue;border-radius:5px;padding:5px;" class="quest">
+    Use your mouse to arrange the NPCs to the left into the order you prefer. This is only necessary for sex scenes with more than one NPC. When ready, click the ACCEPT button below to continue. To cancel and not change sex position, click the X to close this dialog box.
+    </div>
+    <center>
+    <<print _posc.button>>
+    </center>
+  </div>
+</div>
+
+
+:: SexEarlyEscapeMenu [nobr]
+
+<div class="quest">
+<p class="import">[Not Fully Implemented]</p>
+<p>
+Eventually, this area will display a sub-dialog for ending the sex scene. Because everything from making out to having sex is handled by the sex scene system, the effect of ending the scene varies. Your dialog choice will be determined by your set persona. NPCs will react based on the NPC's personality, situation/location, your relationship, your persona, and progression in the scene along with a few other factors. The results aren't set in stone. An early exit may be expected, or could be viewed negatively as being a tease. Depending on your content settings, certain NPCs may decide to have sex with you anyway (Non Consent). Ending a scene when <b>already</b> having sex is more likely to have a negative reaction. Currently the NPC effects of ending a scene early are not implemented.
+</p>
+</div>
+<center><<button "Escape">><<set ↂ.sex.earlyOut = true>><<run setup.sex.close()>><</button>></center>
+
+
+:: SexSceneCondomMenu [nobr]
+
+
+<center><h2>Condom Menu</h2>
+Select a condom from your inventory or ask your partner for one.
+<br><br>
+<<if setup.consumables.hasConsumable("DuremaxSafeT")>>
+  <<button "Duremax Safe-T">>
+    <<set setup.sexCondomTempType = "duremaxT">>
+    <<dropconsumable "DuremaxSafeT">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Duremax Safe-T</button>
+<</if>>
+<<if setup.consumables.hasConsumable("DuremaxSafePE")>>
+  <<button "Duremax Safe-PE">>
+    <<set setup.sexCondomTempType = "duremaxPE">>
+    <<dropconsumable "DuremaxSafePE">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Duremax Safe-PE</button>
+<</if>>
+<<if setup.consumables.hasConsumable("trojancockS")>>
+  <<button "Trojancock Sensations">>
+    <<set setup.sexCondomTempType = "trojancockS">>
+    <<dropconsumable "trojancockS">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Trojancock Sensations</button>
+<</if>>
+<br>
+<<if setup.consumables.hasConsumable("trojancockUL")>>
+  <<button "Trojancock Uber (lubricated)">>
+    <<set setup.sexCondomTempType = "trojancockUL">>
+    <<dropconsumable "trojancockUL">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Trojancock Uber (lubricated)</button>
+<</if>>
+<<if setup.consumables.hasConsumable("trojancockUNL")>>
+  <<button "Trojancock Uber (unlubricated)">>
+    <<set setup.sexCondomTempType = "trojancockUNL">>
+    <<dropconsumable "trojancockUNL">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Trojancock Uber (unlubricated)</button>
+<</if>>
+<<if setup.consumables.hasConsumable("pleasureburst")>>
+  <<button "Pleasureburst HEX">>
+    <<set setup.sexCondomTempType = "pleasureburst">>
+    <<dropconsumable "pleasureburst">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Pleasureburst HEX</button>
+<</if>>
+<br><br>
+<<button "Request Condom">>
+  <<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
+<</button>>
+</center>
+
+
+:: SexSceneUseDouche [nobr]
+
+<p>You quickly head to the bathroom and retrieve a Sultry Eve douche. Taking a seat on the toilet, you unwrap the disposable douche. Inserting the plastic nozzle into your <<p "vagina.n">>, you take a breath to brace yourself before squeezing the bottle to send a spray of cool liquid deep inside you. You keep squeezing the bottle as a mixture of douche and cum splatters down into the toilet. @@.mono;I hope this works.@@</p>
+
+:: SexSceneScoopOut [nobr]
+
+<p>Getting on your hands and knees, you slip one hand between your legs. You start by wiping your hand down your <<p "vulva.n">> to remove the cum that had already leaked from your <<p "vagina.n">>. Then you stick two fingers inside yourself before curving them into a claw shape to catch as much cum as possible as you drag them out. You repeat this action a few times, and manage to scoop out a decent amount of the <<w 'cum.n'>> <<name _t>> left inside you.</p>
+
+:: SexScenePushOut [nobr]
+
+<p>Quickly getting into a squatting position on the floor, you flex your pelvic muscles in an attempt to squeeze the <<w cum.n>> out of you. Gravity and your rhythmic squeezing cause some of <<name _t>>'s cum to dribble out of you and splatter on the floor.</p>
+
+:: SexSceneRaiseHips [nobr]
+
+Laying on your back, you lift your legs into the air, you wrap your arms around the back of your knees and hug them to your <<p "boobsize.q">> <<p "tits.n">>. This leaves your feet sticking awkwardly into the air, but also serves to angle your hips upward. You stay like that for several minutes, allowing gravity to pull <<name _t>>'s <<w cum.n>> to the depths of your pussy.
+
+:: SexSceneScoopIn [nobr]
+
+Reaching between your legs, you start scooping <<name _t>>'s <<w cum.n>> from between your pussy lips with two fingers before pushing it into your <<p 'pussy.n'>>. You repeat the process with a few errant dribbles of <<w cum.n>>, pushing it all inside yourself. When you're done, you use your fingers to try and push the cum deeper inside, letting out a rather naughty moan in the process.
+
+:: SexScenePushIn [nobr]
+
+Slipping your hand down between your legs, you stuff as many fingers as you can fit inside your <<p 'curwet.q'>> <<p 'pussy.n'>>. Your fingers shove <<name _t>>'s <<w 'cum.n'>> deeper inside yourself, preventing it from running out. @@.mono;That's right, little guys. You're gonna stay right where you belong.@@
+
+

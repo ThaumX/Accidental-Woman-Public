@@ -16,7 +16,7 @@ class NPCmain {
   public tags: string[];
   public name: string;
   public surname: string;
-  public portrait: string;
+  public portrait: string | setupSVGbuildArg;
   public nickname: string;
   public _k: string;
   constructor(key, {
@@ -54,7 +54,7 @@ class NPCmain {
     this.tags = clone(tags);
     this.name = name;
     this.surname = surname;
-    this.portrait = portrait;
+    this.portrait = clone(portrait);
     this.nickname = nickname;
   }
   public get fullName(): string {
@@ -62,6 +62,13 @@ class NPCmain {
       return this.name + " " + this.surname;
     } else {
       return this.name + " \"" + this.nickname + "\" " + this.surname;
+    }
+  }
+  public get picture(): string {
+    if (typeof this.portrait === "string") {
+      return this.portrait;
+    } else {
+      return setup.svg.build(this.portrait);
     }
   }
 }

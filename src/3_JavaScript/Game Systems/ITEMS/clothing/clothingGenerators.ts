@@ -77,7 +77,7 @@ Macro.add("genPanties", {
 BRA MACRO
 ARGUMENTS: 0-number to generate 1-Style selector, 2-fabric selector, 3-color, 4-quality bonus, 5-store name
 
-style: 0-everything equally, 1-average, 2-sexy, 3-fetish styles
+style: 0-everything equally, 1-average, 2-sexy, 3-fetish styles 4 - athletic
 Fabric: 0-standard, 1-sexy, 2-extreme sexy (high transparency)
 Color: 0-spectrum, 1-cute, 2-sexy not used
 Quality: -2 to 2 for change to attractiveness
@@ -98,7 +98,7 @@ Macro.add("genBra", {
 STOCKING MACRO
 ARGUMENTS: 0-number to generate 1-Style selector, 2-fabric selector, 3-color, 4-quality bonus, 5-store name
 
-Style: 0-everything equally, 1-standard, 2-sexy
+Style: 0-everything equally, 1-standard, 2-sexy, 3-athletic only
 Fabric: 0-standard, 1-fetish
 Color:
 Quality: -1 to 1 for change to attractiveness
@@ -119,7 +119,7 @@ Macro.add("genStocking", {
 UPPER BODY MACRO
 ARGUMENTS: 0-number to generate 1-Style selector, 2-fabric selector, 3-color, 4-quality bonus, 5-store name
 
-Style: 0-everything equally, 1-no sexy, 2-some sexy, 3-all sexy, 4-mostly sexy 5-everything equally nightwear 6-sexy nightwear
+Style: 0-everything equally, 1-no sexy, 2-some sexy, 3-all sexy, 4-mostly sexy 5-everything equally nightwear 6-sexy nightwear 7-athletic wear
 Fabric: 0-standard, 1-conservative, 2-sexy, 3-fetish
 Color: 0-spectrum, 1-cute, 2-sexy
 Quality: -2 to 2 for change to attractiveness
@@ -182,7 +182,7 @@ Macro.add("genDress", {
 LOWER BODY MACRO
 ARGUMENTS: 0-number to generate 1-Style selector, 2-fabric selector, 3-color, 4-quality bonus, 5-store name
 
-Style: 0-everything equally, 1-distro, 2-pants, 3-shorts,  4-skirts, 5-sexy, 6-pyjama pants only :)
+Style: 0-everything equally, 1-distro, 2-pants, 3-shorts,  4-skirts, 5-sexy, 6-pyjama pants only :) 7 - athletic
 Fabric: 0-standard, 1-fetish
 Color: 0-everything equally, 1-conservative, 2-flashy
 Quality: -2 to 2 for change to attractiveness
@@ -684,6 +684,7 @@ setup.clothesGen.bra = function(...args: [number, number, number, number, number
     [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 7],
     [4, 5, 6, 6, 7, 7, 8, 8, 9, 9],
     [7, 8, 8, 9, 10, 11, 11, 12, 13],
+    [1],
   ];
   const styleList = sLists[args[1]] || [1];
   const a = args[4] + 2;
@@ -1449,6 +1450,7 @@ setup.clothesGen.upperBody = function(...args: [number, number, number, number, 
     [9, 9, 10, 10, 10, 11, 11, 12, 13, 13, 14],
     [15, 16, 17, 18, 19, 20, 21],
     [16, 17, 21, 21, 21, 21],
+    [22, 23],
   ];
   const subsLists = [
     [0, 1, 2, 3, 4, 5, 6, 7],
@@ -1477,11 +1479,13 @@ setup.clothesGen.upperBody = function(...args: [number, number, number, number, 
       colorList,
       neckRand,
       nite = false,
+      athl = false,
       sleeveRand,
       necklineList,
       sleeveList,
       hemList,
       nightwear = false,
+      athletic = false,
       substyleRand;
     /*upperBody array format [0: [0-0"colorword", 0-1"style", 0-2"substyle", 0-3"tertiary", 0-4"fabric", 0-5"item code"], 1: Attr, 2: Sexy/Cute, 3: Formal/Casual, 4: Exposure, 5: status, 6: style, 7: substyle, 8: fabric, 9: color, 10: origin store, 11: price, 12: in outfit, 13: type flag]*/
     upperBody = [
@@ -1729,6 +1733,32 @@ setup.clothesGen.upperBody = function(...args: [number, number, number, number, 
         access.butt = true;
         access.pussy = true;
         nightwear = true;
+        break;
+      case 22:
+        upperBody[0][1] = "tank top";
+        necklineList = -1;
+        sleeveList = [0];
+        upperBody[1] += either(-1, 0, 0, 1, 2, 2, 3, 4); /*attractiveness*/
+        upperBody[2] += either(2, 2, 1, 1, 0); /*+sexy or -cute*/
+        upperBody[3] += either(-6, -5, -5, -4); /*+formal or -casual*/
+        upperBody[4] += either(1, 1, 2); /*exposure level 0-5*/
+        access.butt = true;
+        access.pussy = true;
+        athl = true;
+        worn.push("titsOut");
+        break;
+      case 23:
+        upperBody[0][1] = "pinnie";
+        necklineList = -1;
+        sleeveList = [0];
+        upperBody[1] += either(-3, -2, -2, -1, 0, 0, 1, 2); /*attractiveness*/
+        upperBody[2] += either(-2, -2, -1, -1, 0); /*+sexy or -cute*/
+        upperBody[3] += either(-6, -5, -5, -4); /*+formal or -casual*/
+        upperBody[4] += either(0, 0, 1); /*exposure level 0-5*/
+        access.butt = true;
+        access.pussy = true;
+        athl = true;
+        worn.push("titsOut");
         break;
       default:
         style = "bad arg to upperBodyStyle";
@@ -2155,7 +2185,7 @@ setup.clothesGen.upperBody = function(...args: [number, number, number, number, 
       origin: upperBody[10],
       swimwear: false,
       nightwear: nite,
-      athletic: false,
+      athletic: athl,
       wear: worn,
       accessNip: access.nip,
       accessTits: access.tits,
@@ -3007,6 +3037,7 @@ setup.clothesGen.lowerBody = function(...args: [number, number, number, number, 
     [1, 1, 1, 2, 2, 3, 4, 5, 5, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10, 11, 11, 11, 12, 12, 13],
     [7, 8, 8, 11, 11, 11, 12, 12, 13, 13, 15, 15, 17],
     [26],
+    [17, 25],
   ];
   const styleList = sLists[args[1]] || [1];
   const a = args[4] + 2;
@@ -3288,6 +3319,7 @@ setup.clothesGen.lowerBody = function(...args: [number, number, number, number, 
         lowerbody[4] += either(0.5, 0.5, 1); /*exposure level 0-5*/
         worn.push("pulledDown");
         worn.push("unzipped");
+        athletic = true;
         break;
       case 18:
         lowerbody[0][1] = "skinny pants";
@@ -4004,7 +4036,7 @@ setup.clothesGen.shoes = function(...args: [number, number, number, number, numb
   const sLists = [
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
     [1, 2, 3, 4, 4, 4, 5, 5, 5, 6, 7, 8, 9, 10, 11, 12, 13, 13, 14, 14, 15, 16],
-    [2],
+    [2, 17],
     [1, 1, 1, 5, 5, 13, 13, 14, 14, 9],
     [4, 4, 4, 5, 5, 5, 6, 13],
   ];
@@ -4154,6 +4186,15 @@ setup.clothesGen.shoes = function(...args: [number, number, number, number, numb
         shoes[1] += either(-3, -2, -1, 0, 1, 1); /*attractiveness*/
         shoes[2] += either(-5, -4, -4, -3, -3, -2, -1); /*+sexy or -cute*/
         shoes[3] += either(-4, -4, -3, -2); /*+formal or -casual*/
+        break;
+      case 17:
+        shoes[0][1] = "running shoes";
+        colorList = [1, 2, 2, 2, 3, 4, 6, 7, 8, 13];
+        subStyleList = [0];
+        shoes[1] += either(-2, 1, 2, 3); /*attractiveness*/
+        shoes[2] += either(-2, -1, -1, 0, 1, 2); /*+sexy or -cute*/
+        shoes[3] += either(-3, -2, -1, 0); /*+formal or -casual*/
+        athletic = true;
         break;
       default:
         style = "bad arg to shoesStyle";

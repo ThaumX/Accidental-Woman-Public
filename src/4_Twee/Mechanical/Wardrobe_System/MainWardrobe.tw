@@ -1,0 +1,266 @@
+:: MainWardrobe [nobr noui hidden startpage]
+
+<<silently>>
+<<set _prevPassage = aw.passage.previous[0]>>
+<<if _prevPassage !== "MainWardrobe">>
+  <<if ↂ.flag.Prologue>>
+    <<if $AW.startMale>>
+      <<set $return = "storyStart18a">>
+    <<else>>
+      <<set $return = "FemStart8">>
+    <</if>>
+  <<else>>
+    <<set $return = _prevPassage>>
+  <</if>>
+<</if>>
+<</silently>>
+<div class="blocker"></div>
+<div id="wardrobeBackdrop">
+  <div id="wardrobeTitle">
+    <<link '<img data-passage="IMG-ReturnButton" class= "imgButton" style="width:90px;height:auto;">'>><<setPCportrait>><<go $return>><</link>>
+    <img data-passage="IMG-WardrobeLabel">
+  </div>
+  <div id="wardrobePaperdoll" class="argyle">
+    <div id="buttonbox" style="position:absolute;top:5px;right:5px;height:40px;width:90px;">
+    <<link '<img data-passage="IMG-PD-InfinityIcon" class="imgButton" title="Toggle outer layer visibility">'>><<if $AW.paperOver>><<set $AW.paperOver = false>><<else>><<set $AW.paperOver = true>><</if>><<replace "#wardrobePaperdollCunt">><<print setup.clothes.PaperDollPrint()>><</replace>><<replace "#paperOptionsInfo">><<print setup.clothes.PaperDollOptions()>><</replace>><</link>><<link '<img data-passage="IMG-PD-StarIcon" class="imgButton" title="Cycle Through Options">'>><<set $AW.paperBlush += 1>><<if $AW.paperBlush > 3>><<set $AW.paperBlush = 0>><</if>><<replace "#wardrobePaperdollCunt">><<print setup.clothes.PaperDollPrint()>><</replace>><<replace "#paperOptionsInfo">><<print setup.clothes.PaperDollOptions()>><</replace>><</link>>
+    </div>
+    <div id="paperOptionsInfo" class="monospace blackOutline" style="position:absolute;top:5px;left:5px;height:40px;width:350px;text-align:left;font-size:15px;font-weight:bold;color:#fceccc;">
+      <<print setup.clothes.PaperDollOptions()>>
+    </div>
+    <div id="wardrobePaperdollCunt">
+      <<print setup.clothes.PaperDollPrint()>>
+    </div>
+    <div style="position:absolute;bottom:0px;left:0px;right:0px;height:150px;background-color:rgba(19,12,3,0.15);z-index:202;"></div>
+  </div>
+  <div id="wardrobeBraBox" class="clothingslot" style="right: 25px; top: 350px;">
+    <div id="wardBra" class="wardCunts" style="right:0px;">
+      <<if ↂ.pc.clothes.keys.bra != 0>>
+        <<print aw.slot.bra.print()>>
+      <<else>>
+        <div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br>BRA EMPTY</div>
+      <</if>>
+    </div>
+    <div class="wardControls" style="left:2px;">
+      <<link '<img data-passage="IMG-WardrobeRemoveIcon" class="imgButton">'>><<run setup.clothes.remove("bra")>><<replace "#wardBra">><div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br>BRA EMPTY</div><</replace>><<replace "#wardrobePaperdollCunt">><<print setup.clothes.PaperDollPrint()>><</replace>><</link>>
+      <<link '<img data-passage="IMG-WardrobeOwnedIcon" class="imgButton">'>><<dialog "Bra Slot Items">><<print setup.clothes.sortButtons(["ↂ.ward.bra","ↂ.ward.swimU"],"#warder","<<print setup.clothes.wardList('bra','swimU')>>")>><div id="warder"><<print setup.clothes.wardList("bra","swimU")>></div><</dialog>><</link>>
+      <<link '<img data-passage="IMG-WardrobeInfoIcon" class="imgButton">'>><<if ↂ.pc.clothes.keys.bra != 0>><<dialog "Clothing Detail">><<print aw.slot.bra.details>><</dialog>><</if>><</link>>
+    </div>
+  </div>
+  <div id="wardrobePantyBox" class="clothingslot" style="right: 25px; top: 550px;">
+    <div id="wardPanties" class="wardCunts" style="right:0px;">
+      <<if ↂ.pc.clothes.keys.panties != 0>>
+        <<print aw.slot.panties.print()>>
+      <<else>>
+        <div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br>PANTIES EMPTY</div>
+      <</if>>
+    </div>
+    <div class="wardControls" style="left:2px;">
+      <<link '<img data-passage="IMG-WardrobeRemoveIcon" class="imgButton">'>><<run setup.clothes.remove("panties")>><<replace "#wardPanties">><div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br>PANTIES EMPTY</div><</replace>><<replace "#wardrobePaperdollCunt">><<print setup.clothes.PaperDollPrint()>><</replace>><</link>>
+      <<link '<img data-passage="IMG-WardrobeOwnedIcon" class="imgButton">'>><<dialog "Panties Body Slot Items">><<print setup.clothes.sortButtons(["ↂ.ward.panties","ↂ.ward.swimL"],"#warder","<<print setup.clothes.wardList('panties','swimL')>>")>><div id="warder"><<print setup.clothes.wardList("panties","swimL")>></div><</dialog>><</link>>
+      <<link '<img data-passage="IMG-WardrobeInfoIcon" class="imgButton">'>><<if ↂ.pc.clothes.keys.panties != 0>><<dialog "Clothing Detail">><<print aw.slot.panties.details>><</dialog>><</if>><</link>>
+    </div>
+  </div>
+  <div id="wardrobeLegBox" class="clothingslot" style="right: 25px; top: 750px;">
+    <div id="wardLeg" class="wardCunts" style="right:0px;">
+      <<if ↂ.pc.clothes.keys.leg != 0>>
+        <<print aw.slot.leg.print()>>
+      <<else>>
+        <div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br>LEGS EMPTY</div>
+      <</if>>
+    </div>
+    <div class="wardControls" style="left:2px;">
+      <<link '<img data-passage="IMG-WardrobeRemoveIcon" class="imgButton">'>><<run setup.clothes.remove("leg")>><<replace "#wardLeg">><div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br>LEGS EMPTY</div><</replace>><<replace "#wardrobePaperdollCunt">><<print setup.clothes.PaperDollPrint()>><</replace>><</link>>
+      <<link '<img data-passage="IMG-WardrobeOwnedIcon" class="imgButton">'>><<dialog "Leg Slot Items">><<print setup.clothes.sortButtons("ↂ.ward.leg","#warder","<<print setup.clothes.wardList('leg')>>")>><div id="warder"><<print setup.clothes.wardList("leg")>></div><</dialog>><</link>>
+      <<link '<img data-passage="IMG-WardrobeInfoIcon" class="imgButton">'>><<if ↂ.pc.clothes.keys.leg != 0>><<dialog "Clothing Detail">><<print aw.slot.leg.details>><</dialog>><</if>><</link>>
+    </div>
+  </div>
+  <div id="wardrobeTopBox" class="clothingslot" style="right: 780px; top: 350px;">
+    <div id="wardTop" class="wardCunts" style="left:0px;">
+      <<if ↂ.pc.clothes.keys.top != 0>>
+        <<print aw.slot.top.print()>>
+      <<else>>
+        <div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br>TOP EMPTY</div>
+      <</if>>
+    </div>
+    <div class="wardControls" style="right:2px;">
+      <<link '<img data-passage="IMG-WardrobeRemoveIcon" class="imgButton">'>><<run setup.clothes.remove("top")>><<replace "#wardTop">><div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br>TOP EMPTY</div><</replace>><<replace "#wardrobePaperdollCunt">><<print setup.clothes.PaperDollPrint()>><</replace>><</link>>
+      <<link '<img data-passage="IMG-WardrobeOwnedIcon" class="imgButton">'>><<dialog "Upper Body Slot Items">><<print setup.clothes.sortButtons(["ↂ.ward.top","ↂ.ward.dress"],"#warder","<<print setup.clothes.wardList('top','dress','athU')>>")>><div id="warder"><<print setup.clothes.wardList("top","dress","athU")>></div><</dialog>><</link>>
+      <<link '<img data-passage="IMG-WardrobeInfoIcon" class="imgButton">'>><<if ↂ.pc.clothes.keys.top != 0>><<dialog "Clothing Detail">><<print aw.slot.top.details>><</dialog>><</if>><</link>>
+    </div>
+  </div>
+  <div id="wardrobeBottomBox" class="clothingslot" style="right: 780px; top: 550px;">
+    <div id="wardBottom" class="wardCunts" style="left:0px;">
+      <<if ↂ.pc.clothes.keys.bottom != 0>>
+        <<print aw.slot.bottom.print()>>
+      <<else>>
+        <div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br><br>BOTTOM EMPTY</div>
+      <</if>>
+    </div>
+    <div class="wardControls" style="right:2px;">
+      <<link '<img data-passage="IMG-WardrobeRemoveIcon" class="imgButton">'>><<run setup.clothes.remove("bottom")>><<replace "#wardBottom">><div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br>BOTTOM EMPTY</div><</replace>><<replace "#wardrobePaperdollCunt">><<print setup.clothes.PaperDollPrint()>><</replace>><</link>>
+      <<link '<img data-passage="IMG-WardrobeOwnedIcon" class="imgButton">'>><<dialog "Lower Body Slot Items">><<print setup.clothes.sortButtons("ↂ.ward.bottom","#warder","<<print setup.clothes.wardList('bottom','athL')>>")>><div id="warder"><<print setup.clothes.wardList("bottom","athL")>></div><</dialog>><</link>>
+      <<link '<img data-passage="IMG-WardrobeInfoIcon" class="imgButton">'>><<if ↂ.pc.clothes.keys.bottom != 0>><<dialog "Clothing Detail">><<print aw.slot.bottom.details>><</dialog>><</if>><</link>>
+    </div>
+  </div>
+  <div id="wardrobeShoesBox" class="clothingslot shoes" style="right: 780px; top: 750px;">
+    <div id="wardShoes" class="wardCunts" style="left:0px;">
+      <<if ↂ.pc.clothes.keys.shoes != 0>>
+        <<print aw.slot.shoes.print()>>
+      <<else>>
+        <div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br>SHOES EMPTY</div>
+      <</if>>
+    </div>
+    <div class="wardControls" style="right:2px;">
+      <<link '<img data-passage="IMG-WardrobeRemoveIcon" class="imgButton">'>><<run setup.clothes.remove("shoes")>><<replace "#wardShoes">><div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br>SHOES EMPTY</div><</replace>><<replace "#wardrobePaperdollCunt">><<print setup.clothes.PaperDollPrint()>><</replace>><</link>>
+      <<link '<img data-passage="IMG-WardrobeOwnedIcon" class="imgButton">'>><<dialog "Shoes Slot Items">><<print setup.clothes.sortButtons("ↂ.ward.shoes","#warder","<<print setup.clothes.wardList('shoes')>>")>><div id="warder"><<print setup.clothes.wardList("shoes")>></div><</dialog>><</link>>
+      <<link '<img data-passage="IMG-WardrobeInfoIcon" class="imgButton">'>><<if ↂ.pc.clothes.keys.shoes != 0>><<dialog "Clothing Detail">><<print aw.slot.shoes.details>><</dialog>><</if>><</link>>
+    </div>
+  </div>
+  <div id="wardrobeCoatBox" class="clothingslot coat" style="right: 1225px; top: 750px;">
+    <div id="wardCoat" class="wardCunts" style="left:0px;">
+      <<if ↂ.pc.clothes.keys.coat != 0>>
+        <<print aw.slot.coat.print()>>
+      <<else>>
+        <div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br>OVERWEAR EMPTY</div>
+      <</if>>
+    </div>
+    <div class="wardControls" style="right:2px;">
+      <<link '<img data-passage="IMG-WardrobeRemoveIcon" class="imgButton">'>><<run setup.clothes.remove("coat")>><<replace "#wardCoat">><div class="WardrobeGarmentBig WardrobeGarmentGrayed tit"><br>OVERWEAR EMPTY</div><</replace>><<replace "#wardrobePaperdollCunt">><<print setup.clothes.PaperDollPrint()>><</replace>><</link>>
+      <<link '<img data-passage="IMG-WardrobeOwnedIcon" class="imgButton">'>><<dialog "Overwear Slot Items">><<print setup.clothes.sortButtons("ↂ.ward.coat","#warder","<<print setup.clothes.wardList('shocoates')>>")>><div id="warder"><<print setup.clothes.wardList("coat")>></div><</dialog>><</link>>
+      <<link '<img data-passage="IMG-WardrobeInfoIcon" class="imgButton">'>><<if ↂ.pc.clothes.keys.coat != 0>><<dialog "Clothing Detail">><<print aw.slot.coat.details>><</dialog>><</if>><</link>>
+    </div>
+  </div>
+  <div id="wardrobeBottomBox" class="clothingslot accessory" style="right: 780px; top: 750px; min-width: 30px; border">
+    <div id="accBigButt"><<link '<img data-passage="IMG-AccessoriesButton" class="imgButton" style="width: 100%; min-width: 100px; max-width: 190px;">'>><<dialog 'Nope'>>Sorry, it was not implemented yet!<</dialog>><</link>></div>
+    <div id="accSmollButt"><<link 'Accessories'>><<dialog 'Nope'>>Sorry, it was not implemented yet!<</dialog>><</link>></div>
+  </div>
+  <div id="mainWardrobeMenu">
+    <<include [[wardrobeMainDetails]]>>
+  </div>
+  <div id="wardrobeOutfitQuick">
+    <center><span style="font-size:30px;font-weight:bold;">OUTFITS</span></center>
+    <span><<button "CASUAL">><<run setup.clothes.outfit.wear("Casual")>><<go MainWardrobe>><</button>></span><<button "🖫">><<run setup.clothes.outfit.save("Casual", "Casual", true)>><<notify>><h2>Outfit Saved!</h2><</notify>><</button>><<button "🗑">><<run setup.clothes.outfit.empty("Casual")>><<notify>><h2>Outfit Deleted!</h2><</notify>><</button>><br>
+    <span><<button "WORK">><<run setup.clothes.outfit.wear("Work")>><<go MainWardrobe>><</button>></span><<button "🖫">><<run setup.clothes.outfit.save("Work", "Work", true)>><<notify>><h2>Outfit Saved!</h2><</notify>><</button>><<button "🗑">><<run setup.clothes.outfit.empty("Work")>><<notify>><h2>Outfit Deleted!</h2><</notify>><</button>><br>
+    <span><<button "FANCY">><<run setup.clothes.outfit.wear("Fancy")>><<go MainWardrobe>><</button>></span><<button "🖫">><<run setup.clothes.outfit.save("Fancy", "Fancy", true)>><<notify>><h2>Outfit Saved!</h2><</notify>><</button>><<button "🗑">><<run setup.clothes.outfit.empty("Fancy")>><<notify>><h2>Outfit Deleted!</h2><</notify>><</button>><br>
+    <span><<button "HOME">><<run setup.clothes.outfit.wear("Home")>><<go MainWardrobe>><</button>></span><<button "🖫">><<run setup.clothes.outfit.save("Home", "Home", true)>><<notify>><h2>Outfit Saved!</h2><</notify>><</button>><<button "🗑">><<run setup.clothes.outfit.empty("Home")>><<notify>><h2>Outfit Deleted!</h2><</notify>><</button>><br>
+    <span><<button "NIGHT">><<run setup.clothes.outfit.wear("Night")>><<go MainWardrobe>><</button>></span><<button "🖫">><<run setup.clothes.outfit.save("Night", "Night", true)>><<notify>><h2>Outfit Saved!</h2><</notify>><</button>><<button "🗑">><<run setup.clothes.outfit.empty("Night")>><<notify>><h2>Outfit Deleted!</h2><</notify>><</button>><br>
+  </div>
+  <div id="wardrobeOutfitCreate">
+    <<button "REMOVE ALL CLOTHES">><<run setup.clothes.outfit.remove()>><<go MainWardrobe>><</button>>
+    <<button "SAVE AS NEW OUTFIT">><<dialog "New Outfit">><<include [[wardrobeMainSaveAs]]>><</dialog>><</button>>
+    <<button "WEAR CUSTOM OUTFIT">><<dialog "Wear/View Outfits">><<include [[wardrobeMainWearOutfit]]>><</dialog>><</button>>
+    <span><<button "OVERWRITE">><<dialog "Overwrite Outfit">><<include [[wardrobeMainSaveOver]]>><</dialog>><</button>><<button "DELETE">><<dialog "! Delete Outfit !">><<include [[wardrobeMainDeleter]]>><</dialog>><</button>></span>
+  </div>
+</div>
+
+
+
+
+:: wardrobeMainDetails [nobr]
+
+<center><span style="font-size:115%;font-weight:bold;color:#ffcc92;">DETAILS</span></center>
+<p><<silently>><<set _specials = []>><<if setup.clothes.nightwear>><<set _specials.push(" Nightwear")>><</if>><<if setup.clothes.athletic>><<set _specials.push(" Athletic")>><</if>><<if setup.clothes.swimwear>><<set _specials.push(" Swimwear")>><</if>><<if setup.clothes.kinky>><<set _specials.push(" Kinky")>><</if>><</silently>>
+<span style="font-size:1.1rem;color:#ffcc92;"><b>Outfit:</b> <<print setup.clothes.isOutfitName()>></span><br>
+<b>Attractiveness:</b><<sp 2>><<print setup.clothes.desc.atr>> (<<print ↂ.pc.clothes.stats.atr>>)<br>
+<b>Appearance:</b><<sp 2>><<print setup.clothes.desc.sexy>><br>
+<b>Formality:</b><<sp 2>><<print setup.clothes.desc.formal>><br>
+<b>Status:</b><<sp 2>><<if setup.clothes.wet && setup.clothes.stained>>Wet & Stained<<elseif setup.clothes.wet>>Wet (water)<<elseif setup.clothes.stained>>Dried Stains<<else>>Normal<</if>> <<if setup.clothes.damaged>>Damaged<<else>>Fine<</if>><br>
+<b>Upper Exposure:</b><<sp 2>><<print setup.clothes.desc.exposureTop>><br>
+<b>Lower Exposure:</b><<sp 2>><<print setup.clothes.desc.exposureBottom>><br>
+<b>Special:</b><<sp 2>><<print _specials>>
+</p>
+<<silently>>
+<<set _itemCount = 0>>
+<<set _itemCount += ↂ.ward.leg.length>>
+<<set _itemCount += ↂ.ward.bra.length>>
+<<set _itemCount += ↂ.ward.panties.length>>
+<<set _itemCount += ↂ.ward.bottom.length>>
+<<set _itemCount += ↂ.ward.top.length>>
+<<set _itemCount += ↂ.ward.top.length>>
+<<set _itemCount += ↂ.ward.dress.length>>
+<<set _itemCount += ↂ.ward.athU.length>>
+<<set _itemCount += ↂ.ward.athL.length>>
+<<set _itemCount += ↂ.ward.swimU.length>>
+<<set _itemCount += ↂ.ward.swimL.length>>
+<<set _itemCount += ↂ.ward.niteL.length>>
+<<set _itemCount += ↂ.ward.niteU.length>>
+<<set _itemCount += ↂ.ward.coat.length>>
+<<set _itemCount += ↂ.ward.acc.length>>
+<<set _itemCount += ↂ.ward.bag.length>>
+<<set _outfits = Object.keys(setup.outfits)>>
+<</silently>>
+<p>
+<span style="font-size:1.1rem;color:#ffcc92"><b>Wardrobe Statistics</b></span><br>
+<b>Outfit Count:</b><<sp 2>><<print _outfits.length>><<tab>><b>Clothing Items</b><<sp 2>><<print _itemCount>>
+</p>
+<p>
+<<print setup.clothes.outfit.check()>>
+</p>
+<p><center><<info "Wardrobe Information" guideWardrobe>>
+<<if $swim == "[dev]">><<dropdown "_testCategory" "panties" "bra" "leg" "top" "bottom" "dress" "coat" "shoes" "coat">><<dropdown "_testStore" "Bullseye" "UniHoe" "CazzoFottere" "Cucci" "ThighGap" "VaginaSecrets">><<button "TEST">><<run setup.shop.launch.clothes(_testStore,_testCategory)>><</button>><</if>></center></p>
+
+/*  <<button "change hair">><<set ↂ.pc.groom.hairColor = either("blonde","black","copper","brown")>><</button>><<button "Change skin">><<set ↂ.pc.body.skinColor = either("fair","light","dusky","midnight")>><</button>>
+  <<button "test shop">><<set setup.shopInv.UniHoe.panties = clone(ↂ.storeInv.panties)>><<dialog "Shopping">><<print setup.clothes.sortButtons("setup.shopInv.UniHoe.panties","#warder","<<print setup.clothes.shopList('UniHoe','panties')>>")>><div id="warder"><<print setup.clothes.shopList("UniHoe","panties")>></div><</dialog>><</button>>*/
+/*🗙*/
+
+
+:: wardrobeMainSaveAs [nobr]
+
+<<set _outfits = Object.keys(setup.outfits)>>
+<<set _outfitNamos = 1 + _outfits.length>>
+<<set _outfitNamos = "Outfit #" + _outfitNamos>>
+<center><h2>Save New Outfit</h2></center>
+Type: <<dropdown "_outfitGroup" "none" "Casual" "Work" "Fancy" "Home" "Night">> 
+Name: <<textbox "_tempoName" _outfitNamos>>@@.cmdbutton;<<button "SAVE">><<run setup.clothes.outfit.save(_tempoName, _outfitGroup)>><<go MainWardrobe>><<run Dialog.close()>><</button>>@@
+<br><br>
+<b>Type:</b> If you would like for this outfit to be able to be chosen randomly when choosing to wear a standard outfit, select the applicable outfit here. Example: If you created an alternate outfit for work, you could set this dropdown to "Work", and selecting the Work outfit in some game areas will randomize between the two.
+<br><br>
+<b>Name:</b> Choose a memorable name or simply go with the default names. Most characters are acceptable, use apostrophes ('), quotation marks("), and backquotes (`) at your own risk.
+<br>
+
+
+:: wardrobeMainSaveOver [nobr]
+
+<<silently>>
+<<set _outfitNamers = []>>
+<<set _outfits = Object.keys(setup.outfits)>>
+<<set _mainNamers = ["Casual","Work","Fancy","Home","Night"]>>
+<<for _i to 0; _i < _outfits.length; _i++>>
+  <<if _mainNamers.includes(_outfits[_i])>>
+    /*nothing*/<<else>><<set _outfitNamers.push(_outfits[_i])>>
+  <</if>>
+<</for>>
+<</silently>>
+<center><h2>Update Outfit</h2></center>
+Type: <<dropdown "_outfitGroup" "none" "Casual" "Work" "Fancy" "Home" "Night">> 
+Name: <<dropdown "_tempoName" _outfitNamers>> @@.cmdbutton;<<button "SAVE">><<run setup.clothes.outfit.save(_tempoName, _outfitGroup, true)>><<go MainWardrobe>><<run Dialog.close()>><</button>>@@
+<br><br>
+<b>Type:</b> If you would like for this outfit to be able to be chosen randomly when choosing to wear a standard outfit, choose the default outfit here. <span class="import">You must reselect this when overwriting/updating an outfit!</span>
+<b>Name:</b> Choose the outfit you'd like to update here.
+<br>
+
+
+:: wardrobeMainDeleter [nobr]
+
+<<silently>>
+<<set _outfitNamers = []>>
+<<set _outfits = Object.keys(setup.outfits)>>
+<<set _mainNamers = ["Casual","Work","Fancy","Home","Night"]>>
+<<for _i to 0; _i < _outfits.length; _i++>>
+  <<if _mainNamers.includes(_outfits[_i])>>
+    /*nothing*/<<else>><<set _outfitNamers.push(_outfits[_i])>>
+  <</if>>
+<</for>>
+<</silently>>
+<center><h2>Delete an Outfit</h2></center>
+<<dropdown "_tempoName" _outfitNamers>> @@.cmdbutton;<<button "DELETE">><<run setup.clothes.outfit.delete(_tempoName)>><<go MainWardrobe>><<run Dialog.close()>><</button>>@@
+<br><br>
+<span class="import">This can not be undone.</span> Default outfits can not be deleted, only set to be empty.
+<br>
+[<<print _outfits.length>>]
+
+
+:: wardrobeMainWearOutfit [nobr]
+
+<b>Choose an outfit to wear</b> [<<print _outfits.length>>]
+<<print setup.clothes.outfit.print()>>

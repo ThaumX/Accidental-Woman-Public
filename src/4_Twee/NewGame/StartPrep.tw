@@ -1,0 +1,34 @@
+:: PostSkillStartPrep [nobr hidden noui]
+
+<<run setup.scc()>>
+<<status>>
+<<pcTotalATR>>
+
+<<run setup.fert.goddessCheck()>>
+<<run setup.fert.playerStatsCalc()>>
+<<set ↂ.pc.status.arousal = 2>>
+<<run setup.calc_energy_base()>>
+<<set ↂ.pc.status.energy.max = ↂ.pc.body.energy>>
+<<run setup.calcEnergyRate()>>
+<<status 0>>
+<<include [[DEFsemiNPC-Prologue]]>>
+
+<<procS "Init PC History">>
+<<run setup.updatePlayerHistory()>>
+<<procE>>
+
+/*<<updatePlayerHistory>>*/
+
+<<set _num = $npcMax - setup.npc.ready.length>>
+<<if _num > 0>>
+	<<procS "generate NPCs">>
+	<<generateNPC _num 0 0 50 0 [0,0] [0,0] [0,0] [0,0] 0 0>>
+  <<run setup.fakeNPC.fillTo()>>
+	<<procE>>
+<</if>>
+
+<<timed 100ms>>
+<<run setup.npcSched.generate()>>
+<<next>>
+<<goto nameCharacterB>>
+<</timed>>

@@ -7,6 +7,7 @@ class Penis {
   public circum: boolean;
   public hard: number;
   public smegma: boolean;
+  public type: string;
   public tags: string[];
   public _k: string;
   constructor(key, {
@@ -16,6 +17,7 @@ class Penis {
     circum = false,
     hard = 0,
     smegma = false,
+    type = "human",
     tags = ["none"],
   }: DataCock) {
       this._k = key;
@@ -25,6 +27,7 @@ class Penis {
       this.circum = circum;
       this.hard = hard;
       this.smegma = smegma;
+      this.type = type;
       this.tags = clone(tags);
     }
     public vol(): number {

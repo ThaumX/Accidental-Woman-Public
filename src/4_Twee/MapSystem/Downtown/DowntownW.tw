@@ -1,0 +1,165 @@
+:: DowntownW [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPdowntown]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+<div id="storeWindow">
+[img[IMG-Restaurant-GoldenShower]]
+[img[IMG-HindenBurger]]
+[img[IMG-Store-StrapOn]]
+[img[IMG-School-Squat1]]
+[img[IMG-ChurchOfMan]]
+[img[IMG-NoRagertsParlor]]
+</div>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<p>
+@@.head3;Y@@ou're standing in the western area of downtown, on a broad sidewalk. There are several shops and restaurants to visit if you are so inclined. The place has a clean and friendly appearance.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Golden Shower">><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "HindenBurger">><</button>>
+<<endhoverrevise>>
+<<hoverrevise delta>>
+  <<button "Shop at Strap-On">><</button>>
+<<endhoverrevise>>
+<<hoverrevise gamma>>
+  <<openhours 16 22>>
+    <<button "Visit Besty's SlavSquat Academy">><<gotoSchool "besty">><</button>>
+  <<closed "Besty's SlavSquat Academy">>
+  <</openhours>>
+<<endhoverrevise>>
+<<hoverrevise lambda>>
+  <button class="disabled">Visit Church of Man</button>
+<<endhoverrevise>>
+<<hoverrevise NoRagerts>>
+  <<button "NoRagerts">><<agecheck 18 3 "AgePassNoRagerts">><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>[not implemented] Eat at Golden Shower. <span class="money">₢₢</span><<endinsertion>>
+<<insertion beta>>[not implemented] Eat at HindenBurger. <span class="money">₢₢</span><<endinsertion>>
+<<insertion delta>>[not implemented] Visit Strap-on tools to shop for tools or hardware.<<endinsertion>>
+<<insertion gamma>>Visit Besty's SlavSquat Academy to check it out or sign up for a course. @@.ship;[ATHLETIC⧫MISC]@@<<endinsertion>>
+<<insertion lambda>>Visit the Church of Man. <<ctn>>[not implemented]<</ctn>><<endinsertion>>
+<<insertion NoRagerts>>Old-styled Tattoo parlor<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+
+:: DowntownWLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+
+
+:: DowntownShopNoRagerts [nobr map]
+
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPdowntown]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+</p>
+/*LOCATION description of location without any reference to time/weather and doesn't mention character.*/
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact">
+<p><<f Y>>ou step inside the parlor. It looks like one of these places that were popular in your childhood, old-style lapmps, painted brick walls, a lot of wood surfaces. You take a step towards the counter and the middle-aged guy with a impressive beard welcomes you. It seems he is dressed in the same style, you can guess it was called "hipster" or something like this back in the days somebody cared about this subculture.</p>
+<p>@@.mono;<<= either("I wonder if these guys use 'I like it after it was cool' line, tee-hee.","It is amazing there are people still into this after all these years.")>>@@</p>
+</span>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise tattoo>>
+  <<button "Make a tattoo">><<addTime 10>><<dialog "Tattoo parlor">><<include [[DowntownShopNoRagertsTattoo]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise designer>>
+  <<button "Design tattoo">><<dialog "Designer">><<include [[TattooCreator]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise load>>
+  <<button "Load a mod">><<dialog "Mod loading">><<include [[UseTattooDesign]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion tattoo>>@@.exp;Check out possible tattoos you can make. [10min]@@<<endinsertion>>
+<<insertion designer>>@@.exp;Try to create your own tattoo design@@<<endinsertion>>
+<<insertion load>>@@.exp;Load a tattoo mod into the game@@<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: DowntownShopNoRagertsTattoo [nobr]
+
+<center>[img[IMG-HaveATattoo]]</center><br>
+<<f Y>>ou ask the guy about tattoo services they provide. He hands you a slate.
+<p>@@.npc;Yeah, take a look here, we can do any of this designs, just notify me if there is any you would like to have.@@</p>
+<p><<dropdown "_tattooPlace" "face" "neck" "shoulderLeft" "shoulderRight" "armLeft" "armRight" "palmLeft" "palmRight" "breast" "belly" "pubic" "thighLeft" "thighRight" "calfLeft" "calfRight" "feetLeft" "feetRight" "backUpper" "backLower" "butt" "asshole" "vagina">>&nbsp;&nbsp;<<button "Show designs">><<replace "#tattooDiv">><<print setup.tattoo.parlorList("tattoo", _tattooPlace, "DowntownShopNoRagertsTattooDone")>><</replace>><</button>></p><<addtime 9>>
+<div id="tattooDiv"></div>
+
+
+:: DowntownShopNoRagertsTattooDone [nobr]
+
+<<set _TatttoRandTime = random(37, 72)>><<addtime _TatttoRandTime>>
+<p><<f G>>uy nods and asks you to take a seat on the hair salon-looking chair. While he prepares his tattoo machine, needles and transfers the image to your skin with a pen you worry a little about the pain.</p>
+<p>@@.pc;It gonna hurt?@@</p>
+<p>@@.npc;Hmm, not much, I gonna add some anesthetic  so it must be bearable.@@</p>
+<p>He puts on latex gloves and start countouring the image. The tattoo machine creates a steady mesmerising sound just like an electric shaver and the pain is not a thing so you get into some kind of a trance after pretty soon. When he finishes you feel a bit sleepy and stretch carefully to abstain from damaging the fresh tattoo.</p>
+<p>@@.npc;Done, kiddo. Looking good for me. It will take a day or two to heal completely, dont rub it till then.@@</p>
+<p>You pay for the services and leave.</p>
+<p><<button "Exit">><<go DowntownShopNoRagerts>><</button>></p>
+
+
+:: DowntownShopNoRagertsLOC [nobr]
+
+<center>[img[IMG-TattooLoc]]</center><br>
+You see some client already decided what tattoo she wants. It seems that this piece of art is almost done altough she may want to color it later.

@@ -1,0 +1,81 @@
+
+:: DowntownMallSouth [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmall]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<div id="storeWindow">
+[img[IMG-ClothingBrand-Cucci]]
+[img[IMG-ClothingBrand-CazzoFottere]]
+[img[IMG-ClothBrand-TT]]
+</div>
+<p class="weather-disc">
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<p>
+@@.head3;Y@@ou're standing in the southern concourse of the Applewood Mall. This area is dominated by higher-end clothing stores and jewelry retailers, but otherwise looks the same as the rest of the mall.
+</p>
+<p id="locact"></p><<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Cucci Clothing">><<addTime 4>><<go DowntownShopCucci>><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "Cazzo & Fottere Clothing">><<addTime 4>><<go DowntownShopCazzoFottere>><</button>>
+<<endhoverrevise>>
+<<hoverrevise delta>>
+  <<button "Tight Threads">><<addTime 5>><<go DowntownShopTightThreads>><</button>>
+<<endhoverrevise>>
+<<hoverrevise gamma>>
+  <<button "The Family Jewels">><</button>>
+<<endhoverrevise>>
+<<hoverrevise lambda>>
+  <<button "Clutch Your Goods">><</button>>
+<<endhoverrevise>>
+<<hoverrevise phi>>
+  <<button "Shoegasm!">><<go DowntownShopShoegasm>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>A high-end clothing store, both the appearance and prices are high-end.<<endinsertion>>
+<<insertion beta>>An Italian fashion store featuring nice clothes at a not-so-nice price.<<endinsertion>>
+<<insertion delta>>A custom clothing store, where the design you create is created while you wait.<<endinsertion>>
+<<insertion gamma>>@@.import;[Not Implemented]@@ A jewelry store for discerning customers.<<endinsertion>>
+<<insertion lambda>>@@.import;[Not Implemented]@@ A store selling handbags<<endinsertion>>
+<<insertion phi>>A shoe store with a wide variety of fashions from extreme heels to women's sneakers.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+
+:: DowntownMallSouthLOC [nobr]
+
+<<set _rande = either(true,false)>>
+<<if _rande>>
+You see a young woman whose sweater is nearly too small for her puppies. Still, it's rather tame for Appletree.<br>
+<center>[img[IMG-Mall-exhib1]]<br><span class="ship monospace" style="font-size:0.75rem;">1/2</span></center>
+<<else>>
+You notice a woman putting on a show for a middle-aged man who might be her boyfriend, or perhaps her sugar daddy. It seems she's persuading him to let her shop in Cucci. Before long she's doing a little victory bounce, and then the two head into the store together.
+<center>[img[IMG-Mall-exhib4]]<br><span class="ship monospace" style="font-size:0.75rem;">2/2</span></center>
+<</if>>
+
+

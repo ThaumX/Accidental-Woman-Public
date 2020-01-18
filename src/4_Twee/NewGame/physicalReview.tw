@@ -1,0 +1,120 @@
+:: physicalReview [nobr]
+
+
+<div id="cardback"></div>
+<div class="uicardbig">
+<div style="width:75%;">
+<<set $helpText = "This is a chance to make sure your character looks the way you want them to before continuing. Note that some choices you make after this may affect your character's appearance in minor ways.">>
+<<silently>>
+<<set ↂ.pc.main.age = Number(ↂ.pc.main.age)>>
+<<set ↂ.pc.groom.pubeShape = setup.pubeShape(ↂ.pc.groom.pubeStyle)>>
+
+<<if ↂ.pc.body.tits.cupNum < 5 && ↂ.pc.body.lactation > 1>>
+	<<set ↂ.pc.body.lactation = 1>>
+<<elseif ↂ.pc.body.tits.cupNum < 10 && ↂ.pc.body.lactation > 2>>
+	<<set ↂ.pc.body.lactation = 2>>
+<<elseif ↂ.pc.body.tits.cupNum < 21 && ↂ.pc.body.lactation > 3>>
+	<<set ↂ.pc.body.lactation = 3>>
+<</if>>
+<</silently>>
+<<if ↂ.pc.body.height > 84>>
+	@@.note;Your chosen height (<<unit ↂpc.body.height in>>) was over 7 feet tall (2.13 meters), which is already almost exclusively limited to those with a medical condition. Your height has been set to 7 feet. (84 inches, 213 cm).@@<hr><br>
+	<<set ↂ.pc.body.height = 84>>
+<<elseif ↂ.pc.body.height < 58 && ↂ.pc.main.age >= 18>>
+	@@.note;Your chosen height (<<unit ↂpc.body.height in>>) was under 4 foot 10 inches tall, and you are an adult biologically. 4-foot-6 is the lowest [[healthy|http://halls.md/chart/GirlsHeightWhite.gif]] height of a 12-year-old girl. A height of 4ft 10in or less in adults is considered [[dwarfism|http://www.lpaonline.org/faq-]] medically. Your height has been set to 58 inches.<hr><br>
+	<<set ↂ.pc.body.height = 58>>
+<<elseif ↂ.pc.body.height < 57 && ↂ.pc.main.age >= 17>>
+	@@.note;Your chosen height (<<unit ↂpc.body.height in>>) was under 4 foot 9 inches tall, and you are 17 years old biologically. 4-foot-6 is the lowest [[healthy|http://halls.md/chart/GirlsHeightWhite.gif]] height of a 12-year-old girl. A height of 4ft 10in or less in adults is considered [[dwarfism|http://www.lpaonline.org/faq-]] medically. Your height has been set to 57 inches.<hr><br>
+	<<set ↂ.pc.body.height = 57>>
+<<elseif ↂ.pc.body.height < 56 && ↂ.pc.main.age >= 16>>
+	@@.note;Your chosen height (<<unit ↂpc.body.height in>>) was under 4 foot 8 inches tall, and you are 16 years old biologically. 4-foot-6 is the lowest [[healthy|http://halls.md/chart/GirlsHeightWhite.gif]] height of a 12-year-old girl. A height of 4ft 10in or less in adults is considered [[dwarfism|http://www.lpaonline.org/faq-]] medically. Your height has been set to 56 inches.<hr><br>
+	<<set ↂ.pc.body.height = 56>>
+<<elseif ↂ.pc.body.height < 55 && ↂ.pc.main.age >= 15>>
+	@@.note;Your chosen height (<<unit ↂpc.body.height in>>) was under 4 foot 7 inches tall, and you are 15 years old biologically. 4-foot-6 is the lowest [[healthy|http://halls.md/chart/GirlsHeightWhite.gif]] height of a 12-year-old girl. A height of 4ft 10in or less in adults is considered [[dwarfism|http://www.lpaonline.org/faq-]] medically. Your height has been set to 55 inches.<hr><br>
+	<<set ↂ.pc.body.height = 55>>
+<<elseif ↂ.pc.body.height < 54>>
+	@@.note;Your chosen height (<<unit ↂpc.body.height in>>) was under 4 foot 6 inches tall (137 cm). 4-foot-6 is the lowest [[healthy|http://halls.md/chart/GirlsHeightWhite.gif]] height of a 12-year-old girl. A height of 4ft 10in or less in adults is considered [[dwarfism|http://www.lpaonline.org/faq-]] medically. Your height has been set to 54 inches.<hr><br>
+	<<set ↂ.pc.body.height = 54>>
+<</if>>
+<<if ↂ.pc.main.age < 14>>
+	@@.note;While your chronological age is <<print ↂ.pc.main.ageOriginal>>, you have set your biological or apparent age to <<print ↂ.pc.main.age>>, which is below the current lowest age of 14. This isn't a recrimination of the way you wish to play, however an age lower than this really needs additional content beyond getting carded all the time. Your biological age has been set to 14. If you really want lower ages, check out content submission on the blog/forum to make it possible.@@ <hr><br>
+	<<set ↂ.pc.main.age = 14>>
+<<elseif ↂ.pc.main.age > 45>>
+	@@.note;While your chronological age is <<print ↂ.pc.main.ageOriginal>>, you have set your biological or apparent age to <<print ↂ.pc.main.age>>, which is above the current age cap of 45, which already really pushes the limits of fitting into story content. This isn't a recrimination of the way you wish to play, however an age higher than this really needs additional content. Your biological age has been set to 45. If you really want higher ages, check out content submission on the blog/forum to make it possible.@@ <hr><br>
+	<<set ↂ.pc.main.age = 45>>
+<</if>>
+<br>
+
+@@.head3;W@@ith some help from Lily, you stand naked in front of a dressing mirror looking at your new body...
+<br><br>
+@@.head3;Y@@ou are <<print ↂ.pc.main.ageOriginal>> years old chronologically, and your body appears <<if ↂ.pc.main.age > (ↂ.pc.main.ageOriginal + 1)>>older than that at<<elseif ↂ.pc.main.age < (ↂ.pc.main.ageOriginal - 1)>>younger than that at<<else>>about the same at<</if>> <<print ↂ.pc.main.age>> years old. You stand <<height>> tall, with healthy <<= ↂ.pc.body.skinColor>> skin. You have <<= ↂ.pc.groom.hairColor>> hair that is <<= ↂ.pc.groom.hairLength>> <<units>> long, and <<if ↂ.pc.groom.pubeStyle == "hairless" || ↂ.pc.groom.pubeStyle == "shaved">>you're hairless down below.<<else>>a <<p pubeShape.s>> of <<= ↂ.pc.groom.pubeColor>> pubic hair.<</if>> Your face <<pcFaceDescript>>, with piercing <<= ↂ.pc.body.eyeColor>> eyes. You have a <<p tone.s>> body that is <<p weight.s>>. You have <<p shoulders.s>> shoulders and <<p hip.s>> hips that are tied together by your <<p waist.s>> waist. On your chest rests two <<p breasts.s>> <<= ↂ.pc.body.tits.shape>> breasts with <<= ↂ.pc.body.tits.nipple>> nipples, and you have a <<p butt.s>> butt around back. Between your legs you have a shapely female vulva; your <<p clit.s>> clit <<pcClitView>> your <<p labia.s>> labia. Inside you have a naturally <<p wetness.s>> <<p pussy.s>> vagina, and <<p fertility.s>> womb.
+<br><br>
+Perhaps it wasn't the body that you wanted, but it wasn't awful either. Lily waits for you to get a good look at yourself before asking you to do some tests and answer a few questions. Her explanation was a bit too much to follow, but you get the gist that she thinks that your brain has been altered along with the rest of your body.
+<br><br><center>
+<span class="contButt" style="font-size:120%;"><<button [[Choose Your Background|background]]>><</button>></span>
+<br><br>
+[[Go Back|characterCreateB]]<br>
+</center>
+</div>
+</div>
+
+:: physicalReviewFemale [nobr]
+
+
+<div id="cardback"></div>
+<div class="uicardbig">
+<div style="width:75%;">
+<<set $helpText = "This is a chance to make sure your character looks the way you want them to before continuing. Note that some choices you make after this may affect your character's appearance in minor ways.">>
+<<silently>>
+<<set ↂ.pc.main.age = Number(ↂ.pc.main.age)>>
+<<set ↂ.pc.groom.pubeShape = setup.pubeShape(ↂ.pc.groom.pubeStyle)>>
+
+
+<<if ↂ.pc.body.tits.cupNum < 5 && ↂ.pc.body.lactation > 1>>
+	<<set ↂ.pc.body.lactation = 1>>
+<<elseif ↂ.pc.body.tits.cupNum < 10 && ↂ.pc.body.lactation > 2>>
+	<<set ↂ.pc.body.lactation = 2>>
+<<elseif ↂ.pc.body.tits.cupNum < 21 && ↂ.pc.body.lactation > 3>>
+	<<set ↂ.pc.body.lactation = 3>>
+<</if>>
+<</silently>>
+<<if ↂ.pc.body.height > 84>>
+	@@.note;Your chosen height (<<unit ↂpc.body.height in>>) was over 7 feet tall (2.13 meters), which is already almost exclusively limited to those with a medical condition. Your height has been set to 7 feet. (84 inches, 213 cm).@@<hr><br>
+	<<set ↂ.pc.body.height = 84>>
+<<elseif ↂ.pc.body.height < 58 && ↂ.pc.main.age >= 18>>
+	@@.note;Your chosen height (<<unit ↂpc.body.height in>>) was under 4 foot 10 inches tall, and you are an adult biologically. 4-foot-6 is the lowest [[healthy|http://halls.md/chart/GirlsHeightWhite.gif]] height of a 12-year-old girl. A height of 4ft 10in or less in adults is considered [[dwarfism|http://www.lpaonline.org/faq-]] medically. Your height has been set to 58 inches.<hr><br>
+	<<set ↂ.pc.body.height = 58>>
+<<elseif ↂ.pc.body.height < 57 && ↂ.pc.main.age >= 17>>
+	@@.note;Your chosen height (<<unit ↂpc.body.height in>>) was under 4 foot 9 inches tall, and you are 17 years old biologically. 4-foot-6 is the lowest [[healthy|http://halls.md/chart/GirlsHeightWhite.gif]] height of a 12-year-old girl. A height of 4ft 10in or less in adults is considered [[dwarfism|http://www.lpaonline.org/faq-]] medically. Your height has been set to 57 inches.<hr><br>
+	<<set ↂ.pc.body.height = 57>>
+<<elseif ↂ.pc.body.height < 56 && ↂ.pc.main.age >= 16>>
+	@@.note;Your chosen height (<<unit ↂpc.body.height in>>) was under 4 foot 8 inches tall, and you are 16 years old biologically. 4-foot-6 is the lowest [[healthy|http://halls.md/chart/GirlsHeightWhite.gif]] height of a 12-year-old girl. A height of 4ft 10in or less in adults is considered [[dwarfism|http://www.lpaonline.org/faq-]] medically. Your height has been set to 56 inches.<hr><br>
+	<<set ↂ.pc.body.height = 56>>
+<<elseif ↂ.pc.body.height < 55 && ↂ.pc.main.age >= 15>>
+	@@.note;Your chosen height (<<unit ↂpc.body.height in>>) was under 4 foot 7 inches tall, and you are 15 years old biologically. 4-foot-6 is the lowest [[healthy|http://halls.md/chart/GirlsHeightWhite.gif]] height of a 12-year-old girl. A height of 4ft 10in or less in adults is considered [[dwarfism|http://www.lpaonline.org/faq-]] medically. Your height has been set to 55 inches.<hr><br>
+	<<set ↂ.pc.body.height = 55>>
+<<elseif ↂ.pc.body.height < 54>>
+	@@.note;Your chosen height (<<unit ↂpc.body.height in>>) was under 4 foot 6 inches tall (137 cm). 4-foot-6 is the lowest [[healthy|http://halls.md/chart/GirlsHeightWhite.gif]] height of a 12-year-old girl. A height of 4ft 10in or less in adults is considered [[dwarfism|http://www.lpaonline.org/faq-]] medically. Your height has been set to 54 inches.<hr><br>
+	<<set ↂ.pc.body.height = 54>>
+<</if>>
+<<if ↂ.pc.main.age < 14>>
+	@@.note;While your chronological age is <<print ↂ.pc.main.ageOriginal>>, you have set your biological or apparent age to <<print ↂ.pc.main.age>>, which is below the current lowest age of 14. This isn't a recrimination of the way you wish to play, however an age lower than this really needs additional content beyond getting carded all the time. Your biological age has been set to 14. If you really want lower ages, check out content submission on the blog/forum to make it possible.@@ <hr><br>
+	<<set ↂ.pc.main.age = 14>>
+<<elseif ↂ.pc.main.age > 45>>
+	@@.note;While your chronological age is <<print ↂ.pc.main.ageOriginal>>, you have set your biological or apparent age to <<print ↂ.pc.main.age>>, which is above the current age cap of 45, which already really pushes the limits of fitting into story content. This isn't a recrimination of the way you wish to play, however an age higher than this really needs additional content. Your biological age has been set to 45. If you really want higher ages, check out content submission on the blog/forum to make it possible.@@ <hr><br>
+	<<set ↂ.pc.main.age = 45>>
+<</if>>
+<br>
+<<set $helpText = "''Physical Review'' ">>
+@@.head3;W@@ith some help from a nurse, you stand naked in the hospital room's attached bathroom. You stand in front of the institutional sink's large mirror looking at your new body...
+<br><br>
+@@.head3;Y@@ou are <<print ↂ.pc.main.ageOriginal>> years old chronologically, and your body appears <<if ↂ.pc.main.age > (ↂ.pc.main.ageOriginal + 1)>>older than that at<<elseif ↂ.pc.main.age < (ↂ.pc.main.ageOriginal - 1)>>younger than that at<<else>>about the same at<</if>> <<print ↂ.pc.main.age>> years old. You stand <<height>> tall, with healthy ↂpc.body.skinColor skin. You have ↂpc.groom.hairColor hair that is ↂpc.groom.hairLength <<units>> long, and <<if ↂ.pc.groom.pubeStyle === "hairless" || ↂ.pc.groom.pubeStyle === "shaved">>you're hairless down below.<<else>>a <<p pubeShape.s>> of <<= ↂ.pc.groom.pubeColor>> pubic hair.<</if>> Your face <<pcFaceDescript>>, with piercing ↂpc.body.eyeColor eyes. You have a <<p tone.s>> body that is <<p weight.s>>. You have <<p shoulders.s>> shoulders and <<p hip.s>> hips that are tied together by your <<p waist.s>> waist. On your chest rests two <<p breasts.s>> ↂpc.body.tits.shape breasts with ↂpc.body.tits.nipple nipples, and you have a <<p butt.s>> butt around back. Between your legs you have a shapely female vulva; your <<p clit.s>> clit <<pcClitView>> your <<p labia.s>> labia. Inside you have a naturally <<p wetness.s>> <<p pussy.s>> vagina, and <<p fertility.s>> womb.
+<br><br>
+Perhaps it wasn't the body that you wanted, but it wasn't awful either. Lily waits for you to get a good look at yourself before asking you to do some tests and answer a few questions. Her explanation was a bit too much to follow, but you get the gist that she thinks that your brain has been altered along with the rest of your body.
+<br><br><center>
+<span class="contButt" style="font-size:120%;"><<button [[Choose Your Background|background]]>><</button>></span>
+<br><br>
+[[Go Back|characterCreateB]]<br>
+</center>
+</div>
+</div>

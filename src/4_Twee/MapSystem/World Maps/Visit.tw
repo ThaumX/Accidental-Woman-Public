@@ -1,0 +1,121 @@
+:: MapVisitorParking [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPvisitor]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+<<mapEvent>>
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou are standing in the parking lot of the Muschi Valley Visitor's Center. <<if $time[0] < 7 || $time[0] > 17>>There aren't any cars parked here, and the visitor's center appears to be closed.<<else>>There are only a couple cars parked in the parking lot.<</if>> Nothing seems to be going on here, and it's quiet except for the sound of passing cars that drifts in from the north.</p>
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+    <<button "DRIVE">><<run setup.map.nav("world","main")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Hop into your car and drive somewhere.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: MapVisitorParkingLOC [nobr]
+
+<p><<f y>>ou take a look around the area. The valley is a rather scenic place, and the visitor center is situated in a pretty good place to take in the sights.</p>
+<center>[img[IMG-VisitorCenterSign]]</center>
+
+
+:: MapVisitorCentre [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPvisitor]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+<<mapEvent>>
+/*LOCATION description of  location*/
+<p>@@.head3;T@@he visitor center's interior is nicely appointed, but the large space feels empty without a lot of people in it. There is a sort of historical exhibit occupying a good portion of the space, with items and signs talking about the history of Muschi Valley, along with the changes that've happened since the Institute moved in. There is also a small area of Muschi Valley merchandise, with some obligatory racks of tourism brochures.</p>
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <span class="disabled"><<button "Shop merch">><</button>></span>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "History Exhibit">><<addTime 15>><<dialog "Visitor Center Exhibit">><p><<f y>>ou take your time casually looking at the exhibit on the history of Muschi Valley. Being so hard to access, you're a little surprised that Native American civilization seemed to be so advanced in the area. The signs say that the locals were somehow connected to the Mississippian civilization, despite the great distance. Judging by the pottery artifacts on display, it seems like they were very focused on fertility here. The information states that Muschi Valley was a highly religious site, with many priests living here. There are even some theories about long pilgrimages to reach the valley, tied in to other archeological sites stretching out to the west. It seems like the certain people may have traveled up the Ohio river and then made the difficult journey to this location, but the exhibit doesn't explain the reason for it at all.</p><center>[img[IMG-NativePottery1]]<br>[img[IMG-NativePottery2]]</center><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Look for some nice magnets <<ctn>>[not implemented]<</ctn>><<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: MapVisitorCentreLOC [nobr]
+
+<p><<f s>>omething in the historical exhibit catches your eye. It seems the Native Americans of the Muschi Valley area knew about foreplay...</p>
+<center>[img[IMG-NativePottery3]]</center>

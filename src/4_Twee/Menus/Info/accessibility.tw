@@ -1,0 +1,33 @@
+:: accessibilityPage [nobr hidden startpage]
+
+<div class="creditsBackground" style="position:fixed;z-index:200;top:0px;bottom:0px;left:0px;right:0px;overflow:auto;text-align:center;font-size:22px;">
+<h2>Accessibility Information</h2>
+<<button "RETURN">><<go Start>><</button>><br><br>
+  <div style="width:1200px;display:inline-block;">
+    <p style="font-size:1.15rem">
+    Hello, ThaumX here. I wanted to take a moment to address accessibility in Accidental Woman. Because I know several people with a wide range of disabilities, and being a disabled veteran myself, I want to make sure that <b><i>everyone</i></b> is able to play.
+    </p>
+    <p style="font-size:1.15rem">
+    While I'm trying to keep possible issues in mind, I know I'm certain to make mistakes when it comes to accessibility. I'm not an expert at interface design, after all! But I don't want to let that exclude anyone. <b>If you have issues during play, <u>please</u> let me know!</b> I'll do my best to fix them ASAP. I can't guarantee I won't make a mistake, but I <i>can</i> do my best to fix them when they happen!
+    </p>
+    <h2>Screen Reader Mode</h2>
+    <p>
+    Screen Reader Mode is an option which changes behavior of some elements in order to make it usable with screen reading devices\braille displays. Right now it removes drag and drop menus replacing them with more standard dropdowns. It also replaces most standard toggle buttons with check boxes, and adds easier-to-find links to some areas. If you notice some other interface elements which are unusable while using a screen reader, please let us know! Note that you will need to turn this mode on again in the system settings if you load a save where the screen reader mode is not enabled.
+    </p>
+    <p id="bestybug">
+    <<include [[screenreadtoggle]]>>
+    </p>
+    <h3>
+    Thanks for playing, and thanks for your support!
+    </h3>
+  </div>
+</div>
+
+
+:: screenreadtoggle [nobr hidden startpage]
+
+<<if $screenReader>>
+  Screen Reader Mode is currently ''ON''. <<link "Turn Off">><<set $screenReader = false>><<status 0>><<replace "#bestybug">><<include [[screenreadtoggle]]>><</replace>><</link>>
+<<else>>
+  Screen Reader Mode is currently ''OFF''. <<link "Turn On">><<set $screenReader = true>><<status 0>><<replace "#bestybug">><<include [[screenreadtoggle]]>><</replace>><</link>>
+<</if>>

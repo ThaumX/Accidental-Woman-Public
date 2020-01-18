@@ -26,11 +26,35 @@ aw.tagContent.stranger.random = [
   `@@.npc;So, you are new in town?@@<br>
   @@.pc;Well kinda. I got here not so long ago actually.@@<br>
   @@.npc;I hope you will like it. As I say, there is no place as Appletree!@@<br>
-  @@.pc;I hope so too. Well...@@<br><<include [[NPCinteraction-StrangerContinue]]>>`,
+  @@.pc;I hope so too. Well...@@<br>`,
   `@@.npc;You should totally watch this new movie! I went to the cinema yesterday and it is really good!@@<br>
   @@.pc;Which one?@@<br>
   @@.npc;"Ice-something". I honestly forgot the second word but I really liked it!@@<br>
-  @@.npc;I ll take a look, thanks! Well...@@<br><<include [[NPCinteraction-StrangerContinue]]>>`,
+  @@.npc;I ll take a look, thanks! Well...@@<br>`,
+  `@@.npc;Did you heard about this accident with power network?@@<br>
+  @@.pc;Not sure. What is the deal with it?@@<br>
+  @@.npc;They said somebody in the downtown overloaded it with some power consuming machinery so it got off for a whole hour or so. Institute is pretty mad about that it seems, they said they will start the investigation.@@<br>
+  @@.pc;That is weird. I hope everything will be okay.@@<br>
+  @@.npc;Hope so. If they find the poor guy or gal I have no idea what they will do.@@<br>
+  @@.pc;Ugh.@@<br>`,
+  `@@.npc;Aah. So, where do you work?@@<br>
+  @@.pc;Oh, I am <<print ↂ.job.name>> at <<print ↂ.job.employer>>.@@<br>
+  <<if ↂ.job.percept > 2>>@@.npc;Oh, nice place!@@<<set aw.npc[setup.interact.status.npc].rship.likePC += 5>><<else>>@@.npc;Aah. Cool.@@<br><<set aw.npc[setup.interact.status.npc].rship.likePC -= 5>><</if>><br>@@.pc;Well, it is just a job as many others.@@<br>`,
+  `You notice that <<n setup.interact.status.npc "heshe.q">> looks at you with a curious expression on the face.<br>
+  @@.npc;How long are you in Appletree?@@<br>
+  @@.pc;Not very much actually, I am still new here.@@<br>
+  You take an expansive look around for show as if seeing the place for the first time.<br>
+  @@.npc;Well, I hope you like it as much as I do!@@<br>
+  @@.pc;We'll see.@@<br>`,
+  `@@.npc;Ugh, my <<= either("friend","uncle","coworker")>> is a local lore gatherer and he told me super interesting things about Muchi Valley yesterday. It seems there is a net of ancient tunnels under the ground on the north-west part, around springs and such. I wonder if somebody went there.@@<br>
+  @@.pc;Well, maybe they should make an expedition to see how deep the rabbit hole is.@@<br>
+  @@.npc;Yeah, I even feel tempted to go and look there by myself, but to be honest I am afraid of small places and darkness so I am not sure I'll get enough courage.@@<br>`,
+  `@@.npc;So, have you ever been to Shake'n Pop club? This place is wicked!@@<br>
+  @@.pc;Oh, maybe I should pay it a visit this week.@@<br>`,
+  `@@.npc;Have you been in the medical district? My aunt is super into these transformatives.@@<br>
+  @@.pc;Ugh? Like body changing drugs?@@<br>
+  @@.npc;Yep, ugh indeed. She already spent like all the money she had after divorce, and to be honest I barely recognize her now.@@<br>
+  @@.pc;Well, they seem to do wonders now with these things.@@<br>`,
 ];
 
 // PRIORITY ONE TAGS
@@ -58,7 +82,7 @@ aw.tagContent.stranger.seriousIllnessOkay = [
   @@.pc;I most certainly gonna do that soon. So...@@<br>
   <<include [[NPCinteraction-StrangerContinue]]>>`,
 ];
-aw.tagContent.stranger.seriousIllnessHelp = [ 
+aw.tagContent.stranger.seriousIllnessHelp = [
   `@@.npc;I better call the ambulance, hang in there, help will come soon!@@<br>
   NPC calls the ambulance<br>
   <<if ↂ.flag.Healthcare>>
@@ -71,7 +95,7 @@ aw.tagContent.stranger.seriousIllnessHelp = [
 `,
 ];
 aw.tagContent.stranger.illness = [
-  `@@.npc;Are you okay? You seems a bit ill.@@
+  `@@.npc;Are you okay? You seem a bit ill.@@
   <<dialogchoice>>
     <<dbutt "Bitchy" "ↂ.pc.trait.bitch === 1">><<intreplace>><<ctagcontent "stranger" "illnessBitchy">><</intreplace>>
     <<dtext "mad">>Did I ask for your opinion? It seems not. So shut your bloody mouth.
@@ -88,7 +112,7 @@ aw.tagContent.stranger.illnessBitchy = [
 ];
 aw.tagContent.stranger.illnessOkay = [
   `
-  @@.npc;That is good, sorry, I just thought... (npc must be a bit confused here - he/she cant say "but you looks terrible" obviously)@@<br>
+  @@.npc;Oh, then sorry for that.@@<br>
   @@.pc;So...@@<br>
   <<include [[NPCinteraction-StrangerContinue]]>>`,
 ];
@@ -101,7 +125,7 @@ aw.tagContent.stranger.illnessBad = [
 aw.tagContent.stranger.nakedBottom = [
   `
   You notice that <<print aw.npc[setup.interact.status.npc].main.name>> is <<if aw.npc[setup.interact.status.npc].kink.exhibition>><<set aw.npc[setup.interact.status.npc].rship.likePC += 3 >> ogling your naked bottom with arousal.<<elseif aw.npc[setup.interact.status.npc].kink.liberate>> staring at your nudity with interest.<<elseif aw.npc[setup.interact.status.npc].kink.shame>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 3 >> blushing while trying to avoid staring at your naked bottom.<<else>> making quick amused glances at your bare bottom.<</if>><br>
-  <<has exhibition>>You can't but wiggle your <<assSize>> butt a bit, presenting your nakedness to the stranger.@@.mono;Oh yes, stare at me. Damn, that is exciting!@@<<arouse 2>><<orhas slut>><<arouse 2>>You can't but enjoy the attention to your naked bottom and pussy.<<orhas liberate>>You feel pretty comfortable with your lower part naked around strangers.<<orhas shame>><<stress 15>>You feel terribly insecure and going tomato red from embarassment. <<arouse -2>>@@.mono;How did I ever allow that to happen? I want just die right now.@@<<or>><<stress 7>>You feel pretty uncomfortable being exposed like this.<<arouse -1>><</has>>
+  <<has exhibition>>You can't but wiggle your <<assSize>> butt a bit, presenting your nakedness to the stranger.@@.mono;Oh yes, stare at me. Damn, that is exciting!@@<<arouse 2>><<orhas slut>><<arouse 2>>You can't but enjoy the attention to your naked bottom and pussy.<<orhas liberate>>You feel pretty comfortable with your lower part naked around strangers.<<orhas shame>><<stress 15 "Naked pussy convo">>You feel terribly insecure and going tomato red from embarassment. <<arouse -2>>@@.mono;How did I ever allow that to happen? I want just die right now.@@<<or>><<stress 7 "Naked pussy convo">>You feel pretty uncomfortable being exposed like this.<<arouse -1>><</has>>
   <<dialogchoice>>
       <<dbutt "Present" "ↂ.pc.kink.exhibition">><<intreplace>><<ctagcontent "stranger" "NakedBottomPresent">><</intreplace>>
       <<dtext "smug">>Give a stranger a bit better view on your lady bits.
@@ -147,9 +171,9 @@ aw.tagContent.stranger.practNakedBottom = [
   @@.mono;If I lean a bit all my private parts will be visible, mmm@@
   <<orhas slut || liberate>>which is pretty comfortable for you in fact.
   @@.mono;I like the attention@@<br>
-  <<orhas shame>><<arouse -2>><<stress 10>>which makes you really nervous.
+  <<orhas shame>><<arouse -2>><<stress 10 "Naked pussy convo">>which makes you really nervous.
   @@.mono;I shoudn't dress like that in a first place, oh, what I was even thinking about?@@
-  <<or>><<stress 5>>which makes you feel uneasy.<br>
+  <<or>><<stress 5 "Naked pussy convo">>which makes you feel uneasy.<br>
   @@.mono;Well, I am dressed risky today for sure@@<</has>><br>
   <<dialogchoice>>
       <<dbutt "Present" "ↂ.pc.kink.exhibition">><<intreplace>><<ctagcontent "stranger" "practNakedBottomPresent">><</intreplace>>
@@ -183,7 +207,7 @@ aw.tagContent.stranger.practNakedBottomCover = [
   <<include [[NPCinteraction-StrangerContinue]]>>`,
 ];
 aw.tagContent.stranger.buckNaked = [
-  `Stranger stare at your nude body <<has exhibition>><<aroused 2>>which makes you more aroused @@.mono;Oh yeah, I can't believe I am doing that!@@<<orhas superSlut || hyperSlut || liberate>>which you can deal with. @@.mono;That is prety exciting!@@<<orhas shame>><<aroused -2>><<stress 25>>which makes you panic. @@.mono;AAA! I am totally naked in view of total stranger!!!@@<<or>><<stress 15>>which makes you feel terrible. @@.mono;Oh, I am totally naked and I can't even cover properly...@@<</has>>
+  `Stranger stare at your nude body <<has exhibition>><<aroused 2>>which makes you more aroused @@.mono;Oh yeah, I can't believe I am doing that!@@<<orhas superSlut || hyperSlut || liberate>>which you can deal with. @@.mono;That is pretty exciting!@@<<orhas shame>><<aroused -2>><<stress 25 "Naked convo">>which makes you panic. @@.mono;AAA! I am totally naked in front of total stranger!!!@@<<or>><<stress 15 "Naked convo">>which makes you feel terrible. @@.mono;Oh, I am totally naked and I can't even cover properly...@@<</has>>
 
   <<dialogchoice>>
       <<dbutt "Present" "ↂ.pc.kink.exhibition">><<intreplace>><<ctagcontent "stranger" "buckNakedPresent">><</intreplace>>
@@ -240,7 +264,7 @@ aw.tagContent.stranger.buckNakedCool = [
 aw.tagContent.stranger.wetClothes = [
   `<<if ↂ.pc.clothes.keys.bra === 0>>
   You notice the stranger looks at your chest and realise that your <<p nipl.q>> nipples are visible through the wet clothes.
-  <<has exhibition>><<arouse 1>>@@.mono;Oh yeah, I like that.@@<<orhas slut>>@@.mono;That is certainly drawing some attention.@@<<orhas shame>><<stress 7>>@@.mono;Oh shit, my nipples are showing!@@<<or>><<stress 2>>@@.mono;Oops, better cover that!@@<</has>>
+  <<has exhibition>><<arouse 1>>@@.mono;Oh yeah, I like that.@@<<orhas slut>>@@.mono;That is certainly drawing some attention.@@<<orhas shame>><<stress 7 "Wet clothes convo">>@@.mono;Oh shit, my nipples are showing!@@<<or>><<stress 2 "Wet clothes convo">>@@.mono;Oops, better cover that!@@<</has>>
   <<dialogchoice>>
       <<dbutt "Cover" "!ↂ.pc.kink.exhibition">><<intreplace>><<ctagcontent "stranger" "wetClothesCover">><</intreplace>>
       <<dtext "disturbed">>Try to cover yourself with hands.
@@ -282,7 +306,7 @@ aw.tagContent.stranger.lightPheromones = [
 <<else>><<set aw.npc[setup.interact.status.npc].rship.likePC += 10 >>
   <<if !ↂ.pc.trait.perceptive === -1>>
     You notice that stranger looks at you with some interest.
-    <<has slut>>@@.mono;I can count he thinks about shagging me hard right now, ehe-he.@@<<orhas shame>><<stress 5>>@@.mono;Oh, why all the guys are looking at me with that look? It makes me feel uneasy.@@<<or>>@@.mono;It seems I still got it!@@<</has>>
+    <<has slut>>@@.mono;I can count he thinks about shagging me hard right now, ehe-he.@@<<orhas shame>><<stress 5 "Light pheromones convo">>@@.mono;Oh, why all the guys are looking at me with that look? It makes me feel uneasy.@@<<or>>@@.mono;It seems I still got it!@@<</has>>
   <</if>>
   @@.pc;So...@@<br>
   <<include [[NPCinteraction-StrangerContinue]]>>
@@ -293,7 +317,7 @@ aw.tagContent.stranger.pheromones = [ // that became way too big i am afraid
     @@.pc;So...@@<br>
   <<include [[NPCinteraction-StrangerContinue]]>>
   <<else>><<set aw.npc[setup.interact.status.npc].rship.likePC += 20 >>You notice that stranger looks at you with some obvious arousal. He bites his lips while ogling your body.<br>
-    <<has slut>>@@.mono;That guy looks like he is on a brink of pinning me down and fucking me really hard, I like that!@@<<orhas shame>><<stress 10>>@@.mono;Oh, why all the guys are looking at me like that? I am frightened.@@<<or>>@@.mono;It seems he really likes me.. in a sexual way.@@<</has>>
+    <<has slut>>@@.mono;That guy looks like he is on a brink of pinning me down and fucking me really hard, I like that!@@<<orhas shame>><<stress 10 "pheromones convo">>@@.mono;Oh, why all the guys are looking at me like that? I am frightened.@@<<or>>@@.mono;It seems he really likes me.. in a sexual way.@@<</has>>
     <<dialogchoice>>
       <<dbutt "Ask for it" "ↂ.pc.kink.superSlut || ↂ.pc.kink.hyperSlut || ↂ.pc.kink.rape || ↂ.pc.kink.publix">><<intreplace>><<ctagcontent "stranger" "pheromonesInvite">><</intreplace>>
       <<dtext "smug">>Wanna taste some, big boy?
@@ -311,9 +335,9 @@ aw.tagContent.stranger.pheromonesInvite = [
   (Need to add function call to start voluntary sex scene here)`,
 ];
 aw.tagContent.stranger.pheromonesIgnore = [
-  `<<set _r = random(0,10)>><<if _r > 8 >><<stress 10>>
+  `<<set _r = random(0,10)>><<if _r > 8 >><<stress 10 "pheromones convo">>
   @@.pc;So, well, I just wanted to...@@<br>
-  It seems that stranger is barely listening to you. Something has certainly clicked in his head and his good reason is gone. He slowly approach you with somewhat crazy look in his eyes.<br>
+  It seems that the stranger is barely listening to you. Something has certainly clicked in his head and his good reason is gone. He slowly approaches you with somewhat crazy look in his eyes.<br>
   @@.npc;You are such a pretty girl... I bet we can spend some quality time together, don't we?@@<br>
   @@.pc;Hey, mister, what the heck are you doing?@@<br>
   @@.npc;You want to see my dick, pretty? I have something to present to you, little bitch!@@<br>
@@ -353,11 +377,11 @@ aw.tagContent.stranger.pheromonesIgnoreFight = [  // need to check for martial a
   <<set _r3 = random(0,10)>>
   <<if ↂ.pc.body.tone > 3>><<set _r3 += 1>><</if>>
   <<SCX>><<SC "AT" "20">><<if $SCresult[1]>><<set _r3 += 1>><</if>>
-  <<if _r2 > 8 >><<stress 20>>
+  <<if _r2 > 8 >><<stress 20 "pheromones fight">>
   You manage to fight the dude without getting a scratch and knock him <<link "unconcious">><<run setup.interact.exit()>><</link>>.
-  <<elseif _r2 > 5 >><<health -10>><<stress 25>>
-  He punches you but you manage to fight the dude and knock him <<link "unconcious">><<run setup.interact.exit()>><</link>>.
-  <<else>><<if $pref.rape>><<health -15>><<stress 30>>
+  <<elseif _r2 > 5 >><<set ↂ.pc.status.health -= 10>><<run setup.status.record("health", -10, "Fighting")>><<stress 25 "pheromones fight">>
+  He punches you but you manage to fight the dude and knock him <<link "unconscious">><<run setup.interact.exit()>><</link>>.
+  <<else>><<if $pref.rape>><<set ↂ.pc.status.health -= 15>><<run setup.status.record("health", -15, "Fighting")>><<stress 30 "pheromones fight">>
       Guess what? Yep, rapeys! But you also got kicked in a face couple of times before you gave up. (Need to add function call to start involuntary sex scene here)<,p>
     <<else>>
       You loose the fight but some citizens heard the brawl and called the police. Brave cops busted the guy before he did any harm to you. <<link "That was a close call, yep">><<run setup.interact.exit()>><</link>>.
@@ -411,7 +435,7 @@ aw.tagContent.stranger.clownMakeupAsk = [
   `@@.pc;Sorry, what are you laughing at?@@
   @@.npc;I am sorry, it is just your... well, it is your makeup, it seems it got kinda messy.@@
   @@.pc;Well, yeah, that was a tough morning for sure.@@
-  @@.mono;Oh shit, I better clean makeup asap. That is just embarassing.@@
+  @@.mono;Oh shit, I better clean makeup asap. That is just embarrassing.@@
   @@.pc;So...@@<br>
   <<include [[NPCinteraction-StrangerContinue]]>>`,
 ];
@@ -436,7 +460,7 @@ aw.tagContent.stranger.withdrawal = [
   <<include [[NPCinteraction-StrangerContinue]]>>`,
 ];
 aw.tagContent.stranger.latePreg = [
-  `@@.npc;Oh, by the way, congratulations with that! Will it be boy or a girl?@@
+  `@@.npc;Oh, by the way, congratulations on that! It will be a boy or a girl?@@
   <<dialogchoice>>
     <<dbutt "Boy" >><<intreplace>><<ctagcontent "stranger" "latePregBoy">><</intreplace>>
     <<dtext "cute">>It is a boy.
@@ -485,7 +509,7 @@ aw.tagContent.stranger.drunk = [
     <<dtext "proud">>Bloody hell I am!
     <<dbutt "Horny">><<intreplace>><<ctagcontent "stranger" "drunkFuck">><</intreplace>>
     <<dtext "love">>Wanna fuck me? I want to fuck rght now!
-    <<dbutt "Pass out">><<run setup.interact.exit()>><<run setup.sleep.start();>>
+    <<dbutt "Pass out">><<run setup.interact.exit()>><<run setup.sleep.go();>>
     <<dtext "sleep">>I am sooo slepy, beter lay dwn just fur a tiny sec...
   <</dialogchoice>>`,
 ];
@@ -531,7 +555,7 @@ aw.tagContent.stranger.mindbreak = [
   <<else>>
   <<addtime 13>>
   <<set ↂ.pc.groom.makeup.clown = true>>
-  <<stress -10>>
+  <<stress -10 "mindbroken convo">>
   You start histerically giggling.
   @@.npc;Oh, I better go, please, forgive me, I just don't know how to help you miss. It will be okay, really...@@
   You cry ang laugh alone sitting on the floor for some time before you finally start to feel better.
@@ -550,7 +574,7 @@ aw.tagContent.stranger.flooded = [
 ];
 
 aw.tagContent.stranger.pussyAccess = [
-  `Apologies. No content has been written for this tag [pussyAccess].`,
+  `<p>@@.mono;Oh, I fell a breeze on my bare pussy. I wonder if <<n setup.interact.status.npc "heshe.q">> notices that I don't wear any panties, tee-hee.@@</p>`,
 ];
 
 // OTHER TAGS (was not aware that stranger ignores other than first priority at first)
@@ -577,10 +601,26 @@ aw.tagContent.stranger.stressedNope = [
 ];
 
 aw.tagContent.stranger.stressedAbit = [
-  `<<has extro>>@@.pc;Yeah, it was horrible to be honest. Work and everything in general you know. Don't know if I can deal with all this much longer...<<stress -1>>@@<<else>>@@.pc;Yeah, it was not very nice last days.@@<</if>><<set aw.npc[setup.interact.status.npc].rship.likePC += 5 >>
+  `<<has extro>>@@.pc;Yeah, it was horrible to be honest. Work and everything in general you know. Don't know if I can deal with all this much longer...<<stress -1 "talking about stress">>@@<<else>>@@.pc;Yeah, it was not very nice last days.@@<</if>><<set aw.npc[setup.interact.status.npc].rship.likePC += 5 >>
   @@.npc;Oh, sorry to hear that. Well, I usually do yoga and meditation to cope with stress. Maybe you should try too?@@
   @@.pc;Well, that may be a solution. So...@@<br>
   <<include [[NPCinteraction-StrangerContinue]]>>
+  `,
+];
+
+aw.tagContent.stranger.bodywriting = [
+  `@@.npc;Emm, sorry, what is written there?@@<br>
+  @@.pc;Umm, where?@@<br>
+  @@.npc;"<<= ↂ.pc.tattoo.getText>>"... Mm, okay...@@<br>
+  <<link "Uhm...">><<intgo "NPCinteraction-AcquaintTag">><</link>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 4>>
+  `,
+];
+
+aw.tagContent.stranger.lewdTattoo = [
+  `@@.npc;Nice tattoo you have there... oh.@@<br>
+  @@.pc;What?@@<br>
+  @@.npc;It is just... ugh, nevermind...@@<br>
+  <<link "Emm...">><<intgo "NPCinteraction-AcquaintTag">><</link>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 4>>
   `,
 ];
 

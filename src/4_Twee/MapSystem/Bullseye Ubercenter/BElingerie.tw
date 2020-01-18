@@ -1,0 +1,109 @@
+:: BElingerie [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPbullseye]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+@@.head3;Y@@ou are standing in the underwear section of Bullseye's women's clothing department. For some reason, they seem to think this is also a good place for jewelry. You notice that Bullseye has posted several warning notes in the bra section.
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise hovPanties>>
+	<<button "Panties">><<run setup.shop.launch.clothes("Bullseye","panties")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovBras>>
+	<<button "Bras">><<run setup.shop.launch.clothes("Bullseye","bra")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovStocking>>
+	<<button "Stockings">><<run setup.shop.launch.clothes("Bullseye","leg")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovSleep>>
+	@@.disabled;<<button "Sleepwear">><<dialog "Not Available">><h2>Coming Soon!</h2><</dialog>><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise hovJewel>>
+	<<button "Jewelry">><<set _time = 8>><<set _time += random(1,11)>><<set _time += random(1,11)>><<addTime _time>><<dialog "Shop for Jewelry">><<include [[BEjewelry]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise titwarning>>
+  <<button "Read Warning">><<addTime 3>><<dialog "Official FDA Warning">>@@.print;† Since 2023 Federal regulations have required that any retailer selling brassiers must post the following FDA consumer safety notice in any area where they are on display.<br><br>''WARNING--Wearing brassiers is known to cause cancer, atrophy of connective tissue and ligaments, mammary tissue degredation, and may permanently harm your ability to breast feed.''<br>''Safety Guidelines''<br>a. Only wear brassiers that fit properly. Ill-fitting brassiers intensify the health consequences listed above.<br>b. Do not wear a brassier longer than 4 hours at a time.<br>c. For each hour a brassier is worn, allow your breasts to rest at least 30 minutes before wearing one again.<br>d. Do not wear a brassier more than 8 hours in a 24 hour period.<br>e. Count each hour spent wearing a compression brassier, commonly called a "sports bra", as 3 hours of normal wear.<br><br>''Personal Indemnity Act of 2020 Notice''--According to the Personal Indemnity Act, otherwise known as "Trump Care", your medical insurance claims or federal healthcare coverage (such as Medicare or Medicaid) can be denied if your condition was potentially caused by your own actions or negligence. Visit www.fda.gov/pia/brassiers to learn more about what health coverage you may lose from brassier use.@@ <br><<comment "The medical part is true, but nowhere near bad enough for the gov't/FDA to do anything about it. Fun fact: A large study in france found that wearing bras rapidly accellerates the sagging of breasts, with the effect being worse the larger the breasts were.">><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion hovPanties>>@@.exp;Check out Bullseye's selection of panties. [20-30min]@@<<endinsertion>>
+<<insertion hovBras>>@@.exp;Check out Bullseye's selection of bras for sale. [30-45min]@@<<endinsertion>>
+<<insertion hovStocking>>@@.exp;Check out Bullseye's selection of legwear for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovSleep>>@@.exp;Check out Bullseye's selection of sleepwear for sale. [25-35min]@@<<endinsertion>>
+<<insertion hovJewel>>@@.exp;Check out Bullseye's meager selection of jewelry. [10-30min]@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the membership discount price.@@<<endinsertion>>
+<<insertion titwarning>>Take a closer look at the conspicuous warning posted in the brassier area. [3min]<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+/*this contains randomized event options that will print inside the related spans*/
+/*Weather-based actions added, like opening an umbrella*/
+<<weatherBullseyeAct>>
+/*Event-based actions added*/
+<<mapEvent>>
+
+
+:: BElingerieLOC [nobr]
+
+[img[IMGbullseyeBig]]
+
+
+:: BEjewelry [nobr]
+
+<h3>Bullseye Jewelry Selection</h3>
+<<print setup.jewel.sale({slots:["neck", "wrist", "ring", "hand"]})>>
+Learn more about jewelry in the <<info "Encyclopedia" "guideJewelry">>
+
+
+

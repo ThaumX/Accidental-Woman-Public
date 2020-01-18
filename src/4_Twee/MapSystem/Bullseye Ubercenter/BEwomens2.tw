@@ -1,0 +1,100 @@
+:: BEwomens2 [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPbullseye]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+@@.head3;Y@@ou are standing in Bullseye's large women's clothing department. This area seems to sell bottoms of all sorts, from skirts to slacks. There's also a small section with athletic clothes and swimwear.
+<br>
+</div>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+<<selfthought>>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise hovLowerBody>>
+	<<button "LowerBody">><<run setup.shop.launch.clothes("Bullseye","bottom")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovSwimsuits>>
+	<<button "Swim Tops">><<run setup.shop.launch.clothes("Bullseye","swimU")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovSwimsuits>>
+	<<button "Swim Bottoms">><<run setup.shop.launch.clothes("Bullseye","swimL")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovAthletic>>
+	<<button "Athletic upper">><<run setup.shop.launch.clothes("Bullseye","athU")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovAthletic2>>
+	<<button "Athletic lower">><<run setup.shop.launch.clothes("Bullseye","athL")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovShoes>>
+  <<button "Shoes">><<run setup.shop.launch.clothes("Bullseye","shoes")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion hovLowerBody>>@@.exp;Check out Bullseye's selection of skirts and pants. [25-35min]@@<<endinsertion>>
+<<insertion hovSwimsuits>>@@.exp;Check out Bullseye's selection of swimsuits for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovAthletic>>@@.exp;Check out Bullseye's selection of athletic tops for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovAthletic2>>@@.exp;Check out Bullseye's selection of athletic bottoms for sale. [20-30min]@@<<endinsertion>>
+<<insertion hovShoes>>@@.exp;Check out Bullseye's selection of women's footwear for sale. [20-40min]@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the membership discount price.@@<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+/*this contains randomized event options that will print inside the related spans*/
+/*Weather-based actions added, like opening an umbrella*/
+<<weatherBullseyeAct>>
+/*Event-based actions added*/
+<<mapEvent>>
+
+
+:: BEwomens2LOC [nobr]
+
+[img[IMGbullseyeBig]]
+
+

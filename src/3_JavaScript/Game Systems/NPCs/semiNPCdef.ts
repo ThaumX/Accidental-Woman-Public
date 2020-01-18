@@ -267,7 +267,7 @@ setup.npcgen.setupMainVars = function(gender: number, npc: any): void {
   npc.main.relation = false;
   npc.main.suicide = false;
   npc.main.lifetime = 0;
-  npc.main.count = 28;
+  npc.main.count = 0;
   npc.main.tags = ["none"];
 };
 
@@ -3233,18 +3233,7 @@ setup.npcgen.donSomeClothing = function(npc: any): void {
 };
 
 setup.npcgen.femalePortrait = function(npc: any, portName: 0|string): void {
-  /*will start picking portrait by attributes better later*/
-  if (portName === 0) {
-    if (npc.main.age < 24) {
-      npc.main.portrait = either("[img[IMG_NPC_18-Black]]", "[img[IMG_NPC_18-Blue]]");
-    } else if (npc.main.age < 29) {
-      npc.main.portrait = either("[img[IMG_NPC_20-Red]]", "[img[IMG_NPC_20-Green");
-    } else {
-      npc.main.portrait = either("[img[IMG_NPC_30-Black]]", "[img[IMG_NPC_30-Blonde]]");
-    }
-  } else {
-    npc.main.portrait = "[img[" + portName + "]]";
-  }
+  npc.main.portrait = setup.porn.femaleNPC(npc, false);
 };
 
 setup.npcgen.malePortrait = function(npc: any, portName: 0 | string): void {

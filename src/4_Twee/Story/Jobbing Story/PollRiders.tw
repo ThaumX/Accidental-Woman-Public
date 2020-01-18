@@ -1,0 +1,125 @@
+/*
+    888888  .d88888b.  888888b.        88888888888 888       888 8888888888 8888888888
+      "88b d88P" "Y88b 888  "88b           888     888   o   888 888        888
+       888 888     888 888  .88P           888     888  d8b  888 888        888
+       888 888     888 8888888K.           888     888 d888b 888 8888888    8888888
+       888 888     888 888  "Y88b          888     888d88888b888 888        888
+       888 888     888 888    888          888     88888P Y88888 888        888
+       88P Y88b. .d88P 888   d88P          888     8888P   Y8888 888        888
+       888  "Y88888P"  8888888P"           888     888P     Y888 8888888888 8888888888
+     .d88P
+   .d88P"
+  888P"
+  8888888b.     d8888  .d8888b.   .d8888b.        d8888  .d8888b.  8888888888 .d8888b.
+  888   Y88b   d88888 d88P  Y88b d88P  Y88b      d88888 d88P  Y88b 888       d88P  Y88b
+  888    888  d88P888 Y88b.      Y88b.          d88P888 888    888 888       Y88b.
+  888   d88P d88P 888  "Y888b.    "Y888b.      d88P 888 888        8888888    "Y888b.
+  8888888P" d88P  888     "Y88b.     "Y88b.   d88P  888 888  88888 888           "Y88b.
+  888      d88P   888       "888       "888  d88P   888 888    888 888             "888
+  888     d8888888888 Y88b  d88P Y88b  d88P d8888888888 Y88b  d88P 888       Y88b  d88P
+  888    d88P     888  "Y8888P"   "Y8888P" d88P     888  "Y8888P88 8888888888 "Y8888P"
+*/
+
+:: StripperEvent1 [nobr]
+
+<p>@@.head3;Y@@ou <<print either("was preparing for your last dance today", "relaxing after your last private show")>> at <<print either("middle of the evening", "end of the shift")>> when <<print either("the manager ask you to visit his office", "your boss comes to the room")>>. <<print either("The deal is that there is some <i>special client</i> who needs to be taken care of.", "As it turns out, there is some very important guy and he wants you to take care of this VIP in a best way possible.")>>
+<p><<print either("@@.npc;Mr. Adcock@@","@@.npc;Mr. Applebee@@","@@.npc;Mr. Blake@@","@@.npc;Mr. Clayton@@","@@.npc;Mr. Dashwood@@","@@.npc;Mr. Myers@@","@@.npc;Mr. Hayden@@")>> @@.npc;is an extremely imortant client so I expect you to please him to the limit, <<= ↂ.pc.main.name>>.@@</p>
+<<has slut>><p><<print either("@@.mono;I wonder if he is sexy, I could use it to my own... needs tee-hee@@","@@.mono;I wonder if he has a long cock mmm...@@")>></p><<or>><p><<print either("@@.mono;I hope he won't act like a jerk...@@","@@.mono;I wonder who is this guy...@@")>></p><</has>>
+<p><<print either("Quickly dressing in a skimpy glittering bikini","After putting on the fishnet stockings, micro skirt thongs and bra","Getting into aggresive red lingerie set")>> you <<print either("went to the private stall to meet the guy.","hurry to find this 'imortant guy' in the private stall.")>> <<print either("Entering","Passing through the curtain of the")>> the stall you saw the <<print either("tall","short")>> <<print either("middle-aged","young")>> <<print either("white","black", "asian")>> <<print either("guy","man")>> <<print either("sipping the expensive wine from the bar","smoking with a tired look on the couch", "undressing from his obviously expensive suit")>>. <<print either("He gives you a brief look and nods.","He stares at you for a moment before smiling briefly.")>></p>
+<p><<print either("@@.npc;You must be <<= ↂ.pc.main.name>>, right? Good. Look, cutie, I had a tough week so I won't be against to be properly entertained so you may start.@@","@@.npc;Evening, you are the girl Hank told me about? Well, begin then, I'll relax here for a while, this bloody week sucked all the life from me.@@", "@@.npc;Well, not bad. Show me what you got, girl... let's see if you are as good as Hank told me.@@")>></p>
+<<has exhibition>><<arouse 1>><p><<print either("Feeling the arousal starting building up you begin the striptease routine.","Thanks to your exhibition fetish it doesn't take much for you to build up your attitude and start dancing.")>>
+<<or>><<print either("It takes a little bit of hesitation because you were not ready but you manage to dance.","With a short sigh you prepare yourself to dance.")>><</has>>
+<<print either("Dancing around the stripper pole you start removing your clothes one by one.","Sitting on his knees you slowly remove almost all of your attire until you get practically naked.")>><<print either("He looks pleased and you decide that it is a right time to slide your butt against his crotch with a painfully long and slowly strokes.","Judging by his breath getting fast and heavy you get sure that it is the right time to press your boobs into his face and wiggle them for his enjoyment.")>></p>
+<<SCX>><<SC "ST" "15">><<if $SCresult[1]>>
+<p><<print either("@@.npc;Mmmm you are soo good baby, I can't wait to get my hands on you... You'll get your tips I promise.@@","@@.npc;You are such a tease, girl, come here, I feel like I am getting much less <i>tired</i> now. Don't worry, tips are not a problem.@@")>></p>
+<<has shame>><p>@@.mono;Oh, he is going to fuck me?..But Hank said I must please this guy whatever it takes...@@</p><<or>><p>@@.mono;I got this guy worked up for sure, tee-hee. It seems it is time for "special services"...@@</p><</has>>
+<<dialogchoice>>
+    <<dbutt "No">><<scenego "StripperEvent1-no">><<stress 15 "Turning down a strong request for special services as a stripper">><<set ↂ.job.stats.boss -= random(17,33)>>
+    <<dtext "disturbed">>S-sorry, I can't...
+  <<dbutt "Sure">><<set _tips = random(60,90)>><<run aw.cash(_tips)>>
+  <<set _daddyspunk = (setup.npc.male.length - 1)>><<set _randDude = random(0, _daddyspunk)>><<set $VipClient = setup.npc.male[_randDude]>>
+  
+  <<run setup.npcInfo.level($VipClient, {bodyGeneral: true})>>
+  <<run setup.npcInfo.level($VipClient, {bodyJunk: true})>>
+  <<run setup.npcInfo.level($VipClient, {bodyDetail: 1})>>
+  <<set aw.npc[$VipClient].rship.likePC += random(3, 6)>>
+  <<set aw.npc[$VipClient].lovePC += random(1, 3)>>
+  <<set ↂ.sex.passage = aw.passage.title>>
+  <<set ↂ.sex.pcOutput = "She checks if the curtains are closed properly and grins to you before undressing you.">>
+  <<set ↂ.sex.enviroTags = ["bed","wall","chair"]>>
+  <<set aw.npc[$VipClient].rship.companion += 15>>
+  <<set aw.npc[$VipClient].sleptover += 1>>
+  <<set setup.sexitimes = $VipClient>>
+  <<run Dialog.close()>>
+  <<script>>
+  setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
+  <</script>>
+    <<dtext "smug">>Oh yes, let's do it!
+	<</dialogchoice>>
+<<else>><<set _tips = random(30,40)>><<run aw.cash(_tips)>>
+<p>After some time he stops you with a gesture.<p>
+<p>@@.npc;I had a nice time, here take your tips. You may go, girl.@@</p>
+<<has slut>><p>@@.mono;Shit, I was already dreaming of jumping on this guy's cock!@@</p><<or>><p>@@.mono;It seems this guy is way too tired... or maybe I did not made him aroused enough...@@</p><</has>>
+<p>You take your @@.money;<<mon>><< =_tips>>@@ thank him and <<link "leave.">><<sceneclose>><<status 0>><</link>></p>
+<</if>>
+<<status 0>>
+
+
+:: StripperEvent1-no [nobr]
+
+<p>@@.pc;S-sorry, I can't...@@</p>
+<p><<print either("@@.pc;What?! Are you fuckin dumb, bitch?@@","@@.pc;Hmm... fuck it, I am leaving. Say Hank I am dissapointed. Like fucking a lot.@@")>></p>
+<p>You leave the stall as fast as you can.</p>
+<p>@@.mono;Oh, the manager will be furious...@@</p>
+<p><<link "Back to work">><<sceneclose>><<status 0>><</link>></p>
+
+
+:: StripperEvent2 [nobr]
+
+<center>[img[IMG-StripSadGuy]]</center>
+<p>@@.head3;A@@t the <<print either("end of your shif","beggining of your shift")>> some guy comes up to you. He looks pretty shy and it seems it takes visible efforts to overcome it.</p>
+<p>@@.npc;S-sorry, are you... ehm... vacant? Oh. I mean, you are not busy now?@@</p>
+<<has bitch>><p>@@.pc;Do I look like I am giving a private show or something right now? What do you want, duckling?@@</p><<or>><p>@@.pc;No, I am all free, sweetheart. What;s the deal?@@</p><</has>>
+<p>He makes a couple of deep breaths like he is going to dive into the water.</p>
+<p>@@.npc;Ugh. You see, I have a request... a long story short, my wife well... she is also wearing a pants in our house so she kind of a mistress... She is rather upset with me because I was... jerking off while she is pregnant and... oh gosh... She ordered me to ask for a private lapdance here. And to explain it all to my stripper beforehand.@@</p>
+<p>@@.npc;Tee-hee. That doesn't sound like a punishment for me to be honest!@@</p>
+<p>He squeezes out an embarassed smile.</p>
+<p>@@.npc;Well, there is a twist... she also locked me up in a spiked chastity cage, you know it...@@</p>
+<<has dom>><p>@@.pc;I am pretty much aware of this type of restraints.@@</p>
+<<or>><p>@@.pc;Wow, how does it work?@@</p>
+<p>He gets more and more red with shame but forces himself to continue.</p>
+<p>@@.npc;It... it blocks my ability to have a boner... and spikes inside the tube makes every attempt very... painful.@@</p>
+<p>@@.pc;Oh.@@</p>
+<</has>>
+<p>@@.npc;I am terribly sorry for this but I should obey her, money are not a problem, I'll pay!@@</p>
+<<has dom>><p>@@.mono;Oh, all this situation certainly makes me wet, tee-hee...@@</p><<arousal 1>><</has>>
+<<dialogchoice>>
+  <<dbutt "Yes">><<scenego "StripperEvent2-yes">>
+  <<dtext "doomguy">>Of course, sweetie, I'll do it with a pleasure, he-he!
+  <<dbutt "No" "!ↂ.pc.kink.slut">><<sceneclose>>
+  <<dtext "dismay">>Sorry, you better find some other girl I believe...
+  <<dbutt "Bitch" "!ↂ.pc.kink.slut && ↂ.pc.trait.bitch">><<sceneclose>>
+  <<dtext "angry">>Get lost, you, pervert!
+<</dialogchoice>>
+
+
+:: StripperEvent2-yes [nobr]
+
+<p>@@.pc;Of course, sweetie, I'll do it with a pleasure, he-he!@@</p>
+<p>You take the sub by the hand and lead him to the private booth. By his a little bit bent posture you can say that he is already aroused to the level that spikes start to bother him digging into the soft flesh of his poor cock. Entering the room you force him to sit on the couch and smile.</p>
+<<has dom>><<arousal 2>><p>@@.pc;Let's begin, my little duckling, he-he.@@</p>
+<<or>><<arousal 1>><p>@@.pc;Make yourself comfortable, mister.@@</p><</has>>
+<p>You start your stripper's routine dancing around the pole and slowly getting rid of your lingerie. It doesn't take long until the guys face begin to express all of the mixed feelings she certainly experience. Getting your tits naked you make your way closer to him and sit on his knees with your own apart. His eyes dance back and forth between your bare <<p tits.n>> and your barely covered <<p pussy.q>> <<p pussy.n>>.</p>
+<<has dom>><p>@@.mono;Damn, I like how much he suffers from this predicament!@@</p><</has>>
+<p>You lower yourself on his crotch and feel a hard bump of his cage pressing to your pussy through the fabric of his pants. Slowly rocking on his locked manhood you take him to the point where he is practically ready to cry from pain and frustruation.</p>
+<p>@@.npc;Mmm-hmm...please...@@</p>
+<<has dom>><p>@@.pc;Please what? You know your unruly nub has deserved this, isn't it?@@</p><<or>><p>@@.pc;Oh, poor boy! But you asked for this yourself, remember?@@</p><</has>>
+<p>You do your best at getting him absolutely desperate pressing your <<p skincolor.q>> boobs to him and sliding your hands all across his shaking body. After about 10 minutes you decide that it is enough. <<has dom>>As a last gesture you put your hand to his crotch and sqeeze his swollen nuts with your palm making him squeal with pain.<</has>></p>
+<p>@@.pc;That's all, love, I guess you enjoyed your show, tee-hee!@@</p>
+<p>Slowly gaining his senses back he nods, blushed and sweaty.</p>
+<p>@@.npc;Yes, mistress, thank you, mistress!@@</p><<set _tips = random(40,60)>><<run aw.cash(_tips)>>
+<p>Feeling pretty dommy you order him to leave his tips on the table and he leaves you with a sorry look. You count the money and it turns out he has left @@.money;<<mon>><< =_tips>>@@.</p>
+<p>@@.mono;Not a bad deal for a short lapdance, hm!@@</p>
+<p><<button "Back to work.">><<sceneclose>><<status 0>><</button>></p>
+
+

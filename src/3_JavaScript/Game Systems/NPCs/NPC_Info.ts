@@ -46,7 +46,7 @@ setup.npcInfo.level = function(npcId, input) {
             }
             aw.con.info("added 1 to " + blini); // TODO remove before flight
           } else if (ᛝ[blini] === input[blini]) {
-            if (random(1, 50) === 42) { // Does this counts as a "tiny chance"?
+            if (random(1, 10) === 1) { // Does this counts as a "tiny chance"?
               ᛝ[blini]++;
               if (ᛝ[blini] > 3) {
                 ᛝ[blini] = 3;

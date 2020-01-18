@@ -47,8 +47,14 @@ setup.svg = {
     bgColor = 0,
   }: setupSVGbuildArg): string {
     const partRef = aw.svg[sex];
-    const colRef = aw.svg.color;
-    const pieces = ["hairRear", "body", "clothes", "ears", "face", "mouth", "beard", "mustache", "nose", "eyes", "eyebrows", "hairFront", "hat", "eyeglass"];
+    let colRef = aw.svg.color;
+    let pieces = ["hairRear", "body", "clothes", "ears", "face", "mouth", "beard", "mustache", "nose", "eyes", "eyebrows", "hairFront", "hat", "eyeglass"];
+    if (sex === "male") {
+      pieces = ["hairRear", "body", "clothes", "ears", "face", "mouth", "beard", "mustache", "nose", "eyes", "eyebrows", "hairFront", "hat", "eyeglass"];
+    } else {
+      colRef = aw.svg.femaleColor;
+      pieces = ["init", "hairRear", "body", "clothes", "ears", "face", "mouth", "nose", "eyes", "eyebrows", "hairFront", "hat", "eyeglass"];
+    }
     const merged: string[] = [];
     if (parts.length !== colors.length) {
       return '<span class="bad" style="font-size:1.2rem;">ERROR: Incomplete Array</span>';
@@ -91,10 +97,14 @@ setup.svg = {
         aw.con.warn(`Error in svg interleave function for index ${i} of ${pieces[i]}.\n${e.name}: ${e.message}`);
       }
     }
-
-    return (aw.svg.base.header + merged.join("") + aw.svg.base.footer);
+    if (sex === "male") {
+      return (aw.svg.base.header + merged.join("") + aw.svg.base.footer);
+    } else {
+      return (aw.svg.base.headerFemale + merged.join("") + aw.svg.base.footer);
+    }
   },
 };
+
 
 /*
 return "<span class='bad' style='font-size: 1.2rem;'>ERROR: Array length mismatch on index " + i + " of " + pieces[i] + "!</span>";

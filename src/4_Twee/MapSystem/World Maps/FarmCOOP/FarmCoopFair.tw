@@ -1,0 +1,346 @@
+
+:: MapFarmCoopFair [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPcoop]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou are standing in the area designated as a fairgrounds </p>
+
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: MapFarmCoopFairLOC [nobr]
+
+<center>
+<h3>HuCow Life</h3>
+[img[IMG-MilkIndustrialPump]]</center>
+
+
+:: FarmCoopFCFair [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPcoop]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>You're standing at the fair ground near Farm Coop, today is a day of the Fert Corps annual open fair and there are a lot of tents, cars, semi- or fully nude drunken people. The big "America needs your semen!" flag waves in the central part of the fair and you can hear some girl in nothing than a cowboy boots and a stetson cheering crowd with a megaphone. @@.npc;What we need? Kids for America! When we need to conceive em'? Right now!@@</p>
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<span id="blyatblyat"><<include [[blyatblyatActionbuttons]]>></span>
+
+
+:: blyatblyatActionbuttons [nobr] 
+
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<if ↂ.flag.fairShooting == false>>
+  <<hoverrevise shooting>>
+  <<button "Shooting contest">><<dialog "Shooting contest">><<include [[FairShooting]]>><</dialog>><</button>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise shooting>>
+    @@.disabled;<<button "Shooting contest">><</button>>@@
+  <<endhoverrevise>>
+<</if>>
+<<if ↂ.flag.fairMilking == false>>
+  <<hoverrevise milking>>
+    <<button "Milking contest">><<dialog "Milking contest">><<include [[FairMilking]]>><</dialog>><</button>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise milking>>
+    @@.disabled;<<button "Milking contest">><</button>>@@
+  <<endhoverrevise>>
+<</if>>
+<<hoverrevise drink>>
+    <<button "Drink">><<dialog "Drink a lot">><<include [[FairDrink]]>><</dialog>><</button>>
+  <<endhoverrevise>>
+<<hoverrevise breed>>
+    <<button "Breed">><<dialog "Breed">><<include [[FairBreed]]>><</dialog>><</button>>
+  <<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion shooting>>
+  <<if ↂ.flag.fairShooting == false>>Try your skills on a shooting range. [30 min]<<else>>Shooting contest finished.<</if>>
+<<endinsertion>>
+<<insertion milking>>
+  <<if ↂ.flag.fairMilking == false>>Participate in horse milking competition. [30 min]<<else>>Milking contest finished.<</if>>
+<<endinsertion>>
+<<insertion drink>>Join the drinking crowd and get shitfaced. [??? min]<<endinsertion>>
+<<insertion breed>>Look for a nice male at "Mating exhibit". [10-60 min]<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: FarmCoopFCFairLOC [nobr]
+
+<<set _imm = 1>>
+<p>You look around. @@.mono;Seems like everyone here is having tons of fun...@@</p>
+<br><br><center>
+<span id="imgie">
+[img[IMG-RedneckFair1]]
+</span>
+<br>
+<<button "Look more">>
+<<set _imm += 1>>
+<<switch _imm>>
+<<case 1>>
+  <<set _cock = "[img[IMG-RedneckFair1]]">>
+<<case 2>>
+  <<set _cock = "[img[IMG-RedneckFair2]]">>
+<<case 3>>
+  <<set _cock = "[img[IMG-RedneckFair3]]">>
+<<case 4>>
+  <<set _cock = "[img[IMG-RedneckFair4]]">>
+<</switch>>
+<<replace "#imgie">><<print _cock>><</replace>>
+<</button>>
+</center>
+
+
+:: FairShooting [nobr]
+
+<<status 1>><<set ↂ.flag.fairShooting = true>><<replace "#blyatblyat">><<include [[blyatblyatActionbuttons]]>><</replace>>
+<img data-passage="IMG-FarmCoopFCFairShooting" style="float: left; margin:10px 25px 10px 0px;">
+You approach the shooting range at the northern part of the fair. There is an improvised shooting range under the "Hit the spot!" sign, you can see a bunch of guys and girls having their fun with various weaponry. Shots are pretty loud here, the woman who rules the range almost shouting so you could hear her. @@.mono;Or maybe she just went deaf after too much time spent on the range?@@
+<p>@@.npc;Hey, girl,@@ @@.rumble;BAM!@@ @@.npc;wanna try? We are having a@@ @@.rumble;BAM!@@ @@.npc;contest here, see those targets? Hit em' all@@ @@.rumble;BAM! BAM!@@ @@.npc;and you'll get the main prize!@@</p>
+<p>@@.pc;How much it@@ @@.rumble;BAM!@@ @@.pc;cost to try?@@</p>
+<p>@@.npc;It’s free, sugar! So, poop or get off the pot!@@</p>
+<p>@@.pc;Okay, let's try@@ @@.rumble;BAM!@@ @@.pc;then...@@</p>
+<p>@@.npc;What?@@</p>
+<p>@@.pc;I SAID YES I WILL DO THIS!@@</p>
+<p>She nods and jumps on top of the car to attract the attention of people.</p>
+<p>@@.npc;Hey, listen folks! This Yankee lady will participate too so we finally have enough people for the contest! The rules are potato-mashing simple, hit more targets than other fuckers and you'll get your prize!@@</p>
+<p>She hands you a gun and pushes you to the range. Spectators move a bit so you and other participants have enough space and cheer on their favorites. It seems you have two rivals, a chubby woman in a camo cap and a bearded obviously drunken guy.</p><<SCX>><<SC "FA" 15>><<if $SCresult[1]>>
+  <<run aw.cash(100)>><<addtime 69>><<happy 2 "Having fun with alcohol and firearms">><<run setup.food.drink("beer")>><<run setup.food.drink("beer")>><<updatebar>><<status 0>>
+  <p>You load your gun and aim at the targets. The distance is not that big and you feel pretty confident. You take a deep breath before pulling the trigger for the first time. @@.rumble;BAM!@@ You hit the bullseye! Smiling briefly you glance to your side to see how your competitors do. The woman seems to shoot pretty well but you are afraid that guy will shoot his own leg off judging by how drunk he is. You concentrate back on your targets and continue to shoot.</p>
+  @@.rumble;BAM!@@<br>
+  @@.rumble;BAM!@@<br>
+  @@.rumble;BAM!@@<br>
+  <p>You put your gun to the table pretty happy with your results. You hit six out of seven targets and you hope that you just won the competition. @@.mono;I wonder what is the prize?@@ The host goes to the targets and counts them out loud.</p>
+  <p>@@.npc;Aaand with zero targets hit Tommy gets his third place! Oh gosh, get him away somebody.@@ a couple of guys drag the desperately puking guy from the range. Lead woman shrugs to the crowd and continues.</p>
+  <p>@@.npc;With five out of seven Dorothy gets her second place! Cheers, Dorothy! Aaaand with six hits our Yankee wins and gets her prize! It should be a lesson for us all folks! Darling, what's your name?@@</p>
+  <p>@@.pc;<<= ↂ.pc.main.name>>, I really won?!@@</p>
+  <p>The crowd doesn't seem to care much who won and your victory is celebrated like you are their best friend. It takes about an hour until they finally let you go, you were forced to drink at least three cups of beer and your wallet is filled with @@.money;<<mon>>100@@, your prize.</p>
+<<else>>
+  <p>You load your gun and aim at the targets. The distance is too big and you don’t feel that confident. You take a deep breath before pulling the trigger for the first time. @@.rumble;BAM!@@ You missed!You glance to your side to see how your competitors do. The woman seems to shoot pretty well but you are afraid that guy will shoot his own leg off judging by how drunk he is. @@.mono;At least he will not win for sure...@@ You concentrate back on your targets and continue to shoot.</p>
+  @@.rumble;BAM!@@<br>
+  @@.rumble;BAM!@@<br>
+  @@.rumble;BAM!@@<br>
+  <p>You put your gun to the table and grunt. You hit only three out of seven targets. The host goes to the targets and counts them out loud.</p>
+  <p>@@.npc;Aaand with zero targets hit Tommy gets his third place! Oh gosh, get him away somebody.@@ a couple of guys drag the desperately puking guy from the range. Lead woman shrugs to the crowd and continues.</p>
+  <p>@@.npc;With two... wait, three hits, our Yankee sugarcube gets her second place! Pretty good results for a city girl, ain't it?@@ Despite your second place, you feel a little bit proud with her words.</p>
+  <p>@@.npc;Aaaand with five out of seven Dorothy gets her first place! Cheers, Dorothy!@@</p>
+  <p>The Happy crowd lifts Dorothy up in the air, shouting and drinking, winner laughing happily and you see a beer funnel appears. @@.mono;Well, I hope she will not be have an intoxicated after this celebration... well this was fun anyway.@@</p><<addtime 24>><<happy 1 "Having fun with firearms">><<status 0>>
+<</if>>
+
+
+:: FairMilking [nobr]
+
+<span id="HorseContent">
+  <<status 1>><<set ↂ.flag.fairMilking = true>><<replace "#blyatblyat">><<include [[blyatblyatActionbuttons]]>><</replace>>
+  You approach the makeshift corral at the west side of the fair, it takes some time to move through the crowd gathered around. In the center of the corral you see a couple of stallions, they are held withby a leash by a tall bearded guy in jeans jumpsuit.
+  <p>@@.npc;Okay, ladies, who else dare to try to milk Ace? Rules are the same as last year, no jerking with hands, only your pretty mouth, 15 minutes for a try, one attempt per participant! Any volunteers?@@</p>
+  <<has slut>><<arousal 2>>
+	<p>@@.mono;Oh shit, I TOTALLY should try it!@@</p>
+  <<orhas shame>>
+	<p>@@.mono;Oh my, no way I'll ever touch animal penis! Not in front of a crowd at least... This is plain perverted!@@</p>
+  <<or>><<arousal 1>>
+	<p>@@.mono;Ohhh... they really think somebodys going to suck this stallion in front of everyone? Well, he is really hung and veiny and... stay focused, <<= ↂ.pc.main.name>>, stay focused...@@</p>
+  <</has>>
+  <<dialogchoice>>
+	<<dbutt "Take me!">><<replace '#HorseContent'>><<include [[FairMilkingYes]]>><</replace>>
+	<<dtext "slut">>I want to try! Take me!
+  <<dbutt "No way" "!ↂ.pc.kink.slut || ↂ.pc.trait.will > 2">><<run Dialog.close();>>
+	<<dtext "dismay">>I better go, don't want to do this.
+  <</dialogchoice>>
+</span>
+
+
+:: FairMilkingYes [nobr]
+
+<<gate "bestiality">>
+  <img data-passage="IMG-FarmCoopFCFairHorse" style="float: left; margin:10px 25px 10px 0px;">
+  <p>@@.pc;I want to try! Take me!@@</p>
+  <p>Guy turns to you while the crowd around starts applauding and cheering you up. @@.npc;Very good! Well, remember the rules and start as soon as you are ready, miss! If you succeed you'll get a little prize! Come on, folk, let's encourage our brave girl!@@</p>
+  <p>Following his inviting gesture you come closer to Ace. His semi-erect veiny cock is hanging freely a pair of peach-sized balls are resting just behind it. With a sigh of anticipation you kneel before the massive dong and hear the crowd goes insane, whistling supporting you. You take Ace's baseball bat in both hands and lift it to align with your mouth. Kissing the tip gently you get  another burst of applause from behind and a sharp distinctive taste in your mouth. Taking the head turns out harder than you expected though. Opening your jaw as wide as you can you manage, you engulf the stallions cock and Ace snorts, his cock gets stiffer in your mouth. With cautious motions you suck him feeling his helmet hitting the back of your throat. Stallion's legs start moving nervously but guy holds him by the leash.</p>
+    <<SCX>><<SC "OR" 15>><<SCX>><<SC "OR" 15>><<SCX>><<SC "OR" 15>><<if $SCresult[1]>><<set ↂ.pc.groom.eyeMU = "smeared">><<set ↂ.pc.groom.lipMU = "smeared">><<set ↂ.pc.groom.genMU = "smeared">><<addTime 28>><<happy 3 "Sucking off a horse, of course">><<stress -10 "Sucking off a horse">><<run setup.drug.eatDrug("cum", 200)>><<run setup.omni.new("cumMouth")>><<set ↂ.pc.status.perversion += 15>><<if ↂ.pc.jewel.neck === "none">><<set ↂ.pc.jewel.neck = "FlufferTag">><<else>><<set ↂ.pc.jewel.owned.push("FlufferTag")>><</if>><<status 0>>
+	<p>You gain a pace and can't hear a thing anymore besides slurping of your saliva while you force yourself on Ace's meatstick. There is nothing except this giant cock and you in the whole world. Captured by a true cocksucker's bliss you do your blow job furiously and to your big surprise, you suddenly manage to deepthroat the beast. Your eyes water and you feel like your throat is stretched painfully when his well-lubricated cock slides down. @@.mono;Ooommhmh! oh... oh... oh yeaaah! I am a blowjob queen, fuckers!@@ You move back a little to get a little air and try deepthroating him again which feels easier now. Frantically working you almost miss the guy's voice informing you that you have only 3 minutes left to make your lover cum. Full of determination you cup his giant meaty balls with your both hands and pick up the pace letting the horse fuck your wide-open throat. Ace neighs and helps you by rhythmically pushing his meat even further. You are already almost suffocated when his cock becomes even harder than it was pulsing inside your throat. Afraid of drowning, you back a bit just in time for accepting his whole load into your mouth. The thick horse semen has a stronger odor and an incredibly good taste. You keep licking his head until the last splash of his cum leaves his member and turn to the crowd to show your bounty. Opening your mouth you show them a mouthful of Ace semen and without any second thought gulp it down smiling innocently feeling like a total blissful slut. The audience gets insane and you see a couple of people mindlessly play with their hands inside their underwear.</p>
+	<p>@@.npc;Oh my! What a brave talented girl we have here! I conduct this competition for 6 years now and have never seen anybody taking so much horse cock! I am sure we have a winner, ladies, and gentlemen! Your applause to miss <<= ↂ.pc.main.name>>!@@</p>
+	<p>You can barely stay and it takes about ten minutes to get yourself together before you are ready to get your prize. It is a little golden dog tag with 'Best horse fluffer 2032' text and you feel as proud as possible. The guy lets you go only after getting sure you will be okay.</p>
+	<p>@@.mono;Oh my, this was a hell of an experience! Totally worth visiting this fair!@@</p>
+  <<else>><<happy 1 "Sucking off a horse, of course">><<set ↂ.pc.groom.lipMU = "smeared">>
+	<p>You gain a pace and can't hear a thing anymore besides slurping of your saliva while you force yourself on Ace's meatstick. There is nothing except this giant cock and you in a whole world. Although it is not that easy. Ace's cock is enormous and you can barely impale yourself on it. Working with your tongue you polish his head in your mouth, the taste is awesome and despite your understanding that you won't be able to make him cum you have tons of fun playing with such equipment and by the crowds happy cheering. When your time ends you are almost sorry to leave this piece of art.
+	<p>@@.npc;Time is up! In any case, this was a worthy attempt and a great show, ladies and gentlemen! Your applause to miss <<= ↂ.pc.main.name>>!@@</p>
+	<p>You can barely stay right and it takes about ten minutes to get yourself together before the guy lets you go assured that you will be okay.</p>
+	<p>@@.mono;Oh my, this was a hell of an experience! So sad I wasn't able to make him explode... maybe next year?@@</p>
+  <</if>>
+<</gate>>
+
+
+:: FairDrink [nobr]
+
+<span id="drinkContent">
+<center><img data-passage="IMG-FarmCoopFCFairDrinking"></center>
+<p><<f Y>>ou decide that it is a good time to drink and get through the crowd to the bar tent. While you observe what you can order here a couple of totally naked girls roll up to you.</p>
+<p>@@.npc;Howdy! First time on the FertFest fair?@@</p>
+<p>@@.npd;I am Polly!@@</p>
+<p>@@.npc;And I am Kyla!@@</p>
+<p>They both look drunk but not as much as many other guests and you give them a chance. </p>
+<p>@@.pc;Hi! I am <<= ↂ.pc.main.name>>! Yeah, this is my first time!@@</p>
+<p>@@.npd;We just arrived! And I say you what, we freaking love these fairs! Remember last year, Kyla?@@</p>
+<p>Kyla winces before bursting into laugh. @@.npc;Don't even remind me where they put that beer funnel, Pol! Oh, you have no drink! Sugar, we need to fix this disaster right now!@@</p>
+<<dialogchoice>>
+  <<dbutt "Yes">><<replace '#drinkContent'>><<include [[FairDrink2]]>><</replace>>
+  <<dtext "excited">>Damn yes, I need to get drunk!
+  <<dbutt "No thanks" "ↂ.pc.status.addict.alc < 30">><<run Dialog.close();>>
+  <<dtext "unamused">>Oh, sorry girls, I was going to leave soon, I have to work tomorrow.
+<</dialogchoice>>
+</span>
+
+
+:: FairDrink2 [nobr]
+
+<<run setup.food.drink("beer")>><<run setup.food.drink("beer")>><<run setup.food.drink("beer")>><<run setup.food.drink("beer")>><<run setup.food.drink("beer")>>
+<p>@@.pc;Damn yes, I need to get drunk!@@</p>
+<p>@@.npc;That's the spirit, girl!@@ Taken by the hand you are pulled to the bar and in just a minute you have your own giant glass of beer. You feel pretty comfortable with those girls for some reason. After just an hour and a third beer you are chatting and laughing like some old friends.</p>
+<p>@@.npd;Heeey! Yuo should let your grls breathe too!@@</p>
+<p>@@.pc;Oh, cooome on, I am nt suure this is a gdd idea!@@</p>
+<p>@@.npc;Don't be prde! Let them out!@@</p>
+<p>@@.mono;Scrw it, they r right gddamned!@@ You remove your top releasing your <<p tit.q>> <<p boobshape.q>> breasts to freedom. Polly tries to keep herself straight but loses her balance and falls right into your clevage.</p>
+<p>@@.npc;Ahhahaah! They stll don't braeth! They need n artfcal vntiltion ahahaa! Save 'em, Polly! Breath girls, brth!!@@</p>
+<p>Wiggling your breath you laugh as Polly motorboats you and find that you spilled your beer.</p>
+<center><<button "I need anthr beer, haha!">><<set ↂ.pc.clothes.worn.top = "off">><<run aw.cash(-72)>><<addtime 189>><<run setup.sleep.bedtime("MapVisitorParking");>><</button>></center>
+
+
+:: FairBreed [nobr]
+
+<center><img data-passage="IMG-FarmCoopFCFairBreeding"></center>
+<span id="breedContent">
+<p><<f Y>>ou approach the southern part of the fair. There is a big 'Mating Exhibit' sign and you wonder what it looks like. Getting through the crowd you see a line of nude guys standing in front of a host girl with a microphone.</p>
+<p>@@.npc;As you, all remember you can choose from any of these studs volunteered for breeding you with a perfect baby! Just take one of them by his cock and help America to pop out as many kids as we can! And remember, birth control is a crime against our nation! Hey, miss, want to help our glorious country?@@ She points at you with a microphone.</p>
+<<has shame>><p>@@.mono;Oh gosh, they want me to fuck a total stranger right here?!@@</p><<orhas exhibition>><p>@@.mono;Oh gosh, they want me to fuck a total stranger right here?! In front of everyone?! This is awesome!!!@@</p><<or>>@@.mono;Fucking a total stranger in public? Ugh...@@<</has>>
+<<dialogchoice>>
+  <<dbutt "Sure!">><<replace '#breedContent'>><<include [[FairBreed2]]>><</replace>>
+  <<dtext "smug">>Oh I am sure I can find a nice juicy cock here!
+  <<dbutt "No thanks">><<run Dialog.close();>>
+  <<dtext "confused">>Umm, maybe later.
+<</dialogchoice>>
+</span>
+
+
+:: FairBreed2 [nobr]
+
+<p>You join the girls choosing their bulls for today inspecting their members and weighting the balls. You pass along the line trying to find the guy you like the most.</p>
+  <<set $temp = 0>>
+  <<set _prin = "<<radioset 'sexchoice' '$temp'>>Choose Your Partner...">>
+  <<for _i to 10; _i < 18; _i++>>
+    <<set _id = setup.npc.male[_i]>>
+    <<set _tx = aw.npc[setup.npc.male[_i]].main.name + " (" + aw.npc[setup.npc.male[_i]].main.age + " years, " + aw.parse(_id, 'cocklength.q') + " cock)" >>
+    <<set _prin += "<<radioitem " + setup.npc.male[_i] + ">>" + _tx>>
+  <</for>>
+  <<set _prin += "<</radioset>>">>
+  <<set ↂ.sex.pcOutput = "Your make your choice and smile to the guy. He grins back and you step forward to kiss him...">>
+  <<set ↂ.sex.enviroTags = ["bed"]>>
+  <<set ↂ.sex.passage = "FarmCoopFCFair">>
+    <<print _prin>>
+    <<button "This one!">>
+    <<addtime 27>><<run aw.S()>><<startSex $temp>><<run Dialog.close()>>
+    <</button>>
+

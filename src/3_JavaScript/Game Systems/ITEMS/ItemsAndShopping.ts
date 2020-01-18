@@ -85,10 +85,27 @@ setup.shop.deleteCartItem = function(name: string): void {
 };
 
 // PURCHASE ALL ITEMS IN THE CART  returns error message if unable to purchase (low funds, etc)
-setup.shop.purchase = function(): "no afford"|"success"|"age" {
+setup.shop.purchase = function(): "no afford"|"success"|"age"|"already has" {
   const cost = setup.shop.cartTotalNumber();
   const ᛔ = State.active.variables;
   const age = setup.ageCheck.shopCheck();
+  const slotsWard = Object.keys(ↂ.ward);
+  let slotsCart = [] as string[];
+  let nope = false;
+  if (State.active.variables.cart.length > 0) {
+    for (let index = 0; index < State.active.variables.cart.length; index++) {
+     slotsCart.push(State.active.variables.cart[index][3]);
+    }
+  }
+  for (let index = 0; index < slotsWard.length; index++) {
+    for (let i = 0; i < slotsCart.length; i++) {
+      if (ↂ.ward[slotsWard[index]].includes(slotsCart[i])) {
+        nope = true;
+      }
+    }
+  }
+  aw.con.info(`${slotsWard}`);
+  aw.con.info(`${slotsCart}`);
   aw.L();
   if (ᛔ.AW.cash < cost) {
     return "no afford";
@@ -97,10 +114,12 @@ setup.shop.purchase = function(): "no afford"|"success"|"age" {
     return "age";
   } else if (setup.ageCheck.restrictedItems()) {
     return "age";
+  } else if (nope) {
+    return "already has";
   } else {
     ᛔ.AW.cash -= cost;
     ↂ.home.finance.goods += cost;
-  }
+  } 
   setup.shop.process();
   aw.S();
   return "success";

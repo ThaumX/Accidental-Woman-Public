@@ -1,0 +1,1095 @@
+:: CaveFloorOne [nobr hidden]
+
+
+<<set aw.cave.batt -= 1>>
+<<set _batt = aw.cave.batt>>
+<<if _batt < 1>>
+  <<go "CaveAdventureBeast">>
+<</if>>
+<<set _x = aw.cave.x>>
+<<set _y = aw.cave.y>>
+<<set aw.cave.time += 3>>
+<<set _br = random(1, 3)>>
+<div id="advent">
+<<cavebat _batt>>
+<<switch _x>>
+<<case 1>>/* ############################################################################## */
+  <<switch _y>>
+  <<case 2>>
+  <<cavemap se se>>
+  <<if _br === 1>>
+    <<go "CaveAdventureBeast">>
+  <</if>>
+  <p>
+  You are standing in a large open chamber that is flooded with about <<unit 1 "ft">> of water. You hear a growling sound nearby.
+  </p>
+  <center>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 3>>
+  <<cavemap ne ne>>
+  <<if _br === 1>>
+    <<go "CaveAdventureBeast">>
+  <</if>>
+  <p>
+  You are standing in a large open chamber that is flooded with about <<unit 1 "ft">> of water. You hear a growling sound nearby.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 4>>
+  <<cavemap se>>
+  <p>
+  You are standing in a cave tunnel filled with stalactites and stalagmites that force you to squeeze your way through to proceed.
+  </p>
+  <center>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 5>>
+  <<cavemap ns>>
+  <p>
+  You are standing in a cave tunnel filled with stalactites and stalagmites that force you to squeeze your way through to proceed.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 6>>
+  <<cavemap ns>>
+  <p>
+  You are standing in a cave tunnel filled with stalactites and stalagmites that force you to squeeze your way through to proceed.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 7>>
+  <<cavemap ne>>
+  <p>
+  you're standing in something of an alcove at the end of an more open area. The stalactites and stalagmites are thicker and more numerous here than to the east. To the north there is another tunnel filled with columns of rock, but you believe you can squeeze through.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 8>> /* TRANS */
+  <<cavemap ns>>
+  <p>
+  You are in a segment of tunnel that is fairly small, only <<unit 2 "yd">> in diameter. Fortunately, it's relatively clear of large protrusions and stalagmites. A small trickle of water flows toward the south, making the middle of the tunnel rather slippery.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorTwo">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorTwo">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 9>>
+  <<cavemap ns>>
+  <p>
+  You are in a segment of tunnel that is fairly small, only <<unit 2 "yd">> in diameter. Fortunately, it's relatively clear of large protrusions and stalagmites. A small trickle of water flows toward the south, making the middle of the tunnel rather slippery.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 10>>
+  <<cavemap ns se>>
+  <p>
+  You are in a segment of tunnel that is fairly small, only <<unit 2 "yd">> in diameter. Fortunately, it's relatively clear of large protrusions and stalagmites. A small trickle of water flows toward the south, making the middle of the tunnel rather slippery.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 11>>
+  <<cavemap ne ne se>>
+  <p>
+  You are standing in a rocky alcove. To the north a small tunnel continues into the darkness. To the east there is a large chamber.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <</switch>>
+<<case 2>>/* ############################################################################## */
+  <<switch _y>>
+  <<case 1>>
+  <<cavemap se sw se>>
+  <<if _br === 1>>
+    <<go "CaveAdventureBeast">>
+  <</if>>
+  <p>
+  You are standing in a large open chamber that is flooded with about <<unit 1 "ft">> of water. You hear a growling sound nearby.
+  </p>
+  <center>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 2>>
+  <<cavemap nesw ne se sw>>
+  <<if _br === 1>>
+    <<go "CaveAdventureBeast">>
+  <</if>>
+  <p>
+  You are standing in a large open chamber that is flooded with about <<unit 1 "ft">> of water. You hear a growling sound nearby.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 3>>
+  <<cavemap nesw ne nw>>
+  <<if _br === 1>>
+    <<go "CaveAdventureBeast">>
+  <</if>>
+  <p>
+  You are standing in a large open chamber that is flooded with about <<unit 1 "ft">> of water. You hear a growling sound nearby.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 4>>
+  <<cavemap wn>>
+  <p>
+  You are in a tunnel dense with stalactites and stalagmites. The tunnel continues off to the west. To the north the area opens up into a larger cavern.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 5>> /* TRANS */
+  <<cavemap ns>>
+  <p>
+  You are standing in an area dominated by a fountain-like formation of rock, with large shelves that contain several inches of water. small gaps in the lip of rock around the ledges allow water to stream down to the ledge below. The ledges are higher to the north, and the water slowly makes its way southward.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorTwo">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorTwo">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 6>>
+  <<cavemap ns>>
+  <p>
+  You are standing in an area dominated by a fountain-like formation of rock, with large shelves that contain several inches of water. small gaps in the lip of rock around the ledges allow water to stream down to the ledge below. The ledges are higher to the north, and the water slowly makes its way southward.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 7>>
+  <<cavemap wne>>
+  <p>
+  You are standing in nearly <<unit 1 "ft">> of water in a rather open cavern tunnel. The tunnel continues off to the east, and seems to get narrower to the west. To the north some rock shelves have a little water pouring off them to join the water at your feet.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 8>>
+  <<cavemap se>>
+  <p>
+  You are in a stretch of tunnel with a low ceiling, which forces you to walk hunched over in a rather uncomfortable fashion.
+  </p>
+  <center>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 9>>
+  <<cavemap n>>
+  <p>
+  You are in a stretch of tunnel with a low ceiling, which forces you to walk hunched over in a rather uncomfortable fashion. The tunnel has come to a dead end here. <<if not aw.cave.foundDildo>>You notice an off-white object near the end of the tunnel.<</if>>
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<if not aw.cave.foundDildo>>
+    <<hoverrevise dildo>><<button "retrieve the object">><<go "CaveAdventureDildo">><</button>><<endhoverrevise>><br><<insertion dildo>>Crawl over to where the white object is and retrieve it.<<endinsertion>>
+  <</if>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 10>> /*pitfall!*/
+  <<cavemap x>>
+  <p>
+  FALLING!
+  </p>
+  <<timed 3s>><<go "CaveAdventurePitfall">><</timed>>
+/* ==================================================== */
+  <<case 11>>
+  <<cavemap nsew se ne>>
+  <p>
+  You are standing in a large open cavern, on a ledge next to a huge chasm that runs from the north to the east. The ceiling of the cavern stretches high overhead.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 12>>
+  <<cavemap ne ne>>
+  <p>
+  You are standing in a large open cavern, on a ledge next to a huge chasm that is off to the east. The ceiling of the cavern stretches high overhead.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  <<hoverrevise jump>><<button "jump">><<set aw.cave.x += 2>><<go "CaveAdventureJump">><</button>><<endhoverrevise>><br>
+  <<insertion jump>>Run and jump across the chasm to the east.<<endinsertion>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <</switch>>
+<<case 3>>/* ############################################################################## */
+  <<switch _y>>
+  <<case 1>>
+  <<cavemap ws sw>>
+  <<if _br === 1>>
+    <<go "CaveAdventureBeast">>
+  <</if>>
+  <p>
+  You are standing in a large open chamber that is flooded with about <<unit 1 "ft">> of water. You hear a growling sound nearby.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 2>>
+  <<cavemap nws nw sw>>
+  <<if _br === 1>>
+    <<go "CaveAdventureBeast">>
+  <</if>>
+  <p>
+  You are standing in a large open chamber that is flooded with about <<unit 1 "ft">> of water. You hear a growling sound nearby.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 3>>
+  <<cavemap wne nw>>
+  <<if _br === 1>>
+    <<go "CaveAdventureBeast">>
+  <</if>>
+  <p>
+  You are standing in a large open chamber that is flooded with about <<unit 1 "ft">> of water. You hear a growling sound nearby.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 4>>
+  <<cavemap e>>
+  <p>
+  You are standing in an area surrounded by large boulders and other chunks of broken rock that seems to have been rounded by erosion over the years. Perhaps there was a cave-in?
+  </p>
+  <center>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 6>>
+  <<cavemap se>>
+  <p>
+  You're in a fairly-open cavern tunnel that has about <<unit 1 "ft">> of water in it.
+  </p>
+  <center>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 7>>
+  <<cavemap nw>>
+  <p>
+  You're in a fairly-open cavern tunnel that has about <<unit 1 "ft">> of water in it.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 8>>
+  <<cavemap ew>>
+  <p>
+  You are in a stretch of tunnel with a low ceiling, which forces you to walk hunched over in a rather uncomfortable fashion.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 10>> /* PITFALL */
+  <<cavemap x>>
+  <center>
+  FALLING!
+  </center>
+  <<timed 3s>><<go "CaveAdventurePitfall">><</timed>>
+/* ==================================================== */
+  <<case 11>> /* PITFALL */
+  <<cavemap x>>
+  <center>
+  FALLING!
+  </center>
+  <<timed 3s>><<go "CaveAdventurePitfall">><</timed>>
+/* ==================================================== */
+  <<case 12>> /* PITFALL */
+  <<cavemap x>>
+  <center>
+  FALLING!
+  </center>
+  <<timed 3s>><<go "CaveAdventurePitfall">><</timed>>
+/* ==================================================== */
+  <</switch>>
+<<case 4>>/* ############################################################################## */
+  <<switch _y>>
+  <<case 1>>
+  <<cavemap se se ne>>
+  <p>
+  You are standing at the edge of a huge open cavern. The ceiling stretches high above, and just to the east is the shore of an underground lake. You can't tell how deep it gets, but the currents seems to move in strange ways, causing ripples in the water.
+  </p>
+  <center>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 2>>
+  <<cavemap nse ne>>
+  <p>
+  You are standing at the edge of a huge open cavern. The ceiling stretches high above, and to the northeast is the shore of an underground lake. To the south is a small alcove set atop a ledge that is <<unit 3 "ft">> up.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 3>>
+  <<cavemap wne>>
+  <p>
+  You're inside a small alcove with a cramped ceiling. To the north a large cavern opens up with an underground lake. To the west there is an opening between some columns of rock that you can squeeze through, there seems to be a hint of light beyond it. To the east there is a small tunnel only <<unit 3 "ft">> wide.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 4>>
+  <<cavemap ews>>
+  <p>
+  You are in an open cavern tunnel, standing in about <<unit 8 "in">> of water. To the east there is a small tunnel set into the wall, it's only <<unit 3 "ft">> wide. To the west is a rocky area.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 5>>
+  <<cavemap nes>>
+  <p>
+  You are in an open cavern tunnel, standing in about <<unit 14 "in">> of water. The open area continues to the north, east, and south.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 6>>
+  <<cavemap nw>>
+  <p>
+  You are in an open cavern tunnel, standing in about <<unit 1 "ft">> of water. The more open area of the tunnel continues to the north, while to the east it starts to close in slightly.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 7>>
+  <<cavemap se>>
+  <p>
+  You are atop a large boulder-like shelf that separates the area to the east from the area to the south. To the east there is plenty of water, while the south appears more dry.
+  </p>
+  <center>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 8>>
+  <<cavemap nsw>>
+  <p>
+  You are in a tunnel with a low ceiling, which is only about <<unit 6 "ft">> high at its highest. To the west the ceiling gets lower, but to the south it seems to get a little higher. To the north is a large boulder-like shelf that you can squeeze onto.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 9>>
+  <<cavemap nse>>
+  <p>
+  You are in a tunnel with a somewhat low ceiling, which is only about <<unit 6 "ft">> tall on average. The tunnel continues to the north and to the east. To the south appears to be a large crack in the edge of the tunnel that is large enough to squeeze through.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 10>>
+  <<cavemap nsw sw>>
+  <p>
+  You are standing on a small ledge which is overlooking a deep chasm. Your light isn't bright enough to see the bottom. You can make out some other ledges on the far side of this cavern, however.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 11>> /* PITFALL */
+  <<cavemap x>>
+  <p>
+  FALLING!
+  </p>
+  <<timed 3s>><<go "CaveAdventurePitfall">><</timed>>
+/* ==================================================== */
+  <<case 12>>
+  <<cavemap ew nw>>
+  <p>
+  You are standing on a moderately-sized ledge in an open cavern There is a deep chasm to your north and west. Your light isn't bright enough to see the bottom. There is another ledge past the cavern to the west.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  <<hoverrevise jump>><<button "jump">><<set aw.cave.x -= 2>><<go "CaveAdventureJump">><</button>><<endhoverrevise>><br>
+  <<insertion jump>>Run and jump across the chasm to the west.<<endinsertion>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <</switch>>
+<<case 5>>/* ############################################################################## */
+  <<switch _y>>
+  <<case 1>>
+  <<go "CaveAdventureDarkPool">>
+  /* DARK POOL */
+/* ==================================================== */
+  <<case 2>>
+  <<cavemap new nw ne>>
+  <p>
+  You are standing at the edge of a huge open cavern. The ceiling stretches high above, and just to the north is the shore of an underground lake. You can't tell how deep it gets, but the currents seems to move in strange ways, causing ripples in the water.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 3>>
+  <<cavemap ws>>
+  <p>
+  You are in a very small tunnel that is only <<unit 3 "ft">> in diameter. The tunnel ends in a more open area to the west, and in the other direction continues on to the south.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 4>>
+  <<cavemap nw>>
+  <p>
+  You are in a very small tunnel that is only <<unit 3 "ft">> in diameter. The tunnel ends in a more open area to the west, and in the other direction continues on to the north.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 5>>
+  <<cavemap wes nw ne sw>>
+  <p>
+  You are in a fairly-open cavern tunnel that is flooded with water. You're currently standing in about <<unit 15 "in">> of water. The areas to the east, west, and south all share similar features.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 6>>
+  <<cavemap ns>>
+  <p>
+  You're in a fairly-open cavern tunnel, standing in about <<unit 18 "in">> of water. The tunnel opens up more to the north, and becomes tighter to the south.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 7>>
+  <<cavemap nesw>>
+  <p>
+  You're in a tunnel that is flooded with water, you're standing in about <<unit 20 "in">> of water. The main tunnel travels from the east to the north, where it seems to become more open. To the west is a large boulder-like mass of rock forming a comparatively dry shelf. To the south is smaller tunnel with a floor that resembles stairs. Water is running down the "steps" from further south.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 8>> /* TRANS */
+  <<cavemap ns>>
+  <p>
+  You're in a narrow tunnel with a floor shaped like shallow steps in a stairway. Water is running down the "steps" toward a more open area to the north. The tunnel continues into the darkness to the south.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorTwo">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorTwo">><</keyup>>
+/* ==================================================== */
+  <<case 9>>
+  <<cavemap sw>>
+  <p>
+  You're in a somewhat broad tunnel with a tight ceiling that is only about <<unit 7 "ft">> overhead. The tunnel continues to the west where the ceiling gets lower, and to the south where it is higher.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 10>>
+  <<cavemap ns>>
+  <p>
+  You are in a fairly unremarkable cave tunnel. To the north the tunnel becomes wider and the roof gets lower. To the south the tunnel becomes more narrow.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 11>>
+  <<cavemap ne>>
+  <p>
+  You are in a narrow cave tunnel. To the north the tunnel seems to open up somewhat, becoming larger. To the east, the tunnel connects to a more open cavern via a small hole.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 12>> /* TRANS */
+  <<cavemap ew>>
+  <p>
+  You are in a moderately-sized tunnel that travels in an east-west direction. The tunnel slopes down toward the west.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorTwo">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorTwo">><</keyup>>
+/* ==================================================== */
+  <</switch>>
+<<case 6>>/* ############################################################################## */
+  <<switch _y>>
+  <<case 1>>
+  <<go "CaveAdventureDarkPool">>
+  /* DARK POOL */
+/* ==================================================== */
+  <<case 2>>
+  <<cavemap ew nw ne>>
+  <p>
+  You are standing at the edge of a huge open cavern. The ceiling stretches high above, and just to the north is the shore of an underground lake. You can't tell how deep it gets, but the currents seems to move in strange ways, causing ripples in the water.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 4>>
+  <<cavemap se>>
+  <p>
+  You're standing in a cavern tunnel that is flooded with water, it's about <<unit 30 "in">> deep. To the east the water appears to be draining away; water pouring over a shelf of rock slides down a smooth tunnel out of sight. The cavern you're in continues to the south.
+  </p>
+  <center>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 5>>
+  <<cavemap nw sw>>
+  <p>
+  You're in a fairly open cavern tunnel, standing in about <<unit 2 "ft">> of water. The cavern tunnel seems to come to an end to the north, though you hear the sound of running water louder from that direction. To the west the cavern tunnel continues into the darkness
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 7>>
+  <<cavemap ew>>
+  <p>
+  You're in a cavern passage that is fairly regular in shape but still flooded with water. The water is about <<unit 30 "in">> high. It gets deeper to the east, and shallower to the west.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 8>> /* TRANS */
+  <<cavemap ns>>
+  <p>
+  You're in a comparatively dry tunnel with a cross-section like an off-kilter oval. It forces you to walk leaning to the side, using your arm to help support your weight. The tunnel also seems to have a strange slant to it--heading upward toward the north--putting you off balance. The tunnel continues on to the north and south.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorTwo">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorTwo">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 9>>
+  <<cavemap ns>>
+  <p>
+  You're in a comparatively dry tunnel with a cross-section like an off-kilter oval. It forces you to walk leaning to the side, using your arm to help support your weight. The tunnel also seems to have a strange slant to it--heading upward toward the north--putting you off balance. The tunnel continues on to the north and to the south it opens to a cavern.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 10>>
+  <<cavemap nse se>>
+  <p>
+  You are in a large cavern where the floor is mostly flooded with water. There are plenty of stalactites and stalagmites, requiring care to navigate through. To the north an odd oval tunnel opens into the cavern your standing in.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 11>>
+  <<cavemap nsew ne se>>
+  <p>
+  You standing in a large cavern. There are plenty of stalactites and stalagmites, and the floor is mostly under water. To the west a small tunnel connects to the cavern, set a couple feet up the wall.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 12>>
+  <<cavemap ne ne>>
+  <p>
+  You're nearly up to your waist in water in a large cavern that is littered with stalactites and stalagmites. You have to be careful of each step because of the uneven footing.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <</switch>>
+<<case 7>>/* ############################################################################## */
+  <<switch _y>>
+  <<case 1>>
+  <<go "CaveAdventureDarkPool">>
+  /* DARK POOL */
+/* ==================================================== */
+  <<case 2>>
+  <<cavemap ewn nw ne>>
+  <p>
+  You are standing at the edge of a huge open cavern. The ceiling stretches high above, and just to the north is the shore of an underground lake. You can't tell how deep it gets, but the currents seems to move in strange ways, causing ripples in the water.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 3>> /* TRANS */
+  <<cavemap ew>>
+  <p>
+  You are in a tunnel that is more like a horizontal crack than a tunnel. The floor to the ceiling is only <<unit 2 "ft">> in the middle. Traveling through it requires a circuitous path to avoid obstructions and stay in an area large enough to fit. To the east the crack seems to open up into a larger area, and continues on much the same to the west.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorTwo">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorTwo">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 4>>
+  /* WATERFALL OF DEATH */
+  <<go "CaveAdventureUnder">>
+/* ==================================================== */
+  <<case 6>>
+  <<cavemap se>>
+  <p>
+  You are standing on a large slab of darker-colored rock that seems less dissolvable than the rest. While not level exactly level in orientation, the slab overall is fairly flat. The ceiling overhead resembles something of a halfpipe worn away by water, though it's more of a flat half-oval shape. The slab of rock juts out into a cavern tunnel to the south, and continues on from here to the east.
+  </p>
+  <center>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 7>>
+  <<cavemap nws>>
+  <p>
+  You are in a fairly regularly shaped cavern passage, standing in a good deal of water that is about <<unit 3 "ft">> deep. The passage continues to the west, and ends to the south. To the north a large slab-like chunk of rock seems to make something of a dry ledge forming a tunnel. To the south you can hear the sound of running water.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 8>>
+  <<cavemap ns>>
+  <p>
+  You are standing in water up to your chest in a cavern passage. To the north the passage continues on, to the south there is a miniature water fall where water pours over a lip of stone only a few inches above the waterline.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 9>>
+  <<cavemap ns sw se>>
+  <p>
+  You are standing on the northern edge of a large cavern filled with stalagmites and stalactites. The floor is covered in about <<unit 6 "in">> of water. The cavern opens up to your south, while to your north water pours over a lip of stone into a a passage heading north. The water in the passage appears much deeper.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 10>>
+  <<cavemap news sw se nw ne>>
+  <p>
+  You are standing in a large cavern that is filled with stalagmites and stalactites. The floor is covered in about <<unit 1 "ft">> of water, and is rather uneven, requiring you to watch your step carefully as you move.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  <<button "east">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "d" "right">><<set aw.cave.x += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 11>>
+  <<cavemap nsw nw ne sw>>
+  <p>
+  You are standing in a large cavern that is filled with stalagmites and stalactites. The floor is covered in about <<unit 18 "in">> of water, and is rather uneven, requiring you to watch your step carefully as you move.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 12>>
+  <<cavemap nw nw>>
+    <p>
+    You are in a large cavern, It stretches out at least <<unit 15 "yd">> northward, and is another <<unit 10 "yd">> wide. There are plenty of stalactites and stalagmites, and the floor is mostly under water. The tunnel you slid in on is located about 6 feet up the wall to the south.
+    </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<hoverrevise climb>>
+  <<button "climb">><<go "CaveAdventureClimbEnt">><</button>><<endhoverrevise>><br><<insertion climb>>Try to climb up to the tunnel you slid in on, so you can escape the cave.<<endinsertion>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <</switch>>
+<<case 8>> /* ############################################################################## */
+  <<switch _y>>
+  <<case 1>>
+  <<go "CaveAdventureDarkPool">>
+  /* DARK POOL OF DEATH */
+/* ==================================================== */
+  <<case 2>>
+  <<cavemap nws nw ne>>
+  <p>
+  You are standing at the edge of a huge open cavern. The ceiling stretches high above, and just to the north is the shore of an underground lake. The shore continues to the west, but to the east it is blocked by a large outcropping of rock. 
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 3>>
+  <<cavemap nw nw>>
+  <p>
+  you're in the corner of a huge open cavern. Some distance to the north you can make out what looks to be an underground lake. To the west there is a horizontal crack in the side of the cavern that looks large enough for you to move through.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 5>>
+  <<go "CaveAdventureDrown">>
+  /* DEATH WATER PIT */
+/* ==================================================== */
+  <<case 6>>
+  <<cavemap nw>>
+  <p>
+  You are standing on a large slab of darker-colored rock that seems less dissolvable than the rest. While not level exactly level in orientation, the slab overall is fairly flat. The ceiling overhead resembles something of a halfpipe worn away by water, though it's more of a flat half-oval shape. To the north the slab gives way to an opening, you can see that it's full of water, the water level about <<unit 2 "ft">> below the slab. To the south there is a crack in the side of the halfpipe, you think you'd be able to squeeze through if you tried.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 7>>
+  <<cavemap ns>>
+  <p>
+  You are in a narrow cave passage. To the north there is a crack in the rock leading to a more open area. The passage continues to the south.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 8>>
+  <<cavemap ns>>
+  <p>
+  You are in a narrow cave passage, it continues on to the north and south.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <<case 9>> /* TRANS */
+  <<cavemap ns>>
+  <p>
+  You are in a narrow cave passage, it continues on to the north and south.
+  </p>
+  <center>
+  <<button "north">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</button>>
+  <<button "south">><<set aw.cave.y += 1>><<go "CaveFloorTwo">><</button>>
+  </center>
+  <<keyup "w" "up">><<set aw.cave.y -= 1>><<go "CaveFloorOne">><</keyup>>
+  <<keyup "s" "down">><<set aw.cave.y += 1>><<go "CaveFloorTwo">><</keyup>>
+/* ==================================================== */
+  <<case 10>>
+  <<cavemap w nw sw>>
+  <p>
+  You are in an alcove of a large open cavern filled with stalagmites and stalactites. The stalactites in the alcove have run together with the stalagmites, forming rock columns. Everything is damp in the alcove, but you aren't standing in water here.
+  </p>
+  <center>
+  <<button "west">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</button>>
+  </center>
+  <<keyup "a" "left">><<set aw.cave.x -= 1>><<go "CaveFloorOne">><</keyup>>
+/* ==================================================== */
+  <</switch>>
+<</switch>>
+<<if $swim === "[dev]">>
+  <div class="ship" style="position:absolute;bottom: 5%; right: 5%; width: 10%; height: 50px;font-size:1.1rem;">
+  X:<<= _x>>, Y:<<= _y>>, F:1
+  </div>
+<</if>>
+</div>
+
+
+

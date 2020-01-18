@@ -120,6 +120,7 @@ class EyeMakeup {
     let msg = `applies makeup while you pay attention and ask the occasional question. You don't always understand what's going on, but you try to learn anyway. @@.change;Your eyes now have ${this.name} makeup.@@ `;
     setup.statusLoad();
     ↂ.pc.groom.eyeMU = this.key;
+    setup.makeup.calc();
     setup.statusSave();
     setup.time.add((this.time * 2));
     setup.SCfunc("art", this.learn);
@@ -539,7 +540,7 @@ setup.makeup = {
     ↂ.pc.groom.makeup.look = desc[3];
     ↂ.pc.groom.makeup.atr = atr;
     ↂ.pc.groom.makeup.sexy = sexy;
-    ↂ.pc.groom.makeup.desc = `is made up in a ${desc[0]} way with a ${desc[1]} application of makeup. Overall, you have a ${desc[3]} appearance.`;
+    ↂ.pc.groom.makeup.desc = `is made up in a ${desc[0]} way with a ${desc[1]} application of makeup. Overall, you have a ${desc[2]} appearance.`;
     setup.statusSave();
     return;
   },
@@ -755,7 +756,7 @@ aw.makeup.eye = {};
       name: "sharp-edged",
       key: "sharpEdged",
       short: "sharp eyeshadow",
-      long: "",
+      long: "sharp eyeshadow",
       learn: 10,
       diff: 6,
       autopass: 40,
@@ -855,7 +856,7 @@ aw.makeup.lip = {};
     chapstick: {
       name: "chapstick",
       key: "chapstick",
-      short: "",
+      short: "simple chapstick for moist-looking lips.",
       long: "simple chapstick for moist-looking lips.",
       learn: 8,
       diff: 4,
@@ -1136,8 +1137,8 @@ aw.makeup.gen = {};
     whorish: {
       name: "naughty bordello",
       key: "whorish",
-      short: "",
-      long: "",
+      short: "overdone, almost drag-queen like makeup",
+      long: "overdone, almost drag-queen like makeup",
       learn: 9,
       diff: 5,
       autopass: 50,

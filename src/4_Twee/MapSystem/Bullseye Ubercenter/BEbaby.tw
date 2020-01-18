@@ -1,0 +1,85 @@
+:: BEbaby [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPbullseye]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+@@.head3;Y@@ou are surrounded by cute things made for babies, meaning that you are in the baby department of Bullseye. A large section of Bullseye is devoted to baby goods; they have everything you'd need for a new bundle of Joy. The area seems warm and inviting, encouraging you to browse the aisles. <<if ↂ.pc.kink.pregnancy>>Just being here has set off a tingle deep inside you.<</if>>
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise hovBrowseBaby>>
+	<<button "Browse">><<set _time = random(5,10)>><<_temp = either(-3,-4,-4,-5,-5,-5,-6,-6,-7)>><<if ↂ.pc.kink.pregnancy>><<set _time += random(5,10)>><<arousal 2>><<else>><<arousal 1>><</if>><<addTime _time>><<satisfaction _temp "Bullseye Baby Encouragement Hypnosis">><<set ↂ.flag.babyHypno = true>><<if setup.omni.matching("Hypnotics-CP1") === 0>><<run setup.omni.new("babyHypno")>><<notify>>You have been hypnotized<</notify>><</if>><<dialog "Baby Department">>You take a few minutes to look around the baby section, admiring the cute clothes and stuffed animals. The entire area is bright and colorful, with plenty of glowing lights and flashing displays featuring pregnant women and cute babies. The whole area seems to radiate a sensation of relaxing calm <<if ↂ.pc.trait.perceptive == 1>>that seems to be hypnotic...<<else>>that almost seems odd...<</if>><<if ↂ.pc.kink.pregnancy>><br><br>Looking around has caused the tingle inside you to spread, your arousal growing at the thought of being pregnant. Your womb has begun to ache with a need to be impregnated, the sensation intertwined with your arousal to produce a strong craving for a large and fertile creampie to fill the void.<</if>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovShop>>
+	@@.disabled;<<button "Shop">><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion hovBrowseBaby>>@@.exp;Walk through the aisles and look at cute baby things.@@ @@.com;"does special stuff!@@<<endinsertion>>
+<<insertion hovShop>>@@.exp;Check out Bullseye's selection of stuff for your spawn. [20-40min]@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains an ordered list of all the items in your cart, along with the price (prior to member discount). @@<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+/*this contains randomized event options that will append to the related divs*/
+/*Weather-based actions added, like opening an umbrella*/
+<<weatherBullseyeAct>>
+/*Event-based actions added*/
+<<mapEvent>>
+
+
+:: BEbabyLOC [nobr]
+
+[img[IMGbullseyeBig]]

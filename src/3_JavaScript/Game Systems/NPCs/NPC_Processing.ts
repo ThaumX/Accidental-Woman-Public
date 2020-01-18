@@ -64,11 +64,84 @@ setup.npcProc = function(): void {
   };
   const reduction = function(nid: string, rship: string): void {
     // reduce rship values.
+    if (aw.chad.decay) {
+      return; // cheat stops this decay from happening.
+    }
+    let odds = 100;
+    switch (rship) {
+      case "married":
+        odds = 5;
+        break;
+      case "engaged":
+        odds = 4;
+        break;
+      case "lovers":
+        odds = 2;
+        break;
+      case "exclusive":
+        odds = 1;
+        break;
+      case "dating":
+        odds = 1;
+        break;
+      case "friend":
+        odds = 5;
+        break;
+      case "acquaint":
+        odds = 20;
+        break;
+    }
+    if (odds === 1 || random(1, odds) === 1) {
+      // reduce
+      if (aw.npc[nid].rship.lovePC > 0) {
+        aw.npc[nid].rship.lovePC -= 1;
+      }
+      if (aw.npc[nid].rship.loveNPC > 0) {
+        aw.npc[nid].rship.loveNPC -= 1;
+      }
+      if (aw.npc[nid].rship.likePC > 0) {
+        aw.npc[nid].rship.likePC -= 1;
+      }
+      if (aw.npc[nid].rship.likeNPC > 0) {
+        aw.npc[nid].rship.likeNPC -= 1;
+      }
+    }
+    return;
   };
-
+  const status = function(nid: string): void {
+    if (aw.npc[nid].main.male) {
+      aw.npc[nid].fert.cumRegen();
+    }
+    if (aw.npc[nid].main.female) {
+      setup.fert.cycle(nid);
+      if (aw.npc[nid].fert.hasFluid) {
+        setup.fert.spread(nid, "time");
+        setup.fert.spread(nid, "time");
+        setup.fert.finalMove(nid);
+        setup.fert.migrate(nid);
+        setup.fert.spermAge(nid);
+        if (aw.npc[nid].fert.ovuFlag) {
+          setup.fert.ovulate(nid);
+          aw.npc[nid].fert.ovuFlag = false;
+        }
+      }
+      if ((aw.npc[nid].status.wombA.exists && aw.npc[nid].status.wombA.zygote.length > 0) || (aw.npc[nid].status.wombB.exists && aw.npc[nid].status.wombB.zygote.length > 0)) {
+        setup.fert.zygoteCheck(nid);
+      }
+      if (aw.npc[nid].status.wombA.preg || aw.npc[nid].status.wombB.preg) {
+        setup.fert.fetusCheck(nid);
+        setup.fert.birthCheck(nid);
+      }
+    }
+  };
   // Begin the actual process
   for (const key of npcs) {
     increment(key);
     companionship(key);
+    try {
+      status(key);
+    } catch (e) {
+      aw.con.warn(`Error in npcProc status function for npc ${key}.\n  ${e.name}: ${e.message}`);
+    }
   }
 };

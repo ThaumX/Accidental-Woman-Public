@@ -1,0 +1,83 @@
+:: homeT2foyer [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPhomeT2]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+<<homeItemDisp>>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<<print setup.homeItems.placeDescription("pcHome", "foyer")>><br>
+/*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise clothes>>
+  <<button "Change Clothes">>
+  <<set $returnTo = aw.passage.title>>
+  <<go "MainWardrobe">>
+  <</button>>
+<<endhoverrevise>>
+<<hoverrevise answer>>
+  <span class="disabled"><<button "Answer Door">><</button>></span>
+<<endhoverrevise>>
+/*<<hoverrevise place>><<button "Jobbing Demo">><<go JobberCon>><</button>><<endhoverrevise>>*/
+<<homeItemButtons>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion clothes>>Enter the wardrobe menu to change clothes, shoes, and more. <<ctn>>[also available as a map shortcut!]<</ctn>><<endinsertion>>
+<<insertion answer>><i>Someone needs to be at the door before you can answer it!</i><<endinsertion>>
+<<homeItemInfo>>
+</div>
+<<timed 50ms>>
+<<mapHomeEventAction>>
+<<mapHomeActions>>
+<</timed>>
+
+
+
+:: homeT2foyerLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>

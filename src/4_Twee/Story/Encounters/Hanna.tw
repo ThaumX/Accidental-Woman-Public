@@ -1,0 +1,153 @@
+:: HannaBowen-Approach [nobr]
+
+<<set _npc = "n1014">>
+<p>
+@@.npc;Hey, you there!@@
+</p>
+<p>
+You notice a punk-looking girl calling out to you as you pass by. When you stop walking she approaches you with an enthusiastic smile. @@.npc;Howdy, I'm Hanna. What's your name?@@
+</p>
+<<if ↂ.pc.trait.approachable > 0>>
+<p>
+@@.pc;Emm, <<= ↂ.pc.main.name>>. Nice to meet you.. I guess...@@
+</p>
+<<else>>
+<p>
+@@.pc;Sorry, I'm not looking for new friends.@@
+</p>
+<</if>>
+<p>
+She barely listens to you. @@.npc;Cool, cool! When I saw you, I just knew knew that you're the right person!@@
+</p>
+<p>
+Despite her cheerful tone, she seems a bit aggressive. <<if ↂ.pc.trait.perceptive > -1>>You realize that she's probably high.<<else>>It seems something is wrong with her, but you can't say what.<</if>> @@.pc;For what?@@
+</p>
+<p>
+She continues, oblivious to your guarded tone. @@.npc;Well, I am selling some stuff which you can use, I mean, for getting more productive and stuff... or maybe you just want some boost to your sexual thingies?@@
+</p>
+<br>
+<<dialogchoice>>
+  <<dbutt "No">><<intreplace>><<include "HannaBowen-Approach-No">><</intreplace>>
+  <<dtext "neutral">>No, thanks, I am not interested in buying drugs.
+  <<dbutt "Yes">><<intreplace>><<include "HannaBowen-Approach-Yes">><</intreplace>>
+  <<dtext "smug">>Why not, what do you have?
+  <<dbutt "Fuckoff" "ↂ.pc.trait.bitch">><<intreplace>><<include "HannaBowen-Approach-Bitch">><</intreplace>>
+  <<dtext "angry">>Get lost, skank.
+<</dialogchoice>>
+
+
+:: HannaBowen-Approach-Yes [nobr]
+
+<<set _npc = "n1014">>
+<<set aw.npc.n1014.rship.likePC += 7>>
+<p>
+@@.pc;Why not, what do you have?@@
+</p>
+<p>
+She seems to be even more happy than before, her eyes widen with rapture at the potential sale. @@.npc;Oh I have a lot of stuff you'll like for sure!! Just take a look!@@
+</p>
+<<if ↂ.pc.status.addict.maxValue < 20>>
+  <p>@@.pc;Oh, is it legal?@@</p>
+  <p>@@.npc;Of course, silly! This isn't some street shit that makes your legs rot, it's Institute-approved high-quality stuff!@@</p>
+<</if>>
+<<dialogchoice>>
+  <<dbutt "Shop">><<intreplace>><<include "HannaBowen-Buy">><</intreplace>>
+  <<dtext "smile">>Take a look at the drugs she has.
+  <<dbutt "Why" "ↂ.pc.trait.devious">><<intreplace>><<include "HannaBowen-Approach-Why">><</intreplace>>
+  <<dtext "suspicious">>Why are you selling this stuff?
+<</dialogchoice>>
+
+
+
+:: HannaBowen-Approach-Bitch [nobr]
+
+<<set _npc = "n1014">>
+<<set aw.npc.n1014.rship.lovePC -= 15>>
+<<set aw.npc.n1014.rship.likePC -= 23>>
+<p>@@.pc;Get lost, skunk.@@</p>
+<p>@@.npc;Go fuck yourself then. Bitch.@@</p>
+<<safetoclose>>
+
+
+:: HannaBowen-Approach-No [nobr]
+
+<<set _npc = "n1014">>
+<<run setup.npcInfo.level(_npc, {bodyGeneral: true})>>
+<<set aw.npc[_npc].rship.acquaint = true>>
+<<run setup.npc.acquainted.push(_npc)>>
+<<set aw.npc.n1014.rship.likePC += 2>>
+<p>@@.pc;No, thanks, I am not interested in buying any drugs.@@</p>
+<<run setup.npcInfo.level(_npc, {bodyGeneral: true})>><<set aw.npc[_npc].rship.acquaint = true>><<run setup.npc.acquainted.push(_npc)>>
+<p>@@.npc;That's too bad. But if you'd ever want to buy some Heat or Focusol or whatever, just call me. Or you can come here to see me, I am usually here somewhere in the evening!@@</p>
+<p>She practically pushes a post-it note with her number in your hand.</p>
+<<safetoclose>>
+
+
+:: HannaBowen-Approach-Why [nobr]
+
+<<set _npc = "n1014">>
+<p>@@.pc;Why do you sell such stuff in the first place?@@</p>
+<<SCX>><<SC "CM" "10">><<if $SCresult[1]>>
+<p>For a fraction of the second her smile dissappears and her face gets rather sad. Then her smile returns but it is sardonic now.</p>
+<p>@@.npc;Surprised somebody in this dumb world even care. Long story short I am in very tight situation right now. With money, got it, buddy? Because of... this doesn't matter. Anyway, I bet you can get that I'd spend my time any other way than pushing drugs on this fucking street if I'd had any fucking choice. Well this and also...@@</p>
+<p>She seems to be surprised that she was so easy to hook up onto this confession and gets silent for some time.</p>
+<p>@@.npc;Are you going to buy this shit or not?@@</p>
+<<set aw.npc.n1014.rship.likePC += 3>>
+<p>
+<<link "Look at the drugs she has.">><<intreplace>><<include "HannaBowen-Buy">><</intreplace>><</link>>
+</p>
+<<else>>
+<p>Her unnatural smile dissapears and get rather grim.</p>
+<p>@@.npc;Nothing of your business, buddy. Are you going to buy this shit or not?@@</p>
+<<link "Look at the drugs she has.">><<intreplace>><<include "HannaBowen-Buy">><</intreplace>><</link>>
+<<set aw.npc.n1014.rship.likePC -= 1>>
+<</if>>
+
+
+:: HannaBowen-Buy [nobr]
+
+<<set _npc = "n1014">>
+<<silently>><<set _inv = ["<<button 'Focus tablet 40'>><<run setup.shop.pushInv(['FocusTablet40', 'consume', 0, 'FocusTablet40', 1]);>><<run aw.cash(-30);>><<updatebar>><</button>>","<<button 'Focus vial 40'>><<run setup.shop.pushInv(['FocusVial40', 'consume', 0, 'FocusVial40', 1]);>><<run aw.cash(35);>><<updatebar>><</button>>","<<button 'Focus tablet 80'>><<run setup.shop.pushInv(['FocusVial80', 'consume', 0, 'FocusVial80', 1]);>><<run aw.cash(-40);>><<updatebar>><</button>>","<<button 'Zone bottle 1'>><<run setup.shop.pushInv(['ZoneBottle1', 'consume', 0, 'ZoneBottle1', 1]);>><<run aw.cash(-45);>><<updatebar>><</button>>","<<button 'Zone bottle 3'>><<run setup.shop.pushInv(['ZoneBottle3', 'consume', 0, 'ZoneBottle3', 1]);>><<run aw.cash(-55);>><<updatebar>><</button>>","<<button 'Zone inhaler 3'>><<run setup.shop.pushInv(['ZoneInhaler3', 'consume', 0, 'ZoneInhaler3', 1]);>><<run aw.cash(-55);>><<updatebar>><</button>>","<<button 'Heat 100'>><<run setup.shop.pushInv(['Heat100', 'consume', 0, 'Heat100', 1]);>><<run aw.cash(-25);>><<updatebar>><</button>>","<<button 'Heat 150'>><<run setup.shop.pushInv(['Heat150', 'consume', 0, 'Heat150', 1]);>><<run aw.cash(-30);>><<updatebar>><</button>>","<<button 'Heat 300'>><<run setup.shop.pushInv(['Heat300', 'consume', 0, 'Heat300', 1]);>><<run aw.cash(-35);>><<updatebar>><</button>>","<<button 'Satyr vial'>><<run setup.shop.pushInv(['SatyrVial', 'consume', 0, 'SatyrVial', 1]);>><<run aw.cash(-27);>><<updatebar>><</button>>","<<button 'Satyr tablet'>><<run setup.shop.pushInv(['SatyrTablet', 'consume', 0, 'SatyrTablet', 1]);>><<run aw.cash(-30);>><<updatebar>><</button>>"]>>
+  <<if ↂ.flag.drug.residentialHannaSwap !== State.active.variables.date[0]>>
+  <<set $randomDrugs1 = either(_inv)>>
+  <<set $randomDrugs2 = either(_inv)>>
+  <<set $randomDrugs3 = either(_inv)>>
+  <<set ↂ.flag.drug.residentialHannaSwap = State.active.variables.date[0]>>
+  <</if>>
+  <</silently>>
+  <br>@@.npc;<<= either("As they say, 'the highest quality for the affordable price', gal.", "You won't be dissapointed, sugarcube. Here:")>>@@<br>
+  <br><<print $randomDrugs1>>
+  <<print $randomDrugs2>>
+  <<print $randomDrugs3>>
+  <<if !ↂ.flag.drug.residentialHannaMet>><<set ↂ.flag.drug.residentialHannaMet = true>><<run setup.npcInfo.level(_npc, {bodyGeneral: true})>><<set aw.npc[_npc].rship.acquaint = true>><<run setup.npc.acquainted.push(_npc)>>
+  <p>@@.npc;Ah, also here is my number if you'll need anything in the future!@@</p>
+  <p>She practically pushes a post-it note with her number in your hand.</p>
+  <</if>>
+<<safetoclose>>
+
+:: HannaBowen-Talk [nobr]
+
+<<set _npc = "n1014">>
+<<if setup.npc.enemies.includes(_npc)>>
+    <<set _desto = "NPCinteraction-Enemy">>
+  <<elseif setup.npc.lover.includes(_npc)>>
+    <<set _desto = "NPCinteraction-Lover">>
+  <<elseif setup.npc.exes.includes(_npc)>>
+    <<set _desto = "NPCinteraction-Exes">>
+  <<elseif setup.npc.bff.includes(_npc)>>
+    <<set _desto = "NPCinteraction-Friends">>
+  <<elseif setup.npc.fling.includes(_npc)>>
+    <<set _desto = "NPCinteraction-Fling">>
+  <<elseif setup.npc.friends.includes(_npc)>>
+    <<set _desto = "NPCinteraction-Friends">>
+  <<elseif setup.npc.interested.includes(_npc)>>
+    <<set _desto = "NPCinteraction-Flirty">>
+  <<elseif setup.npc.acquainted.includes(_npc)>>
+    <<set _desto = "NPCinteraction-Acquaint">>
+  <<else>>
+    <<set _desto = "NPCinteraction-RandomStranger">>
+  <</if>>
+<<intgo _desto>>
+<br>
+<<link "Do you have something?">><<intgo "HannaBowen-Buy">><</link>>
+

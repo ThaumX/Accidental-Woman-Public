@@ -1,0 +1,203 @@
+:: DowntownSquare [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPdowntown]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+<div id="storeWindow">
+[img[IMG-Music-DJletters]]
+</div>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<p>
+@@.head3;Y@@ou're standing in the Appletree town square. The large town hall building is just to the south, and the two wings of the building wrap around part of the square. There is an ornate fountain as the centerpiece, but otherwise the square is rather empty right now.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise water>>
+  <<button "Drinking fountain">><<dialog "A Drink">><<addtime 5>><<stress -1 "hooray for alcohol">><<updatebar>><<if setup.omni.matching("Cum Breath") == 1>><<run setup.omni.kill("Cum Breath")>><</if>><center>[img[IMG-DrinkingWaterOutside]]</center><br>
+  <<f y>>ou take a couple minutes out of your busy day to drink some water. Staying hydrated is important for your health, after all! @@.mono;Why does the water in Appletree taste so good?@@<</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise alpha>>
+<<button "Make a Wish">><<if setup.omni.matching("Wish") === 0>><<dialog "Wish">><<include [[DowntownSquareWish]]>><</dialog>><<else>><<run UI.alert('You already made a wish recently. You better avoid testing you luck so often.')>><</if>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Drink some water from a drinking fountain, stay hydrated! [5min]<<endinsertion>>
+<<insertion alpha>>Throw a coin into the fountain and make a wish.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+
+:: DowntownSquareLOC [nobr]
+
+Based on the poster you've occasionally been seeing, it seems that DJ Letters will be playing here at some point in the future.
+
+
+:: DowntownSquareWish [nobr]
+
+<span id="wishSpan">
+@@.head3;Y@@ou got a coin and hestitated looking into the clear water about what you actually want right now.<br>
+<center><<button "Money">><<addtime 3>><<replace "#wishSpan">><<include [[DowntownSquareWish-Money]]>><</replace>><</button>><<button "Love">><<addtime 3>><<replace "#wishSpan">><<include [[DowntownSquareWish-Love]]>><</replace>><</button>></center>
+</span>
+
+
+:: DowntownSquareWish-Money [nobr]
+
+@@.head3;Y@@ou take a deep breath and drop the coin into the water of the fountain.<br><br>
+@@.mono;I really wish to have more money!@@
+<br><center><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></center>
+<<silently>>
+<<run aw.cash(-1, "misc")>>
+<<set _rand = random(0,100)>>
+<<if setup.omni.matching("Wish") === 0>>
+  <<if _rand === 77>>
+    <<script>>
+      setup.omni.new({
+        name: "Wish",
+        type: "single",
+        output: "none",
+        duration: 1440,
+        icon: "IMGstatus_Wish",
+        text: "You hope your wish will come true...",
+        run: `setup.status.happy(20, "A Tsar Goblin granted your wish");
+        const launch = {passage: "DowntownSquareWishMoneyEvent", content: "", block: false, title: "Phone", size: 2};
+        setup.interact.launch(launch);
+        setup.achieve.new("lucky");
+        aw.cash(random(50, 200), "lotto");`
+      });
+    <</script>>
+  <<else>>
+    <<script>>
+      setup.omni.new({
+        name: "Wish",
+        type: "single",
+        output: "none",
+        duration: 1440,
+        icon: "IMGstatus_Wish",
+        text: "You hope your wish will come true...",
+        run: ``,
+      });
+    <</script>>
+  <</if>>
+<</if>>
+<</silently>>
+
+
+:: DowntownSquareWish-Love [nobr]
+
+@@.head3;Y@@ou squint and drop the coin into the water of the fountain.<br><br>
+@@.mono;All I really want is to find a real love!@@
+<br><center><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></center>
+<<silently>>
+<<run aw.cash(-1, "misc")>>
+<<set _rand = random(0,3)>>
+<<if setup.omni.matching("Wish") === 0>>
+  <<if _rand === 0>>
+    <<script>>
+      setup.omni.new({
+        name: "Wish",
+        type: "single",
+        output: "none",
+        duration: 1440,
+        icon: "IMGstatus_Wish",
+        text: "You hope your wish will come true...",
+        run: `const launch = {passage: "DowntownSquareWishLoveEvent", content: "", block: false, title: "Phone", size: 2};
+        setup.interact.launch(launch);
+        setup.achieve.new("lucky");`
+      });
+    <</script>>
+  <<else>>
+    <<script>>
+      setup.omni.new({
+        name: "Wish",
+        type: "single",
+        output: "none",
+        duration: 1440,
+        icon: "IMGstatus_Wish",
+        text: "You hope your wish will come true...",
+        run: ``,
+      });
+    <</script>>
+  <</if>>
+<</if>>
+<</silently>>
+
+
+:: DowntownSquareWishMoneyEvent [nobr]
+
+<<texting "Green clover .ltd">><<textnpc>>Miss <<= ↂ.pc.main.surname>>, congratulation! You are was choosen as a winner for our annual Bullseye customers lottery! Your prize was already sent to you! Thank you for participating!<</texting>><br>@@.mono;Hm. I don't remember about any lottery I was participating. Some scam probably...@@<br><br>You check your balance and see that apparently they sent some money to your account.<br><br>@@.mono;Wow, that is cool! The-he.@@<br><<safetoclose>>
+
+
+:: DowntownSquareWishLoveEvent [nobr]
+
+<<silently>>
+<<set _randSex = random(0,1)>>
+<<if _randSex === 0>>
+  <<set _xyzzy = either(setup.npc.male)>>
+<<else>>
+  <<set _xyzzy = either(setup.npc.female)>>
+<</if>>
+<<set $namer = aw.npc[_xyzzy].main.name>>
+<<set _amt = random(3,4) * -1>>
+<<lonely _amt "Getting texted, even if it was a wrong number">>
+<<set aw.npc[_xyzzy].rship.acquaint = true>>
+<<run setup.npc.acquainted.push(_xyzzy)>>
+<<set aw.npc[_xyzzy].rship.likePC += random(10, 17)>>
+<<set aw.npc[_xyzzy].rship.likeNPC += random(5, 9)>>
+<</silently>>
+
+<<texting _xyzzy>>
+<<textnpc>>Hi, Josh! Kate finally gave me your number you wrote on the handkerchief so I could return your bike!
+<<textpc>>Emm... I guess you got wrong number, I am not Josh, name is <<print ↂ.pc.main.name>>.
+<<textnpc>>Oh, I am so sorry! 
+<<textnpc>>Maybe you know Josh? He must be Josh Simmons or Simons or something?
+<<textnpc>>I am really growing desperate, I can't find him to return that goddamn bike and it seems my friend wrote his number wrong.
+<<textpc>>Mmm. Not sure I know this person tbh. 
+<<textpc>>Maybe this Kate can ask him?
+<<textnpc>>The thing is she doesn't know him either, was just a random guy on a party who lent me a bike to get to the shop.
+<<textnpc>>Kate told me he got some call and left before I returned. He wrote a number but it seems it is wrong...
+<<textnpc>>Oh sorry, I really shoud not bother strangers with my nonsense, anyway, sorry and thank you!
+<<textpc>>Oh it is absolutely okay, you seems like a good person putting all the efforts to return this bike :)
+<<textnpc>>Yeah, goddamit thing blocks my hall all the week ahaha :D
+<<textnpc>>You seems like a good person too. Write me if... for any reason, I am new at the town and always looking for new friends!
+<<textnpc>>Ok :)
+<</texting>>
+<br>@@.mono;_xyzzy seems as a nice person. Maybe I shoud text <<if aw.npc[_xyzzy].main.female>>her<<else>>him<</if>> later for a hangout or something?@@
+<br><br><<safetoclose>>

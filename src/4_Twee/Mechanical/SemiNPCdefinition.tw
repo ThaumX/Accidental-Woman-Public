@@ -1,0 +1,270 @@
+
+/*
+███████╗███████╗███╗   ███╗██╗      ███╗   ██╗██████╗  ██████╗
+██╔════╝██╔════╝████╗ ████║██║      ████╗  ██║██╔══██╗██╔════╝
+███████╗█████╗  ██╔████╔██║██║█████╗██╔██╗ ██║██████╔╝██║
+╚════██║██╔══╝  ██║╚██╔╝██║██║╚════╝██║╚██╗██║██╔═══╝ ██║
+███████║███████╗██║ ╚═╝ ██║██║      ██║ ╚████║██║     ╚██████╗
+╚══════╝╚══════╝╚═╝     ╚═╝╚═╝      ╚═╝  ╚═══╝╚═╝      ╚═════╝
+
+
+List of variables for semi-npc generation via 
+setup.npcgen.NPC({npcid:, gender:, age:, bday:, homo:, race:, subrace:, tone:, weight:, fert:, tits:, cock:, pussy:, beauty:, edu:, wealth:, jobber:, name:, surname:, nickname:, portName:, should:, hip:, waist:})
+
+npcid = number MANDATORY
+gen = gender (1: male, 2: female, 3: futa, 4: dude-ta)
+age = [min,max]
+bday = [d,w,m,y] or 0
+homo = sexuality (0:rand, 1:straight, 2:bi, 3:homo)
+race = race, *needs subrace (0:random, 1: white*, 2: black, 3: hispanic
+    4: asian*, 5: mideastern, 6: native american)
+subrace (-1: random, whites(0: generic, 1: S european, 2: gaelic, 3: nordic),
+    asians(0: asian, 1: s asian, 2: se asian))
+tone = muscle 0:rand
+weight 0:rand
+fert = fert mod (-100to10, "rand" == rand)
+tits = breast size cc (0:normal)
+cock = length mod (0:normal)
+pussy = looseness (0:rand)
+beauty = prettiness (0:rand)
+edu = education array of t/f [hs,c,as,bs,ms,dr] or "rand"
+wealth = (-3 to 3 "rand":rand)
+jobber = job string (0: random)
+name = obvious string (0: random)
+surname = obvious string (0: random)
+nickname = obvious string (0: random)
+portName = chosen portrait, only text (ex: IMG_NPC_Lily)
+should = shoulder width 0:random
+hip = hip width 0:random
+waist = waist 0:random
+
+INSTRUCTIONS:
+Run setup.npcgen.NPC() with arguments as an object
+Change select variables if needed
+Run setup.npcgen.setLists(npcid) *full string name: n1001
+*/
+
+:: DEFsemiNPC-Prologue [nobr hidden]
+
+/*Realtor!*/
+<<procS "gen semi NPCs">>
+<<if aw.npc.n1001 == null>>
+<<run setup.npcgen.NPC({npcid:1001, gender:2, age:[37,42], race: 1, subrace: 0, tone: 3, weight: 4, fert: 4, tits: 1970, pussy: 3, beauty: 4, edu: [true,true,true,false,false,false], wealth: 2, jobber: "realtor", name: "Tiffany", surname: "Williams", nickname: "none", portName: "IMG_NPC_Realtor", should: 2, hip: 6, waist: 3})>>
+<<run setup.npcgen.setLists("n1001")>>
+<</if>>
+
+/*Pharmacist!*/
+<<if aw.npc.n1002 == null>>
+<<run setup.npcgen.NPC({npcid:1002, gender: 2, age: [28,32], homo: 2, race: 1, subrace: 0, tone: 3, weight: 3, fert: 10, tits: 1155, pussy: 2, beauty: 4, edu: [true,true,true,true,true,true], wealth: 2, jobber: "pharmacist", name: "Sara", surname: "Templeton", nickname: "none", portName: "IMG_NPC_30-Black", should: 1, hip: 5, waist: 4})>>
+<<run setup.npcgen.setLists("n1002")>>
+<</if>>
+
+/*Maid school owner!*/
+<<if aw.npc.n1003 == null>>
+<<run setup.npcgen.NPC({npcid:1003, gender:2, age:[39,44], race: 1, subrace: 0, tone: 4, weight: 3, fert: 3, tits: 870, pussy: 8, beauty: 4, edu: [true,true,true,false,false,false], wealth: 3, jobber: "businesswoman", name: "Chatte", surname: "Souillon", nickname: "Alice", portName: "IMG_NPC_30-Blonde", should: 2, hip: 3, waist: 3})>>
+<<run setup.npcgen.setLists("n1003")>>
+<</if>>
+
+/*Dancercise school owner!*/
+<<if aw.npc.n1004 == null>>
+<<run setup.npcgen.NPC({npcid:1004, gender:2, age:[33,38], race: 0, subrace: 0, tone: 3, weight: 3, fert: 3, tits: 1666, pussy: 2, beauty: 4, edu: [true,true,true,false,false,false], wealth: 3, jobber: "school owner", name: "Candy", surname: "Rider", nickname: "none", portName: "IMG-npc-CandyRider", should: 2, hip: 4, waist: 3})>>
+<<run setup.npcgen.setLists("n1004")>>
+<</if>>
+
+/*Lol Besty*/
+<<if aw.npc.n1005 == null>>
+<<run setup.npcgen.NPC({npcid:1005, gender:1, age:[24,40], race: 0, subrace: 0, tone: 6, weight: 2, fert: 3, tits: 0, cock: 5, beauty: 4, edu: [true,false,false,false,false,false], wealth: 3, jobber: "man of many talents", name: "Besty", surname: "Bestarius", nickname: "Tsar", portName: "IMG-bestyportrait", should: 3, hip: 2, waist: 4})>>
+<<run setup.npcgen.setLists("n1005")>>
+<</if>>
+
+/*Oldest proffession school owner!*/
+<<if aw.npc.n1006 == null>>
+<<run setup.npcgen.NPC({npcid:1006, gender:1, age:[24,40], race: 0, subrace: 0, tone: 2, weight: 3, fert: 3, tits: 0, cock: 3, beauty: 2, edu: [true,true,false,false,false,false], wealth: 1, jobber: "school owner", name: "Pimp", surname: "DaHoe", nickname: "Paul", portName: "IMG-npc-PimpDaHoe", should: 3, hip: 2, waist: 5})>>
+<<run setup.npcgen.setLists("n1006")>>
+<</if>>
+
+/*Freak dance school owner!*/
+<<if aw.npc.n1007 == null>>
+<<run setup.npcgen.NPC({npcid:1007, gender:2, age:[29,34], race: 0, subrace: 0, tone: 3, weight: 4, fert: 3, tits: 1900, pussy: 4, beauty: 4, edu: [true,true,false,false,false,false], wealth: 3, jobber: "school owner", name: "DeeDee", surname: "Johnson", nickname: "Thicc-Thot", portName: "IMG_NPC_30-Blonde", should: 2, hip: 6, waist: 4})>>
+<<run setup.npcgen.setLists("n1007")>>
+<</if>>
+
+/*Fubb parlor owner!*/
+<<if aw.npc.n1008 == null>>
+<<run setup.npcgen.NPC({npcid:1008, gender:3, age:[25,29], race: 0, subrace: 0, tone: 3, weight: 3, fert: 3, tits: 600, pussy: 1, cock: 3, beauty: 2, edu: [true,true,true,true,false,false], wealth: 3, jobber: "school owner", name: "Elizabeth", surname: "Fubb", nickname: "none", portName: "IMG-npc-ElizabethFubbs", should: 2, hip: 3, waist: 2})>>
+<<run setup.npcgen.setLists("n1008")>>
+<</if>>
+
+/*Monster Tamer school owner!*/
+<<if aw.npc.n1009 == null>>
+<<run setup.npcgen.NPC({npcid:1009, gender:1, age:[40,45], race: 1, subrace: 3, tone: 4, weight: 2, fert: 3, cock: 1, beauty: 3, edu: [true,true,true,false,false,false], wealth: 2, jobber: "school owner", name: "Hans", surname: "Gruber", nickname: "none", portName: "IMG-npc-HansGruber", should: 2, hip: 2, waist: 4})>>
+<<run setup.npcgen.setLists("n1009")>>
+<</if>>
+
+/*Deep drill school owners!*/
+<<if aw.npc.n1010 == null>>
+<<run setup.npcgen.NPC({npcid:1010, gender:2, age:[29,35], race: 0, subrace: 0, tone: 2, weight: 3, fert: 3, cock: 1, beauty: 3, edu: [true,true,true,false,false,false], wealth: 2, jobber: "school owner", name: "Brandyn", surname: "Swallows", nickname: "none", portName: 0, should: 3, hip: 2, waist: 2})>>
+<<run setup.npcgen.setLists("n1010")>>
+<</if>>
+
+/*Deep Drill Whyf*/
+<<if aw.npc.n1011 == null>>
+<<run setup.npcgen.NPC({npcid:1011, gender:1, age:[29,35], race: 0, subrace: 0, tone: 2, weight: 3, fert: 3, tits: 1200, pussy: 4, beauty: 4, edu: [true,true,false,false,false,false], wealth: 3, jobber: "school owner", name: "Saendra", surname: "Swallows", nickname: "none", portName: 0, should: 2, hip: 3, waist: 3})>>
+<<run setup.npcgen.setLists("n1011")>>
+<</if>>
+
+/*Cashier form CumnGo!*/
+<<if aw.npc.n1012 == null>>
+<<run setup.npcgen.NPC({npcid:1012, gender:2, age:[18,23], race: 0, subrace: 0, tone: 2, weight: 3, fert: 5, tits: 890, pussy: 2, beauty: 4, edu: [true,true,false,false,false,false], wealth: 3, jobber: "cashier at cumandgo", name: "Daisy", surname: "Blackwell", nickname: "none", portName: "IMG_NPC_18-Black", should: 2, hip: 3, waist: 2})>>
+<<run setup.npcgen.setLists("n1012")>>
+<</if>>
+
+/*Pusher from residential!*/
+<<if aw.npc.n1013 == null>>
+<<run setup.npcgen.NPC({npcid:1013, gender:1, age:[21,30], race: 3, subrace: 0, tone: 0, weight: 0, fert: "rand", cock: 0, beauty: 0, edu: [true,false,false,false,false,false], wealth: -2, jobber: "drug dealer", name: "Pedro", surname: "Batista", nickname: "Amigo", portName: "IMG-npc-PedroBatista", should: 0, hip: 0, waist: 0})>>
+<<run setup.npcgen.setLists("n1013")>>
+<</if>>
+
+/*Pusher from club disctrict!*/
+<<if aw.npc.n1014 == null>>
+<<run setup.npcgen.NPC({npcid:1014, gender:2, age:[18,29], homo: 3, race: 1, subrace: 2, tone: 4, weight: 0, fert: "rand", tits: 400, pussy: 2, beauty: 0, edu: [true,false,false,false,false,false], wealth: -2, jobber: "drug dealer", name: "Hanna", surname: "Bowen", nickname: "Tommy", portName: "IMG-npc-HannaBowen", should: 0, hip: 0, waist: 0})>>
+<<run setup.npcgen.setLists("n1014")>>
+<<set aw.npc.n1014.status.addict.zone = 69>>
+<<set aw.npc.n1014.status.addict.zoneNeed = 30>>
+<<set aw.npc.n1014.kink.sub = true>>
+<<set aw.npc.n1014.kink.masochist = true>>
+<<set aw.npc.n1014.kink.bond = true>>
+<<set aw.npc.n1014.kink.liberate = true>>
+<</if>>
+
+/*Bosses from the maid job*/
+<<if aw.npc.n1015 == null>>
+<<run setup.npcgen.NPC({npcid:1015, gender:1, age:[30,50], race: 1, subrace: 0, tone: 2, weight: 2, fert: "rand", cock: 1, beauty: 0, edu: [true,true,true,true,false,false], wealth:3, jobber: "Pliant Pharma top manager", name: "Timothy", surname: "Jacobs", nickname: "none", portName: "IMG-npc-TimothyJacobs", should: 0, hip: 0, waist: 0})>>
+<<run setup.npcgen.setLists("n1015")>>
+<</if>>
+<<if aw.npc.n1016 == null>>
+<<run setup.npcgen.NPC({npcid:1016, gender:1, age:[30,50], race: 1, subrace: 0, tone: 0, weight: 2, fert: "rand", cock: 2, beauty: 0, edu: [true,true,true,true,false,false], wealth:3, jobber: "CEO of Appleseed mall. inc", name: "Aaron", surname: "Stafford", nickname: "none", portName: "IMG-npc-Aaron Stafford", should: 0, hip: 0, waist: 0})>>
+<<run setup.npcgen.setLists("n1016")>>
+<</if>>
+<<if aw.npc.n1017 == null>>
+<<run setup.npcgen.NPC({npcid:1017, gender:1, age:[30,50], race: 3, subrace: 0, tone: 0, weight: 3, fert: "rand", cock: -2, beauty: 0, edu: [true,true,false,false,false,false], wealth:3, jobber: "Man of leisiure", name: "Diego", surname: "Limpio", nickname: "none", portName: "IMG-npc-DiegoLimpio", should: 0, hip: 0, waist: 0})>>
+<<run setup.npcgen.setLists("n1017")>>
+<</if>>
+
+/*G-Man*/
+<<if aw.npc.n103 == null>>
+<<run setup.npcgen.NPC({npcid: 103, gender: 1, age: [44, 46], bday: 0, homo: 3, race: 1, subrace: 0, tone: 3, weight:2, fert:1, cock: 3, beauty: 1, edu: "ms", wealth: 2, jobber: "Institute S.I. Agent", name: "Gerald", surname: "Mann", nickname: "G-Man", portName: "IMG-npc-G-Man", should: 5, hip: 2, waist: 0})>>
+<<run setup.npcgen.setLists("n103")>>
+<</if>>
+
+/*Farm coop folk - hucows*/
+<<if aw.npc.n1018 == null>> /* Dorothy Daisy May - new aspiring hucow, upbeat and full of hopes. */
+<<run setup.npcgen.NPC({npcid: 1018, gender: 2, age: [18, 35], homo: 0, race: 0, subrace: 0, tone: 3, weight:4, fert:7, tits: 7400, pussy: 4, beauty: 4, edu: [true,false,false,false,false,false], wealth: -2, jobber: "farm hucow", name: "Dorothy", surname: "May", nickname: "Daisy", portName: "IMG-npc-DorothyMay", should: 0, hip: 5, waist: 0})>>
+<<run setup.npcgen.setLists("n1018")>>
+<<set aw.npc.n1018.body.lactation = 5>>
+<<set aw.npc.n1018.body.lactCapacity = setup.calcMilkCap(7400, 5)>>
+<<set aw.npc.n1018.background.job = "farm hucow">>
+<<set aw.npc.n1018.mutate.noRefrac = true>>
+<<set aw.npc.n1018.mutate.elastic = true>>
+<<set aw.npc.n1018.status.bimbo = 70>>
+<<set aw.npc.n1018.trait.libido = 4>>
+<</if>>
+
+/* Gracie Sunshine Parton (sic!) - experienced hucow, unofficial local hucows community leader. Worried about getting older and loosing her looks and milk production. */
+<<if aw.npc.n1019 == null>>
+<<run setup.npcgen.NPC({npcid: 1019, gender: 2, age: [29, 40], homo: 2, race: 1, subrace: 0, tone: 3, weight:5, fert:6, tits: 12100, pussy: 5, beauty: 3, edu: [false,false,false,false,false,false], wealth: -1, jobber: "farm hucow", name: "Gracie", surname: "Parton", nickname: "Sunshine", portName: "IMG-npc-GracieParton", should: 0, hip: 6, waist: 0})>>
+<<run setup.npcgen.setLists("n1019")>>
+<<set aw.npc.n1019.body.lactation = 6>>
+<<set aw.npc.n1019.body.lactCapacity = setup.calcMilkCap(12100, 6)>>
+<<set aw.npc.n1019.background.job = "farm hucow">>
+<<set aw.npc.n1019.mutate.milk = true>>
+<<set aw.npc.n1019.status.bimbo = 90>>
+<<set aw.npc.n1019.trait.libido = 3>>
+<</if>>
+
+/* Zoe Cupcake Kagawa - asian biggtiddy hucow. Had the stereotypical small-boob complex, and got into being a hucow because at first she just wanted bigger boobs */
+<<if aw.npc.n1020 == null>> 
+<<run setup.npcgen.NPC({npcid: 1020, gender: 2, age: [18, 28], homo: 0, race: 4, subrace: 0, tone: 3, weight:3, fert:7, tits: 7700, pussy: 3, beauty: 5, edu: [true,true,true,false,false,false], wealth: -1, jobber: "farm hucow", name: "Zoe", surname: "Kagawa", nickname: "Cupcake", portName: "IMG-npc-ZoeKagawa", should: 0, hip: 6, waist: 0})>>
+<<run setup.npcgen.setLists("n1020")>>
+<<set aw.npc.n1020.body.lactation = 6>>
+<<set aw.npc.n1020.body.lactCapacity = setup.calcMilkCap(7700, 6)>>
+<<set aw.npc.n1020.background.job = "farm hucow">>
+<<set aw.npc.n1020.mutate.milk = true>>
+<<set aw.npc.n1020.status.bimbo = 66>>
+<<set aw.npc.n1020.trait.libido = 4>>
+<<set aw.npc.n1020.body.tits.nipGirth = 5>>
+<<set aw.npc.n1020.body.tits.puffy = 5>>
+<<set aw.npc.n1020.body.tits.nipLength = 8>>
+<<set aw.npc.n1020.body.tits.areola = 3>>
+<</if>>
+
+/* Olivia Bessie Baxter - ex middle manager, smart and promising, downshifted to be a full time milk donor because felt that this is her real life purpose. */
+<<if aw.npc.n1021 == null>>
+<<run setup.npcgen.NPC({npcid: 1021, gender: 2, age: [24, 32], homo: 3, race: 0, subrace: 0, tone: 4, weight:4, fert:5, tits: 9900, pussy: 2, beauty: 6, edu: [true,true,true,false,false,false], wealth: 1, jobber: "farm hucow", name: "Olivia", surname: "Baxter", nickname: "Bessie", portName: "IMG-npc-OliviaBaxter", should: 0, hip: 4, waist: 0})>>
+<<run setup.npcgen.setLists("n1021")>>
+<<set aw.npc.n1021.body.lactation = 6>>
+<<set aw.npc.n1021.body.lactCapacity = setup.calcMilkCap(9900, 5)>>
+<<set aw.npc.n1021.trait.open = true>>
+<<set aw.npc.n1021.trait.intro = true>>
+<<set aw.npc.n1021.trait.extro = false>>
+<<set aw.npc.n1021.background.job = "farm hucow">>
+<<set aw.npc.n1021.mutate.pheromone = true>>
+<<set aw.npc.n1021.status.bimbo = 30>>
+<<set aw.npc.n1021.trait.libido = 5>>
+<</if>>
+
+/*Farm coop folk - bulls*/
+
+/* Terry Diesel Doyle - idiotic bull who has useful mutations, big dong and high libido. Will fuck everything and everybody. (Catch phrase "Mating? Mating!") */
+<<if aw.npc.n1022 == null>> 
+<<run setup.npcgen.NPC({npcid: 1022, gender: 1, age: [20, 30], homo: 1, race: 0, subrace: 0, tone: 5, weight:4, fert:8, cock: 4, beauty: 3, edu: [false,false,false,false,false,false], wealth: -2, jobber: "farm bull", name: "Terry", surname: "Doyle", nickname: "Diesel", portName: "IMG-npc-TerryDoyle", should: 0, hip: 6, waist: 0})>>
+<<run setup.npcgen.setLists("n1022")>>
+<<set aw.npc.n1022.mutate.noRefrac = true>>
+<<set aw.npc.n1022.mutate.virile = true>>
+<<set aw.npc.n1022.trait.open = false>>
+<<set aw.npc.n1022.trait.intro = false>>
+<<set aw.npc.n1022.trait.extro = true>>
+<<set aw.npc.n1022.trait.will = 1>>
+<<set aw.npc.n1022.background.job = "farm bull">>
+<<set aw.npc.n1022.trait.libido = 4>>
+<<set aw.npc.n1022.status.addict.satyr = 35>>
+<<set aw.npc.n1022.status.addict.satyrNeed = 20>>
+<</if>>
+
+
+/*Farm coop folk - manager*/
+/* secretly gay asian manager, desperately pretending to be straight to appease his asian parents */
+<<if aw.npc.n1023 == null>> 
+<<run setup.npcgen.NPC({npcid: 1023, gender: 1, age: [33, 39], homo: 3, race: 4, subrace: 0, tone: 0, weight:0, fert:5, cock: 4, beauty: 2, edu: [true,true,true,false,false,false], wealth: 3, jobber: "farm manager", name: "Chin", surname: "Dongpang", nickname: "Daddy", portName: "IMG-npc-ChinDongpang", should: 0, hip: 0, waist: 0})>>
+<<run setup.npcgen.setLists("n1023")>>
+<<set aw.npc.n1023.background.job = "farm manager">>
+<<set aw.npc.n1022.status.addict.focus = 45>>
+<<set aw.npc.n1022.status.addict.focusNeed = 10>>
+<</if>>
+
+/*Farm coop folk - doctor*/
+/* Mya Owen, secretly jealous of her hucows because she is infertile and has tiny AA cups. So she has her own interest in fertility researches on her cows, maybe she will find a way to cure her own fertility problem */
+<<if aw.npc.n1024 == null>> 
+<<run setup.npcgen.NPC({npcid: 1024, gender: 2, age: [23, 32], homo: 2, race: 1, subrace: 0, tone: 2, weight:2, fert:1, tits: 200, pussy: 2, beauty: 4, edu: [true,true,true,true,true,false], wealth: 2, jobber: "farm doctor", name: "Mya", surname: "Owen", nickname: "none", portName: "IMG-npc-MyaOwen", should: 0, hip: 2, waist: 1})>>
+<<run setup.npcgen.setLists("n1024")>>
+<<set aw.npc.n1024.trait.open = true>>
+<<set aw.npc.n1024.trait.intro = true>>
+<<set aw.npc.n1024.trait.extro = false>>
+<<set aw.npc.n1024.fert.fertility = 1>>
+<</if>>
+
+/* JOB COWORKERS */
+/* Marta - Institute Services */
+<<if aw.npc.n1025 == null>>
+<<run setup.npcgen.NPC({npcid:1025, gender:2, age:[30,32], race: 3, subrace: 0, tone: 4, weight: 4, fert: 0, tits: 1320, pussy: 4, beauty: 4, edu: [true,true,false,false,false,false], wealth: -2, jobber: "Institute Services Division", name: "Marta", surname: "Gonzoles", nickname: "none", portName: "IMG-Portrait-Marta", should: 2, hip: 6, waist: 3})>>
+<<run setup.npcgen.setLists("n1025")>>
+<</if>>
+
+
+
+
+
+
+
+<<procE>>
+

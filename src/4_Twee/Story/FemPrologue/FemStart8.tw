@@ -1,0 +1,94 @@
+:: FemStart8 [nobr]
+
+
+<div id="contents">
+<p>
+<<f a>>gent Mann sets down his briefcase and pulls out the same generic tablet as before. @@.npc;Okay Miss <<surname>>, it's time for you to get a job.@@ He starts tapping on the screen, reviewing the information. <<if ↂ.flag.prologuePassedScience>>@@.npc;I'm surprised. It says here that you passed the Science Aptitude Challenge.@@<<else>>@@.npc;I suppose it isn't a surprise that you didn't pass the Science Aptitude Challenge...@@<</if>> He doesn't seem to be expecting a reply, rather it seems more like he was talking to himself.
+</p>
+<p>
+He taps on the screen for another few moments before looking up at you. @@.npc;You'll be using the public RAPES portal to select and apply for your job.@@ He walks over and hands you the tablet. @@.npc;When it finishes loading, just hurry and pick a job. If you really don't like it, you can always go to town hall later and find a new job.@@ His tone suggests that he really doesn't want to spend any more time here than necessary.
+</p>
+<p>
+You look down at the tablet and see a loading icon and a simple title "R.A.P.E.S. Public Portal". After the tablet finishes loading, you see a whole list of potential jobs...
+</p>
+<br>
+<center><<button "CONTINUE">><<addTime 15>><<if ↂ.flag.prologuePassedScience>><<replace "#awUIcontainer">><<print setup.job.jobChoose(0)>><</replace>><<else>><<replace "#awUIcontainer">><<print setup.job.jobChoose(1)>><</replace>><</if>>
+<<replace "#contents">>
+@@.head3;Y@@ou hold your breath as you wait for the the automated HR system to review your application and determine the details of your new job. You wait a few minutes, and just as you're starting to get really worried, you hear the notification sound signaling a new email. <br><br>
+<<link "find out more about your new job">><<addTime 5>><<go FemStart8b>><</link>>
+<</replace>><</button>>
+</center>
+</div>
+
+:: FemStart8b [nobr]
+
+<p>
+You silently review the details of your new job while Agent Mann taps his foot impatiently.
+</p>
+<table>
+<tr class="divide">
+<td colspan=4>
+@@.handwriting;.head;font-size:1.3rem;Job Offer Details@@
+</td>
+</tr><tr>
+<td width="20%">
+''Employer:''
+</td><td width="30%">
+<<= ↂ.job.employer>>
+</td><td width="20%">
+''Job Title:''
+</td><td width="30%">
+<<= ↂ.job.name>>
+</td>
+</tr><tr><td>
+''Boss:''<br>
+''Skills Used:''
+</td><td>
+<<= ↂ.job.rules.boss>><br>
+<<= ↂ.job.skills>>
+</td><td>
+''Description:''
+</td><td>
+<<= ↂ.job.desc>>
+</td>
+</tr><tr class="divide">
+<td colspan=4>
+@@.handwriting;.head;font-size:1.1rem;Compensation Information@@
+</td>
+</tr><tr>
+<td>
+''Hourly Wage:''
+</td><td>
+@@.money;<<mon>><<= ↂ.job.rules.payrate>>@@ per hour
+</td><td>
+''Paid Sick Leave:''
+</td><td>
+<<= ↂ.job.sick.rate>> hours per month
+</td>
+</tr><tr>
+<td>
+''Hours per Week:''
+</td><td>
+<<= ↂ.job.rules.worktime[0]>> hours
+</td><td>
+''Unpaid Leave:''
+</td><td>
+<<= ↂ.job.vacation.rate>> hours per month
+</td>
+</tr><tr>
+<td>
+''Weekly Income:''
+</td><td>
+@@.money;<<mon>><<= ( Math.round( ↂ.job.rules.worktime[0] * ↂ.job.rules.payrate))>>@@
+</td><td>
+''Paid Leave:''
+</td><td>
+<<= ↂ.job.vacation.ratePaid>> hours per month
+</td>
+</tr>
+</table>
+<center>
+<<button "CONTINUE">><<addTime 10>><<go "FemStart9">><</button>>
+</center>
+
+

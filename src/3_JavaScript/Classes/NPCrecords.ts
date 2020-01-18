@@ -23,6 +23,7 @@ class NPCrecords {
       pref: (info != null && info.pref != null) ? info.pref : 0,
       sched: (info != null && info.sched != null) ? info.sched : false,
       bGround: (info != null && info.bGround != null) ? info.bGround : 0,
+      stories: (info != null && info.stories != null) ? info.stories : [false, false, false, false, false, false, false, false, false],
     };
   }
 }

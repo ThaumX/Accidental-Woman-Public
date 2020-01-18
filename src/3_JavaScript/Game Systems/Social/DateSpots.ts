@@ -22,7 +22,9 @@
 //             888
 
 
-interface AWdateSpots {}
+interface AWdateSpots {
+  [propName: string]: DateSpot;
+}
 
 aw.dateSpots = {};
 
@@ -178,21 +180,6 @@ class DateSpot {
     }
     setup.map.nav(...this.loc);
     // TODO adjust date quality
-    let qq = 0;
-    for (let i = 0; i < this.quality; i++) {
-      qq += random(1, 3) + random(0, 1);
-    }
-    const tq = qq - 6;
-    aw.date.qual += tq;
-    // TODO process NPC reaction (async?)
-    aw.date.enjoy[1] += (random(0, 8) - 3);
-    aw.date.enjoy[0] += (random(0, 3) - 1);
-    aw.date.arouse += (random(0, 5) - 2);
-    if (aw.date.enjoy[1] > 49 && aw.date.qual > 40) {
-      aw.date.arouse += random(2, 4);
-    } else if (aw.date.enjoy[1] > 49) {
-      aw.date.arouse += random(1, 3);
-    }
     let output = (this.arrivalText.slice(0, 3) === "DSP") ? `<<include [[${this.arrivalText}]]>>` : this.arrivalText;
     try {
       let tag = setup.cTag.getTag(3, false);
@@ -214,29 +201,85 @@ class DateSpot {
     // ============== event injection
     const ev = this.eventCheck();
     if (ev !== "none") {
-      output += `<div id="spotEvent">${this.events[ev].twee}</div>`;
+      if (this.events[ev].twee.slice(0, 3) === "DSP") {
+        output += `<div id="spotEvent"><<include [[${this.events[ev].twee}]]>></div>`;
+      } else {
+        output += `<div id="spotEvent">${this.events[ev].twee}</div>`;
+      }
       try {
         this.events[ev].prep();
       } catch (e) {
         aw.con.warn(`Date Spot Event Prep() Error:\nDate Spot: ${this.key}, event: ${ev}\n${e.name}: ${e.message}`);
       }
     }
-    // ============== button follow-on
-    output += this.buttonGen();
-    // update the screen text
-    setup.scenario.replace(output);
-    setup.date.statRefresh();
     aw.con.info(`Arrived at date spot ${this.name}.`);
+    // ============== add fadein loader and container div for async AI
+    output += `<div id="continueDiv"><center><<fadein "2s" "1s">><img data-passage="IMG-InfinityLoading" style="border-radius:30px;height: 50px; width: auto;"><</fadein>></center></div>`;
+    // update the player's status
     const lon = random(5, 12) * -1;
-    setup.status.lonely(lon);
-    if (aw.date.enjoy[0] > 35 && aw.date.arouse > 24) {
+    setup.status.lonely(lon, "Interacting with a presumed human on your date");
+    if (aw.date.enjoy[0] > 35 && aw.date.arouse > 34) {
       setup.status.arousal(1);
       const hap = Math.max(0, (random(1, 3) - 2));
       if (hap > 0) {
-        setup.status.happy(hap);
+        setup.status.happy(hap, "Enjoying the date spot");
       }
     } else if (aw.date.enjoy[0] < 35 || aw.date.enjoy[1] < 35) {
-      setup.status.happy(-1);
+      setup.status.happy(-1, "Disliking the date spot");
+    }
+    const butts = this.buttonGen();
+    // output the arrival text
+    setup.scenario.replace(output);
+    // run NPC/date status update asynchronously
+    setTimeout(update, minDomActionDelay);
+    function update() {
+      // get NPC's opinion on the location!
+      let opinion;
+      try {
+        opinion = (setup.date.aiQuery(this.ai[0], `Date Spot Location Opinion Query - ${this.name} - ${aw.date.name}`) - 0.5) * 2;
+      } catch (e) {
+        aw.con.info(`AI opinion system failed in date w/ ${e.name}: ${e.message}`);
+        opinion = 0.5;
+      }
+      // date quality
+      let qq = 0;
+      for (let i = 0; i < this.quality; i++) {
+        qq += random(1, 3) + random(0, 1);
+      }
+      if (aw.date.npcPicked) {
+        aw.date.qual += qq - 4;
+      } else {
+        aw.date.qual += Math.round(qq * opinion);
+      }
+      // date enjoyment & arousal
+      aw.date.enjoy[0] += (random(0, 3) - 1);
+      if (aw.date.npcPicked) {
+        aw.date.enjoy[1] += (random(1, 7) - 1);
+        aw.date.arouse += (random(1, 3) + random(0, 2));
+      } else {
+        aw.date.enjoy[1] += Math.round(random(5, 6) * opinion);
+        if (opinion > 0) {
+          aw.date.arouse += Math.round(5 * opinion) + random(0, 2);
+        } else if (opinion < -0.3) {
+          aw.date.arouse -= random(8, 13);
+        } else {
+          aw.date.arouse -= random(1, 4) + random(1, 2);
+        }
+      }
+      // arousal based on date progress rather than specific location
+      if (aw.date.enjoy[1] > 49 && aw.date.qual > 40) {
+        aw.date.arouse += random(2, 4);
+      } else if (aw.date.enjoy[1] > 49) {
+        aw.date.arouse += random(1, 3);
+      }
+      // see if date has a proposal first, and add buttons
+      if (aw.date.askIt && random(1, 3) === 3) {
+        aw.replace("#continueDiv", setup.date.propose(this.key));
+      } else {
+        aw.replace("#continueDiv", butts);
+      }
+      aw.date.npcPicked = false;
+      setup.date.statRefresh(); // update stats area with new info
     }
   }
   public allowedActs(): string[] {
@@ -253,7 +296,7 @@ class DateSpot {
     return keyo;
   }
   public buttonGen(): string {
-    let output = `<h3>Activity Choices</h3><div id="dateSpotActivityButtons"><<hovrev cuckold>><<button "FOLLOW ${aw.date.name.toUpperCase()}">><<run setup.date.activity("npc")>><</button>><</hovrev>>`;
+    let output = `<center><h3>Activity Choices</h3><div id="dateSpotActivityButtons"><<hovrev cuckold>><<button "FOLLOW ${aw.date.name.toUpperCase()}">><<run setup.date.activity("npc")>><</button>><</hovrev>>`;
     let desc = `<div id="dateSpotActivityButtHover"><<hovins cuckold>>Let ${aw.date.name} decide what to do.<</hovins>>`;
     const keys = Object.keys(this.activities);
     for (let i = 0, c = keys.length; i < c; i++) {
@@ -265,12 +308,12 @@ class DateSpot {
         }
       }
     }
-    output += `<<hovrev complement>><<button "COMPLEMENT">><<run setup.date.saySomething("comp")>><</button>><</hovrev>><<hovrev sexy>><<button "SEXY">><<run setup.date.saySomething("sexy")>><</button>><</hovrev>><<hovrev rom>><<button "ROMANTIC">><<run setup.date.saySomething("rom")>><</button>><</hovrev>><<hovrev deep>><<button "DEEP">><<run setup.date.saySomething("deep")>><</button>><</hovrev>>`;
-    desc += `<<hovins complement>>Compliment your date.<</hovins>><<hovins sexy>>Say something sexy.<</hovins>><<hovins rom>>Say something romantic.<</hovins>><<hovins deep>>Say something deep (or try to).<</hovins>>`;
+    output += `<<hovrev complement>><<button "COMPLEMENT">><<run setup.date.saySomething("comp")>><</button>><</hovrev>><<hovrev sexy>><<button "SEXY">><<run setup.date.saySomething("sexy")>><</button>><</hovrev>><<hovrev rom>><<button "ROMANTIC">><<run setup.date.saySomething("rom")>><</button>><</hovrev>><<hovrev deep>><<button "DEEP">><<run setup.date.saySomething("deep")>><</button>><</hovrev>><<hovrev prop>><<button "SERIOUS">><<scenego "DateSpotSerious">><</button>><</hovrev>>`;
+    desc += `<<hovins complement>>Compliment your date.<</hovins>><<hovins sexy>>Say something sexy.<</hovins>><<hovins rom>>Say something romantic.<</hovins>><<hovins deep>>Say something deep (or try to).<</hovins>><<hovins prop>>It's time for a serious subject, such as progressing your relationship or breaking up.<</hovins>>`;
     output += `<<hovrev leavewhyf>><<button "LEAVE">><<scenego "DateLeaveDatespot">><</button>><</hovrev>>`;
     desc += `<<hovins leavewhyf>>Leave this date spot and go to another, or end the date.<</hovins>>`;
     output += "</div>";
-    output += desc + "</div>";
+    output += desc + "</div></center>";
     return output;
   }
   public eventCheck(): string {
@@ -318,8 +361,10 @@ class DateSpot {
           prep() {
             State.active.variables.luterusDinner = false;
             aw.cash(random(-15, -30), "food");
+            setup.food.eat(30, "junk");
             aw.date.enjoy[1] += random(3, 7);
             aw.date.qual += random(7, 12);
+            aw.S();
             return true;
           },
           gate: [],
@@ -329,7 +374,7 @@ class DateSpot {
           key: "hindenburgerBeer",
           label: "Order beer",
           info: "Decide what beer you want.",
-          twee: `<span id="buylink">@@.pc;<<= aw.date.name>>, some beer maybe?@@<<if ↂ.pc.status.alcohol < 6>><br><br>@@.npc;Of course, I would like it!@@<br><br><<else>><br><br>@@.npc;Are you sure you hadn't got enough already?@@<br><br>@@pc;Just one more glass!@@<br><br><</if>>Calling the waitress you ask her for a beer card. <<= aw.date.name>> gets a glass first and you look at the menu trying to get what beer <<link "you actually want.">><<dialog "Hinden Burger Beer">><<print setup.food.bar("hindenburger")>><</dialog>><<replace "#buylink">><<addtime 18>>Waitress brings your glasses full of beer. You clink your glasses and smile, the beer <<print either("tastes very good", "is pretty nice")>>.<br><br>@@.pc;Cheers!@@<br><br>@@.npc;He-he, cheers!@@<br><br>As you sip from your glass you feel warmth spreading through your body and making you<<if ↂ.pc.trait.extro>> even<</if>>more talkative than usual. You decide to ask <<= aw.date.name>> something.<<print setup.storythread.getStory(aw.date.npcid)>><</replace>><</link>></span>.`,
+          twee: `<span id="buylink">@@.pc;<<= aw.date.name>>, some beer maybe?@@<<if ↂ.pc.status.alcohol < 6>><br><br>@@.npc;Of course, I would like it!@@<br><br><<else>><br><br>@@.npc;Are you sure you hadn't got enough already?@@<br><br>@@pc;Just one more glass!@@<br><br><</if>>Calling the waitress you ask her for a beer card. <<= aw.date.name>> gets a glass first and you look at the menu trying to get what beer <<link "you actually want.">><<dialog "Hinden Burger Beer">><<print setup.food.bar("hindenburger")>><</dialog>><<replace "#buylink">><<addtime 18>>Waitress brings your glasses full of beer. You clink your glasses and smile, the beer <<print either("tastes very good", "is pretty nice")>>.<br><br>@@.pc;Cheers!@@<br><br>@@.npc;He-he, cheers!@@<br><br>As you sip from your glass you feel warmth spreading through your body and making you more talkative than usual. You decide to ask <<= aw.date.name>> something.<<print setup.storythread.getStory(aw.date.npcid)>><</replace>><</link>></span>`,
           check() {
               return true;
           },
@@ -359,7 +404,7 @@ class DateSpot {
           ai: [],
         },
       ],
-      aiTags: [[]],
+      aiTags: [["actLover", "neutEthic", "neutral", "group", "casual", "eat"]],
     },
     {
       key: "foodcourt",
@@ -385,8 +430,10 @@ class DateSpot {
           },
           prep() {
             aw.cash(random(-5, -8), "food");
+            setup.food.eat(35, "junk");
             aw.date.enjoy[1] += random(1, 4);
             aw.date.qual += random(2, 4);
+            aw.S();
             return true;
           },
           gate: [],
@@ -409,7 +456,7 @@ class DateSpot {
           ai: [],
         },
       ],
-      aiTags: [[]],
+      aiTags: [["actLover", "neutEthic", "neutral", "crowd", "crude", "eat"]],
     },
     {
       key: "luterus",
@@ -459,8 +506,10 @@ class DateSpot {
           prep() {
             State.active.variables.luterusDinner = false;
             aw.cash(random(-20, -45), "food");
+            setup.food.eat(35, "normal");
             aw.date.enjoy[1] += random(3, 7);
             aw.date.qual += random(10, 15);
+            aw.S();
             return true;
           },
           gate: [],
@@ -479,6 +528,7 @@ class DateSpot {
             aw.date.enjoy[1] += random(4, 9);
             aw.date.qual += random(12, 15);
             setup.food.drink("priceyWine");
+            aw.S();
             return true;
           },
           gate: [],
@@ -489,7 +539,7 @@ class DateSpot {
           key: "luterusTalk",
           label: "Talk",
           info: "Have a nice chit-chat about things.",
-          twee: `<<if ↂ.pc.trait.intro>>You struggle with starting a proper conversation trying your best to find a topic to talk about. To your relief, <<= aw.date.name>> break the silence before it gets too awkard.<<else>>You feel pretty comfortable starting a chat with <<= aw.date.name>> and discuss things.<</if>><<print setup.storythread.getStory(aw.date.npcid)>><<addtime 16>>`,
+          twee: `<<if ↂ.pc.trait.intro>>You struggle with starting a proper conversation trying your best to find a topic to talk about. To your relief, <<= aw.date.name>> break the silence before it gets too awkward.<<else>>You feel pretty comfortable starting a chat with <<= aw.date.name>> and discuss things.<</if>><<print setup.storythread.getStory(aw.date.npcid)>><<addtime 16>>`,
           check() {
               return true;
           },
@@ -502,7 +552,7 @@ class DateSpot {
           ai: [],
         },
       ],
-      aiTags: [[]],
+      aiTags: [["actLover", "neutEthic", "neutral", "intimate", "fancy", "eat"]],
     },
     {
       key: "olddongho",
@@ -567,9 +617,11 @@ class DateSpot {
           },
           prep() {
             State.active.variables.olddonghoDinner = false;
+            setup.food.eat(35, "junk");
             aw.cash(random(-6, -9), "food");
             aw.date.enjoy[1] += random(2, 7);
             aw.date.qual -= random(1, 6);
+            aw.S();
             return true;
           },
           gate: [],
@@ -588,6 +640,7 @@ class DateSpot {
             aw.date.enjoy[1] += random(4, 7);
             aw.date.qual -= random(1, 6);
             setup.food.drink("beer");
+            aw.S();
             return true;
           },
           gate: [],
@@ -611,7 +664,7 @@ class DateSpot {
           ai: [],
         },
       ],
-      aiTags: [[]],
+      aiTags: [["actLover", "neutEthic", "neutral", "group", "sloppy", "eat"]],
     },
     {
       key: "happyCream",
@@ -639,12 +692,13 @@ class DateSpot {
             }
           },
           prep() {
-            ↂ.pc.status.addict.cum += 1;
-            ↂ.pc.status.addict.cumNeed = 0;
+            setup.drug.eatDrug("cum", 10);
+            setup.food.eat(35, "dessert");
             State.active.variables.happyCreamDonut = false;
             aw.cash(random(-6, -9), "food");
             aw.date.enjoy[1] += random(4, 14);
             aw.date.qual += random(4, 9);
+            aw.S();
             return true;
           },
           gate: [],
@@ -669,7 +723,7 @@ class DateSpot {
           ai: [],
         },
       ],
-      aiTags: [[]],
+      aiTags: [["actLover", "neutEthic", "neutral", "group", "casual", "eat"]],
     },
     {
       key: "teatTreats",
@@ -699,9 +753,11 @@ class DateSpot {
           },
           prep() {
             State.active.variables.happyCreamDonut = false;
+            setup.food.eat(35, "dessert");
             aw.cash(random(-9, -14), "food");
             aw.date.enjoy[1] += random(6, 12);
             aw.date.qual += random(5, 10);
+            aw.S();
             return true;
           },
           gate: [],
@@ -725,7 +781,7 @@ class DateSpot {
           repeatable: true,
         },
       ],
-      aiTags: [[]],
+      aiTags: [["actLover", "neutEthic", "neutral", "intimate", "nice", "eat"]],
     },
     {
       key: "shakenpop",
@@ -746,7 +802,7 @@ class DateSpot {
             return true;
           },
           label: "Oops",
-          twee: "You suddenly step into the puddle of something and feel pretty ashamed while your date giggles at you. It gets you some paper towels from the bar to clean your shoe from this goo.<br><br>@@.mono;Just perfect. Now <<= aw.date.name>> laughs at me. Best date ever. I hope at least it is not a vomit.@@<br><br>",
+          twee: "You suddenly step into the puddle of something and feel pretty ashamed while your date giggles at you. It gets you some paper towels from the bar to clean your shoe from this goo.<br><br>@@.mono;Just perfect. Now <<= aw.date.name>> laughs at me. Best date ever. I hope at least it is not vomit.@@<br><br>",
           prep() {
             aw.date.enjoy[1] -= random(2, 5);
             aw.date.qual -= random(2, 6);
@@ -765,6 +821,7 @@ class DateSpot {
             return true;
           },
           prep() {
+            ↂ.pc.status.exercise += random(10, 20);
             return true;
           },
           gate: [],
@@ -774,7 +831,7 @@ class DateSpot {
           key: "shakenpopDrink",
           label: "Drink",
           info: "Go to the bar to drink something",
-          twee: `<span id="buylink">@@.pc;Hey, <<= aw.date.name>> wanna drink something?@@<<if ↂ.pc.status.alcohol < 6>><br><br>@@.npc;Hm, why not. I'd go for some <<print either("Fickenmeister", "Beer", "Cocktail")>>!@@<br><br><<else>><br><br>@@.npc;Are you sure you hadn't got enough already?@@<br><br>@@pc;Hey, I am absolutely okay! Let's drink, don't be a pussy!@@<br><br><</if>>You go to the bar together to get some drinks. It seems bartender has some busy day with all the visitors and it takes you some time to finally order your drinks. <<= aw.date.name>> gets a glass first and you hesitate for a moment <<link "looking at the menu">><<dialog "Shake & Pop Bar">><<print setup.food.bar("shakepop")>><</dialog>><<replace "#buylink">><<addtime 18>>You take your drinks and go with <<= aw.date.name>> away from the crowd and loud dancefloor to the chillout zone. Despite of being divided by only one wall from the main area it is much more quiet here and you savor your drinks sitting on the red leather coach in front of the small coffee table. As you sip from your glass you feel warmth spreading through your body and making you<<ↂ.pc.trait.extro>> even<</if>>more talkative than usual. You decide it is a right time to know <<= aw.date.name>> better.<<print setup.storythread.getStory(aw.date.npcid)>><</replace>><</link>>.</span>`,
+          twee: `<span id="buylink">@@.pc;Hey, <<= aw.date.name>> wanna drink something?@@<<if ↂ.pc.status.alcohol < 6>><br><br>@@.npc;Hm, why not. I'd go for some <<print either("Fickenmeister", "Beer", "Cocktail")>>!@@<br><br><<else>><br><br>@@.npc;Are you sure you hadn't got enough already?@@<br><br>@@pc;Hey, I am absolutely okay! Let's drink, don't be a pussy!@@<br><br><</if>>You go to the bar together to get some drinks. It seems bartender has some busy day with all the visitors and it takes you some time to finally order your drinks. <<= aw.date.name>> gets a glass first and you hesitate for a moment <<link "looking at the menu">><<dialog "Shake & Pop Bar">><<print setup.food.bar("shakepop")>><</dialog>><<replace "#buylink">><<addtime 18>>You take your drinks and go with <<= aw.date.name>> away from the crowd and loud dancefloor to the chillout zone. Despite of being divided by only one wall from the main area it is much more quiet here and you savor your drinks sitting on the red leather coach in front of the small coffee table. As you sip from your glass you feel warmth spreading through your body and making you more talkative than usual. You decide it is a right time to know <<= aw.date.name>> better.<<print setup.storythread.getStory(aw.date.npcid)>><</replace>><</link>>.</span>`,
           check() {
               return true;
           },
@@ -788,7 +845,7 @@ class DateSpot {
           repeatable: true,
         },
       ],
-      aiTags: [[]],
+      aiTags: [["actLover", "neutEthic", "neutral", "crowd", "sloppy", "drink"]],
     },
     {
       key: "park",
@@ -832,6 +889,7 @@ class DateSpot {
               return true;
           },
           prep() {
+            ↂ.pc.status.exercise += random(5, 10);
             aw.date.enjoy[1] += random(2, 5);
             aw.date.qual -= random(1, 6);
             return true;
@@ -863,7 +921,7 @@ class DateSpot {
           ai: [],
         },
       ],
-      aiTags: [[]],
+      aiTags: [["actLover", "neutEthic", "neutral", "group", "casual", "travel"]],
     },
     {
       key: "cineplex",
@@ -891,13 +949,14 @@ class DateSpot {
             aw.cash(random(-15, -20), "misc");
             aw.date.enjoy[1] += random(7, 15);
             aw.date.qual -= random(5, 9);
+            aw.S();
             return true;
           },
           gate: [],
           ai: [],
         },
       ],
-      aiTags: [[]],
+      aiTags: [["actLover", "neutEthic", "neutral", "group", "nice", "play"]],
     },
     {
       key: "firingrange",
@@ -917,7 +976,7 @@ class DateSpot {
           key: "firingrangeShoot",
           label: "Shoot",
           info: "Go and shoot some targets together.",
-          twee: `<<addtime 30>><<dialog "Choose your gun">><<print either("You come to the reception with a ", "Approaching the reception you see a")>> <<print either("bearded middle-aged", "pretty girl with tattoos", "sturdy fit woman in a leather jacket")>> standing beneath.<br><br>@@.pc;Welcome to the "Hot loads"! Wanna shoot some today?@@<br><br>After greeting and short safety instructions you are proposed to choose a gun for target shooting. It seems they have some interesting choice of firearms there and you pause for a moment trying to figure out what you like to shoot today.<br><br>@@.npc;I guess I ll try <<print either("Gluck 69", "0.40 Rimmington", "Double action Cunt navy", "Pussberg 500 Pump-action", "Beawer M9")>> today. What will be your choice, mm?@@<br><br>@@.pc;Hmmm...@@<br><br>You take a look on the list again.<br><<button "Gluck 69">><<run Dialog.close()>><</button>><<button "0.40 Rimmington">><<run Dialog.close()>><</button>><<button "Double action Cunt navy">><<run Dialog.close()>><</button>><<button "Pussberg 500 Pump-action">><<run Dialog.close()>><</button>><<button "Beawer M9">><<run Dialog.close()>><</button>><</dialog>>After paying, you get your guns, headphones and a cardboard with rounds.<br><br>@@.npc;<<print either("Good luck and stay safe, folk!", "Have fun and don't dorget about safety!", "I hope you know how to handle this, have a nice time!")>>@@<br><br>You go to the range and take a stall next to <<= aw.date.name>>.<<SCX>><<SC "FA" 10>><<if $SCresult[1]>>After loading the gun you start shooting the paper target. <<SC "FA" 20>><<if $SCresult[2]>>You feel pretty confident and after shooting you evaluate your results as <<print either("good", "excellent", "mediocre but still okay")>><<happy 1>><br><br>@@.npc;Wow, you are good at it! You are a natural-born shooter!@@<br><br>@@.pc;Thanks!@@<br><br><<stress -5>><<else>>You are still not that familiar with firearms <<print either("so your results are average", "but your results are surprisingly good today", "so your results are mediocre")>><<stress -3>><br><br>@@.npc;Hey, not bad!@@<br><br><</if>><<else>>It takes you a long time and some additional help from <<= aw.date.name>> to finally load and shoot your gun.<br><br>@@.npc;<<print either("It is okay, you just need some practice.", "It seems you are shooting for the first time, right?", "See, you need to pull the trigger softly, do not twitch...")>>@@<br><br>You feel warm breath on your cheek while <<= aw.date.name>> instructs you how to hold a gun. After shooting you evaluate your results and it seems <<print either("you miss most of the time", "you hit the target 3 or 4 times", "somehow you managed to hit the target with more than a half of bullets")>>.<</if>> It seems that <<= either("you was more successful than", "you did worse than", "you got the same results as")>> <<= aw.date.name>>. Still slightly stunned by loud shots you go upstairs and leave the range.`,
+          twee: `<<addtime 30>><<dialog "Choose your gun">><<print either("You come to the reception with a ", "Approaching the reception you see a")>> <<print either("bearded middle-aged", "pretty girl with tattoos", "sturdy fit woman in a leather jacket")>> standing beneath.<br><br>@@.pc;Welcome to the "Hot loads"! Wanna shoot some today?@@<br><br>After greeting and short safety instructions you are proposed to choose a gun for target shooting. It seems they have some interesting choice of firearms there and you pause for a moment trying to figure out what you like to shoot today.<br><br>@@.npc;I guess I ll try <<print either("Gluck 69", "0.40 Rimmington", "Double action Cunt navy", "Pussberg 500 Pump-action", "Beawer M9")>> today. What will be your choice, mm?@@<br><br>@@.pc;Hmmm...@@<br><br>You take a look on the list again.<br><<button "Gluck 69">><<run Dialog.close()>><</button>><<button "0.40 Rimmington">><<run Dialog.close()>><</button>><<button "Double action Cunt navy">><<run Dialog.close()>><</button>><<button "Pussberg 500 Pump-action">><<run Dialog.close()>><</button>><<button "Beawer M9">><<run Dialog.close()>><</button>><</dialog>>After paying, you get your guns, headphones and a cardboard with rounds.<br><br>@@.npc;<<print either("Good luck and stay safe, folk!", "Have fun and don't dorget about safety!", "I hope you know how to handle this, have a nice time!")>>@@<br><br>You go to the range and take a stall next to <<= aw.date.name>>.<<SCX>><<SC "FA" 10>><<if $SCresult[1]>>After loading the gun you start shooting the paper target. <<SC "FA" 20>><<if $SCresult[2]>>You feel pretty confident and after shooting you evaluate your results as <<print either("good", "excellent", "mediocre but still okay")>><<happy 1 "Fun at the shooting range">><br><br>@@.npc;Wow, you are good at it! You are a natural-born shooter!@@<br><br>@@.pc;Thanks!@@<br><br><<stress -5 "Shooting a gun">><<else>>You are still not that familiar with firearms <<print either("so your results are average", "but your results are surprisingly good today", "so your results are mediocre")>><<stress -3 "Shooting a gun">><br><br>@@.npc;Hey, not bad!@@<br><br><</if>><<else>>It takes you a long time and some additional help from <<= aw.date.name>> to finally load and shoot your gun.<br><br>@@.npc;<<print either("It is okay, you just need some practice.", "It seems you are shooting for the first time, right?", "See, you need to pull the trigger softly, do not twitch...")>>@@<br><br>You feel warm breath on your cheek while <<= aw.date.name>> instructs you how to hold a gun. After shooting you evaluate your results and it seems <<print either("you miss most of the time", "you hit the target 3 or 4 times", "somehow you managed to hit the target with more than a half of bullets")>>.<</if>> It seems that <<= either("you was more successful than", "you did worse than", "you got the same results as")>> <<= aw.date.name>>. Still slightly stunned by loud shots you go upstairs and leave the range.`,
           check() {
               return true;
           },
@@ -925,13 +984,14 @@ class DateSpot {
             aw.cash(random(-20, -25), "misc");
             aw.date.enjoy[1] += random(9, 14);
             aw.date.qual += random(3, 6);
+            aw.S();
             return true;
           },
           gate: [],
           ai: [],
         },
       ],
-      aiTags: [[]],
+      aiTags: [["actLover", "neutEthic", "neutral", "intimate", "casual", "play"]],
     },
     {
       key: "bowling",
@@ -959,13 +1019,14 @@ class DateSpot {
             aw.cash(random(-15, -20), "misc");
             aw.date.enjoy[1] += random(7, 12);
             aw.date.qual += random(3, 6);
+            aw.S();
             return true;
           },
           gate: [],
           ai: [],
         },
       ],
-      aiTags: [[]],
+      aiTags: [["actLover", "neutEthic", "neutral", "group", "casual", "play"]],
     },
   ];
   for (const spot of spots) {

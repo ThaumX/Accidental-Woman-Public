@@ -103,7 +103,7 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
   case "EX":
   case "ex":
   case "exhibit":
-    skill = ↂ.skill.exhibition + ↂ.flag.tempSkillBoost.exhibition;
+    skill = ↂ.skill.curExhibition;
     type = "exhib";
     if (PC.trait.open === "closed") {
       mod -= 2;
@@ -122,7 +122,7 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
   case "PR":
   case "pr":
   case "prost":
-    skill = ↂ.skill.prostitute + ↂ.flag.tempSkillBoost.prostitute;
+    skill = ↂ.skill.curProstitute;
     type = "ho";
     if (PC.trait.open === "closed") {
       mod -= 2;
@@ -131,7 +131,7 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
   case "SX":
   case "sx":
   case "sex":
-    skill = ↂ.skill.sex + ↂ.flag.tempSkillBoost.sex;
+    skill = ↂ.skill.curSex;
     type = "sex";
     if (PC.trait.open === "closed") {
       mod -= 1;
@@ -153,7 +153,7 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
   case "OR":
   case "or":
   case "oral":
-    skill = ↂ.skill.oral + ↂ.flag.tempSkillBoost.oral;
+    skill = ↂ.skill.curOral;
     type = "oral";
     if (PC.trait.open === "closed") {
       mod -= 1;
@@ -173,7 +173,7 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
   case "SED":
   case "sed":
   case "seduct":
-    skill = ↂ.skill.seduction + ↂ.flag.tempSkillBoost.seduction;
+    skill = ↂ.skill.curSeduction;
     type = "sed";
     if (PC.trait.flirty === -1) {
       mod -= 2;
@@ -185,10 +185,8 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
     } else if (PC.trait.vert === "extroverted") {
       mod += 1;
     }
-    if (State.variables.pub) {
-      if (aw.chad.dom) {
-        mod += 50;
-      }
+    if (aw.chad.dom) {
+      mod += 50;
     }
     if (PC.mutate.goddess) {
       mod += 15;
@@ -207,11 +205,45 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
       mod += 1;
     }
     break;
+  case "ST":
+  case "strip":
+    // strip derived skill
+    type = "strip";
+    if (PC.kink.shame) {
+      mod -= 5;
+      if (PC.trait.isShy || PC.trait.isLowEsteem || PC.trait.isRefined) {
+        mod -= 2;
+      }
+    } else {
+      if (PC.trait.isShy || PC.trait.isLowEsteem || PC.trait.isRefined) {
+        mod -= 1;
+      }
+      if ((PC.trait.isFlirty || PC.trait.isFriendly || PC.trait.isAmbitious) && PC.kink.liberate) {
+        mod += 1;
+      }
+      if (PC.kink.slut) {
+        mod += 1;
+      }
+      if (PC.kink.exhibition && PC.kink.public) {
+        mod += 3;
+      } else if (PC.kink.exhibition) {
+        mod += 2;
+      } else if (PC.kink.public) {
+        mod += 1;
+      }
+    }
+    if (PC.trait.intro) {
+      mod -= 1;
+    }
+    if (PC.trait.cl) {
+      mod -= 1;
+    }
+    break;
   case "CM":
   case "cm":
   case "COM":
   case "com":
-    skill = ↂ.skill.comm + ↂ.flag.tempSkillBoost.comm;
+    skill = ↂ.skill.curComm;
     type = "com";
     if (PC.trait.vert === "introverted") {
       mod -= 1;
@@ -223,17 +255,39 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
     } else if (PC.trait.persuasive === 1) {
       mod += 1;
     }
-    if (State.variables.pub) {
-      if (State.variables.cheat.dom) {
-        mod += 50;
-      }
+    if (aw.chad.dom) {
+      mod += 50;
+    }
+    break;
+  case "MA":
+  case "manage":
+    skill = ↂ.skill.manage;
+    type = "manage";
+    if (PC.trait.open === "closed") {
+      mod -= 1;
+    } else if (PC.trait.open === "open") {
+      mod += 1;
+    }
+    if (PC.trait.persuasive === -1) {
+      mod -= 2;
+    } else if (PC.trait.persuasive === 1) {
+      mod += 1;
+    }
+    if (PC.trait.isOblivious) {
+      mod -= 1;
+    }
+    if (PC.trait.isBitch) {
+      mod -= 1;
+    }
+    if (PC.trait.isForgetful || PC.trait.isLowEsteem || PC.trait.isNarcissist) {
+      mod -= 1;
     }
     break;
   case "OG":
   case "og":
   case "ORG":
   case "org":
-    skill = ↂ.skill.org + ↂ.flag.tempSkillBoost.org;
+    skill = ↂ.skill.curOrg;
     type = "org";
     if (PC.trait.open === "closed") {
       mod += 1;
@@ -245,7 +299,7 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
   case "ps":
   case "prob":
   case "probsolve":
-    skill = ↂ.skill.probSolving + ↂ.flag.tempSkillBoost.probSolving;
+    skill = ↂ.skill.curProbSolving;
     type = "prob";
     if (PC.trait.vert === "introverted") {
       mod += 1;
@@ -253,11 +307,40 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
       mod -= 2;
     }
     break;
+  case "CR":
+  case "crime":
+    skill = ↂ.skill.crime;
+    type = "crime";
+    if (PC.trait.isDeceptive) {
+      mod += 1;
+    }
+    if (PC.trait.isDevious) {
+      mod += 1;
+    }
+    if (PC.trait.isHonest) {
+      mod -= 2;
+    }
+    if (PC.trait.isStraightforward) {
+      mod -= 1;
+    }
+    if (PC.trait.isAmbitious) {
+      mod += 1;
+    }
+    if (PC.trait.isUncaring) {
+      mod += 1;
+    }
+    if (PC.trait.isKind) {
+      mod -= 1;
+    }
+    if (PC.trait.isCaring) {
+      mod -= 1;
+    }
+    break;
   case "FI":
   case "fi":
   case "FN":
   case "fn":
-    skill = ↂ.skill.finance + ↂ.flag.tempSkillBoost.finance;
+    skill = ↂ.skill.curFinance;
     type = "fin";
     if (PC.trait.vert === "introverted") {
       mod += 1;
@@ -274,22 +357,38 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
   case "Art":
   case "AST":
   case "ast":
-    skill = ↂ.skill.art + ↂ.flag.tempSkillBoost.art;
+    skill = ↂ.skill.curArt;
     type = "art";
     if (PC.trait.open === "closed") {
       mod -= 3;
+    }
+    break;
+  case "PE":
+  case "perform":
+    skill = ↂ.skill.perform;
+    type = "perform";
+    if (PC.trait.open === "closed") {
+      mod -= 2;
+    } else if (PC.trait.open === "open") {
+      mod += 2;
+    }
+    if (PC.trait.extro) {
+      mod += 1;
+    }
+    if (PC.trait.isShy) {
+      mod -= 1;
     }
     break;
   case "AT":
   case "at":
   case "ATH":
   case "ath":
-    skill = ↂ.skill.athletic + ↂ.flag.tempSkillBoost.athletic;
+    skill = ↂ.skill.curAthletic;
     type = "ath";
     break;
   case "DA":
   case "da":
-    skill = ↂ.skill.dancing + ↂ.flag.tempSkillBoost.dancing;
+    skill = ↂ.skill.curDancing;
     type = "dance";
     if (PC.trait.open === "closed") {
       mod -= 1;
@@ -297,7 +396,7 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
     break;
   case "CL":
   case "cl":
-    skill = ↂ.skill.clean + ↂ.flag.tempSkillBoost.clean;
+    skill = ↂ.skill.curClean;
     type = "clean";
     if (PC.trait.open === "closed") {
       mod += 2;
@@ -308,24 +407,24 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
   case "SP":
   case "sp":
   case "shop":
-    skill = ↂ.skill.shop + ↂ.flag.tempSkillBoost.shop;
+    skill = ↂ.skill.curShop;
     type = "shop";
     break;
   case "CO":
   case "co":
   case "cook":
   case "CK":
-    skill = ↂ.skill.cook + ↂ.flag.tempSkillBoost.cook;
+    skill = ↂ.skill.curCook;
     type = "cook";
     break;
   case "WI":
   case "will":
   case "wil":
-    skill = Math.round((ↂ.pc.status.will * 13) + 15);
+    skill = Math.round((ↂ.pc.status.will * 10) + 15);
     type = "will";
   case "LIE":
   case "lie":
-    skill = ↂ.skill.comm + ↂ.flag.tempSkillBoost.comm + ↂ.skill.seduction + ↂ.flag.tempSkillBoost.seduction;
+    skill = ↂ.skill.curComm + ↂ.skill.curSeduction;
     skill = Math.round(skill / 2);
     if (PC.trait.deceptive === 1 && PC.trait.devious === 1) {
       mod += 3;
@@ -352,9 +451,30 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
   case "FA":
   case "firearms":
   case "gun":
-    skill = ↂ.skill.firearms + ↂ.flag.tempSkillBoost.firearms;
+    skill = ↂ.skill.curFirearms;
     type = "firearms";
     break;
+    /*
+  case "PF":
+  case "performance":
+      skill = ((ↂ.skill.dancing + ↂ.flag.tempSkillBoost.dancing) + (ↂ.skill.seduction + ↂ.flag.tempSkillBoost.seduction) / 2);
+      if (PC.kink.liberate && PC.trait.flirty) {
+        mod += 1;
+      }
+      if (PC.kink.slut) {
+        mod += 1;
+      }
+      if (PC.kink.exhibition && PC.kink.public) {
+        mod += 3;
+      } else if (PC.kink.exhibition) {
+        mod += 2;
+      }
+      if (PC.kink.shame) {
+        mod -= 5;
+      }
+      type = "performance";
+      break;
+      */
   default:
     skill = "NONE";
     type = "gen";
@@ -374,9 +494,12 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
   } else {
     AW.sCheck = false;
   }
+  if (type === "will" && aw.chad.will) {
+    AW.sCheck = true;
+  }
   let gain = false;
   if (AW.sCheck) {
-    const forbid = ["gen", "will", "lie"];
+    const forbid = ["gen", "will"];
     if (!forbid.includes(type)) {
       gain = setup.skillGain(type, dc);
     }
@@ -386,15 +509,15 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
   if (State.variables.showSkillCheck && aw.chad.scDetail) {
     if (AW.sCheck) {
       if (mod !== 0) {
-        output = " @@.good;[" + type + " check ✔ (" + ex + " roll = " + dice + " + Bonus = " + bonus + " + Mod = " + mod + " = " + total + " Total vs " + dc + ")]@@ ";
+        output = " <span class='good'>[" + type + " check ✔ (" + ex + " roll = " + dice + " + Bonus = " + bonus + " + Mod = " + mod + " = " + total + " Total vs " + dc + ")]</span> ";
       } else {
-        output = " @@.good;[" + type + " check ✔ (" + ex + " roll = " + dice + " + Bonus = " + bonus + " = " + total + " Total vs " + dc + ")]@@ ";
+        output = " <span class='good'>[" + type + " check ✔ (" + ex + " roll = " + dice + " + Bonus = " + bonus + " = " + total + " Total vs " + dc + ")]</span> ";
       }
     } else {
       if (mod !== 0) {
-        output = " @@.bad;[" + type + " check ✘ (" + ex + " roll = " + dice + " + Bonus = " + bonus + " + Mod = " + mod + " = " + total + " Total vs " + dc + ")]@@ ";
+        output = " <span class='bad'>[" + type + " check ✘ (" + ex + " roll = " + dice + " + Bonus = " + bonus + " + Mod = " + mod + " = " + total + " Total vs " + dc + ")]</span> ";
       } else {
-        output = " @@.bad;[" + type + " check ✘ (" + ex + " roll = " + dice + " + Bonus = " + bonus + " = " + total + " Total vs " + dc + ")]@@ ";
+        output = " <span class='bad'>[" + type + " check ✘ (" + ex + " roll = " + dice + " + Bonus = " + bonus + " = " + total + " Total vs " + dc + ")]</span> ";
       }
     }
     if (gain) {
@@ -403,9 +526,9 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
     State.variables.SCtext.push(output);
   } else if (State.variables.showSkillCheck) {
     if (AW.sCheck) {
-      output = " @@.good;[" + type + " ✔ (" + total + ")]@@ ";
+      output = " <span class='good'>[" + type + " ✔ (" + total + ")]</span> ";
     } else {
-      output = " @@.bad;[" + type + " ✘ (" + total + ")]@@ ";
+      output = " <span class='bad'>[" + type + " ✘ (" + total + ")]</span> ";
     }
     if (gain) {
       output += "<span class='ship' style='font-size:1.15rem; font-weight:bold;'>[++]</span>";
@@ -413,12 +536,12 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
     State.variables.SCtext.push(output);
   } else {
     if (AW.sCheck) {
-      output = "@@.good;[✔]@@";
+      output = "<span class='good'>[✔]</span>";
       if (gain) {
         output += "<span class='ship' style='font-size:1.15rem; font-weight:bold;'>[++]</span>";
       }
     } else {
-      output = "@@.bad;[✘]@@";
+      output = "<span class='bad'>[✘]</span>";
     }
     State.variables.SCtext.push(output);
   }
@@ -461,7 +584,12 @@ setup.skillGain = function(type: string, dc: number): boolean {
     kegel: "kegel",
     firearms: "firearms",
     lie: (random(1, 3) === 3) ? "seduction" : "comm",
+    strip: (random(1, 2) === 2) ? "seduction" : "dancing",
+    perform: (random(1, 2) === 2) ? "comm" : "art",
+    crime: (random(1, 3) === 3) ? "probSolving" : "comm",
+    manage: (random(1, 3) === 3) ? "probSolving" : "comm",
   };
+  dc += 1;
   const typeKeys = Object.keys(typer);
   let skill;
   let skillWord;
@@ -484,7 +612,7 @@ setup.skillGain = function(type: string, dc: number): boolean {
     const x = Math.min(2, ((bonus - dc) * 0.25) + 1);
     base = Math.round(skill * x);
   } else if (dc > bonus) {
-    const x = Math.max(0.75, (1 - (0.05 * (dc - bonus))));
+    const x = Math.max(0.5, (1 - (0.06 * (dc - bonus))));
     base = Math.round(skill * x);
   }
   const diff = Math.round(Math.pow(base, 1.66));
@@ -519,6 +647,6 @@ setup.skillModCalc = function(skill: number): number {
   } else {
     bonus = 0;
   }
-  return bonus;
+  return Math.max(0, bonus - 1);
 };
 

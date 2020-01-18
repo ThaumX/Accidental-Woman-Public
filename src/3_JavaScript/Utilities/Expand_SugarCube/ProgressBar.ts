@@ -37,7 +37,10 @@ Macro.add("pbarnew", {
     let max;
     if (this.args.length > 2) {
       ident = this.args[0];
-      if (this.args[1] <= this.args[2]) {
+      if (typeof this.args[1] === "boolean") {
+        cur = false;
+        max = this.args[2];
+      } else if (this.args[1] <= this.args[2]) {
         cur = this.args[1];
         max = this.args[2];
       } else {

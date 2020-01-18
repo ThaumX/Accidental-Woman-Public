@@ -27,7 +27,7 @@ aw.tagContent.flirty.random = [
   @@.pc;Oh I know, shitty place.@@<br>
   @@.npc;Yeah, made my stomach ache. Better never touch fastfood again.@@<br>
   @@.pc;Yeah, it is bad for you. So...@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
   `@@.npc;So, do you like the city?@@
   <<dialogchoice>>
@@ -42,14 +42,14 @@ aw.tagContent.flirty.random = [
 aw.tagContent.flirty.randomCityYes = [
   `@@.pc;It is a wonderful city! I like it so much!@@<br>
   @@.npc;Heh, nice to hear that. It is relatively small community here, but people are generally nice here.@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 
 aw.tagContent.flirty.randomCityNo = [
   `@@.pc;Not much to be honest. This place looks like it have its own dark secrets. Weird feeling actually.@@<br>
   @@.npc;Hmm. Not sure if I get you but maybe you are right.@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 
@@ -71,7 +71,7 @@ aw.tagContent.flirty.seriousIllnessOkay = [
   <<if ↂ.pc.trait.bitch === 1>>@@.pc;Oh thanks, I had literally no idea! What a news!@@<<else>>@@.pc;I really hope I get well soon, I am feeling even worse than I look.@@<</if>><br>
   @@.npc;Oh, we don't want to see such precious girl like you ill, right? Take care of your, pretty one.@@<br>
   @@.pc;Gonna do that. So...@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.seriousIllnessHelp = [
@@ -100,19 +100,19 @@ aw.tagContent.flirty.illness = [
 aw.tagContent.flirty.illnessBitchy = [
   `<<set aw.npc[setup.interact.status.npc].rship.likePC -= 3 >>@@.npc;Well, I'd wont say so to be honest.@@<br>
   @@.pc;Yeah, whatever. So...@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.illnessOkay = [
   `@@.npc;Well if you think so... be safe anyway.@@<br>
   @@.pc;Thanks. So...@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.illnessBad = [
   `@@.npc;You should totally see a doctor, better not ignore such things.@@<br>
   @@.pc;Yeah, I know, I ll follow your advice soon I guess. So...@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.nakedBottom = [
@@ -121,9 +121,9 @@ aw.tagContent.flirty.nakedBottom = [
   @@.mono;Oh yes, stare at me. Damn, that is exciting!@@<br>
   @@.pc;Do you like it?@@<<arouse 2>><<orhas slut>><<arouse 2>>You can't but enjoy the attention to your naked bottom and pussy.<br>
   <<orhas liberate>>You feel pretty comfortable with your lower part naked.<br>
-  <<orhas shame>><<stress 10>>You feel terribly insecure and going tomato red from embarassment.<<arouse -2>><br>
+  <<orhas shame>><<stress 10 "Naked pussy convo">>You feel terribly insecure and going tomato red from embarassment.<<arouse -2>><br>
   @@.mono;How did I ever allow that to happen? I want just die right now. What will <<print aw.npc[setup.interact.status.npc].main.name>> think about me?@@<br>
-  <<or>><<stress 7>>You feel pretty uncomfortable being exposed like this even with a flirty.<<arouse -1>><br><</has>>
+  <<or>><<stress 7 "Naked pussy convo">>You feel pretty uncomfortable being exposed like this even with a flirty.<<arouse -1>><br><</has>>
   <<dialogchoice>>
       <<dbutt "Present" "ↂ.pc.kink.exhibition">><<intreplace>><<ctagcontent "flirty" "NakedBottomPresent">><</intreplace>>
       <<dtext "smug">>Give <<print aw.npc[setup.interact.status.npc].main.name>> a bit better view on your lady bits.
@@ -147,7 +147,7 @@ aw.tagContent.flirty.NakedBottomPresent = [
   You failed the check and NPC is pissed off.<br>
   @@.npc;Oh come on, really? That is the way you try to move our relations forward? Please, cover yourself already, gosh!@@
   <<dialogchoice>>
-      <<dbutt "Sorry">><<<intreplace>><<ctagcontent "flirty" "NakedBottomPresentChat">><</intreplace>>
+      <<dbutt "Sorry">><<intreplace>><<ctagcontent "flirty" "NakedBottomPresentChat">><</intreplace>>
       <<dtext "unhappy">>Apologize for acting stupid.
       <<dbutt "Not sorry" "ↂ.pc.trait.bitch === 1">><<intreplace>><<ctagcontent "flirty" "NakedBottomPresentNotsorry">><</intreplace>>
       <<dtext "arrogant">>Oh, screw you.
@@ -158,7 +158,7 @@ aw.tagContent.flirty.NakedBottomPresent = [
 aw.tagContent.flirty.NakedBottomPresentChat = [
   `@@.pc;Ehh.. sure, sorry...@@<br>
   You try to go on with the convo as if nothing happened.<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.NakedBottomPresentNotsorry = [
@@ -169,18 +169,18 @@ aw.tagContent.flirty.NakedBottomPresentNotsorry = [
 ];
 aw.tagContent.flirty.NakedBottomCover = [
   `You try to cover yourself and go on with the convo.<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.NakedBottomCool = [
   `<<if aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Oh, really, I can't stand it. We better talk some another day, really. When you will be dressed properly.@@<br>
   <<link "Go away">><<run setup.interact.exit()>><</link>><<else>>You prefer to act normally and go on with your convo.<br><</if>>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.NakedBottomPresentRefuse = [
   `<<if aw.npc[setup.interact.status.npc].sub>><<set aw.npc[setup.interact.status.npc].rship.lovePC += 5>>@@.npc;Oh, you are such a tease, you know? Damn.@@<<else>><<set aw.npc[setup.interact.status.npc].rship.lovePC -= 5>>@@.npc;Well, that all is pretty weird to be honest.@@<</if>><br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.practNakedBottom = [
@@ -189,9 +189,9 @@ aw.tagContent.flirty.practNakedBottom = [
   @@.mono;If I lean a bit all my private parts will be visible, mmm.@@<br>
   <<orhas slut || liberate>>which is pretty comfortable for you in fact.<br>
   @@.mono;I am pretty sure <<print aw.npc[setup.interact.status.npc].main.name>> likes the view, hehe.@@
-  <<orhas shame>><<arouse -2>><<stress 5>>which makes you really nervous.<br>
+  <<orhas shame>><<arouse -2>><<stress 5 "Naked pussy convo">>which makes you really nervous.<br>
   @@.mono;I shoudn't dress like that in a first place, oh, what I was even thinking about?@@
-  <<or>><<stress 3>>which makes you feel uneasy.<br>
+  <<or>><<stress 3 "Naked pussy convo">>which makes you feel uneasy.<br>
   @@.mono;Well, I am dressed risky today for sure. <<print aw.npc[setup.interact.status.npc].main.name>> will surely think I am a slut or something.@@<br><</has>>
   <<if aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Oh, you have really risky clothes today. I'd never dare to dress like that being in your place!@@
   <<else>>@@.npc;Wow, pretty revealing clothes you have there. Enjoying the fresh air, huh?@@<</if>>
@@ -218,7 +218,7 @@ aw.tagContent.flirty.practNakedBottomPresent = [
   You failed the check and <<print aw.npc[setup.interact.status.npc].main.name>> is pissed off.<br>
   @@.npc;Oh come on, really? That is the way you try to move our relations forward? Please, cover yourself already, gosh!@@
   <<dialogchoice>>
-      <<dbutt "Sorry">><<<intreplace>><<ctagcontent "flirty" "practNakedBottomPresentChat">><</intreplace>>
+      <<dbutt "Sorry">><<intreplace>><<ctagcontent "flirty" "practNakedBottomPresentChat">><</intreplace>>
       <<dtext "unhappy">>Apologize for acting stupid.
       <<dbutt "Not sorry" "ↂ.pc.trait.bitch === 1">><<intreplace>><<ctagcontent "flirty" "practNakedBottomPresentNotsorry">><</intreplace>>
       <<dtext "arrogant">>Oh, screw you.
@@ -232,23 +232,23 @@ aw.tagContent.flirty.practNakedBottomAsk = [
   <<if aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Well, it looks good on you, just a tiny bit... revealing, don't you think?@@
   <<else>>@@.npc;Pretty nice! I like the way you dress, so... brave I guess.@@<</if>><br>
   @@.pc;Thanks, hehe. So...@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.practNakedBottomCool = [
   `You prefer to act normally and go on with your convo.<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.practNakedBottomPresentChat = [
   `@@.pc;Ehh.. sure, sorry...@@<br>
   You try to go on with the convo as if nothing happened.<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.practNakedBottomPresentRefuse = [
   `<<if aw.npc[setup.interact.status.npc].sub>><<set aw.npc[setup.interact.status.npc].rship.likePC += 1>>@@.npc;Oh, you are such a tease, you know? Damn.@@<<else>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 1>>@@.npc;Well, that all is pretty weird to be honest.@@<</if>><br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.practNakedBottomPresentNotsorry = [
@@ -262,9 +262,9 @@ aw.tagContent.flirty.buckNaked = [
   @@.mono;Oh yeah, I can't believe I am doing that! Presenting "the goods" to <<print aw.npc[setup.interact.status.npc].main.name>>, oh, I gonna get moist now!@@<br>
   <<orhas slut || liberate>>which you can deal with.<br>
   @@.mono;That is prety exciting, not sure if <<print aw.npc[setup.interact.status.npc].main.name>> will like that though.@@
-  <<orhas shame>><<aroused -2>><<stress 25>>which makes you panic.<br>
+  <<orhas shame>><<aroused -2>><<stress 25 "Naked convo">>which makes you panic.<br>
   @@.mono;Shit, <<print aw.npc[setup.interact.status.npc].main.name>> will think that I am batshit crazy or something!@@<br>
-  <<or>><<stress 15>>which makes you feel terrible.<br>
+  <<or>><<stress 15 "Naked convo">>which makes you feel terrible.<br>
   @@.mono;Oops, I am totally naked. <<print aw.npc[setup.interact.status.npc].main.name>> is watching. I am screwed.@@<br><</has>>
   <<if aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Oh my gosh, <<print ↂ.pc.main.name>>, why are you naked? What happened?@@<br>
   <<elseif aw.npc[setup.interact.status.npc].kink.exhibition || aw.npc[setup.interact.status.npc].kink.liberate>>@@.npc;Wow. You girl is really bold, huh? I like it!@@<br>
@@ -312,7 +312,7 @@ aw.tagContent.flirty.buckNakedCover = [
   <<link "Yeah...">><<run setup.interact.exit()>><</link>><<else>>
   NPC tries his best to ignore your nakedness.<br>
   @@.npc;W-well, what were we talking about?@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>><</if>>
+  <<include [[NPCinteraction-FlirtyContinue]]>><</if>>
   `,
 ];
 aw.tagContent.flirty.buckNakedCool = [
@@ -320,15 +320,15 @@ aw.tagContent.flirty.buckNakedCool = [
   <<link "Go away">><<run setup.interact.exit()>><</link>><<else>>You prefer to act normally and go on with your convo.<br>
   <<if ↂ.pc.trait.bitch === 1>>@@.pc;My eyes are up here by the way.@@<br>
   @@.npc;S-sorry... So what were we talking about?@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   <<else>>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   <</if>>
   <</if>>`,
 ];
 aw.tagContent.flirty.buckNakedBottomPresentRefuse = [
   `<<if aw.npc[setup.interact.status.npc].sub>><<set aw.npc[setup.interact.status.npc].rship.likePC += 1>>@@.npc;Oh, you are such a tease, you know? Damn.@@<<else>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 1>>@@.npc;Well, you are such a weirdo, you know?@@<</if>><br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.buckNakedBottomPresentNotsorry = [
@@ -341,8 +341,8 @@ aw.tagContent.flirty.wetClothes = [
   `<<if ↂ.pc.clothes.keys.bra === 0>>You notice <<print aw.npc[setup.interact.status.npc].main.name>> looks at your chest and realise that your <<p nipl.q>> <<p nipples.n>> are visible through the wet clothes.<br>
   <<has exhibition>><<arouse 1>>@@.mono;Oh yeah, I like that.@@<br>
   <<orhas slut>>@@.mono;That is certainly drawing some attention.@@<br>
-  <<orhas shame>><<stress 7>>@@.mono;Oh shit, my nipples are showing!@@<br>
-  <<or>><<stress 2>>@@.mono;Oops, better cover that!@@<br><</has>>
+  <<orhas shame>><<stress 7 "Wet clothes convo">>@@.mono;Oh shit, my nipples are showing!@@<br>
+  <<or>><<stress 2 "wet clothes convo">>@@.mono;Oops, better cover that!@@<br><</has>>
   <<if aw.npc[setup.interact.status.npc].kink.shame>>It seems, <<if aw.npc[setup.interact.status.npc].main.female>>she is doing her<<else>>he is doing his best<</if>> to ignore your clearly visible nipples.<<else>>@@.npc;You are aware about your nipples being visible, yep?@@<</if>>
   <<dialogchoice>>
       <<dbutt "Cover" "!ↂ.pc.kink.exhibition">><<intreplace>><<ctagcontent "flirty" "wetClothesCover">><</intreplace>>
@@ -353,37 +353,37 @@ aw.tagContent.flirty.wetClothes = [
   <<else>>
   @@.npc;You better change before you catch cold.@@<br>
   @@.pc;Yeah... that was pretty hilarious situation that got me wet like this, hehe. So...@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   <</if>>`,
 ];
 aw.tagContent.flirty.wetClothesCover = [
   `You cover your <<p breastShape.n>> breast with your hand.<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.wetClothesCool = [
   `<<if ↂ.pc.trait.bitch === 1>>@@.pc;My eyes are up here by the way.@@<br>
   @@.npc;S-sorry... So what were we talking about?@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   <<else>>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   <</if>>`,
 ];
 aw.tagContent.flirty.lightPheromones = [
   `<<if aw.npc[setup.interact.status.npc].main.female>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 3 >><<set aw.npc[setup.interact.status.npc].rship.lovePC -= 3 >>
   It seems that <<print aw.npc[setup.interact.status.npc].main.name>> is fighting with some hostility towards you for some reason.<<else>><<set aw.npc[setup.interact.status.npc].rship.likePC += 3 >><<set aw.npc[setup.interact.status.npc].rship.lovePC += 3 >>It seems that <<print aw.npc[setup.interact.status.npc].main.name>> is eating you with eyes full of sudden lust.<</if>><br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.pheromones = [
   `<<if aw.npc[setup.interact.status.npc].main.female>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 8 >><<set aw.npc[setup.interact.status.npc].rship.lovePC -= 8 >>
   <<else>><<set aw.npc[setup.interact.status.npc].rship.likePC += 8 >><<set aw.npc[setup.interact.status.npc].rship.lovePC += 8 >>You notice some sexual interest sparkling in the eyes of <<print aw.npc[setup.interact.status.npc].main.name>>.<br><</if>>
-  <<include [[NPCinteraction-FlirtyTag]]>>`,
+  <<include [[NPCinteraction-FlirtyContinue]]>>`,
 ];
 aw.tagContent.flirty.goddess = [
   `<<set aw.npc[setup.interact.status.npc].rship.likePC += 1>>@@.npc;You are so magnetic you know? Are kind of a witch or something?@@<br>
   @@.pc;Yeah, just some dark rituals and a bit of ancient gods blessings. So...@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.hairyPits = [
@@ -405,7 +405,7 @@ aw.tagContent.flirty.hairyPitsOkay = [`
 @@.pc;If you like it I'll do that, heh.@@<br>
 @@.npc;That will make me happiest <<if aw.npc[setup.interact.status.npc].main.female>>woman<<else>>man<</if>> on Earth.@@<br>
 @@.pc;You're welcome. So...@@<br>
-<<include [[NPCinteraction-FlirtyTag]]>>
+<<include [[NPCinteraction-FlirtyContinue]]>>
 `];
 aw.tagContent.flirty.hairyPitsBitch = [`
 <<set aw.npc[setup.interact.status.npc].rship.lovePC -= 16 >><<set aw.npc[setup.interact.status.npc].rship.likePC -= 13 >>@@.pc;I'll keep it the way I want you opressive fuck@@<br>
@@ -416,7 +416,7 @@ aw.tagContent.flirty.hairyPitsNope = [`
 <<set aw.npc[setup.interact.status.npc].rship.lovePC -= 6 >>@@.pc;Nope, I like it the natural way.@@<br>
 @@.npc;Ugh, okay. I can't insist, do I?@@<br>
 @@.pc;Nope, you can't. So...@@<br>
-<<include [[NPCinteraction-FlirtyTag]]>>
+<<include [[NPCinteraction-FlirtyContinue]]>>
 `];
 aw.tagContent.flirty.clownMakeup = [
   `<<print aw.npc[setup.interact.status.npc].main.name>> looking on you frowning.<br>
@@ -432,7 +432,7 @@ aw.tagContent.flirty.clownMakeup = [
 aw.tagContent.flirty.clownMakeupCool = [
   `@@.pc;Yeah, It got ruined, pretty funny. I ll fix it later.@@<br>
   @@.npc;Okay.@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.withdrawal = [
@@ -440,7 +440,7 @@ aw.tagContent.flirty.withdrawal = [
   @@.npc;Hmm. What is wrong? Is it okay?@@<br>
   @@.pc;Ah? Yes-yes, it is good, I am okay. Just got a bit distracted.@@<br>
   @@.mono;Ugh, even <<print aw.npc[setup.interact.status.npc].main.name>> noticed.@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 aw.tagContent.flirty.latePreg = [
@@ -449,7 +449,7 @@ aw.tagContent.flirty.latePreg = [
   <<else>>@@.pc;Yeah. This is pretty uncomfortable sometimes, but it worth it after all, right?@@<br>
   <</if>>@@.npc;Of course you will!@@<br>
   @@.pc;Thanks! So...@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>`,
+  <<include [[NPCinteraction-FlirtyContinue]]>>`,
 ];
 aw.tagContent.flirty.drunk = [
   `@@.pc;Oh hai thr! It is you I lookd fr!@@<br>
@@ -489,8 +489,8 @@ aw.tagContent.flirty.mindbreak = [
   <<if ↂ.pc.trait.will > 4 >>You somehow manage to gain your reason back<<set aw.npc[setup.interact.status.npc].rship.likePC += 5 >><<set aw.npc[setup.interact.status.npc].rship.lovePC += 5 >><br>
   @@.pc;I am so sorry. It was really tough times lately.@@<br>
   @@.npc;Oh, it is okay. Here, take the handkerchief.@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
-  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10>>You start switching randomly between crying and histerically giggling.<br>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
+  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10 "mindbreak convo">>You start switching randomly between crying and histerically giggling.<br>
   @@.npc;Oh, poor you. Try to calm down, I ll drive you home...@@<br>
   You cry all the way while <<print aw.npc[setup.interact.status.npc].main.name>> drive the car to your house, but start to feel better when you get to the house. <<print aw.npc[setup.interact.status.npc].main.name>> leaves you in your house after getting sure you are okay now.<br>
   <<link "Say goodbye">><<addtime 54>><<gotomap "home" "foyer">><<run setup.interact.exit()>><</link>>
@@ -503,13 +503,13 @@ aw.tagContent.flirty.flooded = [
   <<else>>
     You feel your juices making a slippery mess slowly soaking through your panties.<<has slut>>@@.mono;Speaking with a person while being flooded like that is so naughty!@@<<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<</has>><br>
   <</if>>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 
 aw.tagContent.flirty.pussyAccess = [
-  `Apologies. No content has been written for this tag [pussyAccess].<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>`,
+  `<p>@@.mono;Oh, I fell a breeze on my bare pussy. I hope that <<n setup.interact.status.npc "heshe.q">> notices that I don't wear any panties, tee-hee.@@</p>
+  <<include [[NPCinteraction-FlirtyContinue]]>>`,
 ];
 
 // OTHER TAGS
@@ -530,15 +530,15 @@ aw.tagContent.flirty.stressed = [
 aw.tagContent.flirty.stressedNope = [
   `@@.pc;It is nothing, I am good.@@<br>
   @@.npc;Well, I just thought you was under some pressure. Nice to hear that you are okay.@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 
 aw.tagContent.flirty.stressedAbit = [
-  `<<has extro>>@@.pc;Oh, I am stressed in fact. It was really hard to cope with all this lately. You see? Even my arm are trembling.<<stress -5>>@@<<or>>@@.pc;Oh, I am stressed in fact.@@<</has>><<set aw.npc[setup.interact.status.npc].rship.lovePC += 5 >><br>
+  `<<has extro>>@@.pc;Oh, I am stressed in fact. It was really hard to cope with all this lately. You see? Even my arm are trembling.<<stress -5 "talk about stress">>@@<<or>>@@.pc;Oh, I am stressed in fact.@@<</has>><<set aw.npc[setup.interact.status.npc].rship.lovePC += 5 >><br>
   @@.npc;Oh, poor you. Maybe some date with a decent <<if aw.npc[setup.interact.status.npc].main.female>>girl<<else>>guy<</if>> will help? I heard this can help a lot.@@
   <<dialogchoice>>
-    <<dbutt "Sure">><<intreplace>><<datescheduler setup.interact.status.npc>><</intreplace>>
+    <<dbutt "Sure">><<intreplace>><<set _npc = setup.interact.status.npc>><<datescheduler _npc>><</intreplace>>
     <<dtext "wink">>He-he, okay, sounds like a nice idea!
     <<dbutt "Maybe">><<intreplace>><<ctagcontent "flirty" "stressedRefuse">><</intreplace>>
     <<dtext "muted">>Well, I am not in the mood actually.
@@ -550,7 +550,7 @@ aw.tagContent.flirty.stressedRefuse = [
   `@@.pc;Well, I am not in the mood actually.@@<<set aw.npc[setup.interact.status.npc].rship.lovePC -= 9 >><br>
   @@.npc;Oh, okay. Maybe next time then.@@<br>
   @@.pc;Yeah, maybe. So...@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 
@@ -568,7 +568,7 @@ aw.tagContent.flirty.depressed = [
 aw.tagContent.flirty.depressedNo = [
   `@@.pc;It is nothing, I am good.@@<br>
   @@.npc;Oh, okay.@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 
@@ -576,7 +576,7 @@ aw.tagContent.flirty.depressedYes = [
   `@@.pc;Just a hard day.@@<br>
   @@.npc;Hey, Maybe I could cheer you up? Like a date this week or next?@@<br>
   <<dialogchoice>>
-    <<dbutt "Sure">><<intreplace>><<datescheduler setup.interact.status.npc>><</intreplace>>
+    <<dbutt "Sure">><<intreplace>><<set _npc = setup.interact.status.npc>><<datescheduler _npc>><</intreplace>>
     <<dtext "wink">>He-he, okay, sounds like a nice idea!
     <<dbutt "Maybe">><<intreplace>><<ctagcontent "flirty" "depressedRefuseDate">><</intreplace>>
     <<dtext "muted">>Well, I am not in the mood actually.
@@ -587,7 +587,7 @@ aw.tagContent.flirty.depressedYes = [
 aw.tagContent.flirty.depressedRefuseDate = [
   `@@.pc;Well, I am not in the mood actually.@@<<set aw.npc[setup.interact.status.npc].rship.lovePC -= 4 >><br>
   @@.npc;Oh, okay.@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 
@@ -595,7 +595,7 @@ aw.tagContent.flirty.tipsy = [
   `@@.npc;You look pretty with that blush on your cheeks you know?@@<br>
   @@.pc;A little drink never hurts, yes?@@<br>
   @@.npc;No, it don't, heh.@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 
@@ -603,12 +603,12 @@ aw.tagContent.flirty.athleticClothes = [
   `@@.npc;Going for a jog or something?@@<br>
   @@.pc;Well, yeah, trying to keep myself in shape.@@<br>
   @@.npc;Good for you I guess...@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
   `@@.npc;Got ready to pump iron?@@<br>
   @@.pc;It is really good for health and weight too actually.@@<br>
   @@.npc;Way too go then.@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 
@@ -618,9 +618,9 @@ aw.tagContent.flirty.kinkyClothes = [
   <<else>>@@.npc;He-he, decided to dress sexy, <<print ↂ.pc.main.name>>?@@<</if>><br>
   <<has liberate>>@@.pc;Life is too short to dress modestly, <<print aw.npc[setup.interact.status.npc].main.name>>!@@<br>
   <<orhas slut>>@@.pc;I just like drawing attention to my most delicious parts you know.@@<br>
-  <<orhas shame>><<stress 8>>@@.pc;Please, don't be mad! I have no idea how I wound up dressed like this, honestly. I just thought that I must push my boundaries and now I feel stupid and lewd.@@<br>
+  <<orhas shame>><<stress 8 "kinky clothes convo">>@@.pc;Please, don't be mad! I have no idea how I wound up dressed like this, honestly. I just thought that I must push my boundaries and now I feel stupid and lewd.@@<br>
   <<or>>@@.pc;Well, can a girl wear something sexy from time to time, right?@@<br><</has>>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 
@@ -628,35 +628,35 @@ aw.tagContent.flirty.nightwear = [
   `@@.npc;Is this a nightwear? Why are you dressed in it here?@@<br>
   @@.pc;I have nothing to answer actually.@@<br>
   @@.npc;Sometimes you are really weird, you know?@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 
 aw.tagContent.flirty.cuteClothes = [
   `@@.npc;Aw, you are dressed so cute today!@@<<set aw.npc[setup.interact.status.npc].rship.likePC += 1 >><br>
   @@.pc;Thanks! So...@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 
 aw.tagContent.flirty.superCuteClothes = [
   `@@.npc;I just don't know how to react to such cute girl! You look super nice today!@@<<set aw.npc[setup.interact.status.npc].rship.lovePC += 3 >><br>
   @@.pc;You like it? Nice, he-he. So...@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 
 aw.tagContent.flirty.slovenlyClothes = [
   `@@.npc;<<print ↂ.pc.main.name>>, honey, you should really dress better, come on.@@<<set aw.npc[setup.interact.status.npc].rship.lovePC -= 3 >><br>
   @@.pc;Ugh. So...@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 
 aw.tagContent.flirty.swimwear = [
   `@@.npc;This swimsuit really fits you, <<print ↂ.pc.main.name>>! You look gorgeous!@@<br>
   @@.pc;Thanks! So...@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 
@@ -665,7 +665,7 @@ aw.tagContent.flirty.damagedClothes = [
   @@.pc;What?@@<br>
   @@.npc;You really should buy new clothes. Those you wearing are in really bad condition honestly.@@<br>
   <<has bitch>>@@.pc;I did not ask for an advice by the way. So...@@<<or>>@@.pc;You are right. So...@@<</has>><br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 
@@ -691,10 +691,10 @@ aw.tagContent.flirty.stainedClothesCum = [
 
 aw.tagContent.flirty.stainedClothesDunno = [
   `@@.pc;No idea actually. Mayo, maybe?@@<br>
-  <<has shame>>@@.mono;Oh shit! <<if aw.npc[setup.interact.status.npc].main.female>>She<<else>>He<</if>>noticed! Panic!@@<<stress 8>><br><</has>>
+  <<has shame>>@@.mono;Oh shit! <<if aw.npc[setup.interact.status.npc].main.female>>She<<else>>He<</if>>noticed! Panic!@@<<stress 8 "stained clothes convo">><br><</has>>
   @@.npc;Looks more like... whatever, you should clean this, girl!@@<br>
   @@.pc;Yeah, will do. So...@@<br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];
 
@@ -702,6 +702,6 @@ aw.tagContent.flirty.angry = [
   `@@.npc;Hey, what's up? Why so grumpy?@@<br>
   <<has bitch>>@@.pc;You really better hide or I'll bite your pretty mug off!@@<<or>>@@.pc;I am really angry now, better not to touch me with a stick.@@<br><</has>>
   @@.npc;Oh, girl! It will be okay, don't be like that.@@<<angry -5>><br>
-  <<include [[NPCinteraction-FlirtyTag]]>>
+  <<include [[NPCinteraction-FlirtyContinue]]>>
   `,
 ];

@@ -91,7 +91,7 @@ aw.mapNPC = {
       n1005: { // Besty - man of many talents at his school
         times: [16, 21],
         cond(): boolean {
-          if (random(1, 10) === 10) {
+          if (random(1, 5) === 5) {
             return true;
           }
           return false;
@@ -164,7 +164,18 @@ aw.mapNPC = {
       n1005: { // Besty - man of many talents having his evening fun
         times: [21, 23],
         cond(): boolean {
-          if (random(1, 8) === 8) {
+          if (random(1, 5) === 5) {
+            return true;
+          }
+          return false;
+        },
+      },
+    },
+    club: {
+      n1014: { // Hanna Bowen - punkish girl pusher from club district
+        times: [18, 23],
+        cond(): boolean {
+          if (random(1, 2) === 2) {
             return true;
           }
           return false;
@@ -177,7 +188,18 @@ aw.mapNPC = {
       n1012: { // Daisy Blackwell - cashier from CumnGo
         times: [10, 22],
         cond(): boolean {
-          if (random(1, 2) !== 4) {
+          if (random(1, 4) !== 4) {
+            return true;
+          }
+          return false;
+        },
+      },
+    },
+    sidewalk: {
+      n1013: { // Pedro Batista - pusher from residential
+        times: [13, 24],
+        cond(): boolean {
+          if (random(1, 2) !== 4 && ↂ.flag.drug.residentialPedroWorks !== null && ↂ.flag.drug.residentialPedroWorks !== false) {
             return true;
           }
           return false;
@@ -185,7 +207,120 @@ aw.mapNPC = {
       },
     },
   },
-  world: {},
+  world: {
+    coop: {
+      dorms : {
+        n1018: { // Dorothy May
+          times: [[8, 11], [19, 23]],
+          cond(): boolean {
+            return true;
+          },
+        },
+        n1019: { // Gracie Parton
+          times: [[8, 11], [19, 23]],
+          cond(): boolean {
+            return true;
+          },
+        },
+        n1020: { // Zoe Kagawa
+          times: [[8, 11], [19, 23]],
+          cond(): boolean {
+            return true;
+          },
+        },
+        n1021: { // Olivia Baxter
+          times: [[8, 12], [19, 22]],
+          cond(): boolean {
+            return true;
+          },
+        },
+        n1022: { // Terry Doyle
+          times: [[8, 15], [19, 21]],
+          cond(): boolean {
+            return true;
+          },
+        },
+      },
+      barn: {
+        n1018: { // Dorothy May
+          times: [11, 16],
+          cond(): boolean {
+            return true;
+          },
+        },
+        n1019: { // Gracie Parton
+          times: [11, 16],
+          cond(): boolean {
+            return true;
+          },
+        },
+        n1020: { // Zoe Kagawa
+          times: [11, 16],
+          cond(): boolean {
+            return true;
+          },
+        },
+        n1021: { // Olivia Baxter
+          times: [11, 16],
+          cond(): boolean {
+            return true;
+          },
+        },
+      },
+      dairy: {
+        n1018: { // Dorothy May
+          times: [16, 19],
+          cond(): boolean {
+            return true;
+          },
+        },
+        n1019: { // Gracie Parton
+          times: [16, 19],
+          cond(): boolean {
+            return true;
+          },
+        },
+        n1020: { // Zoe Kagawa
+          times: [16, 19],
+          cond(): boolean {
+            return true;
+          },
+        },
+        n1021: { // Olivia Baxter
+          times: [16, 19],
+          cond(): boolean {
+            return true;
+          },
+        },
+        n1022: { // Terry Doyle
+          times: [16, 19],
+          cond(): boolean {
+            return true;
+          },
+        },
+        n1023: { // Mya Owen
+          times: [13, 19],
+          cond(): boolean {
+            return true;
+          },
+        },
+      },
+      office: {
+        n1023: { // Mya Owen
+          times: [10, 13],
+          cond(): boolean {
+            return true;
+          },
+        },
+        n1024: { // Chin Dongpang
+          times: [10, 18],
+          cond(): boolean {
+            return true;
+          },
+        },
+      },
+    },
+  },
 };
 
 

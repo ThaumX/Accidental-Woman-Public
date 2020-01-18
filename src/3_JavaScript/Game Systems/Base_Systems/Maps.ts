@@ -392,8 +392,8 @@ setup.map.downtownTime = function(s: string, st: string, d: string, dt: string):
   if (dt !== "main") {
     sum += random(4, 6);
   }
-  x = Math.abs(grid[s][0] - grid[s][0]);
-  y = Math.abs(grid[s][1] - grid[s][1]);
+  x = Math.abs(grid[s][0] - grid[d][0]);
+  y = Math.abs(grid[s][1] - grid[d][1]);
   if (y === 0 || x === 0) {
     x = y + x;
     sum += Math.round(1.1 * x * 5);
@@ -868,7 +868,13 @@ setup.map.distToExit = function(m: locationMain, s: 0 | string = 0, t: 0 | strin
             default: ts = pyth(2, 3); break;
           }
           break;
-        case "club": ts = pyth(1, 3); break;
+        case "club":
+          if (t === "main" || !t) {
+            ts = pyth(1, 3);
+          } else {
+            ts = pyth(1, 3) + 3;
+          }
+          break;
         case "amuse": ts = pyth(1.5, 4); break;
         case "adult": ts = pyth(0, 4); break;
         case "northwest": ts = pyth(3, 3); break;
@@ -1203,7 +1209,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
         case "parking":
           ret = {
             name: "Apartment Parking Lot",
-            image: "IMGresidentialCourtyard",
+            image: "IMGresidentialCourtyard2",
             passage: "ResidentialParkingLot",
             loc: "Parking Lot",
             desc: "You are in the common area at the center of a block of buildings that includes your apartment building. The square block of buildings has a large opening at the center, leaving plenty of room for parking as well as a small neighborhood park. While there isn't a lot of space, they've managed to fit a small playground, some picnic tables, a half-sized basketball court, a BBQ area, and a small grassy area for tanning in the park.",
@@ -1212,7 +1218,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
         case "sidewalk":
           ret = {
             name: "Residential Area Sidewalk",
-            image: "IMGresidentialOutside",
+            image: "IMGresidentialOutside2",
             passage: "ResidentialSidewalk",
             loc: "Your Neighborhood",
             desc: "You are standing on the sidewalk next to your apartment building, it's a short walk downtown from here, and there is a bike trail nearby.",
@@ -1223,7 +1229,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
             case "checkout":
               ret = {
                 name: "Cum & Go Convenience Store",
-                image: "IMGkum&goStore",
+                image: "IMGkum&goStore2",
                 passage: "ResidentialCornerInteriorA",
                 loc: "Cum & Go",
                 desc: "You're near the checkout counter of the Cum & Go convenience store.",
@@ -1232,7 +1238,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
             case "shop1":
               ret = {
                 name: "Cum & Go Cleaning, Health & Hygiene",
-                image: "IMGkum&goStore",
+                image: "IMGkum&goStore2",
                 passage: "ResidentialCornerInteriorB",
                 loc: "Cum & Go",
                 desc: "are in the section the store that has cleaning, hygiene, and medicine items.",
@@ -1241,7 +1247,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
             case "shop2":
               ret = {
                 name: "Cum & Go Cooler Section",
-                image: "IMGkum&goStore",
+                image: "IMGkum&goStore2",
                 passage: "ResidentialCornerInteriorC",
                 loc: "Cum & Go",
                 desc: "You are in the cooler section of Cum & Go that has all the refrigerated food and drinks.",
@@ -1250,7 +1256,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
             case "shop3":
               ret = {
                 name: "Cum & Go Miscellaneous",
-                image: "IMGkum&goStore",
+                image: "IMGkum&goStore2",
                 passage: "ResidentialCornerInteriorD",
                 loc: "Cum & Go",
                 desc: "You're in an aisle with a odd mixture of items that wouldn't fit with a larger category. What the hell is blinker fluid, anway?",
@@ -1259,7 +1265,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
             case "shop4":
               ret = {
                 name: "Cum & Go Food Section",
-                image: "IMGkum&goStore",
+                image: "IMGkum&goStore2",
                 passage: "ResidentialCornerInteriorE",
                 loc: "Cum & Go",
                 desc: "You are surrounded by items that could technically be called food, though you have to look at a few labels to be sure.",
@@ -1269,7 +1275,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
             default:
               ret = {
                 name: "Cum & Go Exterior",
-                image: "IMGkum&goStore",
+                image: "IMGkum&goStore2",
                 passage: "ResidentialCornerExterior",
                 loc: "Cum & Go",
                 desc: "You're standing outside a typical convenience store, creatively named 'Cum & Go.",
@@ -1282,7 +1288,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
             case "playground":
               ret = {
                 name: "Neighborhood Playground",
-                image: "IMGresidentialCourtyard",
+                image: "IMGresidentialCourtyard2",
                 passage: "ResidentialPlayground",
                 loc: "Residential - Recreation",
                 desc: "",
@@ -1318,7 +1324,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
             case "sports":
               ret = {
                 name: "Neighborhoot Sports Field",
-                image: "IMGresidentialCourtyard",
+                image: "IMGresidentialCourtyard2",
                 passage: "ResidentialSports",
                 loc: "Residential - Sports",
                 desc: "You're standing on an open grassy area clearly designated for sports, there's a half-court for basketball on the far side.",
@@ -1328,7 +1334,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
             default:
               ret = {
                 name: "Neighborhood Recreation Area",
-                image: "IMGresidentialCourtyard",
+                image: "IMGresidentialCourtyard2",
                 passage: "ResidentialRecreation",
                 loc: "Residential Courtyard",
                 desc: "You are in the common area at the center of a block of buildings that includes your apartment building. The square block of buildings has a large opening at the center, leaving plenty of room for parking as well as a small neighborhood park. While there isn't a lot of space, they've managed to fit a small playground, some picnic tables, a half-sized basketball court, a BBQ area, and a small grassy area for tanning in the park.",
@@ -1339,7 +1345,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
         case "walkdowntown":
           ret = {
             name: "Walking Downtown",
-            image: "IMGresidentialOutside",
+            image: "IMGresidentialOutside2",
             passage: "ResidentialGoDowntown",
             loc: "Appletree",
             desc: "The residential area of Appletree.",
@@ -1364,18 +1370,112 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
           };
           break;
         case "medical":
-          ret = {
-            name: "Appletree Medical District",
-            image: "IMG-LocationMedical",
-            passage: "ResidentialMedical",
-            loc: "Medical District",
-            desc: "You are in the medical district of Appletree.",
-          };
-          break;
+        switch (tert) {
+          case "hospital":
+            ret = {
+              name: "Arbor Vitae Regional Hospital",
+              image: "IMG-LocationMedicalOutpatient",
+              passage: "ResidentialMedicalHospital",
+              loc: "Arbor Vitae Regional Hospital",
+              desc: "You are in the main lobby of the Arbor Vitae Regional Hospital.",
+            };
+            break;
+          case "applecare":
+            ret = {
+              name: "AppleCare Offices",
+              image: "IMG-LocationMedicalAppleCare",
+              passage: "ResidentialMedicalAppleCare",
+              loc: "Medical District Applecare Offices",
+              desc: "You are outside the AppleCare, medical district.",
+            };
+            break;
+          case "research":
+            ret = {
+              name: "Medical Research Area",
+              image: "IMG-LocationMedicalResearch",
+              passage: "ResidentialMedicalResearch",
+              loc: "Medical District Research Area",
+              desc: "You are in the research area of the medical district.",
+            };
+            break;
+          case "outpatient":
+            ret = {
+              name: "Outpatient Area",
+              image: "IMG-LocationMedicalPrivate",
+              passage: "ResidentialMedicalOutpatient",
+              loc: "Medical District Outpatient Area",
+              desc: "You are in the outpatient area, in the medical district.",
+            };
+            break;
+          case "doctor":
+            ret = {
+              name: "Dr Weiner's Waiting Room",
+              image: "IMG-DoctorWaitingRoom",
+              passage: "MedicalDoctorWeiner",
+              loc: "Doctor Weiner's General Practice Clinic",
+              desc: "You are in the waiting room of Dr. Weiner's clinic",
+            };
+            break;
+          case "irresistible":
+            ret = {
+              name: "Irresistible Clinic Waiting Room",
+              image: "IMG-Loc-IrresistibleWaiting",
+              passage: "MedicalIrresistible",
+              loc: "Irresistible Clinic",
+              desc: "You are in the waiting room of the Irresistible Clinic.",
+            };
+            break;
+          case "gestique":
+            ret = {
+              name: "Gestique Fertility Center Waiting Room",
+              image: "IMG-Loc-GestiqueOBGYN",
+              passage: "MedicalGestique",
+              loc: "Gestique Fertility Center & Spa",
+              desc: "You are in the waiting room of the Gestique clinic.",
+            };
+            break;
+          case "proliferant":
+            ret = {
+              name: "Proliferant Clinic Waiting Room",
+              image: "IMG-Loc-ProliferantWaiting",
+              passage: "MedicalProliferant",
+              loc: "Proliferant Gene Therapy Clinic",
+              desc: "You are in the waiting room of the Proliferant clinic.",
+            };
+            break;
+          case "dollmaker":
+            ret = {
+              name: "Dollmaker Cosmetic Surgery Waiting Room",
+              image: "IMG-Loc-DollmakerWaiting",
+              passage: "MedicalDollmaker",
+              loc: "Dollmaker Cosmetic Surgery Center",
+              desc: "You are in the waiting room of the Dollmaker clinic.",
+            };
+            break;
+          case "lecter":
+            ret = {
+              name: "H. Lecter's Psychiatric Clinic",
+              image: "IMG-LecterWaiting",
+              passage: "MedicalPsychiatrist",
+              loc: "H. Lecter M.D. Psychiatric Clinic",
+              desc: "You are in the waiting room of Dr. Lecter's Psychiatric Clinic",
+            };
+            break;
+          default:
+            ret = {
+              name: "Private Practice Area",
+              image: "IMG-LocationMedical",
+              passage: "ResidentialMedical",
+              loc: "Medical District - Private Practice Offices",
+              desc: "You are in the private practice area of the medical district.",
+            };
+            break;
+        }
+        break;
         case "industrial":
           ret = {
             name: "Appletree Industrial District",
-            image: "IMGtestLocImage",
+            image: "IMG-Location-IndustArea",
             passage: "ResidentialIndustrial",
             loc: "Industrial District",
             desc: "You are in the industrial district of Appletree.",
@@ -1384,7 +1484,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
         case "government":
           ret = {
             name: "Appletree Government Services District",
-            image: "IMGtestLocImage",
+            image: "IMG-Location-GovtArea",
             passage: "ResidentialGovernment",
             loc: "Government District",
             desc: "You are in the government district of Appletree.",
@@ -1893,6 +1993,60 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
               desc: "You're in the chillout zone of Shake & Pop nightclub in club district of downtown Appletree.",
             };
             break;
+          case "pollridersentrance":
+            ret = {
+              name: "Poll Riders entrance",
+              image: "IMG-LocationPoleRidersEntrance",
+              passage: "DowntownClubRidersEntrance",
+              loc: "Poll Riders - Entrance",
+              desc: "You're in the entrance of Poll Riders striptease in the club district of Appletree, the hall is dark and you can hear the rambling and music coming from the lounge.",
+            };
+            break;
+          case "pollriderslounge":
+            ret = {
+              name: "Poll Riders lounge",
+              image: "IMG-LocationPoleRidersLounge",
+              passage: "DowntownClubRidersLounge",
+              loc: "Poll Riders - Lounge",
+              desc: "You're in the lounge of Poll Riders striptease in the club district of Appletree, The music is pretty loud <<set _qwe = random(0,1)>><<if _qwe == 0>>and there is a stripper dancing on the stage dressed just in glittering thongs.<<else>>but there is nobody on a stage right now so visitors just enjoy their drinks and having chats with strippers, strolling around the lounge.<</if>>",
+            };
+            break;
+          case "pollridersbar":
+            ret = {
+              name: "Poll Riders bar",
+              image: "IMG-LocationPoleRidersBar",
+              passage: "DowntownClubRidersBar",
+              loc: "Poll Riders - Bar",
+              desc: "You're in the bar of Poll Riders striptease in the club district of Appletree. The bartender girl has her tits out and it seems that helps with the sales, a little crowd gathered around the bar asking her to do 'her trick' whatever it means.",
+            };
+            break;
+          case "pollriderswc":
+            ret = {
+              name: "Poll Riders wc",
+              image: "IMG-LocationPoleRiderswc",
+              passage: "DowntownClubRidersWc",
+              loc: "Poll Riders - WC",
+              desc: "You're in the wc of Poll Riders striptease in the club district of Appletree. The bathroom is rather small with just three unisex urinals and one stall. It is pretty silent here and the music from lounge sounds muffed from behind the door so you can hear some rhytmical floppy sound coming from the closed stall door.",
+            };
+            break;
+          case "pollridersstaff":
+            ret = {
+              name: "Poll Riders staff area",
+              image: "IMG-LocationPoleRidersBackstage",
+              passage: "DowntownClubRidersStaff",
+              loc: "Poll Riders - Staff",
+              desc: "You're in the staff area of Poll Riders striptease in the club district of Appletree. Here are the small closet for bar supplies, the backstage for strippers and a big wardrobe of rather laughably tiny lingeries. In the end of the hall there is a door to the managers office.",
+            };
+            break;
+          case "pollridersprivate":
+            ret = {
+              name: "Poll Riders private stall",
+              image: "IMG-LocationPoleRidersPrivate",
+              passage: "DowntownClubRidersPrivate",
+              loc: "Poll Riders - Private",
+              desc: "You're in the private stall of Poll Riders striptease in the club district of Appletree. The room is quite small and resembles a clothes shop fitting booth with a curtain. There is a strip pole and a comfortable red couch, the room is lit much better because clients probably want to be able to see all the details of what they have paid for.",
+            };
+            break;
           case "main":
             ret = {
               name: "Club District",
@@ -1999,13 +2153,17 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
           };
           break;
         case "restricted":
-          ret = {
-            name: "",
-            image: "",
-            passage: "",
-            loc: "",
-            desc: "",
-          };
+          switch (tert) {
+            case "enter":
+              ret = {
+                name: "Entrance",
+                image: "IMG-restrictedEntrance",
+                passage: "MapRestrictedEntrance",
+                loc: "Farm entrance",
+                desc: "You're standing in front of the fence gates, you can see some crop fields and silos behind it. There is also a small booth with a guard near the gates.",
+              };
+              break;
+          }
           break;
         case "coop":
           switch (tert) {
@@ -2021,7 +2179,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
             case "market":
               ret = {
                 name: "Farm Coop Market",
-                image: "IMG-FarmCoopMain",
+                image: "IMG-FarmCoopMarketLoc",
                 passage: "MapFarmCoopMarket",
                 loc: "Muschi Valley Farm Cooperative Market",
                 desc: "description pending...",
@@ -2030,7 +2188,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
             case "dairy":
               ret = {
                 name: "Farm Coop Dairy",
-                image: "IMG-FarmCoopMain",
+                image: "IMG-FarmCoopDairyLoc",
                 passage: "MapFarmCoopDairy",
                 loc: "Muschi Valley Farm Cooperative Dairy",
                 desc: "description pending...",
@@ -2039,7 +2197,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
             case "barn":
               ret = {
                 name: "Farm Coop Barn",
-                image: "IMG-FarmCoopMain",
+                image: "IMG-FarmCoopBarnLoc",
                 passage: "MapFarmCoopBarn",
                 loc: "Muschi Valley Farm Cooperative Barn",
                 desc: "description pending...",
@@ -2057,7 +2215,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
             case "office":
               ret = {
                 name: "Farm Coop Office",
-                image: "IMG-FarmCoopMain",
+                image: "IMG-FarmCoopOfficeLoc",
                 passage: "MapFarmCoopOffice",
                 loc: "Muschi Valley Farm Cooperative Office",
                 desc: "description pending...",
@@ -2066,7 +2224,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
             case "warehouse":
               ret = {
                 name: "Farm Coop Warehouse",
-                image: "IMG-FarmCoopMain",
+                image: "IMG-FarmCoopWarehouseLoc",
                 passage: "MapFarmCoopWarehouse",
                 loc: "Muschi Valley Farm Cooperative Warehouse",
                 desc: "description pending...",
@@ -2075,16 +2233,25 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
             case "fair":
               ret = {
                 name: "Farm Coop Fair Grounds",
-                image: "IMG-FarmCoopMain",
+                image: "IMG-FarmCoopFairLoc",
                 passage: "MapFarmCoopFair",
                 loc: "Muschi Valley Farm Cooperative Fair Grounds",
                 desc: "description pending...",
               };
               break;
+            case "FertCorpsFair":
+              ret = {
+                name: "Farm Coop Fair Grounds - Fert Corps fest",
+                image: "IMG-FarmCoopFCFair",
+                passage: "FarmCoopFCFair",
+                loc: "Muschi Valley Farm Cooperative Fair Grounds",
+                desc: "You're standing at the fair ground near Farm Coop, today is a day of the Fert Corps annual open Fair and there are a lot of tents, cars, semi- or fully nude drunken people.",
+              };
+              break;
             case "parking":
               ret = {
                 name: "Farm Coop Equipment Parking",
-                image: "IMG-FarmCoopMain",
+                image: "IMG-FarmCoopParkingLoc",
                 passage: "MapFarmCoopParking",
                 loc: "Muschi Valley Farm Cooperative Equipment Parking",
                 desc: "description pending...",
@@ -2102,13 +2269,26 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
           };
           break;
         case "visitor":
-          ret = {
-            name: "",
-            image: "",
-            passage: "",
-            loc: "",
-            desc: "",
-          };
+          switch (tert) {
+            case "parking":
+              ret = {
+                name: "Parking",
+                image: "IMG-VisitorsParking",
+                passage: "MapVisitorParking",
+                loc: "Visitors centre parking",
+                desc: "You're standing on the gravel parking near the visitors centre.",
+              };
+              break;
+            case "centre":
+              ret = {
+                name: "Visitors centre",
+                image: "IMG-VisitorsInside",
+                passage: "MapVisitorCentre",
+                loc: "Visitors centre building",
+                desc: "You're standing in the hall of Muchi Valley visitors centre.",
+              };
+              break;
+          }
           break;
         case "forest":
           ret = {
@@ -2147,23 +2327,170 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
           };
           break;
         case "spring":
-          ret = {
-            name: "",
-            image: "",
-            passage: "",
-            loc: "",
-            desc: "",
-          };
-          break;
+        switch (tert) {
+          case "recreation":
+            ret = {
+              name: "Recreation center",
+              image: "IMG-SpringsRecreational",
+              passage: "MapSpringsRecreation",
+              loc: "Springs Recreation center",
+              desc: "You're standing in the hall of the small recreation center building.",
+            };
+            break;
+          case "changing":
+            ret = {
+              name: "Changing booth",
+              image: "IMG-SpringsChanging",
+              passage: "MapSpringsChanging",
+              loc: "Springs Changing booth and WC",
+              desc: "You're standing in the tiny builing with 3 changing booth and a bathroom.",
+            };
+            break;
+          case "woods":
+            ret = {
+              name: "Woods",
+              image: "IMG-SpringsWoods",
+              passage: "MapSpringsWoods",
+              loc: "Woods near the springs",
+              desc: "You're standing between the shadows of the trees in the small wood near the springs.",
+            };
+            break;
+          case "parking":
+            ret = {
+              name: "Parking",
+              image: "IMG-BridgeParking",
+              passage: "MapSpringsParking",
+              loc: "Parking near the springs",
+              desc: "You're standing on the asphalted parking in the springs area. A small concrete path leads to the beach, recreation center and changing booth. At the north the cliff is separated from you with a small wood.",
+            };
+            break;
+          case "beach":
+            ret = {
+              name: "Beach",
+              image: "IMG-SpringsBeach",
+              passage: "MapSpringsBeach",
+              loc: "Beach of the springs",
+              desc: "You're standing on the shore near the springs. The sand seems to be delievered here by trucks in order to create an artifical beach. There are some recliners and parasols.",
+            };
+            break;
+          case "cave":
+            ret = {
+              name: "Cave",
+              image: "IMG-SpringsCave",
+              passage: "MapSpringsCave",
+              loc: "Cave entrance in the springs area",
+              desc: "You're standing near the cave entrance on the surface of the cliff. The darkness coming from the slit beckoning to you.",
+            };
+            break;
+          }
+        break;
         case "bridge":
-          ret = {
-            name: "",
-            image: "",
-            passage: "",
-            loc: "",
-            desc: "",
-          };
+          switch (tert) {
+            case "bridge":
+              ret = {
+                name: "Bridge",
+                image: "IMG-BridgeBridge",
+                passage: "MapBridgeBridge",
+                loc: "Muschi Valley Bridge",
+                desc: "You're standing on the asphalted bridge over a river. It is pretty high above the water and you can see the stream flowing beneath.",
+              };
+              break;
+            case "parking":
+              ret = {
+                name: "Parking",
+                image: "IMG-BridgeParking",
+                passage: "MapBridgeParking",
+                loc: "Muschi Valley Bridge",
+                desc: "You're standing on the gravel parking near the bridge over the river.",
+              };
+              break;
+            case "riverbank":
+              ret = {
+                name: "Riverbank",
+                image: "IMG-BridgeRiverbank",
+                passage: "MapBridgeRiverbank",
+                loc: "Muschi Valley Riverbank",
+                desc: "You're standing on the shore of the river, slow waters softly lisping to the south.",
+              };
+              break;
+          }
           break;
+          case "resort":
+            switch (tert) {
+              case "boating":
+                ret = {
+                  name: "Boating shop",
+                  image: "IMG-ResortBoating",
+                  passage: "MapResortBoating",
+                  loc: "Clitea lake resort Boating shop",
+                  desc: "You're standing in the boating shop.",
+                };
+                break;
+              case "beach":
+                ret = {
+                  name: "Beach",
+                  image: "IMG-ResortBeach",
+                  passage: "MapResortBeach",
+                  loc: "Clitea lake resort beach",
+                  desc: "You're standing on the manmade beach of the Clitea lake resort.",
+                };
+                break;
+              case "restaurant":
+                ret = {
+                  name: "Lakefront Restaurant",
+                  image: "IMG-ResortRestaurant",
+                  passage: "MapResortRestaurant",
+                  loc: "Clitea lake resort restaurant",
+                  desc: "You're standing in the lakefront restaurant.",
+                };
+                break;
+              case "bar":
+                ret = {
+                  name: "Beach bar",
+                  image: "IMG-ResortBar",
+                  passage: "MapResortBar",
+                  loc: "Clitea lake resort beach bar",
+                  desc: "You're standing in the beach bar.",
+                };
+                break;
+              case "waterpark":
+                ret = {
+                  name: "Water park",
+                  image: "IMG-ResortWaterPark",
+                  passage: "MapResortWaterPark",
+                  loc: "Clitea lake resort water park",
+                  desc: "You're standing in the one and only water park in the valley.",
+                };
+                break;
+              case "docks":
+                ret = {
+                  name: "Boat docks",
+                  image: "IMG-ResortDocks",
+                  passage: "MapResortDocks",
+                  loc: "Clitea lake resort boat docks",
+                  desc: "You're standing on the wooden planks of the dock.",
+                };
+                break;
+              case "hotel":
+                ret = {
+                  name: "Hotel",
+                  image: "IMG-ResortHotel",
+                  passage: "MapResortHotel",
+                  loc: "Clitea lake resort hotel",
+                  desc: "You're standing in the foyer of the Clitea lake Resort hotel",
+                };
+                break;
+              case "golf":
+                ret = {
+                  name: "Golf club",
+                  image: "IMG-ResortGolf",
+                  passage: "MapResortGolf",
+                  loc: "Clitea lake resort golf club",
+                  desc: "You're standing on the grass in front of the golf club building.",
+                };
+                break;
+            }
+            break;
         case "main":
         default:
           ret = {

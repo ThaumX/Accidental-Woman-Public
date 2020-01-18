@@ -1,5 +1,7 @@
 
 
+
+
 class PCmain {
   public id: "PC";
   public dta: [number, number, number, string, string, string, string, number, number, number, number, boolean, boolean, string];
@@ -17,6 +19,52 @@ class PCmain {
       this.dta = clone(dta);
     }
   }
+
+  public get bd0(): number {
+    return this.dta[7];
+  }
+  public set bd0(val) {
+    val = Number(val);
+    if (isNaN(val)) {
+      aw.con.warn(`Attempted to set pc.main.bd[0] to NaN value`);
+    } else {
+      this.dta[7] = Math.max(1, Math.min(7, val));
+    }
+  }
+  public get bd1(): number {
+    return this.dta[8];
+  }
+  public set bd1(val) {
+    val = Number(val);
+    if (isNaN(val)) {
+      aw.con.warn(`Attempted to set pc.main.bd[1] to NaN value`);
+    } else {
+      this.dta[8] = Math.max(1, Math.min(4, val));
+    }
+  }
+  public get bd2(): number {
+    return this.dta[9];
+  }
+  public set bd2(val) {
+    val = Number(val);
+    if (isNaN(val)) {
+      aw.con.warn(`Attempted to set pc.main.bd[2] to NaN value`);
+    } else {
+      this.dta[9] = Math.max(1, Math.min(13, val));
+    }
+  }
+  public get bd3(): number {
+    return this.dta[10];
+  }
+  public set bd3(val) {
+    val = Number(val);
+    if (isNaN(val)) {
+      aw.con.warn(`Attempted to set pc.main.bd[3] to NaN value`);
+    } else {
+      this.dta[10] = Math.max(2000, Math.min(2005, val));
+    }
+  }
+
   public get ageOriginal(): number {
     return this.dta[0];
   }
@@ -116,7 +164,7 @@ class PCmain {
       this.dta[6] = val;
     }
   }
-  public get bd(): [number, number, number, number] {
+  /*public get bd(): [number, number, number, number] {
     return [this.dta[7], this.dta[8], this.dta[9], this.dta[10]];
   }
   public set bd(val: [number, number, number, number]) {
@@ -129,7 +177,7 @@ class PCmain {
         this.dta[start + i] = val[i];
       }
     }
-  }
+  }*/
   public get female(): boolean {
     return this.dta[11];
   }

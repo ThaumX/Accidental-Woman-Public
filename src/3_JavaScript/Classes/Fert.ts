@@ -1,10 +1,18 @@
+
+interface intCumData {
+  npcid: string;
+  surv: number;
+  quantity: number;
+  quality: number;
+}
+
 class Fert {
   public femaleFlag: string[];
-  public cycStart: number[];
+  public cycStart: [number, number];
   public maleFlag: string[];
   public fluid: VagFluid;
   // tslint:disable-next-line:max-line-length
-  public dta: [number, number, number, number, number, number, number, boolean, number, number, number, number, number, number, number, number, number, number, number, boolean, boolean];
+  public dta: [number, number, number, number, number, number, number, boolean, number, number, number, number, number, number, number, number, number, number, number, boolean, boolean, boolean, number, boolean];
   public _k: string;
   constructor(key, {
     fertility = -1,
@@ -17,7 +25,7 @@ class Fert {
     barren = false,
     femaleFlag = ["none"],
     cycle = -1,
-    cycStart = [1, 1, 1],
+    cycStart = [1, 1],
     boost = 0,
     ovuMod = -1,
     fluid = { vulva: [], vest: [], mid: [], deep: [], cervix: [], womb: [], ovary: [] },
@@ -31,13 +39,14 @@ class Fert {
     surv = -1,
     maleFlag = ["none"],
     ovuFlag = false,
+    aftOvulate = false,
     iud = false,
     dta,
   }: DataFert) {
     this._k = key;
     if (dta == null) {
       // tslint:disable-next-line:max-line-length
-      this.dta = [fertility, egg, implant, vagHostile, period, wombHealth, multEgg, barren, cycle, boost, ovuMod, pregTerm, quality, ejac, resMax, reserve, refact, quantity, surv, ovuFlag, iud];
+      this.dta = [fertility, egg, implant, vagHostile, period, wombHealth, multEgg, barren, cycle, boost, ovuMod, pregTerm, quality, ejac, resMax, reserve, refact, quantity, surv, ovuFlag, iud, aftOvulate, 0, false];
     } else {
       this.dta = clone(dta);
     }
@@ -79,6 +88,100 @@ class Fert {
     }
     return false;
   }
+  public getCumVol(): number {
+    let vol;
+    if ((this.reserve * 0.9) < this.ejac) {
+      vol = Math.round((this.reserve * 0.9) * 5);
+      this.reserve -= Math.round(this.reserve * 0.9);
+    } else {
+      vol = this.ejac * 5;
+      this.reserve -= this.ejac;
+    }
+    return vol;
+  }
+  public cumRegen(): void {
+    if (this.reserve < this.resMax) {
+      const amt = Math.ceil((24 * this.refact) / 5);
+      this.reserve += amt;
+    }
+  }
+  public cumData(): intCumData {
+    const cumData = {
+      npcid: this._k,
+      surv: this.surv,
+      quantity: this.quantity,
+      quality: this.quality,
+    };
+    return cumData;
+  }
+  public inseminate(owner: npcid | "unknown" = "unknown", vol: number = -99, loc: "vest" | "vulva" | "mid" | "deep" | "cervix" | "womb" | "ovary" | "random" = "random"): void {
+    if (loc === "random") {
+      loc = either("vest", "vest", "mid", "mid", "mid", "mid", "deep", "deep", "deep");
+    }
+    this.fluid[loc].push(new Cum({owner, vol}));
+  }
+  public creampie(owner: "unknown" | npcid = "unknown", vol: number = -99, type: "default"|"deep"|"shallow"|"vulva" = "default"): void {
+    // if no volume is supplied, generates an average volume for unknowns, or gets an orgasm from npc/pc
+    if (vol === -99) {
+      if (owner === "unknown") {
+        vol = random(20, 30) + random(20, 30);
+      } else if (setup.testes.test(owner)) {
+        vol = aw.npc[owner].fert.getCumVol();
+      } else {
+        vol = ↂ.pc.fert.getCumVol();
+      }
+    }
+    // splits up volume to spread out in vagina
+    const volA = Math.ceil(vol * 0.5);
+    const volB = Math.ceil(vol * 0.2);
+    const volC = volB;
+    const volD = Math.ceil(vol * 0.1);
+    // place cum based on type argument
+    switch (type) {
+      case "default":
+        this.inseminate(owner, volA, "mid");
+        this.inseminate(owner, volB, "deep");
+        this.inseminate(owner, volC, "vest");
+        this.inseminate(owner, volD, "cervix");
+        break;
+      case "deep":
+        this.inseminate(owner, volA, "deep");
+        this.inseminate(owner, volB, "cervix");
+        this.inseminate(owner, volC, "mid");
+        this.inseminate(owner, volD, "vest");
+        break;
+      case "shallow":
+        this.inseminate(owner, volA, "vest");
+        this.inseminate(owner, volB, "mid");
+        this.inseminate(owner, volC, "vulva");
+        this.inseminate(owner, volD, "deep");
+        break;
+      case "vulva":
+        this.inseminate(owner, volA, "vulva");
+        this.inseminate(owner, volB, "vulva");
+        this.inseminate(owner, volC, "vest");
+        this.inseminate(owner, volD, "mid");
+        break;
+      default:
+        this.inseminate(owner, volA, "mid");
+        this.inseminate(owner, volB, "deep");
+        this.inseminate(owner, volC, "vest");
+        this.inseminate(owner, volD, "cervix");
+        break;
+    }
+    if (this._k === "pc" || this._k === "PC") {
+      const name = (setup.testes.test(owner)) ? aw.npc[owner].name : "a stranger";
+      const opt = {
+        text: `The result of a recent encounter with ${name}.`,
+      };
+      setup.omni.kill("Semen in Vagina");
+      setup.omni.new("creamPie", opt);
+      setup.condition.add({ loc: "vagFluid", amt: vol, tgt: "pc", wet: vol, type: "cum"});
+      setup.condition.add({ loc: "genitals", amt: Math.round(vol / 5), tgt: "pc", wet: Math.round(vol / 5), type: "cum"});
+    }
+  }
+  // =====================================================================
+  // getter setter validations
   public get fertility(): number {
     return this.dta[0];
   }
@@ -170,8 +273,8 @@ class Fert {
       if (val > 10) {
         val = 10;
       }
-      if (val < 0) {
-        val = 0;
+      if (val < -2) {
+        val = -2;
       }
       this.dta[5] = val;
     }
@@ -393,6 +496,43 @@ class Fert {
       aw.con.warn(`Attempted to set ${this._k} iud to non-boolean value!`);
     } else {
       this.dta[20] = val;
+    }
+  }
+  public get aftOvulate(): boolean {
+    return this.dta[21];
+  }
+  public set aftOvulate(val: boolean) {
+    if (typeof val !== "boolean") {
+      aw.con.warn(`Attempted to set ${this._k} aftOvulate to non-boolean value!`);
+    } else {
+      this.dta[21] = val;
+    }
+  }
+  public get elastic(): number {
+    return this.dta[22];
+  }
+  public set elastic(val: number) {
+    val = Number(val);
+    if (isNaN(val)) {
+      aw.con.warn(`Attempted to set ${this._k} elastic to non-number value!`);
+    } else {
+      if (val > 3) {
+        val = 3;
+      }
+      if (val < 0) {
+        val = 0;
+      }
+      this.dta[22] = val;
+    }
+  }
+  public get splitter(): boolean {
+    return this.dta[23];
+  }
+  public set splitter(val: boolean) {
+    if (typeof val !== "boolean") {
+      aw.con.warn(`Attempted to set ${this._k} fert.splitter to non-boolean value!`);
+    } else {
+      this.dta[23] = val;
     }
   }
 }

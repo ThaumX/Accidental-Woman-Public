@@ -43,6 +43,7 @@ if (setup.ai === null || setup.ai === undefined) {
 }
 if (aw.ai === null || aw.ai === undefined) {
   aw.ai = {} as awAI;
+  aw.ai.record = [];
 }
 
 setup.synapticVersion = "2.14.6";
@@ -61,7 +62,7 @@ setup.ai.query = function(npc: any, note: string, ...tags: string[]): number {
     // should be prepared for use in this case
   } else if (pattern.test(npc)) {
     // is npcid
-    npc = aw.n(npc);
+    npc = aw.npc[npc];
   } else {
     aw.con.warn(`Invalid NPC sent to ai.query function! (${npc})`);
     return (random(0, 100) / 100); // soft fail

@@ -1,0 +1,91 @@
+:: ResidentialMedicalPharmacy [nobr map]
+
+<<include [[MAPmedical]]>>
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<center>[img[IMG-Shop-OedipusRx]]</center>
+<p><<f W>>hile Oedipus ℞'s exterior and interior design brings to mind a small-town pharmacy from the 1950s, the goods contained within are thoroughly modern. The store itself is larger on the inside than one might expect from the street. There is a large prescription drug area, that even seems to have a real-life pharmacist behind the counter. There are also some obligatory <<link "advertisements">><<set ↂ.flag.sawFertilitySealAd = true>><<dialog "Fertility Seal Ad">><center>[img[IMG-FertilitySealAd]]<br>@@.mono;Huh... This seems like it could be really handy to have, plus it looks pretty cute!@@</center><</dialog>><</link>> for cutting edge drugs and treatments.
+</p>
+<p>
+Unlike some other national chain pharmacies you've been to, however, most of the interior seems to be dedicated to medication and medical devices. The only exception is a small snack and refreshment area near the front styled like an old-timey soda shop. <span id="gene"><<if ↂ.pc.trait.perceptive > -1 && !$items.has("Gene Therapy 01")>>You notice a few sheets of printer paper stapled together, laying on the seat of one of the booths of the soda shop area. The paper appears to be quite old, with crinkled edges and a slightly-yellowed color. <<link "Pick them up">><<pickup "$items" "Gene Therapy 01">><<replace "#gene">><</replace>><<run UI.alert("You pick up the paper documents")>><</link>>.<</if>></span>
+</p>
+<<tutorial "mapPharmacy">>This pharmacy has a wider selection than Bullseye, particularly when it comes to more specialized or unusual goods and medications. It is also where you will come to have prescriptions filled should you be given (or find) one.<</tutorial>>
+/*<<interact "Gene Therapy" 3>><<include [[StoryGeneTherapy01a]]>><</interact>>*/
+<span id="locact"></span><<selfthought>></div>
+
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise filled>>
+  <<button "Fill A Prescription">><<dialog "Prescription">><<include [[PharmacyPrescription]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise shopping>>
+  <<button "Shop">><<set _tim = random(10,20)>><<addTime _tim>><<dialog "Oedipus ℞ Pharmacy">><<include [[BEpharmacyShopping]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+<<hoverrevise checkOut>>
+  <<button "Checkout">><<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<else>><<notify>><span class="bad">Insufficient Funds!</span><</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion filled>>@@.exp;Get a prescription for medication filled at the pharmacy.@@<<endinsertion>>
+<<insertion shopping>>@@.exp;Browse through the various items and over-the-counter medications available at the pharmacy. <span class="ship">[10-20min]</span>@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion checkOut>>Pay for the items in your cart.<<endinsertion>>
+</div>
+
+
+:: ResidentialMedicalPharmacyLOC [nobr]
+
+<center>[img[IMG-TransformativeFail]]</center><br>
+@@.head3;Y@@ou notice the girl in the corner talking with the doctor. She is topless but seems to be pretty comfortable with this.
+<p>@@.npc;...you see, they got bloody huge!@@</p>
+<p>@@.npc;You know mrs. Robinson, I warned you that you should be cautious of using hucow mods if you aren't planning to produce milk! And in any case, isn't it what you wanted to achieve?@@</p>
+<p>@@.npc;Well, yes, but I never wanted them to be that giant! Is there... I dunno, any reverse for those transformative I took? You know, I am not against showing myself, but office is not the best place for it and my boss is angry already! Mr. Ankerston, please, you can't imagine how hard they protrude under the shirt!@@</p>
+<p>@@.npc;In fact, I actually can... Hmm... I'll try to talk with my friend at Nekomantics, maybe there is some way to reverse the changes. I'll call you in any case mrs Robertson.@@</p>
+<p>@@.npc;Oh, thank you sooo much! It means world to me!@@</p>
+<p>@@.npc;Don't get overexcited, I don't know if he will be able to propose any solution. But we will see. And, please, Augusta, dress up, that girl is staring.@@</p>
+<p>@@.mono;Oops, he-he.@@</p>
+
+:: PharmacyPrescription [nobr]
+
+<p><<f Y>>ou ask about getting a precripted drug and pharmacist nods.</p>
+<br>
+<<if ↂ.flag.mentalPrescription>>
+<<button "Mental pills - ₢50">><<run setup.consumables.add("mentalPills", 3)>><<run aw.cash(-50, "medical")>><<set ↂ.flag.mentalPrescription = false>><<status>><<run Dialog.close()>><</button>><<else>><span class="disabled"><<button "Mental pills - ₢50">><</button>></span><</if>><span class="disabled"><<button "Focus 3oz - ₢60">><</button>></span><span class="disabled"><<button "Zone 100ml - ₢45">><</button>></span>

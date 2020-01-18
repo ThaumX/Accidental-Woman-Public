@@ -1,0 +1,395 @@
+:: MedicalDollmaker [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmedical]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p></p>
+<div id="storeWindow">
+[img[IMG-DollmakerSurgery]]
+</div>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p><<f a>>s soon as you enter the Dollmaker clinic a nurse invites you into a consultation room. The room isn't the most elegant, instead focusing more on functionality. Still, it's nicer than many of the doctor's offices you've been in before coming to the valley.
+</p>
+<p>
+After a brief greeting, the nurse invites you to see what treatments are available. She's seated behind a terminal, but there's also some measuring or scanning equipment along with a large wall-mounted display so you can see the projected results of any procedure. The nurse explains that due to a large amount of automation, Dr. Adams or one of his colleagues will be able to handle your procedure almost immediately. She also happily informs you that due to an Institute-funded initiative to keep experts available for reconstructive surgery, the cost of most procedures is extremely affordable.
+</p>
+<<tutorial "mapMedical">>You can pay here for various more "standard" treatments like a boob job or face reconstructions. The results are pretty much limited though.<</tutorial>>
+
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact" style="width: 950px; text-align: left;"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<if setup.omni.matching("Post surgery") === 0>><<button "Breast">><<dialog "Breast options">><<include [[PlasticBreast]]>><</dialog>><</button>><<else>><<button "Breast">><<dialog "Breast options">>@@.npc;Sorry, ms.<<=ↂ.pc.main.surname>>, your body is obviously not ready to undergo another surgery so quickly. Give yourself some time to recover.@@<</dialog>><</button>><</if>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<if setup.omni.matching("Post surgery") === 0>><<button "Facial Contouring & Rejuvenation">><<dialog "Face options">><<include [[PlasticFace]]>><</dialog>><</button>><<else>><<button "Facial Contouring & Rejuvenation">><<dialog "Facial Contouring & Rejuvenation">>@@.npc;Sorry, ms.<<=ↂ.pc.main.surname>>, your body is obviously not ready to undergo another surgery so quickly. Give yourself some time to recover.@@<</dialog>><</button>><</if>>
+<<endhoverrevise>>
+<<hoverrevise delta>>
+  <<if setup.omni.matching("Post surgery") === 0>><<button "Body Contouring">><<dialog "Body options">><<include [[PlasticBody]]>><</dialog>><</button>><<else>><<button "Body Contouring">><<dialog "Body Contouring">>@@.npc;Sorry, ms.<<=ↂ.pc.main.surname>>, your body is obviously not ready to undergo another surgery so quickly. Give yourself some time to recover.@@<</dialog>><</button>><</if>>
+<<endhoverrevise>>
+<<hoverrevise omega>>
+  <<button "Tattoo removal">><<set _ttt = random(30,45)>><<addtime _ttt>><<dialog "Tattoo Removal">><<include [[ResidentialMedicalDoctorTattooRem]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise gamma>>
+  <<button "Look at Adverts">><<addTime 5>><<dialog "Plastic Ads">><center><br>[img[IMG-ExpandPlusBreastAd]]</center><</dialog>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>@@.exp;Look at the list of possible breast-related surgeries e.g. Lifting, Enlargement, Reduction and others.@@<<endinsertion>>
+<<insertion beta>>@@.exp;Look at the list of possible face-related surgeries e.g. Rhinoplasty, Chin, or Cheek Enhancement, Facelifting.@@<<endinsertion>>
+<<insertion delta>>@@.exp;Look at the list of possible body-related surgeries e.g. Liposuction.@@<<endinsertion>>
+<<insertion gamma>>@@.exp;Explore various advertisements for plastic surgeon services.@@<<endinsertion>>
+<<insertion omega>>Get one of your tattoos removed by a specialist (@@.money;₢100-120@@ / @@.money;₢170-200@@) <<ctn>>[30-45min]<</ctn>><<endinsertion>>
+</div>
+
+
+:: MedicalDollmakerLOC [nobr]
+
+<center>[img[IMG-plasticLocImg]]</center><br>
+@@.head3;O@@ne of the doors is open a bit and you can see inside. @@.mono;It is good to see at least one person being responsible about the health of her breasts.@@
+
+
+:: ResidentialMedicalDoctorTattooRem [nobr]
+
+<div id="tattooSpan">
+<<print setup.tattoo.removeList()>>
+</div>
+
+
+:: ResidentialMedicalDoctorTattooRemDone [nobr]
+
+<<silently>>
+<<status 1>>
+<<addtime 55>>
+<<if ↂ.flag.Healthcare>>
+  <<set _cost = random(100,120)>><<run aw.cash((_cost * -1), "medical")>>
+<<else>>
+  <<set _cost = random(170,200)>><<run aw.cash((_cost * -1), "medical")>>
+<</if>>
+<</silently>>
+<center>[img[IMG-TattooRemoval]]</center><br>
+<p>Using a special device, the tech removes your tattoo. It feels tingly but you can notice the image disappears directly underneath the business-end of device as the tech slowly moves it over the tattoo. When the tattoo is finally gone you experience a strong feeling of relief. After the procedure is done the tech informs you that @@.money;₢<<= _cost>>@@ will be deducted from your account automatically. He leaves shortly afterward, leaving you to get dressed and go about your day.</p>
+
+:: PlasticBreast [nobr]
+
+<<silently>>
+<<script>>
+State.active.variables.plasticSurgeryScenario = {
+  passage: "PlasticSurgery",
+  content: "",
+  image: "IMG-PlasicSurgery",
+  topImage: "IMG-ArborVitaeBanner",
+  title: "Plastic Surgery",
+  allowSave: false,
+  sidebar: "<h2>Arbor Vitae</h2><h3>Cosmetical Ward</h3>",
+  showTime: false,
+  allowMenu: false,
+};
+<</script>>
+<<set _possSize = [0]>>
+<<set ↂ.flag.plasticOperationType = "none">>
+<<set ↂ.flag.plasticOperationCost = random(80, 130)>>
+<<set ↂ.flag.plasticOperationSize = 0>>
+<<status>>
+<</silently>>
+<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+Current Breast size: <<print ↂ.pc.body.tits.cup>>. Price: @@.money;₢250-400@@<br>
+<p>@@.npc;Take note that this kind of surgery affects only your natural fat tissue, it doesn't change the silicon or Expand+ implants you may have. Also we will take care about proper shape but can't really give any guarantees of specific shape. You can be rest assured it would not be saggy though.@@<p>
+<<if ↂ.pc.body.tits.size > 150>>
+  <<button "Reduction -100cc">><<set ↂ.flag.plasticOperationSize = 100>><<set ↂ.flag.plasticOperationCost = 250>><<set ↂ.flag.plasticOperationType = "breastReduction">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+<<elseif ↂ.pc.body.tits.size > 250>>
+  <<button "Reduction -100cc">><<set ↂ.flag.plasticOperationSize = 100>><<set ↂ.flag.plasticOperationCost = 250>><<set ↂ.flag.plasticOperationType = "breastReduction">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+<<elseif ↂ.pc.body.tits.size > 650>>
+  <<button "Reduction -100cc">><<set ↂ.flag.plasticOperationSize = 100>><<set ↂ.flag.plasticOperationCost = 250>><<set ↂ.flag.plasticOperationType = "breastReduction">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+  <<button "Reduction -200cc">><<set ↂ.flag.plasticOperationSize = 200>><<set ↂ.flag.plasticOperationCost = 300>><<set ↂ.flag.plasticOperationType = "breastReduction">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+  <<button "Reduction -500cc">><<set ↂ.flag.plasticOperationSize = 500>><<set ↂ.flag.plasticOperationCost = 400>><<set ↂ.flag.plasticOperationType = "breastReduction">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+<<else>>
+<p>@@.npc;Can't reduce your breast miss, sorry to say but you don't have much to work with...@@<p>
+<</if>>
+</div>
+<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+Current Breast augmentation: <<if ↂ.pc.body.tits.silicone === 0>>None<<elseif ↂ.flag.expandP>><<= ↂ.pc.body.tits.silicone>>cc Expand+ implants<<else>><<= ↂ.pc.body.tits.silicone>>cc implants<</if>> Price: @@.money;₢200-480@@<br>
+<p>@@.npc;Here is the list of implants, which are possible to install with your current breast size. <<if ↂ.pc.body.tits.silicone !== 0>>Please note that implants removal will probably change your breast shape. Also you must know that there is a limit for the volume we can implant during one operation, if you trying to achieve... bigger sizes in future you should do it gradually. Except the case where you install our newest product, "Expand+", those can be changed in size by a simple injection after installation.<</if>>@@
+</p>
+/*<<for _i to 0; _i < _possSize.length; _i++>><<button _possSizeNames[_i]>><<set ↂ.flag.plasticOperationSize = _possSize[_i]>><<set ↂ.flag.plasticOperationCost = _possSizeCosts[_i]>><<set ↂ.flag.plasticOperationType = "titties">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</for>>
+FUCK YOU TWINE. ^ I tried to do this normal way I swear */
+<<if ↂ.pc.body.tits.silicone === 0>>
+  <<button "300 cc implants, ₢200">><<set ↂ.flag.plasticOperationSize = 300>><<set ↂ.flag.plasticOperationCost = 200>><<set ↂ.flag.plasticOperationType = "titties">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+  <<button "500 cc implants, ₢250">><<set ↂ.flag.plasticOperationSize = 500>><<set ↂ.flag.plasticOperationCost = 250>><<set ↂ.flag.plasticOperationType = "titties">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+  <<button "800 cc implants, ₢300">><<set ↂ.flag.plasticOperationSize = 800>><<set ↂ.flag.plasticOperationCost = 300>><<set ↂ.flag.plasticOperationType = "titties">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+  <<if !ↂ.flag.expandP>>
+  <<button "Expand+ implants, ₢480">><<set ↂ.flag.plasticOperationSize = 150>><<set ↂ.flag.plasticOperationCost = 480>><<set ↂ.flag.plasticOperationType = "expand+">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+  <</if>>
+<<elseif ↂ.pc.body.tits.silicone > 800>>
+  <<button "Implants removal">><<set ↂ.flag.expandP = false>><<set ↂ.flag.plasticOperationSize = 0>><<set ↂ.flag.plasticOperationCost = 300>><<set ↂ.flag.plasticOperationType = "titties">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+  <<if !ↂ.flag.expandP>>
+    <<button "Smaller implants, -500 cc, ₢250">><<set ↂ.flag.plasticOperationSize = (ↂ.pc.body.tits.silicone - 500)>><<set ↂ.flag.plasticOperationCost = 250>><<set ↂ.flag.plasticOperationType = "titties">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+    <<button "Smaller implants, -300 cc, ₢250">><<set ↂ.flag.plasticOperationSize = (ↂ.pc.body.tits.silicone - 300)>><<set ↂ.flag.plasticOperationCost = 250>><<set ↂ.flag.plasticOperationType = "titties">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+    <<button "Bigger implants, +300 cc, ₢320">><<set ↂ.flag.plasticOperationSize = (ↂ.pc.body.tits.silicone + 300)>><<set ↂ.flag.plasticOperationCost = 320>><<set ↂ.flag.plasticOperationType = "titties">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+    <<button "Bigger implants, +500 cc, ₢350">><<set ↂ.flag.plasticOperationSize = (ↂ.pc.body.tits.silicone + 500)>><<set ↂ.flag.plasticOperationCost = 350>><<set ↂ.flag.plasticOperationType = "titties">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+    <<button "Bigger implants, +800 cc, ₢380">><<set ↂ.flag.plasticOperationSize = (ↂ.pc.body.tits.silicone + 800)>><<set ↂ.flag.plasticOperationCost = 380>><<set ↂ.flag.plasticOperationType = "titties">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+  <</if>>
+<<else>>
+  <<button "Implants removal">><<set ↂ.flag.expandP = false>><<set ↂ.flag.plasticOperationSize = 0>><<set ↂ.flag.plasticOperationCost = 300>><<set ↂ.flag.plasticOperationType = "titties">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+  <<if !ↂ.flag.expandP>>
+    <<button "Bigger implants, +300 cc, ₢320">><<set ↂ.flag.plasticOperationSize = (ↂ.pc.body.tits.silicone + 300)>><<set ↂ.flag.plasticOperationCost = 320>><<set ↂ.flag.plasticOperationType = "titties">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+    <<button "Bigger implants, +500 cc, ₢350">><<set ↂ.flag.plasticOperationSize = (ↂ.pc.body.tits.silicone + 500)>><<set ↂ.flag.plasticOperationCost = 350>><<set ↂ.flag.plasticOperationType = "titties">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+    <<button "Bigger implants, +800 cc, ₢380">><<set ↂ.flag.plasticOperationSize = (ↂ.pc.body.tits.silicone + 800)>><<set ↂ.flag.plasticOperationCost = 380>><<set ↂ.flag.plasticOperationType = "titties">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+  <</if>>
+<</if>>
+<<if ↂ.flag.expandP>>
+  <<button "Expand+ injection, 100cc, ₢30">><<run Dialog.close()>><<dialog "Injection">>Doctor leads you to the medical bed and asks you to undress. Quickly locating the valve under your skin on the lower side of your left boob he wipes it with alchohol, takes a syringe from the sealed container with a company logo and make an injection. You feel your funbag skin expands as the implant grows bigger. After doing the same thing with another tit he wipes underboob area with alchohol once again and sends you to pay for the procedure.<<run aw.cash(-30, "medical")>><<set ↂ.pc.body.tits.silicone += 100>><<status>><<pcBreastCalc>><</dialog>><</button>>
+  <<button "Expand+ filler extraction, -100cc, ₢25">><<run Dialog.close()>><<dialog "Injection">>Doctor leads you to the medical bed and asks you to undress. Quickly locating the valve under your skin on the lower side of your left boob he wipes it with alchohol, takes a syringe from the sealed container with a company logo and puncture the skin. You feel your funbag skin shrinks as the implant gets smaller. After doing the same thing with another tit he wipes underboob area with alchohol once again and sends you to pay for the procedure.<<run aw.cash(-30, "medical")>><<set ↂ.pc.body.tits.silicone -= 100>><<status>><<pcBreastCalc>><</dialog>><</button>>
+<</if>>
+</div>
+<br>
+<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+Current Breast form: <<print ↂ.pc.body.tits.shape>>. Price: @@.money;₢<<= ↂ.flag.plasticOperationCost>>@@<br>
+<<if ↂ.pc.body.tits.shape !== "athletic">><<button "Athletic shape">><<set ↂ.flag.plasticOperationSize = "athletic">><<set ↂ.flag.plasticOperationType = "titShape">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.shape !== "bell">><<button "Bell shape">><<set ↂ.flag.plasticOperationSize = "bell">><<set ↂ.flag.plasticOperationType = "titShape">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.shape !== "relaxed">><<button "Relaxed shape">><<set ↂ.flag.plasticOperationSize = "relaxed">><<set ↂ.flag.plasticOperationType = "titShape">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.shape !== "round">><<button "Round shape">><<set ↂ.flag.plasticOperationSize = "round">><<set ↂ.flag.plasticOperationType = "titShape">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.shape !== "teardrop">><<button "Teardrop shape">><<set ↂ.flag.plasticOperationSize = "teardrop">><<set ↂ.flag.plasticOperationType = "titShape">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.shape !== "thin">><<button "Thin shape">><<set ↂ.flag.plasticOperationSize = "thin">><<set ↂ.flag.plasticOperationType = "titShape">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+</div>
+<br>
+<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+<<set _lng = ["error", "inverted", "partially inverted", "flat", "short", "medium", "long", "very long"]>>
+Current Nipple length: <<print _lng[ↂ.pc.body.tits.nipLength]>>. Price: @@.money;₢<<= ↂ.flag.plasticOperationCost>>@@<br>
+<<if ↂ.pc.body.tits.nipLength !== 1>><<button "Inverted">><<set ↂ.flag.plasticOperationSize = 1>><<set ↂ.flag.plasticOperationType = "nipLength">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.nipLength !== 2>><<button "Partially Inverted">><<set ↂ.flag.plasticOperationSize = 2>><<set ↂ.flag.plasticOperationType = "nipLength">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.nipLength !== 3>><<button "Flat">><<set ↂ.flag.plasticOperationSize = 3>><<set ↂ.flag.plasticOperationType = "nipLength">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.nipLength !== 4>><<button "Short">><<set ↂ.flag.plasticOperationSize = 4>><<set ↂ.flag.plasticOperationType = "nipLength">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.nipLength !== 5>><<button "Medium">><<set ↂ.flag.plasticOperationSize = 5>><<set ↂ.flag.plasticOperationType = "nipLength">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.nipLength !== 6>><<button "Long">><<set ↂ.flag.plasticOperationSize = 6>><<set ↂ.flag.plasticOperationType = "nipLength">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.nipLength !== 7>><<button "Very Long">><<set ↂ.flag.plasticOperationSize = 7>><<set ↂ.flag.plasticOperationType = "nipLength">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+</div>
+<br>
+<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+<<set _girth = ["error", "tiny", "small", "normal", "large", "huge"]>>
+Current Nipple girth: <<print _girth[ↂ.pc.body.tits.nipGirth]>>. Price: @@.money;₢<<= ↂ.flag.plasticOperationCost>>@@<br>
+<<if ↂ.pc.body.tits.nipGirth !== 1>><<button "Tiny">><<set ↂ.flag.plasticOperationSize = 1>><<set ↂ.flag.plasticOperationType = "nipGirth">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.nipGirth !== 2>><<button "Small">><<set ↂ.flag.plasticOperationSize = 2>><<set ↂ.flag.plasticOperationType = "nipGirth">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.nipGirth !== 3>><<button "Normal">><<set ↂ.flag.plasticOperationSize = 3>><<set ↂ.flag.plasticOperationType = "nipGirth">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.nipGirth !== 4>><<button "Large">><<set ↂ.flag.plasticOperationSize = 4>><<set ↂ.flag.plasticOperationType = "nipGirth">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.nipGirth !== 5>><<button "Huge">><<set ↂ.flag.plasticOperationSize = 5>><<set ↂ.flag.plasticOperationType = "nipGirth">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+</div>
+<br>
+<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+<<set _areola = ["error", "tiny", "small", "normal", "large", "huge"]>>
+Current Areola width: <<print _areola[ↂ.pc.body.tits.areola]>>. Price: @@.money;₢<<= ↂ.flag.plasticOperationCost>>@@<br>
+<<if ↂ.pc.body.tits.areola !== 1>><<button "Tiny">><<set ↂ.flag.plasticOperationSize = 1>><<set ↂ.flag.plasticOperationType = "areolaWidth">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.areola !== 2>><<button "Small">><<set ↂ.flag.plasticOperationSize = 2>><<set ↂ.flag.plasticOperationType = "areolaWidth">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.areola !== 3>><<button "Normal">><<set ↂ.flag.plasticOperationSize = 3>><<set ↂ.flag.plasticOperationType = "areolaWidth">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.areola !== 4>><<button "Large">><<set ↂ.flag.plasticOperationSize = 4>><<set ↂ.flag.plasticOperationType = "areolaWidth">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.areola !== 5>><<button "Huge">><<set ↂ.flag.plasticOperationSize = 5>><<set ↂ.flag.plasticOperationType = "areolaWidth">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+</div>
+<br>
+<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+<<set _puff = ["error", "flat", "normal", "puffy", "very puffy", "buldging"]>>
+Current Areola Puffiness: <<print _puff[ↂ.pc.body.tits.puffy]>>. Price: @@.money;₢<<= ↂ.flag.plasticOperationCost>>@@<br>
+<<if ↂ.pc.body.tits.puffy !== 1>><<button "Flat">><<set ↂ.flag.plasticOperationSize = 1>><<set ↂ.flag.plasticOperationType = "areolaPuff">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.puffy !== 2>><<button "Normal">><<set ↂ.flag.plasticOperationSize = 2>><<set ↂ.flag.plasticOperationType = "areolaPuff">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.puffy !== 3>><<button "Puffy">><<set ↂ.flag.plasticOperationSize = 3>><<set ↂ.flag.plasticOperationType = "areolaPuff">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.puffy !== 4>><<button "Very Puffy">><<set ↂ.flag.plasticOperationSize = 4>><<set ↂ.flag.plasticOperationType = "areolaPuff">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.tits.puffy !== 5>><<button "Bulging">><<set ↂ.flag.plasticOperationSize = 5>><<set ↂ.flag.plasticOperationType = "areolaPuff">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+</div>
+
+
+:: PlasticFace [nobr]
+
+<<silently>>
+<<script>>
+State.active.variables.plasticSurgeryScenario = {
+  passage: "PlasticSurgery",
+  content: "",
+  image: "IMG-PlasicSurgery",
+  topImage: "IMG-ArborVitaeBanner",
+  title: "Plastic Surgery",
+  allowSave: false,
+  sidebar: "<h2>Arbor Vitae</h2><h3>Cosmetical Ward</h3>",
+  showTime: false,
+  allowMenu: false,
+};
+<</script>>
+<<set ↂ.flag.plasticOperationType = "none">>
+<<set ↂ.flag.plasticOperationCost = random(90, 140)>>
+<</silently>>
+<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+Current Nose form: <<print ↂ.pc.body.nose>>. Price: @@.money;₢<<= ↂ.flag.plasticOperationCost>>@@<br>
+<<if ↂ.pc.body.nose !== "normal">><<button "Normal">><<set ↂ.flag.plasticOperationSize = "normal">><<set ↂ.flag.plasticOperationType = "noseForm">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.nose !== "large">><<button "Large">><<set ↂ.flag.plasticOperationSize = "large">><<set ↂ.flag.plasticOperationType = "noseForm">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.nose !== "button">><<button "Button">><<set ↂ.flag.plasticOperationSize = "button">><<set ↂ.flag.plasticOperationType = "noseForm">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.nose !== "upturned">><<button "Upturned">><<set ↂ.flag.plasticOperationSize = "upturned">><<set ↂ.flag.plasticOperationType = "noseForm">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.nose !== "wide">><<button "Wide">><<set ↂ.flag.plasticOperationSize = "wide">><<set ↂ.flag.plasticOperationType = "noseForm">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.nose !== "large-nostreled">><<button "Large-nostreled">><<set ↂ.flag.plasticOperationSize = "large-nostreled">><<set ↂ.flag.plasticOperationType = "noseForm">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+</div>
+<br>
+<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+Current Jaw form: <<print ↂ.pc.body.jaw>>. Price: @@.money;₢<<= ↂ.flag.plasticOperationCost>>@@<br>
+<<if ↂ.pc.body.jaw !== "normal">><<button "Normal">><<set ↂ.flag.plasticOperationSize = "normal">><<set ↂ.flag.plasticOperationType = "jawForm">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.jaw !== "masculine">><<button "Masculine">><<set ↂ.flag.plasticOperationSize = "masculine">><<set ↂ.flag.plasticOperationType = "jawForm">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.jaw !== "elegant">><<button "Elegant">><<set ↂ.flag.plasticOperationSize = "elegant">><<set ↂ.flag.plasticOperationType = "jawForm">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.jaw !== "large">><<button "Large">><<set ↂ.flag.plasticOperationSize = "large">><<set ↂ.flag.plasticOperationType = "jawForm">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+</div>
+<br>
+<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+<<set _puff = ["error", "Lizard", "Thin", "Normal", "Thick"]>>
+Current Lips: <<print _puff[ↂ.pc.body.lips]>>. Price: @@.money;₢<<= ↂ.flag.plasticOperationCost>>@@<br>
+<<if ↂ.pc.body.lips !== 1>><<button "Lizard">><<set ↂ.flag.plasticOperationSize = 1>><<set ↂ.flag.plasticOperationType = "lipsForm">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.lips !== 2>><<button "Thin">><<set ↂ.flag.plasticOperationSize = 2>><<set ↂ.flag.plasticOperationType = "lipsForm">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.lips !== 3>><<button "Normal">><<set ↂ.flag.plasticOperationSize = 3>><<set ↂ.flag.plasticOperationType = "lipsForm">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+<<if ↂ.pc.body.lips !== 4>><<button "Thick">><<set ↂ.flag.plasticOperationSize = 4>><<set ↂ.flag.plasticOperationType = "lipsForm">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>><</if>>
+</div>
+<br>
+
+
+:: PlasticBody [nobr]
+
+<<silently>>
+<<script>>
+State.active.variables.plasticSurgeryScenario = {
+  passage: "PlasticSurgery",
+  content: "",
+  image: "IMG-PlasicSurgery",
+  topImage: "IMG-ArborVitaeBanner",
+  title: "Plastic Surgery",
+  allowSave: false,
+  sidebar: "<h2>Arbor Vitae</h2><h3>Cosmetical Ward</h3>",
+  showTime: false,
+  allowMenu: false,
+};
+<</script>>
+<<set ↂ.flag.plasticOperationType = "none">>
+<<set ↂ.flag.plasticOperationCost = random(180, 190)>>
+<</silently>>
+<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+<<set _puff = ["error", "Dying", "Skinny", "Lithe", "Plush", "Chubby", "Fat"]>>
+Current body weight: <<print _puff[ↂ.pc.body.weight]>>. Price: @@.money;₢<<= ↂ.flag.plasticOperationCost>>@@<br>
+<<if ↂ.pc.body.weight > 2>>
+<<button "Liposuction">><<set ↂ.flag.plasticOperationSize = 1>><<set ↂ.flag.plasticOperationType = "lipo">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+<<else>>
+It is not possible to perform a liposuction, you hardly have any fat!
+<</if>>
+</div>
+<br>
+
+
+:: PlasticSurgery [nobr]
+
+<p><<f A>>fter choosing the option you sign some papers and nurse takes you to the preparation room in order to dress you in the hospital gown. You feel a little bit odd before the operation but it seems that they have a lot of those daily and such treatments became a routine for local medical personnel. <<= either("After short waiting", "Almost instatly", "After sitting in the preparation room for about half an hour")>> you are taken to the operational room. There is just one surgeon standing behind some big glass shield with lots of screens and controls around him. It seems, there is no need for doctors to operate manually now, you see a big bunch of robotic arms hanging from the celling above the bed.</p>
+<p>
+@@.npc;Good day, ms. <<=ↂ.pc.main.surname>>, I am doctor <<= either("Gallinger", "Edwards", "Chickering", "Thackery")>> and I will be your surgeon for today. First time? Anyway, this will not take long, we have best robotic-assisted plastic surgery options here and I expect no complications so, Lucy will help you to lay as comfortably as it is possible and we can begin.@@</p>
+<p>@@.pc;Will this take long?@@</p>
+<p>@@.npc;The operation? <<= either("About an hour", "About two hours")>>, maybe a little bit more.@@</p>
+<p>Nurse helps you to lay down on the bed under the robot and puts some wires over your body and the transculent mask over your face.</p>
+<p>@@.npc;@@Okay, ms. <<=ↂ.pc.main.surname>>, <<button "a deep breath...">><<run setup.sleep.bedtime("ResidentialMedicalHospital");>><<sceneclose>><</button>></p>
+<<switch ↂ.flag.plasticOperationType>>
+<<case "titties">>
+  <<status 1>>
+  <<set ↂ.pc.body.tits.silicone = ↂ.flag.plasticOperationSize>>
+  <<if ↂ.flag.plasticOperationSize === 0>><<set ↂ.pc.body.tits.shape = "relaxed">><</if>>
+  <<pcBreastCalc>>
+  <<set ↂ.pc.status.health -= random(15,30)>><<run setup.status.record("health", -30, "Plastic surgery")>>
+  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
+  <<run setup.omni.new("postBoobsSurgery")>>
+  <<status 0>>
+<<case "expand+">>
+  <<status 1>>
+  <<set ↂ.flag.expandP = true>>
+  <<set ↂ.pc.body.tits.silicone = ↂ.flag.plasticOperationSize>>
+  <<pcBreastCalc>>
+  <<set ↂ.pc.status.health -= random(15,30)>><<run setup.status.record("health", -30, "Plastic surgery")>>
+  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
+  <<run setup.omni.new("postBoobsSurgery")>>
+  <<status 0>>
+<<case "titShape">>
+  <<status 1>>
+  <<set ↂ.pc.body.tits.shape = ↂ.flag.plasticOperationSize>>
+  <<set ↂ.pc.status.health -= random(4,15)>><<run setup.status.record("health", -15, "Plastic surgery")>>
+  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
+  <<pcBreastCalc>>
+  <<status 0>>
+<<case "nipLength">>
+  <<status 1>>
+  <<set ↂ.pc.body.tits.nipLength = ↂ.flag.plasticOperationSize>>
+  <<set ↂ.pc.status.health -= random(3,10)>><<run setup.status.record("health", -10, "Plastic surgery")>>
+  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
+  <<pcBreastCalc>>
+  <<status 0>>
+<<case "nipGirth">>
+  <<set ↂ.pc.body.tits.nipGirth = ↂ.flag.plasticOperationSize>>
+  <<set ↂ.pc.status.health -= random(3,10)>><<run setup.status.record("health", -10, "Plastic surgery")>>
+  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
+  <<pcBreastCalc>>
+  <<status 0>>
+<<case "areolaWidth">>
+  <<set ↂ.pc.body.tits.areola = ↂ.flag.plasticOperationSize>>
+  <<set ↂ.pc.status.health -= random(3,10)>><<run setup.status.record("health", -10, "Plastic surgery")>>
+  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
+  <<pcBreastCalc>>
+  <<status 0>>
+<<case "areolaPuff">>
+  <<status 1>>
+  <<set ↂ.pc.body.tits.puffy = ↂ.flag.plasticOperationSize>>
+  <<set ↂ.pc.status.health -= random(3,10)>><<run setup.status.record("health", -10, "Plastic surgery")>>
+  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
+  <<pcBreastCalc>>
+  <<status 0>>
+<<case "breastReduction">>
+  <<status 1>>
+  <<set ↂ.pc.body.tits.size -= ↂ.flag.plasticOperationSize>>
+  <<if ↂ.pc.body.tits.size < 50>><<set ↂ.pc.body.tits.size = 50>><</if>>
+  <<set ↂ.pc.status.health -= random(8,20)>><<run setup.status.record("health", -10, "How dare you to shrink sacred titties lol! (Plastic surgery)")>>
+  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
+  <<set ↂ.pc.body.tits.shape = either("round", "perky")>>
+  <<run setup.omni.new("postBoobsSurgery")>>
+  <<pcBreastCalc>>
+  <<status 0>>
+<<case "noseForm">>
+  <<status 1>>
+  <<set ↂ.pc.body.nose = ↂ.flag.plasticOperationSize>>
+  <<set ↂ.pc.status.health -= random(8,18)>><<run setup.status.record("health", -18, "Plastic surgery")>>
+  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
+  <<status 0>>
+<<case "jawForm">>
+  <<status 1>>
+  <<set ↂ.pc.body.jaw = ↂ.flag.plasticOperationSize>>
+  <<set ↂ.pc.status.health -= random(8,18)>><<run setup.status.record("health", -18, "Plastic surgery")>>
+  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
+  <<status 0>>
+<<case "lipsForm">>
+  <<status 1>>
+  <<set ↂ.pc.body.lips = ↂ.flag.plasticOperationSize>>
+  <<set ↂ.pc.status.health -= random(5,13)>><<run setup.status.record("health", -13, "Plastic surgery")>>
+  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
+  <<status 0>>
+<<case "lipo">>
+  <<set ↂ.pc.body.weight -= 1>>
+  <<set ↂ.pc.status.nutrition.realWeight = setup.initialWeight()>>
+  <<set ↂ.pc.status.health -= random(8,18)>><<run setup.status.record("health", -18, "Plastic surgery")>>
+  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
+  <<status 0>>
+<<default>>
+Shit, this shouldn't happen at all. Somehow you broke the surgery system. You fault, don't you dare blame Besty this time. Okay, let's consider our options now. I ll leave a link here so you can escape this broken scenario so I hope you'll be able to continue the game. Also pls let us know on discord or on the game site bugtracker about this. Oh, and sorry for this, buddy, game is big so bugs are quite possible.
+<br>
+<<link "RUN AWAY!!!">><<sceneclose>><</link>>
+<</switch>>
+

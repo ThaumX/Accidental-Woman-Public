@@ -369,5 +369,130 @@ class Traits {
       this.dta[25] = val;
     }
   }
+  public get isCaring(): boolean {
+    return (this.caring === 1) ? true : false;
+  }
+  public get isUncaring(): boolean {
+    return (this.caring === -1) ? true : false;
+  }
+
+  public get isBitch(): boolean {
+    return (this.bitch === 1) ? true : false;
+  }
+  public get isKind(): boolean {
+    return (this.bitch === -1) ? true : false;
+  }
+
+  public get isMaternal(): boolean {
+    return (this.maternal === 1) ? true : false;
+  }
+  public get isHatesKids(): boolean {
+    return (this.maternal === -1) ? true : false;
+  }
+
+  public get isRomantic(): boolean {
+    return (this.romantic === 1) ? true : false;
+  }
+  public get isAromantic(): boolean {
+    return (this.romantic === -1) ? true : false;
+  }
+
+  public get isDeceptive(): boolean {
+    return (this.deceptive === 1) ? true : false;
+  }
+  public get isHonest(): boolean {
+    return (this.deceptive === -1) ? true : false;
+  }
+
+  public get isDevious(): boolean {
+    return (this.devious === 1) ? true : false;
+  }
+  public get isStraightforward(): boolean {
+    return (this.devious === -1) ? true : false;
+  }
+
+  public get isPersuasive(): boolean {
+    return (this.persuasive === 1) ? true : false;
+  }
+  public get isFollower(): boolean {
+    return (this.persuasive === -1) ? true : false;
+  }
+
+  public get isPerceptive(): boolean {
+    return (this.perceptive === 1) ? true : false;
+  }
+  public get isOblivious(): boolean {
+    return (this.perceptive === -1) ? true : false;
+  }
+
+  public get isForgetful(): boolean {
+    return (this.forgetful === 1) ? true : false;
+  }
+  public get isGoodMemory(): boolean {
+    return (this.forgetful === -1) ? true : false;
+  }
+
+  public get isForgiving(): boolean {
+    return (this.forgiving === 1) ? true : false;
+  }
+  public get isVengeful(): boolean {
+    return (this.forgiving === -1) ? true : false;
+  }
+
+  public get isLowEsteem(): boolean {
+    return (this.lowEsteem === 1) ? true : false;
+  }
+  public get isNarcissist(): boolean {
+    return (this.lowEsteem === -1) ? true : false;
+  }
+
+  public get isPicky(): boolean {
+    return (this.picky === 1) ? true : false;
+  }
+  public get isLowStandards(): boolean {
+    return (this.picky === -1) ? true : false;
+  }
+
+  public get isCrude(): boolean {
+    return (this.crude === 1) ? true : false;
+  }
+  public get isRefined(): boolean {
+    return (this.crude === -1) ? true : false;
+  }
+
+  public get isFriendly(): boolean {
+    return (this.friendly === 1) ? true : false;
+  }
+  public get isUnfriendly(): boolean {
+    return (this.friendly === -1) ? true : false;
+  }
+
+  public get isApproachable(): boolean {
+    return (this.approachable === 1) ? true : false;
+  }
+  public get isUnapproachable(): boolean {
+    return (this.approachable === -1) ? true : false;
+  }
+
+  public get isRelaxed(): boolean {
+    return (this.relaxed === 1) ? true : false;
+  }
+  public get isAmbitious(): boolean {
+    return (this.relaxed === -1) ? true : false;
+  }
+
+  public get isFlirty(): boolean {
+    return (this.flirty === 1) ? true : false;
+  }
+  public get isShy(): boolean {
+    return (this.flirty === -1) ? true : false;
+  }
+
+  public get isMaterialist(): boolean {
+    return (this.materialist === 1) ? true : false;
+  }
+  public get isHippy(): boolean {
+    return (this.materialist === -1) ? true : false;
+  }
 }
 

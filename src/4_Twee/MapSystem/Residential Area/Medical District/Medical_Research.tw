@@ -1,0 +1,113 @@
+:: ResidentialMedicalResearch [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmedical]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<div id="storeWindow" class="extraRoomRight">
+[img[IMG-Nekomatics]]
+</div>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou stand in the research part part of the medical district.
+</p>
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact" style="width: 950px; text-align: left;"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise research>>
+    @@.disabled;<<button "Sign up for research">><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise transbo>>
+  <<openhours 10 18>>
+  <<button "Cumming-Soon Store">><<addTime 30>><<dialog "Nekomatics Cumming-Soon Store">><<include [[ResidentialMedicalResearchNeko]]>><</dialog>><</button>>
+  <<closed "Cumming-Soon Store">>
+<</openhours>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+
+<<insertion research>><<ctn>>[Not Yet Implemented.]<</ctn>><<endinsertion>>
+<<insertion transbo>>Visit the Nekomatics Cumming-Soon store to shop for products currently in testing. Open 10 to 18<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: ResidentialMedicalResearchLOC [nobr]
+
+<center>[img[IMG-ResearchLoc]]</center><br>
+@@.head3;Y@@ou see a truck going away from the rear entrance of one of the facilities.
+
+
+:: ResidentialMedicalResearchNeko [nobr]
+
+
+<p>
+<<f y>>ou enter the Nekomatics Cumming-Soon store to see what sort of products are available that are still in development. The "store" is little more than a small office with a few waiting chairs and some Nekomatics branding on the walls. There aren't actually any products on display, but given the nature of the business, that doesn't seem odd.
+</p>
+<p>
+A woman wearing a lab coat enters the room from a door opposite the entrance. You can't help but notice a pair of pointy cat ears poking out from her tawny auburn hair. @@.npc;Sorry for the wait... how can I help you today?@@ She walks over to what you presume is the sales counter. As she does, you catch sight of an auburn-furred tail following behind her.
+</p>
+<p>
+@@.pc;Umm, I was curious what sort of products you had on early release.@@
+</p>
+<p>
+The woman picks up a slate from the counter and turns it on. @@.npc;Right now all we have available are three products from our new line of gene tonics.@@ She makes a few taps and gestures on the screen. @@.npc;Have you purchased any treatments from our Cumming-Soon store before?@@
+</p>
+<p>
+You shake your head. @@.npc;No, this is my first time.@@
+</p>
+<p>
+@@.npc;Okay, that's fine. I'm just obligated to inform you that the treatments on offer have not been officially released yet, and that they haven't been officially confirmed as safe by any regulatory agency. Purchasing a treatment requires signing some paperwork. The major points are that you won't be able to sue Nekomatics should you have problems with the treatments and that you are obligated to report any side effects experienced within 30 days of purchase. If you don't report the side effects, you'll have to pay the remainder of the normal retail price.@@ She takes a breath and pushes the slate towards you. @@.npc;Whew! Now that that's out of the way, here's what we have on offer.@@
+</p>
+<center>
+<<button "Cat-A Tonic">><<addtime 30>><<run aw.cash(-150, "medical")>><<run setup.omni.new("catTrans")>><<run Dialog.close()>><</button>> @@.money;₢150@@<br>
+<<button "PUPS Tonic">><<addtime 30>><<run aw.cash(-150, "medical")>><<run setup.omni.new("dogTrans")>><<run Dialog.close()>><</button>> @@.money;₢150@@<br>
+<<button "Fox-E Tonic">><<addtime 30>><<run aw.cash(-150, "medical")>><<run setup.omni.new("foxTrans")>><<run Dialog.close()>><</button>> @@.money;₢150@@
+</center>
+

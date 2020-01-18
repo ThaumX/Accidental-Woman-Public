@@ -1,0 +1,199 @@
+:: ResidentialMedicalOutpatient [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmedical]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<div id="storeWindow">
+[img[IMG-DollmakerSurgery]]
+[img[IMG-IrresistableMedical]]
+[img[IMG-ProliferantHealthCenter]]
+[img[IMG-SurrogacyCenter]]
+</div>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou stand in outpatient part of the medical district. Here people usually get some minor treatments such as curing of light injuries. You see some patients awaiting their appointment.
+</p>
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact" style="width: 950px; text-align: left;"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+<<openhours 9 18>>
+    <<button "Dollmaker Clinic">><<gotomap "residential" "medical" "dollmaker">><</button>>
+  <<closed "Dollmaker Clinic">>
+<</openhours>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+<<openhours 9 18>>
+    <<button "Irresistible Clinic">><<gotomap "residential" "medical" "irresistible">><</button>>
+  <<closed "Irresistible Clinic">>
+<</openhours>>
+<<endhoverrevise>>
+<<hoverrevise delta>>
+<<openhours 9 18>>
+    <<button "Proliferant Clinic">><<gotomap "residential" "medical" "proliferant">><</button>>
+  <<closed "Proliferant Clinic">>
+<</openhours>>
+<<endhoverrevise>>
+<<hoverrevise gamma>>
+<<openhours 9 18>>
+  <<button "Surrogacy Center">><<addtime 30>><<dialog "Appletree Surrogacy Center">><<include [[ResidentialMedicalSurrogate]]>><</dialog>><</button>>
+  <<closed "Surrogacy Center">>
+<</openhours>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Visit the Dollmaker Cosmetic Surgery Center. Open 9 to 18<<endinsertion>>
+<<insertion beta>>Visit the Irresistible Transformative Clinic. Open 9 to 18<<endinsertion>>
+<<insertion delta>>Visit the Proliferant Health Center Gene Therapy Clinic. Open 9 to 18<<endinsertion>>
+<<insertion gamma>>Visit the Appletree Surrogacy Center Open. 9 to 18<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: ResidentialMedicalOutpatientLOC [nobr]
+
+<center>[img[IMG-outpatientGirlLoc]]</center><p>
+@@.head3;Y@@ou can hear a part of dialogue between the nurse and a young woman.
+</p>
+<p>
+@@.npc;Oh, mrs. Wilkins, you came to us again?@@
+</p>
+<p>
+@@.npc;Oh, I know, I know, I just can't help myself! The base is too narrow and it slips inside! And I can't get it out after I, you know...@@
+</p>
+<p>
+@@.npc;Oh. You REALLY should consider buying some conventional toys. This be third time this year! Sigh. All right, let's go, Dr. Hanson will remove it in no time. He knows the drill for sure already, giggle.@@
+</p>
+
+
+
+
+:: ResidentialMedicalSurrogate [nobr]
+
+
+<<set ↂ.flag.surrogateSignUp = true>>
+<p>
+<<f y>>ou walk into the nicely-appointed Appletree Surrogacy Center, and are immediately greeted by an employee. @@.npd;Hello, how can I help you today?@@
+</p>
+<p>
+You're a bit caught off guard. @@.pc;Umm... I wanted to see about becoming a surrogate?@@
+</p>
+<p>
+The cheerful expression disappears from the woman's face. @@.npd;Oh. Okay, right through here.@@ She walks a couple steps and opens a door leading to a different waiting room.
+</p>
+<p>
+With a quick @@.pc;thanks@@ you step into the separate waiting room.
+</p>
+<center>[img[IMG-BestySurrogacy]]</center>
+<p>
+An extremely bored-looking nurse calls to you from behind the reception desk. @@.npc;Okay, come on over here.@@
+</p>
+<p>
+You walk up to the desk. @@.pc;Hi, I'm here to see abou--@@
+</p>
+<p>
+@@.npc;Yeah, yeah, I know.@@ The nurse interrupts you. @@.npc;ID please so we can get this over with.@@
+</p>
+<p>
+You hand over the ID, which the nurse proceeds to scan. The nurse seems to be filling out the forms, interrupted only by the occasional request for confirmation. Finally, the nurse looks up from her screen at you. @@.npc;So, do you want to use your own egg, or are you willing to go with in-vitro?@@
+</p>
+<p>
+You don't quite understand. @@.pc;What do you mean, my own egg?@@
+</p>
+<p>
+The nurse sighs. @@.npc;Look, using your own egg means that you ovulate, you get inseminated, and your genes and the client's mix to make a baby. While the kid won't be yours legally, it'll still carry half your genes. It's also a pretty easy procedure to get fertilized.@@ She takes a breath before continuing in a bored monotone. @@.npc;Alternatively, you can go the in-vitro route, where one or more already-fertilized zygotes are squirted into your womb. The procedure is less comfortable, and you won't be genetically related to the child. I also have to inform you that there's a risk of large pregnancies, and a greater risk of miscarriage because your DNA is different from the baby. And of course, a miscarriage means no money for your... services.@@
+</p>
+<p>
+@@.pc;Oh...@@ You think about it for a moment. @@.pc;Let's stick with using my own egg then.@@
+</p>
+<p>
+@@.npc;Okay then.@@ The nurse taps some keys on the keyboard in front of her. @@.npc;Are you up for doing full service, or just artificial insemination?@@
+</p>
+<p>
+You give the nurse another confused look. @@.pc;Full service?@@
+</p>
+<p>
+The nurse gives you an exasperated look and leans back in her chair. @@.npc;Are you willing to make the baby the natural way, that is, letting a client fuck it into you, or do you want him to jizz in a cup so we can squirt it into you?@@ She shrugs. @@.npc;It's up to you, but full service pays better. Some clients are really particular about being part of the process, you know, bullshit with the whole 'paternity fraud epidemic'.@@
+</p>
+<p>
+You raise your eyebrows. @@.pc;It's bullshit? I thought that was a real thing.@@
+</p>
+<p>
+The nurse laughs. @@.npc;Oh, it's real all right. It's downright ridiculous, even. Some men have been wising up though. The bullshit part is the customers thinking that fucking you directly is gonna somehow make sure the kid's actually theirs. I mean, who's to say you don't go to a club right after your session and let every cock in the joint run a train on you?@@
+</p>
+<p>
+You nod. @@.pc;I see... Well, I guess I'd be okay with either then...@@
+</p>
+<p>
+A few more taps of the keyboard. @@.npc;Good choice. Are you down for keeping the kid?@@
+</p>
+<p>
+You don't even pretend to understand. @@.pc;What?@@
+</p>
+<p>
+@@.npc;A lot of our customers are turned on by the idea of knocking a girl up, or spreading their oats or whatever. They pay to make sure you're fertile and that you'll keep the baby... and we transfer a portion of that to you after birth. But you'll be the parent, they don't want anything to do with raising it.@@ She shrugs. @@.npc;If you ask me, it's just a weird type of prostitution. But hey, if you happen to want a kid anyway, and don't care who the father is, you might as well make a little extra money in the process, right?@@ She gives you a conspiratorial smile. @@.npc;Besides, most of these guys are loaded, so their genes can't be any worse than grabbing a guy off the street to knock you up like those Fert Corps freaks do, right?@@
+</p>
+<p>
+@@.pc;I don't know about keeping it...@@ You pause, thinking about it.
+</p>
+<p>
+The nurse shrugs. @@.npc;The government will probably keep custody of it anyways to put in the creche. I'm going to put you down as a yes, and if an appointment opens up for it, you can always turn it down, okay?@@
+</p>
+<p>
+@@.pc;Okay...@@ You haven't really had time to think it through. @@.mono;Well, I can always just turn down those appointments if I decide I don't want to.@@
+</p>
+<p>
+With a few more taps and a loud press of the Enter key, the nurse looks back up at you. @@.npc;You're all set. Unfortunately the supply of wombs seems to be a lot bigger than the supply of people who need to pay to use them... so it might be a while before you get a turn. We'll contact you if an appointment becomes available.@@
+</p>
+<p>
+You nod and smile. @@.pc;Okay, thanks.@@
+</p>
+<center>@@.import;[Appointments not yet implemented]@@</center><br><br>
+

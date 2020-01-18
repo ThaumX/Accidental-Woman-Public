@@ -187,16 +187,19 @@ setup.hair = {
     if (res) {
       setup.statusLoad();
       ↂ.pc.groom.hairStyle = hairstyle;
+      State.active.variables.AW.pcPortrait = setup.porn.femaleNPC(ↂ.pc, true);
       setup.statusSave();
       setup.time.add(aw.hair[hairstyle].time);
       msg = `You take <span class="monospace white">${aw.hair[hairstyle].time}</span> minutes to style your hair so it ${setup.hair.prop("sDesc")}. ${tex}`; // example, 2 ways to do same thing.
     } else {
       setup.statusLoad();
       ↂ.pc.groom.hairStyle = "fail";
+      State.active.variables.AW.pcPortrait = setup.porn.femaleNPC(ↂ.pc, true);
       setup.statusSave();
       setup.time.add(Math.round(aw.hair[hairstyle].time * 1.5));
       msg = `You take <span class="monospace white">${Math.round(aw.hair[hairstyle].time * 1.5)}</span> minutes to style your hair into a ${aw.hair[hairstyle].name}, <span class="bad">but you fail and leave your hair a mess.</span> ${tex}`;
     }
+    State.active.variables.AW.pcPortrait = setup.porn.femaleNPC(ↂ.pc, true);
     return msg;
   },
   // weakens/musses hair

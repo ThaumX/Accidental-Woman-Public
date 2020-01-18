@@ -109,6 +109,9 @@ class Anus {
     const es = this.efSize;
     const curStretch = this.stretch;
     const maxStretch = this.maxStretch;
+    if (ↂ.pc.body.asshole.virgin === true) {
+      ↂ.pc.body.asshole.virgin = false;
+    }
     aw.con.info(`New Anus.insert() - inSize: ${inSize}, curStretch: ${curStretch}, maxStretch: ${maxStretch}.`);
     if (inSize < (es - curStretch) - 2 && inSize < this.tight) {
       return "loose"; // fits very easily, will be up to kegals separately.
@@ -233,8 +236,8 @@ class Anus {
     if (setup.omni.matching("Sore Anus") > 0) {
       return; // stop from duplicating. TODO consider adding code to extend soreness or worsen effect.
     }
-    setup.status.happy(-1);
-    setup.status.stress(random(5, 15));
+    setup.status.happy(-1, "Pain from anal abuse");
+    setup.status.stress(random(5, 15), "Pain from anal abuse");
     if (ↂ.pc.status.arousal > 0) {
       setup.status.arousal(-2);
     }

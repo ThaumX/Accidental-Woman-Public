@@ -1,0 +1,127 @@
+
+:: MapFarmCoopDairy [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPcoop]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou're inside the large Farm Coop's large dairy barn, though the location where you're standing resembles a small open-floorplan combination office and medical facility, rather than an actual barn or dairy. A large set of swinging double doors on one side likely leads to the dairy equipment, and probably some rooms where they actually milk the cows. Large signs with bold red text make it obvious that you aren't supposed to go that way.</p>
+<p>
+<<if ↂ.flag.farm.member>>
+
+<<else>>
+If you were a registered freelance hucow, you could probably get some limited medical services here related to milk production.
+<</if>>
+</p>
+
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<if ↂ.flag.farm.member>>
+<<hoverrevise browse>>
+  <<button "Browse Treatments">><<addTime 5>><<dialog "Available Treatments">><center>[img[IMG-LactaMaxAnimation]]<h3>LactaMax</h3></center><p>The primary effect of LactiMax is to increase breast size and thereby maximum potential milk production. Potential side effects include: increased breast glandular tissue, increased milk production capability, increased fertility factors, reduced gestation duration, induced lactation or increased lactation training, and pelvic growth. Read product packaging for more details.</p><center>[img[IMG-MammarexAd]]<h3>Mammarex</h3></center><p>Mammarex is a unique drug for breast growth. The formula essentially tricks all breast tissue into growing, as if experiencing a growth-spurt during puberty. The amount of growth experienced by users is largely proportional to breast size before taking the medication; the more tissue available to grow, the more growth is possible. It's also been noted to have increased efficacy with subsequent doses. Because it doesn't affect lactation beyond simple breast size and has very minimal side effects, it was originally intended for cosmetic purposes. It never became popular in the cosmetic market, however, because women with small breasts see comparatively little benefit. Though not originally intended for hucows, its effectiveness at breast growth--particularly for already-large udders and with multiple doses--makes it very useful in a dairy setting. The main side effect is a small increase in lactation training. There is also a small--though increasing with use--chance of increased nipple pleasure response, though this is commonly considered a positive effect. There have been rumors, though unsubstantiated, that mammarex can cause some mental degradation with heavy use.</p><center>[img[IMG-BovinexAd]]<h3>Bovinex</h3></center><p>Bovinex is a gene therapy intended for prospective hucows. Its primary function is to increase breast tissue (adipose, connective, and glandular) and enhance the body's ability to lactate. Breast size typically increases by 1,500cc per breast. The final level of lactation ability is greater for users already possessing a high level of lactation ability. Users with lower natural lactation ability will see a more dramatic change, but the final result will be less. Common side effects include: growth of bovine ears and tail, enlargement of the nipple, increased sexual behavior, and increased libido. Other possible side effects include increased lactation training, clitoral enlargement, and increased fertility (primarily only in women with lower fertility).</p><center>[img[IMG-TeatEnhancementAd]]<h3>Teat Enhancement</h3></center><p>The teat enhancement treatment is fairly common in the hucow industry, and several variations of the treatment exist. The primary purpose of this treatment is to enhance the size of the nipples, in order to facilitate faster and easier milking. Patients will typically see their nipples become wider and longer. The changes are more dramatic for those with inverted or narrow nipples. Most patients also see the areola become more puffy, a side effect that is also beneficial for milking. Some patients also report an increase in areola diameter, though this is more likely in users with smaller areola.</p><center><h3>Lactation Training</h3></center><p>Rather than an actual medical treatment, lactation training is the natural process the body uses to increase milk production to accommodate multiple births or the natural increase in consumption by a baby as it grows. It is possible to train the breasts to produce more milk by thoroughly milking them, stimulating an increase in production. While this is possible at home with off-the-shelf pumps, stronger equipment is typically required to reach a woman's peak production level. This service provides one 45 minute training session that is guaranteed to increase your level of lactation training. Learn more about <<info "Lactation" "guideLactation">>.</p><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise lactamax>>
+  <<button "Buy LactaMax">><<addTime 10>><<addconsumable "LactaMax" 1>><<run aw.cash(-420, "medical")>><<run UI.alert("You successfully purchase a dose of LactaMax!")>><</button>>
+<<endhoverrevise>>
+<<hoverrevise mammarex>>
+  <<button "Buy Mammarex">><<addTime 10>><<addconsumable "Mammarex" 1>><<run aw.cash(-149, "medical")>><<run UI.alert("You successfully purchase a dose of LactaMax!")>><</button>>
+<<endhoverrevise>>
+<<if ↂ.flag.drug.bovinex>>
+<<hoverrevise nobovinex>>
+<span class="disabled"><<button "Bovinex Treatment">><</button>></span>
+<<endhoverrevise>>
+<<else>>
+<<hoverrevise bovinex>>
+  <<button "Bovinex Treatment">><<addtime 28>><<run aw.cash(-699, "medical")>><<set ↂ.flag.drug.bovinex = true>><<run setup.omni.new("bovinex")>><<dialog "Bovinex Injection">><center>[img[IMG-AssInjection]]</center><p>It takes a little time to get things ready, but soon you find yourself naked except for a medical gown short enough to be a shirt. This wouldn't bother you, except that there aren't any private exam rooms or anything like that. The nurse had you lay face-down on an exam table with your legs spread wide enough apart to make your pussy easily visible to anyone who wants to take a look. Something that nearly all of the passing staff and hucows seem to do, many even approaching the foot of the table to get a good look.</p><p>After what felt like ages but was actually only a few minutes, the nurse returns with the syringe of Bovinex. After a quick wipe with an alcohol swab, you feel a light prick as she injects you. After dumping the syringe in a sharps bin, she gives you a kind pat on the ass to let you know the procedure is over.</p><p>At least <i>this</i> time, the people in the office area aren't so obvious about staring at you while you take off the medical gown and put your normal clothes back on.</p><</dialog>><</button>>
+<<endhoverrevise>>
+<</if>>
+<<if ↂ.flag.drug.teatEnhance>>
+<<hoverrevise nonipgrow>>
+<span class="disabled"><<button "Teat Enhancement">><</button>></span>
+<<endhoverrevise>>
+<<else>>
+<<hoverrevise nipgrow>>
+  <<button "Teat Enhancement">><<addTime 20>><<run aw.cash(-235, "medical")>><<run setup.omni.new("teatEnhance")>><<set ↂ.flag.drug.teatEnhance = true>><<dialog "Teat Enhancement">><center>[img[IMG-BreastInjection]]</center><p>The nurse leads you to an exam table. <<if setup.clothes.exposed.top>>@@.npc;Your udders are pretty much already exposed, but I'm have to tell you anyway to take all your clothes off above the waist. I'm going to go get the treatment.@@<<else>>@@.npc;Please take all your clothes off above the waist while I go to get your treatment.@@<</if>></p><p>You do as your told, and end up standing on one side of the open-floorplan office area with your tits out. While you wait several staff members and some hucows stare at your breasts appraisingly as they pass; some even approach for a hands-on inspection of your dairy equipment. <<if ↂ.pc.body.tits.silicone > 0>>Most of the people examining your breasts seem disappointed when they realize that you have implants.<</if>></p><p>The nurse returns to see a young bull attempting to maintain a professional expression while hefting your breasts, though his raging--and massive--erection makes it pretty obvious that his interest is anything but professional. @@.npc;Sorry miss, I forgot to tell you; you can cover yourself with that towel there. Go ahead and lay back on the table for me.@@</p><p>You grab the towel and cover your breasts as the nurse starts getting things out of the cabinet. Laying back, you suddenly realize that the bull is still standing there next to you, and your new position places his engorged member is dangerously close to your mouth. Before anything can happen, however, the nurse notices the lingering bull and shoes him away with a swat to his butt. With a couple affectionate squeezes of your groin with his hand, he departs.</p><p>The nurse quickly swabs the top of your breasts with alcohol before injecting half of the contents of the syringe into each breast. After placing two tiny band-aids, she pats you on the arm. @@.npc;We're all done, you can get dressed and leave when you're ready.@@ With that she heads over to take a look at a troubled hucow complaining of a overly-swollen clit.</p><</dialog>><</button>>
+<<endhoverrevise>>
+<</if>>
+<<hoverrevise milktrain>>
+  <<button "Lactation Training">><<addtime 45>><<run aw.cash(-60, "medical")>><<set ↂ.pc.status.milk += 1>><<status 0>><<dialog "Lactation Training">><center>[img[IMG-BreastPumpTreatment]]</center><p>When you tell the staff member that you're looking for some lactation training to get your breasts up closer to full production, you're told to sit back down in the waiting area. Rather than a nurse, it seems you'll be taken care of by a dairy hand. It isn't long before a hucow girl enters through the large double doors dragging a wheeled milking machine behind her.</p><p>She wheels the pump in front of you before sitting down beside you. @@.npc;You're here for the lactation training, right?@@</p><p>@@.pc;That's right.@@</p><p>She starts setting up the machine for pumping, giving your closest udder a heft before pinching your nipple thoughtfully. She notices your worried expression. @@.npc;Don't worry about this little guy right here, he's gentle.@@ She gives the milker an affectionate pat. @@.npc;Lactation training is pretty easy, we just set the pump to try an pump out more than you're actually capable of supplying, and then spend a little time sucking on empty teats. Your body takes the hint, and increases its level of milk production.@@</p><p>You nod as she starts the pump up and attaches a cup to each nipple. The sucking sensation is noticeable, but feels rather weak. @@.pc;Is that it? It feels pretty weak...@@</p><p>She grins at you before grabbing onto an adjustment dial with one hand and leaning forward to look at your nipple carefully. @@.npc;Don't worry girl, it'll pick right up. I've just gotta turn up the intensity while I watch your emission. Once I see it's trying to suck more than you can give, we leave it at that setting for the rest of the session. If we went too hard too fast, it might end up hurting you, so it's better to start slow.@@ The suction continues to grow as she talks, and pretty soon you feel yourself starting to get damp between the legs from the tugging on your nipples.</p><p>The hucow dairy hand stands up. @@.npc;You're all set. Unfortunately one of these sessions will only get you maybe ten percent towards your full natural production, but with enough sessions we can get you all the way.@@ She looks around to see if anyone is listening in. @@.npc;A'course, you can train your udders yourself with a pump. The stronger the better if you want to reach maximum milk production, but even a normal pump should be able to get you half way there with enough time. Just don't let the milk build up too-too much, or go too long without milking, or your training will decrease naturally.@@ She gives you a kind smile. @@.npc;Okay, just leave that pump on there for 30 minutes and then you can go. I'll come back around later to collect it.@@</p><</dialog>><</button>>
+<<endhoverrevise>>
+<<else>>
+  <<hoverrevise member>>
+    <span class="disabled"><<button "Browse Treatments">><</button>></span>
+    <span class="disabled"><<button "Buy LactaMax">><</button>></span>
+    <span class="disabled"><<button "Buy Mammarex">><</button>></span>
+    <span class="disabled"><<button "Bovinex Treatment">><</button>></span>
+    <span class="disabled"><<button "Teat Enhancement">><</button>></span>
+    <span class="disabled"><<button "Lactation Training">><</button>></span>
+  <<endhoverrevise>>
+<</if>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion lactamax>>Purchase a Lactamax Autoinjector for <span class="mon">₢420</span> <<ctn>>[10 min]<</ctn>><<endinsertion>>
+<<insertion mammarex>>Purchase a Mammarex Autoinjector for <span class="mon">₢149</span> <<ctn>>[10 min]<</ctn>><<endinsertion>>
+<<insertion bovinex>>Get injected with the Bovinex gene therapy. <span class="mon">₢699</span><<endinsertion>>
+<<insertion member>>You must be a member of the farm Co-op to purchase this.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+<<insertion browse>>Check out the different medical treatments available for members, to get a better idea of what is possible and what the potential side effects are.<<endinsertion>>
+<<insertion nipgrow>>Get a Teat Enhancement treatment performed for <span class="mon">₢235</span><<endinsertion>>
+<<insertion milktrain>>Ask for a lactation training session for <span class="mon">₢60</span><<endinsertion>>
+<<insertion nobovinex>>You have already taken this treatment. It won't be safe to take this treatment again for another 2 to 3 years.<<endinsertion>>
+<<insertion nonipgrow>>You've already had the teat enhancement treatment, and can not take it again safely.<<endinsertion>>
+</div>
+
+
+:: MapFarmCoopDairyLOC [nobr]
+
+<center>
+[img[IMG-FarmCoopLocImg-Dairy]]<br><br>
+You peek through an open door in one of the long hallways. It seems something interesting is going on. @@.mono;That looks fun!@@
+</center>

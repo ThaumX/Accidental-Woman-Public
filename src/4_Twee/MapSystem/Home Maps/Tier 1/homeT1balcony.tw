@@ -1,0 +1,80 @@
+:: homeT1balcony [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPhomeT1]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+<<homeItemDisp>>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+/*LOCATION description of  location*/
+<<print setup.homeItems.placeDescription("pcHome", "balcony")>>
+<<silly>>For some reason, cat litter and animal droppings from your neighbors manages to wind up here.<</silly>>
+/*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+
+<<hoverrevise flash>>
+	<<button "Flash Your Breasts">>
+    <<arousal 1>><<addTime 3>>
+    <<dialog "Flashing">>@@.head3;Y@@ou lean against the railing and grab your <<if ↂ.pc.clothes.keys.top == 0 && ↂ.pc.clothes.keys.bra == 0>>already-exposed breasts<<elseif ↂ.pc.clothes.keys.top == 0>><<print aw.slot.bra.style>><<elseif ↂ.pc.clothes.keys.bra == 0>><<print aw.slot.top.style>><<else>><<print aw.slot.top.style>> and <<print aw.slot.bra.style>><</if>> with both hands, pulling upward and exposing your <<pcBoobSize>> breasts to the world. It's exhilarating, but there really wasn't anyone around to see you. Maybe when there's more people around...<</dialog>>
+  <</button>>
+<<endhoverrevise>>
+<<homeItemButtons>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion flash>>Expose yourself for a quick thrill.<<endinsertion>>
+<<homeItemInfo>>
+</div>
+<<timed 50ms>>
+<<mapHomeEventAction>>
+<<mapHomeActions>>
+<</timed>>
+
+
+:: homeT1balconyLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+
+
+

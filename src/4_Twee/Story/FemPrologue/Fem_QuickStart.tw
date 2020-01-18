@@ -1,0 +1,20 @@
+
+:: femaleQuickStarter [nobr hidden]
+
+<center>
+<h2>Female Quick Start</h2>
+<<if not ↂ.flag.prologuePassedScience>>
+<span id="clicky"><<button "Pass Evaluation">><<set ↂ.flag.prologuePassedScience = true>><<replace "#clicky">>Clicked!<</replace>><</button>></span> Click this button to pass the Special Science Evaluation.
+<<else>>
+You have already passed the Special Science Evaluation
+<</if>>
+<br><br>
+<<if ↂ.flag.jobQuiz.result === "none">>
+  <<button "TAKE THE JOB EXAM">><<go "JOBquiz">><</button>>
+<<else>>
+  <span class="head3">Test Results:</span> <span class="monospace"><<print ↂ.flag.jobQuiz.result>> (#<<print ↂ.flag.jobQuiz.number>>)</span><br><br>
+  <<button "CONTINUE">><<go characterCreate>><</button>>
+<</if>>
+
+</center>
+

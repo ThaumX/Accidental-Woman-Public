@@ -1,0 +1,420 @@
+:: MedicalGestique [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmedical]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p></p>
+<div id="storeWindow">
+[img[IMG-GestiqueFertility]]
+</div>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou're standing in the waiting room of Dr. Weiner's general practice clinic. There are a couple of people sitting in the chairs, waiting for their chance to see the doctor.
+</p>
+
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact" style="width: 950px; text-align: left;"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<if ↂ.pc.status.pregnant>>
+  <<hoverrevise alphaa>>
+    <<button "Fetal Sauna">><<dialog "Fetal Health Sauna">><<include [[MedicalGestSauna]]>><</dialog>><</button>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise alphab>>
+    <button class="disabled">Fetal Sauna</button>
+  <<endhoverrevise>>
+<</if>>
+<<hoverrevise beta>>
+  <<button "Elasticising">><<addtime 5>><<go "MedicalGestElast">><</button>>
+<<endhoverrevise>>
+<<if ↂ.pc.status.pregnant>>
+  <<hoverrevise deltaa>>
+    <<button "Acceleration">><<addtime 5>><<go "MedicalGestAccel">><</button>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise deltab>>
+    <button class="disabled">Acceleration</button>
+  <<endhoverrevise>>
+<</if>>
+<<hoverrevise gamma>>
+  <<button "Fertility Boost">><<addtime 5>><<go "MedicalGestBoost">><</button>>
+<<endhoverrevise>>
+<<hoverrevise omega>>
+  <<button "Specialty">><<addtime 5>><<go "MedicalGestSpecial">><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alphaa>>Spend time relaxing in the fetal health sauna, guaranteed to improve the health of your unborn child/ren. <<ctn>>[45 min | ₢80]<</ctn>><<endinsertion>>
+<<insertion alphab>>You must be pregnant to take advantage of the fetal health sauna.<<endinsertion>>
+<<insertion beta>>View the range of treatments designed to help your body rebound after pregnancy and/or carry larger numbers of children more successfully.<<endinsertion>>
+<<insertion deltaa>>View the range of pregnancy acceleration treatments that are available.<<endinsertion>>
+<<insertion deltab>>You must be pregnant to be eligible for pregnancy acceleration.<<endinsertion>>
+<<insertion gamma>>View the range of temporary and permanent fertility enhancements that are available.<<endinsertion>>
+<<insertion omega>>View the list of specialty treatments available for unique effects.<<endinsertion>>
+</div>
+
+
+:: MedicalGestiqueLOC [nobr]
+
+<<ctn>>No Content Here Yet, Sorry<</ctn>>
+
+
+:: MedicalGestSauna [nobr]
+
+<<silently>>
+<<addtime 45>>
+<<run aw.cash(-80, "medical")>>
+<<run setup.fert.fetusHealth()>>
+<<status 0>>
+<<stress -5 "Fetal Health Sauna">>
+<</silently>>
+<p>
+<<f Y>>ou're quickly led to a changing room by one of the staff. The room has a nice shower with some fluffy-looking towels set aside, as well as several baskets where you can leave your clothes. @@.npc;You can go ahead and get naked, leave your things in an empty basket. The steam in the sauna steam is medicated, so take a timer in the sauna with you. You'll want to spend 30 minutes in there to get the full effect. After you're done, feel free to use the shower to cool off and get clean.@@ After giving you those brief instructions, she leaves you alone.
+</p>
+<p>
+You quickly strip and walk over to the sauna which is just around the corner. Outside there's a shelf with several egg timers in different colors, along with a sign that reminds you to get out after 30 minutes. opening the door into the steamy room, you see that you won't be spending the entire time alone.
+</p>
+<center>[img[IMG-PregnantSauna]]</center>
+<p>
+You enjoy your relaxing time in the sauna, chatting with the other pregnant women that are using the sauna. Eventually your light-yellow egg timer rings, letting you know your time is up. You reluctantly leave and go to rinse off in the shower. While you can't point to anything specific, you do get the impression that you're a little more healthy than you were before you entered.
+</p>
+
+
+:: MedicalGestElast [nobr]
+
+<<silently>>
+<<if ↂ.flag.preg.elastic == null>>
+  <<set ↂ.flag.preg.elastic = [false, false, false]>>
+<</if>>
+<</silently>>
+<div class="background1" style="width:95%;padding:15px;">
+<<button "EXIT">><<go "MedicalGestique">><</button>> <<button "Full-Size Ads">><<dialog "Elasticising Treatments">><center>[img[IMG-MaintanexAd]]<br>[img[IMG-ElasterolAd]]<br>[img[IMG-UterigrowAd]]</center><</dialog>><</button>>
+  <div style="border: 2px solid #ccc;border-radius:8px;margin:10px 0px;padding:15px;width:85%;height:300px;">
+  <img data-passage="IMG-MaintanexAd" style="float:left;border-radius:8px;margin:0px 25px 0px 0px;height:300px;width:auto;">
+  <h2>Maintanex @@.money;₢300@@</h2>
+  Maintanex is a medication primarily targeted at helping women's bodies return to normal after pregnancy. A side benefit of this effect is the ability to support larger multiple pregnancies.
+  <br>
+  <<if not ↂ.flag.preg.elastic[0]>>
+    <<button "Order Treatment">>
+      <<addtime 30>>
+      <<run aw.cash(-300, "medical")>>
+      <<set ↂ.flag.preg.elastic[0] = true>>
+      <<set ↂ.pc.fert.elastic += 1>>
+      <<status 0>>
+      <<dialog "Treated with Maintanex">><center>[img[IMG-NudeAssInjection]]<br>You successfully get treated with Maintanex.</center><</dialog>>
+      <<go "MedicalGestique">>
+    <</button>>
+  <<else>>
+    You have already received this treatment.
+  <</if>>
+  </div>
+  <div style="border: 2px solid #ccc;border-radius:8px;margin:10px 0px;padding:15px;width:85%;height:300px;">
+  <img data-passage="IMG-ElasterolAd" style="float:left;border-radius:8px;margin:0px 25px 0px 0px;height:300px;width:auto;">
+  <h2>Elasterol @@.money;₢400@@</h2>
+  Elasterol is an elasticizing medication that increases the natural elasticity of the uterus and certain other tissues such as dermis and subcutaneous tissues. It was initially designed as an emergency measure for women having fertility treatment that accidentally resulted in large multiple pregnancies. Now it is approved for use in women who intend to have large multiple pregnancies.
+  <br>
+  <<if not ↂ.flag.preg.elastic[1] && ↂ.flag.preg.elastic[0]>>
+    <<button "Order Treatment">>
+      <<addtime 30>>
+      <<run aw.cash(-400, "medical")>>
+      <<set ↂ.flag.preg.elastic[1] = true>>
+      <<set ↂ.pc.fert.elastic += 1>>
+      <<status 0>>
+      <<dialog "Treated with Elasterol">><center>[img[IMG-NudeAssInjection]]<br>You successfully get treated with Elasterol.</center><</dialog>>
+      <<go "MedicalGestique">>
+    <</button>>
+  <<elseif not ↂ.flag.preg.elastic[1]>>
+  @@.import;The Gestique staff are unwilling to give you this treatment before you've had the Maintanex treatment.@@
+  <<else>>
+    You have already received this treatment.
+  <</if>>
+  </div>
+  <div style="border: 2px solid #ccc;border-radius:8px;margin:10px 0px;padding:15px;width:85%;height:300px;">
+  <img data-passage="IMG-UterigrowAd" style="float:left;border-radius:8px;margin:0px 25px 0px 0px;height:300px;width:auto;">
+  <h2>Uterigrow @@.money;₢500@@</h2>
+  Uterigrow is an advanced gene therapy that alters a couple key genes linked to the structure of the uterus. In generalized terms, it allows the uterus to grow more rapidly. This in turn reduces the stretching of the uterus during pregnancy, improving its structural integrity dramatically. Using this medication without an elasticizing treatment can result in the uterus remaining overly-large after pregnancy.
+  <br>
+  <<if not ↂ.flag.preg.elastic[2] && ↂ.flag.preg.elastic[1]>>
+    <<button "Order Treatment">>
+      <<addtime 30>>
+      <<run aw.cash(-500, "medical")>>
+      <<set ↂ.flag.preg.elastic[2] = true>>
+      <<set ↂ.pc.fert.elastic += 1>>
+      <<status 0>>
+      <<dialog "Treated with Uterigrow">><center>[img[IMG-NudeAssInjection]]<br>You successfully get treated with Uterigrow.</center><</dialog>>
+      <<go "MedicalGestique">>
+    <</button>>
+  <<elseif not ↂ.flag.preg.elastic[2]>>
+  @@.import;The clinic is unwilling to give you this treatment without first receiving an elasticizing treatment.@@
+  <<else>>
+    You have already received this treatment.
+  <</if>>
+  </div>
+</div>
+
+
+:: MedicalGestAccel [nobr]
+
+<<silently>>
+<<if ↂ.flag.preg.boostA == null>>
+  <<set ↂ.flag.preg.boostA = [false, false, false]>>
+  <<set ↂ.flag.preg.boostB = [false, false, false]>>
+<</if>>
+<</silently>>
+<div class="background1" style="width:95%;padding:15px;">
+<<button "EXIT">><<go "MedicalGestique">><</button>> <<button "Full-Size Ads">><<dialog "Elasticising Treatments">><center>[img[IMG-SpeedgestaAd]]<br>[img[IMG-ShortermerolAd]]<br>[img[IMG-QuickeningAd]]</center><</dialog>><</button>> <<button "Mutation Note">><<dialog "Mutation Note">>Please note that patients with the XV-3 mutation known to accelerate gestation will not see the same level of gestation speed enhancement from these drugs due to their already very rapid gestation. The estimated gestation reduction effect from these drugs are as follows:<br>''Speedgesta:'' 1/2 week<br>''Shortermerol:'' 1 to 1.5 weeks<br>''Quickening:'' 2 weeks<br><br>Gestation may be reduced to a duration as low as two weeks, though this outcome is unlikely. The most likely result when taken very early in pregnancy is a gestation of nearly three weeks.<</dialog>><</button>>
+  <div style="border: 2px solid #ccc;border-radius:8px;margin:10px 0px;padding:15px;width:85%;height:300px;">
+  <img data-passage="IMG-SpeedgestaAd" style="float:left;border-radius:8px;margin:0px 25px 0px 0px;height:300px;width:auto;">
+  <h2>Speedgesta @@.money;₢150@@</h2>
+  Speedgesta is a gestation acceleration drug that works by removing some of the natural limiters that human evolution has placed on gestation. This allows fetal development to occur more quickly. Speedgesta will reduce gestation by approximately 8 weeks if taken at the beginning of the pregnancy.
+  <br>
+  <<if not ↂ.flag.preg.boostA[0] || not ↂ.flag.preg.boostB[0]>>
+    <<button "Order Treatment">>
+      <<addtime 30>>
+      <<run aw.cash(-150, "medical")>>
+      <<if ↂ.pc.status.wombA.preg && not ↂ.flag.preg.boostA[0]>>
+        <<if ↂ.pc.mutate.gestate>>
+          <<set ↂ.pc.status.wombA.boost += 1>>
+        <<else>>
+          <<set ↂ.pc.status.wombA.boost += 9>>
+        <</if>>
+        <<set ↂ.flag.preg.boostA[0] = true>>
+      <</if>>
+      <<if ↂ.pc.status.wombB.preg && not ↂ.flag.preg.boostB[0]>>
+        <<if ↂ.pc.mutate.gestate>>
+          <<set ↂ.pc.status.wombB.boost += 1>>
+        <<else>>
+          <<set ↂ.pc.status.wombB.boost += 9>>
+        <</if>>
+        <<set ↂ.flag.preg.boostB[0] = true>>
+      <</if>>
+      <<status 0>>
+      <<dialog "Treated with Speedgesta">><center>[img[IMG-NudeAssInjection]]<br>You successfully get treated with Speedgesta.</center><</dialog>>
+      <<go "MedicalGestique">>
+    <</button>>
+  <<else>>
+    Additional treatments will do you no good.
+  <</if>>
+  </div>
+  <div style="border: 2px solid #ccc;border-radius:8px;margin:10px 0px;padding:15px;width:85%;height:300px;">
+  <img data-passage="IMG-ShortermerolAd" style="float:left;border-radius:8px;margin:0px 25px 0px 0px;height:300px;width:auto;">
+  <h2>Shortermerol @@.money;₢200@@</h2>
+  Shortermerol is a gestation acceleration drug that works primarily by increasing the blood supply to the uterus and therefore the placenta. It significantly increases the efficiency of oxygen, nutrient, and waste transfer with the fetus, allowing for faster growth. Shortermerol will reduce gestation by approximately 10 weeks if taken at the beginning of the pregnancy.
+  <br>
+  <<if not ↂ.flag.preg.boostA[1] || not ↂ.flag.preg.boostB[1]>>
+    <<button "Order Treatment">>
+      <<addtime 30>>
+      <<run aw.cash(-200, "medical")>>
+      <<if ↂ.pc.status.wombA.preg && not ↂ.flag.preg.boostA[1]>>
+        <<if ↂ.pc.mutate.gestate>>
+          <<set ↂ.pc.status.wombA.boost += 2>>
+        <<else>>
+          <<set ↂ.pc.status.wombA.boost += 11>>
+        <</if>>
+        <<set ↂ.flag.preg.boostA[1] = true>>
+      <</if>>
+      <<if ↂ.pc.status.wombB.preg && not ↂ.flag.preg.boostB[1]>>
+        <<if ↂ.pc.mutate.gestate>>
+          <<set ↂ.pc.status.wombB.boost += 2>>
+        <<else>>
+          <<set ↂ.pc.status.wombB.boost += 11>>
+        <</if>>
+        <<set ↂ.flag.preg.boostB[1] = true>>
+      <</if>
+      <<status 0>>
+      <<dialog "Treated with Shortermerol">><center>[img[IMG-NudeAssInjection]]<br>You successfully get treated with Shortermerol.</center><</dialog>>
+      <<go "MedicalGestique">>
+    <</button>>
+  <<else>>
+    Additional treatments will do you no good.
+  <</if>>
+  </div>
+  <div style="border: 2px solid #ccc;border-radius:8px;margin:10px 0px;padding:15px;width:85%;height:300px;">
+  <img data-passage="IMG-QuickeningAd" style="float:left;border-radius:8px;margin:0px 25px 0px 0px;height:300px;width:auto;">
+  <h2>Progect Quickening @@.money;₢300@@</h2>
+  Project Quickening is a drug offered for limited trial sales and not approved by the FDA. While generally considered safe, its method of action has not been publicly released. It is known that this treatment is considered multi-spectrum, with several mechanisms of action. Quickening is estimated to reduce gestation by approximately 12 weeks if taken at the beginning of the pregnancy.
+  <br>
+  <<if not ↂ.flag.preg.boostA[2] || not ↂ.flag.preg.boostB[2]>>
+    <<button "Order Treatment">>
+      <<addtime 30>>
+      <<run aw.cash(-300, "medical")>>
+      <<if ↂ.pc.status.wombA.preg && not ↂ.flag.preg.boostA[2]>>
+        <<if ↂ.pc.mutate.gestate>>
+          <<set ↂ.pc.status.wombA.boost += 3>>
+        <<else>>
+          <<set ↂ.pc.status.wombA.boost += 13>>
+        <</if>>
+        <<set ↂ.flag.preg.boostA[2] = true>>
+      <</if>>
+      <<if ↂ.pc.status.wombB.preg && not ↂ.flag.preg.boostB[2]>>
+        <<if ↂ.pc.mutate.gestate>>
+          <<set ↂ.pc.status.wombB.boost += 3>>
+        <<else>>
+          <<set ↂ.pc.status.wombB.boost += 13>>
+        <</if>>
+        <<set ↂ.flag.preg.boostB[2] = true>>
+      <</if>
+      <<status 0>>
+      <<dialog "Treated with Quickening">><center>[img[IMG-NudeAssInjection]]<br>You successfully get treated with Quickening.</center><</dialog>>
+      <<go "MedicalGestique">>
+    <</button>>
+  <<else>>
+    Additional treatments will do you no good.
+  <</if>>
+  </div>
+</div>
+
+
+:: MedicalGestSpecial [nobr]
+
+<<silently>>
+<<if ↂ.pc.fert.splitter == null>>
+  <<set ↂ.pc.fert.splitter = false>>
+<</if>>
+<</silently>>
+<div class="background1" style="width:95%;padding:15px;">
+<<button "EXIT">><<go "MedicalGestique">><</button>> <<button "Full-Size Ads">><<dialog "Elasticising Treatments">><center>[img[IMG-SaradberolAd]]</center><</dialog>><</button>>
+  <div style="border: 2px solid #ccc;border-radius:8px;margin:10px 0px;padding:15px;width:85%;height:500px;">
+  <img data-passage="IMG-SaradberolAd" style="float:left;border-radius:8px;margin:0px 25px 0px 0px;height:500px;width:auto;">
+  <h2>Saradberol @@.money;₢325@@</h2>
+  Saradberol is a medication intended to increase the number of eggs released by the ovary as part of the process to collect eggs for in vitro fertilization. This is still the primary purpose of the medication, however it has been gaining traction for a certain off-label use. After entering the market it was later discovered to significantly increase the chance of zygote splitting if administered within a brief window shortly before or after fertilization of a woman's eggs. This has earned the drug the nickname "the Twins Pump" because of the dramatic increase to the likelihood of identical twins, and the unique form of administration (intra-uterine injection). Saradberol increases the chance up to 25% for each healthy zygote to split. @@.import;Caution is advised for those expecting very large multiple pregnancies!@@
+  <br>
+  <<if not ↂ.pc.fert.splitter && (ↂ.pc.status.wombA.zygote.length > 0 || ↂ.pc.status.wombB.zygote.length > 0)>>
+    <<button "Order Treatment">>
+      <<addtime 60>>
+      <<run aw.cash(-325, "medical")>>
+      <<set ↂ.pc.fert.splitter = true>>
+      <<status 0>>
+      <<dialog "Treated with Saradberol">><center>[img[IMG_FecundateSplitter2]]<br>You had Saradberol injected directly into your womb.</center><</dialog>>
+      <<go "MedicalGestique">>
+    <</button>>
+  <<elseif not ↂ.pc.fert.splitter>>
+    The technician advises you that you should wait until immediately after you've ovulated before getting this treatment for the best effects.
+  <<else>>
+    You have already received this treatment.
+  <</if>>
+  </div>
+  <div style="border: 2px solid #ccc;border-radius:8px;margin:10px 0px;padding:15px;width:85%;height:500px;">
+  <h3>Other fun specialty treatments have not-yet been implemented.</h3>
+  </div>
+</div>
+
+
+:: MedicalGestBoost [nobr]
+
+<<silently>>
+<<if ↂ.flag.preg.elastic == null>>
+  <<set ↂ.flag.preg.elastic = [false, false, false]>>
+<</if>>
+<</silently>>
+<div class="background1" style="width:95%;padding:15px;">
+<<button "EXIT">><<go "MedicalGestique">><</button>> <<button "Full-Size Ads">><<dialog "Elasticising Treatments">><center>[img[IMG-OvianaxAd]]<br>[img[IMG-FertilifyAd]]<br>[img[IMG-FertiBloomAd]]<br>[img[IMGFertinexAd]]</center><</dialog>><</button>>
+  <div style="border: 2px solid #ccc;border-radius:8px;margin:10px 0px;padding:15px;width:85%;height:300px;">
+  <img data-passage="IMG-OvianaxAd" style="float:left;border-radius:8px;margin:0px 25px 0px 0px;height:300px;width:auto;">
+  <h2>Ovianax @@.money;₢100@@</h2>
+  Ovianax is a fertility-increasing drug created by Queerist-Russia by combining two weaker generic fertility enhancement medications into a single pill. Because the fertility boosting effects of this medication are temporary, it is recommended that you receive treatment 3 to 5 days before your ovulation is expected to occur.
+  <br>
+  <<if ↂ.pc.fert.boost < 15>>
+    <<button "Order Treatment">>
+      <<addtime 30>>
+      <<run aw.cash(-100, "medical")>>
+      <<set ↂ.pc.fert.boost += 5>>
+      <<status 0>>
+      <<dialog "Treated with Ovianax">><center>[img[IMG_FecundateBoost2]]<br>You successfully get treated with Ovianax.</center><</dialog>>
+      <<go "MedicalGestique">>
+    <</button>>
+  <<else>>
+    The technician informs you that your body is full to the gills of fertility boosters, and that taking more will--at best--do nothing.
+  <</if>>
+  </div>
+  <div style="border: 2px solid #ccc;border-radius:8px;margin:10px 0px;padding:15px;width:85%;height:300px;">
+  <img data-passage="IMG-FertilifyAd" style="float:left;border-radius:8px;margin:0px 25px 0px 0px;height:300px;width:auto;">
+  <h2>Fertilify @@.money;₢170@@</h2>
+  Fertilify is the strongest fertility boosting medication currently available on the market. It works by sending your endocrine system into a temporary state of "overdrive", thereby enhancing the effectiveness of your reproductive tract and general fertility. Because the fertility boosting effects of this medication are temporary, it is recommended that you receive treatment 3 to 5 days before your ovulation is expected to occur.
+  <br>
+  <<if ↂ.pc.fert.boost < 10>>
+    <<button "Order Treatment">>
+      <<addtime 30>>
+      <<run aw.cash(-170, "medical")>>
+      <<set ↂ.pc.fert.boost += 10>>
+      <<status 0>>
+      <<dialog "Treated with Fertilify">><center>[img[IMG_FecundateBoost2]]<br>You successfully get treated with Fertilify.</center><</dialog>>
+      <<go "MedicalGestique">>
+    <</button>>
+  <<else>>
+    The technician informs you that based on your current diagnostics, Fertilify is overkill.
+  <</if>>
+  </div>
+  <div style="border: 2px solid #ccc;border-radius:8px;margin:10px 0px;padding:15px;width:85%;height:300px;">
+    <img data-passage="IMG-FertiBloomAd" style="float:left;border-radius:8px;margin:0px 25px 0px 0px;height:300px;width:auto;">
+  <h2>Ferti-Bloom @@.money;₢425@@</h2>
+  Ferti-Bloom is a set of targeted genetic modifications based on observed developmental changes that result in a large increase in fertility in young women in their late teens and early twenties. By associating certain genes with the strongest changes during this period, Nekomatics was able to create a gene therepy that inserts these genes to increase fertility for most women. @@.note;<i>This treatment may cause an increase in libido in certain women.</i>@@
+  <br>
+  <<if ↂ.pc.fert.fertility < 5>>
+    <<button "Order Treatment">>
+      <<addtime 30>>
+      <<run aw.cash(-425, "medical")>>
+      <<run setup.omni.new("basicFertilityTreat")>>
+      <<if ↂ.pc.fert.fertility < 3>>
+        <<set ↂ.pc.fert.fertility += 2>>
+      <<else>>
+        <<set ↂ.pc.fert.fertility += 1>>
+      <</if>>
+      <<if ↂ.pc.trait.libido < 5>>
+        <<set ↂ.pc.trait.libido += 1>>
+      <</if>>
+      <<run setup.fert.playerStatsCalc()>>
+      <<status 0>>
+      <<dialog "Treated with Ferti-Bloom">><center>[img[IMG_FecundateFertTreat1]]<br>You successfully get treated with Ferti-Bloom.</center><</dialog>>
+      <<go "MedicalGestique">>
+    <</button>>
+  <<else>>
+    The technician informs you that with your current level of fertility, this gene mod won't do anything for you.
+  <</if>>
+  </div>
+  <div style="border: 2px solid #ccc;border-radius:8px;margin:10px 0px;padding:15px;width:85%;height:300px;">
+    <img data-passage="IMGFertinexAd" style="float:left;border-radius:8px;margin:0px 25px 0px 0px;height:300px;width:auto;">
+  <h2>Fertinex @@.money;₢550@@</h2>
+  Fertinex is a targeted gene therapy that alters several key genes known to be associated with higher fertility. It also targets a specific gene affecting the production of gonadotropins, causing an effect similar to certain fertility enhancement medications on a permanent basis. @@.note;<i>This treatment is known to increase libido in most women.</i>@@
+  <br>
+  <<if ↂ.pc.fert.fertility < 6>>
+    <<button "Order Treatment">>
+      <<addtime 30>>
+      <<run aw.cash(-550, "medical")>>
+      <<run setup.omni.new("basicFertilityTreat")>>
+      <<if ↂ.pc.fert.fertility < 4>>
+        <<set ↂ.pc.fert.fertility += 2>>
+      <<else>>
+        <<set ↂ.pc.fert.fertility += 1>>
+      <</if>>
+      <<if ↂ.pc.trait.libido < 5>>
+        <<set ↂ.pc.trait.libido += 2>>
+      <<elseif ↂ.pc.trait.libido < 8>>
+        <<set ↂ.pc.trait.libido += 1>>
+      <</if>>
+      <<run setup.fert.playerStatsCalc()>>
+      <<status 0>>
+      <<dialog "Treated with Fertinex">><center>[img[IMG_FecundateFertTreat1]]<br>You successfully get treated with Fertinex.</center><</dialog>>
+      <<go "MedicalGestique">>
+    <</button>>
+  <<else>>
+    The technician informs you that with your current level of fertility, this gene mod won't do anything for you.
+  <</if>>
+  </div>
+</div>

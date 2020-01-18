@@ -11,12 +11,11 @@
 //  Event triggers related to passage navigation
 
 $(document).on(":passageend", function(ev) {
-  if (performance.navigation.type === 1 && !setup.seenRefreshWarning) {
-    setup.seenRefreshWarning = true;
-    if (aw.passage.title !== "Start2" && aw.passage.title !== "Start") {
-      // tslint:disable-next-line:max-line-length
-      UI.alert("<span class='bad' style='font-weight:bold; font-size:1.15rem;'>WARNING!</span><br>It appears that your browser tab with Accidental Woman in it has been refreshed/reloaded. As with most browser-based games, this will result in the game breaking. A feature to create an autosave upon reload has not been implemented, due to complexity limits. You will likely need to completely restart the game. If you're seeing this message but don't remember reloading, remember that some browsers will automatically reload/refresh a page after the computer wakes up from a sleep state. You can probably disable this functionality if you wish.");
-    }
+  if (State != null && State.active != null && State.active.variables != null && State.active.variables.AW != null) {
+    State.active.variables.AW.author = "Probably Thaumx";
+  }
+  if (performance.navigation.type === 1 && setup.restartChecker) {
+    Engine.restart();
   }
 });
 
@@ -27,9 +26,6 @@ $(document).on(":passagedisplay", function () {
   });
 });
 
-$(document).on(":passageend", function() {
-  State.active.variables.AW.author = "Probably Thaumx";
-});
 
 /* Prepend the <canvas> to the incoming passage. */
 prerender.prependCanvas = function (content) {
@@ -62,7 +58,8 @@ postdisplay.perfend = function (taskName) {
   setup.appendStr("#passage-transition-time", cont);
 };
 
-//TODO fix NPC storage setup for long-term use
+/* DEFUNCT! 
+//fix NPC storage setup for long-term use
 // stores NPCs waiting to be stored from chainref use
 postdisplay.npcStore = function() {
   if (State.active.variables.AW.toStoreNPCs.length > 0) {
@@ -70,4 +67,4 @@ postdisplay.npcStore = function() {
     State.active.variables.AW.toStoreNPCs = [];
   }
 };
-
+*/

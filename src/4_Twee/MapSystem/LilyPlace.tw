@@ -1,0 +1,93 @@
+
+
+
+
+
+
+:: LilysPlace [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+
+
+<div id="location-bar">
+  <div id="location-bar-map">
+    <<link "<img data-passage='IMG_LilyMapThing'>">><<addTime 8>><<run setup.map.nav("world","appletree")>><</link>>
+  </div>
+  <img id="location-bar-cover" data-passage="IMG_LilyMapThing">
+  <div id="location-bar-image">
+    <<link [img[IMG_LilyLocation]]>><<dialog "Lily's Place">><<include LilysPlaceLOC>><</dialog>><</link>>
+    <div id="namediv" class="locationNameDiv head1">Lily's Place</div>
+  </div>
+</div>
+
+
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" >
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+
+<p>
+@@.head3;Y@@ou're standing on the sidewalk in front of a row of townhouses, very similar to the countless other townhomes found in the northern part of Appletree. Unlike all those other townhomes, however, you know that one of these belongs to <<if $AW.startMale>>Lily<<else>>Dr. Richards<</if>>. The street is quiet except for the rustling of the wind in the trees and a faint sound of cars driving in the distance.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Ring Lily's Doorbell">><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "Lily's Basement">><<if $items.has("Lily's Access Card")>>
+    <<addTime 5>>
+    <<dialog "Entering Lily's Basement">><center>[img[IMG_LilySecureDoor]]</center><p><<f y>>ou make your way down the narrow stairs in front of Lily's townhome and make your way to the secure door. After inserting your key card, entering a pin, and having your thumbprint scanned, the deadbolts keeping the door locked retract audibly. You push open the door and walk into Lily's basement lab.</p><</dialog>>
+    <<go LilysLab>>
+  <<else>>
+    <<addTime 5>>
+    <<dialog "Lily's Basement">><center>[img[IMG_TownHouseBasementEntrance]]</center><p><<f o>>pening the gate and making your way down the steep narrow stairs, you find yourself in a small space with some trash cans, an air conditioning condenser, an outdoor bench, some potted plants, and a small door leading into Lily's basement. The basement door looks sturdy, and has a complicated-looking lock mechanism on it. Realizing that you have no way into her basement, and nothing else to do here, you climb the stairs back to ground level.</p><</dialog>>
+  <</if>><</button>>
+<<endhoverrevise>>
+<<hoverrevise looks>>
+  <<button "Look Around Lily's Place">><</button>>
+<<endhoverrevise>>
+
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Ring Lily's doorbell and see if she's home and awake. @@.note;<i>Lily will be pissed if you wake her up.</i>@@<<endinsertion>>
+<<insertion beta>>Enter Lily's basement to get some work done. <<ctn>>[Requires Key]<</ctn>><<endinsertion>>
+<<insertion looks>>Take a look at the exterior of Lily's place up close, you snoopy bitch.<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+
+:: LilysPlaceLOC [nobr]
+<p>
+<<f a>> woman slides open a large bathroom window; she isn't wearing a stitch of clothing. She glances around, looking at the neighborhood without a trace of embarrassment. She closes her eyes and stands that way for several moments, seemingly enjoying the sunlight.
+</p>
+<center>[img[IMG_loc_LilyPlace]]</center>
+
+
+
+:: LilysLab [nobr]
+
+
+<div class="menu-bg">
+
+</div>
+
+

@@ -66,6 +66,9 @@ class Kinks {
       this.dta[2] = val;
     }
   } public get cumSlut(): boolean {
+    if (this._k === "pc") {
+      setup.parse.cum = (this.dta[3]) ? true : false;
+    }
     return this.dta[3];
   }
   public set cumSlut(val: boolean) {
@@ -73,6 +76,9 @@ class Kinks {
       aw.con.warn(`Attempted to set ${this._k} cumSlut to non-boolean value!`);
     } else {
       this.dta[3] = val;
+    }
+    if (this._k === "pc") {
+      setup.parse.cum = (this.dta[3]) ? true : false;
     }
   } public get sub(): boolean {
     return this.dta[4];
@@ -120,6 +126,9 @@ class Kinks {
       this.dta[8] = val;
     }
   } public get slut(): boolean {
+    if (this._k === "pc") {
+      setup.parse.slut = (this.dta[9]) ? true : false;
+    }
     return this.dta[9];
   }
   public set slut(val: boolean) {
@@ -127,6 +136,9 @@ class Kinks {
       aw.con.warn(`Attempted to set ${this._k} slut to non-boolean value!`);
     } else {
       this.dta[9] = val;
+    }
+    if (this._k === "pc") {
+      setup.parse.slut = (this.dta[9]) ? true : false;
     }
   } public get superSlut(): boolean {
     return this.dta[10];

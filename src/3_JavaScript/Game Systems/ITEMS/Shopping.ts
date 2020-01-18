@@ -21,7 +21,7 @@ interface setupShop {
   cartTotal: () => string;
   cartTotalNumber: () => number;
   deleteCartItem: (name: string) => void;
-  purchase: () => "no afford" | "success" | "age";
+  purchase: () => "no afford" | "success" | "age" | "already has";
   purchaseOver: () => void;
   process: () => void;
   cartCheck: (item: string, del?: boolean) => number;
@@ -112,7 +112,7 @@ setup.shop.storeText = {
   Cucci: "While people have been laughing at the 'coochie' name for decades, the brand has managed to last, mostly thanks to high prices maintaining Cucci's exclusive mystique.<br>A trend-setter in the retail fashion world, Cucci helps make the latest fashions. When the designers at Cucci can't come up with something unique, that usually means making something more revealing.",
   ThighGap: "A brand that fell victim to it's own success, Thigh GAP's success and rapid growth lead to the brand becoming bland and ubiquitous. While certainly not high-fashion, you can put together a decent look without going bankrupt.<br>Typically carries a rather generic spectrum of styles and colors.",
   VaginaSecrets: "Surviving protests by fundamentalists, feminists, and fundamentalist feminists, the media attention only helped to keep this lingerie brand a fixture in malls across the country.<br>You won't find anything cute here, but you may just find something to help boost your confidence as a woman.",
-  TightThreads: "A unique clothing store from the modern age of on-demand manufacturing and 3d printing, Tight Threads doesn't design its own clothing. Instead, they accept designs from customers and prepare it while the customer waits using automatic sewing machines. The custom items are expensive, but match your unique style!",
+  TightThreads: `A unique clothing store from the modern age of on-demand manufacturing and 3d printing, Tight Threads doesn't design its own clothing. Instead, they accept designs from customers and prepare it while the customer waits using automatic sewing machines. The custom items are expensive, but match your unique style!<br><<comment "You can buy items which were loaded with the mods. Also you can create simple clothes mods yourself by clicking the Designer button. (And even download them as a standalone!)">>`,
   thotTopic: "The go-to spot when shopping for the sunlight-challenged. The quality isn't great, but that allows for rip-it-yourself style and the liberal use of safety pins. The word \"THOT\" in the title was originally an ironic spelling of the word \"thought\", and not actually related to the acronym for That Ho Over There.",
   BallSack: "A european brand focused on activewear, Ball Sack has had a love-hate relationship with the name's connotations in english. Otherwise, it's a fairly middle-of-the-road retailer in terms of price and quality, though it does stock specialty sports gear that is hard to find elsewhere.",
   Shoegasm: "The store dedicated to everything you would wear on your feet, starting from ridiculously high heels to everyday comfortable flats. The selection is splendid but quality can be quite different regarding various manufacturers supplying the shop.",

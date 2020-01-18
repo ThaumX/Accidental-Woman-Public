@@ -1,0 +1,630 @@
+:: pcParser [widget nobr]
+
+<<nobr>>
+
+<<widget "pcAssSize">>
+<<silently>>
+<<switch ↂ.pc.body.ass>>
+<<case 1>>
+	<<set _output = either("flat","nonexistent")>>
+<<case 2>>
+	<<set _output = either("small","insubstantial")>>
+<<case 3>>
+	<<set _output = either("average","normal","healthy")>>
+<<case 4>>
+	<<set _output = either("above-average","plump","sexy")>>
+<<case 5>>
+	<<set _output = either("large","substantial","huge")>>
+<<case 6>>
+	<<set _output = either("massive","gigantic","enormous")>>
+<</switch>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcPussySize">>
+<<silently>>
+<<switch (ↂ.pc.body.pussy.tight + ↂ.pc.body.pussy.stretch)>>
+<<set _output = "error">>
+<<case 0>>
+	<<set _output = either("virgin","unused","virgin")>>
+<<case 1>>
+	<<set _output = either("tight","inexperienced","tight")>>
+<<case 2>>
+	<<set _output = either("average","normal","healthy")>>
+<<case 3>>
+	<<set _output = either("loose","well-used","experienced")>>
+<<case 4>>
+	<<set _output = either("gaping","stretched-out","gaping")>>
+<<case 5>>
+	<<set _output = either("cavernous","abused","wide-open")>>
+<</switch>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcBoobSize">>
+<<silently>>
+<<switch ↂ.pc.body.tits.cupNum>>
+<<case 0>>
+	<<set _output = either("nonexistent","flat")>>
+<<case 1 2 3>>
+	<<set _output = either("budding","minuscule")>>
+<<case 4 5 6>>
+	<<set _output = either("tiny","very small")>>
+<<case 7 8 9 10 11>>
+	<<set _output = either("small","compact")>>
+<<case 12 13 14>>
+	<<set _output = either("below-average","slightly-small")>>
+<<case 15 16 17>>
+	<<set _output = either("average","healthy")>>
+<<case 18 19 20 21 22 23>>
+	<<set _output = either("above-average","full")>>
+<<case 24 25 26>>
+	<<set _output = either("large","big","heavy")>>
+<<case 27 28 29>>
+	<<set _output = either("huge","ponderous")>>
+<<case 30 31 32>>
+	<<set _output = either("enormous","massive")>>
+<<case 33 34 35>>
+	<<set _output = either("gigantic","titanic","gargantuan")>>
+<<case 36 37 38 39 40 41>>
+	<<set _output = either("titanic","gargantuan","humongous")>>
+<<case default >>
+	<<set _output = either("unbelievably-large","ridiculously-big")>>
+<</switch>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcCupSize">>
+<<silently>>
+<<if ↂ.flag.Prologue>>
+  <<set _output = ↂ.pc.body.tits.base.cup>>
+<<else>>
+  <<set _output = ↂ.pc.body.tits.cup>>
+<</if>>
+<</silently>><<print _output>>\
+<</widget>>
+
+<<widget "pcBraSize">>
+<<silently>>
+<<if ↂ.flag.Prologue>>
+  <<set _output = ↂ.pc.body.tits.base.bra>>
+<<else>>
+  <<set _output = ↂ.pc.body.tits.bra>>
+<</if>>
+<</silently>><<print _output>>\
+<</widget>>
+
+<<widget "pcChest">>
+<<silently>>
+<<switch ↂ.pc.body.tits.cupNum>>
+	<<case 0>>
+		<<set _output = "a strangely-flat chest">>
+	<<case 3 4 5>>
+		<<set _output = "a tiny pair of budding breasts">>
+	<<case 6 7 8 9 10 11>>
+		<<set _output = "a compact set of small breasts">>
+	<<case 12 13 14>>
+		<<set _output = "a healthy set of below-average breasts">>
+	<<case 15 16 17>>
+		<<set _output = "an average pair of healthy breasts">>
+	<<case 18 19 20 21 22 23>>
+		<<set _output = "an above-average pair of healthy breasts">>
+	<<case 24 25 26>>
+		<<set _output = "a big pair of full breasts">>
+	<<case 27 28 29>>
+		<<set _output = "a heavy set of large breasts">>
+	<<case 30 31 32>>
+		<<set _output = "a ponderous pair of huge breasts">>
+	<<case 33 34 35>>
+		<<set _output = "two gigantic masses of breast-flesh">>
+	<<case 36 37 38 39 40 41>>
+		<<set _output = "two sublime mountains of breast">>
+	<<case default>>
+		<<set _output = "two unbelievably-enormous breasts">>
+<</switch>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcShoulderSize">>
+<<silently>>
+<<switch ↂ.pc.body.shoulders>>
+<<case 1>>
+	<<set _output = "narrow">>
+<<case 2>>
+	<<set _output = "feminine">>
+<<case 3>>
+	<<set _output = "average">>
+<<case 4>>
+	<<set _output = "prominent">>
+<<case 5>>
+	<<set _output = "broad">>
+<<case 6>>
+	<<set _output = "extremely wide">>
+<</switch>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcHipSize">>
+<<silently>>
+<<switch ↂ.pc.body.hips>>
+<<case 1>>
+	<<set _output = "oddly narrow">>
+<<case 2>>
+	<<set _output = "narrow">>
+<<case 3>>
+	<<set _output = "svelte">>
+<<case 4>>
+	<<set _output = "feminine">>
+<<case 5>>
+	<<set _output = "broad">>
+<<case 6>>
+	<<set _output = "broodmother-sized">>
+<</switch>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcFertility">>
+<<silently>>
+<<switch ↂ.pc.fert.fertility>>
+<<case 0>>
+	<<set _outputs = "barren">>
+<<case 1>>
+	<<set _outputs = "weakly fertile">>
+<<case 2>>
+	<<set _outputs = "somewhat fertile">>
+<<case 3>>
+	<<set _outputs = "fertile">>
+<<case 4>>
+	<<set _outputs = "very fertile">>
+<<case 5>>
+	<<set _outputs = "super fertile">>
+<<case 6>>
+	<<set _outputs = "extremely fertile">>
+<<case 7>>
+	<<set _outputs = "insanely fertile">>
+<<case 8>>
+	<<set _outputs = "fertility goddess">>
+<</switch>>
+<</silently>>
+<<print _outputs>>\
+<</widget>>
+
+<<widget "pcTone">>
+<<silently>>
+<<switch ↂ.pc.body.tone>>
+<<case 1>>
+	<<set _output = "frail">>
+<<case 2>>
+	<<set _output = "weak">>
+<<case 3>>
+	<<set _output = "normal">>
+<<case 4>>
+	<<set _output = "toned">>
+<<case 5>>
+	<<set _output = "muscular">>
+<<case 6>>
+	<<set _output = "body-builder">>
+<</switch>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcWeight">>
+<<silently>>
+<<switch ↂ.pc.body.weight>>
+<<case 1>>
+	<<set _output = "anorexic">>
+<<case 2>>
+	<<set _output = "skinny">>
+<<case 3>>
+	<<set _output = "lithe">>
+<<case 4>>
+	<<set _output = "plush">>
+<<case 5>>
+	<<set _output = "chubby">>
+<<case 6>>
+	<<set _output = "fat">>
+<</switch>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcClitSize">>
+<<silently>>
+<<switch ↂ.pc.body.clit>>
+<<case 1>>
+	<<set _output = either("small","tiny","vestigial")>>
+<<case 2>>
+	<<set _output = either("average","normal","healthy")>>
+<<case 3>>
+	<<set _output = either("large","big","above-average")>>
+<<case 4>>
+	<<set _output = either("huge","giant")>>
+<<case 5>>
+	<<set _output = either("enormous","massive")>>
+<</switch>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcWetness">>
+<<silently>>
+<<if ndef $args[0] || $args[0] == 0>>
+	<<set _temp = ↂ.pc.body.pussy.wetness>>
+<<else>>
+	<<set _temp = ↂ.pc.body.pussy.wetness + $args[0]>>
+	<<if _temp > 5>>
+		<<set _temp = 5>>
+	<</if>>
+<</if>>
+<<switch _temp>>
+<<case 1>>
+	<<set _output = "dry">>
+<<case 2>>
+	<<set _output = either("moist","damp","moist")>>
+<<case 3>>
+	<<set _output = either("wet","well-lubricated","wet")>>
+<<case 4>>
+	<<set _output = either("dripping","soaked","puddling")>>
+<<case 5>>
+	<<set _output = either("flooding","pouring","drenched")>>
+<</switch>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcLabiaSize">>
+<<silently>>
+<<switch ↂ.pc.body.labia>>
+<<case 0>>
+	<<set _output = either("nonexistent","imaginary")>>
+<<case 1>>
+	<<set _output = either("minimal","tiny","hidden")>>
+<<case 2>>
+	<<set _output = either("average","normal")>>
+<<case 3>>
+	<<set _output = either("large","protruding","big")>>
+<<case 4>>
+	<<set _output = either("dangling","huge","stretched-out")>>
+<</switch>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcClitView">>
+<<silently>>
+<<if ↂ.pc.body.labia >= ↂ.pc.body.clit>>
+	<<set _output = "is hidden by">>
+<<elseif ↂ.pc.body.labia == ↂ.pc.body.clit>>
+	<<set _output = "peeks out of">>
+<<else>>
+	<<set _output = "protrudes proudly from">>
+<</if>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcWaist">>
+<<silently>>
+<<switch ↂ.pc.body.waist>>
+<<case 1>>
+	<<set _output = either("unusual","straight","disproportionate","thick")>>
+<<case 2>>
+	<<set _output = either("masculine","manly","masculine","sturdy")>>
+<<case 3>>
+	<<set _output = either("feminine","womanly","normal","curved")>>
+<<case 4>>
+	<<set _output = either("hourglass","alluring","enticing")>>
+<</switch>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcBeauty">>
+<<silently>>
+<<if ↂ.pc.body.beauty == 5>>
+	<<set _output = either("is stunningly gorgeous","is exquisitely gorgeous")>>
+<<elseif ↂ.pc.body.beauty == 4>>
+	<<set _output = either("is noticeably beautiful","is alluringly beautiful")>>
+<<elseif ↂ.pc.body.beauty == 3>>
+	<<set _output = either("is definitely attractive","is rather appealing")>>
+<<elseif ↂ.pc.body.beauty == 2>>
+	<<set _output = either("is mediocre in looks","is a tad humdrum","has passable looks")>>
+<<else>>
+	<<set _output = either("is rather unattractive","is somewhat off-putting","is unfortunately ugly")>>
+<</if>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcFaceDescript">>
+<<silently>>
+<<if ↂ.pc.body.beauty == 5>>
+	<<set _temp = 2>>
+	<<set _output = either("is stunningly gorgeous","is exquisitely gorgeous")>>
+<<elseif ↂ.pc.body.beauty == 4>>
+	<<set _temp = 1>>
+	<<set _output = either("is noticeably beautiful","is alluringly beautiful")>>
+<<elseif ↂ.pc.body.beauty == 3>>
+	<<set _temp = 1>>
+	<<set _output = either("is definitely attractive","is rather appealing")>>
+<<elseif ↂ.pc.body.beauty == 2>>
+	<<set _temp = 0>>
+	<<set _output = either("is mediocre in looks","is a tad humdrum","has passable looks")>>
+<<else>>
+	<<set _temp = 0>>
+	<<set _output = either("is rather unattractive","is somewhat off-putting","is unfortunately ugly")>>
+<</if>>
+<<if _temp == 2>>
+	<<switch ↂ.pc.body.face>>
+		<<case "normal">>
+			<<set _outputB = " according to classical standards">>
+		<<case "androgynous">>
+			<<set _outputB = " despite your ambiguous features">>
+		<<case "cute">>
+			<<set _outputB = " but somehow remains open and approachable">>
+		<<case "sensual">>
+			<<set _outputB = " and so enticingly sensual that its almost sexual">>
+		<<case "exotic">>
+			<<set _outputB = " despite your unusual features">>
+	<</switch>>
+<<elseif _temp == 1>>
+	<<switch ↂ.pc.body.face>>
+		<<case "normal">>
+			<<set _outputB = " to the average person">>
+		<<case "androgynous">>
+			<<set _outputB = " thanks to a fortunate mix of male and female features">>
+		<<case "cute">>
+			<<set _outputB = " and the perfect picture of 'the girl next door'">>
+		<<case "sensual">>
+			<<set _outputB = " and enticingly sensual">>
+		<<case "exotic">>
+			<<set _outputB = " thanks to exotic features that draw the eye">>
+	<</switch>>
+<<elseif _temp == 0>>
+	<<switch ↂ.pc.body.face>>
+		<<case "normal">>
+			<<set _outputB = " to the average person">>
+		<<case "androgynous">>
+			<<set _outputB = ", and is confusingly ambiguous">>
+		<<case "cute">>
+			<<set _outputB = ", though its warmth makes it more appealing">>
+		<<case "sensual">>
+			<<set _outputB = ", though it has a certain animal magnetism">>
+		<<case "exotic">>
+			<<set _outputB = " with unusual features that set you apart">>
+	<</switch>>
+<</if>>
+<</silently>>
+<<print _output>><<print _outputB>>\
+<</widget>>
+
+/*<<widget "like">>
+<<silently>>
+<<set _temp = $args[0]>>
+<<switch _temp>>
+<<case -2>>
+<<set _output = "hate">>
+<<case -1>>
+<<set _output = "dislike">>
+<<case 0>>
+<<set _output = "neutral">>
+<<case 1>>
+<<set _output = "like">>
+<<case 2>>
+<<set _output = "love">>
+<</switch>>
+<</silently>>
+<<print _output>>\
+<</widget>>*/
+
+<<widget "pcNipple">>
+<<silently>>
+<<set _output = "rather unusual">>
+<<switch ↂ.pc.body.tits.nipple>>
+<<case "normal">>
+	<<set _output = either("delicate","alluring")>>
+<<case "flat">>
+	<<set _output = either("normally-flat","soft")>>
+<<case "large">>
+	<<set _output = either("large","motherly")>>
+<<case "inverted">>
+	<<set _output = either("normally-hidden","shy")>>
+<<case "puffy">>
+	<<set _output = either("delectable","enticingly full","beautiful")>>
+<<case "huge">>
+	<<set _output = either("cow-like","huge")>>
+<</switch>>
+<<if ↂ.pc.kink.nips>>
+	<<set _temp = either(1,2,3)>>
+	<<if _temp == 1>>
+		<<set _output += " and very sensitive">>
+	<</if>>
+<</if>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcTitShape">>
+<<silently>>
+<<set _output = "rather unusual">>
+<<switch ↂ.pc.body.tits.shape>>
+<<case "round">>
+	<<set _output = either("rounded","shapely")>>
+<<case "perky">>
+	<<set _output = either("youthful","perfectly-formed","perky")>>
+<<case "firm">>
+	<<set _output = either("firm","sturdy")>>
+<<case "protruding">>
+	<<set _output = either("proudly standing","gravity-defying")>>
+<<case "wide-set">>
+	<<set _output = either("outward-facing","wide-set")>>
+<</switch>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcArousal">>
+<<silently>>
+/*-2 = disgusted -1, = repulsed, 0 = not at all, 1=little, 2=moderate, 3=strong, 4=desperate*/
+<<set _output = "arousal function bug">>
+<<switch ↂ.pc.status.arousal>>
+<<case -5 -6>>
+	<<set _output = "disturbed">>
+<<case -3 -4>>
+	<<set _output = "disgusted">>
+<<case -1 -2>>
+	<<set _output = "repulsed">>
+<<case 0 1>>
+	<<set _output = "not aroused">>
+<<case 2 3>>
+	<<set _output = "slight">>
+<<case 4 5>>
+	<<set _output = "moderate">>
+<<case 6 7>>
+	<<set _output = "strong">>
+<<case 8 9>>
+	<<set _output = "desperate">>
+<<case 10 11>>
+	<<set _output = "extreme">>
+<<case 12 13>>
+	<<set _output = "uncontrollable">>
+<<case 14 15>>
+	<<set _output = "mad with lust">>
+<</switch>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcLibido">>
+<<silently>>
+ /*1 = vlow, 3=norm, 5=vhigh*/
+<<set _output = "Libido function bug">>
+<<switch ↂ.pc.trait.libido>>
+<<case 1>>
+	<<set _output = "practically asexual">>
+<<case 2>>
+	<<set _output = "weak">>
+<<case 3>>
+	<<set _output = "average">>
+<<case 4>>
+	<<set _output = "above average">>
+<<case 5>>
+	<<set _output = "strong">>
+<<case 6>>
+	<<set _output = "very strong">>
+<<case 7>>
+	<<set _output = "insatiable">>
+<<case 8 9>>
+	<<set _output = "uncontrollable">>
+<<case 10 11 12>>
+	<<set _output = "Nymphomania">>
+<</switch>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcPubes">>
+<<silently>>
+<<if ndef $args[0] || $args[0] == 0>>
+<<switch ↂ.pc.groom.pubeStyle>>
+<<case "hairless">>
+<<set _output = "the smooth skin of your hairless crotch.">>
+<<case "bushy">>
+<<set _output = "the damp tangle of your overgrown bush.">> 
+<<case "trimmed">>
+<<set _output = "your damp manicured bush.">> 
+<<case "neatly trimmed">>
+<<set _output = "the short hair of your neatly-trimmed pubes.">> 
+<<case "landing strip">>
+<<set _temp = either(1,2,3)>>
+<<if _temp == 1>>
+<<set _output = "the narrow strip of short hair that leads the way to your eager cunt.">>
+<<else>>
+<<set _output = "the narrow strip of short hair above your slit.">>
+<</if>>
+<<case "triangular">>
+<<set _temp = either(1,2,3)>>
+<<if _temp == 1>>
+<<set _output = "the neatly-shaped triangle of short hair.">>
+<<else>>
+<<set _output = "the neatly-shaped triangle of short hair that points the way to your eager cunt.">> 
+<</if>>
+<<case "neat patch">>
+<<set _temp = either(1,2,3)>>
+<<if _temp == 1>>
+<<set _output = "the patch of short hair.">>
+<<else>>
+<<set _output = "the patch of short hair above your eager cunt.">> 
+<</if>>
+<<case "shaved">>
+<<set _output = "a hint of stubble from your shaved snatch.">> 
+<</switch>>
+<<elseif $args[0] == 1>>
+<<switch ↂ.pc.groom.pubeStyle>>
+<<case "bushy">>
+<<set _output = "The damp tangle of your overgrown bush">> 
+<<case "trimmed">>
+<<set _output = "Your damp manicured bush">> 
+<<case "neatly trimmed">>
+<<set _output = "The short hair of your neatly-trimmed pubes">> 
+<<case "landing strip">>
+<<set _temp = either(1,2,3)>>
+<<if _temp == 1>>
+<<set _output = "Your narrow strip of short hair that leads the way to your eager cunt">>
+<<else>>
+<<set _output = "Your narrow strip of short hair above your slit">>
+<</if>>
+<<case "garden">>
+<<set _temp = either(1,2,3)>>
+<<if _temp == 1>>
+<<set _output = "Your neatly-shaped triangle of short hair that points the way to your eager cunt">> 
+<<else>>
+<<set _output = "Your neatly-shaped triangle of short hair">>
+<</if>>
+<<case "neat patch">>
+<<set _temp = either(1,2,3)>>
+<<if _temp == 1>>
+<<set _output = "Your neatly-trimmed patch of short hair above your eager cunt">> 
+<<else>>
+<<set _output = "Your neatly-trimmed patch of short hair">>
+<</if>>
+<<case "shaved">>
+<<set _output = "The stubble from your shaved snatch">>
+<<case "hairless">>
+<<set _output = "The smooth skin of your hairless snatch">> 
+<</switch>>
+<</if>>
+<</silently>>
+<<print _output>>\
+<</widget>>
+
+<<widget "pcHairCurl">>\
+<<silently>>
+<<set _output = "pc hair curl parser error">>
+<<switch ↂ.pc.groom.hairCurl>>
+<<case 0>>
+	<<set _output = "straight">>
+<<case 1>>
+	<<set _output = "slightly wavy">>
+<<case 2>>
+	<<set _output = "wavy">>
+<<case 3>>
+	<<set _output = "slightly curly">>
+<<case 4>>
+	<<set _output = "curly">>
+<<case 5>>
+	<<set _output = "very curly">>
+<<case 6>>
+	<<set _output = "kinked">>
+<</switch>>
+<</silently>><<print _output>>\
+<</widget>>
+
+<</nobr>>

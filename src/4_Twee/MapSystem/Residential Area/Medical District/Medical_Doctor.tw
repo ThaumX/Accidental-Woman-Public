@@ -1,0 +1,265 @@
+:: MedicalDoctorWeiner [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmedical]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p></p>
+<div id="storeWindow">
+[img[IMG-Loc-GeneralPractice]]
+[img[IMG-FertilitySealAd]]
+</div>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou're standing in the waiting room of Dr. Weiner's general practice clinic. There are a couple of people sitting in the chairs, waiting for their chance to see the doctor. There's a couple signs and some <<link "brochures">><<dialog "The Fertility Seal Medical Tattoo">><center>[img[IMG-FertilitySealAd]]</center><p>The Progenerate Fertility Seal is the first medical tattoo available that monitors your fertility status. Unlike a traditional tattoo that uses ink, the Fertility Seal utilizes advanced technology from Progenerate Technology. It precisely monitors your female hormones to convey detailed information about your reproductive health, menstrual cycle, and even pregnancies via its attractive intelli-ink™ design. The tattoo is guaranteed to last for 7 years, powered by your own metabolism. <i>With Fertility Seal, you'll have your womb totally under control!</i></p>
+<p>@@.note;Progenerate Technologies GmbH is not responsible for the consequences of user error. The Fertility Seal is a medical device and must be applied by a licensed physician. Side effects are rare but may include a slight increase to fertility and potential for multiple births. In extremely rare cases some women report reduced effectiveness of hormonal birth control. Precise information about fertility has been known to increase the predominance of risky reproductive behavior in some women.@@</p><</dialog>><</link>> spread about the office that are advertising something called a "Fertility Seal".
+</p>
+
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact" style="width: 950px; text-align: left;"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "General Health Issues">><<set _time = random(45, 60)>><<addTime _time>><<dialog "General Health Issues">><<include [[ResidentialMedicalDoctorHealth]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "General Mental Issues">><<set _time = random(45, 60)>><<addTime _time>><<dialog "General Mental Issues">><<include [[ResidentialMedicalDoctorMental]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise delta>>
+  <<button "Pregnancy test">><<set _time = random(20, 30)>><<addTime _time>><<run setup.fert.test()>><<if ↂ.flag.Healthcare>><<run aw.cash(-20, "medical")>><<else>><<run aw.cash(-60, "medical")>><</if>><</button>>
+<<endhoverrevise>>
+<<hoverrevise gamma>>
+<<if not ↂ.flag.fertilitySeal>>
+  <<button "Fertility Tattoo">><<set _time = random(60, 75)>><<dialog "Fertility Seal Tattoo">><<include [[ResidentialMedicalDoctorFertSeal]]>><<if ↂ.flag.Healthcare>><<run aw.cash(-400, "medical")>><<else>><<run aw.cash(-600, "medical")>><</if>><</dialog>><</button>>
+<<else>>
+  <button class="disabled">Fertility Tattoo</button>
+<</if>>
+<<endhoverrevise>>
+<<hoverrevise omega>>
+  <<if ↂ.pc.status.pregnant && ↂ.job.code == "PF">>
+    <button class="disabled">Abortion</button>
+  <<elseif ↂ.pc.status.pregnant>>
+    <<button "Abortion">><<set _time = random(120, 150)>><<dialog "Abortion">><<include [[ResidentialMedicalAbortion]]>><<if ↂ.flag.Healthcare>><<run aw.cash(-950, "medical")>><<else>><<run aw.cash(-1000, "medical")>><</if>><</dialog>><</button>>
+  <<else>>
+    <button class="disabled">Abortion</button>
+  <</if>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>See the doctor regarding your physical health. (@@.money;₢40-65@@ / @@.money;₢90-120@@) <<ctn>>[45-60min]<</ctn>><<endinsertion>>
+<<insertion beta>>See the doctor regarding your mental health. (@@.money;₢40-65@@ / @@.money;₢90-120@@) <<ctn>>[45-60min]<</ctn>><<endinsertion>>
+<<insertion delta>>Have a professional pregnancy test performed. (@@.money;₢20@@ / @@.money;₢60@@) <<ctn>>[20-30min]<</ctn>><<endinsertion>>
+<<insertion gamma>><<if not ↂ.flag.fertilitySeal>>Get the medical tattoo applied to your lower abdomen. (@@.money;₢400@@ / @@.money;₢600@@) <<ctn>>[60-75min]<</ctn>><<else>>You already have the Fertility Seal Medical Tattoo!<</if>><<endinsertion>>
+<<insertion omega>><<if ↂ.pc.status.pregnant && ↂ.job.code == "PF">>
+  You are ineligible for an abortion because of your job with the Fecundate Division.
+<<elseif ↂ.pc.status.pregnant>>
+  Have the doctor perform an abortion to terminate your pregnancy. (@@.money;₢950@@ / @@.money;₢1000@@) <<ctn>>[120-150min]<</ctn>>
+<<else>>
+  You have to be pregnant to get an abortion, obviously.
+<</if>><<endinsertion>>
+</div>
+
+
+:: MedicalDoctorWeinerLOC [nobr]
+
+<<ctn>>No Content Here Yet, Sorry<</ctn>>
+
+
+:: ResidentialMedicalAbortion [nobr]
+
+<p><<f a>>fter spending a good deal of time waiting in the waiting room, and then waiting in the exam room, the doctor arrives.
+@@.npc;Hello, Miss...@@ He looks at his slate. @@.npc;...<<=ↂ.pc.main.surname>>. How can I help you today?@@
+</p>
+<p>
+You do your best to remain calm as you answer. @@.pc;I'd like to, umm... terminate my pregnancy.@@
+</p>
+<p>
+The doctor nods and tactfully avoids trying to talk you out of it. @@.npc;Okay Miss <<surname>>, I can take care of that for you. I'm afraid there's a couple mandatory tests and some paperwork to fill out first, but it shouldn't take <i>too</i> long.@@ Dr. Weiner makes a few taps on his slate before continuing. @@.npc;One of my nurses will be in momentarily to get you started.@@ With that he stepped out of the exam room.
+</p>
+<p>
+Eventually a nurse arrived and started asking you various questions to fill out paperwork. While many of the questions seemed medical in nature, there were plenty that weren't. On three separate occasions you had to answer that you are indeed aware of the available adoption programs. Once the seemingly endless paperwork was finished, the nurse led you to another room with a gynecological exam chair.
+</p>
+<p>
+Even after getting naked and positioning your feet in the stirrups, you were still forced to wait for the doctor to return. While you were waiting, a young man was granted a long look at your on-display pussy when a nurse opened the wrong door by accident. Eventually, however, Dr. Weiner finally returned. @@.npc;Okay, Miss <<surname>>, I just have to do a quick transvaginal ultrasound to make sure the fetuses aren't too old, and then we can get the procedure done.@@
+</p>
+<center>[img[IMG-TransvagUltrasound]]</center>
+<<if ↂ.pc.status.wombA.growth >= 40 || ↂ.pc.status.wombB.growth >= 40>>
+  <p>
+  The doctor looked surprised at the results of the ultrasound. @@.npc;Look, there's no way you're in the first trimester!@@ he shakes his head. @@.npc;I guess this is why they mandated these ultrasounds.@@
+  </p>
+  <p>
+  @@.pc;But...@@
+  </p>
+  <p>
+  @@.npc;Look, I'm sorry, but it's illegal for me to perform an abortion this late in your term. Beside the law, there's also a lot more risk involved, and this clinic isn't set up for that kind of procedure.@@ The doctor rolls away from you and stands up. @@.npc;Your paperwork didn't mention it, but if there's a medical reason you need this procedure, you'll want to visit a specialist at the hopital.@@
+  </p>
+  <p>
+  Your abortion aborted, you're left to get dressed. Worst of all, when you talk to the reception desk afterward, you find out that the fee is only partially refundable. At least you were able to get @@.money;₢250@@ credited back to your account.
+  </p>
+  <<run aw.cash(250, "medical")>>
+<<else>>
+  <<silently>>
+    <<if ↂ.pc.status.wombA.preg || ↂ.pc.status.wombA.zygote.length > 0>>
+      <<set ↂ.pc.status.wombA.fetus = []>>
+      <<set ↂ.pc.status.wombA.zygote = []>>
+      <<set ↂ.pc.status.wombA.aborts += 1>>
+      <<set ↂ.pc.fert.wombHealth -= random(1,2)>>
+    <</if>>
+    <<if ↂ.pc.status.wombB.preg || ↂ.pc.status.wombB.zygote.length > 0>>
+      <<set ↂ.pc.status.wombB.fetus = []>>
+      <<set ↂ.pc.status.wombB.zygote = []>>
+      <<set ↂ.pc.status.wombB.aborts += 1>>
+      <<set ↂ.pc.fert.wombHealth -= random(1,2)>>
+    <</if>>
+    <<status 0>>
+  <</silently>>
+  <p>
+  Dr. Weiner does an exceedingly thorough job with his ultrasound, moving the vaginal probe in and out and pushing it against various spots. Eventually he seems satisfied. @@.npc;Very good Miss <<surname>>, you're in the first trimester, and everything looks fine for the procedure.@@ He discards the cover and replaces the probe back on the ultrasound machine. He rolls over to some counters and pulls out a large device and some sterile packaging. He opens some of the packages and attaches a couple pieces to the device. @@.npc;This little device is what we'll be using to perform the procedure once we get you nice and numb down there.@@
+  </p>
+  <center>[img[IMG-FetusVacAbortion]]</center>
+  <p>
+  Spreading you open with a speculum, the doctor gives you a few injections of local anesthetic with an extra long needle. He waits a few minutes while he makes some final adjustments to his vacuum device. Removing the speculum, he inserts the Fetus-Vac inside you and starts positioning it. You make an extra effort not to pay attention to what he's doing, trying especially hard to ignore the noises. The procedure is very uncomfortable if not painful, but it's over quickly.
+  </p>
+  <p>
+  @@.npc;Try not to look this way, you don't want to see what's inside the device when I remove it.@@ You comply, and feel the device slide out of you. You keep your eyes closed until the doctor speaks again. @@.npc;Okay, I'm just going to take a quick look to make sure the bleeding is under control.@@
+  </p>
+  <p>
+  Eventually the whole ordeal is over, and you're able to get dressed.
+  </p>
+<</if>>
+
+
+:: ResidentialMedicalDoctorHealth [nobr]
+
+<<silently>>
+<<status 1>>
+<<if ↂ.flag.Healthcare>>
+  <<set _cost = random(30,55)>>
+  <<set _drug = 10>>
+  <<set _total = _cost + _drug>>
+  <<run aw.cash((_total * -1), "medical")>>
+<<else>>
+  <<set _cost = 90>>
+  <<set _drug = 5 + random(1,10) + random(1,10) + random(1,10)>>
+  <<set _total = _cost + _drug>>
+  <<run aw.cash((_total * -1), "medical")>>
+<</if>>
+<<if ↂ.pc.status.health < 50>>
+  <<set ↂ.pc.status.health += random (20,40)>>
+<<else>>
+  <<set ↂ.pc.status.health = random(85,95)>>
+<</if>>
+<<set ↂ.pc.status.injury = ["none"]>>
+<<set ↂ.pc.status.disease = ["none"]>>
+<<status 0>>
+<</silently>>
+<p><<f a>>fter spending a good deal of time waiting in the waiting room, and then waiting in the exam room, the doctor arrives.
+@@.npc;Hello, Miss...@@ He looks at his slate. @@.npc;...<<=ↂ.pc.main.surname>>. How can I help you today?@@
+</p>
+<center>[img[IMG-DoctorOffice]]</center>
+<p>
+Doctor gives you a rather <i>interesting</i> examination. <<if ↂ.pc.status.disease !== ["none"]>>He says it seems you have some disease before leaving, but soon afterward a nurse comes in and gives you a small injection of a purplish liquid.<<else>>He leaves without saying what, exactly, is wrong with you, but soon afterward a nurse comes in and gives you a small injection of a purplish liquid.<</if>> Her outfit almost seems like some kind of sexy-nurse cosplay, but she's perfectly professional with you. Shortly after the injection you're starting to feel much better.
+</p>
+<p>
+You make your way over to the reception desk to pay. <<if ↂ.flag.Healthcare>>Thanks to InstiCare the cost is pretty low.<<else>>Without any insurance the bill is painful, but surprisingly not as bad as you were expecting.<</if>> Your total was @@.money;₢<<= _total>>@@; @@.money;₢<<= _cost>>@@ for the visit, and @@.money;₢<<= _drug>>@@ for the injection.
+</p>
+
+
+:: ResidentialMedicalDoctorMental [nobr]
+
+<div id="therapistSpan">
+<p><<f a>>fter spending a good deal of time waiting in the waiting room, and then waiting in the exam room, the doctor arrives.
+@@.npc;Hello, Miss...@@ He looks at his slate. @@.npc;...<<=ↂ.pc.main.surname>>. How can I help you today?@@
+</p>
+<p>Unsure of how exactly to explain yourself, you ramble on a bit about your stress and anxiety, as well as how unhappy you've been lately.
+<p>
+The doctor proceeds to ask you some questions about your recent mental state and your life in general. Afterward, he shows you some pictures with random-looking splatters and asks you to tell him what you see on them.
+</p>
+<center>[img[IMG-Rorshfuck1]]</center>
+<br>
+<center><<button "Butterfly">><<replace "#therapistSpan">><<include [[ResidentialMedicalDoctorMental-2]]>><</replace>><</button>><<button "Cock">><<replace "#therapistSpan">><<include [[ResidentialMedicalDoctorMental-2]]>><</replace>><</button>><<button "Shub-Niggurath">><<replace "#therapistSpan">><<include [[ResidentialMedicalDoctorMental-2]]>><</replace>><</button>></center>
+
+</div>
+
+
+:: ResidentialMedicalDoctorMental-2 [nobr]
+
+<p>
+<center>[img[IMG-Rorshfuck2]]</center>
+<br>
+<center><<button "Vagina with teeth">><<replace "#therapistSpan">><<include [[ResidentialMedicalDoctorMental-3]]>><</replace>><</button>><<button "Dismembered octopus">><<replace "#therapistSpan">><<include [[ResidentialMedicalDoctorMental-3]]>><</replace>><</button>><<button "A pile of rotten flesh">><<replace "#therapistSpan">><<include [[ResidentialMedicalDoctorMental-3]]>><</replace>><</button>></center>
+</p>
+
+
+:: ResidentialMedicalDoctorMental-3 [nobr]
+
+<p>
+<center>[img[IMG-Rorshfuck3]]</center>
+<br>
+<center><<button "Kitten without a head">><<replace "#therapistSpan">><<include [[ResidentialMedicalDoctorMental-4]]>><</replace>><</button>><<button "Atomic blast">><<replace "#therapistSpan">><<include [[ResidentialMedicalDoctorMental-4]]>><</replace>><</button>><<button "Murder">><<replace "#therapistSpan">><<include [[ResidentialMedicalDoctorMental-4]]>><</replace>><</button>></center>
+</p>
+
+
+:: ResidentialMedicalDoctorMental-4 [nobr]
+
+<<set ↂ.flag.mentalPrescription = true>><<status>>
+<p>After finishing the test you see doctor frowns for a second then nods to himself.</p>
+<<if ↂ.pc.status.stress > 50 && ↂ.pc.status.happy > 3 && !ↂ.pc.status.mindbreak>>
+<p>@@.npc;Well, Ms.<<=ↂ.pc.main.surname>>, It seems you are doing pretty well. I can see some minor problems but overall, there is nothing too concerning. Anyway, I'll prescribe you some pills which help to keep your feelings at bay. You can fill the prescription at almost any drug store. One pill a day should be enough, don't overdose it under any circumstances.@@</p><<else>>
+<p>@@.npc;Well, Ms.<<=ↂ.pc.main.surname>>, I'd advice you to appoint the psychiatrist, it seems that your mental condition is... unstable at this moment. For the time being I'll prescribe you some pills which help to keep your feelings at bay. You can fill the prescription at almost any drug store. One pill a day should be enough, don't overdose it under any circumstances.@@</p><</if>>
+<p>He pushes some buttons on his slate and you hear beeping sound from your phone, probably a digital prescription arrived.</p>
+<p>@@.npc;Well, I guess there is everything I can do for you today. Good luck and don't keep healthy!@@</p>
+
+
+:: ResidentialMedicalDoctorFertSeal [nobr]
+
+<<silently>>
+<<run setup.tattoo.get(true, "belly", true, "fertSeal")>>
+<<set ↂ.flag.fertilitySeal = true>>
+<<set _out = "Fertility Seal Applied<br>">>
+<<if random(1,10) > 3>>
+  <<set ↂ.pc.kink.risky = true>>
+  <<set _out += "Gained the Risky Kink<br>">>
+<</if>>
+<<if random(1,10) > 2>>
+  <<set ↂ.pc.fert.egg += 1>>
+<</if>>
+<<if random(1,10) > 5>>
+  <<set ↂ.pc.fert.implant += 1>>
+<</if>>
+<<if random(1,10) === 10>>
+  <<set ↂ.pc.mutate.birthCon = true>>
+  <<set _out += "You Gained a Mutation!">>
+<</if>>
+<<status 0>>
+<<notify>><<= _out>><</notify>>
+<<addTime 60>>
+<<updatebar>>
+<</silently>>
+<p><<f a>>fter spending a good deal of time waiting in the waiting room, and then waiting in the exam room, the doctor arrives.
+@@.npc;Hello, Miss...@@ He looks at his slate. @@.npc;...<<=ↂ.pc.main.surname>>. How can I help you today?@@
+</p>
+<p>You answer a little nervously. @@.pc;Well, I was hoping to get that new Fertility Seal tattoo...@@</p>
+<p>The doctor gives you a broad smile. @@.npc;Technology is amazing, isn't it? All my patients that have gotten one of these have been quite happy with the results.@@</p>
+<p>Concerned about the potential for pain, you ask the doctor the question front and center in your mind. @@.pc;Since this is a tattoo, is it going to hurt like one? My tummy is pretty sensitive...@@</p>
+<p>@@.npc;Oh, no need to worry miss <<=ↂ.pc.main.surname>>, I'll be applying a topical anesthetic and the tattoo itself is performed by special machine. It'll be practically painless, and it'll heal much faster than a normal tattoo, too.@@</p>
+<center><b><span class="head">. . .</span></b></center>
+<p>The procedure was a lot simpler than you were expecting. After rubbing some jelly on your lower abdomen, your skin was numb by the time you finished thinking about its similarity to ultrasound gel. The doctor brought out a box-shaped medical device that was open on one side, and had a simple display on the other. After wrapping a couple straps around your lower back, he turned the device on and aligned it with your tummy using a simple green cross projected onto your skin. Once he was happy with how the device rested against your stomach, he tightened the straps and tapped a few times on the display.</p>
+<p>After that you were left to wait for quite some time until the device finished and the doctor got around to removing it. Looking at your belly afterward showed a pretty design in dark pink right over where your womb should be. With the procedure done, you were ushered out of the office and handed an instruction pamphlet for your new tattoo.</p>
+
+
+

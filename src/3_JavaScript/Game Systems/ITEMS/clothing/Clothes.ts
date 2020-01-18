@@ -52,6 +52,9 @@ interface setupClothes {
   defineCustomClothes: () => void;
   outfitInitialize: () => void;
   dataExport: (key: string) => string;
+  staining: (place: string, amt: number, type: string) => void;
+  washing: () => void;
+  drying: () => void;
   stained: boolean;
   kinky: boolean;
   wet: boolean;
@@ -128,6 +131,7 @@ class Garment {
   };
   public save: boolean;
   public img: string|0;
+  public padoImg: string;
   public values: {
     atr: number,
     sexy: number,
@@ -177,9 +181,10 @@ class Garment {
     accessAss = false,
     wear = ["normal", "off"],
     save = false,
+    padoImg = "none",
     img = 0,
   // tslint:disable-next-line:max-line-length
-  }: {key?: string, nick?: string, type: clothingType, slot: clothingSlot, colorWord: string, styleWord: string, subStyleWord: string, tertiaryWord: string, fabricWord: string, atr: number, sexy: number, formal: number, exposure: number, flag: object, damage: number, cond: object, dirty: number, wetness: number, style: number, subStyle: number, fabric: number, color: number, origin: string, price: number|"none", swimwear?: boolean, nightwear?: boolean, athletic?: boolean, kinky?: boolean, accessNip?: boolean, accessPussy?: boolean, accessButt?: false, accessTits?: boolean, accessAss?: boolean, wear?: string[], save: boolean, img?: string|0}) {
+  }: {key?: string, nick?: string, type: clothingType, slot: clothingSlot, colorWord: string, styleWord: string, subStyleWord: string, tertiaryWord: string, fabricWord: string, atr: number, sexy: number, formal: number, exposure: number, flag: object, damage: number, cond: object, dirty: number, wetness: number, style: number, subStyle: number, fabric: number, color: number, origin: string, price: number|"none", swimwear?: boolean, nightwear?: boolean, athletic?: boolean, kinky?: boolean, accessNip?: boolean, accessPussy?: boolean, accessButt?: false, accessTits?: boolean, accessAss?: boolean, wear?: string[], save: boolean, padoImg: string, img?: string|0}, ) {
     if (key === "none") {
       this.key = setup.clothes.keyGen();
     } else {
@@ -228,6 +233,7 @@ class Garment {
       tits: accessTits,
     };
     this.save = save;
+    this.padoImg = padoImg;
     this.img = img;
   }
   // color hex code
@@ -528,6 +534,7 @@ setup.clothes.shopList = function(store: string, slot: clothingCategory): string
     const creds = setup.clothes.shopSalePrice(store, slot, ᛝ[ᚥ[i]].price);
     const namo = `${ᛝ[ᚥ[i]].color} ${ᛝ[ᚥ[i]].style} (${ᛝ[ᚥ[i]].type})`;
     let item = `<div id="box-${ᚥ[i]}" class="wardrobeListCunt"><div class="wardCunts" style="left:0px;">`;
+    aw.con.info(`${ᛝ[ᚥ[i]]}`);
     item += ᛝ[ᚥ[i]].print();
     item += `</div><div id="butt-${ᚥ[i]}" class="wardrobeCmdButts"><<button "ADD 🛒">><<run $cart.push(["${namo}","${slot}",${creds},"${ᚥ[i]}"])>><<replace "#msg${ᚥ[i]}">><<fadeout 3s>>Added!<</fadeout>><</replace>><<replace "#cartTotal">><<include [[ClothesShoppingCartTotal]]>><</replace>><</button>><<button "DETAILS">><<dialog "Clothing Detail">><<print aw.clothes["${[ᚥ[i]]}"].details>><</dialog>><</button>><span class="money monospace px22">( ₢${creds} )</span><br><span class="wdFabric px18" id="msg${ᚥ[i]}">-</span></div></div>`;
     output += item;
@@ -1198,4 +1205,141 @@ setup.clothes.dataExport = function(key: string): string {
     };
   const out = JSON.stringify(data);
   return out;
+};
+
+setup.clothes.staining = function(place: string, amt: number, type: string): void {
+  let msg = "none";
+  let FullAmount = Math.floor(amt / 2);
+  let SmallAmount = Math.floor(amt / 3);
+  const WaterFullAmount = Math.floor(amt / 2);
+  const WaterSmallAmount = Math.floor(amt / 3);
+  if (type === "water") {
+    FullAmount = 0;
+    SmallAmount = 0;
+    msg = "wet";
+  } else {
+    msg = "dirty";
+  }
+  aw.con.info(`${FullAmount}, ${SmallAmount}, ${WaterFullAmount}, ${WaterSmallAmount}`); // REMOVE ME
+  if (place !== "vagFluid" && place !== "anusFluid") { // staining from outside
+    if (ↂ.pc.clothes.worn.coat === "normal" && ↂ.pc.clothes.keys.coat !== 0) { // overwear is stained but protects other clothes
+      switch (place) {
+        case "chest":
+        case "back":
+        case "stomach":
+        case "butt":
+        case "groin":
+        case "genitals":
+        case "thighs":
+        case "legs":
+        aw.clothes[ↂ.pc.clothes.keys.coat].values.dirty += FullAmount;
+        aw.clothes[ↂ.pc.clothes.keys.coat].wetness += WaterFullAmount;
+          break;
+        default:
+          break;
+      }
+    } else { // no overwear, stain everything!
+        switch (place) {
+          case "chest":
+          case "back":
+          case "stomach":
+            if (ↂ.pc.clothes.worn.top === "normal" && ↂ.pc.clothes.keys.top !== 0) { // top is here
+              aw.clothes[ↂ.pc.clothes.keys.top].values.dirty += FullAmount;
+              aw.clothes[ↂ.pc.clothes.keys.top].wetness += WaterFullAmount;
+              if (ↂ.pc.clothes.worn.bra === "normal" && amt > 10 && ↂ.pc.clothes.keys.bra !== 0) { // bra is here too, stain it a bit
+                aw.clothes[ↂ.pc.clothes.keys.bra].values.dirty += SmallAmount;
+                aw.clothes[ↂ.pc.clothes.keys.bra].wetness += WaterSmallAmount;
+              }
+            } else if (ↂ.pc.clothes.worn.bra === "normal" && ↂ.pc.clothes.keys.bra !== 0) { // no top but bra is here
+              aw.clothes[ↂ.pc.clothes.keys.bra].values.dirty += FullAmount;
+              aw.clothes[ↂ.pc.clothes.keys.bra].wetness += WaterFullAmount;
+            }
+            break;
+          case "butt":
+          case "groin":
+          case "genitals":
+            if (ↂ.pc.clothes.worn.bottom === "normal" && ↂ.pc.clothes.keys.bottom !== 0) { // bottom is here
+              aw.clothes[ↂ.pc.clothes.keys.bottom].values.dirty += FullAmount;
+              aw.clothes[ↂ.pc.clothes.keys.bottom].wetness += WaterFullAmount;
+              if (ↂ.pc.clothes.worn.panties === "normal" && amt > 10 && ↂ.pc.clothes.keys.panties !== 0) { // panties are here too, stain em a bit
+                aw.clothes[ↂ.pc.clothes.keys.panties].values.dirty += SmallAmount;
+                aw.clothes[ↂ.pc.clothes.keys.panties].wetness += WaterSmallAmount;
+              }
+            } else if (ↂ.pc.clothes.worn.panties === "normal" && ↂ.pc.clothes.keys.panties !== 0) { // no bottom but panties are here
+              aw.clothes[ↂ.pc.clothes.keys.panties].values.dirty += FullAmount;
+              aw.clothes[ↂ.pc.clothes.keys.panties].wetness += WaterFullAmount;
+            }
+            break;
+          case "thighs":
+          case "legs":
+            if (ↂ.pc.clothes.worn.bottom === "normal" && ↂ.pc.clothes.keys.bottom !== 0) { // bottom is here
+              aw.clothes[ↂ.pc.clothes.keys.bottom].values.dirty += FullAmount;
+              aw.clothes[ↂ.pc.clothes.keys.bottom].wetness += WaterFullAmount;
+              if (ↂ.pc.clothes.worn.leg === "normal" && amt > 10 && ↂ.pc.clothes.keys.leg !== 0) { // stockings are here too, stain em a bit
+                aw.clothes[ↂ.pc.clothes.keys.leg].values.dirty += SmallAmount;
+                aw.clothes[ↂ.pc.clothes.keys.leg].wetness += WaterSmallAmount;
+              }
+            } else if (ↂ.pc.clothes.worn.leg === "normal" && ↂ.pc.clothes.keys.leg !== 0) { // no bottom but stockings are here
+              aw.clothes[ↂ.pc.clothes.keys.leg].values.dirty += FullAmount;
+              aw.clothes[ↂ.pc.clothes.keys.leg].wetness += WaterFullAmount;
+            }
+            break;
+          default:
+            break;
+        }
+    }
+  } else { // staining from inside out
+    // TODO check for various toys e.g. chastity belts, buttplugs, dildos and whatnot can block the leaking.
+    if (ↂ.pc.clothes.worn.panties === "normal") { // panties are here
+      aw.clothes[ↂ.pc.clothes.keys.panties].values.dirty += FullAmount;
+      if (ↂ.pc.clothes.worn.bottom === "normal" && amt > 10) { // bottom is here too, stain it a bit if the amount is serious
+        aw.clothes[ↂ.pc.clothes.keys.bottom].values.dirty += SmallAmount;
+      }
+    } else if (ↂ.pc.clothes.worn.bottom === "normal") { // bad girl did not wear her panties! At least she wears something to cover her bottom part
+      aw.clothes[ↂ.pc.clothes.keys.bottom].values.dirty += FullAmount;
+    }
+  }
+  if (msg === "dirty") {setup.notify('Your clothes got dirty.')}
+  if (msg === "wet") {setup.notify('Your clothes got wet.')}
+  aw.S("pc");
+  aw.con.info(`setup.clothes.staining complete. Input: ${place} ${amt} ${type}.`);
+};
+
+setup.clothes.washing = function(): void {
+  const slots = ["athL", "athU", "bottom", "bra", "coat", "dress", "leg", "niteL", "niteU", "panties", "swimL", "swimU", "top"];
+  let ownedList = [];
+  for (let index = 0; index < slots.length; index++) {
+    if (ↂ.ward[slots[index]] !== null && ↂ.ward[slots[index]] !== []) {
+    ownedList = ownedList.concat(ↂ.ward[slots[index]]);
+    }
+  }
+  aw.con.info(`${ownedList}`);
+  if (ownedList.length !== 0) {
+    for (let index = 0; index < ownedList.length; index++) {
+      if (aw.clothes[ownedList[index]].values.dirty !== null) {
+        aw.clothes[ownedList[index]].values.dirty = 0;
+      }
+      if (aw.clothes[ownedList[index]].wetness !== null) {
+        aw.clothes[ownedList[index]].wetness = 0;
+      }
+    }
+  }
+};
+
+setup.clothes.drying = function(): void {
+  const slots = ["athL", "athU", "bottom", "bra", "coat", "dress", "leg", "niteL", "niteU", "panties", "swimL", "swimU", "top"];
+  let ownedList = [];
+  for (let index = 0; index < slots.length; index++) {
+    if (ↂ.ward[slots[index]] !== null && ↂ.ward[slots[index]] !== []) {
+    ownedList = ownedList.concat(ↂ.ward[slots[index]]);
+    }
+  }
+  aw.con.info(`${ownedList}`);
+  if (ownedList.length !== 0) {
+    for (let index = 0; index < ownedList.length; index++) {
+      if (aw.clothes[ownedList[index]].wetness !== null) {
+        aw.clothes[ownedList[index]].wetness -= 1;
+      }
+    }
+  }
 };

@@ -367,7 +367,7 @@ setup.clothes.defineObjects = function(): void {
       const wear = ["normal", "strapsOff", "unbuttoned", "halfButton"];
       for (let i = 0; i < 6; i++) {
         if (aw.slot[list[i]] !== 0 && "object" === typeof aw.slot[list[i]]) {
-          if (aw.slot[list[i]].values.exposure < 40 && wear.includes(ᛝ.worn[list[i]])) {
+          if (aw.slot[list[i]].values.exposure < 46 && wear.includes(ᛝ.worn[list[i]])) {
             return false;
           }
         }
@@ -383,7 +383,7 @@ setup.clothes.defineObjects = function(): void {
       const wear = ["normal", "unzipped", "unbuttoned"];
       for (let i = 0; i < 6; i++) {
         if (aw.slot[list[i]] !== 0 && "object" === typeof aw.slot[list[i]]) {
-          if (aw.slot[list[i]].values.exposure < 40 && wear.includes(ᛝ.worn[list[i]])) {
+          if (aw.slot[list[i]].values.exposure < 46 && wear.includes(ᛝ.worn[list[i]])) {
             if (aw.slot[list[i]].slot === "leg") {
               // check if blocks pussy to see if pantyhose
               if (!aw.slot[list[i]].access.pussy) {
@@ -779,7 +779,8 @@ setup.clothes.icon = {
       "IMG_niteU_5",
       "IMG_niteU_6",
       "IMG_Shirt_7",
-
+      "IMG-TankTop",
+      "IMG_Shirt_2",
     ];
     return img[num] || "IMGnotavailable";
   },
@@ -948,6 +949,7 @@ setup.clothes.icon = {
       "IMG-Boots",
       "IMG-Flats",
       "IMG-Flops",
+      "IMG-RunningShoes",
     ];
     return img[num] || "IMGnotavailable";
   },

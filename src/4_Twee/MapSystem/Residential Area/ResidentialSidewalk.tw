@@ -1,0 +1,164 @@
+:: ResidentialSidewalk [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPresidential]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>
+/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+@@.head3;Y@@ou are on the wide sidewalk next to a four-lane avenue. From here it's only a minute or two's walk to the bike and jogging path that cuts through town.
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Go For A Walk">><<set _gape = random(14, 24)>><<run setup.notify('You stroll for some time relaxing and looking at the world around you.')>><<addtime _gape>><<stress -4 "Going for a walk">><</button>>
+<<endhoverrevise>>
+<<hoverrevise whore>>
+  <<button "Stand at the Corner">><<set $streetWalkLoc = "rescorner">><<dialog "Preparing to work">><<include [[StreetWalkerManager]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "Wait for Bus">><<dialog "Bus">><span id="busSpan"><<set _tim = random(3,12)>><<addtime _tim>>@@.head3;Y@@ou wait at the <<message "shuttle stop">>[img[IMG-stupidBusStopDrawing]]<</message>> for about <<=_tim>> minutes until <<message "bus">>[img[IMG-AppleTransit]]<</message>> finally arrives. Judging by the screen on it's side it is going to the downtown. Through the windows you can see that the shuttle is <<print either("absolutely empty", "mostly empty.", "pretty crowded")>><br><<button "Hop on">><<replace "#busSpan">>@@.head3;Y@@ou go into the bus and hear AppleTransit app on your phone beeps.<br><br>@@.npc;Next station is... Heisenberg street.@@<br><br>Sitting near the window you look outside as the bus rapidly makes its way to the downtown. You slowly drift into your thoughts as buildings slide behind the glass.<br><br><<selfthought>><br><br>After about 20 minutes bus stops and the metallical voice announces that you get to the southwest part of the downtown.<br><<button "Go out">><<run Dialog.close()>><</button>><</replace>><<addtime 18>><<gotomap "downtown" "southwest" false>><<updatebar>><</button>><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></span><</dialog>><</button>>
+<<endhoverrevise>>
+/*<<hoverrevise gamma>>
+  <<button "Besty testing rep">><<include "Consumables">><<dialog "Besty testing rep">><center>[img[IMG-deleteMe]]</center><br>The guy is well dressed and wearing oldschool fedora hat. He turns to you when you approach him.<br><br>@@.npc;Good day to you ma'am! I am working for Besty codekitteh game testing department and glad to present you a wide choice of drugs for purchasing!@@<br><br>@@.pc;Oh... I see... It must be expensive?@@<br><br>@@.npc;Glad that you asked! The answer is - not at all! Everything you see you can take for free! So, what would you like?@@<br><br>The guy shows you the well printed menu-like paper with various drugs.<br><br><<button "Focus T 40">><<run setup.shop.pushInv(["FocusTablet40", "consume", 0, "FocusTablet40", 1]);>><<run aw.cash(-15);>><<updatebar>><</button>><<button "Focus V 40">><<run setup.shop.pushInv(["FocusVial40", "consume", 0, "FocusVial40", 1]);>><<run aw.cash(-15);>><<updatebar>><</button>><<button "Focus T 80">><<run setup.shop.pushInv(["FocusVial80", "consume", 0, "FocusVial80", 1]);>><<run aw.cash(-15);>><<updatebar>><</button>><<button "Zone B 1">><<run setup.shop.pushInv(["ZoneBottle1", "consume", 0, "ZoneBottle1", 1]);>><<run aw.cash(-15);>><<updatebar>><</button>><<button "Zone B 3">><<run setup.shop.pushInv(["ZoneBottle3", "consume", 0, "ZoneBottle3", 1]);>><<run aw.cash(-15);>><<updatebar>><</button>><<button "Zone I 3">><<run setup.shop.pushInv(["ZoneInhaler3", "consume", 0, "ZoneInhaler3", 1]);>><<run aw.cash(-15);>><<updatebar>><</button>><<button "Heat 100">><<run setup.shop.pushInv(["Heat100", "consume", 0, "Heat100", 1]);>><<run aw.cash(-15);>><<updatebar>><</button>><<button "Heat 150">><<run setup.shop.pushInv(["Heat150", "consume", 0, "Heat150", 1]);>><<run aw.cash(-15);>><<updatebar>><</button>><<button "Heat 300">><<run setup.shop.pushInv(["Heat300", "consume", 0, "Heat300", 1]);>><<run aw.cash(-15);>><<updatebar>><</button>><<button "Satyr Vial">><<run setup.shop.pushInv(["SatyrVial", "consume", 0, "SatyrVial", 1]);>><<run aw.cash(-15);>><<updatebar>><</button>><<button "Satyr Tablet">><<run setup.shop.pushInv(["SatyrTablet", "consume", 0, "SatyrTablet", 1]);>><<run aw.cash(-15);>><<updatebar>><</button>><<button "Sarcasm">><<run setup.notify('Oh, come on.')>><</button>><</dialog>><</button>>
+<<endhoverrevise>> */
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Take some time to stroll around the residential area. It's exercise, but without all the difficulty.<<endinsertion>>
+<<insertion whore>>Strut your stuff at the side of the road. Perhaps someone will ask you out on a "date"! [15min]<<endinsertion>>
+<<insertion beta>>Wait around at the shuttle stop for the next shuttlebus headed around town.<<endinsertion>>
+/* <<insertion gamma>>Talk to the odd guy in 1950 styled clothes.<<endinsertion>> */
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: ResidentialSidewalkLOC [nobr]
+
+@@.head3;Y@@ou spot a woman heading towards the jogging path to work out.<br><br>
+[img[IMGjoggingArea]]
+
+
+:: ResidentialDrugs [nobr]
+
+<div style="float: right; margin-left: 15px;">[img[IMG-DrugDealer]]</div><<addtime 8>>
+@@.head3;T@@he guy <<= either("casually staring into his phone looks a bit odd, like he is just waiting here for something.","is pressing his back against the wall, obviously waiting for customers.")>> <<= either ("When you approach him he turns his head to you.", "Whem he notice your stare he nods a bit.")>>
+<br><br>@@.npc;Hey, lookin' for something?@@<br>
+<<if ↂ.flag.drug.residentialPedroMet === true>>
+  <br>@@.pc;Well, yeah, got something?@@<br>
+<<else>>
+  <<has extro>><br>@@.pc;Well, yes. I am guessing you can sell me some drugs.@@<br>
+  <<or>>
+  <br>@@.pc;Y-yeah. I would like to buy...@@<br><</has>>
+  <br>@@.npc;Oh, how cute, yet another little bird looking for some tasty things. Well, you got it to the right man, duckling.@@<br>
+  <br>@@.pc;So, you can sell some to me, right?@@<br>
+<</if>>
+<br>@@.npc;<<= either ("Anything you can ever desire, pretty lips. Well, almost anything, usually I have some Satyr, Focus and Zone but you know how it works this days. There are some problems with our supplies and stuff. So, here is what I have today.","For such a beauty I always have something. Not much of a choice today, but business is business.", "Sure.")>>@@<br>
+<br>@@.pc;<<= either ("Oh, I see.", "Okay, let's see.")>>@@<br>
+<<if ↂ.pc.status.addict.maxValue > 50>>
+  <<silently>><<set _inv = ["<<button 'Focus tablet 40'>><<run setup.shop.pushInv(['FocusTablet40', 'consume', 0, 'FocusTablet40', 1]);>><<run aw.cash(-20);>><<updatebar>><</button>>","<<button 'Focus vial 40'>><<run setup.shop.pushInv(['FocusVial40', 'consume', 0, 'FocusVial40', 1]);>><<run aw.cash(25);>><<updatebar>><</button>>","<<button 'Focus tablet 80'>><<run setup.shop.pushInv(['FocusVial80', 'consume', 0, 'FocusVial80', 1]);>><<run aw.cash(-30);>><<updatebar>><</button>>","<<button 'Zone bottle 1'>><<run setup.shop.pushInv(['ZoneBottle1', 'consume', 0, 'ZoneBottle1', 1]);>><<run aw.cash(-35);>><<updatebar>><</button>>","<<button 'Zone bottle 3'>><<run setup.shop.pushInv(['ZoneBottle3', 'consume', 0, 'ZoneBottle3', 1]);>><<run aw.cash(-45);>><<updatebar>><</button>>","<<button 'Zone inhaler 3'>><<run setup.shop.pushInv(['ZoneInhaler3', 'consume', 0, 'ZoneInhaler3', 1]);>><<run aw.cash(-45);>><<updatebar>><</button>>","<<button 'Heat 100'>><<run setup.shop.pushInv(['Heat100', 'consume', 0, 'Heat100', 1]);>><<run aw.cash(-15);>><<updatebar>><</button>>","<<button 'Heat 150'>><<run setup.shop.pushInv(['Heat150', 'consume', 0, 'Heat150', 1]);>><<run aw.cash(-20);>><<updatebar>><</button>>","<<button 'Heat 300'>><<run setup.shop.pushInv(['Heat300', 'consume', 0, 'Heat300', 1]);>><<run aw.cash(-25);>><<updatebar>><</button>>","<<button 'Satyr vial'>><<run setup.shop.pushInv(['SatyrVial', 'consume', 0, 'SatyrVial', 1]);>><<run aw.cash(-17);>><<updatebar>><</button>>","<<button 'Satyr tablet'>><<run setup.shop.pushInv(['SatyrTablet', 'consume', 0, 'SatyrTablet', 1]);>><<run aw.cash(-20);>><<updatebar>><</button>>"]>>
+  <<if ↂ.flag.drug.residentialPedroSwap !== State.active.variables.date[0]>>
+  <<set $randomDrugs1 = either(_inv)>>
+  <<set $randomDrugs2 = either(_inv)>>
+  <<set $randomDrugs3 = either(_inv)>>
+  <<set ↂ.flag.drug.residentialPedroSwap = State.active.variables.date[0]>>
+  <</if>>
+  <</silently>>
+
+  <br>@@.npc;Just be sure to keep quiet about this, okay? I don't know you much and I don't want any troubles, so keep your pretty lips shut.@@<br>
+  <br><<print $randomDrugs1>>
+  <<print $randomDrugs2>>
+  <<print $randomDrugs3>>
+<<else>>
+  <<silently>><<set _inv = ["<<button 'Focus tablet 40'>><<run setup.shop.pushInv(['FocusTablet40', 'consume', 0, 'FocusTablet40', 1]);>><<run aw.cash(-30);>><<updatebar>><</button>>","<<button 'Focus vial 40'>><<run setup.shop.pushInv(['FocusVial40', 'consume', 0, 'FocusVial40', 1]);>><<run aw.cash(35);>><<updatebar>><</button>>","<<button 'Focus tablet 80'>><<run setup.shop.pushInv(['FocusVial80', 'consume', 0, 'FocusVial80', 1]);>><<run aw.cash(-40);>><<updatebar>><</button>>","<<button 'Zone bottle 1'>><<run setup.shop.pushInv(['ZoneBottle1', 'consume', 0, 'ZoneBottle1', 1]);>><<run aw.cash(-45);>><<updatebar>><</button>>","<<button 'Zone bottle 3'>><<run setup.shop.pushInv(['ZoneBottle3', 'consume', 0, 'ZoneBottle3', 1]);>><<run aw.cash(-55);>><<updatebar>><</button>>","<<button 'Zone inhaler 3'>><<run setup.shop.pushInv(['ZoneInhaler3', 'consume', 0, 'ZoneInhaler3', 1]);>><<run aw.cash(-55);>><<updatebar>><</button>>","<<button 'Heat 100'>><<run setup.shop.pushInv(['Heat100', 'consume', 0, 'Heat100', 1]);>><<run aw.cash(-25);>><<updatebar>><</button>>","<<button 'Heat 150'>><<run setup.shop.pushInv(['Heat150', 'consume', 0, 'Heat150', 1]);>><<run aw.cash(-30);>><<updatebar>><</button>>","<<button 'Heat 300'>><<run setup.shop.pushInv(['Heat300', 'consume', 0, 'Heat300', 1]);>><<run aw.cash(-35);>><<updatebar>><</button>>","<<button 'Satyr vial'>><<run setup.shop.pushInv(['SatyrVial', 'consume', 0, 'SatyrVial', 1]);>><<run aw.cash(-27);>><<updatebar>><</button>>","<<button 'Satyr tablet'>><<run setup.shop.pushInv(['SatyrTablet', 'consume', 0, 'SatyrTablet', 1]);>><<run aw.cash(-30);>><<updatebar>><</button>>"]>>
+  <<if ↂ.flag.drug.residentialPedroSwap !== State.active.variables.date[0]>>
+  <<set $randomDrugs1 = either(_inv)>>
+  <<set $randomDrugs2 = either(_inv)>>
+  <<set $randomDrugs3 = either(_inv)>>
+  <<set ↂ.flag.drug.residentialPedroSwap = State.active.variables.date[0]>>
+  <</if>>
+  <</silently>>
+  <br>@@.npc;<<= either("Well here is what I have for my most loyal customer:", "It is pretty good business relations we are having, yeah? Take a look:")>>@@<br>
+  <br><<print $randomDrugs1>>
+  <<print $randomDrugs2>>
+  <<print $randomDrugs3>>
+<</if>>
+
+
+:: ResidentialDrugsPedro-1 [nobr]
+
+<<set ↂ.flag.drug.residentialPedroMet = true>>The hispanic guy nods to you as you pass by. 
+<p>
+@@.npc;Heyo, monada! Wanna buy some good quality stuff?@@
+</p>
+<p>
+He looks pretty young but still gives you some uneasy feeling with his manner of speech.
+</p>
+<<dialogchoice>>
+  <<dbutt "No">><<run setup.interact.exit()>>
+  <<dtext "neutral">>No, thanks, I am not interested.
+  <<dbutt "Yes">><<intreplace>><<include "ResidentialDrugsPedro-1-yes">><</intreplace>>
+  <<dtext "smug">>Why not, what do you have?
+<</dialogchoice>>
+
+
+:: ResidentialDrugsPedro-1-yes [nobr]
+
+<<silently>><<set _inv = ["<<button 'Focus tablet 40'>><<run setup.shop.pushInv(['FocusTablet40', 'consume', 0, 'FocusTablet40', 1]);>><<run aw.cash(-10);>><<updatebar>><</button>>","<<button 'Focus vial 40'>><<run setup.shop.pushInv(['FocusVial40', 'consume', 0, 'FocusVial40', 1]);>><<run aw.cash(15);>><<updatebar>><</button>>","<<button 'Focus tablet 80'>><<run setup.shop.pushInv(['FocusVial80', 'consume', 0, 'FocusVial80', 1]);>><<run aw.cash(-20);>><<updatebar>><</button>>","<<button 'Zone bottle 1'>><<run setup.shop.pushInv(['ZoneBottle1', 'consume', 0, 'ZoneBottle1', 1]);>><<run aw.cash(-25);>><<updatebar>><</button>>","<<button 'Zone bottle 3'>><<run setup.shop.pushInv(['ZoneBottle3', 'consume', 0, 'ZoneBottle3', 1]);>><<run aw.cash(-35);>><<updatebar>><</button>>","<<button 'Zone inhaler 3'>><<run setup.shop.pushInv(['ZoneInhaler3', 'consume', 0, 'ZoneInhaler3', 1]);>><<run aw.cash(-35);>><<updatebar>><</button>>","<<button 'Heat 100'>><<run setup.shop.pushInv(['Heat100', 'consume', 0, 'Heat100', 1]);>><<run aw.cash(-15);>><<updatebar>><</button>>","<<button 'Heat 150'>><<run setup.shop.pushInv(['Heat150', 'consume', 0, 'Heat150', 1]);>><<run aw.cash(-10);>><<updatebar>><</button>>","<<button 'Heat 300'>><<run setup.shop.pushInv(['Heat300', 'consume', 0, 'Heat300', 1]);>><<run aw.cash(-15);>><<updatebar>><</button>>","<<button 'Satyr vial'>><<run setup.shop.pushInv(['SatyrVial', 'consume', 0, 'SatyrVial', 1]);>><<run aw.cash(-17);>><<updatebar>><</button>>","<<button 'Satyr tablet'>><<run setup.shop.pushInv(['SatyrTablet', 'consume', 0, 'SatyrTablet', 1]);>><<run aw.cash(-10);>><<updatebar>><</button>>"]>>
+  <<set $randomDrugs1 = either(_inv)>>
+  <<set $randomDrugs2 = either(_inv)>>
+  <<set $randomDrugs3 = either(_inv)>>
+  <</silently>>
+  <br>@@.npc;Everything of the best quality and absolutely legal, don't worry!@@
+  <<if ↂ.pc.status.addict.maxValue < 20>>
+  <br>@@.pc;Oh, is it safe?@@
+  <br>@@.npc;Of course, all these stuff is institute approved, you ll be okay, baby!@@<br>
+  <</if>>
+  <br><<print $randomDrugs1>>
+  <<print $randomDrugs2>>
+  <<print $randomDrugs3>>

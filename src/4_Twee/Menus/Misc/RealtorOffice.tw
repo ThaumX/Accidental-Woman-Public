@@ -1,0 +1,340 @@
+
+:: AppleCleftRealty [nobr]
+
+<center>[img[IMG-AppleCleftRealty]]</center>
+<p>
+<<f e>>ntering the nicely-furnished real estate office, you immediately notice Tiffany sitting behind her desk. <<switch random(1,3)>><<case 1>>The office appears to be empty of customers, and Tiffany seems to be a little flushed and distracted behind her desk.<<case 2>>A middle-aged couple are sitting on a couch and appear to be taking a virtual tour judging by the <<info "AR glasses" "guideARglasses">> they're wearing. There seems to be a certain amount of tension hanging between the two of them.<<case 3>>The office has a couple different customers sitting in it; a man nearing his 30s seems to be reviewing some documents or paperwork on a slate, while two women are gesturing pointlessly into the air behind pairs of <<info "AR glasses" "guideARglasses">>.<</switch>> You walk up to Tiffany and say a simple @@.pc;Hello.@@
+</p>
+<p>
+She looks up at you with a start. @@.npc;Oh, hello <<= ↂ.pc.main.name>>! Sorry, I was a bit distracted and didn't see you come in.@@ She gives you a bit of a sheepish smile, and angles her slate so you can see the screen. It shows what seems to be an in-progress <<info "NACA" "guideNACA">> match. @@.npc;It's so easy to get caught up watching a match! Anyway, what can I do for you today?@@
+</p>
+<<dialogchoice>>
+<<dbutt "Ask about">><<set _t = random(5,10)>><<addTime _t>><<go "AppleCleft-AskAbout">>
+<<dtext "confused">>Ask Tiffany about the process of getting a new place in Appletree, how it works with an existing lease, and of course the actual move. <span class="ctn">[5-10min]</span>
+<<dbutt "Shop">><<set _t = random(5,10)>><<addTime _t>><<go "AppleCleft-HomeSearch">>
+<<dtext "greed">>Ask Tiffany to show you the units that are currently available for rent in town. <span class="ctn">[20-45min]</span>
+<<dbutt "types">><<set _t = random(5,10)>><<addTime _t>><<go "AppleCleft-HomeTypes">>
+<<dtext "excited">>Ask Tiffany about the different types of homes available in Appletree. <<ctn>>[5-10min]<</ctn>>
+<<dbutt "gotta run">><<addTime 2>><<go "DowntownBank">>
+<<dtext "awkward">>Make up an excuse and leave the Apple Cleft Realty office.
+<<dbutt "personal">>
+<<dtext "happy">>Start a conversation with Tiffany that isn't related to real estate. <<ctn>>[this will open an interaction window]<</ctn>> <<ctn bad>>NOT IMPLEMENTED<</ctn>>
+<</dialogchoice>>
+
+
+:: AppleCleft-AskAbout [nobr]
+
+
+<<dp x>>I know that leases and moving and everything works differently around here, so I was hoping you could give some pointers.<</dp>>
+<p>
+Tiffany smiles in a way that is only <i>slightly</i> predatory. @@.npc;Oh, that's no problem. Are you thinking about moving soon?@@
+</p>
+<div id="rbox">
+<<dialogchoice>>
+<<dbutt "more space">><<npclike 4 "n1001" 2>><<replace "#rbox">><<include [[AppleCleft-AskAbout-space]]>><</replace>>
+<<dtext "dismay">>Tell Tiffany that you're interested in a bigger place.
+<<dbutt "perhaps">><<replace "#rbox">><<include [[AppleCleft-AskAbout-perhaps]]>><</replace>>
+<<dtext "muted">>Tell Tiffany you may be in the market, but you want to see what all is involved first.
+<<dbutt "lower rent">><<npclike -2 "n1001" 2>><<replace "#rbox">><<include [[AppleCleft-AskAbout-rent]]>><</replace>>
+<<dtext "scared">>Tell Tiffany that you are worried about rent and want to live in a smaller place.
+<</dialogchoice>>
+</div>
+
+
+
+:: AppleCleft-AskAbout-space [nobr]
+
+<<dp x>>Well, I would really like a place with more space... my current place is a little too small for me.<</dp>>
+<p>
+Tiffany's grin intensifies. <<dn>>Well that's no problem at all, there are <<switch ↂ.home.stats.tier>><<case 1>>plenty of one bedroom apartments on the market, or even two-bedroom units if you wanted a bigger upgrade.<<case 2>>plenty of two bedroom apartments available for rent, and even a few three bedroom places as well.<<case 3>>a few three bedroom apartments available, and even a couple townhomes if you were looking for even more space.<</switch>> So let me give you the rundown, okay?<</dn>>
+</p>
+<<dp x>><<has bitch>>Well, that's why I'm here Tiffany...<<or>>Sure, go right ahead.<</has>><</dp>>
+<<include [[AppleCleft-AskAbout-infos]]>>
+
+
+:: AppleCleft-AskAbout-perhaps [nobr]
+
+<<dp x>>Well, I've been thinking about it, but I need to know a bit more about how things work before I decide, you know?<</dp>>
+<p>
+Tiffany gives you an understanding smile. <<dn>>I completely understand, especially with the... unique housing situation around here. Fortunately the process is a lot easier than it is elsewhere, probably cheaper too! If you're thinking about a bigger place, there are <<switch ↂ.home.stats.tier>><<case 1>>plenty of one bedroom apartments on the market, or even two-bedroom units if you wanted a bigger upgrade.<<case 2>>plenty of two bedroom apartments available for rent, and even a few three bedroom places as well.<<case 3>>a few three bedroom apartments available, and even a couple townhomes if you were looking for even more space.<</switch>> So let me give you the rundown, okay?<</dn>>
+</p>
+<<dp x>><<has bitch>>Well, that's why I'm here Tiffany...<<or>>Sure, go right ahead.<</has>><</dp>>
+<<include [[AppleCleft-AskAbout-infos]]>>
+
+:: AppleCleft-AskAbout-rent [nobr]
+
+<<dp x>>Well, to be honest... I'm really worried about the cost of rent in my current place. I think it might be too much for me to handle.<</dp>>
+<p>
+Tiffany's face quickly becomes more serious. <<dn>>Well it's really good that you're being proactive about it. Appletree isn't the sort of place where you want to get behind on your rent. Fortunately the process is a lot easier than it is elsewhere, probably cheaper too! If you're thinking about a smaller place, there are <<switch ↂ.home.stats.tier>><<case 1>>probably a few other studio units that might have a little lower rent than what you're paying now.<<case 2>>studio apartments available for rent. They're modern studios, so they have a divided living and sleeping space, and saving yourself ₢200 shouldn't be too hard.<<case 3>>several one bedroom units you could look at, and even modern studios if you were looking to really cut back on costs.<</switch>> So let me give you the rundown, okay?<</dn>>
+</p>
+<<dp x>><<has bitch>>Well, that's why I'm here Tiffany...<<or>>Sure, go right ahead.<</has>><</dp>>
+<<include [[AppleCleft-AskAbout-infos]]>>
+
+
+:: AppleCleft-AskAbout-infos [nobr]
+
+<<dn x>>As you know, the Institute owns all the property in Appletree through their subsidiary property management corp. This makes things really different from a normal move outside the valley! It's really a lot more like changing units inside the same apartment building. It's the same owner, same management, so there isn't a lot of hassle with terminating leases, inspections, new leases, and the like.<</dn>>
+<p>
+She gives you a big smile. <<dn>>And Apple Cleft is here to make the process as easy and efficient as possible. We set up the paperwork for you, show you available units, and even handle getting your stuff moved to your new place. In fact, the whole process can be done in a single day. Just show up here, look at the available units, and if one catches your eye, we'll handle the paperwork and then the mover bots will start doing their thing. After that, you can head straight to your new place!<</dn>>
+</p>
+<p>
+<<dn>>I'm guessing you want to know more about prices, right? That's pretty straight-forward too, assuming you haven't burnt down your old place. Because rent is debited weekly, You'll just assume the new rate at the end of the week. If you're downgrading, there will probably be a small prorated fee to make up the difference. The moving service costs</span> <span class="money">₢250</span> <span class="npc">and is mandatory for in-town moves.<</dn>> She gives you a shrug, as if to say "bureaucracy".
+</p>
+
+<<if $time[0] > 11>>
+<p>Tiffany's phone alarm starts going off and she picks it up to take a look. @@.npc;Oh sorry, I've really got to get going. I've got an appointment to make... I'm sorry about that, but feel free to stop back in tomorrow or whenever you have time if you're looking to move!@@
+</p>
+<p>Before you realize what's going on, you find that you've been ushered over to the door and are about to step outside.</p>
+<center><<button "CONTINUE">><<addTime 2>><<go "DowntownBank">><</button>></center>
+<<else>>
+<<dn x>>So, is there anything else I can help you with? Perhaps you'd like to take some virtual tours?<</dn>>
+<<dialogchoice>>
+<<dbutt "Shop">><<set _t = random(5,10)>><<addTime _t>><<go "AppleCleft-HomeSearch">>
+<<dtext "greed">>Ask Tiffany to show you the units that are currently available for rent in town. <span class="ctn">[20-45min]</span>
+<<dbutt "types">><<set _t = random(5,10)>><<addTime _t>><<go "AppleCleft-HomeTypes">>
+<<dtext "excited">>Ask Tiffany about the different types of homes available in Appletree. <<ctn>>[5-10min]<</ctn>>
+<<dbutt "next time">><<addTime 2>><<go "DowntownBank">>
+<<dtext "happy">>Tell Tiffany that's all you needed for now, and get going.
+<</dialogchoice>>
+<</if>>
+
+:: AppleCleft-HomeTypes [nobr]
+
+
+<<dp x>>Well, I was really interested in learning what sorts of different units are available, in terms of size and number of rooms, that sort of thing.<</dp>>
+<p>
+With a smile, Tiffany begins rummaging in a desk drawer. @@.npc;I've got just the thing right here, a simple brochure on the different tier units.@@ She finally finds what she was looking for and straightens back up. @@.npc;Unfortunately there isn't much difference in terms of floor plan, there's a few variations for each tier, but they're all pretty similar. The biggest differences are in the finish and quality of the unit, and of course location and how recently they were renovated, if at all.@@ She hands you the brochure @@.npc;Go ahead and take a look, I'm going to see how my team is doing...@@
+</p>
+<p>She powers on her slate and starts watching, so you go ahead and give the brochure a look.</p>
+<div style="border-width:2px;border-style:solid;border-color:#bcc;">
+<h2>Living Accommodations in Appletree</h2>
+<table id="invisTable">
+<tr><td><h3>Tier 1</h3></td></tr>
+<tr><td><img data-passage="IMG-T1HomeMap" style="width:200px;height:200px;float:left;margin:5px 10px 5px 0px;display:inline-block;">
+Tier 1 housing consists of what is known as modern studio apartments. While they don't have separate rooms, they do have divided spaces that break up what would otherwise be a single room. While quite small, they do have everything a person needs!
+</td></tr>
+<tr><td><h3>Tier 2</h3></td></tr>
+<tr><td><img data-passage="IMGtier2home" style="width:200px;height:200px;float:left;margin:5px 10px 5px 0px;display:inline-block;">
+Tier 2 housing consists of single bedroom apartments that are perfect for single occupancy. They come equipped with an open-concept kitchen and dining area, living room, as well as a full bedroom and walk-in closet. While they may become cramped if you want to have a home office or exercise area, they strike a great balance between space and price.
+</td></tr>
+<tr><td><h3>Tier 3</h3></td></tr>
+<tr><td><img data-passage="IMG-T3HomeMap" style="width:200px;height:200px;float:left;margin:5px 10px 5px 0px;display:inline-block;">
+Tier 3 housing consists of a two bedroom unit. Some units are designed for couples or single professionals, giving them extra room for a home office or recreational space. These units usually have one full bathroom and a guest half bathroom. Other units are intended to be shared with friends, sex friends, or roommates, and have two full bathrooms. This setup is popular as well, because sharing the rent gets you more bang for your credit! <i style="font-size:0.8rem;">*Remember: the primary renter is still responsible for the full sum of the rent if the roommate leaves or is unable to pay!</i>
+</td></tr>
+<tr><td><h3>Tier 4</h3></td></tr>
+<tr><td>...</td></tr>
+<tr><td><h3>Tier 5</h3></td></tr>
+<tr><td>...</td></tr>
+</table>
+<p>
+You can find more information about Appletree <<info "homes" "guideRealEstate">> online!
+</p>
+</div>
+<<if $time[0] > 11>>
+<p>Right about the time you were done looking at the brochure, Tiffany's phone alarm starts going off and she picks it up to take a look. @@.npc;Oh sorry, I've really got to get going. I've got an appointment to make... I'm sorry about that, but feel free to stop back in tomorrow or whenever you have time if you're looking to move!@@
+</p>
+<p>Before you realize what's going on, you find that you've been ushered over to the door and are about to step outside.</p>
+<center><<button "CONTINUE">><<addTime 2>><<go "DowntownBank">><</button>></center>
+<<else>>
+<p>After you finish going over the brochure, you get Tiffany's attention. @@.pc;Hey, thanks for letting me take a look at that.@@
+</p><p>
+She looks up from the match with a smile. @@.npc;Not a problem <<= ↂ.pc.main.name>>! Is there anything else I can help you with?@@
+</p>
+<<dialogchoice>>
+<<dbutt "Ask about">><<set _t = random(5,10)>><<addTime _t>><<go "AppleCleft-AskAbout">>
+<<dtext "confused">>Ask Tiffany about the process of getting a new place in Appletree, how it works with an existing lease, and of course the actual move. <span class="ctn">[5-10min]</span>
+<<dbutt "Shop">><<set _t = random(5,10)>><<addTime _t>><<go "AppleCleft-HomeSearch">>
+<<dtext "greed">>Ask Tiffany to show you the units that are currently available for rent in town. <span class="ctn">[20-45min]</span>
+<<dbutt "next time">><<addTime 2>><<go "DowntownBank">>
+<<dtext "happy">>Tell Tiffany that's all you needed for now, and get going.
+<</dialogchoice>>
+<</if>>
+
+
+:: AppleCleft-HomeSearch [nobr]
+
+<<dp x>>Well, I was hoping to take a look at what places are available right now.<</dp>>
+<p>
+Tiffany gives you a big grin. @@.npc;Absolutely! Just fill out the usual search options here, and I'll get you set up with some virtual tours, okay?@@
+</p>
+<p>
+You nod. @@.pc;Yep, that'll be great, thanks.@@
+</p>
+<p>Tiffany hands you a normal-sized tablet with a questionnaire on it. @@.npc;You know the drill, <<= ↂ.pc.main.name>>. Just let the system know what you're looking for.@@
+</p>
+<div style="width:70%;border-width:2px;border-style:solid;border-radius:5px;border-color:deepskyblue;padding:10px;">
+<<set $temp = {homeop: [1,0,0,0,0]}>>
+<h2>Choose what's important to YOU!</h2>
+<table id="invisTable">
+<tr><td colspan=2>Rank 1: Not Important, 2: Neutral, 3: Important<<tab>><<info "Review Home Information" guideRealEstate>></td></tr>
+<tr>
+  <td style="width:25%;">Home Tier</td>
+  <td>''1:'' <<radiobutt "$temp.homeop[0]" 1 checked>><<tab>>''2:'' <<radiobutt "$temp.homeop[0]" 2>><<tab>>''3:'' <<radiobutt "$temp.homeop[0]" 3>></td>
+</tr>
+<tr>
+  <td>Finish</td>
+  <td>''1:'' <<radiobutt "$temp.homeop[1]" 1>><<tab>>''2:'' <<radiobutt "$temp.homeop[1]" 2 checked>><<tab>>''3:'' <<radiobutt "$temp.homeop[1]" 3>></td>
+</tr>
+<tr>
+  <td>Upkeep</td>
+  <td>''1:'' <<radiobutt "$temp.homeop[2]" 1>><<tab>>''2:'' <<radiobutt "$temp.homeop[2]" 2 checked>><<tab>>''3:'' <<radiobutt "$temp.homeop[2]" 3>></td>
+</tr>
+<tr>
+  <td>Neighborhood</td>
+  <td>''1:'' <<radiobutt "$temp.homeop[3]" 1>><<tab>>''2:'' <<radiobutt "$temp.homeop[3]" 2 checked>><<tab>>''3:'' <<radiobutt "$temp.homeop[3]" 3>></td>
+</tr>
+<tr>
+  <td>Location</td>
+  <td>''1:'' <<radiobutt "$temp.homeop[4]" 1>><<tab>>''2:'' <<radiobutt "$temp.homeop[4]" 2 checked>><<tab>>''3:'' <<radiobutt "$temp.homeop[4]" 3>></td>
+</tr>
+</table>
+</div>
+
+<p>
+When you're done, you hand back the tablet and she ushers you over to a comfortable chair against the wall. @@.npc;Okay honey, go ahead and take these AR glasses, and I'll have the units loaded up in just a moment. Just let me know if any catch your eye!@@
+</p>
+<center>
+<<button "CUNTINUE">><<set $temp.homeChoice = "N/A">><<run setup.homesGenerator(6, $temp.homeop)>><<set _t = random(15,35)>><<addTime _t>><<go "AppleCleft-HomeSearch2">><</button>>
+</center>
+
+
+:: AppleCleft-HomeSearch2 [nobr]
+
+<<uicardsinit "_cocker" "Virtual Tour" "Choose a home">>
+<<set _select = -1>>
+<h2>Virtual Tour</h2>
+<p>After finalizing a query based on your preferences, Tiffany sends you on a virtual tour of several locations.</p>
+<p class="note">Examine the different available homes and click the "Choose this Home" button to chose that as your new home. The process will take about 6 hours. Alternatively, click the "LEAVE" button to keep your current home. All sales are final!</p>
+
+<<nextcard ↂhomeOptions[0].name>>
+<<set _select = 0>>
+<span class="head2"><<print ↂ.homeOptions[0].name>></span><<tab>><span class="head3"><<print ↂ.homeOptions[0].street>></span><br><br>
+<<print setup.home.apartmentDesc(ↂ.homeOptions[0].tier, ↂ.homeOptions[0].location, ↂ.homeOptions[0].finish, ↂ.homeOptions[0].upkeep)>><br>
+<<button "View Home">><<dialog ↂhomeOptions[0].name>><<print "[img[IMGtier" + ↂ.homeOptions[0].tier + "home]]">><br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<table id="invisTable">
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print ↂ.homeOptions[0].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[0].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[0].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[0].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[0].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print ↂ.homeOptions[0].rent>></td></tr>
+</table>
+<<nextcard ↂhomeOptions[1].name>>
+<<set _select = 1>>
+<span class="head2"><<print ↂ.homeOptions[1].name>></span><<tab>><span class="head3"><<print ↂ.homeOptions[1].street>></span><br><br>
+<<print setup.home.apartmentDesc(ↂ.homeOptions[1].tier, ↂ.homeOptions[1].location, ↂ.homeOptions[1].finish, ↂ.homeOptions[1].upkeep)>><br>
+<<button "View Home">><<dialog ↂhomeOptions[1].name>><<print "[img[IMGtier" + ↂ.homeOptions[1].tier + "home]]">><br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<table id="invisTable">
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print ↂ.homeOptions[1].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[1].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[1].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[1].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[1].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print ↂ.homeOptions[1].rent>></td></tr>
+</table>
+<<nextcard ↂhomeOptions[2].name>>
+<<set _select = 2>>
+<span class="head2"><<print ↂ.homeOptions[2].name>></span><<tab>><span class="head3"><<print ↂ.homeOptions[2].street>></span><br><br>
+<<print setup.home.apartmentDesc(ↂ.homeOptions[2].tier, ↂ.homeOptions[2].location, ↂ.homeOptions[2].finish, ↂ.homeOptions[2].upkeep)>><br>
+<<button "View Home">><<dialog ↂhomeOptions[2].name>><<print "[img[IMGtier" + ↂ.homeOptions[2].tier + "home]]">><br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<table id="invisTable">
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print ↂ.homeOptions[2].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[2].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[2].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[2].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[2].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print ↂ.homeOptions[2].rent>></td></tr>
+</table>
+<<nextcard ↂhomeOptions[3].name>>
+<<set _select = 3>>
+<span class="head2"><<print ↂ.homeOptions[3].name>></span><<tab>><span class="head3"><<print ↂ.homeOptions[3].street>></span><br><br>
+<<print setup.home.apartmentDesc(ↂ.homeOptions[3].tier, ↂ.homeOptions[3].location, ↂ.homeOptions[3].finish, ↂ.homeOptions[3].upkeep)>><br>
+<<button "View Home">><<dialog ↂhomeOptions[3].name>><<print "[img[IMGtier" + ↂ.homeOptions[3].tier + "home]]">><br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<table id="invisTable">
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print ↂ.homeOptions[3].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[3].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[3].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[3].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[3].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print ↂ.homeOptions[3].rent>></td></tr>
+</table>
+<<nextcard ↂhomeOptions[4].name>>
+<<set _select = 4>>
+<span class="head2"><<print ↂ.homeOptions[4].name>></span><<tab>><span class="head3"><<print ↂ.homeOptions[4].street>></span><br><br>
+<<print setup.home.apartmentDesc(ↂ.homeOptions[4].tier, ↂ.homeOptions[4].location, ↂ.homeOptions[4].finish, ↂ.homeOptions[4].upkeep)>><br>
+<<button "View Home">><<dialog ↂhomeOptions[4].name>><<print "[img[IMGtier" + ↂ.homeOptions[4].tier + "home]]">><br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<table id="invisTable">
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print ↂ.homeOptions[4].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[4].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[4].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[4].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[4].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print ↂ.homeOptions[4].rent>></td></tr>
+</table>
+<<nextcard ↂhomeOptions[5].name>>
+<<set _select = 5>>
+<span class="head2"><<print ↂ.homeOptions[5].name>></span><<tab>><span class="head3"><<print ↂ.homeOptions[5].street>></span><br><br>
+<<print setup.home.apartmentDesc(ↂ.homeOptions[5].tier, ↂ.homeOptions[5].location, ↂ.homeOptions[5].finish, ↂ.homeOptions[5].upkeep)>><br>
+<<button "View Home">><<dialog ↂhomeOptions[5].name>><<print "[img[IMGtier" + ↂ.homeOptions[5].tier + "home]]">><br>@@.com;This display will eventually have the location art from the relevant home tier in an "empty" state without your household goods.@@<</dialog>><</button>>
+<table id="invisTable">
+<tr><td id="vertCenter" class="head3" style="width:15%">Tier:</td><td><<print ↂ.homeOptions[5].tier>></td></tr>
+<tr><td id="vertCenter" class="head3">Finish:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[5].finish)>></td></tr>
+<tr><td id="vertCenter" class="head3">Upkeep:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[5].upkeep)>></td></tr>
+<tr><td id="vertCenter" class="head3">Neighborhood:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[5].nhood)>></td></tr>
+<tr><td id="vertCenter" class="head3">Location:</td><td><<print setup.home.apartmentScoreDisp(ↂ.homeOptions[5].location)>></td></tr>
+<tr style="padding-top:15px;"><td><span class="head3">Rent:</span></td><td><<print ↂ.homeOptions[5].rent>></td></tr>
+</table>
+<<nextbutton "Choose this Home!">>
+  <<if _select == -1>>
+    <<set _select = random(0,5)>>
+  <</if>>
+  <<status 1>>
+  <<set _mon = 250>>
+  <<if ↂ.homeOptions[_select].rent < ↂ.home.stats.rent>>
+    <<set _mon += Math.round((ↂ.home.stats.rent - ↂ.homeOptions[_select].rent)/2)>>
+  <</if>>
+  <<set ↂ.home.stats = {name: ↂ.homeOptions[_select].name, tier: ↂ.homeOptions[_select].tier, finish: ↂ.homeOptions[_select].finish, upkeep: ↂ.homeOptions[_select].upkeep, nhood: ↂ.homeOptions[_select].nhood, location: ↂ.homeOptions[_select].location, rent: ↂ.homeOptions[_select].rent}>>
+  <<run aw.cash(_mon, "rent")>>
+  <<go AppleCleft-HomeSearch4>>
+<<nextbutton "LEAVE">><<go "AppleCleft-HomeSearch3">>
+<<nextbutton>>
+<center><<link [img[IMG_ForSale]]>><<if aw.chad.allowed>><<go proRealEstate6>><</if>><</link>>
+<br><<if aw.chad.allowed>>Click to cheat refresh!<</if>>
+<br><br>
+<<info "Review Home Information" guideRealEstate>>
+</center>
+<</uicardsinit>>
+
+:: AppleCleft-HomeSearch3 [nobr]
+
+<<set $temp = 0>>
+<p>
+<<f r>>emoving the AR glasses, you walk back over to Tiffany and hand them to her. @@.pc;Sorry, none of the places caught my eye today.@@
+</p>
+<p>@@.npc;That's okay, it's best to find a place you're happy with, anyway. But come back soon, the real estate market moves pretty quick here!@@
+</p><center>
+<<button "CUNTINUE">><<addTime 2>><<go "DowntownBank">><</button>>
+</center>
+
+
+:: AppleCleft-HomeSearch4 [nobr]
+
+<<set $temp = 0>>
+<p>
+<<f r>>emoving the AR glasses, you walk back over to Tiffany and hand them to her. @@.pc;I found the perfect place! It's the one at <<print ↂ.home.stats.name>>!@@
+</p>
+<p>
+Tiffany gives you a big smile. @@.npc;Awesome! Let's get you started on the paperwork, and then you can go tell the moving bots where to put the stuff in your new place!@@
+</p>
+<p>
+You spend the next several hours doing just that, and at the end you're able to admire your new place...
+</p>
+<center>
+<<button "CUNTINUE">>
+<<set _t = random(330,390)>>
+<<addTime _t>>
+
+<<gotomap "home" "foyer">>
+<</button>>
+</center>
+

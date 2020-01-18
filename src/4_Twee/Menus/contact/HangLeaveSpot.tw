@@ -1,0 +1,77 @@
+
+:: HangLeaveHangspot [nobr]
+
+<<set _leaveText = either("I think it's time to leave", "let's get out of here", "I think I'm ready to go")>>
+
+<p>Feeling that you've been here long enough, you speak up. @@.pc;Hey <<= aw.hang.name>>, <<= _leaveText>>.@@</p>
+
+<p>@@.npc;Okies, so what's up next?@@</p>
+
+<<dialogchoice>>
+<<dbutt "actually">><<addTime 2>><<scenereplace>><<print aw.hangSpots[aw.hang.spot].desc>><br><<print aw.hangSpots[aw.hang.spot].buttonGen()>><</scenereplace>>
+<<dtext "awkward">>Maybe leaving is not a best idea on a second thought...
+<<dbutt "new place">><<addTime 3>><<scenerefresh>><<scenereplace>><p><<f t>>he two of you consider your options for a new activity.</p><<print setup.hang.locationPicker()>><</scenereplace>>
+<<dtext "smile">>Choose some new place to continue the fun.
+<<dbutt "follow">><<addTime 3>><<scenerefresh>><<scenereplace>><<= setup.hang.npcChoice()>><</scenereplace>>
+<<dtext "smile">>Let <<= aw.hang.name>> decide a next place.
+<<dbutt "finish">><<addTime 5>><<scenego "HangLeaveAmicablePC">><<scenerefresh>>
+<<dtext "tired">>Time to call it a day.
+<</dialogchoice>>
+
+
+:: HangLeaveSpotAmicable [nobr]
+
+<<replace "#Scene-Image-Top">>[img[IMG-EndofhangBanner]]<</replace>><<= aw.hang.name>> looks happy.<br>
+@@.npc;This has been fun, <<= ↂ.pc.main.name>>, but I think its just about time to call it a day... We should really do this again though!@@<br>
+<<dialogchoice>>
+  <<dbutt "sounds nice">><<addTime 5>><<scenego "HangLeaveSpotAmicable2">><<scenerefresh>>
+  <<dtext "neutral">>You'd like to meet again too. Or not, but you won't say about this.
+  <<dbutt "hell na">><<scenego "HangLeaveSpotAssFun2">><<scenerefresh>>
+  <<dtext "mad">>Fun my ass... make it obvious you are <b>not</b> interested.
+<</dialogchoice>>
+
+
+:: HangLeaveSpotAssFun2 [nobr]
+
+<p>You nod. @@.pc;Not sure actually. I had terrible time and I guess it was a big mistake.@@</p>
+<p>@@.npc;Wha?... Okay...@@</p><<set aw.npc[aw.hang.npcid].rship.likePC -= 25>>
+<p>You go away.</p>
+<center><<button "CLOSE">><<addTime 5>><<run setup.hang.end()>><</button>></center>
+
+
+:: HangLeaveSpotAmicable2 [nobr]
+
+<p>You nod. @@.pc;I had a good time as well. Hit me up sometime and we'll do it again!@@</p>
+<p>With a brief hug and a peck on the cheek, the two of you part ways.</p>
+<center><<button "CLOSE">><<addTime 5>><<run setup.hang.end()>><</button>></center>
+
+
+:: HangLeaveSpotEndBad [nobr]
+
+<<replace "#Scene-Image-Top">>[img[IMG-EndofhangBanner]]<</replace>>
+<p>
+<<= aw.hang.name>> hestitates for a bit before starting.
+<br><br>@@.npc;You know <<= ↂ.pc.main.name>>, I'm actually pretty tired... How about we call this a wrap for today?@@
+</p>
+<<dialogchoice>>
+<<dbutt "okay">><<addTime 5>><<run setup.hang.end()>>
+<<dtext "confused">>There isn't much to be done about it, and there's no use trying to drag it out now.
+<<dbutt "is it me" false>>
+<<dtext "sad">>Regardless of how how bad it was, you'd still like to chill out again...
+<<dbutt "finally" false>>
+<<dtext "arrogant">>It's about damn time this torture ended. You were about to end it yourself, in fact.
+<</dialogchoice>>
+
+
+:: HangLeaveAmicablePC [nobr]
+
+<<replace "#Scene-Image-Top">>[img[IMG-EndofhangBanner]]<</replace>>
+<br><br>
+You look at <<= aw.hang.name>>.<br><br>
+@@.pc;Well, how about we call it a day? I think I had enough fun for today.@@<br><br>
+@@.npc;Oh, okay, it was some quality time, we should do it again soon!@@<br><br>
+@@.pc;Totally! I will text you soon!@@<br><br>
+@@.npc;All right, see ya!@@<br><br>
+<<= aw.hang.name>> gives you a qucik hug and leaves the spot.
+<center><<button "So do you">><<addTime 5>><<run setup.hang.end()>><</button>></center>
+

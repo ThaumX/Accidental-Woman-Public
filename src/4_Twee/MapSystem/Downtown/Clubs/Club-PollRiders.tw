@@ -1,0 +1,458 @@
+:: DowntownClubRidersEntrance [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPpollriders]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<p>
+@@.head3;Y@@ou stand in the dark passage that leads to the club.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Go out">><<gotomap "downtown" "club" "main">><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Leave the club<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+
+:: DowntownClubRidersEntranceLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+
+
+
+:: DowntownClubRidersLounge [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPpollriders]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<p>
+@@.head3;Y@@ou stand in the stripclub lounge, the interior is pretty standard for such places, powerful spotlights are pointed to the scene with a stripper pole.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Watch the show">><<dialog "Show">><<set _check = ↂ.pc.status.arousal * 2>><<SCX>><<SC "WI" _check>><center><span style="width= 100%;"><<set _shra = "<img data-passage='IMG-PoleRiders-dance" + random(1,6) + "'>">><<print _shra>></span></center><br>@@.head3;Y@@ou find a spare seat and watch the show for some time. As you can notice you are not the only female watching the show, there are people of both genders enjoying the strippers. The girls on stage are doing great and it takes just a minute of observing their flexible bodies until you get pretty aroused. <<if !$SCresult[1]>><<set _cash = _check * -1>><<run aw.cash(_cash, "porn")>>You can't help but shove some tips to the thongs of the one particulary sexy stripper girl, she smiles and presses her generous boobs in your face for a moment as a reward for your @@.money;<<mon>><<= _check>>@@.<</if>><<arousal 2>><<set _tim = random(10-20)>><<addtime _tim>><<updatebar>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "Private show">><<gotomap "downtown" "club" "pollridersprivate">><<dialog "Show">><<include [[PollRidersPrivateShow]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Enjoy the stripdance [10-20 min][-??? money]<<endinsertion>>
+<<insertion beta>>Ask a stripper for a private show in the booth.[20-30 min][-??? money]<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+
+:: DowntownClubRidersLoungeLOC [nobr]
+
+<center>[img[IMG-PoleRidersLoungeLoc]]</center>
+<br>
+<p>@@.mono;Hmm, the girl on the stage is nice... maybe I should watch the show closer?@@</p>
+
+
+:: DowntownClubRidersBar [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPpollriders]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<p>
+@@.head3;Y@@ou sit on the empty bar stool and look at the drink card written on the chalkboard.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+    <<button "Take a drink">><<dialog "Poll Riders Bar">><<print setup.food.bar("pollrider")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Go to the bar and order something flammable.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+
+:: DowntownClubRidersBarLOC [nobr]
+
+<center>[img[IMG-PollRidersBarLOC]]</center><br><p>You see a bartender girl sitting on top of the bar counter with a bottle between her open thighs. Clients are asking her to do "her trick" whatever it means.</p>
+<p>@@.npc;Okay folk, a Jackson and I'll make this Mërde & Chatte dissapear!@@</p>
+
+
+:: DowntownClubRidersWc [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPpollriders]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<p>
+@@.head3;Y@@ou stand in the club's WC. Almost all unisex urinals are occupied by guests and you are sure you can hear some grunting from the closed stall.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise beta>>
+    <<button "Look In Mirror">><<dialog "Mirror">><center>[img[IMG-brokenMirror]]<br>Sadly, it is broken.</center><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion beta>>Look at yourself in the mirror.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+
+:: DowntownClubRidersWcLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+
+
+:: DowntownClubRidersStaff [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPpollriders]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<p>
+@@.head3;Y@@ou stand in the dressing room of the club. Girls chatting and getting ready for the next show, tons of various stuff like stripper heels, skimpy bikinis are scattered around. You are sure there is even a big feather thing you once saw on TV show about Brazilian Carnival.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<if !ↂ.flag.shamelessRead>>
+<<hoverrevise alpha>>
+  <<button "Table">><<addtime 4>><<if !ↂ.flag.shamelessRead>><<dialog "Table">><center>[img[IMG-Item-Shameless]]</center><br>You notice a magazine lying on the table and pick it up.<<run setup.consumables.add("shameless")>><</dialog>><<else>><<dialog "Table">><<set _random = random(0,20)>><<if _random == 10>>You notice a vial of Satyr drug. <p>@@.mono;Hmm. I could take it but it probably belongs to somebody...@@</p><<button "Take it">><<run setup.consumables.add("SatyrVial")>><<run Dialog.close()>><</button>><<else>>The table is empty.<</if>><</dialog>><</if>><</button>>
+<<endhoverrevise>>
+<</if>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Take the issue of "Shameless" magazine from the table in the common room.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+
+:: DowntownClubRidersStaffLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+
+
+:: DowntownClubRidersPrivate [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPpollriders]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<p>
+@@.head3;Y@@ou stand in the small private booth divided from main lounge with a curtain.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+
+:: DowntownClubRidersPrivateLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+
+
+:: DowntownClubRidersPrivatePeek [nobr]
+
+<center>[img[IMG-PoleRidersPeek]]</center>
+<br>
+You carefully peek in between the curtains and see a stripper providing "additional services" to the client. 
+
+
+:: PollRidersPrivateShow [nobr]
+
+<center>[img[IMG-StripperPrivate]]</center><br>
+<span id="privateshow">
+<<silently>>
+  <<set _itsatrap = random(1,5)>><<set _additionalService = random(1,3)>>
+  <<if _itsatrap == 1>>
+    <<set _notLily = (setup.npc.futa.length - 1)>><<set _notLilyDamned = random(1, _notLily)>><<set $randomStripper = setup.npc.futa[_notLilyDamned]>>
+  <<else>>
+    <<set _daddyspunk = (setup.npc.female.length - 1)>><<set _randDude = random(0, _daddyspunk)>><<if setup.npc.female[_randDude] == "n101">><<set _randDude = random(0, _daddyspunk)>><</if>><<set $randomStripper = setup.npc.female[_randDude]>>
+  <</if>>
+  <<set _randomTime = random(14, 22)>>
+  <<addTime _randomTime>>
+  <<arousal 2>>
+  <<run aw.cash(-40)>>
+  <<status 0>>
+<</silently>>
+@@.head3;Y@@ou <<= either ("catch the elbow of ", "noticed")>> the <<n $randomStripper haircolor.q>> <<n $randomStripper age.q>> <<= either("almost naked", "skimpy dressed")>> stripper girl with <<= either("nice body", "perfect legs", "gorgeous bootie", "awesome posture")>> and<<has shame>>, after some shy mumbling finally<</has>> asked her for a private show.
+<<has shame>><p>@@.pc;Mmm... ehhm. I would like... a...@@</p>
+<p>@@.npc;Yes, sweetie?@@</p>
+<p>@@.pc;...a private show if you don't mind.@@</p>
+<<or>>
+<p><<print either("@@.pc;Hey, care to give a private show?@@","@@.pc;How about a private show for me, gorgeous?@@")>></p>
+<</has>>
+<p><<print either("@@.npc;Sure thing, cutie, come with me!@@","@@.npc;Gladly! But remember, no touching, thee-he.@@")>></p>
+<p><<print either("Taking you by the hand","With a gesture of her finger")>> she took you behind the curtains of the private show booth and pushed you on the loveseat.</p>
+<p><<print either("@@.pc;You look like a girl who should have a lapdance for sure, mm?@@","@@.pc;Let's see how wet you'll become in next couple minutes, miss.@@")>></p>
+<p><<print either("She started undressing in a most seducing way","She smiles cunnigly and removes her bra")>> and you feel your arousal quickly building up. <<print either("Turning around she starts to wiggle her <<n $randomStripper ass.n>> and you can't help but ogle her rear side just mere inches away from your face.", "She sits on your knees her legs apart, presses her <<n $randomStripper breast.q>> <<n $randomStripper breast.n>> to yours and you find yourself almost drooling.")>> <<print either("Her smell is gorgeous and you can barely stop yourself from touching her body.","She teases you with her body, sliding her bare skin along yours, biting your ear and your body trembles under her brief touches.")>></p>
+<<if _itsatrap == 1>><p>@@.npc;I hope you are not against... a little surprise, sweetie, hehe.@@</p>
+<<else>><p><<print either("@@.npc;Like what you see, sugarcube?@@","@@.npc;It seems you are enjoying the show, sweetheart, hehe.@@")>></p><</if>>
+<p>Moving a bit away, she lets her tiny skirt fall down her thighs <<if _itsatrap == 1>>and you see an obvious bulge in her <<print either("red", "black", "laced")>><<print either("thongs", "panties", "g-string")>>. Her half-tucked ladycock struggles to grow larger in her panties and it already left a patch of precum on the delicate fabric.<<else>>and you can almost see her <<n $randomStripper vagina.n>> with a <<p pubestyle.q $randomStripper>> through the <<print either("red", "black", "laced")>><<print either("thongs", "panties", "g-string")>>. The generous wet spot on the delicate fabric gives out her arousal.<</if>></p>
+<<if _additionalService == 1>>
+  <p>She leans closer to you and almost whispers in your ear with her hot horny voice.</p>
+  <p><<print either("@@.npc;Hey, don't you want some... additional services, mm? For one hundred I could show you a sky full of diamonds, darling.@@","@@.npc;Don't you want some special services, cutie? Just one more Franklin and you will not only touch anything you want, tee-hee.@@")>></p>
+  <<dialogchoice>>
+    <<dbutt "No">><<replace "#privateshow">><p>@@.pc;Thanks, but I... must decline. Here, take your money.@@</p><p>@@.npc;Hmm, you sure? Well, it’s your choice. Thanks anyway!@@</p><p>She takes your @@.money;<<mon>>40@@ and leaves.</p><</replace>>
+    <<dtext "neutral">>You don't want to have sex with her.
+  <<dbutt "Yes!">><<run aw.cash(-100)>>
+  <<run setup.npcInfo.level($randomStripper, {bodyGeneral: true})>>
+  <<run setup.npcInfo.level($randomStripper, {bodyJunk: true})>>
+  <<run setup.npcInfo.level($randomStripper, {bodyDetail: 1})>>
+  <<set aw.npc[$randomStripper].rship.likePC += random(3, 6)>>
+  <<set aw.npc[$randomStripper].lovePC += random(1, 3)>>
+  <<set ↂ.sex.passage = aw.passage.title>>
+  <<set ↂ.sex.pcOutput = "She checks if the curtains are closed properly and grins to you before undressing you.">>
+  <<set ↂ.sex.enviroTags = ["bed","wall","chair"]>>
+  <<set aw.npc[$randomStripper].rship.companion += 15>>
+  <<set aw.npc[$randomStripper].sleptover += 1>>
+  <<set setup.sexitimes = $randomStripper>>
+  <<run Dialog.close()>>
+  <<script>>
+  setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
+  <</script>>
+    <<dtext "smug">>Oh yes, let's do it!
+	<</dialogchoice>>
+<<else>><<arousal 1>>
+  <p><<print either("Smiling, she plays with her tiny panties giving you just an occasional glimpse before covering again.","Standing right in front of you she grinds her groin on you and you feel her delicate scent and warmth.")>> <<print either("When you are almost about to burst from arousal she suddenly stops and smiles.","You are aroused beyond any measure when she finally stops this sweet torture and smiles.")>></p>
+  <p>@@.npc;This will be@@ @@.money;<<mon>>40@@ @@.npc;miss! I hope you liked it!@@</p>
+  <<dialogchoice>>
+	<<dbutt "Pay">><<run Dialog.close()>>
+  <<dtext "happy">>This was awesome, thanks, princess!
+	<<dbutt "Propose">><<replace "#privateshow">><p>@@.pc;Maybe I could pay a little bit more and get... special services, mm?@@</p><p>@@.npc;No, it is prohibited by club rules, silly!@@</p><p>She giggles and leaves you alone in the booth, desperately aroused for your money.</p><</replace>>
+  <<dtext "smug">>Ask for sex.
+  <</dialogchoice>>
+<</if>>
+</span>

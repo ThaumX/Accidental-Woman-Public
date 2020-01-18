@@ -1,0 +1,337 @@
+
+
+:: wakingUp [nobr hidden]
+
+@@.head2;<<= dateText>>, the <<properNumberAbrv>> of <<= $monthText>>@@<br><br>
+<<if ↂ.sched.sleepin>> /*if woke up late*/
+	<<if ↂ.sched.workDays[date[0]]>>
+		<<silently>>
+		<<set _left = ↂ.sched.workTime[date[0]][0] - $time>>
+		<<if _left >= 100 || _left <= -100>>
+			<<set _left = ( Math.trunc(_left / 100) * 60 ) + ( _left - (Math.trunc(_left / 100 ) * 100))>>
+		<</if>>
+		<<if _makeit >= 35>><<set _makeit = 2>><<elseif _left >= 25>><<set _makeit = 1>><<elseif _left <=0>><<set _makeit = 0>><<else>><<set _makeit = -1>><</if>>
+		<</silently>>
+		@@.head3;Y@@ou fumble for your phone, staring with bleary eyes until you finally grasp the meaning of the numbers on the screen. @@.mono;Shit! I overslept. I've got to get to work!@@ You don't know whether it was because <<print ↂ.sched.sleepinText>>, or just plain bad luck, but you've definitely overslept.
+		<br><br>
+		Doing some fuzzy mental math, you try to figure out the time. You realize that <<if _makeit == -1>>you're already late for work, which started <<print (_left * -1)>> minutes ago.<<elseif _makeit == 0>>you aren't late yet, but work is starting in <<print _left>> minutes, and you'll never make it on time.<<elseif _makeit == 1>>you can just barely make it to work on time if you get dressed and leave right away.<<else>>you have a little time before work, but probably not enough for your full morning routine.<</if>>
+		<br><br>''You can go to work:''<br>
+		<<switch _makeit>>
+			<<case -1>>
+				<<link "Call work and prepare normally">><<set $temp = [21,_left]>><<go daySystemCallWork>><</link>><br>
+				<<link "Call work and rush in">><<set $temp = [11,_left]>><<go daySystemCallWork>><</link>><br>
+				''<<link "Just hurry and rush to work">><<set $temp = [1,_left]>><<go daySystemCallWork>><</link>>''<br>
+				''Or...''<br>
+				<<link "Call in sick">><<set $temp = [31,_left]>><<go daySystemCallWork>><</link>><br>
+				<<link "Call and ask to use a vacation day">><<set $temp = [41,_left]>><<go daySystemCallWork>><</link>><br>
+				<<link "Just forget about work">><<set $temp = [51,_left]>><<go daySystemCallWork>><</link>>
+			<<case 0>>
+				<<link "Call work and prepare normally">><<set $temp = [22,_left]>><<go daySystemCallWork>><</link>><br>
+				<<link "Call work and rush in">><<set $temp = [12,_left]>><<go daySystemCallWork>><</link>><br>
+				''<<link "Just hurry and rush to work">><<set $temp = [2,_left]>><<go daySystemCallWork>><</link>>''<br>
+				''Or...''<br>
+				<<link "Call in sick">><<set $temp = [32,_left]>><<go daySystemCallWork>><</link>><br>
+				<<link "Call and ask to use a vacation day">><<set $temp = [42,_left]>><<go daySystemCallWork>><</link>><br>
+				<<link "Just forget about work">><<set $temp = [52,_left]>><<go daySystemCallWork>><</link>>
+			<<case 1>>
+				<<link "Call work and prepare normally">><<set $temp = [23,_left]>><<go daySystemCallWork>><</link>><br>
+				''<<link "Just hurry to make it on time">><<set $temp = [3,_left]>><<go daySystemRushedPrep>><</link>>''<br>
+				''Or...''<br>
+				<<link "Call in sick">><<set $temp = [33,_left]>><<go daySystemCallWork>><</link>><br>
+				<<link "Call and ask to use a vacation day">><<set $temp = [43,_left]>><<go daySystemCallWork>><</link>><br>
+				<<link "Just forget about work">><<set $temp = [53,_left]>><<go daySystemCallWork>><</link>>
+			<<case 2>>
+				<<link "Call work and prepare normally">><<set $temp = [24,_left]>><<go daySystemCallWork>><</link>><br>
+				''<<link "Just get as ready as you can and go">><<set $temp = [4,_left]>><<go daySystemCallWork>><</link>>''<br>
+				<<link "Just hurry to make it on time">><<stress 5 "Running late for work">><<go daySystemRushedPrep>><</link>> @@.note;no makeup@@<br>
+				''Or...''<br>
+				<<link "Call in sick">><<set $temp = [34,_left]>><<go daySystemCallWork>><</link>><br>
+				<<link "Call and ask to use a vacation day">><<set $temp = [44,_left]>><<go daySystemCallWork>><</link>><br>
+				<<link "Just forget about work">><<set $temp = [54,_left]>><<go daySystemCallWork>><</link>>
+		<</switch>>
+	<<else>>
+		<<silently>>
+		<<set _left = ↂ.sched.actualWake - $time>>
+		<<if _left >= 100 || _left <= -100>>
+			<<set _left = ( Math.trunc(_left / 100) * 60 ) + ( _left - (Math.trunc(_left / 100 ) * 100))>>
+		<</if>>
+		<</silently>>
+		@@.head3;Y@@ou fumble for your phone, staring with bleary eyes until you finally grasp the meaning of the numbers on the screen. @@.mono;Oh shit, I overslept.@@ You don't know whether it was because <<print ↂ.sched.sleepinText>>, or just plain bad luck, but you've definitely overslept.
+		<br><br>
+		Doing some fuzzy mental math, you try to figure out the time. It looks like you missed your alarm about <<= _left>> minutes ago.
+		<br><br>
+		<<link "Get up and get ready">><<go daySystemCasualPrep>><</link>>
+	<</if>>
+<<else>>
+	<<if ↂ.sched.workDays[$date[0]] && ( $time - ↂ.sched.workTime[$date[0]][0] ) <= 130 && not ↂ.sched.vacation[$date[0]] && not ↂ.sched.sick[$date[0]] >>
+		@@.head3;W@@ith a groan, you reach over to the nightstand and silence your phone alarm. @@.mono;Guess it's time to get ready for work...@@
+		<br><br>''You can go to work:''<br>
+		<<link "get up and get ready">><<go daySystemNormalPrep>><</link>>
+		''Or...''<br>
+		<<link "Call in sick">><<set $temp = [35,666]>><<go daySystemCallWork>><</link>><br>
+		<<link "Call and ask to use a vacation day">><<set $temp = [45,666]>><<go daySystemCallWork>><</link>><br>
+		<<link "Just forget about work">><<set $temp = [55,666]>><<go daySystemCallWork>><</link>>
+	<<else>>
+		@@.head3;W@@ith a groan, you reach over to the nightstand and silence your phone alarm. @@.mono;Guess it's time to get up...@@
+		<br><br>
+		<<link "get up and get ready">><<go daySystemCasualPrep>><</link>>
+	<</if>>
+<</if>>
+<br><br><br><br>@@font-size:0.5rem;[[DEBUG EMERGENCY ESCAPE|daySystemCasualPrep]]@@
+	
+:: daySystemCallWork [nobr hidden]
+
+<<silently>>
+/*codes 0: hurry and rush to work (still late), 1: call and rush to work, 2: call and prep normal, 3: call ask for sick day, 4: call ask use vacation day, 5: just skip work */
+<<set _code = $temp[0]>>
+<<set _left = $temp[1]>>
+<</silently>>
+<<switch _code>>
+	<<case 1>>You don't call, and you are late for work.
+		<<set ↂ.job.stats.boss -= 10 ; ↂ.job.stats.coworker -= 5 ; ↂ.job.stats.subord -= 5>>
+		<<set ↂ.job.late.times += 1 ; ↂ.job.late.recent += 1>>
+		<<stress 10 "Running late for work">>
+		<<go daySystemRushedPrep>>
+	<<case 2>>
+		<<set ↂ.job.stats.boss -= 8 ; ↂ.job.stats.coworker -= 3 ; ↂ.job.stats.subord -= 3>>
+		<<set ↂ.job.late.times += 1 ; ↂ.job.late.recent += 1>>
+		<<stress 10 "Running late for work">>
+		<<go daySystemRushedPrep>>
+	<<case 3>>
+		<<set ↂ.job.stats.boss -= 5 ; ↂ.job.stats.coworker -= 1 ; ↂ.job.stats.subord -= 1>>
+		<<set ↂ.job.late.times += 1 ; ↂ.job.late.recent += 1>>
+		<<stress 5 "Running late for work">>
+		<<go daySystemRushedPrep>>
+	<<case 4>>
+		<<set ↂ.job.stats.boss -= 5 ; ↂ.job.stats.coworker -= 1 ; ↂ.job.stats.subord -= 1>>
+		<<set ↂ.job.late.times += 1 ; ↂ.job.late.recent += 1>>
+		<<stress 5 "Running late for work">>
+		<<go daySystemRushedPrep>>
+	<<case 11>>
+	
+	<<case 12>>
+	
+	<<case 21>>
+	
+	<<case 22>>
+	
+	<<case 23>>
+	
+	<<case 24>>
+	
+	<<case 31>>
+	
+	<<case 32>>
+	
+	<<case 33>>
+	
+	<<case 34>>
+	
+	<<case 35>>
+	
+	<<case 41>>
+		<<if ↂ.job.vacation.balance > 0>>
+			<<set ↂ.job.late.vacation += 1 ;  ↂ.job.late.recent += 1 ; ↂ.job.late.called += 1 ; ↂ.job.late.times += 1>>
+			<<set ↂ.job.vacation.balance -= 1 ; ↂ.job.vacation.used += 1>>
+			<<set ↂ.job.stats.boss -= 12 ; ↂ.job.stats.coworker -= 10 ; ↂ.job.stats.subord -= 10>>
+			You call your boss <<= ↂ.job.rules.boss>>. You're @@.peepbad;grudgingly@@ allowed to use one of your vacation days.
+			<br><br>
+			[[Start your day|daySystemCasualPrep]]
+		<<else>>
+			<<set ↂ.job.late.recent += 1 ; ↂ.job.late.called += 1 ; ↂ.job.late.times += 1>>
+			<<set ↂ.job.stats.boss -= 15 ; ↂ.job.stats.coworker -= 8 ; ↂ.job.stats.subord -= 8>>
+			You call your boss <<= ↂ.job.rules.boss>>. You're reminded that you don't have any vacation days to use, @@.peepbad;and told to hurry and get to work.@@
+			<br><br>
+			[[Rush to get to work|daySystemRushedPrep]]
+		<</if>>
+	<<case 42>>
+			
+	<<case 43>>
+	
+	<<case 44>>
+	
+	<<case 45>>
+	
+	<<case 51>>
+		<<set ↂ.job.missed.times += 1 ; ↂ.job.missed.recent += 1>>
+		<<set ↂ.job.stats.boss -= 25 ; ↂ.job.stats.coworker -= 15 ; ↂ.job.stats.subord -= 20>>
+		<<if ↂ.job.stats.progress > = 20>><<set ↂ.job.stats.progress -= 20>><<else>><<set ↂ.job.stats.progress = 0>><</if>>
+		<<go daySystemCasualPrep>>
+	<<case 51>>
+		<<set ↂ.job.missed.times += 1 ; ↂ.job.missed.recent += 1>>
+		<<set ↂ.job.stats.boss -= 25 ; ↂ.job.stats.coworker -= 15 ; ↂ.job.stats.subord -= 20>>
+		<<if ↂ.job.stats.progress > = 20>><<set ↂ.job.stats.progress -= 20>><<else>><<set ↂ.job.stats.progress = 0>><</if>>
+		<<go daySystemCasualPrep>>
+	<<case 53>>
+		<<set ↂ.job.missed.times += 1 ; ↂ.job.missed.recent += 1>>
+		<<set ↂ.job.stats.boss -= 25 ; ↂ.job.stats.coworker -= 15 ; ↂ.job.stats.subord -= 20>>
+		<<if ↂ.job.stats.progress > = 20>><<set ↂ.job.stats.progress -= 20>><<else>><<set ↂ.job.stats.progress = 0>><</if>>
+		<<go daySystemCasualPrep>>
+	<<case 54>>
+		<<set ↂ.job.missed.times += 1 ; ↂ.job.missed.recent += 1>>
+		<<set ↂ.job.stats.boss -= 25 ; ↂ.job.stats.coworker -= 15 ; ↂ.job.stats.subord -= 20>>
+		<<if ↂ.job.stats.progress > = 20>><<set ↂ.job.stats.progress -= 20>><<else>><<set ↂ.job.stats.progress = 0>><</if>>
+		<<go daySystemCasualPrep>>
+	<<case 55>>
+		<<set ↂ.job.missed.times += 1 ; ↂ.job.missed.recent += 1>>
+		<<set ↂ.job.stats.boss -= 25 ; ↂ.job.stats.coworker -= 15 ; ↂ.job.stats.subord -= 20>>
+		<<if ↂ.job.stats.progress > = 20>><<set ↂ.job.stats.progress -= 20>><<else>><<set ↂ.job.stats.progress = 0>><</if>>
+		<<go daySystemCasualPrep>>
+<</switch>>
+
+
+
+:: daySystemRushedPrep [nobr hidden]
+
+/*CHECK TO MAKE SURE YOU'RE IN YOUR OWN HOME GOES HERE!!!*/
+/*will switch prep if not at your place or BF/Friends*/
+/*need to add differentiation for doing or not doing hair*/
+/*<<set _outfit = {}>>
+<<set _outfit = clone($outfitUnder[_choice])>>
+<<set ↂ.pc.clothes.panties = _outfit.panties>>
+<<set ↂ.pc.clothes.leg = _outfit.leg>>
+<<set ↂ.pc.clothes.bra = _outfit.bra>>
+<<set ↂ.pc.clothes.swim = _outfit.swim>>
+<<set ↂ.pc.clothes.coordUnder = _outfit.coord>>
+<<set ↂ.pc.clothes.accessB = _outfit.accessB>>
+<<set ↂ.pc.clothes.accessP = _outfit.accessP>>
+<<calcOutfitCombine "L">>*/
+<<run setup.hair.do(ↂ.pc.groom.hairDefaultNorm)>>
+<<set ↂ.pc.groom.genMU = ↂ.makeup.gen.none ; ↂ.pc.groom.eyeMU = ↂ.makeup.eye.none ; ↂ.pc.groom.lipMU = ↂ.makeup.lip.none>>
+<<addTime 5>>
+<<go JobberCon>>
+
+:: daySystemNormalPrep [nobr hidden]
+
+<<silently>>
+/*CHECK TO MAKE SURE YOU'RE IN YOUR OWN HOME GOES HERE!!!*/
+/*will switch prep if not at your place or BF/Friends*/
+<<run setup.hair.do(ↂ.pc.groom.hairDefaultNorm)>>
+<<set ↂ.pc.groom.genMU = ↂ.makeup.gen.none ; ↂ.pc.groom.eyeMU = ↂ.makeup.eye.none ; ↂ.pc.groom.lipMU = ↂ.makeup.lip.none>>
+<<set _otime = [$time[0],$time[1]]>>
+<<set _timer = 0>>
+<<if ↂ.pc.groom.makeupTimeLimit >= ( ↂ.makeup.eye[ↂ.pc.groom.eyeMUdefaultNorm][3] + _timer )>>
+	<<applyMakeupEye ↂ.pc.groom.eyeMUdefaultNorm>>
+<</if>>
+<<set _timer += $time[1] - _otime[1]>>
+<<set _timer += ( $time[0] - _otime[0] ) * 60>>
+<<set _otime = [$time[0],$time[1]]>>
+<<if ↂ.pc.groom.makeupTimeLimit >= ( ↂ.makeup.lip[ↂ.pc.groom.lipMUdefaultNorm][3] + _timer )>>
+	<<applyMakeupLip ↂ.pc.groom.lipMUdefaultNorm>>
+<</if>>
+<<set _timer += $time[1] - _otime[1]>>
+<<set _timer += ( $time[0] - _otime[0] ) * 60>>
+<<set _otime = [$time[0],$time[1]]>>
+<<if ↂ.pc.groom.makeupTimeLimit >= ( ↂ.makeup.gen[ↂ.pc.groom.genMUdefaultNorm][3] + _timer )>>
+	<<applyMakeupGen ↂ.pc.groom.genMUdefaultNorm>>
+<</if>>
+<<set _timer += $time[1] - _otime[1]>>
+<<set _timer += ( $time[0] - _otime[0] ) * 60>>
+<<set _otime = [$time[0],$time[1]]>>
+<<if ↂ.pc.groom.eyeMU[2] == 1 && ↂ.pc.groom.makeupRetryFail && ( _timer + ↂ.pc.groom.eyeMU[3] ) <= ↂ.pc.groom.makeupTimeLimit>>
+	<<applyMakeupEye ↂ.pc.groom.eyeMUdefaultNorm>>
+<</if>>
+<<set _timer += $time[1] - _otime[1]>>
+<<set _timer += ( $time[0] - _otime[0] ) * 60>>
+<<set _otime = [$time[0],$time[1]]>>
+<<if ↂ.pc.groom.lipMU[2] == 1 && ↂ.pc.groom.makeupRetryFail && ( _timer + ↂ.pc.groom.lipMU[3] ) <= ↂ.pc.groom.makeupTimeLimit>>
+	<<applyMakeupEye ↂ.pc.groom.lipMUdefaultNorm>>
+<</if>>
+<<set _timer += $time[1] - _otime[1]>>
+<<set _timer += ( $time[0] - _otime[0] ) * 60>>
+<<set _otime = [$time[0],$time[1]]>>
+<<if ↂ.pc.groom.genMU[2] == 1 && ↂ.pc.groom.makeupRetryFail && ( _timer + ↂ.pc.groom.genMU[3] ) <= ↂ.pc.groom.makeupTimeLimit>>
+	<<applyMakeupEye ↂ.pc.groom.genMUdefaultNorm>>
+<</if>>
+<<set _timer += $time[1] - _otime[1]>>
+<<set _timer += ( $time[0] - _otime[0] ) * 60>>
+<<set _otime = [$time[0],$time[1]]>>
+<<if ↂ.pc.groom.eyeMU[2] <= 2 && ↂ.pc.groom.makeupRetry && ( _timer + ↂ.pc.groom.eyeMU[3] ) <= ↂ.pc.groom.makeupTimeLimit>>
+	<<applyMakeupEye ↂ.pc.groom.eyeMUdefaultNorm>>
+<</if>>
+<<set _timer += $time[1] - _otime[1]>>
+<<set _timer += ( $time[0] - _otime[0] ) * 60>>
+<<set _otime = [$time[0],$time[1]]>>
+<<if ↂ.pc.groom.lipMU[2] <= 2 && ↂ.pc.groom.makeupRetry && ( _timer + ↂ.pc.groom.lipMU[3] ) <= ↂ.pc.groom.makeupTimeLimit>>
+	<<applyMakeupEye ↂ.pc.groom.lipMUdefaultNorm>>
+<</if>>
+<<set _timer += $time[1] - _otime[1]>>
+<<set _timer += ( $time[0] - _otime[0] ) * 60>>
+<<set _otime = [$time[0],$time[1]]>>
+<<if ↂ.pc.groom.genMU[2] <= 2 && ↂ.pc.groom.makeupRetry && ( _timer + ↂ.pc.groom.genMU[3] ) <= ↂ.pc.groom.makeupTimeLimit>>
+	<<applyMakeupEye ↂ.pc.groom.genMUdefaultNorm>>
+<</if>>
+<<if ( ↂ.pc.groom.eyeMU[2] == 1 || ↂ.pc.groom.lipMU[2] == 1 || ↂ.pc.groom.genMU[2] == 1 ) && ↂ.pc.groom.makeupWash>>
+	<<set ↂ.pc.groom.genMU = ↂ.makeup.gen.none ; ↂ.pc.groom.eyeMU = ↂ.makeup.eye.none ; ↂ.pc.groom.lipMU = ↂ.makeup.lip.none>>
+	<<addTime 5>>
+<</if>>
+<</silently>>
+<<go JobberCon>>
+
+:: daySystemCasualPrep [nobr hidden]
+
+<<silently>>
+/*CHECK TO MAKE SURE YOU'RE IN YOUR OWN HOME GOES HERE!!!*/
+/*will switch prep if not at your place or BF/Friends*/
+<<run setup.hair.do(ↂ.pc.groom.hairDefaultCasual)>>
+<<set ↂ.pc.groom.genMU = ↂ.makeup.gen.none ; ↂ.pc.groom.eyeMU = ↂ.makeup.eye.none ; ↂ.pc.groom.lipMU = ↂ.makeup.lip.none>>
+<<set _otime = [$time[0],$time[1]]>>
+<<set _timer = 0>>
+<<if ↂ.pc.groom.makeupTimeLimit >= ( ↂ.makeup.eye[ↂ.pc.groom.eyeMUdefaultCasual][3] + _timer )>>
+	<<applyMakeupEye ↂ.pc.groom.eyeMUdefaultCasual>>
+<</if>>
+<<set _timer += $time[1] - _otime[1]>>
+<<set _timer += ( $time[0] - _otime[0] ) * 60>>
+<<set _otime = [$time[0],$time[1]]>>
+<<if ↂ.pc.groom.makeupTimeLimit >= ( ↂ.makeup.lip[ↂ.pc.groom.lipMUdefaultCasual][3] + _timer )>>
+	<<applyMakeupLip ↂ.pc.groom.lipMUdefaultCasual>>
+<</if>>
+<<set _timer += $time[1] - _otime[1]>>
+<<set _timer += ( $time[0] - _otime[0] ) * 60>>
+<<set _otime = [$time[0],$time[1]]>>
+<<if ↂ.pc.groom.makeupTimeLimit >= ( ↂ.makeup.gen[ↂ.pc.groom.genMUdefaultCasual][3] + _timer )>>
+	<<applyMakeupGen ↂ.pc.groom.genMUdefaultCasual>>
+<</if>>
+<<set _timer += $time[1] - _otime[1]>>
+<<set _timer += ( $time[0] - _otime[0] ) * 60>>
+<<set _otime = [$time[0],$time[1]]>>
+<<if ↂ.pc.groom.eyeMU[2] == 1 && ↂ.pc.groom.makeupRetryFail && ( _timer + ↂ.pc.groom.eyeMU[3] ) <= ↂ.pc.groom.makeupTimeLimit>>
+	<<applyMakeupEye ↂ.pc.groom.eyeMUdefaultCasual>>
+<</if>>
+<<set _timer += $time[1] - _otime[1]>>
+<<set _timer += ( $time[0] - _otime[0] ) * 60>>
+<<set _otime = [$time[0],$time[1]]>>
+<<if ↂ.pc.groom.lipMU[2] == 1 && ↂ.pc.groom.makeupRetryFail && ( _timer + ↂ.pc.groom.lipMU[3] ) <= ↂ.pc.groom.makeupTimeLimit>>
+	<<applyMakeupEye ↂ.pc.groom.lipMUdefaultCasual>>
+<</if>>
+<<set _timer += $time[1] - _otime[1]>>
+<<set _timer += ( $time[0] - _otime[0] ) * 60>>
+<<set _otime = [$time[0],$time[1]]>>
+<<if ↂ.pc.groom.genMU[2] == 1 && ↂ.pc.groom.makeupRetryFail && ( _timer + ↂ.pc.groom.genMU[3] ) <= ↂ.pc.groom.makeupTimeLimit>>
+	<<applyMakeupEye ↂ.pc.groom.genMUdefaultCasual>>
+<</if>>
+<<set _timer += $time[1] - _otime[1]>>
+<<set _timer += ( $time[0] - _otime[0] ) * 60>>
+<<set _otime = [$time[0],$time[1]]>>
+<<if ↂ.pc.groom.eyeMU[2] <= 2 && ↂ.pc.groom.makeupRetry && ( _timer + ↂ.pc.groom.eyeMU[3] ) <= ↂ.pc.groom.makeupTimeLimit>>
+	<<applyMakeupEye ↂ.pc.groom.eyeMUdefaultCasual>>
+<</if>>
+<<set _timer += $time[1] - _otime[1]>>
+<<set _timer += ( $time[0] - _otime[0] ) * 60>>
+<<set _otime = [$time[0],$time[1]]>>
+<<if ↂ.pc.groom.lipMU[2] <= 2 && ↂ.pc.groom.makeupRetry && ( _timer + ↂ.pc.groom.lipMU[3] ) <= ↂ.pc.groom.makeupTimeLimit>>
+	<<applyMakeupEye ↂ.pc.groom.lipMUdefaultCasual>>
+<</if>>
+<<set _timer += $time[1] - _otime[1]>>
+<<set _timer += ( $time[0] - _otime[0] ) * 60>>
+<<set _otime = [$time[0],$time[1]]>>
+<<if ↂ.pc.groom.genMU[2] <= 2 && ↂ.pc.groom.makeupRetry && ( _timer + ↂ.pc.groom.genMU[3] ) <= ↂ.pc.groom.makeupTimeLimit>>
+	<<applyMakeupEye ↂ.pc.groom.genMUdefaultCasual>>
+<</if>>
+<<if ( ↂ.pc.groom.eyeMU[2] == 1 || ↂ.pc.groom.lipMU[2] == 1 || ↂ.pc.groom.genMU[2] == 1 ) && ↂ.pc.groom.makeupWash>>
+	<<set ↂ.pc.groom.genMU = ↂ.makeup.gen.none ; ↂ.pc.groom.eyeMU = ↂ.makeup.eye.none ; ↂ.pc.groom.lipMU = ↂ.makeup.lip.none>>
+	<<addTime 5>>
+<</if>>
+<<go ↂsched.sleepPassage>>
+<</silently>>
+

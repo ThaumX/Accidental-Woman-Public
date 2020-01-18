@@ -1,0 +1,66 @@
+:: MedicalIrresistible [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmedical]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p></p>
+<div id="storeWindow">
+[img[IMG-IrresistableMedical]]
+[img[IMG-PliantPharma]]
+[img[IMG-EliTref]]
+[img[IMG-QueeristRussia]]
+[img[IMG-XieeChina]]
+</div>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou're in the waiting room of the Irresistible clinic. When you stopped by the reception desk you were handed a tablet and informed of the treatment process at the clinic. Basically you just have to choose a transformative using the tablet, and then wait to be called back for a quick checkup and administration of the chosen drug. There's another couple people sitting in the waiting room, absorbed in their own tablets.
+</p>
+
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact" style="width: 950px; text-align: left;"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Pliant Pharma">><<dialog "Pliant Pharma">><<print setup.tf.list("pliant")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "Eli-Tref">><<dialog "Eli-Tref">><<print setup.tf.list("elitref")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise delta>>
+  <<button "Queerist Russia">><<dialog "Queerist Russia">><<print setup.tf.list("queerist")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise gamma>>
+  <<button "Xiee China">><<dialog "Xiee China">><<print setup.tf.list("xiee")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise omega>>
+  @@.disabled;<<button "Specialty Treatments">><</button>>@@
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Check out the available transformatives from Pliant Pharma.<<endinsertion>>
+<<insertion beta>>Check out the available transformatives from Eli-Tref<<endinsertion>>
+<<insertion delta>>Check out the available transformatives from Queerist Russia<<endinsertion>>
+<<insertion gamma>>Check out the available transformatives from Xiee China<<endinsertion>>
+<<insertion omega>>Check out the specialty treatments list. <<ctn>>[Not Yet Implemented]<</ctn>><<endinsertion>>
+</div>
+
+
+:: MedicalIrresistibleLOC [nobr]
+
+<<ctn>>No Content Here Yet, Sorry<</ctn>>
+

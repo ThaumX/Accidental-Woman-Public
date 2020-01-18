@@ -1,0 +1,105 @@
+:: ResidentialTanning [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPrecreation]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+@@.head3;Y@@ou find yourself in a slightly secluded area of the neighborhood park. There are some benches and a few reclining outdoor chairs sparsely decorating the open grassy area. Some low hedges and a few trees isolate this area somewhat from the rest of the park, which seems to have made it a popular spot for tanning.
+/*Time & furnishing descriptive addon! <<mapResDesc>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise tannin>>
+  <<button "Work on your Tan">><<dialog "Tanning">><<include [[ResidentialTanning-Tan]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion tannin>>
+@@.exp;Assuming it's daytime and the weather isn't bad, you can take off some clothes and tan here, or come prepared in a swimsuit or loose robe.@@
+<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: ResidentialTanningLOC [nobr]
+
+<<if ndef _temp>><<set _temp = 1>><</if>>
+@@.head3;T@@aking some time to relax and look around, you notice a few local residents working on their tan...
+<br><br>
+<center>
+<span id="tanner">[img[IMGsunbathing1]]</span><br>
+<<button "Next">>
+<<set _temp += 1>>
+<<if _temp > 4>>
+  <<set _temp = 1>>
+<</if>>
+<<replace "#tanner">>
+  <<switch _temp>>
+  <<case 1>>
+    [img[IMGsunbathing1]]
+  <<case 2>>
+    [img[IMGsunbathing2]]
+  <<case 3>>
+    [img[IMGsunbathing3]]
+  <<case 4>>
+    [img[IMGsunbathingtestimage]]
+  <</switch>>
+<</replace>>
+<</button>>
+</center>
+
+
+:: ResidentialTanning-Tan [nobr]
+<<set _tim = setup.time.now()>><<if ↂ.pc.clothes.worn.bottom === "normal" || ↂ.pc.clothes.worn.top === "normal">>
+@@.head3;Y@@our tan will be less than perfect if you work on it with your outerwear still on.<<addtime 1>><br><center><<button "Got it">><<run Dialog.close()>><<updatebar>><</button>></center>
+<<elseif _tim[0] < 7 || _tim[0] > 18>>
+@@.head3;Y@@ou suddenly realise that it is pretty silly to work on your tan while there is no sun in the sky.<<addtime 1>><br><center><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></center>
+<<else>><<set ↂ.pc.clothes.worn.coat = "off">><center>[img[IMG-TanningNaked]]</center><br>
+@@.head3;Y@@ou lie on the recliner enjoying the feeling of warm beams caressing your <<p skincolor.q>> skin. <<if !setup.clothes.exposed.top>>You adjust your bra a couple of times to avoid white lines on your shoulders and back. <<else>>Your free <<p breasts.n>> are praising the sun proudly <<if setup.clothes.exposed.bottom>>as well as your bare bottom.<</if>><<has exhibition>><<happy 1 "Tanning was nice">><<arousal 1>><br><br>@@.mono;Mmm... being naked outside is a pure bliss...@@<br><br><<orhas shame>><<stress 15 "Ashamed of nude tanning">><br><br>@@.mono;Omg, what am I doing?! Anybody can see me like this lying here!@@<br><br>You can't stop thinking about your naked parts and feel stressed fighting the urge to cover them with your hands or towel.<</has>><</if>><<addtime 30>><<stress -8 "Relaxing during tanning">><<set ↂ.flag.tan += random(0,1)>>Lying in the recliner you turn around a couple of times and relax with your mind drifting away from all your recent problems. After some time you decide that it is a good idea to finish your tanning for today and get up after joyful stretch.<br><center><<button "Go away">><<run Dialog.close()>><<status 0>><<updatebar>><</button>></center>
+<</if>>

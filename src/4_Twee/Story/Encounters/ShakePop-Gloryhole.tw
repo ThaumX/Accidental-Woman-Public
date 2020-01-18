@@ -1,0 +1,580 @@
+/*************************************************
+*  ██████╗ ██╗      ██████╗ ██████╗ ██╗   ██╗
+* ██╔════╝ ██║     ██╔═══██╗██╔══██╗╚██╗ ██╔╝
+* ██║  ███╗██║     ██║   ██║██████╔╝ ╚████╔╝
+* ██║   ██║██║     ██║   ██║██╔══██╗  ╚██╔╝
+* ╚██████╔╝███████╗╚██████╔╝██║  ██║   ██║
+*  ╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝
+
+* ██╗  ██╗ ██████╗ ██╗     ███████╗███████╗
+* ██║  ██║██╔═══██╗██║     ██╔════╝██╔════╝
+* ███████║██║   ██║██║     █████╗  ███████╗
+* ██╔══██║██║   ██║██║     ██╔══╝  ╚════██║
+* ██║  ██║╚██████╔╝███████╗███████╗███████║
+* ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝╚══════╝
+*************************************************/
+
+
+:: DowntownClubShakeWCStall [nobr]
+
+<div id="stallReplace" style="min-width: 1000px;">
+<center>[img[IMG-Gloryhole]]</center>
+There is a hole in the wall of the stall.<<has slut>>@@.mono;Oh, I would certainly like to use it!@@<<orhas shame>>@@.mono;Eww, this is disgusting!@@<<or>>@@.mono;Wow, a gloryhole! I wonder if it is popular...@@<</has>>
+<br><<button "Wait">><<replace "#stallReplace">><<addTime 14>><<include [[DowntownClubShakeWCStallHole]]>><</replace>><</button>>
+<<button "Go out">><<run Dialog.close()>><</button>></div>
+
+
+:: DowntownClubShakeWCStallHole [nobr]
+
+<center>[img[IMG-Gloryhole]]</center>
+<<set _wait = random(0, 2)>>
+<<if _wait > 0>>
+  After waiting for some time you hear that somebody entered the adjacent stall.
+  <<dialogchoice>>
+      <<dbutt "Ask">><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleFull]]>><</replace>>
+      <<dtext "bimbo">>Ask the person to shove his dick into the hole
+      <<dbutt "Go out">><<run Dialog.close()>>
+      <<dtext "muted">>Go away from the stall.
+  <</dialogchoice>>
+<<else>>
+  You wait for some time. You hear a lot of people visiting WC but nobody comes to the stall next to yours.<br>
+  <<button "Wait more">><<replace "#stallReplace">><<addTime 5>><<include [[DowntownClubShakeWCStallHole]]>><</replace>><</button>>
+  <<button "Go out">><<updatebar>><<run Dialog.close()>><</button>>
+<</if>>
+
+
+:: DowntownClubShakeWCStallHoleFull [nobr]
+
+<<set _sex = random(0, 5)>>
+<<if _sex > 0>>
+  <<SCX>><<SC "SD" 5>>
+  <<if $SCresult[1]>><<set _cocksize = random(0, 2)>>
+    <center>[img[IMG-GloryholeFull]]</center>
+    <<has shame>>@@.mono;I can't believe I am doing it...@@<br><br>
+    @@.pc;H-hello there... maybe you would like to get your uhm... cock sucked or something?@@<br><br>
+    <<or>>@@.pc;Hey, mister, wanna have some fun?@@<br><br><</has>>
+    @@.npc;You... you mean through this hole?@@<br><br>
+    <<has shame>>@@.pc;Uhm, yes...@@<<or>>@@.pc;Yeah! Shove your <<w "cock.n">> through the hole and I'll take care of it!@@<</has>>
+    <p>@@.npc;Oh, for free?@@<br><br>
+    @@.pc;No strings attached!@@</p>
+    <center><<print either("[img[IMG-SPgloryhole-Insert1]]","[img[IMG-SPgloryhole-Insert2]]","[img[IMG-SPgloryhole-Insert3]]")>></center>
+    <p>You hear zipper sound and in seconds guy shoves his <<if _cocksize === 0>>big cock through the hole.<<has sizeQueen>>@@.mono;Oh yeah, that is some serious beast to tame!@@<<or>>@@.mono;Oh my, I hope it will fit!@@<</has>><<elseif _cocksize === 1>>average cock through the hole.<<else>>small cock through the hole.<<has sizeQueen>>@@.mono;Damn, this peepee is just tiny! Well, every cock is valuable, right? Right?@@<<or>>@@.mono;Poor guy... well maybe I'll be able to cheer him up!@@<</has>><</if>></p>
+    <<dialogchoice>>
+      <<dbutt "Suck">><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleSuck]]>><</replace>>
+      <<dtext "surprised">>Show your blowjob skills!
+      <<dbutt "Handjob">><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleHand]]>><</replace>>
+      <<dtext "slut">>Work it!
+      <<dbutt "Ride It">><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleRideOpt]]>><</replace>>
+      <<dtext "bimbo">>Take the cock for a ride <<ctn>>[FURTHER OPTIONS AVAILABLE]<</ctn>>
+      <<dbutt "Go out">><<run Dialog.close()>>
+      <<dtext "muted">>Go away from the stall.
+    <</dialogchoice>>
+  <<else>>
+    <center>[img[IMG-Gloryhole]]</center>
+    <<has shame>>@@.mono;I can't believe I am doing it...@@
+    @@.pc;H-hello there... maybe you would like to get your uhm... cock sucked?@@
+    <<or>>@@.pc;Hey, mister, wanna have some fun?@@<</has>>
+    @@.npc;Are you a whore or something?@@<br><br>
+    @@.pc;No, It is...@@<br><br>
+    @@.npc;I am married man, you scunk! Get the fuck away before I called the cops!@@<br><br>
+    @@.mono;Oh shit.@@<br><br>
+    <<button "Go away">><<run Dialog.close()>><</button>><br>
+    <<button "Wait for another guy">><<updatebar>><<replace "#stallReplace">><<addTime 14>><<include [[DowntownClubShakeWCStallHole]]>><</replace>><</button>>
+  <</if>>
+<<else>>
+  <center>[img[IMG-Gloryhole]]</center>
+  <<has shame>>@@.mono;I can't believe I am doing this...@@<br><br>
+  @@.pc;H-hello there... maybe you would like to get your uhm... cock sucked?@@<br><br>
+  <<or>>@@.pc;Hey, mister, wanna have some fun?@@<br><br><</has>>
+  You hear female voice from the stall.<br><br>
+  @@.npc;Hey, are you completely crazy there?@@<br><br>
+  @@.mono;Oh shit.@@<br><br>
+  <<button "Go away">><<run Dialog.close()>><</button>><br><br>
+  <<button "Wait for the next visitor">><<updatebar>><<replace "#stallReplace">><<addTime 14>><<include [[DowntownClubShakeWCStallHole]]>><</replace>><</button>>
+<</if>>
+
+:: DowntownClubShakeWCStallHoleSuck [nobr]
+
+<center>[img[IMG-GloryholeSuck]]</center>
+<<SCX>><<SC "OR" 15>><<addtime 11>>
+<<if $SCresult[1]>>You start licking the shaft and it get throbbing hard in no time. Working your tongue around the helmet you taste the first salty drips of the precum.<<has oral>><br><br>@@.mono;Mm, this taste is delicious!@@<<or>><br><br>@@.mono;Eww, it tastes awful!@@<</has>><br><br>@@.npc;Oh, baby, you are good at this! Don't stop!@@<br><br>Getting enough licking you get straight to the sucking. His cockhead dissapears passing your tight lips and the guy moans. Rhytmically working his shaft you <<has oral>><<arouse 2>>feel pretty aroused enjoying the process.<<or>>feel pretty awkward staying on your knees on the cold stall floor sucking stranger's cock.<br><br>@@.mono;Ugh, why did I ever decided to do that? I hate sucking cocks!@@<br><br><</has>>You feel that the guy meatpole got even harder and it seems he is ready to burst any moment now.<br><br>@@.npc;Oh yeah, oh yeah, I am... I am coming!@@<br><br><<run setup.omni.new("cumMouth")>><<run setup.drug.eatDrug("cum", 10)>>Your mouth is filling with cum and <<has slut>><<run setup.drug.eatDrug("cum", 10)>>you savor the taste of salty thick liquid before happilly gulping it.<<orhas shame>>you feel terribly lewd with that icky taste in your mouth and try to spew it on the floor.<<or>><<run setup.drug.eatDrug("cum", 10)>>after some moment of reluctance you swallow it.<</has>><br><br>@@.npc;Phew! That's my girl! You are the best on giving head, you know?@@<br><br>With visible efforts guy retracts his cock back from the hole and <<SCX>><<SC "PR" 15>><<if $SCresult[1]>><<set _money = random(7, 20)>> shoves some money into the gloryhole.<br><br>@@.npc;I know you said it is free, but I feel like... ugh... helping you with some money, just as... well as a sign of graditude.@@<br><br>After you take the money he go out of his stall leaving you with cum on your lips and @@.money;<<mon>><<print _money>>@@ in your hand.<<run aw.cash(_money, "whoring")>><<else>> leaves his stall.<</if>>
+<br><br><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>><br><br>
+<<button "Wait for another guy">><<updatebar>><<replace "#stallReplace">><<addTime 14>><<include [[DowntownClubShakeWCStallHole]]>><</replace>><</button>>
+<<else>>
+You start licking the shaft but it seems you are not so perfect in this and it takes time until the guy finally gets hard. You suck it for some time trying to do your best.<br><br>@@.npc;Ugh, baby, you should try to help it with hands also.@@<br><br>Following his advice you start jerking guy's cock with your hands still sucking his cockhead.<br><br>@@.npc;Yeah, so much better! Oh, yeah, don't stop...@@It takes you time to get him to the point and he starts cumming.<<run setup.omni.new("cumMouth")>><<run setup.drug.eatDrug("cum", 10)>>Your mouth is filling with cum and <<has slut>><<set ↂ.pc.status.addict.cum += 3>>you savor the taste of salty thick liquid before happilly gulping it.<<orhas shame>>you feel terribly lewd with that icky taste in your mouth and try to spew it on the floor.<<or>><<run setup.drug.eatDrug("cum", 10)>>after some moment of reluctance you swallow it.<</has>><br><br>@@.npc;Oh, well at least you are better with this than my ex. Thanks... I guess.@@<br><br>With visible efforts guy retracts his cock back from the hole and leaves his stall.
+<br><br><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>><br>
+<<button "Wait for another guy">><<updatebar>><<replace "#stallReplace">><<addTime 14>><<include [[DowntownClubShakeWCStallHole]]>><</replace>><</button>>
+<</if>>
+
+:: DowntownClubShakeWCStallHoleHand [nobr]
+
+<center>[img[IMG-GloryholeHand]]</center>
+<<SCX>><<SC "PR" 15>><<addtime 11>>
+You get down on your knees and start gently touching his cock. <<has shame>><br><br>@@.mono;I feel so embarassed!@@<br><br>It gets hard and you have no choice now than start jerking it.<<or>>It gets throbbing hard soon and you spit on a cockhead to lubricate it.<</has>> Working your fingers along the shaft you force the guy to moan.<br><br>@@.npc;Yeah, jerk it, baby!@@<br><br>You pick up the pace and soon guy groan and start shooting his load right on your face.<br><br>@@.npc;That was really cool, whore!@@<br><br>With visible efforts guy retracts his cock back from the hole and<<if $SCresult[1]>><<set _money = random(7, 20)>> shoves some money into the gloryhole.<br><br>@@.npc;I know you said it is free, but I feel like... ugh... helping you with some money, just as... well as a sign of graditude.@@<br><br>After you take the money he go out of his stall leaving you with cum on your face and @@.money;<<mon>><<print _money>>@@ in your hand.<<run aw.cash(_money, "whoring")>><<else>> leaves his stall.<</if>>
+<<run setup.condition.add("face", 4, "pc", 5, "cum")>>
+<br><br><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>><br>
+<<button "Wait for another guy">><<updatebar>><<replace "#stallReplace">><<addTime 14>><<include [[DowntownClubShakeWCStallHole]]>><</replace>><</button>>
+
+
+:: DowntownClubShakeWCStallHoleRideOpt [nobr]
+
+<<silently>>
+<<eatdrug "sex" 7>>
+<<set _hasCondom = setup.hasCondom()>>
+<<set _pullOut = false>>
+<<set _promise = false>>
+<<if ↂ.pc.trait.slut || ↂ.pc.kink.risky || ↂ.pc.kink.pregnancy>>
+  <<set _diff = 5>>
+  <<has slut>><<set _diff += 5>><</has>>
+  <<has risky>><<set _diff += 5>><</has>>
+  <<has pregnancy>><<set _diff += 8>><</has>>
+  <<SCX>><<SC "WI" 15>>
+  <<if $SCresult[1]>>
+    <<set _slutWillpower = true>>
+  <<else>>
+    <<set _slutWillpower = false>>
+  <</if>>
+<</if>>
+<<if _hasCondom && not _slutWillpower>>
+  <<set _hasCondom = false>>
+<</if>>
+<</silently>>
+<<if ↂ.pc.trait.slut || ↂ.pc.kink.risky || ↂ.pc.kink.pregnancy>><center><<print $SCtext[1]>></center><</if>>
+<p><<has shame>>@@.mono;I <i>really</i> need it, I know it's dirty, but nobody will find out, right?@@<<orhas slut>>@@.mono;OMG I can't wait!!!@@<<or>>@@.mono;Oh this is going to feel <b><i>SO</i></b> good!@@<</has>></p>
+<p><i>The <<has slut>><<print either("yummy", "delicious", "glorious")>><<orhas shame>>shameful<<or>><<print either("throbbing", "engorged", "rock-hard")>><</has>> <<w "cock.n">> is waiting, what will you do?</i></p>
+
+<<dialogchoice>>
+<<dbutt "Ask Condom" _slutWillpower>><<addTime 3>><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleAskCondom]]>><</replace>>
+<<dtext "arrogant">>Ask them to use one of their condoms, if they have one. <<if not _slutWillpower>><<ctn>>-You lack the willpower to wait-<</ctn>><</if>>
+<<dbutt "Use Condom" _hasCondom>><<addTime 3>><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleUseCondom]]>><</replace>>
+<<dtext "suspicious">>Use one of your own condoms <<if _hasCondom>><<ctn>>[will consume a condom]<</ctn>><<else>><<ctn>>-You don't have a condom or don't feel like finding one!-<</ctn>><</if>>
+<<dbutt "Mount it">><<addTime 3>><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleRide]]>><</replace>>
+<<dtext "slut">>Hurry up and ride it already. You can worry about him cumming when he gets close.
+<<dbutt "Pull Out" _slutWillpower>><<addTime 3>><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHolePromise]]>><</replace>>
+<<dtext "scared">>Just to be sure, have him promise to pull out before you start. <<if not _slutWillpower>><<ctn>>-You lack the willpower to wait-<</ctn>><</if>>
+<</dialogchoice>>
+
+
+:: DowntownClubShakeWCStallHoleAskCondom [nobr]
+
+
+<<set _hasCond = random(1,5)>>
+<p>You look at the <<print either("throbbing", "engorged", "rock-hard")>> <<w "cock.n">> with concern. @@.pc;Hey, would you mind putting on a condom for me baby?@@</p>
+<<switch _hasCond>>
+<<case 1 2>>
+  <p>Almost immediately the voice answers from the other stall. @@.npc;Sorry, I don't have one on me.@@ The <<w "cock.n">> sticking through the wall stands up firmer than before and makes a couple thrusts. @@.npc;Don't worry babe, it'll be fine.@@</p>
+
+  <<dialogchoice>>
+  <<dbutt "Ride It">><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallHoleRide]]>><</replace>>
+  <<dtext "slut">>Well looks like bareback it is, I'll just dismount before he cums or something...
+  <<dbutt "Use Yours" _hasCondom>><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallHoleUseCondom]]>><</replace>>
+  <<dtext "arrogant">>Use one of your own condoms <<if _hasCondom>><<ctn>>[will consume a condom]<</ctn>><<else>><<ctn>>-You don't have a condom!-<<ctn>><</if>>
+  <<dbutt "Pull Out" >><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallHolePromise]]>><</replace>>
+  <<dtext "scared">>Just to be sure, have him promise to pull out before you start.
+  <<dbutt "Suck It">><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallHoleSuck]]>><</replace>>
+  <<dtext "surprised">>Give him a blowjob, it's better safe than sorry, after all.
+  <<dbutt "Nevermind">><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallNevermind]]>><</replace>>
+  <<dtext "unamused">>If he doesn't have a condom you aren't interested.
+  <</dialogchoice>>
+<<case 3 4>>
+  <p>There's a pause. @@.npc;I might have one, but come on, don't you think it'd be better raw?@@ The <<w "cock.n">> sticking through the wall stands up firmer than before and makes a couple thrusts. @@.npc;Don't worry babe, it'll feel <i>sooo</i> good.@@</p>
+
+  <<dialogchoice>>
+  <<dbutt "Persuade">><<set _persu = "hisCondom">><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallHolePersuade]]>><</replace>>
+  <<dtext "cute">>Do something sexy to persuade him to wear a condom.
+  <<dbutt "Ride It">><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallHoleRide]]>><</replace>>
+  <<dtext "slut">>Well looks like bareback it is, I'll just dismount before he cums or something...
+  <<dbutt "Use Yours" _hasCondom>><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallHoleUseCondom]]>><</replace>>
+  <<dtext "arrogant">>Use one of your own condoms <<if _hasCondom>><<ctn>>[will consume a condom]<</ctn>><<else>><<ctn>>-You don't have a condom!-<<ctn>><</if>>
+  <<dbutt "Pull Out" >><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallHolePromise]]>><</replace>>
+  <<dtext "scared">>Just to be sure, have him promise to pull out before you start.
+  <<dbutt "Suck It">><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallHoleSuck]]>><</replace>>
+  <<dtext "surprised">>Give him a blowjob, it's better safe than sorry, after all.
+  <<dbutt "Nevermind">><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallNevermind]]>><</replace>>
+  <<dtext "unamused">>If he doesn't have a condom you aren't interested.
+  <</dialogchoice>>
+<<case 5>>
+  <<set _conData = {}>>
+  <<set _conData.effect = random(88, 94)>>
+  <<set _conData.health = random(5, 8)>>
+  <<if random(1,3) === 1>>
+    <<set _conData.sabo = 20>>
+  <<else>>
+    <<set _conData.sabo = 0>>
+  <</if>>
+  <<set _conData.acidPre = false>>
+  <<set _conData.acidVag = ↂ.pc.mutate.acid>>
+  <<set _conData.powerEjac = false>>
+  <<set _conData.bitchBreaker = false>>
+  <<set _conData.cumVol = random(40,60)>>
+  <p>There's a brief pause before the <<w "cock.n">> retreats through the hole. @@.npc;Okay, you have a disease or something?@@</p>
+  <p><<has bitch>>@@.pc;Fuck you, I just don't want to catch anything from YOU.@@<<or>>@@.pc;Yeah, I'm clean. Just better safe than sorry, you know?@@<</has>> You wait impatiently as you hear some noises come from the other stall.</p>
+  <p>The <<w "cock.n">> emerges once again from the hole, this time wrapped in latex. @@.npc;Okay, let's do this!@@</p>
+  <center><<button "Mount The Cock">><<addTime 3>><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleRideCondom]]>><</replace>><</button>></center>
+<</switch>>
+
+
+:: DowntownClubShakeWCStallHolePersuade [nobr]
+
+<<if _persu === "hisCondom">>
+<<set _conData = {}>>
+  <<set _conData.effect = random(88, 94)>>
+  <<set _conData.health = random(5, 8)>>
+  <<set _conData.acidPre = false>>
+  <<set _conData.acidVag = ↂ.pc.mutate.acid>>
+  <<set _conData.powerEjac = false>>
+  <<set _conData.bitchBreaker = false>>
+  <<set _conData.cumVol = random(40,60)>>
+<</if>>
+<<set _conData.sabo = random(0, 20)>>
+<<SCX>><<SC "SD" 10>>
+<center><<print $SCtext[1]>></center>
+<<if $SCresult[1]>>
+<center>[img[IMG-SPgloryhole-rubPussy]]</center>
+<p>You rub his <<print either("throbbing", "straining", "engorged")>> <<w "cock.n">> enticingly between your pussy lips. @@.pc;Come on baby, isn't this <<w "pussy.n">> worth wearing a condom?@@</p>
+<p>There's a brief pause before you hear a sigh from the other side. @@.npc;Fine, okay, I'll put it on.@@</p>
+<p>The <<w "cock.n">> disappears, and after a minute it reappears wrapped in latex.</p>
+<center><<button "Mount Him">><<addTime 3>><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleRideCondom]]>><</replace>><</button>></center>
+<<else>>
+<p>You try smacking the bare cock around with your hand to entice him. @@.pc;Come on, just wear a condom already!@@</p>
+<p>You hear some mumbling from the other stall before they speak up. @@.npc;I'm not wearing a rubber. You want this cock, you're riding it raw.@@</p>
+<<dialogchoice>>
+  <<dbutt "Ride It">><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallHoleRide]]>><</replace>>
+  <<dtext "slut">>Give in and ride his cock without a condom...
+  <<dbutt "Pull Out" >><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallHolePromise]]>><</replace>>
+  <<dtext "scared">>Just to be sure, have him promise to pull out before you start.
+  <<dbutt "Suck It">><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallHoleSuck]]>><</replace>>
+  <<dtext "surprised">>Give him a blowjob, it's better safe than sorry, after all.
+  <<dbutt "Nevermind">><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallNevermind]]>><</replace>>
+  <<dtext "unamused">>If he doesn't use a condom you aren't interested.
+  <</dialogchoice>>
+<</if>>
+
+:: DowntownClubShakeWCStallHoleUseCondom [nobr]
+
+
+<<set _conData = {}>>
+<<set _conData.effect = random(88, 94)>>
+<<set _conData.health = random(5, 8)>>
+<<set _conData.sabo = 0>>
+<<set _conData.acidPre = false>>
+<<set _conData.acidVag = ↂ.pc.mutate.acid>>
+<<set _conData.powerEjac = false>>
+<<set _conData.bitchBreaker = false>>
+<<set _conData.cumVol = random(40,60)>>
+
+<p>You reach into your purse to grab a condom</p>
+<center>
+<<if setup.consumables.hasConsumable("DuremaxSafeT")>>
+  <<button "Duremax Safe T">><<dropconsumable "DuremaxSafeT" 1>><<set _conData.effect = 98>><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleUseCondom2]]>><</replace>><</button>>
+<<else>>
+  <span class="disabled"><<button "Duremax Safe T">><</button>></span>
+<</if>>
+<<if setup.consumables.hasConsumable("DuremaxSafePE")>>
+  <<button "Duremax Safe PE">><<dropconsumable "DuremaxSafePE" 1>><<set _conData.effect = 98>><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleUseCondom2]]>><</replace>><</button>>
+<<else>>
+  <span class="disabled"><<button "Duremax Safe PE">><</button>></span>
+<</if>>
+<<if setup.consumables.hasConsumable("trojancockS")>>
+  <<button "Trojancock S">><<dropconsumable "trojancockS" 1>><<set _conData.effect = 96>><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleUseCondom2]]>><</replace>><</button>>
+<<else>>
+  <span class="disabled"><<button "Trojancock S">><</button>></span>
+<</if>>
+<<if setup.consumables.hasConsumable("trojancockUL")>>
+  <<button "Trojancock Uber Lube">><<dropconsumable "trojancockUL" 1>><<set _conData.effect = 93>><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleUseCondom2]]>><</replace>><</button>>
+<<else>>
+  <span class="disabled"><<button "Trojancock Uber Lube">><</button>></span>
+<</if>>
+<<if setup.consumables.hasConsumable("trojancockUNL")>>
+  <<button "Trojancock Uber No-Lube">><<dropconsumable "trojancockUNL" 1>><<set _conData.effect = 90>><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleUseCondom2]]>><</replace>><</button>>
+<<else>>
+  <span class="disabled"><<button "Trojancock Uber No-Lube">><</button>></span>
+<</if>>
+<<if setup.consumables.hasConsumable("pleasureburst")>>
+  <<button "Pleasureburst Hex">><<dropconsumable "pleasureburst" 1>><<set _conData.effect = 80>><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleUseCondom2]]>><</replace>><</button>>
+<<else>>
+  <span class="disabled"><<button "Pleasureburst Hex">><</button>></span>
+<</if>>
+</center>
+
+:: DowntownClubShakeWCStallHoleUseCondom2 [nobr]
+
+<<addTime 3>>
+<<set _refuse = random(1, 5)>>
+<p>You retrieve the condom from your purse and eventually manage to tear open the plastic foil wrapper, when you hear a voice from the other stall. @@.npc;Hey, what's taking so long over there?@@</p>
+<p>You grasp the man's <<w "cock.n">>, and start rolling the condom on. @@.pc;Sorry, just had to dig a condom out of my purse.@@</p>
+<<if _refuse > 2>>
+  <p>You hear a grumbling voice on the other side of the wall. @@.npc;Okay, fine.@@</p>
+  <center><<button "Mount Him">><<addTime 2>><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleRideCondom]]>><</replace>><</button>>
+<<else>>
+  <p>As soon as you manage to finish rolling on the condom, the <<w "cock.n">> disappears through the hole. @@.npc;Hey, I didn't say anything about wearing a condom!@@ a moment later the <<w "cock.n">> reappears without its latex jacket. @@.npc;Come on babe, it feels so much better when it's all-natural.@@</p>
+  <<dialogchoice>>
+  <<dbutt "Persuade">><<set _persu = "yourCondom">><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallHolePersuade]]>><</replace>>
+  <<dtext "cute">>Do something sexy to persuade him to wear a condom.
+  <<dbutt "Ride It">><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallHoleRide]]>><</replace>>
+  <<dtext "slut">>He's right, it does feel so much better...
+  <<dbutt "Pull Out" >><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallHolePromise]]>><</replace>>
+  <<dtext "scared">>Just to be sure, have him promise to pull out before you start.
+  <<dbutt "Suck It">><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallHoleSuck]]>><</replace>>
+  <<dtext "surprised">>Give him a blowjob, it's better safe than sorry, after all.
+  <<dbutt "Nevermind">><<replace "#stallReplace">><<addTime 3>><<include [[DowntownClubShakeWCStallNevermind]]>><</replace>>
+  <<dtext "unamused">>If he doesn't use a condom you aren't interested.
+  <</dialogchoice>>
+<</if>>
+
+:: DowntownClubShakeWCStallHolePromise [nobr]
+
+<<set _promise = true>>
+<center>[img[IMG-SPgloryhole-Waiting]]</center>
+<p>You stare at the eager <<w "cock.n">> but can't get over your trepidation. You decide to ask its owner to promise to pull out rather than cumming inside you. @@.pc;Hey, I'm not on any birth control, so I can't fuck you raw unless you promise to pull out, okay?@@</p>
+<p>The <<w "cock.n">> bobs as if nodding yes. @@.npc;<<print either("Yeah, sure, I'll pull out","No creampie then, you got it.","No problem, I'll cum outside")>>.@@</p>
+<center><<button "Mount Him">><<addTime 2>><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleRide]]>><</replace>><</button>></center>
+
+
+:: DowntownClubShakeWCStallHoleRideCondom [nobr]
+
+<<silently>>
+<<set ↂ.pc.body.pussy.virgin = false>>
+<<set _break = setup.fert.condomBreakCheck(_conData)>>
+<<set _image = "[img[IMG-SPgloryhole-condom" + random(1,3) + "]]">>
+<</silently>>
+<center><<print _image>></center>
+<p>You ride the condom-clad <<w "cock.n">> without worry, and focus on getting yourself off. You bounce against the wall of the stall, occasionally changing the angle so it hits your sensitive areas just right. The <<w "cock.n">> thrusts in time with your movements, slowly becoming longer and harder as it gets closer to cumming.</p>
+<div id="repho">
+<center><<if _break>>
+  <<set _irand = random(1,4)>>
+  <<set _image2 = "[img[IMG-SPgloryhole-creampie" + _irand + "]]">>
+  <<if _irand < 3>>
+    <<run ↂ.pc.fert.creampie("unknown", _conData.cumVol, "deep")>><<eatdrug "cream" 10>>
+  <<else>>
+    <<run ↂ.pc.fert.creampie("unknown", _conData.cumVol, "default")>><<eatdrug "cream" 10>>
+  <</if>>
+  <<if ↂ.pc.status.satisfaction < 50>>
+    <<set _sato = Math.min(10, 50 - ↂ.pc.status.satisfaction)>>
+    <<satisfy _sato "Playing in the gloryhole">>
+  <</if>>
+  <<arouse -2>>
+  <<button "Continue">><<addTime 10>><<replace "#repho">>
+  <p>Soon you're hit by your orgasm, and you rest your ass against the wall as your body spasms lightly and your <<w "pussy.n">> clamps down on the <<w "cock.n">> inside it. The cock's thrusts start to quickly pick up the pace, frantically fucking your still-cumming pussy.</p>
+  <center><<print _image2>></center>
+  <p>The thrusting abruptly stops, and you can feel the <<w "cock.n">> jerking inside you as it cums. That's when you realize that you can also feel the impact as surges of cum splatter against your deepest recesses. You're left with a warm wet sensation as you pull away, and realize that the condom must've broke.</p>
+  <<if _irand < 3>>
+  <p>You finish pulling off the cock and look back, quickly spotting a bead of <<w "cum.n">> stuck to the head of the <<w "cock.n">> behind you. The rest of the thick cum seems to be sticking deep inside your pussy.</p>
+  <<else>>
+  <p>The <<w "cock.n">> slides backward on it's own, eventually slipping out of you. You feel a tickling sensation as some of the cum dribbles out of your <<w "pussy.n">> and splashes on the floor.</p>
+  <</if>>
+  <p>The owner of the <<w "cock.n">> doesn't say a word, and instead quickly withdrawals their member through the hole. You hear some light shuffling followed by the sound of a zipper, and eventually the sound of them leaving the stall next door. @@.mono;He's in a hurry; no doubt to avoid me figuring out who he is after cumming in me like that...@@</p>
+  <p>There's nothing left for you to do but get cleaned up, so that's what you do.</p>
+  <center><<button "Continue">><<run Dialog.close()>><<updatebar>><</button>></center>
+  <</replace>><</button>>
+<<else>>
+  <<button "Continue">><<addTime 7>><<replace "#repho">>
+  <<arouse 2>>
+  <<satisfy -5 "Your gloryhole partner didn't get you off, and even used a condom">>
+  <p>Soon you feel yourself getting close, and you rest your ass against the wall. All of a sudden the cock inside you starts thrusting wildly, eventually slipping out as it makes one final thrust and begins filling the condom.</p>
+  <center>[img[IMG-SPgloryhole-CumCondom]]</center>
+  <p>The owner makes a few half-hearted attempts to rub your pussy with his softening member, but then withdrawals his <<w "cock.n">> from the hole entirely. You hear some light shuffling followed by the sound of a zipper, and eventually the sound of them leaving the stall next door. @@.mono;Damn, I wish he'd finished the job.@@</p>
+  <center><<button "Continue">><<run Dialog.close()>><<updatebar>><</button>></center>
+  <</replace>><</button>>
+<</if>></center>
+</div>
+
+:: DowntownClubShakeWCStallHoleRide [nobr]
+
+<<silently>>
+<<set ↂ.pc.body.pussy.virgin = false>>
+<<if _fcunt == null>>
+  <<set _fcunt = 1>>
+  <<set _cumr = random(1,3)>>
+<<else>>
+  <<set _fcunt += 1>>
+<</if>>
+<<if _fcunt > _cumr>>
+  <<set _cumming = true>>
+<<else>>
+  <<set _cumming = false>>
+<</if>>
+<<set _image = "[img[IMG-SPgloryhole-fucking" + random(1,8) + "]]">>
+<<if ↂ.pc.status.satisfaction < 50>>
+    <<set _sato = Math.min(5, 50 - ↂ.pc.status.satisfaction)>>
+    <<satisfy _sato "Playing in the gloryhole">>
+  <</if>>
+<<stress -3 "Enjoying the gloryhole">>
+<</silently>>
+<center><<print _image>></center>
+<p>You ride the anonymous <<w "cock.n">> sticking out from the wall. <<has slut>>@@.mono;I should do this all the time, it feels <i>SO</i> good!@@<<orhas shame>>@@.mono;I can't believe I'm doing this... but it feels so good...@@<<or>>@@.mono;God this feels good!@@<</has>></p>
+<p>You bounce against the wall of the stall, occasionally changing the angle so it hits your sensitive areas just right. 
+<<switch _fcunt>>
+<<case 1>>
+The <<w "cock.n">> starts to give an extra push when you bottom out as the owner adapts to your rhythm.
+<<case 2>>
+The <<w "cock.n">> begins thrusting in time with your movements, increasing the intensity of the sensation.
+<<case 3 4 5>>The <<w "cock.n">>'s owner slowly starts thrusting longer and harder, driving you wild.
+<</switch>></p>
+<center>
+<<if not _pullOut && not _cumming>>
+<<hoverrevise ask>><<button "Ask To Pull Out">><<set _pullOut = true>><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHolePullOutAsk]]>><</replace>><</button>><<endhoverrevise>>
+<</if>>
+<<hoverrevise pullaway>><<button "Pull Away">>
+<<if _cumming>>
+  <<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleShallow]]>><</replace>>
+<<else>>
+  <<replace "#stallReplace">><p>You pull away from the wall, and sit there for a moment. It seems like he wasn't ready to cum, so all you accomplished was slowing things down and throwing off the rhythm.</p> <<if random(1,2) === 2>><<set _fcunt -=1>><</if>><<satisfy -10 "Interrupting your gloryhole sex out of fear of semen">><<include [[DowntownClubShakeWCStallHoleRide]]>><</replace>>
+<</if>>
+<</button>><<endhoverrevise>>
+<<button "Keep Riding">>
+<<if _cumming>>
+  <<if _pullOut && _promise>>
+    <<if random(1,4) === 1>>
+      <<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleCreampie]]>><</replace>>
+    <<else>>
+      <<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHolePullOut]]>><</replace>>
+    <</if>>
+  <<elseif _pullOut || _promise>>
+    <<if random(1,2) === 1>>
+      <<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleCreampie]]>><</replace>>
+    <<else>>
+      <<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHolePullOut]]>><</replace>>
+    <</if>>
+  <<else>>
+    <<if random(1,5) === 1>>
+      <<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleExtreme]]>><</replace>>
+    <<else>>
+      <<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleCreampie]]>><</replace>>
+    <</if>>
+  <</if>>
+<<else>>
+  <<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleRide]]>><</replace>>
+<</if>>
+<</button>>
+<br>
+<<insertion pullaway>>@@.note;You think he may be close to cumming, pull away to make it easer for him to pull out.@@<<endinsertion>>
+<<insertion ask>>@@.note;Ask him to pull out before he cums inside you.@@<<endinsertion>>
+</center>
+
+
+:: DowntownClubShakeWCStallHolePullOutAsk [nobr]
+
+<<set _image = "[img[IMG-SPgloryhole-fucking" + random(1,8) + "]]">>
+<center><<print _image>></center>
+<p>While you're enjoying yourself you ask your partner in the other stall. @@.pc;Hey, don't come inside me okay? Pull out and I'll finish you off however you'd like.@@</p>
+<p>You hear a grunt from the other stall. @@.npc;Okay.@@</p>
+<center>
+<<button "Keep Riding">><<replace "#stallReplace">><<include [[DowntownClubShakeWCStallHoleRide]]>><</replace>><</button>>
+</center>
+
+
+:: DowntownClubShakeWCStallHolePullOut [nobr]
+
+<center><<print either("[img[IMG-SPgloryhole-PullOut1]]","[img[IMG-SPgloryhole-PullOut2]]")>></center>
+<p>Your partner's thrusts hit a rapid pace before he tries to pull out suddenly. It seems he was mostly successful, as his <<w "cum.n">> sprays against your vulva and dribbles down to the floor. You still get the feeling that at least some of it went inside you though.</p>
+<p>The owner of the <<w "cock.n">> says a quick @@.npc;Thanks@@, and quickly withdrawals their member through the hole. You hear some light shuffling followed by the sound of a zipper, and eventually the sound of them leaving the stall next door.</p>
+<p>There's nothing left for you to do but get cleaned up, so that's what you do.</p>
+<center><<button "Continue">><<run Dialog.close()>><<updatebar>><</button>></center>
+
+
+:: DowntownClubShakeWCStallHoleShallow [nobr]
+
+<<silently>>
+<<addTime 3>>
+<<run ↂ.pc.fert.creampie("unknown", 80, "default")>><<eatdrug "cream" 10>>
+<</silently>>
+<p>You pull your rear end away from the wall, leaving only the top couple inches buried in your <<w "pussy.n">>.</p>
+<center>[img[IMG-SPgloryhole-Shallow]]</center>
+<p>It seems your timing was off, however, because right when you stop moving you feel the <<w "cock.n">> start throbbing into you along with the familiar wet sensation of <<w "cum.n">> blasting into your pussy. Whether its a lack of balance, or your own hidden desire, you find yourself unable to dismount as surge after surge of thick <<w "cum.n">> sprays into your depths.</p>
+<p>An incredible amount of cum later, the <<w "cock.n">> finally slips from your <<w "pussy.n">>. A small amount of <<w "cum.n">> dribbles out, but you can still feel most of it clinging inside you. The owner of the <<w "cock.n">> says a quick @@.npc;Thanks@@, and quickly withdrawals their member through the hole. You hear some light shuffling followed by the sound of a zipper, and eventually the sound of them leaving the stall next door. @@.mono;He's in a hurry; no doubt to avoid me figuring out who he is after cumming in me like that...@@</p>
+<p>There's nothing left for you to do but get cleaned up, so that's what you do.</p>
+<center><<button "Continue">><<run Dialog.close()>><<updatebar>><</button>></center>
+
+:: DowntownClubShakeWCStallHoleCreampie [nobr]
+
+<<silently>>
+<<set _irand = random(1,4)>>
+<<set _image2 = "[img[IMG-SPgloryhole-creampie" + _irand + "]]">>
+<<set _volu = random(45, 60)>>
+<<if _irand < 3>>
+  <<run ↂ.pc.fert.creampie("unknown", _volu, "deep")>><<eatdrug "cream" 10>>
+<<else>>
+  <<run ↂ.pc.fert.creampie("unknown", _volu, "default")>><<eatdrug "cream" 10>>
+<</if>>
+<<addTime 5>>
+<<if ↂ.pc.status.satisfaction < 50>>
+    <<set _sato = Math.min(5, 50 - ↂ.pc.status.satisfaction)>>
+    <<satisfy _sato "Playing in the gloryhole">>
+  <</if>>
+<<arouse -2>>
+<<if (_pullOut || _promise) && not ↂ.pc.kink.risky && not ↂ.pc.kink.pregnancy>>
+<<happy -2 "Getting an unexpected and unwanted creampie at the gloryhole">><<anger 5>><<stress 15 "Getting an unexpected and unwanted creampie at the gloryhole">>
+<<else>>
+<<has risky || pregnancy>>
+<<happy 1 "Getting a creampie at the gloryhole">>
+<<if ↂ.pc.status.satisfaction < 60>>
+    <<set _sato = Math.min(15, 60 - ↂ.pc.status.satisfaction)>>
+    <<satisfy _sato "Playing in the gloryhole">>
+  <</if>>
+<<arouse 2>>
+<</has>>
+<</if>>
+<</silently>>
+<p>Soon you're hit by your orgasm, and you shove your ass against the wall as your body spasms lightly and your <<w "pussy.n">> clamps down on the <<w "cock.n">> inside it. The cock's thrusts start to quickly pick up the pace, frantically fucking your still-cumming pussy.</p>
+  <center><<print _image2>></center>
+  <p>The thrusting abruptly stops, and you can feel the <<w "cock.n">> jerking inside you as it cums. That's when you realize that you can also feel the impact as surges of cum splatter against your deepest recesses. You're left with a warm wet sensation as you pull away, and realize that the condom must've broke.</p>
+  <<if _irand < 3>>
+  <p>You finish pulling off the cock and look back, quickly spotting a bead of <<w "cum.n">> stuck to the head of the <<w "cock.n">> behind you. The rest of the thick cum seems to be sticking deep inside your pussy.</p>
+  <<else>>
+  <p>The <<w "cock.n">> slides backward on it's own, eventually slipping out of you. You feel a tickling sensation as some of the cum dribbles out of your <<w "pussy.n">> and splashes on the floor.</p>
+  <</if>>
+  <p>The owner of the <<w "cock.n">> says a simple @@.pc;Hey, that was good, thanks.@@ He quickly withdrawals his member through the hole. You hear some light shuffling followed by the sound of a zipper, and eventually the sound of them leaving the stall next door. @@.mono;Damn that felt good...@@</p>
+  <p>There's nothing left for you to do but get cleaned up, so that's what you do.</p>
+  <center><<button "Continue">><<run Dialog.close()>><<updatebar>><</button>></center>
+
+
+:: DowntownClubShakeWCStallHoleExtreme [nobr]
+
+<<silently>>
+<<set ↂ.pc.body.pussy.virgin = false>>
+<<eatdrug "cream" 10>>
+<<run ↂ.pc.fert.creampie("unknown", 300, "deep")>>
+<<run ↂ.pc.fert.inseminate("unknown", 50, "womb")>>
+<<run setup.condition.add({ loc: "genitals", amt: 20, tgt: "pc", wet: 20, type: "cum"})>>
+<<run setup.condition.add({ loc: "groin", amt: 15, tgt: "pc", wet: 15, type: "cum"})>>
+<<addTime 10>>
+<<if ↂ.pc.status.satisfaction < 50>>
+  <<set _sato = Math.min(10, 50 - ↂ.pc.status.satisfaction)>>
+  <<satisfy _sato "Playing in the gloryhole">>
+<</if>>
+<<arouse -2>>
+<<if (_pullOut || _promise) && not ↂ.pc.kink.risky && not ↂ.pc.kink.pregnancy>>
+<<happy -2"Getting an unexpected and unwanted creampie at the gloryhole">><<anger 5>><<stress 15 "Getting an unexpected and unwanted creampie at the gloryhole">>
+<<else>>
+<<has risky || pregnancy>>
+<<happy 2 "Getting a creampie at the gloryhole">>
+<<if ↂ.pc.status.satisfaction < 60>>
+    <<set _sato = Math.min(10, 60 - ↂ.pc.status.satisfaction)>>
+    <<satisfy _sato "Playing in the gloryhole">>
+  <</if>>
+<<arouse 2>>
+<</has>>
+<</if>>
+<</silently>>
+<center>[img[IMG-SPgloryhole-extreme]]</center>
+<p>Soon you're hit by your orgasm, and you shove your ass against the wall for maximum depth as your body spasms and your <<w "pussy.n">> clamps down hard on the <<w "cock.n">> inside it. As soon as you do, the cock seems to swell as it's owner makes one last hard thrust to bury it as deep in your <<w "pussy.n">> as possible. That's when you're shocked by the first powerful stream of <<w "cum.n">> splashing against your deepest recesses. The powerful streams of cum send your orgasm into overdrive.</p>
+<p>You shudder, lost in pleasure as an unbelievable amount of <<w "cum.n">> thoroughly stuffs your <<w "vagina.n">>. It actually starts to become painful, as the pressure gets to be too much and cum sprays out around the invading member. The cum gets all over the place as you dismount, and as you turn around you see that the last dregs of cum are still spraying from the large cock.</p>
+<p>You look down at the mess of cum. @@.pc;That felt amazing, but damn you made a mess!@@</p>
+<p>You hear a chuckle from the other side. @@.npc;Sorry about that, you felt great too. Thanks!@@</p>
+<p>@@.mono;Now... How am I going to clean this up?@@</p>
+<center><<button "Continue">><<run Dialog.close()>><<updatebar>><</button>></center>
+
+:: DowntownClubShakeWCStallNevermind [nobr]
+
+<<SCX>><<SC "WI" 13>>
+<center><<print $SCtext[1]>></center>
+<<if $SCresult[1]>>
+  <<arouse 2>>
+  <<satisfy -10 "Leaving a perfectly good cock without giving it a try">>
+  <p>It takes a good deal of willpower to walk out on that<<print either("beautiful","delicious","irresistable")>> meatstick just waiting there for you, but you manage it. You quickly make yourself presentable and exit the stall.</p>
+  <center><<button "Continue">><<addTime 3>><<run Dialog.close()>><<updatebar>><</button>></center>
+<<else>>
+  <p>You try to walk away, but that <<print either("beautiful","delicious","irresistable")>> meatstick makes it impossible. @@.mono;Urrrg! I might not be able to ride it, but I can at least have a taste, right?@@</p>
+  <<include [DowntownClubShakeWCStallHoleSuck]>>
+<</if>>

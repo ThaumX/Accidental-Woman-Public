@@ -1,0 +1,279 @@
+:: PsychoStart [nobr]
+
+Darkness.
+<<timed 2s t8n>>
+Silence.
+<<next>>
+Headache.
+<<next>>
+<p>@@.mono;Where... am I?@@</p>
+<p>Your eyes are open but you can't see anything. You try to move just to find out your hands as well as your ankles are bound tightly. You lie on your side on something hard. The cold breeze on your skin makes you think that you are probably naked.</p>
+<p>@@.mono;Oh, this time I am screwed for sure...@@</p>
+<p>Time passes as you cry for help and try to break free of the ropes but to no avail. Exhausted you just lie naked on the cold wooden floor...</p>
+<<if ↂ.pc.trait.intro && ↂ.pc.trait.open>><p>@@.mono;Better save as much energy as I can, maybe there will be some chance to run away or fight... I must be on my toes.@@</p><<else>><p>@@.mono;I... I don't want to die...@@</p><</if>>
+<<button "Wait">><<scenego "Psycho-2-1">><</button>>
+<</timed>>
+<<stress 30 "Caught by a psycho">><<addtime 160>>
+
+:: Psycho-2-1 [nobr]
+
+<img data-passage="IMG-PsychoPortrait" style="width: 20%; float: left; margin:10px 25px 10px 0px;">
+<<if ↂ.pc.trait.perceptive == 1>><p>It seems you got into some trance state but as soon as you hear footsteps you become awake in a mere second, all your body tensed. You flinch when something touches your face and your blindfold goes off.</p><<else>><p>It seems you got into a slumber and you flinch when something touches your face and your blindfold goes off.</p><</if>>
+<p>You open your eyes and see a person crouching above you. This is certainly the guy who knocked you. He’s a tall big man around 45 with a winded face that barely has any impression on it. You just stare at each other for some time until he speaks.</p>
+<p>@@.npc;What is this, little bunny? Scared of the big bad wolf? Don't you worry, we will have so much fun, there is a lot prepared for you...@@</p>
+<p>@@.pc;What? Let me out you! Are you crazy or something? Let. Me. Fucking, Go!!!@@</p>
+<p>@@.npc;I don't thinks so, little bunny. Cry all you want, nobody will hear you here. Except me. But I don't mind. I even love when you girls do it.@@</p>
+<br><br><br><br><br><br>
+<<dialogchoice>>
+    <<dbutt "Shout">><<set $psychoAnswer = 1>><<scenego "Psycho-2-2">>
+    <<dtext "pain">>Let me out you fucking shithead, right now, got it?! Crazy motherfucker, set me free! You hear me, asshole?!
+    <<dbutt "Silence">><<set $psychoAnswer = 2>><<scenego "Psycho-2-2">>
+    <<dtext "confused">>Don't say a thing.
+    <<dbutt "Beg">><<set $psychoAnswer = 3>><<scenego "Psycho-2-2">>
+    <<dtext "cry">>Please, let me out mister, I won't tell anybody, I swear to god!
+    <<dbutt "Threat" "ↂ.pc.trait.devious == 1">><<set $psychoAnswer = 4>><<scenego "Psycho-2-2">>
+    <<dtext "angry">>You understand that they will search for me? And they will find me soon! You are so screwed you know?
+  <</dialogchoice>>
+
+
+:: Psycho-2-2 [nobr]
+
+<<if $psychoAnswer == 1>>
+  <p>@@.pc;Let me out you fucking shithead, right now, got it?! Crazy motherfucker, set me free! You hear me, asshole?!@@</p>
+  <p>@@.npc;Such a dirty mouth for such a nice girl. You want me to stitch it up?@@</p>
+<<elseif $psychoAnswer == 2>>
+  <p>You keep silent watching him.</p>
+  <p>@@.npc;Oh I see, now you want to play hero bunny. Well, let's see if you’re really that tough.@@</p>
+<<elseif $psychoAnswer == 3>>
+  <p>@@.pc;Please, let me out mister, I won't tell anybody, I swear to god!@@</p>
+  <p>His almost neutral face twitches into a grin.</p>
+  <p>@@.npc;Don't worry, I won't tell anybody too, bunny.@@</p>
+<<elseif $psychoAnswer == 4>>
+  <p>@@.pc;You understand that they will search for me? And they will find me soon! You are so screwed you know?@@</p>
+  <p>@@.npc;I doubt this, bunny.@@</p>
+<</if>>
+<p>Without much noticeable efforts he lift you from the floor, takes a couple of steps and puts you onto the big table. Your eyes hurt from the bright lamp hanging right above you. Quickly working with ropes he ties you to the table in a spreadeagle position. Turning your head to the side you see some medical-looking instruments on the piece of cloth besides you.<p>
+<p>@@.mono;Oh.@@</p>
+<<if !ↂ.pc.jewel.pierced.nipR && !ↂ.pc.jewel.pierced.nipL && !ↂ.pc.jewel.pierced.clit>><<set ↂ.pc.jewel.pierced.nipR = true>><<set ↂ.pc.jewel.pierced.nipL = true>><<set ↂ.pc.jewel.pierced.clit = true>><<set ↂ.pc.status.health -= 14>><<run setup.status.record("health", -14, "Psycho piercings")>><<set ↂ.pc.jewel.nipL = "nippleHeavy">><<set ↂ.pc.jewel.nipR = "nippleHeavy">><<set ↂ.pc.jewel.clit = "thickClitRing">><<status>>
+  <<gate "torture" "violent" "extreme" "sadomasochism" "noncon">>
+    <p>He inspects your body spreading your <<p vulva.n>> lips, fondling your <<p breastshape.q>> <<p breast.n>> and forcing you to open your <<p lips.q>> lips to look at your teeth. His fat fingers run across your body and you feel deep disgust with each touch squirming and trying to avoid it.</p>
+    <p>@@.npc;Now let's make you more fitting (to or for) my tastes, bunny.@@</p>
+    <p>He takes the thick needle and shows it to you enjoying your widened eyes.</p>
+    <<if $psychoAnswer !== 2>><p>@@.pc;Please... don't do this...@@</p><</if>>
+    <p>Aligning it with your defenseless nipple he start pushing slowly and you can't hold in a scream when it penetrate the delicate skin making its way through your <<p nipple.n>>. You close your eyes as hard as you can trying to deal with the torture. It takes about a minute of <<has masochist>>almost unbearable pain <<or>>almost pleasurable pain<</has>> until the point of the needle shows on the other side. With a sudden motion he removes it and you feel the tears rolling down your face. You pant and sob while he takes a way too thick ring and shoves it through the hole which makes you squirm and cry out loud. Merciless stainless steel penetrates your new hole. Soon it is in place stretching your sore and inflamed right nipple. With a pair of pliers he presses the ring closing the gap and locking it.</p>
+    <p>@@.npc;You see, bunny? Now let's care about the second.@@</p>
+    <<if $psychoAnswer !== 2>><p>@@.pc;Stop... calling me like this, you...@@</p><</if>>
+    <p>Without answering he takes the needle once again and you close your eyes again preparing for the inevitable. This time it feels even more painful, you shake on the table crying and hope it will end soon. New hole, new ring and new waves of pain going through your body.</p>
+    <p>He leans back enjoying his work.</p>
+    <p>@@.npc;You see? Much better now. We are almost there, bunny, just need to take care of this clit.@@</p>
+    <<if $psychoAnswer !== 2>><p>@@.pc;Please... just not my clit!@@</p><<else>><p>Still following your decision you don't say a word.</p><</if>>
+    <p>He takes the needle once again and you sob already knowing what will happen now. Without any preparations he pulls your <<p clit.n>> with two fingers and stab it with the needle.</p>
+    <<button "Pass out from the pain">><<scenego "Psycho-2-3">><</button>>
+  <</gate>>
+<<else>>
+  <<gate "torture" "violent" "extreme" "sadomasochism" "noncon">><<set ↂ.pc.status.health -= 14>><<run setup.status.record("health", -14, "Psycho piercings")>><<set ↂ.pc.jewel.nipL = "nippleHeavy">><<set ↂ.pc.jewel.nipR = "nippleHeavy">><<set ↂ.pc.jewel.clit = "thickClitRing">><<status>>
+    <p>He inspects your body spreading your <<p vulva.n>> lips, fondling your <<p breastshape.q>> <<p breast.n>> and forcing you to open your <<p lips.q>> lips to look at your teeth. His fat fingers run across your body and you feel deep disgust with each touch squirming and trying to avoid it. Finally he snaps your piercing and nods to himself.</p>
+    <p>@@.npc;Such a shame you have your yummy bunny body pierced already. I like to do it myself usually. On the other hand it just makes things easier for me, right? We only need to replace these silly toys with mine.@@</p>
+    <<if $psychoAnswer !== 2>><p>@@.pc;Please... don't do this...@@</p><</if>>
+    <p>He removes your nipple and clit piercings and throws them to the floor. You try to prepare while you see a way too thick ring, but when he shoves it through the hole you can't help but squirm and cry out loud. Merciless stainless steel penetrates your left nipple hole and soon it is in place stretching your sore and inflamed right nipple. With a pair of pliers he presses the ring closing the gap and locking it.</p>
+    <p>@@.npc;You see, bunny? Now let's take care about the second.@@</p>
+    <<if $psychoAnswer !== 2>><p>@@.pc;Stop... calling me like this, you...@@</p><</if>>
+    <p>Without answering he takes another ring and you close your eyes once again preparing for the inevitable. This time it feels even more painful, you shake on the table crying and hope it will end soon. Another nipple stretches to accept the wide ring while waves of pain continue going through your body.</p>
+    <p>He leans back enjoying his work.</p>
+    <p>@@.npc;You see? Much better now. We are almost there, bunny, just need to take care of this clit.@@</p>
+    <<if $psychoAnswer !== 2>><p>@@.pc;Please... just not my clit! It’s too large!@@</p><<else>><p>Still following your decision you don't say a word.</p><</if>>
+    <p>He takes the new ring and you sob already knowing what will happen now. Without any preparations he pulls your <<p clit.n>> with two fingers and start shoving the obviously too large ring into the hole from your previous jewelry.</p>
+    <<button "Pass out from the pain">><<scenego "Psycho-2-3">><</button>>
+  <</gate>>
+<</if>>
+
+
+:: Psycho-2-3 [nobr]
+
+<<timed 2s t8n>>
+<p>You wake up.</p>
+<<next>>
+<p>For a moment you desperately cling to the idea that it was all just a weird nightmare but, reality slowly crawls into your mind.</p>
+<p>@@.mono;I'm still on this table?@@</p>
+<p>Lifting your head you see that you are in the same position and place you were before losing consciousness. Your poor clit is constantly reminding you that he finished his work on your poor body. You can't see your vagina but it is obvious that you now have all three rings secured in their places.</p>
+<p>@@.mono;I am looking like a milk cow now probably!@@</p>
+<p>Looking around you see a lot of different stuff, old school-looking lockers, shelves with various boxes, an ugly metal frame bed in the corner but the most important part about this cabin now is that you are alone here. Inspecting the room you almost whisper to yourself.</p>
+<p>@@.mono;Okay, think girl, think fast now... I doubt he will just release you when he has enough. I have to find a way to get the fuck out of here before he comes back! Think, think...@@</p>
+<<SCX>><<SC "PS" 10>><<if ↂ.pc.body.tone > 4>><<SC "AT" 5>><<else>><<SC "AT" 10>><</if>><<if $SCresult[1]>>
+<p>You look around desperately trying to find a way to release yourself...</p>
+<p>@@.mono;Ugh... Okay. I have all the time in the world, no need to hurry. Just close your eyes, breath and then look around...@@</p>
+<p>Inhale.</p>
+<p>Exhale.</p>
+<p>Slow and steady you inspect everything you can see from the table trying to...</p>
+<p>@@.mono;Yes!!!@@</p>
+<p>A nail protrudes from the surface of the wooden table you lie on, just close enough so you can possibly reach it if you pull the rope holding your left arm.</p>
+<p>@@.mono;Okay... no hurry now...@@</p>
+<p>You pull the rope as hard as you can and it seems you can align the nail with the loops on your wrist. Moving your arm a bit you start scratching the rope, tearing it one thread at a time.</p>
+<p>@@.mono;A bit more... just a bit, please...@@</p>
+<p>It takes almost half an hour until you are satisfied with the condition of the rope. You pull as hard as you can, ignoring the pain in your wrist and the rope snaps. It takes another minute until you regain any sensitivity in your palm so you can start to untie your other arm.</p>
+<p>@@.mono;Faster, faster, damnit, faster...@@</p>
+<p>You almost done with your legs when you hear the sound of the car coming to the cabin.</p>
+<p>@@.mono;Shiiit, no!@@</p>
+<p>You nearly tear the loops of rope from your leg and jump from the table.</p>
+<p>The car is getting closer.</p>
+<<dialogchoice>>
+    <<dbutt "Hide">><<scenego "Psycho-2-4-Hide">>
+    <<dtext "muted">>Hide somewhere in the cabin.
+    <<dbutt "Run">><<scenego "Psycho-2-4-Run">>
+    <<dtext "surprised">>Run for your life.
+    <<dbutt "Fight">><<scenego "Psycho-2-4-Fight">>
+    <<dtext "cry">>Prepare to protect your life.
+  <</dialogchoice>>
+<<elseif $SCresult[2]>>
+<p>You look around desperately trying to find a way to release yourself...</p>
+<p>@@.mono;Okay, maybe I'll be able to tear them somehow?@@</p>
+<p>You try to pull every limb trying to find the weakest rope. Seems like the rope on your right hand rattle a bit when you pull it...</p>
+<p>@@.mono;Okay, now focus, it must not be that hard...@@</p>
+<p>You pull as hard as you can changing your arm position from time to time trying to break the rope for some time.</p>
+<p>@@.mono;Come on girl, you are strong, you know you can do it... just.. don't.. give... up...@@</p>
+<p>You are ready to actually give up but suddenly the rope starts to get loose and after another minute of desperate pulling your sore arm is free.</p>
+<p>@@.mono;Yes!!!@@</p>
+<p>You almost done untying your legs when you hear the sound of the car coming to the cabin.</p>
+<p>@@.mono;Shiiit, no!@@</p>
+<p>You almost tear the loops of rope from your leg and jump from the table.</p>
+<p>The car is getting closer.</p>
+<<dialogchoice>>
+    <<dbutt "Hide">><<scenego "Psycho-2-4-Hide">>
+    <<dtext "muted">>Hide somewhere in the cabin.
+    <<dbutt "Run">><<scenego "Psycho-2-4-Run">>
+    <<dtext "surprised">>Run for your life.
+    <<dbutt "Fight">><<scenego "Psycho-2-4-Fight">>
+    <<dtext "cry">>Prepare to protect your life.
+  <</dialogchoice>>
+<<else>>
+<p>You look around desperately trying to find a way to release yourself...</p>
+<p>@@.mono;Okay, maybe I'll be able to tear them somehow?@@</p>
+<p>You try to pull every limb trying to find the weakest rope but it seems they all hold tight. You struggle for about 20 minutes until you hear the sound of the oncoming car.</p>
+<p>@@.mono;Oh please, please, it should be police or somebody, please...@@</p>
+<<button "Car parks near the cabin">><<scenego "Psycho-2-4-Fail">><</button>>
+<</if>>
+<</timed>>
+
+
+:: Psycho-2-4-Hide [nobr]
+
+<p>You look around and see the old wardrobe in the corner. With one big leap you get to it and open the door to see it is almost empty, except for some old smelly rugs and some big glass bottles. You crouch in the wardrobe and pull the door so it closes leaving you in the dark confined space uncomfortably balancing between jars. You hear the front door screech and hold your breath.</p>
+<p>For some time nothing happens, no footsteps, no sounds, nothing. You feel you are out of oxygen and start breathing as quiet as possible. Another minute passes and you hear the door squeaks once again, fallen leaves crunch under somebody's feet while they roam around the cabin.</p>
+<p>@@.mono;Oh, he is searching for me...@@</p>
+<p>When you hear the cars engine starting again you feel a little blink of hope. The car's door bang and it is obvious that the psycho is riding away. You wait for about 3 minutes more until you gain enough courage to get out. The weak light from the lamp hurts your eyes and you turn to the wardrobe to let them adjust a bit which lets you take a closer look at the jars you were surrounded by. Something catches your attention and you lean forward a bit to see the odd thing in the jar. Suddenly you realise that you are looking at a nipple submerged into some yellow liquid behind the glass of the jar. You look to another and realize that they all contain various human parts, some heads, limbs and you are pretty sure you see a vagina cut from the body.</p>
+<p>@@.mono;Oh my god. I don't want to stay here for a moment and he can return too, but I can't run away buck naked...@@</p>
+<<dialogchoice>>
+    <<dbutt "Search">><<set $PsychoSearch = true>><<scenego "Psycho-2-4-Woods">>
+    <<dtext "suspicious">>Look for some clothes in the cabin.
+    <<dbutt "Run">><<set $PsychoSearch = false>><<scenego "Psycho-2-4-Woods">>
+    <<dtext "surprised">>No time for this, I need to leave this place as fast as possible!
+<</dialogchoice>>
+
+
+:: Psycho-2-4-Woods [nobr]
+
+<<addtime 197>>
+<<if $PsychoSearch == true>>
+<p>You quickly open all the drawers and boxes to see your belongings. Finally you find it in a big bin. It seems where he just put all your clothes, but there are some other female attires which are surely not yours. Shrugging, you quickly dress.</p>
+<<if $PsychoShot !== true>>
+<p>@@.mono;Maybe I could find any weapons here?@@</p>
+<p><<if ↂ.pc.trait.perceptive === 1>>You look around for one more time and see the locker you did not touch yet. Carefully opening it you see a gun, it seems it is loaded, at least the magazine feels heavy. You take it.<<pickup "$items" "Gluck">><<else>>You look around for one more time but can't notice anything useful.<</if>></p>
+<</if>>
+<<elseif $PsychoSearch == false>>
+<<run ↂ.ward.top.delete(ↂ.pc.clothes.keys.top)>><<run ↂ.ward.bottom.delete(ↂ.pc.clothes.keys.bottom)>><<run ↂ.ward.bra.delete(ↂ.pc.clothes.keys.bra)>><<run ↂ.ward.panties.delete(ↂ.pc.clothes.keys.panties)>><<run ↂ.ward.leg.delete(ↂ.pc.clothes.keys.leg)>><<run ↂ.ward.coat.delete(ↂ.pc.clothes.keys.coat)>><<run ↂ.ward.shoes.delete(ↂ.pc.clothes.keys.shoes)>><<run setup.clothes.outfit.remove()>><<run setup.clothes.delete(ↂ.pc.clothes.keys.top)>><<run setup.clothes.delete(ↂ.pc.clothes.keys.bottom)>><<run setup.clothes.delete(ↂ.pc.clothes.keys.bra)>><<run setup.clothes.delete(ↂ.pc.clothes.keys.panties)>><<run setup.clothes.delete(ↂ.pc.clothes.keys.leg)>><<run setup.clothes.delete(ↂ.pc.clothes.keys.coat)>><<run setup.clothes.delete(ↂ.pc.clothes.keys.shoes)>><<status 0>>
+<p>@@.mono;No time for this, I need to leave this place as fast as possible!@@</p>
+<</if>>
+<<if $PsychoRun !== true>>
+<p>Pushing the door you take a look outside. The cabin is situated in the wood, you notice the traces of the car going between the trees. Going sideways you almost run from the cabin without any particular direction. You feel thirsty and starved but with each step the distance between you and the haunted cabin grows and you feel your spirit awake.</p>
+<</if>>
+<p>Your <<if $PsychoSearch == true>>shoes<<else>>bare soles<</if>> crumple old leaves and you enjoy the fresh air and freedom which you were sure you lost forever. </p>
+<p>@@.mono;I am somewhere in Angler Woods probably. I guess I need to go to the south to get out. Hmmm, where the south is?@@</p>
+<p>You vaguely remember that moss usually grows on the <<print either("southern", "eastern", "western", "northern")>> part of the trees and after inspecting some you choose your direction.</p>
+<p>@@.mono;The shitiest part is that I can't even go to the police, not with my fake id... Well at least I am alive and safe now. Except what he's done to me... This day will follow me for sure, but right now it doesn't matter, I am alive! Wohoo!@@</p>
+<p>It takes about an hour until you hear the road and pick up a pace in hope to get to civilisation. You come from the wood's rim and look around trying to figure out your location. The big bridge across the river and a spacious parking lot lays just in mere minutes of walking and you <<link "go there">><<gotomap "world" "bridge" "bridge">><<sceneclose>><</link>>.</p>
+
+
+:: Psycho-2-4-Run [nobr]
+
+<<set $PsychoRun = true>><<run ↂ.ward.top.delete(ↂ.pc.clothes.keys.top)>><<run ↂ.ward.bottom.delete(ↂ.pc.clothes.keys.bottom)>><<run ↂ.ward.bra.delete(ↂ.pc.clothes.keys.bra)>><<run ↂ.ward.panties.delete(ↂ.pc.clothes.keys.panties)>><<run ↂ.ward.leg.delete(ↂ.pc.clothes.keys.leg)>><<run ↂ.ward.coat.delete(ↂ.pc.clothes.keys.coat)>><<run ↂ.ward.shoes.delete(ↂ.pc.clothes.keys.shoes)>><<run setup.clothes.outfit.remove()>><<run setup.clothes.delete(ↂ.pc.clothes.keys.top)>><<run setup.clothes.delete(ↂ.pc.clothes.keys.bottom)>><<run setup.clothes.delete(ↂ.pc.clothes.keys.bra)>><<run setup.clothes.delete(ↂ.pc.clothes.keys.panties)>><<run setup.clothes.delete(ↂ.pc.clothes.keys.leg)>><<run setup.clothes.delete(ↂ.pc.clothes.keys.coat)>><<run setup.clothes.delete(ↂ.pc.clothes.keys.shoes)>><<status 0>>
+<p>You run to the door and push it. The impact is strong enough to knock the person behind it from his feet, he falls to the ground and you run as fast as you can to the woods. You hear the footsteps crumpling the dry leaves behind you but the distance grows. After 10 minutes of running you almost fall out of breath. Psycho is nowhere to be seen...</p>
+<p>@@.mono;He lost me! He lost me, ahahaha!!! I am free!@@</p>
+<p>Catching your breath you proceed further <<link "into the wood...">><<scenego "Psycho-2-4-Woods">><</link>></p>
+
+
+:: Psycho-2-4-Fight [nobr]
+
+<<if ↂ.pc.trait.perceptive === 1>><<pickup "$items" "Gluck">>
+  <p>You desperately look around to see anything that you can use as a weapon... Something catches your attention, the small half-open box on the small table near you. The thing inside looks like a gun and you grab it. Indeed, this is a handgun.</p>
+  <p>@@.mono;Please god, may it be loaded!@@</p>
+  <p>The door opens and psycho goes in casually. He obviously not ready to see you free and it gives you a second.</p>
+  <<SCX>><<SC "FA" 10>>
+  <<if $SCresult[1]>><<set $PsychoShot = true>>
+    <p>You turn the safety off and hold the gun with both hands aiming it to his chest.</p>
+    <p>@@.pc;Stay where you are, bastard! I will shoot!@@</p>
+    <p>@@.npc;No you will not, bunny. You are too weak to do this.@@</p>
+    <p>He takes a step forward, obviously sure that you will not sho...</p>
+    <p>@@.rumble;BANG!!!@@</p>
+    <p>The recoil is hard and you instinctively close your eyes. When you open them, he lies on the rim of the door, red stain growing on his shirt.</p>
+    <p>@@.mono;Ohmy... I just...@@</p>
+    <p>You stand over his body for some minutes in a trance fearing that he will rise despite all the blood around his body but it seems you killed him on the spot.</p>
+    <<dialogchoice>>
+      <<dbutt "Search">><<set $PsychoSearch = true>><<scenego "Psycho-2-4-Woods">>
+      <<dtext "suspicious">>Look for some clothes in the cabin.
+      <<dbutt "Run">><<set $PsychoSearch = false>><<scenego "Psycho-2-4-Woods">>
+      <<dtext "surprised">>No time for this, I need to leave this place as fast as possible!
+    <</dialogchoice>>
+  <<else>>
+    <p>You hold the gun with your both hands aiming it to his chest.</p>
+    <p>@@.pc;Stay where you are, bastard! I will shoot!@@</p>
+    <p>@@.npc;No you will not, bunny. You are too weak to do this.@@</p>
+    <p>He takes a step forward, obviously sure that you will not sho...</p>
+    <p>Clack.</p>
+    <p>@@.npc;You forgot to click the safety, bunny. Now my turn.@@</p>
+    <p>He takes a <<link "step towards you...">><<run setup.badEnd("psycho")>><</link>></p>
+  <</if>>
+<<else>><p>You desperately look around to see anything that you can use as a weapon... but can't notice anything useful.</p>
+<p>The door starts to open and you run towards it to engage in combat with your torturer.</p>
+<<SCX>><<SC "AT" 20>>
+  <<if $SCresult[1]>>
+    <p>Surprised, he misses the first hit and you manage to knock him back. With a roar he grab you by the hand. His fist punches your stomach. Short hit, then another, you almost fall but throw your hand to his face. His eyes hit with your nails and he cries with pain with his hands rubbing his face. You grab a piece of some machinery from the floor and lift it above his head. Groaning he jumps to you and you hit his head with it, his lifted hand doesn't stop the massive engine part from cracking his skull. Still holding you he slides down leaving marks on your skin with his nails. You hit him once more, yet another time and he stops moving.</p>
+    <p>Breathless you fall on all fours besides him. Red puddle grows around his head.</p>
+    <p>@@.mono;Ohmy... I just...@@</p>
+    <p>You stand over his body for some minutes in trance fearing that he will rise despite all the blood you see but it seems you killed him.</p>
+    <<dialogchoice>>
+      <<dbutt "Search">><<set $PsychoSearch = true>><<set $PsychoShot = true>><<scenego "Psycho-2-4-Woods">>
+      <<dtext "suspicious">>Look for some clothes in the cabin.
+      <<dbutt "Run">><<set $PsychoSearch = false>><<scenego "Psycho-2-4-Woods">>
+      <<dtext "surprised">>No time for this, I need to leave this place as fast as possible!
+    <</dialogchoice>>
+  <<else>>
+    <p>Surprised, he misses the first hit and you manage to knock him back. With a roar he grabs you by the hand. His fist punches your stomach. Short hit, then another, you almost fall and try to get up. His fist <<link "is flying to your head...">><<sceneclose>><<run setup.badEnd("psycho")>><</link>></p>
+  <</if>>
+<</if>>
+
+
+:: Psycho-2-4-Fail [nobr]
+
+<<stress 20 "Psycho event">>
+<p>He enters the cabin and despite your horror, you are shocked how unatractive he is again.</p>
+<p>@@.mono;Good evening, bunny. Got thirsty here alone?@@</p>
+<<set $PsychoSaveChance = random(0,20)>><<set $PsychoSaveChance += setup.npc.friends.length>><<set $PsychoSaveChance += setup.npc.acquainted.length>>
+<<if $PsychoSaveChance > 16>>
+  <p>You prepare for the inevitable when you hear sound of another car outside. His eyes widen. It takes him a moment to realise what to do and he takes a step forward to shut your mouth but it is too late.</p>
+  <p>@@.pc;HELP ME!!!@@</p>
+  <p>He tries to mute you but you scream between his fingers. He hit you in the head and the world getting grayish...</p>
+  <p>Door sqeals...</p>
+  <p>@@.npc;Freeze! I said...@@</p>
+  <p>@@.rumble;BANG!!!@@</p>
+  <p>@@.rumble;BANG!!! BANG!!!@@</p>
+  <p>@@.mono;I... what is happening? I can't see... What were these sounds?@@</p>
+  <p>@@.npc;Operative Craig, security division. Are you okay, miss? Miss?@@</p>
+  <<link "Pass out">><<set $PsychoCraigSave = true>><<status>><<gotomap "medical","hospital">><<run setup.sleep.start("ResidentialMedicalHospital");>><</link>>
+<<else>>
+  <<gate "torture" "violent" "extreme" "sadomasochism" "noncon">>
+  [NOT WRITTEN YET, SORRY!]<br>
+
+  Sorry, writing this one is a little beyond dev team personal kinks. If you feel that you can and want to write it yourself we will greatly appreciate it, you can get any support from us in our discord server and also there is info on writing format for AW on our site ThaumX.com.
+  <</gate>>
+  <<link "Pass out">><<sceneclose>><<run setup.badEnd("psycho")>><</link>>
+<</if>>

@@ -1,0 +1,160 @@
+:: SleepStart [nobr hidden startmenu]
+
+
+<div class="sky_cunt">
+  <div class="sky_stars"></div>
+  <div class="sky_twinkling"></div>
+  <div class="sky_clouds"></div>
+  <div id="contentBoxer" class="sky_content">
+    <h2>...sleep...</h2>
+    <<if aw.sleep.passedOut>>
+      <<print setup.sleep.passedOutDream()>>
+    <<else>>
+      <<print setup.sleep.dream()>>
+    <</if>>
+  </div>
+  <div id="sky_pbar_rapist" class="bottom_pBar bottom_pBar_full">
+    <<pbarnew "#skypbar" 5 100>>
+  </div>
+  <<timed 50ms>>
+    <<pbarfinish "#skypbar">>
+      <div id="butthold"><<button "Awaken">>
+        <<script>>
+        setup.sleep.opt = jQuery.extend(true, {}, State.temporary.opt);
+        <</script>>
+        <<go SleepForward>>
+      <</button>></div>
+    <</pbarfinish>>
+  <</timed>>
+</div>
+
+/*
+:: SleepSave [nobr hidden noui autosave]
+
+<div id="cardback">
+  <center>
+  [img[IMG-GreatBounce]]
+  <br><br>
+  <<script>>
+    setTimeout(function() {
+      let labe = setup.time.dayName(State.active.variables.date[0] + 1) + " Morning, ";
+      labe += (State.active.variables.date[0] + (State.active.variables.date[1] * 7));
+      labe += "-" + State.active.variables.date[2] + "-" + State.active.variables.date[3];
+      try {
+        Save.autosave.save(labe, { sleepAutosave: labe, passover: setup.startsPassage});
+      } catch (e) {
+        aw.con.warn(`Autosave failed with error - ${e.name}: ${e.message}`);
+        UI.alert(`It seems like the autosave function failed due to an ${e.name} error. We're working on the issue, but for now you can turn off autosaves in the game settings menu.`);
+      }
+      aw.con.info(`ASAVE ↂ.flag.prologueSunday is ${ↂ.flag.prologueSunday}`);
+    }, 100);
+  <</script>>
+  <<timed 1500ms>>
+  <<if $date[0] == 1>>
+    <<set setup.escape.sit = "week">>
+    <<go WeekSystemMainPage>>
+  <<else>>
+    <<set setup.escape.sit = "none">>
+    <<go setup.startsPassage>>
+  <</if>>
+  <</timed>>
+  </center>
+</div> */
+
+:: SleepForward [nobr hidden noui]
+
+<<set setup.escape.sit = "morning">>
+<div id="cardback">
+<<set setup.eventAllowed = true>>
+<span style="font-size:1.2rem;color:#ddd;" class="volkhorn">Starting your morning...<br>
+<<if not aw.sleep.passedOut>>
+  <<if State.active.variables.enabledMorning>>
+    Equipping Your stuffs...
+    <<run setup.hair.doSet($hairMorning)>>
+    <<run setup.makeup.applySet($makeupMorning)>>
+    <<run setup.clothes.outfit.wear($clothesMorning)>>
+  <</if>>
+<</if>></span>
+<center>
+<img data-passage="IMG-SunriseForest" class="fadeIn animated" style="border-width:6px;border-style:solid;border-color:#222;border-radius:6px;">
+</center>
+<<run setup.storeState()>>
+<<timed 3s>>
+<<if aw.sleep.passedOut && aw.sleep.passedOutType === "mermaid">>
+  <<go WakeupMermaid>>
+<<elseif $date[0] == 1>>
+  <<set aw.sleep.passedOut = false>>
+  <<set setup.escape.sit = "week">>
+  <<go WeekSystemMainPage>>
+<<else>>
+  <<if aw.sleep.passedOut>>
+    <<switch aw.sleep.passedOutType>>
+      <<case "creampie">>
+        <<interact "Present From A Stranger" 3>><<include [[Wakeup-creampie]]>><</interact>>
+      <<case "hugeCreampie">>
+        <<interact "Huge Gift From A Stranger" 3>><<include [[Wakeup-hugeCreampie]]>><</interact>>
+      <<case "bukkake">>
+        <<interact "Wake Up Bukkake" 3>><<include [[Wakeup-bukkake]]>><</interact>>
+      <<case "stretch">>
+        <<interact "King Dong" 3>><<include [[Wakeup-stretch]]>><</interact>>
+      <<case "dongRemoval">>
+        <<interact "Congratulations, It's A Dildo" 3>><<include [[Wakeup-dongRemoval]]>><</interact>>
+    <</switch>>
+  <</if>>
+  <<set aw.sleep.passedOut = false>>
+  <<set setup.escape.sit = "none">>
+  <<go setup.startsPassage>>
+<</if>>
+<</timed>>
+</div>
+
+
+:: SleepSaver [nobr hidden noui]
+
+<div id="cardback">
+<center><h1>LOAD</h1></center>
+<<timed 100ms>>
+  <<goto "SleepSaver2">>
+<</timed>>
+</div>
+
+:: SleepSaver2 [nobr hidden noui]
+
+<div id="cardback">
+<center>
+<img data-passage="IMG-SunriseForest" class="fadeIn animated" style="border-width:6px;border-style:solid;border-color:#222;border-radius:6px;">
+<br>
+<span style="font-size:1.2rem;color:#ddd;" class="volkhorn">Welcome Back to Appletree...</span>
+<br>
+<<button "CONTINUE">>
+  <<set $lastSaveTime = aw.time>>
+  <<status 0>>
+  <<go setup.startsPassage>>
+<</button>>
+</center>
+</div>
+
+
+
+:: SleepRestless [nobr]
+
+/* passage variable is forwarded as _psg */
+<center>
+<video src="resources/video/Restless.mp4" width="720" height="480" autoplay loop></video>
+</center>
+<div style="width:720px;">
+<p>
+<<f y>>ou lay down early to get a head-start on sleep. Unfortunately, your body just isn't ready to sleep yet; you spend half an hour tossing and turning, unable to fall asleep. You look at the time on your phone, exasperated. Do you get up, or just keep trying to fall asleep?
+</p>
+</div>
+<center>
+<<button "GET UP">><<run Dialog.close()>><</button>>
+
+<<hovrev sleep>><<button "SLEEP">>
+<<run Dialog.close()>>
+<<run setup.sleep.advance(_psg)>>
+<</button>><</hovrev>>
+<br>
+</center>
+<<ctn>><<hovins sleep>>This will advance time to 2000 and start sleep. [+vigor]<</hovins>><</ctn>>
+<br>

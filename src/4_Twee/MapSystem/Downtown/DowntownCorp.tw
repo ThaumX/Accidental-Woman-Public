@@ -1,0 +1,83 @@
+:: DowntownCorp [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPdowntown]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+<div id="storeWindow">
+[img[IMG-Corp-Progenerate]]
+[img[IMG-Corp-Alphabet]]
+[img[IMG-Corp-Arasaka]]
+[img[IMG-Corp-HEF]]
+[img[IMG-Corp-Maas]]
+[img[IMG-Corp-OnoSendai]]
+[img[IMG-Corp-Proliferant]]
+[img[IMG-Corp-Quantum]]
+[img[IMG-Corp-Shodan]]
+[img[IMG-FutaProject]]
+</div>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<p>
+@@.head3;Y@@ou're standing on the sidewalk in front of the corporate campus that houses the offices of several corporations such as Progenerate Technologies that have a business relationship with the Institute. There's a good deal of grass, and the offices are split into two large buildings.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+@@.disabled;<<button "Progenerate">><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise beta>>
+@@.disabled;<<button "West Building">><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise delta>>
+@@.disabled;<<button "East Building">><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Shortcut to the Progenerate Technologies offices. You have no reason to do this because you don't work there.<<endinsertion>>
+<<insertion beta>>Go into the west building. Without a reason, you have no business there. (CONTAINS: Progenerate Technologies, Alphabet, Human Elimination Fund, NekoFuta Project, Quantum Telecommunication)<<endinsertion>>
+<<insertion delta>>Go into the East building. Without a reason, you have no business there. (CONTAINS: Arasaka, MAAS Biolabs, Ono Sendai, Proliferant, SHODAN)<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+
+:: DowntownCorpLOC [nobr]
+
+<<f y>>ou spend a little time looking around the corporate campus. Two large buildings occupy most of the ground space, but there are still some nicely landscaped lawns with benches and the occasional fountain. <<if ↂ.pc.trait.perceptive > -1 && $items.has("Gene Therapy 01") && !$items.has("Gene Therapy 02")>>Just as you're about to finish your little walk, you notice a manilla folder with some printer paper inside, tucked out of the way under a bush next to a bench. The paper appears to be intact despite the exposure to the elements, but definitely looks fragile. <<link "Pick it up">><<pickup "$items" "Gene Therapy 02">><<run Dialog.close()>><<run UI.alert("You pick up the paper documents")>><</link>>.<<else>>You notice a small campus directory screen that seems to be glitching. Occassionally a strange logo for a "BPCORP" shows up, but you don't remember seeing that in the list of companies with offices here...<center>[img[IMG-BPCORP]]</center><</if>>
+

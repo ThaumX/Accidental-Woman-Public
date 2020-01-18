@@ -1,0 +1,409 @@
+:: DowntownTownhall [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPdowntown]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+<div id="storeWindow">
+  [img[IMG-AppletreeFlag]]
+  [img[IMG-CareerPlacement]]
+</div>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<p>
+@@.head3;T@@he large town hall building towers over you. It's built on a false platform, so that entering the front requires you to climb a large flight of stairs. Unlike most of the buildings downtown, this one is clad with white marble.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<openhours 7 12 13 17>>
+    <<button "Visit RAPES Office">><<addTime 5>><<go "DowntownTHrapes">><</button>>
+  <<closed "Visit RAPES Office">>
+  <</openhours>>
+<<endhoverrevise>>
+<<if ↂ.job.code === "UE">>
+  <<hoverrevise bum>>
+    <<openhours 7 12 13 17>>
+      <<button "Visit Visa Office">><<addTime 8>><<go "DowntownTHvisa">><</button>>
+    <<closed "Visit Visa Office">>
+    <</openhours>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise nobum>>
+    <button class="disabled">Visit Visa Office</button>
+  <<endhoverrevise>>
+<</if>>
+/*<<hoverrevise beta>>
+  <<button "Start Protesting">><</button>>
+<<endhoverrevise>>*/
+<<hoverrevise end>>
+  <<button "Warn citizens">><<run setup.notify("You have no sign.")>><</button>>
+<<endhoverrevise>>
+
+<<hoverrevise delta>>
+@@.disabled;<<button "Flash the Building">><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Visit the RAPES office to check for employment opportunities. [Open 7-12 13-17]<<endinsertion>>
+<<insertion bum>>Visit the visa office to extend your Appletree citizenship by filing for self-employment. [Open 7-12 13-17]<<endinsertion>>
+<<insertion nobum>>This is where you'd go to extend your Appletree citizenship by filing for self-employment. You currently have a job, however, so have no reason to visit.<<endinsertion>>
+<<insertion beta>>Protest something. It's the government, you're bound to think of a reason.<<endinsertion>>
+<<insertion end>>Stand with "The end is nigh" sign near the road [30min]<<endinsertion>>
+<<insertion delta>>Flip up your skirt and give any government workers who happen to be looking out the window a look at your snatch. [Must be wearing a skirt]<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+
+:: DowntownTownhallLOC [nobr]
+
+<center>
+[img[IMG-DowntownProtester1]]
+</center>
+<p>
+<<f a>> young woman is walking around topless protesting for free semen for women. She is handing out brochures that explain how free government-supplied semen is required for equality. Occasionally she shouts out @@.npc;We shouldn't have to pleasure men to get the semen they produce for free!@@ or @@.npc;End semen as a male privilege!@@ Most people seem to be ignoring her, however.
+</p>
+
+<<if ↂ.pc.trait.perceptive > -1 && $items.has("Gene Therapy 02") && !$items.has("Gene Therapy 03")>>
+<p id="gene">
+<<f y>>ou spend a little time looking around the large townhall building. Eventually you decide to take a walk through the building to see what's inside. Passing down the main first-floor corridor, you notice a few waiting areas. You wonder at the possibility of some documents getting scooped up with the magazines, and sort through the piles in each area. You leave the magazines neater than when you started, so you don't draw any attention as you continue your search. You decide that you ran out of luck once you finished stacking up the magazines in a small waiting chamber at the end of the hall. You turn to leave, but accidentally undo some of your work and knock a magazine to the floor. As you bend down to pick it up, you notice a familiar sight under the bureau that the magazines are sitting on. <<link "Pick it up">><<pickup "$items" "Gene Therapy 03">><<run Dialog.close()>><<run UI.alert("You pick up the paper documents")>><</link>>.
+</p>
+<</if>>
+
+
+:: DowntownTHrapes [nobr]
+
+<center>[img[IMG-RapedEmployment]]</center>
+<div id="rep">
+<p>
+<<f i>>n the small waiting room of the RAPES office there is little indication that anyone actually works here. You walk over to a small "take a number" kiosk and learn that you are number J37. After that you take a seat in one of the bland and mildly-uncomfortable seats. Every so often someone exits the door opposite your seat and a new number flashes up on a small LED screen on the wall, accompanied by a mechanical voice calling the new number. You see <<link "some booklets">><<dialog "Booklets">><center>[img[IMG-Advert-Thornton]]<br>[img[IMG-Advert-Maid]]<br></center><</dialog>><</link>>on the little wobbly table.
+</p>
+<p>
+There's nothing to do but <<link "wait for your number to be called.">>
+<<set _time = random(10, 30)>>
+<<addTime _time>>
+<<anger 2>>
+<<replace "#rep">>
+<<f a>>fter what feels like an eternity of sitting in the waiting room, your number is finally called. You make your way over to the office door that the last person stepped out of, and open it. You're met with a tiny office and no sign of a RAPES employee. Instead there's a cheap desk, with a simple and rather outdated terminal on top. An swivel office chair that's seen better days is the only other piece of furniture.
+<br><br>
+With nothing else to be done, you <<link "sit down">>
+<<addTime 2>>
+<<replace "#rep">>
+<<f s>>itting down at the desk, you notice a small sign underneath the discolored plastic of the terminal. It says "Follow the instructions to log in to the RAPES Computer User Management terminal. Select a job you are interested in, and follow the instructions to apply." the old terminal is displaying a log-in screen, requesting you to scan a finger print and hold your eye open for a retina scan. There are helpful diagrams explaining what to do, so you probably would be able to figure it out without being able to read.
+<br><br>
+<center><<button "LOG IN">><<addTime 15>><<go "DowntownTHrapes2">><</button>></center>
+<</replace>>
+<</link>>.
+<</replace>>
+<</link>>
+</p>
+</div>
+
+:: DowntownTHrapes2 [nobr]
+
+<<replace "#awUIcontainer">><<print setup.job.jobChoose(false)>><</replace>>
+<<timed 200ms>>
+<<f h>>aving made your decision, the terminal presents you with two options.
+<br>
+<center>
+<<button "REVIEW JOB INFORMATION">><<addTime 5>><<go "DowntownTHrapes3">><</button>> <<button "LOG OUT">><<addTime 3>><<go "DowntownTownhall">><</button>>
+</center>
+<</timed>>
+
+:: DowntownTHrapes3 [nobr]
+
+You silently review the details of your new job.
+<table>
+<tr class="divide">
+<td colspan=4>
+@@.handwriting;.head;font-size:1.3rem;Job Offer Details@@
+</td>
+</tr><tr>
+<td width="20%">
+''Employer:''
+</td><td width="30%">
+<<= ↂ.job.employer>>
+</td><td width="20%">
+''Job Title:''
+</td><td width="30%">
+<<= ↂ.job.name>>
+</td>
+</tr><tr><td>
+''Boss:''<br>
+''Skills Used:''
+</td><td>
+<<= ↂ.job.rules.boss>><br>
+<<= ↂ.job.skills>>
+</td><td>
+''Description:''
+</td><td>
+<<= ↂ.job.desc>>
+</td>
+</tr><tr class="divide">
+<td colspan=4>
+@@.handwriting;.head;font-size:1.1rem;Compensation Information@@
+</td>
+</tr><tr>
+<td>
+''Hourly Wage:''
+</td><td>
+@@.money;<<mon>><<= ↂ.job.rules.payrate>>@@ per hour
+</td><td>
+''Paid Sick Leave:''
+</td><td>
+<<= ↂ.job.sick.rate>> hours per month
+</td>
+</tr><tr>
+<td>
+''Hours per Week:''
+</td><td>
+<<= ↂ.job.rules.worktime[0]>> hours
+</td><td>
+''Unpaid Leave:''
+</td><td>
+<<= ↂ.job.vacation.rate>> hours per month
+</td>
+</tr><tr>
+<td>
+''Weekly Income:''
+</td><td>
+@@.money;<<mon>><<= ( Math.round( ↂ.job.rules.worktime[0] * ↂ.job.rules.payrate))>>@@
+</td><td>
+''Paid Leave:''
+</td><td>
+<<= ↂ.job.vacation.ratePaid>> hours per month
+</td>
+</tr>
+</table>
+<center>
+<<button "LOG OUT">><<addTime 3>><<go "DowntownTownhall">><</button>>
+</center>
+
+<<silently>>
+<<switch ↂ.job.code>>
+  <<case MD>>
+    <<achieve maid>>
+  <<case IB>>
+    <<achieve bCorps>>
+  <<case IT>>
+    <<achieve sperm>>
+  <<case IS >>
+    <<achieve serviceDivision>>
+<</switch>>
+<</silently>>
+
+
+:: DowntownTHvisa [nobr]
+
+<<set ↂ.flag.selfEmployType = "unknown">>
+<center>[img[IMG-DMVvisaOffice]]</center>
+<p>
+<<f a>>fter following the signs to find your way through the large town hall building, you arrive at the visa office. Several people are sitting in plastic chairs while waiting, and a bored-looking clerk is sitting behind an opening in the far wall. Seeing no 'take-a-number' machines, you approach the clerk. @@.pc;Hello, I'm here to apply for@@
+</p>
+<p>
+Without looking up the receptionist interrupts you. @@.npc;Your first name?@@
+</p>
+<p>
+@@.pc;<<name>>@@
+</p>
+<p>
+@@.npc;Last name?@@
+</p>
+<p>
+@@.pc;<<surname>>@@
+</p>
+<p>
+@@.npc;Why are you here?@@
+</p>
+<p>
+@@.pc;To apply for self employment@@
+</p>
+<p>
+She hands you a set of forms on a clipboard. @@.npc;Fill these out and wait for your name to be called.@@
+</p>
+<p>
+You say @@.pc;thank you@@, but she doesn't seem to notice. You make your way over to one of the uncomfortable plastic chairs and sit down before starting in on the forms. Most of the required information is pretty basic, not to mention repetitive, but you're unsure how you want to answer one question.
+</p>
+
+<<radioset "selfemploytype" "ↂ.flag.selfEmployType">>Category of Self-Employment
+  <<radioitem "adult">>Adult Services
+  <<radioitem "child">>Child Birthing
+  <<radioitem "dairy">>Dairy Production
+  <<radioitem "unknown">>Unknown
+<</radioset>>
+
+<p>
+You write down something you think will work, and wait for your name to be called.
+</p>
+<p>
+And wait.
+</p>
+<p>
+And wait.
+</p>
+<p>
+Finally, after nearly an hour, your name is announced. You stand up on slightly unsteady legs and make your way to the clerk. She doesn't look up, and simply says @@.npc;room two@@. The door to your left buzzes open, and you make your way to room two.
+</p>
+<center><<button "CONTINUE">><<addTime 55>><<go "DowntownTHvisaB">><</button>></center>
+
+
+:: DowntownTHvisaB [nobr]
+
+
+<<if $AW.cash < 500>>
+  <<set _result = "poor">>
+<<else>>
+  <<set _result = ↂ.flag.selfEmployType>>
+<</if>>
+<p>
+You open the door with a large number 2 painted on it and enter a small office. A young visa agent sits behind a desk, and there are two plastic chairs setting in front of it. When you sit down in one of the chairs, the young man finally looks up. @@.npc;Papers, please.@@
+</p>
+<p>
+@@.pc;Sure.@@ You hand him the clipboard with your freshly filled-out forms.
+</p>
+<p>
+He pulls the forms from the clipboard and glances through them before he starts typing on his keyboard. @@.npc;Let's see... <<name>>... <<if ↂ.pc.main.slutName>>Is that your real name? it's pretty slutty... <</if>><<surname>>... <<if ↂ.pc.main.slutSurname>>What kind of surname is that? <</if>>Hmmm...@@ He keeps working, occasionally typing something.
+</p>
+<<switch _result>>
+<<case "poor">>
+<p>
+Eventually, he looks up at you. @@.npc;You realize that you don't meet the minimum asset requirements for a self-employment visa, right? You need to have at least ₢500 in the bank to be eligible.@@
+</p>
+<p>
+Your need to get a visa wars with the anger you feel at having wasted all this time seemingly for nothing. @@.pc;Isn't there something I can do?@@
+</p>
+<p>
+@@.npc;I don't know...@@ He takes several moments to stare at your body. @@.npc;I suppose I could be persuaded to wave the assets requirement...@@ Without taking his eyes off you he rolls his chair backward away from the desk and unzips the fly of his trousers. He makes a simple "come here" hand motion to let you know he's ready to be 'persuaded'.
+</p>
+<center><<button "STORM OUT">><<addTime 8>><<go "DowntownTownhall">><</button>> <<button "BLOW HIM">><<addTime 5>><<go "DowntownTHvisaBlow">><</button>></center>
+<<case "adult">>
+<p>
+Eventually, he looks up at you. @@.npc;So it says here that your self-employment will be in "Adult Services".@@ He takes several moments to give your body a thorough visual inspection. @@.npc;For such an obscure form of employment, I think a demonstration is in order, don't you?@@
+</p>
+<p>
+@@.pc;A demonstration?@@ You look at him with confusion until you suddenly realize what he's talking about. @@.pc;Oh! A demonstration...@@
+</p>
+<p>
+He smiles at you as he rolls his chair back away from his desk and unzips the fly of his trousers. He makes a simple "come here" hand motion to let you know that he's ready for your 'demonstration'.
+</p>
+<center><<button "STORM OUT">><<addTime 8>><<go "DowntownTownhall">><</button>> <<button "BLOW HIM">><<addTime 5>><<go "DowntownTHvisaBlow">><</button>></center>
+<<case "child">>
+<p>
+Eventually, he looks up at you. @@.npc;So you're going to be a brood mother then? That's pretty admirable, not to mention sexy...@@ He looks at your body for the first time since you entered. @@.npc;<<if ↂ.pc.status.fundalHeight > 11>>I looks like you've already gotten started.<<else>>Seems like you haven't gotten started yet... I'd be happy to knock you up, if you're interested.<</if>> Still, it's not an easy route in the beginning. Fertility boosters and all those other treatments are expensive, after all. Have you considered a job at Progenerate?@@
+</p>
+<p>
+<<if ↂ.flag.jobsWorked.PF>>@@.pc;Yeah, I've tried, but it just didn't work out.@@<<else>>@@.pc;No, it just seems too impersonal to me... I want to get knocked up by a stud, not a turkey baster.@@<</if>> You shrug.
+</p>
+<p>
+He nods. @@.npc;Okay, well, I'm approving your self employment visa. Go put that baby factory to use!@@
+</p>
+<p>
+@@.npc;I will, thanks!@@ Your business done, you get up and make your way out of the visa office and town hall.
+</p>
+<center><<button "CONTINUE">><<addTime 8>><<set ↂ.flag.selfEmployed = true>><<status 0>><<go "DowntownTownhall">><</button>></center>
+<<case "diary">>
+<p>
+Eventually, he looks up at you. @@.npc;So you're going to be a hucow then? That's pretty admirable, not to mention sexy...@@ He looks at your body for the first time since you entered. @@.npc;<<if ↂ.pc.body.tits.size > 5000>>It seems you've already got the udders for it. That's good, I've heard that the hucow treatments are expensive for freelancers.<<elseif ↂ.pc.body.tits.size > 1800>>It looks like you've already started getting your udders ready... though it seems like you still have a ways to go. Just don't get over your head in debt paying for the rest of your mods, okay?<<else>>Are you really sure about that? Your tits are nowhere near hucow level, and I hear those treatments are expensive.<</if>> In any case, have you considered signing up with the Farm Coop Dairy? It's gotta be easier than trying to freelance, and I hear they treat their cows really well.@@
+</p>
+<p>
+@@.pc;I'd really like to maintain my independence if I can. <<has slut>>Plus I don't think there's nearly enough cock at the farm coop to live there full time!<<or>>I hear it's really easy to get locked into a daily routine once you live at a dairy.<</has>> Still, if I can't make it by myself, I'll probably go sign up.@@
+</p>
+<p>
+He nods. @@.npc;Okay, well, I'm approving your self employment visa. Go put those udders to good use!@@
+</p>
+<p>
+@@.npc;I will, thanks!@@ Your business done, you get up and make your way out of the visa office and town hall.
+</p>
+<center><<button "CONTINUE">><<addTime 8>><<set ↂ.flag.selfEmployed = true>><<status 0>><<go "DowntownTownhall">><</button>></center>
+<<case "unknown">>
+<p>
+Eventually, he looks up at you. @@.npc;So it says here that your self-employment category is "unknown". Since I doubt you came here to get a self-employment visa without any clue what you'll actually be doing to earn money, what you're telling me is that you'll be doing something illegal, right?@@ He takes several moments to give your body a thorough visual inspection. @@.npc;I think I'll have to have you give me a demonstration of just how you'll be putting yourself to work.@@
+</p>
+<p>
+@@.pc;A demonstration?@@ You look at him with confusion until you suddenly realize what he's talking about. @@.pc;Oh! A demonstration...@@
+</p>
+<p>
+He smiles at you as he rolls his chair back away from his desk and unzips the fly of his trousers. He makes a simple "come here" hand motion to let you know that he's ready for your 'demonstration'.
+</p>
+<center><<button "STORM OUT">><<addTime 8>><<go "DowntownTownhall">><</button>> <<button "BLOW HIM">><<addTime 5>><<go "DowntownTHvisaBlow">><</button>></center>
+<</switch>>
+
+
+:: DowntownTHvisaBlow [nobr]
+
+<<SCX>>
+<<SC "OR" 15>>
+<img data-passage="IMG-VisaBlowjob" style="float:right; margin: 0px 0px 20px 20px; border-radius: 8px;">
+<p>
+Giving the young visa clerk a smile, you walk around the desk before dropping to your knees in front of him. He stands up, and the change in position causes his large cock to spring out of his pants. @@.mono;<<has sizequeen>>Oh, I wish it was bigger...<<orhas cumSlut || slut>>Ooh, this looks delicious!<<or>>Ooh, this looks pretty nice.<</has>>@@ <<if $SCresult[1]>>You grasp the throbbing meat with one hand and flash a smile at its owner before you inhale the engorged member into your mouth.<<else>>You tentatively reach out a hand to grab hold of the throbbing meat before leaning forward to lick the tip.<</if>>
+</p>
+<center><<pring $SCtext[1]>></center>
+<<if $SCresult[1]>>
+<p>
+Putting your oral skills to work, you do your best to pleasure the clerk's cock. Undoing his belt and pants to gain better access, you send one hand between his legs to fondle his balls. The other you use to stroke his cock in time with the movement of your mouth. When you judge that he is aroused enough, you remove your hand and begin to deep throat him. The intense sensation of your throat stretching around his cockhead proves to be effective, it isn't long before you feel the sudden swelling of his rod that means orgasm is imminent. You pick up the pace, and soon after he sends the first spray of cum directly down your esophagus. You pull back, sucking firmly as he unloads the rest of his jizz into your mouth. You let him rest for a moment, and then use your hand to milk the final dregs of his load into your mouth. Only then do you release his member, looking up and opening your mouth to show off you harvest before you swallow it all. @@.pc;Yum!@@
+</p>
+<p>
+The clerk walks back to his chair and collapses into it, his cock still exposed and slowly deflating. @@.npc;You're real good at that, I think you'll do just fine. I'm approving your visa.@@
+</p>
+<p>
+You give him a smile @@.pc;Thanks!@@ You get yourself put back together, and make your way out of the visa office and town hall.
+</p>
+<<else>>
+<<run setup.condition.add({loc: "face", amt: 5, tgt: "pc", wet: 5, type: "cum"})>>
+<p>
+You try to please the clerk with your mouth, licking his cockhead or holding it in your mouth while you stroke with your hand. While initially you seem to be making some progress, but that soon grinds to a halt as the minutes tick by.
+</p>
+<p>
+@@.npc;Damn, I didn't think you'd suck so bad at this.@@ Without waiting for your approval, he grips your head with both hands and begins to face fuck you. You desperately fight off the urge to gag each time his cock lodges itself in your throat. Between that and the gradually building sensation of suffocating, you remain mostly oblivious to what's happening. You're surprised when the cock suddenly starts spraying cum onto the back of your throat. He releases your head then, and you fall backward onto your ass; his last spray of jizz landing on your face. You spend the next several moments trying to swallow the thick load so you can catch your breath.
+</p>
+<p>
+He uses your face to wipe away the dregs of cum oozing from his tip before fixing his pants. @@.npc;I'm going to approve your visa, but I really hope for your sake that you get better at that...@@
+</p>
+<p>
+@@.pc;Yeah, I'll try... Thanks.@@ You hurry to straighten yourself up and rush out of the visa office.
+</p>
+<</if>>
+<center><<button "CONTINUE">>
+<<if $SCresult[1]>><<addTime 20>><<else>><<addTime 35>><</if>>
+<<eatdrug "cum" 20>>
+<<set ↂ.flag.selfEmployed = true>>
+<<status 0>>
+<<go "DowntownTownhall">>
+<</button>></center>
+

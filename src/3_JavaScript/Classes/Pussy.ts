@@ -111,6 +111,9 @@ class Pussy {
     const es = this.efSize;
     const curStretch = this.stretch;
     const maxStretch = this.maxStretch;
+    if (ↂ.pc.body.pussy.virgin === true) {
+      ↂ.pc.body.pussy.virgin = false; // bye bye membrane!
+    }
     aw.con.info(`New Pussy.insert() - inSize: ${inSize}, curStretch: ${curStretch}, maxStretch: ${maxStretch}.`);
     if (inSize < (es - curStretch) - 2 && inSize < this.tight) {
       return "loose"; // fits very easily, will be up to kegals separately.
@@ -235,8 +238,8 @@ class Pussy {
     if (setup.omni.matching("Sore Vagina") > 0) {
       return; // stop from duplicating. TODO consider adding code to extend soreness or worsen effect.
     }
-    setup.status.happy(-1);
-    setup.status.stress(random(5, 10));
+    setup.status.happy(-1, "Pain from pussy abuse");
+    setup.status.stress(random(5, 10), "Pain from pussy abuse");
     if (ↂ.pc.status.arousal > 0) {
       setup.status.arousal(-2);
     }

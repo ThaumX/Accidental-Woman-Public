@@ -1,0 +1,138 @@
+:: ResidentialJogging [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPresidential]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+@@.head3;Y@@ou are on the wide bike and jogging path that cuts through town. It's the perfect place to get some exercise by jogging or riding a bike.
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise jog>>
+  <<if ↂ.pc.status.energy.amt < 4>>
+    @@.disabled;<<button "Go for a run [Too tired]">><</button>>@@
+  <<else>>
+    <<button "Go for a run">>
+    <<status 1>>
+      <<set _athl = ↂ.skill.athletic>>
+      <<set _outcome = Math.round(_athl / 4)>>
+      <<set _shitHappens = random(0, 100) - _athl>>
+      <<if _shitHappens > 95>>
+        <<set ↂ.pc.status.health -= 7>><<run setup.status.record("health", 7, "Jogging Accident")>>
+        <<set _randomtime = random(30, 40)>>
+        <<set _randomenergy = random(3,4)>>
+        <<addTime _randomtime>>
+        <<set ↂ.pc.status.energy.amt -= _randomenergy>>
+        <<set ↂ.pc.status.exercise += _outcome>>
+        <<SCX>><<SC "AT">>
+        <<status 0>>
+        <<run setup.notify("Ouch! You accidentally fall and hit your knee while jogging.")>>
+      <<else>>
+        <<set _randomtime = random(30, 40)>>
+        <<set _randomenergy = random(3, 4)>>
+        <<addTime _randomtime>>
+        <<set ↂ.pc.status.energy.amt -= _randomenergy>>
+        <<set ↂ.pc.status.exercise += _outcome>>
+        <<SCX>><<SC "AT">>
+        <<status 0>>
+        <<run setup.notify("You jogged for some time.")>>
+      <</if>>
+      <<go ResidentialJogging>>
+    <</button>>
+  <</if>>  
+<<endhoverrevise>>
+<<hoverrevise sprint>>
+  <<if ↂ.pc.status.energy.amt < 7>>
+    @@.disabled;<<button "Sprint [Too tired]">><</button>>@@
+  <<else>>
+    <<button "Sprint">>
+      <<set _athl = ↂ.skill.athletic>>
+      <<set _outcome = Math.round(_athl / 3)>>
+      <<set _shitHappens = random(0, 100) - _athl>>
+      <<if _shitHappens > 93>>
+        <<set ↂ.pc.status.health -= 7>><<run setup.status.record("health", -7, "Jogging Accident")>>
+        <<set _randomtime = random(15, 25)>>
+        <<set _randomenergy = random(5,7)>>
+        <<addTime _randomtime>>
+        <<set ↂ.pc.status.energy.amt -= _randomenergy>>
+        <<set ↂ.pc.status.exercise += _outcome>>
+        <<SCX>><<SC "AT">>
+        <<status 0>>
+        <<go ResidentialJogging>>
+        <<run setup.notify("Ouch! You accidentally fall and hit your knee while jogging.")>>
+      <<else>>
+        <<set _randomtime = random(15, 25)>>
+        <<set _randomenergy = random(5, 7)>>
+        <<addTime _randomtime>>
+        <<set ↂ.pc.status.energy.amt -= _randomenergy>>
+        <<set ↂ.pc.status.exercise += _outcome>>
+        <<SCX>><<SC "AT">>
+        <<status 0>>
+        <<go ResidentialJogging>>
+        <<run setup.notify("You sprinted until lost your breath.")>>
+      <</if>>
+    <</button>>
+  <</if>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+@@.disabled;<<button "Go For A Bike Ride">><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion jog>>Take advantage of the relatively secluded path and go jogging. [30min]<<endinsertion>>
+<<insertion sprint>>Try intensive sprinting to squeeze the maximum out of your training. [20min]<<endinsertion>>
+<<insertion beta>>Take advantage of the relatively secluded path to take a nice relaxing bike ride. Requires Bicycle [Missing]<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+
+:: ResidentialJoggingLOC [nobr]
+
+@@.head3;F@@ree-breasted jogging seems to be a lot more popular here than it was in the city... But maybe that's because most people went to a gym to work out back in the city, where you wouldn't see them, naturally.<br><br>
+[img[IMGresidentialJogging2]]

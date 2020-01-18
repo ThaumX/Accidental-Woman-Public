@@ -275,7 +275,7 @@ setup.homeItems = {
         out += `<div id="${k}" class="homeItemSale">`;
         out += `<img data-passage="${img}">`;
         out += `<span class="head">${aw.capital(k.name)}</span><<sp 2>><<button "Add to Cart">><<set State.active.variables.cart.push(["${k.name}","home",${k.cost},"${k.key}"])>><<prepend "#homeOutput">>${aw.capital(k.name)}...${k.cost}<br><</prepend>><</button>><<sp 2>><br>`;
-        out += `${k.desc}. <b>QUAL:</b> ${k.quality}, <b>Cost:</b> <span class="money"><<mon>>${k.cost}</span></div>`;
+        out += `<b>QUAL:</b> ${k.quality}, <b>Cost:</b> <span class="money"><<mon>>${k.cost}</span><br>${k.desc}</div>`;
       }
     }
     out += "</div><div id='homeOutput' class='monospace zoomInDown animated ghettoShopOutput'><div class='lato' style='position:absolute;bottom:5px;left:5px;right:5px;font-size:24px;'>Shopping Results</div></div>";
@@ -312,7 +312,8 @@ setup.homeItems = {
             overall += aw.homeItems[blin].quality;
           }
         });
-        const result = Math.round(overall / (listOfFurniture.length));
+        const div = Math.max(10, listOfFurniture.length);
+        const result = Math.round(overall / div);
         return result;
       } else if (ↂ.home.stats.tier === 3) {
         const listOfFurniture = ↂ.home.item.living.concat(
@@ -332,7 +333,8 @@ setup.homeItems = {
             overall += aw.homeItems[blin].quality;
           }
         });
-        const result = Math.round(overall / (listOfFurniture.length));
+        const div = Math.max(12, listOfFurniture.length);
+        const result = Math.round(overall / div);
         return result;
       } else {
         aw.con.warn(`setup.homeItems.qualityCalculator can only calculate tier 2 home now!`);
@@ -354,12 +356,60 @@ setup.homeItems = {
         aw.con.warn(`setup.homeItems.placeDescription was unable to find ${room} in ↂ.home.item!`);
         return "Error in placeDescription function, sorry!";
       }
-      if (aw.homeItems[room] === []) {
-        output += "@@.head3;T@@he place is empty.";
+      let roomWord = "error";
+      switch (room) {
+        case "bath":
+          roomWord = "bathroom";
+          break;
+        case "foyer":
+          roomWord = "foyer";
+          break;
+        case "kitchen":
+          roomWord = "kitchen";
+          break;
+        case "living":
+          roomWord = "living room";
+          break;
+        case "bedroom":
+          roomWord = "bedroom";
+          break;
+        case "balcony":
+          roomWord = "balcony";
+          break;
+        case "bed2":
+          roomWord = "spare bedroom";
+          break;
+      }
+      let clean = "error";
+      switch (Math.round(ↂ.home.clean.neatness / 10)) {
+        case 10:
+          clean = "pristine";
+          break;
+        case 9:
+        case 8:
+        case 7:
+          clean = "clean";
+          break;
+        case 6:
+        case 5:
+          clean = "messy";
+          break;
+        case 4:
+        case 3:
+          clean = "<span class='smear'>dirty</span>";
+          break;
+        case 2:
+        case 1:
+        case 0:
+          clean = "<span class='smear'>filthy</span>";
+          break;
+      }
+      if (ↂ.home.item[room].length === 0) {
+        output += `@@.head3;Y@@our ${clean} ${roomWord} is completely empty.`;
       } else {
-        output += "@@.head3;Y@@ou take a look around the place and see ";
+        output += `@@.head3;Y@@ou take a look around your ${clean} ${roomWord} and see `;
         ↂ.home.item[room].forEach(function(blin) {
-          output += `${aw.homeItems[blin].desc} `;
+          output += `${aw.homeItems[blin].name}, `;
         });
       }
       return output;
@@ -397,7 +447,7 @@ aw.homeItems = {};
         // nothing
       },
       action() {
-        setup.status.stress(-4);
+        setup.status.stress(-4, "Sitting in a cozy chair");
         setup.time.add(30);
         setup.refresh();
         setup.notify("You sat around in the cozy chair for 30 minutes.");
@@ -423,10 +473,88 @@ aw.homeItems = {};
         // nothing
       },
       action() {
-        setup.status.stress(-3);
+        setup.status.stress(-3, "Sitting in your small chair");
         setup.time.add(30);
         setup.refresh();
         setup.notify("You sat around in the small chair for 30 minutes.");
+      },
+    },
+    plasticChair: {
+      name: "Plastic Chair",
+      key: "plasticChair",
+      image: "IMG-HomeItem-PlasticChair",
+      type: "furniture",
+      tags : ["chair"],
+      desc: "A modern chair. Looks pretty fancy but not that comfortable for long-term using.",
+      mult: true,
+      quality: 2,
+      cost: 170,
+      fragile: false,
+      button: "Sit in Chair",
+      info: "Sit down in your chair and relax a little bit. (-stress) [30min]",
+      notRoom: ["balcony", "bathroom"],
+      shop: ["fitta"],
+      menu: false,
+      effect() {
+        // nothing
+      },
+      action() {
+        setup.status.stress(-2, "Relaxing in a plastic chair");
+        setup.time.add(30);
+        setup.refresh();
+        setup.notify("You sat around in the small chair for 30 minutes.");
+      },
+    },
+    pinkChair: {
+      name: "Pink Royal Chair",
+      key: "pinkChair",
+      image: "IMG-HomeItem-PinkChair",
+      type: "furniture",
+      tags : ["chair"],
+      desc: "A barocco-styled chair with a bright pink accents.",
+      mult: true,
+      quality: 3,
+      cost: 240,
+      fragile: false,
+      button: "Sit in Chair",
+      info: "Sit down in your chair and relax a little bit. (-stress) [30min]",
+      notRoom: ["balcony", "bathroom"],
+      shop: ["BBB"],
+      menu: false,
+      effect() {
+        // nothing
+      },
+      action() {
+        setup.status.stress(-2, "Relaxing in your royal chair");
+        setup.time.add(30);
+        setup.refresh();
+        setup.notify("You sat around in the small chair for 30 minutes.");
+      },
+    },
+    lowPinkChair: {
+      name: "Low Pink Chair",
+      key: "lowPinkChair",
+      image: "IMG-HomeItem-Pinkwidechair",
+      type: "furniture",
+      tags : ["chair"],
+      desc: "A modern-looking chair in the pink color. Looks comfy.",
+      mult: true,
+      quality: 2,
+      cost: 180,
+      fragile: false,
+      button: "Sit in Chair",
+      info: "Sit down in your chair and relax a little bit. (-stress) [30min]",
+      notRoom: ["balcony", "bathroom"],
+      shop: ["BBB"],
+      menu: false,
+      effect() {
+        // nothing
+      },
+      action() {
+        setup.status.stress(-2, "Resting in your pink chair");
+        setup.time.add(30);
+        setup.refresh();
+        setup.notify("You sat around in the pink chair for 30 minutes.");
       },
     },
     KingBed: {
@@ -450,16 +578,70 @@ aw.homeItems = {};
       },
       action(nn) {
         if (nn === 1) {
-          setup.sleep.start();
+          setup.sleep.go();
         } else {
-          setup.sleep.nap(60);
+          setup.sleep.startNap();
+        }
+      },
+    },
+    machoBed: {
+      name: "Macho bed",
+      key: "machoBed",
+      image: "IMG-HomeItem-MachoBed",
+      type: "furniture",
+      tags : ["bed"],
+      desc: "A big pink king-size bed for those who radiate masculinity.",
+      mult: true,
+      quality: 4,
+      cost: 699,
+      fragile: false,
+      button: "Sleep [Pink Bed]",
+      info: "That bed looks comfy with all these frills and lacing. Lay down and sleep or take a nap. [varies]",
+      notRoom: ["balcony", "kitchen", "bathroom", "foyer"],
+      shop: ["BBB"],
+      menu: "@@.head3;Y@@our bed is waiting for you to lay down and enter the world of dreams.<br><br><<button 'Sleep'>><<run aw.homeItems.machoBed.action(1)>><<run Dialog.close()>><</button>><<tab>><<button 'Take Nap'>><<run aw.homeItems.machoBed.action(2)>><<run Dialog.close()>><</button>><<tab>><<button 'Cancel'>><<run Dialog.close()>><</button>>",
+      effect() {
+        // nope
+      },
+      action(nn) {
+        if (nn === 1) {
+          setup.sleep.go();
+        } else {
+          setup.sleep.startNap();
+        }
+      },
+    },
+    loveBed: {
+      name: "Love bed",
+      key: "loveBed",
+      image: "IMG-HomeItem-heartBed",
+      type: "furniture",
+      tags : ["bed"],
+      desc: `A heart-shaped bed in red color. Practically screams "Fuck on me like there is no tomorrow".`,
+      mult: true,
+      quality: 4,
+      cost: 720,
+      fragile: false,
+      button: "Sleep [Love Bed]",
+      info: "That bed looks nice hovewer you doubt it is made for sleeping at all. Lay down and sleep or take a nap. [varies]",
+      notRoom: ["balcony", "kitchen", "bathroom", "foyer"],
+      shop: ["BBB"],
+      menu: "@@.head3;Y@@our bed is waiting for you to lay down and enter the world of dreams.<br><br><<button 'Sleep'>><<run aw.homeItems.loveBed.action(1)>><<run Dialog.close()>><</button>><<tab>><<button 'Take Nap'>><<run aw.homeItems.loveBed.action(2)>><<run Dialog.close()>><</button>><<tab>><<button 'Cancel'>><<run Dialog.close()>><</button>>",
+      effect() {
+        // nope
+      },
+      action(nn) {
+        if (nn === 1) {
+          setup.sleep.go();
+        } else {
+          setup.sleep.startNap();
         }
       },
     },
     SimpleBed: {
       name: "Simple bed",
       key: "SimpleBed",
-      image: "IMG-HomeItem-Simplebed",
+      image: "IMG-HomeItem-SimpleBed3",
       type: "furniture",
       tags : ["bed"],
       desc: "A big plain bed. Mattress included.",
@@ -471,18 +653,15 @@ aw.homeItems = {};
       info: "The bedframe is rather simple and frugal but the mattress seems soft. Lay down and sleep or take a nap. [varies]",
       notRoom: ["balcony", "kitchen", "bathroom", "foyer"],
       shop: ["fitta"],
-      menu: "@@.head3;Y@@our bed is waiting for you to lay down and enter the world of dreams.<br><br><<button 'Sleep'>><<run aw.homeItems.simpleBed.action(1)>><<run Dialog.close()>><</button>><<tab>><<button 'Take Nap'>><<run aw.homeItems.simpleBed.action(2)>><<run Dialog.close()>><</button>><<tab>><<button 'Cancel'>><<run Dialog.close()>><</button>>",
+      menu: "@@.head3;Y@@our bed is waiting for you to lay down and enter the world of dreams.<br><br><<button 'Sleep'>><<run aw.homeItems.SimpleBed.action(1)>><<run Dialog.close()>><</button>><<tab>><<button 'Take Nap'>><<run aw.homeItems.SimpleBed.action(2)>><<run Dialog.close()>><</button>><<tab>><<button 'Cancel'>><<run Dialog.close()>><</button>>",
       effect() {
         // nope
       },
       action(nn) {
         if (nn === 1) {
-          setup.sleep.start();
+          setup.sleep.go();
         } else {
-          setup.status.stress(-3);
-          setup.time.add(30);
-          setup.refresh();
-          setup.notify("You sat around in the small chair for 30 minutes.");
+          setup.sleep.startNap();
         }
       },
     },
@@ -507,9 +686,9 @@ aw.homeItems = {};
       },
       action(nn) {
         if (nn === 1) {
-          setup.sleep.start();
+          setup.sleep.go();
         } else {
-          setup.status.stress(-3);
+          setup.status.stress(-3, "Sitting on your red sofa");
           setup.time.add(30);
           setup.refresh();
           setup.notify("You sat around on the red sofa for 30 minutes.");
@@ -537,18 +716,18 @@ aw.homeItems = {};
       },
       action(nn) {
         if (nn === 1) {
-          setup.sleep.start();
+          setup.sleep.go();
         } else {
-          setup.status.stress(-4);
+          setup.status.stress(-4, "Sitting on your leather sofa");
           setup.time.add(30);
           setup.refresh();
           setup.notify("You sat around on the leather sofa for 30 minutes.");
         }
       },
     },
-    cofeeTable: {
-      name: "Cofee table",
-      key: "cofeeTable",
+    coffeeTable: {
+      name: "Coffee table",
+      key: "coffeeTable",
       image: "IMG-HomeItem-CofeeTable",
       type: "furniture",
       tags : ["table"],
@@ -592,20 +771,21 @@ aw.homeItems = {};
         if (State.active.variables.pref.bondage === true) {
           if (ↂ.pc.body.tone < 4) {
             if (ↂ.pc.kink.masochist || ↂ.pc.kink.sub || ↂ.pc.kink.bond) {
-              setup.status.stress(3);
-              setup.status.satisfact(-15);
+              setup.status.stress(3, "placing yourself in stocks");
+              setup.status.arousal(3);
             } else {
-              setup.status.stress(10);
-              setup.status.satisfact(-10);
+              setup.status.stress(10, "placing yourself in stocks");
+              setup.status.arousal(2);
             }
             setup.time.add(30);
-            setup.dialog("Stocking yourself hard", "@@.head3;C@@lothing the heavy upper piece by yourself is surprisingly difficult but somehow you manage to pull it off. Without the lock being in place and closed you can get out at any moment so you decide to investigate the sensation of vulnerability granted by that restraning furniture. The stocks forced you into a bent position, causing your butt to puff out proudly. <<if ↂ.pc.kink.bond || ↂ.pc.kink.sub>>@@.mono;I am so helpless in that position... can't stop imagining being taken rudely while locked in this...@@<<elseif ↂ.pc.kink.masochist>>@@.mono;Oh, that is perfect furniture for receiving some serious spanking. I could use some right now honestly...@@<<else>>@@.mono;I feel a bit silly locked in this. But in the right circumstances it still can be useful... I guess.@@<</if>> After some time, you feel your back start to ache and try to get out. Surprisingly, the upper piece is too heavy and you realise that you are not strong enough to push it up. @@.mono;Oops...@@ It takes you more than a dozen of minutes of struggle to finally get free from the device. <<if ↂ.pc.kink.bond || ↂ.pc.kink.sub>>You find the experience rather arousing.<<else>> You find the experience pretty afwul.<</if>>");
+            setup.dialog("Stocking yourself hard", "@@.head3;C@@losing the heavy upper piece by yourself is surprisingly difficult but somehow you manage to pull it off. Without the lock being in place and closed you can get out at any moment so you decide to investigate the sensation of vulnerability granted by that restraning furniture. The stocks forced you into a bent position, causing your butt to puff out proudly. <<if ↂ.pc.kink.bond || ↂ.pc.kink.sub>>@@.mono;I am so helpless in that position... can't stop imagining being taken rudely while locked in this...@@<<elseif ↂ.pc.kink.masochist>>@@.mono;Oh, that is perfect furniture for receiving some serious spanking. I could use some right now honestly...@@<<else>>@@.mono;I feel a bit silly locked in this. But in the right circumstances it still can be useful... I guess.@@<</if>> After some time, you feel your back start to ache and try to get out. Surprisingly, the upper piece is too heavy and you realise that you are not strong enough to push it up. @@.mono;Oops...@@ It takes you more than a dozen of minutes of struggle to finally get free from the device. <<if ↂ.pc.kink.bond || ↂ.pc.kink.sub>>You find the experience rather arousing.<<else>> You find the experience pretty afwul.<</if>>");
           } else {
-            setup.status.satisfact(-3);
+            setup.status.arousal(1);
             setup.time.add(15);
             setup.refresh();
-            setup.dialog("Stocking yourself", "@@.head3;C@@lothing the heavy upper piece by yourself is not that difficult, mainly because of you strong muscles. Without the lock being in place and closed you can get out at any moment so you decide to investigate the sensation of vulnerability granted by that restraning furniture. The stocks forced you into a bent position, causing your butt to puff out proudly. <<if ↂ.pc.kink.bond || ↂ.pc.kink.sub>>@@.mono;I am so helpless in that position... can't stop imagining being taken rudely while locked in this...@@<<elseif ↂ.pc.kink.masochist>>Oh, that is perfect furniture for receiving some serious spanking. I could use some right now honestly...<<else>>I feel a bit silly locked in this. But in the right circumstances it still can be useful... I guess.<</if>> After some time you feel your back start to ache. It takes a bit of struggling with the upper piece, but eventually you get out from the stocks.");
+            setup.dialog("Stocking yourself", "@@.head3;C@@losing the heavy upper piece by yourself is not that difficult, mainly because of you strong muscles. Without the lock being in place and closed you can get out at any moment so you decide to investigate the sensation of vulnerability granted by that restraning furniture. The stocks forced you into a bent position, causing your butt to puff out proudly. <<if ↂ.pc.kink.bond || ↂ.pc.kink.sub>>@@.mono;I am so helpless in that position... can't stop imagining being taken rudely while locked in this...@@<<elseif ↂ.pc.kink.masochist>>Oh, that is perfect furniture for receiving some serious spanking. I could use some right now honestly...<<else>>I feel a bit silly locked in this. But in the right circumstances it still can be useful... I guess.<</if>> After some time you feel your back start to ache. It takes a bit of struggling with the upper piece, but eventually you get out from the stocks.");
           }
+        aw.S();
         } else {
           setup.notify("You can't force yourself to try the stocks, something holds you back.");
         }
@@ -631,7 +811,7 @@ aw.homeItems = {};
         // nothing
       },
       action() {
-        setup.status.stress(-2);
+        setup.status.stress(-2, "Resting in a cheap recliner");
         setup.time.add(30);
         setup.refresh();
         if (this.breaks()) {
@@ -657,10 +837,10 @@ aw.homeItems = {};
       shop: ["none"],
       menu: false,
       effect() {
-        setup.status.tired(2);
+        setup.status.tired(2, "Sleeping on shitty jizz-stained blankets");
       },
       action() {
-        setup.sleep.start();
+        setup.sleep.go();
       },
     },
     oldThrowPillow: {
@@ -684,7 +864,7 @@ aw.homeItems = {};
       },
       action() {
         if (random(1, 3) === 3) {
-          setup.status.stress(-1);
+          setup.status.stress(-1, "Resting on a jizz-stained throw pillow");
         }
         setup.time.add(15);
         setup.refresh();
@@ -768,16 +948,20 @@ aw.homeItems = {};
       shop: ["bullseye"],
       menu: "@@.head3;Y@@our air mattress is really only intended to be used for a few nights, it's only a matter of time until it springs a major leak and becomes nearly worthless.<br><br>Spend a couple minutes reinflating and: <<button 'Sleep'>><<run aw.homeItems.airMattress.action(1)>><<run Dialog.close()>><</button>><<tab>><<button 'Take Nap'>><<run aw.homeItems.airMattress.action(2)>><<run Dialog.close()>><</button>><<tab>><<button 'Cancel'>><<run Dialog.close()>><</button>>",
       effect() {
-        setup.status.tired(-1);
+        setup.status.tired(1, "Sleeping on an air mattress");
       },
       action(d) {
         if (d === 1) {
           if (this.breaks()) {
             UI.alert(`Uh Oh...
             sometime while you were asleep your cheap air mattress sprung a leak, which resulted in you waking up essentially sleeping on the floor. You now have a "busted" air mattress.`);
-            aw.homeItemsSwitch(this.key, "bustedAirMattress");
+            try {
+              aw.homeItemsSwitch(this.key, "bustedAirMattress");
+            } catch (e) {
+              aw.con.warn(`Error switching out air matress after it breaks... ${e.name}: ${e.message}`);
+            }
           }
-          setup.sleep.start();
+          setup.sleep.go();
         } else if (d === 2) {
           setup.sleep.startNap();
         }
@@ -800,13 +984,17 @@ aw.homeItems = {};
       shop: ["bullseye"],
       menu: "@@.head3;Y@@our air mattress is really only intended to be used for a few nights, it's only a matter of time until it springs a major leak and becomes nearly worthless.<br><br>Spend a couple minutes reinflating and: <<button 'Sleep'>><<run aw.homeItems.airMattress.action(1)>><<run Dialog.close()>><</button>><<tab>><<button 'Take Nap'>><<run aw.homeItems.airMattress.action(2)>><<run Dialog.close()>><</button>><<tab>><<button 'Inflate'>><<run UI.alert('You try to inflate the mattress, but it's hopeless')>><</button>><<tab>><<button 'Cancel'>><<run Dialog.close()>><</button>>",
       effect() {
-        setup.status.tired(2);
+        try {
+          setup.status.tired(2, "Sleeping on a busted air mattress with no air");
+        } catch (e) {
+          aw.con.warn(`Air Matress can't use setup.status.tired(2) to increase tiredness for some reason. ${e.name}: ${e.message}`);
+        }
       },
       action(nn) {
         if (nn === 1) {
-          setup.sleep.start();
+          setup.sleep.go();
         } else {
-          setup.sleep.nap(60);
+          setup.sleep.startNap();
         }
       },
     },
@@ -833,6 +1021,29 @@ aw.homeItems = {};
         // nothing
       },
     },
+    pinkNightstand: {
+      name: "pink nightstand",
+      key: "pinkNightstand",
+      image: "IMG-HomeItem-PinkNightstand",
+      type: "furniture",
+      tags : ["none"],
+      desc: "Classic piece of furniture painted in some odd color.",
+      mult: true,
+      quality: 2,
+      cost: 175,
+      fragile: false,
+      button: false,
+      info: "",
+      notRoom: ["balcony", "kitchen", "bathroom", "foyer"],
+      shop: ["BBB"],
+      menu: false,
+      effect() {
+        // nothing
+      },
+      action() {
+        // nothing
+      },
+    },
     bouncerciser: {
       name: "bouncerciser",
       key: "bouncerciser",
@@ -845,7 +1056,7 @@ aw.homeItems = {};
       cost: 105,
       fragile: 1,
       button: "Exercise [Bouncercise]",
-      info: "Use the bouncerciser to get some exercise and improve your lower body stamina. <requires optional accessory & nudity for full effect> (+SEX +END +arousal +exercise -energy) [15min]",
+      info: "Use the bouncerciser to get some exercise and improve your lower body stamina. [requires optional accessory & nudity for full effect] (+SEX +END +arousal +exercise -energy) [15min]",
       notRoom: ["foyer"],
       shop: ["prude"],
       menu: false,
@@ -894,10 +1105,10 @@ aw.homeItems = {};
         if (setup.clothes.access.pussy) {
           const chance = random(0, 10);
           if (chance > 8) {
-            setup.status.satisfact(random(20, 30));
+            setup.status.satisfact(random(20, 30), "Cumming with your Flexbow");
             setup.notify("Bouncing on a Flexbow made you cum.");
           } else {
-            setup.status.satisfact(-(random(10, 15)));
+            setup.status.satisfact((random(10, 15) * -1), "Not getting off with your Flexbow");
           }
           setup.status.arousal(4);
           setup.time.add(20);
@@ -938,7 +1149,7 @@ aw.homeItems = {};
           setup.notify("You make coffee, but the extra cup doesn't do you much good.");
         } else {
           setup.time.add(15);
-          setup.status.tired(-1);
+          setup.status.tired(-1, "Drinking delicious coffee");
           setup.refresh();
           setup.notify("Mmmm... Coffee.");
         }
@@ -962,7 +1173,78 @@ aw.homeItems = {};
       shop: ["bullseye"],
       menu: false,
       effect() {
-        setup.status.happy(-1);
+        setup.status.happy(-1, "Sad Flowers make you feel sad");
+      },
+      action() {
+        // nothing
+      },
+    },
+    pictureAT: {
+      name: "Appletree poster",
+      key: "pictureAT",
+      image: "IMG-HomeItem-loveAT",
+      type: "decor",
+      tags : ["none"],
+      desc: `A framed "I love Appletree" poster. Looks pretty neat.`,
+      mult: true,
+      quality: 3,
+      cost: 32,
+      fragile: false,
+      button: false,
+      info: "",
+      notRoom: ["none"],
+      shop: ["BBB"],
+      menu: false,
+      effect() {
+        setup.status.happy(1, "Behavioral conditioning from Appletree poster");
+      },
+      action() {
+        // nothing
+      },
+    },
+    lichPic: {
+      name: "Lich art",
+      key: "lichPic",
+      image: "IMG-HomeItem-LichPic",
+      type: "decor",
+      tags : ["none"],
+      desc: `A framed painting of some girl and a suspicious skeleton. Looking good though.`,
+      mult: true,
+      quality: 4,
+      cost: 52,
+      fragile: false,
+      button: false,
+      info: "",
+      notRoom: ["none"],
+      shop: ["BBB"],
+      menu: false,
+      effect() {
+        setup.status.happy(1, "Admiring the glory of the Erolich");
+      },
+      action() {
+        // nothing
+      },
+    },
+    homePoster: {
+      name: "poster",
+      key: "homePoster",
+      image: "IMG-HomeItem-homePoster",
+      type: "decor",
+      tags : ["none"],
+      desc: `A framed poster with some truly inspirational words.`,
+      mult: true,
+      quality: 2,
+      cost: 24,
+      fragile: false,
+      button: false,
+      info: "",
+      notRoom: ["none"],
+      shop: ["BBB"],
+      menu: false,
+      effect() {
+        if (random(0, 3) === 3) {
+          setup.status.happy(1, "Feeling inspired by your inspirational poster");
+        }
       },
       action() {
         // nothing
@@ -985,7 +1267,7 @@ aw.homeItems = {};
       shop: ["bullseye"],
       menu: false,
       effect() {
-        setup.status.happy(1);
+        setup.status.happy(1, "Thinking about cocks thanks to your cock vase");
       },
       action() {
         // nothing
@@ -1048,6 +1330,29 @@ aw.homeItems = {};
       quality: 1,
       cost: 60,
       fragile: 1,
+      button: false,
+      info: "",
+      notRoom: ["kitchen", "bathroom", "foyer"],
+      shop: ["bullseye"],
+      menu: false,
+      effect() {
+        // nothing
+      },
+      action() {
+        // nothing
+      },
+    },
+    woodenTable: {
+      name: "Wooden coffee table",
+      key: "woodenTable",
+      image: "IMG-HomeItem-WoodenTable",
+      type: "furniture",
+      tags : ["table"],
+      desc: "A coffee table made of wood with some pretty unusual leg construction.",
+      mult: true,
+      quality: 2,
+      cost: 87,
+      fragile: 2,
       button: false,
       info: "",
       notRoom: ["kitchen", "bathroom", "foyer"],
@@ -1150,7 +1455,7 @@ aw.homeItems = {};
       },
       action(nn) {
         if (nn === 1) {
-          setup.sleep.start();
+          setup.sleep.go();
         } else {
           setup.sleep.nap(60);
         }
@@ -1177,7 +1482,7 @@ aw.homeItems = {};
       },
       action(nn) {
         if (nn === 1) {
-          setup.sleep.start();
+          setup.sleep.go();
         } else {
           setup.sleep.nap(60);
         }
@@ -1326,10 +1631,10 @@ aw.homeItems = {};
       action() {
         const chance = random (1, 10);
         if (chance > 8) {
-          setup.status.satisfact(random(20, 30));
+          setup.status.satisfact(random(20, 30), "Cumming while riding your active chair");
           setup.notify("Fidgeting on a chair made you cum.");
         } else {
-          setup.status.satisfact(-(random(10, 15)));
+          setup.status.satisfact((random(10, 15) * -1), "Failing to cum with your active chair");
           setup.notify("You fidgeted on a chair for some time which made you more aroused.");
         }
         setup.time.add(20);
@@ -1518,7 +1823,7 @@ aw.homeItems = {};
         // nothing
       },
       action() {
-        setup.status.satisfact(-3);
+        setup.status.satisfact(-3, "Your folding chair makes you dissatisfied");
         setup.time.add(10);
         setup.refresh();
         setup.notify("You feel less satisfied than before.");
@@ -1571,8 +1876,8 @@ aw.homeItems = {};
       },
     },
     liquerCabinet: {
-      name: "breast liquer",
-      key: "liquerCabinet",
+      name: "breast liquor",
+      key: "breastLiquor",
       image: "IMG-HomeItem-LiquerCabinet",
       type: "decor",
       tags : ["alcohol"],
@@ -1580,6 +1885,29 @@ aw.homeItems = {};
       mult: false,
       quality: 5,
       cost: 840,
+      fragile: false,
+      button: "Have a drink",
+      info: "",
+      notRoom: ["balcony", "bed", "bathroom", "foyer"],
+      shop: ["fitta"],
+      menu: false,
+      effect() {
+        // nothing
+      },
+      action() {
+        // nothing
+      },
+    },
+    boozeCabinet: {
+      name: "liquer cabinet",
+      key: "liquerCabinet",
+      image: "IMG-HomeItem-LiquerCabinet2",
+      type: "decor",
+      tags : ["alcohol"],
+      desc: "An cheap wall-mounted storage for your booze.",
+      mult: false,
+      quality: 2,
+      cost: 80,
       fragile: false,
       button: "Have a drink",
       info: "",
@@ -1688,7 +2016,7 @@ aw.homeItems = {};
         // nothing
       },
       action() {
-        setup.status.stress(-2);
+        setup.status.stress(-2, "Resting iny your office chair");
         setup.time.add(30);
         setup.refresh();
         setup.notify("You sat around for 30 minutes.");
@@ -1716,10 +2044,10 @@ aw.homeItems = {};
       action() {
         const chance = random(0, 10);
         if (chance > 2 && !ↂ.pc.kink.hard) {
-          setup.status.satisfact(random(10, 20));
+          setup.status.satisfact(random(10, 20), "Cumming from using your OmniRack");
           setup.notify("You fixed yourself on the OmniRack for some time which made you cum after some fidgeting.");
         } else {
-          setup.status.satisfact(-(random(10, 15)));
+          setup.status.satisfact((random(10, 15) * -1), "Failing to cum with your OmniRack");
           setup.notify("You fixed yourself on the OmniRack for some time which made you hornier.");
         }
         setup.status.arousal(4);
@@ -1750,7 +2078,7 @@ aw.homeItems = {};
         // nothing
       },
       action() {
-        setup.status.stress(-4);
+        setup.status.stress(-4, "Relaxing on your orgy couch");
         setup.status.arousal(1);
         setup.time.add(30);
         setup.refresh();
@@ -1877,7 +2205,7 @@ aw.homeItems = {};
         // nothing
       },
       action() {
-        setup.status.stress(-1);
+        setup.status.stress(-1, "Resting on a cheap couch");
         setup.time.add(30);
         setup.refresh();
         setup.notify("You sat around for 30 minutes.");
@@ -1953,7 +2281,7 @@ aw.homeItems = {};
         // nothing
       },
       action() {
-        setup.status.stress(-1);
+        setup.status.stress(-1, "Resting on a really-ugly couch");
         setup.time.add(30);
         setup.refresh();
         setup.notify("You sat around for 30 minutes.");
@@ -1979,7 +2307,7 @@ aw.homeItems = {};
         // nothing
       },
       action() {
-        setup.status.stress(-1);
+        setup.status.stress(-1, "Resting on a cheap loveseat");
         setup.time.add(30);
         setup.refresh();
         setup.notify("You sat around for 30 minutes.");
@@ -2058,6 +2386,29 @@ aw.homeItems = {};
         // nothing
       },
     },
+    logTable: {
+      name: "log table",
+      key: "logTable",
+      image: "IMG-HomeItem-logTable",
+      type: "furniture",
+      tags : ["table"],
+      desc: "A big round table made of single slice of wood",
+      mult: true,
+      quality: 4,
+      cost: 350,
+      fragile: 1,
+      button: "Eat a Meal",
+      info: "This table allows you to trigger eating a meal, if you wish to eat with an NPC in your home. (normally meals are automatic) [30min]",
+      notRoom: ["foyer", "bath", "bedroom", "balcony"],
+      shop: ["bullseye"],
+      menu: "You tried to invite @@.ident;Asa@@ to sit and eat with you, but then you realized that @@.mono;Asa@@ is your imaginary friend-cum-tulpa you created during a bad acid trip. You sit down at the table and sob before eventually eating alone. At least the OctoChicken was delicious.",
+      effect() {
+        // nothing
+      },
+      action() {
+        // nothing
+      },
+    },
     SimpleMaker: {
       name: "Simple Coffee Maker",
       key: "SimpleMaker",
@@ -2084,7 +2435,7 @@ aw.homeItems = {};
           setup.notify("You make the gods nectar.");
         } else {
           setup.time.add(10);
-          setup.status.tired(-5);
+          setup.status.tired(-1, "Drinking delicious coffee");
           setup.refresh();
           setup.notify("By the love of god, COFFEEEEEE...");
         }
@@ -2117,7 +2468,7 @@ aw.homeItems = {};
           setup.notify("You make the gods nectar.");
         } else {
           setup.time.add(5);
-          setup.status.tired(-10);
+          setup.status.tired(-1, "Drinking delicious coffee");
           setup.refresh();
           setup.notify("By the love of god, COFFEEEEEE...");
         }
@@ -2127,7 +2478,7 @@ aw.homeItems = {};
     SimplePlainBed: {
       name: "Simple Bed",
       key: "SimplePlainBed",
-      image: "IMG-HomeItem-SimpleBed2",
+      image: "IMG-HomeItem-SimpleBed3",
       type: "furniture",
       tags : ["bed"],
       desc: "It's a essential item for those that want to sleep, and only so. Has a simple and plain look. No need for beauty when you're training to die.",
@@ -2145,9 +2496,9 @@ aw.homeItems = {};
       },
       action(nn) {
         if (nn === 1) {
-          setup.sleep.start();
+          setup.sleep.go();
         } else {
-          setup.sleep.nap(60);
+          setup.sleep.startNap();
         }
       },
     },
@@ -2172,9 +2523,9 @@ aw.homeItems = {};
       },
       action(nn) {
         if (nn === 1) {
-          setup.sleep.start();
+          setup.sleep.go();
         } else {
-          setup.sleep.nap(60);
+          setup.sleep.startNap();
         }
       },
     },
@@ -2192,16 +2543,16 @@ aw.homeItems = {};
       button: "Lay Down",
       info: "",
       notRoom: ["balcony", "kitchen", "bathroom", "foyer"],
-      shop: ["bullseye"],
+      shop: ["bullseye", "fitta"],
       menu: "@@.head3;Y@@our bed is waiting for you to lay down and enter the world of dreams.<br><br><<button 'Sleep'>><<run aw.homeItems.KingBed.action(1)>><<run Dialog.close()>><</button>><<tab>><<button 'Take Nap'>><<run aw.homeItems.KingBed.action(2)>><<run Dialog.close()>><</button>><<tab>><<button 'Cancel'>><<run Dialog.close()>><</button>>",
       effect() {
         // nope
       },
       action(nn) {
         if (nn === 1) {
-          setup.sleep.start();
+          setup.sleep.go();
         } else {
-          setup.sleep.nap(60);
+          setup.sleep.startNap();
         }
       },
     },
@@ -2220,15 +2571,15 @@ aw.homeItems = {};
       info: "",
       notRoom: ["balcony", "kitchen", "bathroom", "foyer"],
       shop: ["fitta"],
-      menu: "@@.head3;Y@@our bed is waiting for you to lay down and enter the world of dreams.<br><br><<button 'Sleep'>><<run aw.homeItems.KingBed.action(1)>><<run Dialog.close()>><</button>><<tab>><<button 'Take Nap'>><<run aw.homeItems.KingBed.action(2)>><<run Dialog.close()>><</button>><<tab>><<button 'Cancel'>><<run Dialog.close()>><</button>>",
+      menu: "@@.head3;Y@@our bed is waiting for you to lay down and enter the world of dreams.<br><br><<button 'Sleep'>><<run aw.homeItems.HighTechBed.action(1)>><<run Dialog.close()>><</button>><<tab>><<button 'Take Nap'>><<run aw.homeItems.HighTechBed.action(2)>><<run Dialog.close()>><</button>><<tab>><<button 'Cancel'>><<run Dialog.close()>><</button>>",
       effect() {
         // nope
       },
       action(nn) {
         if (nn === 1) {
-          setup.sleep.start();
+          setup.sleep.go();
         } else {
-          setup.sleep.nap(60);
+          setup.sleep.startNap();
         }
       },
     },
@@ -2252,7 +2603,7 @@ aw.homeItems = {};
         // nothing
       },
       action() {
-        setup.status.stress(-3);
+        setup.status.stress(-2, "Sitting in an old chair");
         setup.time.add(35);
         setup.refresh();
         if (this.breaks()) {
@@ -2281,7 +2632,7 @@ aw.homeItems = {};
         // nothing
       },
       action() {
-        setup.status.stress(-5);
+        setup.status.stress(-5, "Relaxing in your luxury chair");
         setup.time.add(25);
         setup.refresh();
         if (this.breaks()) {
@@ -2310,7 +2661,7 @@ aw.homeItems = {};
         // nothing
       },
       action() {
-        setup.status.stress(-4);
+        setup.status.stress(-4, "Relaxing in your comfortable chair");
         setup.time.add(30);
         setup.refresh();
         if (this.breaks()) {
@@ -2388,6 +2739,29 @@ aw.homeItems = {};
         // nothing
       },
     },
+    vintageNightstand: {
+      name: "vintage nightstands",
+      key: "vintageNightstand",
+      image: "IMG-HomeItem-VintageNightstand",
+      type: "furniture",
+      tags : ["storage"],
+      desc: "The good-looking ol-styled nightstand which exudes vintage vibe all across the room.",
+      mult: true,
+      quality: 4,
+      cost: 420,
+      fragile: false,
+      button: false,
+      info: "",
+      notRoom: ["balcony", "kitchen", "bathroom"],
+      shop: ["fitta"],
+      menu: false,
+      effect() {
+        // nothing
+      },
+      action() {
+        // nothing
+      },
+    },
     normalNightstand: {
       name: "normal nightstands",
       key: "normalNightstand",
@@ -2409,6 +2783,128 @@ aw.homeItems = {};
       },
       action() {
         // nothing
+      },
+    },
+    homeScales: {
+      name: "scales",
+      key: "homeScales",
+      image: "IMG-HomeItem-homeScales",
+      type: "electronic",
+      tags : ["none"],
+      desc: "Advanced electronic scales for checking and controlling your weight.",
+      mult: true,
+      quality: 1,
+      cost: 150,
+      fragile: 500,
+      button: "Scales",
+      info: "",
+      notRoom: ["balcony", "bathroom"],
+      shop: ["bullseyeElectronics"],
+      menu: false,
+      effect() {
+        // nothing
+      },
+      action() {
+        setup.time.add(4);
+        setup.dialog("Scales", `<<if ↂ.pc.status.nutrition.realWeight == 0>><<run setup.weightCalc()>><</if>><center>[img[IMG-ScaleUse]]</center><br>@@.head3;Y@@ou undress and step on the scales. After a second or so it turns on and you feets become tingly from electrical impulses when scales estimate your body fat. It takes another second of waiting until the small screen shows the information with a quiet beep.
+        <<timed 100ms>>
+        <br><br>@@.yellowgreen;Weight:@@ <<= ↂ.pc.status.nutrition.realWeight>>
+        @@.yellowgreen;BMI:@@ <<print setup.valToBMI(ↂ.pc.status.nutrition.realWeight)>>
+        @@.yellowgreen;Recent metabolic rate:@@ <<print setup.isGain()>><</timed>>`);
+      },
+    },
+    cheapBrewery: {
+      name: `Cheap brewing machine`,
+      key: "cheapBrewery",
+      image: "IMG-HomeItem-cheapBrewery",
+      type: "electronic",
+      tags : ["drink"],
+      desc: `"Meth-a-nol" home brewing station, the affordable solution for making your own moonshine. Quality may vary.`,
+      mult: false,
+      quality: 0,
+      cost: 220,
+      fragile: 7,
+      button: "Brew moonshine",
+      info: "Try to distilate some moonshine. (+moonshine) [60min]",
+      notRoom: ["balcony", "foyer"],
+      shop: ["bullseyeElectronics"],
+      menu: false,
+      effect() {
+        // nothing
+      },
+      action() {
+        setup.time.add(random(55, 65));
+        const rand = random(0, 10);
+        if (rand < 6) {
+          setup.consumables.add("moonshine1");
+        } else if (rand < 9) {
+          setup.consumables.add("moonshine2");
+        } else {
+          setup.consumables.add("moonshine3");
+        }
+        setup.notify("You manage to make a little bottle of the moonshine.<<updatebar>>");
+      },
+    },
+    owoBrewery: {
+      name: `OwOBrew brewing machine`,
+      key: "owoBrewery",
+      image: "IMG-HomeItem-owoBrewery",
+      type: "electronic",
+      tags : ["drink"],
+      desc: `"OwOBrew" home brewing station, the best option for semi-professional distillation. Fully auto control system allows to reduce brewing time and increase moonshine quality.`,
+      mult: false,
+      quality: 2,
+      cost: 400,
+      fragile: 1,
+      button: "Brew moonshine",
+      info: "Distilate some moonshine. (+moonshine) [30min]",
+      notRoom: ["balcony", "foyer"],
+      shop: ["bullseyeElectronics"],
+      menu: false,
+      effect() {
+        // nothing
+      },
+      action() {
+        setup.time.add(random(25, 35));
+        const rand = random(0, 10);
+        if (rand < 2) {
+          setup.consumables.add("moonshine1");
+        } else if (rand < 5) {
+          setup.consumables.add("moonshine2");
+        } else {
+          setup.consumables.add("moonshine3");
+        }
+        setup.notify("You manage to make a little bottle of the moonshine.<<updatebar>>");
+      },
+    },
+    exerciseBike: {
+      name: `exercise bike`,
+      key: "exerciseBike",
+      image: "IMG-HomeItem-homeTraining1",
+      type: "electronic",
+      tags : ["none"],
+      desc: `Advanced home exercise bike for cardio training. Functions include heart rate and oxigenation monitor, various speed presets and an advanced seat system with a pin "for better stability".`,
+      mult: false,
+      quality: 4,
+      cost: 235,
+      fragile: 1,
+      button: "Workout",
+      info: "Workout on the bike. (-energy, +exercise) [30min]",
+      notRoom: ["foyer"],
+      shop: ["bullseyeElectronics"],
+      menu: false,
+      effect() {
+        // nothing
+      },
+      action() {
+        setup.status.arousal(2);
+        setup.time.add(random(25, 35));
+        ↂ.pc.status.exercise += (Math.round(ↂ.skill.athletic / 6) + random(1, 5));
+        ↂ.pc.status.energy.amt -= random(2, 4);
+        aw.S();
+        setup.SCXfunc();
+        setup.SCfunc("AT", 10);
+        setup.dialog("Bike", `<img data-passage="IMG-bikeHome" style="float: left; margin:10px 25px 10px 0px;"><p>@@.head3;A@@fter some tossing you manage to seat on the bike. This requires you to fit this so-called "pin" inside your vagina and it takes you some time to find a comfortable position. You start turning the pedals exercising on the exercise bike. The seat pin get you aroused and you find it pretty hard to concentrate on exercising with this cock-shaped "stability pin" sliding back and forth in your pussy.</p><p>@@.mono;What they ever thought about when created this thing? It is basically a dildo. And how guys are supposed to use it... ah, right, I got it... Mmm, in any case this feels pretty nice... and I must admit it holds me on the seat pretty good.@@</p><p>After about 30 minutes you feel pretty exhausted and stand up from the bike. The pin comes out of your pussy with a sloppy sound.</p><<updatebar>>`);
       },
     },
   };

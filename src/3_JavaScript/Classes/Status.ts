@@ -7,13 +7,13 @@ class Status {
   public wombB: Womb;
   public healthOld: number;
   public addict: Addiction;
-  public energy: Energy;
   public nutrition?: Nutrition;
+  public energy: Energy;
   public injury: string[];
   public disease: string[];
   public inPublic: boolean;
   // tslint:disable-next-line:max-line-length
-  public data: [number, number, string, number, number, number, number, number, number, number, number, number, number, number, number, number, number, number, boolean, number, number, boolean, boolean, boolean, number, number, boolean, number, number, number, number, number, number];
+  public data: [number, number, string, number, number, number, number, number, number, number, number, number, number, number, number, number, number, number, boolean, number, number, boolean, boolean, boolean, number, number, boolean, number, number, number, number, number, number, number];
   public _k: string;
   constructor(key, {
     birthCon,
@@ -67,7 +67,7 @@ class Status {
     this.wombA = new Womb(key, wombA);
     this.wombB = new Womb(key, wombB);
     this.addict = new Addiction(key, addict);
-    this.energy = clone(energy);
+    this.energy = new Energy(energy);
     this.drugs = clone(drugs);
     this.injury = clone(injury);
     this.disease = clone(disease);
@@ -91,10 +91,69 @@ class Status {
     }
     if (data == null) {
       // tslint:disable-next-line:max-line-length
-      this.data = [alcohol, wetness, fertText, risk, cyc, period, milk, milkStore, arousal, pleasure, need, satisfaction, atr, stress, happy, anger, lonely, fatigue, sleep, health, will, overAnger, overStress, overDepress, underSatisfy, clean, mindbreak, morality, corrupt, perversion, bimbo, kids, exercise];
+      this.data = [alcohol, wetness, fertText, risk, cyc, period, milk, milkStore, arousal, pleasure, need, satisfaction, atr, stress, happy, anger, lonely, fatigue, sleep, health, will, overAnger, overStress, overDepress, underSatisfy, clean, mindbreak, morality, corrupt, perversion, bimbo, kids, exercise, 969];
     } else {
       this.data = clone(data);
+      if (this.data.length < 34) {
+        aw.con.warn(`Creating Status class for ${this._k} - missing value in data array!`);
+      }
     }
+  }
+  public get pregnant(): boolean {
+    if (this.wombA.preg || this.wombB.preg){
+      return true;
+    }
+    return false;
+  }
+  public set pregnant(val) {
+    aw.con.warn(`Attempted to set status.pregnant which is a derived value! Character: ${this._k}.`);
+  }
+  // returns fundal height measurement in centimeters.
+  public get fundalHeight(): number {
+    let h = 0;
+    if (this.wombA.preg && this.wombB.preg) {
+      const weeksA = Math.round(40 * (this.wombA.growth / 100));
+      let fundalA = weeksA;
+      if (this.wombA.count > 1) {
+        let mult = 1;
+        mult += Math.pow(this.wombA.count, 0.75) * 0.25;
+        fundalA = Math.round(fundalA * mult);
+      }
+      const weeksB = Math.round(40 * (this.wombB.growth / 100));
+      let fundalB = weeksB;
+      if (this.wombB.count > 1) {
+        let mult = 1;
+        mult += Math.pow(this.wombB.count, 0.75) * 0.25;
+        fundalB = Math.round(fundalB * mult);
+      }
+      if (fundalA > fundalB) {
+        h = fundalA + Math.round(fundalB / 2.5);
+      } else {
+        h = fundalB + Math.round(fundalA / 2.5);
+      }
+    } else if (this.wombA.preg || this.wombB.preg) {
+      if (this.wombA.preg) {
+        const weeks = Math.round(40 * (this.wombA.growth / 100));
+        h = weeks;
+        if (this.wombA.count > 1) {
+          let mult = 1;
+          mult += Math.pow(this.wombA.count, 0.75) * 0.25;
+          h = Math.round(h * mult);
+        }
+      } else {
+        const weeks = Math.round(40 * (this.wombB.growth / 100));
+        h = weeks;
+        if (this.wombB.count > 1) {
+          let mult = 1;
+          mult += Math.pow(this.wombB.count, 0.75) * 0.25;
+          h = Math.round(h * mult);
+        }
+      }
+    }
+    return h;
+  }
+  public set fundalHeight(val) {
+    aw.con.warn(`Attempted to set status.fundalHeight which is a derived value! Character: ${this._k}.`);
   }
   public get alcohol(): number {
     return this.data[0];
@@ -647,6 +706,13 @@ class Status {
     this.data[29] = val;
   }
   public get bimbo(): number {
+    if (this._k === "pc") {
+      if (this.data[30] > 49) {
+        setup.parse.bimbo = true;
+      } else {
+        setup.parse.bimbo = false;
+      }
+    }
     return this.data[30];
   }
   public set bimbo(val: number) {
@@ -660,10 +726,15 @@ class Status {
     } else if (val > 100) {
       val = 100;
     }
+    this.data[30] = val;
     if (this._k === "pc") {
       aw.con.info(`Bimbo change: ${this.data[30]} to ${val} (${val - this.data[30]})`);
+      if (this.data[30] > 49) {
+        setup.parse.bimbo = true;
+      } else {
+        setup.parse.bimbo = false;
+      }
     }
-    this.data[30] = val;
   }
   public get kids(): number {
     return this.data[31];
@@ -688,13 +759,24 @@ class Status {
       aw.con.warn(`attempted to set status.exercise to a non-number value! Character: ${this._k}.`);
       return;
     }
-    if (val < 0) {
-      val = 0;
-    }
     if (this._k === "pc") {
       aw.con.info(`Exercise change: ${this.data[32]} to ${val} (${val - this.data[32]})`);
     }
     this.data[32] = val;
+  }
+  public get sanity(): number {
+    return this.data[33];
+  }
+  public set sanity(val: number) {
+    val = Number(val);
+    if (isNaN(val)){
+      aw.con.warn(`Attempted to set status.sanity to a non-number value. Character ${this._k}.`);
+      return;
+    }
+    if (val < 1) {
+      // TODO trigger some fun things here.
+    }
+    this.data[33] = Math.min(999, Math.max(0, val));
   }
 }
 

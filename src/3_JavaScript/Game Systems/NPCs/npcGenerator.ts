@@ -115,7 +115,6 @@ Macro.add("generateNPC", {
         race = -1;
       }
     }
-
     function determineArchetype(gender) {
       const archOdds = [
         setup.npcSetting.arch[1][0],
@@ -932,6 +931,12 @@ Macro.add("generateNPC", {
       }
       /*quantity is sperm in millions per ml of semen*/
       npc.fert.quantity = randomDist([1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1]) + mod;
+      if (npc.mutate.Virile) {
+        npc.fert.quantity += 4;
+      }
+      if (npc.mutate.MegaNuts) {
+        npc.fert.quantity += 2;
+      }
       if (npc.fert.quantity < 0) {
         npc.fert.quantity = 0;
       }
@@ -1171,6 +1176,12 @@ Macro.add("generateNPC", {
       }
       /*quantity is sperm in millions per ml of semen*/
       npc.fert.quantity = randomDist([1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1]) + mod;
+      if (npc.mutate.Virile) {
+        npc.fert.quantity += 4;
+      }
+      if (npc.mutate.MegaNuts) {
+        npc.fert.quantity += 2;
+      }
       if (npc.fert.quantity < 0) {
         npc.fert.quantity = 0;
       }
@@ -1987,6 +1998,7 @@ Macro.add("generateNPC", {
         "Fuchwagon",
         "Misubitchi",
         "Mazta",
+        "VaZup"
       ];
       const cmod = [
         ["Cunti", "Cummi", "Bukake", "Priapism"],
@@ -2004,6 +2016,7 @@ Macro.add("generateNPC", {
         ["Gonad", "Passedout", "Beaver"],
         ["Lingual", "Outlaster"],
         ["Sex", "Tres", "Sissiata"],
+        ["Oki", "Gigolo", "Worsta"],
       ];
       const cage = [
         "broken-down",
@@ -4236,7 +4249,8 @@ Macro.add("generateNPC", {
         generateFemaleStatus(npc);
         generateFemalePrefs(npc);
         generateFemaleOutfits(npc);
-        determineFemaleNPCportrait(npc);
+        // determineFemaleNPCportrait(npc);
+        npc.main.portrait = setup.porn.femaleNPC(npc);
       }
       determineTraits(npc);
       generateRandomSchedule(npc);

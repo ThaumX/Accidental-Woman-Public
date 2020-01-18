@@ -1,0 +1,37 @@
+:: Daisy-FirstMeet [nobr]
+
+<<status 1>><<set _npc = "n1012">><<addTime 3>><<set ↂ.flag.residentialDaisyMet = true>><<status 0>>
+
+<p>A pretty young cashier girl smiles cheerfuly to you when you approach the counter.</p>
+<p>@@.npc;Hai! I am new here! Nice to meet you by the way, I am Daisy!@@</p>
+  <<dialogchoice>>
+  <<dbutt "Hi">><<intreplace>><<include "Daisy-Friendly">><</intreplace>><<set aw.npc.n1012.rship.likePC += 7>>
+  <<dtext "excited">>Hi! Nice to meet you, I am new in the town too!
+  <<dbutt "Ugh">><<intclose>><<set aw.npc.n1012.rship.likePC += 6>>
+  <<dtext "confused">>Oh, hello. I am in a hurry a bit, but it was nice to meet you. See you, thanks! 
+  <<dbutt "Bitch" "ↂ.pc.trait.bitch">><<intclose>><<set aw.npc.n1012.rship.likePC -= 12>>
+  <<dtext "arrogant">>No talking, cashier girl, better do your bloody job.
+  <</dialogchoice>>
+
+
+:: Daisy-Friendly [nobr]
+
+<p>@@.pc;Hi! Nice to meet you, I am new in the town too!@@</p>
+<p>@@.npc;Oh, so cool! I am soo excited, it is my first job ever and I try to make friends here! You live near?@@</p>
+<p>@@.pc;Yeah, in this block. Oh, I am <<= ↂ.pc.main.name>> by the way!@@</p>
+<p>She finishes with your purchase and hands you a check.</p>
+<p>@@.npc;Come here any time then, will be always glad to see you!@@</p>
+<<safetoclose>>
+<<run setup.npcInfo.level(_npc, {bodyGeneral: true})>><<run setup.npcInfo.level(_npc, {sched: true})>>
+<<set aw.npc[_npc].rship.acquaint = true>>
+<<run setup.npc.acquainted.push(_npc)>>
+
+
+:: Daisy-ChitChat [nobr]
+
+<<addTime 3>><<if ↂ.pc.trait.friendly == 1>><<set aw.npc.n1012.rship.likePC += 5>><<else>><<set aw.npc.n1012.rship.likePC += 3>><</if>><<set aw.npc.n1012.rship.likeNPC += 3>><<set aw.npc.n1012.rship.companion += 5>><<lonely -5 "Chit-chatting with Daisy">>
+<p><<print either("Daisy is cheerful as always when you go to the counter.","You see Daisy is in her standard upbeat mood.", "Daisy seems to really happy to see you.", "No doubt Daisy is enjoying her job, she smiles widely when you approach the the counter.")>></p>
+<p><<print either("@@.npc;Hai! Nice to see you again, <<= ↂ.pc.main.name>>!!@@","@@.npc;Oh, <<= ↂ.pc.main.name>>, so cool to see you visiting Cum'n Go!@@", "@@.npc;My favorite client! Hai!@@")>></p>
+<p><<print either("@@.pc;Hi Daisy!@@","@@.pc;<<greetings>> What's up?@@", "@@.pc;Hi! Happy as always, heh?@@")>></p>
+<<set _blah = setup.cTag.getTag(3, false)>><p><<print setup.interactionMisc.tagText(_blah, "Daisy")>> Daisy quickly finishes with your purchase and you wave goodbye to each other.</p>
+<<safetoclose>>

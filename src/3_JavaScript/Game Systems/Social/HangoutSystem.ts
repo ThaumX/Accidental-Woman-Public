@@ -179,15 +179,25 @@ setup.hang.checkIfFree = function(weekday, next, time, hangPlace, npcId) {
 
 setup.hang.scheduleHang = function(weekday, next, time, hangPlace, npcId) { // Poltergeist!
   const name = `Hangout - ${aw.npc[npcId].main.name}.`;
-  let bliniWeek;
+  let bliniWeek = aw.timeArray[3];
+  let bliniMonth = aw.timeArray[4];
+  let bliniYear = aw.timeArray[5];
   if (next) {
-    bliniWeek = (aw.timeArray[3] + 1);
-  } else {
-    bliniWeek = aw.timeArray[3];
+    if (aw.timeArray[3] === 4) {
+      bliniWeek = 1;
+      bliniMonth = aw.timeArray[4] + 1;
+    } else {
+      bliniWeek = aw.timeArray[3] + 1;
+    }
+    if (aw.timeArray[4] === 13 && aw.timeArray[3] === 4) {
+      bliniWeek = 1;
+      bliniMonth = 1;
+      bliniYear = aw.timeArray[5] + 1;
+    }
   }
-  aw.con.info(`${weekday}, ${bliniWeek}, ${aw.timeArray[4]}, ${aw.timeArray[5]} and time is ${time}`);
-  const helloPapa = (setup.time.dateToVal([weekday, bliniWeek, aw.timeArray[4], aw.timeArray[5]])) + (time * 60);
-  setup.sched.new(name, "hangout", true, helloPapa, false, aw.hangPlaces[hangPlace][3], hangPlace, true, [npcId], `You have arranged a hangout with ${aw.npc[npcId].main.name} ${aw.npc[npcId].main.surname}. Better don't miss it!`);
+  aw.con.info(`${weekday}, ${bliniWeek}, ${bliniMonth}, ${bliniYear} and time is ${time}`);
+  const helloPapa = (setup.time.dateToVal([weekday, bliniWeek, bliniMonth, bliniYear])) + (time * 60);
+  setup.sched.new(name, "hangout", true, helloPapa, false, aw.hangPlaces[hangPlace][3], aw.hangPlaces[hangPlace][1], true, [npcId], `You have arranged a hangout with ${aw.npc[npcId].main.name} ${aw.npc[npcId].main.surname}. Better not miss it!`);
   ↂ.sched.npcHang[npcId][4] = true;
   ↂ.sched.npcHang[npcId][5] = hangPlace;
   ↂ.flag.schedHangs.push(npcId);
@@ -275,7 +285,7 @@ setup.hang.start = function(npcid: npcid) {
   const scen = {
     content: "<<include [[HangStart]]>>",
     sidebar: setup.hang.statusBar(), // replace with svg builder function
-    image: aw.npc[npcid].main.portrait,
+    image: aw.npc[npcid].main.picture,
     topImage: "IMG-ANewhangBanner",
     title: `The start of a hang with ${aw.hang.npc.main.name}`,
     allowSave: false,
@@ -311,8 +321,8 @@ setup.hang.tracking = function(): void {
   aw.hang.npc.rship.daysince = 0;
   aw.hang.npc.rship.met += 1;
   // TODO rship.space modification
-  setup.status.lonely(-20);
-  setup.status.happy(1);
+  setup.status.lonely(-20, "Hanging out with another human");
+  setup.status.happy(1, "Hanging out with a friend");
 };
 
 setup.hang.howAbout = function(spot: string): string {
@@ -470,9 +480,9 @@ setup.hang.saySomething = function(type: string): void {
         setup.SCfunc("CM", dc);
         tht = either("Have you heard about the restaurant on the moon? Terrible reviews, there was no atmosphere.", "Want to hear a joke about construction? I'm still working on it.", "What do you call a man with a rubber toe? Roberto.", `Two goldfish are in a tank. One says to the other, "do you know how to drive this thing?".`);
         if (ᛔ.SCresult[1]) {
-          tht = "[some good joke here]";
+          tht = setup.jokeThoughts(-1);
         }
-        output = `<center>${ᛔ.SCtext[1]}</center><p>You think it is just a right moment to cheer ${aw.hang.name} up with some killing joke.<br><br>@@.pc;Oh, I am sure you never heard this one! ${tht}@@</p>`;
+        output = `<center>${ᛔ.SCtext[1]}</center><p>You think it is just a right moment to cheer ${aw.hang.name} up with some killing joke.<br><br>@@.pc;<<= either("Oh, I am sure you never heard this one!", "Oh, I just remembered a nice joke!", "It is a bit sick but I am sure you'll like this one:")>> ${tht}@@</p>`;
         if (ᛔ.SCresult[1]) {
           output += `<p>${aw.hang.name} laughs loudly.<br><br>@@.npc;Hah! This one is brilliant!@@</p>`;
           aw.hang.qual += random(2, 4);
@@ -526,6 +536,9 @@ setup.hang.aiString = function(numResult: number): string {
   } else {
     result = "xp";
   } // uses x=extra, l=large, m=medium, s=small notation for 2 letter code.
+  if (aw.chad.dom) {
+    result = "xp";
+  }
   return result;
 };
 
@@ -548,7 +561,7 @@ setup.hang.npcChoice = function(): string {
   }
   let output: string;
   let sel: string;
-  if (aw.hang.enjoy[1] < 10 || aw.hang.enjoy[1] < (aw.hang.qual - 10)) {
+  if (aw.hang.enjoy[1] < 10 && aw.hang.start > 30 || aw.hang.enjoy[1] < (aw.hang.qual - 10) && aw.hang.start > 30) {
     // end the hang - unhappy
     output = "<<include [[HangLeaveSpotEndBad]]>>";
   } else if (!aw.hang.ate && random(1, 40) > 10) {
@@ -583,11 +596,11 @@ setup.hang.end = function(): void {
   // should close out the hang
   if (aw.hang.enjoy[0] >= 50) {
     const hap = random(1, 2);
-    setup.status.happy(hap);
+    setup.status.happy(hap, "Having a good time hanging out");
     const str = random(5, 15) * -1;
-    setup.status.stress(str);
+    setup.status.stress(str, "Having a nice hangout");
     const lon = random(5, 15) * -1;
-    setup.status.lonely(lon);
+    setup.status.lonely(lon, "Having a good time hanging out");
     aw.hang.npc.rship.likeNPC += random(3, 5);
     aw.hang.npc.rship.loveNPC += random(0, 1);
   } else {
@@ -638,7 +651,7 @@ setup.hang.tagText = function(tag: string, name: string): string {
       aw.hang.qual -= 5;
       break;
     case "superSexyClothes":
-      output += `just how amazingly sexy your clothes are. ${name} is a bit stunned and has no idea why did you wear that way on a simple hangout.`;
+      output += `just how amazingly sexy your clothes are. ${name} is a bit stunned and has no idea why did you wear in such fashion.`;
       aw.hang.enjoy[1] -= random(1, 3);
       aw.hang.qual += random(1, 4);
       break;
@@ -770,6 +783,26 @@ setup.hang.tagText = function(tag: string, name: string): string {
       aw.hang.enjoy[1] -= random(2, 6);
       aw.hang.qual -= random(4, 8);
       break;
+    case "bodywriting":
+      output += `how humiliating it must be for you to have these words written on you with permanent marker`;
+      aw.hang.enjoy[1] -= random(0, 2);
+      aw.hang.qual -= random(1, 3);
+      break;
+    case "scar":
+      output += `how terrible this scar looks`;
+      aw.hang.enjoy[1] -= random(0, 1);
+      aw.hang.qual -= random(0, 1);
+      break;
+    case "tattoo":
+      output += `how nice are your tattoos`;
+      aw.hang.enjoy[1] += random(1, 3);
+      aw.hang.qual += random(1, 3);
+      break;
+    case "lewdTattoo":
+      output += `about your rather "interesting" tattoos`;
+      aw.hang.enjoy[1] += random(2, 4);
+      aw.hang.qual += random(1, 3);
+      break;
     case "addicted":
       const drug = ↂ.pc.status.addict.max;
       const drugText = {
@@ -853,7 +886,7 @@ setup.hang.tagText = function(tag: string, name: string): string {
 
 aw.hangPlaces = {
   park: ["downtown", "park", false, "Central park"],
-  shakenpop: ["downtown", "club", "shakenpopentrance", "Shake & Pop"],
+  club: ["downtown", "club", "main", "Club district"],
   mall: ["downtown", "mall", false, "Mall"],
   amuse: ["downtown", "amuse", false, "Amusement district"],
 };

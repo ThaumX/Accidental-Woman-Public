@@ -1,0 +1,79 @@
+:: BEchild2 [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPbullseye]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+@@.head3;Y@@ou're in the boy's section of Bullseye's child clothing department.
+<br>
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise hovShop>>
+	@@.disabled;<<button "Shop">><</button>>@@
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion hovShop>>@@.exp;Look for items you need, and add them to your cart. [20-40min]@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains an ordered list of all the items in your cart, along with the price (prior to member discount). @@<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+/*this contains randomized event options that will print inside the related spans*/
+/*Weather-based actions added, like opening an umbrella*/
+<<weatherBullseyeAct>>
+/*Event-based actions added*/
+<<mapEvent>>
+
+
+:: BEchild2LOC [nobr]
+
+[img[IMGbullseyeBig]]

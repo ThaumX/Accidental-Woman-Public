@@ -1,0 +1,218 @@
+
+:: DateLeaveDatespot [nobr]
+
+<<set _leaveText = either("I think it's time to leave", "let's get out of here", "I think I'm ready to go")>>
+
+<p>Feeling that you've been here long enough, you speak up to your date. @@.pc;Hey <<= aw.date.name>>, <<= _leaveText>>.@@</p>
+
+<p>@@.npc;Okay then, so what's up next?@@</p>
+
+<<dialogchoice>>
+<<dbutt "nevermind">><<addTime 2>><<scenereplace>><<print aw.dateSpots[aw.date.spot].desc>><br><<print aw.dateSpots[aw.date.spot].buttonGen()>><</scenereplace>>
+<<dtext "awkward">>On second thought, you've decided that you aren't quite ready to leave...
+<<dbutt "new place">><<addTime 3>><<scenerefresh>><<scenereplace>><p><<f t>>he two of you consider your options for a new activity.</p><<print setup.date.locationPicker()>><</scenereplace>>
+<<dtext "smile">>Go to a new location to continue your date.
+<<dbutt "follow">><<addTime 3>><<scenerefresh>><<scenereplace>><<= setup.date.npcChoice()>><</scenereplace>>
+<<dtext "smile">>Skip any options and just go where your date chooses to continue your date.
+<<dbutt "end date">><<addTime 5>><<scenereplace>><<include [[DateLeaveAmicablePC]]>><</scenereplace>>
+<<dtext "tired">>It's getting late, or other similar sentiments. Go your separate ways.
+<<dbutt "invite">><<addTime 3>><<scenereplace>><<include [[DateEndSexPCask]]>><</scenereplace>>
+<<dtext "slut">>Invite your date to your place for some 'coffee'.
+<</dialogchoice>>
+
+
+
+
+:: DateLeaveSpotSexitimes [nobr]
+
+<<replace "#Scene-Image-Top">>[img[IMG-EndofDateBanner]]<</replace>>
+<p>
+<<= aw.date.name>> gives you a knowing smile. @@.npc;So, would you like me to take you home? You could always come over to my place and hang out though...@@
+</p>
+<<dialogchoice>>
+<<dbutt "my place">><<gotomap "home" "bedroom">>
+<<set aw.date.npc.rship.likePC += random(2, 3)>>
+<<set aw.date.npc.rship.likeNPC += random(2, 3)>>
+<<set aw.date.npc.rship.lovePC += random(2, 4)>>
+<<set aw.date.npc.rship.loveNPC += random(2, 4)>>
+<<set ↂ.sex.passage = aw.passage.title>>
+<<set ↂ.sex.pcOutput = "It doesn't take long before the two of you are naked in your bed.">>
+<<set ↂ.sex.enviroTags = ["bed","wall"]>>
+<<set aw.date.npc.rship.companion += 25>>
+<<set aw.date.npc.rship.sleptover += 1>>
+<<set setup.sexitimes = aw.date.npcid>>
+<<run setup.date.end()>>
+<<script>>
+setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
+<</script>>
+<<dtext "happy">>Let <<= aw.date.name>> take you back to your place, and probably more. <<ctn>>[NPC will learn where you live if they don't already know]<</ctn>>
+<<dbutt "your place" false>><<gotomap "residential" "sidewalk">>
+<<set aw.date.npc.rship.likePC += random(2, 3)>>
+<<set aw.date.npc.rship.likeNPC += random(2, 3)>>
+<<set aw.date.npc.rship.lovePC += random(2, 4)>>
+<<set aw.date.npc.rship.loveNPC += random(2, 4)>>
+<<set ↂ.sex.passage = "ResidentialSidewalk">>
+<<set ↂ.sex.pcOutput = "It doesn't take long before the two of you are naked in bed.">>
+<<set ↂ.sex.enviroTags = ["bed","wall"]>>
+<<set aw.date.npc.rship.companion += 25>>
+<<set aw.date.npc.rship.sleptover += 1>>
+<<set setup.sexitimes = aw.date.npcid>>
+<<run setup.date.end()>>
+<<script>>
+setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
+<</script>>
+<<dtext "pleased">>Go back to <<= aw.date.name>>'s place for some fun.
+<<dbutt "home alone">><<addTime 5>><<run setup.date.end()>>
+<<dtext "bored">>You're perfectly capable of going home by yourself, suggest as much. <<ctn>>[ends date, obviously]<</ctn>>
+<</dialogchoice>>
+<br><br>
+<<comment "These options to end the date are a little brief, jumping straight into sex or ending the date. Also, you can't actually properly visit the NPC's home yet. In the future, there will be the 'home' segment of the date, with more options for how far you want to go, as well as date-type activities at home. Eventually the plan is to allow cohabitation, but this is coming along later.">>
+
+
+:: DateEndSexPCask [nobr]
+
+<<replace "#Scene-Image-Top">>[img[IMG-EndofDateBanner]]<</replace>>
+<<silently>>
+<<SCX>>
+<<set _rape = Math.round(aw.date.arouse / 10) + Math.round(aw.date.qual / 50)>>
+<<set _rape += Math.round(aw.date.enjoy[1] / 15) - 3>>
+<<set _rape += random(0,2) - 1>>
+<<if aw.date.npc.main.female>>
+  <<set _rape -= 1>>
+<<else>>
+  <<set _rape += 1>>
+<</if>>
+<<set _rape = 20 - _rape>>
+<<SC "SD" _rape>>
+<<set _cunt = $SCresult[1]>>
+<</silently>>
+<<if _cunt>>
+<p>
+You look at <<= aw.date.name>> hungrily, <<if ↂ.pc.status.arousal > 5>>your arousal painted on your face<<else>>imitating the smoldering arousal you've seen in the movies<</if>>. @@.pc;Hey, what do you say we take this date somewhere a little more... <b><i>intimate</i></b>?@@
+</p>
+<center><<= $SCtext[1]>></center>
+<<include [[DateEndSexPCyes]]>>
+<<else>>
+<p>
+Confident in your appeal at this point, you catch <<= aw.date.name>>'s eye by grabbing one of your <<p tit.q>> <<p breasts.n>> in one hand, while the other mimes grabbing your crotch. <br><br>@@.pc;Hey, what do you say we go somewhere we can fuck?@@
+</p>
+<center><<= $SCtext[1]>></center>
+<<include [[DateEndSexPCno]]>>
+<</if>>
+
+
+:: DateEndSexPCyes [nobr]
+
+<p>
+<<= aw.date.name>> looks at your body greedily before replying. @@.npc;So, your place, or mine?@@
+</p>
+<<dialogchoice>>
+<<dbutt "my place">><<gotomap "home" "bedroom">>
+<<set aw.date.npc.rship.likePC += random(2, 3)>>
+<<set aw.date.npc.rship.likeNPC += random(2, 3)>>
+<<set aw.date.npc.rship.lovePC += random(2, 4)>>
+<<set aw.date.npc.rship.loveNPC += random(2, 4)>>
+<<set ↂ.sex.passage = "homeT" + ↂ.home.stats.tier + "bedroom">>
+<<set ↂ.sex.pcOutput = "It doesn't take long before the two of you are naked in your bed.">>
+<<set ↂ.sex.enviroTags = ["bed","wall"]>>
+<<set aw.date.npc.rship.companion += 25>>
+<<set aw.date.npc.rship.sleptover += 1>>
+<<set setup.sexitimes = aw.date.npcid>>
+<<run setup.date.end()>>
+<<script>>
+setTimeout(()=>setup.sex.startSex(setup.sexitimes), 200);
+<</script>>
+<<dtext "happy">>Let <<= aw.date.name>> take you back to your place, and probably more. <<ctn>>[NPC will learn where you live if they don't already know]<</ctn>>
+<<dbutt "your place" false>><<gotomap "residential" "sidewalk">>
+<<set aw.date.npc.rship.likePC += random(2, 3)>>
+<<set aw.date.npc.rship.likeNPC += random(2, 3)>>
+<<set aw.date.npc.rship.lovePC += random(2, 4)>>
+<<set aw.date.npc.rship.loveNPC += random(2, 4)>>
+<<set ↂ.sex.passage = "ResidentialSidewalk">>
+<<set ↂ.sex.pcOutput = "It doesn't take long before the two of you are naked in bed.">>
+<<set ↂ.sex.enviroTags = ["bed","wall"]>>
+<<set aw.date.npc.rship.companion += 25>>
+<<set aw.date.npc.rship.sleptover += 1>>
+<<set setup.sexitimes = aw.date.npcid>>
+<<run setup.date.end()>>
+<<script>>
+setTimeout(()=>setup.sex.startSex(setup.sexitimes), 200);
+<</script>>
+<<dtext "pleased">>Go back to <<= aw.date.name>>'s place for some fun.
+<</dialogchoice>>
+<br><br>
+<<comment "These options to end the date are a little brief, jumping straight into sex or ending the date. Also, you can't actually properly visit the NPC's home yet. In the future, there will be the 'home' segment of the date, with more options for how far you want to go, as well as date-type activities at home. Eventually the plan is to allow cohabitation, but this is coming along later.">>
+
+
+:: DateEndSexPCno [nobr]
+
+<p>
+It seems your little mating display didn't win <<= aw.date.name>> over, judging by their expression.<br><br>@@.npc;Yeah, sorry. I'm really not feeling it... How about we just call it a night instead?@@
+</p>
+<<dialogchoice>>
+<<dbutt "okay then">><<addTime 5>><<set aw.date.npc.rship.dating = false>><<run setup.date.end()>>
+<<dtext "unhappy">>There isn't much to be done about it, and there's no use trying to change things now.
+<<dbutt "doubledown" false>>
+<<dtext "slut">>It's obvious that they just that they don't know how much fun is in store for them. Make it <b>obvious</b>.
+<<dbutt "rape" false>>
+<<dtext "disturbed">>You just aren't going to take no for an answer. <<ctn>>[rape is a crime. you may not succeed]<</ctn>>
+<</dialogchoice>>
+
+
+:: DateLeaveSpotAmicable [nobr]
+
+<<replace "#Scene-Image-Top">>[img[IMG-EndofDateBanner]]<</replace>>
+<<= aw.date.name>> looks at you with a smile. @@.npc;This has been fun, <<= ↂ.pc.main.name>>, but I think its just about time to call it a night... We should really do this again though!@@<br>
+<<dialogchoice>>
+<<dbutt "we should">><<replace "#answers">>
+<p>You answer with a smile. @@.pc;We really should! when's good for you?@@</p>
+<<set _npc = aw.date.npcid>><<datescheduler _npc>>
+<br><div id="coco"><center><<button "END DATE">><<addTime 10>><<replace "#coco">><<include [[DateLeaveSpotAmicable2]]>><</replace>><</button>></center></div>
+<</replace>><<scenerefresh>>
+<<dtext "kissheart">>You'd like to go out again too, so go ahead and make plans.
+<<dbutt "sounds nice">><<addTime 5>><<scenego [[DateLeaveSpotAmicable2]]>><<scenerefresh>>
+<<dtext "kiss">>You wouldn't mind going out again, but you're not quite ready to make a date yet.
+<<dbutt "not so much">><<addTime 5>><<scenego [[DateLeaveSpotAmicable2]]>><<scenerefresh>>
+<<dtext "neutral">>You really aren't interested in dating again, but you don't want to be mean.
+<<dbutt "hell na" false>>
+<<dtext "mad">>Fun my ass... make it obvious you are <b>not</b> interested.
+<</dialogchoice>>
+
+
+:: DateLeaveSpotAmicable2 [nobr]
+
+<p>You nod. @@.pc;I had a good time as well. Hit me up sometime and we'll do it again.@@</p>
+<p>With a brief hug and a peck on the cheek, the two of you part ways.</p>
+<center><<button "CLOSE">><<addTime 5>><<run setup.date.end()>><</button>></center>
+
+
+:: DateLeaveSpotEndBad [nobr]
+
+<<replace "#Scene-Image-Top">>[img[IMG-EndofDateBanner]]<</replace>>
+<p>
+<<= aw.date.name>> looks around a bit, as if unsure of how to handle something. @@.npc;You know <<= ↂ.pc.main.name>>, I'm actually pretty tired... How about we call this a wrap for today?@@
+</p>
+<<dialogchoice>>
+<<dbutt "okay then">><<addTime 5>><<set aw.date.npc.rship.dating = false>><<run setup.date.end()>>
+<<dtext "unhappy">>There isn't much to be done about it, and there's no use trying to drag it out now.
+<<dbutt "is it me" false>>
+<<dtext "sad">>Regardless of how the date went, you'd still like to see them again...
+<<dbutt "finally" false>>
+<<dtext "arrogant">>It's about damn time this date ended. You were about to end it yourself, in fact.
+<</dialogchoice>>
+
+
+:: DateLeaveAmicablePC [nobr]
+
+<<replace "#Scene-Image-Top">>[img[IMG-EndofDateBanner]]<</replace>>
+<p>
+@@.pc;Actually...@@ You give <<= aw.date.name>> an apologetic look. @@.pc;I'm sorry, but I'm just not feeling up to anything else today. <<if $time[0] > 15>>I'm just really tired, a lot has been going on.<<else>>I'm not really feeling that well, to be honest. It feels like I'm coming down with a cold, but I really hope not...<</if>>@@
+</p>
+<p>
+@@.npc;Oh, I'm sorry to hear that...@@ You can see a hint of disappointment on <<= aw.date.name>>'s face. @@.npc;I totally understand, you should go get some rest.@@
+</p>
+<p>
+@@.pc;Thanks, I will.@@ The two of you share a quick hug before parting ways, and then you're alone once more.
+</p>
+<center><<button "CLOSE">><<addTime 5>><<run setup.date.end()>><</button>></center>
+

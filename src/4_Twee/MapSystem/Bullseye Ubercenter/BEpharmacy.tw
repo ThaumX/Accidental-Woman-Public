@@ -1,0 +1,308 @@
+:: BEpharmacy [nobr map]
+
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPbullseye]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<div id="storeWindow">
+[img[birthControlPill]]
+</div>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*LOCATION description of  location without any reference to time/weather and doesn't mention character.*/
+
+@@.head3;Y@@ou're standing in Bullseye's small pharmacy department that is tucked into the corner of the store. You can see a variety of medicine and beauty products, as well as a small 'adult' shelf with several varieties of condoms and lubricant.
+<br><br>
+There is an alarming ad poster hanging on the wall here...
+/*IN-PASSAGE span text*/
+<span id="locact"></span>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise hovShop>>
+	<<button "Shop">><<dialog 'Pharmacy Shopping:'>>
+		<<include [[BEpharmacyShopping]]>>
+	<</dialog>><</button>>
+<<endhoverrevise>>
+<<if ↂ.map.NPC.includes("n1002")>>
+  <<if ↂ.pc.trait.perceptive != -1>>
+    <<hoverrevise talkPharma>>
+      <<button "Pharmacist">><<addTime 3>><<if ↂ.pc.kink.exhibition && ↂ.pc.status.arousal < 5>><<arousal 1>><</if>><<go BEtalkPharmacist1>><</button>>
+    <<endhoverrevise>>
+  <<else>>
+    <<hoverrevise disabledPharma>>
+      @@.disabled;<<button "Pharmacist">><</button>>@@
+    <<endhoverrevise>>
+  <</if>>
+<</if>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion hovShop>>@@.exp;Look for items you need, and add them to your cart. [20-40min]@@<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains an ordered list of all the items in your cart, along with the price (prior to member discount). @@<<endinsertion>>
+<<insertion talkPharma>>@@.exp;A female pharmacist is standing behind the pharmacy counter. You get the feeling she's watching you...@@<<endinsertion>>
+<<insertion disabledPharma>>@@.exp;You're too //oblivious// to notice anything going on@@<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+/*this contains randomized event options that will print inside the related spans*/
+/*Weather-based actions added, like opening an umbrella*/
+<<weatherBullseyeAct>>
+/*Event-based actions added*/
+<<mapEvent>>
+
+
+:: BEpharmacyLOC [nobr]
+
+[img[IMGbullseyeBig]]
+
+
+
+:: BEpharmacyShopping [nobr]
+
+
+<<f Y>>ou browse the goods available in the pharmacy...
+<br><br>
+<table id="noBorder">
+<tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Medicine Vitamins & Supplements</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Box of Fertili-Tea
+  <img data-passage="IMG-Fertilitea" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A herbal tea made by Nature-Breed that @@.print;will improve fertility and help ensure a successful ovulation*@@ The bottom of the box says @@.print;* statements not approved by the FDA, not intended to treat or cure any disease@@ It's rather pricy for tea...
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>50@@ <span id="buyshit1"></span><br><<button "Add to Cart">><<set $cart.push(["Fertili-Tea Tea Bag Packets", "consume", 50, "fertilitea", 18])>><<append "#buyshit1">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Contraception</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Condoms--Duremax Safe-T (6 count box)
+  <img data-passage="IMG-DuremaxSafeT" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A pretty average box of condoms. You remember these... the thick low-sensation condoms that you hated wearing, but that seemed to be popular with women who were usually more concerned with safety than your pleasure.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>14@@ <span id="buyshit2"></span><br><<button "Add to Cart">><<set $cart.push(["Duremax Safe T Condoms", "consume", 14, "DuremaxSafeT", 6])>><<append "#buyshit2">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Condoms--Duremax Safe-PE (6 count box)
+  <img data-passage="IMG-DuremaxSafePE" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A dreaded box of condoms for any man, but now that the shoe's on the other foot... @@.print;The extra-thick all-natural latex in Safe-PE will stop premature ejaculation in its tracks, with trusted Duremax safety!@@
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>14@@ <span id="buyshit3"></span><br><<button "Add to Cart">><<set $cart.push(["Duremax Safe PE Condoms", "consume", 14, "DuremaxSafePE", 6])>><<append "#buyshit3">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Condoms--TrojanCock Sensations (12 count box)
+  <img data-passage="IMG-TrojanCockSensations" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A pretty average box of condoms. @@.print;Ribbed for her pleasure, with spermicidal lubricant.@@
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>10@@ <span id="buyshit4"></span><br><<button "Add to Cart">><<set $cart.push(["TrojanCock Sensations Condoms", "consume", 10, "trojancockS", 12])>><<append "#buyshit4">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Condoms--TrojanCock Uber Lube (12 count box)
+  <img data-passage="IMG-TrojanCockUberLube" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A pretty average box of condoms. @@.print;Uber-thin for Uber-pleasure. Just as strong as a normal condom.† With spermicidal lubricant.@@ The note on the bottom says @@.print;† +/- 5% when used as directed.@@
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>12@@ <span id="buyshit5"></span><br><<button "Add to Cart">><<set $cart.push(["TrojanCock Uber (Lubricated) Condoms", "consume", 12, "trojancockUL", 12])>><<append "#buyshit5">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Condoms--TrojanCock Uber NoLube (12 count box)
+  <img data-passage="IMG-TrojanCockUberNolube" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A pretty average box of condoms. @@.print;Uber-thin for Uber-pleasure. Just as strong as a normal condom.† Unlubricated for enhanced sensation.‡@@ The note on the bottom says @@.print;† +/- 5% when used as directed. ‡ Failure to use proper lubrication can reduce the effectiveness of this product.@@
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>12@@ <span id="buyshit6"></span><br><<button "Add to Cart">><<set $cart.push(["TrojanCock Uber (Unlubricated) Condoms", "consume", 12, "trojancockUNL", 12])>><<append "#buyshit6">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Condoms--PleasureBurst HEX (6 count box)
+  <img data-passage="IMG-PleasureBurstHex" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A condom that seems to promise futuristic pleasure with its hexagonal reinforcement. It seems to be targeted more at disease prevention than contraception... In fact, most of the advertising seems to suggest that semen will "burst out" of the condom.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>25@@ <span id="buyshitA"></span><br><<button "Add to Cart">><<set $cart.push(["Pleasureburst HEX Condom", "consume", 25, "pleasureburst", 6])>><<append "#buyshitA">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Save-the-Moment Diaphragm
+  <img data-passage="IMG-Diaphragm" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A standard diaphragm manufactured by a company called "Grandma's Secrets". @@.print;One premium synthetic easy-wear diaphragm. The modern design fits all shapes an sizes without the need for a doctor's visit or custom fitting. As effective as condoms at preventing pregnancy†, without the interruption! ‖@@ The note on the bottom says @@.print;‖ † When used as directed with spermicide.@@
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>38@@ <span id="buyshit7"></span><br><<button "Add to Cart">><<set $cart.push(["Save-the-Moment Diaphragm", "consume", 38, "diaphragm", 1])>><<append "#buyshit7">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  BasiPill Birth Control Pill
+  <img data-passage="IMG-Item-BasiPillMonth" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  BasiPill is a no-frills inexpensive oral birth control medication. It contains a mixture of estrogen and progesterone and must be taken daily to remain fully effective. If used as directed it is very effective at preventing pregnancy, with a 90% effective rate over the course of one year. If not used as directed, it is much less effective. Like all birth control pills, this pill may have harmful--potentially fatal--side effects. This pill is known to increase the risk of cancer and cardiovascular events. Do not take this pill if you are pregnant, breastfeeding, or work in the dairy industry. <<comment "Eventually you will need to get a prescription in order to buy hormonal birth control. For now, it is available from the pharmacy without a prescription.">>
+  @@.exp;<i>This is a one-month (28 day) supply of birth control pills.</i>@@
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>74@@ <span id="buyshitPill"></span><br><<button "Add to Cart">><<set $cart.push(["BasiPill Birth Control","simple",74,"BasiPill Birth Control"])>><<append "#buyshitPill">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Womb Doom IUD Applicator
+  <img data-passage="IMG-Item-WombDoomIUD" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  @@.print;"Do you want an IUD to prevent pregnancy, but don't have a qualifying medical condition? EugenicTech can help!"@@ Thanks to a legal loophole, it's still legal to get an IUD if you insert it yourself! The Womb Doom is a hospital-grade device usable from the comfort of your own home. The patented easy-align vaginal probe makes alignment a snap. The device uses your smartphone for fine positioning†; simply follow the on-screen targeting indicators, squeeze the insertion handle, and you're done! @@.print;<i>EugenicTech is not responsible for injury from proper or improper use. †squashOS users may need to pay additional software fees to Squash Inc. For use in the jurisdiction of purchase only, Womb Doom is illegal in some areas.</i>@@
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>189@@ <span id="buyshit25"></span><br><<button "Add to Cart">><<set $cart.push(["Womb Doom IUD Applicator", "consume", 189, "iudApplicator", 1])>><<append "#buyshit25">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Breast Pumps</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  NipJoy Manual Breast Pump
+  <img data-passage="IMG-ManualBreastPump" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  The NipJoy Manual Breast Pump is a simple and inexpensive milk pumping solution. It is light-weight and portable, and the large simple diaphragm and one-piece valve keep it relatively easy to clean for a manual pump. It features a threaded attachment that is compatible with a wide range of bottles and storage containers. Like most manual pumps, this breast pump isn't intended for high-volume extraction. Suction strength is limited, and many mothers consider this sort of pump only as a backup device.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>29@@ <span id="buyshit20"></span><br><<button "Add to Cart">><<set $cart.push(["NipJoy Manual Breast Pump","simple",29,"NipJoy Manual Breast Pump"])>><<append "#buyshit20">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Dainty-Tits Electric Breast Pump
+  <img data-passage="IMG-ElectricBreastPump" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  The Dainty-Tits electric breast pump is a simple no-fuss pump. Each pump is only strong enough for a single breast, but the units are commonly sold in sets of two. They have a built-in battery that will last one to two sessions, but also can use AC power. Because they are electric they can be used hands-free, but their lack of suction power puts them in the low end of the performance spectrum.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>59@@ <span id="buyshit21"></span><br><<button "Add to Cart">><<set $cart.push(["Dainty-Tits Electric Breast Pump","simple",49,"Dainty-Tits Electric Breast Pump"])>><<append "#buyshit21">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Happy Teats Breast Pump
+  <img data-passage="IMG-StrongBreastPump" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  The Happy Teats electric breast pump is a professional-grade model for the discerning mother. In fact, it's just the consumer packaging for the same model found in hospitals. The unit is hygienic and the collection unit can be taken apart for easy cleaning and sterilization. Additional collection units can be purchased for further convenience. The strong suction and high performance help to make this a very popular model.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>119@@ <span id="buyshit22"></span><br><<button "Add to Cart">><<set $cart.push(["Happy Teats Breast Pump","simple",119,"Happy Teats Breast Pump"])>><<append "#buyshit22">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Pump-O-Tron Breast Pump
+  <img data-passage="IMG-SuperBreastPump" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  The Pump-O-Tron Breast Pump is an unusual model that straddles the gap between breastfeeding mother and professional hucow in terms of performance. This model was originally intended as a portable unit for HuCows on the go, though it remains quite large and heavy. It is also sold alongside more standard pumps for the benefit of women feeding several babies, or those who suffer from milk overproduction. A warning label indicates that it's best to leave this model to HuCows unless approved by a doctor, as the increased suction and high-flow collection shields will likely result in excessive milk production. This particular model comes with hucow-grade teat cups and carrying straps.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>269@@ <span id="buyshit23"></span><br><<button "Add to Cart">><<set $cart.push(["Pump-O-Tron Breast Pump","simple",269,"Pump-O-Tron Breast Pump"])>><<append "#buyshit23">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Hygeiene and Miscellaneous</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Probe Response Pregnancy Test
+  <img data-passage="IMG-Items-BabyProbe" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A box containing a single Probe Response BabyProbe pregnancy test. It promises to detect pregnancy as early as 12 hours after zygote implantation. @@.print;Now includes probe lubricant sachet!@@
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>42@@ <span id="buyshitSS"></span><br><<button "Add to Cart">><<set $cart.push(["Probe Response Preg Test", "consume", 42, "babyProbe", 1])>><<append "#buyshitSS">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Sultry Eve Douches
+  <img data-passage="IMG-SultryEveDouche" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A box of 4 single-use perfumed douches from "Sultry Eve". @@.print;Now with Soft-Touch nozzles!@@
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>14@@ <span id="buyshit8"></span><br><<button "Add to Cart">><<set $cart.push(["Sultry Eve Douche", "consume", 16, "sultryDouche", 4])>><<append "#buyshit8">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Enema Kit
+  <img data-passage="IMG-InventoryNoImage" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A complete reusable enema kit from "Sultry Eve". @@.print;Includes several nozzle sizes for an easy no-mess clean feeling@@
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>42@@ <span id="buyshit9"></span><br><<button "Add to Cart">><<set $cart.push(["Sultry Eve Enema Kit","simple",42,"Sultry Eve Enema Kit"])>><<append "#buyshit9">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Facial Wipes
+  <img data-passage="IMG-FaceWipes" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A purse-sized travel case of facial cleansing wipes. @@.print;Prim and Proper, Anywhere!@@
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>7@@ <span id="buyshit10"></span><br><<button "Add to Cart">><<set $cart.push(["Garglier Face Wipes", "consume", 7, "GarglierFaceWipes", 12])>><<append "#buyshit10">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Lubricant
+  <img src="https://i5.walmartimages.com/asr/a08c4b5c-66c2-4f6d-9137-015d9c7bc5cb_1.ccc160347d70fd029a0925612eb6064a.jpeg" style="width:auto;height:100px;display:block;">
+</td><td style="padding-bottom:10px;">
+  A standard economy-size bottle of personal lubricant in the Bullseye generic brand. Safe for condoms, and apparently can also be used as a penetrating lubricant to loosen rusted parts...
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>19@@ <span id="buyshit11"></span><br><<button "Add to Cart">><<set $cart.push(["Bullseye Lube", "consume", 19, "genericLubricant", 40])>><<append "#buyshit11">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Premium Lubricant
+  <img data-passage="IMG-PremiumLube" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A standard economy-size bottle of personal lubricant. A note on the back of the bottle says @@.print;Not for use with latex condoms.@@
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>22@@ <span id="buyshit12"></span><br><<button "Add to Cart">><<set $cart.push(["American Natural Premium Lubricant", "consume", 22, "premiumLube", 40])>><<append "#buyshit12">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Pro-Seed Lubricant
+  <img data-passage="IMG-ProSeed" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A small and expensive bottle of lubricant that seems to be intended to help with procreation. A note on the back of the bottle says @@.print;Pro-Create lubricant provides the ideal environment for sperm cells, helping to make sure that more survive to get where they're going. It replicates the consistency of natural seminal fluid, and adjusts the environment to the ideal PH. Our patented Sperm-Fuel glucose solution ensures they have the stamina to get the job done!@@
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>63@@ <span id="buyshit15"></span><br><<button "Add to Cart">><<set _temp = ["Pro-Create Lubricant",22,"pharm"]>><<set $cart.push(["Pro-Seed Lubricant", "consume", 22, "proseedLube", 6])>><<append "#buyshit15">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Menstrual Cup
+  <img data-passage="IMG-MenstrualCup" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A feminine hygiene product from Hippie-Chic that replaces tampons or pads without adding to landfills. It sits on the cervix similar to a diaphragm, but is bent more into a 'cup' that provides room for fluid near the cervix. It has a warning on the box... @@.print;Empty at least every 4 hours to prevent toxic shock syndrome. Intended only to catch menstrual blood, do not use to store other fluids near the cervix.@@
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>47@@ <span id="buyshit13"></span><br><<button "Add to Cart">><<set $cart.push(["Menstrual Cup","simple",47,"Menstrual Cup"])>><<append "#buyshit13">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Smart Toilet Fertility Module
+  <img data-passage="IMG-FertilityModule" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  An addition to the standard health-monitoring smart toilet, this module adds the capability for your bathroom suite to inform you of important fertility information such as ovulation, and improves pregnancy detection speed, as early as 24 hours after zygote implantation.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>199@@ <span id="buyshit14"></span><br><<button "Add to Cart">><<set $cart.push(["Smart Toilet Fertility Module","simple",199,"Smart Toilet Fertility Module"])>><<replace "#buyshit14">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Tummy Hugger Pregnancy Scanner
+  <img data-passage="IMG-Items-TummyHugger" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  Since time immemorial, women have wanted to check up on their unborn chidren. In the twentieth century, ultrasound finally made that a possibility. In the early twenty-first, enhanced technology and new devices made the check up more accurate than ever... But it still required a long visit to the doctor's office, not to mention co-pays and a limited number of visits. Now Weyland Industries has finally enabled women to check on their babies from the comfort of their own homes. The Tummy Hugger® takes all the uncertainty out of home ultrasound; patented Hug Fingers® hold the Tummy Hugger in position and make minute adjustments for the best scan possible. The Tummy Hugger's Cuddle Pads® contain patented resonance receiver technology that provides a 4D scan without the need for constant pushing and repositioning of the scanner probe. Use with your phone to view and record your scans, read detailed reports including the StorkTracker® due date estimate, and even send scans to your doctor.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>279@@ <span id="buyshitTH"></span><br><<button "Add to Cart">><<set $cart.push(["Tummy Hugger", "simple", 279, "Tummy Hugger"])>><<replace "#buyshitTH">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+</table>
+

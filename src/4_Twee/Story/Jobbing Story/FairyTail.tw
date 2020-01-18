@@ -1,0 +1,392 @@
+/*
+    888888  .d88888b.  888888b.        88888888888 888       888 8888888888 8888888888
+      "88b d88P" "Y88b 888  "88b           888     888   o   888 888        888
+       888 888     888 888  .88P           888     888  d8b  888 888        888
+       888 888     888 8888888K.           888     888 d888b 888 8888888    8888888
+       888 888     888 888  "Y88b          888     888d88888b888 888        888
+       888 888     888 888    888          888     88888P Y88888 888        888
+       88P Y88b. .d88P 888   d88P          888     8888P   Y8888 888        888
+       888  "Y88888P"  8888888P"           888     888P     Y888 8888888888 8888888888
+     .d88P
+   .d88P"
+  888P"
+  8888888b.     d8888  .d8888b.   .d8888b.        d8888  .d8888b.  8888888888 .d8888b.
+  888   Y88b   d88888 d88P  Y88b d88P  Y88b      d88888 d88P  Y88b 888       d88P  Y88b
+  888    888  d88P888 Y88b.      Y88b.          d88P888 888    888 888       Y88b.
+  888   d88P d88P 888  "Y888b.    "Y888b.      d88P 888 888        8888888    "Y888b.
+  8888888P" d88P  888     "Y88b.     "Y88b.   d88P  888 888  88888 888           "Y88b.
+  888      d88P   888       "888       "888  d88P   888 888    888 888             "888
+  888     d8888888888 Y88b  d88P Y88b  d88P d8888888888 Y88b  d88P 888       Y88b  d88P
+  888    d88P     888  "Y8888P"   "Y8888P" d88P     888  "Y8888P88 8888888888 "Y8888P"
+*/
+
+
+:: FairyTailFirstDayEvent1 [nobr]
+
+<<status 1>><<set ↂ.flag.jobEvents.fairyTail.firstDay = false>><<status 0>>
+
+You arrive at the Fairy Tail massage parlor and comes to the reception. A pretty girl at the reception welcomes you.
+<p>@@.npc;Welcome to "Fairy Tail"! Do you have a booking?@@</p>
+<p>@@.pc;Umm, no, I am new employee, it is my first day today. Where should I go?@@</p>
+<p>@@.npc;Ah, a new girl then? Of course, down the hall then second door to the left.@@</p>
+<<SCX>><<SC "CM" "15">><<if $SCresult[1]>>
+<p>She thinks for a second and than continues in a softer voice.</p>
+<p>@@.npc;When she ask you about your experience say, you had none.@@</p>
+<p>@@.pc;Umm, thanks?@@</p>
+<p>She winks at you before returning to  normal.</p>
+<<else>>
+<p>She thinks for a second then smiles.</p>
+<</if>>
+<p>@@.npc;I am Deliah by the way, nice to meet you! And good luck! We have nice people here, I am sure you'll fit in like a glove!@@</p>
+<p>You follow her instructions and knock the door with a "Personnel only" sign.</p>
+<p>@@.npc;Yes, come in!@@</p>
+<p>Inside you see a woman in her thirties, dressed in medical-like scrubs. She is folding towels and smiles vividly when you come in.</p>
+<<if ↂ.pc.status.atr > 10>>
+<p>@@.npc;Ah, you must be <<= ↂ.pc.main.name>>, right? I am Rebecca, nice to meet you. Darling, you look even better than the pic in your CV! What a gorgeous view! I am sure you will get the nicest clients!@@</p>
+<p>@@.pc;Oh, thanks!@@</p>
+<<else>><<stress 5 "Being told your appearance needs work">>
+<p>@@.npc;Ah, you must be <<= ↂ.pc.main.name>>, right? I am Rebecca, nice to meet you. Don't take it personal, dear, but you need to work on your appearance, our clients have standards you know. It is for your income as well!@@</p>
+<p>@@.pc;Oh, emmm. Will do.@@</p>
+<<has bitch>><p>@@.mono;What does this bitch allow herself? Grrr!@@</p><<or>><p>@@.mono;Maybe she is right?@@</p><</has>>
+<</if>>
+<p>@@.npc;Anyway, if you don't mind I'll ask you a couple of questions. Just to be sure, you know.@@</p>
+<p>@@.pc;Yeah, of course.@@</p>
+<p>She finishes folding and gestures to the empty seat.</p>
+<p>@@.npc;Okies, let's begin it bluntly. You know what this job is about right?@@</p>
+<<if ↂ.pc.trait.perceptive > -1>>
+<p>@@.pc;Well, I hope so, hah! Giving massages and well... let's say <i>caring</i> about client's needs, am I right?@@</p>
+<p>@@.npc;Whew, good that you understand about the "caring" part.  It's not the part we speak out loud but yes, this is the reason a lot of clients comes here. And this category leaves more tips than regular, I guess this is obvious.@@</p>
+<<else>>
+<p>@@.pc;Umm. Giving massages I guess?@@</p>
+<p>@@.npc;Well yes, of course. But <i>not only</i>, understand?@@</p>
+<p>@@.pc;You mean... giving sexual services too?@@</p>
+<p>@@.npc;Of course, we call it "happy endings". Usually nothing extreme, mostly handjobs  unless you agree to blow a client. I hope you are okay with that.@@</p>
+<p>@@.pc;Emm. I...@@</p>
+<p>@@.npc;Good.  It's not the part we speak out loud outside but yes, this is the reason a lot of clients comes here. And this category leaves more tips than regular, I guess this is obvious.@@</p>
+<</if>>
+<p>@@.mono;I wonder if they have any clients who don't come for this "happy endings" at all here...@@</p>
+<p>@@.npc;Anyway, time to give you a tour and show you the workpla... ah, almost forgot, do you have any experience? I mean in the <i>special client's needs</i> field?@@</p>
+<<dialogchoice>>
+  <<dbutt "Yes">><<scenego "FairyTailFirstDayEvent1Yes">>
+  <<dtext "awkward">>Yeah, I know the drill.
+  <<dbutt "Nope">><<scenego "FairyTailFirstDayEvent1Nope">>
+  <<dtext "confused">>Mmm, nope I have almost no experience.
+<</dialogchoice>>
+
+
+:: FairyTailFirstDayEvent1Yes [nobr]
+
+<<set ↂ.job.stats.boss -= 20>><p>@@.pc;Yeah, I know the drill.@@</p>
+<p>@@.npc;Hmm. Not good, but not terrible.@@</p>
+<p>She sighs.</p>
+<p>@@.npc;Look, don't get me wrong, I understand that everyone has a story, but I personally prefer to hire girls <i>without history</i> if you understand. Well, I hope you don't have any STD's or whatever, right? And for some reason I like you, so I'll give you a chance. Just play cool and it will be alright, okay?@@</p>
+<<link "Ugm, okay...">><<scenego "FairyTailFirstDayEvent2">><</link>>
+
+
+:: FairyTailFirstDayEvent1Nope [nobr]
+
+<<if ↂ.pc.status.perversion < 60 || ↂ.pc.status.morality < 50>>
+<<set ↂ.job.stats.boss += 20>><p>@@.pc;Mmm, nope I have almost no experience.@@</p>
+<p>@@.npc;Oh, nice. I prefer girls without a history, if you understand.@@</p>
+<p>@@.pc;Of course.@@</p>
+<p>@@.npc;Look, don't get me wrong, everyone has a chance here, we are "equal opportunity employer" after all, tee-he. It is just something that is obvious to some clients, and they usually prefer... pure looking girls. Anyway, I am sure you will blend in with this cute innocent face of yours, right?@@</p>
+<<link "I guess...">><<scenego "FairyTailFirstDayEvent2">><</link>>
+<<else>>
+<<set ↂ.job.stats.boss -= 30>>
+<p>@@.pc;Mmm, nope I have almost no experience.@@</p>
+<p>She gives you a suddenly deep look.</p>
+<p>@@.npc;Well, do you? The thing I really hate the most is when my girls are being dishonest.@@</p>
+<p>@@.pc;Emmm...@@</p>
+<p>@@.npc;Look, don't get me wrong, everyone has a chance here, we are "equal opportunity employer" after all, tee-he. It is just something that is obvious to some clients, and they usually prefer... pure looking girls. Well, I hope you don't have any STD's or whatever, right? And for some reason I like you, so I'll give you a chance. Anyway, I am sure you will be able to fool most of the clients with this innocent look, it was convincing enough to almost fool me. Just play cool and it will be alright, okay?@@</p>
+<<link "Ugm, sorry...">><<scenego "FairyTailFirstDayEvent2">><</link>>
+<</if>>
+
+
+:: FairyTailFirstDayEvent2 [nobr]
+
+<p>@@.npc;Okay, with that part sorted out, we can proceed. Just remember that most of your wage is tips from clients. Oh, also, you must know before you begin. Our rule is that sex with clients is strictly prohibited, only hand and blow jobs, no other "insertions" of any kind, okay? We don't want to get all of our girls and clients to end up with drips disease or something worse. Okay, enough chating, let's meet the crew and show you the place.@@</p>
+<p>She stands up, and leads you to the hall. In the next hour you meet the other employees, most of them are mid-20 girls but also a feminine young guy who probably deals with specific type of clients.</p>
+<p>After meeting all the staff, Rebecca shows you your room, it is pretty small place with a simple massage bed and a print of the girl's silhouette on the wardrobe, <<if ↂ.pc.trait.picky == 1>>and you think that this tasteless print is the only thing which distinguishes this painted off-white room from a morgue.<<else>>although you find your new workplace to be rather nice.<</if>></p>
+<p>@@.npc;Well, now you are ready to work, just get your scrubs on. Deliah usually sends clients to any free girl except if they ask for you specifically. You have no regular clients yet but I am sure you will form your own little fan-club in no time. Good luck, show em, girl!@@</p>
+<p><<link "Start your first work day">><<sceneclose>><<status 0>><</link>>.</p>
+
+
+
+:: FairyClient-1 [nobr]
+
+<<status 1>><<set _daddyspunk = (setup.npc.male.length - 1)>><<set _randDude = random(0, _daddyspunk)>><<set $fairyClient = setup.npc.male[_randDude]>>
+<p><<= either("About noon", "You are going to take a short break when", "In the middle of your workday", "Shortly after a lunch break")>> a new client, an <<n $fairyClient age.q>> male comes in.</p>
+<<= either("<p>@@.npc;Mmm, hi, miss. How should I lie on this?@@</p>", "<p>@@.npc;<<greetings>> I want a full-body massage.@@</p>", "<p>@@.npc;Howdy, I guess it is a nice day for a deep massage today, heh.@@</p>")>>
+<<= either("<p>@@.pc;<<greetings>> Undress and lie here, face down please.@@</p>", "<p>@@.pc;Oh hi! Full-body, right? Just get on the bed and we are ready to begin.@@</p>")>>
+<p><<= either("While he undresses behind the curtain you check the massage oils and fresh towels. He gets ready fast and comes out of the curtain buck naked to lie on the massage bed.", "It  takes him some amount of time before he asks, from behind the curtain if he should keep his undies on. After your answer he seems to gain enough courage to get completely naked and  walks out.")>>
+Taking a quick glance at his crotch you see that his manhood is pretty <<n $fairyClient cocklength.q>>.</p>
+<p>He lies on the bed and you start working his back relieving tension in his muscles. <<= either("He keep silent while your work his torso.", "Occasionally he gives out a moan of pleasure.")>> After finishing with his back, you ask him to turn around.</p>
+<p><<= either("@@.mono;I bet the guy would like a happy ending.@@", "@@.mono;No doubt this one wants me to jerk him off in the end.@@")>></p>
+<p><<= either("After he turns you can obviously see", "He turns and you can see")>> that his covered <<n $fairyClient cocklength.q>> cock is already <<= either("fully hard", "semi-erect")>>. <<= either("Working his shoulders", "Rubbing his chest")>> you accidentally make eye contact <<= either("and he smiles", "and he winks", "and it seems he blushes")>>.</p>
+<p>@@.pc;<<= either("You want me to do some <i>special massage</i> too, mister?", "Do you want a <i>happy ending</i>, sir?")>>@@</p>
+<p>You feel <<= either("his hand on your crotch","his hand on your butt")>> squeezing it lightly.</p>
+<p>@@.npc;<<= either("I had something else in mind, baby...", "You are so beautiful, girl, you know that? I would like to have some more... close time with you.", "How about something <i>more personal</i>, mm?")>>@@</p>
+<p>@@.pc;Oh sir, we are forbidden to do so by the parlor rules.@@</p>
+<p><<= either("@@.npc;Don't be like that, I'll leave a tip.@@", "@@.npc;Come on, I'm sure we can ignore some silly rules, right?@@")>></p>
+<<dialogchoice>>
+  <<dbutt "Okay">><<scenego "FairyClient-1-Vaginal">>
+  <<dtext "bimbo">>Well, maybe a quickie.
+  <<dbutt "Oral">><<scenego "FairyClient-1-Oral">>
+  <<dtext "wink">>Maybe I could just give head?
+  <<dbutt "No">><<scenego "FairyClient-1-Nope">>
+  <<dtext "arrogant">>Sorry, I can't risk my job, mister. Only handjobs.
+<</dialogchoice>>
+
+
+:: FairyClient-1-Vaginal [nobr]
+
+<p>@@.pc;Well, maybe just a quickie.@@</p>
+<p>@@.npc;Now we are talking!@@</p>
+<<button "Rock-n-roll!">>
+<<run setup.npcInfo.level($fairyClient, {bodyGeneral: true})>>
+<<run setup.npcInfo.level($fairyClient, {bodyJunk: true})>>
+<<run setup.npcInfo.level($fairyClient, {bodyDetail: 1})>>
+<<set aw.npc[$fairyClient].rship.likePC += random(3, 6)>>
+<<set aw.npc[$fairyClient].lovePC += random(1, 3)>>
+<<set ↂ.sex.passage = aw.passage.title>>
+<<set ↂ.sex.pcOutput = "You get on the massage bed on top of him.">>
+<<set ↂ.sex.enviroTags = ["bed","wall","chair"]>>
+<<set aw.npc[$fairyClient].rship.companion += 15>>
+<<set aw.npc[$fairyClient].sleptover += 1>>
+<<set setup.sexitimes = $fairyClient>>
+<<if random(1,10) === 1>><<set _drip = true>><<run setup.omni.new("sstd_dripsA")>><</if>>
+<<sceneclose>><<status 0>>
+<<script>>
+setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
+<</script>>
+<<set ↂ.pc.status.morality -= random(0,2)>>
+<</button>>
+
+
+:: FairyClient-1-Oral [nobr]
+
+<<run setup.npcInfo.level($fairyClient, {bodyGeneral: true})>>
+<<run setup.npcInfo.level($fairyClient, {bodyJunk: true})>>
+<<run setup.npcInfo.level($fairyClient, {bodyDetail: 1})>>
+<p>@@.pc;Sorry, I can't break the parlor rules. Maybe I could just give you head?@@</p>
+<p>@@.npc;<<= either("Oh, that would be more than satisfactory","Yeah, this will do, babe", "If you wish so, hah", "Then work that soft tongue of yours, girl.")>>@@</p>
+<p><<= either("Removing the towel", "Lowering the towel")>> you start to get your mouth closer to his already hard <<n $fairyClient cocklength.q>> dick and lick the tip. <<= either("Getting in a more comfortable position you engulf the head in your mouth and start sucking it while the guy relaxes with his eyes closed.", "Lowering your head you start sucking his whole cock with a rhytmical motions of your head.")>></p>
+<p><p>@@.npc;<<= either("Mmph, oh yeah baby!", "Suck it, little bitch mhm...")>>@@</p></p>
+<p><<= either("It takes not so long before he starts pushing his cock forward into your throat ready to shoot his load.","Your jaw starts to get tired but it seems he's finally ready to cum.")>> His whole body twitches and you feel a hot load fills your mouth.</p><<run setup.drug.eatDrug("cum", 10)>><<SCX>><<SC "OR" "15">><<set _tip = random(10, 20)>><<if $SCresult[1]>><<set _tip += random(5, 15)>><</if>><<run aw.cash(_tip, "prostitution")>>
+<p><<= either("@@.npc;Nice job, I guess it's worth the tip.@@", "This was pretty good, baby! Consider yourself to've earned this.")>></p>
+<p>He dresses up and leaves some money on the table before leaving. You clean up your workplace and count the money he left, you got @@.money;<<mon>><<= _tip>>@@.</p>
+<p><<link "Continue your day">><<sceneclose>><<status 0>><</link>></p>
+
+
+:: FairyClient-1-Nope [nobr]
+
+<p>@@.pc;Sorry, I can't risk my job, mister.  Only handjobs.@@</p>
+<<if ↂ.pc.mutate.pheromone>><<set _rapys = random(5, 10)>><<else>><<set _rapys = random(0, 10)>><</if>>
+<<if _rapys < 10>><<arousal 1>><<run setup.npcInfo.level($fairyClient, {bodyGeneral: true})>><<run setup.npcInfo.level($fairyClient, {bodyJunk: true})>><<run setup.npcInfo.level($fairyClient, {bodyDetail: 1})>>
+<p><<= either("He looks annoyed", "He is obviously upset")>> <<= either("but tries to play it cool.", "and has no intentions to hide it.")>></p>
+<p>@@.npc;<<= either("Then jerk me already, whore.", "At least work that hand of yours.", "Okay, then do it, damn.")>>@@</p>
+<p><<= either("Removing the towel", "Lowering the towel")>> you start stroking his <<n $fairyClient cocklength.q>> cock with your massage oil-covered hand and he closes his eyes in pleasure. <<= either("Working up and down his shaft", "Massaging his cock")>> you speed up a bit and the guy <<= either("starts thrusting his pelvis in the rhythm of your strokes.", "lies there in complete relaxation.")>> <<= either("He gets to the brink in almost no time", "It takes surprisingly little effort to get him to the edge", "It takes some minutes to get him to the brink of orgasm", "It seems he is a long-lasting guy and your arm gets tired when you finally work his cock up to the edge")>> and he is obviously ready to cum any moment soon.</p>
+<<dialogchoice>>
+  <<dbutt "Finish him">><<scenego "FairyClient-1-Nope-Cum">>
+  <<dtext "happy">>Continue
+  <<dbutt "Edge">><<scenego "FairyClient-1-Nope-Edge">>
+  <<dtext "smug">>Slow down don't let him cum yet.
+  <<dbutt "Ruin" "ↂ.pc.trait.bitch || ↂ.pc.kink.dom">><<scenego "FairyClient-1-Nope-Ruin">>
+  <<dtext "doomguy">>Remove your hand at the last moment stealing all of the pleasure.
+<</dialogchoice>>
+<<else>><<stress 15 "Mishaps with a happy ending">><<set aw.npc[$fairyClient].rship.likeNPC -= random(30, 50)>><<set aw.npc[$fairyClient].rship.loveNPC -= random(15, 30)>><<set aw.npc[$fairyClient].rship.acquaint = true>><<run setup.npc.enemies.push($fairyClient)>><<status 0>>
+<p>@@.npc;<<= either("Are you fucking kidding me bitch?", "You think I gonna take this for an answer?", "I paid for the fucking thing, undress, slut.")>>@@</p>
+<p><<= either("He stands from the bed and make a step towards you.", "He grabs you by your forearm and tries to pull you closer.")>> <<if ↂ.pc.kink.force>>You want to cry for help but somehow you find the situation so arousing...<<arousal 1>><</if>></p>
+<<dialogchoice>>
+  <<dbutt "Help" "!ↂ.pc.kink.force">><<scenego "FairyClient-1-Nope-Help">>
+  <<dtext "dismay">>Call security for help
+  <<dbutt "Rape">><<scenego "FairyClient-1-Nope-Rape">>
+  <<dtext "disturbed">>Prepare to face the inevitable.
+<</dialogchoice>>
+<</if>>
+
+:: FairyClient-1-Nope-Help [nobr]
+
+<p>You cry out loud and in mere seconds Bob, a security guard slams into the room. He sees the guy trying to undress you and pushes him from the massage bed.</p>
+<p>@@.npc;You bastard, get the fuck out of here!@@</p>
+<p>The guy tries to argue but Bob almost kicks him out of the room with his clothes in his  hands. About 10 minutes after Bob returns and makes sure you are not harmed except for stress.</p>
+<p><<link "Continue your day">><<sceneclose>><<status 0>><</link>></p>
+
+
+:: FairyClient-1-Nope-Rape [nobr]
+
+<<gate "rape">><<run setup.npcInfo.level($fairyClient, {bodyGeneral: true})>><<run setup.npcInfo.level($fairyClient, {bodyJunk: true})>><<run setup.npcInfo.level($fairyClient, {bodyDetail: 1})>>
+<<comment "Sex system is not ready to handle noncon situations now, so there will be more of a standard consensual sex now but as soon as it will be upgraded situation will change :)">><br>
+<p>@@.pc;Please, let me go!@@</p>
+<p>Paralyzed with fear you twitch as he undress you by force.</p>
+<<button "Get raped">>
+<<if ↂ.pc.kink.force>><<stress 5 "Getting raped at Fairy Tail">><<arousal 2>><<else>><<stress 25 "Getting raped at Fairy Tail">><</if>>
+<<set aw.npc[$fairyClient].rship.likePC += random(3, 6)>>
+<<set aw.npc[$fairyClient].lovePC += random(1, 3)>>
+<<set ↂ.sex.passage = aw.passage.title>>
+<<set ↂ.sex.pcOutput = "He pushes you to the wall.">>
+<<set ↂ.sex.enviroTags = ["bed","wall","chair"]>>
+<<set aw.npc[$fairyClient].sleptover += 1>>
+<<set setup.sexitimes = $fairyClient>>
+<<if random(1,10) === 1>><<set _drip = true>><<run setup.omni.new("sstd_dripsA")>><</if>>
+<<sceneclose>><<status 0>>
+<<script>>
+setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
+<</script>>
+<</button>>
+<</gate>><br>
+<<button "Escape the scene">><<sceneclose>><<status 0>><</button>>
+
+
+:: FairyClient-1-Nope-Cum [nobr]
+
+<<SCX>><<SC "SX" "10">>
+<p>@@.npc;Oh yeah, baby, mmphm...@@</p>
+<p>You start stroking him faster and with a suppressed moan he spurts his cum all over your hand and the towel. Leaving him to catch his breath, you wipe your hand and then use it to clean his crotch.</p>
+<<if $SCresult[1]>><<set aw.npc[$fairyClient].rship.likePC += random(3, 6)>><<set aw.npc[$fairyClient].rship.lovePC += random(1, 4)>><<set _tip = random(5, 20)>><<SCX>><<SC "PR" "15">><<if $SCresult[1]>><<set _tip += random(5, 10)>><</if>><<run aw.cash(_tip, "prostitution")>>
+<p>He seems to be <<= either("satisfied and much more happy now.", "not as satisfied as he hoped for but still the orgasm made him less grumpy.")>></p>
+<p><<= either("@@.npc;Nice job, girl. Such a shame they don't allow you to do the real thing here. But I guess you deserve some tip anyway.@@", "This was better than I expected although I was hoping for the real fucking. Anyway, I hope to see you soon, babe.")>></p>
+<p>He dresses up and leaves some money on the table before leaving. You clean up your workplace and count the money he left, you got @@.money;<<mon>><<= _tip>>@@.</p>
+<p><<link "Continue your day">><<sceneclose>><<status 0>><</link>></p>
+<<else>><<set aw.npc[$fairyClient].rship.likePC -= random(3, 6)>><<set aw.npc[$fairyClient].rship.lovePC -= random(1, 4)>>
+<p>He seems to be not that satisfied and dresses quickly.</p>
+<p><<= either("@@.npc;Well it was something at least.@@", "You know girl, even my bloody wife does it better.", "Shit, I better spend my money on a fleshlight next time.")>></p>
+<p>As you were already expecting there will be no tip for you today.</p>
+<p><<link "Continue your day">><<sceneclose>><<status 0>><</link>></p>
+<</if>>
+
+
+:: FairyClient-1-Nope-Edge [nobr]
+
+<<gate "edging">><<set ↂ.pc.status.morality -= random(0,2)>><<set aw.npc[$fairyClient].rship.likePC += random(3, 6)>><<set aw.npc[$fairyClient].rship.lovePC += random(1, 4)>>
+<p>You slow down at the very last moment not letting him cum yet and feel his cock fruitlessly throbbing in your hand.<p>
+<p>@@.npc;Oh girl, damn, finish it, I want to cum!@@</p>
+<p>@@.pc;Not so fast mister, don't you want to prolong the pleasure?@@</p>
+<p>You stroke his dick a little bit faster now, still holding him at the edge and his body bends with pleasure and desperation.</p>
+<p>@@.npc;Oh you little bitch, mghmm!@@</p>
+<p>@@.pc;Oh, I just thought you may want to leave some tip for me sir? <<if ↂ.pc.trait.materialist == 1>><<set _tip = random(40, 45)>>I guess forty will be such a generous gift for some hard-working girl...<</if>>@@</p>
+<p>Your fingers squeeze his head than slick up and down his shaft in excruciatingly slow motions<<if ↂ.pc.trait.devious == 1>> while you smile innocently.<</if>>.</p>
+<p>@@.npc;Aargh, sure, whatever, just finish me off!@@</p>
+<p>Working his cock faster you finally let him to shoot his cum with loud moans.</p>
+<p>He seems to be <<= either("a bit surprised with new experience.", "a bit annoyed by your sudden domme attack but overall had his pleasure.")>></p>
+<p><<= either("@@.npc;Wow, that was something, girl! You are a cruel little cunt, you know that? Heh, anyway, you somehow forced me to promise some tip, so here they are.@@", "I hope to try it again, cutie-face, this was a hell of experience! But if you gonna suck money like this next time, I fucking swear I'll choke all the life from you. But today you earned your money by all means.")>></p><<if ↂ.pc.trait.materialist == 1>><<set _tip = random(40, 45)>><<else>><<set _tip = random(10, 20)>><</if>><<SCX>><<SC "PR" "15">><<if $SCresult[1]>><<set _tip += random(5, 10)>><</if>><<run aw.cash(_tip, "prostitution")>>
+<p>He dresses up and leaves some money on the table before leaving. You clean up your workplace and count the money he left, you got @@.money;<<mon>><<= _tip>>@@.</p>
+<p><<link "Continue your day">><<sceneclose>><<status 0>><</link>></p>
+<</gate>>
+<p><<link "Continue your day">><<sceneclose>><<status 0>><</link>></p>
+
+:: FairyClient-1-Nope-Ruin [nobr]
+
+<<gate "edging">><<set ↂ.pc.status.perversion += random(0,2)>>
+<p>You slow down your hand movement to catch the moment right before he gets to the no-return point. His moans get louder and when the ejaculation becomes inevitable you just slide your hand down to the base of the shaft and hold his cock.</p>
+<p>@@.npc;Nnngh! Oh!@@</p>
+<p><<if ↂ.pc.kink.dom>><<arousal 1>>You smile deviously while he squirms trying to sense something in his cock. <</if>>Without any stimulation his cum just pour out of his poor dick leaving him only frustrated and pathetic.<p><<set _reaction = random(0,10)>><<if ↂ.pc.kink.dom>><<set _reaction -= 2>><</if>>
+<<if _reaction < 2>><<happy 1 "Ruining a customer's happy ending">><<set _tip = random(20, 25)>><<SCX>><<SC "PR" "15">><<if $SCresult[1]>><<set _tip += random(10, 25)>><</if>><<run aw.cash(_tip, "prostitution")>><<set aw.npc[$fairyClient].rship.likePC += random(3, 7)>><<set aw.npc[$fairyClient].rship.lovePC += random(3, 8)>><<set aw.npc[$fairyClient].rship.sub += 10>><<set aw.npc[$fairyClient].rship.acquaint = true>><<run setup.npc.acquainted.push($fairyClient)>>
+<p>He looks crushed with your cruel behavior and he seems to get into a subby mood with his face blushed while he dresses.</p>
+<p>@@.npc;I am sorry... miss, I won't argue again. @@</p>
+<p>@@.pc;Yes, I am quite sure about it.@@</p>
+<p>@@.npc;I'll leave the tip here on the table, okay? Can I hope to see you again? Here, I'll leave my number...@@</p>
+<p>@@.pc;If you will act politely next time maybe I'll be more kind with you. Now go, I have things to do.@@</p>
+<p>@@.npc;Ugh... thanks... miss.@@</p>
+<p>You clean up your workplace and count the money he left, you got @@.money;<<mon>><<= _tip>>@@.</p>
+<p>@@.mono;Who would think that this guy is natural born sub, hmm.@@</p>
+<p><<link "Continue your day">><<sceneclose>><<status 0>><</link>></p>
+<<else>><<set ↂ.job.stats.boss -= random(0,5)>><<set aw.npc[$fairyClient].rship.likePC -= random(3, 7)>><<set aw.npc[$fairyClient].rship.lovePC -= random(3, 8)>>
+<p><<= either "He is obviously","No doubt he is")>> angry after what you have done. He pushes you back from a bed in a rude manner to get up and dresses.</p>
+<p>@@.npc;<<= either("You, stupid cunt, don't you dare do it once again! Be sure I'll tell the administrator!!", "Whore! How dare you ruin it, I paid for the damn happy ending!")>>@@</p>
+<p>@@.pc;<<= either("Oh, I am so sorry... I guess.", "Oh, it was just an accident, my hand kinda slipped. Kinda. I'm sorry?")>>@@</p>
+<p>@@.npc;You, will be, whore!@@</p>
+<p>He leaves banging the door. As you were already expecting there will be no tip for you.</p>
+<p><<link "Continue your day">><<sceneclose>><<status 0>><</link>></p>
+<</if>>
+<</gate>>
+<<button "Escape the scene">><<sceneclose>><<status 0>><</button>>
+
+
+:: FairyClient-2 [nobr]
+
+<<set _daddyspunk = (setup.npc.female.length - 1)>><<set _randDude = random(0, _daddyspunk)>><<if setup.npc.female[_randDude] == "n101">><<set _randDude = random(0, _daddyspunk)>><</if>><<set $fairyClient = setup.npc.female[_randDude]>><<set _random = random(0, 400)>><<set _hornyrand = random(0,10)>>
+<p><<= either("Right before your lunch break", "After sitting and waiting for a new client for a bit too long", "In the middle of the workday")>> a new client, an <<n $fairyClient age.q>> woman with <<n $fairyClient haircolor.q>>, <<n $fairyClient hairstyle.q>> hair comes in.</p>
+<p>@@.pc;<<= either("<<greetings>>, how can I help you today?", "Hello, what kind of massage you want miss?", "<<greetings>>, first time at Fairy Tail? Any special type of massage you seek?")>>@@</p>
+<p>@@.npc;<<= either("<<greetings>>, well let's start from something regular and we'll see then.", "Oh, just a quickie after the gym I guess.", "A full-body one would be extremely nice.")>>@@</p>
+<p>@@.pc;<<= either("Sure, undress and get onto the bed please!", "Okay, you can get ready there, behind the curtain!")>>@@</p>
+<<if _hornyrand < 2>>
+  <p><<= either("You are preparing the massage oils and towels and suddenly feel her hands on your waist.", "She goes behind the curtain to undress and returns shortly after. But instead of going to the massage bed she walks over to you.", "You prepare towels and oils while she undresses. Turning around you see that she is sitting on top of the bed in a rather suggestive pose.")>></p>
+  <p>@@.pc;<<= either("Emm, miss?", "Sorry?")>>@@</p>
+  <p><<print either("With a quick glance you see that", "Her pose reveals all her traits and you notice that")>> she has some <<n $fairyClient breast.q>> <<n $fairyClient breast.n>> with already hard <<n $fairyClient nipples.n>> and a neat <<n $fairyClient ass.n>>.</p>
+  <p>@@.npc;<<print either("I suddenly thought about a more... personal massage.", "You are a cutie, you know? Maybe you could give me a <i>special</i> massage?", "Mmm, you are such a beauty, don't you mind us girls having <i>some fun</i> together?", "I just changed my mind, tee-hee.")>>@@</p>
+  <<dialogchoice>>
+    <<dbutt "Sure">><<scenego "FairyClient-2-sex">>
+    <<dtext "bimbo">>Sure, you look awesome. Just don't tell the boss!
+    <<dbutt "Sorry">><<scenego "FairyClient-2-nope">>
+    <<dtext "confused">>Sorry, it is forbidden by company rules, miss.
+  <</dialogchoice>>
+<<elseif _hornyrand < 5>>
+  <p><<print either("While you prepare the massage oils and towels the girl undresses and lies down on the bed. You moisturize your hands with a lotion and start to rub her back.", "She gets undressed and lies on the massage bed awaiting for you to get towels and lotions ready. You start to rub her shoulders having a casual chat as you usually do with clients." )>></p>
+  <p>@@.pc;<<= either("So, first time here?", "Having a good day today, ma'am?", "So, are you local here or just traveling?")>>@@</p>
+  <p>@@.npc;<<= either("Actually yes...oh, this spot a little harder please...", "Nope...mmm, feels good there...so what was I about?", "More or less. Ugh, I had a hell of a week... yes, rub there a bit more please...")>> <<= either("Well this coach at my gym is a beast, I don't mean that there are no results but gosh, other days I am sure I'll die on the spot!", "All this stress is gonna kill me one day, work, home stuff... Can't even find a time for meditation recently!", "I try to have a good massage after shopping. My doctor says it is good for my spine. I had some trauma a number of years ago.", "There is nothing better than a good relaxing massage after a long morning and all this work I do. This time it was a 16-hour long overnight shift for almost all the staff because of this new experiment these eggheads do in sector C.")>>@@</p>
+  <p>@@.pc;<<= either("Oh, I see...", "M-hm...", "Sounds terrible...", "Oh, really?")>>@@</p>
+  <p>@@.npc;<<= either("And the worst thing is that it seems I started developing insomnia with all this.", "At least I'll have a vacation soon.", "I hope it will get better soon.", "And this news about yet another girl lost in Angler Woods... I like hiking but it seems I better not go to that forest alone.")>>@@</p>
+  <p>@@.pc;<<= either("Sure it will be okay...", "M-hm...", "I see...")>>@@</p>
+  <<set _tip = random(3, 5)>><<run aw.cash(_tip, "job")>><p><<print either("After a full-body massage she sighs.","After a good body rubbing she smiles in a happy manner.")>></p>
+  <p>@@.npc;<<= either("It was wonderful, thank you!","I guess it was most relaxing massage I had... Thanks!")>>@@</p>
+  <p>She dresses and leave some cash on the table before leaving. Cleaning up your workplace you count the money she left, it seems you got @@.money;<<mon>><<= _tip>>@@.</p>
+  <p><<link "Continue your day">><<sceneclose>><<status 0>><</link>></p>
+<<elseif _hornyrand < 7>>
+  <p><<print either("After a full-body massage she smiles at you.","After a good body rubbing she she bites her lip while looking at you.")>></p>
+  <p>@@.npc;<<= either("I heard... guys can have a thing called <i>happy ending</i> in such places, right? Is it possible to get this too? I'll leave tip of course...", "Well... do you provide <i>endings</i> to woman too here?", "Emm... if you want some tips you could... let's say, massage my other parts too, tee-hee.")>>@@</p>
+  <<dialogchoice>>
+    <<dbutt "Yes">><<scenego "FairyClient-2-happy">>
+    <<dtext "smug">>Sure, miss
+    <<dbutt "Sorry">><<scenego "FairyClient-2-nope">>
+    <<dtext "confused">>Sorry, miss, I can't.
+  <</dialogchoice>>
+<<else>><<set _tip = random(3, 5)>><<run aw.cash(_tip, "job")>>
+  <p><<print either("After a full-body massage she sighs.","After a good body rubbing she smiles in a happy manner.")>></p>
+  <p>@@.npc;<<= either("It was wonderful, thank you!","I guess it was most relaxing massage I had... Thanks!")>>@@</p>
+  <p>She dresses and leave some cash on the table before leaving. Cleaning up your workplace you count the money she left, it seems you got @@.money;<<mon>><<= _tip>>@@.</p>
+  <p><<link "Continue your day">><<sceneclose>><<status 0>><</link>></p>
+<</if>>
+
+
+:: FairyClient-2-nope [nobr]
+
+<<set aw.npc[$fairyClient].rship.likeNPC -= random(5, 10)>>
+<p>@@.pc;Sorry, miss, I can't.@@</p>
+<p><<= either("She seems pretty upset.", "She seems obviously awkward.", "No doubt she feels embarassed now.")>></p>
+<p>@@.npc;Oh I see... Well than I better go now.@@</p>
+<p>Dressing quickly she goes out without leaving any tip</p>
+<p><<link "Continue your day">><<sceneclose>><<status 0>><</link>></p>
+
+
+:: FairyClient-2-happy [nobr]
+
+<<set aw.npc[$fairyClient].rship.likeNPC += random(5, 10)>><<arousal 2>><<SCX>><<SC "SX" "15">><<set _tip = random(10, 20)>><<if $SCresult[1]>><<set _tip += random(5, 15)>><</if>><<run aw.cash(_tip, "prostitution")>><<run setup.npcInfo.level($fairyClient, {bodyGeneral: true})>><<run setup.npcInfo.level($fairyClient, {bodyJunk: true})>><<run setup.npcInfo.level($fairyClient, {bodyDetail: 1})>>
+<p>@@.pc;Sure, miss!@@</p>
+<p><<= either("You put some lube on your hands and start massaging her thighs.", "Applying more lotion you gently massage her pubic area.")>> <<= either("She closes her eyes and starts breathing deeply, enjoying the sensations.", "She moans a bit when you touch her lady parts for the first time.")>> Moving closer to her <<n $fairyClient vulva.n>> you stroke her lips lightly with a finger. Playing with her hard <<n $fairyClient clit.n>> makes her moan louder and <<= either("you work it putting your other hand on her <<n $fairyClient breast.n>> playing with her nipple.","you gently insert fingers of your other hand into her cunt.")>> With increasing speed it takes <<= either("just some minutes", "a little more than 5 minutes", "just a bit")>> to make her cum, <<= either("her thighs shudder, leaving her moaning and biting her lips in ecstasy.","she tenses up with her mouth tightly shut and moaning through her teeth.")>></p>
+<p>@@.npc;M-m-m-hmhm!!@@</p>
+<p>Breating heavily she lies on the table for some time before getting up lazily.</p>
+<p>@@.npc;<<= either("Oh you are good at it you know?","It was my first time with girl... doing this... I liked it I guess, heh!","Mmm, so relaxing... You are the best, girl!")>>@@</p>
+<p>She dresses and wink you before leaving. Cleaning up your workplace you count the money she left, it seems you got @@.money;<<mon>><<= _tip>>@@.</p>
+<p><<link "Continue your day">><<sceneclose>><<status 0>><</link>></p>
+
+
+:: FairyClient-2-sex [nobr]
+
+<p>@@.pc;Sure, you look awesome, just don't tell the boss!@@</p>
+<<button "Rock-n-roll!">>
+<<run setup.npcInfo.level($fairyClient, {bodyGeneral: true})>><<run setup.npcInfo.level($fairyClient, {bodyJunk: true})>><<run setup.npcInfo.level($fairyClient, {bodyDetail: 1})>>
+<<set aw.npc[$fairyClient].rship.likePC += random(3, 6)>>
+<<set aw.npc[$fairyClient].lovePC += random(1, 3)>>
+<<set ↂ.sex.passage = aw.passage.title>>
+<<set ↂ.sex.pcOutput = "You get press her to the massage bed undressing.">>
+<<set ↂ.sex.enviroTags = ["bed","wall","chair"]>>
+<<set aw.npc[$fairyClient].rship.companion += 15>>
+<<set aw.npc[$fairyClient].sleptover += 1>>
+<<set setup.sexitimes = $fairyClient>>
+<<sceneclose>><<status 0>>
+<<script>>
+setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
+<</script>>
+<<set ↂ.pc.status.morality -= random(0,3)>>
+<</button>>

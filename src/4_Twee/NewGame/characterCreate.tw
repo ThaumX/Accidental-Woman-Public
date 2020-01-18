@@ -1,0 +1,749 @@
+:: characterCreate [nobr startpage]
+
+<<silently>>
+<<if $gamestate.playedIntro && $gamestate.lastversion == $version>>
+<<set _timer = 0>>
+<<else>>
+<<set _timer = 90>>
+<<repeat 1000ms>>
+  <<if _timer > 0>>
+		<<set _timer -= 1>>
+		<<replace "#cuntdown">><<print _timer>><</replace>>
+  <</if>>
+<</repeat>>
+<</if>>
+<<set _com = [true,false,false,false,false,false,false,false,false,false,false,false]>>
+<</silently>>
+<<uicardsinit "_cocker" "The Basics" "Tutorial">>
+<span class="head1"><<tab>><<tab>>How to Play</span>
+<br><br>
+This is the basic information on how to use different parts of the game UI. Throughout the prologue, you will also see text that <span class="print white">looks like this.</span> This is tutorial information, explaining in more detail how different parts of the game work. Tutorial text starts with basic information, but later covers a little more complex information. Only the information needed to play the game will be presented this way, and more complicated information about how the game works will be contained in the Game Guide. It's up to you whether you want to know more about the game's mechanics, or simply explore and learn as you go along.
+<<nextcard "Important <<if _com[1]>>✓<</if>>">>
+<div class="cardhorn">[img[IMGinstructions1]]</div><<set _com[1] = true>>
+<<nextcard "Overview <<if _com[2]>>✓<</if>>">>
+<div class="cardhorn">[img[IMGinstructions2]]</div><<set _com[2] = true>>
+<<nextcard "CellBar <<if _com[3]>>✓<</if>>">>
+<div class="cardhorn">[img[IMGinstructions3]]</div><<set _com[3] = true>>
+<<nextcard "Cellphone <<if _com[4]>>✓<</if>>">>
+<div class="cardhorn">[img[IMGinstructions4]]</div><<set _com[4] = true>>
+<<nextcard "Small One <<if _com[5]>>✓<</if>>">>
+<div class="cardhorn">[img[IMGinstructions5]]</div><<set _com[5] = true>>
+<<nextcard "Navigation <<if _com[6]>>✓<</if>>">>
+<div class="cardhorn">[img[IMGinstructions6]]</div><<set _com[6] = true>>
+<<nextcard "Dates & Hang outs <<if _com[7]>>✓<</if>>">>
+<div class="cardhorn">[img[IMGinstructions7]]</div><<set _com[7] = true>>
+<<nextcard "Schools <<if _com[8]>>✓<</if>>">>
+<div class="cardhorn">[img[IMGinstructions8]]</div><<set _com[8] = true>>
+<<nextcard "Jobbin <<if _com[9]>>✓<</if>>">>
+<div class="cardhorn">[img[IMGinstructions9]]</div><<set _com[9] = true>>
+<<nextcard "Mental stats <<if _com[10]>>✓<</if>>">>
+<div class="cardhorn">[img[IMGinstructions10]]</div><<set _com[10] = true>>
+<<nextcard "Bad ends <<if _com[11]>>✓<</if>>">>
+<div class="cardhorn">[img[IMGinstructions11]]</div><<set _com[11] = true>>
+<<nextbutton "Continue <<if _timer <= 0 || (_com[1] && _com[2] && _com[3] && _com[4] && _com[5] && _com[6] && _com[7] && _com[8] && _com[9] && _com[10])>>✓<</if>>">>
+<<if _timer <= 0 || (_com[1] && _com[2] && _com[3] && _com[4] && _com[5] && _com[6] && _com[7] && _com[8] && _com[9] && _com[10] && _com[11])>><<go gamestateinit>><</if>>
+<<nextbutton>>
+<<if $gamestate.playedIntro && $gamestate.lastversion == $version>>
+  <<set _timer = 0>>
+	You can skip the tutorial.
+<<else>>
+  <span class="import">Complete the tutorial or wait <span id="cuntdown" class="monospace white">90</span> seconds to continue.</span>
+<</if>>
+<</uicardsinit>>
+
+
+:: gamestateinit [nobr startpage]
+
+<div id="cardback"></div>
+<<if ndef $gamestate>>
+	<<set $gamestate = {}>>
+	<<set $gamestate.playedIntro = true>>
+	<<set $gamestate.completePrologue = false>>
+	<<set $gamestate.completeGame = false>>
+	<<set $gamestate.points = 0>>
+	<<set $gamestate.characters = 0>>
+	<<set $gamestate.unlocks = []>>
+	<<set $gamestate.lastversion = $ver>>
+	<<run setup.storeState()>>
+<<elseif $gamestate == null>>
+	<<set $gamestate = {}>>
+	<<set $gamestate.playedIntro = true>>
+	<<set $gamestate.completePrologue = false>>
+	<<set $gamestate.completeGame = false>>
+	<<set $gamestate.points = 0>>
+	<<set $gamestate.characters = 0>>
+	<<set $gamestate.unlocks = []>>
+	<<set $gamestate.lastversion = $ver>>
+	<<run setup.storeState()>>
+<<elseif not $gamestate.playedIntro>>
+	<<set $gamestate.playedIntro = true>>
+	<<set $gamestate.lastversion = $ver>>
+	<<run setup.storeState()>>
+<</if>>
+<<if $AW.metric>>
+  <<set ↂ.pc.body.height = 170>>
+<</if>>
+<<go characterCreateB>>
+
+
+
+:: characterCreateB [nobr]
+
+<<nobr>>
+<<silently>>
+<<switch $pref.clothingDetail>>
+<<case "1-Plain Jane">>
+	<<set $pref.clothingDetail = 1>>
+<<case "2-Uninterested">>
+	<<set $pref.clothingDetail = 2>>
+<<case "3-Conscious">>
+	<<set $pref.clothingDetail = 3>>
+<<case "4-Fashionista">>
+	<<set $pref.clothingDetail = 4>>
+<<case default>>
+	<<set $pref.clothingDetail = 2>>
+<</switch>>
+<<set _guard = false>>
+<<widget "tempTitLimits">>
+	<<if ↂ.flag.door.megaTits>>
+		<<switch ↂ.pc.body.tits.band>>
+			<<case 24>>
+				<<set _maxtit = 1200; _mintit = 800>>
+			<<case 26>>
+				<<set _maxtit = 1400; _mintit = 1000>>
+			<<case 28>>
+				<<set _maxtit = 1600; _mintit = 1200>>
+			<<case 30>>
+				<<set _maxtit = 1800; _mintit = 1400>>
+			<<case 32>>
+				<<set _maxtit = 2000; _mintit = 1600>>
+			<<case 34>>
+				<<set _maxtit = 2200; _mintit = 1800>>
+			<<case 36>>
+				<<set _maxtit = 2400; _mintit = 2000>>
+			<<case 38>>
+				<<set _maxtit = 2600; _mintit = 2200>>
+			<<case 40>>
+				<<set _maxtit = 2800; _mintit = 2400>>
+			<<case 42>>
+				<<set _maxtit = 3000; _mintit = 2600>>
+			<<case 44>>
+				<<set _maxtit = 3000; _mintit = 2600>>
+			<<case 46>>
+				<<set _maxtit = 3000; _mintit = 2600>>
+		<</switch>>
+  <<elseif setup.achieve.isUnlocked("Mega Tits")>>
+    <<switch ↂ.pc.body.tits.band>>
+			<<case 24>>
+				<<set _maxtit = 1050; _mintit = 50>>
+			<<case 26>>
+				<<set _maxtit = 1250; _mintit = 60>>
+			<<case 28>>
+				<<set _maxtit = 1420; _mintit = 70>>
+			<<case 30>>
+				<<set _maxtit = 1720; _mintit = 80>>
+			<<case 32>>
+				<<set _maxtit = 1880; _mintit = 90>>
+			<<case 34>>
+				<<set _maxtit = 2200; _mintit = 100>>
+			<<case 36>>
+				<<set _maxtit = 2400; _mintit = 110>>
+			<<case 38>>
+				<<set _maxtit = 2600; _mintit = 120>>
+			<<case 40>>
+				<<set _maxtit = 2800; _mintit = 130>>
+			<<case 42>>
+				<<set _maxtit = 3000; _mintit = 140>>
+			<<case 44>>
+				<<set _maxtit = 3000; _mintit = 150>>
+			<<case 46>>
+				<<set _maxtit = 3000; _mintit = 160>>
+		<</switch>>
+	<<else>>
+		<<switch ↂ.pc.body.tits.band>>
+			<<case 24>>
+				<<set _maxtit = 500; _mintit = 50>>
+			<<case 26>>
+				<<set _maxtit = 610; _mintit = 60>>
+			<<case 28>>
+				<<set _maxtit = 730; _mintit = 70>>
+			<<case 30>>
+				<<set _maxtit = 880; _mintit = 80>>
+			<<case 32>>
+				<<set _maxtit = 1050; _mintit = 90>>
+			<<case 34>>
+				<<set _maxtit = 1250; _mintit = 100>>
+			<<case 36>>
+				<<set _maxtit = 1420; _mintit = 110>>
+			<<case 38>>
+				<<set _maxtit = 1720; _mintit = 120>>
+			<<case 40>>
+				<<set _maxtit = 1880; _mintit = 130>>
+			<<case 42>>
+				<<set _maxtit = 2000; _mintit = 140>>
+			<<case 44>>
+				<<set _maxtit = 2000; _mintit = 150>>
+			<<case 46>>
+				<<set _maxtit = 2000; _mintit = 160>>
+		<</switch>>
+	<</if>>
+	<<if ↂ.pc.body.tits.base.size > _maxtit>>
+		<<set ↂ.pc.body.tits.base.size = _maxtit>>
+		<<pcBreastCalc>>
+		<<if $AW.randomBody != 1 && _guard>>
+			/*<<replace "#boobcc">><<print ↂ.pc.body.tits.base.size>>cc | <<pcCupSize>><</replace>>*/
+		<</if>>
+	<<elseif ↂ.pc.body.tits.base.size < _mintit>>
+		<<set ↂ.pc.body.tits.base.size = _mintit>>
+		<<pcBreastCalc>>
+		<<if $AW.randomBody != 1 && _guard>>
+			/*<<replace "#boobcc">><<print ↂ.pc.body.tits.base.size>>cc | <<pcCupSize>><</replace>>*/
+		<</if>>
+	<</if>>
+<</widget>>
+<<set _guard = true>>
+<<set $location = "Lily's Place">><<set $helpText = "This is where you define the physical appearance of your character. This is all pretty straight-forward... <br><br>I suppose there are some things I could tell you...<br><br>Picking unattractive features is... shocker... going to make you less attractive. Also, there are a lot more hair colors available later in the game.">>
+<</silently>>
+
+<br><br>
+<<include [[characterCreateCards]]>>
+
+<</nobr>>
+
+
+:: characterCreateCards [nobr]
+
+<<silently>>
+<<set _com = [true,false,false,false,false,false,false,false,false,false]>>
+<<pcBreastCalc>>
+<</silently>>
+<<uicardsinit "_cuntFucker" "Helpful Hints" "Character Creation">>
+<<include [[characterCreateCard-intro]]>>
+<<nextcard "Primary Attributes <<if _com[1]>>☑<<else>>□<</if>>">>
+<<include [[characterCreateCard-basic]]>><<set _com[1] = true>>
+<<nextcard "Face & Hair <<if _com[2]>>☑<<else>>□<</if>>">>
+<<include [[characterCreateCard-face]]>><<set _com[2] = true>>
+<<nextcard "Body Shape <<if _com[3]>>☑<<else>>□<</if>>">>
+<<include [[characterCreateCard-shape]]>><<set _com[3] = true>>
+<<nextcard "Breasts <<if _com[4]>>☑<<else>>□<</if>>">>
+<<include [[characterCreateCard-breasts]]>><<set _com[4] = true>>
+<<nextcard "Genitals & Repro <<if _com[5]>>☑<<else>>□<</if>>">>
+<<include [[characterCreateCard-pussy]]>><<set _com[5] = true>>
+<<nextcard "Weight Preferences">>
+<<include [[characterCreate2PrefsWeight]]>>
+<<nextcard "Muscle Prefs">>
+<<include [[characterCreate2PrefsMuscle]]>>
+<<nextcard "Height Prefs">>
+<<include [[characterCreate2PrefsHeight]]>>
+<<nextcard "Other Prefs">>
+<<include [[characterCreate2PrefsOther]]>>
+<<nextcard "Personality <<if _com[6]>>☑<<else>>□<</if>>">>
+<<include [[characterCreate2primpers]]>><<set _com[6] = true>>
+<<nextcard "Character Traits <<if _com[9]>>☑<<else>>□<</if>>">>
+<<include [[PersonalityTraitBullshitFuckingRadio]]>><<set _com[9] = true>>
+<<nextcard "Sexuality <<if _com[7]>>☑<<else>>□<</if>>">>
+<<include [[CharacterCreate3Sexuality]]>><<set _com[7] = true>>
+<<nextcard "Mutations <<if _com[8]>>☑<<else>>□<</if>>">>
+<<include [[CharacterCreate3Mutation]]>><<set _com[8] = true>>
+<<nextbutton>>
+<span class="cardbuttTemplate"><<button "Randomize">><<go CharCreateRandomizer>><</button>>
+<<nextbutton>>
+<span class="cardbuttTemplate"><<button "Load Template">><<if $AW.startMale>><<go LoadCharacterTemplate>><<else>><<notify>><h2>Female Template Unavailable</h2><</notify>><</if>><</button>></span>
+<<nextbutton "Continue">>
+<<set $UIimgFlag = true>>
+<<if ↂ.pc.trait.vert == "extroverted" && ↂ.pc.trait.will > 4>>
+  <<set ↂ.pc.trait.will = 4>>
+<</if>>
+<<if isNaN(ↂ.pc.groom.pubeGrow)>>
+  <<set ↂ.pc.groom.pubeGrow = 5>>
+<</if>>
+<<set ↂ.pc.main.age = Number(ↂ.pc.main.age)>>
+<<script>>
+  $(".radioSelectorClass").off( "click" );
+  $("#invisTable").off( "click" );
+<</script>>
+<<setPCportrait>>
+<<if _com[1] && _com[2] && _com[3] && _com[4] && _com[5] && _com[6] && _com[7] && _com[8] && _com[9]>>
+  <<status 0>>
+  <<if $AW.startMale>>
+    <<go physicalReview>>
+  <<else>>
+    <<go physicalReviewFemale>>
+  <</if>>
+<<else>>
+  <<dialog "You Missed Something!">><span class="import lato">You haven't viewed all the cards for the physical portion of character creation. You cannot return to this menu after continuing, and unchanged elements will remain at their default values. You can close this dialog and finish, or you can <<link "Continue Anyway">><<if $AW.startMale>><<go physicalReview>><<else>><<go physicalReviewFemale>><</if>><<run Dialog.close()>><</link>>.</span><</dialog>>
+<</if>>
+<</uicardsinit>>
+
+
+
+:: characterCreateCard-intro [nobr]
+
+
+<img data-passage="IMG-CC-NudeWoman" style="float:right;margin-left:25px">
+<center>@@.head1;Character Creation@@</center>
+<br>
+@@.head3;W@@ith some help from Lily, you stand naked in front of a dressing mirror looking at your new body...
+<br><br>
+<span class="head3">Helpful Hints:</span><br>
+Design the character that you'd like to play. Click on the info buttons to learn more about a particular option. Options at character creation aren't all permanent, many can be altered during gameplay. Additionally, a wider range of starting options can be unlocked with achievements earned during play. Most of all, have fun and make the character <b>you</b> want to play.
+<br><br>
+This game's text can vary significantly from play-through to play-through, as it is affected by your character creation, choices, and an element of randomness. Be cautious when clicking through text, as portions of it are likely different from the last time you encountered it! The first masturbation sequence, for example, has over 6,000 words of content, though you'll only see part of that at once based on your character.
+<br><br>
+<span class="print import" class="font-size:1.2rem"><b>Character Mutability</b></span><br>
+Many aspects of your character can be changed (voluntarily or involuntarily) throughout the course of the game. Some aspects of your character are generally fixed, and cannot be changed once the game starts. Settings during character creation may have one of the following symbols to let you know the difference.<br>
+[img[IMG-CanChangeIcon]] can be changed significantly by the player, likely beyond the range possible in character creation.<br>
+[img[IMG-LittleChangeIcon]] can be changed somewhat by the player: it is either difficult or the amount of change is limited.
+
+
+:: characterCreateCard-basic [nobr]
+
+
+  <h2>Basic Attributes</h2>
+  These are the primary settings for your new body. While race and skin color don't really matter to the game, age can play a more important role in your new life. Too young, and you'll have a hard time being treated as an adult. Too old, and you will be less attractive and have reduced fertility. Height, like race, is more for description. However, you can't set a height that would require a medical condition.<br>
+  <span class="head3">Apparent Age:</span> <<helpPop "Age Information" "Apparent age refers to the biological age of your new body, which has been changed from its original age via the accident. Your chronological, or true age, remains the same at <<print ↂ.pc.main.ageOriginal>>. Biological age determines appearance, and naturally varies from chronological age based on the individual. Biological age has been deemed definitively irrelevant to matters of consent and law by courts in the U.S. and most other countries (Including those in the E.U.). This is of course subject to the same exceptions for mental deficit and medical disorders whereby the individual is deemed unable to care for themselves, such as a situation of substituted consent for medical procedures in a hospital, or the ward and guardianship process whereby an individual, organization, or the state is appointed guardian of a disabled ward, typically a vulnerable adult. These exceptions do not apply in this case, as the player retains their full mental capacity. Setting a low age (25 or less) will typically result in incidents of being carded for purchasing alcohol and the like. Setting an age below 18 will have other impacts, such as suspecting a fake ID, being refused entry, and potential reduced attractiveness to NPCs. Setting a high age will have a corresponding impact to player fertility and attractiveness, starting with minor effects at 35 years of age.">> <<textbox "ↂ.pc.main.age" ↂ.pc.main.age>>
+  <br><br>
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:10px 6px;">
+    <b>Height:</b><<tab>><span id="hgtsizin"><<= Math.floor(ↂ.pc.body.height / 12)>>ft <<= (ↂ.pc.body.height % 12)>>in &nbsp;&nbsp; <<= Math.round(ↂ.pc.body.height * 2.54)>>cm</span>
+    <p>
+      <label for="amounth">Inches:</label>
+      <input type="text" id="amounth" readonly style="border:0; color:#000; font-weight:bold;">
+    <div style="display:inline-block;width:60%;margin-left:15px;"><div id="sliderh" style="margin-top:3px;"></div></div>
+    </p>
+    <<timed 50ms>>
+      <<script>>
+        $( "#sliderh" ).slider({
+          value: ↂ.pc.body.height,
+          min: 54,
+          max: 84,
+          step: 1,
+          slide: function( event, ui ) {
+            $( "#amounth" ).val( ui.value);
+            ↂ.pc.body.height = Number(ui.value);
+          },
+          change: function( event, ui ) {
+            const txt = Math.floor(ↂ.pc.body.height / 12) + "ft " + (ↂ.pc.body.height % 12) + "in &nbsp;&nbsp; " + Math.round(ↂ.pc.body.height * 2.54) + "cm";
+            aw.replace("#hgtsizin", txt);
+          }
+        });
+        $( "#amounth" ).val( $( "#sliderh" ).slider( "value" ));
+      <</script>>
+    <</timed>>
+  </div>
+  <table id="invisTable" class="butter" style="width:90%;">
+  <tr><td style="width:42%"><span class="head3">Race: <<helpPop "Race" "This attribute has almost no effect on the game, and is only used descriptively. Also, I'm aware that hispanic is a region or origin and not a race, however trying to use actual racial terms would get real confusing (and offensive), real fast, or we'd be stuck with using 'Native American' as a definition, which aside from also being confusing, would also be racially/genetically inaccurate.">> </span><div id="racer" style="display:inline-block;border-width:2px;border-color:#666;border-radius:15px;font-size:1.3rem;"><<print ↂ.pc.body.race>></div> </td>
+  <td style="width:6%"></td>
+  <td style="width:42%;"><span class="head3">Skin Color: </span><div id="scolor" style="display:inline-block;border-width:2px;border-color:#666;border-radius:15px;font-size:1.3rem;"><<print ↂ.pc.body.skinColor>></div></td></tr>
+  <tr><td>
+  <<button "white">><<set ↂ.pc.body.race = "white">><<replace "#racer">>White<</replace>><</button>>
+  <<button "hispanic">><<set ↂ.pc.body.race = "hispanic">><<replace "#racer">>Hispanic<</replace>><</button>>
+  <<button "black">><<set ↂ.pc.body.race = "black">><<replace "#racer">>Black<</replace>><</button>>
+  <<button "E Asian">><<set ↂ.pc.body.race = "Asian">><<replace "#racer">>"East Asian"<</replace>><</button>>
+  <<button "SE Asian">><<set ↂ.pc.body.race = "SE Asian">><<replace "#racer">>Southeast Asian<</replace>><</button>>
+  <<button "S Asian">><<set ↂ.pc.body.race = "S Asian">><<replace "#racer">>South Asian<</replace>><</button>>
+  <<button "middle eastern">><<set ↂ.pc.body.race = "middle eastern">><<replace "#racer">>Middle-Eastern<</replace>><</button>>
+  <<button "native American">><<set ↂ.pc.body.race = "native American">><<replace "#racer">>Native-American<</replace>><</button>>
+  <<button "southern European">><<set ↂ.pc.body.race = "southern European">><<replace "#racer">>Southern-European<</replace>><</button>>
+  <<button "Gaelic">><<set ↂ.pc.body.race = "Gaelic">><<replace "#racer">>Gaelic<</replace>><</button>>
+  <<button "Nordic">><<set ↂ.pc.body.race = "Nordic">><<replace "#racer">>Nordic<</replace>><</button>>
+  </td><td></td><td>
+  <<button "pale">><<set ↂ.pc.body.skinColor = "pale">><<replace "#scolor">><<print ↂ.pc.body.skinColor>><</replace>><</button>>
+  <<button "fair">><<set ↂ.pc.body.skinColor = "fair">><<replace "#scolor">><<print ↂ.pc.body.skinColor>><</replace>><</button>>
+  <<button "tanned">><<set ↂ.pc.body.skinColor = "tanned">><<replace "#scolor">><<print ↂ.pc.body.skinColor>><</replace>><</button>>
+  <<button "bronzed">><<set ↂ.pc.body.skinColor = "bronzed">><<replace "#scolor">><<print ↂ.pc.body.skinColor>><</replace>><</button>>
+  <<button "light">><<set ↂ.pc.body.skinColor = "light">><<replace "#scolor">><<print ↂ.pc.body.skinColor>><</replace>><</button>>
+  <<button "dusky">><<set ↂ.pc.body.skinColor = "dusky">><<replace "#scolor">><<print ↂ.pc.body.skinColor>><</replace>><</button>>
+  <<button "dark">><<set ↂ.pc.body.skinColor = "dark">><<replace "#scolor">><<print ↂ.pc.body.skinColor>><</replace>><</button>>
+  <<button "light brown">><<set ↂ.pc.body.skinColor = "light brown">><<replace "#scolor">><<print ↂ.pc.body.skinColor>><</replace>><</button>>
+  <<button "brown">><<set ↂ.pc.body.skinColor = "brown">><<replace "#scolor">><<print ↂ.pc.body.skinColor>><</replace>><</button>>
+  <<button "dark brown">><<set ↂ.pc.body.skinColor = "dark brown">><<replace "#scolor">><<print ↂ.pc.body.skinColor>><</replace>><</button>>
+  <<button "midnight">><<set ↂ.pc.body.skinColor = "midnight">><<replace "#scolor">><<print ↂ.pc.body.skinColor>><</replace>><</button>><br>
+  </td></tr>
+  </table>
+
+
+:: characterCreateCard-face [nobr]
+
+
+  <<radioset "eyecolor" "ↂ.pc.body.eyeColor">>Eye Color
+    <<radioitem "brown">>Brown
+    <<radioitem "hazel">>Hazel
+    <<radioitem "blue">>Blue
+    <<radioitem "light blue">>Light Blue
+    <<radioitem "blue-green">>Blue-Green
+    <<radioitem "green">>Green
+    <<radioitem "golden-brown">>Golden-Brown
+    <<radioitem "green and blue heterochromatic">>Heterochromatic
+  <</radioset>>
+	<<radioset "facetype" "ↂ.pc.body.face">>Face Archetype
+    <<radioitem "normal">>Normal
+    <<radioitem "sensual">>Sensual
+    <<radioitem "cute">>Cute
+    <<radioitem "exotic">>Exotic
+    <<radioitem "androgynous">>Androgynous
+  <</radioset>>
+  <<radioset "beauty" "ↂ.pc.body.beauty">>Beauty <<helpPop "Player Beauty" "This trait has a significant impact on your attractiveness to NPCs.">>
+    <<radioitem 1>><span class="bad">Ugly</span>
+    <<radioitem 2>>Average
+    <<radioitem 3>>Pretty
+    <<radioitem 4>>Beautiful
+    <<radioitem 5>>Gorgeous
+  <</radioset>>
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:10px 5px;margin-top:5px;">
+  <<button "Face Options">>
+    <<dialog "Detailed Face Options">>
+      <p>These items are optional. Many settings will obviously have a negative influence on your character's attractiveness.</p>
+      <<radioset "brow" "ↂ.pc.body.brow">>Brow
+        <<radioitem "normal">>Normal
+        <<radioitem "unibrow">><span class="bad">Unibrow</span>
+        <<radioitem "thick">><span class="orange">Thick</span>
+        <<radioitem "heavy">><span class="bad">Heavy</span>
+      <</radioset>>
+      <<radioset "nose" "ↂ.pc.body.nose">>Nose
+        <<radioitem "normal">>Normal
+        <<radioitem "large">>Large
+        <<radioitem "button">>Button
+        <<radioitem "upturned">>Upturned
+        <<radioitem "wide">><span class="orange">Wide</span>
+        <<radioitem "large-nostreled">><span class="orange">Large-Nostril</span>
+      <</radioset>>
+      <<radioset "jaw" "ↂ.pc.body.jaw">>Jaw
+        <<radioitem "normal">>Normal
+        <<radioitem "masculine">><span class="bad">Masculine</span>
+        <<radioitem "elegant">>Elegant
+        <<radioitem "large">><span class="orange">Large</span>
+      <</radioset>>
+      <<radioset "lips" "ↂ.pc.body.lips">>lips [img[IMG-CanChangeIcon]]
+        <<radioitem 1>>Lizard
+        <<radioitem 2>>Thin
+        <<radioitem 3>>Normal
+        <<radioitem 4>>Thick
+      <</radioset>>
+    <</dialog>>
+  <</button>> <i>Detailed options for specific aspects of your character's face. They can be safely ignored.</i>
+  </div>
+  <<radioset "haircolor" "ↂ.pc.groom.hairColor">>Hair Color [img[IMG-CanChangeIcon]]
+    <<radioitem "black">>Black
+    <<radioitem "brunette">>Brunette
+    <<radioitem "brown">>Brown
+    <<radioitem "light brown">>Light Brown
+    <<radioitem "dark blonde">>Dark Blonde
+    <<radioitem "strawberry blonde">>Strawberry Blonde
+    <<radioitem "sandy blonde">>Sandy Blonde
+    <<radioitem "blonde">>Blonde
+    <<radioitem "platinum blonde">>Platinum Blonde
+    <<radioitem "auburn">>Auburn
+    <<radioitem "light auburn">>Light Auburn
+    <<radioitem "copper">>Copper
+    <<radioitem "ginger">>Ginger
+  <</radioset>>
+  <<radioset "hairleng" "ↂ.pc.groom.hairLength">>Hair Length [img[IMG-CanChangeIcon]]
+    <<radioitem 4>>Very Short
+    <<radioitem 8>>Shorter
+    <<radioitem 12>>Normal
+    <<radioitem 16>>Longer
+    <<radioitem 20>>Very Long
+  <</radioset>>
+  <<radioset "haircurl" "ↂ.pc.groom.hairCurl">>Hair Curliness [img[IMG-CanChangeIcon]]
+    <<radioitem 0>>Completely Straight
+    <<radioitem 1>>Slightly Wavy
+    <<radioitem 2>>Wavy
+    <<radioitem 3>>Very Wavy
+    <<radioitem 4>>Curly
+    <<radioitem 5>>Very Curly
+    <<radioitem 6>>Kinked
+  <</radioset>>
+
+
+
+:: characterCreateCard-shape [nobr]
+
+	
+	<<radioset "lowtoner" "ↂ.pc.body.tone">>Muscle Tone <<link [img[IMGhelpbutton]]>><<dialog "Muscle Tone">><<include [[characterCreate2MuscleInfo]]>><</dialog>><</link>> [img[IMG-CanChangeIcon]]
+    <<radioitem 1>><span class="orange">Frail</span>
+    <<radioitem 2>>Weak
+    <<radioitem 3>>Normal
+    <<radioitem 4>>Toned
+    <<radioitem 5>>Muscular
+    <<radioitem 6>><span class="orange">Body Builder</span>
+  <</radioset>>
+  <<radioset "fatso" "ↂ.pc.body.weight">>Body Weight <<link [img[IMGhelpbutton]]>><<dialog "Muscle Tone">><<include [[characterCreate2Weightinfo]]>><</dialog>><</link>> [img[IMG-CanChangeIcon]]
+    <<radioitem 1>><span class="bad">Dying</span>
+    <<radioitem 2>>Skinny
+    <<radioitem 3>>Lithe
+    <<radioitem 4>>Plush
+    <<radioitem 5>>Chubby
+    <<radioitem 6>><span class="orange">Fat</span>
+  <</radioset>>
+	<<radioset "shoulders" "ↂ.pc.body.shoulders">>Shoulders [img[IMG-LittleChangeIcon]]
+    <<radioitem 1>>Narrow
+    <<radioitem 2>>Feminine
+    <<radioitem 3>>Athletic
+    <<radioitem 4>><span class="orange">Masculine</span>
+    <<radioitem 5>><span class="bad">Broad</span>
+  <</radioset>>
+  <<radioset "waister" "ↂ.pc.body.waist">>Waist <<helpPop "Waist Size" "The waist is somewhat unusual in that it's size has little to do witht he location itself, and more to do with the shape and size of the surrounding areas. The options presented in character creation represent naturally-occuring shapes, though the largest and smallest options are less common. The width of the waist doesn't actually vary much, and both the size and 'curviness' of the waist are largely determined by the shape of the hips and ribcage. For the hips it's the shape of and width between the illiac crests. For the ribcage, it's the size and inward slope of the floating ribs. This value corresponds to the ribcage, as the hips have additional settings. Note that this value is somewhat proportional, as the final appearance of the waist depends on hip size. Because of this, you can have a 'curvy' appearance dispite a wider waist (large hips), or have a more straight appearance even with a narrow waist (small hips). The 'slender' or 'delicate' look tends to have a narrow waist and small hips. The 'fit' or 'athletic' look tends to have a wider waist and moderate to small hips (for better definition of muscle/structural lines).">> [img[IMG-LittleChangeIcon]]
+    <<radioitem 4>>Narrow/Pinched
+    <<radioitem 3>>Curvy/Feminine
+    <<radioitem 2>>Solid/Thick
+  <</radioset>>
+  <<radioset "hipster" "ↂ.pc.body.hips">>Hips <<helpPop "Hip Size" "Refers specifically to the width and protrusion of the illium (hip bones) that sit below the waist. The illium serve numerous purposes, including muscle attachement and support for the abdominal cavity. The 'size' or 'width' of the hips usually refers to the placement and distance between the two illiac crests, rather than the size of the bones themselves. Wider hips are associated with higher fertility, and reduce pregnancy complications by providing better support and more room to the expanded uterus and displaced organs. See the butt/hip shape guide for how this value relates to butt shape.<br><br><span class='ship'><b>Impacts:</b></span> Fertility and Femininity">> [img[IMG-LittleChangeIcon]]
+    <<radioitem 1>><span class="bad">Very Narrow</span>
+    <<radioitem 2>><span class="orange">Narrow</span>
+    <<radioitem 3>>Svelte
+    <<radioitem 4>>Feminine
+    <<radioitem 5>>Curvy
+    <<radioitem 6>>Childbearing
+  <</radioset>>
+  <<radioset "pelvic" "ↂ.pc.body.pelvis">>Pelvic Girdle <<helpPop "Pelvic Girdle" "The pelvic girdle is a simple way to refer to the oval formed by the pelvic bones when looking down through the body. Specifically, it is formed by the pubic bones, the inner/lower rim of the illius (hip bones), and the sacrum (connection of spine and hips). A baby being born must pass through the pelvic girdle, so it is strongly linked to the ease of childbirth. Narrow pelvic girdles often result in complications in childbirth, and would commonly result in death before the advent of C-section surgery and antibiotics. The size of the pelvic girdle also plays a role in the creation of a 'thigh gap', along with the trichanter width. See the butt/hip shape guide for how this value relates to butt shape.<br><br><span class='ship'><b>Impacts:</b></span> Childbirth and Thigh Gap">> [img[IMG-LittleChangeIcon]]
+    <<radioitem 1>><span class="bad">Very Narrow</span>
+    <<radioitem 2>><span class="orange">Narrow</span>
+    <<radioitem 3>>Svelte
+    <<radioitem 4>>Feminine
+    <<radioitem 5>>Curvy
+    <<radioitem 6>>Childbearing
+  <</radioset>>
+	<<radioset "buttsizin" "ↂ.pc.body.ass">>Butt Size <<helpPop "Butt Size" "Refers to the general size and <i>'juicyness'</i> of your rear end, as affected by your genetic predisposition for size. Note that your body tone and bodyweight will also affect the apparent size and description of your butt.">> [img[IMG-CanChangeIcon]]
+    <<radioitem 1>><span class="bad">Flat</span>
+    <<radioitem 2>><span class="orange">Small</span>
+    <<radioitem 3>>Average
+    <<radioitem 4>>Above-average
+    <<radioitem 5>>Large
+    <<radioitem 6>>Huge
+  <</radioset>>
+	<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;text-align:left;padding:10px 5px;margin-top:5px;font-size:1.15rem;"><b>Butt Shape:</b> <span id="buttshappy" class="yellowgreen"><<p buttShape.q>></span><<tab>><span style="font-size:1rem"><<link "Hips and Butt Guide">><<dialog "H&B Guide">><<include [[guideHipsButt]]>><</dialog>><</link>></span></div>
+  <<timed 50ms>>
+    <<script>>
+      $(".radioSelectorClass").click(function(){
+        setTimeout(function(){
+          aw.replace("#buttshappy","<<p buttShape.q>><<pcBreastCalc>>")
+        },50);
+      });
+    <</script>>
+  <</timed>>
+  /*<<repeat 500ms>>
+  <<replace "#buttshappy">><<p buttShape.q>><</replace>><<pcBreastCalc>>
+  <</repeat>>*/
+
+
+:: characterCreateCard-breasts [nobr]
+
+	/*BREAST SIZE IS HERE!*/
+  <<pcBreastCalc>><<tempTitLimits>>
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:10px 6px;">
+    <b>Breast Size:</b>  <<link [img[Breast & Bra Size Guide!|IMG_tits32px]]>><<dialog "Breast & Bra Size Guide">><<include [[InfoBreastGuide]]>><</dialog>><</link>> <<helpPop "Breast Variables" "The breast size guide contains more information about breast variables. The short version is that characters with breasts have two variables that determine their bra size. 1) volume in cubic centimeters. 2) band size in inches. (//Note that because nobody uses actual centimeter values for band size, this is not converted to metric//)<br><br>Band size is determined by a combination of weight and shoulder width, while volume is a base statistic that remains the same unless the character gains/loses weight during the game, or becomes pregnant.<br><br>Size is reported in two ways, either the bra size //like 32F// or in a raw cup size that is based entirely on volume and a 34 inch band //like E-cup//. Bra size is more representitive of appearance, while the raw cup size is a way to describe volume alone. //saying 'large D-cup' is a lot easier to understand than saying 680cc!// This value is only rarely used, and primarily because it is more representitive for certain gameplay elements like lactation. To convert between the raw cup and bra cup sizes, simply subtract 1 cup size for every 2 inches larger band size, or add 1 cup size for every 2 inches smaller band size.">> <<if setup.achieve.isUnlocked("Mega Tits")>>[🔑]<</if>> [img[IMG-CanChangeIcon]]
+    <<tab>><span id="boobiesizin"><div style="display:inline-block;width:150px;">Bra Size: <<pcBraSize>></div> Raw Cup Size: <<pcCupSize>></span>
+    <p>
+      <label for="amount">Breast Volume:</label>
+      <input type="text" id="amount" readonly style="border:0; color:#000; font-weight:bold;">
+    <div style="display:inline-block;width:60%;margin-left:15px;"><div id="slider" style="margin-top:3px;"></div></div>
+    </p>
+    <<timed 50ms>>
+      <<script>>
+        $( "#slider" ).slider({
+          value: ↂ.pc.body.tits.base.size,
+          min: State.temporary.mintit,
+          max: State.temporary.maxtit,
+          step: 10,
+          slide: function( event, ui ) {
+            $( "#amount" ).val( ui.value + "cc");
+            ↂ.pc.body.tits.base.size = Number(ui.value);
+          },
+          change: function( event, ui ) {
+            aw.replace("#boobiesizin","<<pcBreastCalc>><<tempTitLimits>>");
+            setTimeout(function(){
+              aw.replace("#boobiesizin",`<div style="display:inline-block;width:150px;">Bra Size: <<pcBraSize>></div> Raw Cup Size: <<pcCupSize>>`);
+            },50);
+          }
+        });
+        $( "#amount" ).val( $( "#slider" ).slider( "value" ) + "cc");
+      <</script>>
+    <</timed>>
+  </div>
+	<<radioset "titshape" "ↂ.pc.body.tits.shape">>Breast Shape <<helpPop "Breast Shape Guide" "<<include [[BreastShapeGuide]]>>">> [img[IMG-LittleChangeIcon]]
+    <<radioitem "athletic">>Athletic
+    <<radioitem "bell">>Bell
+    <<radioitem "relaxed">><span class="orange">Relaxed</span>
+    <<radioitem "round">>Round
+    <<radioitem "teardrop">>Teardrop
+    <<radioitem "thin">><span class="orange">Thin</span>
+  <</radioset>>
+	<<radioset "nippyleng" "ↂ.pc.body.tits.nipLength">>Nipple Length [img[IMG-LittleChangeIcon]]
+    <<radioitem 1>>Inverted
+    <<radioitem 2>>Partially Inverted
+    <<radioitem 3>>Flat
+    <<radioitem 4>>Short
+    <<radioitem 5>>Medium
+    <<radioitem 6>>Long
+    <<radioitem 7>>Very Long
+  <</radioset>>
+  <<radioset "nippywide" "ↂ.pc.body.tits.nipGirth">>Nipple Girth [img[IMG-LittleChangeIcon]]
+    <<radioitem 1>>Tiny
+    <<radioitem 2>>Small
+    <<radioitem 3>>Normal
+    <<radioitem 4>>Large
+    <<radioitem 5>>Huge
+  <</radioset>>
+	<<radioset "areolawide" "ↂ.pc.body.tits.areola">>Areola Width [img[IMG-LittleChangeIcon]]
+    <<radioitem 1>>Tiny
+    <<radioitem 2>>Small
+    <<radioitem 3>>Normal
+    <<radioitem 4>>Large
+    <<radioitem 5>>Huge
+  <</radioset>>
+  <<radioset "areolapuff" "ↂ.pc.body.tits.puffy">>Areola Puffiness [img[IMG-LittleChangeIcon]]
+    <<radioitem 1>>Flat
+    <<radioitem 2>>Normal
+    <<radioitem 3>>Puffy
+    <<radioitem 4>>Very Puffy
+    <<radioitem 5>>Bulging
+  <</radioset>>
+  <<if ↂ.flag.door.megaTits == 1>>
+    <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;text-align:center;padding:10px 6px;display:inline-block;margin-top:5px;">Milk Production: Special Override!</div>
+  <<else>>
+    <<radioset "milky" "ↂ.pc.body.lactation">>Milk Production <<helpPop "Milk Production" "This applies when your character is pregnant or breastfeeding, and does not mean that you are currently lactating. Poor lactation indicates someone who would need to give supplemental nutrition to a baby being breastfed. Productive indicates someone who is at the very top of what is considered normal in regard to milk production, and could likely feed triplets. Cow-Like is an abnormally large amount of milk production.<br><br>@@.note;Some milk production levels are limited based on the physical limitations of breast size. Breast size will grow somewhat when lactating.@@">> [img[IMG-CanChangeIcon]]
+      <<radioitem 0>><span class="bad">Incapable</span>
+      <<radioitem 1>>Poor
+      <<radioitem 2>>Normal
+      <<radioitem 3>>Productive
+      <<radioitem 4>>Very Productive
+    <</radioset>>
+  <</if>>
+
+
+:: characterCreateCard-pussy [nobr]
+
+
+  <<radioset "pubestyle" "ↂ.pc.groom.pubeStyle">>Pubic Hair Style <<helpPop "Pubic Hair Styles" "<<include [[GuidePubeStyles]]>>">> [img[IMG-CanChangeIcon]]
+    <<radioitem "bushy">>Bushy
+    <<radioitem "trimmed">>Trimmed
+    <<radioitem "garden">>Lush Garden
+    <<radioitem "mohawk">>Mohawk
+    <<radioitem "neatly-trimmed">>Neatly Trimmed
+    <<radioitem "bikinitrim">>Bikini Trim
+    <<radioitem "bikiniline">>Bikini Line
+    <<radioitem "triangular">>Triangular
+    <<radioitem "martini">>Martini
+    <<radioitem "heart">>Heart
+    <<radioitem "neat patch">>Neat Patch
+    <<radioitem "landing-strip">>Landing Strip
+    <<radioitem "stamp">>Postage Stamp
+    <<radioitem "stubble">>Five O'Clock
+    <<radioitem "brazilian">>Brazilian
+    <<radioitem "shaved">>Smooth
+  <</radioset>>
+  <<radioset "pubecolor" "ↂ.pc.groom.pubeColor">>Pubic Hair Color [img[IMG-CanChangeIcon]]
+    <<radioitem "black">>Black
+    <<radioitem "brunette">>Brunette
+    <<radioitem "brown">>Brown
+    <<radioitem "light brown">>Light Brown
+    <<radioitem "dark blonde">>Dark Blonde
+    <<radioitem "strawberry blonde">>Strawberry Blonde
+    <<radioitem "sandy blonde">>Sandy Blonde
+    <<radioitem "blonde">>Blonde
+    <<radioitem "platinum blonde">>Platinum Blonde
+    <<radioitem "auburn">>Auburn
+    <<radioitem "light auburn">>Light Auburn
+    <<radioitem "copper">>Copper
+    <<radioitem "ginger">>Ginger
+  <</radioset>>
+	<<radioset "clitty" "ↂ.pc.body.clit">>Clit Size [img[IMG-LittleChangeIcon]]
+    <<radioitem 1>>Small
+    <<radioitem 2>>Normal
+    <<radioitem 3>>Big
+    <<radioitem 4>>Huge
+    <<radioitem 5>>Gigantic
+  <</radioset>>
+  <<radioset "labias" "ↂ.pc.body.labia">>Labia Size [img[IMG-CanChangeIcon]]
+    <<radioitem 1>>Small
+    <<radioitem 2>>Normal
+    <<radioitem 3>>Big
+    <<radioitem 4>>Huge
+  <</radioset>>
+  <<if ↂ.flag.door.puddlingCunt == 1>>
+    <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;text-align:center;padding:10px 6px;display:inline-block;margin-top:5px;">Vaginal Wetness: Special Override!</div>
+  <<elseif setup.achieve.isUnlocked("Mega Wet")>>
+    <<radioset "vagwet" "ↂ.pc.body.pussy.wetness">>Vaginal Wetness [img[IMG-LittleChangeIcon]]
+      <<radioitem 1>><span class="bad">Dry</span>
+      <<radioitem 2>>Normal
+      <<radioitem 3>>Wet
+      <<radioitem 4>>Dripping
+      <<radioitem 5>>Flooding [🔑]
+    <</radioset>>
+  <<else>>
+    <<radioset "vagwet" "ↂ.pc.body.pussy.wetness">>Vaginal Wetness [img[IMG-LittleChangeIcon]]
+      <<radioitem 1>><span class="bad">Dry</span>
+      <<radioitem 2>>Normal
+      <<radioitem 3>>Wet
+      <<radioitem 4>>Dripping
+    <</radioset>>
+  <</if>>
+	<<if ↂ.flag.door.ultraFertile == 1>>
+    <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;text-align:center;padding:10px 6px;display:inline-block;margin-top:5px;">Fertility: Special Override!</div><<set ↂ.pc.fert.fertility = 6>>
+	<<elseif setup.achieve.isUnlocked("Mega Fertile")>>
+    <<radioset "fertage" "ↂ.pc.fert.fertility">>Fertility <<helpPop "Fertility" "This affects your body's natural ability to get pregnant, as well as hormone levels and other factors involving your menstrual cycle. There are ways to effectively avoid pregnancy in the game (IUD) if you don't wish to experience that content. Starting with low fertility comes with other consequences, and isn't a pregnancy content gate as it can be reversed due to certain game events.">> [img[IMG-CanChangeIcon]]
+      <<radioitem 0>><span class="bad">Barren</span>
+      <<radioitem 1>><span class="orange">Very Low</span>
+      <<radioitem 2>>Low
+      <<radioitem 3>>Normal
+      <<radioitem 4>>High
+      <<radioitem 5>>Super Fertile
+      <<radioitem 6>>Mega Fertile [🔑]
+    <</radioset>>
+  <<else>>
+    <<radioset "fertage" "ↂ.pc.fert.fertility">>Fertility <<helpPop "Fertility" "This affects your body's natural ability to get pregnant, as well as hormone levels and other factors involving your menstrual cycle. There are ways to effectively avoid pregnancy in the game (IUD) if you don't wish to experience that content. Starting with low fertility comes with other consequences, and isn't a pregnancy content gate as it can be reversed due to certain game events.">> [img[IMG-CanChangeIcon]]
+      <<radioitem 0>><span class="bad">Barren</span>
+      <<radioitem 1>><span class="orange">Very Low</span>
+      <<radioitem 2>>Low
+      <<radioitem 3>>Normal
+      <<radioitem 4>>High
+      <<radioitem 5>>Super Fertile
+    <</radioset>>
+  <</if>>
+
+
+
+:: charrrrrerCreateRandom [nobr]
+
+
+@@.head1;Character Creation@@
+<br><br>
+@@.head3;W@@ith some help from Lily, you stand naked in front of a dressing mirror looking at your new body.
+<br><br>
+@@.note;This game's text can vary significantly from play-through to play-through, as it is affected by your character creation, choices, and an element of randomness. Be cautious when clicking through text, as portions of it are likely different from the last time you encountered it! The first masturbation sequence, for example, has over 6,000 words of content, though you'll only see part of that at once based on your character.@@
+<br><br>
+	@@.head1;You chose random physical attributes@@
+	<br><br>
+	@@.head3;General Appearance@@<br>
+	Apparent Age: @@.hotpink;ↂ.pc.main.age@@ years old <<link " age note">><<replace "#agenote">><br>@@.note;Apparent age refers to the biological age of your new body, which has been changed from its original age via the accident. Your chronological, or true age, remains the same at <<print ↂ.pc.main.ageOriginal>>. Biological age determines appearance, and naturally varies from chronological age based on the individual. Biological age has been deemed definitively irrelevant to matters of consent and law by courts in the U.S. and most other countries (Including those in the E.U.). This is of course subject to the same exceptions for mental deficit and medical disorders whereby the individual is deemed unable to care for themselves, such as a situation of substituted consent for medical procedures in a hospital, or the ward and guardianship process whereby an individual, organization, or the state is appointed guardian of a disabled ward, typically a vulnerable adult. These exceptions do not apply in this case, as the player retains their full mental capacity. Setting a low age (25 or less) will typically result in incidents of being carded for purchasing alcohol and the like. Setting an age below 18 will have other impacts, such as suspecting a fake ID, being refused entry, and potential reduced attractiveness to NPCs. Setting a high age will have a corresponding impact to player fertility and attractiveness, starting with minor effects at 35 years of age.@@<br><</replace>><</link>><span id="agenote">.</span>
+	<br>Height: @@.hotpink;<<if $AW.metric>><<print ↂ.pc.body.heightCM>> meters<<else>> 
+	<<print ↂ.pc.body.heightFoot>> feet, <<print ↂ.pc.body.heightInch>> inches<</if>>@@  
+	<br>Race: @@.hotpink;ↂ.pc.body.race@@
+	<br>Skin Color: @@.hotpink;ↂ.pc.body.skinColor@@
+	<br>Eye Color: @@.hotpink;ↂ.pc.body.eyeColor@@
+	<br>Face Type: @@.hotpink;ↂ.pc.body.face@@
+	<br>Face Beauty: @@.hotpink;<<pcBeauty>>@@
+	<br>Hair Color: @@.hotpink;ↂ.pc.groom.hairColor@@
+	<br>Body Hair Color: @@.hotpink;ↂ.pc.groom.pubeColor@@
+	<br><br>
+	@@.head3;Body Shape@@ 
+	<br>Muscle Tone: @@.hotpink;<<pcTone>>@@
+	<br>Weight: @@.hotpink;<<pcWeight>>@@
+	<br>Shoulders: @@.hotpink;<<pcShoulderSize>>@@
+	<br>Hips: @@.hotpink;<<pcHipSize>>@@
+	<br>Waist: @@.hotpink;<<pcWaist>>@@
+	<br>Breasts: @@.hotpink;<<pcCupSize>>@@
+	<br>Breast Shape: @@.hotpink;ↂ.pc.body.tits.shape@@
+	<br>Nipple Type: @@.hotpink;ↂ.pc.body.tits.nipple@@
+	<br>Butt: @@.hotpink;<<pcAssSize>>@@
+	<br><br>
+	@@.head3;Genitals and Reproduction@@
+	<br>Clit Size: @@.hotpink;<<pcClitSize>>@@
+	<br>Labia Size: @@.hotpink;<<pcLabiaSize>>@@
+	<br>Vaginal Wetness: @@.hotpink;<<pcWetness>>@@
+	<br>Pubic Hair Style: @@.hotpink;ↂ.pc.groom.pubeStyle@@
+	<br>Fertility: @@.hotpink;<<pcFertility>>@@
+	<br>Milk Production: @@.hotpink;ↂ.pc.body.lactation@@
+	<br><br>
+
+@@font-size:130%;<<button [[Review|physicalReview]]>><<set ↂ.pc.groom.hairColor = _hairColor>><<set ↂ.pc.groom.pubeColor = _pubeColor>><<set ↂ.pc.body.race = _race>><<set ↂ.pc.body.skinColor = _skinColor>><<set ↂ.pc.body.eyeColor = _eyeColor>><<set ↂ.pc.body.face = _face>><<setPCportrait>><<set $UIimgFlag = true>><</button>>@@

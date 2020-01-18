@@ -1,0 +1,116 @@
+/* REMINDER:
+The NPC being viewed is determined by the variable _npcViewerID
+which as the name suggests, contains the NPC's npcid. (ex: n101) 
+*/
+
+:: NPC-DetailView [nobr]
+
+<<silently>>
+<<replace "#menuPortraitCunt">><<print aw.npc[_npcViewerID].main.picture>><</replace>>
+<<if aw.npc[_npcViewerID].main.female>>
+  <<replace "#menuBodyImage">>
+    <div id="portContainer" style="position:relative;display:block;width:100%;height:100%;background-color:rgba(0,0,0,0.8);border-radius:8px;">
+      <<print setup.bodyPortraitFemale(_npcViewerID)>>
+      <<link "<div style='position:absolute;top:0px;left:0px;right:0px;bottom:0px;z-index:2050;border:none;margin:0px'></div>">>
+      <<dialog "Body Portrait">><div id="bpcock" style="height:800px;width:350px;position:relative;padding:0px;display:block;margin-left:100px;"><<print setup.bodyPortraitFemale(_npcViewerID)>></div><</dialog>><</link>>
+    </div>
+  <</replace>>
+<</if>>
+<<run setup.npcDisplay.detailView(_npcViewerID)>>
+<</silently>>
+<div id="npcDetailViewContainer">
+  <div style="width:83;height:35;display:block;float:left;margin:5px;">
+    <<link [img[Unlocked Character Information|IMG-KnownUnlocks]]>><<dialog "Known Information">><<include [[NPC-DetailViewUnlocked]]>><</dialog>><</link>>
+  </div>
+  <h3 class="blackOutline" print >AppleGov Profile Details for:&nbsp; <span class="white"><<print aw.npc[_npcViewerID].name>></span></h3>
+  <div id="npcMenuMain" class="npcMenuDiv">
+    <div class="npcSectionTitle">This is a test of the title area</div>
+    <div style="grid-column: 4 / span 1;grid-row: 4 / span 1;">And some content would be going here...</div>
+  </div>
+  <div id="npcMenuRShip" class="npcMenuDiv">
+    <center class="note">...LOADING...</center>
+  </div>
+  <div id="npcMenuBody" class="npcMenuDiv">
+    <center class="note">...LOADING...</center>
+  </div>
+  <div id="npcMenuMutate" class="npcMenuDiv">
+    <center class="note">...LOADING...</center>
+  </div>
+  <div id="npcMenuFert" class="npcMenuDiv">
+    <center class="note">...LOADING...</center>
+  </div>
+  <div id="npcMenuStatus" class="npcMenuDiv">
+    <center class="note">...LOADING...</center>
+  </div>
+  <div id="npcMenuSched" class="npcMenuDiv">
+    <center class="note">...LOADING...</center>
+  </div>
+  <div id="npcMenuTrait" class="npcMenuDiv">
+    <center class="note">...LOADING...</center>
+  </div>
+  <div id="npcMenuKink" class="npcMenuDiv">
+    <center class="note">...LOADING...</center>
+  </div>
+  <div id="npcMenuCore" class="npcMenuDiv">
+    <center class="note">...LOADING...</center>
+  </div>
+  <div id="npcMenuPref" class="npcMenuDiv">
+    <center class="note">...LOADING...</center>
+  </div>
+  <div id="npcMenuBGround" class="npcMenuDiv">
+    <center class="note">...LOADING...</center>
+  </div>
+  <div id="npcMenuStories" class="npcMenuDiv">
+    <center class="note">...LOADING...</center>
+  </div>
+</div>
+
+
+:: NPC-DetailViewFake [nobr]
+
+Aarrrg Matey, this here be a Fake NPC but the display isn't set up yet!
+
+
+:: NPC-DetailViewUnlocked [nobr]
+
+
+
+<<widget "unlok">><<silently>>
+<<set _outs = "<span class='peepbad'>No Information</span>">>
+<<switch $args[0]>>
+<<case 1>>
+<<set _outs = "Basic Information">>
+<<case 2>>
+<<set _outs = "Moderate Information">>
+<<case 3>>
+<<set _outs = "<span class='peepgood'>Detailed Information</span>">>
+<</switch>>
+<</silently>><<print _outs>>
+<</widget>>
+
+<<set _a = aw.npc[_npcViewerID].record.info>>
+<p class="print">
+This display shows what "groups" of information you've unlocked about a character. In general, you will unlock more information about a character by spending more time with them, as well as improving your relationship with them. Not everyone runs around telling people the exact size of their junk, after all, but once you've had a chance to actually <i>SEE</i> their junk, that information becomes unlocked. Locked information is shown simply as [REDACTED]. <i>Keep an eye out for potentially less-than-ethical means to learn more about your fellow citizens...</i>
+</p>
+<table id="invisTable" class="print" style="font-size:1.1rem;">
+<tr>
+<td style="width:50%">
+Basic Body: <<if _a.bodyGeneral>><span class="peepgood">Known</span><<else>><span class="peepbad">Unknown</span><</if>><br>
+Body Detail: <<if _a.bodyDetail>><span class="peepgood">Known</span><<else>><span class="peepbad">Unknown</span><</if>><br>
+Body Tits: <<if _a.bodyTits>><span class="peepgood">Known</span><<else>><span class="peepbad">Unknown</span><</if>><br>
+Body Junk: <<if _a.bodyJunk>><span class="peepgood">Known</span><<else>><span class="peepbad">Unknown</span><</if>><br>
+Status: <<unlok _a.status>><br>
+Fertility: <<unlok _a.fert>><br>
+Traits: <<unlok _a.trait>>
+</td>
+<td>
+Kinks: <<unlok _a.kink>><br>
+Mutations: <<if _a.mutate>><span class="peepgood">Known</span><<else>><span class="peepbad">Unknown</span><</if>><br>
+Personality: <<unlok _a.core>><br>
+Preferences: <<unlok _a.pref>><br>
+Schedule: <<if _a.sched>><span class="peepgood">Known</span><<else>><span class="peepbad">Unknown</span><</if>><br>
+Background: <<unlok _a.bGround>><br>
+</td>
+</tr>
+</table>
+

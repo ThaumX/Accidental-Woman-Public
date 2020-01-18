@@ -1,0 +1,108 @@
+:: homeT3bath [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPhomeT3]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+<<homeItemDisp>>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<<print setup.homeItems.placeDescription("pcHome", "bath")>>
+/*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise takeshower>>
+  <<button "Take A Shower">><<dialog "Shower">><<include [[groomingShowerMenu]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise quickgroom>>
+  <<button "Quick Groom">><<dialog "Quick Groom">><<include [[groomingQuickControl]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise grooming>>
+  <<button "Grooming Menu">><<openGrooming>><</button>>
+<<endhoverrevise>>
+<<hoverrevise laundry>><<button "Laundry">><<dialog "Laundry">><<addtime 32>><<run setup.clothes.washing()>>
+@@.head3;Y@@ou open the washing machine and load your stuff. After pushing a couple of buttons it starts and you sit on top of it waiting for the laundry to be finished. It doesn't take long - modern clothes washers are far more faster than their 20-century predecessors, the full cycle including drying takes only about 30 minutes.<br>
+<<comment "This options is a manual override for auto laundry setting you can manage in the Home Control Menu. You only need to use it if you need to get your stuff cleaned right now.">>
+<</dialog>><</button>>
+<<endhoverrevise>>
+<<if $items.has("Smart Toilet Fertility Module")>>
+  <<hoverrevise cuntinstall>>
+    <<button "Install Toilet Module">><<transfer "$items" "$bath" "Smart Toilet Fertility Module">><<addTime 25>><<run setup.refresh()>><<dialog "Plumbing">><<f Y>>ou spend a good deal of time following the step-by-step instructions to get the fertility module installed in your toilet. It was doable, though perhaps right at the edge of what you'd be comfortable doing yourself. The most surprising thing is that while the unit is mostly automatic, the most detailed tests require the use of a vaginal probe. Thankfully it comes with a long metal cable, which makes it easier to clean, though you won't be able to hide it from guests.<</dialog>><</button>>
+  <<endhoverrevise>>
+<</if>>
+<<hoverrevise inventory>>
+  <<button "View Toiletries">><<addTime 5>><<dialog "Toiletries">><<f y>>ou have the following items ready to be used in your bathroom. <span style="font-size:0.8rem;"><i>Items are used automatically.</i></span><<inventorydisplay "$items">><</dialog>><</button>>
+<<endhoverrevise>>
+<<if $bath.has("Smart Toilet Fertility Module")>>
+  <<hoverrevise probing>>
+    <<button "Probe Yourself">><<addTime 15>><<arousal 2>><<run setup.fert.test()>><</button>>
+  <<endhoverrevise>>
+<</if>>
+<<homeItemButtons>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion groommenu>>@@.exp;Access the grooming menu to change your hairstyle, put on makeup, wear jewelry, change settings, and more.@@<<endinsertion>>
+<<insertion takeshower>>@@.exp;Take a shower or bath, and perhaps do other things while you're at it... This is the method to get clean without the semi-automatic bathing before bed.@@<<endinsertion>>
+<<insertion laundry>>@@.exp;Wash your clothes.@@<<endinsertion>>
+<<insertion quickgroom>>@@.exp;Open the Quick Groom menu, which contains several options to quickly apply makeup or change your hairstyle, among other things.@@<<endinsertion>>
+<<insertion grooming>>@@.exp;View the full Grooming Menu for detailed control over makeup, hair, body hair, and jewelry.@@<<endinsertion>>
+<<insertion inventory>>@@.exp;Take stock of the toiletries you've accumulated to aid you in the bathroom.@@<<endinsertion>>
+<<insertion cuntinstall>>@@.exp;Install your fancy new smart toilet fertility module so that you can actually use it. [25min]@@<<endinsertion>>
+<<insertion probing>>@@.exp;Use your smart toilet to test your fertility, and perhaps get early results on any potential pregnancy.@@<<endinsertion>>
+</div>
+
+
+<<timed 50ms>>
+<<mapHomeEventAction>>
+<<mapHomeActions>>
+<</timed>>
+
+
+
+
+:: homeT3bathLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>

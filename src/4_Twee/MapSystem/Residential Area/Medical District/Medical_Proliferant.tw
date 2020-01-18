@@ -1,0 +1,66 @@
+:: MedicalProliferant [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+  <<set _nam = setup.randName(true)>>
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmedical]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p></p>
+<div id="storeWindow">
+[img[IMG-ProliferantHealthCenter]]
+[img[IMG-Genomics]]
+[img[IMG-Succulence]]
+[img[IMG-SlimogenBio]]
+[img[IMG-Nekomatics]]
+</div>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>@@.head3;A@@fter entering the Proliferant clinic, you're quickly ushered into a cozy consultation room by one of the waiting technicians. The room is warm and inviting, and is furnished with both a consultation desk and a small private waiting area. After the two of you sit at the desk, the technician quickly introduces herself. @@.npc;Hello, I'm <<= _nam>>, and I'll be assisting you today. We have a wide range of treatments available, and I'll be happy to help you find the one that's right for you.@@
+</p>
+
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact" style="width: 950px; text-align: left;"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Genomics">><<dialog "Genomics">><<print setup.tf.list("genomics")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "Succulence">><<dialog "Succulence">><<print setup.tf.list("succulence")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise delta>>
+  <<button "SlimogenBio">><<dialog "SlimogenBio">><<print setup.tf.list("slimogen")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise gamma>>
+  <button class="disabled">Nekomatics</button>
+<<endhoverrevise>>
+<<hoverrevise omega>>
+  @@.disabled;<<button "Specialty Treatments">><</button>>@@
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>View the range of Genomics transformative treatments that are available.<<endinsertion>>
+<<insertion beta>>View the range of Succulence transformative treatments that are available.<<endinsertion>>
+<<insertion delta>>View the range of Slimogen Bio transformative treatments that are available.<<endinsertion>>
+<<insertion gamma>>Because of Besty, this is <<ctn>>[Not Yet Implemented]<</ctn>> Sorry!<<endinsertion>>
+<<insertion omega>>Check out the list of unique gene modifications that are available. <<ctn>>[Not Yet Implemented]<</ctn>><<endinsertion>>
+</div>
+
+
+:: MedicalProliferantLOC [nobr]
+
+<<ctn>>No Content Here Yet, Sorry<</ctn>>
+

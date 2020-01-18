@@ -1,0 +1,632 @@
+:: storyStart21a [nobr]
+
+
+<<silently>>
+<<set _timo = 128640 - aw.time>>
+<<addTime _timo false>>
+  <<set _key = Object.keys($temp)>>
+  <<set ↂ.flag.proItem = {}>>
+  <<for _i = 0, _c = _key.length; _i < _c; _i++>>
+    <<set ↂ.flag.proItem[_key[_i]] = $temp[_key[_i]]>>
+  <</for>>
+  <<set $temp = 0>>
+<</silently>>
+<h3>Saturday Morning...</h3>
+<img data-passage="IMG-Scene-MovingDay" style="border-radius:6px; float: right; margin: 15px 0px 15px 20px;">
+<p>
+<<f i>>t's time to move into your new place. Lily offered to help out, so the two of you get to work unpacking your meager belongings. You don't have much; some clothes, a couple pots, a pan, some essentials for the kitchen, and a mix of other items that you'd likely forget until you needed them. Overall, you were able to fit everything into you car, so you expected the hardest part of the move would simply be carrying boxes inside. You also expected that with Lily's help, you'd be done in a couple hours at the most.
+</p>
+<p>
+As it turns out, you were wrong. The bulk of the work needing to be accomplished was completing paperwork related to your new residency in Appletree. This is where Lily really proved invaluable, as she was able to help you navigate the maze of forms and registrations online, as well as some honest-to-goodness physical paperwork from townhall. While you expected there to be <i>some</i> simple things to take care of on the paperwork front, you never expected anything like what was waiting for you.
+</p>
+<center>
+<<button "CONTINUE">><<set _adder = 650 + random(0, 20)>><<addTime _adder false>><<go storyStart21b>><</button>>
+</center>
+
+
+
+:: storyStart21b [nobr]
+
+<p>
+<<f f>>inally, after many hours of work and paperwork, you're done moving into your new place. @@.pc;Thanks for helping Lily, that paperwork would have been a nightmare without you.@@
+</p>
+<p>
+Lily gives you a warm smile. @@.npc;Not a problem <<= ↂ.pc.main.name>>. Hey, now that we're done, why don't we celebrate a little with some food? I could totally go for some pizza... what do you say I order some Papa's Johnson, my treat?@@
+</p>
+<p>
+Having worked up an appetite, you agree readily. @@.pc;That sounds great, I'm starving!@@
+</p>
+<center><h2>. . .</h2></center>
+<p>
+The two of you sit down in the living room as Lily orders some pizza from Papa's Johnson. She orders a cheese & pineapple for her, and a <<= either("cock-meat","meat-obsession", "big sausage", "Papa's Cream")>> pizza for you. Once the brief phonecall is done, the two of you are left with nothing to do but wait for the pizza. This leaves the two of you in an unusual silence.
+</p>
+<p>
+Lily sighs and then fixes you with a serious look. @@.npc;I guess it's time we had that talk, huh?@@
+</p>
+<<dev>>Like:<<= aw.npc.n101.rship.likePC>>, love:<<= aw.npc.n101.rship.lovePC>><</dev>>
+<center>
+<<button "CONTINUE">>
+<<if aw.npc.n101.rship.lovePC < 55>>
+  <<if aw.npc.n101.rship.likePC < 65>>
+    <<set _like = false>>
+  <<else>>
+    <<set _like = true>>
+  <</if>>
+  <<set _love = 0>>
+  <<if _like>>
+    <<set _res = "Friend Zone">>
+    <<set _coo = 1>>
+  <<else>>
+    <<set _res = "Falling Out">>
+    <<set _coo = 2>>
+  <</if>>
+<<elseif aw.npc.n101.rship.lovePC < 70>>
+  <<if aw.npc.n101.rship.likePC < 80>>
+    <<set _like = false>>
+  <<else>>
+    <<set _like = true>>
+  <</if>>
+  <<set _love = 1>>
+  <<if _like>>
+    <<set _res = "Status Quo">>
+    <<set _coo = 3>>
+  <<else>>
+    <<set _res = "Drifting Away">>
+    <<set _coo = 4>>
+  <</if>>
+<<else>>
+  <<if aw.npc.n101.rship.likePC < 80>>
+    <<set _like = false>>
+  <<else>>
+    <<set _like = true>>
+  <</if>>
+  <<set _love = 2>>
+  <<if not ↂ.flag.lily.fuckedBathLesson>>
+    <<set _res = "Smouldering Embers">>
+    <<set _coo = 5>>
+  <<elseif ↂ.job.code !== "PF">>
+    <<set _res = "New Sparks">>
+    <<set _coo = 6>>
+  <<elseif _like>>
+    <<set _res = "Status Quo">>
+    <<set _coo = 3>>
+  <<else>>
+    <<set _res = "Drifting Away">>
+    <<set _coo = 4>>
+  <</if>>
+<</if>>
+<<set ↂ.flag.LilyResult = [_like, _love, _res, _coo]>>
+<<go storyStart21c>><</button>>
+<br><br>
+</center>
+<<if aw.chad.allowed>>
+<div style="width:70%;border-width:1px;border-style:solid;border-color:#756040;border-radius:6px;padding:20px;text-align:justify;margin:10px auto;">
+<h2>Cheat Options:</h2>
+Not all outcomes are easy to achieve. You can click one of the below buttons to forcefully receive the outcome you would like to happen. This won't change the love and like levels between you and Lily, however it will set the flags properly for the ending (so future events use your chosen ending). Please note that if you force an ending this way, some elements of the ending's story may not line up with the story from your choices during this playthrough.<br>
+<<button "Friend Zone">>
+<<set _love = 0>>
+<<set _like = true>>
+<<set _res = "Friend Zone">>
+<<set _coo = 1>>
+<<set ↂ.flag.LilyResult = [_like, _love, _res, _coo]>>
+<<go storyStart21c>>
+<</button>>
+<<button "Falling Out">>
+<<set _love = 0>>
+<<set _like = false>>
+<<set _res = "Falling Out">>
+<<set _coo = 2>>
+<<set ↂ.flag.LilyResult = [_like, _love, _res, _coo]>>
+<<go storyStart21c>>
+<</button>>
+<<button "Status Quo">>
+<<set _love = 1>>
+<<set _like = true>>
+<<set _res = "Status Quo">>
+<<set _coo = 3>>
+<<set ↂ.flag.LilyResult = [_like, _love, _res, _coo]>>
+<<go storyStart21c>>
+<</button>>
+<<button "Drifting Away">>
+<<set _love = 1>>
+<<set _like = false>>
+<<set _res = "Drifting Away">>
+<<set _coo = 4>>
+<<set ↂ.flag.LilyResult = [_like, _love, _res, _coo]>>
+<<go storyStart21c>>
+<</button>>
+<<button "Smouldering Embers">>
+<<set _love = 2>>
+<<set _like = true>>
+<<set _res = "Smouldering Embers">>
+<<set _coo = 5>>
+<<set ↂ.flag.LilyResult = [_like, _love, _res, _coo]>>
+<<set ↂ.flag.lily.fuckedBathLesson = false>>
+<<go storyStart21c>>
+<</button>>
+<<if ↂ.job.code !== "PF">>
+  <<button "New Sparks">>
+  <<set _love = 2>>
+  <<set _like = false>>
+  <<set _res = "New Sparks">>
+  <<set _coo = 6>>
+  <<set ↂ.flag.LilyResult = [_like, _love, _res, _coo]>>
+  <<set ↂ.flag.lily.fuckedBathLesson = true>>
+  <<go storyStart21c>>
+  <</button>>
+<<else>>
+  <<button "New Sparks">>
+    <<dialog "Unavailable">>
+      Sorry, but the "New Sparks" ending is unavailable if you select the Fecundate Division at Progenerate Technologies as your job.
+    <</dialog>>
+  <</button>>
+<</if>>
+</div>
+<</if>>
+
+
+:: storyStart21c [nobr]
+
+
+<<silently>>
+<<set _cig = "<img data-passage='IMG-ProOutcome-" + ↂ.flag.LilyResult[3] + "' style='display:block;margin:20px 100px;'>">>
+<</silently>>
+<<= _cig>>
+<<switch ↂ.flag.LilyResult[3]>>
+<<case 1>> /* Friend Zone */
+<p>
+<<f l>>ily takes several moments to gather her thoughts before she starts. @@.npc;So, the talk... Is it okay if I just put this all out there?@@
+</p>
+<p>
+You figure that it's better than trying to beat around the bush. @@.pc;Sure Lils, go ahead.@@
+</p>
+<p>
+Lily clears her throat nervously, and starts. @@.npc;Back in college, and maybe for a while after, there was definitely something between us. Maybe we were in love, maybe it was just me.. Whatever the case, because of my insecurity over my body it was left unexplored on the vine. There are still echoes of those feelings--feelings are so intense when you're young--but I think we both know that the love from back then withered on the vine.@@ She pauses for a moment to let that sink in. @@.npc;<<name>>, you're still very important to me; you're probably my best friend in the world. But the love from back then just doesn't exist anymore. I think without really realizing it, I moved on at some point. I've just been acting on this memory of my feelings, rather than how I really feel. I still love you today, but it feels like I'm loving the brother... sister that I never had. It's not a romantic love.@@
+</p>
+<p>
+She takes a deep breath. @@.npc;I know this is all really selfish of me. Back in school... I did everything to keep you in love with me, while keeping you at arm's length. All without ever telling you the real reason. The distance afterward, and then finally bringing you here, you finding out the secret... The reason why I acted that way. But now here I am saying that all of that is over now, and that the signals I was sending out only a couple weeks ago were mistaken. All I can really say is that I'm truly sorry, and that I hope we can still be friends.@@
+</p>
+<div id="cock">
+<<dialogchoice>>
+  <<dbutt "Friends">><<replace "#cock">><<include [[storyStart21-1a]]>><</replace>><<set ↂ.flag.LilyResult.push("a")>>
+  <<dtext "smile">>You agree that love isn't in the cards, and of course you can still be friends.
+  <<dbutt "Love">><<replace "#cock">><<include [[storyStart21-1b]]>><</replace>><<set ↂ.flag.LilyResult.push("b")>>
+  <<dtext "sad">>You aren't willing to give up on your love for Lily, try to persuade her.
+  <<dbutt "UNSURE">>
+    <<if random(1, 2) === 1>>
+      <<replace "#cock">><<include [[storyStart21-1a]]>><</replace>><<set ↂ.flag.LilyResult.push("a")>>
+    <<else>>
+      <<replace "#cock">><<include [[storyStart21-1b]]>><</replace>><<set ↂ.flag.LilyResult.push("b")>>
+    <</if>>
+  <<dtext "unknown">>You really don't know what to say. <<ctn>>Choose an option at random<</ctn>>
+<</dialogchoice>>
+</div>
+
+<<case 2>> /* Falling Out */
+<p>
+<<f l>>ily takes several moments to gather her thoughts before she starts. @@.npc;So, the talk... Please let me say what I need to say without interrupting me, okay?@@
+</p>
+<p>
+You pretty much have to agree, though you feel like you may disagree with her. @@.pc;Fine, go ahead.@@
+</p>
+<p>
+Lily takes a breath and starts. @@.npc;I think in the past there was some chemistry between us, maybe it was love, maybe it was childish infatuation. I know it's my fault that we never found out, but I think it's pretty obvious that whatever happened in the past, we aren't in love now.@@ She pauses for a moment, watching you carefully. @@.npc;I still care about you, of course, but it's not something romantic. That time has passed; it just wasn't meant to be.@@
+</p>
+<p>
+She takes a deep breath and continues. @@.npc;We've had a lot of distance between us for the last several years. I don't know if you changed during that time, perhaps from the hopeless jobs and string of failed romances. Maybe you were still the same, but I fucked things up with the accident. Either way, I'm not blaming you--and I'm truly sorry about the accident--but you aren't the same person who was my best friend. Or maybe I'm totally wrong altogether and I'm the one who has changed. Whatever the case may be... I don't think our relationship is the same as it was. I don't really <i>like</i> you. Maybe we can still be friends... maybe not... we'll just have to see.@@
+</p>
+<p>
+She holds up her hand to forestall any response. @@.npc;Look, I will still do everything I can to make things right. I'll still be here to help you, I owe you that, and probably more.@@ She sighs sadly. @@.npc;We just need to adjust to whatever our new friendship will be without any preconceptions about the past, okay?@@
+</p>
+<div id="cock">
+<<dialogchoice>>
+  <<dbutt "let's try">><<replace "#cock">><<include [[storyStart21-2a]]>><</replace>><<set ↂ.flag.LilyResult.push("a")>>
+  <<dtext "awkward">>It'll be different, sure, but you're willing to try being friends.
+  <<dbutt "fuck you">><<replace "#cock">><<include [[storyStart21-2b]]>><</replace>><<set ↂ.flag.LilyResult.push("b")>>
+  <<dtext "mad">>You don't like her, either. 
+  <<dbutt "UNSURE">>
+    <<if random(1, 2) === 1>>
+      <<replace "#cock">><<include [[storyStart21-2a]]>><</replace>><<set ↂ.flag.LilyResult.push("a")>>
+    <<else>>
+      <<replace "#cock">><<include [[storyStart21-2b]]>><</replace>><<set ↂ.flag.LilyResult.push("b")>>
+    <</if>>
+  <<dtext "unknown">>You really don't know what to say. <<ctn>>Choose an option at random<</ctn>>
+<</dialogchoice>>
+</div>
+
+<<case 3>> /* Status Quo */
+<p>
+<<f l>>ily takes several moments to gather her thoughts before she starts. @@.npc;So, the talk... Is it okay if I just put this all out there?@@
+</p>
+<p>
+You figure that it's better than trying to beat around the bush. @@.pc;Sure Lils, go ahead.@@
+</p>
+<p>
+Lily clears her throat nervously, and starts. @@.npc;I know that back in college, and probably for a while afterward, there was something between us. I really think that we loved each other back then, but thanks to my immaturity and uncertainty about my body, I screwed it up.@@ Her face takes on a sorrowful expression of regret as she pauses for a moment. @@.npc;Anyway... I screwed that up, and while I'm sorry about that now, there's no way we can change the past. So it's important to focus on the present.@@
+</p>
+<p>
+She takes a deep breath. @@.npc;I was really excited about you coming here. I had a plan, I was going to spend some time getting close to you again, and then I was going to finally share my secret. Obviously in a way that didn't involve you walking in on me masturbating.@@ She lets out a pained laugh. @@.npc;Anyway, from there, the Reinvigorator would have been ready to 'fix' my DNA if you really did reject that part of me... and either way things could be great. But then while trying to finish calibrating the machine for that possibility... the damned accident happened and fucked it all up, and then you found out anyway.@@
+</p>
+<p>
+Lily lets out a small sigh. @@.npc;But I think what makes this the hardest is that I've realized over the last several days that we aren't the same people we were back then. I hoped that you'd still love me the same, and I was convinced my feelings were the same... but in reality it seems like things are so very different. I don't mean your body... but your heart just seems different. It could be my fault because of the accident, maybe it's just the years apart...@@ Lily pauses to take a breath and try to calm down. @@.npc;Realizing that you are different made me realize that my own feelings have changed as well. It's like I've spent the last few years acting on my memory of my feelings rather than what they've become.@@
+</p>
+<p>
+Lily looks vulnerable as she searches your face, the uncertainty almost alien to her normally-confident expression. @@.npc;I don't know where to go from here. I think we will still be friends, of course... I just don't know if the romantic reunion I was imagining is still in the cards. I'm not even certain if I really feel that way about you... it seems like maybe it's guilt or memories of the past. I almost get the feeling that my love for you may be more like family than romance. I just know I'm not ready for romance, I need time to figure things out first.@@ She sighs. @@.npc;I can't promise anything, because I just don't know.@@ She looks at you, watching closely as she waits to see what you say.
+</p>
+<div id="cock">
+<<dialogchoice>>
+  <<dbutt "I'll wait">><<replace "#cock">><<include [[storyStart21-3a]]>><</replace>><<set ↂ.flag.LilyResult.push("a")>>
+  <<dtext "dismay">>Tell her that you love her, and you're willing to wait.
+  <<dbutt "just friends">><<replace "#cock">><<include [[storyStart21-3b]]>><</replace>><<set ↂ.flag.LilyResult.push("b")>>
+  <<dtext "arrogant">>You aren't interested in romance with Lily, so let her know.
+  <<dbutt "UNSURE">>
+    <<if random(1, 2) === 1>>
+      <<replace "#cock">><<include [[storyStart21-3a]]>><</replace>><<set ↂ.flag.LilyResult.push("a")>>
+    <<else>>
+      <<replace "#cock">><<include [[storyStart21-3b]]>><</replace>><<set ↂ.flag.LilyResult.push("b")>>
+    <</if>>
+  <<dtext "unknown">>You really don't know what to say. <<ctn>>Choose an option at random<</ctn>>
+<</dialogchoice>>
+</div>
+
+<<case 4>> /* Drifting Away */
+<p>
+<<f l>>ily takes several moments to gather her thoughts before she starts. @@.npc;So, the talk... Is it okay if I just put this all out there?@@
+</p>
+<p>
+You figure that it's better than trying to beat around the bush. @@.pc;Sure Lils, go ahead.@@
+</p>
+<p>
+Lily clears her throat and starts. @@.npc;I know that back in college, and probably for a while afterward, there was something between us. I really think that we loved each other back then, but thanks to my immaturity and uncertainty about my body, I screwed it up.@@ Her face takes on an expression of regret. @@.npc;Anyway... I screwed that up, and while I'm sorry about that now, there's no way we can change the past. So it's important to focus on the present.@@
+</p>
+<p>
+She takes a deep breath. @@.npc;I was really excited about you coming here. I had a plan, I was going to spend some time getting close to you again, and then I was going to finally share my secret. Obviously in a way that didn't involve you walking in on me masturbating.@@ She lets out a pained laugh. @@.npc;Anyway, from there, the Reinvigorator would have been ready to 'fix' my DNA if you really did reject that part of me... and either way things could be great. But then while trying to finish calibrating the machine for that possibility... the damned accident happened and fucked it all up, and then you found out anyway.@@
+</p>
+<p>
+Lily lets out a small sigh. @@.npc;But I think what makes this the hardest is that I've realized over the last several days that we aren't the same people we were back then. I've realized that I had this idealized vision of my feelings--perhaps a memory--that I was basing everything on. But now I know that those aren't my real feelings. Somewhere along the way, in the intervening years, it seems like those feelings faded.@@ she sighs. @@.npc;When I think seriously about changing my body for you, I realize that I'm actually revolted by the idea.@@
+</p>
+<p>
+She holds up her hand to forestall your response. @@.npc;Don't get me wrong, I still care about you, but it's not in a romantic way... It's more like you're a member of my family. That said... I can't say that I really like who you've become. I know that part of it is my fault--and I really am sorry--the changes from the accident have altered your personality somewhat. I think an important part of it is the life you've lived since college, though. The dead-end jobs, the string of failed romances, something took away that spark you used to have. I'm sure we can still be friends, but I think we'll need some time to figure out what that will look like.@@
+</p>
+<div id="cock">
+<<dialogchoice>>
+  <<dbutt "friends">><<replace "#cock">><<include [[storyStart21-4a]]>><</replace>><<set ↂ.flag.LilyResult.push("a")>>
+  <<dtext "confused">>Being friends is a reasonable direction for your relationship.
+  <<dbutt "the same">><<replace "#cock">><<include [[storyStart21-4b]]>><</replace>><<set ↂ.flag.LilyResult.push("b")>>
+  <<dtext "unamused">>You aren't the only one that's different, Lily hasn't changed for the better.
+  <<dbutt "UNSURE">>
+    <<if random(1, 2) === 1>>
+      <<replace "#cock">><<include [[storyStart21-4a]]>><</replace>><<set ↂ.flag.LilyResult.push("a")>>
+    <<else>>
+      <<replace "#cock">><<include [[storyStart21-4b]]>><</replace>><<set ↂ.flag.LilyResult.push("b")>>
+    <</if>>
+  <<dtext "unknown">>You really don't know what to say. <<ctn>>Choose an option at random<</ctn>>
+<</dialogchoice>>
+</div>
+
+<<case 5>> /* Smouldering Embers */
+<p>
+<<f l>>ily takes several moments to gather her thoughts before she starts. @@.npc;So, the talk... Is it okay if I just put this all out there?@@
+</p>
+<p>
+You figure that it's better than trying to beat around the bush. @@.pc;Sure Lils, go ahead.@@
+</p>
+<p>
+Lily clears her throat nervously, and starts. @@.npc;I know that back in college, and probably for a while afterward, there was something between us. I really think that we loved each other back then, but thanks to my immaturity and uncertainty about my body, I screwed it up.@@ Her face takes on a sorrowful expression of regret as she pauses for a moment. @@.npc;Anyway... I screwed that up, and while I'm sorry about that now, there's no way we can change the past. So it's important to focus on the present.@@
+</p>
+<p>
+She takes a deep breath. @@.npc;I was really excited about you coming here. I had a plan, I was going to spend some time getting close to you again, and then I was going to finally share my secret. Obviously in a way that didn't involve you walking in on me masturbating.@@ She lets out a pained laugh. @@.npc;Anyway, from there, the Reinvigorator would have been ready to 'fix' my DNA if you really did reject that part of me... and either way things could be great. But then while trying to finish calibrating the machine for that possibility... the damned accident happened and fucked it all up, and then you found out anyway.@@
+</p>
+<p>
+Lily lets out a small sigh. @@.npc;All of this happened so <i>wrong</i>! I've been fighting this worry that you would hate me because of the accident, or that you'd be such a different person that you no longer had any of those feelings for me...@@ She clenches her fists as if to work up her courage. @@.npc;<<name>>, I don't care that you're a woman now, I love you. It feels like I've always loved you, ever since we were kids in high school. You've always been someone irreplaceable to me, someone that I could never forget.@@
+</p>
+<p>
+Lily looks deep into your eyes, a glimmer of hope on her face. @@.npc;Even after all of this... the wasted years, my weird body, the stupid accident... is it possible that you still love me too?@@
+</p>
+<div id="cock">
+<<dialogchoice>>
+  <<dbutt "I do">><<replace "#cock">><<include [[storyStart21-5a]]>><</replace>><<set ↂ.flag.LilyResult.push("a")>>
+  <<dtext "love">>You love Lily, tell her so.
+  <<dbutt "I don't">><<replace "#cock">><<include [[storyStart21-5b]]>><</replace>><<set ↂ.flag.LilyResult.push("b")>>
+  <<dtext "awkward">>You don't really love Lily anymore, let her down gently.
+  <<dbutt "UNSURE">>
+    <<if random(1, 2) === 1>>
+      <<replace "#cock">><<include [[storyStart21-5a]]>><</replace>><<set ↂ.flag.LilyResult.push("a")>>
+    <<else>>
+      <<replace "#cock">><<include [[storyStart21-5b]]>><</replace>><<set ↂ.flag.LilyResult.push("b")>>
+    <</if>>
+  <<dtext "unknown">>You really don't know what to say. <<ctn>>Choose an option at random<</ctn>>
+<</dialogchoice>>
+</div>
+
+<<case 6>> /* New Sparks? */
+<p>
+<<f l>>ily takes several moments to gather her thoughts before she starts. @@.npc;So, the talk... Please let me say what I need to say without interrupting me, okay?@@
+</p>
+<p>
+You pretty much have to agree, though you feel like you may disagree with her. @@.pc;Fine, go ahead.@@
+</p>
+<p>
+Lily takes a breath and starts. @@.npc;The last week has happened so completely different than what I expected. Things have taken some really awkward turns, and that's mostly my fault.@@ She sighs. @@.npc;There used to be something between us, at least back in college, though thanks to me nothing ever came of it. Since you've been here it has also become obvious that whatever that was back then, it doesn't exist anymore.@@
+</p>
+<p>
+She holds up her hand, wanting you to let her finish. @@.npc;But you're a new person now. I'm sure that the years spent in dead-end jobs, and the string of failed romances has something to do with it. But it's also true that the accident didn't just affect your body; it has had some dramatic effects on your personality as well.@@ She takes a moment to look your body up and down. @@.npc;I have to admit that there's something alluring about the new you. I know our friendship isn't the same either, we haven't gotten along like we used to even a few weeks ago, but that might not be a bad thing.@@
+</p>
+<p>
+Lily takes a deep breath. @@.npc;A lot has changed, I've screwed things up, but somehow it feels like you're my new crush. Not the old you, but the new you.@@ She stares into your eyes. @@.npc;It certainly wasn't the old you in the shower with me the other night... So, what do you say? Would you like to go out with me?@@
+</p>
+<div id="cock">
+<<dialogchoice>>
+  <<dbutt "let's date">><<replace "#cock">><<include [[storyStart21-6a]]>><</replace>><<set ↂ.flag.LilyResult.push("a")>>
+  <<dtext "cool">>Agree to start going out with Lily in a new relationship.
+  <<dbutt "no thanks">><<replace "#cock">><<include [[storyStart21-6b]]>><</replace>><<set ↂ.flag.LilyResult.push("b")>>
+  <<dtext "arrogant">>You aren't really interested in dating Lily, just be friends.
+  <<dbutt "UNSURE">>
+    <<if random(1, 2) === 1>>
+      <<replace "#cock">><<include [[storyStart21-6a]]>><</replace>><<set ↂ.flag.LilyResult.push("a")>>
+    <<else>>
+      <<replace "#cock">><<include [[storyStart21-6b]]>><</replace>><<set ↂ.flag.LilyResult.push("b")>>
+    <</if>>
+  <<dtext "unknown">>You really don't know what to say. <<ctn>>Choose an option at random<</ctn>>
+<</dialogchoice>>
+</div>
+
+<</switch>>
+<center>
+<<dev>><<link "Dev Testing Return Link">><<go storyStart21b>><</link>><</dev>>
+</center>
+
+
+:: storyStart21-1a [nobr]
+
+/* Friend Zone - friends*/
+<p>
+You were expecting something like this, and honestly, your own feelings for Lily aren't what they used to be. It does feel nice to hear her apologize though, she hasn't always made life easy for you. @@.pc;I understand Lils, and to be honest I kind-of feel the same way. Once I got here and looked past the nostalgic memories, I realized that I don't think of you that way anymore.@@ You let out your own sigh. @@.pc;I think my recent relationship issues had me pining for the love we had in the past... but it's gone, isn't it?@@ You give her a brave smile. @@.npc;Of course I'd be happy if we stay friends.@@
+</p>
+<p>
+Lily nods, looking relieved that you seem to be taking it so well. @@.npc;Friends then.@@ She gives you a smile. @@.npc;Once you get settled in we'll have to hang out and see what kind of trouble we can get into downtown. It'll be like old times.@@
+</p>
+<p>
+There's a brief silence, not exactly awkward, but not as comfortable as it used to be. Thankfully it's quickly interrupted by the sound of your door bell ringing. @@.npc;Oh, the pizza's here!@@ You get up and collect the delivery order from the delivery bot. The two of you eat for a while, and eventually the mood returns to something more normal as you chat about various topics.
+</p>
+<p>
+Eventually Lily calls it a night and excuses herself, and you're left alone in your new apartment.
+</p>
+<center><span style="font-size:26px;"><<button "Finish the Prologue!">><<go FinalProloguePrep>><</button>></span></center>
+
+
+:: storyStart21-1b [nobr]
+
+/* Friend Zone - but mah love*/
+<p>
+You had a sinking feeling that she was going to say something like this. Despite somewhat expecting it, it still takes you a few moments to process her words. You can't put together an elegant--or even rational--counterargument, but you have to try. @@.pc;No Lily, I still love you! I know things are different because of the accident, but that didn't change how I feel.@@ You look at her desperately. @@.pc;We're together again Lils, I know that I ended up in a dead-end before, but this is a new start! Please don't give up on us again. Please.@@
+</p>
+<p>
+Lily looks away with a pained expression. @@.npc;I'm sorry <<name>>, I really am... but I just don't feel that way about you anymore.@@ She forces herself to look back at you. @@.npc;This isn't because you were a loser before, or because of the accident... it's just how I feel.@@
+</p>
+<p>
+You shake your head in disbelief, unwilling to accept it. @@.pc;Please, just give it--give us--a shot. Please?@@
+</p>
+<p>
+Lily tries to give you a stern look, but the sorrow in her expression ruins the effect somewhat. @@.npc;No. It just doesn't work like that, okay?@@ She looks like she's about to try to explain it to you when your doorbell rings. @@.npc;Oh, that must be the pizza.@@ She seems grateful for the interruption, and quickly gets up to go collect the pizza from the delivery bot. She's composed again by the time she returns with the hot pizzas. @@.npc;Come on, let's eat.@@
+</p>
+<p>
+The two of you eat in silence; you can't let go of your feelings, but you manage to stop yourself from resorting to begging. Once Lily has finished eating she gets up and excuses herself, leaving for her place. You're left alone in your apartment.
+</p>
+<center><span style="font-size:26px;"><<button "Finish the Prologue!">><<go FinalProloguePrep>><</button>></span></center>
+
+
+:: storyStart21-2a [nobr]
+
+/* Falling Out - let's try*/
+<p>
+As you listen to Lily's speech you can't say that you're very surprised by the content. It's true that you haven't gotten along very well for the last week, though you suspect that might have more to do with her turning you into a girl, rather than any change in personality. At least she apologized, sort of. @@.pc;I get it, things are different now... You won't get any argument from me.@@ You sigh. @@.npc;I think we can still be friends. A lot has happened, we've been living in the same house and spending a lot of time together... I think it'll work out now that I have my own place.@@
+</p>
+<p>
+Lily seems to be relieved that you're taking everything so well. @@.npc;I'm sure you're right. Friends then.@@ She gives you a smile. @@.npc;Once you get settled in we'll have to hang out and see what kind of trouble we can get into downtown. It'll be like old times.@@
+</p>
+<p>
+There's a brief silence, not exactly awkward, but not as comfortable as it used to be. Thankfully it's quickly interrupted by the sound of your door bell ringing. @@.npc;Oh, the pizza's here!@@ You get up and collect the delivery order from the delivery bot. The two of you eat for a while, and the mood returns to something more normal as you chat about various topics.
+</p>
+<p>
+Eventually Lily calls it a night and excuses herself, and you're left alone in your new apartment.
+</p>
+<center><span style="font-size:26px;"><<button "Finish the Prologue!">><<go FinalProloguePrep>><</button>></span></center>
+
+
+:: storyStart21-2b [nobr]
+
+/* Falling Out - fuck you*/
+<<achieve "worstFriend">>
+<p>
+You listen to Lily's speech and while you can't say you're surprised, you also find it making you rather angry. @@.pc;Listen, the feeling's mutual. I don't really <i>like</i> you either.@@ You glare at her. @@.npc;But I wouldn't assume that's all me though. You've become a pretty stuck-up bitch since you moved here. But whatever, we don't have to be friends, you just have to turn me back into a man.@@
+</p>
+<p>
+Lily's anger starts to show. @@.npc;Fine. I'll turn you back, don't worry about that.@@ She looks like she's about to say something else, but just then your doorbell rings. @@.npc;The pizza. I'll get it.@@ she stalks to the front door to collect the pizzas from the delivery bot.
+</p>
+<p>
+She returns with two pizza boxes, and hands one to you. @@.npc;I think I'll eat mine at home.@@
+</p>
+<p>
+@@.pc;Fine@@ you reply as you watch Lily return to the front door. After a moment she's gone, and you're left alone in your new apartment.
+</p>
+<center><span style="font-size:26px;"><<button "Finish the Prologue!">><<go FinalProloguePrep>><</button>></span></center>
+
+
+:: storyStart21-3a [nobr]
+
+/* Status Quo - I'll wait*/
+<p>
+Listening to Lily's revelation surprised you; you weren't expecting something quite like this. You're unsure of how to handle things. You know that you still love her, but you can tell by her uncertain expression that pushing her isn't going to work out in your favor. @@.pc;Look, Lils... I still love you.@@ You take a deep breath. @@.pc;I know you need some time to think things through... so I'll wait. After all, I've waited years already, so what's a little bit longer compared to that?@@ You chuckle lightly, but it's more about releasing discomfort than appreciating humor.
+</p>
+<p>
+Lily stares at you for several moments. @@.npc;Thank you <<name>>. I care about you too, of course... I just need to figure out which way... I'm sorry.@@
+</p>
+<p>
+You nod, putting on a brave face. @@.pc;I understand... You're worth waiting for.@@ Before you can continue and perhaps put your foot in your mouth, the doorbell rings. @@.pc;Ahh, the pizza's here.@@ You get up and collect the delivery order from the delivery bot. The two of you eat for a while, and eventually the mood returns to something more normal as you chat about various topics.
+</p>
+<p>
+Eventually Lily calls it a night and excuses herself, and you're left alone in your new apartment.
+</p>
+<center><span style="font-size:26px;"><<button "Finish the Prologue!">><<go FinalProloguePrep>><</button>></span></center>
+
+
+:: storyStart21-3b [nobr]
+
+/* Status Quo - just friends*/
+<p>
+You're a little bit surprised by Lily's revelation. You didn't realize how much she had been anticipating your move to Appletree. While you expected her to be unsure of where the two of you stood, you never pictured her being unsure of her own emotions. @@.pc;Look, Lils... I really do care about you.@@ You take a deep breath. @@.pc;I love you like family; hell, you're pretty much the only family I've got left. <<silly>>This <i>is</i> West Virginia though, so I wouldn't mind a little action on the side. <</silly>>So to be honest, I really just want to stay friends.@@
+</p>
+<p>
+Somehow Lily looks even more confused than she did before. @@.npc;Oh. I see.@@ She's silent for a few moments before giving you a weak smile. @@.npc;Well, I guess that simplifies things.@@ She chuckles a little bit. @@.npc;It's funny, I was worried about telling you that I probably don't love you romantically anymore, but here you are already on the same page.@@
+</p>
+<p>
+You're about to reply when the doorbell rings. @@.pc;Oh, that's probably the pizza...@@ You get up and collect the delivery order from the delivery bot. By the time you get back, Lily's looking a lot more like her normal self. The two of you eat for a while, and eventually the mood returns to something more normal as you chat about various topics.
+</p>
+<p>
+Eventually Lily calls it a night and excuses herself, and you're left alone in your new apartment.
+</p>
+<center><span style="font-size:26px;"><<button "Finish the Prologue!">><<go FinalProloguePrep>><</button>></span></center>
+
+
+:: storyStart21-4a [nobr]
+
+/* Drifting Away - friends*/
+<p>
+You experienced a flurry of different emotions as you listened to Lily. Surprise at her hopes for your arrival, regret for walking in on her, sadness that what the two of you shared had faded, relief that she isn't still in love with you, anger that she said she doesn't like you, and the fear of not knowing who you've become. It takes you some time before you're ready to answer. @@.pc;Look, I know things are different now, but I'm sure we can still be friends.@@ You shrug. @@.pc;I can't really help who I've become, but I can say that I still care about you. I guess... sisters don't always get along either.@@
+</p>
+<p>
+Lily smiles warmly at your last comment. @@.npc;That's true, isn't it? I guess whenever I imagined having a sibling, I never thought about fighting or not getting along.@@ She chuckles. @@.npc;So even though you and I may not always get along... we're still sisters.@@
+</p>
+<p>
+You smile back. @@.pc;Okay sis, <<if ↂ.pc.main.age < 30>>I guess because I'm in a younger body, you get to be the big sister.<<else>>I guess winding up with this older body means you're my little sister.<</if>>@@ You were just about to make a joke when the doorbell rings and interrupts you. @@.pc;Oh, that must be the pizza.@@ You get up and collect the delivery order from the delivery bot. The two of you eat for a while, the mood quickly returning to something more normal as you chat about various topics.
+</p>
+<p>
+Eventually Lily calls it a night and excuses herself, and you're left alone in your new apartment.
+</p>
+<center><span style="font-size:26px;"><<button "Finish the Prologue!">><<go FinalProloguePrep>><</button>></span></center>
+
+
+:: storyStart21-4b [nobr]
+
+/* Drifting Away - the same*/
+<p>
+You experienced a whole range of emotions as you listened to Lily, but the one that seemed to affect you most strongly was anger. After everything she put you through, she's complaining she doesn't like you‽ @@.pc;Wait just a damned minute. Don't go assuming that I'm the only one who has changed here. The Lily I know isn't so arrogant and stuck-up.@@ You glare at her. @@.pc;You turned me into a woman--I get that it was an accident--and then you have the gall to act like you're doing me a favor by helping me survive afterward‽@@
+</p>
+<p>
+Lily looks at you for a moment, taken aback by your burst of anger. @@.npc;Oh get off the cock, we need the cum. And you think you haven't changed... holy phallus! You're so dumb, you could fall into a barrel of cock and wind up sucking your thumb.@@ She takes a breath, but right before she can continue the doorbell rings. She glares at you for a moment before she stalks off to the front door to collect the delivery.
+</p>
+<p>
+She returns with two pizza boxes, and hands one to you. @@.npc;I think I'll eat mine at home. Text me when you come to your senses.@@
+</p>
+<p>
+@@.pc;Fine@@ you reply as you watch Lily return to the front door. After a moment she's gone, and you're left alone in your new apartment.
+</p>
+<center><span style="font-size:26px;"><<button "Finish the Prologue!">><<go FinalProloguePrep>><</button>></span></center>
+
+
+:: storyStart21-5a [nobr]
+
+/* Smouldering Embers - I do*/
+<p>
+You listened to Lily talk with a sinking heart, figuring that she was likely about to give you bad news. It made you all the more elated when it actually turned out to be good news. @@.pc;I do, Lils. Of course do. I've loved you for so long I can't remember not loving you.@@ You try your best at a reassuring smile. @@.pc;Lily, I know I'm a woman now... but if you don't mind it, I'm not going to let that get in the way. Besides, it seems like you're well-equipped to handle the situation...@@
+</p>
+<p>
+Lily breaks into a radiant smile, her eyes wet as she crawls over to where you're sitting on the floor. She wraps her arms around you and kisses you full on the lips. Her kiss is passionate but patient, waiting for you to open your mouth for a deeper kiss. Eventually she pulls away, ending the kiss and staring into your eyes. @@.npc;I love you, <<name>>.@@
+</p>
+<p>
+You stare back with a smile. @@.pc;I love you too.@@
+</p>
+<p>
+Lily moves in for another kiss, this one more insistent than the last. It seems like it had barely started when you hear your doorbell ring. She pulls away from the kiss. @@.npc;Damn, their deliveries are too fast.@@ She climbs to her feet and walks to the front door.
+</p>
+<p>
+She returns with your pizzas, and the two of you enjoy your meal with a light conversation. When you both are finished eating, you send a questioning glance at Lily. @@.pc;So... what's next?@@
+</p>
+<p>
+Lily climbs to her feet before answering. @@.npc;I think I should go home for now. I don't want to rush things <i>too</i> fast with us, and if I stay much longer I might end up staying the night.@@ She chuckles happily. @@.npc;Besides, you've gotta be at least as tired as I am, so I don't think it'd add up to a great first time, you know?@@
+</p>
+<p>
+While you certainly wouldn't mind Lily staying, you have to admit the situation is less than ideal; you don't really even have a proper bed set up yet. @@.pc;Yeah, that makes sense. Can I at least have a goodnight kiss?@@
+</p>
+<p>
+@@.npc;Sure!@@ She smiles and helps you up for another deep kiss. Eventually the two of you are able to pull apart, and Lily makes her way to the door. After saying goodbye, she leaves you alone in your new apartment.
+</p>
+<center><span style="font-size:26px;"><<button "Finish the Prologue!">><<go FinalProloguePrep>><</button>></span></center>
+
+
+:: storyStart21-5b [nobr]
+
+/* Smouldering Embers - I don't*/
+<<achieve "heartbreaker">>
+<p>
+As you listen to Lily speak, you begin to realize that things aren't going the way you expected. Her confession leaves a pit in your stomach as you realize how much she cares for you. You take a couple moments to get your thoughts together before answering. @@.pc;I... I'm sorry Lily, but I just don't love you that way anymore.@@ You sigh. @@.pc;I did love you romantically back then... but over the years that faded away. Now you're more like family to me than anything else. I'm so sorry.@@
+</p>
+<p>
+Lily already has tears in her eyes, but she does a remarkable job of holding it together long enough to answer. @@.npc;It's okay, I understand... I kind of expected that might be the case...@@
+</p>
+<p>
+You feign a sudden interest in what's going on outside the window as Lily turns away. You can still see her shake slightly with silent sobs as she tries to get herself under control. Just then you hear the doorbell ring. @@.pc;The pizza's here, I'll go get it.@@ You climb to your feet and head to the front door.
+</p>
+<p>
+After you collect the two pizza boxes from the delivery bot you carry them back to the living room, only to find that Lily is no longer there. @@.mono;She's probably in the bathroom...@@
+</p>
+<p>
+After several minutes Lily returns, her eyes red. @@.npc;I... I think It'd be better for me to eat at home.@@ She picks up her pizza box up off the floor, carefully looking away from you.
+</p>
+<p>
+@@.pc;Yeah, I understand... I'm sorry Lily.@@
+</p>
+<p>
+Lily says a quiet @@.npc;I'll talk to you later@@ on her way to the door, and then departs. You're left alone in your new apartment.
+</p>
+<center><span style="font-size:26px;"><<button "Finish the Prologue!">><<go FinalProloguePrep>><</button>></span></center>
+
+
+:: storyStart21-6a [nobr]
+
+/* New Sparks? - let's date*/
+<p>
+You aren't entirely sure how you should react to Lily's proposal. On one hand, you're glad to be able to progress your relationship with Lily in a romantic direction. On the other, it kind of stings to hear that she's attracted to you because you've changed. You decide not to worry about the details you can't change anyway. @@.pc;Sure, let's give it a shot.@@
+</p>
+<p>
+Lily gives you a happy smile, but there's a hint of something predatory in her eyes. @@.npc;Great! We'll have to set up a date once you get settled in to your apartment and new job.@@
+</p>
+<p>
+You return the smile to the best of your ability. @@.pc;Sounds like fun.@@ You were about to ask what kind of date she had in mind when the doorbell rings. @@.pc;That must be the pizza, be right back.@@ You get up and walk to the front door to collect the pizza from the delivery bot. The two of you enjoy dinner along with a light conversation that includes more than a couple innuendos.
+</p>
+<p>
+Eventually Lily calls it a night and excuses herself, and you're left alone in your new apartment.
+</p>
+<center><span style="font-size:26px;"><<button "Finish the Prologue!">><<go FinalProloguePrep>><</button>></span></center>
+
+
+:: storyStart21-6b [nobr]
+
+/* New Sparks? - no thanks*/
+<p>
+You aren't exactly sure how you should react to Lily's proposal. Being told that she doesn't love the "real" you, but that she's attracted to your new body is a bit off-putting. While you do harbor your own feelings of love for Lily, this proposal seems to be for a very different type of relationship than what you would like. @@.pc;You know, I don't think dating would be the best idea to be honest.@@ You shrug @@.pc;Plus, if you like the "new" me, what's going to happen when I change back to my old self?@@
+</p>
+<p>
+Lily looks a little confused, and perhaps slightly hurt by the rejection. @@.npc;If you weren't open to a relationship while you're a woman... why did you seem so into it in the bathroom the other night?@@
+</p>
+<p>
+You honestly aren't certain, but you have a feeling it was more about old feelings coming back rather than some desire for a new relationship. @@.pc;I honestly don't know, Lils. New hormones, a new body, and just not knowing how to cope with my female arousal? It's not that I'm against having a relationship as a woman, it's more that I'm unsure about things in general.@@ You let out a long sigh. @@.pc;I'm not sure how I feel about you romantically, but I know that I don't want to ruin our friendship over a half-baked fling.@@
+</p>
+<p>
+Lily doesn't seem to be completely satisfied with your explanation, but before she can say anything the doorbell rings. @@.npc;Shit, that must be the pizza.@@ She gets up and heads to the front door to collect it from the delivery bot.
+</p>
+<p>
+By the time Lily gets back with the pizza, she seems to have decided not to mention anything else about your rejection. The two of you eat for a while, and eventually the mood returns to something more normal as you chat about various topics.
+</p>
+<p>
+Eventually Lily calls it a night and excuses herself, and you're left alone in your new apartment.
+</p>
+<center><span style="font-size:26px;"><<button "Finish the Prologue!">><<go FinalProloguePrep>><</button>></span></center>
+
+
+
+
+
+
+

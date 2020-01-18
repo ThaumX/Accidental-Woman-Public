@@ -27,28 +27,17 @@ class Skills {
     clean,
     shop,
     cook,
-    martial,
-    crime,
-    manage,
-    perform,
     heels,
-    kegel,
-    firearms,
     dta,
   }: PCskills) {
     if (dta == null) {
-      crime = (crime == null) ? Math.round((comm + prostitute + probSolving) / 4) : crime;
-      firearms = (firearms == null) ? Math.round((probSolving / 2) + (org / 4)) : firearms;
-      manage = (manage == null) ? Math.round((comm + probSolving + ((org + finance) * 0.5)) / 4.5) : manage;
-      perform = (perform == null) ? Math.round((comm + (exhibition * 0.5) + (seduction * 0.5) + art) / 4) : perform;
       if (heels == null && State.active.variables.AW.startMale) {
         heels = Math.round(athletic / 20) * 10;
       } else if (heels == null) {
         heels = Math.round(athletic / 10) * 10 + 10;
       }
-      kegel = (kegel == null) ? Math.round((sex + athletic) / 3) : kegel;
       // tslint:disable-next-line:max-line-length
-      this.dta = [exhibition, prostitute, sex, oral, seduction, comm, org, probSolving, finance, art, athletic, dancing, clean, shop, cook, martial, crime, manage, perform, heels, kegel, firearms];
+      this.dta = [exhibition, prostitute, sex, oral, seduction, comm, org, probSolving, finance, art, athletic, dancing, clean, shop, cook, random(1,5), 0, 0, 0, heels, 0, random(1, 10)];
     } else {
       this.dta = clone(dta);
     }
@@ -119,7 +108,14 @@ class Skills {
       }
       this.dta[0] = val;
     }
-  } public get prostitute(): number {
+  }
+  public get curExhibition(): number {
+    return Math.max(0, Math.min(200, (this.exhibition + ↂ.flag.tempSkillBoost.exhibition)));
+  }
+  public set curExhibition(val: number) {
+    aw.con.warn("Attempted to set 'curExhibition' skill");
+  }
+  public get prostitute(): number {
     return this.dta[1];
   }
   public set prostitute(val: number) {
@@ -135,7 +131,14 @@ class Skills {
       }
       this.dta[1] = val;
     }
-  } public get sex(): number {
+  }
+  public get curProstitute(): number {
+    return Math.max(0, Math.min(200, (this.prostitute + ↂ.flag.tempSkillBoost.prostitute)));
+  }
+  public set curProstitute(val: number) {
+    aw.con.warn("Attempted to set 'curProstitute' skill");
+  }
+  public get sex(): number {
     return this.dta[2];
   }
   public set sex(val: number) {
@@ -151,7 +154,14 @@ class Skills {
       }
       this.dta[2] = val;
     }
-  } public get oral(): number {
+  }
+  public get curSex(): number {
+    return Math.max(0, Math.min(200, (this.sex + ↂ.flag.tempSkillBoost.sex)));
+  }
+  public set curSex(val: number) {
+    aw.con.warn("Attempted to set 'curSex' skill");
+  }
+  public get oral(): number {
     return this.dta[3];
   }
   public set oral(val: number) {
@@ -167,7 +177,14 @@ class Skills {
       }
       this.dta[3] = val;
     }
-  } public get seduction(): number {
+  }
+  public get curOral(): number {
+    return Math.max(0, Math.min(200, (this.oral + ↂ.flag.tempSkillBoost.oral)));
+  }
+  public set curOral(val: number) {
+    aw.con.warn("Attempted to set 'curOral' skill");
+  }
+  public get seduction(): number {
     return this.dta[4];
   }
   public set seduction(val: number) {
@@ -183,7 +200,14 @@ class Skills {
       }
       this.dta[4] = val;
     }
-  } public get comm(): number {
+  }
+  public get curSeduction(): number {
+    return Math.max(0, Math.min(200, (this.seduction + ↂ.flag.tempSkillBoost.seduction)));
+  }
+  public set curSeduction(val: number) {
+    aw.con.warn("Attempted to set 'curSeduction' skill");
+  }
+  public get comm(): number {
     return this.dta[5];
   }
   public set comm(val: number) {
@@ -199,7 +223,14 @@ class Skills {
       }
       this.dta[5] = val;
     }
-  } public get org(): number {
+  }
+  public get curComm(): number {
+    return Math.max(0, Math.min(200, (this.comm + ↂ.flag.tempSkillBoost.comm)));
+  }
+  public set curComm(val: number) {
+    aw.con.warn("Attempted to set 'curComm' skill");
+  }
+  public get org(): number {
     return this.dta[6];
   }
   public set org(val: number) {
@@ -215,7 +246,14 @@ class Skills {
       }
       this.dta[6] = val;
     }
-  } public get probSolving(): number {
+  }
+  public get curOrg(): number {
+    return Math.max(0, Math.min(200, (this.org + ↂ.flag.tempSkillBoost.org)));
+  }
+  public set curOrg(val: number) {
+    aw.con.warn("Attempted to set 'curOrg' skill");
+  }
+  public get probSolving(): number {
     return this.dta[7];
   }
   public set probSolving(val: number) {
@@ -231,7 +269,14 @@ class Skills {
       }
       this.dta[7] = val;
     }
-  } public get finance(): number {
+  }
+  public get curProbSolving(): number {
+    return Math.max(0, Math.min(200, (this.probSolving + ↂ.flag.tempSkillBoost.probSolving)));
+  }
+  public set curProbSolving(val: number) {
+    aw.con.warn("Attempted to set 'curProbSolving' skill");
+  }
+  public get finance(): number {
     return this.dta[8];
   }
   public set finance(val: number) {
@@ -247,7 +292,14 @@ class Skills {
       }
       this.dta[8] = val;
     }
-  } public get art(): number {
+  }
+  public get curFinance(): number {
+    return Math.max(0, Math.min(200, (this.finance + ↂ.flag.tempSkillBoost.finance)));
+  }
+  public set curFinance(val: number) {
+    aw.con.warn("Attempted to set 'curFinance' skill");
+  }
+  public get art(): number {
     return this.dta[9];
   }
   public set art(val: number) {
@@ -263,7 +315,14 @@ class Skills {
       }
       this.dta[9] = val;
     }
-  } public get athletic(): number {
+  }
+  public get curArt(): number {
+    return Math.max(0, Math.min(200, (this.art + ↂ.flag.tempSkillBoost.art)));
+  }
+  public set curArt(val: number) {
+    aw.con.warn("Attempted to set 'curArt' skill");
+  }
+  public get athletic(): number {
     return this.dta[10];
   }
   public set athletic(val: number) {
@@ -279,7 +338,14 @@ class Skills {
       }
       this.dta[10] = val;
     }
-  } public get dancing(): number {
+  }
+  public get curAthletic(): number {
+    return Math.max(0, Math.min(200, (this.athletic + ↂ.flag.tempSkillBoost.athletic)));
+  }
+  public set curAthletic(val: number) {
+    aw.con.warn("Attempted to set 'curAthletic' skill");
+  }
+  public get dancing(): number {
     return this.dta[11];
   }
   public set dancing(val: number) {
@@ -295,7 +361,14 @@ class Skills {
       }
       this.dta[11] = val;
     }
-  } public get clean(): number {
+  }
+  public get curDancing(): number {
+    return Math.max(0, Math.min(200, (this.dancing + ↂ.flag.tempSkillBoost.dancing)));
+  }
+  public set curDancing(val: number) {
+    aw.con.warn("Attempted to set 'curDancing' skill");
+  }
+  public get clean(): number {
     return this.dta[12];
   }
   public set clean(val: number) {
@@ -311,7 +384,14 @@ class Skills {
       }
       this.dta[12] = val;
     }
-  } public get shop(): number {
+  }
+  public get curClean(): number {
+    return Math.max(0, Math.min(200, (this.clean + ↂ.flag.tempSkillBoost.clean)));
+  }
+  public set curClean(val: number) {
+    aw.con.warn("Attempted to set 'curClean' skill");
+  }
+  public get shop(): number {
     return this.dta[13];
   }
   public set shop(val: number) {
@@ -327,7 +407,14 @@ class Skills {
       }
       this.dta[13] = val;
     }
-  } public get cook(): number {
+  }
+  public get curShop(): number {
+    return Math.max(0, Math.min(200, (this.shop + ↂ.flag.tempSkillBoost.shop)));
+  }
+  public set curShop(val: number) {
+    aw.con.warn("Attempted to set 'curShop' skill");
+  }
+  public get cook(): number {
     return this.dta[14];
   }
   public set cook(val: number) {
@@ -343,7 +430,14 @@ class Skills {
       }
       this.dta[14] = val;
     }
-  } public get martial(): number {
+  }
+  public get curCook(): number {
+    return Math.max(0, Math.min(200, (this.cook + ↂ.flag.tempSkillBoost.cook)));
+  }
+  public set curCook(val: number) {
+    aw.con.warn("Attempted to set 'curCook' skill");
+  }
+  public get martial(): number {
     return this.dta[15];
   }
   public set martial(val: number) {
@@ -359,55 +453,38 @@ class Skills {
       }
       this.dta[15] = val;
     }
-  } public get crime(): number {
-    return this.dta[16];
+  }
+  public get curMartial(): number {
+    return Math.max(0, Math.min(200, (this.martial + ↂ.flag.tempSkillBoost.martial)));
+  }
+  public set curMartial(val: number) {
+    aw.con.warn("Attempted to set 'curMartial' skill");
+  }
+  public get crime(): number {
+    return Math.round((this.curComm + (this.curProstitute * 2) + (this.curProbSolving * 2)) / 5);
   }
   public set crime(val: number) {
-    val = Number(val);
-    if (isNaN(val)) {
-      aw.con.warn(`Attempted to set crime to non-number value!`);
-    } else {
-      if (val > 200) {
-        val = 200;
-      }
-      if (val < 0) {
-        val = 0;
-      }
-      this.dta[16] = val;
-    }
-  } public get manage(): number {
-    return this.dta[17];
+    aw.con.warn(`Attempted to set crime derived skill!`);
+  }
+  public get strip(): number {
+    return Math.round((this.curExhibition + (this.curSeduction * 2) + (this.curDancing * 2) + this.curArt) / 6);
+  }
+  public set strip(val: number) {
+    aw.con.warn(`Attempted to set strip derived skill!`);
+  }
+  public get manage(): number {
+    return Math.round((this.curComm + this.curProbSolving + ((this.curOrg + this.curFinance) * 0.5)) / 3);
   }
   public set manage(val: number) {
-    val = Number(val);
-    if (isNaN(val)) {
-      aw.con.warn(`Attempted to set manage to non-number value!`);
-    } else {
-      if (val > 200) {
-        val = 200;
-      }
-      if (val < 0) {
-        val = 0;
-      }
-      this.dta[17] = val;
-    }
-  } public get perform(): number {
-    return this.dta[18];
+    aw.con.warn(`Attempted to set manage derived skill!`);
+  }
+  public get perform(): number {
+    return Math.round((this.curComm + (this.curExhibition * 0.5) + (this.curSeduction * 0.5) + this.curArt) / 3);
   }
   public set perform(val: number) {
-    val = Number(val);
-    if (isNaN(val)) {
-      aw.con.warn(`Attempted to set perform to non-number value!`);
-    } else {
-      if (val > 200) {
-        val = 200;
-      }
-      if (val < 0) {
-        val = 0;
-      }
-      this.dta[18] = val;
-    }
-  } public get heels(): number {
+    aw.con.warn(`Attempted to set perform derived skill!`);
+  }
+  public get heels(): number {
     return this.dta[19];
   }
   public set heels(val: number) {
@@ -424,22 +501,12 @@ class Skills {
       this.dta[19] = val;
     }
   } public get kegel(): number {
-    return this.dta[20];
+    return Math.round((this.curSex + this.curAthletic) / 2);
   }
   public set kegel(val: number) {
-    val = Number(val);
-    if (isNaN(val)) {
-      aw.con.warn(`Attempted to set kegel to non-number value!`);
-    } else {
-      if (val > 200) {
-        val = 200;
-      }
-      if (val < 0) {
-        val = 0;
-      }
-      this.dta[20] = val;
-    }
-  } public get firearms(): number {
+    aw.con.warn(`Attempted to set kegel derived skill!`);
+  }
+  public get firearms(): number {
     return this.dta[20];
   }
   public set firearms(val: number) {
@@ -455,6 +522,12 @@ class Skills {
       }
       this.dta[20] = val;
     }
-}
+  }
+  public get curFirearms(): number {
+    return Math.max(0, Math.min(200, (this.firearms + ↂ.flag.tempSkillBoost.firearms)));
+  }
+  public set curFirearms(val: number) {
+    aw.con.warn("Attempted to set 'curFirearms' skill");
+  }
 }
 

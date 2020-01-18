@@ -1,0 +1,379 @@
+:: Introduction [nobr startpage noui]
+
+
+<<set $location = "Game Start Menu">><<set $helpText = "So, lots of options here, plus buttons! Read the explaination on the options to figure out what they do. For the buttons... ''Start the Game'' starts the game. If you're reading this, this is probably the button you should click. ''Quick Start'' skips the opening story and goes straight to the start of character creation. ''NPC Options'' lets you set several options for the NPCs that are generated in the game, to customize them to fit the scenario you'd like. ''Custom NPC Editor'' this is a super-detailed setup to allow you to control nearly everything about NPC creation. It also lets you save them as a template, so you can share yours or try out other player's setups. ''Premade Characters'' is where you can select a premade character or start a roleplay challenge.">>
+<div class="blocker dgreyPattern">
+  <<set _launchNews = true>>
+  <<set _playedVersion = setup.AW.localRestore("awLastPlayedVersion")>>
+  <<if _playedVersion === "error">>
+    <<run setup.AW.localStore("awLastPlayedVersion", setup.ver)>>
+  <<elseif Number(_playedVersion) < setup.ver>>
+    <<run setup.AW.localStore("awLastPlayedVersion", setup.ver)>>
+  <<else>>
+    <<set _launchNews = false>>
+  <</if>>
+  <<if _launchNews>>
+    <<timed 500ms>>
+      <<interact "Erolich News" 3>>
+        <div id="erolichNews">
+          <<include [[devNotes]]>>
+        </div>
+      <</interact>>
+    <</timed>>
+  <</if>>
+  <div style="position:fixed;left:50px;width:700px;text-align:center;top:50px;bottom:250px;z-index:200">
+    <img data-passage="IMGstartNewGame" style="margin-bottom:20px;"><br>
+    <div style="display:inline-block;width:300px;">
+      <fieldset class="jiminer">
+        <legend><b>Male Start</b></legend>
+        <span class="contButt" style="font-size:150%;"><<button "Start the Game">><<set $AW.startMale = true>><<set ↂ.ward.bottom.push("tttt")>><<set ↂ.ward.top.push("tttv")>><<run setup.initialize.savePrefs()>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go storyStart1>><</button>></span><br>
+        <span style="font-size:130%;">
+        <<if ndef $gamestate>>
+          <<tooltip "Quick Start is unavailable until you have played the opening story once.">><button class="disabled">Quick Start</button><</tooltip>><br>
+        <<elseif $gamestate === null>>
+          <<tooltip "Quick Start is unavailable until you have played the opening story once.">><button class="disabled">Quick Start</button><</tooltip>><br>
+        <<else>>
+          <<if setup.achieve.isUnlocked("Prologue skip")>>
+            <<button "Quick Start">><<set $AW.startMale = true>><<set $AW.quickStart = 1>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go storyStart1>><</button>><br>
+          <<else>>
+            <<tooltip "Quick Start is unavailable until you have played the opening story once.">><button class="disabled">Quick Start</button><</tooltip>><br>
+          <</if>>
+        <</if>>
+        <<tooltip "Special start modes - Not Implemented">><span class="halfsize"><button class="disabled">Realism</button> <button class="disabled">Sissy</button></span><</tooltip>><br>
+        <<if $swim == "[cheats]" || $swim == "[dev]" || $swim == "[elite]" || $swim == "[backer]" || $swim == "[patron]">>
+          <<button "Load Template">><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go LoadCharacterTemplateStrt>><</button>>
+        <<else>>
+          <<tooltip "Using character templates is currently a [patron] level feature.">><button class="disabled">Load Template</button><</tooltip>>
+        <</if>>
+        </span>
+      </fieldset>
+    </div>
+    <div style="display:inline-block;width:300px;">
+      <fieldset class="jiminer">
+        <legend>Female Start</legend>
+        <span class="contButt" style="font-size:150%;"><<button "Start the Game">><<set $AW.startMale = false>><<set $AW.cash = 75>><<set $AW.cash += random(0,42)>><<set ↂ.pc.main.surname = "Freeman">><<set ↂ.flag.LilyCoffee = false>><<set ↂ.ward.bottom.push("ttvw")>><<set ↂ.ward.top.push("ttvx")>><<set ↂ.ward.panties.push("ttvv")>><<status 0>><<run setup.initialize.savePrefs()>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go storyStart1>><</button>></span><br>
+        <span style="font-size:130%;">
+        <<if setup.achieve.isUnlocked("FemaleQuickStart") && $swim != "[public]">>
+          <<button "Quick Start">><<set $AW.startMale = false>><<set $AW.cash = 75>><<set $AW.cash += random(0,42)>><<set ↂ.pc.main.surname = "Freeman">><<set ↂ.flag.LilyCoffee = false>><<set ↂ.ward.bottom.push("ttvw")>><<set ↂ.ward.top.push("ttvx")>><<set ↂ.ward.panties.push("ttvv")>><<status 0>><<run setup.initialize.savePrefs()>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<set $AW.quickStart = 1>><<go storyStart1>><</button>>
+        <<elseif $swim != "[public]">>
+          <<tooltip "You must complete the opening female prologue at least once before skipping it.">><button class="disabled">Quick Start</button><</tooltip>>
+        <<else>>
+          <<tooltip "Quick Start is not enabled for the free/public version of the game.">><button class="disabled">Quick Start</button><</tooltip>>
+        <</if>>
+        <br>
+        <<tooltip "Special start modes - Not Implemented">><span class="halfsize"><button class="disabled">Serious</button> <button class="disabled">Captive</button></span><</tooltip>><br>
+        <<tooltip "Loading a character template for a female-start character is currently unavailable, sorry.">><button class="disabled">Load Template</button><</tooltip>>
+        </span>
+      </fieldset>
+    </div>
+    <div style="display:inline-block;width:602px;">
+      <fieldset class="jiminer">
+        <legend>Game Setup</legend>
+        <span style="font-size:130%;">
+        <span class="jiminer"><<button "GAME OPTIONS">><<replace "#introMenuHolder">><<include [[IntroductionOptions]]>><</replace>><</button>></span>
+        <<button [[Premade Characters|premade]]>><</button>>
+        <<button [[NPC Options|customNPC]]>><</button>>
+        <span class="disabled"><<button "NPC Editor">><</button>></span>
+        <<button "Go Back">><<go Start>><</button>>
+        </span>
+      </fieldset>
+      <fieldset class="jiminer">
+        <legend>Other</legend>
+        <center class="bounce animated"><<link [img[Fuck That - A Meditation|IMGmeditationIcon]]>><<go FuckThatMeditation>><</link>> &nbsp; <<link "<div style='display:inline-block;width:94px;height:94px;border-radius:45px;border-style:solid;border-width:2px;border-color:#e5e2ce;padding:0px;background-color:#fffce5;'><img data-passage='IMG-AI-Icon' style='margin:29px;'></div>">><<if setup.npc.ready.length < 9>><<generateNPC 9 0 0 50 0 [0,0] [0,0] [0,0] [0,0] 0 0>><</if>><<go AWAIdemopage>><</link>> &nbsp; <<link [img[Load or manage saves|IMGsaves]]>><<script>>UI.saves()<</script>><</link>> &nbsp; <<link [img[New version changes and conent|IMGerolichIcon]]>><<interact "Erolich News" 3>><div id="erolichNews"><<include [[devNotes]]>></div>
+  <</interact>><</link>></center>
+      </fieldset>
+    </div>
+  </div>
+  <div id="introMenuHolder">
+  </div>
+  <div style="position:fixed;top:100px;right:100px;width:700px;background-color:rgba(25,25,25,0.7);border-radius:12px;color:#ddd;padding:10px 8px;bottom:140px;text-align:justify;font-size:20px;">
+    <dl class="introInstList">
+    <dt>Male/Female Start</dt>
+    <dd>Starts the game. If you're reading this, this is the button to click.</dd>
+    <dt>Quick Start</dt>
+    <dd>Skips the opening story and goes straight to the start of character creation. <span  style="font-size:16px;color:#ddc;">(Must have played the opening previously!)</span></dd>
+    <dt>Special Modes</dt>
+    <dd>Special Modes that change the game in certain ways, particularly the prologue. Not recommended for new players.</dd>
+    <dt>Load Template</dt>
+    <dd>Use a template file to start a new game using a saved character.</dd>
+    <dt>Game Options</dt>
+    <dd>Contains important customization options for a new game such as use of Metric. <span class="import" style="font-size:0.9rem;">Some settings can not be changed after starting a game!</span></dd>
+    <dt>NPC Options</dt>
+    <dd>Set numerous options for the NPCs that are generated in the game, to customize them to fit the scenario you'd like.</dd>
+    <dt>NPC Editor</dt>
+    <dd>this is a super-detailed setup to allow you to control nearly everything about NPC creation. It also lets you save them as a template, so you can share yours or try out other player's setups. <span class="import">[not implemented]</span></dd>
+    <dt>Premade Characters</dt>
+    <dd>is where you can select a premade character or start a roleplay challenge. <span class="import">[not implemented]</span></dd>
+    </dl>
+  </div>
+  <<if $swim === "[dev]" || $swim === "[elite]">>
+    <<include [[DevShortcuts]]>>
+    /*<<button "OverWear">><<run setup.shop.launch.clothes("Bullseye","coat")>><</button>>*/
+  <</if>>
+  <<if setup.achieve.isUnlocked("contentMessage")>>
+    /* do nothing for now */
+  <<else>>
+    <<run setup.achieve.unlock("contentMessage")>>
+    <div id="contentCunt">
+    <div style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; z-index: 10000; background-color: #003;">
+      <center><<link [img[IMG-ContentMessage]]>><<replace "#contentCunt">><</replace>><</link>></center>
+    </div>
+    </div>
+  <</if>>
+</div>
+/*<<if $devmsg>>
+<<timed 100ms>>
+<<set $devmsg = false>>
+<<popup devNotes>>
+<</timed>>
+<</if>>*/
+
+:: IntroductionOptions [nobr startpage noui]
+
+
+<<set _vol = $pref.sound.volume * 10>>
+<div class="dgreyPattern bounceInLeft animated" style="position:fixed;top:30px;right:30px;left:30px;bottom:30px;z-index:400;border-width:3px;border-style:solid;border-radius:15px;border-color:#ddd;">
+<div style="position:absolute;top:10px;left:10px;height:50px;width:500px;">
+[img[IMGstartNewGameOptions]]
+</div>
+<div style="position:absolute;top:75px;left:15px;right:53%;bottom:10px;">
+  <fieldset>
+  <legend>Misc Options</legend>
+  <table id="invisTable"><tr>
+  <<if aw.chad.allowed>>
+    <td style="width:33%;">
+    @@.head4;Cheats@@ <<helpPop "Cheats" "Whether to enable cheats including cheat mode. @@.import;Cheats may affect gameplay and game content.@@">><br><<checkboxA "$pref.enableCheats" 0 1>></td>
+    <td style="width:34%;">
+    @@.ident;Thanks so much for supporting development of AW!@@
+    </td>
+  <<elseif $swim == "[backer]" || $swim == "[patron]">>
+    <td colspan=2>
+    @@.ident;Thanks for supporting development of AW! <i>cheats not available in this version</i>@@
+    </td>
+  <<else>>
+    <td colspan=2>
+    @@.ident;Support development to gain access to cheats and other features.@@
+    </td>
+  <</if>>
+  <td style="width:33%;">
+    @@.head4;Metric@@ <<helpPop "Metric System" "Whether to use the metric system.<br>@@.import;This can not be changed during play.@@<br><br>@@.note;The metric option changes numeric values/variables to be represented in metric instead of U.S. Imperial. Please report any descriptive measurements that are the wrong system! Units used will generally follow the thousands convention (kilo, regular, milli), except in the case of centimeters due to common usage.@@">><br><<checkboxA "$AW.metric" false true>>
+  </td>
+  </tr><tr><td style="width:33%;">
+    @@.head4;Dev Comments@@ <<helpPop "Dev Commentary" "Read what the EroLich was thinking when he created different part of the game, and suffer through the occasional bad joke. The dev comments also occasionally contains hints for hidden or restricted content and options.">><br><<checkboxA "$commentary" false true>>
+  </td><td style="width:34%;">
+    @@.head4;Detailed Skillcheck@@ <<helpPop "Detailed Skillcheck" "Replaces the simple check and X indicators for skill checks with slightly more detail, like the type of check being performed. This option must be on for the skill check details cheat to work.">><br><<checkboxA "$showSkillCheck" false true>>
+  </td><td style="width:33%;">
+    @@.head4;Choice Emojis@@ <<helpPop "Enable Emoji" "Custom emojis are provided with some choices (particularly in dialog situations), to help represent the emotions behind the choice. This is intended to make the choice more clear in regard to intent. Turn this off to remove the emojis from the game.">><br><<checkboxA "$pref.dispEmoji" false true>>
+  </td>
+  </tr><tr>
+  <td>
+    @@.head4;Mutations@@ <<helpPop "Enable Mutations" "Mutations are unusual changes to your character, such as a high likelyhood of multiple pregnancy or less-effective birth control. Enabling mutations also enables certain (less drastic) mutations for NPCs at a very low rate.">><br><<checkboxA "$pref.enableMutation" 0 1>>
+  </td>
+  <td>
+    @@.head4;Show Unavailable@@ <<helpPop "Show Unavailable Sex Acts" "This setting determines whether you will see disabled buttons for sex actions while in a sex scene. If enabled, you will see the disabled buttons, and hovering your mouse over it will give the general reason why the action is unavailable.">><br><<checkboxA "$pref.showUnavailAction" false true>>
+  </td>
+  <td>
+    @@.head4;Hide Tutorials@@ <<helpPop "Hide Tutorials" "Note: this setting only works after completing the prologue at least once. Afterward, it will hide tutorial text in the game automatically. In some cases, the tutorial text will be replaced by a tutorial button that will allow you to view the hidden tutorial text. In other cases, the tutorial text will be completely unavailable.">><br><<checkboxA "$AW.tutorials>>" true false>>
+  </td>
+  </tr><tr>
+  <td>
+    @@.head4;Background Music@@ <<helpPop "Background Music" "This setting controls whether new and loaded games will have background music start automatically. Music can be controlled during the game, volume changed, muted, etc. Music should also mute automatically when AW loses focus. Replace the mp3 file in the game's resources with your favorite mix to listen to that instead.">><br><<checkboxA "$pref.sound.on" false true>>
+  </td>
+  <td colspan=2>
+    @@.head4;Default Volume@@ <<helpPop "Default Volume" "This is the default volume for background music that will be applied whenever starting a game (the volume when loading a game will be the volume setting at the time the game was saved). The volume can be controlled in-game via the sound menu.">><br>
+    <<button " 🡄 ">>
+    <<if _vol > 0>>
+      <<set _vol -= 1>>
+      <<set $pref.sound.volume = _vol / 10>>
+      <<replace "#vollev">><<= _vol>><</replace>>
+    <</if>>
+    <</button>> <span id="vollev" class="monospace" style="display: inline-block; width: 75px; background-color: #000; border: 1px solid white; text-align:center;"><<= _vol>></span> <<button " 🡆 ">>
+    <<if _vol < 10>>
+      <<set _vol += 1>>
+      <<set $pref.sound.volume = _vol / 10>>
+      <<replace "#vollev">><<= _vol>><</replace>>
+    <</if>>
+    <</button>>
+  </td>
+  </tr><tr>
+  <td colspan=3 style="text-align:center;"><<button "RESET PREFERENCES">><<run setup.initialize.resetPrefs>><<replace "#introMenuHolder">><</replace>><</button>> <<helpPop "Reset Buttons" "The <span class='ident'>reset preferences</span> button sets the preferences to default and deletes the preferences saved in your browser's local storage. The <span class='ident'>Default Settings</span> button only resets your settings to the default value without affecting your saved settings. Both options will close this menu (it can be reopened).">> <<button "DEFAULT SETTINGS">><<run setup.initialize.prefInit()>><<replace "#introMenuHolder">><</replace>><</button>></td>
+  </tr></table>
+  </fieldset>
+  <<radioset "sexspeed" "$pref.sexSceneSpeed">>Sex Scene Speed <<helpPop "Sex Scene Speed" "Controls how quickly characters in sex scenes progress toward orgasm. This is purely personal preference, there is no bonus or penalty for faster or slower speeds. Fast speeds can <i>sometimes</i> necessitate taking certain actions sooner.">>
+  <<radioitem 5>>Turtle
+  <<radioitem 4>>Slow
+  <<radioitem 3>>Normal
+  <<radioitem 2>>Fast
+  <<radioitem 1>>Rabbit
+  <</radioset>>
+  <<radioset "sexwet" "$pref.startWet">>Sex Scene Starting Wetness <<helpPop "Starting Wetness" "Allows you to modify (to a certain extent) how wet the PC and NPCs are when starting a sex scene. If you wish to jump straight to the action, set this to a wetter value. For more realism, set it lower.">>
+  <<radioitem 1>>Drier
+  <<radioitem 2>>Standard
+  <<radioitem 3>>Wetter
+  <</radioset>>
+  <<radioset "clothshit" "$pref.clothingDetail">>Clothing Detail <<helpPop "Clothing Detail" "Allows you to specify the level of detail you see on generated clothing.<br><br>''None''--just style and color. ''Low''--style, substyle, & color. ''MEdium''--style, substyle, (neckline/hem), & color. ''High''--Fashionista, full detail.">>
+  <<radioitem 1>>None
+  <<radioitem 2>>Low
+  <<radioitem 3>>Medium
+  <<radioitem 4>>High
+  <</radioset>>
+  
+  </div>
+  <div style="position:absolute;top:75px;left:50%;right:15px;bottom:10px;">
+    <fieldset>
+      <legend>Enabled Content <<link "Important Note!">><<dialog "Important Notes">>
+      <p>
+      Not all content listed in these content gates are actually included or planned for Accidental Woman! These "extra" settings are to allow mod authors to appropriately gate any content they create. We follow the rules of our funding platforms, but because independently created mods may not, we wish our players to be able to limit kinks that aren't included in the official game. If you are a mod creator and wish to add unusual content not included in one of the existing kinks below, please let us know so we can add your kink to the list as well.
+      </p><p>
+      These secondary content gates for Accidental Woman exist generally to prevent you from running into one of these kinks or fetishes unintentionally, particularly for the kinks that don't offer a chance for a dialog opt-out choice. While I will make every attempt to follow these content settings, the in-development nature of this game means that <b>some content may slip past these gates</b>. <u>Please inform me if some does</u>, so that it can be fixed.
+      </p><p>
+      These settings are only <i>completely</i> effective ''before'' the start of an event or arc. They will not remove you from an in-progress event or story arc! Sometimes these arcs can be quite long, so it is <i>probably</i> best to adjust these restrictions early and leave them alone! Changes to these settings will affect sex scenes nearly immediately.
+      </p><p>
+      Not all kink material can be removed via these settings. These kinks are unable to be removed because of the game's structure: Pregnancy & Impregnation, Reproductive Sabotage, and Transformation. See the AW Encyclopedia for information on how to avoid pregnancy content.
+      </p><</dialog>><</link>></legend>
+      <div id="prefCont">
+        <div class="prefCont"><<checkboxA "$pref.anal" false true>> Anal</div>
+        <div class="prefCont"><<checkboxA "$pref.bestiality" false true>> Bestiality</div>
+        <div class="prefCont"><<checkboxA "$pref.bdsm" false true>> BDSM</div>
+        <div class="prefCont"><<checkboxA "$pref.bondage" false true>> Bondage</div>
+        <div class="prefCont"><<checkboxA "$pref.bukkake" false true>> Bukkake</div>
+        <div class="prefCont"><<checkboxA "$pref.chastity" false true>> Chastity</div>
+        <div class="prefCont"><<checkboxA "$pref.choking" false true>> Choking</div>
+        <div class="prefCont"><<checkboxA "$pref.cbt" false true>> CBT</div>
+        <div class="prefCont"><<checkboxA "$pref.collar" false true>> Collar</div>
+        <div class="prefCont"><<checkboxA "$pref.connoncon" false true>> ConNonCon</div>
+        <div class="prefCont"><<checkboxA "$pref.domsub" false true>> Dom/Sub</div>
+        <div class="prefCont"><<checkboxA "$pref.edging" false true>> Edging</div>
+        <div class="prefCont"><<checkboxA "$pref.enema" false true>> Enema</div>
+        <div class="prefCont"><<checkboxA "$pref.fisting" false true>> Fisting</div>
+        <div class="prefCont"><<checkboxA "$pref.furry" false true>> Furry</div>
+        <div class="prefCont"><<checkboxA "$pref.gaping" false true>> Gaping</div>
+        <div class="prefCont"><<checkboxA "$pref.group" false true>> Group</div>
+        <div class="prefCont"><<checkboxA "$pref.impact" false true>> Impact</div>
+        <div class="prefCont"><<checkboxA "$pref.incest" false true>> Incest</div>
+        <div class="prefCont"><<checkboxA "$pref.sadomasochism" false true>> S&M</div>
+        <div class="prefCont"><<checkboxA "$pref.masterslave" false true>> Slavery</div>
+        <div class="prefCont"><<checkboxA "$pref.medical" false true>> Medical</div>
+        <div class="prefCont"><<checkboxA "$pref.necro" false true>> Necrophilia</div>
+        <div class="prefCont"><<checkboxA "$pref.noncon" false true>> NonCon</div>
+        <div class="prefCont"><<checkboxA "$pref.petplay" false true>> PetPlay</div>
+        <div class="prefCont"><<checkboxA "$pref.rape" false true>> Rape</div>
+        <div class="prefCont"><<checkboxA "$pref.religion" false true>> Religion</div>
+        <div class="prefCont"><<checkboxA "$pref.rough" false true>> Rough</div>
+        <div class="prefCont"><<checkboxA "$pref.scat" false true>> Scat</div>
+        <div class="prefCont"><<checkboxA "$pref.smells" false true>> Smells</div>
+        <div class="prefCont"><<checkboxA "$pref.sounding" false true>> Sounding</div>
+        <div class="prefCont"><<checkboxA "$pref.torture" false true>> Torture</div>
+        <div class="prefCont"><<checkboxA "$pref.vore" false true>> Vore</div>
+        <div class="prefCont"><<checkboxA "$pref.waterworks" false true>> Watersports</div>
+        <div class="prefCont"><<checkboxA "$pref.yandere" false true>> Yandere</div>
+      </div>
+    </fieldset>
+  </div>
+<div style="position:absolute;width:80px;top:5px;right:5px;font-size:1.6rem;z-index:500;">
+  <<button "&nbsp;&nbsp;X&nbsp;&nbsp;">><<replace "#introMenuHolder">><</replace>><<run setup.initialize.savePrefs()>><</button>>
+</div>
+</div>
+
+:: oldIntroduction [nobr startpage noui]
+
+  
+
+
+
+  <div class="buttonColumn" style="position:fixed;width:200px;top:125px;left:575px;;background-color:rgba(25,25,25,0.5);border-radius:8px;bottom:200px;">
+  <span class="contButt" style="font-size:130%;">
+  <<button "Start the Game">>
+    <<if $AW.startMale>>
+      <<go storyStart1>>
+    <<else>>
+      <<go storyStart1>>
+    <</if>>
+  <</button>>
+  </span>
+  <span style="font-size:130%;">
+  <<if ndef $gamestate>>
+    <<tooltip "Quick Start is unavailable until you have played the opening story once.">><button class="disabled">Quick Start</button><</tooltip>>
+  <<elseif $gamestate === null>>
+    <<tooltip "Quick Start is unavailable until you have played the opening story once.">><button class="disabled">Quick Start</button><</tooltip>>
+  <<elseif $AW.startMale>>
+    <<if $gamestate.playedIntro>>
+      <<button "Quick Start">><<set $AW.quickStart = 1>><<go storyStart1>><</button>>
+    <<else>>
+      <<tooltip "Quick Start is unavailable until you have played the opening story once.">><button class="disabled">Quick Start</button><</tooltip>>
+    <</if>>
+  <<else>>
+    <<tooltip "Quick Start is currently unavailable for the female start option.">><button class="disabled">Quick Start</button><</tooltip>>
+  <</if>>
+  <<if not $AW.startMale>>
+    <<tooltip "Loading a character template for a female-start character is currently unavailable, sorry.">><button class="disabled">Load Template</button><</tooltip>>
+  <<elseif $swim == "[cheats]" || $swim == "[dev]" || $swim == "[elite]" || $swim == "[backer]">>
+    <<button "Load Template">><<go LoadCharacterTemplateStrt>><</button>>
+  <<else>>
+    <<tooltip "Using character templates is currently a [backer] level feature.">><button class="disabled">Load Template</button><</tooltip>>
+  <</if>>
+  </span>
+  <<button [[Premade Characters|premade]]>><</button>>
+  <<button [[NPC Options|customNPC]]>><</button>>
+  <<tooltip "The custom NPC editor is not yet available">><button class="disabled">Custom NPC Editor</button><</tooltip>>
+  <<button "Go Back">><<go Start>><</button>>
+  </div>
+
+  <div style="position:fixed;width:100%;top:25px;height:50px;">
+  <center>
+  @@.head1;Welcome to Accidental Woman@@<br>
+  @@.head3;Choose your starting options@@
+  </center>
+  </div>
+
+
+  <div style="position:fixed;width:300px;top:125px;left:800px;bottom:200px;text-align:center;">
+  <<radioset "startsex" "$AW.startMale">>Starting Sex<<helpPop "Starting Gender" "The starting gender in Accidental Woman isn't fixed. You can choose to start as a male, who is transformed into a woman, or you can choose to start as a woman. @@.import;The female start is very WIP!@@ The female start will present some different options in character creation, and will feature a different prologue story.">>
+  <<radioitem true>>Male
+  <<radioitem false>>Female
+  <</radioset>>
+  <br>
+  <<if aw.chad.allowed>>
+    @@.head4;Cheats@@ <<helpPop "Cheats" "Whether to enable cheats including cheat mode. @@.import;Cheats may affect gameplay and game content.@@">><br><<checkboxA "$pref.enableCheats" 0 1>><br>
+    @@.ident;Thanks so much for supporting<br>development of AW!@@
+  <<elseif $swim == "[backer]" || $swim == "[patron]">>
+    @@.ident;Thanks for supporting development of AW!<br><i>cheats not available</i>@@
+  <<else>>
+    @@.ident;Support development to gain access to<br>cheats and other features.@@
+  <</if>>
+  <br>
+  <<radioset "clothshit" "$pref.clothingDetail">>Clothing Detail <<helpPop "Clothing Detail" "Allows you to specify the level of detail you see on generated clothing.<br><br>''None''--just style and color. ''Low''--style, substyle, & color. ''MEdium''--style, substyle, (neckline/hem), & color. ''High''--Fashionista, full detail.">>
+  <<radioitem 1>>None
+  <<radioitem 2>>Low
+  <<radioitem 3>>Medium
+  <<radioitem 4>>High
+  <</radioset>>
+  <br>
+  @@.head4;Metric@@ <<helpPop "Metric System" "Whether to use the metric system.<br>@@.import;This can not be changed during play.@@<br><br>@@.note;The metric option changes numeric values/variables to be represented in metric instead of U.S. Imperial. Please report any descriptive measurements that are the wrong system! Units used will generally follow the thousands convention (kilo, regular, milli), except in the case of centimeters due to common usage.@@">><br><<checkboxA "$AW.metric" false true>>
+  <br><br>
+  @@.head4;Mutations@@ <<helpPop "Enable Mutations" "Mutations are unusual changes to your character, such as a high likelyhood of multiple pregnancy or less-effective birth control. Enabling mutations also enables certain (less drastic) mutations for NPCs at a very low rate.">><br><<checkboxA "$pref.enableMutation" 0 1>>
+
+  </div>
+  <div class="megrim" style="position:fixed;top:70px;left:1125px;right:25px;text-align:center;color:goldenrod;font-weight:800;font-size:135%;">Ero-Lich News - Dev Notes</div>
+  <div style="position:fixed;top:125px;left:1125px;right:25px;bottom:50px;text-align:justify;background-color:rgba(25,25,25,0.5);border-radius:8px;overflow-y:auto;padding-right:5px;">
+  <<include [[devNotes]]>>
+  </div>
+/*
+@@.head3;Ill-advised Randomizers@@<br><br>
+@@.head4;Random Body@@ <<helpPop "Randomized Body" "With this option turned on, your body and appearance will be determined randomly, and you will be unable to change it. This could make things more difficult.">><br><<checkboxA "$AW.randomBody" 0 1>>
+<br><br>
+@@.head4;Random Mind@@ <<helpPop "Randomized Mind" "With this option turned on, your mental attributes and traits will be determined randomly, and you will be unable to change them. This could make things more difficult.">><br><<checkboxA "$AW.randomMind" 0 1>>
+<br><br>
+@@.head4;Random Sexuality@@ <<helpPop "Randomized Sexuality" "With this option turned on, your sexual proclivities will be determined randomly, and you will be unable to change them. @@.yellow;The random options may conflict with your personal tastes@@, so this may not be a fun option.">><br><<checkboxA "$AW.randomSexuality" 0 1>>
+<br><br>
+@@.head4;Random Attraction@@ <<helpPop "Randomized Attraction" "With this option turned on, your prefered body type and personality will be determined randomly, and you will be unable to change them. @@.yellow;The random options may conflict with your personal tastes@@, so this may not be a fun option.">><br><<checkboxA "$AW.randomAttraction" 0 1>>
+<br><br>
+@@.head4;Random Mutation@@ <<helpPop "Randomized Mutation" "With this option turned on, your body and appearance will be determined randomly, and you will be unable to change it. This could make for an interesting challenge!">><br><<checkboxA "$AW.randomMutation" 0 1>>
+*/
+
+
+
+
+
+
+

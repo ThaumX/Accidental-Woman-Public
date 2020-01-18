@@ -26,6 +26,8 @@ interface awConLoad {
   makeup: (data: any) => void;
   schools: (data: any) => void;
   jobs: (data: any) => void;
+  packageMods: () => void;
+  autoLoad: () => void;
 }
 
 aw.customSchools = [];
@@ -261,6 +263,7 @@ aw.conLoad.jewelry = function(data: any): void {
 
 aw.conLoad.clothes = function(data: any): void {
   const keys = Object.keys(data);
+  aw.con.info(`Mod clothes keys found: ${keys}`);
   const slots = ["panties", "bra", "leg", "top", "bottom", "coat", "bag", "accA", "accB", "accC", "accD", "shoes"];
   const type = [
     "panties",
@@ -280,6 +283,10 @@ aw.conLoad.clothes = function(data: any): void {
     "athleticBra",
     "sportTop",
     "sports bra",
+    "boots",
+    "sneakers",
+    "heels",
+    "shoes",
   ];
   for (let i = 0, c = keys.length; i < c; i++) {
     try {
@@ -288,10 +295,13 @@ aw.conLoad.clothes = function(data: any): void {
       if (slots.includes(data[keys[i]].slot) && type.includes(data[keys[i]].type)) {
         aw.clothes[keys[i]] = new Garment(data[keys[i]]);
         setup.shopInv.TightThreads[data[keys[i]].slot].push(aw.clothes[keys[i]].key);
+        // aw.con.info(`Loaded in key ${aw.clothes[keys[i]].key}`);
       } else if (slots.includes(data[keys[i]].slot)) {
         aw.conLoad.output += ` BAD GARMENT TYPE (${data[keys[i]].type})error for item slot ${data[keys[i]].slot} [#${i}].`;
+        aw.con.info(` BAD GARMENT TYPE (${data[keys[i]].type})error for item slot ${data[keys[i]].slot} [#${i}].`);
       } else {
         aw.conLoad.output += ` BAD GARMENT SLOT (${data[keys[i]].slot})error for item slot ${data[keys[i]].type} [#${i}].`;
+        aw.con.info(` BAD GARMENT SLOT (${data[keys[i]].slot})error for item slot ${data[keys[i]].type} [#${i}].`);
       }
     } catch (e) {
       aw.append("#cautionArea", `<br>Error loading clothes item number ${i}. ${e.name}: ${e.message}.`);
@@ -476,4 +486,231 @@ aw.conLoad.jobs = function(data: any): void {
       aw.con.warn(`<br>Error loading job number ${i}. ${e.name}: ${e.message}.`);
     }
   }
+};
+
+aw.conLoad.packageMods = function(): void {
+  const ids = document.getElementById("custom-content-list")!.children;
+  const list: string[] = [];
+  const print = function() {
+    aw.replace("#cautionArea", aw.conLoad.output);
+  };
+  aw.replace("#cautionLabel", "OUTPUT");
+  aw.conLoad.output += "Starting mod package creation! -";
+  print();
+  for (let i = 0, c = ids.length; i < c; i++) {
+    list.push(ids[i].id);
+  }
+  for (let i = 0, c = list.length; i < c; i++) {
+    aw.conLoad.copier(list[i]);
+  }
+  const data = {
+    images: {},
+    hairStyles: {},
+    homeItems: {},
+    jewelry: {},
+    clothes: {},
+    makeup: {},
+    schools: {},
+    jobs: {},
+  };
+  aw.conLoad.output += " - assimilation complete, starting data formatting...<br>";
+  print();
+  if (Object.keys(aw.conLoad.data.images).length > 0) {
+    aw.conLoad.output += " loading images";
+    data.images = clone(aw.conLoad.data.images);
+  } else {
+    aw.conLoad.output += " no images";
+  }
+  print();
+  if (Object.keys(aw.conLoad.data.hairStyles).length > 0) {
+    aw.conLoad.output += " loading hairstyles";
+    data.hairStyles = clone(aw.conLoad.data.hairStyles);
+  } else {
+    aw.conLoad.output += " no hairstyles";
+  }
+  print();
+  if (Object.keys(aw.conLoad.data.homeItems).length > 0) {
+    aw.conLoad.output += " loading home items";
+    data.homeItems = clone(aw.conLoad.data.homeItems);
+  } else {
+    aw.conLoad.output += " no home items";
+  }
+  print();
+  if (Object.keys(aw.conLoad.data.jewelry).length > 0) {
+    aw.conLoad.output += " loading jewelry";
+    data.jewelry = clone(aw.conLoad.data.jewelry);
+  } else {
+    aw.conLoad.output += " no jewelry";
+  }
+  print();
+  if (Object.keys(aw.conLoad.data.clothes).length > 0) {
+    aw.conLoad.output += " loading clothes";
+    data.clothes = clone(aw.conLoad.data.clothes);
+  } else {
+    aw.conLoad.output += " no clothes";
+  }
+  print();
+  if (Object.keys(aw.conLoad.data.makeup).length > 0) {
+    aw.conLoad.output += " loading makeup";
+    data.makeup = clone(aw.conLoad.data.makeup);
+  } else {
+    aw.conLoad.output += " no makeup";
+  }
+  print();
+  if (Object.keys(aw.conLoad.data.schools).length > 0) {
+    aw.conLoad.output += " loading schools";
+    data.schools = clone(aw.conLoad.data.schools);
+  } else {
+    aw.conLoad.output += " no schools";
+  }
+  print();
+  if (Object.keys(aw.conLoad.data.jobs).length > 0) {
+    aw.conLoad.output += " loading jobs";
+    data.jobs = clone(aw.conLoad.data.jobs);
+  } else {
+    aw.conLoad.output += " no jobs";
+  }
+  const cum = JSON.stringify(data);
+  aw.conLoad.output += "<br>data formatting complete<br>Generating mod package file...<br>";
+  aw.conLoad.temp = {};
+  aw.conLoad.data = {
+    images: {},
+    hairStyles: {},
+    homeItems: {},
+    jewelry: {},
+    clothes: {},
+    makeup: {},
+    schools: {},
+    jobs: {},
+  };
+  print();
+  let file = `(function () {
+    var modData = `;
+  file += "`";
+  file += cum;
+  file += "`;";
+  file += `
+      try{
+        window.SugarCube.mod = JSON.parse(modData);
+      } catch (e) {
+        window.SugarCube.mod = {
+          images: {},
+          hairStyles: {},
+          homeItems: {},
+          jewelry: {},
+          clothes: {},
+          makeup: {},
+          schools: {},
+          jobs: {},
+        };
+        console.log("ERROR parsing mod package: " + e.name + ": " + e.message);
+      }
+      function cocknroll() {
+        $( "#modbar" ).progressbar( "value", 10 );
+        console.log("Mod Package Loaded!");
+      }
+      setTimeout(cocknroll, 500);
+      delete modData;
+      })();`;
+  aw.conLoad.output += "FINISHED! ";
+  print();
+  const filename = "mod-package.awp";
+  const blob = new Blob([file], { type: "text/plain;charset=utf-16" });
+  saveAs(blob, filename);
+};
+
+aw.conLoad.autoLoad = function() {
+  const mod = window.SugarCube.mod;
+  let output = "MOD AUTOLOADING\n";
+  if (mod.images != null && Object.keys(mod.images).length > 0) {
+    output += " loading images";
+    try {
+      aw.conLoad.images(mod.images);
+    } catch (e) {
+      aw.con.warn(`aw.conLoad.autoLoad Error with images - ${e.name}: ${e.message}`);
+    }
+  } else {
+    output += " no images";
+  }
+
+  if (mod.hairStyles != null && Object.keys(mod.hairStyles).length > 0) {
+    output += " loading hairstyles";
+    try {
+      aw.conLoad.hairStyles(mod.hairStyles);
+    } catch (e) {
+      aw.con.warn(`aw.conLoad.autoLoad Error with hairstyles - ${e.name}: ${e.message}`);
+    }
+  } else {
+    output += " no hairstyles";
+  }
+
+  if (mod.homeItems != null && Object.keys(mod.homeItems).length > 0) {
+    output += " loading home items";
+    try {
+      aw.conLoad.homeItems(mod.homeItems);
+    } catch (e) {
+      aw.con.warn(`aw.conLoad.autoLoad Error with home items - ${e.name}: ${e.message}`);
+    }
+  } else {
+    output += " no home items";
+  }
+
+  if (mod.jewelry != null && Object.keys(mod.jewelry).length > 0) {
+    output += " loading jewelry";
+    try {
+      aw.conLoad.jewelry(mod.jewelry);
+    } catch (e) {
+      aw.con.warn(`aw.conLoad.autoLoad Error with jewelry - ${e.name}: ${e.message}`);
+    }
+  } else {
+    output += " no jewelry";
+  }
+
+  if (mod.clothes != null && Object.keys(mod.clothes).length > 0) {
+    output += " loading clothes";
+    try {
+      aw.conLoad.clothes(mod.clothes);
+    } catch (e) {
+      aw.con.warn(`aw.conLoad.autoLoad Error with clothes - ${e.name}: ${e.message}`);
+    }
+  } else {
+    output += " no clothes";
+  }
+
+  if (mod.makeup != null && Object.keys(mod.makeup).length > 0) {
+    output += " loading makeup";
+    try {
+      aw.conLoad.makeup(mod.makeup);
+    } catch (e) {
+      aw.con.warn(`aw.conLoad.autoLoad Error with makeup - ${e.name}: ${e.message}`);
+    }
+  } else {
+    output += " no makeup";
+  }
+
+  if (mod.schools != null && Object.keys(mod.schools).length > 0) {
+    output += " loading schools";
+    try {
+      aw.conLoad.schools(mod.schools);
+    } catch (e) {
+      aw.con.warn(`aw.conLoad.autoLoad Error with schools - ${e.name}: ${e.message}`);
+    }
+  } else {
+    output += " no schools";
+  }
+
+  if (mod.jobs != null && Object.keys(mod.jobs).length > 0) {
+    output += " loading jobs";
+    try {
+      aw.conLoad.jobs(mod.jobs);
+    } catch (e) {
+      aw.con.warn(`aw.conLoad.autoLoad Error with jobs - ${e.name}: ${e.message}`);
+    }
+  } else {
+    output += " no jobs";
+  }
+  output += " COMPLETE!";
+  aw.conLoad.temp = {};
+
+  aw.con.info(output);
 };

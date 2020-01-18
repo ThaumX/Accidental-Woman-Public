@@ -1,0 +1,169 @@
+:: FemStartScienceQuiz [nobr hidden noui]
+
+
+<<set _ans = [0,0,0,0,0,0,0,0,0,0,0]>>
+<<set _key = [2,2,1,4,1,3,3,1,3,1,2]>>
+<<set _res = [5,5,6,6,6,7,8,9,8,10,13,16]>>
+<center><h2 class="megrim">TITS Science Aptitude Challenge</h2></center>
+<div class="blocker dgreyPattern" style="padding:25px;">
+<div id="textbox">
+<p>
+Answer the following questions to the best of your ability.
+</p>
+<fieldset>
+<legend>1</legend>
+Oil, natural gas and coal are examples of …
+<br><br>
+<<radioset "one" "_ans[0]">>
+<<radioitem 1>>Geothermal resources<br>
+<<radioitem 2>>Fossil fuels<br>
+<<radioitem 3>>Renewable resources<br>
+<<radioitem 4>>Biofuels
+<</radioset>>
+</fieldset>
+<fieldset>
+<legend>2</legend>
+A scientist is conducting a study to determine how well a new medication treats ear infections. The scientist tells the participants to put 10 drops in their infected ear each day. After two weeks, all participants' ear infections had healed.
+<br><br>
+Which of the following changes to the design of this study would most improve the ability to test if the new medication effectively treats ear infections?
+<br><br>
+<<radioset "two" "_ans[1]">>
+<<radioitem 1>>Create a second group of participants with ear infections who use 15 drops a day<br>
+<<radioitem 2>>Create a second group of participants with ear infections who do not use any ear drops<br>
+<<radioitem 3>>Have participants put ear drops in both their infected ear and healthy ear<br>
+<<radioitem 4>>Have participants use ear drops for only one week
+<</radioset>>
+</fieldset>
+<fieldset>
+<legend>3</legend>
+Which of the following is an example of genetic engineering?
+<br><br>
+<<radioset "three" "_ans[2]">>
+<<radioitem 1>>Inserting a gene into plants that makes them resistant to insects<br>
+<<radioitem 2>>Growing a whole plant from a single cell<br>
+<<radioitem 3>>Finding the sequences of bases in plant DNA<br>
+<<radioitem 4>>Attaching the root of one type of plant to the stem of another type of plant
+<</radioset>>
+</fieldset>
+<fieldset>
+<legend>4</legend>
+What is the main cause of seasons on the Earth?
+<br><br>
+<<radioset "four" "_ans[3]">>
+<<radioitem 1>>The speed that the Earth rotates around the sun<br>
+<<radioitem 2>>The distance between the Earth and the sun<br>
+<<radioitem 3>>Changes in the amount of energy coming from the sun<br>
+<<radioitem 4>>The tilt of the Earth's axis in relation to the sun
+<</radioset>>
+</fieldset>
+<fieldset>
+<legend>5</legend>
+These graphs show the monthly precipitation and average temperature for three cities in the United States over the course of one year. Based on the graphs, which city has the greatest annual range of temperatures?
+<br><br>
+[img[IMG-ScienceQuiz1]] [img[IMG-ScienceQuiz2]] [img[IMG-ScienceQuiz3]]
+<br><br>
+<<radioset "five" "_ans[4]">>
+<<radioitem 1>>Chicago, Illinois<br>
+<<radioitem 2>>Los Angeles, California<br>
+<<radioitem 3>>New York, New York<br>
+<<radioitem 4>>They all have the same annual temperature range
+<</radioset>>
+</fieldset>
+<fieldset>
+<legend>6</legend>
+The time a computer takes to start has increased dramatically. One possible explanation for this is that the computer is running out of memory.
+<br><br>
+This explanation is a scientific …
+<br><br>
+<<radioset "six" "_ans[5]">>
+<<radioitem 1>>Observation<br>
+<<radioitem 2>>Theory<br>
+<<radioitem 3>>Hypothesis<br>
+<<radioitem 4>>Conclusion
+<</radioset>>
+</fieldset>
+<fieldset>
+<legend>7</legend>
+Many diseases have an incubation period. Which of the following best describes what an incubation period is?
+<br><br>
+<<radioset "seven" "_ans[6]">>
+<<radioitem 1>>The recovery period after being sick<br>
+<<radioitem 2>>The effect of a disease on babies<br>
+<<radioitem 3>>The period during which someone has an infection, but is not showing symptoms<br>
+<<radioitem 4>>The period during which someone builds up immunity to a disease
+<</radioset>>
+</fieldset>
+<fieldset>
+<legend>8</legend>
+When large areas of forest are removed so land can be converted for other uses, such as farming, which of the following occurs?
+<br><br>
+<<radioset "eight" "_ans[7]">>
+<<radioitem 1>>Increased erosion<br>
+<<radioitem 2>>Colder temperature<br>
+<<radioitem 3>>Decreased carbon dioxide<br>
+<<radioitem 4>>Greater oxygen production
+<</radioset>>
+</fieldset>
+<fieldset>
+<legend>9</legend>
+An antacid relieves an overly acidic stomach because the main components of antacids are …
+<br><br>
+<<radioset "nine" "_ans[8]">>
+<<radioitem 1>>Neutral<br>
+<<radioitem 2>>Acids<br>
+<<radioitem 3>>Bases<br>
+<<radioitem 4>>Isotopes
+<</radioset>>
+</fieldset>
+<fieldset>
+<legend>10</legend>
+Which of these is a major concern about the overuse of antibiotics?
+<br><br>
+<<radioset "ten" "_ans[9]">>
+<<radioitem 1>>It can lead to antibiotic-resistant bacteria<br>
+<<radioitem 2>>There will be an antibiotic shortage<br>
+<<radioitem 3>>Antibiotics can cause secondary infections<br>
+<<radioitem 4>>Antibiotics will get into the water system
+<</radioset>>
+</fieldset>
+<fieldset>
+<legend>11</legend>
+A car travels at a constant speed of 40 miles per hour. How far does the car travel in 45 minutes?
+<br><br>
+<<radioset "elf" "_ans[10]">>
+<<radioitem 1>>25 miles<br>
+<<radioitem 2>>30 miles<br>
+<<radioitem 3>>35 miles<br>
+<<radioitem 4>>40 miles
+<</radioset>>
+</fieldset>
+<br>
+<center><<button "COMPLETE">>
+<<set _score = 0>>
+<<for _i = 0; _i < 11; _i++>>
+<<if _ans[_i] === _key[_i]>>
+  <<set _score += 1>>
+<</if>>
+<</for>>
+<<if _score > 9>>
+  <<set ↂ.flag.prologuePassedScience = true>>
+<<else>>
+  <<set ↂ.flag.prologuePassedScience = false>>
+<</if>>
+<<set _betterThan = 1>>
+<<for _i = 0; _i < _score; _i++>>
+  <<set _betterThan += _res[_i]>>
+<</for>>
+<<set _percentScored = _res[_score]>>
+<<replace "#textbox">>
+<h3>Results:</h3>
+You answered <<= _score>> of 11 questions correctly.<br>
+<<= _percentScored>>% of study participants received the same score.<br>
+You scored better than <<= _betterThan>>% of study participants.<br>
+<<if _score > 9>>@@.good;Congratulations, you passed the SAC!@@<<else>>@@.orange;Sorry, you did not pass the SAC.@@<</if>>
+<br><br>
+<center><<button "RETURN">><<go femStartFair4>><</button>></center>
+<</replace>>
+<</button>></center>
+</div>
+</div>

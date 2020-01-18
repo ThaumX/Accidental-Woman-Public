@@ -1,0 +1,122 @@
+:: FemStart6 [nobr]
+
+<<silently>>
+<<if !ↂ.flag.prologueFemPaid>>
+<<set _cash = random(1550,1600)>>
+<<if ↂ.flag.prologuePassedScience>>
+<<set _cash += 200>>
+<</if>>
+<<set _cash += ↂ.flag.jobQuiz.science * 8>>
+<<set _cash += ↂ.flag.jobQuiz.hr * 7>>
+<<set _cash += ↂ.flag.jobQuiz.janitor * 3>>
+<<set _cash += ↂ.flag.jobQuiz.cow * 5>>
+<<set _cash += ↂ.flag.jobQuiz.breed * 6>>
+<<set _cash += ↂ.flag.jobQuiz.semen * 4>>
+<<set _cash += ↂ.flag.jobQuiz.retail>>
+<<set _cash -= ↂ.flag.jobQuiz.testSubject * 4>>
+<<set $AW.cash += _cash>>
+<<set ↂ.flag.prologueFemPaid = true>>
+<<status 0>>
+<</if>>
+<</silently>>
+<p>
+<<f a>>gent Mann looks at his phone screen again before continuing. @@.npc;Aside from those rules I just laid out, your life will be almost entirely in your own hands. You will have a new identity and documentation, and obviously you will be living here in Appletree.@@
+</p>
+<p>
+@@.pc;But what am I supposed to do?@@
+</p>
+<p>
+He doesn't look terribly pleased at the interruption, and simply continues. @@.npc;It will be your own responsibility to work and earn a living. You will rent your own place, and pay for your own expenses. It seems you're to have a remarkably free life.@@ He shakes his head at that, disappointed. @@.npc;Of course, if you fail to support yourself or otherwise get in trouble, that will likely be considered a natural termination of this experiment.@@
+</p>
+<p>
+He holds up his hand to forestall any questions. @@.npc;You will be offered a choice of entry level jobs at the Institute, though you may also choose to work elsewhere if you prefer. In addition, you will be given a one-time subsidy of <span class="money">₢<<= _cash>></span> to get you started.@@ He looks at you pointedly @@.npc;This should be more than sufficient to get you started with a new place and all the necessities. The credits have already been transferred to your new account, I advise that you don't waste them.@@
+</p>
+<p>
+You wait for a moment to make sure he has finished before speaking. @@.pc;So, umm, when do I get started?@@
+</p>
+<p>
+@@.npc;I'll be collecting some information from you today to finalize your new identity and documentation. You will be staying in the hospital for the next two nights for observation.@@ He pauses for a moment, considering something. @@.npc;You won't have a bill for ''this'' stay in the hospital though. I will be returning tomorrow to get you set up with your new job and living accommodations.@@
+</p>
+<center><<button "CONTINUE">><<addTime 5>><<go FemStart6a>><</button>></center>
+
+
+:: FemStart6a [nobr]
+
+
+<p>
+<<f a>>gent Mann opens his briefcase and pulls out a ruggedized tablet colored government-issue black. He ignores you as he turns it on and starts tapping. Abruptly he walks over and hands the tablet to you. @@.npc;Enter your new surname. We're letting you keep your first name, so you won't have to worry about screwing that up.@@
+</p>
+<center>Surname: <<textbox "ↂ.pc.main.surname" ↂ.pc.main.surname>></center>
+<p>
+Waiting until he sees you finish typing, he continues. @@.npc;Okay, next is setting your official age. Obviously your biological age is different for this body, so pick something reasonable.@@
+</p>
+<center>Age: <<textbox "ↂ.pc.main.ageID" ↂ.pc.main.ageID>></center>
+<p>
+He once again waits until it seems like you're finished. @@.npc;Okay hit the next button. There will be a couple of medical questions. Pick whatever you want, I'm not going to explain it for you.@@
+</p>
+<center><<button "NEXT">><<set ↂ.pc.main.ageID = Number(ↂ.pc.main.ageID)>><<status>><<addTime 3>><<go FemStart6b>><</button>></center>
+
+
+:: FemStart6b [nobr]
+
+<div style="margin:25px;padding:25px;border-width:5px;border-style:solid;border-color:#909090;background-color:#303030;color:#ddd;border-radius:12px;">
+<center>[img[IMG-AppMD_InstiCare]]<br>
+Sign up for InstiCare? <<button "YEP">><<set ↂ.flag.Healthcare = true>><<replace "#care">>YES<</replace>><</button>> <<button "NOPE">><<set ↂ.flag.Healthcare = false>><<replace "#care">>NO<</replace>><</button>><<tab>><span class="exp">Currently: <span id="care"><<if ↂ.flag.Healthcare>>YES<<else>>NO<</if>></span></span>
+</center>
+@@.note;InstiCare is a free healthcare benefit offered to all Appletree citizens. It significantly reduces the cost of medical treatment; though you will still have copays--particularly for optional procedures--they are considerably less than unsubsidized treatment. By signing up for InstiCare, you waive your right to refuse medical treatment or choose specific treatment options.@@
+
+<br><hr><br>
+<center>[img[IMG-OrganDonorAd]]<br>
+Sign up as an Organ Donor?<<button "YEP">><<set ↂ.flag.organDonor = true>><<replace "#organ">>YES<</replace>><</button>> <<button "NOPE">><<set ↂ.flag.organDonor = false>><<replace "#organ">>NO<</replace>><</button>><<tab>><span class="exp">Currently: <span id="organ"><<if ↂ.flag.organDonor>>YES<<else>>NO<</if>></span></span>
+</center>
+@@.note;Being an organ donor would normally help those who can't afford lab-grown organs using their own DNA. In Appletree, however, donated organs are usually utilized for research. <span class="orange">Being an organ donor is actually an increased difficulty mode.</span>@@
+<center>
+<<button "ACCEPT">><<addTime 5>><<set $activeNPC = []>><<go "FemStart6c">><</button>>
+</center>
+</div>
+
+
+:: FemStart6c [nobr]
+
+
+<p>
+<<f o>>nce you're done with the medical choices, Agent Mann quickly retrieves his tablet. @@.npc;That'll be all for now. I'll be back tomorrow morning.@@ Without another word, he replaces the tablet in his briefcase and walks out the door.
+</p>
+<p>
+Left alone in your room once again, you look around bleakly. The shock of Agent Mann's revelations--your apparent death and forced new life--have not sunk in yet. You notice a strange cellphone sitting on your nightstand.
+</p>
+<div id="tar">
+<center><<link "Pick up the phone.">><<replace "#tar">>
+<p>
+You pick up the black ubiquitous piece of technology and look at it. It's a SamDong phone, and it looks brand new. It's not the top-of-the-line flagship phone, but it's still definitely upper-end; it's nicer than your phone, at least.
+</p>
+<center>[img[IMG-SamdongPhone]]</center>
+<p>
+Curious, you push the power button on the side, and to your surprise it unlocks immediately. The battery is nearly full, and the phone looks practically empty, as if someone hadn't had the chance to install any apps yet. You tap the contacts icon, figuring you'd be able to get a clue about the owner. When the contacts list opens up, however, there's only two names: Toby Jones, and Dr. Lily Richards. @@.mono;This must be a replacement for my old phone then...@@
+</p>
+<p>
+You quickly install the Emnity chat app, but find that your account has been deleted. @@.mono;It seems the Institute is thorough about this sort of thing, at least.@@ You create a new account with your phone number so you can message Toby.
+</p>
+<center><<button "MESSAGE TOBY">><<addTime 3>><<go "FemStart6d">><</button>></center>
+<</replace>><</link>></center>
+</div>
+
+
+:: FemStart6d [nobr]
+
+<<texting "Toby">>
+<<textpc>>Hey, it's <<name>>, and I'm alive!
+<<textpc>>Mostly.
+<<textnpc>>Oh shit! I've been worried sick.
+<<textnpc>>They told me they took you to Arbor Vitae, but I wasn't allowed to visit or even know your room number until you woke up.
+<<textpc>>¯\_(ツ)_/¯<br>I just woke up a little while ago. This whole thing is super weird.
+<<textnpc>>I know...
+<<textnpc>>Hey tell me your room number and I'll come visit.
+<<textpc>>Just a minute...
+<<textpc>>D-334 is what it says on the door.
+<<textnpc>>Okay, I'll be there soon with a care package!
+<<textpc>>k, see you soon.<<replace "#cunthunt">><center><<button "CONTINUE">><<addTime 26>><<pcTotalATR>><<set $activeNPC = ["n102"]>><<go "FemStart7">><</button>></center><</replace>>
+<</texting>>
+<div id="cunthunt">
+
+</div>

@@ -32,13 +32,14 @@ setup.clothes.PaperDollPrint = function(type: string = "wardrobe"): string {
   }
   if (showClothes) {
     output += setup.clothes.paperClothes();
+    output += setup.clothes.paperShoes();
   }
   if (showAcc) {
     output += setup.clothes.paperAccessories();
   }
-  if (showOutdoor || State.active.variables.AW.paperBlush === 1 || State.active.variables.AW.paperBlush === 2) {
+  /*if (showOutdoor || State.active.variables.AW.paperBlush === 1 || State.active.variables.AW.paperBlush === 2) {
     output += setup.clothes.paperShoes();
-  }
+  }*/
   if (showStatus || State.active.variables.AW.paperBlush === 1 || State.active.variables.AW.paperBlush === 2) {
     output += setup.clothes.paperStatus();
   }
@@ -126,7 +127,9 @@ setup.clothes.paperClothes = function(): string {
   const ᛝ = ↂ.pc.clothes;
   let output = "";
   if (ᛝ.keys.panties !== 0 && ᛝ.worn.panties !== "off") {
-    if (aw.slot.panties.type === "swimBottom") {
+    if (aw.clothes[ᛝ.keys.panties].padoImg !== "none") {
+      output += `<img data-passage="${aw.clothes[ᛝ.keys.panties].padoImg}" style="z-index:216;">`;
+    } else if (aw.slot.panties.type === "swimBottom") {
       output += '<img data-passage="IMG-PaDo-BikiniBottom" style="z-index:216;">';
     } else {
       switch (aw.slot.panties.values.style) {
@@ -163,7 +166,9 @@ setup.clothes.paperClothes = function(): string {
     output += '<img data-passage="IMG-PaDo-PantiesOff" style="z-index:216;">';
   }
   if (ᛝ.keys.bra !== 0 && ᛝ.worn.bra !== "off") {
-    if (aw.slot.bra.type === "swimTop") {
+    if (aw.clothes[ᛝ.keys.bra].padoImg !== "none") {
+      output += `<img data-passage="${aw.clothes[ᛝ.keys.bra].padoImg}" style="z-index:217;">`;
+    } else if (aw.slot.bra.type === "swimTop") {
       output += '<img data-passage="IMG-PaDo-BikiniTop" style="z-index:217;">';
     } else if (aw.slot.bra.type === "swimOnePiece") {
       switch (aw.slot.bra.values.style) {
@@ -203,12 +208,18 @@ setup.clothes.paperClothes = function(): string {
         case 13:
           output += '<img data-passage="IMG-PaDo-Belts-Upper" style="z-index:217;">';
           break;
+        default:
+            output += '<img data-passage="IMG-PaDo-Bra" style="z-index:217;">';
+          break;
       }
     }
   } else if (ᛝ.worn.bra === "off") {
     output += '<img data-passage="IMG-PaDo-BraOff" style="z-index:217;">';
   }
   if (ᛝ.keys.leg !== 0 && ᛝ.worn.leg !== "off") {
+    if (aw.clothes[ᛝ.keys.leg].padoImg !== "none") {
+      output += `<img data-passage="${aw.clothes[ᛝ.keys.leg].padoImg}" style="z-index:218;">`;
+    } else {
     switch (aw.slot.leg.values.style) {
       case 1:
       case 2:
@@ -225,9 +236,12 @@ setup.clothes.paperClothes = function(): string {
         output += '<img data-passage="IMG-PaDo-Pantyhose" style="z-index:218;">';
         break;
     }
+    }
   }
   if (ᛝ.keys.bottom !== 0 && State.active.variables.AW.paperOver && ᛝ.worn.bottom !== "off") {
-    if (aw.slot.top.type !== "sportBottom") {
+    if (aw.clothes[ᛝ.keys.bottom].padoImg !== "none") {
+      output += `<img data-passage="${aw.clothes[ᛝ.keys.bottom].padoImg}" style="z-index:219;">`;
+    } else if (aw.slot.top.type !== "sportBottom") {
       switch (aw.slot.bottom.values.style) {
         case 1:
         case 2:
@@ -271,7 +285,9 @@ setup.clothes.paperClothes = function(): string {
     output += '<img data-passage="IMG-PaDo-PantsOff" style="z-index:219;">';
   }
   if (ᛝ.keys.top !== 0 && State.active.variables.AW.paperOver && ᛝ.worn.top !== "off") {
-    if (aw.slot.top.type === "top") {
+    if (aw.clothes[ᛝ.keys.top].padoImg !== "none") {
+      output += `<img data-passage="${aw.clothes[ᛝ.keys.top].padoImg}" style="z-index:220;">`;
+    } else if (aw.slot.top.type === "top") {
       switch (aw.slot.top.values.style) {
         case 2:
         case 3:
@@ -313,7 +329,9 @@ setup.clothes.paperClothes = function(): string {
           break;
       }
     } else if (aw.slot.top.type === "dress") {
-      if (aw.slot.top.values.style === 666) {
+      if (aw.clothes[ᛝ.keys.top].padoImg !== "none") {
+        output += `<img data-passage="${aw.clothes[ᛝ.keys.top].padoImg}" style="z-index:220;">`;
+      } else if (aw.slot.top.values.style === 666) {
         output += '<img data-passage="IMG-PaDo-MaidDress" style="z-index:220;">';
       } else {
         output += '<img data-passage="IMG-PaDo-SheerDress" style="z-index:220;">';
@@ -334,6 +352,9 @@ setup.clothes.paperShoes = function(): string {
   let output = "";
   const ᛝ = ↂ.pc.clothes;
   if (ᛝ.keys.coat !== 0 && State.active.variables.AW.paperOver) {
+    if (aw.clothes[ᛝ.keys.coat].padoImg !== "none") {
+      output += `<img data-passage="${aw.clothes[ᛝ.keys.coat].padoImg}" style="z-index:220;">`;
+    } else {
     switch (aw.slot.coat.values.style) {
       case 6:
       case 12:
@@ -343,10 +364,14 @@ setup.clothes.paperShoes = function(): string {
         output += '<img data-passage="IMG-PaDo-Coat1" style="z-index:220;">';
         break;
     }
+    }
   } else if (ᛝ.keys.coat !== 0 && ᛝ.worn.coat === "off") {
     output += '<img data-passage="IMG-PaDo-CoatOff" style="z-index:220;">';
   }
   if (ᛝ.keys.shoes !== 0 && State.active.variables.AW.paperOver && ᛝ.worn.shoes !== "off") {
+    if (aw.clothes[ᛝ.keys.shoes].padoImg !== "none") {
+      output += `<img data-passage="${aw.clothes[ᛝ.keys.shoes].padoImg}" style="z-index:225;">`;
+    } else {
       switch (aw.slot.shoes.values.style) {
         case 1:
           output += '<img data-passage="IMG-PaDo-HeavyBoots" style="z-index:225;">';
@@ -380,9 +405,10 @@ setup.clothes.paperShoes = function(): string {
           output += '<img data-passage="IMG-PaDo-HeelsPink" style="z-index:218;">';
           break;
       }
+    }
     } else if (ᛝ.keys.shoes !== 0 && ᛝ.worn.shoes === "off") {
       output += '<img data-passage="IMG-PaDo-ShoesOff" style="z-index:220;">';
-    }
+  }
   return output;
 };
 

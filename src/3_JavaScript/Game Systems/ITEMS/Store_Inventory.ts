@@ -11,10 +11,8 @@
 // Generates clothing for all the clothing stores, replacing their inventory.
 setup.generateStoreClothes = function(): void {
   let cheat = false;
-  if (State.active.variables.pub && State.active.variables.cheat != null) {
-    if (State.active.variables.cheat.shop) {
-      cheat = true;
-    }
+  if (aw.chad.shop) {
+    cheat = true;
   }
   const count = (cheat) ? 40 : 20;
   const halfCount = (cheat) ? 20 : 10;
@@ -41,8 +39,8 @@ setup.generateStoreClothes = function(): void {
     coat: clone(setup.clothesGen.coat(halfCount, 1, 0, 0, -2, "Bullseye")),
     swimU: clone(setup.clothesGen.swimTop(halfCount, 1, 1, 0, -2, "Bullseye")),
     swimL: clone(setup.clothesGen.swimBottom(halfCount, 1, 1, 0, -2, "Bullseye")),
-    athU: [],
-    athL: [],
+    athU: clone(setup.clothesGen.upperBody(halfCount, 7, 0, 0, 1, "Bullseye")),
+    athL: clone(setup.clothesGen.lowerBody(halfCount, 7, 0, 0, 1, "Bullseye")),
     niteU: clone(setup.clothesGen.upperBody(halfCount, 5, 1, 0, -2, "Bullseye")),
     niteL: [],
     acc: [],
@@ -188,31 +186,26 @@ setup.generateStoreClothes = function(): void {
     sales: {
       underwear: 1,
       clothes: 1,
-      coats: 1,
       acc: 1,
       all: 1,
       shoes: 1,
     },
     panties: [],
     leg: [],
-    bra: [],
-    coat: [],
-    swimU: clone(setup.clothesGen.swimTop(halfCount, 6, 1, 0, 0, "BallSack")),
-    athU: [],
-    athL: [],
+    bra: clone(setup.clothesGen.bra(count, 4, 0, 0, 1, "BallSack")),
+    swimU: clone(setup.clothesGen.swimTop(count, 2, 1, 0, 0, "BallSack")),
+    swimL: clone(setup.clothesGen.swimBottom(count, 4, 3, 0, 0, "BallSack")),
+    top: clone(setup.clothesGen.upperBody(count, 7, 0, 0, 1, "BallSack")),
+    bottom: clone(setup.clothesGen.lowerBody(count, 7, 0, 0, 1, "BallSack")),
     acc: [],
     bag: [],
-    shoes: clone(setup.clothesGen.shoes(halfCount, 2, 0, 0, -1, "BallSack")),
+    shoes: clone(setup.clothesGen.shoes(count, 2, 0, 0, -1, "BallSack")),
   };
   setup.shopInv.Shoegasm = {
     sales: {
       shoes: 1,
-      shoes2: 1,
-      shoes3: 1,
     },
-    shoes: clone(setup.clothesGen.shoes(countBig, 0, 0, 0, -1, "Shoegasm")),
-    shoes2: clone(setup.clothesGen.shoes(countBig, 0, 0, 0, -1, "Shoegasm")),
-    shoes3: clone(setup.clothesGen.shoes(countBig, 0, 0, 0, -1, "Shoegasm")),
+    shoes: clone(setup.clothesGen.shoes(50, 0, 0, 0, -1, "Shoegasm")),
   };
   ↂ.storeInv = {
     panties: [],
@@ -385,6 +378,7 @@ setup.shopInv = {
       underwear: 1,
       clothes: 1,
       coats: 1,
+      shoes: 1,
       acc: 1,
       all: 1,
     },
@@ -403,6 +397,7 @@ setup.shopInv = {
     niteL: [],
     acc: [],
     bag: [],
+    shoes: [],
   },
   thotTopic: {
     sales: {

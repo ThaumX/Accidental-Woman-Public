@@ -7,7 +7,7 @@
 /*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
 <<include [[MAPhomeT2]]>>
 /*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
-<div id="mainshits">
+<div id="mainshits" class="extraRoomRight">
 <<homeItemDisp>>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
 <p class="weather-disc"><<switch ↂ.map.weather>>
@@ -57,8 +57,9 @@
 <<hoverrevise masturbate>>
   <<button "Masturbate">>
     <<dialog “Masturbation”>>
+      <<if setup.sexToys.check("pc", "groin") == true && setup.sexToys.check("pc", "clit") == true>>
       <div style="width:700px;">
-        That is just a quick placeholder for bigger and more complicated masturbation system. Notice that simple toyless masturbation can't fully satisfy you.  /* I hope at least :) */
+        That is just a quick placeholder for bigger and more complicated masturbation system. Notice that simple toyless masturbation can't fully satisfy you.
         <br>
         <<set _shra = '<img data-passage="IMG-masturbation1" style="border-radius:10px;float:left;margin-right:10px;height:500px;width:auto;">'>>
         <<print _shra>>
@@ -145,12 +146,19 @@
           <span style="font-size:0.65rem;">A long and relaxing session where you take the time to explore your body and work yourself toward a powerful orgasm.</span>
         </div>
       </div>
+      <<else>>
+      <div style="width:700px;">
+        <center>[img[IMG-HowIsupposedTo]]</center>
+        You realise that you actually can't masturbate with that chastity on.
+      </div>
+      <</if>>
     <</dialog>>
   <</button>>
 <<endhoverrevise>>
 <<hoverrevise sexdemo>>
 <<button "Tingler Hookup">>
-  <<set $temp = 0>>
+  <<dialog "Tingler Sex Friends">>
+  <<silently>><<set $temp = 0>>
   <<set _prin = "<<radioset 'sexchoice' '$temp'>>Choose Your Partner...">>
   <<for _i to 1; _i < 11; _i++>>
   <<set _id = either(setup.npc.ready)>>
@@ -158,14 +166,31 @@
   <<set _prin += "<<radioitem " + _id + ">>" + _tx>>
   <</for>>
   <<set _prin += "<</radioset>>">>
-  <<set ↂ.sex.pcOutput = "Your Tingler date shows up, ready to fuck. You both know what's happening, so you get to it.">>
-  <<set ↂ.sex.enviroTags = ["bed","wall"]>>
-  <<set ↂ.sex.passage = "homeT1bedroom">>
-  <<dialog "Tingler Sex Friends">>
+  <<set $temp2 = 0>>
+  <<set _prin2 = "<<radioset 'sexchoice2' '$temp2'>>Choose Your Rapist...">>
+  <<for _i2 to 1; _i2 < 11; _i2++>>
+  <<set _id2 = either(setup.npc.ready)>>
+  <<set _tx2 = aw.npc[_id2].main.name + " (" + aw.npc[_id2].main.age + ")">>
+  <<set _prin2 += "<<radioitem " + _id2 + ">>" + _tx2>>
+  <</for>>
+  <<set _prin2 += "<</radioset>>">><</silently>>
     <center>[img[IMG-TinglerApp]]
     <<print _prin>>
-    <<button "!!!GO!!!">>
+    <<button "!!!GO!!!">><<set ↂ.sex.pcOutput = "Your Tingler date shows up, ready to fuck. You both know what's happening, so you get to it.">><<set ↂ.sex.enviroTags = ["bed","wall"]>><<set ↂ.sex.passage = "homeT1bedroom">>
+    <<if random(1,10) === 1>>
+      <<run setup.giveSSTD()>>
+    <</if>>
     <<run aw.S()>><<startSex $temp>><<run Dialog.close()>>
+    <</button>>
+    <hr>
+    <center>[img[IMG-Coerceme]]<br>
+    New app on the market, "CoerceMe" is made for finding consensual non-consent play dates.
+    <<print _prin2>>
+    <<button "!!!GO!!!">><<set ↂ.sex.enviroTags = ["bed","wall"]>><<set ↂ.sex.passage = "ResidentialSidewalk">><<set ↂ.sex.rape = true>><<set ↂ.sex.pcOutput = "You decide to meet at  at the sidewalk near your house. You get downstairs and wait nerviously until your CoerceMe date gets from behind from the <<publicPrivacy>>.">>
+    <<if random(1,5) === 1>>
+      <<run setup.giveSSTD()>>
+    <</if>>
+    <<run aw.S()>><<startSex $temp2>><<run Dialog.close()>>
     <</button>>
     </center>
   <</dialog>>
@@ -176,8 +201,7 @@
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion sleep>>@@.exp;This doesn't properly work right now. Pretend there's a sign here saying "under construction", or try it anyway, I guess...@@<<endinsertion>>
-<<insertion masturbate>>Pretty self-explanary activity involving touching yourself in a sexual manner. [10-30min]<<endinsertion>>
+<<insertion masturbate>>Pretty self-explanary activity involving touching yourself in a sexual manner. <<ctn>>[10-30min]<</ctn>><<endinsertion>>
 <<insertion sexdemo>>Use the Tingler app to find someone close-by to have sex with.<<endinsertion>>
 <<homeItemInfo>>
 

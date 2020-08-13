@@ -200,26 +200,45 @@ setup.porn.maleNPC = function(npc: any): setupSVGbuildArg {
   p.parts.push(1);
   p.colors.push(skin);
   // clothes
-  p.parts.push(random(1, 16));
+  p.parts.push(random(1, 8));
   p.colors.push(random(1, 9));
   // ears
-  const earNums = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 14, 15];
+  const earNums = [1, 2, 3];
   p.parts.push(either(...earNums));
   p.colors.push(skin);
-  // face
-  const faceNums = (npc.body.jaw === "normal") ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 17, 19, 21] : [16, 18, 19, 20];
-  p.parts.push(either(...faceNums));
-  p.colors.push(skin);
+  // face - "normal", "large", "jutting", "wide"
+  switch (npc.body.jaw) {
+    case "normal":
+      p.parts.push(either(1));
+      p.colors.push(skin);
+      break;
+    case "large":
+      p.parts.push(either(2));
+      p.colors.push(skin);
+      break;
+    case "jutting":
+      p.parts.push(either(3));
+      p.colors.push(skin);
+      break;
+    case "wide":
+      p.parts.push(either(4));
+      p.colors.push(skin);
+      break;
+    default:
+      p.parts.push(either(1));
+      p.colors.push(skin);
+      break;
+  }
   // mouth
-  const mouthNums = (npc.body.race === "black" || npc.body.race === "middle eastern") ? [2, 10, 13, 15] : [1, 3, 4, 5, 6, 7, 8, 9, 11, 12, 14, 16, 17, 18, 19, 20];
+  const mouthNums = [1, 2] // two random mouths
   p.parts.push(either(...mouthNums));
   p.colors.push(skin);
   // randomize temporarily
   const mustache = (random(1, 4) === 4) ? true : false;
   const beard = (mustache && random(1, 4) > 2) ? true : false;
   // beard
-  if (beard) {
-    const beardNums = [1, 3, 4, 5, 7, 8, 9];
+  if (beard) { // goatee, freeman, shadow
+    const beardNums = [1, 2, 3];
     p.parts.push(either(...beardNums));
     p.colors.push(hair);
   } else {
@@ -227,49 +246,104 @@ setup.porn.maleNPC = function(npc: any): setupSVGbuildArg {
     p.colors.push(0);
   }
   // mustache
-  if (mustache) {
-    const stachNums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11];
-    p.parts.push(either(stachNums));
+  if (mustache) { // no, yes (the only normal style they have)
+    p.parts.push(1);
     p.colors.push(hair);
   } else {
     p.parts.push(0);
     p.colors.push(0);
   }
   // nose
-  let noseNums: number[];
+  let noseNums: number[];  // normal, normal2, plush, big
   const bigNose = ["black", "southeast Asian"];
   const medNose = ["southern European", "hispanic", "south Asian", "middle eastern", "native American"];
   if (bigNose.includes(npc.body.race)) {
-    noseNums = [5, 9, 10, 11, 14, 17, 19];
+    noseNums = [1,2,3,3,3,4,4,4,4,4,4];
   } else if (medNose.includes(npc.body.race)) {
-    noseNums = [5, 9, 10, 11, 14, 17, 19, 1, 2, 3, 7, 8, 16, 1, 2, 3, 7, 8, 16];
+    noseNums = [2,3,3,4];
   } else {
-    noseNums = [1, 2, 3, 7, 8, 16, 3, 4, 12, 13, 15, 18, 20, 3, 4, 12, 13, 15, 18, 20];
+    noseNums = [1,1,1,2,3,4];
   }
   p.parts.push(either(...noseNums));
   p.colors.push(skin);
   // eyes
-  const eyeNums = (npc.body.race === "Asian" || npc.body.race === "southeast Asian") ? [4, 2, 15, 10, 9] : [1, 3, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19];
-  p.parts.push(either(...eyeNums));
-  p.colors.push(0);
-  // eyebrows
-  const browNums = (medNose.includes(npc.body.race)) ? [1, 9, 5, 6, 10, 12] : [1, 2, 3, 4, 7, 8, 9, 11, 13, 14, 15, 16];
+  switch (npc.body.race) {
+    case "Asian":
+    case "southeast Asian":
+      p.parts.push(4);
+      break;
+    case "white":
+    case "hispanic":
+      p.parts.push(1);
+      break;
+    case "southern European":
+    case "south Asian":
+      p.parts.push(2);
+      break;
+    case "Gaelic":
+    case "middle eastern":
+      p.parts.push(3);
+      break;
+    case "Nordic":
+    case "native American":
+      p.parts.push(5);
+      break;
+    default:
+      p.parts.push(1);
+      break;
+  }
+  //const eyeNums = (npc.body.race === "Asian" || npc.body.race === "southeast Asian") ? [4] : [1,2,3,5]; // 1,2,3,5 standard, 4 - epicantus  
+  switch (npc.body.eyeColor) {
+    case "brown":
+      p.colors.push(1);
+      break;
+    case "hazel":
+      p.colors.push(2);
+      break;
+    case "blue":
+      p.colors.push(3);
+      break;
+    case "light blue":
+      p.colors.push(4);
+      break;
+    case "blue-green":
+      p.colors.push(5);
+      break;
+    case "green":
+      p.colors.push(6);
+      break;
+    case "golden-brown":
+      p.colors.push(7);
+      break;
+    case "green and blue heterochromatic":
+      p.colors.push(8);
+      break;
+    default:
+      p.colors.push(random(1, 7));
+      break;
+  }
+  // eyebrows - normal, thin1, thin2, thick1, thick 2
+  const browNums = (medNose.includes(npc.body.race)) ? [1,1,2,3,4,4,4,5,5,5] : [1,1,2,2,3,4,5];
   p.parts.push(either(...browNums));
   p.colors.push(hair);
-  // hairFront
-  const hairNums = (npc.body.race === "black") ? [2, 3, 7, 11, 13, 20, 2, 3, 7, 11, 13, 20] : [3, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17, 18, 20];
+  // hairFront - normal, normal, normal, normal, very bald, bald, young and messy, youngs and messy, afro
+  const hairNums = (npc.body.race === "black") ? [0,1,2,3,4,9,9,9,9] : [0,1,2,3,4,7,8];
+  if (npc.main.age <= 25) {
+    hairNums.push(7,7,7,7,8,8,8,8);
+  }
   if (npc.main.age >= 30) {
-    hairNums.push(0, 1, 4, 5, 19);
+    hairNums.push(5,5,5,5,6,6,6,6);
   }
   if (npc.main.age >= 40) {
-    hairNums.push(0, 1, 4, 5, 19);
+    hairNums.push(5,5,5,5,5,5,5,5,6,6,6,6,6,6,0,0);
   }
   if (npc.main.age >= 50) {
-    hairNums.push(0, 1, 4, 5, 19, 0, 1, 4, 5, 19);
+    hairNums.push(5,5,5,5,5,5,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,0,0,0,0);
   }
   p.parts.push(either(...hairNums));
   p.colors.push(hair);
   // hat
+  /*
   const hatter = random(1, 15);
   if (npc.body.race === "middle eastern" && hatter > 12) {
     p.parts.push(1);
@@ -280,10 +354,12 @@ setup.porn.maleNPC = function(npc: any): setupSVGbuildArg {
   } else {
     p.parts.push(0);
     p.colors.push(0);
-  }
+  } */
+  p.parts.push(0);
+  p.colors.push(0);
   // glasses
   if (random(1, 3) === 3) {
-    p.parts.push(random(1, 11));
+    p.parts.push(random(1, 2));
   } else {
     p.parts.push(0);
   }
@@ -562,16 +638,16 @@ setup.porn.femaleNPC = function(npc: any, pc?: boolean): setupSVGbuildArg | stri
   // mouth
   if (npc.body.race === "black") {
     switch (npc.body.lips) {
-      case "lizard":
+      case 0:
         p.parts.push(2);
         break;
-      case "thin":
+      case 1:
         p.parts.push(3);
         break;
-      case "normal":
+      case 2:
         p.parts.push(4);
         break;
-      case "thick":
+      case 3:
         p.parts.push(4);
         break;
       default:
@@ -667,7 +743,7 @@ setup.porn.femaleNPC = function(npc: any, pc?: boolean): setupSVGbuildArg | stri
       p.colors.push(7);
       break;
     case "green and blue heterochromatic":
-      p.colors.push(0);
+      p.colors.push(8);
       break;
     default:
       p.colors.push(random(1, 7));

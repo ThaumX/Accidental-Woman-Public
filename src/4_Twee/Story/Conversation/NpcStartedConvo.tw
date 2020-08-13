@@ -249,8 +249,8 @@
 <<silently>>
 <<set setup.interact.status.npc = ↂ.flag.npcInducedInteractions.intNPC>>
 <<set _npc = ↂ.flag.npcInducedInteractions.intNPC>>
-<<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.likePC += random(2,5)>>
 <<set _npc = setup.interact.status.npc>> /* warning - for initial load only, no DOM! */
+<<set aw.npc[_npc].rship.likePC += random(2,5)>>
 <<run setup.npcInfo.level(_npc, {bodyGeneral: true})>>
 <<set aw.npc[_npc].rship.acquaint = true>>
 <<run setup.npc.acquainted.push(_npc)>>
@@ -305,7 +305,7 @@ You take out your phone.
 
 <p>Guy nods and writes down your answers and put the paper in his bag.</p>
 <p>@@.npc;On behalf of Thornton Institute thank you so much for participating! This research will be anonymous of course if you have any concerns about this.@@</p>
-<p>@@.pc;But why you wrote my full name then?@@</p>
+<p>@@.pc;But why you asked for my full name then?@@</p>
 <p>@@.npc;Bye!@@</p>
 <<safetoclose>>
 
@@ -328,7 +328,7 @@ You take out your phone.
 
 :: NPCinteraction-DancingNpc-yes [nobr]
 
-<<run setup.npcInfo.level(ↂ.flag.npcInducedInteractions.intNPC, {bodyGeneral: true})>><<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.acquaint = true>><<run setup.npc.acquainted.push(ↂ.flag.npcInducedInteractions.intNPC)>><<set _lefttesticle = random(0,1)>><<if _lefttesticle == 1>><<run setup.npc.interested.push(ↂ.flag.npcInducedInteractions.intNPC)>><<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.lovePC += random(3,7)>><</if>><<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.likePC += 3>><<has slut>><<arousal 2 "Sexy dancing with a guy.">><<or>><<arousal 1 "Sexy dancing with a guy.">><</has>>
+<<run setup.npcInfo.level(ↂ.flag.npcInducedInteractions.intNPC, {bodyGeneral: true})>><<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.acquaint = true>><<run setup.npc.acquainted.push(ↂ.flag.npcInducedInteractions.intNPC)>><<set _lefttesticle = random(0,1)>><<if _lefttesticle == 1>><<run setup.npc.interested.push(ↂ.flag.npcInducedInteractions.intNPC)>><<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.lovePC += random(3,7)>><</if>><<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.likePC += 3>><<has slut>><<arousal 2>><<or>><<arousal 1>><</has>>
 <p><<print either("You continue to dance for some time enjoying the intimacy in the center of the crowd.","It is too loud to talk so you just dance for ten more minutes feeling his hot body in mere inches of yours.")>> <<print either("You can't but notice his hand slipping to your butt more often as time goes by until he finally starts to grope you shamelessly.","As you push yourself closer you can feel his <<n $DancingNpc cocklength.q>> boner through the clothes.")>> <<print either("Looking into his eyes you can see his lust growing.","He is obviously have <i>something</i> in his mind about this evening.")>> <<print either("@@.pc;Hey, shouldn't we take a drink or something?@@","@@.pc;Oh, maybe we should take a break at the chillout?@@")>></p>
 <p><<print either("He takes you by the hand with a grin.","Smiling he shakes gets closer to your ear.")>> <<print either("@@.npc;I have a better idea, maybe there is a free stall?@@","@@.npc;Or we could just go straight to the stall...@@")>></p>
   <<dialogchoice>>
@@ -339,7 +339,7 @@ You take out your phone.
   <</dialogchoice>>
 
 
-  :: NPCinteraction-DancingNpc-yes [nobr]
+:: NPCinteraction-DancingNpc-sex [nobr]
   
   @@.head3;Y@@ou get to the WC and luckily, there is a free stall there. He pushes you inside not even bothering to lock the door properly. His hands travels over your body and teasing your most intimate parts while you kiss his lips...
 <<button "Time to fuck!">>
@@ -354,10 +354,89 @@ You take out your phone.
 <<set aw.npc[$DancingNpc].rship.companion += 15>>
 <<set aw.npc[$DancingNpc].sleptover += 1>>
 <<set setup.sexitimes = $DancingNpc>>
-<<if random(1,10) === 1>><<set _drip = true>><<run setup.omni.new("sstd_dripsA")>><</if>>
+<<if random(1,10) === 1>><<set _drip = true>><<run setup.giveSSTD()>><</if>>
 <<intclose>><<status 0>>
 <<script>>
 setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
 <</script>>
 <<set ↂ.pc.status.morality -= random(2,5)>>
 <</button>> 
+
+
+:: NPCpaysAvisit [nobr]
+
+<<silently>>
+<<set $visitor = ↂ.flag.homeVisit[1]>>
+<<addtime 15>>
+<<set ↂ.flag.homeVisit = [0, "none"]>>
+<<status 0>>
+<<if setup.interactionMisc.isDom($visitor) && aw.npc[$visitor].main.female>><<set _daddy = "mistress">><<else>><<set _daddy = "master">><</if>>
+<</silently>>
+<p><<print either("You open the door and","Unlocking the door you")>> to see <<print aw.npc[$visitor].main.name>> <<print either("standing at your doorsteps.","smiling to you.")>></p>
+<<if setup.interactionMisc.isDom($visitor)>><p>@@.pc;Ah, <<= _daddy>>, I did't expect you today!@@</p>
+<<else>><p>@@.pc;Oh, <<print aw.npc[$visitor].main.name>>! Nice to see you!@@</p><</if>>
+<<if setup.interactionMisc.isSub($visitor)>><p>@@.npc;<<greetings>> I... just was near and thought to pay you a visit, <<= _daddy>>!@@</p><<else>><p>@@.npc;Hi! I was near and thought to pay you a visit! I hope I don't interrupt anything...@@</p><</if>>
+<<dialogchoice>>
+  <<dbutt "Chat">><<intgo "NPCpaysAvisit-chat">>
+  <<dtext "smile">>Just chat with <<print aw.npc[$visitor].main.name>> for some time.
+  <<dbutt "Sorry">><<intgo "NPCpaysAvisit-sorry">>
+  <<dtext "confused">>Ugh, sorry, I am a little busy right now.
+  <<dbutt "Date">><<intgo "NPCpaysAvisit-date">>
+  <<dtext "kissHeart">>Why not have a date since <<print aw.npc[$visitor].main.name>> is here?
+  <<dbutt "Hangout">><<intgo "NPCpaysAvisit-hang">>
+  <<dtext "excited">>Hey, let's go and have fun together!
+<</dialogchoice>>
+
+
+:: NPCpaysAvisit-chat [nobr]
+
+<<set _npc = $visitor>>
+<<if _npc === "n1013">> 
+  <<set _desto = "ResidentialDrugs">>
+<<elseif _npc === "n1014">> 
+  <<set _desto = "HannaBowen-Talk">>
+<<else>>
+  <<if setup.npc.enemies.includes(_npc)>>
+    <<set _desto = "NPCinteraction-Enemy">>
+  <<elseif setup.npc.lover.includes(_npc)>>
+    <<set _desto = "NPCinteraction-Lover">>
+  <<elseif setup.npc.exes.includes(_npc)>>
+    <<set _desto = "NPCinteraction-Exes">>
+  <<elseif setup.npc.bff.includes(_npc)>>
+    <<set _desto = "NPCinteraction-Friends">>
+  <<elseif setup.npc.fling.includes(_npc)>>
+    <<set _desto = "NPCinteraction-Fling">>
+  <<elseif setup.npc.friends.includes(_npc)>>
+    <<set _desto = "NPCinteraction-Friends">>
+  <<elseif setup.npc.interested.includes(_npc)>>
+    <<set _desto = "NPCinteraction-Flirty">>
+  <<elseif setup.npc.acquainted.includes(_npc)>>
+    <<set _desto = "NPCinteraction-Acquaint">>
+  <<else>>
+    <<set _desto = "NPCinteraction-RandomStranger">>
+  <</if>>
+  <<run setup.npcInfo.encounter(_npc)>>
+<</if>>
+<<timed 1s>>
+<<intgo _desto>>
+<</timed>>
+
+
+:: NPCpaysAvisit-sorry [nobr]
+
+<p>@@.pc;Ugh, sorry, I am a little busy right now.@@</p>
+<p><<= either("<<print aw.npc[$visitor].main.name>> sighs.","<<print aw.npc[$visitor].main.name>> looks a bit dissapointed.")>> @@.npc;<<= either("Oh, I see, see you later then!","Oh, sorry for that then! See ya!","Mmmhm... okay, bye!")>>@@</p>
+<center><<button "End">><<intclose>><</button>></center>
+
+
+:: NPCpaysAvisit-date [nobr]
+
+<p>@@.pc;Come in! It is wonderful that you decided to swing by!@@</p>
+<center><<button "Date">><<run setup.npcDate.date($visitor, "yourhome")>><</button>></center>
+
+
+:: NPCpaysAvisit-hang [nobr]
+
+<p>@@.pc;Hey, let's go and have fun together!@@</p>
+<p>@@.npc;Oh sure, cool idea! Where should we go first?@@</p>
+<center><<button "Hangout">><<run setup.npcHang.hang($visitor, "amuse")>><</button>></center>

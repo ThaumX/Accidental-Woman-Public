@@ -1,0 +1,343 @@
+
+
+:: LilysLab [nobr]
+
+
+<<silently>>
+<<run setup.lab.people()>>
+<<if ↂ.flag.main.active[0] || ↂ.flag.main.active[1] || ↂ.flag.main.active[2]>>
+  <<if ↂ.flag.main.active[0]>>
+    <<set _prog = ↂ.flag.main.progress[0]>>
+    <<set _tit = "@@.head3;Organize and Inspect the Parts@@ -- ">>
+  <<elseif ↂ.flag.main.active[1]>>
+    <<set _prog = ↂ.flag.main.progress[1]>>
+    <<set _tit = "@@.head3;Obtain Enameled Copper Wire@@ -- ">>
+  <<elseif ↂ.flag.main.active[2]>>
+    <<set _prog = ↂ.flag.main.progress[2]>>
+    <<set _tit = "@@.head3;Build New EM Coils@@ -- ">>
+  <</if>>
+  <<set _per = "<div style='width:" + Math.floor(_prog / 10) + "." + _prog % 10 + "%;'></div>">>
+  <<set _tit += Math.floor(_prog / 10) + "." + _prog % 10 + "% complete">>
+<<else>>
+  <<set _per = "">>
+  <<set _tit = "@@.head3;No Active Task@@">>
+<</if>>
+<</silently>>
+<div id="LabContainer">
+  <div id="progressBar">
+    <<print _tit>>
+    <div>
+      <<print _per>>
+    </div>
+  </div>
+  <div id="tasksList">
+    <<include [[LilysLabTasklist]]>>
+  </div>
+  <div id="contentBox">
+    <<include [[LilysLabDesc]]>>
+  </div>
+  <div id="actionArea">
+    <<include [[LilysLabButtons]]>>
+  </div>
+</div>
+
+
+
+
+
+:: LilysLabTasklist [nobr]
+
+
+<span class="ship" style="font-size:1.5rem;">Project Tasks:</span><br>
+@@.good;Disassemble the Machine@@<br>
+@@.good;Disassemble Components@@<br>
+<<if ↂ.flag.main.active[0]>>
+@@.import;Organize and Inspect the Parts@@<br>
+<<else>>
+@@.good;Organize and Inspect the Parts@@<br>
+<</if>>
+<<if ↂ.flag.main.known[1]>>
+  <<if ↂ.flag.main.active[1]>> /* yellow - in progress*/
+    @@.import;Obtain Enameled Copper Wire@@<br>
+  <<elseif ↂ.flag.main.progress[1] === 0>> /* white - not started*/
+    Obtain Enameled Copper Wire<br>
+  <<else>> /* green - complete */
+    @@.good;Obtain Enameled Copper Wire@@<br>
+  <</if>>
+<</if>>
+<<if ↂ.flag.main.known[2]>>
+  <<if ↂ.flag.main.active[2]>> /* yellow - in progress*/
+    @@.import;Build New EM Coils@@<br>
+  <<elseif ↂ.flag.main.progress[2] === 0>> /* white - not started*/
+    Build New EM Coils<br>
+  <<else>> /* green - complete */
+    @@.good;Build New EM Coils@@<br>
+  <</if>>
+<</if>>
+<<if ↂ.flag.main.known[3]>>
+  <<if ↂ.flag.main.active[3]>> /* yellow - in progress*/
+    @@.import;@@<br>
+  <<elseif ↂ.flag.main.progress[3] === 0>> /* white - not started*/
+    <br>
+  <<else>> /* green - complete */
+    @@.good;@@<br>
+  <</if>>
+<</if>>
+<<if ↂ.flag.main.known[4]>>
+  <<if ↂ.flag.main.active[4]>> /* yellow - in progress*/
+    @@.import;@@<br>
+  <<elseif ↂ.flag.main.progress[4] === 0>> /* white - not started*/
+    <br>
+  <<else>> /* green - complete */
+    @@.good;@@<br>
+  <</if>>
+<</if>>
+<br><br>
+<<tutorial "Project Tasks">>Your tasks for helping Lily repair her machine will appear here. Completed tasks are green, in-progress tasks are yellow, and future tasks (if known) are white.<</tutorial>>
+
+
+
+
+:: LilysLabButtons [nobr]
+
+<div id="butt">
+<<if ↂ.flag.main.active[0]>>
+  <<hoverrevise inspecta>><<button "Inspect Machine Parts">><<dialog "Inspect Machine Parts">><<print setup.lab.work(0, "PS")>><</dialog>><</button>><<endhoverrevise>><<tab>>
+  <<hoverrevise cleana>><<button "Clean Machine Parts">><<dialog "Clean Machine Parts">><<print setup.lab.work(0, "CL")>><</dialog>><</button>><<endhoverrevise>><<tab>>
+  <<hoverrevise organa>><<button "Organize Machine Parts">><<dialog "Organize Machine Parts">><<print setup.lab.work(0, "OG")>><</dialog>><</button>><<endhoverrevise>><<tab>>
+<<elseif ↂ.flag.main.active[1]>>
+  <<hoverrevise picka>><<button "Make A Purchase Run">><<dialog "Make A Purchase Run">><<print setup.lab.work(1, "none")>><</dialog>><</button>><<endhoverrevise>><<tab>>
+<</if>>
+<<if _labLily > 0>>
+  <<hoverrevise ylily>><<button "Talk to Lily">><<run setup.lab.convoLaunch("L")>><</button>><<endhoverrevise>><<tab>>
+<<else>>
+  <<hoverrevise nlily>><button class="disabled">Talk to Lily</button><<endhoverrevise>><<tab>>
+<</if>>
+<<if $AW.startMale>>
+  <<if _labSara > 0>>
+    <<hoverrevise ysara>><<button "Talk to Sara">><<run setup.lab.convoLaunch("S")>><</button>><<endhoverrevise>><<tab>>
+  <<else>>
+    <<hoverrevise nsara>><button class="disabled">Talk to Sara</button><<endhoverrevise>><<tab>>
+  <</if>>
+<<else>>
+  <<if _labKim > 0>>
+    <<hoverrevise ykim>><<button "Talk to Kim">><<run setup.lab.convoLaunch("K")>><</button>><<endhoverrevise>><<tab>>
+  <<else>>
+    <<hoverrevise nkim>><button class="disabled">Talk to Kim</button><<endhoverrevise>><<tab>>
+  <</if>>
+<</if>>
+<<hoverrevise lev>>
+  <<button "Leave the Lab">><<addTime 3>><<go "LilysPlace">><</button>>
+<<endhoverrevise>>
+</div>
+<div id="expla">
+<<insertion inspecta>>Inspect the machine parts and components for damage. <i>Inspecting the parts primarily uses your Problem Solving skill.</i> <<ctn>>[1 hour]<</ctn>> @@.note;All work actions utilize the Problem Solving, Cleaning, and Organization skills.@@<<endinsertion>>
+<<insertion cleana>>Clean the various machine parts and components by removing dust, carbon scoring, and any other dirt. <i>Cleaning the parts primarily uses your Cleaning skill.</i> <<ctn>>[1 hour]<</ctn>> @@.note;All work actions utilize the Problem Solving, Cleaning, and Organization skills.@@<<endinsertion>>
+<<insertion organa>>Organize the assortment of machine parts and components so they're easier to find. <i>Organizing the parts primarily uses your Organization skill.</i> <<ctn>>[1 hour]<</ctn>> @@.note;All work actions utilize the Problem Solving, Cleaning, and Organization skills.@@<<endinsertion>>
+<<insertion picka>>View a list of Lily's purchase contacts and select one to purchase a new load of enameled copper wire. <<ctn>>[time varies]<</ctn>><<endinsertion>>
+
+<<insertion lev>>Walk out the door and head back to the street.<<endinsertion>>
+<<insertion ylily>>Chat with Lily for a little bit, or perhaps ask her a question about your work.<<endinsertion>>
+<<insertion nlily>>You can't talk with Lily if she isn't here! <i>Perhaps you could use your phone if you really need to talk to her...</i><<endinsertion>>
+<<insertion ysara>>Chat with Sara for a little bit, or perhaps ask her a question.<<endinsertion>>
+<<insertion nsara>>You can't talk to Sara if she isn't here!<<endinsertion>>
+<<insertion ykim>>Chat with Kim for a little bit, or perhaps ask her a question.<<endinsertion>>
+<<insertion nkim>>You can't talk to Kim if she isn't here!<<endinsertion>>
+</div>
+
+
+:: LilysLabDesc [nobr]
+
+
+<p class="weather-disc">
+<<print setup.weather.curWeather()>>
+</p>
+<p>
+<<if ↂ.flag.main.active[0]>>
+  <<f t>>he basement laboratory has nearly the entire floor covered with a variety of parts, pieces, and components of Lily's machine. The walls are lined with a mixture of bookshelves, workbenches, and storage cabinets. A few narrow pathways of floor not covered in parts lead to different work areas as well as an open area in the middle of the lab.
+  <<if ↂ.flag.main.progress[0] > 899>>
+    Different sections of floor each contain different types of components. The components themselves all look generally clean and ready to be used. There's still a small pile of uninspected parts, but it's plain to see that the inspection process is nearing the end. Overall the floor looks to be more empty, likely from discarding damaged parts.
+  <<elseif ↂ.flag.main.progress[0] > 666>>
+    The parts on the floor now follow an obvious system of organization, with different sections of floor dedicated to certain types of components. One section of the floor is still dedicated to piles of uninspected components, but the pile seems to be shrinking.
+  <<elseif ↂ.flag.main.progress[0] > 333>>
+    A pattern of organization has started in the mass of parts on the floor, with about half the floor space now being well divided into different kinds of components. That area of the floor is much more open, while the rest of the floor is less organized and more crammed with parts than it was before.
+  <<else>>
+    The parts on the floor are only slightly organized into small clumps of similar components. Many of the parts seem to be dirty, damaged, or both. Melting and carbon scoring seem to be fairly common.
+  <</if>>
+<<else>>
+  <<if ↂ.flag.main.progress[1] > 799>>
+    <<f t>>he basement laboratory has most of the floor broken up into different areas filled with similar types of parts, pieces, and components for Lily's machine. Avenues of open floor allow for navigation between different workbenches and storage cabinets. The center of the floor has a circular open area along with a desk, workbench, and a couple desk chairs. There's a giant stack of spools off to the side of the open area, each spool wrapped with enameled wire of various gauges.
+  <<elseif ↂ.flag.main.progress[1] > 249>>
+    <<f t>>he basement laboratory has most of the floor organized into different areas filled with similar components for Lily's machine. Avenues of open floor allow someone to walk between different workbenches and storage cabinets. The center of the floor has a circular open area with a workbench, desk, and a pair of desk chairs. There's a growing pile of spools wrapped with enameled wire off to one side of the open area.
+  <<else>>
+    <<f t>>he basement laboratory has most of the floor broken up into different areas filled with similar types of parts, pieces, and components for Lily's machine. Avenues of open floor allow for navigation between different workbenches and storage cabinets. The center of the floor has a circular open area along with a desk, workbench, and a couple desk chairs.
+  <</if>>
+<</if>>
+</p>
+
+<<if _labLily === 0>>
+<p>
+  <<if $AW.startMale>>Lily's<<else>>Dr. Richard's<</if>> usual spot by the electronics workstation is empty,
+  <<if $time[0] > 23 || $time[0] < 7>>
+    she's probably fast asleep at this time of night.
+  <<elseif $date[1] < 6>>
+    <<switch $time[0]>>
+      <<case 7>>
+        she's probably already on her way to work for the day.
+      <<case 8 9 10 11 12 13 14 15 16 17>>
+        she's probably busy at work.
+      <<case 18 19>>
+        though you aren't sure what she's up to.
+      <<case 20>>
+        she's probably eating dinner.
+      <<case 21>>
+        she's probably relaxing before bed.
+      <<case 22>>
+        she's probably showering or getting ready for bed.
+      <<case 23>>
+        she's probably already asleep.
+    <</switch>>
+  <<else>>
+    <<switch $time[0]>>
+      <<case 7 8 9 10 11 12 13 14 15 16 17  18 19>>
+        though you aren't sure what she's up to.
+      <<case 20>>
+        she's probably eating dinner.
+      <<case 21>>
+        she's probably relaxing before bed.
+      <<case 22>>
+        she's probably showering or getting ready for bed.
+      <<case 23>>
+        she's probably already asleep.
+    <</switch>>
+  <</if>>
+</p>
+<<else>>
+<p>
+  <<if ↂ.flag.main.active[0]>>
+    <<switch _labLily>>
+      <<case 1 2 3 4 5>>
+        Lily is sitting at the electronics workstation, working on something or another. It's always hard to tell exactly what she's doing, but she seems to be <<= either("fiddling with some wires with clamps", "looking at a circuit board through a magnifier", "poking something electronic with a needle-like probe", "staring at squiggly lines on the square screen of a rectangular box", "soldering something to something else")>>.
+      <<case 6>>
+        Lily is walking around, looking at parts that have already been finished. <<if not $AW.maleStart>>It seems she's inspecting  Sara's<<else>>She seems to be inspecting your<</if>> work to make sure there aren't any mistakes.
+      <<case 7>>
+        Lily is sitting at the desk in the middle of the room, staring intently at the screen of a large slate she has propped up on the desk. She appears to be looking at some sort of schematic, though you aren't sure what it's a schematic of. Occasionally she drags and repositions the view or zooms in, you aren't sure how big the whole schematic is.
+      <<case 8>>
+        Lily is sitting at the electronics workstation, working on what looks to be an overly-complex spreadsheet. She seems to be trying to work something out, because she occasionally pauses while staring at nothing. When she does, her lips seem to be moving slightly as if she's talking internally to herself.
+      <<case 9>>
+        Lily is standing in front of a whiteboard covered in scribbles. Well, it looks like scribbles to you, but you figure it's some form of advanced math. She works doggedly at an equation, only to finish and start on another. She seems to be keeping notes on one side of the large board, but they're in some form of notation you don't understand.
+      <<case 10>>
+        Lily is sitting at the desk in the middle of the room. She has a few notebooks in front of her, some scratch paper, and some sort of document open on her laptop. She seems to be planning something, though you really have no idea what she's actually doing.
+    <</switch>>
+  <<else>>
+    <<switch _labLily>>
+      <<case 1 2 3 4 5>>
+        Lily is sitting at the electronics workstation, working on something or another. It's always hard to tell exactly what she's doing, but she seems to be <<= either("fiddling with some wires with clamps", "looking at a circuit board through a magnifier", "poking something electronic with a needle-like probe", "staring at squiggly lines on the square screen of a rectangular box", "soldering something to something else")>>.
+      <<case 6>>
+        Lily is using some sort of machine to make repairs to a circuit board. It looks a bit like an oven, and she's wearing thick gloves while staring at a screen that seems to be showing a magnified view of what's inside.
+      <<case 7>>
+        Lily is sitting at the desk in the middle of the room, staring intently at the screen of a large slate she has propped up on the desk. She appears to be looking at some sort of schematic, though you aren't sure what it's a schematic of. Occasionally she drags and repositions the view or zooms in, you aren't sure how big the whole schematic is.
+      <<case 8>>
+        Lily is sitting at the electronics workstation, working on what looks to be an overly-complex spreadsheet. She seems to be trying to work something out, because she occasionally pauses while staring at nothing. When she does, her lips seem to be moving slightly as if she's talking internally to herself.
+      <<case 9>>
+        Lily is standing in front of a whiteboard covered in scribbles. Well, it looks like scribbles to you, but you figure it's some form of advanced math. She works doggedly at an equation, only to finish and start on another. She seems to be keeping notes on one side of the large board, but they're in some form of notation you don't understand.
+      <<case 10>>
+        Lily is sitting at the desk in the middle of the room. She has a few notebooks in front of her, some scratch paper, and some sort of document open on her laptop. She seems to be planning something, though you really have no idea what she's actually doing.
+    <</switch>>
+  <</if>>
+</p>
+<</if>>
+
+<<if $AW.startMale>>
+<<if _labSara === 0>>
+  <p>
+    There's no sign of Lily's mysterious lab assistant Sara.
+  </p>
+<<elseif ↂ.flag.main.active[0]>>
+  <<switch _labSara>>
+    <<case 1 2 3>>
+      Sara is quietly working on organizing the various parts and components. Sometimes she carries things that don't belong to a more crowded area to wait for inspection, but mostly she seems to be laying out inspected and cleaned parts in their assigned section. Occasionally she references a set of paper instructions to figure out where an unusual part should go. She looks bored but you can tell she's paying careful attention to what she's doing.
+    <<case 4 5>>
+      Sara is cleaning a batch of non-electronic parts in the sink. She's wearing a pair of gloves and carefully alternating between spraying water, applying detergent, and scrubbing with a fine brush. Occasionally she finishes cleaning a part, setting it in a makeshift drying rack before starting on another.
+    <<case 6 7>>
+      Sara is carefully wiping down components with a cloth to remove dust and debris. Occasionally she grabs some sort of non-water cleaning solution and uses swabs to remove carbon or smoke deposits. The bottle is covered with fine print and warning labels, but she doesn't seem to mind. She is extremely focused, and almost seems scared to accidentally damage something.
+    <<case 8 9 10>>
+      Sara is sitting at a workbench and carefully inspecting parts according to a series of checklists taped to the wall. She still uses the checklist despite having just inspected a dozen or more similar parts, though she occasionally sighs with boredom. You aren't sure you could possibly follow checklists so religiously.
+  <</switch>>
+<<else>>
+  <<switch _labSara>>
+    <<case 1 2>>
+      Sara is carefully stacking spools of enameled wire in the middle of the room. She seems to be arranging them according to the type of wire on each spool. Because Lily is having you and Sara acquire the wire piecemeal, there is a pretty large assortment of different size and color spools for each type of wire. 
+    <<case 4 5>>
+      Sara is carefully inventorying the enameled wire in the center of the room using a pad of paper and pen to write down the length of wire in each spool. 
+    <<case 6 7>>
+      Sara has just returned from a trip to purchase more enameled wire. She lugs the heavy spools to the center of the room one at a time, stacking them next to the others.
+    <<case 8 9 10>>
+      Sara is preparing for a trip to pick up some more enameled wire. She has an unhappy but resigned look on her face as she gets ready to go. She puts away the purchase list Lily prepared and takes one of the anonymous credit chits. Though ready to leave, she seems to be hesitating to do so.
+  <</switch>>
+<</if>>
+<</if>>
+
+<<if not $AW.startMale>>
+<<if _labKim === 0>>
+  <p>
+    Not that it's surprising, but there's no sign of Dr. Richard's friend Kim in the basement lab.
+  </p>
+<<elseif ↂ.flag.main.active[0]>>
+  <<switch _labKim>>
+    <<case 1>>
+      Kim is standing next to Dr. Richards, and seems to be intent on talking to her about something or another. Judging by the way Dr. Richards keeps looking back to her work that's being interrupted, it isn't anything important.
+    <<case 2>>
+      Kim is sitting in a chair in the middle of the room, spinning slowly in circles as she stares at her phone.
+    <<case 3 4>>
+      Kim is working slowly at inspecting some machine components. You're very glad Lily has her place the components in a special pile so that one of you can reinspect them before putting them with the already-inspected parts. You wouldn't want to get blamed for missing an obvious problem.
+    <<case 5 6>>
+      Kim is playing at cleaning mechanical parts in the sink. While she usually fails at actually cleaning the components to Dr. Richard's standards, the first pass at cleaning does make it easier for you to clean them properly later.
+    <<case 7 8>>
+      Kim is trying to place inspected and cleaned parts in their proper location on the floor. Usually she's able to figure out where to put a particular component, though sometimes she isn't so successful. Thankfully, Dr. Richards does a pretty good job of catching those when she inspects your progress. Occasionally, Kim can't figure out where to place a part and sneaks it back into the pile when she thinks you aren't looking.
+    <<case 9>>
+      Kim seems to be bored, and is <<= either("using solder to make stick figure characters", "waving an aluminum tube around while making some strange humming noises", "bouncing some kind of rubber ball against the wall and catching it. You have no idea where the ball could have come from", "trying to check her makeup using her reflection in a shiny piece of metal", "listening to some fuck-hop music on her phone's speaker while gyrating too close to delicate components for comfort")>>.
+    <<case 10>>
+      Kim is sitting at a workbench set up to inspect the machine components. Rather than actually inspecting anything, however, she has her eyes closed and seems to be busy playing with her nipples. You aren't sure, but she seems to be humming to herself under her breath.
+  <</switch>>
+<<else>>
+  <<switch _labKim>>
+    <<case 1>>
+      Kim is standing next to Dr. Richards, and seems to be intent on talking to her about something or another. Judging by the way Dr. Richards keeps looking back to her work that's being interrupted, it isn't anything important.
+    <<case 2 3>>
+      Kim is sitting in a chair in the middle of the room, spinning slowly in circles as she stares at her phone.
+    <<case 4 5>>
+      Kim is playing with a small spool of enameled wire at the desk in the center of the room. She has the legs of the desk propped up on some expensive-looking books, and is sitting in a chair at the lower end. She rolls the spool up the incline and waits for it to return. Occasionally she fails to catch it or rolls it off the edge of the desk and has to go pick it up. This seems to genuinely surprise her each time it happens.
+    <<case 6 7>>
+      Kim is leaning back in a desk chair and has her thin shirt pulled up over her tits, exposing them and her belly. She is humming to herself as she rubs lotion on her exposed belly, which is protruding noticeably. <<if ↂ.flag.main.female.kimPregnant>>@@.mono;Kim really seems to be enjoying her pregnancy...@@<<else>>@@.mono;It seems Kim is pregnant.@@ <<status 1>><<set ↂ.flag.main.female.kimPregnant = true>><<status 0>><</if>>
+    <<case 8 9>>
+      Kim seems to be bored, and is <<= either("using solder to make stick figure characters", "waving an aluminum tube around while making some strange humming noises", "bouncing some kind of rubber ball against the wall and catching it. You have no idea where the ball could have come from", "trying to check her makeup using her reflection in a shiny piece of metal", "listening to some fuck-hop music on her phone's speaker while gyrating too close to delicate components for comfort")>>.
+    <<case 10>>
+      Kim is sitting at the desk in the middle of the room. Rather than actually doing anything useful, however, she has her eyes closed and seems to be busy playing with her nipples. She seems to be talking to herself in a low voice. @@.npc;You girls are going to start getting plump and juicy soon!@@ You can hear the excitement in her voice.
+  <</switch>>
+<</if>>
+<</if>>
+<p>
+<<selfthought>>
+</p>
+<br>
+<p class="ctn">
+<<set _found = false>>
+<<for _i = 0; _i < 9; _i++>>
+  <<if ↂ.flag.main.active[_i]>>
+    <<set _found = true>>
+    <<if $AW.startMale>>
+      Phase will be complete by: <<= setup.time.convertToDate(ↂ.flag.main.deadline[_i])>>
+    <<else>>
+      Your deadline: <<= setup.time.convertToDate(ↂ.flag.main.deadline[_i])>>
+    <</if>>
+    <<break>>
+  <</if>>
+<</for>>
+<<if not _found>>
+Awaiting Next Phase...
+<</if>>
+</p>
+
+ 
+

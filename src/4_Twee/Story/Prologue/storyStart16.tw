@@ -45,7 +45,7 @@ Her words unexpectedly catch you off guard, though her plans really //do// sound
 <br><br>
 Your reverie is interrupted by Lily, who must've noticed your pause when you didn't follow her into the bathroom. @@.npc; Hey, <<print ↂ.pc.main.name>>, what's wrong?@@ You can see a hint of concern creeping onto her face.
 <br><br>
-@@.pc;
+
 
 <<if ↂ.pc.trait.bitch == 1 || ↂ.pc.trait.forgiving == -1>>
   <<dialogchoice>>
@@ -54,9 +54,9 @@ Your reverie is interrupted by Lily, who must've noticed your pause when you did
       <<dbutt "Weird">><<set $temp = 1>><<npcLike 4 "n101" 2>><<npcLove 3 "n101" 2>><<addTime 18>><<go storyStart16b2>>
         <<dtext "scared">>Nothing, just how weird this all is.
       <<dbutt "Sureal">><<npcLike 4 "n101" 2>><<npcLove 3 "n101" 2>><<set $temp = 2>><<addTime 18>><<go storyStart16b2>>
-        <<dtext "dismay">>It's just sureal how being a woman feels so natural.
+        <<dtext "dismay">>It's just surreal how being a woman feels so natural.
       <<dbutt "Angry">><<arousal -3>><<set $temp = 5>><<addTime 18>><<npcLike -12 "n101">><<npcLike -5 "n101" 2>><<npcLove -12 "n101">><<happy -3 "Argument with Lily">><<anger 3>><<go storyStart16b5>>
-        <<dtext "angry">>I just realized that you turned me into a fucking woman, and you haven't even given me a real appology.
+        <<dtext "angry">>I just realized that you turned me into a fucking woman, and you haven't even given me a real apology.
   <</dialogchoice>>
 <<else>>
   <<dialogchoice>>
@@ -65,32 +65,32 @@ Your reverie is interrupted by Lily, who must've noticed your pause when you did
         <<dbutt "Weird">><<set $temp = 1>><<npcLike 4 "n101" 2>><<npcLove 3 "n101" 2>><<addTime 18>><<go storyStart16b2>>
           <<dtext "scared">>Nothing, just how weird this all is.
         <<dbutt "Sureal">><<npcLike 4 "n101" 2>><<npcLove 3 "n101" 2>><<set $temp = 2>><<addTime 18>><<go storyStart16b2>>
-          <<dtext "dismay">>It's just sureal how being a woman feels so natural.
+          <<dtext "dismay">>It's just surreal how being a woman feels so natural.
         <<dbutt "Angry">><<set $temp = 4>><<happy -3 "Argument with Lily">><<arousal -3>><<addTime 18>><<npcLike -2 "n101" 1>><<npcLike -5 "n101" 2>><<npcLove -5 "n101" 2>><<go storyStart16b3>>
           <<dtext "mad">>I was just thinking about how you turned me into a woman, and we're acting all normal about it.
     <</dialogchoice>>
 <</if>>
 
-@@ <<comment "Note that your choice of words here is determined by your traits, and that can change the outcome of the option.">>
+<<comment "Note that your choice of words here is determined by your traits, and that can change the outcome of the option.">>
 
 :: storyStart16b1 [nobr]
 
 @@.head3;L@@ily looks at you closely before quirking an eyebrow. @@.npc;Come on, I know you better than that.@@ She gives you the expectant expression that you've seen countless times before. @@.npc;Just tell me.@@
 <br><br>
 <div id="ss16f">
-<<tab>><<emo neutral>> <<link "Fess up">><<npcLike 4 "n101" 2>><<npcLove 3 "n101" 2>><<replace "#ss16f">>
+<<tab>><<emo neutral>> <<button "Fess up">><<npcLike 4 "n101" 2>><<npcLove 3 "n101" 2>><<replace "#ss16f">>
 @@.mono;It doesn't matter anyway, she'll probably figure it out, and I know how she gets...@@ You sigh and take a deep breath before answering.
 <br><br><span class="pc">
-<<emo scared>> <<link "I can't help but think how weird this all is.">><<set $temp = 1>><<addTime 2>><<go storyStart16b2>><</link>><br>
-<<emo dismay>> <<link "It's just that being a woman feels so natural...">><<set $temp = 2>><<addTime 2>><<go storyStart16b2>><</link>></span>
-<</replace>><</link>><br>
-<<tab>><<if ↂ.pc.trait.bitch == 1 || ↂ.pc.trait.forgiving == -1>><<emo mad>><<else>><<emo arrogant>><</if>> <<link "Don't say it">><<npcLike -2 "n101" 2>><<npcLove -2 "n101" 2>><<set $temp = 3>><<replace "#ss16f">>
+<<emo scared>> <<button "I can't help but think how weird this all is.">><<set $temp = 1>><<addTime 2>><<go storyStart16b2>><</button>><br>
+<<emo dismay>> <<button "It's just that being a woman feels so natural...">><<set $temp = 2>><<addTime 2>><<go storyStart16b2>><</button>></span>
+<</replace>><</button>><br>
+<<tab>><<if ↂ.pc.trait.bitch == 1 || ↂ.pc.trait.forgiving == -1>><<emo mad>><<else>><<emo arrogant>><</if>> <<button "Don't say it">><<npcLike -2 "n101" 2>><<npcLove -2 "n101" 2>><<set $temp = 3>><<replace "#ss16f">>
 @@.mono;She has no right to be so demanding after keeping her bits secret all these years.@@ You sigh and shake your head, before looking back up resolutely. @@.pc;<<if ↂ.pc.trait.bitch == 1 || ↂ.pc.trait.forgiving == -1>><<npcLike -3 "n101" 2>><<happy -2 "Argument with Lily">><<npcLove -2 "n101" 2>>You know what Lily? Drop it. You have no business prying into how I'm feeling after keeping ''//your//'' little secret for all these years.<<else>>I really don't want to talk about it Lily, just drop it, okay?<</if>>@@
 <br><br>
 Surprisingly, she seems to be a lot more okay with what you said than you were expecting. @@.npc;Okay, if that's what you want, consider it dropped.@@ She gestures toward the bathroom with a hint of a smile. @@.npc;Come on, let's get started.@@
 <br><br>
-<<link "Get started">><<addTime 3>><<go storyStart16c>><</link>>
-<</replace>><</link>> <<comment "Note that your choice of words here is determined by your traits, and that can change the outcome of the option.">>
+<<button "Get started">><<addTime 3>><<go storyStart16c>><</button>>
+<</replace>><</button>> <<comment "Note that your choice of words here is determined by your traits, and that can change the outcome of the option.">>
 <br><br><br><br><br><br><br><br><br><br><br><<tab>>
 </div>
 
@@ -746,7 +746,14 @@ Lily gives you a greedy smile. @@.npc;I think you're right.@@
     <<run aw.S()>><<startSex "n101">>
   <</button>>
 </center>
-
+<<if $temp.strip === true>>
+<<run setup.clothes.remove("top")>>
+<<run setup.clothes.remove("bottom")>>
+<</if>>
+<<if $temp.fullstrip === true>>
+<<run setup.clothes.remove("panties")>>
+<<run setup.clothes.remove("bra")>>
+<</if>>
   
 
 :: storyStart16flirt [nobr]

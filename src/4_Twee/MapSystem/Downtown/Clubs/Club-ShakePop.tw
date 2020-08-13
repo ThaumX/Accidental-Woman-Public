@@ -189,8 +189,8 @@ Besty didn't create anything for this one! Don't worry, we'll get some fun stuff
     <<happy 1 "Dancing is fun">>
   <</if>>
   <<SCX>>
-  <<SC "DA">>
-  <<SC "SD">>
+  <<SC "DA" 10>>
+  <<SC "SD" 15>>
   <<if $SCresult[1] || $SCresult[2]>><<set _daddyspunk = (setup.npc.male.length - 1)>><<set _randDude = random(0, _daddyspunk)>><<set $DancingNpc = setup.npc.male[_randDude]>><<set ↂ.flag.npcInducedInteractions.intNPC = $DancingNpc>>
     <<happy 1 "You drew the attention of some guys on the dance floor">>
     <<status 0>>
@@ -211,9 +211,8 @@ Besty didn't create anything for this one! Don't worry, we'll get some fun stuff
       };
       setup.interact.launch(args);
     <</script>>
-    <<run setup.notify("You danced pretty well and attracted attention of NPC. But that part is not ready yet :(")>>
   <<else>>
-    <<run setup.notify("You danced for some time. You failed in attracting any attention. Nobody seems intrested in you. Nobody.")>>
+    <<run setup.notify("You danced for some time but failed in attracting any attention. Nobody seems intrested in you. Nobody.")>>
     <<stress 6 "Nobody interested in you while dancing">>
     <<happy -1 "Nobody was interested in you while dancing">>
   <</if>>
@@ -437,7 +436,7 @@ This view is temporarily empty.
 :: ShakenPopDealerSucess [nobr]
 
 <div style="float: left; margin-right: 15px;">[img[IMG-DrugDealer]]</div>
-@@.head3;Y@@ou casually approach the person who seems to be the fitting into your idea about how does pusher must look like.
+@@.head3;Y@@ou casually approach the person who seems to fit into your idea of what a drug dealer would look like.
 <br><br>@@.pc;Hi! You seems like a person I should talk to... for reasons.@@<br>
 <<if ↂ.pc.status.addict.maxValue > 50>>
   <br>@@.npc;Well, you seems to know what you want. Have some Heat, 30 for 100 unit vial, 40 and 55 for 150 and 300 units.@@
@@ -453,7 +452,7 @@ This view is temporarily empty.
 <span id="ShakenPopDealerSpan">
 <<set _rand = random(1, 2)>><<if _rand === 1>>
   <div style="float: left; margin-right: 15px;">[img[IMG-DrugDealerCop]]</div>
-  @@.head3;Y@@ou casually approach the person who seems to be the fitting into your idea about how does pusher must look like. The guy seems to notice your attention and turns to you when you walk to him. <<if ↂ.pc.trait.perceptive !== -1>>He looks a bit not fitting here, odd feeling.<<else>>He looks like a right guy.<</if>>
+  @@.head3;Y@@ou casually approach the person who seems to fit into your idea of what a drug dealer would look like. The guy seems to notice your attention and turns to you when you walk towards him. <<if ↂ.pc.trait.perceptive !== -1>>As you approach and get closer you get the odd feeling he doesn't quite fit in here.<<else>>He looks like a right guy.<</if>>
   <br><br>@@.pc;Hi! Having a nice evening?@@
   <br><br>@@.npc;Hi there, yeah mostly chilling. Looking for something in particular?@@
   <br><br>@@.pc;Well... yeah, in fact I am, what can you propose?@@
@@ -471,14 +470,14 @@ This view is temporarily empty.
     <<else>><<run aw.cash(-75);>>
       <br><br>@@.pc;Oh...@@
       <br><br>@@.npc;Exactly. Come with me, and please, no funny business.@@
-      <br><br>He leads you to the quiet corner of the chillout and check your indentity. After some fumbling you find yourself fined for as much as 75 ₢ in cash. Officer nods then looks at you with almost sympathy.
+      <br><br>He leads you to the quiet corner of the chillout and check your identity. After some fumbling you find yourself fined for 75 ₢. Officer nods then looks at you with almost sympathy.
       <br><br>@@.npc;Consider yourself lucky, this may be much worse if you'd be busted with drugs on your hands. You really better reconsider your life choices until it is too late, miss. You don't want to get to the jail, I can assure you. Now you better go there and dance and have some more legal fun, I hope we will never meet again, lady.@@
       <br><br>Embarassed, you mumble something as you leave.
       <br><br>@@.mono;Hmm. Weird. I thought they don't fine in cash anymore?@@
     <</if>>
   <<else>>
   <div style="float: left; margin-right: 15px;">[img[IMG-DrugFail]]</div>
-  @@.head3;Y@@ou casually approach the person who seems to be the fitting into your idea about how does pusher must look like.
+  @@.head3;Y@@ou casually approach the person who seems to fit into your idea of what a drug dealer would look like.
   <br><br>@@.pc;Hi! Rather boring here, right?@@
   <br><br>@@.npc;Sorry, do we know each other?@@
   <br><br>You wink as you continue to hint her about your intentions.

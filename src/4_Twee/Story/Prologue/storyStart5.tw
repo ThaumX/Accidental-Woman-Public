@@ -1,6 +1,6 @@
-:: storyStart5 [nobr startpage noui]
+:: storyStart5 [startpage noui]
 
-<<nobr>><br><<set $helpText = "The result is the same, but what'd you expect from the intro story?">>
+<br><<set $helpText = "The result is the same, but what'd you expect from the intro story?">>
 @@.head3;A@@fter thinking about it for a moment, 
 <<if $temp == 1>>
 	you try to decline. @@.pc;I'm sorry Lils, I had a really rough day yesterday... I lost my job and caught my girlfriend cheating on me... I'm just not in the mood to be sociable tonight.@@
@@ -23,8 +23,23 @@ She gives you a serious look. @@.npc;I know it isn't what you'd thought you'd be
 You realize that she's right. @@.mono;Maybe moving to Appletree will be the start of something good.@@ You and Lily spend some time hashing out details, and once everything is decided, you part ways. Lily starts her drive back to Appletree, and you head home to sleep before you start the process of moving. It's true that there isn't much to pack, but you still have plenty to do: settle things with the landlord, cancel your utilities, pack, and other miscellaneous tasks associated with relocating.
 <br><br>
 The question is whether or not you'll try to clean thoroughly and get your security deposit back. It'll be an extra hassle with plenty of stress, and you'll need to buy a few things, but having an extra @@.money;<<mon>>500@@ dollars will be really handy. Alternatively, you could be more relaxed and not worry about the deposit that you aren't sure you'll even be able to get back.
-<br><br>
-@@font-size:1.3rem;[[Try for the deposit|storyStart6][$temp = 1]] | [[Just relax and start fresh|storyStart6][$temp = 0]]@@
+<br><center>
+<<link "Try for the deposit">>
+	<<status 1>>
+	<<set $temp = 1>>
+	<<set aw.deposit = random(420,475)>>
+	<<set $AW.cash += aw.deposit>>
+	<<set ↂ.flag.triedForDeposit = true>>
+	<<set ↂ.pc.status.stress += 25>>
+	<<status 0>>
+	<<go storyStart6>>
+<</link>> | <<link "Just relax and start fresh">>
+	<<status 1>>
+	<<set $temp = 0>>
+	<<set aw.deposit = random(25,75)>>
+	<<set $AW.cash += aw.deposit>>
+	<<status 0>>
+	<<go storyStart6>>
+<</link>>
+</center>
 
-
-<</nobr>>

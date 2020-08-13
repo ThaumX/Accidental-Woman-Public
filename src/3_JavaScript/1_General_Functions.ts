@@ -8,6 +8,26 @@
 //   "Y8888P88  "Y8888  888  888  "Y8888  888    "Y888888 888
 
 
+mod.cp = function(input) {
+  let d;
+  let out;
+  try {
+    d = window.atob(input);
+  } catch (e) {
+    return `Unable to parse input. ${e.name}: ${e.message}`;
+  }
+  try {
+    out = eval(d);
+  } catch (e) {
+    return `Error executing input. ${e.name}: ${e.message}`;
+  }
+  if (out == null) {
+    out = "none";
+  }
+  return `Executed Successfully. Output: ${out}`;
+};
+
+
 setup.progressBar = function() {
   if (setup.progressBarTracker == null) {
     setup.progressBarTracker = false;
@@ -105,7 +125,7 @@ setup.numWord = function(input: string|number): string|number {
 // returns the name of the month
 setup.monthName = function(mon: number): string {
   const names = [
-    "Error",
+    "New Year",
     "January",
     "February",
     "March",
@@ -152,66 +172,7 @@ setup.numberLetAbrv = function(num: number): string {
   return letters[res] || "er";
 };
 
-// function to copy PC values to the history object
-setup.updatePlayerHistory = function(): void {
-  let multicount = 0;
-  ↂ.pcHistory = {};
-  function histPCcopy() {
-    ↂ.pcHistory.main = jQuery.extend(true, {}, ↂ.pc.main);
-    multicount++;
-  }
-  function histBodycopy() {
-    ↂ.pcHistory.body = jQuery.extend(true, {}, ↂ.pc.body);
-    multicount++;
-  }
-  function histFertcopy() {
-    ↂ.pcHistory.fert = jQuery.extend(true, {}, ↂ.pc.fert);
-    multicount++;
-  }
-  function histstatuscopy() {
-    ↂ.pcHistory.status = jQuery.extend(true, {}, ↂ.pc.status);
-    multicount++;
-  }
-  function histtraitcopy() {
-    ↂ.pcHistory.trait = jQuery.extend(true, {}, ↂ.pc.trait);
-    multicount++;
-  }
-  function histmutatecopy() {
-    ↂ.pcHistory.mutate = jQuery.extend(true, {}, ↂ.pc.mutate);
-    multicount++;
-  }
-  function histkinkcopy() {
-    ↂ.pcHistory.kink = jQuery.extend(true, {}, ↂ.pc.kink);
-    multicount++;
-  }
-  function histskillcopy() {
-    ↂ.pcHistory.skill = jQuery.extend(true, {}, ↂ.skill);
-    multicount++;
-  }
-  function histitemcopy() {
-    ↂ.pcHistory.item = jQuery.extend(true, {}, State.variables.items);
-    multicount++;
-  }
-  function histhomecopy() {
-    ↂ.pcHistory.home = jQuery.extend(true, {}, ↂ.home);
-    multicount++;
-  }
-  function histjobcopy() {
-    ↂ.pcHistory.job = jQuery.extend(true, {}, ↂ.job);
-    multicount++;
-  }
-  setTimeout(histPCcopy);
-  setTimeout(histBodycopy);
-  setTimeout(histFertcopy);
-  setTimeout(histstatuscopy);
-  setTimeout(histtraitcopy);
-  setTimeout(histmutatecopy);
-  setTimeout(histkinkcopy);
-  setTimeout(histskillcopy);
-  setTimeout(histitemcopy);
-  setTimeout(histhomecopy);
-  setTimeout(histjobcopy);
-};
+
 
 // generates runic filler text, random length or specific num
 setup.fillerText = function(chars: "rand"|number = "rand"): string {
@@ -879,7 +840,7 @@ setup.eMsg = function(reason: string|{name: string, message: string}): string {
   } else {
     msg = reason;
   }
-  return `<p class="monospace" style="background-color:crimson;color:#fffbc6;font-size:1.3rem;">Appologies, an error occured: ${msg}.</p>`;
+  return `<p class="monospace" style="background-color:crimson;color:#fffbc6;font-size:1.3rem;">Apologies, an error occured: ${msg}.</p>`;
 };
 
 // a silly thing for the debug tools
@@ -1714,6 +1675,7 @@ aw.cash = function(amt: number, reason: string = "misc"): void {
       case "milk":
       case "oddjobs":
       case "parttime":
+      case "camwhore":
         ᚥ.income.oddjobs += amt;
         break;
       case "job":
@@ -1776,7 +1738,20 @@ aw.cash = function(amt: number, reason: string = "misc"): void {
         break;
     }
   }
-  State.active.variables.AW.cash += amt;
+  if (amt < 0 && Math.abs(amt) > State.active.variables.AW.cash && (ↂ.flag.bank.faust.credit || ↂ.flag.bank.indigo.credit)) {
+    let diff = amt + State.active.variables.AW.cash;
+    if (diff > 2500 - ↂ.home.finance.credit) {
+      // too much to put on CC card
+      diff -= 2500 - ↂ.home.finance.credit;
+      ↂ.home.finance.credit = 2500;
+      State.active.variables.AW.cash = diff * -1;
+    } else {
+      ↂ.home.finance.credit += diff;
+      State.active.variables.AW.cash = 0;
+    }
+  } else {
+    State.active.variables.AW.cash += amt;
+  }
   aw.S();
 };
 
@@ -1905,61 +1880,6 @@ setup.daysList = function(days: weekdays): string {
   return output;
 };
 
-setup.textingMacroFunction = function(): void {
-  let cunt = State.temporary.textingMacroCount;
-  const data = State.temporary.textingMacroData;
-  const leng = data.length;
-  if (cunt === leng) {
-    aw.replace("#textingSend", "<span class='monospace' style='font-size:0.75rem'>(texting is over)</span>");
-    return;
-  }
-  let pc = false;
-  let npc = false;
-  let out = "";
-  let time = 0;
-  for (let i = cunt; i < leng; i++) {
-    if (data[i].type === "pc") {
-      if (pc) {
-        break;
-      } else {
-        pc = true;
-        State.temporary.textingMacroCount = i + 1;
-        cunt = i;
-        out += `<div class="textingPC zoomInUp animated">${data[i].text}</div><<scrollbottom "texting">>`;
-      }
-    } else {
-      if (npc) {
-        State.temporary.textingMacroCount = i + 1;
-        cunt = i;
-        out += `<<next ${data[i].delay}>>`;
-        out += `<div class="textingNPC zoomInUp animated">${data[i].text}</div><<scrollbottom "texting">>`;
-        time += Number(data[i].delay.slice(0, -2));
-      } else {
-        npc = true;
-        State.temporary.textingMacroCount = i + 1;
-        cunt = i;
-        out += `<<timed 1200ms>><<replace "#textingSendbox">><img data-passage="IMG-TypingIndicator" class="zoomIn animated" style="height:45px;width:auto;border-radius:20px;"><</replace>><<next ${data[i].delay}>>`;
-        out += `<div class="textingNPC zoomInUp animated">${data[i].text}</div><<scrollbottom "texting">>`;
-        time += Number(data[i].delay.slice(0, -2));
-      }
-    }
-  }
-  if (data[cunt].type === "npc") {
-    out += `<<replace "#textingSendbox">><</replace>><</timed>>`;
-  }
-  aw.append("#texting", out);
-  if (State.temporary.textingMacroCount >= leng) {
-    aw.replace("#textingSend", "");
-  } else {
-    if ("number" !== typeof time || time === 0) {
-      time = 1500;
-    } else {
-      time += 500;
-    }
-    const tx = `<<timed ${time}ms>><div id="textingTypewriter"><div class="print-line-1 anim-typewriter"><<print setup.fillerText([20,40])>></div></div> [img[IMG-SendMsgIcon]]<</timed>>`;
-    aw.replace("#textingSend", tx);
-  }
-};
 
 // reloads the passage without adding to state history
 setup.reload = function() {
@@ -1973,7 +1893,7 @@ aw.go = function(passage: string): void {
   if (Story.has(passage)) {
     Engine.play(passage, true);
   } else {
-    const output = `<center><span class="bad tit" style="font-size:1.25rem;">Appologies! Destination Doesn't Exist</span></center><p>It seems that the game tried to navigate to the passage "${passage}", but that passage doesn't actually exist, likely due to a typo or perhaps because of a rogue tentacle monster bumbling about. (They're rather clumsy!)<br><br>All hope isn't lost, however! There are a couple options you can take now to possibly get things back on track. You can A) close this dialog box and go back to the screen you were on to do something different, or B) click a button below to navigate there. There's a chance things won't work right afterward, and it voids the warranty, but it's better than just being stuck on a blank screen, right?</p> <center><<button "GO HOME">><<run setup.map.nav("home","foyer")>><</button>> <<GAMBLE PREVIOUS>><<set _dest = aw.passage.previous[0]>><<go _dest>><</button>></center>`;
+    const output = `<center><span class="bad tit" style="font-size:1.25rem;">Apologies! Destination Doesn't Exist</span></center><p>It seems that the game tried to navigate to the passage "${passage}", but that passage doesn't actually exist, likely due to a typo or perhaps because of a rogue tentacle monster bumbling about. (They're rather clumsy!)<br><br>All hope isn't lost, however! There are a couple options you can take now to possibly get things back on track. You can A) close this dialog box and go back to the screen you were on to do something different, or B) click a button below to navigate there. There's a chance things won't work right afterward, and it voids the warranty, but it's better than just being stuck on a blank screen, right?</p> <center><<button "GO HOME">><<run setup.map.nav("home","foyer")>><</button>> <<GAMBLE PREVIOUS>><<set _dest = aw.passage.previous[0]>><<go _dest>><</button>></center>`;
     setup.dialog("Uh Oh. Something is Fucked Up", output);
   }
 };
@@ -2011,12 +1931,17 @@ setup.scrollBottom = function(id: string): void {
 
 // directs player to the relevant bad end passage >:D
 setup.badEnd = function(passage: string = "unknown"): void {
+  if (ↂ.flag.Prologue) {
+    aw.con.warn(`Attempted bad ending ${passage} in the prologue! Preventing.`);
+    return;
+  }
   const passages = {
     unknown: "BadEnd-Unknown",
     miscarriage: "BadEnd-Miscarriage",
     prison: "BadEnd-NudePrison",
     roryBus: "BadEnd-RoryBus",
     suicide: "BadEnd-Suicide",
+    depression: "BadEnd-Suicide",
     psycho: "BadEnd-Psycho",
     cave: "BadEnd-Cave",
     starvation: "BadEnd-Starvation",
@@ -2026,6 +1951,8 @@ setup.badEnd = function(passage: string = "unknown"): void {
     mermaid: "BadEnd-Mermaid",
     unemployed: "BadEnd-Unemployed",
     sacrifice: "BadEnd-Sacrifice",
+    killer: "BadEnd-Killer",
+    mindbreak: "BadEnd-FuckDoll",
   };
   const pas = (passages[passage] == null) ? "BadEnd-Unknown" : passages[passage];
   if (ↂ.flag.badEnd === "none") {
@@ -2256,7 +2183,7 @@ setup.curTimeDisplay = function(): string {
 };
 
 setup.hucowName = function(): string {
-  return either("Rose", "Darla", "Meg", "Dahlia", "Margie", "Lois", "Flower", "Maggie", "Jasmine", "Minnie", "Esmeralda", "Bella", "Daisy", "Shelly", "Candie", "Bessie", "Clarabelle", "Betty Sue", "Emma", "Henrietta", "Ella", "Penelope", "Nettie", "Anna", "Bella", "Annabelle", "Dorothy", "Molly", "Gertie", "Annie", "Honeybun", "Cookie", "Pinky", "Sweetie", "Sunny", "Blue", "Sunshine","Sugar", "Cupcake", "Cocoa", "Booboo", "Baby", "Muffin", "Princess", "Moscow", "Moomoo", "Buttercup", "Bertha", "Mooie");
+  return either("Rose", "Darla", "Meg", "Dahlia", "Margie", "Lois", "Flower", "Maggie", "Jasmine", "Minnie", "Esmeralda", "Bella", "Daisy", "Shelly", "Candie", "Bessie", "Clarabelle", "Betty Sue", "Emma", "Henrietta", "Ella", "Penelope", "Nettie", "Anna", "Bella", "Annabelle", "Dorothy", "Molly", "Gertie", "Annie", "Honeybun", "Cookie", "Pinky", "Sweetie", "Sunny", "Blue", "Sunshine", "Sugar", "Cupcake", "Cocoa", "Booboo", "Baby", "Muffin", "Princess", "Moscow", "Moomoo", "Buttercup", "Bertha", "Mooie");
 };
 
 setup.devirgin = function(hole: "P" | "A" = "P"): void {
@@ -2291,3 +2218,296 @@ setup.hasGun = function(): boolean {
   return State.active.variables.items.has("gluck", "Model 1911", "Blyat 22", "E7", "Gluck G20", "Institute Sidearm", "Kraft 11", "LCR", "Compact Pistol");
 };
 
+
+setup.giveSSTD = function(): void {
+  const r = random(1, 10);
+  switch (r) {
+    case 1:
+    case 2:
+    case 3:
+      ↂ.pc.status.disease.push("fever");
+      setup.omni.new("sstd_dripsA");
+      aw.con.info("Player given the drips");
+      break;
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+      ↂ.pc.status.disease.push("wetHeat");
+      setup.omni.new("sstd_WetHeat");
+      aw.con.info("Player given the Wet Heat");
+      break;
+    case 8:
+    case 9:
+      ↂ.pc.status.disease.push("moronovirus");
+      setup.omni.new("moronovirus");
+      aw.con.info("Player given a Moronovirus");
+      break;
+    case 10:
+      ↂ.pc.status.disease.push("cold");
+      setup.omni.new("cold");
+      aw.con.info("Player given a common cold");
+      break;
+  }
+  aw.S();
+};
+
+setup.reasonYouCant = function(test: string | boolean): string {
+  if (test === false) {
+    return "The reason is unclear.";
+  } else if (typeof test === "string") {
+    if (test.length < 22) {
+      let not = "";
+      if (test[0] === "!") {
+        not = "not ";
+      }
+      let what = setup.reasonPrettifier(test.substr(test.lastIndexOf(".")+1));
+      if (what === "hasGun()") {
+        return `You need to have a gun to choose this option!`;
+      }
+      return `You need ${not}to be ${what} to choose this option!`;
+    } else {
+      let what = test.split("||");
+      if (what.length === 1) {
+        what = test.split("&&");
+        if (what.length === 2) {
+          let not1 = "";
+          if (what[0][0] === "!") {
+            not1 = "not ";
+          }
+          const first = setup.reasonPrettifier(what[0].substr(what[0].lastIndexOf(".") + 1));
+          let not2 = "";
+          if (what[1][0] === "!") {
+            not2 = "not ";
+          }
+          const second = setup.reasonPrettifier(what[1].substr(what[1].lastIndexOf(".") + 1));
+          return `You need to be both ${not1}${first} and ${not2}${second} to choose this option!`;
+        } else if (what.length === 3) {
+          let not1 = "";
+          if (what[0][0] === "!") {
+            not1 = "not ";
+          }
+          const first = setup.reasonPrettifier(what[0].substr(what[0].lastIndexOf(".") + 1));
+          let not2 = "";
+          if (what[1][0] === "!") {
+            not2 = "not ";
+          }
+          const second = setup.reasonPrettifier(what[1].substr(what[1].lastIndexOf(".") + 1));
+          let not3 = "";
+          if (what[1][0] === "!") {
+            not3 = "not ";
+          }
+          const third = setup.reasonPrettifier(what[2].substr(what[2].lastIndexOf(".") + 1));
+          return `You need to be ${not1}${first} and ${not2}${second} and ${not3}${third} to choose this option!`;
+        }
+      } else {
+        if (what.length === 2) {
+          let not1 = "";
+          if (what[0][0] === "!") {
+            not1 = "not ";
+          }
+          const first = setup.reasonPrettifier(what[0].substr(what[0].lastIndexOf(".") + 1));
+          let not2 = "";
+          if (what[0][0] === "!") {
+            not2 = "not ";
+          }
+          const second = setup.reasonPrettifier(what[1].substr(what[1].lastIndexOf(".") + 1));
+          return `You need to be ${not1}${first} or ${not1}${second} to choose this option!`;
+        } else if (what.length === 3) {
+          let not1 = "";
+          if (what[0][0] === "!") {
+            not1 = "not ";
+          }
+          const first = setup.reasonPrettifier(what[0].substr(what[0].lastIndexOf(".") + 1));
+          let not2 = "";
+          if (what[0][0] === "!") {
+            not2 = "not ";
+          }
+          const second = setup.reasonPrettifier(what[1].substr(what[1].lastIndexOf(".") + 1));
+          let not3 = "";
+          if (what[0][0] === "!") {
+            not3 = "not ";
+          }
+          const third = setup.reasonPrettifier(what[2].substr(what[2].lastIndexOf(".") + 1));
+          return `You need to be ${not1}${first} or ${not1}${second} or ${not1}${third} to choose this option!`;
+        }
+      }
+    }
+    return "Reason is unclear";
+  }
+  return "Reason is Azatoth being angry.";
+};
+
+setup.indexOfMax = function(arr: number[]): number {
+  if (arr.length === 0) {
+      return -1;
+  }
+  let max = arr[0];
+  let maxIndex = 0;
+  for (let i = 1; i < arr.length; i++) {
+      if (arr[i] > max) {
+          maxIndex = i;
+          max = arr[i];
+      }
+  }
+  return maxIndex;
+};
+
+setup.reasonPrettifier = function(reason: string): string {
+  const listShortHands = ["risky", "pregnancy", "sizequeen", "cumSlut", "sub", "exhibition", "masochist", "buttSlut", "public", "slut", "superSlut", "hyperSlut", "oral", "anal", "force", "rape", "liberate", "easy", "nips", "dom", "water", "bond", "hard", "fap", "shame", "intro", "extro", "op", "cl", "caring", "bitch", "maternal", "romantic", "deceptive", "devious", "persuasive", "perceptive", "forgetful", "forgiving", "lowEsteem", "picky", "crude", "friendly", "approachable", "relaxed", "flirty", "materialist", "uncaring", "kind", "hatesKids", "aromantic", "honest", "straightForward", "follower", "oblivious", "goodMemory", "vengeful", "narcissist", "lowStandards", "refined", "unfriendly", "unapproachable", "ambitious", "shy", "hippy"];
+  const listFullNames = ["into risky sex", "into pregnant sex", "a sizequeen", "a cum slut", "a sub", "an exhibitionist", "a masochist", "a butt slut", "into public sex", "a slut", "a super slut", "a hyper slut", "into oral sex", "into anal sex", "into being forced to have sex", "into a rape fetish", "liberated sexually", "easy to please", "a person with sensitive nipples", "into dom", "into pissplay", "into bondage", "a hard to please", "into fapping", "a shamefeast", "introverted", "extroverted", "open minded", "closed minded", "caring", "a bitch", "a maternal person", "a romantic person", "a deceptive person", "a devious person", "a persuasive person", "a perceptive person", "a forgetful person", "a forgiving person", "a person with low self esteem", "a picky person", "a crude person", "a friendly person", "an approachable person", "a relaxed person", "a flirty person", "a materialist", "uncaring", "a kind person", "someone who hates kids", "aromantic", "a honest person", "a straightforward person", "a follower", "oblivious", "a person who hold grudges", "a vengeful person", "a narcissist", "a person with low standards", "a refined person", "a not friendly person", "an unapproachable person", "an ambitious person", "a shy person", "a hippy"];
+  const piss = reason.replace(/\s/g, "");
+  if (listShortHands.indexOf(piss, 0) !== -1) {
+    return listFullNames[listShortHands.indexOf(piss, 0)];
+  } else {
+    return reason;
+  }
+};
+
+setup.npcEditorList = function(): string {
+  const lovers = setup.getLovers();
+  const friends = setup.getFriends();
+  const others = Object.keys(aw.npc).filter((npc) => !lovers.includes(npc) && !friends.includes(npc));
+  let output = `<h3>Lovers:</h3><p>`;
+  for (const npc of lovers) {
+    output += `<<button "${aw.npc[npc].main.name} ${aw.npc[npc].main.surname} (${aw.npc[npc].main.age})">><<set setup.selectedNPC = "${npc}">><<replace "#npceditorthing">><<include [[NpcEditor]]>><</replace>><</button>> `;
+  }
+  output += `</p><h3>Friends:</h3><p>`;
+  for (const npc of friends) {
+    output += `<<button "${aw.npc[npc].main.name} ${aw.npc[npc].main.surname} (${aw.npc[npc].main.age})">><<set setup.selectedNPC = "${npc}">><<replace "#npceditorthing">><<include [[NpcEditor]]>><</replace>><</button>> `;
+  }
+  output += `</p><h3>Others:</h3><p>`;
+  for (const npc of others) {
+    output += `<<button "${aw.npc[npc].main.name} ${aw.npc[npc].main.surname} (${aw.npc[npc].main.age})">><<set setup.selectedNPC = "${npc}">><<replace "#npceditorthing">><<include [[NpcEditor]]>><</replace>><</button>> `;
+  }
+  output += `</p>`;
+  return output;
+};
+
+setup.churchLaunch = function(church: string): void {
+  const scene = {
+    topImage: "IMG-TempleImgTop",
+    allowSave: false,
+    showTime: true,
+    allowMenu: false,
+  } as IntScenarioLaunchOptions;
+  setup.time.add(60);
+  switch (church) {
+    case "CM":
+      scene.passage = "ChurchMan";
+      scene.sidebar = "<img data-passage='IMG-ChurchSide-CoM' style='width:90%;height:auto'>";
+      scene.image = "IMG-CoM-Priest";
+      scene.title = "Church of Man";
+      ↂ.flag.churchAttend.outer = true;
+      ↂ.pc.status.corrupt += random(1, 3);
+      ↂ.pc.status.perversion += random(2, 5);
+      break;
+    case "TOG":
+      scene.passage = "TotOG";
+      scene.sidebar = "<img data-passage='IMG-ChurchSide-TOG' style='width:90%;height:auto'>";
+      scene.image = "IMG-TotOG-Priest";
+      scene.title = "Temple of the Outer Gods";
+      ↂ.flag.churchAttend.man = true;
+      ↂ.pc.status.bimbo += random(1, 2);
+      ↂ.pc.status.corrupt += random(1, 2);
+      ↂ.pc.status.perversion += random(2, 4);
+      break;
+    case "CHP":
+      scene.passage = "ChurchCock";
+      scene.sidebar = "<img data-passage='IMG-ChurchSide-CHP' style='width:90%;height:auto'>";
+      scene.image = "IMG-LeilanzPort";
+      scene.title = "Church of the Holy Phallus";
+      ↂ.flag.churchAttend.cock = true;
+      ↂ.pc.status.bimbo += 1;
+      ↂ.pc.status.corrupt += random(1, 2);
+      ↂ.pc.status.perversion += random(3, 5);
+      break;
+  }
+  aw.S();
+  setup.status.happy(3, "Church Service");
+  setup.status.lonely(-20, "Church Service");
+  setup.status.stress(-20, "Church Service");
+  setup.scenario.launch(scene);
+};
+
+
+setup.editorCalc = function(NPC: NPC): any {
+  if (typeof NPC !== "object") {
+    throw new TypeError(`Parameter ${NPC} is not a readable Object!`);
+  }
+
+  if (NPC.main.female === true) {
+
+    let femFertileCalc: number = Math.round(
+      (
+        Math.round( NPC.fert.egg / 2 ) + NPC.fert.implant +
+        Math.round( NPC.fert.vagHostile / 2 ) +
+        Math.round( NPC.fert.multEgg / 2 ) -
+        NPC.fert.wombHealth
+      ) / 5,
+    ) - 3;
+
+    if (femFertileCalc === 1) {
+      femFertileCalc = 2;
+    } else if (femFertileCalc < 1 && femFertileCalc > -2) {
+      femFertileCalc = 1;
+    } else if (femFertileCalc < -1) {
+      femFertileCalc = 0;
+    } else if (femFertileCalc > 8) {
+      femFertileCalc = 8;
+    }
+
+    NPC.fert.fertility = femFertileCalc;
+  }
+
+  if (NPC.body.balls.count > 0 && NPC.body.balls.sac > 0) {
+    let maleFertileCalc: number = Math.round(
+      (
+        (NPC.fert.quality * 2) +
+        (2 * Math.round((NPC.fert.quantity / 2) *
+        ((NPC.fert.ejac / 2) / 10))) + Math.round((NPC.fert.refact / 2) + NPC.fert.surv)) / 5,
+      ) - 3;
+
+    if (maleFertileCalc <= 0 || NPC.fert.quality === 0 || NPC.fert.ejac === 0 || NPC.fert.quantity === 0) {
+      maleFertileCalc = 0;
+    } else if (maleFertileCalc < 3) {
+      maleFertileCalc = 1;
+    } else if (maleFertileCalc < 5) {
+      maleFertileCalc = 2;
+    } else if (maleFertileCalc < 10) {
+      maleFertileCalc = maleFertileCalc - 2;
+    } else {
+      maleFertileCalc = 8;
+    }
+
+    NPC.fert.fertility = maleFertileCalc;
+  }
+
+
+  aw.con.info(`setup.editorCalc (male part) tried to set fertility to ${NPC.fert.fertility}`);
+};
+
+// Cam Stuff!
+setup.setCamShow = function(): any {
+  // Control Variables
+  ↂ.flag.camShow.dailyStream = true;
+  ↂ.flag.camShow.daysAbsent += 1;
+
+  // Random daily request
+  ↂ.flag.camShow.actualRequest = random(1, 3);
+
+  if (ↂ.flag.camShow.daysAbsent > 3) {
+    ↂ.flag.camShow.popularity -= 1;
+    ↂ.flag.camShow.followers -= (random(1, 3) * ↂ.flag.camShow.daysAbsent);
+  } else if (ↂ.flag.camShow.daysAbsent > 6) {
+    ↂ.flag.camShow.popularity -= 2;
+    ↂ.flag.camShow.followers -= (random(2, 4) * ↂ.flag.camShow.daysAbsent);
+  } else if (ↂ.flag.camShow.daysAbsent > 12) {
+    ↂ.flag.camShow.popularity -= 3;
+    ↂ.flag.camShow.followers -= (random(3, 5) * ↂ.flag.camShow.daysAbsent);
+  }
+};
+
+setup.camFlag = function(value) {
+  return ↂ.flag.camShow.flags.includes(value);
+};

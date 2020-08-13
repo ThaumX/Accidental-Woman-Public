@@ -1,0 +1,207 @@
+:: homeBFexterior [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<div id="location-bar">
+  <div id="location-bar-map">
+    <img data-passage="IMG-BFhomeMap" usemap="#BFhomeMap">
+  </div>
+  <img id="location-bar-cover" data-passage="IMG-BFhomeMap">
+  <div id="location-bar-image">
+    <<link [img[ↂ.map.imageName]]>><<set _pasg = aw.passage.title>><<set _pasg += "LOC">><<dialog ↂmap.name>><<include _pasg>><</dialog>><</link>>
+    <div id="namediv" class="locationNameDiv head1"><<print ↂ.map.name>></div>
+  </div>
+</div>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>
+@@.head3;Y@@ou are <<if $BFnum > 4>>standing on a quiet street filled with <<switch $BFnum>><<case 5>>narrow<<case 6>><<= either("stately","elegant")>><<case 7>>large ornate<</switch>> townhouses, specifically, you're standing in front of <<= $BFname>>'s townhouse. <<if $BFhome>>You can see a light on inside, and <<n $BFid "hisher.q">> <<if aw.npc[$BFid].background.car[0] !== null>><<= aw.npc[$BFid].background.car[0]>> <<= aw.npc[$BFid].background.car[1]>><<else>>car<</if>> is parked out front.<<else>>You don't see any signs of activity inside, and you don't see <<n $BFid "hisher.q">> car either.<</if>><<else>>standing in one of the hallways of <<= $BFname>>'s apartment building, near <<n $BFid "hisher.q">> front door. Unfortunately, there's no real way to tell if <<n $BFid "heshe.q">> is home right now other than ringing the doorbell. <<switch $BFnum>><<case 1>>The hallway looks like it's seen far more than its share of wear and tear, it's pretty obvious that the residents don't care about taking care of the communal areas. The narrow hallway is dingy and poorly lit, the walls marked with graffiti and the floor stained.<<case 2>>The hallway is narrow and well-used, but at least it seems to be clean for the most part.<<case 3>>The hallway isn't anything out of the ordinary, clean and simply decorated.<<case 4>>The hallway has an upscale look, with tasteful decorations and good lighting.<</switch>><</if>>
+<<if $swim === "[dev]">><br><<link "test link to interior">><<run setup.map.nav("BFhome","living")>><</link>><</if>>
+</p>
+/*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise place>><<button "Ring The Doorbell">>
+<<if !$BFhome || aw.timeArray[1] > 22 || aw.timeArray[1] < 7>>
+<<addTime 5>>
+<<dialog "Doorbell">><center>[img[IMG-doorbell]]</center><p>You ring the doorbell and wait. and wait. after several minutes you decide to give up. Either <<= $BFname>> isn't home, or <<n $BFid "heshe.q">> isn't going to answer. <<if aw.timeArray[1] > 22 || aw.timeArray[1] < 7>>@@.mono;<<= $BFname>> is probably asleep at this hour...@@<</if>></p><</dialog>>
+<<elseif aw.npc[$BFid].rship.category == "acquaint">>
+<<addTime 5>>
+<<dialog "Doorbell">><center>[img[IMG-doorbell]]</center><<include [[homeBFextAcq]]>><</dialog>>
+<<else>>
+<<addTime 2>>
+<<dialog "Doorbell">><center>[img[IMG-doorbell]]</center><<include [[homeBFextDoor]]>><</dialog>>
+<</if>>
+<</button>><<endhoverrevise>>
+<<if aw.npc[$BFid].rship.category === "lovers" || aw.npc[$BFid].rship.category === "engaged" || aw.npc[$BFid].rship.category === "married">>
+<<hoverrevise lets>><<button "Let Yourself In">><<run setup.map.nav("BFhome","living")>><</button>><<endhoverrevise>>
+<<else>>
+<<hoverrevise nopes>><button class="disabled">Let Yourself In</button><<endhoverrevise>>
+<</if>>
+<<hoverrevise leave>><<button "Leave">><<run setup.map.nav("residential","sidewalk")>><</button>><<endhoverrevise>>
+
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion place>>Ring <<= $BFname>>'s doorbell and see if they're home.<<endinsertion>>
+<<insertion leave>>Leave and return to the Residential District.<<endinsertion>>
+<<insertion lets>>You have access to <<= $BFname>>'s place, so let yourself in.<<endinsertion>>
+<<insertion nopes>>You don't know <<= $BFname>> well enough to have your own access code to get in.<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+<<mapBFHomeEventAction>>
+<<mapBFHomeActions>>
+<</timed>>
+
+
+
+:: homeBFexteriorLOC [nobr]
+
+<<if $BFnum > 4>>
+<center>
+[img[IMG-BFhomeExteriorApt]]
+</center>
+<p>You run into one of the building's residents on the staircase. It seems the residents are pretty comfortable inside the building.</p>
+<<else>>
+<center>
+[img[IMG-BFhomeExteriorTwn]]
+</center>
+<p>You notice one of <<= $BFname>>'s neighbors sitting on a railing next to their front door. @@.mono;Maybe they're waiting on someone?@@</p>
+<</if>>
+
+
+:: homeBFextAcq [nobr]
+
+
+<p>
+You ring the doorbell and wait. After a minute or so, the door opens to reveal a somewhat annoyed-looking <<= $BFname>>.
+</p>
+<p>
+@@.npc;Uhh, can I help you?@@ It's pretty obvious from <<n $BFid "hisher.q">> expression that <<n $BFid "heshe.q">> isn't pleased by your random visit.
+</p>
+<p>
+You hesitate for a moment. @@.pc;Oh, ummm, I was in the neighborhood so I thought I'd drop by and say hi.@@
+</p>
+<p>
+@@.npc;Okay... Well, hi. Have a nice day then...@@ <<n $BFid "heshe.q">> slowly starts closing the door.
+</p>
+<p>
+You get in a quick @@.pc;Yeah, you too.@@ before the door closes in your face.
+</p>
+
+
+
+:: homeBFextDoor [nobr]
+
+
+<p>
+You ring the doorbell and wait. <<if ↂ.pc.trait.extro>>You don't really have any issue waiting, and your mind wanders a little as you stare at the doorbell.<<else>>You've always felt a little awkward in these situations, waiting in front of a door for someone to answer. You pass the time staring at various things with artificial interest. @@.mono;It seems that bit of molding has a dent in it, I wonder how that happened?@@<</if>>
+</p><p>
+It takes a minute or so, but the door opens to reveal <<name h>>. @@.npc;Oh, hey <<name>>. What's up?@@
+</p>
+<div id="repl">
+<<dialogchoice>>
+<<dbutt "Hang Out">><<replace "#repl">><<include [[homeBFextDoorHO]]>><</replace>>
+<<dtext>>You just felt like coming by to hang out with <<name h>>.
+<<dbutt "Date">><<replace "#repl">><<include [[homeBFextDoorDate]]>><</replace>>
+<<dtext>>You are aiming to have a spontaneous date with <<name h>>.
+<<dbutt "Say Hi">><<replace "#repl">><<include [[homeBFextDoorHI]]>><</replace>>
+<<dtext>>You just wanted to stop by and say hello.
+<<dbutt "Lets Fuck" $BFlove>><<replace "#repl">><<include [[homeBFextDoorLF]]>><</replace>>
+<<dtext "slut">>You came by for sex, of course.
+<</dialogchoice>>
+</div>
+
+
+:: homeBFextDoorHO [nobr]
+
+<<run setup.map.nav("BFhome","living")>>
+<p>
+@@.pc;Not much, I just thought I'd come by and hang out.@@
+</p>
+<p>
+<<name h>> opens the door wider and steps back. @@.npc;Okay, well come on in.@@
+</p>
+
+
+:: homeBFextDoorHI [nobr]
+
+<<run setup.map.nav("BFhome","living")>>
+<p>
+@@.pc;Nothing, really. I just happened to be nearby and I thought I'd stop by to say hello real quick.@@
+</p>
+<p>
+@@.npc;Oh, well, hello!@@ <<n $BFid "heshe.q">> laughs. @@.npc;You want to come in?@@
+</p>
+<p>
+You think for a moment. @@.pc;Yeah, sure, why not?@@
+</p>
+<p>
+<<name h>> steps back and holds the door open wider. @@.npc;Come in, come in.@@
+</p>
+
+
+:: homeBFextDoorLF [nobr]
+
+<<run setup.map.nav("BFhome","bedroom")>>
+<p>
+@@.pc;I am so fucking horny right now... I want you to ravage me.@@
+</p>
+<p>
+<<name h>> grins lasciviously. @@.npc;Sure, right this way...@@ <<n $BFid "heshe.q">> opens the door wider and gestures for you to come inside.
+</p>
+<center>
+<<button "HAVE SEX">>
+<<set ↂ.sex.pcOutput = "The two of you make your way to " + $BFname + "'s bedroom, your desire adding urgency to your steps.">><<set ↂ.sex.enviroTags = ["bed","wall"]>><<set ↂ.sex.passage = "homeBFbedroom">>
+    <<run aw.S()>><<startSex $BFid>><<run Dialog.close()>>
+<</button>>
+</center>
+
+:: homeBFextDoorDate [nobr]
+
+<<run setup.map.nav("BFhome","bedroom")>>
+<<timed 100ms>>
+<<run setup.npcDate.date($BFid, "BFhome")>>
+<</timed>>

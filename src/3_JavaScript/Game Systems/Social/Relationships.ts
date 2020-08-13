@@ -10,6 +10,8 @@
 
 interface setupRship {
   eligible: (npcid: string) => [string, boolean, string];
+  liveTogether: (npcid: string) => void;
+  moveOut: () => void;
 }
 
 setup.rship = {} as setupRship;
@@ -107,5 +109,26 @@ return "married";
       return "acquaint";
 */
 
+setup.rship.moveOut = function() {
+  ↂ.flag.liveTogether = false;
+  ↂ.flag.liveWith = "none";
+  ↂ.flag.moveInFlag = false;
+  ↂ.flag.liveWithTier = 0;
+  aw.S("flag");
+  setup.homeItems.packUp();
+};
 
-
+setup.rship.liveTogether = function(npcid: string) {
+  ↂ.flag.liveWith = npcid;
+  ↂ.flag.moveInFlag = true;
+  ↂ.flag.liveWithTier = 4; // in the future it's possible to assign different tiers perhaps...
+  aw.S("flag");
+  ↂ.buttons.FemLilyFirstMeeting = new CAB({
+    id: "MoveInWithLover",
+    text: "Move In With Lover",
+    action: `<<addTime 40>><<set ↂ.map.loc = ["downtown", "bank"]>><<go "AppleCleftRealtyMoveIn">>`,
+    cond: `if (aw.timeArray[1] > 7 && aw.timeArray[1] < 13 && ↂ.flag.moveInFlag){ return true;} return false;`,
+    oneTime: true,
+    duration: 11000,
+  });
+};

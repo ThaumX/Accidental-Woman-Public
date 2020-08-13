@@ -473,6 +473,36 @@ aw.jobData = {
     ranks: 4,
     events: [
       {
+        rank: [0, 1, 2, 3, 4],
+        passage: "SPERMjobBoardBoss1",
+        image: "IMG-SpermSide",
+        content: "<center>[img[IMG-BoardBoss1]]</center><br>",
+        random: true,
+        title: "Board member",
+        odds: [1, 15],
+        condition(rank) {if (ↂ.flag.jobEvents.sperm.boardBoss === 0) {return true; } else {return false; }},
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "SPERMjobBoardBoss2",
+        image: "IMG-SpermSide",
+        content: "<center>[img[IMG-BoardBoss1]]</center><br>",
+        random: true,
+        title: "Laura Comstock",
+        odds: [1, 10],
+        condition(rank) {if (ↂ.flag.jobEvents.sperm.boardBoss === 1) {return true; } else {return false; }},
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "SPERMjobBoardBoss3",
+        image: "IMG-SpermSide",
+        content: "<center>[img[IMG-BoardBoss3]]</center><br>",
+        random: true,
+        title: "Laura Comstock",
+        odds: [1, 10],
+        condition(rank) {if (ↂ.flag.jobEvents.sperm.boardBoss === 2) {return true; } else {return false; }},
+      },
+      {
         rank: [0, 1, 2],
         passage: "BestyServicesEvent1-A",
         image: "IMG-ServicesSide",
@@ -678,6 +708,12 @@ aw.jobData = {
         // tslint:disable-next-line:max-line-lengt
         content: "Today another one of your coworkers got <i>promoted</i> out of the Services again. They worked in zone <<= either('A','B','C','E','F','G','H','I','J','K')>>, so you didn't really know them. It seems odd how fast people are promoted around here, but you can't really complain; after all, that means you'll be promoted faster too.",
       },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "GladysAudioMessages",
+        image: "IMG-JobContentInst-Gladys",
+        content: "",
+      },
     ],
     rank0: {
       rulesCutoffs: [20, 35, 50, 65, 80],
@@ -783,6 +819,36 @@ aw.jobData = {
     rulesStrict: true,
     ranks: 4,
     events: [
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "SPERMjobBoardBoss1",
+        image: "IMG-SpermSide",
+        content: "<center>[img[IMG-BoardBoss1]]</center><br>",
+        random: true,
+        title: "Board member",
+        odds: [1, 15],
+        condition(rank) {if (ↂ.flag.jobEvents.sperm.boardBoss === 0) {return true; } else {return false; }},
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "SPERMjobBoardBoss2",
+        image: "IMG-SpermSide",
+        content: "<center>[img[IMG-BoardBoss1]]</center><br>",
+        random: true,
+        title: "Laura Comstock",
+        odds: [1, 10],
+        condition(rank) {if (ↂ.flag.jobEvents.sperm.boardBoss === 1) {return true; } else {return false; }},
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "SPERMjobBoardBoss3",
+        image: "IMG-SpermSide",
+        content: "<center>[img[IMG-BoardBoss3]]</center><br>",
+        random: true,
+        title: "Laura Comstock",
+        odds: [1, 10],
+        condition(rank) {if (ↂ.flag.jobEvents.sperm.boardBoss === 2) {return true; } else {return false; }},
+      },
       {
         rank: [0, 1, 2],
         passage: "SPERMjobRestrictedLab",
@@ -971,6 +1037,12 @@ aw.jobData = {
         image: "IMG-JobContent-IT-Penisnek",
         content: "There was a warning posted in the office when you arrived in the morning. It showed a somewhat blurry picture of a penis-like snake/tentacle/creature/thing along with a bold warning to not to approach and to contact your supervisor if you spot one. Fortunately you didn't run into it during your shift.",
       },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "GladysAudioMessages",
+        image: "IMG-JobContentInst-Gladys",
+        content: "",
+      },
     ],
     rank0: {
       rulesCutoffs: [20, 35, 50, 65, 80],
@@ -1077,6 +1149,36 @@ aw.jobData = {
     ranks: 4,
     events: [
       {
+        rank: [0, 1, 2, 3, 4],
+        passage: "SPERMjobBoardBoss1",
+        image: "IMG-SpermSide",
+        content: "<center>[img[IMG-BoardBoss1]]</center><br>",
+        random: true,
+        title: "Board member",
+        odds: [1, 15],
+        condition(rank) {if (ↂ.flag.jobEvents.sperm.boardBoss === 0) {return true; } else {return false; }},
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "SPERMjobBoardBoss2",
+        image: "IMG-SpermSide",
+        content: "<center>[img[IMG-BoardBoss1]]</center><br>",
+        random: true,
+        title: "Laura Comstock",
+        odds: [1, 10],
+        condition(rank) {if (ↂ.flag.jobEvents.sperm.boardBoss === 1) {return true; } else {return false; }},
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "SPERMjobBoardBoss3",
+        image: "IMG-SpermSide",
+        content: "<center>[img[IMG-BoardBoss3]]</center><br>",
+        random: true,
+        title: "Laura Comstock",
+        odds: [1, 10],
+        condition(rank) {if (ↂ.flag.jobEvents.sperm.boardBoss === 2) {return true; } else {return false; }},
+      },
+      {
         rank: [0, 1, 2],
         passage: "BcorpsEvent01-Start",
         image: "none",
@@ -1165,6 +1267,12 @@ aw.jobData = {
         // tslint:disable-next-line:max-line-length
         content: "Today another one of your coworkers got <i>promoted</i> out of the department again. It seems odd how fast people are promoted around here, but you can't really complain; after all, that means you'll be promoted faster too.",
       },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "GladysAudioMessages",
+        image: "IMG-JobContentInst-Gladys",
+        content: "",
+      },
     ],
     rank0: {
       rulesCutoffs: [20, 35, 50, 65, 80],
@@ -1237,7 +1345,7 @@ aw.jobData = {
     code: "MD",
     skills: "Cleaning, Aesthetics & Organization",
     // tslint:disable-next-line:max-line-length
-    desc: "This job is all about cleaning houses of the rich twats getting barely enough for living in return. <i>The job seems to be focused on tidying up the houses of rich clients of that cleaning company. The salary is pretty mediocre but the schedule is quite nice and there is an opportunity for some useful acquaintances...</i>",
+    desc: "This job is all about cleaning houses of the rich twats while getting barely enough for living in return. <i>The job seems to be focused on tidying up the houses of rich clients of that cleaning company. The salary is pretty mediocre but the schedule is quite nice and there is an opportunity for some useful acquaintances...</i>",
     img: "IMG-JobCover-Pouffiasse",
     title: "Maid",
     loc: ["residential", "walkdowntown", false],
@@ -1261,7 +1369,7 @@ aw.jobData = {
         const passage = "MaidNoDress";
         const image = "none";
         const content = "";
-        const title = "Unapropriate attire";
+        const title = "Inappropriate Attire";
         return [false, passage, image, content, title];
       }
       return out;
@@ -1386,7 +1494,7 @@ aw.jobData = {
       // tslint:disable-next-line:max-line-length
       pay: [8, 4, 4],
       statsRank: 1,
-      name: "mr. Stafford's house maid",
+      name: "Mr. Stafford's house maid",
       rulesBoss: "Aaron Stafford",
       promotionBonus: 3,
     },
@@ -1398,7 +1506,7 @@ aw.jobData = {
       // tslint:disable-next-line:max-line-length
       pay: [9, 4, 4],
       statsRank: 2,
-      name: "dr. Limpio's mansion maid",
+      name: "Dr. Limpio's mansion maid",
       rulesBoss: "Diego Limpio",
       promotionBonus: 3,
     },
@@ -1410,7 +1518,7 @@ aw.jobData = {
       // tslint:disable-next-line:max-line-length
       pay: [10, 4, 4],
       statsRank: 3,
-      name: "mr. King's mansion maid",
+      name: "Mr. King's mansion maid",
       rulesBoss: "Thomas King", // Silly I know :D
       promotionBonus: 2,
     },
@@ -1422,7 +1530,7 @@ aw.jobData = {
       // tslint:disable-next-line:max-line-length
       pay: [11, 4, 4],
       statsRank: 4,
-      name: "mr. Haden's mansion maid",
+      name: "Mr. Haden's mansion maid",
       rulesBoss: "Richard Haden",
       promotionBonus: 1,
     },
@@ -1437,7 +1545,7 @@ aw.jobData = {
     code: "FT",
     skills: "Athletic, Oral, Sex & Seduction",
     // tslint:disable-next-line:max-line-length
-    desc: "A masseuse job in a massage parlor, focused on giving <i>good treatments</i> to the clients. Working the full shift may be harsh but <i>your income is in your hands</i>!",
+    desc: "A masseuse job in a massage parlor, focused on giving <i>good treatments</i> to the clients. Working the full shift may be harsh but your income is in your hands!",
     img: "IMG-JobCover-FairyTail",
     title: "Masseuse",
     loc: ["downtown", "adult", false],
@@ -1587,7 +1695,7 @@ aw.jobData = {
     },
     jobPercept: 1,
     // tslint:disable-next-line:max-line-length
-    schedWorkTime: [24, [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [16, 0, 24, 0], [16, 0, 24, 0], [16, 0, 24, 0]],
+    schedWorkTime: [24, [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [15, 0, 23, 0], [15, 0, 23, 0], [15, 0, 23, 0]],
     schedWorkDays: [8, false, false, false, false, true, true, true],
     rulesTaskratio: [30, 20, 15, 10, 7, 3],
     rulesTasks: 4,
@@ -1643,7 +1751,7 @@ aw.jobData = {
         passage: "none",
         image: "IMG-CatFight",
         // tslint:disable-next-line:max-line-length
-        content: "At the end of the shift, <<set _namer = setup.nameRandomizer(0,'white')>><<set _namer2 = setup.nameRandomizer(0,'white')>><<= _namer>> said that <<= _namer2>> stole her tips while she was in the shower. The confrontation quickly turned into a catfight, and by the time the manager arrived <<= namer>> had already forced the thief to apologize and return the money. It seems that <<= _namer2>> will be <<= _namer>>'s personal bitch for the foreseeable future.",
+        content: "At the end of the shift, <<set _namer = setup.nameRandomizer(0,'white')>><<set _namer2 = setup.nameRandomizer(0,'white')>><<= _namer>> said that <<= _namer2>> stole her tips while she was in the shower. The confrontation quickly turned into a catfight, and by the time the manager arrived <<= _namer>> had already forced the thief to apologize and return the money. It seems that <<= _namer2>> will be <<= _namer>>'s personal bitch for the foreseeable future.",
       },
       {
         rank: [0, 1, 2],

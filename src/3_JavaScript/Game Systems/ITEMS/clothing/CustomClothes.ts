@@ -206,7 +206,8 @@ setup.clothes.defineCustomClothes = function(): void {
       accessButt : false,
       accessTits : true,
       accessAss : false,
-      wear : ["normal", "off", "pulledDown"],
+      wear: ["normal", "off", "pulledDown"],
+      padoImg: "IMG-PaDo-SweatPants",
     },
     ttvt: {
       key : "ttvt",
@@ -242,7 +243,8 @@ setup.clothes.defineCustomClothes = function(): void {
       accessButt : true,
       accessTits : false,
       accessAss : true,
-      wear : ["normal", "off", "pulledUp"],
+      wear: ["normal", "off", "pulledUp"],
+      padoImg: "IMG-PaDo-SweatShirtLily",
     },
     ttvv: {
       key : "ttvv",
@@ -314,7 +316,8 @@ setup.clothes.defineCustomClothes = function(): void {
       accessButt : false,
       accessTits : true,
       accessAss : false,
-      wear : ["normal", "off", "pulledDown"],
+      wear: ["normal", "off", "pulledDown"],
+      padoImg: "IMG-PaDo-SweatPants",
     },
     ttvx: {
       key : "ttvx",
@@ -351,6 +354,7 @@ setup.clothes.defineCustomClothes = function(): void {
       accessTits : false,
       accessAss : true,
       wear : ["normal", "off", "pulledUp"],
+      padoImg: "IMG-PaDo-SweatShirtApple",
     },
     tvvv: { // what are these demonic 4 letter riddles?
       key : "tvvv",

@@ -322,7 +322,7 @@ aw.tagContent.exes.clownMakeup = [
   `<<set aw.npc[setup.interact.status.npc].rship.likePC -= 5 >>You notice that exes looks at your face in some weird fashion.<br>
   <<set _r = random(0,2)>><<if _r === 1 >>Suddenly, <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> starts giggling.<br>
   <<dialogchoice>>
-    <<dbutt "Confront" "ↂ.pc.trait.bitch === 1">><<intreplace>><<ctagcontent "exes" "clownMakeupConfront">><</intreplace>>
+    <<dbutt "Confront" "ↂ.pc.trait.bitch">><<intreplace>><<ctagcontent "exes" "clownMakeupConfront">><</intreplace>>
     <<dtext "mad">>Do you fucking think that it is funny?
     <<dbutt "Ask">><<intreplace>><<ctagcontent "exes" "clownMakeupAsk">><</intreplace>>
     <<dtext "confused">>Hey, why are you laughing?

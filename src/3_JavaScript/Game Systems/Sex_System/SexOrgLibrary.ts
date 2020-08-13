@@ -256,7 +256,8 @@ setup.library.initSAO = function() {
       const posKey = ↂ.sex.pos;
       const pcAct = ↂ.sex.pcAct;
       const cat = aw.sexPos[posKey].cat;
-      let out = `<<name _t>> suddenly groans, cock twitching as <<he>> approaches ${either("orgasm", "the point of no return", "climax", "orgasm")}. `;
+      const anal = aw.sexPos[posKey].anal;
+      let out = `<<name _t>> suddenly groans, <<his>> cock twitches approaching ${either("orgasm", "the point of no return", "climax", "orgasm")}. `;
       if (cat === "oralNPC") {
         // check for face load or mouth load
         if (pcAct === "suckCockHead" || pcAct === "suckCockInOut") {
@@ -278,6 +279,7 @@ setup.library.initSAO = function() {
           }
         }
       } else if (cat === "sex") {
+        if (!anal) {
         switch (risk) {
           case "condom broke":
             out += "With one final thrust <<he>> hilts <<him>>self deep inside you and begins to spray <<his>> load of <<w 'cum.n'>> into <<his>> condom. More than a minute later, <<he>> finally pulls out of your <<p 'pussy.q'>> <<p 'pussy.n'>>. You can see the condom bulging with seed as <<he>> moves away; as soon as <<he>> starts to pull it off, however, it ruptures making a mess.";
@@ -286,7 +288,7 @@ setup.library.initSAO = function() {
             out += "With one final thrust <<he>> hilts <<him>>self deep inside you and sprays <<his>> load of <<w 'cum.n'>> into <<his>> condom. At least, that's what you thought happened, but you soon notice a distinct wet heat near your <<p 'womb.n'>>. @@.pc;Oh fuck, I think the condom broke.@@ It takes <<name _t>> a few more moments to register your words before <<he>> finally pulls out. When <<he>> does, you see that the condom is a tattered mess.";
             break;
           case "came inside":
-            out += `With one final thrust <<he>> hilts <<him>>self deep inside you and begins to pump <<his>> ${either("fertile", "potent", "thick")} cum deep inside you. You can feel the hot liquid splashing against your ${either("cervix", "cervix", "<<w 'womb.n'>>")}<<has risky || pregnant>>, the sensation sends waves of pleasure radiating out from your <<w 'womb.n'>> as you have a light orgasm.<<or>>, a sensation that feels oddly satisfying.<</has>> <<name _t>> stays buried inside you for over a minute before finally <<he>> finally pulls out.`;
+            out += `With one final thrust <<he>> hilts <<him>>self deep inside you and begins to pump <<his>> ${either("fertile", "potent", "thick")} cum deep inside you. You can feel the hot liquid splashing against your ${either("cervix", "cervix", "<<w 'womb.n'>>")}<<has risky || pregnancy>>, the sensation sends waves of pleasure radiating out from your <<w 'womb.n'>> as you have a light orgasm.<<or>>, a sensation that feels oddly satisfying.<</has>> <<name _t>> stays buried inside you for over a minute before finally <<he>> finally pulls out.`;
             break;
           case "came inside PO":
             out += "Thrusting even harder than before, you know <<he>> must be close. With another groan <<he>> pulls out of you in a rush, the final dregs of <<his>> orgasm dribbling out of <<his>> <<n _t 'cocksize.q'>> <<n _t 'cock.n'>>. You can tell that the rest of it was deposited inside you. @@.npc;Sorry about that, I came a little sooner than I expected...@@";
@@ -295,14 +297,17 @@ setup.library.initSAO = function() {
             out += "Immediately after, <<his>> <<n _t 'cock.n'>> starts spraying <<w cum.n>> pointlessly. @@.mono;Well, that wasn't what I was expecting to happen...@@";
             break;
           case "came in condom":
-            out += "With one final thrust <<he>> hilts <<him>>self deep inside you and begins to spray <<his>> load of <<w 'cum.n'>> into <<his>> condom. More than a minute later, <<he>> finally pulls out of your <<p 'pussy.q'>> <<p 'pussy.n'>>. You can see the condom bulging with seed as <<he>> moves away. <<has 'risky||pregnant||cumSlut'>>@@.mono;What a waste...@@<</has>>";
+            out += "With one final thrust <<he>> hilts <<him>>self deep inside you and begins to spray <<his>> load of <<w 'cum.n'>> into <<his>> condom. More than a minute later, <<he>> finally pulls out of your <<p 'pussy.q'>> <<p 'pussy.n'>>. You can see the condom bulging with seed as <<he>> moves away. <<has 'risky||pregnancy||cumSlut'>>@@.mono;What a waste...@@<</has>>";
             break;
           case "pulled out":
-            out += "<<name _name>> quickly jerks backward, pulling <<his>> <<n _t 'cocklength.q'>> <<n _t 'cock.n'>> from your <<p 'curwet.q'>> <<p 'pussy.n'>>. A moment later thick ropes of <<w 'cum.n'>> begin to spray from <<his>> cockhead, landing on your groin and thighs.";
+            out += "<<name _t>> quickly jerks backward, pulling <<his>> <<n _t 'cocklength.q'>> <<n _t 'cock.n'>> from your <<p 'curwet.q'>> <<p 'pussy.n'>>. A moment later thick ropes of <<w 'cum.n'>> begin to spray from <<his>> cockhead, landing on your groin and thighs.";
             break;
           case "pulled out fail":
-            out += "<<name _name>> quickly jerks backward, pulling <<his>> <<n _t 'cocklength.q'>> <<n _t 'cock.n'>> from your <<p 'curwet.q'>> <<p 'pussy.n'>>. The moment it emerges, thick ropes of <<w 'cum.n'>> begin to spray from <<his>> cockhead, splashing against your <<p 'vulva.n'>> and groin. When it's over you're something of a mess. @@.npc;Whew, that was a close one!@@";
+            out += "<<name _t>> quickly jerks backward, pulling <<his>> <<n _t 'cocklength.q'>> <<n _t 'cock.n'>> from your <<p 'curwet.q'>> <<p 'pussy.n'>>. The moment it emerges, thick ropes of <<w 'cum.n'>> begin to spray from <<his>> cockhead, splashing against your <<p 'vulva.n'>> and groin. When it's over you're something of a mess. @@.npc;Whew, that was a close one!@@";
             break;
+        }
+        } else {
+          out += `<<name _t>> start fucking your <<p asshole.q>> <<p asshole.n>> faster and faster; for a second <<he>> stops and with a groan pushes <<his>> <<n _t 'cocklength.q'>> <<n _t 'cock.n'>> deep into your rear hole spraying <<his>> thick hot cum with a series of a short twitches.<<run setup.omni.new("assPie")>>`;
         }
       } else {
         out += "Immediately after, <<his>> <<n _t 'cock.n'>> starts spraying <<w cum.n>> pointlessly. @@.mono;Well, that wasn't what I was expecting to happen...@@";

@@ -33,13 +33,17 @@ You move over near the wall and explore your lower body frantically looking for 
 
 <<hoverrevise alpha>>
 <<if $AW.cash > 1>>
-  <<button "Weegirl">><<run aw.cash(-1, "misc")>><<go "WeeGirlArcade">><</button>>
+  <<button "Weegirl">><<run aw.cash(-1, "misc")>><<addTime 7>><<go "WeeGirlArcade">><</button>>
 <<else>>
   @@.disabled;<<button "Weegirl [Not enough money]">><</button>>@@
 <</if>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
-  @@.disabled;<<button "Cockmongering">><</button>>@@
+  <<if $AW.cash > 0>>
+    <<button "Cockmongering">><<run aw.cash(-2, "misc")>><<addTime 5>><<go "CockmongeringArcade">><</button>>
+  <<else>>
+    @@.disabled;<<button "Cockmongering [Not enough money]">><</button>>@@
+  <</if>>
 <<endhoverrevise>>
 <<hoverrevise delta>>
   <<if $AW.cash > 0>>
@@ -68,7 +72,7 @@ You move over near the wall and explore your lower body frantically looking for 
 /*Main display for information about actions*/
 <div id="actionInfo">
 <<insertion alpha>>Play the old arcade game funded by W.E.E. corporation to promote their brand. Still popular this days. 1₢ per game. [7+ minutes]<<endinsertion>>
-<<insertion beta>>Play new "Cockmongering" arcade. It seems the controls were broken so the machine is off. 2₢ per game. [5 minutes]<<endinsertion>>
+<<insertion beta>>Play new "Cockmongering" arcade. 2₢ per game. [5 minutes]<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 <<insertion delta>>Play the newest arcade game from Tomfuckery Interactive. Costs 1₢ to play. [15 minutes]<<endinsertion>>
 </div>
@@ -94,7 +98,7 @@ You move over near the wall and explore your lower body frantically looking for 
     output: "none",
     interval: 60,
     times: 12,
-    icon: "IMGstatus_PregnantAlien",
+    icon: "IMGstatus_pregnantAlien",
     text: "A parasite is attempting to bond with your body!",
     run: `setup.status.arousal(1);
       if (this.times <= 0 && !Dialog.isOpen()) {
@@ -111,6 +115,7 @@ I wonder...<br>
 
 :: TomfuckeryArcade [nobr hidden noui]
 
+
 <div id="cardback">
 <center><<button "RETURN to PLEASURE BUZZER">><<go "DowntownMallVoid">><</button>> | <<button "REFRESH">><<go "TomfuckeryArcade">><</button>></center>
 <iframe id="tomfuckery" src="resources/Tomfuckery/tomfuckery.html">
@@ -118,7 +123,24 @@ If you are seeing this, it means that you need to download the optional tomfucke
 </iframe>
 
 </div>
+<<set _random = random(0, 10)>>
+<<if _random > 7>>
+  <<happy +1 "Nostalgia from playing the classic game Tomfuckery">>
+<</if>>
 
+:: CockmongeringArcade [nobr hidden noui]
+
+<div id="cardback">
+<center><<button "RETURN to PLEASURE BUZZER">><<go "DowntownMallVoid">><</button>> | <<button "REFRESH">><<go "CockmongeringArcade">><</button>></center>
+<iframe id="tomfuckery" src="resources/Cockmongering/Cockmongering.html">
+If you are seeing this, it means that you need to download the optional Cockmongering game. By accident it was excluded from the compiled resource files. You can download it from the same place you downloaded this game.
+</iframe>
+
+</div>
+<<set _random = random(0, 10)>>
+<<if _random > 7>>
+  <<happy +1 "Nostalgia from playing the classic game Cockmongering">>
+<</if>>
 
 :: WeeGirlArcade [nobr noui hidden]
 

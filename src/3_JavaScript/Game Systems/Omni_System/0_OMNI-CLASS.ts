@@ -402,7 +402,7 @@ class RecurringOmni extends OmniEvent {
       aw.con.warn(`Recurring Omni Event ${this.name} (${this.key}) failed to execute properly due to error - ${e.name}: ${e.message}`);
     }
     if (this.times < 1) {
-      super.die();
+      super.die(50);
     }
   }
 }

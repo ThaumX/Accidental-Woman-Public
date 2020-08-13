@@ -58,6 +58,8 @@ interface setupTime {
   nowDay: () => number;
   midnight: number; // 00:00 start value of next day from last sleep
   dayValue: number; // 00:00 start value of day from current aw.time
+  convertToDate: (val: number) => string;
+  humanInterfaceToDate: (day: number, month: number, nextyear: boolean) => [number, boolean];
 }
 
 // NAMESPACE
@@ -572,24 +574,25 @@ setup.time.status = function(count: number): void {
       }
     }
   } else if (milk === -2) {
-    setup.dialog("Lactation Reduction", "<p class='orangered' style='font-weight:bold;'>Your milk production "
-      + "has decreased from disuse and being overly-full, so you are now producing milk at a slower rate.</p>");
-    if (aw.chad.allowed && State.active.variables.cheat.noLeak) {
-      // nut
+    let msg = `<p class='orangered'><b>Lactation Reduction:</b> Your milk production has decreased from disuse and being overly-full, so you are now producing milk at a slower rate. `;
+    if ((aw.chad.allowed && State.active.variables.cheat.noLeak) || State.active.variables.items.has("EvreDrop Milk Saver")) {
+      msg += `Luckily your milk savers kept you from making a mess.</p>`;
     } else {
-      setup.condition.add({ loc: "chest", amt: 4, type: "milk" });
+      setup.condition.add({ loc: "chest", amt: 5, type: "milk" });
+      msg += `Your breasts have leaked milk, making a mess.</p>`;
     }
+    UI.alert(msg);
   } else if (milk === -1) {
     setup.notify("Your breasts are starting to get full, you should consider milking them soon.");
   } else if (milk === -3) {
     setup.notify("<span class='orange'>Your breasts ache from being overly-full.</span>");
   } else if (milk === -4) {
-    setup.notify("<span class='orangered'>Your breasts are painful from the pressure of breastmilk!</span>");
+    UI.alert("<span class='orangered'>Your breasts are painful from the pressure of breastmilk!</span>");
   } else if (milk > 0 && typeof milk === "number") {
-    if (aw.chad.allowed && State.active.variables.cheat.noLeak) {
-      // nut
+    if ((aw.chad.allowed && State.active.variables.cheat.noLeak) || State.active.variables.items.has("EvreDrop Milk Saver")) {
+      setup.notify("Your breasts spilt some milk into your milk savers.");
     } else {
-      setup.notify("<span class='orangered'>Your overly-full breasts have let-down and spilt milk!</span>");
+      UI.alert("<span class='orangered'>Your overly-full breasts have let-down and spilt milk!</span>");
       const a = Math.ceil(milk / 30);
       setup.condition.add({ loc: "chest", amt: a, type: "milk" });
     }
@@ -761,7 +764,7 @@ setup.time.status = function(count: number): void {
   // ==================================================
   // !!! Bad Ending Check !!!
   // ==================================================
-  if (ↂ.flag.badEnd !== "none" && !ↂ.flag.badEndInit) {
+  if (ↂ.flag.badEnd !== "none" && !ↂ.flag.badEndInit && setup.omni.matching("Doom Clock") === 0) {
     ↂ.flag.doomClock = setup.omni.new("doomClock");
   }
   // FINISHED - SAVE and wrap up.
@@ -1364,6 +1367,47 @@ setup.time.withdrawl = function(drug: "sex" | "alc" | "heat" | "satyr" | "focus"
 
 };
 
+
+setup.time.convertToDate = function(val: number): string {
+  let aw = val;
+  const year = Math.floor(aw / 525600) + 2032;
+  aw = aw % 525600;
+  let month = 1 + Math.floor(aw / 40320);
+  if (month === 14) {
+    month = 0;
+  }
+  aw = aw % 40320;
+  const day = 1 + Math.floor(aw / 1440);
+  aw = aw % 1440;
+  const hour = Math.floor(aw / 60);
+  aw = aw % 60;
+  const min = (aw < 10) ? "0" + aw : aw;
+  const daynames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const weekday = daynames[(day % 7)];
+  if (hour === 0 && min === "00") {
+    return `Midnight ${weekday} morning, ${setup.monthName(month)} ${setup.numberLetAbrv(day)}, ${year}.`;
+  }
+  return `${hour}:${min} ${weekday}, ${setup.monthName(month)} ${setup.numberLetAbrv(day)}, ${year}.`;
+};
+
+setup.time.humanInterfaceToDate = function(day: number, month: number, nextyear: boolean): [number, boolean] { // returns aw.time styled date, true if date is okay, false is it is borked.
+  if (day < 1 || day > 28 || month < 1 || month > 13) {
+    aw.con.warn(`setup.time.humanInterfaceToDate was supplied with broken date: ${day}, ${month}, ${nextyear}`);
+    return [0, false];
+  } else {
+    const formatWeek = (Math.floor((day - 1) / 7) + 1);
+    const formatDay = (Math.floor(formatWeek / (Math.floor((formatWeek - 1) / 7) + 1)));
+    let formatYear = 2032;
+    if (nextyear) {
+      formatYear = (aw.timeArray[5] + 1);
+    } else {
+      formatYear = aw.timeArray[5];
+    }
+    return [setup.time.dateToVal([formatDay, formatWeek, month, formatYear]), true];
+  }
+};
+
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*  ███╗   ███╗ █████╗  ██████╗██████╗  ██████╗ ███████╗  */
 /*  ████╗ ████║██╔══██╗██╔════╝██╔══██╗██╔═══██╗██╔════╝  */
@@ -1472,7 +1516,7 @@ Macro.add("greetings", { // time aware greeting because i am too bored to write 
     let out = "";
     const tim = setup.time.minutes();
     if (tim < 360) {
-      out = "Good night";
+      out = "Good night!";
     } else if (tim < 720) {
       out = "Good morning!";
     } else if (tim < 1020) {

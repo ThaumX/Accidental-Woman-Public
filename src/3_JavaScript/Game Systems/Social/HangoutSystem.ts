@@ -47,7 +47,7 @@ interface awHangData {
   proposed: string;
   ate: boolean;
   dessert: boolean;
-  aiRes: string;
+  aiRes: number;
   convoTag: string;
   convoText: string;
   convoHist: string[];
@@ -66,12 +66,12 @@ setup.hang.propose = function(npcId) {
   let proposeHours;
   let nextweek = false;
   let output = "";
-  if (State.active.variables.date[1] > 6) {
+  if (State.active.variables.date[0] > 6) {
     nextweek = true;
   } else {
     nextweek = false;
   }
-  aw.con.info ("nextweek is " + nextweek);
+  aw.con.info("nextweek is " + nextweek);
   if (nextweek === true) {
     const futa = random(1, 3);
     if (futa === 1) { // next vacation day
@@ -84,14 +84,14 @@ setup.hang.propose = function(npcId) {
   } else {
     const futa = random(1, 3);
     if (futa === 1) { // next vacation day
-      for (let i = 6; i > (State.active.variables.date[1] - 1); i--) {
+      for (let i = 6; i > (State.active.variables.date[0] - 1); i--) {
         if (aw.npc[npcId].sched.workdays[i] === false) {
           proposeWeekDay = i;
           proposeHours = random(11, 21);
         }
       }
     } else { // next working day evening
-      for (let i = 6; i > (State.active.variables.date[1] - 1); i--) {
+      for (let i = 6; i > (State.active.variables.date[0] - 1); i--) {
         if (aw.npc[npcId].sched.workdays[i] === true) {
           proposeWeekDay = i;
           proposeHours = random((aw.npc[npcId].sched.workhours[1] + 1), 21);
@@ -107,6 +107,11 @@ setup.hang.propose = function(npcId) {
   if (proposeWeekDay < State.active.variables.date[0] && nextweek === false) {
     nextweek = true;
   }
+  if (proposeWeekDay > 6) {
+    proposeWeekDay = 6;
+  } else if (proposeWeekDay < 1) {
+    proposeWeekDay = 1;
+  }
   const proposePlace = Object.keys(aw.hangPlaces)[random(0, 3)];
   const weekdays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
   output += (nextweek) ? "Maybe next " : "Maybe this ";
@@ -120,6 +125,11 @@ setup.hang.checkIfFree = function(weekday, next, time, hangPlace, npcId) {
   if (aw.npc[npcId] == null) {
     aw.con.warn(`Setup.hang.checkIfFree was supplied with npcid ${npcId} which was not found in aw.npc!`);
     return "Sorry, seems like some error happened :(";
+  }
+  for (let i = 0; i < ↂ.plans.current.length; i++) {
+    if (ↂ.plans.current[i].npc[0] === npcId) {
+      return "Hey, one date per day is enough, don't you think?";
+    }
   }
   if (next === false) {
     if (weekday > State.active.variables.date[0]) {
@@ -238,7 +248,6 @@ setup.hang.hang = function(npcId, hangPlace) {
   const ᛔ = State.active.variables;
   const day = ᛔ.date[0] as 1 | 2 | 3 | 4 | 5 | 6 | 7;
   const week = ᛔ.date[1];
-  if (ↂ.flag.schedHangs.includes(npcId)) {
     setup.hang.remove(npcId);
     for (let i = 0; i < ↂ.plans.current.length; i++) {
       if (ↂ.plans.current[i].type === "hangout" && ↂ.plans.current[i].npc[0] === npcId) {
@@ -248,10 +257,6 @@ setup.hang.hang = function(npcId, hangPlace) {
     /*setup.dialog("Dating", `Wohoo! Don't forget that proper ladies never suck it on the first hang. <<comment "This is a placeholder now, but in next releases there will be actual dating :3">><<uphangbar>>`);*/
     setup.hang.start(npcId);
     return true;
-  } else {
-    aw.con.warn("hang flag not found in the ↂ.flag.schedHangs!");
-    return false;
-  }
 };
 
 setup.hang.start = function(npcid: npcid) {
@@ -275,7 +280,7 @@ setup.hang.start = function(npcid: npcid) {
     proposed: "none",
     ate: false,
     dessert: false,
-    aiRes: "na",
+    aiRes: 0,
     convoTag: setup.cTag.getTag(3, false),
     convoText: "error",
     convoHist: [],
@@ -327,44 +332,42 @@ setup.hang.tracking = function(): void {
 
 setup.hang.howAbout = function(spot: string): string {
   const phrase1 = either("gives your suggestion some thought.", "ponders your suggestion for a moment.", "takes a moment to consider.", " looks away for a moment, thinking.");
-  const output = `<div id="howAbout">You suggest heading to ${aw.hangSpots[spot].name}.<br><br><<= aw.hang.name>> ${phrase1} <span class="npc">Hmmmm</span><div id="pulsie" class="npc pulse">...</div></div><br><div><<comment "If you've noticed that the delay while the NPC is thinking seems a little long, rest assured that it isn't arbitrary. While you're waiting, the AW's learning software is determining how the NPC feels about your suggestion.">></div>`;
-  setTimeout(() => setup.hang.howAboutResult(spot), 50);
+  const output = `<div id="howAbout">You suggest heading to ${aw.hangSpots[spot].name}.<br><br><<= aw.date.name>> ${phrase1} <print setup.hang.howAboutResult("${spot}")>></div><br><div></div>`;
   return output;
 };
 
 setup.hang.howAboutResult = function(spot: string): void {
-  const air = setup.hang.aiQuery(aw.hangSpots[spot].aiTags[0], `Query to get NPC's opinion on visiting a spot (${aw.hangSpots[spot].name}).`);
-  const ais = setup.hang.aiString(air);
-  aw.hang.aiRes = ais;
+  const ais = setup.interactionMisc.coconutBrain(aw.hang.npc.key, aw.hangSpots[spot].aiTags[0]);
+  aw.hang.aiRes = ais[0];
   let output = "<br><br><span class='npc'>";
-  switch (ais) {
-    case "xn":
-    case "ln":
+  switch (ais[0]) {
+    case 0:
+    case 1:
       output += "Are you serious? There's no way I'd want to go there of all places...";
       break;
-    case "mn":
+    case 2:
       output += "Well, I'd rather not, but we can go if that's really what you want.";
       break;
-    case "sn":
+    case 3:
       output += "It isn't somewhere I'd choose, but I suppose we can go.";
       break;
-    case "nn":
+    case 4:
       output += "I guess that's okay, I don't have any objections.";
       break;
-    case "sp":
+    case 5:
       output += "Interesting choice, I suppose it could be fun.";
       break;
-    case "mp":
+    case 6:
       output += "Yeah, I think that'd be a nice place to go.";
       break;
-    case "lp":
+    case 7:
       output += "Oh, great pick. We should go!";
       break;
-    case "xp":
+    case 8:
       output += "Wow, that's one of my favorite places. Let's go!";
       break;
   }
-  output += "</span><br><br>";
+  output += ` ${ais[1]} </span><br><br>`
   output += `<<button "GO THERE">><<run aw.hangSpots[aw.hang.proposed].arrive()>><</button>> <<button "ON SECOND THOUGHT">><<scenereplace>><<print setup.hang.locationPicker()>><</scenereplace>><</button>>`;
   $("#pulsie").removeClass("pulse");
   aw.append("#howAbout", output);

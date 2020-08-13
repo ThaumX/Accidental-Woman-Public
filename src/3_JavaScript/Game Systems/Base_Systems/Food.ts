@@ -71,6 +71,9 @@ setup.food.drink = function(drink: string): void {
       effect = 1;
     }
     ↂ.pc.status.alcohol += effect;
+    if (ↂ.pc.status.pregnant) {
+      setup.fert.fetusHealth(-3, "pc");
+    }
     setup.drug.eatDrug("alc", setup.drinks[drink].strength);
     if (setup.drinks[drink].effects !== "none") {
       // TODO: call the special effects or omni or maybe just consumable system;
@@ -183,7 +186,7 @@ setup.food.fast = {
   starsucks: {
     name: "Starsucks Coffee",
     desc: "While Starsucks Coffee has been around for ages, it's only recently that they've started promoting the use of natural breast milk in their coffee-flavored beverages. The classic circular brand logo remains, but is now surrounded by a drop of fresh milk.",
-    menu: ["大 Latte", "大 frappacino", "大 machiato", "中 spermatto"],
+    menu: ["大 Latte", "大 Fappacino", "大 Machiato", "中 Spermiatto"],
     cost: 2,
     img: "IMG-Restaurant-Starsucks",
     amt: 20,

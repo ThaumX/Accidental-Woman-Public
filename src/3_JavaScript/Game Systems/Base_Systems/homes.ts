@@ -155,7 +155,7 @@ setup.cleanHome = function (unit: number): void {
     doCleaning: tim[ᛔ.doCleaning] * unit,
     pickingUp: tim[ᛔ.pickingUp] * unit,
     doDishes: Math.round(((tim[ᛔ.doDishes] * unit) / 60) * 100),
-    doLaundry: Math.round(((tim[ᛔ.doLaundry] * unit) / 60) * 100),
+    doLaundry: (ᛔ.doLaundry === 5) ? 100 : Math.round(((tim[ᛔ.doLaundry] * unit) / 50) * 100),
     doBed: Math.round(((tim[ᛔ.doBed] * unit) / 60) * 100),
   };
   // aw.con.obj(c, "cleaning");
@@ -195,10 +195,12 @@ setup.cleanHome = function (unit: number): void {
     ᛔ.laundry += 1;
     c.doLaundry -= 100;
   }
-  ᛔ.laundry += (random(1, 100) <= c.doLaundry) ? 1 : 0;
-  if (ᛔ.laundry > 10) {
-    ᛔ.laundry = 10;
+  if (random(1, 100) <= c.doLaundry) {
+    ᛔ.laundry += 1;
     setup.clothes.washing();
+    if (ᛔ.laundry > 10) {
+      ᛔ.laundry = 10;
+    }
   }
   if (c.doBed >= 100) {
     ᛔ.bed += 1;

@@ -2,44 +2,363 @@
 :: DateSpotSerious [nobr]
 
 <<silently>>
-  <<set _canAdv = false>>
-  <<set _advText = "error">>
-  <<set _advButt = "None">>
-  <<switch aw.date.eligible[0]>>
-    <<case "engaged">>
-      <<set _canAdv = true>>
-      <<set _advText = "Ask your date to marry you.">>
-      <<set _advButt = "PROPOSE">>
-    <<case "lovers">>
-      <<set _canAdv = true>>
-      <<set _advText = "Tell your date you love them.">>
-      <<set _advButt = "I LOVE YOU">>
-    <<case "exclusive">>
-      <<set _canAdv = true>>
-      <<set _advText = "Ask to make your relationship official.">>
-      <<if aw.date.npc.main.female>>
-        <<set _advButt = "BE MY GIRLFRIEND">>
-      <<else>>
-        <<set _advButt = "BE MY BOYFRIEND">>
-      <</if>>
-    <<default>>
-      <<set _canAdv = false>>
-      <<set _advText = "You can't currently advance your relationship...">>
-  <</switch>>
+  <<run setup.date.serious()>>
 <</silently>>
-<p><<f y>>ou decide it's time to bring up something serious with <<= aw.date.name>>, so you steel your nerves...</p>
+<div id="blepblep"><p><<f y>>ou decide it's time to bring up something serious with <<= aw.date.name>>, so you steel your nerves...</p></div>
 <div id="seriousness">
-<<if _canAdv>>
-  <<sp 8>><<button _advButt>><<replace "#seriousness">><<print setup.date.pcQuestion()>><</replace>><</button>> <<= _advText>>
-<<else>>
-  <<sp 8>><span class="disabled"><button>ADVANCE</button></span> <<= _advText>>
-<</if>>
-<br><br>
-<<sp 8>><span class="disabled"><button>YOU'RE THE FATHER</button></span> <<ctn>>Not Implemented<</ctn>>
-<br><br>
-<<sp 8>><span class="disabled"><button>OPEN RELATIONSHIP</button></span> Tell your date that you'd like an open relationship.
-<br><br>
-<<sp 8>><<button "BREAK UP">><<replace "#seriousness">><<print setup.date.breakUp()>><</replace>><</button>> End your relationship with <<= aw.date.name>> <<ctn>>[This can not be undone!]<</ctn>><br><br>
-<<sp 8>><<button "CANCEL">><<replace "#seriousness">><p>...and decide not to say anything after all.</p><<print aw.dateSpots[aw.date.spot].buttonGen()>><</replace>><</button>> You changed your mind...
+<<if ↂ.flag.marriage.discussion>><<button "Discuss marriage">><<replace "#seriousness">><<include [[Wedding-a]]>><</replace>><<set ↂ.flag.marriage.discussion = false>><<status 0>><<replace "#blepblep">><</replace>><</button>><br><</if>>
+<<dialogchoice>>
+<<dbutt "ACCUSE" _canAccuse>><<replace "#seriousness">><<include [[PlayerAccusesDate]]>><</replace>>
+<<dtext "mad">>Accuse <<= aw.date.name>> of cheating on you.
+<<dbutt _advButt _canAdv>><<replace "#seriousness">><<print setup.date.pcQuestion()>><</replace>>
+<<dtext "love">><<= _advText>>
+<<dbutt "PREGNANT" _canPreg>><<replace "#seriousness">><<include [[DateSpotPreg]]>><</replace>>
+<<dtext "cute">>Tell <<= aw.date.name>> that you're pregnant.
+<<dbutt "OPEN RSHIP" _canSlut>><<replace "#seriousness">><<include [[DateSpotOpenRship]]>><</replace>>
+<<dtext "slut">>Tell <<= aw.date.name>> that you want to have an open relationship.
+<<dbutt "CONFESS" _canConf>><<replace "#seriousness">><<include [[PlayerConfessCheat]]>><</replace>>
+<<dtext "silly">>Confess to cheating, and ask for forgiveness.
+<<dbutt "BREAK UP">><<replace "#seriousness">><<print setup.date.breakUp()>><</replace>>
+<<dtext "dead">>End your relationship with <<= aw.date.name>>. <<ctn>>[This can not be undone!]<</ctn>>
+<<dbutt "DOMME" "ↂ.pc.kink.dom">><<replace "#seriousness">><<print setup.date.dom()>><</replace>>
+<<dtext "doomguy">>Propose <<= aw.date.name>> to become your slave in lifestyle relationship.
+<<dbutt "SUB" "ↂ.pc.kink.sub">><<replace "#seriousness">><<print setup.date.sub()>><</replace>>
+<<dtext "disturbed">>Ask <<= aw.date.name>> to become your dom.
+<<dbutt "CANCEL">><<replace "#seriousness">><p>...and decide not to say anything after all.</p><<print aw.dateSpots[aw.date.spot].buttonGen()>><</replace>>
+<<dtext "muted">>You've changed your mind, you don't have anything important to say.
+<<dbutt "MOVE IN" _canLiveWith>><<replace "#seriousness">><<include [[DateSuggestMoveIn]]>><</replace>>
+<<dtext "kissheart">>Suggest that it's time for the two of you to start living together. <<ctn>>[Must be lovers or greater]<</ctn>>
+<</dialogchoice>>
+<br>
+<center><<ctn>>[NOTE: Most of these options are functional but lack complete dialog.]<</ctn>></center>
 </div>
 
+
+:: DateSpotKiss [nobr]
+
+<div id="kissisness"><<status 1>><<SCX>><<SC "SC" 5>>
+  <<if $SCresult[1]>><<set aw.date.enjoy[1] += random(8, 13)>><<set aw.date.qual += random(2, 3)>><<set aw.date.arouse += random(10, 15)>><<set aw.npc[aw.date.npcid].rship.lovePC += random(5, 9)>><<set aw.npc[aw.date.npcid].rship.loveNPC += random(4, 7)>>
+    <p><<f y>>ou<<has intro>> <<= either("get all your courage and", "take a nervous breath and")>><<or>><</has>> <<= either("get yourself", "lean")>> closer to <<= aw.date.name>>. <<= either("Your eyes meet and you kiss your date.","You look into <<= aw.date.name>>'s eyes for a second before your lips meet.")>> <<= either("Your lips touch and you feel <<= aw.date.name>> tongue playing with yours, your both breathe heavily.", "You feel the delightful sweetness of <<= aw.date.name>>'s  lips and can't stop kissing them.")>> It goes like forever until you finally part. <<= either("@@.npc;That... wasn't expected... But I like it!@@","@@.npc;Oh, wow...@@")>> You just giggle.</p>
+  <<else>><<set aw.date.enjoy[1] -= random(8, 13)>><<set aw.date.qual -= random(2, 3)>><<set aw.npc[aw.date.npcid].rship.lovePC -= random(1, 4)>><<set aw.npc[aw.date.npcid].rship.loveNPC -= random(4, 7)>>
+    <p><<f y>>ou <<has intro>><<= either("get all your courage and", "take a nervous breath and")>><<or>><</has>> <<= either("get yourself", "lean")>> closer to <<= aw.date.name>>. <<= either("Your eyes meet and you get ready for a kiss but <<= aw.date.name>> backs from you.","<<= aw.date.name>> shakes head in refusal.")>></p>
+    <p><<print either("@@.npc;Sorry, I am not ready...@@","@@.npc;We... better try later... sorry, I am not sure about it right now...@@")>></p>
+    <p>@@.pc;Oh...@@</p>
+  <</if>>
+  <br><<button "Back">><<status 0>><<replace "#kissisness">><<print aw.dateSpots[aw.date.spot].buttonGen()>><</replace>><</button>>
+</div>
+
+
+:: DateSpotPreg [nobr]
+
+
+<<set aw.date.npc.record.flag.knowPCpreg = true>><<set $npc = aw.date.npcid>>
+<p>
+@@.pc;Guess what? I'm pregnant!@@
+</p>
+<p>
+<<if ↂ.pc.status.fundalHeight > 12>><<= aw.date.name>> doesn't look surprised at all, the large belly probably tipped <<n $npc "himher.q">> off.<<else>><<= aw.date.name>> looks a little surprised.<</if>> @@.npc;Congrats!@@
+</p>
+<div id="suckadick">
+<<dialogchoice>>
+<<dbutt "IT'S YOURS">><<if _isDad>><<replace "#suckadick">><<include [[DateSpotPregTrue]]>><</replace>><<else>><<replace "#suckadick">><<include [[DateSpotPregLie]]>><</replace>><</if>>
+<<dtext "proud">><<if _isDad>>Tell <<= aw.date.name>> that it's <<n aw.date.npcid "hishers.q">>.<<else>>Lie and tell <<= aw.date.name>> that the baby is <<n aw.date.npcid "hishers.q">>.<</if>>
+<<dbutt "THANKS">><<run setup.date.goodThings(3,2,4)>><<replace "#suckadick">><p>You thank <<n $npc "himher.q">> before finding out what's next on your date.</p><<print aw.dateSpots[aw.date.spot].buttonGen()>><</replace>><<run setup.date.statRefresh()>>
+<<dtext "pleased">>Just thank <<= aw.date.name>> for congratulating you.
+<</dialogchoice>>
+</div>
+
+
+:: DateSpotPregLie [nobr]
+
+<<SCX>><<SC "LI" 14>>
+<p>
+@@.pc;Guess what, you're the one that knocked me up!@@
+</p>
+<center><<= $SCtext[1]>></center>
+<p>
+<<if not _dadPossible>>
+<<= aw.date.name>> stares at you angrily. @@.npc;Bitch, you know that's not possible, I've never even nutted in you!@@
+<<run setup.date.badThings(5, 3, 3)>>
+<<elseif not $SCresult[1]>>
+<<= aw.date.name>> doesn't look at all convinced by your lies. @@.npc;Whatever.@@
+<<run setup.date.badThings(4, 2, 2)>>
+<<else>>
+<<= aw.date.name>> gives a victorious smile. @@.npc;Just doin' my part.@@
+<<run setup.date.goodThings(4,3,4)>>
+<</if>>
+</p>
+<<print aw.dateSpots[aw.date.spot].buttonGen()>>
+<<run setup.date.statRefresh()>>
+
+
+:: DateSpotPregTrue [nobr]
+
+<<run setup.date.goodThings(4,3,4)>>
+<p>
+@@.pc;Guess what, you're the one that knocked me up!@@
+</p>
+<p>
+<<= aw.date.name>> gives a victorious smile. @@.npc;Just doin' my part.@@
+</p>
+<<print aw.dateSpots[aw.date.spot].buttonGen()>>
+<<run setup.date.statRefresh()>>
+
+
+:: DateSpotOpenRship [nobr]
+
+<<set _resy = setup.date.askOpen()>><<set $npc = aw.date.npcid>>
+<p>
+You ask <<= aw.date.name>> if it's possible to have an open relationship so that you can fuck other people.
+</p>
+<p>
+<<switch _resy>>
+<<case 1>>
+<<= aw.date.name>> happily responds that sex is great, and the both of you should fuck whoever you want.
+<<case 2>>
+<<= aw.date.name>> thinks about it for a while, but eventually agrees that <<n aw.date.npcid "heshe.q">> would be fine with an open relationship.
+<<case 3>>
+<<= aw.date.name>> gets really upset with you for suggesting such a thing. Obviously the answer is no, if you want to sleep with other people, you'll have to be prepared to break up with <<n $npc "himher.q">>.
+<</switch>>
+</p>
+<<print aw.dateSpots[aw.date.spot].buttonGen()>>
+
+
+:: DateAccusesPlayer [nobr]
+
+<<silently>>
+<<set $npc = aw.date.npcid>>
+<<run setup.date.badThings(5, 5, 5)>>
+<<SCX>>
+<</silently>>
+<p>
+@@.npc;Actually, I have something I need to talk to you about.@@
+</p>
+<p>
+You look closely at <<n $npc "himher.q">>, given the sudden serious tone the conversation has taken. @@.pc;What is it?@@
+</p>
+<p>
+<<= aw.date.name>> takes a breath, staring at you intently. @@.npc;You've been cheating on me, haven't you?@@
+</p>
+<<if aw.date.npc.record.cheat.PChasCheated>>
+<div id="fuknbuttons">
+<<dialogchoice>>
+<<dbutt "Confess">><<replace "#fuknbuttons">><<include [[DateAccusesPlayerConfess]]>><</replace>>
+<<dtext "awkward">>Go ahead and confess to cheating.
+<<dbutt "lie">><<replace "#fuknbuttons">><<include [[DateAccusesPlayerLie]]>><</replace>>
+<<dtext "bored">>Lie to <<= aw.date.name>>'s face: you haven't cheated at all!
+<</dialogchoice>>
+</div>
+<<else>>
+<<if aw.date.npc.record.cheat.PChasEverCheated>>
+<<SC "CM" 14>>
+<p>
+You're a little surprised by the accusation, though you suppose you can understand <<= aw.date.name>>'s suspicion, given your prior indiscretions. @@.pc;I know I haven't always been faithful in the past, but honestly I haven't been cheating on you.@@
+</p>
+<<else>>
+<<SC "CM" 11>>
+<p>
+You're honestly quite surprised because you haven't been cheating on <<= aw.date.name>>. In fact, you haven't ever cheated on <<n $npc "himher.q">>. @@.pc;No, I haven't. Why would you even think that?@@
+</p>
+<</if>>
+<center><<= $SCtext[1]>></center>
+<<if $SCresult[1]>>
+<<set aw.date.npc.record.cheat.suspicion -= 60>>
+<p>
+It takes several minutes of conversation, but eventually you manage to convince <<n $npc "himher.q">> that you've been faithful. Still, the accusation puts something of a damper on your evening.
+</p>
+<<else>>
+<<set aw.date.npc.record.cheat.suspicion -= 30>><<run setup.date.badThings(3, 3, 3)>>
+<p>
+You try to convince <<= aw.date.name>> of your innocence for several minutes, but you don't really seem to be making all that much progress. Eventually, <<n $npc "heshe.q">> seems to get tired of it. Because <<n $npc "heshe.q">> doesn't actually have any evidence of infidelity that hasn't happenend, <<n $npc "heshe.q">> grudgingly accepts your innocence.
+</p>
+<</if>>
+<<= aw.dateSpots[aw.date.spot].buttonGen()>>
+<</if>>
+
+
+:: DateAccusesPlayerLie [nobr]
+
+<<SCX>><<SC "LI" 14>><<set $npc = aw.date.npcid>>
+<center><<= $SCtext[1]>></center>
+<<if $SCresult[1]>>
+<<set aw.date.npc.record.cheat.suspicion -= 40>>
+<p>
+You successfully convince <<= aw.date.name>> that you haven't been cheating on <<n $npc "himher.q">>.
+</p>
+<<= aw.dateSpots[aw.date.spot].buttonGen()>>
+<<else>>
+<p>
+You lie, but ultimately it's unconvincing and it spells the end of your relationship.
+</p>
+<<run aw.date.npc.rship.breakUp()>>
+<<run setup.date.badThings(5, 5, 0)>>
+<<run setup.date.statRefresh()>>
+<center><<button "END THE DATE">><<run setup.date.end()>><</button>></center>
+<</if>>
+
+
+:: DateAccusesPlayerConfess [nobr]
+
+<<SCX>><<SC "CM" 14>><<run setup.date.badThings(5, 5, 0)>>
+<<set _pcheat = aw.date.npc.record.cheat.pcConfess()>>
+<center><<= $SCtext[1]>></center>
+<p>
+You had sex with someone other than your partner <<= _pcheat[0]>> times.<br>
+You gave someone else oral sex <<= _pcheat[1]>> times.<br>
+You made out with someone else <<= _pcheat[2]>> times.
+</p>
+<<if $SCresult[1]>>
+  <<if random(1, 175) < (100 - aw.date.npc.rship.lovePC)>>
+  <p>You confess to your infidelity and make a moving apology, which <<= aw.date.name>> accepts.</p>
+  <<= aw.dateSpots[aw.date.spot].buttonGen()>>
+  <<else>>
+  <p>You confess to your infidelity but despite a moving apology, <<= aw.date.name>> just can't bring themselves to forgive you.</p>
+  <<run aw.date.npc.rship.breakUp()>>
+  <<run setup.date.badThings(5, 5, 0)>>
+  <<run setup.date.statRefresh()>>
+  <center><<button "END THE DATE">><<run setup.date.end()>><</button>></center>
+  <</if>>
+<<else>>
+  <p>You confess cheating and give <<= aw.date.name>> a sloppy apology. It isn't really a surprise that they don't want to stay in a relationship with you.</p>
+  <<run aw.date.npc.rship.breakUp()>>
+  <<run setup.date.badThings(5, 5, 0)>>
+  <<run setup.date.statRefresh()>>
+  <center><<button "END THE DATE">><<run setup.date.end()>><</button>></center>
+<</if>>
+
+
+
+:: PlayerAccusesDate [nobr]
+
+
+<<run setup.date.badThings(5, 5, 5)>><<run setup.date.badThings(5, 5, 0)>>
+<<set _npcheat = aw.date.npc.record.cheat.npcConfess()>>
+<<set _bimby = true>>
+<<if ↂ.pc.status.bimbo > 49 || ↂ.pc.kink.hyperSlut>><<set _bimby = false>><</if>>
+<p>
+<<f y>>ou angrily confront <<= aw.date.name>> about your suspicions.
+</p>
+<p>
+<<= aw.date.name>> admits to having sex with someone else <<= _pcheat[0]>> times, giving someone oral <<= _pcheat[1]>> times, and making out with someone else <<= _pcheat[2]>> times.
+</p>
+<p>
+<<if aw.date.npc.rship.lovePC > 69>>
+<<= aw.date.name>> gives you a sincere and heartfelt apology, and seems genuinely remorseful about <<n aw.date.npcid "hisher.q">> actions and how they've hurt you.
+<<elseif aw.date.npc.rship.lovePC > 39>>
+<<= aw.date.name>> apologizes for <<n aw.date.npcid "hisher.q">> infidelity, and seems sorry about hurting you.
+<<else>>
+<<= aw.date.name>> acts like <<n aw.date.npcid "hisher.q">> cheating isn't a big deal, but gives you a simple apology anyway.
+<<if>>
+</p>
+<div id="ladycock">
+<<dialogchoice>>
+<<dbutt "FORGIVE">><<replace "$ladycock">><p>You forgive <<= aw.date.name>> and decide to move on from this episode and continue the relationship.</p><<= aw.dateSpots[aw.date.spot].buttonGen()>><</replace>>
+<<dtext "angel">>Mistakes happen. Forgive <<= aw.date.name>>'s infidelity.
+<<dbutt "BREAK UP" _bimby>><<replace "$ladycock">><p>You break up with <<= aw.date.name>>, stating that you can't stay with someone who cheats on you.</p><<run aw.date.npc.rship.breakUp()>><<run setup.date.badThings(5, 5, 0)>><<run setup.date.statRefresh()>><center><<button "END THE DATE">><<run setup.date.end()>><</button>></center><</replace>>
+<<dtext "angry">><<if _bimby>>You can't bring yourself to break up with <<= aw.date.name>>.<<else>>You won't put up with cheating in your relationships. Dump <<= aw.date.name>>.<</if>>
+<</dialogchoice>>
+</div>
+
+
+:: PlayerConfessCheat [nobr]
+
+
+<<SCX>><<SC "CM" 12>><<run setup.date.badThings(5, 5, 0)>>
+<<set _pcheat = aw.date.npc.record.cheat.pcConfess()>>
+<center><<= $SCtext[1]>></center>
+<p>
+You had sex with someone other than your partner <<= _pcheat[0]>> times.<br>
+You gave someone else oral sex <<= _pcheat[1]>> times.<br>
+You made out with someone else <<= _pcheat[2]>> times.
+</p>
+<<if $SCresult[1]>>
+  <<if random(0, 100) < (100 - aw.date.npc.rship.lovePC)>>
+  <p>You confess to your infidelity and make a moving apology, which <<= aw.date.name>> accepts.</p>
+  <<= aw.dateSpots[aw.date.spot].buttonGen()>>
+  <<else>>
+  <p>You confess to your infidelity but despite a moving apology, <<= aw.date.name>> just can't bring themselves to forgive you.</p>
+  <<run aw.date.npc.rship.breakUp()>>
+  <<run setup.date.badThings(5, 5, 0)>>
+  <<run setup.date.statRefresh()>>
+  <center><<button "END THE DATE">><<run setup.date.end()>><</button>></center>
+  <</if>>
+<<else>>
+  <p>You confess cheating and give <<= aw.date.name>> a sloppy apology. It isn't really a surprise that they don't want to stay in a relationship with you.</p>
+  <<run aw.date.npc.rship.breakUp()>>
+  <<run setup.date.badThings(5, 5, 0)>>
+  <<run setup.date.statRefresh()>>
+  <center><<button "END THE DATE">><<run setup.date.end()>><</button>></center>
+<</if>>
+
+
+:: DateSuggestMoveIn [nobr]
+
+<<silently>>
+/* TODO A sort of filler because I have no idea where/how Besty did the new AI checks.*/
+<<if random(1, 10) > 3 || aw.date.npc.rship.engaged>>
+  <<set _approveMI = true>>
+  <<run setup.rship.liveTogether(aw.date.npcid)>>
+<<else>>
+  <<set _approveMI = false>>
+  <<run setup.date.badThings(3, 3, 2)>>
+<</if>>
+<</silently>>
+<<if _approveMI>>
+<p>
+@@.pc;So <<= aw.date.name>>, what do you think about moving in together?@@
+</p>
+<p>
+<<= aw.date.name>> looks contemplative for a moment before <<n aw.date.npcid "hisher.q">> face lights up with a smile. @@.npc;You know what, that sounds really nice. I bet we could even afford a pretty nice place once we pool our rent money.@@
+</p>
+<<has bitch || materialist>>
+<p>
+You give <<= aw.date.name>> a surprised look. @@.pc;I kinda thought I'd just move in at your place, then I wouldn't have to pay rent...@@
+</p>
+<p>
+<<= aw.date.name>> chuckles, mistaking your statement for a joke. @@.npc;That wouldn't be fair at all, besides we'd still have to go to the real estate office for the paperwork.@@
+</p>
+<p>
+You shrug, resigned to the fact that moving in with <<= aw.date.name>> won't be a free ride. @@.pc;Okay, so how do we do this?@@
+</p>
+<<or>>
+<p>
+You nod. @@.pc;That's definitely a nice bonus... So, how do we do this?@@
+</p>
+<</has>>
+<p>
+@@.npc;Well, the real estate office will pretty much take care of everything for us, so we just have to decide when to go over there.@@ <<n aw.date.npcid "heshe.q">> thinks for a moment. @@.npc;There's no rush or anything, how about you just give me a call when you have time to head to the real estate office?@@
+</p>
+<p>
+@@.pc;Yeah, that works for me.@@ You smile widely. @@.pc;I'm getting pretty excited!@@
+</p>
+<p>
+<<= aw.date.name>> shares your smile. @@.npc;Me too!@@
+</p>
+<<else>>
+<p>
+@@.pc;So <<= aw.date.name>>, what do you think about moving in together?@@
+</p>
+<p>
+<<= aw.date.name>> gives you a serious look, <<n aw.date.npcid "hisher.q">> lips curling into a slight frown. @@.npc;I don't know, <<name>>. I don't really think we're ready for that yet.@@
+</p>
+<p>
+You shrug, trying not to seem dejected as you reply. @@.pc;I suppose you're right, it's a big step.@@
+</p>
+<p>
+<<= aw.date.name>> gives you a reassuring smile. @@.npc;I'm sure we'll get there... but for now, how about we enjoy the rest of our date?@@
+</p>
+<p>
+You nod, resolving yourself. @@.pc;Sure.@@
+</p>
+<</if>>
+<center>
+<<button "CONTINUE">>
+<<replace "#seriousness">><<print aw.dateSpots[aw.date.spot].buttonGen()>><</replace>>
+<</button>>
+</center>
+<<if _approveMI>>
+<br>
+<center class="ctn">
+You can start the move by using the "Move In With Lover" action button, or by showing up at the Apple Cleft Realty office. The action button will only persist for one week.
+</center>
+<</if>>

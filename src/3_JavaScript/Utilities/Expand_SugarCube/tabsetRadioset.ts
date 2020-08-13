@@ -24,9 +24,7 @@ Macro.add("tabset", {
     out += "</div>";
     const ident = "#" + id;
     $( function() {
-      $( ident ).tabs({
-        heightStyle: "fill",
-      });
+      $( ident ).tabs();
     } );
     /*setTimeout(function(){
       $( ident ).tabs( "option", "heightStyle", "fill" );

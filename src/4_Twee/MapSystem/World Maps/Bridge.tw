@@ -42,7 +42,7 @@ This is a placeholder for bridge area
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<if ↂ.flag.badEnd === "depression">> 
+  <<if ↂ.pc.status.happy < -7>>
     <<button "Jump from the bridge">><<dialog "Last choice">>You stand on the bridge banister and look into the dark blue waters of the Sahne river.<br><br>@@.mono;This is too much for me. Just one step and this all will be over for good.@@<br><br>Your knees are trembling as ancient self-preservation mechanisms try to save you from making the step to the nonexistence.<br><br>@@.mono;Come on, <<print ↂ.pc.main.name>> you can do it. Just close your eyes and take a step forward...@@<br><br><center><<button "Jump">><<run setup.badEnd("suicide")>><</button>><<button "Don't">><<run Dialog.close()>><</button>></center><</dialog>><</button>>
   <<else>>
     <span class="disabled"><<button "Jump from the bridge">><</button>></span>

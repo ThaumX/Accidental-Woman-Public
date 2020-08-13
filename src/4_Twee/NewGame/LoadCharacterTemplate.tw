@@ -113,6 +113,7 @@ uploadButton(cock);
     Template created with version <<= _result.version>>, build <<= _result.build>><br>
     Starting Gender: <<if _result.start === 1>>MALE<<else>>FEMALE<</if>><br>
     <<button "CONTINUE">>
+      <<if _result.start === 1>><<set $AW.startMale = true>><<else>><<set $AW.startMale = false>><</if>>
       <<go LoadCharacterTemplateB>>
     <</button>></center>
   <</replace>>
@@ -145,10 +146,24 @@ uploadButton(cock);
 
 
 <<status>>
+<<pcTotalATR>>
+<<if aw.chad.allowed>>
+	<<cInit>>
+<</if>>
+<<run setup.fert.goddessCheck()>>
+<<run setup.fert.playerStatsCalc()>>
+<<set ↂ.pc.status.arousal = 2>>
+<<run setup.calc_energy_base()>>
+<<set ↂ.pc.status.energy.max = ↂ.pc.body.energy>>
+<<run setup.calcEnergyRate()>>
+<<status 0>>
 <<include [[DEFsemiNPC-Prologue]]>>
-<<procS "Init PC History">>
+
+
 <<run setup.updatePlayerHistory()>>
-<<procE>>
+
+
+/*<<updatePlayerHistory>>*/
 
 <<set _num = $npcMax - setup.npc.ready.length>>
 <<if _num > 0>>
@@ -158,7 +173,7 @@ uploadButton(cock);
 	<<procE>>
 <</if>>
 
-<<timed 300ms>>
+<<timed 100ms>>
 <<run setup.npcSched.generate()>>
 <<next>>
 <<goto nameCharacterB>>

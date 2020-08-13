@@ -1409,6 +1409,16 @@ setup.npcgen.maleFace = function(npc: any, beauty: number, face: number): void {
     ar = [90, 1, 8, 1];
   }
   npc.body.brow = arr[randomDist(ar)];
+  if (npc.body.race === "middle eastern") {
+    ar = [0, 1, 5, 20, 5, 1];
+  } else if (npc.body.race === "southern European" || npc.body.race === "south Asian") {
+    ar = [0, 1, 8, 10, 4, 1];
+  } else if (npc.body.race === "black") {
+    ar = [0, 0, 0, 5, 20, 5];
+  } else {
+    ar = [0, 5, 10, 5, 2, 1];
+  }
+  npc.body.lips = randomDist(ar);
   /*basics*/
 };
 
@@ -1447,6 +1457,16 @@ setup.npcgen.femaleFace = function(npc: any, beauty: number, face: number): void
     ar = [90, 1, 8, 1];
   }
   npc.body.brow = arr[randomDist(ar)];
+  if (npc.body.race === "middle eastern") {
+    ar = [0, 1, 5, 20, 5, 1];
+  } else if (npc.body.race === "southern European" || npc.body.race === "south Asian") {
+    ar = [0, 1, 8, 10, 4, 1];
+  } else if (npc.body.race === "black") {
+    ar = [0, 0, 0, 5, 20, 5];
+  } else {
+    ar = [0, 5, 10, 5, 2, 1];
+  }
+  npc.body.lips = randomDist(ar);
   /*basics*/
 };
 
@@ -1919,20 +1939,13 @@ setup.npcgen.npcFlags = function(npc: any): void {
   npc.flags.exes = ["none"];
   npc.flags.kids = randomDist([80, Math.max(0, npc.main.age - 20), Math.max(0, npc.main.age - 30)]);
   npc.flags.kidsPC = 0;
-  npc.flags.cheatonPC = 0;
-  npc.flags.cheatedon = 0;
-  npc.flags.cheatWithPC = 0;
-  npc.flags.knowPCcheated = 0;
-  npc.flags.PCknowCheated = 0;
   npc.flags.toys = false;
   npc.flags.toysPublic = false;
   npc.flags.knowPCpreg = false;
   npc.flags.isFather = false;
   npc.flags.thinkFather = false;
-  npc.flags.suspicion = 0;
-  npc.flags.PCsuspicion = 0;
-  npc.flags.thinkPCfaithful = true;
-  npc.flags.thinkNPCfaithful = true;
+  npc.flags.openRship = false;
+  npc.flags.knowsAcidVag = false;
 };
 
 setup.npcgen.relationship = function(npc: any): void {
@@ -1959,29 +1972,18 @@ setup.npcgen.relationship = function(npc: any): void {
   npc.rship.sleptover = 0;
   npc.rship.pcslept = 0;
   npc.sex = {
-    vanilla: 0,
-    oralPC: 0,
-    oralNPC: 0,
+    makeout: 0,
+    sex: 0,
+    oral: 0,
     anal: 0,
     public: 0,
-    swallowed: 0,
+    domsub: 0,
+    forced: 0,
     creampie: 0,
     accidentCP: 0,
-    forced: 0,
     unprotected: 0,
-    interupted: 0,
     nocumNPC: 0,
     nocumPC: 0,
-    mob: 0,
-    bondage: 0,
-    sadoMaso: 0,
-    watersport: 0,
-    domsub: 0,
-    roleplay: 0,
-    fetish: 0,
-    exhibit: 0,
-    rapist: 0,
-    raped: 0,
     saboPCbc: 0,
     caughtSabo: 0,
     PCsaboBC: 0,
@@ -3237,10 +3239,6 @@ setup.npcgen.femalePortrait = function(npc: any, portName: 0|string): void {
 };
 
 setup.npcgen.malePortrait = function(npc: any, portName: 0 | string): void {
-  if (portName === 0) {
-    npc.main.portrait = "[img[IMG_NPC_MaleDefault]]";
-  } else {
-    npc.main.portrait = "[img[" + portName + "]]";
-  }
+  npc.main.portrait = setup.porn.maleNPC(npc);
 };
 

@@ -9,14 +9,14 @@
 
 <<silently>>
 /*Basic settings. Most done by map control passage*/
-
+<<set ↂ.map.loc[0] = "Lily">>
 <</silently>>
 /*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
 
 
 <div id="location-bar">
   <div id="location-bar-map">
-    <<link "<img data-passage='IMG_LilyMapThing'>">><<addTime 8>><<run setup.map.nav("world","appletree")>><</link>>
+    <<link "<img data-passage='IMG_LilyMapThing'>">><<set ↂ.map.loc[0] = "downtown">><<status 0>><<addTime 8>><<run setup.map.nav("world","appletree")>><</link>>
   </div>
   <img id="location-bar-cover" data-passage="IMG_LilyMapThing">
   <div id="location-bar-image">
@@ -38,15 +38,33 @@
 <p>
 @@.head3;Y@@ou're standing on the sidewalk in front of a row of townhouses, very similar to the countless other townhomes found in the northern part of Appletree. Unlike all those other townhomes, however, you know that one of these belongs to <<if $AW.startMale>>Lily<<else>>Dr. Richards<</if>>. The street is quiet except for the rustling of the wind in the trees and a faint sound of cars driving in the distance.
 </p>
-<p id="locact"></p>
 <<selfthought>>
+<p id="locact"></p>
 </div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<if !ↂ.flag.main.rangBellToday>>
 <<hoverrevise alpha>>
-  <<button "Ring Lily's Doorbell">><</button>>
+  <<button "Ring Lily's Doorbell">><<run setup.lab.lilyDoorLogic()>><</button>>
 <<endhoverrevise>>
+<<else>>
+<<hoverrevise alphb>>
+  <button class="disabled">Ring Lily's Doorbell</button>
+<<endhoverrevise>>
+<</if>>
+<<if aw.npc.n101.rship.category === "lovers" || aw.npc.n101.rship.category === "engaged" || aw.npc.n101.rship.category === "married">>
+<<hoverrevise lets>><<button "Let Yourself In">>
+<<set $BFid = "n101">>
+<<set $BFname = "Lily">>
+<<set $BFnum = setup.npcHomes.level("n101")>>
+<<set $BFlove = true>>
+<<set $BFhome = setup.npcSched.home("n101")>>
+<<set $BFroom = setup.npcSched.room("n101")>>
+<<run setup.map.nav("BFhome","living")>><</button>><<endhoverrevise>>
+<<else>>
+<<hoverrevise nopes>><button class="disabled">Let Yourself In</button><<endhoverrevise>>
+<</if>>
 <<hoverrevise beta>>
   <<button "Lily's Basement">><<if $items.has("Lily's Access Card")>>
     <<addTime 5>>
@@ -67,7 +85,10 @@
 <div id="actionInfo">
 <<insertion alpha>>Ring Lily's doorbell and see if she's home and awake. @@.note;<i>Lily will be pissed if you wake her up.</i>@@<<endinsertion>>
 <<insertion beta>>Enter Lily's basement to get some work done. <<ctn>>[Requires Key]<</ctn>><<endinsertion>>
-<<insertion looks>>Take a look at the exterior of Lily's place up close, you snoopy bitch.<<endinsertion>>
+<<insertion looks>>Take a look at the exterior of Lily's place up close, <<if $AW.startMale>>you snoopy bitch<<else>>maybe find something... useful<</if>>.<<endinsertion>>
+<<insertion alphb>>You already stopped by Lily's place today.<<endinsertion>>
+<<insertion lets>>You have access to Lily's place, so let yourself in.<<endinsertion>>
+<<insertion nopes>>You don't have the kind of relationship with Lily for her to give you your own access to her place.<<endinsertion>>
 </div>
 
 <<timed 50ms>>
@@ -82,12 +103,168 @@
 <center>[img[IMG_loc_LilyPlace]]</center>
 
 
+:: LilysDoorShockA [nobr]
 
-:: LilysLab [nobr]
+<p>
+<<f y>>ou reach and push Lily's doorbell button and are rewarded with the faint sound of chiming tones escaping from inside. You stand there and wait for her to answer the door.
+</p>
+<p>
+You're surprised when instead of the door opening, a tired voice comes out of a metal intercom grill set into the brick wall. @@.npc;Dr. Richards. Is this an emergency?@@ You hesitate for a moment when you can't find any buttons to push. @@.npc;Just talk.@@
+</p>
+<p>@@.pc;Hey, it's <<name>>. You wanted me to stop by and get a key?@@</p><p>Lily's voice takes on an annoyed tone. @@.npc;Then come back later.@@
+</p>
+<p>her voice is replaced by a synthetic female voice. @@.npd;Tasing in three...@@
+</p>
+<p>
+@@.npd;Two...@@</p><p>@@.pc;<<print either("Huh!?","What!?","Wait!")>>@@
+</p>
+<p>
+@@.npd;One... Now.@@
+</p>
+<center>
+[img[IMG-TaseredGirl]]
+</center>
+<p>
+After twitching for several minutes on the sidewalk in front of Lily's home, you pick yourself up off the concrete. @@.mono;I guess she takes her sleep very seriously...@@
+</p>
 
 
-<div class="menu-bg">
+:: LilysDoorShockB [nobr]
 
-</div>
+<p>
+<<f y>>ou reach and push Lily's doorbell button and are rewarded with the faint sound of chiming tones escaping from inside. You stand there and wait for her to answer the door.
+</p>
+<p>
+You're surprised when instead of the door opening, a tired voice comes out of a metal intercom grill set into the brick wall. @@.npc;Dr. Richards. Is this an emergency?@@
+</p>
+<p>You hesitate for a moment, not used to the intercom. @@.pc;Hey, it's <<name>>. I was in the neighborhood and thought I'd stop by...@@
+</p>
+<p>
+Lily's voice takes on an annoyed tone. @@.npc;Go away.@@
+</p>
+<p>
+her voice is replaced by a synthetic female voice. @@.npd;Tasing in three...@@
+</p>
+<p>
+@@.npd;Two...@@
+</p>
+<p>
+@@.pc;<<print either("Huh!?","What!?","Wait!")>>@@
+</p>
+<p>
+@@.npd;One... Now.@@
+</p>
+<center>
+[img[IMG-TaseredGirl]]
+</center>
+<p>
+After twitching for several minutes on the sidewalk in front of Lily's home, you pick yourself up off the concrete. @@.mono;I guess she takes her sleep very seriously...@@
+</p>
+
+
+:: LilysDoorNoShock [nobr]
+
+<p>
+<<f y>>ou reach and push Lily's doorbell button and are rewarded with the faint sound of chiming tones escaping from inside. You stand there and wait for her to answer the door.
+</p>
+<p>
+You're surprised when instead of the door opening, a tired voice comes out of a metal intercom grill set into the brick wall. @@.npc;Dr. Richards. Is this an emergency?@@
+</p>
+<p>You hesitate for a moment, not used to the intercom. @@.pc;Hey, it's <<name>>. I was in the neighborhood and thought I'd stop by...@@
+</p>
+<p>
+Lily's voice takes on an annoyed tone. @@.npc;Go away.@@
+</p>
+<p>
+her voice is replaced by a synthetic female voice. @@.npd;Tasing in three...@@
+</p>
+<p>
+@@.npd;Two...@@
+</p>
+<p>
+Having been on the wrong side of 10,000 volts before, you quickly jump away from the door and down the stairs.
+</p>
+<p>
+The intercom lets out a sad series of tones, almost as if it's disappointed that you got away.
+</p>
+<p>
+@@.mono;Leave it to Lily to shock the hell out of unwanted visitors... I still don't even know where the shock comes from!@@
+</p>
+
+:: LilysDoorGoAway [nobr]
+
+<p>
+<<f a>>fter climbing the stairs to Lily's front door, you ring the doorbell and wait. <<= either("It takes several minutes, but eventually Lily arrives and opens the door.", "It doesn't take long for Lily to open the door.", "You hear a faint @@.npc;just a minute!@@ from inside, and a little while later Lily opens the door.", "You hear a muffled thud from inside, followed by what is probably a stream of curses. A few moments later, Lily opens the door breathlessly.")>> @@.npc;Oh, hey <<name>>. What's up?@@
+</p>
+<p>
+@@.pc;<<= either("Hey Lily, I was just in the neighborhood and thought I'd stop by.", "Nothing really, I just thought I'd come say hello.", "Hey Lily, I was feeling a bit cooped up, so I thought I'd come see if you want to hang out or something.", "Hey Lily, I didn't have anything better to do so I thought I'd come bug you.")>>@@
+</p>
+<<switch ↂ.flag.buggedLily>>
+<<case 1>>
+<p>
+Lily's face takes on an apologetic expression. @@.npc;Oh, sorry <<name>>... They had some problems at work and I was just about to head in to help out...@@
+</p>
+<p>
+@@.pc;Oh, okay. Perhaps another time then.@@
+</p>
+<<case 2>>
+<p>
+@@.npc;Oh, sorry...@@ Lily looks at you apologetically @@.npc;I already made plans to meet up with some coworkers. I'd invite you along, but we're going to be talking about Institute business...@@
+</p>
+<p>
+@@.pc;Oh, I understand. It'd probably be pretty boring for me anyway.@@
+</p>
+<<case 3>>
+<p>
+@@.npc;Thanks <<name>>, but unfortunately I'm in a bit of a time crunch right now. I have a lot of paperwork I have to get finished.@@
+</p>
+<p>
+@@.pc;Oh, well good luck then!@@
+</p>
+<p>
+@@.npc;Thanks!@@
+</p>
+<<case 4>>
+<p>
+Lily grimaces. @@.npc;Sorry, but now's not really a good time. I'm having a bit of an adverse reaction to this treatment, I'm really not feeling well.@@ She suddenly grasps at her lower abdomen with a pained expression.
+</p>
+<p>
+@@.pc;Are you going to be okay!?@@
+</p>
+<p>
+@@.npc;Yeah, this isn't the first time...@@ She grimaces again. @@.npc;I should be fine by tomorrow.@@
+</p>
+<<case 5>>
+<p>
+@@.npc;Sorry, one of my work colleagues is apparently suspected to be that "Jimbo" serial killer guy, and the police want me to come in and answer some questions...@@ She shrugs. @@.npc;It's probably bullshit, but what can you do?@@
+</p>
+<p>
+@@.npc;Oh wow! I heard that Jimbo guy is a total freak... You sure it isn't your colleague?@@
+</p>
+<p>
+@@.npc;Yeah, he just doesn't fit the profile.@@ She grins. @@.npc;For one thing, he's totally disinterested in women. The guy's a total cockhound.@@
+</p>
+<<case 6 7>>
+<p>
+Lily puts on an apologetic expression. @@.npc;I'm sorry <<name>>, it's just really not a good time right now...@@
+</p>
+<p>
+@@.pc;Oh... Okay.@@
+</p>
+<<default>>
+<p>
+Lily looks slightly annoyed. @@.npc;You should learn how to use your phone like a normal person, rather than showing up randomly at people's front doors. You're not twelve anymore <<name>>.@@
+</p>
+<p>
+@@.pc;Ahh haha. Yeah...@@
+</p>
+<</switch>>
+<p>
+The two of you quickly share some parting words, and Lily closes the door. You find yourself back on the street in front of Lily's place.
+</p>
+
+
+
+
 
 

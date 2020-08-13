@@ -1,0 +1,131 @@
+:: homeBFbath [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPBFhome]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>
+<<f y>>ou are standing in <<name h>>'s bathroom.
+<<switch $BFnum>>
+<<case 1>>
+It's so tiny that it's actually amazing that everything fit into a space so small. The bathroom is about the size of a shower stall, only about as wide as the bathroom door. Unlike most bathrooms, the door opens outward; that's the only arrangement that's physically possible. The whole room is tiled and serves as a shower stall, while the small toilet is built with a tiny sink on top of the tank. A small shelf above the toilet holds everything from shampoo to toothbrushes.
+<<case 2>>
+It gives a new meaning to the term "compact", with small fixtures and practically no extra space. When you walk in, you nearly have to straddle to toilet to close the door. The shower stall is also extremely small, and you can easily imagine banging your elbows if you don't pay attention while showering. At least the fixtures themselves look to have a reasonable quality; nothing fancy, but functional.
+<<case 3>>
+It's a small cozy design that makes good use of the available space. There's a small tub and shower combo, a full-size sink, and even a small towel closet. It isn't a luxurious bathroom by any stretch of the imagination, but it's perfectly serviceable, at least as long as only one person tries to use it at a time.
+<<case 4>>
+It's an efficient bathroom that makes good use of the available space, which is shaped somewhat like an "L". There's a reasonably-sized shower stall, and the toilet has its own nook. The sink looks nice, though it'd be nice if there was at least a little counter space to set things while you're using them. The cabinets on either side of the mirror do give you enough room to store toiletries though.
+<<case 5>>
+It has an elegant design with plenty of floor space. There is an open shower stall, and the sink sits on an attractive wooden platform. Opposite the sink there is a full-sized linen closet, which forms a comfortable nook for a full-size toilet. The dark tile would probably make the room too dark by itself, but the liberal use of accent lighting keeps that from happening.
+<<case 6>>
+It's a master bath with elegant high-quality fixtures. There are two sinks and a full vanity, a dedicated soaking tub, and a rather luxurious rainfall shower with a built-in bench. With two windows, the room is filled with natural light during the day. The window over the tub isn't frosted, but the trees outside seem to do a reasonable job of keeping people from looking inside.
+<<case 7>>
+Luxurious is the best way to describe the large room, which seems to have every feature and comfort you'd ever want in a bathroom. The large rainfall shower takes center stage, with elegant shelves, constant-temperature valves, and plenty of room for two. The custom-built towel cabinets fit elegantly into the space, while cabinets below the vanity provide plenty of room for toiletries. The toilet seems to be a high-tech Asian model, with controls built into the wall next to it.
+<</switch>>
+</p>
+<p>
+<<if $BFhome>><<name h>> is currently in the <<= $BFroom>>.<<else>><<name h>> isn't home right now.<</if>>
+</p>
+/*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise quickgroom>>
+  <<button "Quick Groom">><<dialog "Quick Groom">><<include [[groomingQuickControl]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<set _butlab = "Talk To " + $BFname>>
+<<if $BFhome && $BFroom === "bathroom">>
+  <<hoverrevise talkin>>
+    <<button _butlab>><<run setup.npcHomes.talk()>><</button>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise notalkin>>
+    <button class="disabled"><<= _butlab>></button>
+  <<endhoverrevise>>
+<</if>>
+<<if $BFlove>>
+<<hoverrevise takeshower>>
+  <<button "Take A Shower">><<dialog "Shower">><<include [[groomingShowerMenu]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise grooming>>
+  <<button "Grooming Menu">><<openGrooming>><</button>>
+<<endhoverrevise>>
+<<hoverrevise laundry>><<button "Laundry">><<dialog "Laundry">><<addtime 32>><<run setup.clothes.washing()>>
+@@.head3;Y@@ou open the washing machine and load your stuff. After pushing a couple of buttons it starts and you sit on top of it waiting for the laundry to be finished. It doesn't take long - modern clothes washers are far faster than their 20th-century predecessors, the full cycle including drying takes only about 30 minutes.<br><br>
+<<ctn>>This option is a manual override for auto laundry setting you can manage in the Home Control Menu. You only need to use it if you need to get your stuff cleaned right now.<</ctn>>
+<</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise bodywriting>>
+  <<button "Body Writing">><<dialog "Bodywriting">><<include [[bodyWriting]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<else>>
+<<hoverrevise notav>><button class="disabled">Take A Shower</button><<endhoverrevise>>
+<<hoverrevise notav>><button class="disabled">Grooming Menu</button><<endhoverrevise>>
+<<hoverrevise notav>><button class="disabled">Laundry</button><<endhoverrevise>>
+<<hoverrevise notav>><button class="disabled">Body Writing</button><<endhoverrevise>>
+<</if>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion groommenu>>@@.exp;Access the grooming menu to change your hairstyle, put on makeup, wear jewelry, change settings, and more.@@<<endinsertion>>
+<<insertion takeshower>>@@.exp;Take a shower or bath, and perhaps do other things while you're at it... This is the method to get clean without the semi-automatic bathing before bed.@@<<endinsertion>>
+<<insertion quickgroom>>@@.exp;Open the Quick Groom menu, which contains several options to quickly apply makeup or change your hairstyle, among other things.@@<<endinsertion>>
+<<insertion grooming>>@@.exp;View the full Grooming Menu for detailed control over makeup, hair, body hair, and jewelry.@@<<endinsertion>>
+<<insertion laundry>>@@.exp;Wash your clothes right now.@@ <<ctn>>[30 min. Manual Option]<</ctn>><<endinsertion>>
+<<insertion bodywriting>>@@.exp;Write something on your body.@@<<endinsertion>>
+<<insertion notav>>You don't have the right kind of relationship with <<name h>> to do this here.<<endinsertion>>
+<<insertion talkin>>Have a conversation with <<name h>>.<<endinsertion>>
+<<insertion notalkin>><<name h>> must be in the same room with you to have a conversation.<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+<<mapBFHomeEventAction>>
+<<mapBFHomeActions>>
+<</timed>>
+
+
+
+:: homeBFT2bathLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>

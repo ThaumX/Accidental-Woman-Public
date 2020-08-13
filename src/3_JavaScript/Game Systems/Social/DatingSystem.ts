@@ -23,29 +23,33 @@
 //              "Y88P"
 
 interface SetupDating {
-  start: (npcid: npcid) => void;
+  start: (npcid: npcid, type: string) => void;
   statusBar: () => string;
   statRefresh: () => void;
   tracking: () => void;
   pbar: (amt: number, color: string) => string;
   howAbout: (spot: string) => string;
-  howAboutResult: (spot: string) => void;
+  howAboutResult: (spot: string) => string;
   sel: (key: string) => void;
   locationPicker: () => string;
   activity: (actKey: string) => void;
   saySomething: (type: string) => void;
   aiQuery: (aiKeys: string[], note?: string) => number;
-  aiString: (numResult: number) => string;
   npcChoice: () => string;
   end: () => void;
+  eatHome: (quality: number, npc: string, dish: string, dishIndex: number, drugged: string) => string;
   tagText: (tag: string, name: string) => string;
   propose: (dateSpotKey: string) => string;
   advance: () => void;
   pcQuestion: () => string;
   breakUp: () => string;
+  dom: () => string;
+  sub: () => string;
   goodThings: (enjoy: number, qual: number, arouse: number) => void;
   badThings: (enjoy: number, qual: number, arouse: number) => void;
   dev: () => void;
+  serious: () => void;
+  askOpen: () => number;
 }
 
 interface awDateData {
@@ -64,13 +68,14 @@ interface awDateData {
   proposed: string;
   ate: boolean;
   dessert: boolean;
-  aiRes: string;
+  aiRes: number;
   npcPicked: boolean;
   convoTag: string;
   convoText: string;
   convoHist: string[];
   eligible: [string, boolean, string];
   askIt: boolean;
+  dateType: string;
 }
 interface awDateDataEnjoy {
   0: number;
@@ -88,7 +93,7 @@ setup.date.dev = function(): void {
 };
 
 // starts a new date with the supplied NPC
-setup.date.start = function(npcid: npcid) {
+setup.date.start = function(npcid: npcid, type: string) {
   aw.L();
   if (!ↂ.flag.dateManualShown) {
     aw.L();
@@ -116,13 +121,14 @@ setup.date.start = function(npcid: npcid) {
     proposed: "none",
     ate: false,
     dessert: false,
-    aiRes: "na",
+    aiRes: 0,
     npcPicked: false,
     convoTag: setup.cTag.getTag(3, false),
     convoText: "error",
     convoHist: [],
     eligible: ["none", false, "none"],
     askIt: false,
+    dateType: type,
   };
   // we use getter/setters to safeguard the important stat values
   Object.defineProperties(aw.date, {
@@ -219,7 +225,9 @@ setup.date.statusBar = function(): string {
   }
   const elig = setup.rship.eligible(aw.date.npcid);
   if (elig && typeof elig === "boolean") {
-    output += `<img data-passage="IMG_IconCheckmark" style="width:30px;height:30px;">`;
+    output += `<img data-passage="IMG_IconCheckmark" title="This relationship is ready to advance" style="width:30px;height:30px;">`;
+  } else {
+    output += `<img data-passage="IMG_IconCheckmarkNull" title="This relationship is not ready to advance" style="width:30px;height:30px;">`;
   }
   output += `<span style="color:#e0e0e0;">Date Duration: ${hours}:${mins}</span>`;
   return output;
@@ -248,24 +256,46 @@ setup.date.tracking = function(): void {
   aw.date.eligible = setup.rship.eligible(aw.date.npcid);
   // check to see if the NPC will propose to upgrade
   if (aw.date.eligible[1]) {
-    let max = -1;
+    let braveryRate = Math.round(aw.date.npc.rship.lovePC / 10) + (aw.date.npc.trait.will);
+    if (aw.date.npc.trait.lowEsteem === 1) {
+      braveryRate -= 2;
+    } else if (aw.date.npc.trait.lowEsteem === -1) {
+      braveryRate += 2;
+    }
+    if (aw.date.npc.trait.extro) {
+      braveryRate += 1;
+    }
+    if (aw.date.npc.trait.intro) {
+      braveryRate -= 1;
+    }
+    if (aw.date.npc.main.female && !aw.date.npc.trait.bi && !aw.date.npc.trait.homo) {
+      braveryRate -= 4;
+    }
+    if (!aw.date.npc.main.female && aw.date.npc.main.male && !aw.date.npc.trait.bi && aw.date.npc.trait.homo) {
+      braveryRate -= 4;
+    }
+    if (aw.date.npc.main.female && aw.date.npc.trait.homo) {
+      braveryRate += 1;
+    }
+    const npcPrefs = setup.week.insanePrefChecker(aw.date.npcid);
+    let npcPrefsScore = 0;
+    for (let index = 0; index < npcPrefs.length; index++) {
+      npcPrefsScore += npcPrefs[index];
+    }
+    braveryRate += npcPrefsScore;
+    if (braveryRate < 0) {braveryRate = 1;} // here, take your puny chance anyway
     switch (aw.date.eligible[0]) {
       case "married":
         break;
       case "engaged":
-        max = 8;
+        if (random(0, braveryRate) > 5) { aw.date.askIt = true; }
         break;
       case "lovers":
-        max = 4;
+        if (random(0, braveryRate) > 6) { aw.date.askIt = true; }
         break;
       case "exclusive":
-        max = 2;
+        if (random(0, braveryRate) > 8) { aw.date.askIt = true; }
         break;
-    }
-    if (max > 0) {
-      if (random(1, max) === 1) {
-        aw.date.askIt = true;
-      }
     }
   }
 };
@@ -459,11 +489,29 @@ setup.date.pcQuestion = function(): string {
       out += `<p><<ctn>>Sorry, there was an error and there isn't a valid relationship target. You should be able to continue this date as normal otherwise... sorry about the mishap.<</ctn>></p>`;
   }
   if (aw.date.eligible[1]) {
-    out += `<p>With that happy occasion out of the way, the two of you continue your date.</p>`;
+    if (aw.date.eligible[0] === "married") {
+      out += `<div id="poopypoop"><p>You warmly hug and kiss ${ↂ.pc.main.name} for it seems to be a eternity before finally letting <<if aw.date.npc.main.female>>her<<else>>him<</if>> go.
+      <<dialogchoice>>
+        <<dbutt "discuss">><<include [[Wedding-a]]>><<set ↂ.flag.marriage.discussion = true>>
+        <<dtext "love">>Discuss the details and set the wedding date right now!
+        <<dbutt "later">><<replace "#weddingMonthdayDiv">><p>With that happy occasion out of the way, the two of you continue your date.</p><<print aw.dateSpots[aw.date.spot].buttonGen()>><</replace>>
+        <<dtext "happy">>Just continue with your date for now, you will discuss the date and details later.
+      <</dialogchoice>>
+      </div>
+      `;
+      ↂ.flag.marriage.discussion = true;
+      aw.S();
+    } else {
+      out += `<p>With that happy occasion out of the way, the two of you continue your date.</p>`;
+    }
   } else {
     out += `<p>In order to avoid any more awkwardness, the two of you continue your date.</p>`;
   }
-  out += aw.dateSpots[aw.date.spot].buttonGen();
+  if (aw.date.eligible[0] === "married" && aw.date.eligible[1]) {
+    // pee pee poo poo, nuthing here
+  } else {
+    out += aw.dateSpots[aw.date.spot].buttonGen();
+  }
   return out;
 };
 
@@ -482,7 +530,28 @@ setup.date.breakUp = function(): string {
   }
   let out = `<p>You decide that you're done with ${aw.date.name}, and it's time to break it off. @@.pc;${reason}@@</p>`;
   const take = either("fairly well", "poorly", "hard", "nonchalantly, as if it doesn't really matter", "happily, as if already planning to break up");
-  out += `<p>${aw.date.name} seems to take it ${take}, and leaves soon after. Obviously, breaking up with your partner is going to put an end to your date...</p>`;
+  if (ↂ.flag.keyHolders[0] === aw.date.npc.key) {
+    if (random (1,2) === 1) {
+    if (ↂ.flag.keyHolders[1] === "gotKeysBelt") {
+      State.active.variables.items.pickUp("Chastity belt key");
+    } else if (ↂ.flag.keyHolders[1] === "gotKeysCplate") {
+      State.active.variables.items.pickUp("Cplate 200 remote");
+    } else if (ↂ.flag.keyHolders[1] === "gotKeysClit") {
+      State.active.variables.items.pickUp("Clit shield remote");
+    }
+      out += `<p>${aw.date.name} seems to take it ${take}, and leaves soon after giving you the keys to your chastity. Obviously, breaking up with your partner is going to put an end to your date...</p>`;
+    } else {
+      out += `<p>${aw.date.name} seems to take it ${take}, and leaves soon after. Obviously, breaking up with your partner is going to put an end to your date. It takes you a minute after ${aw.date.name} leaves to realize that you forget to ask for your chastity belt keys and it is too late now...</p>`;
+      ↂ.flag.sendKeyLost[0] = true;
+      ↂ.flag.sendKeyLost[1] = true;
+      ↂ.flag.sendKeyLost[2] = true;
+      setup.omni.new("keysShortage");
+    }
+    ↂ.flag.keyHolders[0] = "none";
+    ↂ.flag.keyHolders[1] = "none";
+  } else {
+    out += `<p>${aw.date.name} seems to take it ${take}, and leaves soon after. Obviously, breaking up with your partner is going to put an end to your date...</p>`;
+  }
   out += `<center><<button "CLOSE">><<addTime 5>><<run setup.date.end()>><</button>></center>`;
   aw.date.npc.rship.breakUp();
   setup.date.badThings(5, 5, 0);
@@ -490,49 +559,123 @@ setup.date.breakUp = function(): string {
   return out;
 };
 
+setup.date.dom = function(): string {
+  let out = "<p>You look into <<= aw.date.name>>'s eyes and gather your courage before going on. @@.mono;Oh I hope <<if aw.date.npc.main.female>>she<<else>>he<</if>> will get it right...@@</p>";
+  let reason = "I am not into such games to be honest.";
+  let chance = Math.round(aw.date.npc.rship.likePC / 2) + aw.date.npc.rship.sub - aw.date.npc.rship.dom;
+  if (aw.date.npc.kink.sub) {
+    chance += 30;
+  } else {
+    chance -= 20;
+  }
+  if (aw.date.npc.kink.sub) {
+    reason = "Don't get me wrong, I like BDSM and stuff I am just not ready for it right now to be honest.";
+  }
+  if (chance > 50) {
+    ↂ.flag.subs.push(aw.date.npcid);
+    out += `<<arousal 1>><p>@@.pc;So... it seems you are pretty interested in being controlled, isn't it?@@</p> <<= aw.date.name>> looks confused for a moment before blushing and nodding in a shy fashion. @@.npc;I... really do...@@ It takes some time but eventually <<= aw.date.name>> looks at you with a frightened yet hopeful eyes @@.npc;Can... can I ask you to be my mistress?@@<p> You reach with your hand to brush your new sub's hair. @@.pc;Your really want it?@@ <<= aw.date.name>> sighs with pleasure but you pull <<if aw.date.npc.main.female>>her<<else>>his<</if>> hair in a possessive and dommy fashion. Taking <<if aw.date.npc.main.female>>her<<else>>his<</if>> face with your other hand you look right into <<= aw.date.name>>'s eyes with a stern and demanding look standing above <<if aw.date.npc.main.female>>her<<else>>him<</if>>. @@.pc;Then beg me to be your mistress.@@</p><p>Slurring and gasping, <<= aw.date.name>> mumbles something and you shake <<if aw.date.npc.main.female>>her<<else>>his<</if>> by the hairs. @@.pc;Use words.@@</p><p>@@.npc;Please, be my mistress, <<= ↂ.pc.main.name>>!@@ You smile in a devilish fashion before kissing <<if aw.date.npc.main.female>>her<<else>>his<</if>>forehead. @@.pc;Of course, my little slave, I would be happy to be your mistress! You are up to some hard times, my little pet.@@</p>` + aw.dateSpots[aw.date.spot].buttonGen();
+    setup.date.goodThings(3, 1, 5);
+  } else {
+    out += `<p>@@.pc;I want you to be my slave. Lick my boots right now.@@</p><p><<= aw.date.name>> looks uncomfortable. @@.npc;I... I am not sure that I am into such commitment... ${reason}@@</p> Feeling pretty stupid you anxiously mumble something about this being just a proposition and it is okay. @@.mono;Oh crap. Now <<if aw.date.npc.main.female>>she<<else>>he<</if>> thinks I am a total pervert.@@` + aw.dateSpots[aw.date.spot].buttonGen();
+    setup.date.badThings(4, 2, 3);
+  }
+  aw.S();
+  return out;
+}
+
+setup.date.sub = function(): string {
+  let out = "<p>You look into <<= aw.date.name>>'s eyes and gather your courage before going on. @@.mono;Oh I hope <<if aw.date.npc.main.female>>she<<else>>he<</if>> will get it right...@@</p>";
+  let reason = "I am not into such games to be honest.";
+  let chance = Math.round(aw.date.npc.rship.likePC / 2) + aw.date.npc.rship.dom - aw.date.npc.rship.sub;
+  if (aw.date.npc.kink.dom) {
+    chance += 30;
+  } else {
+    chance -= 20;
+  }
+  if (aw.date.npc.kink.dom) {
+    reason = "Don't get me wrong, I like BDSM and stuff I am just not ready for tp take responsibility for a sub right now to be honest.";
+  }
+  if (chance > 50) {
+    ↂ.flag.doms.push(aw.date.npcid);
+    ↂ.pc.jewel.neck = "LeatherCollar";
+    out += `<<arousal 2>><p>@@.pc;So... it seems you are pretty interested in being in control.. I mean in a sexy way, don't you?@@</p> <<= aw.date.name>> looks surprised for a moment and grins. @@.npc;Well, actually yes. I am into all this bdsm stuff. Something says me that I'm not the only one here who want to find a play partner, mm?@@<p>You nod in a shy fashion blushing like crazy. @@.npc;So, you want to ask me something I believe?@@ You nod once again your eyes down. @@.npc;Why don't you ask for it while you stand on your knees, <<= ↂ.pc.main.name>>?@@ You blush even more feeling a warm wave overwhelming your body with shame and arousal. Under <<= aw.date.name>>'s strict eyes you get on your knees and feel deeply humiliated and happy as the same time while forcing @@.pc;Please, may I be your slave?@@ out from your throat.</p><p>@@.npc;Yes. In fact, I knew you gonna ask for it <<if $AW.startMale && aw.date.npcId == "n101">>since you got through this rejuvenator incident in my basement and I saw you acting differently.<<elseif !$AW.startMale && aw.date.npcId == "n101">>since you was sent to me. Isn't it funny that now you are now twice my slave?<<else>>since the first time I saw you.<</if>> I carry this thing with me for some time already and today the day has come.@@</p><p><<if aw.date.npc.main.female>>She<<else>>He<</if>> gets a black leather collar with a steel ring in the front. @@.npc;Lift your hair, little one.@@ You obey <<if aw.date.npc.main.female>>her<<else>>him<</if>> and <<= aw.date.name>> locks the buckle of heavy collar around your neck marking you as <<if aw.date.npc.main.female>>her<<else>>his<</if>> property. Brushing your hair, <<= aw.date.name>> smiles once again. @@.npc;Such a good slave you are. I already have some ideas how to use you well, we gonna have so much fun. But for now... stand up.@@</p>` + aw.dateSpots[aw.date.spot].buttonGen();
+    setup.date.goodThings(3, 1, 5);
+  } else {
+    out += `<p>@@.pc;I want you to be your slave. Licking your shoes and ass, please let me be your slave!.@@</p><p><<= aw.date.name>> looks uncomfortable. @@.npc;I... I am not sure that I am into such commitment... ${reason}@@</p> Feeling pretty stupid you anxiously mumble something about this being just a proposition and it is okay. @@.mono;Oh crap. Now <<if aw.date.npc.main.female>>she<<else>>he<</if>> thinks I am a total pervert.@@` + aw.dateSpots[aw.date.spot].buttonGen();
+    setup.date.badThings(4, 2, 3);
+  }
+  aw.S();
+  return out;
+}
+
 setup.date.howAbout = function(spot: string): string {
   const phrase1 = either("gives your suggestion some thought.", "ponders your suggestion for a moment.", "takes a moment to consider.", " looks away for a moment, thinking.");
-  const output = `<div id="howAbout">You suggest heading to ${aw.dateSpots[spot].name}.<br><br><<= aw.date.name>> ${phrase1} <span class="npc">Hmmmm</span><div id="pulsie" class="npc pulse">...</div></div><br><div><<comment "If you've noticed that the delay while the NPC is thinking seems a little long, rest assured that it isn't arbitrary. While you're waiting, AW's learning software is determining how the NPC feels about your suggestion.">></div>`;
-  setTimeout(() => setup.date.howAboutResult(spot), 50);
+  const output = `<div id="howAbout">You suggest heading to ${aw.dateSpots[spot].name}.<br><br><<= aw.date.name>> ${phrase1} <<print setup.date.howAboutResult("${spot}")>></div><br><div></div>`;
   return output;
 };
 
-setup.date.howAboutResult = function(spot: string): void {
-  const air = setup.date.aiQuery(aw.dateSpots[spot].aiTags[0], `Query to get NPC's opinion on visiting a date spot (${aw.dateSpots[spot].name}).`);
-  const ais = setup.date.aiString(air);
-  aw.date.aiRes = ais;
+setup.date.howAboutResult = function(spot: string): string {
+  // AWAI replacement coconut brain
+  const ais = setup.interactionMisc.coconutBrain(aw.date.npc.key, aw.dateSpots[spot].aiTags[0]);
+  aw.date.aiRes = ais[0];
   let output = "<br><br><span class='npc'>";
-  switch (ais) {
-    case "xn":
-    case "ln":
-      output += "Are you serious? There's no way I'd want to go there of all places...";
+  switch (ais[0]) {
+    case 1:
+      if (aw.date.dateType === "yourhome" || aw.date.dateType === "BFhome") {
+        output += `Oh, really? Frankly, I'd rather not.`;
+      } else {
+        output += `Are you serious? There's no way I'd want to go there of all places...`;
+      }
       break;
-    case "mn":
-      output += "Well, I'd rather not, but we can go if that's really what you want.";
+    case 2:
+      if (aw.date.dateType === "yourhome" || aw.date.dateType === "BFhome") {
+        output += `Well, I'd rather not, but we can do it if that's really what you want.`;
+      } else {
+        output += `Well, I'd rather not, but we can go if that's really what you want.`;
+      }
       break;
-    case "sn":
-      output += "It isn't somewhere I'd choose, but I suppose we can go.";
+    case 3:
+      if (aw.date.dateType === "yourhome" || aw.date.dateType === "BFhome") {
+        output += `It isn't the thing I'd choose, but I suppose we can do it.`;
+      } else {
+        output += `It isn't somewhere I'd choose, but I suppose we can go.`;
+      }
       break;
-    case "nn":
-      output += "I guess that's okay, I don't have any objections.";
+    case 4:
+      output += `I guess that's okay, I don't have any objections.`;
       break;
-    case "sp":
-      output += "Interesting choice, I suppose it could be fun.";
+    case 5:
+      output += `Interesting choice, I suppose it could be fun.`;
       break;
-    case "mp":
-      output += "Yeah, I think that'd be a nice place to go.";
+    case 6:
+      if (aw.date.dateType === "yourhome" || aw.date.dateType === "BFhome") {
+        output += `Yeah, I think that'd be a nice thing to do.`;
+      } else {
+        output += `Yeah, I think that'd be a nice place to go.`;
+      }
       break;
-    case "lp":
-      output += "Oh, great pick. We should go!";
+    case 7:
+      if (aw.date.dateType === "yourhome" || aw.date.dateType === "BFhome") {
+        output += `Oh, great pick. We should do it!`;
+      } else {
+        output += `Oh, great pick. We should go!`;
+      }
       break;
-    case "xp":
-      output += "Wow, that's one of my favorite places. Let's go!";
+    case 8:
+      if (aw.date.dateType === "yourhome" || aw.date.dateType === "BFhome") {
+        output += `Wohoo, let's do it!`;
+      } else {
+        output += `Wow, that's one of my favorite places. Let's go!`;
+      }
       break;
   }
-  output += "</span><br><br>";
-  output += `<<button "GO THERE">><<run aw.dateSpots[aw.date.proposed].arrive()>><</button>> <<button "ON SECOND THOUGHT">><<scenereplace>><<print setup.date.locationPicker()>><</scenereplace>><</button>>`;
-  $("#pulsie").removeClass("pulse");
-  aw.append("#howAbout", output);
+  output += ` ${ais[1]} </span><br><br>`;
+  if (aw.date.dateType !== "yourhome" && aw.date.dateType !== "BFhome") {
+    output += `<<button "GO THERE">><<run aw.dateSpots[aw.date.proposed].arrive()>><</button>> <<button "ON SECOND THOUGHT">><<scenereplace>><<print setup.date.locationPicker()>><</scenereplace>><</button>>`;
+  } else {
+    output += `<<button "DO IT">><<run aw.dateSpots[aw.date.proposed].arrive()>><</button>> <<button "ON SECOND THOUGHT">><<scenereplace>><<print setup.date.locationPicker()>><</scenereplace>><</button>>`;
+  }
+  return output;
 };
 
 setup.date.sel = function(key: string): void {
@@ -553,46 +696,62 @@ setup.date.locationPicker = function(): string {
   const restaurants: string[] = [];
   const desserts: string[] = [];
   const activities: string[] = [];
+  const homeStuff: string[] = [];
+  let output = "";
   aw.date.proposed = "none";
-  const ᚥ = aw.dateSpots;
-  let output = `<<button "THEIR CHOICE">><<scenereplace>><<print setup.date.npcChoice()>><</scenereplace>><</button>> <<button "SUGGEST LOCATION">><<if aw.date.proposed !== "none">><<scenereplace>><<print setup.date.howAbout(aw.date.proposed)>><</scenereplace>><<else>><<notify>>Choose a location to suggest first!<</notify>><</if>><</button>> <<button "CHOOSE LOCATION">><<if aw.date.proposed !== "none">><<run aw.dateSpots[aw.date.proposed].arrive()>><<else>><<notify>>Choose a location first!<</notify>><</if>><</button>><<tab>><span style="font-size:1.2rem;"><span class="head">Chosen Location:</span> <span id="locationName">None: click one below!</span></span><br><div id="dateLocationPicker">`;
-  for (const spot of Object.keys(ᚥ)) {
-    if (!aw.date.spots.includes(ᚥ[spot].key)) {
-      switch (ᚥ[spot].category) {
-        case "restaurant":
-          if (!aw.date.ate) {
-            restaurants.push(spot);
-          }
-          break;
-        case "dessert":
-          if (!aw.date.dessert) {
-            desserts.push(spot);
-          }
-          break;
-        default:
-          activities.push(spot);
+  if (aw.date.dateType === "yourhome" || aw.date.dateType === "BFhome") {
+    const ᚥ = aw.dateSpots;
+    output += `<<button "THEIR CHOICE">><<scenereplace>><<print setup.date.npcChoice()>><</scenereplace>><</button>> <<button "SUGGEST ACTIVITY">><<if aw.date.proposed !== "none">><<scenereplace>><<print setup.date.howAbout(aw.date.proposed)>><</scenereplace>><<else>><<notify>>Choose an activity to suggest first!<</notify>><</if>><</button>> <<button "CHOOSE ACTIVITY">><<if aw.date.proposed !== "none">><<run aw.dateSpots[aw.date.proposed].arrive()>><<else>><<notify>>Choose an activity first!<</notify>><</if>><</button>><<tab>><span style="font-size:1.2rem;"><span class="head">Chosen Activity:</span> <span id="locationName">None: click one below!</span></span><br><div id="dateLocationPicker">`;
+    output += `<div id="pickerSectionHead">Home activities</div>`;
+    for (const spot of Object.keys(ᚥ)) {
+      if (ᚥ[spot].type === "yourhome") {
+          homeStuff.push(spot);
       }
     }
-  }
-  restaurants.sort();
-  desserts.sort();
-  activities.sort();
-  if (!aw.date.ate && restaurants.length > 0) {
-    output += `<div id="pickerSectionHead">Restaurant Locations</div>`;
-    for (const key of restaurants) {
+    for (const key of homeStuff) {
       output += ᚥ[key].print;
     }
-  }
-  if (!aw.date.dessert && desserts.length > 0) {
-    output += `<div id="pickerSectionHead">Dessert Locations</div>`;
-    for (const key of desserts) {
-      output += ᚥ[key].print;
+  } else {
+    const ᚥ = aw.dateSpots;
+    output += `<<button "THEIR CHOICE">><<scenereplace>><<print setup.date.npcChoice()>><</scenereplace>><</button>> <<button "SUGGEST LOCATION">><<if aw.date.proposed !== "none">><<scenereplace>><<print setup.date.howAbout(aw.date.proposed)>><</scenereplace>><<else>><<notify>>Choose a location to suggest first!<</notify>><</if>><</button>> <<button "CHOOSE LOCATION">><<if aw.date.proposed !== "none">><<run aw.dateSpots[aw.date.proposed].arrive()>><<else>><<notify>>Choose a location first!<</notify>><</if>><</button>><<tab>><span style="font-size:1.2rem;"><span class="head">Chosen Location:</span> <span id="locationName">None: click one below!</span></span><br><div id="dateLocationPicker">`;
+    for (const spot of Object.keys(ᚥ)) {
+      if (!aw.date.spots.includes(ᚥ[spot].key)) {
+        switch (ᚥ[spot].category) {
+          case "restaurant":
+            if (!aw.date.ate) {
+              restaurants.push(spot);
+            }
+            break;
+          case "dessert":
+            if (!aw.date.dessert) {
+              desserts.push(spot);
+            }
+            break;
+          default:
+            activities.push(spot);
+        }
+      }
     }
-  }
-  if (activities.length > 0) {
-    output += `<div id="pickerSectionHead">Activity Locations</div>`;
-    for (const key of activities) {
-      output += ᚥ[key].print;
+    restaurants.sort();
+    desserts.sort();
+    activities.sort();
+    if (!aw.date.ate && restaurants.length > 0) {
+      output += `<div id="pickerSectionHead">Restaurant Locations</div>`;
+      for (const key of restaurants) {
+        output += ᚥ[key].print;
+      }
+    }
+    if (!aw.date.dessert && desserts.length > 0) {
+      output += `<div id="pickerSectionHead">Dessert Locations</div>`;
+      for (const key of desserts) {
+        output += ᚥ[key].print;
+      }
+    }
+    if (activities.length > 0) {
+      output += `<div id="pickerSectionHead">Activity Locations</div>`;
+      for (const key of activities) {
+        output += ᚥ[key].print;
+      }
     }
   }
   output += "</div>";
@@ -619,12 +778,12 @@ setup.date.activity = function(actKey: string): void {
   aw.date.enjoy[0] += random(0, 3) - 1;
   aw.date.arouse += random(0, 3) - random(0, 1);
   setup.scenario.refresh(); // refresh to update after prep function
-  setup.date.statRefresh();
   if (typeof prep === "boolean" && !prep) {
     aw.con.info(`Activity ${actKey} twee not played due to 'false' return value.`);
   } else {
     setup.scenario.replace(content);
   }
+  setup.date.statRefresh();
 };
 
 setup.date.saySomething = function(type: string): void {
@@ -650,7 +809,11 @@ setup.date.saySomething = function(type: string): void {
         aw.date.enjoy[1] += random(1, 3);
         aw.date.enjoy[0] += random(1, 2);
       } else {
-        output += `<p>@@.npc;Wow... <i>really?</i> ... Okay then.@@</p>`;
+        if (aw.date.spot !== "watchMovie") {
+          output += `<p>@@.npc;Wow... <i>really?</i> ... Okay then.@@</p>`;
+        } else {
+          output += `<p>@@.npc;Oh come on, I am trying to watch the movie here! And this was silly.@@</p>`;
+        }
         aw.date.qual -= random(1, 3);
         aw.date.enjoy[1] -= random(1, 3);
         aw.date.enjoy[0] -= random(1, 2);
@@ -670,7 +833,11 @@ setup.date.saySomething = function(type: string): void {
         aw.date.enjoy[0] += random(1, 2);
         aw.date.arouse += random(5, 11);
       } else {
-        output += `<p>@@.npc;Wow... <i>really?</i> ... Okay then.@@</p>`;
+        if (aw.date.spot !== "watchMovie") {
+          output += `<p>@@.npc;Wow... <i>really?</i> ... Okay then.@@</p>`;
+        } else {
+          output += `<p>@@.npc;Oh come on, I am trying to watch the movie here.@@</p>`;
+        }
         aw.date.qual -= random(1, 2);
         aw.date.enjoy[1] -= random(1, 3);
         aw.date.enjoy[0] -= random(1, 2);
@@ -695,7 +862,11 @@ setup.date.saySomething = function(type: string): void {
         aw.date.npc.rship.lovePC += random(2, 4);
         aw.date.npc.rship.loveNPC += random(2, 4);
       } else {
-        output += `<p>@@.npc;Wow... <i>really?</i> ... Okay then.@@</p>`;
+        if (aw.date.spot !== "watchMovie") {
+          output += `<p>@@.npc;Wow... <i>really?</i> ... Okay then.@@</p>`;
+        } else {
+          output += `<p>@@.npc;Please, I am really trying to watch the movie here...@@</p>`;
+        }
         aw.date.qual -= random(1, 2);
         aw.date.enjoy[1] -= random(1, 3);
         aw.date.enjoy[0] -= random(1, 2);
@@ -724,7 +895,11 @@ setup.date.saySomething = function(type: string): void {
         aw.date.npc.rship.lovePC += random(4, 7);
         aw.date.npc.rship.loveNPC += random(4, 7);
       } else {
-        output += `<p>@@.npc;Wow... <i>really?</i> ... Okay then.@@</p>`;
+        if (aw.date.spot !== "watchMovie") {
+          output += `<p>@@.npc;Wow... <i>really?</i> ... Okay then.@@</p>`;
+        } else {
+          output += `<p>@@.npc;Pssshh! I am trying to watch some movie here.@@</p>`;
+        }
         aw.date.qual -= random(1, 3);
         aw.date.enjoy[1] -= random(1, 4);
         aw.date.enjoy[0] -= random(1, 3);
@@ -741,110 +916,109 @@ setup.date.saySomething = function(type: string): void {
   }
   output += "<br>" + aw.dateSpots[aw.date.spot].buttonGen();
   setup.scenario.refresh();
-  setup.date.statRefresh();
   setup.scenario.replace(output);
+  setup.date.statRefresh();
 };
 
 setup.date.aiQuery = function(aiKeys: string[], note?: string): number {
-  if (aiKeys.length === 0) {
-    aw.con.warn(`Dating AI Query made without any tags!`);
-    aiKeys.push("actLover");
-    aiKeys.push("tgtNPC");
-    aiKeys.push("nearFuture");
-    aiKeys.push("neutEthic");
-    aiKeys.push("neutral");
-    aiKeys.push("intimate");
-  }
-  const notxt = (note == null) ? `No note: NPC dating, NPC: ${aw.date.name}, Location:${aw.date.spot}.` : note;
-  return setup.ai.query(aw.date.npc, notxt, ...aiKeys);
-};
 
-setup.date.aiString = function(numResult: number): string {
-  let result: string;
-  if (numResult <= 10) {
-    result = "xn";
-  } else if (numResult <= 20) {
-    result = "ln";
-  } else if (numResult < 35) {
-    result = "ml";
-  } else if (numResult <= 46) {
-    result = "sn";
-  } else if (numResult <= 55) {
-    result = "nn";
-  } else if (numResult <= 65) {
-    result = "sp";
-  } else if (numResult < 80) {
-    result = "mp";
-  } else if (numResult < 90) {
-    result = "lp";
-  } else {
-    result = "xp";
-  } // uses x=extra, l=large, m=medium, s=small notation for 2 letter code.
-  if (aw.chad.dom) {
-    result = "xp";
-  }
-  return result;
+  return 0.5; // temp stuff
 };
 
 setup.date.npcChoice = function(): string {
   const restaurants: string[] = [];
   const desserts: string[] = [];
   const activities: string[] = [];
+  const homeStuff: string[] = [];
   aw.date.proposed = "none";
-  const ᚥ = aw.dateSpots;
-  for (const spot of Object.keys(ᚥ)) {
-    if (!aw.date.spots.includes(ᚥ[spot].key)) {
-      switch (ᚥ[spot].category) {
-        case "restaurant":
-          restaurants.push(spot);
-          break;
-        case "dessert":
-          desserts.push(spot);
-          break;
-        default:
-          activities.push(spot);
+  let output = "" as string;
+  let sel: string;
+  if (aw.date.dateType === "yourhome" || aw.date.dateType === "BFhome") {
+    const ᚥ = aw.dateSpots;
+    for (const spot of Object.keys(ᚥ)) {
+      if (ᚥ[spot].type === "yourhome" || aw.date.dateType === "BFhome") {
+          if (ᚥ[spot].check()) {
+            homeStuff.push(spot);
+            output += `<div id="pickerSectionHead">Home activities</div>`;
+            for (const key of homeStuff) {
+              output += ᚥ[key].print;
+          }
+        }
       }
     }
-  }
-  let output: string;
-  let sel: string;
-  if (aw.date.enjoy[1] < 10 && aw.date.start > 30 || aw.date.enjoy[1] < (aw.date.qual + (aw.date.arouse / 3)) && aw.date.start > 30) {
-    // end the date - unhappy
-    output = "<<include [[DateLeaveSpotEndBad]]>>";
-  } else if (!aw.date.ate && random(1, 40) > 10) {
-    // pick a restaurant
-    sel = either(...restaurants);
-    const name = aw.dateSpots[sel].name;
-    const txto = either(
-      "I don't know about you, but I'm starved!",
-      "I'm getting pretty hungry, I could definitely go for some food right about now.",
-      "Well, what's a date without a nice meal?",
-      `I'm thinking we'd better eat something so we have enough energy for later.@@ <<= aw.date.name>> gives you a wink.@@.npc;`);
-    output = `<p>@@.npc;${txto} Let's head over to ${name} and eat.@@</p><<dialogchoice>><<dbutt "LET'S GO">><<set aw.date.npcPicked = true>><<run aw.dateSpots["${sel}"].arrive()>><<dtext "angel">>Well, you insisted they choose, so no backing out now...<<dbutt "there?" false>> <<dtext "pain">>You don't mind eating, but you don't want to eat <b>there</b> of all places<<dbutt "no way" false>> <<dtext "arrogant">>Screw this, you're going home.<</dialogchoice>>`;
-  } else if (aw.date.ate && !aw.date.dessert && random(1, 10) > 5) {
-    // pick a dessert place
-    sel = either(...desserts);
-    const name = aw.dateSpots[sel].name;
-    const txto = either(
-      "I hope you saved room for dessert!",
-      "I could really go for something sweet... aside from you, of course.",
-      "I think it's time for a little treat.");
-    output = `<p>@@.npc;${txto} Let's head over to ${name} for dessert.@@</p><<dialogchoice>><<dbutt "LET'S GO">><<set aw.date.npcPicked = true>><<run aw.dateSpots["${sel}"].arrive()>><<dtext "angel">>Well, you insisted they choose, so no backing out now...<<dbutt "there?" false>> <<dtext "pain">>You don't mind dessert, but you don't want to eat <b>there</b> of all places<<dbutt "no way" false>> <<dtext "arrogant">>Screw this, you're going home.<</dialogchoice>>`;
-  } else if ((aw.time - aw.date.start >= 120 && random(0, 120) < aw.date.arouse) || (aw.time - aw.date.start > 240 && aw.date.arouse >= 50)) {
-    // sexitimes
-    output = "<<include [[DateLeaveSpotSexitimes]]>>";
-  } else if (aw.time - aw.date.start > 240) {
-    // date end amicable
-    output = "<<include [[DateLeaveSpotAmicable]]>>";
+    if (aw.date.enjoy[1] < 10 && aw.time - aw.date.start > 30 || aw.date.enjoy[1] < (aw.date.qual + (aw.date.arouse / 3)) && (aw.time - aw.date.start > 30)) {
+      output = "<<include [[DateLeaveSpotEndBad]]>>"; // end the date - unhappy
+    } else if ((aw.time - aw.date.start >= 120 && random(0, 120) < aw.date.arouse) || (aw.time - aw.date.start > 240 && aw.date.arouse >= 50)) {
+      output = "<<include [[DateLeaveSpotSexitimes]]>>";
+    } else if (aw.time - aw.date.start > 240) {
+      output = "<<include [[DateLeaveSpotAmicable]]>>";
+    } else {
+      sel = either(...homeStuff);
+      const name = aw.dateSpots[sel].name;
+      const txto = either(
+        "Oh, I have an idea!",
+        "I know something fun to do.",
+        "Okay, I think that'll work...");
+      output = `<p>@@.npc;${txto} Let's ${name}.@@</p><<dialogchoice>><<dbutt "OKAY">><<set aw.date.npcPicked = true>><<run aw.dateSpots["${sel}"].arrive()>><<dtext "angel">>Well, you insisted they choose, so no backing out now...<<dbutt "there?" false>> <<dtext "pain">>You don't really want to ${name}, isn't there something else to do? <<dbutt "no way" false>> <<dtext "arrogant">>Screw this, this date is <<has bitch>>fucking<<or>><</has>> over.<</dialogchoice>>`;
+    }
   } else {
-    // pick a normal activity
-    sel = either(...activities);
-    const name = aw.dateSpots[sel].name;
-    const txto = either(
-      "Oh, I have an idea!",
-      "I know something fun to do.",
-      "Okay, I think that'll work...");
-    output = `<p>@@.npc;${txto} Let's head over to ${name}.@@</p><<dialogchoice>><<dbutt "LET'S GO">><<set aw.date.npcPicked = true>><<run aw.dateSpots["${sel}"].arrive()>><<dtext "angel">>Well, you insisted they choose, so no backing out now...<<dbutt "there?" false>> <<dtext "pain">>You don't really care for ${name}, isn't there something else? <<dbutt "no way" false>> <<dtext "arrogant">>Screw this, you're going home.<</dialogchoice>>`;
+    const ᚥ = aw.dateSpots;
+    for (const spot of Object.keys(ᚥ)) {
+      if (!aw.date.spots.includes(ᚥ[spot].key)) {
+        switch (ᚥ[spot].category) {
+          case "restaurant":
+            restaurants.push(spot);
+            break;
+          case "dessert":
+            desserts.push(spot);
+            break;
+          default:
+            activities.push(spot);
+        }
+      }
+    }
+    if (aw.date.enjoy[1] < 10 && aw.time - aw.date.start > 30 || aw.date.enjoy[1] < (aw.date.qual + (aw.date.arouse / 3)) && (aw.time - aw.date.start > 30)) {
+      // end the date - unhappy
+      output = "<<include [[DateLeaveSpotEndBad]]>>";
+    } else if (!aw.date.ate && random(1, 40) > 10) {
+      // pick a restaurant
+      sel = either(...restaurants);
+      const name = aw.dateSpots[sel].name;
+      const txto = either(
+        "I don't know about you, but I'm starved!",
+        "I'm getting pretty hungry, I could definitely go for some food right about now.",
+        "Well, what's a date without a nice meal?",
+        `I'm thinking we'd better eat something so we have enough energy for later.@@ <<= aw.date.name>> gives you a wink.@@.npc;`);
+      output = `<p>@@.npc;${txto} Let's head over to ${name} and eat.@@</p><<dialogchoice>><<dbutt "LET'S GO">><<set aw.date.npcPicked = true>><<run aw.dateSpots["${sel}"].arrive()>><<dtext "angel">>Well, you insisted they choose, so no backing out now...<<dbutt "there?" false>> <<dtext "pain">>You don't mind eating, but you don't want to eat <b>there</b> of all places<<dbutt "no way" false>> <<dtext "arrogant">>Screw this, you're going home.<</dialogchoice>>`;
+    } else if (aw.date.ate && !aw.date.dessert && random(1, 10) > 5) {
+      // pick a dessert place
+      sel = either(...desserts);
+      const name = aw.dateSpots[sel].name;
+      const txto = either(
+        "I hope you saved room for dessert!",
+        "I could really go for something sweet... aside from you, of course.",
+        "I think it's time for a little treat.");
+      output = `<p>@@.npc;${txto} Let's head over to ${name} for dessert.@@</p><<dialogchoice>><<dbutt "LET'S GO">><<set aw.date.npcPicked = true>><<run aw.dateSpots["${sel}"].arrive()>><<dtext "angel">>Well, you insisted they choose, so no backing out now...<<dbutt "there?" false>> <<dtext "pain">>You don't mind dessert, but you don't want to eat <b>there</b> of all places<<dbutt "no way" false>> <<dtext "arrogant">>Screw this, you're going home.<</dialogchoice>>`;
+    } else if ((aw.time - aw.date.start >= 120 && random(0, 120) < aw.date.arouse) || (aw.time - aw.date.start > 240 && aw.date.arouse >= 50)) {
+      // sexitimes
+      if (aw.date.dateType === "yourhome" || aw.date.dateType === "BFhome") {
+        output = "<<include [[DateLeaveSpotSexitimes]]>>";
+      } else {
+        output = "<<include [[DateLeaveSpotSexitimesHome]]>>";
+      }
+    } else if (aw.time - aw.date.start > 240) {
+      // date end amicable
+      output = "<<include [[DateLeaveSpotAmicable]]>>";
+    } else {
+      // pick a normal activity
+      sel = either(...activities);
+      const name = aw.dateSpots[sel].name;
+      const txto = either(
+        "Oh, I have an idea!",
+        "I know something fun to do.",
+        "Okay, I think that'll work...");
+      output = `<p>@@.npc;${txto} Let's head over to ${name}.@@</p><<dialogchoice>><<dbutt "LET'S GO">><<set aw.date.npcPicked = true>><<run aw.dateSpots["${sel}"].arrive()>><<dtext "angel">>Well, you insisted they choose, so no backing out now...<<dbutt "there?" false>> <<dtext "pain">>You don't really care for ${name}, isn't there something else? <<dbutt "no way" false>> <<dtext "arrogant">>Screw this, you're going home.<</dialogchoice>>`;
+    }
   }
   return output;
 };
@@ -873,6 +1047,113 @@ setup.date.end = function(): void {
   }
   setup.scenario.close();
   delete aw.date;
+};
+
+setup.date.eatHome = function(quality: number, npc: string, dish: string, dishIndex: number, drugged: string): string {
+  const addIngr = ["SA", "HE", "ZO", "FO", "SE", "RA"]; // satyr, heat, zone, focus, semen, poison
+  let out = "";
+  let reaction1 = "";
+  let reaction2 = "";
+  let reaction3 = "";
+  let heAteCum = "";
+  if (aw.npc[npc] == null) {
+    aw.con.warn(`attempted to run setup.date.eatHome with bad npcid: ${npc}.`);
+    return `Sorry, some kind of error happened! Eating failed because of the wrong npcId sent to the func: ${npc} Please report it!`;
+  }
+  if (aw.dishes[dishIndex] == null) {
+    aw.con.warn(`attempted to run setup.date.eatHome with bad dish number: ${dish}, ${dishIndex}.`);
+    return `Sorry, some kind of error happened! Eating failed because of the wrong dish sent to the func: ${dish}, ${dishIndex}. Please report it!`;
+  }
+  switch (quality) {
+    case 1:
+      aw.date.enjoy[1] -= random(17, 25);
+      aw.date.enjoy[1] += Math.round(aw.dishes[dishIndex].baseQuality / 5);
+      reaction1 = `smells... interesting.`;
+      reaction2 = `It was a... well good attempt on ${dish}.`;
+      reaction3 = `in an awkward silence`;
+      break;
+    case 2:
+      aw.date.enjoy[1] += random(2, 5);
+      aw.date.enjoy[1] += Math.round(aw.dishes[dishIndex].baseQuality / 3);
+      reaction1 = `smells nice!`;
+      reaction2 = `Oh I liked this ${dish}!`;
+      reaction3 = `having a nice chat`;
+      break;
+    case 3:
+      aw.date.enjoy[1] += random(4, 10);
+      aw.date.enjoy[1] += Math.round(aw.dishes[dishIndex].baseQuality / 3);
+      reaction1 = `smells fantastic! Oh, I am drooling already!`;
+      reaction2 = `Wow, I have never ate such a nice ${dish}, really! You are a fantastical cook!`;
+      reaction3 = `while ${aw.npc[npc].main.name} praises your cooking talents`;
+      break;
+    default:
+      break;
+  }
+  if (drugged !== "PL") {
+    let drug = "sex" as "sex" | "satyr" | "alc" | "heat" | "focus" | "cum" | "zone" | "cream";
+    switch (drugged) {
+      case "SA":
+        drug = "satyr";
+        reaction2 += " Hmm, it tingles on my tongue... Just like pepper but not quite...";
+        if (aw.date.npc.main.male) {
+          aw.date.arouse += random(16, 25);
+        } else {
+          aw.date.arouse += random(3, 7);
+        }
+        break;
+      case "RA": // what have you done lol
+        let his = "his";
+        if (aw.date.npc.main.female) {
+          his = "her";
+        }
+        State.active.variables.dateType = clone(aw.date.dateType);
+        setup.date.end();
+        setup.dialog("Dating", `<<if $dateType == "BFhome">>@@.mono;It is good that I took the meal I cooked in a container with me. It will only take a minute to heat it and I can serve it!@@ <</if>>${aw.npc[npc].main.name} sniffs the air while you bring the plates with the ${dish} to the table. @@.npc;That smells really nice!@@ Serving everything you take your seat and nervously watch ${aw.npc[npc].main.name} tries it holding your breath... @@.npc;Mmm-m! I like the taste!@@ Trying to hide that you are not actually eating with messing the food all over your plate you observe ${aw.npc[npc].main.name} slowly getting more and more concerned through the meal. ${aw.npc[npc].main.name} stars to sweat. @@.pc;Oh, is something wrong?@@ @@.npc;I... don't feel so good for some reason, pardon me.@@ Feeling weird excitement you notice ${his} breathing getting impetuous. Suddenly ${aw.npc[npc].main.name} vomits right into the plate. In silence you observe the body falling from the chair to the floor in spasms of dry nauseа. Shivering, strong at first, subsides as well as ${aw.npc[npc].main.name}'s breathing. You squat to see last sparks of life leaving ${his} eyes. It's over now.`);
+        setup.status.happy(-3, `You killed poor ${aw.npc[npc].main.name}`);
+        setup.status.stress(50, `You killed poor ${aw.npc[npc].main.name}`);
+        ↂ.home.item.kitchen.push("corpse");
+        ↂ.flag.victimName = aw.npc[npc].main.name + " " + aw.npc[npc].main.surname;
+        setup.omni.new("killer");
+        setup.achieve.new("killer");
+        delete aw.npc[npc]; // goodnight, sweetheart!
+        aw.S();
+        break;
+      case "He":
+        drug = "heat";
+        reaction2 += " Hmm, tastes interesting... just like... hmm, it is hard to describe...";
+        if (aw.date.npc.main.male) {
+          aw.date.arouse += random(3, 7);
+        } else {
+          aw.date.arouse += random(16, 25);
+        }
+        break;
+      case "ZO":
+        drug = "zone";
+        reaction2 += " You know, I feel so much better after the meal to be honest... A bit weird though... But better. I guess I was just really hungry!";
+        aw.date.enjoy[1] += random(13, 18);
+        break;
+      case "FO":
+        drug = "focus";
+        reaction2 += " Hmm, interesting taste though...";
+        aw.date.enjoy[1] += random(3, 9);
+        break;
+      case "SE":
+        drug = "cum";
+        reaction2 += " Hmm, some familiar aftertaste... what is it?";
+        heAteCum += " @@.pc;Some secret ingredient, he-he!@@"; // lol
+        aw.npc[npc].status.bimbo += 3;
+        aw.date.arouse += random(8, 15);
+        break;
+      default:
+        break;
+    }
+    aw.npc[npc].status.addict[drug] += 6;
+    setup.drug.eatDrug(drug, 20);
+  }
+  setup.food.eat(35, "health");
+  out += `${aw.npc[npc].main.name} sniffs the air while you bring the plates with the ${dish} to the table. @@.npc;That ${reaction1}@@ Serving everything you take your seat and watch ${aw.npc[npc].main.name} tries it holding your breath... @@.npc;${reaction2}@@${heAteCum} You continue your dinner ${reaction3} until you both feel full. You decide to know more about <<= aw.date.name>>. <<print setup.storythread.getStory(aw.date.npcid)>>`;
+  aw.S();
+  return out;
 };
 
 setup.date.tagText = function(tag: string, name: string): string {
@@ -964,10 +1245,14 @@ setup.date.tagText = function(tag: string, name: string): string {
       aw.date.qual += random(1, 5);
       break;
     case "buckNaked":
-      output += `how you're walking around buck naked and basically begging to be arrested`;
+      if (aw.date.dateType === "yourhome" || aw.date.dateType === "BFhome") {
+        output += `how you're surprised your date with your buck naked appearance.`;
+      } else {
+        output += `how you're walking around buck naked and basically begging to be arrested`;
+        aw.date.qual -= random(10, 15);
+      }
       aw.date.arouse += random(40, 50);
       aw.date.enjoy[1] -= random(0, 10);
-      aw.date.qual -= random(10, 15);
       break;
     case "practNakedTop":
       output += `how your top really frees your breasts, and just how nice those <<p tit.q>> breasts are`;
@@ -1111,6 +1396,7 @@ setup.date.tagText = function(tag: string, name: string): string {
         zone: "zone, and how your life seems to really be on track these days",
         cream: "your pussy being filled with cum, and how you're looking forward to a big creampie later",
       };
+      aw.date.qual -= random(2, 5);
       output += `how much you <b>love</b> ${drugText[drug]}`;
       break;
     case "withdrawal":
@@ -1136,7 +1422,7 @@ setup.date.tagText = function(tag: string, name: string): string {
     case "aroused":
       output += `your skin is flushed and glowing. You eventually reveal that you're incredibly horny...`;
       aw.date.arouse += random(20, 30);
-      aw.date.enjoy[1] -= random(5, 13);
+      aw.date.enjoy[1] -= random(3, 8);
       aw.date.qual += random(2, 4);
       break;
     case "angry":
@@ -1182,7 +1468,7 @@ setup.date.tagText = function(tag: string, name: string): string {
       break;
     case "fullTits":
       output += `how stuffed with milk your breasts are because you weren't able to pump them. You confess that you think milking would probably be so much nicer if you had someone to give you a hand... or mouth`;
-      aw.date.arouse += random(15, 20);
+      aw.date.arouse += random(12, 15);
       aw.date.enjoy[1] += random(5, 10);
       break;
     default:
@@ -1191,4 +1477,99 @@ setup.date.tagText = function(tag: string, name: string): string {
   output += ".";
   return output;
 };
+
+// prepares temp variables for serious shit
+setup.date.serious = function(): void {
+  const ᛔ = State.temporary;
+  ᛔ.canAdv = false;
+  ᛔ.advText = "No relationship advancement is possible";
+  ᛔ.advButt = "ADVANCE";
+  switch (aw.date.eligible[0]) {
+    case "engaged":
+      ᛔ.canAdv = true;
+      ᛔ.advText = "Ask your date to marry you.";
+      ᛔ.advButt = "PROPOSE";
+      break;
+    case "lovers":
+      ᛔ.canAdv = true;
+      ᛔ.advText = "Tell your date you love them.";
+      ᛔ.advButt = "I LOVE YOU";
+      break;
+    case "exclusive":
+      ᛔ.canAdv = true;
+      ᛔ.advText = "Ask to make your relationship official.";
+      if (aw.date.npc.main.female) {
+        ᛔ.advButt = "GIRLFRIEND";
+      } else {
+        ᛔ.advButt = "BOYFRIEND";
+      }
+      break;
+    default:
+      ᛔ.canAdv = false;
+      ᛔ.advText = "You can't currently advance your relationship...";
+  }
+  ᛔ.canAccuse = false;
+  if (aw.date.npc.record.cheat.PCsuspicion > 50) {
+    ᛔ.canAccuse = true;
+  }
+  ᛔ.canPreg = false;
+  if (ↂ.pc.status.pregnant && (ↂ.pc.status.wombA.know || ↂ.pc.status.wombB.know) && !aw.date.npc.record.flag.knowPCpreg) {
+    ᛔ.canPreg = true;
+    if (ↂ.pc.status.babyDaddy.includes(aw.date.npcid)) {
+      ᛔ.isDad = true;
+    } else {
+      ᛔ.isDad = false;
+    }
+    if (aw.date.npc.record.sex.creampie > 0) {
+      ᛔ.dadPossible = true;
+    } else {
+      ᛔ.dadPossible = false;
+    }
+  }
+  ᛔ.canSlut = true;
+  if (aw.date.npc.record.flag.openRship || aw.date.npc.rship.category === "dating") {
+    ᛔ.canSlut = false;
+  }
+  ᛔ.canConf = false;
+  if (aw.date.npc.record.cheat.PChasCheated) {
+    ᛔ.canConf = true;
+  }
+  if ((aw.date.npc.rship.lovers || aw.date.npc.rship.engaged) && !ↂ.flag.liveTogether) {
+    ᛔ.canLiveWith = true;
+  } else {
+    ᛔ.canLiveWith = false;
+  }
+  // Note: I didn't add code/dialog to stop living together, because 99% that would end in a breakup, which you can already do.
+};
+
+setup.date.askOpen = function(): number {
+  if (aw.date.npc.kink.superSlut || aw.date.npc.status.bimbo > 49) {
+    setup.date.goodThings(2, 2, 3);
+    return 1;
+  }
+  let x = aw.date.npc.rship.lovePC - Math.min(25, Math.round(aw.date.npc.status.perversion / 3));
+  if (aw.date.npc.kink.sub) {
+    x -= random(5, 10);
+  }
+  if (aw.date.npc.kink.slut) {
+    x -= 15;
+  }
+  if (aw.date.npc.trait.extro) {
+    x -= 5;
+  }
+  if (random(0, 100) > x) {
+    aw.date.npc.rship.lovePC -= random(8, 15);
+    aw.date.npc.rship.likePC -= random(3, 8);
+    aw.date.npc.record.flag.openRship = true;
+    return 2;
+  }
+  aw.date.npc.rship.lovePC -= random(10, 15);
+  aw.date.npc.rship.likePC -= random(10, 15);
+  setup.date.badThings(5, 5, 4);
+  setup.date.statRefresh();
+  return 3;
+};
+
+
+
 

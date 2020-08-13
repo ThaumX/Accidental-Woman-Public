@@ -109,6 +109,16 @@ class SexActN {
         // aw.con.warn(`act ${this.key} failed due to sex`);
         return false;
       }
+      // aw.con.warn(`Test ${this.key}, ${this.parts[1]}`);
+      if (!setup.sex.clothesBlockChecker("pc", this.parts[1])) {
+        return false;
+      }
+      if (!setup.sex.clothesBlockChecker(sx._k, this.parts[0])) {
+        return false;
+      }
+      if (setup.sexToys.check("pc", this.parts[1]) !== true) {
+        return false;
+      }
       const sex = ↂ.sex;
       // TODO - enable selecting extra positions for group sex - check pos of target
       const blockA = aw.sexPos[sex.pos].pos[1].blocked;
@@ -131,6 +141,7 @@ class SexActN {
         // aw.con.warn(`act ${this.key} failed occuB`);
         return false;
       }
+      // aw.con.warn(`act ${this.key} has ${this.uniqueReq()}}`);
       if (!this.uniqueReq()) {
         // aw.con.warn(`act ${this.key} failed unique`);
         return false;
@@ -167,7 +178,7 @@ class SexActN {
       key: "strokeHair", // key of the action
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      parts: ["hand", "head"], // the used parts - 0: player 1: target
+      parts: ["hand", "head"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 1, // actual amount
@@ -212,7 +223,7 @@ class SexActN {
       key: "cupAss", // key of the action
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["hand", "ass"], // the used parts - 0: player 1: target
+      parts: ["hand", "ass"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 5, // actual amount
@@ -257,7 +268,7 @@ class SexActN {
       key: "slowDown", // key of the action
       cat: "sex", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["skip", "head"], // the used parts - 0: player 1: target
+      parts: ["skip", "skip"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 10, // actual amount
@@ -307,7 +318,7 @@ class SexActN {
       key: "speedUp", // key of the action
       cat: "sex", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["skip", "head"], // the used parts - 0: player 1: target
+      parts: ["skip", "skip"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 30, // actual amount
@@ -357,7 +368,7 @@ class SexActN {
       key: "strokeCock", // key of the action
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["hand", "vulva"], // the used parts - 0: player 1: target
+      parts: ["hand", "vulva"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 40, // actual amount
@@ -402,7 +413,7 @@ class SexActN {
       key: "playWnipples", // key of the action
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["hand", "chest"], // the used parts - 0: player 1: target
+      parts: ["hand", "chest"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 20, // actual amount
@@ -456,7 +467,7 @@ class SexActN {
       key: "heftBreasts", // key of the action
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["skip", "chest"], // the used parts - 0: player 1: target
+      parts: ["skip", "chest"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 15, // actual amount
@@ -499,7 +510,7 @@ class SexActN {
       key: "rubOwnVulva", // key of the action
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["hand", "pussy"], // the used parts - 0: player 1: target
+      parts: ["pussy", "skip"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 40, // actual amount
@@ -542,7 +553,7 @@ class SexActN {
       key: "strokeClit", // key of the action
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["hand", "pussy"], // the used parts - 0: player 1: target
+      parts: ["hand", "pussy"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 60, // actual amount
@@ -587,7 +598,7 @@ class SexActN {
       key: "passionateKiss", // key of the action
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["lips", "lips"], // the used parts - 0: player 1: target
+      parts: ["lips", "lips"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 2, // actual amount
@@ -632,7 +643,7 @@ class SexActN {
       key: "kiss", // key of the action
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["lips", "lips"], // the used parts - 0: player 1: target
+      parts: ["lips", "lips"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 1, // actual amount
@@ -677,7 +688,7 @@ class SexActN {
       key: "neckEar", // key of the action
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["lips", "head"], // the used parts - 0: player 1: target
+      parts: ["lips", "head"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 3, // actual amount
@@ -722,7 +733,7 @@ class SexActN {
       key: "exploreVulva", // key of the action
       cat: "oral", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["lips", "groin"], // the used parts - 0: player 1: target
+      parts: ["lips", "groin"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           npcAmt: 5, // actual amount
@@ -765,7 +776,7 @@ class SexActN {
       key: "suckNipple", // key of the action
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["lips", "chest"], // the used parts - 0: player 1: target
+      parts: ["lips", "chest"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           npcAmt: 5, // actual amount
@@ -817,7 +828,7 @@ class SexActN {
       key: "strokeClitTongue", // key of the action
       cat: "oral", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["lips", "vulva"], // the used parts - 0: player 1: target
+      parts: ["lips", "vulva"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           npcAmt: 5, // actual amount
@@ -860,7 +871,7 @@ class SexActN {
       key: "suckClit", // key of the action
       cat: "oral", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["lips", "vulva"], // the used parts - 0: player 1: target
+      parts: ["lips", "vulva"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           npcAmt: 5, // actual amount
@@ -903,7 +914,7 @@ class SexActN {
       key: "tongueClit", // key of the action
       cat: "oral", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["lips", "vulva"], // the used parts - 0: player 1: target
+      parts: ["lips", "vulva"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           npcAmt: 5, // actual amount
@@ -946,7 +957,7 @@ class SexActN {
       key: "fingerPussy", // key of the action
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["hand", "vulva"], // the used parts - 0: player 1: target
+      parts: ["hand", "vulva"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 40, // actual amount
@@ -991,7 +1002,7 @@ class SexActN {
       key: "spankButt", // key of the action
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["bdsm", "domsub", "impact", "sadomasochism", "pain", "masochist", "sadist"], // any kinks action contains/implies for censorship
-      parts: ["hand", "butt"], // the used parts - 0: player 1: target
+      parts: ["hand", "butt"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 10, // actual amount
@@ -1036,7 +1047,7 @@ class SexActN {
       key: "gstrokeCock", // key of the action
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["skip", "groin"], // the used parts - 0: player 1: target
+      parts: ["cock", "skip"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 0, // actual amount
@@ -1082,7 +1093,7 @@ class SexActN {
       key: "huggies", // key of the action
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["chest", "chest"], // the used parts - 0: player 1: target
+      parts: ["chest", "chest"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 1, // actual amount
@@ -1127,7 +1138,7 @@ class SexActN {
       key: "complementBody", // key of the action
       cat: "talk", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["skip", "chest"], // the used parts - 0: player 1: target
+      parts: ["skip", "skip"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 0, // actual amount
@@ -1172,7 +1183,7 @@ class SexActN {
       key: "putOnCondom", // key of the action
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["skip", "chest"], // the used parts - 0: player 1: target
+      parts: ["cock", "skip"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: -150, // actual amount
@@ -1236,7 +1247,7 @@ class SexActN {
       key: "pullOffCondom", // key of the action
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship
-      parts: ["skip", "cock"], // the used parts - 0: player 1: target
+      parts: ["cock", "skip"], // the used parts - 0: npc 1: player
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 10, // actual amount
@@ -1291,6 +1302,446 @@ class SexActN {
         ↂ.sex.npcBC[ↂ.sex.target].condom.sabo = 0;
         ↂ.sex.npcBC[ↂ.sex.target].condom.effect = 0;
         ↂ.sex.flag.npcTookOffCondom = true;
+      }, // special function to be run when action is taken.
+    },
+    removeOwnTop: {
+      name: "remove own top", // name of the action
+      key: "removeOwnTop", // key of the action
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
+      kink: ["none"], // any kinks action contains/implies for censorship
+      parts: ["hand", "skip"], // the used parts - 0: npc 1: player
+      effect: { // the effect information for the action
+        pleasure: { // pleasure (prog to orgasm) given by action
+          pcAmt: 10, // actual amount
+          pcMax: 98, // max allowed percent  - won't increase pleasure above that point.
+          npcAmt: 20,
+          npcMax: 98,
+        },
+        arousal: { // arousal gain from action (base)
+          pcAmt: 1,
+          pcMax: 6,
+          npcAmt: 1,
+          npcMax: 6,
+        },
+        wetness: { // amount of wetness to increase
+          pcAmt: 1,
+          pcMax: 8,
+          npcAmt: 1,
+          npcMax: 8,
+        },
+        cum: false, // can override cum destination from position. Needs Object if override!
+        satisfy: [1, 1], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
+        strong: { // list of traits/kinks that this action is strong for
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+        weak: { // list of traits/kinks that decrease effect/weak for.
+          pcKink: ["none"],
+          pcTrait: ["-none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+      },
+      sex: 0, // required sex of the target. 0: none 1: male 2: female
+      tags: ["none"], // special tags for action, mainly for unique kink effects
+      req: ["none"], // required environmental tags
+      forbid: ["none"], // forbidden environmental tags
+      uniqueReq() {
+        if (ↂ.T.clothes.worn.top === "off" || ↂ.T.clothes.worn.top === false) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      special() {
+        ↂ.T.clothes.worn.top = "off";
+      }, // special function to be run when action is taken.
+    },
+    removeOwnBra: {
+      name: "remove own bra", // name of the action
+      key: "removeOwnBra", // key of the action
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
+      kink: ["none"], // any kinks action contains/implies for censorship
+      parts: ["hand", "skip"], // the used parts - 0: npc 1: player
+      effect: { // the effect information for the action
+        pleasure: { // pleasure (prog to orgasm) given by action
+          pcAmt: 10, // actual amount
+          pcMax: 98, // max allowed percent  - won't increase pleasure above that point.
+          npcAmt: 20,
+          npcMax: 98,
+        },
+        arousal: { // arousal gain from action (base)
+          pcAmt: 1,
+          pcMax: 6,
+          npcAmt: 1,
+          npcMax: 6,
+        },
+        wetness: { // amount of wetness to increase
+          pcAmt: 1,
+          pcMax: 8,
+          npcAmt: 1,
+          npcMax: 8,
+        },
+        cum: false, // can override cum destination from position. Needs Object if override!
+        satisfy: [1, 1], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
+        strong: { // list of traits/kinks that this action is strong for
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+        weak: { // list of traits/kinks that decrease effect/weak for.
+          pcKink: ["none"],
+          pcTrait: ["-none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+      },
+      sex: 0, // required sex of the target. 0: none 1: male 2: female
+      tags: ["none"], // special tags for action, mainly for unique kink effects
+      req: ["none"], // required environmental tags
+      forbid: ["none"], // forbidden environmental tags
+      uniqueReq() {
+        if (ↂ.T.clothes.worn.bra === "off" || typeof(ↂ.T.clothes.outfits.casual.bra) !== "string" || ↂ.T.clothes.worn.bra === false || (ↂ.T.clothes.worn.top === "normal" && typeof(ↂ.T.clothes.outfits.casual.top) === "string")) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      special() {
+        ↂ.T.clothes.worn.bra = "off";
+      }, // special function to be run when action is taken.
+    },
+    removeOwnBottom: {
+      name: "remove own bottom", // name of the action
+      key: "removeOwnBottom", // key of the action
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
+      kink: ["none"], // any kinks action contains/implies for censorship
+      parts: ["hand", "skip"], // the used parts - 0: npc 1: player
+      effect: { // the effect information for the action
+        pleasure: { // pleasure (prog to orgasm) given by action
+          pcAmt: 10, // actual amount
+          pcMax: 98, // max allowed percent  - won't increase pleasure above that point.
+          npcAmt: 20,
+          npcMax: 98,
+        },
+        arousal: { // arousal gain from action (base)
+          pcAmt: 1,
+          pcMax: 6,
+          npcAmt: 1,
+          npcMax: 6,
+        },
+        wetness: { // amount of wetness to increase
+          pcAmt: 1,
+          pcMax: 8,
+          npcAmt: 1,
+          npcMax: 8,
+        },
+        cum: false, // can override cum destination from position. Needs Object if override!
+        satisfy: [1, 1], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
+        strong: { // list of traits/kinks that this action is strong for
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+        weak: { // list of traits/kinks that decrease effect/weak for.
+          pcKink: ["none"],
+          pcTrait: ["-none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+      },
+      sex: 0, // required sex of the target. 0: none 1: male 2: female
+      tags: ["none"], // special tags for action, mainly for unique kink effects
+      req: ["none"], // required environmental tags
+      forbid: ["none"], // forbidden environmental tags
+      uniqueReq() {
+        if (ↂ.T.clothes.worn.bottom === "off" || ↂ.T.clothes.worn.bottom === false) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      special() {
+        ↂ.T.clothes.worn.bottom = "off";
+      }, // special function to be run when action is taken.
+    },
+    removeOwnPanties: {
+      name: "remove own panties", // name of the action
+      key: "removeOwnPanties", // key of the action
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
+      kink: ["none"], // any kinks action contains/implies for censorship
+      parts: ["hand", "skip"], // the used parts - 0: npc 1: player
+      effect: { // the effect information for the action
+        pleasure: { // pleasure (prog to orgasm) given by action
+          pcAmt: 10, // actual amount
+          pcMax: 98, // max allowed percent  - won't increase pleasure above that point.
+          npcAmt: 20,
+          npcMax: 98,
+        },
+        arousal: { // arousal gain from action (base)
+          pcAmt: 1,
+          pcMax: 6,
+          npcAmt: 1,
+          npcMax: 6,
+        },
+        wetness: { // amount of wetness to increase
+          pcAmt: 1,
+          pcMax: 8,
+          npcAmt: 1,
+          npcMax: 8,
+        },
+        cum: false, // can override cum destination from position. Needs Object if override!
+        satisfy: [1, 1], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
+        strong: { // list of traits/kinks that this action is strong for
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+        weak: { // list of traits/kinks that decrease effect/weak for.
+          pcKink: ["none"],
+          pcTrait: ["-none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+      },
+      sex: 0, // required sex of the target. 0: none 1: male 2: female
+      tags: ["none"], // special tags for action, mainly for unique kink effects
+      req: ["none"], // required environmental tags
+      forbid: ["none"], // forbidden environmental tags
+      uniqueReq() {
+        if (ↂ.T.clothes.worn.panties === "off" || ↂ.T.clothes.worn.panties === false || (ↂ.T.clothes.worn.bottom === "normal" && typeof(ↂ.T.clothes.outfits.casual.bottom) === "string")) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      special() {
+        ↂ.T.clothes.worn.panties = "off";
+      }, // special function to be run when action is taken.
+    },
+    removeTop: {
+      name: "remove top", // name of the action
+      key: "removeTop", // key of the action
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
+      kink: ["none"], // any kinks action contains/implies for censorship
+      parts: ["skip", "chest"], // the used parts - 0: npc 1: player
+      effect: { // the effect information for the action
+        pleasure: { // pleasure (prog to orgasm) given by action
+          pcAmt: 10, // actual amount
+          pcMax: 98, // max allowed percent  - won't increase pleasure above that point.
+          npcAmt: 20,
+          npcMax: 98,
+        },
+        arousal: { // arousal gain from action (base)
+          pcAmt: 1,
+          pcMax: 6,
+          npcAmt: 1,
+          npcMax: 6,
+        },
+        wetness: { // amount of wetness to increase
+          pcAmt: 1,
+          pcMax: 8,
+          npcAmt: 1,
+          npcMax: 8,
+        },
+        cum: false, // can override cum destination from position. Needs Object if override!
+        satisfy: [1, 1], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
+        strong: { // list of traits/kinks that this action is strong for
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+        weak: { // list of traits/kinks that decrease effect/weak for.
+          pcKink: ["none"],
+          pcTrait: ["-none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+      },
+      sex: 0, // required sex of the target. 0: none 1: male 2: female
+      tags: ["none"], // special tags for action, mainly for unique kink effects
+      req: ["none"], // required environmental tags
+      forbid: ["none"], // forbidden environmental tags
+      uniqueReq() {
+        if (ↂ.pc.clothes.worn.bra === "off" || ↂ.pc.clothes.worn.bra === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      special() {
+        ↂ.pc.clothes.worn.top = "off";
+      }, // special function to be run when action is taken.
+    },
+    removeBra: {
+      name: "remove bra", // name of the action
+      key: "removeBra", // key of the action
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
+      kink: ["none"], // any kinks action contains/implies for censorship
+      parts: ["skip", "chest"], // the used parts - 0: npc 1: player
+      effect: { // the effect information for the action
+        pleasure: { // pleasure (prog to orgasm) given by action
+          pcAmt: 10, // actual amount
+          pcMax: 98, // max allowed percent  - won't increase pleasure above that point.
+          npcAmt: 20,
+          npcMax: 98,
+        },
+        arousal: { // arousal gain from action (base)
+          pcAmt: 1,
+          pcMax: 6,
+          npcAmt: 1,
+          npcMax: 6,
+        },
+        wetness: { // amount of wetness to increase
+          pcAmt: 1,
+          pcMax: 8,
+          npcAmt: 1,
+          npcMax: 8,
+        },
+        cum: false, // can override cum destination from position. Needs Object if override!
+        satisfy: [1, 1], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
+        strong: { // list of traits/kinks that this action is strong for
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+        weak: { // list of traits/kinks that decrease effect/weak for.
+          pcKink: ["none"],
+          pcTrait: ["-none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+      },
+      sex: 0, // required sex of the target. 0: none 1: male 2: female
+      tags: ["none"], // special tags for action, mainly for unique kink effects
+      req: ["none"], // required environmental tags
+      forbid: ["none"], // forbidden environmental tags
+      uniqueReq() {
+        if (ↂ.pc.clothes.worn.bra === "off" || ↂ.pc.clothes.worn.bra === 0 || (ↂ.pc.clothes.worn.top === "normal" && typeof(ↂ.pc.clothes.worn.top) === "string")) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      special() {
+        ↂ.pc.clothes.worn.bra = "off";
+      }, // special function to be run when action is taken.
+    },
+    removeBottom: {
+      name: "remove bottom", // name of the action
+      key: "removeBottom", // key of the action
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
+      kink: ["none"], // any kinks action contains/implies for censorship
+      parts: ["skip", "chest"], // the used parts - 0: npc 1: player
+      effect: { // the effect information for the action
+        pleasure: { // pleasure (prog to orgasm) given by action
+          pcAmt: 10, // actual amount
+          pcMax: 98, // max allowed percent  - won't increase pleasure above that point.
+          npcAmt: 20,
+          npcMax: 98,
+        },
+        arousal: { // arousal gain from action (base)
+          pcAmt: 1,
+          pcMax: 6,
+          npcAmt: 1,
+          npcMax: 6,
+        },
+        wetness: { // amount of wetness to increase
+          pcAmt: 1,
+          pcMax: 8,
+          npcAmt: 1,
+          npcMax: 8,
+        },
+        cum: false, // can override cum destination from position. Needs Object if override!
+        satisfy: [1, 1], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
+        strong: { // list of traits/kinks that this action is strong for
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+        weak: { // list of traits/kinks that decrease effect/weak for.
+          pcKink: ["none"],
+          pcTrait: ["-none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+      },
+      sex: 0, // required sex of the target. 0: none 1: male 2: female
+      tags: ["none"], // special tags for action, mainly for unique kink effects
+      req: ["none"], // required environmental tags
+      forbid: ["none"], // forbidden environmental tags
+      uniqueReq() {
+        if (ↂ.pc.clothes.worn.bottom === "off" || ↂ.pc.clothes.worn.bottom === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      special() {
+        ↂ.pc.clothes.worn.bottom = "off";
+      }, // special function to be run when action is taken.
+    },
+    removePanties: {
+      name: "remove panties", // name of the action
+      key: "removePanties", // key of the action
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
+      kink: ["none"], // any kinks action contains/implies for censorship
+      parts: ["skip", "chest"], // the used parts - 0: npc 1: player
+      effect: { // the effect information for the action
+        pleasure: { // pleasure (prog to orgasm) given by action
+          pcAmt: 10, // actual amount
+          pcMax: 98, // max allowed percent  - won't increase pleasure above that point.
+          npcAmt: 20,
+          npcMax: 98,
+        },
+        arousal: { // arousal gain from action (base)
+          pcAmt: 1,
+          pcMax: 6,
+          npcAmt: 1,
+          npcMax: 6,
+        },
+        wetness: { // amount of wetness to increase
+          pcAmt: 1,
+          pcMax: 8,
+          npcAmt: 1,
+          npcMax: 8,
+        },
+        cum: false, // can override cum destination from position. Needs Object if override!
+        satisfy: [1, 1], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
+        strong: { // list of traits/kinks that this action is strong for
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+        weak: { // list of traits/kinks that decrease effect/weak for.
+          pcKink: ["none"],
+          pcTrait: ["-none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+      },
+      sex: 0, // required sex of the target. 0: none 1: male 2: female
+      tags: ["none"], // special tags for action, mainly for unique kink effects
+      req: ["none"], // required environmental tags
+      forbid: ["none"], // forbidden environmental tags
+      uniqueReq() {
+        if (ↂ.pc.clothes.worn.panties === "off" || ↂ.pc.clothes.worn.panties === 0 || (ↂ.pc.clothes.worn.bottom === "normal" && typeof(ↂ.pc.clothes.worn.bottom) === "string")) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      special() {
+        ↂ.pc.clothes.worn.panties = "off";
       }, // special function to be run when action is taken.
     },
   };

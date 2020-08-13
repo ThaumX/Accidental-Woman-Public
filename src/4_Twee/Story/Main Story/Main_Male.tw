@@ -16,6 +16,338 @@
 
 :: MSM-StartText [nobr]
 
+<<texting "Lily">>
+<<textnpc>>Hey <<name>>, I need you to stop by my place this weekend.
+<<textpc>>Is something wrong?
+<<textnpc>>No, I just want to give you a secure key for the basement lab. I need you here to get your biometrics to go with it, and I figure it'd be better to get it over with.
+<<textpc>>Oh, okay. Biometrics?
+<<textnpc>>Just finger prints. Mostly. We definitely don't want anyone getting into the lab, do we?
+<<textpc>>Yeah, that'd probably be bad...
+<<textnpc>>I'm about to start inspecting components to see what needs to be replaced. I could always use an extra hand. [img[IMG_EmoWink]]
+<<textpc>>This weekend? I don't know...
+<<textnpc>>No, I just need you for like 5-10 minutes this weekend. The component inspection is going to take a lot longer than a weekend.
+<<textpc>>Just an inspection?
+<<textnpc>>Well, we have to make sure we use working parts if we want the machine to work... so yeah.
+<<textpc>>Oh... that makes sense.
+<<textnpc>>I'll tell you about it when you're here, in case you want to give me a hand when you have some free time.
+<<textnpc>>Which conveniently, you'll be able to do thanks to having access to the lab, lol.
+<<textpc>>Okay, I'll stop by. What time?
+<<textnpc>>I'll be home all weekend... so anytime from 0800 to say 2300.
+<<textpc>>Cool, I'll see you later then.
+<<textnpc>>Don't forget! <<replace "#cockifer">><<safetoclose>><</replace>>
+<</texting>>
+<div id="cockifer">
+...
+</div>
 
+
+
+:: MSM-GetAccessKey [nobr]
+
+
+<<status 1>>
+<<run $items.pickUp("Lily's Access Card")>>
+<<set ↂ.flag.main.active[0] = true>>
+<<run setup.omni.kill(ↂ.flag.main.omniKey)>>
+<<status 0>>
+<p>
+<<f y>>ou climb the steps to Lily's front door and ring the bell. A moment later you hear a bang followed by "@@.npc;Fuck!@@" from inside. A little while later a slightly disheveled-looking Lily opens the door. @@.npc;Hey <<name>>, come on in.@@ She's wearing a T-shirt and a thin pair of shorts, and is pitching a pretty obvious tent.
+</p>
+<p>
+You step inside. @@.pc;Hey Lils, did I come at a bad time?@@
+</p>
+<p>
+@@.npc;No, it's fine.@@ She blushes a little as she closes the door behind you. @@.npc;I was just a little... preoccupied.@@
+</p>
+<div id="cuntainer">
+<center>
+<<if (aw.npc.n101.rship.dating && !ↂ.pc.kink.shame && ↂ.pc.kink.oral) || (aw.npc.n101.rship.friend && ↂ.pc.kink.slut && ↂ.pc.trait.libido > 4 && ↂ.pc.kink.oral && !ↂ.pc.trait.cl)>>
+<<button "Give A Hand">>
+  <<if aw.npc.n101.rship.dating && !ↂ.pc.kink.shame && ↂ.pc.kink.oral>>
+    <<replace "#cuntainer">><<include [[MSM-GetAccessKeyPass]]>><</replace>>
+  <<else>>
+    <<SCX>><<SC "SD" 13>>
+    <<if $SCresult[1]>>
+      <<replace "#cuntainer">><center><<print $SCtext[1]>></center><<include [[MSM-GetAccessKeyPass]]>><</replace>>
+    <<else>>
+      <<replace "#cuntainer">><center><<print $SCtext[1]>></center><<include [[MSM-GetAccessKeyFail]]>><</replace>>
+    <</if>>
+  <</if>>
+<</button>>
+<<else>>
+<<hoverrevise why>>
+<button class="disabled">Give A Hand</button>
+<<endhoverrevise>><br>
+<<insertion why>><<ctn>>Must be in a relationship, like oral, and not be shamefast OR must be a friend, a slut with a high libido, like oral, and not be close-minded<</ctn>><<endinsertion>>
+<</if>>
+</center>
+</div>
+<p>
+Lily gestures for you to follow her. @@.npc;Come on, let's go get you that access card.@@ She starts walking to the basement stairs. You wait as she opens a complex lock on the door to the stairway, and then follow her down.
+</p>
+<center>[img[IMG-ElectronicsLabSpace]]</center>
+<p>
+You take a look around the basement lab, and see that it looks completely different than it did the last time you were down here. There's no longer a large conglomeration of electronics in the middle of the open space, instead the room is wide open, giving you a better look at the counters, workbenches, shelves, and storage boxes around the periphery. The floor, however, is completely covered in various pieces, parts, and electronics.
+</p>
+<p>
+You aren't sure what all the various things--or pieces of things--are, but they occupy nearly all the floor space. It almost looks like someone took apart a whole range of appliances--and a tanning bed for good measure--and laid all the resulting pieces out on the floor. Some of them look scorched, and there's a faint smell of warm plastic in the air. A few narrow pathways have been left free of parts, leading to some of the other counters, tools, and desks. The result is a space that looks both spacious and somewhat claustrophobic at the same time. The parts seem to be roughly organized; at least similar-looking things seem to be grouped together on the floor.
+</p>
+<p>
+You look back and see that Lily is standing at the electronics desk in front of a laptop. She's messing with what appears to be a card and card reader. @@.pc;What's this?@@
+</p>
+<p>
+She looks back at you. @@.npc;Just getting your access card ready. Come here so I can scan your thumbprints.@@ She points to a simple fingerprint reader attached to the laptop. You walk over and hold your thumb out. @@.npc;Just push your thumb on the pad and hold it until the light turns green.@@ You comply, first pushing your right thumb onto the pad. When the light turns green, you repeat the process with your left.
+</p>
+<p>
+@@.npc;Okay, now I need you to push your thumb onto the chip-looking thing on that card.@@ Once you do, you hear the computer chirp. @@.npc;Okay, you're all set.@@ She pulls the card out of the reader. @@.npc;When you want to get in through the basement door, just insert this card into the reader next to the door while you have your thumb on that chip. Then push your thumb on the fingerprint reader, and finally enter the 4-digit PIN. The door will unlock, and you can pull out the access card.@@
+</p>
+<p>
+@@.pc;What's the PIN?@@
+</p>
+<p>
+@@.npc;The PIN is 2625. If you have a hard time remembering it, open the phone on your cell and look at the numbers. The numbers spell cock.@@ She chuckles a bit and then hands you the access card. It's thicker and heavier than you expected.
+</p>
+<center>
+<div style="border:2px solid deepskyblue;border-radius:4px;padding:10px;">
+<<ctn>>You obtained Lily's Access Card!<</ctn>><br>
+<img data-passage="IMG_Item_AccessCard" style="width: 125px; height: 125px;">
+</div>
+</center>
+<p>
+@@.pc;Thanks Lils.@@ You gesture to the floor covered with parts. @@.pc;So what's going on here?@@
+</p>
+<p>
+@@.npc;As I think you can tell, I totally disassembled the machine. These are the parts.@@ She gives you a wry smile, taking amusement at answering your question literally.
+</p>
+<p>
+You sigh and shake your head. @@.pc;So <b>why</b> did you disassemble everything?@@
+</p>
+<p>
+She looks around at parts covering the floor. @@.npc;Because with all the electrical damage, everything needs to be inspected to make sure its working. That's the next step, separating the parts into what can be reused, what can be fixed, and what has to be replaced.@@
+</p>
+<p>
+You look at the endless sea of parts yourself. @@.pc;You have to check all of them... by yourself?@@
+</p>
+<p>
+@@.npc;It's not too horrible, only the electronics really need a lot of attention. The structural elements and such should be pretty quick.@@ She gives you an unexpected smile. @@.npc;The good news is that I got something of a lab assistant I can trust to help out with the more menial work.@@
+</p>
+<p>
+@@.pc;Oh yeah? Who is it?@@
+</p>
+<p>
+@@.npc;Well you don't know her, obviously. Her name is Sara Wauer. you might run into her if you happen to stop by the basement while she's here. Even with her helping out though, I could still use your help too; especially if you want to hurry things along...@@
+</p>
+<<dialogchoice>>
+<<dbutt "Nope">><<addTime 10>><<set ↂ.flag.main.male.workResponse = 1>><<status 0>><<go MSM-GetAccessKeyB>>
+<<dtext "bored">>You really don't feel like working on this stuff
+<<dbutt "Sure">><<addTime 10>><<set ↂ.flag.main.male.workResponse = 3>><<status 0>><<go MSM-GetAccessKeyB>>
+<<dtext "smile">>You don't mind helping Lily get the machine fixed
+<<dbutt "But...">><<addTime 10>><<set ↂ.flag.main.male.workResponse = 2>><<status 0>><<go MSM-GetAccessKeyB>>
+<<dtext "cute">>You think you like being a girl and you're in no hurry to change back!
+<</dialogchoice>>
+
+
+:: MSM-GetAccessKeyFail [nobr]
+
+<p>
+You leer at Lily's crotch. @@.pc;You going to let me suck that or what?@@ Without thinking you start to crouch down to get Lily's erection closer to mouth-level.
+</p>
+<p>
+Lily stares at you for a few moments, but you're too distracted by cock to notice the hint of revulsion in her face. @@.npc;No, we'd better not. Perhaps another time...@@
+</p>
+<p>
+You stand back up reluctantly. @@.pc;Ohhhkay...@@
+</p>
+
+
+:: MSM-GetAccessKeyPass [nobr]
+
+
+<p>
+You take a step closer to Lily, reaching your hand out to grasp her thick tentpole. You whisper seductively @@.pc;How about you let me take care of this for you?@@
+</p>
+<p>
+Lily looks a little surprised, but nods her head. You waste no time getting down on your knees, your hand maintaining constant contact with Lily's cock the whole time. You eagerly pull down her shorts, allowing them to drop to the floor once her cock springs free. Your nose is immediately greeted by a heady mix of masculine and feminine scents. Her arousal is apparent; her balls glisten with moisture from her pussy while her cock strains upward and a bead of pre forms at the tip.
+</p>
+<p>
+Grasping her thick rod in one hand, you waste no time slipping its head into your mouth. You savor the faint flavor as you slowly run your tongue over the hard flesh. You take your other hand and caress her balls before allowing them to rest in the palm of your hand. You can't help but notice that they seem a good deal larger than you remember, but quickly dismiss the thought. Your fingers curl upward, exploring the delicate folds of her cunt that are already wet with her nectar. You begin a steady bobbing motion with your head, pressing your tongue against the sensitive underside of her member as you gradually take her cock deeper each time. You feel her sack tightening up in your hand as her cock tenses up in your mouth, and you know she's getting close.
+</p>
+<p>
+Taking a deep breath through your nose, you push your head forward once more. This time you allow the thick head of Lily's dick past the back of your mouth and into your throat. Swallowing reflexively at the intrusion, you keep pushing forward until your nose touches her abdomen. The additional sensation pushes Lily over the edge, and you feel surge in her cock as it sprays the first rope of jizz down your throat. You quickly pull backward in time for the next spurt of cum to flood your mouth. You savor the flavor as you hold her twitching member firmly in your mouth. You're forced to swallow multiple times before Lily has finished depositing her massive load in your mouth.
+</p>
+<p>
+Without releasing her flesh pole from your mouth, you give her a few moments to calm down before you start sucking at her cockhead to collect the dregs of her orgasm. Squeezing with your thumb against the underside of her cock, you drag your thumb from the base all the way to your chin and are rewarded with another dollop of Lily's delicious semen. @@.mono;Why is Lily's cum so damned delicious?@@
+</p>
+<p>
+You finally release her, sitting back on your butt to give your knees a break. You lick Lily's lubricant from your hand seductively as she slowly collects herself. When she finally bends over and pulls her shorts up from the floor, you climb back to your feet. She surprises you with a kiss, her tongue delving into your mouth briefly before she pulls away. @@.npc;Thanks for that, that felt great.@@
+</p>
+<p>
+You give her a smile and a wink. @@.pc;Any time Lils.@@
+</p>
+<<arousal 2>>
+<<eatdrug "cum" 15>><<run setup.hadSexWith("n101",2)>>
+
+
+:: MSM-GetAccessKeyB [nobr]
+
+
+<<switch ↂ.flag.main.male.workResponse>>
+<<case 1>>
+<p>
+<<f y>>ou shake your head. @@.pc;Sorry Lils, I really don't think I'll be able to help this time. Things have been busy enough as it is, I'm still getting used to things.@@
+</p>
+<p>
+Lily nods, though she looks a little disappointed before she covers it up with a smile. @@.npc;That's okay, I understand. You're still welcome to stop by the lab if you feel like it.@@ She looks back at the floor covered in parts. @@.npc;I'll be sure to let you know when we're done inspecting everything.@@
+</p>
+<p>
+@@.pc;Sure, I'll be glad to know how things are progressing.@@ You nod and smile apologetically. @@.pc;Hopefully I'll have a little more time to help out next time.@@
+</p>
+
+<<case 2>>
+<p>
+<<f y>>ou frown. @@.pc;You know Lils... I'm not sure I even <i>want</i> to turn back into a man...@@
+</p>
+<p>
+Lily looks a little surprised. @@.npc;Oh... really?@@ She quickly recovers, however, and smiles. @@.npc;So you've already fallen in love with <<if aw.npc.n101.rship.dating>>my<<else>>the<</if>> cock, have you?@@ She chuckles at the joke. <<if aw.npc.n101.rship.dating>>@@.npc;You know, it'll still be there even if you change back.@@<<else>>@@.npc;You know, you don't have to be a woman to get a good dicking.@@<</if>>
+</p>
+<p>
+You share the laugh. @@.pc;Yeah, yeah, I know. It's not that... well, at least not ''only'' that.@@ You flash her a grin. @@.pc;I have to admit that female orgasms are awesome. Beyond that, there are a lot of advantages to being a woman that I never really thought about before... and it feels like I'm more in control of things socially, if that makes sense. Really though, I'm just enjoying this new chance at life. I'm not sure I'll want to give it up once the machine is fixed.@@
+</p>
+<p>
+Lily looks contemplative, staring nowhere in particular for a couple moments as she things. @@.npc;That does make sense... Having to basically restart your life again would suck, and because you basically identify as a woman after the transformation there probably isn't any great emotional need to change back...@@ She looks back at you. @@.npc;Even if you decide to stay a woman, I do still have to fix the machine. Age regression is kind-of the holy grail, after all.@@
+</p>
+<p>
+@@.pc;Oh yeah... I had been so focused on the accident, I totally forgot about what it was supposed to do...@@
+</p>
+<p>
+Lily grins @@.npc;So even if you don't want to change back, I could still use your help.@@
+</p>
+<p>
+You sigh theatrically. @@.pc;Ohhhkay. I'll help out when I have some free time.@@
+</p>
+<p>
+@@.npc;Yay, thanks!@@ She grins victoriously. @@.npc;You don't have to worry about coming while I'm around if that doesn't fit your schedule. Even if I'm not here, I'm going to be writing out some instructions for the assistant, so you should be able to figure things out.@@
+</p>
+<p>
+You nod. @@.pc;Okay, that's good. I don't know when I'll be able to get enough free time to come by, so that'll help.@@
+</p>
+
+<<case 3>>
+<p>
+You smile and nod. @@.pc;Sure, I can help out if it helps you finish faster.@@
+</p>
+<p>
+Lily grins at you. @@.npc;Oh, you really are in a hurry to change back? And here I was figuring you'd want to stay a woman forever!@@ She chuckles, obviously joking.
+</p>
+<p>
+@@.pc;You know, I'm not really in a rush. Honestly, I'm not certain I even <i>want</i> to change back into a man... I suppose I'd just like to know the option is available.@@ You look around at the various parts, thinking. @@.pc;At first, with the shock of everything, I thought I'd want to change back ASAP. But now... I don't really mind being a woman. I kinda like this new life, and I have to admit that there are some advantages to being a woman too.@@
+</p>
+<p>
+Lily's expression turns serious. @@.npc;You know I'll be fine with whatever you want to do. I'd understand if you didn't want to have to start your life over a second time once you change back. Of course, if you do change back, I'll be here to help.@@
+</p>
+<p>
+@@.pc;Thanks. At least the next time around I'll know what I'm getting into, and hopefully I'll be a little more prepared with credits and everything else.@@
+</p>
+<p>
+@@.npc;Yep.@@ She grins. @@.npc;Hell, if I pull off selling age regression technology safely, we'll be set for life.@@
+</p>
+<p>
+Her grin is infectious, and you're soon smiling yourself. @@.pc;So what do I need to do to help out?@@
+</p>
+<p>
+@@.npc;Don't worry, it won't be anything too hard or complicated. I'll be handling most of the electronic stuff myself.@@ She gestures to the part-strewn floor. @@.npc;It's mostly looking at circuit boards for burns, putting screws and fasteners into the correct bins, and cleaning any scorch marks off the structural stuff. I'm going to be writing out some instructions for the assistant, so you can use those. You don't have to worry about matching up with my schedule to help.@@
+</p>
+<p>
+You nod. @@.pc;Okay, that sounds good.@@
+</p>
+
+<</switch>>
+
+<p>
+Lily looks at a clock on the wall and then starts walking down one of the paths through the sea of parts. @@.npc;Well, now that you've stopped by there's actually a couple things I really need to take care of... I'll show you out the basement entrance.@@ She looks back at you and gestures for you to follow.
+</p>
+<p>
+The two of you make your way through the sea of parts toward a heavy-looking door on the far wall that you realize must be the direct entrance to the lab. When she reaches the door, she pushes a doorbell-looking button on the wall and you hear a series of mechanical sounds as bolts retract. She pulls the door open, holding it for you. @@.npc;Thanks for stopping by, and sorry for kicking you out.@@
+</p>
+<p>
+You step outside into the below-ground area in front of Lily's townhouse. @@.pc;No worries, I'll see you later Lils.@@
+</p>
+<p>
+@@.npc;Yep, goodbye!@@ She gently closes the door, leaving you alone. 
+</p>
+<center>
+<<button "Climb Up To The Street">>
+<<addtime 10>><<go "LilysPlace">>
+<</button>>
+</center>
+
+
+:: MSM-TaskOneComplete [nobr]
+
+<<status 1>>
+<<set ↂ.flag.main.known[1] = true>>
+<<set ↂ.flag.main.active[1] = true>>
+<<status 0>>
+<<if not $AW.startMale>>
+  <<include [[MSF-TaskOneComplete]]>>
+<<else>>
+  <<texting "Lily">>
+  <<textnpc>>Hey <<name>>, I've got some good news!
+  <<textpc>>Well don't keep me waiting!
+  <<textnpc>>We're finally finished with inspecting the parts for the rejuvenator. Everything's all organized and ready for assembly when we're ready.
+  <<textnpc>>There's also some bad news though...
+  <<textpc>>Of course...
+  <<textnpc>>A lot of the electronics were damaged by the excessive current, I was expecting that though. Also pretty much all of the rare/hard-to-get/expensive components are broken too.
+  <<textpc>>What does that mean?
+  <<textnpc>>I'm not sure yet. I think I'll be able to repair/rebuild some of them hopefully. Some I might be able to salvage a bit from, but will have to be replaced. I'll know more once I've had time to inspect them in more detail.
+  <<textpc>>Okay, so it sounds like it could be worse.
+  <<textnpc>>It also turns out that pretty much every single EM coil is ruined, nearly all of them were hand-wound. The copper wire is ruined, so we'll need to get new wire and wind it for new magnets...
+  <<textnpc>>The silver lining is that It's going to take me time evaluating those components anyway, so we really won't be wasting time.
+  <<textpc>>But basically you just need to buy some copper wire?
+  <<textnpc>>Basically, but it's not your average wire from the hardware store. It's a small gauge with thin insulation, basically the kind intended for electromagnets.
+  <<textnpc>>It's fairly expensive, but the bigger issue is that we can't just buy it in bulk without attracting attention... So that's the next task: acquiring copper wire.
+  <<textpc>>So how are you going to do it?
+  <<textnpc>>Buy it in small batches from a contact in the industrial district.
+  <<textnpc>>Of course that means there's going to be a "markup" on top of losing the savings from buying in bulk.
+  <<textnpc>>Copper itself is already about ₢3 per pound. If we're lucky we'll get the enameled wire for ₢18 per pound.
+  <<textpc>>Oh, that doesn't sound too bad?
+  <<textnpc>>We need a few hundred pounds.
+  <<textpc>>Oh.
+  <<textnpc>>You're always welcome to help out with the purchasing, but my lab assistant can take care of it with enough time.
+  <<textnpc>>I think we could speed things up even more if you were willing to spend some money, but it isn't necessary.
+  <<textpc>>Well, I'll stop by the lab sometime and see what I can do.
+  <<textnpc>>Sounds good, I'll leave some info and instructions on the center desk like before.
+  <<textnpc>>In case I'm not around.
+  <<textpc>>Okay, perfect
+  <<textnpc>>Cool, I'll ttyl <<replace "#pasty">><<safetoclose>><</replace>>
+  <</texting>>
+<</if>>
+<div id="pasty">
+</div>
+
+
+:: MSM-TaskTwoComplete [nobr]
+
+
+<<status 1>>
+<<set ↂ.flag.main.known[2] = true>>
+<<set ↂ.flag.main.active[2] = true>>
+<<status 0>>
+<<if not $AW.startMale>>
+  <<include [[MSF-TaskTwoComplete]]>>
+<<else>>
+  <<texting "Lily">>
+  <<textnpc>>Hey <<name>>, I've got some good news!
+  <<textpc>>Well don't keep me waiting!
+  <<textnpc>>We've finally got enough wire to build the custom electromagnets!
+  <<textpc>>Let me guess, there's bad news too.
+  <<textnpc>>Damn straight! I have no clue what to do next because the developer hasn't written that far yet!
+  <<textnpc>>Hint: It's coiling wire to make electromagnets.
+  <<textpc>>When will it be ready?
+  <<textnpc>>Really soon, probably in version 0.33! Thanks for playing!<<replace "#pasty">><<safetoclose>><</replace>>
+  <</texting>>
+<</if>>
+<div id="pasty">
+</div>
 
 

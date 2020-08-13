@@ -10,6 +10,7 @@ interface setupDrug {
   eatDrug: (drug: "sex" | "alc" | "heat" | "satyr" | "focus" | "cum" | "zone" | "cream", amt: number) => void;
   omniGen: (drug: "sex" | "alc" | "heat" | "satyr" | "focus" | "cum" | "zone" | "cream") => {};
   jonesing: (drug) => void;
+  reduction: () => void;
 }
 
 if (setup.drug === null || setup.drug === undefined) {
@@ -29,11 +30,39 @@ setup.drug.jonesing = function(drug) {
   }
 };
 
+setup.drug.reduction = function() {
+  if (!ↂ.pc.mutate.cumpire) {
+    ↂ.pc.status.addict.cum -= Math.min(8, Math.round(ↂ.pc.status.addict.cum / 3));
+  }
+  ↂ.pc.status.addict.cream -= Math.min(8, Math.round(ↂ.pc.status.addict.cream / 3));
+  ↂ.pc.status.addict.sex -= Math.min(8, Math.round(ↂ.pc.status.addict.sex / 3));
+  if (ↂ.pc.status.addict.alc < 50) {
+    ↂ.pc.status.addict.alc -= Math.min(3, Math.round(ↂ.pc.status.addict.alc / 8));
+  }
+  if (ↂ.pc.status.addict.focus < 50) {
+    ↂ.pc.status.addict.focus -= Math.min(3, Math.round(ↂ.pc.status.addict.focus / 8));
+  }
+  if (ↂ.pc.status.addict.heat < 50) {
+    ↂ.pc.status.addict.heat -= Math.min(3, Math.round(ↂ.pc.status.addict.heat / 8));
+  }
+  if (ↂ.pc.status.addict.satyr < 50) {
+    ↂ.pc.status.addict.satyr -= Math.min(3, Math.round(ↂ.pc.status.addict.satyr / 8));
+  }
+  if (ↂ.pc.status.addict.zone) {
+    ↂ.pc.status.addict.zone -= Math.min(3, Math.round(ↂ.pc.status.addict.zone / 8));
+  }
+};
+
 setup.drug.eatDrug = function(drug, amt) { // VODKA
   if (ↂ.pc.status.addict[drug] !== null) {
     const need = String(drug) + "Need";
     // makeshift need lowering func
     ↂ.pc.status.addict[need] = 0;
+    // remove wetHeat disease by getting creampie;
+    if (drug === "cream" && amt > 4 && random(1, 5) === 5) {
+      ↂ.pc.status.disease.delete("wetHeat");
+      setup.omni.kill("Wet Heat");
+    }
     // removing withdrawal
     if (amt > 0 && amt > Math.floor(ↂ.pc.status.addict[drug] / 11)) {
       if (setup.omni.matching("Withdrawal") !== 0) {
@@ -64,7 +93,7 @@ setup.drug.eatDrug = function(drug, amt) { // VODKA
     const curve = [0.2, 0.3, 0.4, 0.6, 0.8, 1, 1.2, 1.3, 1.4, 1.5, 1.5];
     if (!aw.chad.addict) {
       if (drug === "cum" || drug === "cream" || drug === "sex") {
-        ↂ.pc.status.addict[drug] += Math.floor(foo * curve[blah]) + 1;
+        ↂ.pc.status.addict[drug] += Math.floor(foo * curve[blah]);
       } else {
         ↂ.pc.status.addict[drug] += Math.floor(foo * curve[blah]) + 3;
       }
@@ -177,16 +206,15 @@ setup.drug.omniGen = function(drug) { // VODKA
   `;
   const anxiety = `
   if (random(${(severity + 1)}, 5) === 5 && this.times > 2 && flagVomit !== true && flagPsycho !== true && flagObsession !== true && flagMemoryLoss !== true) {
-    setup.status.stress(${(severity * 5)}, "Drugs");
-    setup.status.happy(-${severity}, "Drugs")
+    setup.status.stress(${(severity * 3)}, "Drugs");
+    setup.status.happy(-${(Math.round(severity / 2))}, "Drugs");
     setup.Dialog("Anxiety","<<include [[WithdrawalAnxiety]]>>");
     flagAnxiety = true;
   }
   `;
   const psycho = `
   if (random(${(severity + 1)}, 5) === 5 && this.times > 2 && flagVomit !== true && flagAnxiety !== true && flagObsession !== true && flagMemoryLoss !== true) {
-    setup.status.stress(${(severity * 6)}, "Drugs");
-    setup.status.happy(-${severity}, "Drugs")
+    setup.status.stress(${(severity * 4)}, "Drugs");
     setup.status.lonely(-${random(1, 2)}, "Drugs");
     setup.Dialog("New friend!","<<include [[WithdrawalPsycho]]>>");
     flagPsycho = true;
@@ -194,10 +222,10 @@ setup.drug.omniGen = function(drug) { // VODKA
   `;
   const obsession = `
   if (random(${(severity + 1)}, 5) === 5 && this.times > 2 && flagVomit !== true && flagAnxiety !== true && flagPsycho !== true && flagMemoryLoss !== true) {
-    setup.status.stress(${(severity * 3)}, "Drugs");
-    setup.status.happy(-${severity}, "Drugs")
+    setup.status.stress(${(severity * 2)}, "Drugs");
+    setup.status.happy(-1, "Drugs");
     setup.Dialog("Craving","<<include [[WithdrawalObsession]]>>");
-    flagPsycho = true;
+    flagObsession = true;
   }
   `;
   const memoryLoss = `

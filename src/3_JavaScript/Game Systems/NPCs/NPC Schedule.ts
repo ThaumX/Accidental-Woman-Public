@@ -30,6 +30,10 @@ interface IntSetupNPCSched {
   generate: () => void;
   bucket: () => string[][];
   zone: (bucket: string[][]) => {[propName: string]: string[][]};
+  home: (npcid: string) => boolean;
+  isWorking: (npcid: string) => boolean;
+  room: (npcid: string) => string;
+  roomLT: (npcid: string) => string;
 }
 
 // FUNCTIONS
@@ -71,7 +75,7 @@ setup.npcSched.generate = function(): void {
 setup.npcSched.bucket = function(): string[][] {
   const npcs = Object.keys(aw.npc);
   const npcCount = npcs.length;
-  const bucket: string[][] = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
+  const bucket: string[][] = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
   for (let i = 0; i < npcCount; i++) {
     const working = (State.active.variables.date[0] !== 0) ?
       aw.npc[npcs[i]].sched.workdays[(State.active.variables.date[0] - 1)] : false;
@@ -152,4 +156,54 @@ setup.npcSched.zone = function(bucket): {[propName: string]: string[][]} {
     }
   }
   return zone;
+};
+
+
+setup.npcSched.home = function(npcid): boolean {
+  if (setup.npcSched.isWorking(npcid)) {
+    return false;
+  }
+  const s = aw.npc[npcid].sched;
+  if (aw.timeArray[1] > s.workhours[0] + s.outhours[0] && aw.timeArray[1] <= s.workhours[1] + s.outhours[1]) {
+    if (random(1, 3) === 1) {
+      return false;
+    }
+  }
+  return true;
+};
+
+
+setup.npcSched.isWorking = function(npcid): boolean {
+  const s = aw.npc[npcid].sched;
+  if (s.workdays[aw.timeArray[2]]) {
+    if (aw.timeArray[1] >= s.workhours[0] - 1 && aw.timeArray[1] <= s.workhours[1]) {
+      return true;
+    }
+  }
+  return false;
+};
+
+
+setup.npcSched.room = function(npcid): string {
+  const rooms = ["living room", "kitchen", "bedroom", "bathroom"];
+  if (aw.timeArray[1] < 8) {
+    return "bedroom";
+  }
+  if (aw.timeArray[1] > 21 && random(1, 5) > 1) {
+    return either("bedroom", "bedroom", "bedroom", "bathroom");
+  }
+  const r = randomDist([100, 40, 12, 10]);
+  return rooms[r];
+};
+
+setup.npcSched.roomLT = function(npcid): string {
+  const rooms = ["living room", "kitchen", "bedroom", "bathroom", "balcony", "foyer", "spare bedroom", "home office"];
+  if (aw.timeArray[1] < 8) {
+    return "bedroom";
+  }
+  if (aw.timeArray[1] > 21 && random(1, 5) > 1) {
+    return either("bedroom", "bedroom", "bedroom", "bathroom");
+  }
+  const r = randomDist([100, 40, 12, 10, 4, 2, 4, 8]);
+  return rooms[r];
 };

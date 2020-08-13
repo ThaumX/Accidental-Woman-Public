@@ -1,24 +1,32 @@
 :: HomeControlMenu [nobr hidden]
 
 <<timed 50ms>>
-<<switch ↂ.home.stats.tier>>
-  <<case 1>>
-    <<run setup.drag.create(true,{ident:"owned",max:false,min:false},{ident:"trash",max:false,min:false},{ident:"living",max:8,min:false},{ident:"kitchen",max:3,min:false},{ident:"foyer",max:2,min:false},{ident:"bedroom",max:6,min:false},{ident:"bath",max:3,min:false},{ident:"balcony",max:2,min:false})>>
-  <<case 2>>
-    <<run setup.drag.create(true,{ident:"owned",max:false,min:false},{ident:"trash",max:false,min:false},{ident:"living",max:10,min:false},{ident:"kitchen",max:6,min:false},{ident:"foyer",max:3,min:false},{ident:"bedroom",max:8,min:false},{ident:"bath",max:4,min:false},{ident:"balcony",max:4,min:false})>>
-  <<case 3>>
-    <<run setup.drag.create(true,{ident:"owned",max:false,min:false},{ident:"trash",max:false,min:false},{ident:"living",max:12,min:false},{ident:"kitchen",max:8,min:false},{ident:"foyer",max:4,min:false},{ident:"bedroom",max:10,min:false},{ident:"bath",max:5,min:false},{ident:"balcony",max:5,min:false},{ident:"bed2",max:8,min:false})>>
-<</switch>>
+<<if ↂ.flag.liveTogether>>
+    <<run setup.drag.create(true,{ident:"owned",max:false,min:false},{ident:"trash",max:false,min:false},{ident:"living",max:12,min:false},{ident:"kitchen",max:8,min:false},{ident:"foyer",max:4,min:false},{ident:"bedroom",max:10,min:false},{ident:"bath",max:5,min:false},{ident:"balcony",max:5,min:false},{ident:"bed2",max:8,min:false},{ident:"bed3",max:8,min:false})>>
+<<else>>
+  <<switch ↂ.home.stats.tier>>
+    <<case 1>>
+      <<run setup.drag.create(true,{ident:"owned",max:false,min:false},{ident:"trash",max:false,min:false},{ident:"living",max:8,min:false},{ident:"kitchen",max:3,min:false},{ident:"foyer",max:2,min:false},{ident:"bedroom",max:6,min:false},{ident:"bath",max:3,min:false},{ident:"balcony",max:2,min:false})>>
+    <<case 2>>
+      <<run setup.drag.create(true,{ident:"owned",max:false,min:false},{ident:"trash",max:false,min:false},{ident:"living",max:10,min:false},{ident:"kitchen",max:6,min:false},{ident:"foyer",max:3,min:false},{ident:"bedroom",max:8,min:false},{ident:"bath",max:4,min:false},{ident:"balcony",max:4,min:false})>>
+    <<case 3>>
+      <<run setup.drag.create(true,{ident:"owned",max:false,min:false},{ident:"trash",max:false,min:false},{ident:"living",max:12,min:false},{ident:"kitchen",max:8,min:false},{ident:"foyer",max:4,min:false},{ident:"bedroom",max:10,min:false},{ident:"bath",max:5,min:false},{ident:"balcony",max:5,min:false},{ident:"bed2",max:8,min:false})>>
+  <</switch>>
+<</if>>
 <<run setup.drag.homeListener()>>
 <</timed>>
-<<switch ↂ.home.stats.tier>>
-  <<case 1>>
-    <<set _k = [8,3,2,6,3,2,"N/A","N/A"]>>
-  <<case 2>>
-    <<set _k = [10,6,3,8,4,4,"N/A","N/A"]>>
-  <<case 3>>
-    <<set _k = [12,8,4,10,5,5,8,"N/A"]>>
-<</switch>>
+<<if ↂ.flag.liveTogether>>
+  <<set _k = [12,8,4,10,5,5,8,8]>>
+<<else>>
+  <<switch ↂ.home.stats.tier>>
+    <<case 1>>
+      <<set _k = [8,3,2,6,3,2,"N/A","N/A"]>>
+    <<case 2>>
+      <<set _k = [10,6,3,8,4,4,"N/A","N/A"]>>
+    <<case 3>>
+      <<set _k = [12,8,4,10,5,5,8,"N/A"]>>
+  <</switch>>
+<</if>>
 <div id="homeBackground" class="menu-bg zoomInUp animated">
 <div id="mainDisp" class="menu-main">
   <div class="homeLabel">
@@ -77,16 +85,16 @@
   <<print setup.drag.formatHome(ↂ.home.item.balcony)>>
   </div>
 
-  <div class="cuntainer" style="top:415px;left:1140px;opacity:0.6;">
+  <div class="cuntainer" style="top:415px;left:1140px;">
     Bedroom Two [<<= _k[6]>>]
   </div>
-  <div id="bed2" class="dragZone homeBed2" style="top:450px;left:1140px;opacity:0.6;">
+  <div id="bed2" class="dragZone homeBed2" style="top:450px;left:1140px;">
   </div>
 
-  <div class="cuntainer" style="top:415px;left:1430px;opacity:0.6;">
+  <div class="cuntainer" style="top:415px;left:1430px;">
     Bedroom Three [<<= _k[7]>>]
   </div>
-  <div id="bed3" class="dragZone homeBed3" style="top:450px;left:1430px;opacity:0.6;">
+  <div id="bed3" class="dragZone homeBed3" style="top:450px;left:1430px;">
   </div>
 
 </div>

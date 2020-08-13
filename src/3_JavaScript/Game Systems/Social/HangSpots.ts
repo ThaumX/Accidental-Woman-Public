@@ -286,7 +286,7 @@ class HangSpot {
           key: "hindenburgerBeer",
           label: "Order beer",
           info: "Decide what beer you want.",
-          twee: `<span id="buylink">@@.pc;Hey, <<= aw.hang.name>> wanna drink something?@@<<if ↂ.pc.status.alcohol < 6>><br><br>@@.npc;Hm, why not. I'd go for some beer! I heard they have a wide choice here!@@<br><br><<else>><br><br>@@.npc;Are you sure you hadn't got enough already?@@<br><br>@@pc;Hey, you are not my mom! Let's get drunk!@@<br><br><</if>>Calling the waitress you ask her for a beer card. <<= aw.hang.name>> gets a glass first and you look at the menu trying to get what beer <<link "you actually want.">><<dialog "Hinden Burger Beer">><<print setup.food.bar("hindenburger")>><</dialog>><<replace "#buylink">><<addtime 18>>Waitress brings your glasses full of beer. You clink your glasses and smile, the beer <<print either("tastes very good", "is pretty nice")>>. As you sip from your glass you feel warmth spreading through your body and making you more talkative than usual. You decide to ask <<= aw.hang.name>> something.<<print setup.storythread.getStory(aw.hang.npcid)>><</replace>><</link>></span>.`,
+          twee: `<span id="buylink">@@.pc;Hey, <<= aw.hang.name>> wanna drink something?@@<<if ↂ.pc.status.alcohol < 6>><br><br>@@.npc;Hm, why not. I'd go for some beer! I heard they have a wide choice here!@@<br><br><<else>><br><br>@@.npc;Are you sure you hadn't got enough already?@@<br><br>@@.pc;Hey, you are not my mom! Let's get drunk!@@<br><br><</if>>Calling the waitress you ask her for a beer card. <<= aw.hang.name>> gets a glass first and you look at the menu trying to get what beer <<link "you actually want.">><<dialog "Hinden Burger Beer">><<print setup.food.bar("hindenburger")>><</dialog>><<replace "#buylink">><<addtime 18>>Waitress brings your glasses full of beer. You clink your glasses and smile, the beer <<print either("tastes very good", "is pretty nice")>>. As you sip from your glass you feel warmth spreading through your body and making you more talkative than usual. You decide to ask <<= aw.hang.name>> something.<<print setup.storythread.getStory(aw.hang.npcid)>><</replace>><</link>></span>.`,
           check() {
               return true;
           },
@@ -314,6 +314,23 @@ class HangSpot {
           },
           gate: [],
           ai: [],
+        },
+        {
+          key: "hindenburgerDarts",
+          label: "Play darts",
+          info: "Ask <<= aw.hang.name>> for a game.",
+          twee: `<<happy 1 "Pub games are fun">><p><<print either("@@.pc;Hey, wanna play darts?@@","@@.pc;Let's play, they have darts here!@@")>></p><<set _darts = random(0,1)>><<if _darts === 0>><p><<print either("@@.npc;Ugh... I am not a great player you know?@@","@@.npc;Hm... you sure?@@")>></p><p><<print either("@@.pc;Come on, it will be fun!@@","@@.pc;Don't pussy out, it is really fun!@@")>></p><p>@@.npc;Oh, okay, let's give it a shot if you insist, hah.@@</p><<else>><p><<print either("@@.pc;Oh, cool, let's do it!@@","@@.pc;Sure thing!@@")>></p><</if>>You go to the dartboard on the wall and start the game. <p><<print either("You go first and throw the dart.","<<= aw.hang.name>> takes first turn and throws the dart.")>> <<set _darts2 = random(0,1)>><<if _darts2 === 0>>To your surprise it lands on the right spot at the dartboard.<<else>>The dart sticks into the wall and you giggle.<</if>></p><p><<print either("@@.pc;Ha-ha, well it seems it starts just as planned!@@","@@.pc;Well it was pretty expected, huh?@@")>></p><p><<print either("The game goes for about ten minutes until","It takes not much time until", "After a couple of turns it seems you go pretty close until")>> <<print either("<<= aw.hang.name>> starts winning and ends the game.","you win.")>> <<print either("You both laugh at the poor wall that got some new holes in it and return to your seats","After a little celebration that included dancing around and singing 'In your face!' you and <<= aw.hang.name>> return to your seats.")>></p><<addtime 16>>`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.hang.enjoy[1] += random(8, 11);
+            aw.hang.qual += random(4, 6);
+            return true;
+          },
+          gate: [],
+          ai: [],
+          repeatable: false,
         },
       ],
       aiTags: [[]],
@@ -529,24 +546,22 @@ class HangSpot {
       quality: 3,
       events: [
         {
-          key: "happyCreamDonut",
-          label: "Doughnuts and drinks",
-          info: "Order some sweet-stuff.",
-          twee: `You both spend some time at the shelf with various doughnuts trying to choose some. Finally you both make a decision, <<= aw.hang.name>> goes first and takes <<print either("strawberry", "plain", "vanilla")>> dougnut with <<print either("special cream topping", "banana cream topping", "moist cream topping")>> and you go with <<print either("same choice", "same topping but on chocolate doughnut", "same doughnut but with mapple syrope topping")>>. You both grab a cup of coffee and start savoring the delicious treat which tastes <<print either("amazing", "magnificent", "unbelieveably good", "delightful")>>. After a while you finished your desserts and just happy and calmly sitting being pretty satisfied with yourselves.<<addtime 17>>`,
+          key: "teatTreatsShow",
           check() {
-            return true;
+            if (random(0, 3) === 3) {
+              return true;
+            } else {
+              return false;
+            }
           },
+          label: "Waitress show.",
+          twee: `<p><<print either("@@.npc;Hey, it is almost time for the show!@@","@@.npc;Oh, cool, it seems the show is starting!@@")>></p><p><<print either("@@.pc;Ugh?@@","@@.pc;What show?@@")>></p><p><<print either("@@.npc;They have this dance thing every hour or so, never saw it before!@@","@@.npc;Shhh! It is starting!@@")>></p><p><<= aw.date.name>> points to the counter and you see a couple of waitress free their breasts which is followed by customers cheering. Upbeat music starts and they begin to dance with their full jugs bouncing with every motion. Your date whisper to your ear @@.npc;You see, it is like a local tradition of these milkshake places, you haven't heard of it? It first started as a TV advertisement and then they decided to make those shows in each restaraunt they have, hear the jingle?@@</p><p>You have hard time paying attention to the music mesmerized by girls pressing their boobs together so hard that their milk poured down their aprons. Still, you start to notice the words of the song playing on the background. @@.smeared;...Happy teat, yummy teat! Squeeze yourself a tasty treat! Everyone who loves icecream join with us in milky dream!@@ @@.mono;That sounds... odd. But the show is pretty nice to see!@@</p><p>Waitress continue to dance for a cuple minutes more until the music ends on a triumphant @@.smeared;TASTY CREAM TASTY CREAM JOIN THE YUMMY MILKY DREAM!@@ note and most of the customers applause to the soaked with their own milk girls. You turn back to <<= aw.date.name>></p><p>@@.pc;Well, that was entertaining for sure, he-he!@@</p><<addtime 7>>`,
           prep() {
-            setup.drug.eatDrug("cum", 10);
-            setup.food.eat(35, "dessert");
-            aw.cash(random(-6, -9), "food");
-            aw.hang.enjoy[1] += random(4, 14);
-            aw.hang.qual += random(4, 9);
-            aw.S();
+            aw.date.enjoy[1] += random(7, 12);
+            aw.date.qual += random(3, 7);
             return true;
           },
           gate: [],
-          ai: [],
         },
       ],
       activities: [
@@ -561,6 +576,26 @@ class HangSpot {
           prep() {
             aw.hang.enjoy[1] += random(2, 5);
             aw.hang.qual += random(2, 6);
+            return true;
+          },
+          gate: [],
+          ai: [],
+        },
+        {
+          key: "happyCreamDonut",
+          label: "Doughnuts and drinks",
+          info: "Order some sweet-stuff.",
+          twee: `You both spend some time at the shelf with various doughnuts trying to choose some. Finally you both make a decision, <<= aw.hang.name>> goes first and takes <<print either("strawberry", "plain", "vanilla")>> dougnut with <<print either("special cream topping", "banana cream topping", "moist cream topping")>> and you go with <<print either("same choice", "same topping but on chocolate doughnut", "same doughnut but with mapple syrope topping")>>. You both grab a cup of coffee and start savoring the delicious treat which tastes <<print either("amazing", "magnificent", "unbelieveably good", "delightful")>>. After a while you finished your desserts and just happy and calmly sitting being pretty satisfied with yourselves.<<addtime 17>>`,
+          check() {
+            return true;
+          },
+          prep() {
+            setup.drug.eatDrug("cum", 10);
+            setup.food.eat(35, "dessert");
+            aw.cash(random(-6, -9), "food");
+            aw.hang.enjoy[1] += random(4, 14);
+            aw.hang.qual += random(4, 9);
+            aw.S();
             return true;
           },
           gate: [],
@@ -606,7 +641,7 @@ class HangSpot {
           key: "teatTreatsTalk",
           label: "Talk",
           info: "Have a nice chit-chat about things.",
-          twee: `<<if ↂ.pc.trait.intro>>You try to think about something to ask <<= aw.hang.name> for some time.<<else>>You ask <<= aw.hang.name>> about life.<</if>><<print setup.storythread.getStory(aw.hang.npcid)>><p>@@.pc;Oh, I see.@@</p><<addtime 16>>`,
+          twee: `<<if ↂ.pc.trait.intro>>You try to think about something to ask <<= aw.hang.name>> for some time.<<else>>You ask <<= aw.hang.name>> about life.<</if>><<print setup.storythread.getStory(aw.hang.npcid)>><p>@@.pc;Oh, I see.@@</p><<addtime 16>>`,
           check() {
               return true;
           },
@@ -731,7 +766,7 @@ class HangSpot {
       key: "karaoke",
       name: "Siren's call",
       shortDesc: "A karaoke place to show your vocal skills if you have any.",
-      loc: ["downtown", "club", false],
+      loc: ["downtown", "club", "main"],
       topImg: "IMG-Karaoke-Inside",
       img: "IMG-Activity-Karaoke",
       desc: "A relatively small room with a small stage and some tables around.",

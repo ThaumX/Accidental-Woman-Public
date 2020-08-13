@@ -147,6 +147,7 @@ Even after getting naked and positioning your feet in the stirrups, you were sti
 
 <<silently>>
 <<status 1>>
+<<set _wetHeat = false>>
 <<if ↂ.flag.Healthcare>>
   <<set _cost = random(30,55)>>
   <<set _drug = 10>>
@@ -164,7 +165,18 @@ Even after getting naked and positioning your feet in the stirrups, you were sti
   <<set ↂ.pc.status.health = random(85,95)>>
 <</if>>
 <<set ↂ.pc.status.injury = ["none"]>>
+<<if ↂ.pc.status.disease.includes("wetHeat")>>
+  <<set ↂ.pc.status.addict.cream += random(5,15)>>
+  <<set ↂ.pc.status.bimbo += 10>>
+  <<if random(1,2) === 1>>
+    <<set ↂ.pc.kink.risky = true>>
+  <</if>>
+  <<set _wetHeat = true>>
+<</if>>
 <<set ↂ.pc.status.disease = ["none"]>>
+<<run setup.omni.kill("Wet Heat")>>
+<<run setup.omni.kill("the Drips")>>
+<<run setup.omni.kill("Weird feeling")>>
 <<status 0>>
 <</silently>>
 <p><<f a>>fter spending a good deal of time waiting in the waiting room, and then waiting in the exam room, the doctor arrives.
@@ -174,6 +186,9 @@ Even after getting naked and positioning your feet in the stirrups, you were sti
 <p>
 Doctor gives you a rather <i>interesting</i> examination. <<if ↂ.pc.status.disease !== ["none"]>>He says it seems you have some disease before leaving, but soon afterward a nurse comes in and gives you a small injection of a purplish liquid.<<else>>He leaves without saying what, exactly, is wrong with you, but soon afterward a nurse comes in and gives you a small injection of a purplish liquid.<</if>> Her outfit almost seems like some kind of sexy-nurse cosplay, but she's perfectly professional with you. Shortly after the injection you're starting to feel much better.
 </p>
+<<if _wetHeat>>
+<p>You notice that your skin is already starting to feel more dry, and when you wipe yourself with some paper towels you see that you no longer seem to be sweating like crazy. Still, you get the feeling that forcibly curing yourself of your estrus has had some kind of permanent effect on your mind, or perhaps that the cure didn't remove all the mental effects from you. Trying to examine yourself mentally gets you nowhere, unfortunately. @@.mono;Well, I'm sure once I get a nice refreshing creampie I'll feel a lot better.@@</p>
+<</if>>
 <p>
 You make your way over to the reception desk to pay. <<if ↂ.flag.Healthcare>>Thanks to InstiCare the cost is pretty low.<<else>>Without any insurance the bill is painful, but surprisingly not as bad as you were expecting.<</if>> Your total was @@.money;₢<<= _total>>@@; @@.money;₢<<= _cost>>@@ for the visit, and @@.money;₢<<= _drug>>@@ for the injection.
 </p>
@@ -192,7 +207,6 @@ The doctor proceeds to ask you some questions about your recent mental state and
 <center>[img[IMG-Rorshfuck1]]</center>
 <br>
 <center><<button "Butterfly">><<replace "#therapistSpan">><<include [[ResidentialMedicalDoctorMental-2]]>><</replace>><</button>><<button "Cock">><<replace "#therapistSpan">><<include [[ResidentialMedicalDoctorMental-2]]>><</replace>><</button>><<button "Shub-Niggurath">><<replace "#therapistSpan">><<include [[ResidentialMedicalDoctorMental-2]]>><</replace>><</button>></center>
-
 </div>
 
 
@@ -256,7 +270,7 @@ The doctor proceeds to ask you some questions about your recent mental state and
 <p>You answer a little nervously. @@.pc;Well, I was hoping to get that new Fertility Seal tattoo...@@</p>
 <p>The doctor gives you a broad smile. @@.npc;Technology is amazing, isn't it? All my patients that have gotten one of these have been quite happy with the results.@@</p>
 <p>Concerned about the potential for pain, you ask the doctor the question front and center in your mind. @@.pc;Since this is a tattoo, is it going to hurt like one? My tummy is pretty sensitive...@@</p>
-<p>@@.npc;Oh, no need to worry miss <<=ↂ.pc.main.surname>>, I'll be applying a topical anesthetic and the tattoo itself is performed by special machine. It'll be practically painless, and it'll heal much faster than a normal tattoo, too.@@</p>
+<p>@@.npc;Oh, no need to worry Miss <<=ↂ.pc.main.surname>>, I'll be applying a topical anesthetic and the tattoo itself is performed by special machine. It'll be practically painless, and it'll heal much faster than a normal tattoo, too.@@</p>
 <center><b><span class="head">. . .</span></b></center>
 <p>The procedure was a lot simpler than you were expecting. After rubbing some jelly on your lower abdomen, your skin was numb by the time you finished thinking about its similarity to ultrasound gel. The doctor brought out a box-shaped medical device that was open on one side, and had a simple display on the other. After wrapping a couple straps around your lower back, he turned the device on and aligned it with your tummy using a simple green cross projected onto your skin. Once he was happy with how the device rested against your stomach, he tightened the straps and tapped a few times on the display.</p>
 <p>After that you were left to wait for quite some time until the device finished and the doctor got around to removing it. Looking at your belly afterward showed a pretty design in dark pink right over where your womb should be. With the procedure done, you were ushered out of the office and handed an instruction pamphlet for your new tattoo.</p>

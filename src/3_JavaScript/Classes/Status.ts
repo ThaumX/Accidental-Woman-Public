@@ -155,6 +155,23 @@ class Status {
   public set fundalHeight(val) {
     aw.con.warn(`Attempted to set status.fundalHeight which is a derived value! Character: ${this._k}.`);
   }
+  public get babyDaddy(): string[] {
+    const res: string[] = [];
+    for (const fetus of this.wombA.fetus) {
+      if (!res.includes(fetus.father)) {
+        res.push(fetus.father);
+      }
+    }
+    for (const fetus of this.wombB.fetus) {
+      if (!res.includes(fetus.father)) {
+        res.push(fetus.father);
+      }
+    }
+    return res;
+  }
+  public set babyDaddy(val) {
+    aw.con.warn(`Attempted to set status.babyDaddy which is a derived value! Character: ${this._k}.`);
+  }
   public get alcohol(): number {
     return this.data[0];
   }
@@ -619,6 +636,12 @@ class Status {
     if (isNaN(val)) {
       aw.con.warn(`attempted to set status.underSatisfy to a non-number value! Character: ${this._k}.`);
       return;
+    }
+    if (val > 200) {
+      val = 200;
+    }
+    if (val < 0) {
+      val = 0;
     }
     this.data[24] = val;
   }

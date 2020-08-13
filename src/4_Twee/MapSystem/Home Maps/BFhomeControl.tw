@@ -2,7 +2,7 @@
 
 
 <<set ↂ.pc.status.inPublic = false>>
-<<set ↂ.map.loc[0] = "BFhomeT2">>
+<<set ↂ.map.loc[0] = "BFhome">>
 <<mapProcessMove>>
 <<addTime _mapTime>>
 
@@ -10,13 +10,19 @@
 /*<<weatherCheck>>*/
 
 /*Run some widgets to control NPC actions. */
-<<mapHomeNPCaction>>
+
+<<set $BFroom = setup.npcSched.room($BFid)>>
+<<if setup.npcSched.isWorking($BFid)>>
+  <<set $BFhome = false>>
+<</if>>
 
 /*Control home cleanliness functionality*/
-<<mapHomeGetDirty>>
+
+
 
 /*EVENTS - selects event based on several possibilities*/
-<<mapHomeEventSelect _eventList>>
+
+
 
 
 /*SET THE SCENE! Describes the scene, including potential NPCs*/

@@ -46,6 +46,7 @@
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+
 <<hoverrevise alpha>>
   <<openhours 11 24>>
     <<button "Visit Prude">><<agecheck 18 3 "AgePassPrude">><</button>>
@@ -66,16 +67,28 @@
 <<endhoverrevise>>
 <<hoverrevise fairy>>
   <<openhours 13 21>>
-    <<button "Fairy Tail">><</button>>
+    <<button "Fairy Tail">><<dialog "Fairy Tail">><<include [[FairyTaleAsClient]]>><</dialog>><</button>>
   <<closed "Fairy Tail">>
   <</openhours>>
 <<endhoverrevise>>
 <<hoverrevise delta>>
-  <span class="disabled"><<button "Explore">><</button>></span>
+  <<button "Explore">><<addTime 30>><<dialog "Exploring the Adult District">><<include [[AdultDistrictExplore]]>><</dialog>><</button>>
 <<endhoverrevise>>
-<<hoverrevise gamma>>
-  <span class="disabled"><<button "Visit [name]">><</button>></span>
-<<endhoverrevise>>
+<<if $date[0] === 7 && $time[0] > 9 && $time[0] < 17>>
+  <<hoverrevise lambdaA>>
+    <<button "Attend CotHP Service">>
+      <<if ↂ.flag.churchAttend.cock>>
+        <<dialog "The Church of the Holy Phallus">><center>You have already attended church this week, please come back next Sunday.</center><</dialog>>
+      <<else>>
+        <<dialog "The Church of the Holy Phallus">><<include [[ChurchCock]]>><</dialog>>
+      <</if>>
+    <</button>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise lambdaB>>
+    <button class="disabled">Visit CotHP</button>
+  <<endhoverrevise>>
+<</if>>
   <<hoverrevise whore>>
     <<button "Stand at the Corner">><<set $streetWalkLoc = "adultDistr">><<dialog "Preparing to work">><<include [[StreetWalkerManager]]>><</dialog>><</button>>
   <<endhoverrevise>>
@@ -85,13 +98,15 @@
 </div>
 
 /*Main display for information about actions*/
+/*<<insertion look>>Take a closer look at the people currently at the adult downtown.<<endinsertion>>*/
 <div id="actionInfo">
 <<insertion alpha>>Shop at the town's finest purveyor of adult devices and implements.<<endinsertion>>
 <<insertion omnicron>>Check out the Deep Drilling school and perhaps sign up for lessons in the erotic arts. @@.ship;[ORAL⧫PROSTITUTION]@@<<endinsertion>>
 <<insertion beta>>Check out the Monster Tamer Studio and perhaps sign up for lessons in the erotic arts. @@.ship;[SEX⧫PROSTITUTION]@@<<endinsertion>>
 <<insertion beta>>Visit the local massage parlor.<<endinsertion>>
 <<insertion delta>>Wander the alleys and see what you find.<<endinsertion>>
-<<insertion gamma>>Stop in at the [name] lounge to see what it's about, exactly.<<endinsertion>>
+<<insertion lambdaB>>The Church of the Holy Phallus is currently closed. Services are available on Sunday from 10am until 4pm. <<ctn>>[mental health boost | 1hr]<</ctn>><<endinsertion>>
+<<insertion lambdaA>>Attend a church service at the Church of the Holy Phallus. <<ctn>>[mental health boost | 1hr]<</ctn>><<endinsertion>>
 <<insertion whore>>Strut your stuff at the side of the road. Perhaps someone will ask you out on a "date"! [15min]<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
@@ -119,7 +134,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 </p>
 <center><span style="width: 400px;">[img[IMG-prudeShop]]</span></center>
 <p>
-@@.head3;Y@@ou're standing in Prude, big luxorious sex shop. @@.import;Toys section is not yet implemented. We are as sad as you about that, yeah.@@</p>
+@@.head3;Y@@ou're standing in Prude, big luxorious sex shop.</p>
 <p id="locact"></p><<selfthought>>
 </div>
 /*LOCATION description of location without any reference to time/weather and doesn't mention character.*/
@@ -134,7 +149,10 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 	<<button "Shop For Furniture">><<set _time = 15>><<set _time += random(0,10)>><<set _time += random(2,10)>><<addTime _time>><<dialog "Shop for sex furniture items">><<include [[PrudehousewaresShop]] "div">><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise hovShopToys>>
-	<<button "Shop For Toys">><<dialog "Shop for sex toys">>You take a look over some sex toys in store. Sadly, they aren't implemented yet so you can only stare at some advertisements and boxes anticipating delights waiting for you in the future releases.<br><center>[img[IMG-TsarPlugaReal]]<br>[img[IMG-RoryDildo]]</center><</dialog>><</button>>
+  <<button "Shop for Toys">><<dialog "Shopping">><<addTime 21>><<include [[PrudeToysShop]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovShopAd>>
+	<<button "Advertisements">><<dialog "Advertisement">><<addtime 3>>You take a look over some sex toys advertisements in store. @@.mono;Oh, those look promising!@@<br><center>[img[IMG-TsarPlugaReal]]<br>[img[IMG-RoryDildo]]</center><</dialog>><</button>>
 <<endhoverrevise>>
 <<if $items.has("Golden Funnel", "Ivory Dildo")>>
   <<hoverrevise seller>>
@@ -158,6 +176,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 <div id="actionInfo">
 <<insertion hovShopFurniture>>@@.exp;Check out selection of sex furniture. [15-25min]@@<<endinsertion>>
 <<insertion hovShopToys>>@@.exp;Check out selection of sex toys. [15-25min]@@<<endinsertion>>
+<<insertion hovShopAd>>@@.exp;Check out selection of sex toys. [3min]@@<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 <<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
 <<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
@@ -229,6 +248,39 @@ The shopkeeper fills out some paperwork, and when you're done, you're <span clas
 <</if>>
 
 
+:: PrudeToysShop [nobr]
+
+You browse through the shelves of the sex shop.<br><br>
+<table id="noBorder">
+<tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Toys:</td></tr>
+<<print setup.sexToys.shopping()>>
+<tr><td class="storeitem" style="width:20%;">
+  Chastity belt key
+  <img data-passage="IMG-Item-ChastityKey" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A key for a classical chastity device.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>40@@ <span id="buyshit100"></span><br><<if ↂ.flag.sendKeyLost[0] == true>>@@.disabled;<<button "Out of stock!">><</button>>@@<<else>><<button "Add to Cart">><<set $cart.push(["Chastity belt key","simple",40,"Chastity belt key"])>><<replace "#buyshit100">>@@.exp;Added!@@<</replace>><</button>><</if>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Cplate 200 remote
+  <img data-passage="IMG-Item-CPlateRemote" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A remote for the Cplate 200 chastity device.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>100@@ <span id="buyshit101"></span><br><<if ↂ.flag.sendKeyLost[1] == true>>@@.disabled;<<button "Out of stock!">><</button>>@@<<else>><<button "Add to Cart">><<set $cart.push(["Cplate 200 remote","simple",100,"Cplate 200 remote"])>><<replace "#buyshit101">>@@.exp;Added!@@<</replace>><</button>><</if>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Clit shield remote
+  <img data-passage="IMG-Item-CshieldRemote" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A remote for the Clit shield chastity device.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>100@@ <span id="buyshit102"></span><br><<if ↂ.flag.sendKeyLost[2] == true>>@@.disabled;<<button "Out of stock!">><</button>>@@<<else>><<button "Add to Cart">><<set $cart.push(["Clit shield remote","simple",100,"Clit shield remote"])>><<replace "#buyshit102">>@@.exp;Added!@@<</replace>><</button>><</if>>
+</td></tr>
+</table>
+
+
 :: PrudehousewaresShop [nobr]
 
 <h3>Prude Sex furniture selection</h3>
@@ -239,5 +291,228 @@ Learn more about home items in the <<info "Encyclopedia" "guideHomeInventory">>
 :: PrudeShopLOC [nobr]
 
 <span id="PrudeShopLOCspan">
-<<if ↂ.pc.trait.perceptive !== -1>>You notice some customer obviously trying to shoplift some anal plug in her "secret pocket". <<link "Call the guard">><<replace "#PrudeShopLOCspan">>@@.pc;Hey! Here is a thief! This girl is trying to steal this buttplug!@@<br><br>Girl turns around looking on you, it seems she thought she is alone in this corner of the shop. She looks overly aroused with her cheeks red and eyes being not completly in focus on your face. The plug she has tried to steal is still in her hand and halfway into her asshole. She starts begging you to be quiet about it but it is too late, you hear the loud stomping of the shop guard.<br><br>@@.npc;Aah, <<set _namer = setup.nameRandomizer(0,'white')>><<= _namer>>, again! I already lost count to be honest. Is it fifth time this year?@@<br><br>Middle-aged guy in uniform is looking amused and angry at the same time looking at the girl still pressing pretty big toy against her arse. Finally she realises how ridiculous her pose is and stands up, now hiding the plug behind her back.<br><br>@@.npc;Please, you must understand, it is all this Satyr, I can't control...@@<br><br>@@.npc;Oh, come on, enough of this bullshit. This lady and me catched you red-handed! This time I won't let you slip, I am calling the police. Let's see if you will be able to satisfy your hungry butt in the jail. I heard they made it unisex nowadays.@@<br><br>@@.npc;But my husband will know that... Please! You can't do this to me!@@<br><br>Guard's grin gets unpleasant.<br><br>@@.npc;Bloody hell I can and gonna do it for sure!@@<br><br>You decide that it right time to leave until police arrive.<br><br>@@.mono;<<has caring>>Poor girl though, I never knew that drugs like Satyr can affect mind so hard.<<or>>Better abstain from showing them my fake ID...<</has>>@@<br><br>You leave the place passing by the guard and he nods to you.<br><br>@@.npc;Thanks for your help ma'am! Be sure police will teach this bitch a lesson!@@<br><br><</replace>><</link>> or <<link "Ignore it">><<run Dialog.close()>><</link>><br>[img[IMG-Prude-ShopLift]]<<else>>You see a salesgirl fixing the apperance of goods on the shelf.<br>[img[IMG-Prude-Girl]]<</if>>
+<<if ↂ.pc.trait.perceptive !== -1>>You notice a customer obviously trying to shoplift an anal plug in her "secret pocket". <<link "Call the guard">><<replace "#PrudeShopLOCspan">>@@.pc;Hey! Thief! Thief! This chick's trying to steal a buttplug!@@<br><br>The surprised girl spins around to look at you. It seems she thought she was alone in this corner of the shop. She looks overly aroused with her cheeks red and eyes not completly focusing on your face. The plug she has tried to steal is still in her hand and halfway into her asshole. She starts begging you to be quiet about it but it is too late. You hear the loud stomping of the shop guard's bots coming this way.<br><br>@@.npc;Aah, <<set _namer = setup.nameRandomizer(0,'white')>><<= _namer>>again! I've already lost count to be honest. Is this the fifth time this year?@@<br><br>The middle-aged man in uniform is looking both amused and angry at the same time looking at the girl still pressing the large toy to her arse. Finally realising how ridiculous she must look the girl stands up, trying to hide the plug behind her back.<br><br>@@.npd;Please, you gotta understand, it's all this Satyr, I can't control...@@<br><br>@@.npc;Oh, come on, enough of this bullshit. This lady and I caught you red-handed! This time I won't let you go, I am calling the cops. Let's see if you'll be able to satisfy your hungry ass in jail. I heard they made it unisex nowadays.@@<br><br>@@.npd;But my husband will find out... Please! You can't do this to me!@@<br><br>The guard's grin gets unpleasant.<br><br>@@.npc;Bloody hell! I can and I will!@@<br><br>You decide it would be best to leave before the police arrive.<br><br>@@.mono;<<has caring>>Poor girl though, I never knew that drugs like Satyr can affect mind so hard.<<or>>Better not stick around and show them my fake ID...<</has>>@@<br><br>You pass by the guard on your way out and he nods to you.<br><br>@@.npc;Thanks for your help ma'am! I'm sure the police will teach this thieving bitch a lesson!@@<br><br><</replace>><</link>> or <<link "Ignore it">><<run Dialog.close()>><</link>><br>[img[IMG-Prude-ShopLift]]<<else>>You see a salesgirl fixing the apperance of goods on the shelf.<br>[img[IMG-Prude-Girl]]<</if>>
 </span>
+
+
+
+
+:: FairyTaleAsClient [nobr]
+
+<div id="massageDiv">
+<<f y>>ou enter the parlor and pretty girl at the counter smiles to you. 
+<<if ↂ.job.code == "FT">>@@.npc;Oh! Hi, <<= ↂ.pc.main.name>>! Forgot something at work?@@
+<p>@@.pc;No, hehe. Funny thing, I just decided I want a massage myself!@@</p>
+<p>@@.npc;Hah. Well, we need some relaxation from time to time too! You know about all services so choose yourself. Karen, Vikki and Mary are free now I beleive.@@</p>
+<<else>>@@.npc;Welcome to the Fairy tail! Have you booked or just decided you need to have some relief?@@
+<p>@@.pc;Umm, I haven't booked an appointment...@@</p>
+<p>@@.npc;Oh this is okay, we have free masseuses right now. What kind of massage you would like to have to, miss?@@</p> Girl points to the booklet explaining services parlor provides lying on the table.<</if>>
+<center><<button "Relaxation Bliss - 30<<mon>>, 45 min.">><<replace "#massageDiv">><<include [[FairyTaleAsClient-Relax]]>><</replace>><</button>><<button "Stone aroma massage - 45<<mon>>, 45 min.">><<replace "#massageDiv">><<include [[FairyTaleAsClient-Relax]]>><</replace>><</button>> <<button "Ask for 'special' massage">><<replace "#massageDiv">><<include [[FairyTaleAsClient-Special]]>><</replace>><</button>><<button "Leave">><<run Dialog.close()>><</button>></center>
+</div>
+
+
+:: FairyTaleAsClient-Relax [nobr]
+
+<center>[img[IMG-FairyClient1]]</center>
+<p>@@.pc;Can I have um... it is called "Relaxation Bliss" here?@@</p>
+<p>@@.npc;Why, of course! <<= either("Karen","Vikki","Mary")>> will be your masseuse, room number 3, please!@@</p>
+<p>You pay @@.mon;30<<mon>>@@ and go to the room. The <<= either("busty","slim","yummy-looking")>> woman meets you with a smile and ask you to undress. <<has shame>>You feel a little bit nervious to undress in front of a stranger but force yourself to overcome it.<<or>><</has>> <<if setup.sexToys.check("pc", "groin") !== true || setup.sexToys.check("pc", "clit") !== true>>You feel a surge of embarrassment with your chastity on display but the woman doesn't show any signs that she has noticed it.<</if>>Getting onto the massage bed you relax and let the proffesional do her business.</p>
+<p>It feels like a bliss for sure. You had no idea you even have any muscles in some areas of you body but it is a nice surprise to know that they can be rubbed with some nice-smelling oil giving you such pleasure. Masseuse's hands feels warm and nice and you almost get asleep and lost any track of the time. By the moment she stops you feel almost sorry that the massage ended so fast. Although you notice you feel so much better when you dress back.</p>
+<p>@@.mono;Oh! I need to visit this place more!@@</p>
+<<button> "Leave">><<happy 2 "Massage">><<anger -3>><<stress -24 "Massage">><<status 0>><<run Dialog.close()>><</button>>
+
+
+:: FairyTaleAsClient-Stone [nobr]
+
+<center>[img[IMG-FairyClient2]]</center>
+<p>@@.pc;I want to try this "Stone aroma massage"!@@</p>
+<p>@@.npc;Why, of course! <<= either("Karen","Vikki","Mary")>> will be your masseuse, room number 3, please!@@</p>
+<p>You pay @@.mon;30<<mon>>@@ and go to the room. The <<= either("busty","slim","yummy-looking")>> woman meets you with a smile and ask you to undress. <<has shame>>You feel a little bit nervious to undress in front of a stranger but force yourself to overcome it.<<or>><</has>> <<if setup.sexToys.check("pc", "groin") !== true || setup.sexToys.check("pc", "clit") !== true>>You feel a surge of embarrassment with your chastity on display but the woman doesn't show any signs that she has noticed it.<<elseif setup.sexToys.check("pc", "asshole") !== true>> @@.mono;Oh I hope she won't comment on my buttplug!@@<<elseif setup.sexToys.check("pc", "vagina") !== true>> @@.mono;Oh I hope she won't comment on the toy in my pussy!@@<</if>> Getting onto the massage bed you relax and let the proffesional do her business.</p>
+<p>The woman starts her preparations and soon you flinch with surprise when she puts a warm heavy stone on your back. The sensation is a little odd but soon you find that you, actually like it a lot. The warmth gets deep under your skin and force your sore muscles to relax. It feels fantastic as she adds more and more stones to your back before leaving you to enjoy your trance-like state for some time. When she returns back and start removing the stones you feel much more refreshed and full of energy.</p>
+<p>@@.mono;Oh! I need to visit this place more!@@</p>
+<<button> "Leave">><<happy 2 "Stone Massage">><<set ↂ.pc.status.energy.amt += 1>><<anger -1>><<stress -16 "Stone massage">><<status 0>><<run Dialog.close()>><</button>>
+
+
+:: FairyTaleAsClient-Special [nobr]
+
+<p>@@.pc;Do you provide any 'special' services here?@@</p>
+<p>@@.npc;Sorry, what do you mean, miss?@@</p>
+You feel a tad uncomfortable but continue. @@.pc;I mean not listed here... something more about my 'pleasure'@@ In a vile attempt to hint her you wink.
+<p>@@.npc;Oh. Aah! No, sorry miss, we don't provide any services of this kind here since it is prohibited by law. But we have a lot of standard massage options, if you wish.@@</p>
+<center><<button "Relaxation Bliss - 30<<mon>>, 45 min.">><<replace "#massageDiv">><<include [[FairyTaleAsClient-Relax]]>><</replace>><</button>><<button "Stone aroma massage - 45<<mon>>, 45 min.">><<replace "#massageDiv">><<include [[FairyTaleAsClient-Relax]]>><</replace>><</button>> <<button "Leave">><<run Dialog.close()>><</button>></center>
+
+
+
+:: AdultDistrictExplore [nobr]
+
+
+<<set _redlite = random(1, 90)>>
+<<if $time[0] > 5 && $time[0] < 20>>
+  <<set _redlite = Math.max(0, _redlight - 40)>>
+<</if>>
+<<if _redlite < 31>>
+<center>[img[IMG-RedlightExplore]]</center>
+<p>
+<<f y>>ou take some time to explore some of the side streets and alleys of the Appletree Adult District. The Adult District is by far the most labyrinthian area of Appletree, pretty much the only area where you could get turned around or otherwise lose your way. The layout gives the area a certain mystique, along with the mental illusion of privacy and anonymity. Of course, nothing about the area actually prevents cameras and other tools of surveillance from working just as well as anywhere else... it's just a little easier to forget about them.
+</p>
+<p>
+While wandering the Adult district is a good way to kill some time, you're more likely to stumble upon something interesting here after all, that doesn't mean it's always an eventful journey. This time, like most times, you don't actually come across anything unusual.
+</p>
+<center><<ctn>>[1 of 8]<</ctn>></center>
+<<elseif _redlight < 41>>
+<center>[img[IMG-GirlPeeingAlley2]]</center>
+<p>
+<<f y>>ou take some time to wander the side streets and alleys of the Appletree Adult District. You glance down a narrow alleyway as you walk past, and notice a drunk woman relieving herself. There's no shortage of public restrooms in Appletree, though you suppose they aren't as convenient to get to here in the Adult District. The woman doesn't seem to notice you as you walk slowly by, and you wonder if she's more than just drunk.
+</p>
+<center><<ctn>>[2 of 8]<</ctn>></center>
+<<elseif _redlight < 51>>
+<center>[img[IMG-GirlPeeingAlley1]]</center>
+<p>
+<<f y>>ou take some time to wander the side streets and alleys of the Appletree Adult District. Near the end of your explorations, you round the corner and emerge in something of a courtyard that's really just a wider section of alley that happens to have a storefront. This would be perfectly ordinary, except for the woman squatting and peeing on the sidewalk. Even that isn't <i>terribly</i> unusual, though people usually choose to be more discrete. What's unusual is how surprised she is to be caught.
+</p>
+<p>
+The look of incredulous surprise on her face causes you to laugh involuntarily, and she just stares at you angrily from her squatting position. Still chuckling you start walking back to the main street.
+</p>
+<<happy 1 "Having a good laugh in Adult District">>
+<center><<ctn>>[3 of 8]<</ctn>></center>
+<<elseif _redlight < 61>>
+<center>[img[IMG-FuckingInAlley]]</center>
+<p>
+<<f y>>ou take some time to wander the side streets and alleys of the Appletree Adult District. After walking by an establishment that is something like a love hotel, you hear moaning and the telltale rhythmic slap of flesh against flesh nearby. Curious, you walk down the alley next to the hotel to find the source of the noise.
+</p>
+<p>
+You reach an intersection and immediately spot a couple going at it pretty hard. @@.mono;I wonder why they're doing it here, they could have rented a bed right over there...@@ The woman finally notices you standing there, and flashes you a grin. @@.mono;Oh, I guess that explains it....@@
+</p>
+<<arouse 1>>
+<center><<ctn>>[4 of 8]<</ctn>></center>
+<<elseif _redlight < 71>>
+<div id="peeper">
+<p>
+<<f y>>ou take some time to explore some of the side streets and alleys of the Appletree Adult District. On one of the side streets a crier catches your attention. @@.npc;Adult peep show! Only ten credits to watch!@@ He's dressed in a polo shirt and khaki, and looks like he should be on a golf course rather than here.
+</p>
+<p>
+You walk up to the man, curious. @@.pc;Peep show? What's that about?@@
+</p>
+<p>
+He gives you a salesman's smile. @@.npc;Peep show with a twist... There's a snatched girl stuck in the room until she earns enough to go free. Discerning guests such as yourself can offer her credits to do whatever you want her to. If she does, she earns the creds. If she doesn't, you keep them.@@
+</p>
+<p>
+@@.pc;What do you mean by "snatched"?@@
+</p>
+<p>
+@@.npc;You know, grabbed off the street. It's the easiest way to do it.@@ He gives you a knowing grin. @@.npc;You see there's usually a matter of money involved... It's just a creative form of debt assistance, really. The key is that the girl doesn't get any food or anything, so they start getting pretty desperate to escape... It can get pretty freaky, if you catch my drift.@@
+</p>
+<p>
+You think about it for a moment. @@.pc;Just ten creds?@@
+</p>
+<p>
+He nods. @@.npc;Ten credits, one hour. Time is extended if the girl accepts an offer from you.@@
+</p>
+<center><<button "WATCH">><<addTime 40>><<replace "#peeper">>
+<p>
+You transfer the credits and make your way down a curved hallway to enter your assigned booth.
+</p>
+<center>[img[IMG-PeepShow]]</center>
+<p>
+You see an unhappy girl sitting next to a small bed, the only furnishing in the room. You hear a female voice being replayed through the speaker in your cubicle. @@.npd;Damnit, they never tell you when it's a fresh catch. This is a waste of time.@@ You hear a door slam closed shortly afterward.
+</p>
+<p>
+A man's voice comes through the speaker. @@.npe;Come on girl, you know you aren't gettin' outta there until you collect enough creds... You might as well perform and get it over with. Why don't you start by takin' off the rest of them clothes?@@
+</p>
+<p>
+The girl doesn't respond, and just sits there staring at the floor.
+</p>
+<p>
+@@.npe;You're going to earn that money one way or another. You better do it now while the resquests are easy. You're gonna get desperate, and that's when the crazy starts.@@
+</p>
+<p>
+This time a female voice speaks up. @@.npc;I've got a hundred creds if you bite your nipple till it bleeds.@@
+</p>
+<p>
+@@.npe;See what I mean?@@ There's a pause while everyone waits. @@.npe;Dumb slut...@@
+</p>
+<p>
+The girl finally stands up and without emotion strips off all her clothes. When she does, you notice the number on an LED sign decrease. Looks like she still has nearly 3,000 credits left to earn.
+</p>
+<p>
+The girl doesn't do much for the rest of your time, a couple jumping jacks and some bad dancing due to the lack of music. She ignores most of the requests, including yours. As you make your way back out into the alley, you wonder what the show will be like once the girl starts getting desperate.
+</p>
+<<run aw.cash(-10, "misc")>>
+<</replace>><</button>> <<button "LEAVE">><<run Dialog.close()>><</button>></center>
+</div>
+<br>
+<center><<ctn>>[5 of 8]<</ctn>></center>
+<<elseif _redlight < 81>>
+<center>[img[IMG-AlleyGloryhole]]</center>
+<p>
+<<f y>>ou take some time to wander the side streets and alleys of the Appletree Adult District. Your path eventually leads you to a small sex arcade. Curious, you take a closer look. It really isn't much more than a hole in the wall, a small room on the other side of the wide entryway. There's an attendant there to collect money and keep an eye on the merchandise, which is all on display in a large cylinder in the center of the room. Girls are bent over with their asses hanging out of the wall, ready to be fucked. There's a picture taped to the wall above each girl, though you realize there's probably no way of knowing if the girls actually look like the pictures.
+</p>
+<center><<ctn>>[6 of 8]<</ctn>></center>
+<<elseif _redlight < 86>>
+<p>
+<<f y>>ou take some time to explore some of the side streets and alleys of the Appletree Adult District. It's a pretty uneventful trip, but then you make a turn into an unfamiliar alleyway. While you're walking you suddenly hear a man shouting something, but you can't make out the actual words. Shortly after, you hear a scream that is suddenly cut short.
+</p>
+<p>
+The noise seems like it could be coming from up ahead, but it's really hard to be sure. The brick buildings and network of alleys have a way of carrying sound in strange ways. You decide to keep going, moving more cautiously and keeping an eye out for any potential threats.
+</p>
+<p>
+You soon arrive at a sort of kink in the alley, where it turns left before turning right a short distance later. It's not an unusual layout. What <b>is</b> unusual is the struggling form at the other end of the bend.
+</p>
+<center>[img[IMG-AlleyEncounter]]</center>
+<p>
+Right there, in the middle of the alley is some sort of... tentacle creature. @@.pc;Holy shit!@@ you exclaim in shock as you make out the form of a man struggling weakly to escape. You don't see any eyes on the strange creature, but you get the sudden impression that it's aware of your presence. You turn around and run, fleeing as fast as you're able until you find yourself back on the main street.
+</p>
+<center><<ctn>>[7 of 8]<</ctn>></center>
+<<else>>
+<div id="alleytent">
+<center>[img[IMG-DarkAlleyGuy]]</center>
+<p>
+<<f a>>s you make your way down a side street, you're surprised when a door suddenly opens in a dark corner of the street. The doorway casts light into the darkness, and reveals the silhouette of a man in a hoodie standing there.
+</p>
+<p>
+He must've noticed you, because he calls out. @@.npc;Hey, you want to see something crazy?@@
+</p>
+<p>
+@@.pc;Ah, no thanks@@ you answer reflexively, your subconscious naturally wary of the situation.
+</p>
+<p>
+@@.npc;Well you better keep moving then. I'm gonna open this garage, and you'll see it whether you want to or not if you keep standing there.@@
+</p>
+<center><<button "LEAVE">><<run Dialog.close()>><</button>> <<button "STAY">><<replace "#alleytent">>
+<p>
+You stand there, unmoving. Your curiosity prevents you from fleeing and the man simply says @@.npc;Suit yourself.@@ You see the figure move, and suddenly there's the squeaking noise of a garage door rolling open along with a line of dim yellow light that appears in the darkness.
+</p>
+<p>
+The line of yellow light grows into a rectangle as the garage door raises. It's a small garage, for storage rather than vehicles; you have a hard time imagining a car fitting inside, even if it could navigate the streets to get here. Instead it seems to contain a dark mass of <i>something</i> that occupies the back of the space.
+</p>
+<p>
+You sense movement, and you take a few steps forward to try and get a better look at whatever is inside.
+</p>
+<center>[img[IMG-AlleyTentacleGirl]]</center>
+<p>
+What you see inside certainly fits the definition of crazy. A naked woman, trapped in a mass of flesh and tentacles. The flesh seems to pulsate at a regular rhythm, while some of the tentacles are busy fucking the girl in every hole. One even seems to be burrowed into her ear canal. She's wearing a strange headset that reminds you of those EEG machines.
+</p>
+<p>
+You see the silhouette appear in front of the garage light. @@.npc;How are you doing tonight, dear?@@
+</p>
+<p>
+You don't know if the man is talking to the trapped girl or the creature trapping her, and you don't wait around to find out. You quickly walk back the way you came, leaving the darkness and strange scene behind you.
+</p>
+<</replace>><</button>></center>
+</div>
+<center><<ctn>>[8 of 8]<</ctn>></center>
+<</if>>
+<br>
+<<if $time[0] > 5 && $time[0] < 20>>
+<center>@@.note;Interesting things are more likely to happen at night...@@</center>
+<</if>>
+<br><br>
+
+
+
+
+:: Downtown-Events [nobr]
+
+<<set _events = [1, 2, 3].random()>>
+
+

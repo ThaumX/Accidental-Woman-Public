@@ -46,7 +46,7 @@
   <<button "Go to [Erotika Land]">><</button>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
-  <<button "Go to The Happy Balls">><<dialog "Nope">>Not ready yet. Gosh, you are so unpatient!<</dialog>><</button>>
+  <<button "Go to The Happy Balls">><<dialog "Happy Balls">><center>[img[IMG-HappyBallsTop]]</center><br><div id="bowldiv">You come through the door. The place is basically a big hall with a small snack bar on the left and about 6 or 7 lanes for playing.<<button "Book a lane [15<<mon>>, 30 min]">><<replace "#bowldiv">><<include [[DowntownAmuseHappyBalls]]>><</replace>><</button>><<tab>><<button "Leave">><<run Dialog.close()>><</button>></div><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise delta>>
   <<button "Go to Hot Loads">><</button>>
@@ -58,7 +58,7 @@
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>Visit the [Erotika Land] theme park. Fun for the whole family, and educational too!<<endinsertion>>
+<<insertion alpha>>Visit the [Erotika Land] theme park. Fun for the whole family, and educational too! [NOT IMPLEMENTED YET]<<endinsertion>>
 <<insertion beta>>Visit the bowling alley and perhaps play a few games, or perhaps just polish a ball or two.<<endinsertion>>
 <<insertion delta>>Visit the sport shooting center and perhaps spend some time on the range. [NOT IMPLEMENTED YET]<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
@@ -75,3 +75,7 @@ The statue standing next to the sign for Erotika Land is pretty amazing...
 <br><br>
 [img[IMG_DowntownAmuseParkStatue]]
 
+
+:: DowntownAmuseHappyBalls [nobr]
+
+<<addtime 30>>You book the lane and start playing practicing your bowling skills. <<SCX>><<SC "AT" 10>><<if $SCresult[1]>>It goes pretty well and you feel like ready for a tournament. @@.mono;Big mama is in the house! I am a pro at this thing!@@<<else>>Despite of your efforts you are far from making a strike, most of the time you just get the ball hitting one or two pins at max. @@.mono;Oh, screw it!@@<</if>><br><<button "Leave">><<run Dialog.close()>><</button>>

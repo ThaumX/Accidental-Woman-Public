@@ -8,6 +8,24 @@
 */
 
 interface ↂflag {
+  camShow: {
+    nickname      : string;
+    popularity    : number;
+    daysAbsent    : number;
+    dailyStream   : boolean;
+    actualRequest : number;
+    followers     : number;
+    stats : {
+      expCap      : number;
+      experience  : number;
+      level       : number;
+    };
+    flags         : string[];
+    story         : {
+      home_shows : number;
+      park_shows : number;
+    };
+  };
   profane: boolean;
   sleepfailwarn: boolean;
   triedForDeposit: boolean;
@@ -23,16 +41,31 @@ interface ↂflag {
   StaredLily: boolean;
   OfferedHelpLily: number;
   main: {
-    male: {};
+    male: {
+      workResponse: number;
+      saraIntro: boolean;
+    };
     female: {
       firstText: boolean;
       metLily: boolean;
       helpResp: 0|1|2|3|4|string;
+      kimIntro: boolean;
+      whatIsIt: boolean;
+      kimSpecial: boolean;
+      kimPregnant: boolean;
     };
     startText: boolean;
     mainStart: boolean;
     omniKey: 0 | string;
+    rangBellToday: boolean;
+    active: boolean[];
+    progress: number[];
+    known: boolean[];
+    deadline: number[];
+    contacts: [boolean, boolean, boolean, number, number, number, number];
   };
+  lilyTased: number;
+  buggedLily: number;
   selfEmployed: boolean;
   unemployedDays: number;
   selfEmployType: string;
@@ -173,12 +206,24 @@ interface ↂflag {
   alarmClock: [boolean, number, number];
   suicideList: string[];
   schedDates: string[];
+  homeVisit: [number, string],
   schedHangs: string[];
+  doms: string[];
+  subs: string[];
+  keyHolding: [string, string];
+  keyHolders: [string, string];
+  sendKeyReturned: [boolean, boolean, boolean];
+  sendKeyLost: [boolean, boolean, boolean];
   psycho: {
     caught: false,
   },
+  victimName: string,
   jobEvents: IntJobEventFlags;
   drug: IntDrugFlags;
+  hannaStory: {
+    stage: string;
+    money: number;
+  };
   farm: IntFarmFlags;
   sawFertilitySealAd: boolean;
   school: {
@@ -194,6 +239,11 @@ interface ↂflag {
   psychoAttend: {
     [propName: string]: [boolean, number, number, number];
   }
+  churchAttend: {
+    outer: boolean;
+    cock: boolean;
+    man: boolean;
+  };
   plasticOperationType: string;
   plasticOperationSize: any;
   expandP: boolean,
@@ -208,9 +258,20 @@ interface ↂflag {
   broodRead: boolean;
   magazinesCount: number;
   magazinesTotal: number;
+  shelterVisits: number;
+  bestialityExperience: boolean;
+  fairMail: boolean;
   fairShooting: boolean;
   fairMilking: boolean;
   fertilitySeal: boolean;
+  fuckMachineDildo: string;
+  marriage: {
+    date: [number, number, number, number],
+    npc: string,
+    discussion: boolean,
+    NPCvows: [string, string, string],
+    PCvows: string[],
+  }
   npcInducedInteractions: {
     destination: any,
     intType: string,
@@ -233,6 +294,27 @@ interface ↂflag {
   passedOut: number;
   status: IntStatusFlags;
   pumpDumpUnlock: boolean;
+  sexRecord: {
+    makeout: number;
+    sex: number;
+    oral: number;
+    anal: number;
+    public: number;
+    domsub: number;
+    forced: number;
+    creampie: number;
+    accidentCP: number;
+    unprotected: number;
+    nocumNPC: number;
+    nocumPC: number;
+  };
+  vows: {
+    [propName: string]: Vows;
+  };
+  liveTogether: boolean;
+  liveWith: string;
+  moveInFlag: boolean;
+  liveWithTier: number;
 }
 
 
@@ -265,7 +347,9 @@ interface IntJobEventFlags {
   services: {
     sawChinese: boolean;
   };
-  sperm: {};
+  sperm: {
+    boardBoss: number;
+  };
   bureau: {};
   maid: {
     firstDay: boolean;
@@ -337,12 +421,17 @@ interface Bank {
     saving: boolean;
     loan: boolean;
     credit: boolean;
+    appLoan: boolean;
+    appCred: boolean;
   };
   indigo: {
     saving: boolean;
     loan: boolean;
     credit: boolean;
+    appLoan: boolean;
+    appCred: boolean;
   };
+  payment: number;
 }
 
 interface Lily {

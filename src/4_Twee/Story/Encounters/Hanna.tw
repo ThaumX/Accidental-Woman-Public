@@ -13,7 +13,7 @@ You notice a punk-looking girl calling out to you as you pass by. When you stop 
 </p>
 <<else>>
 <p>
-@@.pc;Sorry, I'm not looking for new friends.@@
+@@.pc;Sorry, I'm not looking for the new friends.@@
 </p>
 <</if>>
 <p>
@@ -97,7 +97,7 @@ She seems to be even more happy than before, her eyes widen with rapture at the 
 <<link "Look at the drugs she has.">><<intreplace>><<include "HannaBowen-Buy">><</intreplace>><</link>>
 </p>
 <<else>>
-<p>Her unnatural smile dissapears and get rather grim.</p>
+<p>Her unnatural smile dissapears and she gets rather grim.</p>
 <p>@@.npc;Nothing of your business, buddy. Are you going to buy this shit or not?@@</p>
 <<link "Look at the drugs she has.">><<intreplace>><<include "HannaBowen-Buy">><</intreplace>><</link>>
 <<set aw.npc.n1014.rship.likePC -= 1>>
@@ -125,29 +125,252 @@ She seems to be even more happy than before, her eyes widen with rapture at the 
   <</if>>
 <<safetoclose>>
 
+
 :: HannaBowen-Talk [nobr]
 
+<<if ↂ.flag.hannaStory.stage === "borrowedMoney1">>
+<<f Y>>ou wave Hanna. She seems nervious and uncomfortable to see you.
+<p>@@.pc;Hi, Hanna!@@</p>
+<p>@@.npc;Ugh, hi. Howdy?@@</p>
+<<silently>>
+/* warning - these temp variables are for initial load only, no DOM/buttons! */
 <<set _npc = "n1014">>
-<<if setup.npc.enemies.includes(_npc)>>
-    <<set _desto = "NPCinteraction-Enemy">>
-  <<elseif setup.npc.lover.includes(_npc)>>
-    <<set _desto = "NPCinteraction-Lover">>
-  <<elseif setup.npc.exes.includes(_npc)>>
-    <<set _desto = "NPCinteraction-Exes">>
-  <<elseif setup.npc.bff.includes(_npc)>>
-    <<set _desto = "NPCinteraction-Friends">>
-  <<elseif setup.npc.fling.includes(_npc)>>
-    <<set _desto = "NPCinteraction-Fling">>
-  <<elseif setup.npc.friends.includes(_npc)>>
-    <<set _desto = "NPCinteraction-Friends">>
-  <<elseif setup.npc.interested.includes(_npc)>>
-    <<set _desto = "NPCinteraction-Flirty">>
-  <<elseif setup.npc.acquainted.includes(_npc)>>
-    <<set _desto = "NPCinteraction-Acquaint">>
-  <<else>>
-    <<set _desto = "NPCinteraction-RandomStranger">>
-  <</if>>
-<<intgo _desto>>
-<br>
-<<link "Do you have something?">><<intgo "HannaBowen-Buy">><</link>>
+<<set _int = setup.interact.status.temp.interrupt>>
+<<set _ctag = setup.interact.status.temp.cTag>>
+<</silently>>
+<<dialogchoice>>
+<<dbutt "Saying Hello">><<addTime 3>><<intgo "NPCinteraction-AcquaintRandom">>
+<<dtext "happy">>You don't have an objective, you just wanted to say hello since you were nearby.
+<<dbutt "Debt">><<addTime 3>><<intgo "HannaBowen-Debt">>
+<<dtext "suspicious">>Ask about her debt.
+<<dbutt "Arrange Date">><<addTime 5>><<if setup.interactionMisc.dateDecision(_npc)>><<intgo "NPCinteraction-AcquaintDate">><<else>><<intgo "NPCinteraction-AcquaintNoDate">><</if>>
+<<dtext "bimbo">>You want to go out on a date!
+<<dbutt "Hangout">><<addTime 5>><<set _rrr = random(1,3)>><<if !aw.npc[_npc].rship.rejected && _rrr > 1>><<intgo "NPCinteraction-AcquaintHang">><<else>><<intgo "NPCinteraction-AcquaintNoHang">><</if>>
+<<dtext "smile">>You want to chill together in a friendly way.
+<<dbutt "Bye">><<addTime 3>><<run setup.interact.exit()>>
+<<dtext "happy">>You need to go actually.
+<<dbutt "Drugs">><<addTime 3>><<intgo "HannaBowen-Buy">>
+<<dtext "happy">>Buy some drugs from Hanna.
+<</dialogchoice>>
+<<else>>
+<<if setup.npc.acquainted.includes(_npc)>>
+<<f Y>>ou wave Hanna and she smiles to you with her enthusiastic smile.
+<p>@@.npc;Oh, hi there, <<print ↂ.pc.main.name>>!<<if ↂ.flag.hannaStory.stage !== "goodend">> Wanna buy some?<</if>>@@</p>
+<<else>>
+<<intgo "HannaBowen-Approach">>
+<</if>>
+<<if ↂ.flag.hannaStory.stage == "goodend">>
+<<silently>>
+/* warning - these temp variables are for initial load only, no DOM/buttons! */
+<<set _npc = "n1014">>
+<<set _int = setup.interact.status.temp.interrupt>>
+<<set _ctag = setup.interact.status.temp.cTag>>
+<</silently>>
+<<dialogchoice>>
+<<dbutt "Saying Hello">><<addTime 3>><<intgo "NPCinteraction-AcquaintRandom">>
+<<dtext "happy">>You don't have an objective, you just wanted to say hello since you were nearby.
+<<dbutt "Arrange Date">><<addTime 5>><<if setup.interactionMisc.dateDecision(_npc)>><<intgo "NPCinteraction-AcquaintDate">><<else>><<intgo "NPCinteraction-AcquaintNoDate">><</if>>
+<<dtext "bimbo">>You want to go out on a date!
+<<dbutt "Hangout">><<addTime 5>><<set _rrr = random(1,3)>><<if !aw.npc[_npc].rship.rejected && _rrr > 1>><<intgo "NPCinteraction-AcquaintHang">><<else>><<intgo "NPCinteraction-AcquaintNoHang">><</if>>
+<<dtext "smile">>You want to chill together in a friendly way.
+<<dbutt "Bye">><<addTime 3>><<run setup.interact.exit()>>
+<<dtext "happy">>You need to go actually.
+<</dialogchoice>>
+<<else>>
+<<silently>>
+/* warning - these temp variables are for initial load only, no DOM/buttons! */
+<<set _npc = "n1014">>
+<<set _int = setup.interact.status.temp.interrupt>>
+<<set _ctag = setup.interact.status.temp.cTag>>
+<</silently>>
+<<dialogchoice>>
+<<dbutt "Saying Hello">><<addTime 3>><<intgo "NPCinteraction-AcquaintRandom">>
+<<dtext "happy">>You don't have an objective, you just wanted to say hello since you were nearby.
+<<dbutt "Arrange Date">><<addTime 5>><<if setup.interactionMisc.dateDecision(_npc)>><<intgo "NPCinteraction-AcquaintDate">><<else>><<intgo "NPCinteraction-AcquaintNoDate">><</if>>
+<<dtext "bimbo">>You want to go out on a date!
+<<dbutt "Hangout">><<addTime 5>><<set _rrr = random(1,3)>><<if !aw.npc[_npc].rship.rejected && _rrr > 1>><<intgo "NPCinteraction-AcquaintHang">><<else>><<intgo "NPCinteraction-AcquaintNoHang">><</if>>
+<<dtext "smile">>You want to chill together in a friendly way.
+<<dbutt "Bye">><<addTime 3>><<run setup.interact.exit()>>
+<<dtext "happy">>You need to go actually.
+<<dbutt "Drugs">><<addTime 3>><<intgo "HannaBowen-Buy">>
+<<dtext "happy">>Buy some drugs from Hanna.
+<</dialogchoice>>
+<</if>>
+<</if>>
+
+
+:: HannaBowen-Debt [nobr]
+
+<p><<has bitch>>@@.pc;So, are you going to return my money after all?@@<<or>>@@.pc;I just wanted to ask about that debt. You see I could use some money right now...@@<</has>></p>
+<p>Hanna's face gets tomato red and her attitude changes; you suddenly see a frightened and unsecure person in front of you. @@.pc;Oh, <<print ↂ.pc.main.name>>... I will return them soon, I promise! I just have nothing right now but in a couple of days, I swear!@@</p>
+<p>@@.pc;Yeah, sure.@@</p>
+<<dialogchoice>>
+<<dbutt "Arrange Date">><<addTime 5>><<if setup.interactionMisc.dateDecision(_npc)>><<intgo "NPCinteraction-AcquaintDate">><<else>><<intgo "NPCinteraction-AcquaintNoDate">><</if>>
+<<dtext "bimbo">>You want to go out on a date!
+<<dbutt "Hangout">><<addTime 5>><<set _rrr = random(1,3)>><<if !aw.npc[_npc].rship.rejected && _rrr > 1>><<intgo "NPCinteraction-AcquaintHang">><<else>><<intgo "NPCinteraction-AcquaintNoHang">><</if>>
+<<dtext "smile">>You want to chill together in a friendly way.
+<<dbutt "Bye">><<addTime 3>><<run setup.interact.exit()>>
+<<dtext "happy">>You need to go actually.
+<<dbutt "Drugs">><<addTime 3>><<intgo "HannaBowen-Buy">>
+<<dtext "happy">>Buy some drugs from Hanna.
+<</dialogchoice>>
+
+
+:: HannaBowen-quest-a-yes [nobr]
+
+<<silently>><<run setup.omni.new("hannaAsksForMore")>><<set ↂ.flag.hannaStory.money += 100>><<set aw.npc.n1014.likePC += random(10, 15)>><<if ↂ.flag.hannaStory.stage === "none">><<set _hannaAns = "Of course, I'll send it now :)">><<else>><<set _hannaAns = "Oh, sure. Just return them and don't forget the money I previously borrowed you please.">><</if>><<set ↂ.flag.hannaStory.stage = "borrowedMoney1">><<status 0>><</silently>>
+<<texting "Hanna Bowen">>
+  <<textpc>><<print _hannaAns>>
+  <<textpc>>Yup, sent. Did you got them?
+  <<textnpc>>Yup!
+  <<textnpc>>Thank you soooo much!
+  <<textnpc>>I'll return it at the end of the month, I promise!
+  <<textnpc>>Thanks again! XOXO
+<</texting>>
+<<safetoclose>>
+
+
+:: HannaBowen-quest-a-no [nobr]
+
+<<silently>><<set aw.npc.n1014.likePC -= 4>><<run setup.omni.new("hannaInTroubles")>><<if ↂ.flag.hannaStory.stage === "none">><<set _hannaAns = "Sorry, I have no free money now :(">><<else>><<set _hannaAns = "Sorry, you haven't returned money I already borrowed to you.">><</if>><<set ↂ.flag.hannaStory.stage = "refused">><<status 0>><</silently>>
+<<texting "Hanna Bowen">>
+  <<textpc>><<print _hannaAns>>
+  <<textnpc>>Oh
+  <<textnpc>>You really can't? It is the matter of death and life for me :(
+  <<textpc>>No.
+  <<textnpc>>I see...
+  <<textnpc>>Sorry for bothering you :(
+<</texting>>
+<<safetoclose>>
+
+
+:: HannaCaptured [nobr]
+
+<<addtime 19>><<stress 15 "Getting deep into gangster's business.">><<f Y>>ou start circling the reservoir from the south following the gravel path near the water. @@.mono;What am I doing here? <<if ↂ.flag.hannaStory.money > 100>>First she borrows <<print ↂ.flag.hannaStory.money>> bucks and now she just texts me some gibberish and here I am, spending my <<print setup.time.dayName()>> looking for her in this shithole...<<else>>She texted me some gibberish and here I am, spending my <<print setup.time.dayName()>> looking for her in this shithole...<</if>>@@ The road slowly skews to the north leading to the gray water-cleaning facility building. @@.npc;I even have no idea if she is in any troubles or just has yet another drug-induced delusions...@@
+<p>Building grows bigger and soon you face its concrete walls. @@.mono;Gosh and why did I ever do all that way? It is just a facility building, Hanna is 100% not here.@@ Just for the sake of pure stubbornness you get to the rusty metal door with "Access restricted" sign and pull the handle. To your surprise, it is unlocked and you see a dim-lit passage luring you inside.</p>
+<p>You watch around but there is nobody in sight. Taking a couple of steps inside you notice that you unconsciously try to make as little noise as you can passing along the various machinery, old wooden and plastic crates, and a "Caution! Wet floor" sign. At the end of the hall, you see the open arc leading to the big darkish void; it takes another minute of cautious sneaking until you got to it. You are ready to step inside when muffled voices make you freeze with your leg still in the mid-air.</p>
+<p>@@.npc;...ease, I will return everything! You must believe me!@@ It is hard to say whose voice it is but you are sure that it belongs to a young woman.</p>
+<p>@@.npd;Too late, darling. I forgave you twice but you failed me again.@@ The second voice belongs to a male, you can swear that you hear some light accent but can't get what it is... @@.npd;You, Americans never know to make good business. You need to respect people you make business with, Hanna.@@</p>
+<p>@@.npc;Please, Oleg...Tsar! I can bring you money, I just need to collect them from my customers...@@ You hear the desperate notes in the female's voice. @@.mono;Even I don't believe her excuses, poor girl is in big troubles now...@@</p>
+<p>@@.npd;How much you owe me? Fedor?@@</p>
+<p>@@.npe;3 grands, Oleg Banditovich.@@ That second hoarse male voice has the much thicker accent and you guess that those guys are Slavs.</p>
+<p>@@.npd;See, Hanna? I don't think a junkie like you can gather such money...@@ @@.npc;But...@@ @@.npd;...and you can't say I didn't give you time. You had almost a month, Mrs. Bowen. I don't want you to think I am a cruel man. I am not. I am just a man of honor and I do my business well. So, how do you think, would I have my business running smoothly and have the respect if I'd let any street pusher or whore to never return me my money?@@</p>
+<p>@@.npc;I...I...please...@@ You hear some rustling like somebody stood up from the stool and steps in your direction. Feeling your heart racing you get ready to run for your life but steps stop almost immediately.</p>
+<p>@@.npd;So do-svidania, Hanna. Fedor, I don't want the poor girl to suffer, shoot her before throwing her to the sewer's blades.@@ @@.npe;Yes, Oleg Bandi...@@ Trying to go back from the way of this Slav gangster before he will see you you slip on the wet floor and fall right onto your <<p ass.q>> <<p ass.n>>. @@.mono;Oh shit...@@</p>
+<p>Lifting the head up you see a massive figure in the doorway and your heart skips a beat. @@.npd;Why hello, Fedor, we have a guest it seems!@@<<if aw.npc.n1005.rship.acquaint == true>>Tsar looks closely and you see his wide chipped smile. @@.npd;Hey, it is <<= ↂ.pc.main.name>>! What are you doing here, darling?@@<</if>> He has the light Russian accent indeed but his soft and mesmerizingly calm voice doesn't sound fitting to his bouncer-grade physics.</p>
+<<dialogchoice>>
+<<dbutt "Accident">><<addTime 3>><<scenego "HannaCaptured-accident">>
+<<dtext "awkward">>I am here by the accident, I probably should go now!
+<<dbutt "Police">><<addTime 3>><<intgo "HannaCaptured-police">>
+<<dtext "pain">>What are you doing with her? I'm gonna call the police!
+<<dbutt "Sort out">><<addTime 3>><<intgo "HannaCaptured-sort out">>
+<<dtext "smug">>I heard my friend Hanna have some trouble, can we discuss it?
+<<dbutt "Gun" "setup.hasGun()">><<addTime 3>><<intgo "HannaCaptured-gun">>
+<<dtext "mad">>I have a gun and will use it, bastard. Let her go!
+<</dialogchoice>>
+
+
+:: HannaCaptured-accident [nobr]
+
+<<f Y>>ou stand up trying to look as unthreatening as you can taking a couple of steps back. @@.pc;I am here by the accident, I probably should go now!@@ Gangster steps forward into the dim light and you can see him. He is a massive man with a thick golden chain on his fat neck and a couple of visible tattoos. He seems deceptively relaxed while getting closer. @@.npd;What are you doing here, lady?@@
+<p>@@.mono;He won't let me go away that easy...@@</p>
+
+<<dialogchoice>>
+<<dbutt "Lie">><<addTime 3>><<scenego "HannaCaptured-accident-lie">>
+<<dtext "disturbed">>I was just hiking and saw the door was opened...
+<<dbutt "Truth">><<addTime 3>><<intgo "HannaCaptured-sortout">>
+<<dtext "confused">>Hanna, the friend of mine wrote me so I came here.
+<</dialogchoice>>
+
+:: HannaCaptured-police [nobr]
+
+<<f Y>>ou stand up trying to look as serious as you can taking a step forward. @@.pc;What are you doing with her? I'm gonna call the police!@@ Gangster steps forward into the dim light and you can see him. He is a massive man with a thick golden chain on his fat neck and a couple of visible tattoos. He seems deceptively relaxed while getting closer. @@.npd;Oh, we are just having a friendly conversation here. No need for police at all, lady.@@
+<p>@@.pc;Don't lie to me! I heard everything and now you are so screwed!@@ You take the phone from your pocket to call the police and start dialing the APD number @@.mono;0118 999 88...@@</p>
+<p>@@.npd;I wouldn't do that if I'd was you...@@ His face grows grim and you feel very uneasy. You gather all your courage and continue to type the number <<link "while he reaches for his armpit under the jacket...">><<run setup.badEnd()>><</link>></p>
+
+
+:: HannaCaptured-sortout [nobr]
+
+<p>@@.pc;I heard my friend Hanna have some trouble, can we discuss it?@@</p>
+<p>Oleg lets out an amused grunt. @@.npd;You are a brave one, right? Well, I like it. Come in.@@ You follow the gangster to the main hall behind him. The place looks like a warehouse, some bug machinery humming near the wall. In the circle of light coming from the lamp on the cellar, you see a metal stool. Hanna sits on it with her hands cuffed behind her back, you notice the trickle of dried blood coming down from the corner of her mouth to her chin. Her eyes widen when she sees you, she opens her mouth a couple of times but don't say a thing too frightened to interfere. Fedor stands at the corner keeping away from the light, you can notice something in his hand.</p>
+<p>@@.npd;Well, darling, let's discuss it. I am a busy man here in town, you can call me Oleg, however, most people call me "Tsar".@@ You nod him trying to keep as calm and imposing as possible while feeling pretty surreal about the whole situation. @@.pc;It's my good honor to meet you, I am <<name>> <<surname>>. Hanna is my... friend and I would like her to leave unharmed. What is it between you and her?@@ Tsar tilts his head to the side obviously amused then shrugs. @@.npd;You see, your friend owes me a little less than 3 grands. It is not that it is a big amount of money, I just can't afford people being disrespectful. She was busted with the small... shipment of delicate medical products intended for distribution amongst local townfolks. Hanna managed to avoid being caught red-handed but she dropped the package into sewers so now she owes me its price. So far she returned only around a thousand bucks from what she owes me so 2 grands are still to get obtained for me. Right, Bowen? @@ Hanna nods, still eating you two with her eyes full oh fear and hope. Tsar turns back to you. @@.npd;Well, long story short it is been three months since last time she brought any money already and I am still waiting for my money so I decided to take fair and obvious actions on this matter. Tsar should be respected.@@</p>
+<p>You gulp down. @@.pc;Oh, I see.@@</p>
+<<if $AW.cash > 2000>><<set _cash = true>><<else>><<set _cash = false>><</if>>
+<<dialogchoice>>
+<<dbutt "Pay" _cash>><<addTime 27>><<scenego "HannaCaptured-pay">>
+<<dtext "smile">>Can I just pay for her?
+<<dbutt "Sex">><<addTime 3>><<intgo "HannaCaptured-sex">>
+<<dtext "bimbo">>Maybe I can compensate it in some <i>other</i> way?
+<<dbutt "Leave">><<addTime 6>><<intgo "HannaCaptured-leave">>
+<<dtext "confused">>It's her troubles. I won't tell anybody. Can I leave?
+<</dialogchoice>>
+
+
+:: HannaCaptured-gun [nobr]
+
+<<f Y>>ou take your gun out and point it at the gangster. @@.pc;I have a gun and will use it, bastard. Let her go!@@ 
+<<SCX>><<SC "FA" 10>><<if $SCresult[1]>><<set aw.npc.n1014.likePC += 42>><<set aw.npc.n1014.lovePC += 22>><<set ↂ.flag.hannaStory.stage = "goodend">><<run setup.omni.new("hannaReturnsMoney")>><<set aw.npc.n1005.rship.likePC += 20>><<status 0>><p>Oleg stops and frowns. You hear fast stomping from the room and gangster's sidekick appears in the doorway with a gun in his hand. Tsar tries to make a step forward but stops when you point the gun to his face. @@.pc;One more step and I swear I'll make a hole in your gangster's mug!@@ His face grows grim but then he smiles. @@.npd;You are a brave woman. I like it. Fedor, otpusti suku, mi obosralis.@@</p>
+<p>Second gangster seems like he want to object but obeys Tsar's raised arm and disappears in the doorway. A minute later freed Hanna runs to you to hide behind you. @@.pc;We are leaving now. No funny business, Oleg.@@ Tsar grins. @@.npd;We will meet again, miss. Later.@@ You carefully step back still pointing your gun at him until you and Hanna leave the building. Hanna rubs her swollen arms looking at you with a happy disbelief.</p>
+<p>@@.npc;Gosh, sugarcu... <<name>>... I... don't know how to thank you!@@ She suddenly hugs you crying and holding you tight. @@.pc;...there, there... it is okay now...@@ @@.npc;I thought they would kill me! That Tsar is a terrible man! I...@@</p>
+<p>It takes about 20 minutes before Hanna finally get calm and stop crying and venting the events out from her system. You carefully lead her to the exit so she can breathe some fresh air. She looks at you very seriously. @@.npc;You know, I owe you. A lot.@@ @@.pc;Oh, don't get nervous about it I just...@@ @@.npc;I am talking about a different thing. You are the first person in like 10 years who made something for me just because you can. This is hella important to know there is somebody who cares. I know I am an addict and my life is a disaster and to be honest, I don't deserve anything nice from you, sugar. But I... I really want to become... <i>somebody</i> now. I don't want to flush my life down the shithole anymore. Just an hour ago I was just sitting there and thought I am a goner for sure. And it was not the most terrible part. The most painful was the thought that I have left nothing good after me. I... I don't really know, I need to think hard about this all. And.... thank you, <<name>>.@@</p>
+<p>You go with her back to the town having no idea how to answer her confession feeling weirdly relaxed and right. She says goodbye in a very unusual and polite voice before going to the bus stop and you are not sure if she is still the same person anymore.</p>
+<center><<button "Leave">><<sceneclose>><</button>></center>
+<<else>><p>Oleg stops and frowns for a moment then relaxes. You hear fast stomping from the room and gangster's sidekick appears in the doorway with a gun in his hand. @@.npd;Don't panic, Fedor. Vsyo v poryadke. Suka zabuila snyat s predohranitelya.@@ He takes a couple of quick steps towards you and you push the trigger...</p>
+<p>Nothing happens. Trigger won't move and you realise that you forgot to turn off the safety. You reach for the switch but it is too late. Tsar's strong hand yanks the gun from your grip. @@.npd;It seems two girls will float today, Fedor.@@ @@.pc;YOU BASTARD YOU WILL PAY FOR...@@ His knuckle flies rapidly to your face...</p> 
+<center><<button "Pass out">><<run setup.badEnd("suicide")>><</button>></center><</if>>
+
+
+:: HannaCaptured-accident-lie [nobr]
+
+<<f Y>>ou try to be as convincing as possible. @@.pc;I was just hiking and saw the door was opened...@@
+<<SCX>><<SC "LIE">><<if $SCresult[1]>><<set ↂ.flag.hannaStory.stage = "died">><<script>>delete aw.npc.n1014<</script>><<status 0>><p>Oleg raises his brow then a fake smile appears on his heavy face. @@.npd;Sorry miss, this building is the Insitute's property, no trespassing. You better leave now.@@</p>
+<p>@@.pc;Y-yeah, I am leaving, sorry...@@ Having no other options you carefully stand up and head to the exit followed by his close stare. @@.mono;Oh I hope he won't shoot me in the back...@@ When you reach the exit you look behind to see him still watching you. You sigh and take a step outside.</p>
+<p>You feel terrible heading back to your car on the other side of the reservoir. @@.mono;Oh, poor Hanna. I left her there with those gangsters and... she's gonna die for sure. <<has bitch>>Well, on the other hand it is her own problems and she is nobody to blame but herself, right?<</has>>@@</p>
+<center><<button "Leave">><<sceneclose>><</button>></center>
+<<else>>
+<<f Y>>ou try to be as convincing as possible. @@.pc;I was just hiking and saw the door was opened...@@
+<p>@@.npd;Yes, sure. Sounds very plausible, miss. Let me guide you outside.@@ Oleg steps to you. @@.npd;It seems two girls will float today, Fedor.@@ @@.pc;Oh, please, no!..@@ His knuckle flies rapidly to your face...</p> 
+<center><<button "Pass out">><<run setup.badEnd("suicide")>><</button>></center><</if>>
+<</if>>
+
+
+:: HannaCaptured-pay [nobr]
+
+<<run aw.cash(-2000, "misc")>><<set aw.npc.n1014.likePC += 42>><<set aw.npc.n1014.lovePC += 22>><<set ↂ.flag.hannaStory.stage = "goodend">><<run setup.omni.new("hannaReturnsMoney")>><<status 0>>
+<p>@@.pc;Can I just pay for her?@@ Tsar looks at you curiously than shrugs once again. @@.npd;Well, if you really want to, why not? Fedor, take care of the payment.@@</p>
+<p>The grunt comes to you and shows his number for money transfer on the screen of his phone. You sigh and take a look at Hanna before confirming the transfer of @@.mon;<<mon>>2000@@ to the gangsters. @@.npe;Vsyo khorosho, Oleg Banditovich.@@ Tsar smiles to you. @@.npd;I see you are a woman of good business. Well, I am sure you will take care of your friend so she won't make such mistakes in the future. Fedor, we are leaving, good day to you ladies.@@ Gangster's sidekick unlocks Hanna's cuffs and nods to you before leaving after his boss. Hanna rubs her swollen arms looking at you with a happy disbelief.</p>
+<p>@@.npc;Gosh, sugarcu... <<name>>... I... don't know how to thank you!@@ She suddenly hugs you crying and holding you tight. @@.pc;...there, there... it is okay now...@@ @@.npc;I thought they would kill me! That Tsar is a terrible man! I...@@</p>
+<p>It takes about 20 minutes before Hanna finally get calm and stop crying and venting the events out from her system. You carefully lead her to the exit so she can breathe some fresh air. She looks at you very seriously. @@.npc;You know, I owe you know. A lot.@@ @@.pc;Oh, don't get nervous about it I just...@@ @@.npc;I am talking about a different thing. You are the first person in like 10 years who made something for me just because you can. This is hella important to know there is somebody who cares. I know I am an addict and my life is a disaster and to be honest, I don't deserve anything nice from you, sugar. But I... I really want to become... <i>somebody</i> now. I don't want to flush my life down the shithole anymore. Just an hour ago I was just sitting there and thought I am a goner for sure. And it was not the most terrible part. The most painful was the thought that I have left nothing good after me. I... I don't really know, I need to think hard about this all. And.... thank you, <<name>>.@@</p>
+<p>You go with her back to the town having no idea how to answer her confession feeling weirdly relaxed and right. She says goodbye in a very unusual and polite voice before going to the bus stop and you are not sure if she is still the same person anymore.</p>
+<center><<button "Leave">><<sceneclose>><</button>></center>
+
+
+:: HannaCaptured-sex [nobr]
+
+<<f Y>>ou stand up and take a suggestive pose showing out your goods. @@.pc;Maybe I can compensate her debt in some <i>other</i> way?@@<<SCX>><<SC "SD" 5>><<if $SCresult[1]>><<achieve tsar>><<SC "OR">><<set aw.npc.n1014.likePC += 42>><<set aw.npc.n1014.lovePC += 22>><<set ↂ.flag.hannaStory.stage = "goodend">><<run setup.omni.new("hannaReturnsMoney")>><<set aw.npc.n1005.rship.likePC += 20>><<run setup.omni.new("cumMouth")>><<run setup.drug.eatDrug("cum", 10)>><<run setup.hadSexWith("n1005",2)>><<status 0>><p>Oleg raises his brow inspecting your posture then grins. @@.npd;Fedor, wait outside with Hanna.@@ In a minute his sidekick pass you along leading Hanna with her arms still bound. For a brief moment she looks at you with hope in her eyes. Turning back to Oleg you see him undoing his pants. @@.npd;You can begin <i>persuading</i> me.@@ You kneel in front of his impressive bulge and slowly pull down his briefs.</p>
+<p>@@.mono;Wow...@@ Tsar's cock <<has sizequeen>>makes your sizequeen's heart to skip a beat.<<or>>make you gasp.<</has>>His meatpole is so big you wonder if you can swallow it at all. Starting with a delicate kiss to the head you earn an encouraging pat on your head and attack it with your hungry lips. @@.mono;I wonder, are all Russians so gifted?@@</p>
+<p>The girth of his cock is quite impressive to say the least and it fills you mouth while you push yourself lower and lower. Sucking it in and out you can't but enjoy the primal feeling of servicing big strong member of the big strong male. When his head bump to the back of your throat you feel that it would be a serious challenge for you. @@.npd;Here, let me help you.@@ The hand on your head push you further forcing you to swallow the pole and holding you at place. You feel tears running down your face while you choke on way too big dick of Russian mafia leader. When he finally releases the grip and lets you breath you are almost blacked out but the need to feel his cock obcenely intruding is too strong and you choke on it over and ever again while saliva dripping down to the floor mixed with your tears and smeared makeup...</p>
+<p>When Tsar finally gets closer to cumming you are on the brink of faint. With a groan he releases his semen deep down your throat and you accept it gratefully gulping the content of his meaty balls. Being polite you lick his cock clean before he put its back into his trousers.</p>
+<p>Tsar smiles to you. @@.npd;I see you are a woman of good business. Well, I am sure you will take care of your friend so she won't make such mistakes in the future. Fedor, we are leaving, good day to you ladies.@@ Gangster's sidekick unlocks Hanna's cuffs and nods to you before leaving after his boss. Hanna rubs her swollen arms looking at you with a happy disbelief.</p>
+<p>@@.npc;Gosh, sugarcu... <<name>>... I... don't know how to thank you!@@ She suddenly hugs you crying and holding you tight. @@.pc;...there, there... it is okay now...@@ @@.npc;I thought they would kill me! That Tsar is a terrible man! I...@@</p>
+<p>It takes about 20 minutes before Hanna finally get calm and stop crying and venting the events out from her system. You carefully lead her to the exit so she can breathe some fresh air. She looks at you very seriously. @@.npc;You know, I owe you know. A lot.@@ @@.pc;Oh, don't get nervous about it I just...@@ @@.npc;I am talking about a different thing. You are the first person in like 10 years who made something for me just because you can. This is hella important to know there is somebody who cares. I know I am an addict and my life is a disaster and to be honest, I don't deserve anything nice from you, sugar. But I... I really want to become... <i>somebody</i> now. I don't want to flush my life down the shithole anymore. Just an hour ago I was just sitting there and thought I am a goner for sure. And it was not the most terrible part. The most painful was the thought that I have left nothing good after me. I... I don't really know, I need to think hard about this all. And.... thank you, <<name>>.@@</p>
+<p>You go with her back to the town having no idea how to answer her confession feeling weirdly relaxed and right. She says goodbye in a very unusual and polite voice before going to the bus stop and you are not sure if she is still the same person anymore.</p>
+<center><<button "Leave">><<sceneclose>><</button>></center>
+<<else>>
+<p>Gangster looks at you wearily. @@.npd;Miss, I am known as the "Tsar" in the city for a reason. If I need a woman there is always a line of ladies willing to spend the night with me. And also... I don't want to offend you, being polite with women is in my country's tradition but... you are not ripped enough for my tastes.@@</p>
+<p>You are both sad and angry with the renouncement but you consider that it is not the smartest thing to object in this situation. @@.npd;I understand that you care for your friend, and I appreciate that you are willing to use all your... recources to rescue her. But sometimes life is just unfair.@@ He lits a cigarette and looks at you in a tired and surprisingly melancholical way. @@.npd;It is time for you to leave, miss.@@</p>
+<p>@@.pc;Y-yeah, I am leaving, sorry...@@ Having no other options you carefully stand up and head to the exit followed by his close stare. @@.mono;Oh I hope he won't shoot me in the back...@@ When you reach the exit you look behind to see him still watching you. You sigh and take a step outside.</p>
+<p>You feel terrible heading back to your car on the other side of the reservoir. @@.mono;Oh, poor Hanna. I left her there with those gangsters and... she's gonna die for sure. <<has bitch>>Well, on the other hand it is her own problems and she is nobody to blame but herself, right?<</has>>@@</p>
+<center><<button "Leave">><<set ↂ.flag.hannaStory.stage = "died">><<script>>delete aw.npc.n1014<</script>><<anger 1>><<sceneclose>><</button>></center>
+<</if>>
+
+
+:: HannaCaptured-leave [nobr]
+
+<<run setup.npcInfo.level("n1005", {bodyGeneral: true})>><<set aw.npc.n1005.rship.acquaint = true>><<run setup.npc.acquainted.push("n1005")>><<set aw.npc.n1005.rship.likePC += 20>><<set ↂ.flag.hannaStory.stage = "died">><<script>>delete aw.npc.n1014<</script>><<status 0>>
+<p>@@.pc;It's her troubles. I won't tell anybody. Can I leave?@@ Tsar looks at you curiously than shrugs once again. @@.npc;Nooo, please, <<name>>! Don't leave meeeeee...@@ Fedor takes a step to the girl and punches her into her face and Hanna's head twitches cutting off her desperate cry for help.</p>
+<p>@@.npd;Well, I am glad you understand the situation. I will take your word, miss. I am sure you remember that if anything it is a small town, right?@@ You nod. @@.npd;...then I think you are free to leave the place, you certainly don't want to see what will come next. Let me guide you.@@ With a elegant gesture he offers you his hand; dropping last glance at poor Hanna sobbing with Fedor standing over her you accept Tsar's hand and let him to guide you to the exit. @@.mono;Oh, poor Hanna...@@</p>
+<p>You blink a couple of times when you get outside from the dark building. Tsar lits up a cigarette watching the reservoir. @@.npd;You seem like a reasonable women, miss <<surname>>. If you need something, just call...@@ @@.rumble;BAM!@@ @@.npd;...me. I provide a plenty of services in the town.@@ You almost jumped with the sound of the gunshot from behind but squeeze out a polite smile. @@.pc;Thank you, Oleg. I appreciate it.@@</p>
+<p>@@.npd;Then good day to you, miss <<surname>>.@@</p>
+<center><<button "Leave">><<sceneclose>><</button>></center>
 

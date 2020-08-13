@@ -135,7 +135,7 @@ type conditionLocation = "hair"|
 "vagFluid"|
 "anusFluid";
 
-type foodType = "junk" | "dessert" | "normal" | "health" | "diet";
+type foodType = "junk" | "dessert" | "normal" | "health" | "diet" | "home";
 
 type locationMain = 
   "world"
@@ -145,6 +145,10 @@ type locationMain =
   | "home"
   | "start"
   | "BFhome"
+  | "homeT4"
+  | "homeT3"
+  | "homeT2"
+  | "homeT1"
 
 type locationInfo = {
   image: string,

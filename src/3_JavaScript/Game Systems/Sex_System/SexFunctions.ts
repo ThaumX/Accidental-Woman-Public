@@ -57,6 +57,10 @@ interface setupSex {
   domDelay: number;
   popup: (content: string) => void;
   popupKill: () => void;
+  NpcClothes: (npcId) => void;
+  clothesBlockChecker: (npcId: string | "pc", part: string) => boolean;
+  pcKink: (key: string) => string;
+  npcKink: (key: string) => string;
 }
 
 
@@ -194,13 +198,13 @@ setup.sex.main = function(act: SexAct|SexPos, {
     ↂ.sex.npcOutput.push(setup.sex.library("fuckThrustText", "N"));
   } else if (npcAction[1] === "speed") {
     if (npcAction[0] > 1) {
-      ↂ.sex.npcOutput.push("<<= ↂ.T.main.name>> picks up the pace, pounding your <<p pussy.n>> faster than before.");
+      ↂ.sex.npcOutput.push("<<= ↂ.T.main.name>> picks up the pace, pounding your hole faster than before.");
       ↂ.sex.speed += 1;
       if (ↂ.sex.speed > 8) {
         ↂ.sex.speed = 8;
       }
     } else {
-      ↂ.sex.npcOutput.push("<<= ↂ.T.main.name>> slows down a little, fucking your <<p pussy.n>> at a more leisurely pace.");
+      ↂ.sex.npcOutput.push("<<= ↂ.T.main.name>> slows down a little, fucking your hole at a more leisurely pace.");
       ↂ.sex.speed -= 1;
       if (ↂ.sex.speed < 1) {
         ↂ.sex.speed = 1;
@@ -252,9 +256,25 @@ setup.sex.main = function(act: SexAct|SexPos, {
 };
 
 // looks up library text for actions/position changes
-setup.sex.library = function(key: string, code: string, chapter: string = "standard"): string {
+setup.sex.library = function(key: string, code: string, chapter: string = "none"): string {
   // aw.con.info(`setup.sex.library is starting`); // TODO Remove eventually
-  let output = "PC none";
+  let output = "error";
+  if (chapter === "none") {
+    switch (code) {
+      case "A":
+        chapter = setup.sex.pcKink(key);
+        break;
+      case "P":
+        chapter = "standard";
+        break;
+      case "N":
+        chapter = setup.sex.npcKink(key);
+        break;
+      case "O":
+        chapter = "standard";
+        break;
+    }
+  }
   try {
     switch (code) {
       case "A":
@@ -285,169 +305,6 @@ setup.sex.library = function(key: string, code: string, chapter: string = "stand
   return output;
 };
 
-// TODO - AI
-// selects the NPCs action for the turn
-setup.sex.npcActionSelect = function(ind: number): [string|number, string] {
-  const t1 = performance.now();
-  // aw.con.info(`setup.sex.npcActionSelect is Starting`); // TODO Remove eventually
-  const sex = ↂ.sex;
-  const pos = aw.sexPos[sex.pos];
-  const npc = sex.npc[ind];
-  const actKeys = Object.keys(aw.sexActN);
-  const actLeng = actKeys.length;
-  const posKeys: string[] = Object.keys(aw.sexPos);
-  const posLeng = posKeys.length;
-  const pcAct = sex.pcAct;
-  const list: string[] = [];
-  let odds;
-  let type;
-  let grp;
-  let oddSet;
-  if (sex.pcWetness < 5) {
-    // no sexstart
-    oddSet = {
-      notSex: {
-        makeout: 79,
-        posit: 5,
-        oral: 8,
-      },
-      oralNPC: {
-        oralNPC: 94,
-        oral: 5,
-      },
-      oralPC: {
-        oralPC: 80,
-        makeout: 5,
-      },
-      sex: {
-        gen: 50,
-        posit: 2,
-        makeout: 38,
-        speed: 10,
-      },
-    };
-  } else {
-    oddSet = {
-      notSex: {
-        makeout: 79,
-        posit: 5,
-        oral: 8,
-        sex: 3,
-      },
-      oralNPC: {
-        oralNPC: 94,
-        oral: 5,
-        sex: 1,
-      },
-      oralPC: {
-        oralPC: 80,
-        sex: 15,
-        makeout: 5,
-      },
-      sex: {
-        gen: 50,
-        posit: 2,
-        makeout: 38,
-        speed: 10,
-      },
-    };
-  }
-  // aw.con.info(`Possible actions (${actLeng}): ${actKeys}`);
-  if (pos.sex) {
-    odds = clone(oddSet.sex);
-    grp = "sex";
-  } else if (pos.cat === "makeout") {
-    odds = clone(oddSet.notSex);
-    grp = "makeout";
-  } else if (pos.cat === "oralNPC") {
-    odds = clone(oddSet.oralNPC);
-    grp = "oralNPC";
-  } else if (pos.cat === "oralPC") {
-    odds = clone(oddSet.oralPC);
-    grp = "oralPC";
-  } else {
-    aw.con.warn(`Position Category incorrect: ${pos.cat}`);
-    odds = {make: 100};
-  }
-  const n = Object.keys(odds);
-  let tot = 0;
-  let cat = "error";
-  for (let i = 0, c = n.length; i < c; i++) {
-    tot += odds[n[i]];
-  }
-  const r = random(0, tot);
-  for (let i = 0, c = n.length; i < c; i++) {
-    if (r < odds[n[i]]) {
-      cat = n[i];
-    }
-  }
-  if (cat === "gen") {
-    return [0, "nothing"];
-  } else if (cat === "speed") {
-    return [random(1, 4), "speed"];
-  } else if (cat === "sex" || (cat === "posit" && grp === "sex")) {
-    for (let i = 0; i < posLeng; i++) {
-      if (aw.sexPos[posKeys[i]].sex && aw.sexPos[posKeys[i]].allowed && aw.sexPos[posKeys[i]].basic === pos.basic) {
-        list.push(posKeys[i]);
-      }
-    }
-    type = "pos";
-  } else if (cat === "posit") {
-    for (let i = 0; i < posLeng; i++) {
-      if (!aw.sexPos[posKeys[i]].sex && aw.sexPos[posKeys[i]].allowed) {
-        list.push(posKeys[i]);
-      }
-    }
-    type = "pos";
-  } else if (cat === "oral") {
-    for (let i = 0; i < posLeng; i++) {
-      if (aw.sexPos[posKeys[i]].allowed && !aw.sexPos[posKeys[i]].sex && aw.sexPos[posKeys[i]].cat === "oralPC") {
-        list.push(posKeys[i]);
-      }
-    }
-    type = "pos";
-  } else if (cat === "makeout" || cat === "oralNPC") {
-    for (let i = 0; i < actLeng; i++) {
-      if (aw.sexActN[actKeys[i]].allowed && (aw.sexActN[actKeys[i]].cat === "makeout" || aw.sexActN[actKeys[i]].cat === "talk")) {
-        list.push(actKeys[i]);
-      } else {
-        // aw.con.info(`act rejected (makeout): ${actKeys[i]}`);
-      }
-    }
-    type = "act";
-  } else if (cat === "oralPC") {
-    for (let i = 0; i < actLeng; i++) {
-      if (aw.sexActN[actKeys[i]].allowed && aw.sexActN[actKeys[i]].cat === "oral") {
-        list.push(actKeys[i]);
-      } else {
-        // aw.con.info(`act rejected (oralPC): ${actKeys[i]}`);
-      }
-    }
-    type = "act";
-  } else {
-    aw.con.warn("no appropriate act group for NPC...");
-    for (let i = 0; i < actLeng; i++) {
-      if (aw.sexActN[actKeys[i]].allowed) {
-        list.push(actKeys[i]);
-      } else {
-        // aw.con.info(`act rejected: ${actKeys[i]}`);
-      }
-    }
-    type = "act";
-  }
-  const u = list.length - 1;
-  const uu = random(0, u);
-  let result = list[uu];
-  aw.con.info(`the result of NPC action selection is: ${result}. List length is: ${u}. cat = ${cat}, type = ${type}, grp = ${grp}.`);
-  if (result === undefined) {
-    aw.con.warn(`for some reason NPC action selection resulted in an undefined action. replacing with default complementBody`);
-    result = "complementBody";
-    type = "act";
-  }
-  const t2 = performance.now();
-  aw.con.info(`setup.sex.npcActionSelect is finished, chose Result: ${result}, Type: ${type}. it took ${Math.round(t2 - t1)}ms.`); // TODO Remove eventually
-  return [result, type];
-};
 
 // calculates basic modifier based on character traits & kinks
 setup.sex.modifier = function(tgt, amt: number, sKink: kink[], sTrait: trait[], wKink: kink[], wTrait: trait[]): number {
@@ -853,7 +710,10 @@ setup.sex.orgasmPC = function(act: any, type: string = "none"): void {
   } else if (type === "position") {
     sex.pcOrgQuality.push(10);
   }
+  sex.orgCountPC += 1;
   ↂ.pc.status.pleasure = Math.round(sex.pcOrgasm * (ↂ.pc.trait.libido / 10));
+  ↂ.pc.status.satisfaction += Math.round(sex.pcOrgasm * (ↂ.pc.trait.libido / 10));
+  ↂ.pc.status.arousal -= (ↂ.pc.trait.libido * -1);
   aw.S();
   // TODO femcum location!
 };
@@ -959,7 +819,21 @@ setup.sex.cum = function(ind: number, type: "playerAction"|"npcAction"|"position
   const bc = sex.npcBC[ind];
   let risk = false;
   // {dia:false,diaType:"none",diaEf:0,diaHealth:0,diaBreak:false,diaSab:0,femCon:false,femConHealth:0,femConEf:0,femConType:"none",femConBreak:false,femConSab:0,menCup:false,menCupType:"none",menCupHealth:0,menCupEf:0,menCupBreak:false,menCupSab:0,sponge:false,spongeType:"none",spongeEf:0,spongeSab:0,condom:false,condomType:"none",condom.health:0,condomEf:0,condom.break:false,condomSab:0,headCap:false,headCapType:"none",headCapHealth:0,headCapEf:0,headCapBreak:false,headCapSab:0}
-
+  const internal = ["vest", "vestibule", "mid", "deep", "cervix", "womb", "vagina", "pussy"];
+  try {
+    if (aw.sexPos[sex.pos].anal) {
+      pos = jQuery.extend(true, {}, aw.sexPos[sex.pos].cum[0]);
+    } else if (type === "playerAction" && "object" === typeof aw.sexAct[sex.pcAct].cum) {
+      pos = jQuery.extend(true, {}, aw.sexAct[sex.pcAct].cum);
+    } else if (type === "npcAction" && "object" === typeof aw.sexActN[sex.npcAct[ind]].cum) {
+      pos = jQuery.extend(true, {}, aw.sexActN[sex.npcAct[ind]].cum);
+    } else {
+      pos = jQuery.extend(true, {}, aw.sexPos[sex.pos].cum[0]);
+    }
+  } catch (e) {
+    aw.con.error(`sex.cum w/ index ${ind} for type ${type} - jExtend cum dest object`, e);
+    pos = jQuery.extend(true, {}, aw.sexPos[sex.pos].cum[0]);
+  }
   if (bc.condom.worn && !bc.condom.break) {
     const condomData: intBreakData = {
       effect: bc.condom.effect,
@@ -975,56 +849,90 @@ setup.sex.cum = function(ind: number, type: "playerAction"|"npcAction"|"position
 
     if (condomBreak) {
       jizz = "condom broke";
+      if (!aw.sexPos[sex.pos].anal) {
+        for (let i = 0, xx = sex.activeNPC.length; i < xx; i++) {
+          sex.npc[i].record.sex.creampie += 1;
+          sex.npc[i].record.sex.accidentCP += 1;
+        }
+        ↂ.flag.sexRecord.creampie += 1;
+        ↂ.flag.sexRecord.accidentCP += 1;
+      }
     } else {
       return "came in condom";
     }
   } else if (bc.condom.worn && bc.condom.break) {
     jizz = "condom broke";
-  }
-  try {
-    if (type === "playerAction" && "object" === typeof aw.sexAct[sex.pcAct].cum) {
-      pos = jQuery.extend(true, {}, aw.sexAct[sex.pcAct].cum);
-    } else if (type === "npcAction" && "object" === typeof aw.sexActN[sex.npcAct[ind]].cum) {
-      pos = jQuery.extend(true, {}, aw.sexActN[sex.npcAct[ind]].cum);
-    } else {
-      pos = jQuery.extend(true, {}, aw.sexPos[sex.pos].cum[0]);
+    if (!aw.sexPos[sex.pos].anal) {
+      for (let i = 0, xx = sex.activeNPC.length; i < xx; i++) {
+        sex.npc[i].record.sex.creampie += 1;
+        sex.npc[i].record.sex.accidentCP += 1;
+      }
+      ↂ.flag.sexRecord.creampie += 1;
+      ↂ.flag.sexRecord.accidentCP += 1;
     }
-  } catch (e) {
-    aw.con.error(`sex.cum w/ index ${ind} for type ${type} - jExtend cum dest object`, e);
-    pos = jQuery.extend(true, {}, aw.sexPos[sex.pos].cum[0]);
   }
   // pull-out opportunity (redirect pos)
-  const internal = ["vest", "vestibule", "mid", "deep", "cervix", "womb", "vagina", "pussy"];
-  if (!sex.flag.askedCumInside) {
-    const po = random(1, 10);
-    if (sex.flag.askedPullOut) {
-      if (po < 4) { // pulls out successfully
-        jizz = "pulled out";
-        pos = { thighs: 3, groin: 5, vulva: 2};
-      } else if (po < 8) { // pulls out some
-        jizz = "pulled out fail";
-        pos = { vulva: 5, mid: 2, vest: 3};
-      } else { // cums inside normally
-        jizz = "came inside PO";
+  if (!bc.condom.worn && !aw.sexPos[sex.pos].anal) { // pulling out doesn't matter if wearing a condom
+    for (let i = 0, xx = sex.activeNPC.length; i < xx; i++) {
+      sex.npc[i].record.sex.unprotected += 1;
+    }
+    ↂ.flag.sexRecord.unprotected += 1;
+    if (!sex.flag.askedCumInside) {
+      const po = random(1, 10);
+      if (sex.flag.askedPullOut) {
+        if (po < 6) { // pulls out successfully
+          jizz = "pulled out";
+          pos = { thighs: 3, groin: 5, vulva: 2};
+        } else if (po < 9) { // pulls out some
+          jizz = "pulled out fail";
+          pos = { vulva: 5, mid: 2, vest: 3};
+          for (let i = 0, xx = sex.activeNPC.length; i < xx; i++) {
+            sex.npc[i].record.sex.creampie += 1;
+            sex.npc[i].record.sex.accidentCP += 1;
+          }
+          ↂ.flag.sexRecord.creampie += 1;
+          ↂ.flag.sexRecord.accidentCP += 1;
+        } else { // cums inside normally
+          jizz = "came inside PO";
+          for (let i = 0, xx = sex.activeNPC.length; i < xx; i++) {
+            sex.npc[i].record.sex.creampie += 1;
+          }
+          ↂ.flag.sexRecord.creampie += 1;
+        }
+      } else {
+        if (po === 2) {
+          // change to pull out
+          jizz = "pulled out fail";
+          pos = { vulva: 5, mid: 2, vest: 3};
+          for (let i = 0, xx = sex.activeNPC.length; i < xx; i++) {
+            sex.npc[i].record.sex.creampie += 1;
+            sex.npc[i].record.sex.accidentCP += 1;
+          }
+          ↂ.flag.sexRecord.creampie += 1;
+          ↂ.flag.sexRecord.accidentCP += 1;
+        } else {
+          for (let i = 0, xx = sex.activeNPC.length; i < xx; i++) {
+            sex.npc[i].record.sex.creampie += 1;
+          }
+          ↂ.flag.sexRecord.creampie += 1;
+        }
       }
     } else {
-      if (po === 2) {
-        // change to pull out
-        jizz = "pulled out fail";
-        pos = { vulva: 5, mid: 2, vest: 3};
+      for (let i = 0, xx = sex.activeNPC.length; i < xx; i++) {
+        sex.npc[i].record.sex.creampie += 1;
       }
-    }
-  } else {
-    // asked to cum inside, so potential depth bonus
-    if (pos.deep != null) {
-      pos.deep += random(2, 3);
-    } else {
-      pos.deep = random(1, 2);
-    }
-    if (pos.cervix != null) {
-      pos.cervix += random(1, 2);
-    } else {
-      pos.cervix = 1;
+      ↂ.flag.sexRecord.creampie += 1;
+      // asked to cum inside, so potential depth bonus
+      if (pos.deep != null) {
+        pos.deep += random(2, 3);
+      } else {
+        pos.deep = random(1, 2);
+      }
+      if (pos.cervix != null) {
+        pos.cervix += random(1, 2);
+      } else {
+        pos.cervix = 1;
+      }
     }
   }
   const keys = Object.keys(pos);
@@ -1151,7 +1059,7 @@ setup.sex.cum = function(ind: number, type: "playerAction"|"npcAction"|"position
     }
   }
   if (risk) {
-    setup.drug.eatDrug("cream", vol);
+    setup.drug.eatDrug("cream", Math.min(3, Math.round(vol / 5)));
   }
   // aw.con.info(`setup.sex.cum is finished! Risk: ${risk} - msg: ${jizz}`); // TODO Remove eventually
   if (jizz === "pulled out") {
@@ -1261,6 +1169,11 @@ setup.sex.changePositionAct = function(key: string, argu: any = "none"): void {
     };
     sex.lastPos = sex.pos;
     sex.pos = pos.key;
+    if (pos.anal) {
+      ↂ.sex.flag.anal = true;
+    } else if (pos.sex) {
+      ↂ.sex.flag.vag = true;
+    }
     sex.pcLastAct = sex.pcAct;
     sex.pcActRecord.push(sex.pcAct);
     sex.pcAct = `positionChange.${pos.key}`;
@@ -1338,6 +1251,21 @@ setup.sex.playerPosition = function(): string {
 
 // initiates a sex action
 setup.sex.sexAction = function(key: string, argu: any = "none"): void {
+  if (key === "repeat") {
+    if (ↂ.sex.pcAct == null) {
+      setup.dialog("Nope!", "You can't repeat an action that you haven't taken yet! Choose an action and afterward you'll be able to repeat it. :D");
+      return;
+    }
+    if (ↂ.sex.pcAct.substring(0, 10) === "positionCh") {
+      setup.dialog("Nope!", "You can't repeat the change position action, you're already in your new position!");
+      return;
+    }
+    const clothes = ["removeOwnTop", "removeOwnBra", "removeOwnBottom", "removeOwnPanties", "removeTargetTop", "removeTargetBra", "removeTargetBottom", "removeTargetPanties"];
+    if (clothes.includes(ↂ.sex.pcAct)) {
+      setup.dialog("Nope!", "You obviously can't repeat an action to remove clothes that you've already removed!");
+      return;
+    }
+  }
   $("#sexSceneLoadingImage").removeClass("hideIt");
   aw.con.info(`Chosen sex action key = ${key}`);
   function delayDom() {
@@ -1381,6 +1309,11 @@ setup.sex.changePositionNPC = function(key: string, ind: number = 0): void {
   aw.sexPos[key].special();
   sex.lastPos = sex.pos;
   sex.pos = key;
+  if (act.anal) {
+    ↂ.sex.flag.anal = true;
+  } else if (act.sex) {
+    ↂ.sex.flag.vag = true;
+  }
   if (sex.speed < aw.sexPos[key].speed.min) {
     sex.speed = aw.sexPos[key].speed.min;
   }
@@ -1411,6 +1344,780 @@ setup.sex.sexActionNPC = function(key: string, ind: number = 0): boolean {
   return org[0];
 };
 
+// dresses NPC's for the "occasion"
+setup.sex.NpcClothes = function(npcId: string): void {
+  if (aw.npc[npcId] !== null) {
+    let bra = false;
+    if (aw.npc[npcId].clothes.worn.top === false) { // seems like your npc generator doesnt add the right kind of variable. still it works that way
+      const color = ["black", "white", "red", "orange", "yellow", "green", "blue", "violet", "gray", "pink", "brown"];
+      let coordinatedColor = "Error";
+      let coordinated = false;
+      // panties
+      if (aw.npc[npcId].main.female || random(0, 100) === 77) { // because males can wear panties too lol
+        if (random(0, 2) > 0) {
+          coordinated = true;
+          coordinatedColor = either(color);
+        }
+        const pantiesType = ["panties", "briefs", "boyshorts", "bikini", "thongs", "tanga", "g-string", "crotchless panties"];
+        aw.npc[npcId].clothes.outfits.casual.panties = (coordinatedColor + " " + either(pantiesType));
+      } else {
+        aw.npc[npcId].clothes.outfits.casual.panties = (either(color) + " " + "boxers");
+      }
+      // bra
+      if (aw.npc[npcId].main.female && random(0, 10) > 7) {
+        bra = true;
+        const braType = ["open cup", "balconette", "bandeau", "contour", "demi-cup", "plunge ", "push-up", "shelf", "sports"];
+        if (coordinated) {
+          aw.npc[npcId].clothes.outfits.casual.bra = (coordinatedColor + " " + either(braType) + " bra");
+        } else {
+          aw.npc[npcId].clothes.outfits.casual.bra = (either(color) + " " + either(braType) + " bra");
+        }
+      }
+      // legs
+      if (aw.npc[npcId].main.female) {
+        const topType = ["thigh highs", "leg warmers", "stockings"];
+        aw.npc[npcId].clothes.outfits.casual.leg = (either(color) + " " + either(topType));
+      }
+      // top
+      if (aw.npc[npcId].main.female) {
+        const topType = ["shirt", "polo", "blouse", "bustier", "corset top", "tunic"];
+        aw.npc[npcId].clothes.outfits.casual.top = (either(color) + " " + either(topType));
+      } else {
+        const topType = ["shirt", "polo", "t-shirt"];
+        aw.npc[npcId].clothes.outfits.casual.top = (either(color) + " " + either(topType));
+      }
+      // bottom
+      if (aw.npc[npcId].main.female) {
+        const topType = ["leggins", "pants", "trousers", "shorts", "skirt", "mini-skirt"];
+        aw.npc[npcId].clothes.outfits.casual.bottom = (either(color) + " " + either(topType));
+      } else {
+        const topType = ["pants", "trousers", "shorts"];
+        aw.npc[npcId].clothes.outfits.casual.bottom = (either(color) + " " + either(topType));
+      }
+      // shoes
+      if (aw.npc[npcId].main.female) {
+        const topType = ["heels", "boots", "sandals", "high-heels", "flip-flops", "sneakers"];
+        aw.npc[npcId].clothes.outfits.casual.shoes = (either(color) + " " + either(topType));
+      } else {
+        const topType = ["boots", "sandals", "flip-flops", "sneakers"];
+        aw.npc[npcId].clothes.outfits.casual.shoes = (either(color) + " " + either(topType));
+      }
+      aw.con.info(`setup.sex.NpcClothes finished creating an outfit for ${npcId}`);
+    } else {
+      aw.con.warn(`setup.sex.NpcClothes found some outfit for ${npcId}. Let's just straight it out and go.`);
+    }
+    aw.npc[npcId].clothes.worn.panties = "normal";
+    if (bra) {
+      aw.npc[npcId].clothes.worn.bra = "normal";
+    }
+    aw.npc[npcId].clothes.worn.leg = "normal";
+    aw.npc[npcId].clothes.worn.top = "normal";
+    aw.npc[npcId].clothes.worn.bottom = "normal";
+    aw.npc[npcId].clothes.worn.shoes = "normal";
+    aw.S();
+  } else {
+    aw.con.warn(`setup.sex.NpcClothes was provided with wrong npcId: ${npcId}`);
+  }
+};
 
+// checks if any clothes are in the way, returns true if everything is okay and false if clothes do block the part
+setup.sex.clothesBlockChecker = function(npcId: string | "pc", part: string): boolean {
+  let outfit;
+  let worn;
+  if (npcId === "pc") {
+    outfit = ↂ.pc.clothes.keys;
+    worn = ↂ.pc.clothes.worn;
+  } else {
+    outfit = aw.npc[npcId].clothes.outfits.casual;
+    worn = aw.npc[npcId].clothes.worn;
+  }
+  switch (part) {
+    case "pussy":
+    case "cock":
+    case "balls":
+    case "vulva":
+    case "groin":
+      if (npcId === "pc") {
+        if (outfit.panties !== 0 && outfit.bottom !== 0) {
+          if (aw.clothes[outfit.panties].access.pussy === true && aw.clothes[outfit.bottom].access.pussy === true) {
+            return true;
+          }
+        } else {
+          return true;
+        }
+      } else if (outfit.panties.split(" ").slice(1, 2) === "crotchless" && worn.bottom !== "normal") {
+        return true;
+      }
+      if (worn.panties === "normal" && outfit.panties !== 0) {
+        return false;
+      }
+      if (worn.bottom === "normal" && outfit.bottom !== 0) {
+        return false;
+      }
+      break;
+    case "ass":
+    case "asshole":
+      if (npcId === "pc") {
+        if (outfit.panties !== 0 && outfit.bottom !== 0) {
+          if (aw.clothes[outfit.panties].access.ass === true && aw.clothes[outfit.bottom].access.ass === true) {
+            return true;
+          }
+        } else {
+          return true;
+        }
+      }
+      if (worn.panties === "normal" && outfit.panties !== 0) {
+        return false;
+      }
+      if (worn.bottom === "normal" && outfit.bottom !== 0) {
+        return false;
+      }
+      break;
+    case "chest":
+    case "boobs":
+    case "breast":
+    case "breasts":
+    case "nipples":
+      if (worn.top === "normal" && outfit.top !== 0) {
+        return false;
+      }
+      if (worn.bra === "normal" && outfit.bra !== 0) {
+        return false;
+      }
+      if (outfit.bra === 0) {
+        return true;
+      }
+      if (npcId === "pc") {
+        if (outfit.bra !== 0 && outfit.top !== 0) {
+          if (aw.clothes[outfit.bra].access.tits === true && aw.clothes[outfit.top].access.tits === true) {
+            return true;
+          }
+        } else {
+          return true;
+        }
+      }  else if (outfit.bra.split(" ").slice(1, 2) === "balconette" || outfit.bra.split(" ").slice(1, 2) === "shelf" || outfit.bra.split(" ").slice(1, 2) === "open") {
+        return true;
+      }
+      break;
+    case "feet":
+    case "legs":
+      if (worn.leg === "normal" && outfit.leg !== 0) {
+        return false;
+      }
+      if (worn.shoes === "normal" && outfit.shoes !== 0) {
+        return false;
+      }
+      break;
+    default:
+      break;
+  }
+  return true;
+};
 
+setup.sex.pcKink = function(key: string): string {
+  // determines the library chapter to use for pc actions
+  let mod = false;
+  if (aw.sexAct[key] == null || setup.library.sexact[key] == null) {
+    if (aw.SAL[key] == null) {
+      aw.con.warn(`PC sex action with key ${key} not found by sex.pcKink library kink chooser. Using default chapter "standard".`);
+      return "standard";
+    } else {
+      mod = true;
+    }
+  }
+  // create a list of valid chapters for this action.
+  const v0 = Object.keys(setup.library.sexact[key]);
+  let valid: string[] = [];
+  if (mod) {
+    valid = Object.keys(aw.SAL[key]);
+  } else {
+    for (let i = 0, c = v0.length; i < c; i++) {
+      if (Array.isArray(setup.library.sexact[key][v0[i]]) || typeof setup.library.sexact[key][v0[i]] === "function") {
+        valid.push(v0[i]);
+      }
+    }
+  }
+  // if a rape situation, we enforce the non-con text if it is availables.
+  if (ↂ.sex.rape && valid.includes("nonCon")) {
+    return "nonCon";
+  }
+  // develop an object with property names for valid chapters, containing numbers for relative frequency.
+  const cat = aw.sexAct[key].cat; // "sex" "makeout" "handjob" "oral" "anal" "fap" "kiss" "talk" "other"
+  interface IntChapWeightObj {
+    standard?: number;
+    lesbian?: number;
+    public?: number;
+    openPublic?: number;
+    nonCon?: number;
+    romantic?: number;
+    risky?: number;
+    preg?: number;
+    isPreg?: number;
+    queen?: number;
+    sub?: number;
+    dom?: number;
+    degrade?: number;
+    slut?: number;
+    bimbo?: number;
+  }
+  const ch: IntChapWeightObj = {};
+  const k = ↂ.pc.kink;
+  ch.standard = 5;
+  if (ↂ.sex.npc[ↂ.sex.target].main.male) {
+    if (k.pregnancy && k.risky) {
+      //
+      switch (cat) {
+        case "sex":
+          ch.preg = 20;
+          ch.risky = 10;
+          break;
+        case "anal":
+          ch.preg = 2;
+          ch.risky = 1;
+          break;
+        case "makeout":
+        case "kiss":
+        case "talk":
+          ch.preg = 8;
+          ch.risky = 4;
+          break;
+        case "handjob":
+        case "oral":
+        case "fap":
+          ch.preg = 10;
+          ch.risky = 5;
+          break;
+        case "other":
+          ch.preg = 4;
+          ch.risky = 2;
+          break;
+      }
+    } else if (k.pregnancy) {
+      //
+      switch (cat) {
+        case "sex":
+          ch.preg = 15;
+          break;
+        case "anal":
+          ch.preg = 2;
+          break;
+        case "makeout":
+        case "kiss":
+        case "talk":
+          ch.preg = 6;
+          break;
+        case "handjob":
+        case "oral":
+        case "fap":
+          ch.preg = 8;
+          break;
+        case "other":
+          ch.preg = 3;
+          break;
+      }
+    } else if (k.risky) {
+      //
+      switch (cat) {
+        case "sex":
+          ch.risky = 12;
+          break;
+        case "anal":
+          ch.risky = 1;
+          break;
+        case "makeout":
+        case "kiss":
+        case "talk":
+          ch.risky = 6;
+          break;
+        case "handjob":
+        case "oral":
+        case "fap":
+          ch.risky = 8;
+          break;
+        case "other":
+          ch.risky = 3;
+          break;
+      }
+    }
+  }
+  if (ↂ.pc.status.inPublic) {
+    // add exhibition type kink content
+    if (k.public) {
+      // open public sex
+      switch (cat) {
+        case "sex":
+        case "anal":
+          ch.openPublic = 30;
+          break;
+        case "makeout":
+        case "kiss":
+        case "talk":
+        case "other":
+          if (valid.includes("openPublic")) {
+            ch.openPublic = 8;
+          } else {
+            ch.public = 8;
+          }
+          break;
+        case "handjob":
+        case "oral":
+        case "fap":
+          if (valid.includes("openPublic")) {
+            ch.openPublic = 20;
+          } else {
+            ch.public = 20;
+          }
+          break;
+      }
+    } else if (k.exhibition) {
+      // secret public sex
+      switch (cat) {
+        case "sex":
+        case "anal":
+          ch.public = 30;
+          break;
+        case "makeout":
+        case "kiss":
+        case "talk":
+        case "other":
+          ch.public = 8;
+          break;
+        case "handjob":
+        case "oral":
+        case "fap":
+          ch.public = 20;
+          break;
+      }
+    } else {
+      // lower freq
+      switch (cat) {
+        case "sex":
+        case "anal":
+          ch.public = 20;
+          break;
+        case "makeout":
+        case "kiss":
+        case "talk":
+        case "other":
+          ch.public = 2;
+          break;
+        case "handjob":
+        case "oral":
+        case "fap":
+          ch.public = 10;
+          break;
+      }
+    }
+  }
+  if (ↂ.pc.status.pregnant && ↂ.pc.status.fundalHeight > 14) {
+    switch (cat) {
+      case "sex":
+      case "anal":
+        ch.isPreg = 10;
+        break;
+      case "makeout":
+      case "kiss":
+      case "talk":
+      case "other":
+        ch.isPreg = 2;
+        break;
+      case "handjob":
+      case "oral":
+      case "fap":
+        ch.isPreg = 5;
+        break;
+    }
+  }
+
+  let slutChange = false;
+  if (k.slut) {
+    if (ↂ.pc.status.bimbo > 49) {
+      ch.slut = 12;
+      slutChange = true;
+    } else {
+      ch.slut = 8;
+      slutChange = true;
+    }
+  }
+  if (ↂ.sex.persona === "eager" && slutChange === false) {
+    ch.slut = 7;
+  }
+  if (ↂ.pc.status.bimbo > 29) {
+    const divisor = (k.slut) ? 3 : 4;
+    ch.bimbo = Math.ceil(ↂ.pc.status.bimbo / divisor);
+  }
+  if (k.sizequeen) {
+    switch (cat) {
+      case "sex":
+      case "anal":
+        ch.queen = 8;
+        break;
+      case "makeout":
+      case "kiss":
+      case "talk":
+      case "other":
+      case "fap":
+        ch.queen = 4;
+        break;
+      case "handjob":
+      case "oral":
+        ch.queen = 12;
+        break;
+    }
+  }
+  if (ↂ.sex.npc[ↂ.sex.target].main.female) {
+    ch.lesbian = 6;
+  }
+  if (k.dom && ↂ.sex.flag.pickedSub < 1) {
+    ch.dom = 5 + ↂ.sex.flag.pickedDom;
+  }
+  if (k.sub && ↂ.sex.flag.pickedDom < 1) {
+    ch.sub = 5 + ↂ.sex.flag.pickedSub;
+  }
+  if (ↂ.sex.persona === "meek") { ch.sub = 5 + ↂ.sex.flag.pickedSub; }
+  if (ↂ.sex.persona === "angry") { ch.dom = 5 + ↂ.sex.flag.pickedDom; }
+  if (ↂ.sex.npc[ↂ.sex.target].rship.dating) {
+    const love = ↂ.sex.npc[ↂ.sex.target].rship.loveNPC;
+    switch (cat) {
+      case "sex":
+      case "anal":
+        ch.romantic = Math.round(love / 18);
+        break;
+      case "makeout":
+      case "kiss":
+      case "talk":
+        ch.romantic = Math.round(love / 6);
+        break;
+      case "handjob":
+      case "oral":
+      case "other":
+      case "fap":
+        ch.romantic = Math.round(love / 12);
+        break;
+    }
+  }
+  if (ↂ.sex.persona === "romantic" && ch.romantic === 0) { ch.romantic = 4; }
+  // various traits/kinks used to determine if degrade text is used
+  let chance = 0;
+  if (ↂ.pc.trait.isBitch) { chance += 3; }
+  if (k.dom) { chance += 2; }
+  if (ↂ.pc.status.anger > 2) { chance += 2; }
+  if (ↂ.pc.trait.isUncaring) { chance += 1; }
+  if (ↂ.pc.trait.isUnfriendly) { chance += 1; }
+  if (ↂ.pc.trait.isCrude) { chance += 1; }
+  if (ↂ.pc.status.bimbo > 29) { chance -= 2; }
+  if (ↂ.sex.persona !== "angry") {chance -= 4; } else { chance += 4; }
+  if (ↂ.pc.trait.isBitch && k.dom) { chance *= 2; }
+  if (chance > 0) {
+    ch.degrade = chance;
+  }
+  // start process of actually choosing from the library chapters through randomization
+  let keys = Object.keys(ch);
+  let total = 0;
+  for (let i = keys.length - 1; i >= 0; i--) {
+    if (valid.includes(keys[i])) {
+      total += ch[keys[i]];
+    } else {
+      delete ch[keys[i]]; // eliminate invalid chapters so they aren't chosen
+    }
+  }
+  let rand = random(0, total - 1);
+  keys = Object.keys(ch);
+  for (let i = 0, c = keys.length; i < c; i++) {
+    if (rand < ch[keys[i]]) {
+      if (keys[i] === "sub") {
+        ↂ.sex.flag.pickedSub++;
+      } else if (keys[i] === "dom") {
+        ↂ.sex.flag.pickedDom++;
+      }
+      return keys[i];
+    } else {
+      rand -= ch[keys[i]];
+    }
+  }
+  return "standard";
+};
+
+setup.sex.npcKink = function(key: string): string {
+  // determines library chapter for npc actions
+
+  if (aw.sexActN[key] == null || setup.library.sexActN[key] == null) {
+    aw.con.warn(`PC sex action with key ${key} not found by sex.pcKink library kink chooser. Using default chapter "standard".`);
+    return "standard";
+  }
+  // create a list of valid chapters for this action.
+  const v0 = Object.keys(setup.library.sexActN[key]);
+  const valid: string[] = [];
+  for (let i = 0, c = v0.length; i < c; i++) {
+    if (Array.isArray(setup.library.sexActN[key][v0[i]]) || typeof setup.library.sexActN[key][v0[i]] === "function") {
+      valid.push(v0[i]);
+    }
+  }
+  // if a rape situation, we enforce the non-con text if it is availables.
+  if (ↂ.sex.rape && valid.includes("nonCon")) {
+    return "nonCon";
+  }
+  // develop an object with property names for valid chapters, containing numbers for relative frequency.
+  const cat = aw.sexActN[key].cat; // "sex" "makeout" "handjob" "oral" "anal" "fap" "kiss" "talk" "other"
+  interface IntChapWeightObj {
+    standard?: number;
+    lesbian?: number;
+    public?: number;
+    openPublic?: number;
+    nonCon?: number;
+    romantic?: number;
+    risky?: number;
+    preg?: number;
+    isPreg?: number;
+    sub?: number;
+    dom?: number;
+    degrade?: number;
+    slut?: number;
+    bimbo?: number;
+  }
+  const ch: IntChapWeightObj = {};
+  const k = ↂ.pc.kink;
+  const npc = ↂ.sex.npc[ↂ.sex.target];
+  ch.standard = 5;
+  if (npc.main.male) {
+    if (npc.kink.pregnancy && npc.kink.risky) {
+      //
+      switch (cat) {
+        case "sex":
+          ch.preg = 5;
+          ch.risky = 10;
+          break;
+        case "anal":
+          ch.preg = 1;
+          ch.risky = 1;
+          break;
+        case "makeout":
+        case "kiss":
+        case "talk":
+          ch.preg = 2;
+          ch.risky = 6;
+          break;
+        case "handjob":
+        case "oral":
+        case "fap":
+          ch.preg = 2;
+          ch.risky = 8;
+          break;
+        case "other":
+          ch.preg = 1;
+          ch.risky = 2;
+          break;
+      }
+    } else if (npc.kink.pregnancy) {
+      //
+      switch (cat) {
+        case "sex":
+          ch.preg = 7;
+          break;
+        case "anal":
+          ch.preg = 1;
+          break;
+        case "makeout":
+        case "kiss":
+        case "talk":
+          ch.preg = 4;
+          break;
+        case "handjob":
+        case "oral":
+        case "fap":
+          ch.preg = 5;
+          break;
+        case "other":
+          ch.preg = 2;
+          break;
+      }
+    } else if (npc.kink.risky) {
+      //
+      switch (cat) {
+        case "sex":
+          ch.risky = 10;
+          break;
+        case "anal":
+          ch.risky = 1;
+          break;
+        case "makeout":
+        case "kiss":
+        case "talk":
+          ch.risky = 5;
+          break;
+        case "handjob":
+        case "oral":
+        case "fap":
+          ch.risky = 5;
+          break;
+        case "other":
+          ch.risky = 2;
+          break;
+      }
+    }
+  }
+  if (ↂ.pc.status.inPublic) {
+    // add exhibition type kink content
+    if (npc.kink.publix) {
+      // open public sex
+      switch (cat) {
+        case "sex":
+        case "anal":
+          ch.openPublic = 30;
+          break;
+        case "makeout":
+        case "kiss":
+        case "talk":
+        case "other":
+          if (valid.includes("openPublic")) {
+            ch.openPublic = 8;
+          } else {
+            ch.public = 8;
+          }
+          break;
+        case "handjob":
+        case "oral":
+        case "fap":
+          if (valid.includes("openPublic")) {
+            ch.openPublic = 20;
+          } else {
+            ch.public = 20;
+          }
+          break;
+      }
+    } else if (npc.kink.exhibition) {
+      // secret public sex
+      switch (cat) {
+        case "sex":
+        case "anal":
+          ch.public = 30;
+          break;
+        case "makeout":
+        case "kiss":
+        case "talk":
+        case "other":
+          ch.public = 8;
+          break;
+        case "handjob":
+        case "oral":
+        case "fap":
+          ch.public = 20;
+          break;
+      }
+    } else {
+      // lower freq
+      switch (cat) {
+        case "sex":
+        case "anal":
+          ch.public = 20;
+          break;
+        case "makeout":
+        case "kiss":
+        case "talk":
+        case "other":
+          ch.public = 2;
+          break;
+        case "handjob":
+        case "oral":
+        case "fap":
+          ch.public = 10;
+          break;
+      }
+    }
+  }
+  if (ↂ.pc.status.pregnant && ↂ.pc.status.fundalHeight > 14) {
+    switch (cat) {
+      case "sex":
+      case "anal":
+        ch.isPreg = 10;
+        break;
+      case "makeout":
+      case "kiss":
+      case "talk":
+      case "other":
+        ch.isPreg = 2;
+        break;
+      case "handjob":
+      case "oral":
+      case "fap":
+        ch.isPreg = 5;
+        break;
+    }
+  }
+  if (npc.kink.slut) {
+    if (npc.status.bimbo > 49) {
+      ch.slut = 12;
+    } else {
+      ch.slut = 8;
+    }
+  }
+  if (npc.status.bimbo > 29) {
+    const divisor = (npc.kink.slut) ? 3 : 4;
+    ch.bimbo = Math.ceil(npc.status.bimbo / divisor);
+  }
+  if (npc.main.female) {
+    ch.lesbian = 6;
+  }
+  if (npc.kink.sub && ↂ.sex.flag.pickedSub < 1) {
+    ch.sub = 5;
+  }
+  if (setup.interactionMisc.isSub(npc.key)) {
+    ch.sub = 12;
+  }
+  if (npc.kink.dom && ↂ.sex.flag.pickedDom < 1) {
+    ch.dom = 8;
+  }
+  if (setup.interactionMisc.isDom(npc.key)) {
+    ch.dom = 12;
+  }
+  if (npc.rship.dating) {
+    const love = npc.rship.lovePC;
+    switch (cat) {
+      case "sex":
+      case "anal":
+        ch.romantic = Math.round(love / 18);
+        break;
+      case "makeout":
+      case "kiss":
+      case "talk":
+        ch.romantic = Math.round(love / 6);
+        break;
+      case "handjob":
+      case "oral":
+      case "other":
+      case "fap":
+        ch.romantic = Math.round(love / 12);
+        break;
+    }
+  }
+  let chance = 0;
+  if (npc.trait.bitch === 1) { chance += 4; }
+  if (npc.kink.dom) { chance += 3; }
+  if (npc.status.anger > 2) { chance += 2; }
+  if (npc.status.bimbo > 29) { chance -= 4; }
+  if (npc.trait.bitch === 1 && npc.kink.dom && k.sub) { chance *= 2; }
+  if (chance > 0) {
+    ch.degrade = chance;
+  }
+
+  let keys = Object.keys(ch);
+  let total = 0;
+  for (let i = keys.length - 1; i >= 0; i--) {
+    if (valid.includes(keys[i])) {
+      total += ch[keys[i]];
+    } else {
+      delete ch[keys[i]]; // eliminate invalid chapters so they aren't chosen
+    }
+  }
+  let rand = random(0, total - 1);
+  keys = Object.keys(ch);
+  for (let i = 0, c = keys.length; i < c; i++) {
+    if (rand < ch[keys[i]]) {
+      return keys[i];
+    } else {
+      rand -= ch[keys[i]];
+    }
+  }
+  return "standard";
+};
 

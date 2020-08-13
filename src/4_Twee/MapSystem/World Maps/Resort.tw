@@ -279,7 +279,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <span class="disabled"><<button "Not implemented">><</button>></span>
+  <span class="disabled"><<button "Slide down">><<dialog "Slide">><<include [[WaterParkSlide]]>><</dialog>><</button>></span>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -295,8 +295,20 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 
 :: MapResortWaterParkLOC [nobr]
 
-Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+<<f y>>ou see a woman having problems with her bikini while sliding down the waterslide.<br>
+<center>[img[IMG-SlideBoob]]</center>
 
+
+:: WaterParkSlide [nobr]
+
+<<if !setup.clothes.swimwear>>
+@@.head3;Y@@ou are still sane enough to avoid swimming with your clothes on.<br><br>@@.mono;I should either get some swimwear either undress completely.@@<<comment "You can manage your clothes in the character menu, it is not necessary to use the wardrobe at home to strip of some (or all!) clothes.">><<addtime 1>><br><center><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></center>
+<<else>>
+<p>@@.head3;Y@@ou get on the stairs to the top of the tower. The stairs are pretty slippery despite of the special "anti-slippery" surface. Hovewer, you manage to get to the top without breaking any bones and wait for your turn to slide down. After all people vanish inside the waterslide tube you get to it. You feel not exactly ready but there is already a line behind you so you have no choice. Holding onto the bar above the slide you get yourself in and release the grip.</p>
+<p>
+@@.pc;Weeeeeee!@@ Sliding in the dark tube feels fun and scary at the same time while you rapidly travel through it. After the turn you see a light on the end of the tube which grows larger and larger until you slide out like a bullet to the pool. With a splash you submerge under the water for a moment and get your nose full of water. Getting to the surface you blow the water out and blink a couple of times. @@.mono;Phew! That was fun!@@<<happy 1 "Watersliding!">><<stress -15 "Watersliding!">>
+</p>
+<</if>>
 
 :: MapResortDocks [nobr map]
 

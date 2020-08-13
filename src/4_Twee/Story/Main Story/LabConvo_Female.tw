@@ -1,0 +1,357 @@
+/*
+███████╗███████╗███╗   ███╗    ██╗     ██╗██╗  ██╗   ██╗
+██╔════╝██╔════╝████╗ ████║    ██║     ██║██║  ╚██╗ ██╔╝
+█████╗  █████╗  ██╔████╔██║    ██║     ██║██║   ╚████╔╝
+██╔══╝  ██╔══╝  ██║╚██╔╝██║    ██║     ██║██║    ╚██╔╝
+██║     ███████╗██║ ╚═╝ ██║    ███████╗██║███████╗██║
+╚═╝     ╚══════╝╚═╝     ╚═╝    ╚══════╝╚═╝╚══════╝╚═╝
+*/
+
+
+:: FL0-Menu [nobr]
+
+
+<div id="convo">
+<h3>What would you like to talk to Dr. Richards about?</h3>
+<p>
+
+<<link "Just say hello">><<replace "#convo">><<include [[FL0-Hello]]>><</replace>><</link>><br>
+<<if ↂ.flag.main.female.kimIntro>>
+  <<link "Your girl Kim is a little special...">><<replace "#convo">><<include [[FL0-KimSpecial]]>><</replace>><</link>><br>
+<</if>>
+<<if ↂ.flag.main.female.kimSpecial>>
+  <<link "What if she fucks something up?">><<replace "#convo">><<include [[FL0-FuckUp]]>><</replace>><</link>><br>
+<</if>>
+<<link "What is this thing, anyway?">><<replace "#convo">><<include [[FL0-What]]>><</replace>><</link>><br>
+<<if ↂ.flag.main.female.whatIsIt>>
+  <<link "So what's with all the secrecy?">><<replace "#convo">><<include [[FL0-Secrecy]]>><</replace>><</link>>
+<</if>>
+</p>
+<p>
+<<tutorial "convosTut">>The available conversation subjects will change as the main story progresses, so be sure to check back when the machine project enters a new stage! Additionally, some subject options may only be available once you've talked about a prerequisite subject!<</tutorial>>
+</p>
+</div>
+
+
+:: FL0-What [nobr]
+
+
+<<addTime 5>>
+<<set ↂ.flag.main.female.whatIsIt = true>>
+<<status 0>>
+<p>
+<<f y>>ou can't help but be curious about what this thing you're helping to rebuild is supposed to be. @@.mono;What if it's some kind of weapon? She's so secretive about things... Wouldn't that make me a terrorist if I helped rebuild it?!@@ You decide that you can't stand not knowing, and even though you know you have absolutely no way of verifying what she says, you decide to ask Dr. Richards. You walk over to where Dr. Richards is <<switch _labLily>><<case 1 2 3 4 5 8>>sitting at the electronics workstation.<<case 6>>walking around the lab.<<case 7 10>>sitting at the desk in the middle of the room.<<case 9>>standing in front of a whiteboard covered in scribbles.<</switch>> @@.pc;Umm, Dr. Richards? Do you have a moment?@@
+</p>
+<p>
+She looks up from her work at you. @@.npc;Sure <<name>>, what do you need?@@
+</p>
+<p>
+You pause for a moment to try and phrase your question in a non-offensive way. @@.pc;Well, I've been really curious about what this device we're rebuilding actually is...@@ You gesture at the floor covered in parts and components. @@.pc;I mean, I know you said before that I don't need to know, but...@@
+</p>
+<p>
+She sighs. @@.npc;Well, I suppose if you weren't at least curious about it you probably wouldn't make a good lab assistant. I'll tell you what it is, but I'm telling you now that I'm not going to spend all the time necessary to explain the details of how it works, and I'm not going to sit around all day answering questions, okay?@@
+</p>
+<p>
+You nod. @@.pc;That's fair... I just want to know what it is.@@
+</p>
+<p>
+@@.npc;The working title is "the rejuvenator". Specifically, the machine is designed to manipulate a person's DNA in a semi-remote way. The goal of this is to repair the portion of your DNA--called telomeres--that degrade as you age. It does this over the course of several hours, and it also kills cells that have DNA that doesn't match your base template. Bad cells, basically. The end result is that your body's cells can repair themselves and start acting like young cells again.@@
+</p>
+<p>
+@@.pc;So basically, your whole body would be younger? Like an age reversal machine! That's awesome!@@ You look back at the parts and realize that obviously the first attempt didn't work. @@.pc;But what happened to it?@@
+</p>
+<p>
+@@.npc;Like I told you before, my cat freaked out during a calibration experiment. A lot of electronics, a lot of electrical current... it didn't go well. At least the initial tests worked.@@
+</p>
+<p>
+You can't prevent yourself from making a sheepish expression. @@.pc;Oh... when you told me that the first time, I thought it was just a story you made up...@@
+</p>
+<p>
+Dr. Richards grins ruefully. @@.npc;Nope, as dumb as it sounds, it was enough to undo years of work.@@ She looks at the time on her phone. @@.npc;Okay <<name>>, I need to get back to work.@@
+</p>
+<p>
+@@.pc;Okay, thanks for telling me.@@ You walk away and leave Dr. Richards to her work.
+
+
+:: FL0-KimSpecial [nobr]
+
+
+<<addTime 5>>
+<<set ↂ.flag.main.female.kimSpecial = true>>
+<<status 0>>
+<p>
+<<f y>> approach Dr. Richards, who is <<switch _labLily>><<case 1 2 3 4 5 8>>sitting at the electronics workstation.<<case 6>>walking around the lab.<<case 7 10>>sitting at the desk in the middle of the room.<<case 9>>standing in front of a whiteboard covered in scribbles.<</switch>> You've become concerned about her friend Kim, who insists she'll be helping out with the project. When Richards looks your way, you express your concerns. @@.pc;So, I've met your friend Kim. Don't worry, I didn't say anything... It's just, she seems to be a little <i>special</i>, if you catch my drift.@@
+</p>
+<p>
+She nods with understanding. @@.npc;She has gone through a lot. Unfortunately, she's suffering from the results of an unfortunate accident. There were some neurological effects, which is why she acts the way that she does.@@ Dr. Richards frowns but doesn't look terribly upset about her friend. @@.npc;We just have to wait and see if these effects are permanent; the brain has remarkable plasticity, so her condition may yet improve.@@
+</p>
+<p>
+@@.pc;Oh, I'm sorry... I didn't realize...@@ you let your voice trail off.
+</p>
+<p>
+@@.npc;It's fine, I know she's basically a textbook bimbo right now, and for most people that's a choice they made.@@ She shrugs, as if to say "people are crazy, what can you do?" @@.npc;In Kim's case, the important thing is to treat her as normally as possible and give her time to heal.@@ She looks up and smiles, remembering something. @@.npc;Back in college--before the accident of course--she used to help me with my projects. That's why I'm letting her help now.@@ The smile flees her face. @@.npc;She moved out here with my recommendation, but then had her accident... so now I'm looking out for her.@@
+</p>
+<p>
+You aren't sure what to say. @@.pc;It's, umm... nice of you to help her.@@
+</p>
+<p>
+She gives you a look with a raised eyebrow. @@.npc;Despite our arrangement, I'm not a completely heartless bitch, you know.@@
+</p>
+<p>
+You give Richards a nervous smile. @@.pc;Yeah... Well, I'll let you get back to work.@@
+</p>
+<p>
+Lily turns back to her work and gives you an absent-minded @@.npc;thanks@@ over her shoulder.
+</p>
+
+
+:: FL0-Hello [nobr]
+
+<<addTime 1>>
+<p>
+<<f t>>hinking it a bit awkward for multiple people to work down in this basement without even saying hello, you raise your voice to greet Dr. Richards. @@.pc;<<if $time[0] < 12>>Good morning!<<else>><<= either("Hello Dr. Richards!", "Hello there!", "Hello!")>><</if>>@@
+</p>
+<p>
+She doesn't look up from her work. @@.npc;<<if $time[0] < 12>>Good morning.<<else>><<= either("Hello.", "Hello <<name>>.")>><</if>>@@
+
+
+:: FL0-FuckUp [nobr]
+
+
+<<addTime 5>>
+<p>
+<<f k>>nowing that Dr. Richards is holding you to some pretty strict quality requirements--not to mention a deadline--you're really concerned that her ditzy friend Kim will fuck up your work somehow. You decide to talk to Dr. Richards about it, and you walk over to where she is <<switch _labLily>><<case 1 2 3 4 5 8>>sitting at the electronics workstation.<<case 6>>walking around the lab.<<case 7 10>>sitting at the desk in the middle of the room.<<case 9>>standing in front of a whiteboard covered in scribbles.<</switch>> You wait patiently until she gets to a stopping point and looks at you. @@.pc;So... Ummm... I like your friend Kim and everything...@@
+</p>
+<p>
+Dr. Richards raises her eyebrows, her expression clearly matching her words. @@.npc;Yes, and?@@
+</p>
+<p>
+You grimace, knowing that Kim is a touchy subject. @@.pc;Well, I'm just really worried that she's going to screw up the work somehow and I'm either going to miss a deadline, or you'll be pissed something wasn't done right...@@
+</p>
+<p>
+She nods and thankfully doesn't look upset. @@.npc;Don't worry, I've already taken Kim's diminished mental faculties into account. She may be what amounts to a cock-hungry bimbo right now, but she really does want to help.@@ She grins. @@.npc;So I'm helping her on both counts.@@ She picks up a set of instructions printed in large font on pink paper. @@.npc;I've given her a different set of instructions than yours.@@ She hands you the paper.
+</p>
+<p>
+You take a minute to read over the extremely simple instructions. @@.pc;Oh, I see. She'll be doing things like pre-washing the parts. Since I'll be cleaning them properly afterward anyway...@@
+</p>
+<p>
+Dr. Richards nods with a smile. @@.npc;That's right. She won't really be able to screw things up all that much, and she may even save you a little time. Of course, I'll be checking up after her to make sure.@@
+</p>
+<p>
+You nod. @@.pc;Thanks, I was starting to get a bit worried.@@
+</p>
+<p>
+@@.npc;Okay, if that was all, I'm going to get back to work.@@
+</p>
+
+:: FL0-Secrecy [nobr]
+
+
+<<addTime 5>>
+<p>
+<<f y>> approach Dr. Richards, who is <<switch _labLily>><<case 1 2 3 4 5 8>>sitting at the electronics workstation.<<case 6>>walking around the lab.<<case 7 10>>sitting at the desk in the middle of the room.<<case 9>>standing in front of a whiteboard covered in scribbles.<</switch>> You've been wondering why Dr. Richards seems to be going to such lengths to keep her machine secret. When she looks your way, you ask her. @@.pc;I know it doesn't really concern me, but I can't help but be curious about all the secrecy with your project. I mean, it seems like something that people would celebrate, you know?@@
+</p>
+<p>
+Richards looks contemplative for a few moments. @@.npc;Well, the first reason is that without a functioning device and properly documented experimental data, going public would be like begging to be dismissed as a crackpot.@@ She shrugs. @@.npc;That's just how science works, you do the work and <i><b>then</b></i> you publish and publicize.@@
+</p>
+<p>
+You nod in understanding. @@.pc;And what about the Institute?@@
+</p>
+<p>
+@@.npc;The Institute is a really competitive place. And there's also the fact that the Institute essentially owns all my work, wherever I happen to do it.@@ She shrugs. @@.npc;It's fine that I won't be getting rich from this, but I do want to maintain some control over my work, and I'd like to make sure that I'm listed as the lead scientist. If the Institute puts someone else in charge, I'll probably end up as little more than a footnote.@@
+</p>
+<p>
+It's your turn to shrug. @@.pc;I guess that makes sense, knowing the Institute.@@
+</p>
+<p>
+Lily laughs out loud. @@.npc;If only you knew.@@
+</p>
+
+
+
+
+/*
+███████╗███████╗███╗   ███╗    ██╗  ██╗██╗███╗   ███╗
+██╔════╝██╔════╝████╗ ████║    ██║ ██╔╝██║████╗ ████║
+█████╗  █████╗  ██╔████╔██║    █████╔╝ ██║██╔████╔██║
+██╔══╝  ██╔══╝  ██║╚██╔╝██║    ██╔═██╗ ██║██║╚██╔╝██║
+██║     ███████╗██║ ╚═╝ ██║    ██║  ██╗██║██║ ╚═╝ ██║
+╚═╝     ╚══════╝╚═╝     ╚═╝    ╚═╝  ╚═╝╚═╝╚═╝     ╚═╝
+*/
+
+
+:: FK0-Menu [nobr]
+
+
+<div id="convo">
+<h3>What would you like to talk to Kim about?</h3>
+<p>
+<<if ↂ.flag.main.female.kimIntro>>
+<<link "Just say hello">><<replace "#convo">><<include [[FK0-Hello]]>><</replace>><</link>><br>
+<<link "Ask how she ended up helping Lily">><<replace "#convo">><<include [[FK0-HowHelp]]>><</replace>><</link>><br>
+<<link "Try to find out about the 'Accident' she mentioned">><<replace "#convo">><<include [[FK0-Accident]]>><</replace>><</link>><br>
+<<link "Ask her how she met Dr. Richards">><<replace "#convo">><<include [[FK0-HowMet]]>><</replace>><</link>><br>
+<<else>>
+<<link "Introduce yourself">><<replace "#convo">><<include [[FK0-Intro]]>><</replace>><</link>>
+<</if>>
+</p>
+<p>
+<<tutorial "convosTut">>The available conversation subjects will change as the main story progresses, so be sure to check back when the machine project enters a new stage! Additionally, some subject options may only be available once you've talked about a prerequisite subject!<</tutorial>>
+</p>
+</div>
+
+
+:: FK0-Intro [nobr]
+
+<<addTime 10>>
+<<set ↂ.flag.main.female.kimIntro = true>>
+<<status 0>>
+<p>
+<<f t>>hough Dr. Richards carefully warned you not to get too involved with Kim, you figure it'd be rude not to introduce yourself. You walk over to where Kim is <<switch _labKim>><<case 1>>sulking after failing to distract Dr. Richards from her work.<<case 2>>sitting in her chair in the middle of the room.<<case 3 4>>working slowly at inspecting some machine components.<<case 5 6>>playing at cleaning mechanical parts in the sink.<<case 7 8>>trying to figure out where to put a finished part.<<case 9>>wasting time.<<case 10>>fondling her nipples.<</switch>> You give her a friendly smile. @@.pc;Hello, you must be Kim. I'm <<name>>, Dr. Richard's lab assistant.@@
+</p>
+<p>
+Kim stops what she was doing with a start, but then puts on a happy smile. @@.npc;Hi <<name>>! It's nice to meet you!@@ She suddenly thinks of something and gives you a suspicious look. @@.npc;Wait a sec... Lily--I mean Dr. Richards--didn't hire you to keep an eye on me did she?@@
+</p>
+<p>
+@@.mono;To keep an eye on her?!@@ You're a bit taken aback by this odd suspicion, and force a laugh to cover for your hesitation. @@.pc;No... My bosses orders don't go <b><i>that</i></b> far! As far as I can tell, my boss Dr. Hegefeld owes Dr. Richards a pretty big favor, I didn't ask, of course. Long story short, he's loaning me to her to help with her project.@@
+</p>
+<p>
+Kim looks relieved for a moment before smiling again. @@.npc;Ahh, I see. I guess there's a lot of work and stuff to do...@@ She grins sheepishly. @@.npc;It's just that since the accident, Lily has been super-concerned over my health. Making sure I eat right and get the right supplements and such. She even keeps track of my period and ovu-whatnot stuff for me. It's probably a good thing, I had like zero idea how to use a tampon.@@ She laughs.
+</p>
+<p>
+@@.mono;Accident? Something definitely seems off about their relationship...@@ You chuckle politely along with her laughter, luckily it seems she hasn't noticed your surprise or confusion. @@.pc;I see, well she does strike me as a very detail-oriented person...@@
+</p>
+<p>
+She nods at you. @@.npc;Don't get me wrong, It's wonderful to have a girlfriend that cares so much about my health and stuff.@@ She shrugs. @@.npc;Sometimes it just feels like she treats me more like a child or experiment or something rather than her girlfriend.@@ Her smile returns with a hint of adoration. @@.npc;That's just how Lily is though, she's sooo smart. I've known Lily a really long time; I may not always understand what she's doing or why she's doing it, but I know it's what's best for us.@@
+</p>
+<p>
+@@.mono;So they're dating? I guess I could see that woman being overbearing in that situation...@@ You put on your best attempt at an excited smile. @@.pc;Ohh, so it's true! I <i>totally</i> thought you guys would make a cute couple, but I didn't want to assume...@@
+</p>
+<p>
+Kim laughs knowingly. @@.npc;That's just like Lily not to say anything. She's pretty tight-lipped around new people, I think it's because she's a little shy...@@
+</p>
+<p>
+You nod in agreement and smile. @@.pc;Well, I'm sure we'll all get to know each other a lot better as we work on this project! Speaking of which... I really should get back to work!@@
+</p>
+<p>
+@@.npc;Sure, it was nice meeting you <<name>>!@@
+</p>
+<p>
+@@.pc;You too!@@ You walk over to another area of the basement lab to put a firm end to the conversation. @@.mono;Well that was really weird...@@
+</p>
+
+
+:: FK0-Hello [nobr]
+
+
+<<addTime 1>>
+<p>
+You give a small wave and a smile to Kim, who is <<switch _labKim>><<case 1>>sulking after failing to distract Dr. Richards from her work.<<case 2>>sitting in her chair in the middle of the room.<<case 3 4>>working slowly at inspecting some machine components.<<case 5 6>>playing at cleaning mechanical parts in the sink.<<case 7 8>>trying to figure out where to put a finished part.<<case 9>>just wasting time.<<case 10>>fondling her nipples.<</switch>> @@.pc;Hello Kim.@@
+</p>
+<p>
+She looks over at you as if surprised, but then she breaks into an exuberant smile. @@.npc;Hey Gurl!@@ She waves enthusiastically at you.
+</p>
+
+
+:: FK0-HowHelp [nobr]
+
+
+<<addTime 5>>
+<p>
+Looking at the ditzy girl Kim from across the room, you wonder how she got involved with helping on this project in the first place. @@.mono;It's not like a bimbo like her would be interested in the science...@@ You walk over to her, where she's <<switch _labKim>><<case 1>>sulking after failing to distract Dr. Richards from her work.<<case 2>>sitting in her chair in the middle of the room.<<case 3 4>>working slowly at inspecting some machine components.<<case 5 6>>playing at cleaning mechanical parts in the sink.<<case 7 8>>trying to figure out where to put a finished part.<<case 9>>just killing time.<<case 10>>fondling her nipples.<</switch>> @@.pc;Heya Kim, how's it going?@@
+</p>
+<p>
+She looks at you happily. @@.npc;Hey Gurl!@@ <<switch _labKim>><<case 1>>@@.npc;I was just wishing Lily had a little more time to hang out.@@<<case 2>>@@.npc;Not much going on here!@@<<case 3 4 5 6 7 8>>@@.npc;Just doing this boring stuff, you know.@@<<case 9>>@@.npc;It's good, but I'm bored.@@<<case 10>>@@.npc;I was just thinking how amazing nipples are, you know? Like, they feel so good!@@<</switch>> @@.npc;How about you gurl? You find some good dick lately?@@
+</p>
+<p>
+You laugh awkwardly at her question about male genitalia. @@.pc;I'm good... I was just curious how you ended up helping Dr. Richards on her project, you know?@@ You gesture to some of the more complex items in the room around the two of you. @@.pc;I'm sure Dr. Richards appreciates your help, of course. But, you know, boooring!@@
+</p>
+<p>
+@@.npc;I know, right!?@@ Kim laughs in her usual bubbly way. @@.npc;Well, I've been helping Lily since we were in high school together. So when I moved to Appletree, like, it was only natural I'd hang out with Lils again!@@
+</p>
+<p>
+@@.mono;Wait... They're the same age!? Kim looks at least ten years younger than Dr. Richards.@@ You look at Kim's face more closely, noting how she looks even younger than you. @@.pc;Awww, that's so sweet of you!@@ You lean in conspiratorially. @@.pc;I didn't know you were the same age as Dr. Richards! You've gotta tell me your secret! Your skin is, like, perfect!@@
+</p>
+<p>
+Kim looks a bit startled for a moment, and perhaps uncomfortable. @@.npc;Well, umm, I'm just lucky I guess.@@ She laughs awkwardly. @@.npc;Oh, I <b>have</b> been using a jizz facemask like every night since I was in high school. It's totally great for your skin!@@
+</p>
+<p>
+@@.pc;Really? I've gotta try it out then!@@
+</p>
+<p>
+@@.npc;The makeup companies all sell cum facemasks these days, but I think the real thing works, like, so much better. Just buy some cum at the grocery store, you know? Then at night just rub a good layer on your face and let it dry.@@ She licks her lips hungrily. @@.npc;And it smells SO good when it's wet, but you can like, use a hair dryer if you're in a hurry or something.@@
+</p>
+<p>
+You give her a big smile. @@.pc;Yeah, I'm totally gonna try it. Maybe tonight!@@
+</p>
+<p>
+@@.npc;You go gurl!@@ She looks thoughtful for a second, then looks a little concerned. @@.npc;But, like, if you get it fresh from someone, don't waste it for a facemask! Just use the grocery store stuff for that, you know? Like, nothing is as yummy as fresh jizz!@@
+</p>
+<p>
+You nod, as if taking her advice to heart. @@.pc;For sure, I'll get some at the grocery store.@@ You look at the clock hanging on the wall. @@.pc;Damn, I'd better get to work, huh?@@
+</p>
+<p>
+Kim looks a little surprised for a moment. @@.npc;Oh yeah... Okay then, I'll like, totally talk to you later!@@
+</p>
+
+
+:: FK0-Accident [nobr]
+
+
+<<addTime 5>>
+<p>
+You wonder if you can find out more about the accident that Dr. Richards and Kim have mentioned. You walk over to her, where she's <<switch _labKim>><<case 1>>sulking after failing to distract Dr. Richards from her work.<<case 2>>sitting in her chair in the middle of the room.<<case 3 4>>working slowly at inspecting some machine components.<<case 5 6>>playing at cleaning mechanical parts in the sink.<<case 7 8>>trying to figure out where to put a finished part.<<case 9>>just killing time.<<case 10>>fondling her nipples.<</switch>> @@.pc;Heya Kim, how's it going?@@
+</p>
+<p>
+She looks over at you with a smile. @@.npc;Hey Gurl!@@ <<switch _labKim>><<case 1>>@@.npc;I was just wishing Lily had a little more time to hang out.@@<<case 2>>@@.npc;Not much going on here!@@<<case 3 4 5 6 7 8>>@@.npc;Just doing this boring stuff, you know.@@<<case 9>>@@.npc;It's good, but I'm bored.@@<<case 10>>@@.npc;I was just thinking how amazing nipples are, you know? Like, they feel so good!@@<</switch>> @@.npc;What's up with you gurl?@@
+</p>
+<p>
+@@.pc;Nothin' much... I was just wondering about that accident you mentioned. Like, what happened?@@
+</p>
+<p>
+Kim's expression goes blank for a moment as she tries to figure out what to say. @@.npc;You know, I don't really know. Like, I don't remember it at all.@@ She shrugs. @@.npc;I guess Lily knows what happened, maybe ask her? All I really know is that I woke up... different.@@
+</p>
+<p>
+@@.pc;Oh, okay... I'm sorry to bring up bad memories.@@
+</p>
+<p>
+She starts smiling again. @@.npc;I don't remember anyway, so don't worry about it. Besides, I'm really happy the way I am now, you know?@@
+</p>
+<p>
+You return her smile. @@.pc;Okay, well, I'd better get to work. I'll talk to you later.@@
+</p>
+<p>
+@@.npc;Yep, laters!@@
+</p>
+
+
+
+:: FK0-HowMet [nobr]
+
+
+<<addTime 5>>
+<p>
+Just wanting to kill some time, you decide to ask Kim how she met Dr. Richards in the first place. You walk over to her, where she's <<switch _labKim>><<case 1>>sulking after failing to distract Dr. Richards from her work.<<case 2>>sitting in her chair in the middle of the room.<<case 3 4>>working slowly at inspecting some machine components.<<case 5 6>>playing at cleaning mechanical parts in the sink.<<case 7 8>>trying to figure out where to put a finished part.<<case 9>>just killing time.<<case 10>>fondling her nipples.<</switch>> @@.pc;Heya Kim, how's it going?@@
+</p>
+<p>
+She waves at you exuberantly. @@.npc;Hey Gurl!@@ <<switch _labKim>><<case 1>>@@.npc;I was just wishing Lily had a little more time to hang out.@@<<case 2>>@@.npc;Not much going on here!@@<<case 3 4 5 6 7 8>>@@.npc;Just doing this boring stuff, you know.@@<<case 9>>@@.npc;It's good, but I'm bored.@@<<case 10>>@@.npc;I was just thinking how amazing nipples are, you know? Like, they feel so good!@@<</switch>> @@.npc;What's up with you? You look, like, totally depressed. Maybe you just need a good dicking?@@
+</p>
+<p>
+@@.pc;I'm totally fine, thanks though.@@ You laugh off her suggestion for improving your mood. @@.pc;Actually, I was just wondering how you and Dr. Richards met.@@
+</p>
+<p>
+@@.npc;You're so nosey, gurl!@@ Kim laughs, not actually seeming to mind. @@.npc;It wasn't like anything romantic or whatnot. We just had a couple classes together starting in 9th grade. We had some good times together though!@@
+</p>
+<p>
+@@.pc;Oh yeah? Like what?@@
+</p>
+<p>
+Kim goes quiet for a moment while she thinks, and then bursts into a smile. @@.npc;So it was our senior year in high school, right? There was this bitch named Karen who was always causing drama. Well Lily finally got fed up and put poison ivy oil where Karen would totally get it all over her hands. Well that stuff doesn't cause a rash, like, right away, it takes hours. The next day, like half the football team couldn't play in their game cause they had rashes all over their dicks!@@ She breaks into laughter remembering what happened. @@.npc;After that, everyone knew Karen was fucking like half the football team cause she had a rash like, all over her body!@@
+</p>
+<p>
+You laugh with Kim at the amusing story. @@.pc;Wow, I guess you don't want to get on Dr. Richards' bad side, huh?@@
+</p>
+<p>
+@@.npc;Yeah, like, no way!@@
+</p>
+

@@ -36,6 +36,17 @@
     <<dtext "sad">>Okay, ehh.
     <</dialogchoice>>
   </div>
+<<elseif $ageCheckPassage === "AgePassPrude">>
+  <div id="ageCheckDiv">
+    <center>[IMG[IMG-TattooAge]]</center><br>
+    @@.npc;Yeah, I'm totally not going to give you a tattoo, kiddo. You need to be 18 to buy such things.@@
+    <<dialogchoice>>
+    <<dbutt "Convince">><<addTime 2>><<replace "#ageCheckDiv">><<include [[AgeCheckConvince]]>><</replace>>
+    <<dtext "cry">>Please! I am an adult, really, believe me!
+    <<dbutt "Okay">><<run Dialog.close()>>
+    <<dtext "sad">>Okay, ehh.
+    <</dialogchoice>>
+  </div>
 <</if>>
 
 :: AgeCheckFakeId [nobr]
@@ -70,6 +81,17 @@
   <div id="ageCheckDiv">
     <center>[IMG[IMG-TattooAge]]</center><br>
     The guy laughs after looking at your I.D. @@.npc;What'd you do, print this out at home? Sorry, but the rules say you have to be 18 or have a parent with you.@@
+    <<dialogchoice>>
+    <<dbutt "Convince">><<addTime 2>><<replace "#ageCheckDiv">><<include [[AgeCheckConvince]]>><</replace>>
+    <<dtext "cry">>Please! I am an adult, really, believe me!
+    <<dbutt "Okay">><<run Dialog.close()>>
+    <<dtext "sad">>Okay, ehh.
+    <</dialogchoice>>
+  </div>
+<<elseif $ageCheckPassage === "AgePassPrude">>
+  <div id="ageCheckDiv">
+    <center>[IMG[IMG-TattooAge]]</center><br>
+    The guy laughs after looking at your I.D. @@.npc;What'd you do, print this out at home? Sorry, but the rules say you have to be 18 to shop here, kid.@@
     <<dialogchoice>>
     <<dbutt "Convince">><<addTime 2>><<replace "#ageCheckDiv">><<include [[AgeCheckConvince]]>><</replace>>
     <<dtext "cry">>Please! I am an adult, really, believe me!
@@ -166,7 +188,7 @@
 
 :: AgePassPrude [nobr]
 
-<<go "PrudeShop">>
+<<go PrudeShop>>
 
 
 :: AgeCheckPrudeShopkeeper [nobr]

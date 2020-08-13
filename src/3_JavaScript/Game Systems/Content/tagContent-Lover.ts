@@ -307,7 +307,7 @@ aw.tagContent.lover.hairyPitsNope = [`
 @@.npc;Eww, okay. Maybe I'll just shave them while you are sleeping, who knows...@@<br>
 @@.pc;Hey!@@<br>
 @@.npc;What?@@<br>
-@@pc;Don't you even dare. So...@@<br>
+@@.pc;Don't you even dare. So...@@<br>
 <<include [[NPCinteraction-LoverContinue]]>>
 `];
 aw.tagContent.lover.clownMakeup = [

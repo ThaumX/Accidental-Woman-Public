@@ -48,17 +48,17 @@
   <<button "Use Faust ATM">><<run setup.bank.atm("faust")>><</button>>
 <<endhoverrevise>>
 <<hoverrevise alpha>>
-  <<button "Use Indigo Draon ATM">><<run setup.bank.atm("indigo")>><</button>>
+  <<button "Use Indigo Dragon ATM">><<run setup.bank.atm("indigo")>><</button>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
   <<openhours 9 17>>
-    <<button "Visit Faust Bank">><</button>>
+    <<button "Visit Faust Bank">><<addTime 30>><<set _bank = "faust">><<dialog "Faust">><<include [[BankMenuShit]]>><</dialog>><</button>>
   <<closed "Faust Bank">>
   <</openhours>>
 <<endhoverrevise>>
 <<hoverrevise gamma>>
   <<openhours 9 17>>
-    <<button "Visit Indigo Dragon">><</button>>
+    <<button "Visit Indigo Dragon">><<addTime 30>><<set _bank = "indigo">><<dialog "Indigo Dragon">><<include [[BankMenuShit]]>><</dialog>><</button>>
   <<closed "Indigo Dragon">>
   <</openhours>>
 <<endhoverrevise>>
@@ -113,7 +113,91 @@ The financial area seems to be less busy than other areas of downtown. @@.mono;M
 /* ↂ.home.finance.bank */
 
 
+:: BankMenuShit [nobr]
 
 
 
+<<if _bank === "faust">>
+<img data-passage="IMG-Bank-Faust" style="float: right; margin: 10px 0px 10px 25px;width:200px;height:auto;">
+<<else>>
+<img data-passage="IMG-Bank-IndigoDrake" style="float: right; margin: 10px 0px 10px 25px;width:200px;height:auto;">
+<</if>>
+
+<p>
+<<f y>>ou enter the <<if _bank === "faust">>nicely-appointed but somewhat impersonal bank. Everything is decorated in a smooth modern style that practically screams "wall street".<<else>>elegantly-appointed but somewhat intimidating bank. The decor uses gold and silver color heavily; it brings to mind a dragon's horde.<</if>> You step into a customer cubicle to be assisted with your banking needs. Almost everything is automated, but you assume that an actual bank employee will show up if you need their assistance.
+</p>
+<h3>Savings Account</h3>
+<p id="bankySaving">
+<<if ↂ.flag.bank[_bank].saving>>
+  <<include [[BankInsertSavings]]>>
+<<else>>
+  You do not have a savings account with <<print setup.bank[_bank].name>>. Starting an account will require an initial deposit of <span class="money">₢25</span>.<br>
+  <<if ↂ.flag.bank.faust.saving || ↂ.flag.bank.indigo.saving>>
+    <<ctn>>Your financial records indicate that you already have a savings account at another institution. Federal law limits the number of personal bank accounts.<</ctn>>
+  <<else>>
+    <<if $AW.cash >= 25>>
+      <<button "Open an Account">><<run setup.bank.savings.apply()>><</button>>
+    <<else>>
+      <button class="disabled">Insufficient Funds</button>
+    <</if>>
+  <</if>>
+<</if>>
+</p>
+<h3>Credit Card Account</h3>
+<p id="bankyCredit">
+<<if ↂ.flag.bank[_bank].credit>>
+  <<insert [[BankInsertCredit]]>>
+<<else>>
+  You do not have a credit card account with <<print setup.bank[_bank].name>>. You may apply to see if you're eligible for a new credit card account. <i>Rates as low as 23.14% APR!</i> @@.note;With agreement to weekly automatic payments.@@<br>
+  <<if ↂ.flag.bank.faust.credit || ↂ.flag.bank.indigo.credit>>
+    <<ctn>>Your financial records indicate that you already have a credit account at another institution. Federal law limits the number of personal credit accounts.<</ctn>>
+  <<elseif ↂ.flag.bank[_bank].appCred>>
+    <<ctn>>Bank policy prevents you from applying for the same bank product multiple times in one day.<</ctn>>
+  <<else>>
+    <<button "Apply for Credit">><</button>>
+  <</if>>
+<</if>>
+</p>
+<h3>Personal Loan Account</h3>
+<p id="bankyLoan">
+<<if ↂ.flag.bank[_bank].loan>>
+  <<insert [[BankInsertLoan]]>>
+<<else>>
+  You do not have a personal loan account with <<print setup.bank[_bank].name>>. You may apply to see if you are eligible for a personal loan. Personal loans offer a one time disbursement and require weekly payments. <i>Rates as low as 13.91% APR!</i> @@.note;Loans are paid at a fixed weekly rate which will be disclosed upon loan approval. ₢5000 is the maximum amount for a personal loan. not all customers will qualify for the maximum amount.@@<br>
+  <<if ↂ.flag.bank.faust.loan || ↂ.flag.bank.indigo.loan>>
+    <<ctn>>Your financial records indicate that you already have a credit account at another institution. Federal law limits the number of personal credit accounts.<</ctn>>
+  <<elseif ↂ.flag.bank[_bank].appLoan>>
+    <<ctn>>Bank policy prevents you from applying for the same bank product multiple times in one day.<</ctn>>
+  <<else>>
+    <<textbox "_bankloanrequestamt" "1000">> <<button "Apply for a Loan">><</button>>
+  <</if>>
+<</if>>
+</p>
+<p>
+<i>Please note that loan and credit principle payments do not apply toward required weekly payments, if any.</i>
+</p>
+<br>
+
+
+:: BankInsertSavings [nobr]
+
+<b>Savings Balance:</b> <span class="money">₢<<= ↂ.home.finance.bank>></span><<tab>><span class="monospace">1.1% APR</span><br>
+<b>Expected Interest Earnings:</b><span class="money">₢<<= setup.bank.savings.interest()>></span><br>
+<<textbox "_banksavingamt" "0">> <<button "Deposit">><<run setup.bank.savings.deposit(_banksavingamt)>><</button>> <<button "Withdraw">><<run setup.bank.savings.debit(_banksavingamt)>><</button>>
+
+:: BankInsertCredit [nobr]
+
+<b>Current Balance:</b> <span class="money">₢<<= ↂ.home.finance.credit>></span><<tab>>
+<b>Available Credit:</b> <span class="money">₢<<= 2500 - ↂ.home.finance.credit>></span><br>
+<b>Interest Rate:</b> <span class="monospace">0.<<= ↂ.home.finance.creditInterestPer>>% weekly</span><<tab>><span class="money">₢<<= setup.bank.credit.interest()>></span><<tab>><<= setup.bank.getAnnual(ↂ.home.finance.creditInterestPer)>><br>
+<b>Minimum Weekly Payment:</b> <span class="money">₢<<= setup.bank.credit.minPayment()>></span><br>
+<<textbox "_bankcreditamt" "0">> <<button "Cash Advance">><<run setup.bank.credit.debit(_bankcreditamt)>><</button>> <<button "Make a Payment">><<run setup.bank.credit.pay(_bankcreditamt)>><</button>>
+
+
+:: BankInsertLoan [nobr]
+
+<b>Current Balance:</b> <span class="money">₢<<= ↂ.home.finance.loan>></span><br>
+<b>Interest Rate:</b> <span class="monospace">0.<<= ↂ.home.finance.loanInterestPer>>% weekly</span><<tab>><span class="money">₢<<= setup.bank.loan.interest()>></span><<tab>><<= setup.bank.getAnnual(ↂ.home.finance.loanInterestPer)>>
+<br>
+<<textbox "_bankloanamt" "0">> <<button "Make a Payment">><<run setup.bank.loan.pay(_bankcreditamt)>><</button>>
 

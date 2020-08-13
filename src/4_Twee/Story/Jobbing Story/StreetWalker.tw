@@ -208,7 +208,7 @@ Skankiness: <<print setup.prostitution.skankyWord()>><br>
 <<status 1>><p><<print either("You hop into john's car and he drives you to a <<publicPrivacy>>.","Guy drives you to a <<publicPrivacy>>, stops the engine and looks at you greedily.")>></p>
 <<print setup.prostitution.sceneGen($streetWalkClient, "streetWalk", $streetWalkDemand)>><<run aw.cash($streetWalkPay, "whoring");>>
 <p><<print either("Satisfied, he gives you your @@.money;<<mon>><<= $streetWalkPay>>@@.","In silence he handles you @@.money;<<mon>><<= $streetWalkPay>>@@.","He sighs and browse his wallet for some time before giving you @@.money;<<mon>><<= $streetWalkPay>>@@.")>> <<print either("You thank the guy and leave the car.","Shortly smiling to the guy you dress up and go away from the car.","You get your stuff and leave the car.")>>
-<<lonely -10 "Interacting with your 'Customer'">><<set aw.npc[$streetWalkClient].rship.likePC += random(3, 6)>><<set aw.npc[$streetWalkClient].lovePC += random(1, 3)>><<set aw.npc[$streetWalkClient].rship.companion += 15>><<set aw.npc[$streetWalkClient].sleptover += 1>><<set ↂ.pc.status.morality -= random(0,2)>><<if random(1,10) === 1>><<run setup.omni.new("sstd_dripsA")>><</if>><<status 0>>
+<<lonely -10 "Interacting with your 'Customer'">><<set aw.npc[$streetWalkClient].rship.likePC += random(3, 6)>><<set aw.npc[$streetWalkClient].lovePC += random(1, 3)>><<set aw.npc[$streetWalkClient].rship.companion += 15>><<set aw.npc[$streetWalkClient].sleptover += 1>><<set ↂ.pc.status.morality -= random(0,2)>><<if random(1,10) === 1>><<run setup.giveSSTD()>><</if>><<achieve hoeing>><<status 0>>
 <p><<button "Wait for a new client">><<scenego "StreetWalkerWork">><</button>><<button "Leave">><<updatebar>><<sceneclose>><<status 0>><</button>></p>
 
 
@@ -335,7 +335,7 @@ You turn around and see a service officer from the Appletree Police Department.
   <p>@@.npc;Good. I may visit you next time so you better work hard, little working bee and earn daddy some money...@@</p>
   <p>@@.mono;Bastard.@@</p>
   <p><<button "Leave">><<updatebar>><<sceneclose>><<status 0>><</button>></p>
-<</else>>
+<<else>>
   <p>@@.pc;Maybe we can settle this with some money?@@</p>
   <p>@@.npc;Okay, now you have real problems. You are under arrest for offering sexual services and bribe attempt. You have the right to remain silent. Anything you say can be...@@</p>
   <p><<link "Shit">><<run setup.badEnd("prison")>><</link>></p>

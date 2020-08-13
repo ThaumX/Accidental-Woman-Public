@@ -723,18 +723,18 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         case 11:
         case 12: // D-Cup
         case 13:
-          return eth("below-average", "smallish", "disadvantaged");
+          return eth("below-average", "cute", "petite");
         case 14:
         case 15: // E-Cup
         case 16:
-          return eth("average-size", "unexceptional", "normal-size");
+          return eth("average-sized", "healthy", "normal-size");
         case 17:
         case 18: // F-Cup
         case 19:
         case 20:
         case 21: // G-Cup
         case 22:
-          return eth("above-average", "full", "healthy", "full", "ample");
+          return eth("above-average", "full", "full", "ample");
         case 23:
         case 24: // H-Cup
         case 25:
@@ -1035,13 +1035,17 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         case 1:
           return eth("tiny", "vestigial", "miniature");
         case 2:
-          return eth("delicate", "sensitive", "petite");
+          return eth("delicate", "petite");
         case 3:
-          return eth("large", "big", "sizeable");
+          return eth("sensitive", "ordinary");
         case 4:
-          return eth("huge", "giant", "sizeable");
+          return eth("large", "big");
         case 5:
+          return eth("huge", "giant");
+        case 6:
           return eth("massive", "enormous");
+        case 7:
+          return eth("dick-like", "colosal");
       }
       size = Number(size) + Number(mod);
     },
@@ -1163,11 +1167,11 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         case 2:
           return eth("thick", "masculine", "sturdy");
         case 3:
-          return eth("feminine", "womanly", "normal", "curved");
+          return eth("slightly-curved", "unremarkable", "average");
         case 4:
-          return eth("hourglass", "alluring", "enticing");
+          return eth("feminine", "alluring", "enticing", "curvy");
         case 5:
-          return eth("pinched", "very narrow");
+          return eth("hourglass", "pinched", "very narrow");
         default:
           return `waist size out of bounds (${size})`;
       }
@@ -1740,7 +1744,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         }
       }
       if (State.active.variables.AW.metric) {
-        size = Math.round(size / 2.54);
+        // size = Math.round(size / 2.54);
       }
       size = Number(size) + Number(mod);
       size = Math.round(size);
@@ -1970,36 +1974,57 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       }
       size = Math.floor(size / 10);
       if (ↂ.pc.kink.sizequeen) {
-        size -= 5;
+        size -= 1;
         if (size < 0) {
           size = 0;
         }
       }
+      let desc;
       switch (size) {
         case 0:
-          return eth("infintesimal", "infant", "clit-length");
+          desc = eth("infintesimal", "infant", "clit-length");
+          break;
         case 1:
         case 2:
-          return eth("miniature", "tiny", "minuscule", "puny");
+          desc = eth("miniature", "tiny", "minuscule", "puny");
+          break;
         case 3:
         case 4:
-          return eth("underwhelming", "meager", "diminutive", "short");
+          desc = eth("underwhelming", "meager", "diminutive", "short");
+          break;
         case 5:
-          return eth("average-length", "unremarkable", "passable", "middling", "moderate", "ordinary");
+          desc = eth("average-length", "unremarkable", "passable", "middling", "moderate", "ordinary");
+          break;
         case 6:
         case 7:
-          return eth("big", "large", "lengthy", "impressive", "lengthy", "outstanding", "superior");
+          desc = eth("big", "large", "lengthy", "impressive", "lengthy", "outstanding", "superior");
+          break;
         case 8:
         case 9:
-          return eth("imposing", "prodigious", "gigantic", "tremendous", "huge", "giant");
+          desc = eth("imposing", "prodigious", "gigantic", "tremendous", "huge", "giant");
+          break;
         case 10:
         case 11:
-          return eth("magnificent", "massive", "monumental", "sublime", "tremendous");
+          desc = eth("magnificent", "massive", "monumental", "sublime", "tremendous");
+          break;
         case 12:
-          return eth("colossal", "magnificent", "massive", "monumental", "sublime", "tremendous", "foot-long", "foot-long");
+          desc = eth("colossal", "magnificent", "massive", "monumental", "sublime", "tremendous", "foot-long", "foot-long");
+          break;
         default:
-          return eth("transcendent", "stupendous", "unmatchable", "unbelievable", "colossal");
+          desc = eth("transcendent", "stupendous", "unmatchable", "unbelievable", "colossal");
+          break;
       }
+      size++;
+      if (random(1, 4) === 1) {
+        // add length
+        if (State.active.variables.AW.metric) {
+          size = Math.round(size * 2.54);
+          desc += ` ${size}cm`;
+        } else {
+          desc += ` ${size}-inch`;
+        }
+      }
+      return desc;
     },
     cockGirth(size, mod = 0) {
       if (size == null) {

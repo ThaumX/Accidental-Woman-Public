@@ -193,7 +193,6 @@ aw.tagContent.stranger.practNakedBottomPresent = [
   <<include [[NPCinteraction-StrangerContinue]]>>
   <<else>>
   <<set aw.npc[setup.interact.status.npc].rship.likePC -= 7 >>
-  You failed the check and NPC is pissed off.
   @@.npc;Please, can you cover or something? That is plain obscene.@@
   Feeling a bit stupid you go on with the convo.
   @@.pc;So...@@<br>
@@ -332,7 +331,16 @@ aw.tagContent.stranger.pheromonesInvite = [
   `@@.pc;Wanna taste some, big boy?@@<br>
   Something has certainly clicked in his head and his good reason is gone. He unzips his pants almost drooling with arousal.<br>
   @@.npc;Oh yes, come to me, you little whore.@@<br>
-  (Need to add function call to start voluntary sex scene here)`,
+  <<button "Sex">>
+  <<set ↂ.sex.passage = aw.passage.title>>
+  <<set ↂ.sex.pcOutput = "He drags you to the <<publicPrivacy>> to have some hot action.">>
+  <<set ↂ.sex.enviroTags = ["wall", "public"]>>
+  <<set setup.sexitimes = setup.interact.status.npc>>
+  <<run setup.interact.exit()>>
+  <<script>>
+  setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
+  <</script>>
+  <</button>>`,
 ];
 aw.tagContent.stranger.pheromonesIgnore = [
   `<<set _r = random(0,10)>><<if _r > 8 >><<stress 10 "pheromones convo">>
@@ -344,9 +352,9 @@ aw.tagContent.stranger.pheromonesIgnore = [
   Stranger starts to unzip his pants...
   <<dialogchoice>>
     <<dbutt "Okay" "ↂ.pc.kink.superSlut || ↂ.pc.kink.hyperSlut || ↂ.pc.kink.rape || ↂ.pc.kink.publix">>
-    <<dtext "smug">>Why not, lets shag him! (Need to add function call to start voluntary sex scene here)
+    <<dtext "smug">>Why not, lets shag him! <<intreplace>><<include [[NPCinteraction-StrangerSexGo]]>><</intreplace>>
     <<dbutt "Freeze" "!$pref.rape">>
-    <<dtext "scared">>Paralyzed with fear you just stand.(Need to add function call to start involuntary sex scene here)
+    <<dtext "scared">>Paralyzed with fear you just stand.<<intreplace>><<include [[NPCinteraction-StrangerRape]]>><</intreplace>>
     <<dbutt "Run">><<intreplace>><<ctagcontent "stranger" "pheromonesIgnoreRun">><</intreplace>>
     <<dtext "dismay">>Run away before you got any rapeys
     <<dbutt "Fight him">><<intreplace>><<ctagcontent "stranger" "pheromonesIgnoreFight">><</intreplace>>

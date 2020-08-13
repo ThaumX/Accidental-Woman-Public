@@ -7,7 +7,7 @@
 /*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
 <<include [[MAPhomeT2]]>>
 /*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
-<div id="mainshits">
+<div id="mainshits" class="extraRoomRight">
 <<homeItemDisp>>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
 <p class="weather-disc"><<switch ↂ.map.weather>>
@@ -59,7 +59,13 @@
   <</button>>
 <<endhoverrevise>>
 <<hoverrevise answer>>
-  <span class="disabled"><<button "Answer Door">><</button>></span>
+  <<if setup.npcDate.homeDateTime()>>
+    <<button "Answer Door">><<run setup.npcDate.date($doorNPC[0], "yourhome")>><</button>>
+  <<elseif ↂ.flag.homeVisit[1] !== "none" && aw.time <(ↂ.flag.homeVisit[0] + 15)>>
+    <<button "Answer Door">><<run setup.interact.launch({passage: "NPCpaysAvisit", block: true, content: "none", npcid: ↂ.flag.homeVisit[1], title: "Visiter", size: 3})>><<set ↂ.flag.homeVisit = [0, "none"]>><<status 0>><</button>>
+  <<else>>
+    <span class="disabled"><<button "Answer Door">><</button>></span>
+  <</if>>
 <<endhoverrevise>>
 /*<<hoverrevise place>><<button "Jobbing Demo">><<go JobberCon>><</button>><<endhoverrevise>>*/
 <<homeItemButtons>>
@@ -68,7 +74,7 @@
 /*Main display for information about actions*/
 <div id="actionInfo">
 <<insertion clothes>>Enter the wardrobe menu to change clothes, shoes, and more. <<ctn>>[also available as a map shortcut!]<</ctn>><<endinsertion>>
-<<insertion answer>><i>Someone needs to be at the door before you can answer it!</i><<endinsertion>>
+<<insertion answer>>Open the door to meet your guest (If there is any).<<endinsertion>>
 <<homeItemInfo>>
 </div>
 <<timed 50ms>>

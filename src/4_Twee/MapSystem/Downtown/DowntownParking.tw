@@ -3,7 +3,12 @@
 
 <<silently>>
 /*Basic settings. Most done by map control passage*/
-
+<<if setup.forwardPassage>>
+  <<set _dest = setup.forwardPassage>>
+  <<set setup.forwardPassage = false>>
+  <<addTime 8>>
+  <<go _dest>>
+<</if>>
 <</silently>>
 /*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
 <<include [[MAPdowntown]]>>
@@ -39,7 +44,7 @@
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  @@.disabled;<<button "Nope">><</button>>@@
+  <<button "Walk Around">><<addTime 15>><<dialog "Parking Garage">><<include [[DTParkingGarageStuff]]>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -49,7 +54,7 @@
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>Still Nope.<<endinsertion>>
+<<insertion alpha>>Walk around the parking garage to kill time and perhaps spot something interesting. <<ctn>>[15 min]<</ctn>><<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
@@ -60,5 +65,46 @@
 
 :: DowntownParkingLOC [nobr]
 
-Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+<center><<= either("[img[IMG-ParkingLotGirl1]]", "[img[IMG-ParkingLotGirl2]]")>></center>
+<p>
+<<f Y>>ou take a few moments to look around the parking garage. You notice a girl who seems to be a little out of it, though it seems mostly that she's just very aroused. You wonder if perhaps she took some of that drug you heard about called Heat. @@.mono;I bet she's looking for someone to fuck her... It probably won't take long, she's definitely not ugly.@@ The woman looks your way briefly, but doesn't seem interested.
+</p>
 
+
+:: DTParkingGarageStuff [nobr]
+
+
+<<stress -3>>
+<<set _roo = random(1,5)>>
+<<switch _roo>>
+<<case 1>>
+<center>[img[IMG-BumperSticker1]]</center>
+<p>
+<<f y>>ou walk around the parking garage to kill some time. Nothing particularly interesting happened, though you did spot an amusing bumper sticker on the back of one of the parked cars. Taking a few minutes to just walk around has helped to calm your nerves somewhat.
+</p>
+<<case 2>>
+<center>[img[IMG-BumperSticker2]]</center>
+<p>
+<<f y>>ou walk around the parking garage to kill some time. Nothing particularly interesting happened, though you did spot an amusing bumper sticker on the back of one of the parked cars. Taking a few minutes to just walk around has helped to calm your nerves somewhat.
+</p>
+<<case 3>>
+<center>[img[IMG-BumperSticker3]]</center>
+<p>
+<<f y>>ou walk around the parking garage to kill some time. Nothing particularly interesting happened, though you did spot an amusing bumper sticker on the back of one of the parked cars. Taking a few minutes to just walk around has helped to calm your nerves somewhat.
+</p>
+<<case 4>>
+<center>[img[IMG-BumperSticker4]]</center>
+<p>
+<<f y>>ou walk around the parking garage to kill some time. In the corner of the parking lot you spot a large-breasted woman masturbating in the passenger seat of her car. She wasn't making a lot of noise, so you didn't notice until you were practically standing next to her car. As you're staring, she notices you looking and gives you an impish smile. She raises a wet hand and gives you a wave hello. You wave back awkwardly and continue your walk.
+</p>
+
+<<case 5>>
+<center>[img[IMG-BumperSticker5]]</center>
+<p>
+<<f y>>ou walk around the parking garage to kill some time. You spot a classic convertible parked next to the garage's windows. You aren't much of a car person, but since you're killing time anyway, you decide to go check it out. The owner left the top down, and when you get closer you realize that someone is still inside. A woman in formal wear has her clothes in disarray as she masturbates through her panties in the back seat. You watch for a few moments, but she doesn't notice you and you're able to walk away undetected.
+</p>
+<<arouse 1>>
+<</switch>>
+<p>
+<<ctn>>[<<= _roo>> of 5]<</ctn>>
+</p>

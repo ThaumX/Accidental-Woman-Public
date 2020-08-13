@@ -66,4 +66,17 @@ The game is currently converting the existing fake NPC into a full NPC.
 <</timed>>
 
 
+:: WorldNPC-HomeInteract [nobr]
+
+<<set _npc = setup.interact.status.npc>>
+<center>[img[IMG-InfinityLoading]]</center>
+<<switch _bfCat>>
+<<case "dating" "exclusive">><<set _desto = "NPCinteraction-Fling">>
+<<case "lovers" "engaged" "married">><<set _desto = "NPCinteraction-Lover">>
+<<case "friend">><<set _desto = "NPCinteraction-Friends">>
+<</switch>>
+<<run setup.npcInfo.encounter(_npc)>>
+<<timed 500ms>>
+<<intgo _desto>>
+<</timed>>
 

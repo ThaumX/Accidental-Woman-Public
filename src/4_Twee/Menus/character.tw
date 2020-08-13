@@ -53,7 +53,7 @@
       ''Health:'' <<if ↂ.pc.status.health >= 90>>@@.good;Excellent (<<= ↂ.pc.status.health>>)@@<<elseif ↂ.pc.status.health >= 80>>@@.good;Good (<<= ↂ.pc.status.health>>)@@<br><<elseif ↂ.pc.status.health >= 70>>@@.good;Okay (<<= ↂ.pc.status.health>>)@@<<elseif ↂ.pc.status.health >= 50>>@@.import;Poor (<<= ↂ.pc.status.health>>)@@<<elseif ↂ.pc.status.health >= 30>>@@.orange;Critical (<<= ↂ.pc.status.health>>)@@<<else>>@@.bad;Dying (<<= ↂ.pc.status.health>>)@@<</if>><br>
       ''Cleanliness:'' @@.exp;<<pcCleanStatus>>@@<br>
       ''Vulva Exposure:'' <<if setup.clothes.exposed.bottom>>@@.orange;Exposed@@<<else>>@@.exp;Covered@@<</if>><br>
-      ''Breast Size:'' @@.exp;<<= ↂ.pc.body.tits.size>>cc | <<= ↂ.pc.body.tits.bra>>@@<br>
+      ''Breast Size:'' @@.exp;<<= ↂ.pc.body.tits.bra>> <<= ↂ.pc.body.tits.size>>cc <<if ↂ.pc.body.tits.silicone > 0>>(<<= ↂ.pc.body.tits.silicone>>cc Si)<</if>>@@<br>
       <<if ↂ.pc.status.milk > 0>>
         ''Lactation Training:'' @@.exp;<<switch ↂ.pc.status.milk>>
         <<case 1>>1. Barely
@@ -186,7 +186,7 @@
     </tr><tr>
       <td><b>Cum:</b></td><td><<colorcode _cum _tempScale>></td><td><<colorcode _cumNeed _tempScale>></td>
     </tr><tr>
-      <td><b>Cream:</b></td><td><<colorcode _cream _tempScale>></td><td><<colorcode _creamNeed _tempScale>></td>
+      <td><b>Creampie:</b></td><td><<colorcode _cream _tempScale>></td><td><<colorcode _creamNeed _tempScale>></td>
     </tr><tr>
       <td><b>Focus:</b></td><td><<colorcode _focus _tempScale>></td><td><<colorcode _focusNeed _tempScale>></td>
     </tr><tr>
@@ -245,6 +245,9 @@
 <h3>Your Appearance</h3>
 <<include [[PlayerCharDescription]]>>
 <br>
+<h3>Toys:</h3>
+<<print setup.sexToys.list()>>
+<br>
 <h3>Skin condition:</h3>
 <<if ↂ.pc.tattoo.visible[0] && ↂ.pc.tattoo.visible[1] && ↂ.pc.tattoo.visible[2]>><span class='peepbad'>Some lewd tattoos are showing.</span><br><</if>>
 <<if ↂ.pc.tattoo.visible[0] && ↂ.pc.tattoo.visible[1] && ↂ.pc.tattoo.visible[3]>><span class='peepbad'>Some lewd bodywriting are showing.</span><br><</if>>
@@ -300,7 +303,106 @@
     <center>[img[IMG-ClothesCleaningHand]]</center><br>
     You spend some time cleaning your outer clothes. Without a washing machine you can only hope to squeeze liquids out and wipe some of the most obvious stains with your hands. After about ten minutes you sigh and put your clothes back on. At least they look a little bit better now.
   <</dialog>>
-<</button>> Try to clean your clothes from various greases.
+<</button>> Try to clean your clothes from various greases.<br>
+<<button "Masturbate">>
+    <<dialog “Masturbation”>>
+      <<if setup.sexToys.check("pc", "groin") == true && setup.sexToys.check("pc", "clit") == true>>
+      <div style="width:700px;">
+        That is just a quick placeholder for bigger and more complicated masturbation system. Notice that simple toyless masturbation can't fully satisfy you.
+        <br>
+        <<set _shra = '<img data-passage="IMG-masturbation1" style="border-radius:10px;float:left;margin-right:10px;height:500px;width:auto;">'>>
+        <<print _shra>>
+        <br>
+        <div style="width:50%; float:left;">
+          <<button "Quick fap [7-20 min]">>
+            <<if ↂ.pc.kink.hard>>
+              <<set _cumchance = random(0, 13)>>
+            <<else>>
+              <<set _cumchance = random(0, 10)>>
+            <</if>>
+            <<if _cumchance < 10>>
+              <<if ↂ.pc.status.satisfaction > 35>>
+                <<set _randomcum = 3>>
+              <<else>>
+                <<set _randomcum = random(10, 18)>>
+              <</if>>
+              <<set _randompiss = random(7, 20)>>
+              <<set _randomshit = random(-0,-3)>>
+              <<if ↂ.pc.kink.fap>>
+                <<set _randomcum = random(17, 23)>>
+              <</if>>
+              <<satisfy _randomcum "Masturbation">>
+              <<addTime _randompiss>>
+              <<stress _randomshit "Masturbation">>
+              <<arousal X2>>
+              <<updatebar>>
+              <<run Dialog.close()>>
+              <<run  setup.notify("You came and feel more satisfied.")>>
+            <<else>>
+              <<set _randomcum = random(10, 15) * -1>>
+              <<set _randompiss = random(7, 20)>>
+              <<set _randomshit = random(0, 6)>>
+              <<satisfy _randomcum "Masturbation">>
+              <<addTime _randompiss>>
+              <<stress _randomshit "Masturbation">>
+              <<run Dialog.close()>>
+              <<updatebar>>
+              <<run  setup.notify("You was not able to reach orgasm and feel less satisfied now.")>>
+            <</if>>
+            <<updatebar>>
+          <</button>>
+          <br>
+          <span style="font-size:0.65rem;">A fast session just to ease your libido.</span>
+        </div>
+        <div style="width:50%; float:left;">
+          <<button "Enjoy yourself [30-60 min]">>
+            <<if ↂ.pc.kink.hard>>
+              <<set _cumchance = random(0, 13)>>
+            <<else>>
+              <<set _cumchance = random(0, 10)>>
+            <</if>>
+            <<if _cumchance < 10>>
+              <<if ↂ.pc.status.satisfaction > 35>>
+                <<set _randomcum = 3>>
+              <<else>>
+                <<set _randomcum = random(19, 24)>>
+              <</if>>
+              <<set _randompiss = random(30, 60)>>
+              <<set _randomshit = random(-3,-5)>>
+              <<if ↂ.pc.kink.fap>>
+                <<set _randomcum = random(23, 29)>>
+              <</if>>
+              <<satisfy _randomcum "Masturbation">>
+              <<addTime _randompiss>>
+              <<stress _randomshit "Masturbation">>
+              <<arousal X2>>
+              <<updatebar>>
+              <<run Dialog.close()>>
+              <<run  setup.notify("You came and feel more satisfied.")>>
+            <<else>>
+              <<set _randomcum = random(12, 18) * -1>>
+              <<set _randompiss = random(30, 60)>>
+              <<set _randomshit = random(3, 7)>>
+              <<satisfy _randomcum "Masturbation">>
+              <<addTime _randompiss>>
+              <<stress _randomshit "Masturbation">>
+              <<updatebar>>
+              <<run Dialog.close()>>
+              <<run setup.notify("You was not able to reach orgasm and feel less satisfied now.")>>
+            <</if>>
+          <</button>>
+          <br>
+          <span style="font-size:0.65rem;">A long and relaxing session where you take the time to explore your body and work yourself toward a powerful orgasm.</span>
+        </div>
+      </div>
+      <<else>>
+      <div style="width:700px;">
+        <center>[img[IMG-HowIsupposedTo]]</center>
+        You realise that you actually can't masturbate with that chastity on.
+      </div>
+      <</if>>
+    <</dialog>>
+  <</button>> Enjoy yourself using your hands.
 </fieldset>
 <fieldset>
 <legend class="head3">Breast Actions</legend>
@@ -345,6 +447,12 @@
 <<else>>
   <span class="disabled"><<button "USE TUMMY HUGGER">><</button>></span> You must own a Tummy Hugger in order to use it.
 <</if>>
+</fieldset>
+<fieldset>
+<legend class="head3">Toys Actions</legend>
+<div id="toysDiv">
+<<print setup.sexToys.printer()>>
+</div>
 </fieldset>
 
 
@@ -739,6 +847,29 @@
     <<if ↂ.pc.mutate.goddess>>@@.head4;Special Mutations@@<br>@@.good;''Fertility Goddess''@@ <i>your body is so perfect for breeding that it must be divine--literally</i> @@.note;you have a preternatural ability to gauge the fertility of potential mates, an unnatural attractiveness, and unmatched control over your reproductive system. People would probably worship you, if you permitted them to bask in your splendor.@@<<elseif ↂ.pc.mutate.fertStorm>>@@.head4;Special Mutations@@<br>@@.good;''Fertility Storm''@@ <i>your body is a perfect storm of fertility</i> @@.note;You get the feeling that your body has some other unknown advantage...@@<</if>>
     </td>
   </tr>
+</table>
+<br>
+<table style="margin:10px auto;width:98%;">
+<tr class="divide"><td colspan=3>@@.head3;Sex Record@@</td></tr>
+<tr><td width="33%">
+makeout: <<= ↂ.flag.sexRecord.makeout>><br>
+sex: <<= ↂ.flag.sexRecord.sex>><br>
+oral: <<= ↂ.flag.sexRecord.oral>><br>
+anal: <<= ↂ.flag.sexRecord.anal>>
+</td><td>
+public: <<= ↂ.flag.sexRecord.public>><br>
+domsub: <<= ↂ.flag.sexRecord.domsub>><br>
+NPC didn't cum: <<= ↂ.flag.sexRecord.nocumNPC>><br>
+PC didn't cum: <<= ↂ.flag.sexRecord.nocumPC>>
+</td><td width="33%">
+forced: <<= ↂ.flag.sexRecord.forced>><br>
+creampie: <<= ↂ.flag.sexRecord.creampie>><br>
+accidentCP: <<= ↂ.flag.sexRecord.accidentCP>><br>
+unprotected: <<= ↂ.flag.sexRecord.unprotected>>
+</td></tr>
+<tr><td colspan=3>
+@@.note;This record is not exact.@@
+</td></tr>
 </table>
 <br>
 <table style="margin:10px auto;width:98%;">

@@ -5,9 +5,13 @@
 
 <</silently>>
 /*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
-<<include [[MAPresidential]]>>
+<<include [[MAPindustrial]]>>
 /*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
-<div id="mainshits">
+<div id="mainshits" class="extraRoomRight">
+<div id="storeWindow">
+[img[IMG-MVAS]]
+
+</div>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
 <p class="weather-disc"><<switch ↂ.map.weather>>
 <<case "clr">>
@@ -50,17 +54,99 @@
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Streaking">><</button>>
+  <<openhours 9 20>>
+    <<button "Animal shelter">><<dialog "Shelter">><<include [[ResidentialIndustrialShelter]]>><</dialog>><</button>>
+  <<closed "Animal shelter">>
+  <</openhours>>
 <<endhoverrevise>>
 </div>
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>Let's go sunning [30min]<<endinsertion>>
+<<insertion alpha>>Visit animal shelter and meet some pets<<endinsertion>>
 </div>
 
 
 :: ResidentialIndustrialLOC [nobr]
 
-@@.head3;F@@ree-breasted jogging seems to be a lot more popular here than it was in the city... But maybe that's because most people went to a gym to work out back in the city, where you wouldn't see them, naturally.<br><br>
-[img[IMGresidentialJogging2]]
+Nope, nothing here yet. Even no bouncing boobs gif
+
+
+:: ResidentialIndustrialShelter [nobr]
+
+<center>[img[IMG-MVAS]]</center><br><span id="dogSex"><<f y>>ou approach the Muschi Valley Animal Shelter. It has a tall fence with a thick hedge made of tall cypress trees that shield most of the place from outside view except the entryway. The path is lined by short fences that lead all the way to the small building bearing the sign marking it as the place you were looking for.<<if ↂ.flag.bestialityExperience == true>> Soon you’ll be able to get a friend to play with.<<else>> You are curious about what kind of service the shelter does provide. You guess it will allow you to adopt a pet for you to take care.<</if>>
+<p>
+Entering the building, you are greeted by what before coming to Muschi Valley would have shocked you: a mostly naked redheaded woman manning the office. Mostly naked because she’s wearing a lanyard hanging from the dog collar around her neck. The lanyard has some keys and a card with the woman’s picture and name, identifying her as Jennifer O’Hara.
+The office has two doors on each side of the back wall, the left one marked "SHELTER" and the right one marked "LOCKER ROOM".</p>
+<<if ↂ.pc.kink.shame>>Ashamed and blushing at the sight, you turn and leave the place.<br><<button "Leave">><<run Dialog.close()>><</button>>
+<<else>><<if ↂ.flag.shelterVisits > 0 && ↂ.flag.bestialityExperience == true>>You greet her with a smile and a wave and go to the locker room to disrobe and wear the collar that will mark you as another bitch for your friends to play with.<<elseif ↂ.flag.shelterVisits > 0 && ↂ.flag.bestialityExperience == false>>You greet her with a smile and a wave and go through the back door into the private areas to play with your friends.<<elseif ↂ.flag.bestialityExperience == true>>Grinning at the sight, you can guess that her chosen attire (or lack thereof) is meant for making herself more available to her guests.<<elseif ↂ.pc.status.corrupt > 50 || ↂ.pc.status.perversion > 50>>Smiling at the sight, you imagine that you might have caught her in her private time with her boss.<</if>>
+  <<if ↂ.flag.shelterVisits == 0>>
+  <p>@@.npc; Hello and welcome to the Muschi Valley Animal Shelter. What can I help you with?@@</p>
+  <p>@@.pc; I was wondering what kind of service you offered.@@</p>
+  <p>@@.npc; Well, since the local administration prohibits the ownership of pets inside the homes, we offer the valuable service of letting our clients bond with one or several dogs so that they can relax and destress. For a small fee that covers the room and board of the dogs, you are able to enjoy such a service.@@</p>
+  <<if setup.sexToys.check("pc", "groin") == true>>
+    <<if ↂ.flag.bestialityExperience == true>>
+      <<dialogchoice>>
+        <<dbutt "Leave">><<run Dialog.close()>>
+        <<dtext "muted">>Sorry, not interested right now.
+        <<dbutt "play">><<replace "#dogSex">><<include [[ResidentialIndustrialShelter-sex]]>><</replace>>
+        <<dtext "bimbo">>So I can destress and let the dogs play with me?
+      <</dialogchoice>>
+    <<else>>
+      <<dialogchoice>>
+        <<dbutt "Leave">><<run Dialog.close()>>
+        <<dtext "muted">>Sorry, not interested right now.
+        <<dbutt "Yes">><<replace "#dogSex">><<include [[ResidentialIndustrialShelter-sex]]>><</replace>>
+        <<dtext "smile">>I’d be interested in that service, thank you very much.
+      <</dialogchoice>>
+    <</if>>
+  <<else>>
+  @@.mono;I need to get rid of this thing blocking my pussy first...@@
+  <</if>>
+  <<else>>
+  <<if setup.sexToys.check("pc", "groin") == true>>
+    <center><<button "Titan">><<replace "#dogSex">><<include [[ResidentialIndustrialShelter-sex2]]>><</replace>><</button>>  @@.disabled;<<button "Rex">><</button>>@@  @@.disabled;<<button "Caesar">><</button>>@@</center>
+  <<else>>
+    @@.mono;I need to get rid of this thing blocking my pussy first...@@<center>@@.disabled;<<button "Titan">><</button>>@@  @@.disabled;<<button "Rex">><</button>>@@  @@.disabled;<<button "Caesar">><</button>>@@</center>
+  <</if>>
+  <</if>>
+<</if>>
+</span>
+
+
+:: ResidentialIndustrialShelter-sex [nobr]
+
+<<set ↂ.flag.shelterVisits += 1>><<set ↂ.flag.bestialityExperience = true>><<eatdrug "cream" 3>><<run setup.condition.add({loc: "vagina", amt: 4, tgt: "pc", wet: 5, type: "cum"})>><<run setup.hadSexWith("none",1)>><<set ↂ.pc.status.perversion += random(3, 7)>><<set ↂ.pc.status.corrupt += random(6, 11)>><<SCX>><<SC "SX">><<addtime 23>><<run ↂ.pc.body.pussy.insert(5)>><<run ↂ.pc.body.pussy.insert(5)>><<run ↂ.pc.body.pussy.insert(5)>><<run aw.cash(-30, "misc")>>
+<<if ↂ.flag.bestialityExperience == true>><<f E>>ying the collar, you grin. @@.pc;So I can destress and let the dogs play with me?@@ you say with a wink.<<else>><<f S>>o I can destress and let the dogs <i>play</i> with me?<</if>>
+<p>@@.npc;I can see you have a discerning eye and would enjoy our services fully. Let me lock the office and show you.@@ She stands, goes to the door, locking it behind you and then leads you to the right door, the locker room. @@.npc;Come in.@@ she adds.</p>
+<p>You follow her and see a fairly large locker room with a long bar standing perpendicular to the floor in the center of the room. Hanging from it are dog collars in various sizes, all in pink and with rhinestones studding the leather. Instead of dog tags, they appear to have a small pouch not unlike a teabag, but empty hanging from the D-ring.
+@@.npc;Take any locker with a key and put your clothes in there. Once you’re set, I’ll measure your neck and put the collar on you.@@ she adds with a smile.</p>
+<p>You do as instructed and bare your flesh, your <<p titshape.q>> <<p tits.n>> jiggling and your <<p nipl.q>> <<p nips.n>> and <<p clit.n>> growing slightly erect and your <<p pussy.n>> getting moist. <<removetoys "vagina">> Still smiling, she takes a measuring tape and puts it around your neck. As she does her measuring you notice that the pouch in her collar is filled with what appears like a pill of cleaning product, but the faint scent that emanates from it reminds you of urine. She does notice your puzzled expression at the smell and grins as she removes the tape and goes towards the bar, grabbing the collar of the appropriate size for your neck.</p>
+<p>@@.npc; I see you noticed the smell.@@ she says, opening the collar and putting it around your neck, deftly closing it. She stands back and touches the pouch with her nails and smiles @@.npc;This little fella is made mostly from the pheromones in the piss of a bitch in heat. It’s a way for the boys back there to know what you’re there for, as most of them also do the more… usual… relaxation work.@@ she adds with a wink. @@.npc; It wouldn’t do if the boys jumped a less experienced woman, you know?@@</p>
+<p>She moves to one of the lockers and uses the key from her own lanyard and opens one of the lockers, clearly marked as STAFF and pulls a blister of pills, breaking one out of it and gingerly grabbing it, she approaches you, opens the pouch on your collar and puts it in, the faint scent more pronounced now that you are also wearing it. @@.npc; Now, follow me into the enclosure.@@ she says and opens the door at the back of the room.</p>
+<p>You look around and see that right where the door in the office marked SHELTER would be there is a hedge of tall cypress trees blocking the view and probably another fence behind it. The ground is padded like that of a playground, feeling quite comfortable under your bare feet and should also be comfortable once you’re on your hands and knees. Around the enclosure you can see smaller ones divided by fences, in each one a dog.</p>
+<p>@@.npc; At this time, most of our guests have bonded with a bitch and we can only offer you Titan, a mix of Mastiff and Rottweiler.@@ she says, leading you to the first fenced area, a plaque with the name "Titan" hanging from it. Looking around, you can see the other fences have the name of the dogs and below another plaque with a single name. A human name. If Titan and you bond, your name will hang below his. You feel your pussy quivers at the thought, a small trickle of juices falling from your labia.</p>
+<p>Inside the fence lies a relatively large dog house and you see a huge black and white gold furred head pop out of the entry, clearly scenting the air and recognizing the scent of bitch in heat, a huge animal leaves the house and pads gently to the center of the fenced area, sitting down on his haunches while eying the two bitches that look at him with an almost disinterested look. Due to the mix, Titan is mostly black furred, but his belly and the back of his legs is white gold furred. And the way he’s sitting, you can clearly see the thick sheath hanging from his belly, the tip of the cock poking out already at the scent wafting from both you and Jennifer.</p>
+<p>Grinning, Jennifer opens the fence @@.npc;Go on in, I think you know what you need to do, but just get on fours with your face and chest almost on the floor and Titan will do the rest. He knows how to treat a bitch right.@@ she adds with a wistful look in her eyes. @@.npc; Once he’s done with you, just close the latch on the fence and go to the locker room to redress and leave.@@ she says and turns back towards the building. @@.npc;Have fun!@@ she waves and leaves you in the fence with Titan.</p>
+<p>You are nervous, but the dog just remains there, sitting, watching you with interest now that he doesn’t need to choose. You can see his nostrils flare as he takes in your scent, a mix of the pheromones and your own arousal right now that must feel really enticing, if the growing redness flowing out of his sheath is any testament. Slowly, not wanting to trigger anything, you lower yourself to the ground on all fours and pad towards him. You look up expecting him to have done something, anything. But Titan just remains there, watching you. Waiting for you. Gulping, you move close to him and turn around and remembering what Jennifer said, you prostrate yourself, your ass high and your wet pussy on display.</p>
+<p>You feel more than hear as he stands and moves towards you. Then actually feel as Titan places his forelegs on the ground beside your <<p tits.n>> and his belly over your <<p buttshape.q>> buttocks. Soon you feel an scalding hot object touching your perineum, prodding, looking for your slit. Titan lowers his hips slightly and finds his mark, his still half unsheathed cock penetrating your moist <<p vulva.n>>, your labia parting to accept the thick rocket and also forcing the rest of the sheath to back off his length as he pushes himself deep inside you, his shaft stretching your pussy and his tip almost touching your cervical ring.</p>
+<p>You feel the knot bumping against your <<p labia.s>> labia, still just half-grown and already big enough for your pussy not being able to accept it. But if the bucking of Titan’s hips is any indication, it won’t be long before he makes it fit, whether you want it or not. And given the sonorous plopping noises as his knot presses insistently against your lips, splattering liquid everywhere with the strength of his pushes, you know it won’t take long. It only takes a couple minutes of this to leave you almost insensate, your mate’s strength utterly dominating your slit and your labia finally give up, parting even further with an almost painful sensation of stretching, but the pain dulled by the pleasure your brain and body is filled with.</p>
+<<set _randomio = random(1,3)>><<if ↂ.pc.kink.hard && _randomio == 3>><<arouse 3>><p>Finally, the knot manages to stretch you completely, your mate lets out a howl and releases himself inside you, a dull throbbing in that slowly progresses to a sensation of fullness as your womb begins to fill and your belly to plump a little bit. You bite your lip realizing that your unreliable pussy failed to cum this time leaving you frustruated and horny.</p><<else>><<arousal -3>><<set _random = random(20,30)>><<satisfaction _random "Animal shelter fun">><<happy 1 "Destressing with a furry friend">><<stress -5 "Destressing with a furry friend">><p>Finally, the knot manages to stretch you completely and you cum. And cum. And cum again, your heavy contractions teasing your mate’s cock so much that he lets out a howl and releases himself inside you, a dull throbbing in compass with your own orgasm that slowly progresses to a sensation of fullness as your womb begins to fill and your belly to plump a little bit.</p><</if>>
+<p>Once Titan is done releasing, he does as dogs are wont to do and shifts around, leaving you tied to him ass to ass. Noticing that you’re basically the closest thing to unconscious, he lies down, his mass pulling you too to lie on your side while he waits for his knot to deflate. After what feels like an eternity, though it was just less than an hour, you wake up, Titan nowhere to be seen and you lying on a pool of mixed fluids. You stand, your legs faltering a little from the heavy workout and move towards the gate, opening the latch and leaving the cage. You turn to notice Titan’s head looking out of the dog house at you with his tongue lolling out, a happy face that brings a smile to your face as well.
+You turn around and go back to the locker room, where you shower, remove the collar and dress up to leave.</p>
+<p>Jennifer smiles as she sees you walk out of the locker room, your pace showing clearly how sore you are, but it’s the good kind of sore, the one you get from a very fulfilling (and filling) sex session. @@.npc;I see you had your fun. Hope to see you soon!@@ she says with a wink as you pay @@.money;<<mon>>30@@ and leave the premises.</p>
+<center><<button "Leave">><<status 0>><<run Dialog.close()>><</button>></center>
+
+
+:: ResidentialIndustrialShelter-sex2 [nobr]
+
+<<set ↂ.flag.shelterVisits += 1>><<set ↂ.flag.bestialityExperience = true>><<eatdrug "cream" 3>><<run setup.condition.add({loc: "vagina", amt: 4, tgt: "pc", wet: 5, type: "cum"})>><<run setup.hadSexWith("none",1)>><<set ↂ.pc.status.perversion += random(3, 7)>><<set ↂ.pc.status.corrupt += random(6, 11)>><<SCX>><<SC "SX">><<addtime 23>><<run ↂ.pc.body.pussy.insert(5)>><<run ↂ.pc.body.pussy.insert(5)>><<run ↂ.pc.body.pussy.insert(5)>><<run aw.cash(-30, "misc")>><p><<f Y>>ou head to the Titan's fenced area feeling your pussy quivers at the thought, a small trickle of juices falling from your labia.</p>
+<p>Inside the fence lies a relatively large dog house and you see a huge black and white gold furred head pop out of the entry, clearly scenting the air and recognizing the scent of bitch in heat, a huge animal leaves the house and pads gently to the center of the fenced area, sitting down on his haunches while eying the two bitches that look at him with an almost disinterested look. Due to the mix, Titan is mostly black furred, but his belly and the back of his legs is white gold furred. And the way he’s sitting, you can clearly see the thick sheath hanging from his belly, the tip of the cock poking out already at the scent wafting from you.</p>
+<p>You open the latch and enter, but the dog just remains there, sitting, watching you with interest now that he doesn’t need to choose. You can see his nostrils flare as he takes in your scent, a mix of the pheromones and your own arousal right now that must feel really enticing, if the growing redness flowing out of his sheath is any testament. Slowly, not wanting to trigger anything, you lower yourself to the ground on all fours and pad towards him. You look up expecting him to have done something, anything. But Titan just remains there, watching you. Waiting for you. Gulping, you move close to him and turn around and remembering what Jennifer said, you prostrate yourself, your ass high and your wet pussy on display.</p>
+<p>You feel more than hear as he stands and moves towards you. Then actually feel as Titan places his forelegs on the ground beside your <<p tits.n>> and his belly over your <<p buttshape.q>> buttocks. Soon you feel an scalding hot object touching your perineum, prodding, looking for your slit. Titan lowers his hips slightly and finds his mark, his still half unsheathed cock penetrating your moist <<p vulva.n>>, your labia parting to accept the thick rocket and also forcing the rest of the sheath to back off his length as he pushes himself deep inside you, his shaft stretching your pussy and his tip almost touching your cervical ring.</p>
+<p>You feel the knot bumping against your <<p labia.s>> labia, still just half-grown and already big enough for your pussy not being able to accept it. But if the bucking of Titan’s hips is any indication, it won’t be long before he makes it fit, whether you want it or not. And given the sonorous plopping noises as his knot presses insistently against your lips, splattering liquid everywhere with the strength of his pushes, you know it won’t take long. It only takes a couple minutes of this to leave you almost insensate, your mate’s strength utterly dominating your slit and your labia finally give up, parting even further with an almost painful sensation of stretching, but the pain dulled by the pleasure your brain and body is filled with.</p>
+<<set _randomio = random(1,3)>><<if ↂ.pc.kink.hard && _randomio == 3>><<arouse 3>><p>Finally, the knot manages to stretch you completely, your mate lets out a howl and releases himself inside you, a dull throbbing in that slowly progresses to a sensation of fullness as your womb begins to fill and your belly to plump a little bit. You bite your lip realizing that your unreliable pussy failed to cum this time leaving you frustruated and horny.</p><<else>><<arousal -3>><<set _random = random(20,30)>><<satisfaction _random "Animal shelter fun">><<happy 1 "Destressing with a furry friend">><<stress -5 "Destressing with a furry friend">><p>Finally, the knot manages to stretch you completely and you cum. And cum. And cum again, your heavy contractions teasing your mate’s cock so much that he lets out a howl and releases himself inside you, a dull throbbing in compass with your own orgasm that slowly progresses to a sensation of fullness as your womb begins to fill and your belly to plump a little bit.</p><</if>>
+<p>Once Titan is done releasing, he does as dogs are wont to do and shifts around, leaving you tied to him ass to ass. Noticing that you’re basically the closest thing to unconscious, he lies down, his mass pulling you too to lie on your side while he waits for his knot to deflate. After what feels like an eternity, though it was just less than an hour, you wake up, Titan nowhere to be seen and you lying on a pool of mixed fluids. You stand, your legs faltering a little from the heavy workout and move towards the gate, opening the latch and leaving the cage. You turn to notice Titan’s head looking out of the dog house at you with his tongue lolling out, a happy face that brings a smile to your face as well.
+You turn around and go back to the locker room, where you shower, remove the collar and dress up to leave.</p>
+<p>Jennifer smiles as she sees you walk out of the locker room, your pace showing clearly how sore you are, but it’s the good kind of sore, the one you get from a very fulfilling (and filling) sex session. @@.npc;I see you had your fun. Hope to see you soon!@@ she says with a wink as you pay @@.money;<<mon>>30@@ and leave the premises.</p>
+<center><<button "Leave">><<status 0>><<run Dialog.close()>><</button>></center>

@@ -148,8 +148,10 @@ setup.clothes.paperClothes = function(): string {
           break;
         case 8:
         case 9:
-        case 10:
           output += '<img data-passage="IMG-PaDo-LacePanties" style="z-index:216;">';
+          break;
+        case 10:
+          output += '<img data-passage="IMG-PaDo-Cstring" style="z-index:216;">';
           break;
         case 11:
           output += '<img data-passage="IMG-PaDo-PantiesCrotchless" style="z-index:216;">';
@@ -222,15 +224,26 @@ setup.clothes.paperClothes = function(): string {
     } else {
     switch (aw.slot.leg.values.style) {
       case 1:
+        output += '<img data-passage="IMG-PaDo-KneeSocks" style="z-index:218;">';
+        break;
       case 2:
+        output += '<img data-passage="IMG-PaDo-OverKneeSocks" style="z-index:218;">';
+        break;
       case 3:
         output += '<img data-passage="IMG-PaDo-Socks" style="z-index:218;">';
         break;
       case 5:
       case 7:
-      case 8:
-      case 9:
         output += '<img data-passage="IMG-PaDo-Stockings" style="z-index:218;">';
+        break;
+      case 6:
+        output += '<img data-passage="IMG-PaDo-Garter" style="z-index:218;">';
+        break;
+      case 8:
+        output += '<img data-passage="IMG-PaDo-Fishnet" style="z-index:218;">';
+        break;
+      case 9:
+        output += '<img data-passage="IMG-PaDo-Fencenet" style="z-index:218;">';
         break;
       default:
         output += '<img data-passage="IMG-PaDo-Pantyhose" style="z-index:218;">';
@@ -244,16 +257,30 @@ setup.clothes.paperClothes = function(): string {
     } else if (aw.slot.top.type !== "sportBottom") {
       switch (aw.slot.bottom.values.style) {
         case 1:
-        case 2:
-        case 3:
-        case 4:
         case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
         case 10:
           output += '<img data-passage="IMG-PaDo-BuisnessSkirt" style="z-index:219;">';
+          break;
+        case 2:
+          output += '<img data-passage="IMG-PaDo-AsymSkirt" style="z-index:219;">';
+          break;
+        case 3:
+          output += '<img data-passage="IMG-PaDo-CircleSkirt" style="z-index:219;">';
+          break;
+        case 4:
+          output += '<img data-passage="IMG-PaDo-DrapedSkirt" style="z-index:219;">';
+          break;
+        case 6:
+          output += '<img data-passage="IMG-PaDo-KnifeSkirt" style="z-index:219;">';
+          break;
+        case 7:
+          output += '<img data-passage="IMG-PaDo-PencilSkirt" style="z-index:219;">';
+          break;
+        case 8:
+          output += '<img data-passage="IMG-PaDo-TubeSkirt" style="z-index:219;">';
+          break;
+        case 9:
+          output += '<img data-passage="IMG-PaDo-StraightSkirt" style="z-index:219;">';
           break;
         case 11:
           output += '<img data-passage="IMG-PaDo-NormalSkirt" style="z-index:219;">';
@@ -288,32 +315,44 @@ setup.clothes.paperClothes = function(): string {
     if (aw.clothes[ᛝ.keys.top].padoImg !== "none") {
       output += `<img data-passage="${aw.clothes[ᛝ.keys.top].padoImg}" style="z-index:220;">`;
     } else if (aw.slot.top.type === "top") {
+      const substyle = aw.slot.top.values.subStyle;
       switch (aw.slot.top.values.style) {
-        case 2:
-        case 3:
         case 4:
+        case 3:
+          output += '<img data-passage="IMG-PaDo-Kaftan" style="z-index:220;">';
+          break;
+        case 2:
+          output += '<img data-passage="IMG-PaDo-PoloShirt" style="z-index:220;">';
+          break;
         case 5:
-          output += '<img data-passage="IMG-PaDo-TankTop" style="z-index:220;">';
+        case 8:
+        case 22:
+          if (substyle === 2 || substyle === 4 || substyle === 6 || substyle === 7) {
+            output += '<img data-passage="IMG-PaDo-CropTop" style="z-index:220;">';
+          } else {
+            output += '<img data-passage="IMG-PaDo-TankTop" style="z-index:220;">';
+          }
           break;
         case 6:
           output += '<img data-passage="IMG-PaDo-Blouse" style="z-index:220;">';
           break;
         case 1:
         case 7:
-        case 8:
           output += '<img data-passage="IMG-PaDo-SleevelessTurtle" style="z-index:220;">';
           break;
         case 10:
         case 11:
-          output += '<img data-passage="IMG-PaDo-CamiTop" style="z-index:220;">';
+          output += '<img data-passage="IMG-PaDo-SpaghettiTop" style="z-index:220;">';
           break;
         case 9:
           output += '<img data-passage="IMG-PaDo-WrapTop" style="z-index:220;">';
           break;
-        case 12:
         case 13:
-        case 14:
           output += '<img data-passage="IMG-PaDo-TubeTop" style="z-index:220;">';
+          break;
+        case 12:
+        case 14:
+          output += '<img data-passage="IMG-PaDo-CorsetTop" style="z-index:220;">';
           break;
         case 15:
         case 16:
@@ -334,7 +373,29 @@ setup.clothes.paperClothes = function(): string {
       } else if (aw.slot.top.values.style === 666) {
         output += '<img data-passage="IMG-PaDo-MaidDress" style="z-index:220;">';
       } else {
-        output += '<img data-passage="IMG-PaDo-SheerDress" style="z-index:220;">';
+        switch (aw.slot.top.values.style) {
+          case 1:
+          case 2:
+          case 3:
+            output += '<img data-passage="IMG-PaDo-AlineDress" style="z-index:220;">';
+            break;
+          case 4:
+          case 10:
+          case 11:
+            output += '<img data-passage="IMG-PaDo-EmpireDress" style="z-index:220;">';
+            break;
+          case 5:
+          case 7:
+            output += '<img data-passage="IMG-PaDo-BodyConDress" style="z-index:220;">';
+            break;
+          case 6:
+            output += '<img data-passage="IMG-PaDo-SheerDress" style="z-index:220;">';
+            break;
+          case 8:
+          case 9:
+            output += '<img data-passage="IMG-PaDo-MermaidDress" style="z-index:220;">';
+            break;
+        }
       }
     }
   } else if (ᛝ.worn.top === "off") {

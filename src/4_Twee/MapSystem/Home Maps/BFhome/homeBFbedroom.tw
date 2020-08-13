@@ -1,0 +1,263 @@
+:: homeBFbedroom [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPBFhome]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>
+<<f y>>ou are standing in <<name h>>'s bedroom.
+<<switch $BFnum>>
+<<case 1>>
+More of a small nook than an actual room, the space is very tiny. The only thing keeping it from feeling cramped is the almost total lack of furnishings. There's a small closet with a sliding door that hides a couple laundry baskets, and a twin-size air mattress laying on the floor with a mismatched sheet and pillow. As part of a studio apartment, you realize there's no real way to fit anything bigger than a twin-size bed and still be able to reach the closet.
+<<case 2>>
+While the apartment does have a dedicated bedroom, the room itself is rather small. <<name h>> has it furnished with a twin-size bed, nightstand, and a chair. To be honest, there isn't room for much more than that in the small space. The room at least has a small window, which is good because the furniture is by itself is somewhat stodgy.
+<<case 3>>
+The room isn't the biggest, but it is large enough to fit a proper bed. It has a folding-door closet, and a single large window. <<name h>> has a full-size bed, and is using a simple wooden stool as a nightstand. An inexpensive build-it-yourself dresser sits on the wall next to the closet, holding a small TV. There isn't much storage space, so the corner of the room on the other side of the bed has a few boxes and items siting there.
+<<case 4>>
+It's a reasonably-sized room, though it certainly couldn't be called a master. It has a large window to let in light, and <<name h>> has furnished it with a somewhat mismatched set of furniture. There's a full-size bed, a night stand, dresser with TV, and a desk that is white for some reason. The room has a small walk-in closet, as well as well as a few random pictures hanging on the walls.
+<<case 5>>
+It's a master bedroom, with a queen-size bed and plenty of space. A large TV hangs on the wall opposite the bed, and there are two nightstands. A small desk sits in the corner of the room, though it is a little too small to be more than a temporary workspace. The room has a walk-in closet along with its en suite bathroom. There's only one small window, but the room makes up for it with extra lighting.
+<<case 6>>
+It's an elegant master bedroom that features a large floor-to-ceiling window on one wall. There's a king-size bed flanked by designer nightstands, and a large TV faces the bed from the opposite wall. A modern dresser with mirror sits on one wall, next to the walk-in closet big enough for two. The warm tones and coordinated wallpaper give the room a welcoming feeling despite the modern style of the furniture.
+<<case 7>>
+It's a large and luxurious room, full of expensive accents such as a vaulted ceiling and solid wood paneling. Past the king-size bed there's a dressing area with vanity and access to large walk-in closets full of custom shelving. Expensive wood furniture is used throughout, and there's even a reading area complete with lounge chair and table. Luckily the lights are voice controlled, because there are so many of them it could quickly become annoying to have to walk all the way across the room to the switches.
+<</switch>>
+</p>
+<p>
+<<if $BFhome>><<name h>> is currently in the <<= $BFroom>>.<<else>><<name h>> isn't home right now.<</if>>
+</p>
+/*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<set _butlab = "Talk To " + $BFname>>
+<<if $BFhome && $BFroom === "bedroom">>
+  <<hoverrevise talkin>>
+    <<button _butlab>><<run setup.npcHomes.talk()>><</button>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise notalkin>>
+    <button class="disabled"><<= _butlab>></button>
+  <<endhoverrevise>>
+<</if>>
+<<if $BFlove>>
+<<hoverrevise beeed>>
+  <<button "Lay Down In Bed">>
+    <<dialog "Laying In Bed">>
+      <<name h>>'s bed is waiting for you to lay down and enter the world of dreams.<br><center>
+      <<button 'Sleep'>><<run setup.sleep.go()>><<run Dialog.close()>><</button>><<tab>>
+      <<button 'Take Nap'>><<run setup.sleep.startNap()>><<run Dialog.close()>><</button>><<tab>>
+      <<button 'Cancel'>><<run Dialog.close()>><</button>>
+      </center>
+    <</dialog>>
+  <</button>>
+<<endhoverrevise>>
+<<set _bfs = "Have Sex With " + $BFname>>
+<<if $BFhome>>
+  <<hoverrevise bfsecks>>
+    <<button _bfs>>
+      <<dialog "Seduction">>
+        <center>[img[IMG-ComeHereGesture]]<br>You entice <<name h>> into bed with you.<br><br>
+        <<button "Continue">><<set ↂ.sex.pcOutput = "With a simple hand gesture and a seductive smile, you find yourself making out with " + $BFname + ".">><<set ↂ.sex.enviroTags = ["bed","wall"]>><<set ↂ.sex.passage = "homeBFbedroom">><<run aw.S()>><<startSex $BFid>><<run Dialog.close()>><</button>>
+        </center>
+      <</dialog>>
+    <</button>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise nobfsecks>>
+    <button class="disabled"><<= _bfs>></button>
+  <<endhoverrevise>>
+<</if>>
+<<hoverrevise masturbate>>
+  <<button "Masturbate">>
+    <<dialog “Masturbation”>>
+      <<if setup.sexToys.check("pc", "groin") == true && setup.sexToys.check("pc", "clit") == true>>
+      <div style="width:700px;">
+        That is just a quick placeholder for bigger and more complicated masturbation system. Notice that simple toyless masturbation can't fully satisfy you.
+        <br>
+        <<set _shra = '<img data-passage="IMG-masturbation1" style="border-radius:10px;float:left;margin-right:10px;height:500px;width:auto;">'>>
+        <<print _shra>>
+        <br>
+        <div style="width:50%; float:left;">
+          <<button "Quick fap [7-20 min]">>
+            <<if ↂ.pc.kink.hard>>
+              <<set _cumchance = random(0, 13)>>
+            <<else>>
+              <<set _cumchance = random(0, 10)>>
+            <</if>>
+            <<if _cumchance < 10>>
+              <<if ↂ.pc.status.satisfaction > 35>>
+                <<set _randomcum = 3>>
+              <<else>>
+                <<set _randomcum = random(10, 18)>>
+              <</if>>
+              <<set _randompiss = random(7, 20)>>
+              <<set _randomshit = random(-0,-3)>>
+              <<if ↂ.pc.kink.fap>>
+                <<set _randomcum = random(17, 23)>>
+              <</if>>
+              <<satisfy _randomcum "Masturbation">>
+              <<addTime _randompiss>>
+              <<stress _randomshit "Masturbation">>
+              <<arousal X2>>
+              <<updatebar>>
+              <<run Dialog.close()>>
+              <<run  setup.notify("You came and feel more satisfied.")>>
+            <<else>>
+              <<set _randomcum = random(10, 15) * -1>>
+              <<set _randompiss = random(7, 20)>>
+              <<set _randomshit = random(0, 6)>>
+              <<satisfy _randomcum "Masturbation">>
+              <<addTime _randompiss>>
+              <<stress _randomshit "Masturbation">>
+              <<run Dialog.close()>>
+              <<updatebar>>
+              <<run  setup.notify("You was not able to reach orgasm and feel less satisfied now.")>>
+            <</if>>
+            <<updatebar>>
+          <</button>>
+          <br>
+          <span style="font-size:0.65rem;">A fast session just to ease your libido.</span>
+        </div>
+        <div style="width:50%; float:left;">
+          <<button "Enjoy yourself [30-60 min]">>
+            <<if ↂ.pc.kink.hard>>
+              <<set _cumchance = random(0, 13)>>
+            <<else>>
+              <<set _cumchance = random(0, 10)>>
+            <</if>>
+            <<if _cumchance < 10>>
+              <<if ↂ.pc.status.satisfaction > 35>>
+                <<set _randomcum = 3>>
+              <<else>>
+                <<set _randomcum = random(19, 24)>>
+              <</if>>
+              <<set _randompiss = random(30, 60)>>
+              <<set _randomshit = random(-3,-5)>>
+              <<if ↂ.pc.kink.fap>>
+                <<set _randomcum = random(23, 29)>>
+              <</if>>
+              <<satisfy _randomcum "Masturbation">>
+              <<addTime _randompiss>>
+              <<stress _randomshit "Masturbation">>
+              <<arousal X2>>
+              <<updatebar>>
+              <<run Dialog.close()>>
+              <<run  setup.notify("You came and feel more satisfied.")>>
+            <<else>>
+              <<set _randomcum = random(12, 18) * -1>>
+              <<set _randompiss = random(30, 60)>>
+              <<set _randomshit = random(3, 7)>>
+              <<satisfy _randomcum "Masturbation">>
+              <<addTime _randompiss>>
+              <<stress _randomshit "Masturbation">>
+              <<updatebar>>
+              <<run Dialog.close()>>
+              <<run setup.notify("You was not able to reach orgasm and feel less satisfied now.")>>
+            <</if>>
+          <</button>>
+          <br>
+          <span style="font-size:0.65rem;">A long and relaxing session where you take the time to explore your body and work yourself toward a powerful orgasm.</span>
+        </div>
+      </div>
+      <<else>>
+      <div style="width:700px;">
+        <center>[img[IMG-HowIsupposedTo]]</center>
+        You realise that you actually can't masturbate with that chastity on.
+      </div>
+      <</if>>
+    <</dialog>>
+  <</button>>
+<<endhoverrevise>>
+<<else>>
+<<hoverrevise notav>><button class="disabled">Use The Bed</button><<endhoverrevise>>
+<<hoverrevise notav>><button class="disabled">Masturbate</button><<endhoverrevise>>
+<<hoverrevise notav>><button class="disabled">Have Sex</button><<endhoverrevise>>
+<</if>>
+<<if $BFnum > 2>>
+<<hoverrevise waits>>
+  <<button "Weigh Yourself">>
+    <<addTime 4>>
+    <<dialog "Weighing Yourself">>
+      <<if ↂ.pc.status.nutrition.realWeight == 0>><<run setup.weightCalc()>><</if>>
+      <center>[img[IMG-ScaleUse]]</center><br>
+      @@.head3;Y@@ou undress and step on the scales. After a second or so it turns on and you feets become tingly from electrical impulses when scales estimate your body fat. It takes another second of waiting until the small screen shows the information with a quiet beep.
+      <br><br>
+      @@.yellowgreen;Weight:@@ <<= ↂ.pc.status.nutrition.realWeight>>
+      @@.yellowgreen;BMI:@@ <<print setup.valToBMI(ↂ.pc.status.nutrition.realWeight)>>
+      @@.yellowgreen;Recent metabolic rate:@@ <<print setup.isGain()>>
+    <</dialog>>
+  <</button>>
+<<endhoverrevise>>
+<<else>>
+<<hoverrevise noscale>><button class="disabled">Weigh Yourself</button><<endhoverrevise>>
+<</if>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion masturbate>>A pretty self-explanatory activity involving touching yourself in a sexual manner. [10-30min]<<endinsertion>>
+<<insertion notav>>You don't have the right kind of relationship with <<name h>> to do this here.<<endinsertion>>
+<<insertion beeed>>Lay down in <<name h>>'s bed to take a nap or go to sleep for the night.<<endinsertion>>
+<<insertion waits>>Use <<name>>'s scale to weigh yourself.<<endinsertion>>
+<<insertion noscale>><<name>> doesn't have a scale for you to use for this.<<endinsertion>>
+<<insertion bfsecks>>Have sex with <<name h>>!<<endinsertion>>
+<<insertion nobfsecks>>In order to have sex with <<name h>>, <<n $BFid "heshe.q">> would need to actually be home.<<endinsertion>>
+<<insertion talkin>>Have a conversation with <<name h>>.<<endinsertion>>
+<<insertion notalkin>><<name h>> must be in the same room with you to have a conversation.<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+<<mapBFHomeEventAction>>
+<<mapBFHomeActions>>
+<</timed>>
+
+
+
+:: homeBFT2bedroomLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+
+
+
+

@@ -92,6 +92,16 @@ setup.omnItems.creamPie = {
     aw.S("pc");`,
 };
 
+setup.omnItems.assPie = {
+  name: "Semen in Ass",
+  type: "single",
+  output: "none",
+  duration: 60,
+  icon: "IMGstatus_CumAnus",
+  text: "Your ass has cum in it",
+  run: "",
+};
+
 setup.omnItems.creamVulva = {
   name: "Semen on Vulva",
   type: "recurring",
@@ -105,4 +115,14 @@ setup.omnItems.creamVulva = {
       setup.fert.spread("pc", "time");
     }
     aw.S("pc");`,
+};
+
+setup.omnItems.pseudoPreg = {
+  name: "Weird feeling",
+  type: "single",
+  output: "none",
+  duration: 2880,
+  icon: "IMGstatus_pregnantUnknown",
+  text: "Your belly feels pretty odd. Feels like being pregnant but you are not entirely sure about it.",
+  run: "",
 };

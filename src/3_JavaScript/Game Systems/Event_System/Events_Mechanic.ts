@@ -66,7 +66,11 @@ setTimeout(() => (function () {
       condition() {
         // check
         if (setup.time.aftMidnight && (aw.time - setup.time.midnight) > 230) {
-          return true;
+          if (setup.escape.sit === "jobbing" || setup.escape.sit === "scene" || setup.escape.sit === "interact" || aw.passage.title === "FuckThatMeditation" || ↂ.flag.Prologue) {
+            return false;
+          } else {
+            return true;
+          }
         }
         return false;
       },

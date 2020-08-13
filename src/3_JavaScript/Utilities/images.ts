@@ -269,7 +269,7 @@ setup.newImageLoader = function(): void {
       delete window[dataNames[i]];
     }
     $("#imgpbar").progressbar("destroy");
-    Engine.play("Start", true);
+    Engine.play("Start3", true);
   }
   setTimeout(leilanz, 100);
 };

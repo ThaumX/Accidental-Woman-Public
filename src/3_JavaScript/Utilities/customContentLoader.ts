@@ -17,6 +17,8 @@ interface awConLoad {
     makeup: object;
     schools: object;
     jobs: object;
+    passages: object;
+    sexActs: object;
   };
   images: (data: any) => void;
   hairStyles: (data: any) => void;
@@ -26,6 +28,8 @@ interface awConLoad {
   makeup: (data: any) => void;
   schools: (data: any) => void;
   jobs: (data: any) => void;
+  passages: (data: any) => void;
+  sexActs: (data: any) => void;
   packageMods: () => void;
   autoLoad: () => void;
 }
@@ -151,6 +155,20 @@ aw.conLoad = {
     } else {
       aw.conLoad.output += " no jobs";
     }
+    print();
+    if (Object.keys(aw.conLoad.data.passages).length > 0) {
+      aw.conLoad.output += " loading passages";
+      aw.conLoad.passages(aw.conLoad.data.passages);
+    } else {
+      aw.conLoad.output += " no passages";
+    }
+    print();
+    if (Object.keys(aw.conLoad.data.sexActs).length > 0) {
+      aw.conLoad.output += " loading passages";
+      aw.conLoad.sexActs(aw.conLoad.data.passages);
+    } else {
+      aw.conLoad.output += " no sex acts";
+    }
     aw.conLoad.output += "<br>COMPLETE!";
     aw.conLoad.temp = {};
     aw.conLoad.data = {
@@ -162,6 +180,8 @@ aw.conLoad = {
       makeup: {},
       schools: {},
       jobs: {},
+      passages: {},
+      sexActs: {},
     };
     print();
     setTimeout(function() {
@@ -170,7 +190,7 @@ aw.conLoad = {
   },
   copier(key: string): void {
     const props = Object.keys(aw.conLoad.temp[key]);
-    const sets = ["images", "hairStyles", "homeItems", "jewelry", "clothes", "makeup", "schools", "jobs"];
+    const sets = ["images", "hairStyles", "homeItems", "jewelry", "clothes", "makeup", "schools", "jobs", "passages"];
     for (let i = 0, c = props.length; i < c; i++) {
       if (sets.includes(props[i])) {
         const subs = Object.keys(aw.conLoad.temp[key][props[i]]);
@@ -194,6 +214,8 @@ aw.conLoad = {
     makeup: {},
     schools: {},
     jobs: {},
+    passages: {},
+    sexActs: {},
   },
 } as awConLoad;
 
@@ -488,6 +510,31 @@ aw.conLoad.jobs = function(data: any): void {
   }
 };
 
+aw.conLoad.passages = function(data: any): void {
+  const keys = Object.keys(data);
+  for (let i = 0, c = keys.length; i < c; i++) {
+    try {
+      aw.data[keys[i]] = data[keys[i]];
+    } catch (e) {
+      aw.append("#cautionArea", `<br>Error loading passage named ${keys[i]} (number ${i}). ${e.name}: ${e.message}.`);
+      aw.con.warn(`<br>Error loading passage named ${keys[i]} (number ${i}). ${e.name}: ${e.message}.`);
+    }
+  }
+};
+
+aw.conLoad.sexActs = function(data: any): void {
+  const keys = Object.keys(data);
+  for (let i = 0, c = keys.length; i < c; i++) {
+    try {
+      aw.sexAct[keys[i]] = new SexAct(data[keys[i]]);
+      aw.SAL[keys[i]] = clone(data[keys[i]].content);
+    } catch (e) {
+      aw.append("#cautionArea", `<br>Error loading sex act named ${keys[i]} (number ${i}). ${e.name}: ${e.message}.`);
+      aw.con.warn(`<br>Error loading sex act named ${keys[i]} (number ${i}). ${e.name}: ${e.message}.`);
+    }
+  }
+};
+
 aw.conLoad.packageMods = function(): void {
   const ids = document.getElementById("custom-content-list")!.children;
   const list: string[] = [];
@@ -512,6 +559,8 @@ aw.conLoad.packageMods = function(): void {
     makeup: {},
     schools: {},
     jobs: {},
+    passages: {},
+    sexActs: {},
   };
   aw.conLoad.output += " - assimilation complete, starting data formatting...<br>";
   print();
@@ -570,6 +619,20 @@ aw.conLoad.packageMods = function(): void {
   } else {
     aw.conLoad.output += " no jobs";
   }
+  print();
+  if (Object.keys(aw.conLoad.data.passages).length > 0) {
+    aw.conLoad.output += " loading passages";
+    data.passages = clone(aw.conLoad.data.passages);
+  } else {
+    aw.conLoad.output += " no passages";
+  }
+  print();
+  if (Object.keys(aw.conLoad.data.sexActs).length > 0) {
+    aw.conLoad.output += " loading sex acts";
+    data.sexActs = clone(aw.conLoad.data.sexActs);
+  } else {
+    aw.conLoad.output += " no sex acts";
+  }
   const cum = JSON.stringify(data);
   aw.conLoad.output += "<br>data formatting complete<br>Generating mod package file...<br>";
   aw.conLoad.temp = {};
@@ -582,6 +645,8 @@ aw.conLoad.packageMods = function(): void {
     makeup: {},
     schools: {},
     jobs: {},
+    passages: {},
+    sexActs: {},
   };
   print();
   let file = `(function () {
@@ -602,6 +667,8 @@ aw.conLoad.packageMods = function(): void {
           makeup: {},
           schools: {},
           jobs: {},
+          passages: {},
+          sexActs: {},
         };
         console.log("ERROR parsing mod package: " + e.name + ": " + e.message);
       }
@@ -709,6 +776,29 @@ aw.conLoad.autoLoad = function() {
   } else {
     output += " no jobs";
   }
+
+  if (mod.passages != null && Object.keys(mod.passages).length > 0) {
+    output += " loading passages";
+    try {
+      aw.conLoad.passages(mod.passages);
+    } catch (e) {
+      aw.con.warn(`aw.conLoad.autoLoad Error with passages - ${e.name}: ${e.message}`);
+    }
+  } else {
+    output += " no passages";
+  }
+
+  if (mod.sexActs != null && Object.keys(mod.sexActs).length > 0) {
+    output += " loading sex acts";
+    try {
+      aw.conLoad.sexActs(mod.sexActs);
+    } catch (e) {
+      aw.con.warn(`aw.conLoad.autoLoad Error with sexacts - ${e.name}: ${e.message}`);
+    }
+  } else {
+    output += " no sexacts";
+  }
+
   output += " COMPLETE!";
   aw.conLoad.temp = {};
 

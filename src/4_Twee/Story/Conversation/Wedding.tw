@@ -1,0 +1,116 @@
+:: Wedding-a [nobr]
+
+<div id="weddingBox">
+<span class="import">The wedding itself is not implemented yet but you can set a date and discuss vows with NPC already.</span><br>
+<<silently>>
+<<set aw.besty.weddingWeekdays = ["error", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]>>
+<<set aw.besty.weddingMonths = ["error", "January", "February", "March", "April", "May", "June", "Sol", "July", "August", "September", "October", "November", "December"]>>
+<<set aw.besty.weddingMonthday = 1>>
+<<set aw.besty.weddingMonth = 1>>
+<<set aw.besty.nextyear = false>>
+<</silently>>
+<p>@@.npc;So, we need to set up a date I guess?@@</p>
+<p>@@.pc;Hmm...@@ You think for a second.</p> 
+<center><div id="npcSchedBox">
+  What's about <<button "[-]">><<set aw.besty.weddingMonthday -= 1>><<if aw.besty.weddingMonthday < 1>><<set aw.besty.weddingMonthday = 1>><</if>><<if aw.besty.weddingMonthday > 28>><<set aw.besty.weddingMonthday = 28>><</if>><<replace "#weddingMonthdayDiv">><<print aw.besty.weddingMonthday>> (<<print aw.besty.weddingWeekdays[aw.besty.weddingMonthday]>>)<</replace>><</button>>&nbsp;&nbsp;<span id="weddingMonthdayDiv"><<print aw.besty.weddingMonthday>> (<<print aw.besty.weddingWeekdays[aw.besty.weddingMonthday]>>)</span>&nbsp;&nbsp;<<button "[+]">><<set aw.besty.weddingMonthday += 1>><<if aw.besty.weddingMonthday < 1>><<set aw.besty.weddingMonthday = 1>><</if>><<if aw.besty.weddingMonthday > 28>><<set aw.besty.weddingMonthday = 28>><</if>><<replace "#weddingMonthdayDiv">><<print aw.besty.weddingMonthday>> (<<print aw.besty.weddingWeekdays[aw.besty.weddingMonthday]>>)<</replace>><</button>> of <<button "[-]">><<set aw.besty.weddingMonth -= 1>><<if aw.besty.weddingMonth < 1>><<set aw.besty.weddingMonth = 1>><</if>><<if aw.besty.weddingMonth > 13>><<set aw.besty.weddingMonth = 13>><</if>><<replace "#weddingMonthDiv">><<print aw.besty.weddingMonths[aw.besty.weddingMonth]>><</replace>><</button>>&nbsp;&nbsp;<span id="weddingMonthDiv"><<print aw.besty.weddingMonths[aw.besty.weddingMonth]>></span>&nbsp;&nbsp;<<button "[+]">><<set aw.besty.weddingMonth += 1>><<if aw.besty.weddingMonth < 1>><<set aw.besty.weddingMonth = 1>><</if>><<if aw.besty.weddingMonth > 13>><<set aw.besty.weddingMonth = 13>><</if>><<replace "#weddingMonthDiv">><<print aw.besty.weddingMonths[aw.besty.weddingMonth]>><</replace>><</button>> <span id="nicebesty"><<if aw.besty.nextyear>>Next<<else>>This<</if>></span>&nbsp;<<button "year">><<if aw.besty.nextyear>><<set aw.besty.nextyear = false>><<else>><<set aw.besty.nextyear = true>><</if>><<replace "#nicebesty">><<if aw.besty.nextyear>>Next<<else>>This<</if>><</replace>><</button>> year?<br><<= setup.curTimeDisplay()>><br>
+  <<button "Propose">><<set $timeo = setup.time.humanInterfaceToDate(aw.besty.weddingMonthday, aw.besty.weddingMonth, aw.besty.nextyear)>><<if $timeo[1] == false>><<replace "#weddingBox">>@@.npc;Hmm, seems like a bad date to me, maybe some another one?@@<br><<include [[Wedding-a]]>><</replace>><<else>><<run setup.sched.new("Wedding!", "reminder", true, $timeo[0], false, false, false, true, aw.date.npc.key, "Wedding!", "The most important day!")>><<replace "#weddingBox">><<include "Wedding-b">><</replace>><</if>><<status 0>><</button>>
+</div></center></div>
+
+
+:: Wedding-b [nobr]
+
+<p><<print aw.date.name>> thinks for a moment. <<if (aw.time + 43200) < $timeo[0]>>@@.npc;Yeah, this is a good date! @@<<else>>@@.npc;Hmmm it seems pretty soon for me... I mean the preparations and all... But okay, if you want it, let's do it!@@<</if>> As if preparing, <<print aw.date.name>> cleans <<if aw.date.npc.main.female>>her<<else>>his<</if>> throat. @@.npc;I thought it is a nice time to discuss you know, vows.@@</p>
+<p>@@.pc;Sure, go ahead. It seems you have something in mind?@@</p>
+<<run setup.vow.init(aw.date.npcid)>><<print setup.vow.npcVowsProposal(aw.date.npc.key)>>
+
+
+:: Wedding-fuckit [nobr]
+
+<p>@@.pc;You know... actually...@@ You feel it is really hard to find correct words.</p>
+<<has bitch>><p>You shrug @@.pc;You know what? Let's cancell the thing, fuck it.@@</p><<or>><p>@@.pc;It is that... I don't think we really should to do all this.@@</p><</has>>
+<p><<print aw.date.name>> eyes widens. @@.npc;Wha-? I... Are you serious?@@</p>
+<p>@@.pc;Yeah. I don't think it is a good idea anymore.@@</p>
+<p><<print aw.date.name>> opens and closes mouth in silence a couple of times then shakes <<if aw.date.npc.main.female>>her<<else>>his<</if>> head before standing up. @@.npc;I... I'll call you... later maybe.@@</p>
+<center><<button "End">><<stress 20 "You cancelled the wedding">><<run setup.npc.enemies.push(aw.date.npcid)>><<set aw.npc[aw.date.npcid].rship.likePC -= 50 >><<set aw.npc[aw.date.npcid].rship.lovePC -= 50 >><<run setup.date.end()>><<status 0>><</button>></center>
+
+
+:: Wedding-vowsObject [nobr]
+
+<p><<if $vowToDiscuss == 3>>@@.pc;I don't feel like that third fits us. Maybe we could drop it?@@<<else>>@@.pc;I don't feel like that second fits us. Maybe we could drop it?@@<</if>></p><<SCX>><<SC "PS">><<SC "CM">><<set aw.npc[aw.date.npcid].rship.likePC -= 5>><<if $SCresult[1] || $SCresult[2]>><<if $vowToDiscuss == 3>><<set ↂ.flag.marriage.NPCvows[3] = "none">><<else>><<set ↂ.flag.marriage.NPCvows[2] = "none">><</if>><<print aw.date.name>>thinks for a moment. @@.npc;Hmm. Well, if you really think so... I mean it is still quite important for me but not as important as you...@@
+<p>It takes some time but you manage to persuade <<print aw.date.name>> to drop this idea but in the end you win.</p>
+<<else>><p><<print aw.date.name>> listens to you but shakes <<if aw.date.npc.main.female>>her<<else>>his<</if>> head. @@.npc;Sorry, I really think this is important... Hey, it shouldn't be that hard, right?@@</p>
+  <<dialogchoice>>
+    <<dbutt "Yes">><<replace "#weddingBox">><<include [[Wedding-c-alt]]>><</replace>>
+    <<dtext "happy">>You agree to keep this vow intact.
+    <<dbutt "fuck it">><<replace "#weddingBox">><<include [[Wedding-fuckit]]>><</replace>>
+    <<dtext "mad">>You don't want this bloody marriage anymore.
+  <</dialogchoice>>
+<</if>>
+
+
+:: Wedding-c [nobr]
+
+<p>@@.pc;Seems fine by me!@@ <<print aw.date.name>> smiles.</p>
+<p>@@.npc;Is there something you want to add on your side maybe?@@</p>
+<p>You scratch your chin. @@.pc;Let me think...@@</p>
+<<silently>>
+  <<set $vowsnoCondom = false>>
+  <<set $vowscondom = false>>
+  <<set $vowsnoPill = false>>
+  <<set $vowsnoIUD = false>>
+  <<set $vowsIUD = false>>
+  <<set $vowspregnant = false>>
+  <<set $vowsnoKids = false>>
+  <<set $vowskids = false>>
+  <<set $vowssub = false>>
+  <<set $vowsdom = false>>
+  <<set $vowsslave = false>>
+  <<set $vowsexclusiveWomb = false>>
+  <<set $vowsnoTransform = false>>
+  <<set $vowshouseWife = false>>
+  <<set $vowshouseSpouse = false>>
+  <<set $vowspcCleans = false>>
+  <<set $vowsnpcCleans = false>>
+  <<set $vowshucow = false>>
+  <<set $vowsnudity = false>>
+  <<set $vowstitSize = false>>
+  <<set $vowsmoneyPC = false>>
+  <<set $vowsmoneyNPC = false>>
+<</silently>>
+<<print setup.vow.npcVowsPc()>>
+
+
+:: Wedding-c-alt [nobr]
+
+<p>@@.npc; Okay with this sorted out, is there something you want to add on your side maybe?@@</p>
+<p>You scratch your chin. @@.pc;Let me think...@@</p>
+<<silently>>
+  <<set $vowsnoCondom = false>>
+  <<set $vowscondom = false>>
+  <<set $vowsnoPill = false>>
+  <<set $vowsnoIUD = false>>
+  <<set $vowsIUD = false>>
+  <<set $vowspregnant = false>>
+  <<set $vowsnoKids = false>>
+  <<set $vowskids = false>>
+  <<set $vowssub = false>>
+  <<set $vowsdom = false>>
+  <<set $vowsslave = false>>
+  <<set $vowsexclusiveWomb = false>>
+  <<set $vowsnoTransform = false>>
+  <<set $vowshouseWife = false>>
+  <<set $vowshouseSpouse = false>>
+  <<set $vowspcCleans = false>>
+  <<set $vowsnpcCleans = false>>
+  <<set $vowshucow = false>>
+  <<set $vowsnudity = false>>
+  <<set $vowstitSize = false>>
+  <<set $vowsmoneyPC = false>>
+  <<set $vowsmoneyNPC = false>>
+<</silently>>
+<<print setup.vow.npcVowsPc()>>
+
+
+:: Wedding-d [nobr]
+
+<<print setup.vow.NPCvowsCB()>>

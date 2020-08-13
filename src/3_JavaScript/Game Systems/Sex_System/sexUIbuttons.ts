@@ -407,11 +407,44 @@ setup.sex.actionButtonPrinter = function(): void {
     // aw.con.info("position");
   }
   const item = function() {
-    a.item = `<button id="viewconsumables-button" onclick="window.SugarCube.Engine.link('dialog(Consumables,<<usableconsumablesonly>>)')">Consumables</button> &nbsp; <span class="ship"><i>Sex Toys aren't implemented yet</i></span>`;
-    a.hover += `<span id="viewconsumables-hover">View your available consumables and possibly use one.</span>`;
+    a.item += `<fieldset id="jimboItems"><legend>Various:</legend><button id="viewconsumables-button" onclick="window.SugarCube.Engine.link('dialog(Consumables,<<usableconsumablesonly>>)')">Consumables</button> <button id="viewtoys-button" onclick="window.SugarCube.Engine.link('dialog(Toys,<<toysprintermenu>>)')">Toys</button></fieldset>`;
+    a.item += `<fieldset id="jimboItemsClothes"><legend>Clothes:</legend>`;
+    try {
+      const keys = setup.sex.sexActList;
+      let cunt = 0;
+      let dick = 0;
+      for (let i = 0, c = keys.length; i < c; i++) {
+        if (aw.sexAct[keys[i]].tab === "item" && aw.sexAct[keys[i]].tab === "item") {
+          cunt++;
+          const x = aw.sexAct[keys[i]].allowed;
+          if (x === 0) {
+            dick++;
+            a.item += aw.sexAct[keys[i]].button;
+            a.hover += aw.sexAct[keys[i]].hover;
+            hovKeys.push(keys[i]);
+          } else if (ᛔ.pref.showUnavailAction) {
+            // <<hoverrevise fail${aw.sexAct[keys[i]].key}>><<endhoverrevise>>
+            a.item += `<button id="fail-${keys[i]}-button" type="button" class="disabled">${aw.sexAct[keys[i]].label}</button>`;
+            const txt = setup.sex.badAction(x);
+            // <<insertion fail${aw.sexAct[keys[i]].key}>><<endinsertion>>
+            a.hover += `<span id="fail-${keys[i]}-hover">${txt}</span>`;
+            hovKeys.push("fail-" + keys[i]);
+          }
+        }
+      }
+      if (a.item === "") {
+        a.item += `No item actions are currently possible. <span class="monospace">(0 of ${cunt})</span>`;
+      } else if (!ᛔ.pref.showUnavailAction) {
+        a.item += ` <span class="monospace">(${dick} of ${cunt})</span>`;
+      }
+    } catch (e) {
+      aw.con.warn(`Failure in buttonprint item - ${e.name}: ${e.message}`);
+    }
+    a.item += `</fieldset>`;
+    a.hover += `<span id="viewconsumables-hover">View your available consumables and possibly use one.</span><span id="viewtoys-hover">View your available toys and manage them.</span>`;
     setup.sex.dumbCount += 1;
     aw.con.info("item");
-    hovKeys.push("viewconsumables");
+    hovKeys.push("viewconsumables", "viewtoys");
   };
   function other() {
     try {
@@ -540,10 +573,13 @@ setup.sex.badAction = function(num: number): twee {
     "Your kink settings prevent this action from being used.",
     "You are not skilled enough in one or more skills to perform this action.",
     "You don't have the correct complement of people for this position.",
-    "You happen to already be <b>IN</b> this position, and switching up partipants isn't possible at the moment.",
+    "You happen to already be <b>IN</b> this position, and switching up participants isn't possible at the moment.",
     "This action is only possible while having sex.",
     "To start sex in a particular position, you need to be in a compatible position first. For example, to start having sex standing up, you can't currently be laying on a bed.",
     "Your orifice is too dry to try this voluntarily... Try getting a little more aroused or use some lubricant first.",
+    "Something prevents this action.",
+    "You can't get into this position with your clothes still on.",
+    "You can't get into this position while your body parts are blocked by toys.",
   ];
   const hep = '<br><span class="import" style="font-size:70%;"><i>You can disable showing unavailable actions in the game settings menu.</i></span>';
   return reason[num] + hep;

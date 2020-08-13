@@ -26,12 +26,12 @@
 interface setupBackward {
   loader: (target: string[], data: object) => string;
   outputFormat: (alerts: string[]) => string;
-  main: (save: object) => void;
+  main: (save: object) => string;
   go: () => void;
 }
 
 setup.backward = {
-  main(save: any): void {
+  main(save: any): string {
     // New recursive function for object merging
     function extend() {
 
@@ -216,8 +216,13 @@ setup.backward = {
       console.log(`PCLoadletter ${e.name}: ${e.message}.`); }
     try {
       // @ts-ignore
-      ↂ.hairStyle = extend(ↂ.hairStyle, JSON.parse(save.ↂ.hairStyle));
-      output += `<span style="color: #41f470;">Successfully Loaded Hair Data</span><br>`;
+      ↂ.hairStyle = JSON.parse(save.ↂ.hairStyle);
+      if (!Array.isArray(ↂ.hairStyle)){
+        ↂ.hairStyle = ["neat", "unkempt", "messy"];
+        output += `<span style="color: #f4a641;">Hairstyle Data not an Array. Created new array.</span><br>`;
+      } else {
+        output += `<span style="color: #41f470;">Successfully Loaded Hair Data</span><br>`;
+      }
       // output += setup.backward.loader(["ↂ", "hairStyle"], JSON.parse(save.ↂ.hairStyle));
     } catch (e) {
       output += "<span style='color: #f46741;'>Warning! Failed to properly load hair data!</span><br>";
@@ -252,6 +257,17 @@ setup.backward = {
       // output += setup.backward.loader(["ↂ", "homeOptions"], JSON.parse(save.ↂ.homeOptions));
     } catch (e) {
       console.log(`error updating setup.parse ${e.name}: ${e.message}.`);
+    }
+    try {
+      const temps = JSON.parse(save.metadata.tempy);
+      const ks = Object.keys(temps);
+      for (let i = 0, c = ks.length; i < c; i++) {
+        State.temporary[ks[i]] = temps[ks[i]];
+      }
+      console.log(`Successfully loaded ${ks.length} temporary state properties.`);
+    } catch (e) {
+      output += `<span style="color: #f4a641;">Failed to properly load State temporary data.</span><br>`;
+      console.log(`Error Loading Temporary ${e.name}: ${e.message}.`);
     }
     try {
       // @ts-ignore
@@ -339,6 +355,21 @@ setup.backward = {
     } catch (e) {
       output += `<span style='color: #f4a641;'>setup.outfits JSON parse failed with error ${e.name}: ${e.message}</span><br>`;
     }
+    if (State.active.variables.npcTemplate == null || save.npcTemplate == null) {
+      aw.npcTemplate = {};
+      State.active.variables.npcTemplate = {
+        enabled: false,
+        ratio: 25,
+        count: 0,
+      };
+      output += `<span style="color: #f4a641;">No NPC Template data in save. Created it!</span><br>`;
+    } else {
+      try {
+        aw.npcTemplate = JSON.parse(save.npcTemplate);
+      } catch (e) {
+        output += `<span style='color: #f4a641;'>npcTemplate JSON parse failed with error ${e.name}: ${e.message}</span><br>`;
+      }
+    }
     window.setTimeout(function() {
       setup.clothes.referenceRebuild();
     }, 200); // restore clothing object references
@@ -388,7 +419,7 @@ setup.backward = {
       passedOut: false,
       passedOutType: "none",
     } as awSleep;
-    output += `<<include [[DEFsemiNPC-Prologue]]>><<button "CONTINUE">><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<run setup.backward.go()>><<run $("#awUIcontainer").empty()>><</button>>`;
+    output += `<<include [[DEFsemiNPC-Prologue]]>><<button "CONTINUE">><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<run $("#awUIcontainer").empty()>><</button>>`;
     output += "</td></tr></table>";
     if (State.active.variables.pref.miscarriage == null) {
       State.active.variables.pref.miscarriage = true;
@@ -427,6 +458,19 @@ setup.backward = {
     State.active.variables.AW.pcPortrait = setup.porn.femaleNPC(ↂ.pc, true);
     aw.S();
     aw.append("#backCuntOut", output);
+    const pasg = aw.passage.title;
+    if (ↂ.map != null && ↂ.map.loc != null) {
+      aw.con.info(`Map information: Main: ${ↂ.map.loc[0]}, Secondary: ${ↂ.map.loc[0]}`);
+      if (typeof ↂ.map.loc[2] !== "string") {
+        setup.map.nav(ↂ.map.loc[0], ↂ.map.loc[1]);
+      } else {
+        setup.map.nav(ↂ.map.loc[0], ↂ.map.loc[1], ↂ.map.loc[2]);
+      }
+    }
+    if (State.active.variables.pub) {
+      aw.go("BCinit");
+    }
+    return pasg;
   },
   // loads input object into supplied destination without completely
   // overwriting objects, allowing new variables since the previous version

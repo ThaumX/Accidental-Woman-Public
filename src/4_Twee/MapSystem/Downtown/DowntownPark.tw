@@ -39,16 +39,58 @@
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Sit on a Bench">><</button>>
+  <<button "Sit on a Bench">><<dialog "Sitting on a Bench">><<include [[DowntownParkBench]]>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
-  <<button "Follow a Trail">><</button>>
+  <<button "Follow a Trail">><<dialog "Following a Trail">><<include [[DowntownParkTrail]]>><</dialog>><</button>>
 <<endhoverrevise>>
+
+<<if setup.camFlag("Nude Park")>>
+  <<hoverrevise nudeCam>>
+    <<button "Sit and do a camshow!">><<dialog "Public cam time!">><<include [[ParkCamShow]]>><</dialog>><</button>>
+  <<endhoverrevise>>
+<</if>>
+
 <<hoverrevise delta>>
-  <<button "Go Jogging">><</button>>
+  <<if ↂ.pc.status.energy.amt < 4>>
+    @@.disabled;<<button "Go Jogging [Too tired]">><</button>>@@
+  <<else>>
+    <<button "Go Jogging">>
+    <<status 1>>
+      <<set _athl = ↂ.skill.athletic>>
+      <<set _outcome = Math.round(_athl / 4)>>
+      <<set _shitHappens = random(0, 100) - _athl>>
+      <<if _shitHappens > 95>>
+        <<set ↂ.pc.status.health -= 7>><<run setup.status.record("health", 7, "Jogging Accident")>>
+        <<set _randomtime = random(30, 40)>>
+        <<set _randomenergy = random(3,4)>>
+        <<addTime _randomtime>>
+        <<set ↂ.pc.status.energy.amt -= _randomenergy>>
+        <<set ↂ.pc.status.exercise += _outcome>>
+        <<SCX>><<SC "AT">>
+        <<status 0>>
+        <<if ↂ.pc.status.happy < 2>>
+          <<happy 1 "Exercising can improve mood">>
+        <</if>>
+        <<dialog "Jogging in the Park">><<include [[DowntownParkJogFall]]>><</dialog>>
+      <<else>>
+        <<set _randomtime = random(30, 40)>>
+        <<set _randomenergy = random(3, 4)>>
+        <<addTime _randomtime>>
+        <<set ↂ.pc.status.energy.amt -= _randomenergy>>
+        <<set ↂ.pc.status.exercise += _outcome>>
+        <<SCX>><<SC "AT">>
+        <<status 0>>
+        <<if ↂ.pc.status.happy < 2>>
+          <<happy 2 "Exercising can improve mood">>
+        <</if>>
+      <</if>>
+      <<go DowntownPark>>
+    <</button>>
+  <</if>>  
 <<endhoverrevise>>
 <<hoverrevise gamma>>
-  <<button "Walk to the Pond">><</button>>
+  <<button "Walk to the Pond">><<dialog "Walking Around the Pond">><<include [[DowntownParkPond]]>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -57,11 +99,13 @@
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>Relax on a bench and do something, like reading a book or just watch the occasional person walking by. <<ctn>>[not implemented]<</ctn>><<endinsertion>>
-<<insertion beta>>Choose a trail at random and follow it into the thicker area of the park. <<ctn>>[not implemented]<</ctn>><<endinsertion>>
-<<insertion delta>>Run down one of the paved paths to get some exercise, and enjoy the environment while you do so. <<ctn>>[not implemented]<</ctn>><<endinsertion>>
-<<insertion gamma>>Walk down to the pond, perhaps you'll see some ducks. <<ctn>>[not implemented]<</ctn>><<endinsertion>>
+<<insertion alpha>>Relax on one of the benches lining the park's paths. <<ctn>>[30 min | -Stress]<</ctn>><<endinsertion>>
+<<insertion beta>>Choose a trail at random and follow it into the thicker area of the park. <<ctn>>[30 min | -Stress]<</ctn>><<endinsertion>>
+<<insertion delta>>Run down one of the paved paths to get some exercise, and enjoy the environment while you do so. <<ctn>>[30 min | exercise]<</ctn>><<endinsertion>>
+<<insertion gamma>>Walk down to the pond, perhaps you'll see some ducks. <<ctn>>[30 min | -Stress]<</ctn>><<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+
+<<insertion nudeCam>>What better place to do a nude show than a public park?<<endinsertion>>
 </div>
 
 <<timed 50ms>>
@@ -93,3 +137,133 @@ One area of the park contains some interesting statues set in a part of the park
 <<replace "#imgie">><<print _cock>><</replace>>
 <</button>>
 </center>
+
+
+:: DowntownParkBench [nobr]
+
+<<addTime 30>>
+<<if setup.clothes.wearingSkirt && not ↂ.pc.kink.shame>>
+<center><<= either("[img[IMG-ParkUpskirt]]", "[img[IMG-ParkUpskirt2]]")>></center>
+<p>
+<<f y>>ou sit on a park bench and allow yourself to relax. While you're sitting there, a naughty thought enters your mind. @@.mono;I'm wearing a skirt... why don't I give people a chance to peek inside?@@ You spend the remaining time in several different poses, pretending to be unaware that you're exposed. When someone sits down on the bench beside you, you can't resist giving them a better view.
+</p>
+  <<if ↂ.pc.kink.exhibition && random(1/4) === 3>>
+    <p>While you're busy exposing yourself to the public, you notice an APD police officer walking down the park path. You quickly adjust your hem and cross your legs, and manage to avoid notice. You think this close call may have improved your ability to avoid police attention while exposing yourself.</p>
+    <<stress -10 "Relaxing on a bench in the park">>
+    <<set ↂ.skill.exhibition += 1>>
+    <<status 0>>
+  <<elseif ↂ.pc.kink.exhibition>>
+    <p><<ctn>>Your exhibitionist nature gives makes this activity more relaxing than usual.<</ctn>></p>
+    <<stress -15 "Relaxing on a bench in the park">>
+  <<else>>
+    <<stress -10 "Relaxing on a bench in the park">>
+  <</if>>
+  <<arouse 2>>
+  <<if ↂ.pc.status.happy < 3>>
+    <<happy 2 "Exposing yourself in the park">>
+  <<else>>
+    <<happy 1 "Exposing yourself in the park">>
+  <</if>>
+<<else>>
+<center>[img[IMG-ParkBench]]</center>
+<p>
+<<f y>>ou sit on a park bench and spend half an hour relaxing. You let your thoughts and your gaze wander. Toward the end, you find yourself <<has shame>>considering how shameful sitting on this benches with a skirt could be<<or>>wondering what sort of fun you could have here if you had worn a skirt or dress<</has>>. You feel more relaxed.
+</p>
+<<stress -5 "Relaxing on a bench in the park">>
+<</if>>
+
+
+:: DowntownParkJogFall [nobr]
+
+<center>[img[IMG-JoggingFall]]</center>
+<p>
+<<f y>>ou spend some time jogging in the park, and get some good exercise. During the end of your run, however, you find yourself distracted and staring at a massive bulge in the pants of a man jogging toward you on the path. You stare so long that you're suddenly disoriented when he passes you by, and you stumble and fall.
+</p>
+
+
+:: DowntownParkJog [nobr]
+
+<center>
+<<= either("[img[IMG-JoggingTits1]", "[img[IMG-JoggingTits2]", "[img[IMG-JoggingTits3]")>>
+</center>
+<p>
+<<f y>>ou spent some time jogging on the paths and trails of the central park, and got some good exercise in.
+</p>
+
+
+:: DowntownParkPond [nobr]
+
+
+<<addTime 30>>
+<<stress -10 "Walking around the pond">>
+<<set _rand = random(1, 5)>>
+<<switch _rand>>
+<<case 1>>
+<center>[img[IMG-ParkPondCock]]</center>
+<p>
+<<f y>>ou take a long relaxing walk around the pond. Along the way you spot a couple relaxing near the shore. They're naked, though they don't look like they had been swimming. The woman has an extremely satisfied look on her face, while the man has a cock that looks massive even though it's soft. You start salivating and lubricating subconsciously as you hurry away.
+</p>
+<<case 2>>
+<center>[img[IMG-ParkPondFish]]</center>
+<p>
+<<f y>>ou take a long relaxing walk around the pond. Along the way you spot a fish swimming around in some shallows. It looks really pretty for a fish.
+</p>
+<<case 3>>
+<center>[img[IMG-ParkPondGoose]]</center>
+<p>
+<<f y>>ou take a long relaxing walk around the pond. Along the way you spot a lone goose floating in the water. It looks pissed. @@.npc;HONK!!!@@ You hurry away before it grabs a knife or something.
+</p>
+<<case 4>>
+<center>[img[IMG-ParkPondLilies]]</center>
+<p>
+<<f y>>ou take a long relaxing walk around the pond. In a more secluded area you spot a woman standing amongst some water lilies in the deeper water. She doesn't notice you at first, and seems to be reacting pleasurably to something in the water. Eventually she looks back and catches you staring. Her expression is enigmatic, but you don't stick around long enough to figure it out.
+</p>
+<<case 5>>
+<center>[img[IMG-ParkPondPlay]]</center>
+<p>
+<<f y>>ou take a long relaxing walk around the pond. You happen upon a young woman playing in the shallow water. She's in plain view from one of the main paths, and seems to be showing off rather than really playing in the water.
+</p>
+<</switch>>
+<p>
+<<ctn>>[<<= _rand>> of 5]<</ctn>>
+</p>
+
+
+:: DowntownParkTrail [nobr]
+
+
+<<addTime 30>>
+<<stress -10 "Walking a park trail">>
+<<set _rand = random(1, 5)>>
+<<switch _rand>>
+<<case 1>>
+<center>[img[IMG-ParkBridge]]</center>
+<p>
+<<f y>>ou take a walk on a random path into one of the park's thickets of trees. You happen upon an old wood bridge over a small gully. It's a rather scenic area.
+</p>
+<<case 2>>
+<center>[img[IMG-ParkBlowjob]]</center>
+<p>
+<<f y>>ou take a walk on a random path into one of the park's thickets of trees. As you're walking, you notice motion out of the corner of your eye. When you look, you see a man sitting against a tree while a girl gives him an enthusiastic blowjob. She stops suddenly, and you hurry along the path before you're noticed. Judging by the soft moan you hear from behind you, she must've started riding him.
+</p>
+<<case 3>>
+<center>[img[IMG-ParkFucking]]</center>
+<p>
+<<f y>>ou take a walk on a random path into one of the park's thickets of trees. In a small clearing beneath a dense canopy, you spot a woman laying precariously atop a fallen tree, while a man stands straddling the tree fucking her fiercely. The woman grips the tree to avoid falling off as you wonder how you didn't notice the loud slapping sound of their flesh colliding before you entered the clearing.
+</p>
+<<case 4>>
+<center>[img[IMG-ParkTreeFuck]]</center>
+<p>
+<<f y>>ou take a walk on a random path into one of the park's thickets of trees. Along the way you spot a woman sitting on the exposed roots of a tree with her legs wrapped around the man kneeling in the dirt fucking her. She seems pretty oblivious to her surroundings, and orgasms as you walk by.
+</p>
+<<case 5>>
+<center><img data-passage="IMG-ParkWoodsFucking" style="width:500px;height:230px;"></center>
+<p>
+<<f y>>ou take a walk on a random path into one of the park's thickets of trees. You stumble into a tiny meadow surrounded by trees. In the middle you see a couple that has laid down a blanket in the tall grass. Of course, they're having sex, but this couple's fucking seems to be more thorough and deliberate than you'd expect to find in the woods. You retrace your steps down the small foot trail that led here in order to avoid disturbing them.
+</p>
+<</switch>>
+<p>
+<<ctn>>[<<= _rand>> of 5]<</ctn>>
+</p>
+
+

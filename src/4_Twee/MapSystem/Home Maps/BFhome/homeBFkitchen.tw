@@ -1,0 +1,134 @@
+:: homeBFkitchen [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPBFhome]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>
+<<f y>>ou are standing in <<name h>>'s kitchen.
+<<switch $BFnum>>
+<<case 1>>
+It's really more of a small nook rather than a dedicated room, it's depth defined by the width of the stove. The kitchenette offers little in the way of cabinet space, and the cabinets themselves are rather low quality. The same goes for the countertop, sink, refrigerator, and stove; all of them seeming old and worn beyond their years.
+<<case 2>>
+A kitchenette rather than a full kitchen, it occupies a corner of the living area. It doesn't offer much in the way of cabinet space or counter area, and it seems to be lacking a full stove. Thankfully it looks nice enough to keep from dragging the appearance of the whole room down. You also notice a dishwasher, which tends to be a rarity in small kitchenettes like this.
+<<case 3>>
+It isn't very large; there isn't much room to fit a dedicated table without it getting in the way. The room overall has a modern look, and has reasonable quality cabinetry and appliances. While it feels small for a kitchen, it's certainly large compared to a kitchenette found in smaller apartments.
+<<case 4>>
+The kitchen isn't large, but it has enough room to hold a small table to eat at. The cabinets and appliances aren't the most elegant or feature-packed options, but they are all good quality and seem like they'll last for a long time. The glass block window adds a lot of natural light to the room, and combined with the wood block countertops the room feels warm and welcoming. <<name h>> even has some decent cooking gear and a matching set of tableware.
+<<case 5>>
+The room has a certain modern aesthetic despite using more traditionally-styled cabinetry. It has a breakfast bar that separates it from the breakfast nook and the rest of the living space. It has a gas range and a double oven, along with enough counter space to make proper use of them. It's an inviting space that looks like it'd be fun to cook in.
+<<case 6>>
+It's a large space, with enough room in the breakfast nook for a full-sized table. The cabinetry is elegant with natural stone countertops, and there's more than enough cabinet space. A large island in the middle of the kitchen provides all the counter space you'd ever need, and a large amount of lighting keeps the space bright and warm, even at night.
+<<case 7>>
+The luxurious space has an old-world appeal, with elegant wood cabinets and marble countertops. A walk-in pantry provides plenty of space for storage, while allowing an open floorplan layout. There is even a food prep sink in addition to the standard full-size sink in front of an elegant window. The vaulted ceilings conceal ample lighting, keeping the space from appearing too dark at night.
+<</switch>>
+</p>
+<p>
+<<if $BFhome>><<name h>> is currently in the <<= $BFroom>>.<<else>><<name h>> isn't home right now.<</if>>
+</p>
+/*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<set _butlab = "Talk To " + $BFname>>
+<<if $BFhome && $BFroom === "kitchen">>
+  <<hoverrevise talkin>>
+    <<button _butlab>><<run setup.npcHomes.talk()>><</button>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise notalkin>>
+    <button class="disabled"><<= _butlab>></button>
+  <<endhoverrevise>>
+<</if>>
+<<hoverrevise cook>>
+  <<button "Cook Something">><<dialog "Cooking">><<print setup.cook.list()>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise drink>>
+  <<button "Get A Drink">><<addTime 5>><<stress -1 "Getting a drink of drugged water">><<updatebar>><<dialog "A Drink">>
+  <img data-passage="IMG-Drinking-Water" style="float: left; margin:10px 25px 10px 0px;">
+  <<f y>>ou take a couple minutes out of your busy day to drink some water. Staying hydrated is important for your health, after all! @@.mono;Why does the water in Appletree taste so good?@@
+  <</dialog>><</button>>
+<<endhoverrevise>>
+<<if $BFnum > 2>>
+  <<hoverrevise coveffe>>
+  <<button "Make Coffee">>
+    <<addTime 10>>
+    <<if ↂ.flag.coffeeToday > 2>>
+      <<run UI.alert("You make some coffee, but it doesn't seem to do you much good with all the coffee you've already had today.")>>
+    <<else>>
+      <<tired -1 "Drinking delicious coffee">>
+      <<run UI.alert("You brew and enjoy some delicious coffee. You feel more vigorous.")>>
+    <</if>>
+    <<set ↂ.flag.coffeeToday += 1>>
+    <<status 0>>
+    <<updatebar>>
+  <</button>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise nocoveffe>>
+    <button class="disabled">Make Coffee</button>
+  <<endhoverrevise>>
+<</if>>
+
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion cook>>Try your skills at cooking some dish. [Goes with having an NPC at home with you]<<endinsertion>>
+<<insertion drink>>Get a glass of water to quench your thirst <<ctn>>[5-min, -Stress]<</ctn>><<endinsertion>>
+<<insertion coveffe>>Make yourself a cup of coffee using <<name h>>'s coffee maker. <<ctn>>[10 mins]<</ctn>><<endinsertion>>
+<<insertion nocoveffe>>Unfortunately, <<name h>> doesn't have a coffee maker for you to use.<<endinsertion>>
+<<insertion talkin>>Have a conversation with <<name h>>.<<endinsertion>>
+<<insertion notalkin>><<name h>> must be in the same room with you to have a conversation.<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+<<mapBFHomeEventAction>>
+<<mapBFHomeActions>>
+<</timed>>
+
+
+
+:: homeBFT2kitchenLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>

@@ -7,7 +7,7 @@
 /*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
 <<include [[MAPhomeT1]]>>
 /*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
-<div id="mainshits">
+<div id="mainshits" class="extraRoomRight">
 <<homeItemDisp>>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
 <p class="weather-disc"><<switch ↂ.map.weather>>
@@ -58,12 +58,16 @@
     <<dialog "Flashing">>@@.head3;Y@@ou lean against the railing and grab your <<if ↂ.pc.clothes.keys.top == 0 && ↂ.pc.clothes.keys.bra == 0>>already-exposed breasts<<elseif ↂ.pc.clothes.keys.top == 0>><<print aw.slot.bra.style>><<elseif ↂ.pc.clothes.keys.bra == 0>><<print aw.slot.top.style>><<else>><<print aw.slot.top.style>> and <<print aw.slot.bra.style>><</if>> with both hands, pulling upward and exposing your <<pcBoobSize>> breasts to the world. It's exhilarating, but there really wasn't anyone around to see you. Maybe when there's more people around...<</dialog>>
   <</button>>
 <<endhoverrevise>>
+<<hoverrevise tan>>
+	<<button "Tan">><<dialog "Tan">><<include [[homeBalcony-Tan]]>><</dialog>><</button>>
+<<endhoverrevise>>
 <<homeItemButtons>>
 </div>
 
 /*Main display for information about actions*/
 <div id="actionInfo">
 <<insertion flash>>Expose yourself for a quick thrill.<<endinsertion>>
+<<insertion tan>>Work on your tan. [25-35min, +tan]<<endinsertion>>
 <<homeItemInfo>>
 </div>
 <<timed 50ms>>
@@ -77,4 +81,12 @@
 Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
 
 
+:: homeBalcony-Tan [nobr]
 
+<<set _tim = setup.time.now()>><<if ↂ.pc.clothes.worn.bottom === "normal" || ↂ.pc.clothes.worn.top === "normal">>
+@@.head3;Y@@our tan will be less than perfect if you work on it with your outerwear still on.<<addtime 1>><br><center><<button "Got it">><<run Dialog.close()>><<updatebar>><</button>></center>
+<<elseif _tim[0] < 7 || _tim[0] > 18>>
+@@.head3;Y@@ou suddenly realise that it is pretty silly to work on your tan while there is no sun in the sky.<<addtime 1>><br><center><<button "Damn">><<run Dialog.close()>><<updatebar>><</button>></center>
+<<else>><<set ↂ.pc.clothes.worn.coat = "off">><center>[img[IMG-BalcoonyTanning]]</center><br>
+@@.head3;Y@@ou lie on the towel and enjoy the feeling of warm beams caressing your <<p skincolor.q>> skin. <<if !setup.clothes.exposed.top>>You adjust your bra a couple of times to avoid white lines on your shoulders and back. <<else>>Your free <<p breasts.n>> are praising the sun proudly <<if setup.clothes.exposed.bottom>>as well as your bare bottom.<</if>><<has exhibition>><<happy 1 "Tanning was nice">><<arousal 1>><br><br>@@.mono;Mmm... being naked outside is a pure bliss...Such a shame nobody can see it when I am on this balcony...@@<br><br><<or>><</has>><</if>><<addtime 30>><<stress -8 "Relaxing during tanning">><<set ↂ.flag.tan += random(0,1)>>You turn around a couple of times and relax with your mind drifting away from all your recent problems. After some time you decide that it is a good idea to finish your tanning for today and get up after joyful stretch.<br><center><<button "Go away">><<run Dialog.close()>><<status 0>><<updatebar>><</button>></center>
+<</if>>

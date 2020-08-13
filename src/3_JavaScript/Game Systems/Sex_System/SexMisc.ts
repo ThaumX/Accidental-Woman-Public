@@ -15,7 +15,7 @@ if (setup.sex === null || setup.sex === undefined) {
 
 // determines if the sex action is valid - if parts can meet
 setup.sex.valid = function(partArr: any, tar: any, thePos: string): boolean {
-  //aw.con.info(`Starting setup.sex.valid.`); // TODO Remove eventually
+  // aw.con.info(`Starting setup.sex.valid.`); // TODO Remove eventually
   const partA = partArr[0];
   const partB = partArr[1];
   let selfie = false;
@@ -65,13 +65,13 @@ setup.sex.valid = function(partArr: any, tar: any, thePos: string): boolean {
       dist += 1;
     }
     if (dist <= setup.sex.partDist(pA[0])) {
-      //aw.con.info(`setup.sex.valid returns true`) // TODO Remove eventually
+      // aw.con.info(`setup.sex.valid returns true`) // TODO Remove eventually
       return true;
     } else {
       // if (partB == "cock" || partB == "balls") {
         // aw.con.info(`cock distance wtf ${dist} > ${setup.sex.partDist(pA[0])} - type ${pB[0]}.`);
       // }
-      //aw.con.info(`setup.sex.valid returns false`); // TODO Remove eventually
+      // aw.con.info(`setup.sex.valid returns false`); // TODO Remove eventually
       return false;
     }
   } catch (e) {
@@ -83,7 +83,7 @@ setup.sex.valid = function(partArr: any, tar: any, thePos: string): boolean {
 
 // determines if NPC's action is valid based on locations
 setup.sex.validNPC = function (partArr: any, tar: any, thePos: string): boolean {
-  //aw.con.info(`setup.sex.validNPC Starting...`); 
+  // aw.con.info(`setup.sex.validNPC Starting...`); 
   const partA = partArr[1];
   const partB = partArr[0];
   let selfie = false;
@@ -97,7 +97,7 @@ setup.sex.validNPC = function (partArr: any, tar: any, thePos: string): boolean 
     let cordB;
     if (!pA || !pB) {
       aw.con.warn(`one or more parts invalid. 0: ${pA}, 1: ${pB}.`);
-      //aw.con.info(`setup.sex.validNPC returns false due to invalid part.`);
+      // aw.con.info(`setup.sex.validNPC returns false due to invalid part.`);
       return false; // ignore the action as invalid
     }
     const pos = aw.sexPos[thePos];
@@ -133,13 +133,13 @@ setup.sex.validNPC = function (partArr: any, tar: any, thePos: string): boolean 
       dist += 1;
     }
     if (dist <= setup.sex.partDist(pA[0])) {
-      //aw.con.info(`setup.sex.validNPC returns true`);
+      // aw.con.info(`setup.sex.validNPC returns true`);
       return true;
     } else {
       // if (partB == "cock" || partB == "balls") {
         // aw.con.info(`cock distance wtf ${dist} > ${setup.sex.partDist(pA[0])} - type ${pB[0]}.`);
       // }
-      //aw.con.info(`setup.sex.valid returns false (normal).`);
+      // aw.con.info(`setup.sex.valid returns false (normal).`);
       return false;
     }
   } catch (e) {
@@ -150,7 +150,7 @@ setup.sex.validNPC = function (partArr: any, tar: any, thePos: string): boolean 
 
 // a lookup reference to turn "normal" part names into cooresponding matrix words
 setup.sex.partRef = function(part: string): [string, string]|false {
-  //aw.con.info(`setup.sex.partRef Starting [no return notice]`);
+  // aw.con.info(`setup.sex.partRef Starting [no return notice]`);
   part = part.toLowerCase();
   switch (part) {
     case "face":
@@ -236,6 +236,8 @@ setup.sex.partRef = function(part: string): [string, string]|false {
       return ["footR", "none"];
     case "footl":
       return ["footL", "none"];
+    case "skip":
+      return ["hands", "none"];
     default:
       aw.con.warn(`Invalid part name ${part} from sex action! [setup.sex.partRef]`);
       return false;
@@ -244,7 +246,7 @@ setup.sex.partRef = function(part: string): [string, string]|false {
 
 // calculates distance from center for parts
 setup.sex.partDist = function(part: string): number {
-  //aw.con.info(`setup.sex.partDist Starting [no return notice]`);
+  // aw.con.info(`setup.sex.partDist Starting [no return notice]`);
   part = part.toLowerCase();
   switch (part) {
     case "chest":
@@ -279,14 +281,14 @@ setup.sex.statusBars = function(): twee {
     let anim = ">>";
     let name;
     p = Math.round((ↂ.pc.status.pleasure / ↂ.sex.pcOrgasm) * 100);
-    //aw.con.info(`setup.sex.statusBars info: P Value: ${p}, PC Pleasure: ${ↂ.pc.status.pleasure}, Org Thresh: ${ↂ.sex.pcOrgasm}`);
+    // aw.con.info(`setup.sex.statusBars info: P Value: ${p}, PC Pleasure: ${ↂ.pc.status.pleasure}, Org Thresh: ${ↂ.sex.pcOrgasm}`);
     if (p >= 100) {
       p = 100;
       anim = ' "stripes">>';
     } else if (p >= 75) {
       anim = ' "glow">>';
     }
-    //aw.con.info(`lets see what it is two ${p}`);
+    // aw.con.info(`lets see what it is two ${p}`);
     let out = `<span id="sexPleasureDispPC" class="blackOutline"><<progressbar ${p} "PC Pleasure" "pink"${anim}</span><span id="sexPleasureDispNPC" class="blackOutline">`;
     let c = sex.activeNPC.length;
     if (c > 5) {
@@ -294,12 +296,12 @@ setup.sex.statusBars = function(): twee {
     }
     for (let i = 0; i < 5; i++) {
       if (i < c) {
-        //aw.con.info(`setup.sex.statusBars info for NPC: ${ↂ.sex.activeNPC[i]}, P Value: ${p}, Pleasure: ${ↂ.sex.npc[i].status.pleasure}, Org Thresh: ${ↂ.sex.npcOrgasm[i]}`);
+        // aw.con.info(`setup.sex.statusBars info for NPC: ${ↂ.sex.activeNPC[i]}, P Value: ${p}, Pleasure: ${ↂ.sex.npc[i].status.pleasure}, Org Thresh: ${ↂ.sex.npcOrgasm[i]}`);
         p = Math.round((ↂ.sex.npc[i].status.pleasure / ↂ.sex.npcOrgasm[i]) * 100);
         anim = ">>";
-        name = aw.npc[sex.activeNPC[i]].main.name + " " + aw.npc[sex.activeNPC[i]].main.surname.slice(0, 1);
+        name = aw.npc[sex.activeNPC[i]].main.name; // + " " + aw.npc[sex.activeNPC[i]].main.surname.slice(0, 1);
         if (sex.target === i) {
-          name += " 🎯";
+          name = "🎯" + name;
         }
         if (p >= 100) {
           p = 100;
@@ -313,7 +315,7 @@ setup.sex.statusBars = function(): twee {
       }
     }
     out += "</span>";
-    //aw.con.info(`setup.sex.statusBars Returns text.`);
+    // aw.con.info(`setup.sex.statusBars Returns text.`);
     return out;
   } catch (e) {
     aw.con.error("pbars", e);
@@ -323,36 +325,36 @@ setup.sex.statusBars = function(): twee {
 
 // returns twee to print icon describing current situation
 setup.sex.occupyPrinter = function(i: number = 0): string {
-  //aw.con.info(`setup.sex.occupyPrinter Starting...`);
+  // aw.con.info(`setup.sex.occupyPrinter Starting...`);
   const p = ↂ.sex.pos;
   const poser = aw.sexPos[p].pos[i].occupy;
   let out = '<div id="sexOccupiedContainer">';
-  if (poser.includes("mouth")) {
+  if (poser.includes("mouth") || setup.sexToys.check("pc", "mouth") !== true) {
     out += "[img[Mouth Occupied|IMGsexLipsIconBW]] ";
   } else {
     out += "[img[Mouth Available|IMGsexLipsIcon]] ";
   }
-  if (poser.includes("breasts")) {
+  if (poser.includes("breasts") || !setup.sex.clothesBlockChecker("pc", "breasts") || setup.sexToys.check("pc", "nipples") !== true || setup.sexToys.check("pc", "breasts") !== true) {
     out += "[img[Breasts Occupied|IMGsexBreastsBW]] ";
   } else {
     out += "[img[Breasts Available|IMGsexBreasts]] ";
   }
-  if (poser.includes("pussy")) {
+  if (poser.includes("pussy") || !setup.sex.clothesBlockChecker("pc", "pussy") || setup.sexToys.check("pc", "groin") !== true || setup.sexToys.check("pc", "vagina") !== true) {
     out += "[img[Pussy Occupied|IMGsexVagIconBW]] ";
   } else {
     out += "[img[Pussy Available|IMGsexVagIcon]] ";
   }
-  if (poser.includes("asshole")) {
+  if (poser.includes("asshole") || !setup.sex.clothesBlockChecker("pc", "ass") || setup.sexToys.check("pc", "asshole") !== true) {
     out += "[img[Asshole Occupied|IMGsexAssholeBW]] ";
   } else {
     out += "[img[Asshole Available|IMGsexAsshole]] ";
   }
-  if (poser.includes("handL")) {
+  if (poser.includes("handL") || setup.sexToys.check("pc", "arms") !== true) {
     out += "[img[Left Hand Occupied|IMGsexHandLeftBW]] ";
   } else {
     out += "[img[Left Hand Available|IMGsexHandLeft]] ";
   }
-  if (poser.includes("handR")) {
+  if (poser.includes("handR") || setup.sexToys.check("pc", "arms") !== true) {
     out += "[img[Right Hand Occupied|IMGsexHandRightBW]] ";
   } else {
     out += "[img[Right Hand Available|IMGsexHandRight]] ";
@@ -368,12 +370,12 @@ setup.sex.occupyPrinter = function(i: number = 0): string {
     out += "[img[Not being recorded|IMGsexPhotosBW]] ";
   }
   out += "</div>";
-  //aw.con.info(`setup.sex.occupyPrinter returning text`);
+  // aw.con.info(`setup.sex.occupyPrinter returning text`);
   return out;
 };
 // returns appropriate icon for wetness level
 setup.sex.wetIcon = function(wet: number): twee {
-  //aw.con.info(`setup.sex.wetIcon Running [No return will be logged]`);
+  // aw.con.info(`setup.sex.wetIcon Running [No return will be logged]`);
   switch (wet) {
     case 0:
     case 1:
@@ -435,7 +437,7 @@ setup.sex.characterButtons = function(): twee {
   timed += "<</scri";
   timed += "pt>><</timed>>";
   out += timed;
-  //aw.con.info(`setup.sex.characterButtons returning twee`);
+  // aw.con.info(`setup.sex.characterButtons returning twee`);
   return out;
 };
 
@@ -477,7 +479,7 @@ setup.sex.characterTargets = function(): twee {
   timed += "<</scri";
   timed += "pt>><</timed>>";
   out += timed;
-  //aw.con.info(`setup.sex.characterTargets returning twee`);
+  // aw.con.info(`setup.sex.characterTargets returning twee`);
   return out;
 };
 

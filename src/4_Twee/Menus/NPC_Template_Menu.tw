@@ -1,0 +1,130 @@
+:: npcTemplateMenu [nobr startpage noui]
+
+
+<<silently>>
+<<set _nSelected = "none">>
+<<set _nCunt = Object.keys(aw.npcTemplate).length>>
+<</silently>>
+<div class="blocker dgreyPattern">
+
+<div id="left-side-panel" style="position:fixed; top:25px; bottom: 25px; left: 25px; width: 50%;text-align:center;">
+<h1>NPC Template System</h1>
+<p>The NPC Template System allows you to have specific NPCs generated in your game that match the template exactly except for a randomized name. You can also specify the ratio your templates are used compared to normal procedurally generated NPCs. For more information, check out the <<info "Encyclopedia" "guideNPCTemplate">>.</p>
+<center>
+<<button "EXIT/RETURN">><<go "Introduction">><</button>><<tab>><<tab>><<checkboxA "$npcTemplate.enabled" false true>> <b>Enable NPC Templates</b>
+</center>
+<br>
+  <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:10px 6px;">
+    <b>Template Use Percentage:</b><<tab>><span id="hgtsizin"><<= $npcTemplate.ratio>></span>% of new NPCs
+    <p>
+      <label for="amounth">Percent:</label>
+      <input type="text" id="amounth" readonly style="border:0; color:#fff; font-weight:bold;">
+    <div style="display:inline-block;width:60%;margin-left:15px;"><div id="sliderh" style="margin-top:3px;"></div></div>
+    </p>
+    <<timed 50ms>>
+      <<script>>
+        $( "#sliderh" ).slider({
+          value: State.active.variables.npcTemplate.ratio,
+          min: 0,
+          max: 100,
+          step: 1,
+          slide: function( event, ui ) {
+            $( "#amounth" ).val( ui.value);
+            State.active.variables.npcTemplate.ratio = Number(ui.value);
+          },
+          change: function( event, ui ) {
+            $("#hgtsizin").text(State.active.variables.npcTemplate.ratio);
+          }
+        });
+        $( "#amounth" ).val( $( "#sliderh" ).slider( "value" ));
+      <</script>>
+    <</timed>>
+  </div>
+  <h3>Instructions:</h3>
+  <p style="text-align:left;">
+    Use the toggle above to turn the use of templates on or off.<br>
+    Use the slider above to choose the percentage of new NPCs that are generated from the templates.<br>
+    Use the LOAD button to load a NPC template you previously exported.<br>
+    Use the EXPORT button to save the selected NPC template to file so you can reuse it later.<br>
+    Use the NEW button to create a new NPC template to edit.<br>
+    Use the EDIT button to edit the selected NPC template.<br>
+    Use the RENAME button to change the name of the selected template. Letters and Numbers only, No Spaces!<br>
+    Use the DELETE button to delete the selected NPC template.
+  </p>
+</div>
+
+
+<div id="right-side-panel" style="position:fixed; top:25px; bottom: 25px; right: 25px; width: 40%;text-align:center;">
+<h2>Loaded Templates</h2>
+<input type=file id='templateupload' name='templateupload'><<button "LOAD">>
+<<set _values = []>>
+<<script>>
+function processFile(e) {
+    var file = e.target.result;
+    let result;
+    if (file && file.length) {
+			try{
+				result = setup.npcTemplate.import(file);
+			}
+			catch(err){
+				alert(`Error: File could not be decoded. Be sure to upload a valid accidental woman template (.awt) file. ${err.name}: ${err.message}.`);
+			}
+    }else{
+			alert("Error: File could not be read!");
+		}
+    State.temporary.result = result;
+}
+function uploadButton(filename) {
+	var reader = new FileReader();
+	var textFile = filename;
+	reader.readAsText(textFile);
+	$(reader).on('load', processFile);
+}
+var cock = document.getElementById('templateupload').files[0];
+uploadButton(cock);
+<</script>>
+<<timed 750ms>>
+<<if ndef _result || _result == "error">>
+  /*nothing*/
+<<else>>
+  <<set _nSelected = "none">>
+  <<set _nCunt = Object.keys(aw.npcTemplate).length>>
+  <<replace "#templateList">><<= setup.npcTemplate.populate()>><</replace>>
+<</if>>
+<</timed>>
+<</button>><<tab>><<button "EXPORT">>
+  <<script>>
+    function encodeAndSave(fnam){
+      if (fnam === undefined) {
+        y = "NPCtemplate_" + Date.now();
+      }
+      var filename = fnam + ".awn";
+      var obData = setup.npcTemplate.save();
+      if (obData !== "fail") {
+        var blob = new Blob([obData], {type: "text/plain;charset=utf-8"});
+        saveAs(blob, filename);
+      }
+    }
+    encodeAndSave("NPCtempates");
+  <</script>>
+<</button>><br>
+<<button "NEW">><<run setup.npcTemplate.makeNew()>><</button>>
+  <<tab>>
+<<button "EDIT">>
+  <<set setup.NPCtemplate = aw.npcTemplate[_nSelected]>>
+  <<if setup.NPCtemplate === undefined>>
+    <<run UI.alert("Anenn: Select a template, please. You cannot edit an undefined object.")>>
+  <<else>>
+    <<go "NPC_templateEditor">>
+  <</if>>
+<</button>>
+  <<tab>><<button "RENAME">><<run setup.npcTemplate.rename()>><</button>><<textbox "_nName" "NewName">><<tab>><<button "DELETE">><<run setup.npcTemplate.delete()>><</button>>
+  <div id="templateList">
+    <<= setup.npcTemplate.populate()>>
+  </div>
+
+</div>
+
+
+</div>
+

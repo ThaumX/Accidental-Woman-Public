@@ -78,14 +78,18 @@ class CAB {
   }
   public print(): string {
     if (this.oneTime) {
-      return `<<link [img[${this.text}|${this.img}]]>>${this.action}<<run ↂ.buttons["${this.id}"].kill()>><</link>>`;
+      return `<<link [img[${this.text}|${this.img}]]>>${this.action}<<if ↂ.buttons["${this.id}"] != null>><<run ↂ.buttons["${this.id}"].kill()>><</if>><</link>>`;
     }
     return `<<link [img[${this.text}|${this.img}]]>>${this.action}<</link>>`;
   }
 }
 
 setup.killCAB = function(id: string) {
-  window.setTimeout(function() {delete ↂ.buttons[id]; }, 500);
+  window.setTimeout(function() {
+    if (ↂ.buttons[id] != null) {
+      delete ↂ.buttons[id];
+    }
+  }, 500);
 };
 
 

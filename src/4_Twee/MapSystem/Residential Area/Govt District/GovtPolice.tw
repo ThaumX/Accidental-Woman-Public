@@ -1,0 +1,71 @@
+
+
+:: ResidentialGovernmentPolice [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPgov]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+@@.head3;Y@@ou are standing in front of the Appletree Police Station. The building is sleek, modern, and more than a little imposing. There seems to be a constant but low level of activity, with officers going in and out, and police vehicles arriving and departing the motor pool.
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Report a crime">><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Not a best idea.<<endinsertion>>
+</div>
+
+
+:: ResidentialGovernmentPoliceLOC [nobr]
+
+<center>[img[IMG-CopUnloadingHooker]]</center>
+<p>
+<<f a>>fter watching the vehicle pool for a while, you notice a cop bringing in a perp for booking. While you have no way of knowing what happened, it looks like a hooker wasn't eager to come to an arrangement with the arresting officer. While you watch, however, she seems to have a change of heart... perhaps inspired by the imposing police station.
+</p>
+<center>[img[IMG-CopUnloadingHooker2]]</center>

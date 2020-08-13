@@ -26,6 +26,9 @@ setup.bodyPortraitFemale = function(char: string = "pc"): string {
   } else if (ᛝ.body.tone > 4) {
     output += `<img data-passage="IMG_BP_Skinny1s${shoulder}" class="bodyPortrait" style="z-index:2012">`;
   }
+  if (ᛝ.body.tone > 5) {
+    output += `<img data-passage="IMG_BP_MuscArmS${shoulder}" class="bodyPortrait" style="z-index:2013">`;
+  }
   // Boobies!
   const breastCup = (ᛝ.body.tits.cupNum === 0) ? 0 : Math.min(30, Math.floor(ᛝ.body.tits.cupNum / 3) + 1);
   if (breastCup > 0) { // if size 0, use base body tits (no boobs) and no special nipples
@@ -48,7 +51,7 @@ setup.bodyPortraitFemale = function(char: string = "pc"): string {
   // Large Labia - IMG_BP_Labia1
   if (ᛝ.body.labia > 1) {
     const labia = ᛝ.body.labia - 1;
-    output += `<img data-passage="IMG_BP_Labia${labia}" class="bodyPortrait" style="z-index:2014">`;
+    output += `<img data-passage="IMG_BP_Labia${labia}" class="bodyPortrait" style="z-index:2015">`;
   }
   // PUBES
   let pube = "0";
@@ -165,7 +168,7 @@ setup.bodyPortraitFemale = function(char: string = "pc"): string {
   }
   // mess
   if ((ᛝ.cond.vagFluid.cum != null && ᛝ.cond.vagFluid.cum > 0) || (ᛝ.cond.genitals.cum != null && ᛝ.cond.genitals.cum.amt > 0) || (ᛝ.cond.groin.cum != null && ᛝ.cond.groin.cum.amt > 0)) {
-    output += `<img data-passage="IMG_BP_Cream${hip}" class="bodyPortrait" style="z-index:2013">`;
+    output += `<img data-passage="IMG_BP_Cream${hip}" class="bodyPortrait" style="z-index:2014">`;
   }
   if (!isPC && ᛝ.main.male) { // FUTA PENIS! IMG_BP_Penis
     output += `<img data-passage="IMG_BP_Penis" class="bodyPortrait" style="z-index:2018">`;

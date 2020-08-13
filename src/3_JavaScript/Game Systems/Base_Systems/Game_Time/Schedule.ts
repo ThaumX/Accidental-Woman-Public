@@ -100,7 +100,11 @@ setup.sched.process = function() { // intended to be started each night
     let first = 0;
     let second = 0;
     const today = setup.time.nowDay();
-    // lets start by moving current to old
+    // first clean the weird shit out of the array
+    ↂ.plans.upcoming = ↂ.plans.upcoming.filter(function(x) {
+      return x !== undefined && x !== null;
+    });
+    // now lets continue by moving current to old
     for (let i = 0; i < ↂ.plans.current.length; i++) {
       if (ↂ.plans.current[i] !== null) {
         ↂ.plans.past.push(clone(ↂ.plans.current[i]));
@@ -113,7 +117,7 @@ setup.sched.process = function() { // intended to be started each night
     const todayDay = Math.floor(today / 1440);
     const tempUpcoming = [] as plan[];
     for (let i = 0; i < ↂ.plans.upcoming.length; i++) { // to fix the array length
-      if (ↂ.plans.upcoming[i] !== null) {
+      if (ↂ.plans.upcoming[i] !== undefined) {
         tempUpcoming.push(clone(ↂ.plans.upcoming[i]));
       }
     }
@@ -121,7 +125,7 @@ setup.sched.process = function() { // intended to be started each night
     const deleted = [] as number[];
     for (let i = 0; i < ↂ.plans.upcoming.length; i++) {
       aw.con.info(`plan ${i}, lets go...`);
-      if (ↂ.plans.upcoming[i] !== null && ↂ.plans.upcoming[i].name !== null) {
+      if (ↂ.plans.upcoming[i] !== undefined && ↂ.plans.upcoming[i].name !== undefined && ↂ.plans.upcoming[i] !== null && ↂ.plans.upcoming[i].name !== null) {
         const startDay = Math.floor(ↂ.plans.upcoming[i].start / 1440);
         aw.con.info(`plan ${i}, ${ↂ.plans.upcoming[i].start}, ${startDay}`);
         // actual processing
@@ -139,6 +143,10 @@ setup.sched.process = function() { // intended to be started each night
       delete ↂ.plans.upcoming[ii];
     }
     aw.con.info(`setup.sched.process finished the second part. ${second} plans were moved to the ↂ.plans.current`);
+    // lets clean it one more time just to stay rest assured
+    ↂ.plans.upcoming = ↂ.plans.upcoming.filter(function(x) {
+      return x !== undefined && x !== null;
+    });
   } catch (e) {
     aw.con.warn(`Error in setup.sched.process, ${e}`);
   }

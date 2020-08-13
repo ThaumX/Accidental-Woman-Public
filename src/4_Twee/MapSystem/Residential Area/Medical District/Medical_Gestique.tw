@@ -20,7 +20,7 @@
 /*Event notification spot*/
 /*<<mapEvent>>*/
 /*LOCATION description of  location*/
-<p>@@.head3;Y@@ou're standing in the waiting room of Dr. Weiner's general practice clinic. There are a couple of people sitting in the chairs, waiting for their chance to see the doctor.
+<p>@@.head3;Y@@ou're standing in the waiting room of the Gestique Fertility Clinic and Spa. The waiting area is full of comfortable furnishings with a calming and tasteful design.
 </p>
 
 /*Time & furnishing descriptive addon! <<mapHomeRes>>*/
@@ -56,6 +56,15 @@
 <<hoverrevise omega>>
   <<button "Specialty">><<addtime 5>><<go "MedicalGestSpecial">><</button>>
 <<endhoverrevise>>
+<<if ↂ.pc.fert.wombHealth > 0>>
+  <<hoverrevise wombheal>>
+    <<button "Womb Health Treatment">><<addtime 60>><<set ↂ.pc.fert.wombHealth -= 1>><<status 0>><<dialog "Womb Massage">><<include [[GestiqueWombMassage]]>><</dialog>><</button>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise nowombheal>>
+    <button class="disabled">Womb Health Treatment</button>
+  <<endhoverrevise>>
+<</if>>
 </div>
 
 /*Main display for information about actions*/
@@ -66,7 +75,9 @@
 <<insertion deltaa>>View the range of pregnancy acceleration treatments that are available.<<endinsertion>>
 <<insertion deltab>>You must be pregnant to be eligible for pregnancy acceleration.<<endinsertion>>
 <<insertion gamma>>View the range of temporary and permanent fertility enhancements that are available.<<endinsertion>>
-<<insertion omega>>View the list of specialty treatments available for unique effects.<<endinsertion>>
+<<insertion omega>>View the list of specialty treatments available such as Saradberol or IUD Removal.<<endinsertion>>
+<<insertion wombheal>>Get a uterine massage along with a rejuvenating treatment to improve your womb health <<ctn>>[60 min | ₢200]<</ctn>><<endinsertion>>
+<<insertion nowombheal>>Your womb is too healthy to benefit from this kind of treatment.<<endinsertion>>
 </div>
 
 
@@ -307,11 +318,29 @@ You enjoy your relaxing time in the sauna, chatting with the other pregnant wome
   <<elseif not ↂ.pc.fert.splitter>>
     The technician advises you that you should wait until immediately after you've ovulated before getting this treatment for the best effects.
   <<else>>
-    You have already received this treatment.
+    <i>You have already received this treatment.</i>
   <</if>>
   </div>
   <div style="border: 2px solid #ccc;border-radius:8px;margin:10px 0px;padding:15px;width:85%;height:500px;">
-  <h3>Other fun specialty treatments have not-yet been implemented.</h3>
+  <img data-passage="IMG-iudRemovalSign" style="float:left;border-radius:8px;margin:0px 25px 0px 0px;height:500px;width:auto;">
+  <h2>IUD Removal @@.money;₢240@@</h2>
+  Have your IUD removed with a simple one-hour outpatient procedure. This procedure utilizes the Cervi-Tech IUD extraction tool to make the procedure as safe and painless as possible. As with any medical procedure, there is a very small chance that complications could occur. For IUD removal, the most likely complication is infection. These infections are typically easily treated with antibiotics, but you should seek treatment immediately if you suspect you've developed an infection. An untreated infection can cause more serious medical conditions.
+  <br>
+  <<if ↂ.pc.fert.iud>>
+    <<button "Order Treatment">>
+      <<addtime 60>>
+      <<run aw.cash(-240, "medical")>>
+      <<set ↂ.pc.fert.iud = false>>
+      <<set ↂ.pc.status.health -= 2>>
+      <<run setup.status.record("health", -2, "IUD Removal")>>
+      <<status 0>>
+      <<dialog "IUD Removal">><center>[img[IMG-iudRemoval]]<br><<f y>>ou have your IUD removed without any complications. The doctor warns you that you may experience some light spotting for the next couple of days.</center><</dialog>>
+      <<go "MedicalGestique">>
+    <</button>>
+  <<else>>
+    <i>You do not need this treatment.</i>
+  <</if>>
+  </div>
   </div>
 </div>
 
@@ -418,3 +447,22 @@ You enjoy your relaxing time in the sauna, chatting with the other pregnant wome
   <</if>>
   </div>
 </div>
+
+:: GestiqueWombMassage [nobr]
+
+
+<p>
+<<f y>>ou're taken to a small massage room by your masseuse. She tells you to go ahead and get undressed and lay on your back on the table. @@.pc;So, umm, how does this work?@@ You ask, as you start getting undressed.
+</p>
+<p>
+The masseuse starts removing items from a small cabinet. @@.npc;First, we'll get you warmed up and relaxed with some abdominal and other massage, and then we'll start the uterine massage where we stimulate your womb and ovaries.@@ She looks up at you, as if gauging your resolve. @@.npc;I've got to warn you, massaging your uterus through abdominal wall isn't the most comfortable experience. Once they're loosened up a bit, we'll feed in the rejuvenating formula and allow it to circulate while we finish the massage.@@
+</p>
+<p>
+You nod, nervously, before laying back on the table. @@.pc;And this works, right? It'll heal my Uterus?@@
+</p>
+<p>
+The masseuse gives you a reassuring smile. @@.npc;Absolutely, this treatment works wonders. We've even had a lot of success with women who had issues due to past abortions. Just a word of caution though, a single treatment can only do so much, so you may need more than one treatment to completely heal.@@ She walks over to stand next to you on the table. @@.npc;Let's get started, shall we? This oil might feel a little cold at first...@@
+</p>
+<center>[img[IMG-WombMassage]]</center>
+
+

@@ -26,20 +26,20 @@
     <div style="display:inline-block;width:300px;">
       <fieldset class="jiminer">
         <legend><b>Male Start</b></legend>
-        <span class="contButt" style="font-size:150%;"><<button "Start the Game">><<set $AW.startMale = true>><<set ↂ.ward.bottom.push("tttt")>><<set ↂ.ward.top.push("tttv")>><<run setup.initialize.savePrefs()>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go storyStart1>><</button>></span><br>
+        <span class="contButt" style="font-size:150%;"><<button "Start the Game">><<set $AW.startMale = true>><<set ↂ.ward.bottom.push("tttt")>><<set ↂ.ward.top.push("tttv")>><<run setup.initialize.savePrefs()>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go storyStart1a>><</button>></span><br>
         <span style="font-size:130%;">
         <<if ndef $gamestate>>
           <<tooltip "Quick Start is unavailable until you have played the opening story once.">><button class="disabled">Quick Start</button><</tooltip>><br>
-        <<elseif $gamestate === null>>
+        <<elseif $gamestate == null>>
           <<tooltip "Quick Start is unavailable until you have played the opening story once.">><button class="disabled">Quick Start</button><</tooltip>><br>
         <<else>>
           <<if setup.achieve.isUnlocked("Prologue skip")>>
-            <<button "Quick Start">><<set $AW.startMale = true>><<set $AW.quickStart = 1>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go storyStart1>><</button>><br>
+            <<button "Quick Start">><<set $AW.startMale = true>><<set ↂ.ward.bottom.push("tttt")>><<set ↂ.ward.top.push("tttv")>><<run setup.initialize.savePrefs()>><<set $AW.quickStart = 1>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go storyStart1>><</button>><br>
           <<else>>
             <<tooltip "Quick Start is unavailable until you have played the opening story once.">><button class="disabled">Quick Start</button><</tooltip>><br>
           <</if>>
         <</if>>
-        <<tooltip "Special start modes - Not Implemented">><span class="halfsize"><button class="disabled">Realism</button> <button class="disabled">Sissy</button></span><</tooltip>><br>
+        <<button "Template Menu">><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go NPCtemplateMenu>><</button>>
         <<if $swim == "[cheats]" || $swim == "[dev]" || $swim == "[elite]" || $swim == "[backer]" || $swim == "[patron]">>
           <<button "Load Template">><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go LoadCharacterTemplateStrt>><</button>>
         <<else>>
@@ -51,18 +51,22 @@
     <div style="display:inline-block;width:300px;">
       <fieldset class="jiminer">
         <legend>Female Start</legend>
-        <span class="contButt" style="font-size:150%;"><<button "Start the Game">><<set $AW.startMale = false>><<set $AW.cash = 75>><<set $AW.cash += random(0,42)>><<set ↂ.pc.main.surname = "Freeman">><<set ↂ.flag.LilyCoffee = false>><<set ↂ.ward.bottom.push("ttvw")>><<set ↂ.ward.top.push("ttvx")>><<set ↂ.ward.panties.push("ttvv")>><<status 0>><<run setup.initialize.savePrefs()>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go storyStart1>><</button>></span><br>
+        <span class="contButt" style="font-size:150%;"><<button "Start the Game">><<set $AW.startMale = false>><<set $AW.cash = 75>><<set $AW.cash += random(0,42)>><<set ↂ.pc.main.name = "Grace">><<set ↂ.pc.main.surname = "Freeman">><<set ↂ.flag.LilyCoffee = false>><<set ↂ.ward.bottom.push("ttvw")>><<set ↂ.ward.top.push("ttvx")>><<set ↂ.ward.panties.push("ttvv")>><<status 0>><<run setup.initialize.savePrefs()>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go storyStart1>><</button>></span><br>
         <span style="font-size:130%;">
         <<if setup.achieve.isUnlocked("FemaleQuickStart") && $swim != "[public]">>
-          <<button "Quick Start">><<set $AW.startMale = false>><<set $AW.cash = 75>><<set $AW.cash += random(0,42)>><<set ↂ.pc.main.surname = "Freeman">><<set ↂ.flag.LilyCoffee = false>><<set ↂ.ward.bottom.push("ttvw")>><<set ↂ.ward.top.push("ttvx")>><<set ↂ.ward.panties.push("ttvv")>><<status 0>><<run setup.initialize.savePrefs()>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<set $AW.quickStart = 1>><<go storyStart1>><</button>>
+          <<button "Quick Start">><<set $AW.startMale = false>><<set $AW.cash = 75>><<set $AW.cash += random(0,42)>><<set ↂ.pc.main.surname = "Freeman">><<set ↂ.flag.LilyCoffee = false>><<set ↂ.ward.bottom.push("ttvw")>><<set ↂ.ward.top.push("ttvx")>><<set ↂ.ward.panties.push("ttvv")>><<status 0>><<run setup.initialize.savePrefs()>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<set $AW.quickStart = 1>><<go storyStart1a>><</button>>
         <<elseif $swim != "[public]">>
           <<tooltip "You must complete the opening female prologue at least once before skipping it.">><button class="disabled">Quick Start</button><</tooltip>>
         <<else>>
           <<tooltip "Quick Start is not enabled for the free/public version of the game.">><button class="disabled">Quick Start</button><</tooltip>>
         <</if>>
         <br>
-        <<tooltip "Special start modes - Not Implemented">><span class="halfsize"><button class="disabled">Serious</button> <button class="disabled">Captive</button></span><</tooltip>><br>
-        <<tooltip "Loading a character template for a female-start character is currently unavailable, sorry.">><button class="disabled">Load Template</button><</tooltip>>
+        <<button "Template Menu">><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go NPCtemplateMenu>><</button>>
+        <<if $swim == "[cheats]" || $swim == "[dev]" || $swim == "[elite]" || $swim == "[backer]" || $swim == "[patron]">>
+          <<button "Load Template">><<set $AW.startMale = false>><<set $AW.cash = 75>><<set $AW.cash += random(0,42)>><<set ↂ.pc.main.surname = "Freeman">><<set ↂ.flag.LilyCoffee = false>><<set ↂ.ward.bottom.push("ttvw")>><<set ↂ.ward.top.push("ttvx")>><<set ↂ.ward.panties.push("ttvv")>><<status 0>><<run setup.initialize.savePrefs()>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<set $AW.quickStart = 2>><<go storyStart1a>><</button>>
+        <<else>>
+          <<tooltip "Using character templates is currently a [patron] (₢1) level feature.">><button class="disabled">Load Template</button><</tooltip>>
+        <</if>>
         </span>
       </fieldset>
     </div>
@@ -71,16 +75,16 @@
         <legend>Game Setup</legend>
         <span style="font-size:130%;">
         <span class="jiminer"><<button "GAME OPTIONS">><<replace "#introMenuHolder">><<include [[IntroductionOptions]]>><</replace>><</button>></span>
-        <<button [[Premade Characters|premade]]>><</button>>
         <<button [[NPC Options|customNPC]]>><</button>>
-        <span class="disabled"><<button "NPC Editor">><</button>></span>
+        <<button [[Premade Characters|premade]]>><</button>>
+        <<if $swim == "[cheats]" || $swim == "[dev]" || $swim == "[elite]" || $swim == "[backer]">><<button "NPC Templates">><<go npcTemplateMenu>><</button>><<else>><<tooltip "NPC Templates are a [backer] (₢5) level feature.">><button class="disabled">NPC Templates</button><</tooltip>><</if>>
         <<button "Go Back">><<go Start>><</button>>
         </span>
       </fieldset>
       <fieldset class="jiminer">
         <legend>Other</legend>
-        <center class="bounce animated"><<link [img[Fuck That - A Meditation|IMGmeditationIcon]]>><<go FuckThatMeditation>><</link>> &nbsp; <<link "<div style='display:inline-block;width:94px;height:94px;border-radius:45px;border-style:solid;border-width:2px;border-color:#e5e2ce;padding:0px;background-color:#fffce5;'><img data-passage='IMG-AI-Icon' style='margin:29px;'></div>">><<if setup.npc.ready.length < 9>><<generateNPC 9 0 0 50 0 [0,0] [0,0] [0,0] [0,0] 0 0>><</if>><<go AWAIdemopage>><</link>> &nbsp; <<link [img[Load or manage saves|IMGsaves]]>><<script>>UI.saves()<</script>><</link>> &nbsp; <<link [img[New version changes and conent|IMGerolichIcon]]>><<interact "Erolich News" 3>><div id="erolichNews"><<include [[devNotes]]>></div>
-  <</interact>><</link>></center>
+        <center class="bounce animated"><<link [img[New version changes and content|IMGerolichIcon]]>><<interact "Erolich News" 3>><div id="erolichNews"><<include [[devNotes]]>></div>
+  <</interact>><</link>> &nbsp; <<link [img[Load or manage saves|IMGsaves]]>><<script>>UI.saves()<</script>><</link>></center>
       </fieldset>
     </div>
   </div>
@@ -89,21 +93,19 @@
   <div style="position:fixed;top:100px;right:100px;width:700px;background-color:rgba(25,25,25,0.7);border-radius:12px;color:#ddd;padding:10px 8px;bottom:140px;text-align:justify;font-size:20px;">
     <dl class="introInstList">
     <dt>Male/Female Start</dt>
-    <dd>Starts the game. If you're reading this, this is the button to click.</dd>
+    <dd>Starts the game. The male and female starts are very different, they're different parts of the same story!</dd>
     <dt>Quick Start</dt>
     <dd>Skips the opening story and goes straight to the start of character creation. <span  style="font-size:16px;color:#ddc;">(Must have played the opening previously!)</span></dd>
-    <dt>Special Modes</dt>
-    <dd>Special Modes that change the game in certain ways, particularly the prologue. Not recommended for new players.</dd>
     <dt>Load Template</dt>
     <dd>Use a template file to start a new game using a saved character.</dd>
     <dt>Game Options</dt>
-    <dd>Contains important customization options for a new game such as use of Metric. <span class="import" style="font-size:0.9rem;">Some settings can not be changed after starting a game!</span></dd>
+    <dd>Contains important customization options for a new game such as use of Metric. <span class="import" style="font-size:0.9rem;">Some settings can't be changed after starting a game!</span></dd>
     <dt>NPC Options</dt>
     <dd>Set numerous options for the NPCs that are generated in the game, to customize them to fit the scenario you'd like.</dd>
-    <dt>NPC Editor</dt>
-    <dd>this is a super-detailed setup to allow you to control nearly everything about NPC creation. It also lets you save them as a template, so you can share yours or try out other player's setups. <span class="import">[not implemented]</span></dd>
+    <dt>NPC Templates</dt>
+    <dd>this is a super-detailed setup to allow you to control nearly everything about NPC creation. You can share yours or try out other player's setups as well.</dd>
     <dt>Premade Characters</dt>
-    <dd>is where you can select a premade character or start a roleplay challenge. <span class="import">[not implemented]</span></dd>
+    <dd>is where you can select a premade character to play with. <span class="import">[not implemented]</span></dd>
     </dl>
   </div>
   <<if $swim === "[dev]" || $swim === "[elite]">>

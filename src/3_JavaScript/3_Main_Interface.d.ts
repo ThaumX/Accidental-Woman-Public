@@ -163,6 +163,7 @@ interface setup {
   week: setupWeek;
   library: setupLibrary;
   sex: setupSex;
+  sexToys: setupSexToys;
   dialog: { (title: string, content?: twee | 0): void };
   loadOnce: number;
   sexActs: any;
@@ -318,6 +319,34 @@ interface setup {
   bukkake: () => void;
   bodyPortraitFemale: (char?: string) => string;
   hasGun: () => boolean;
+  lab: setupLab;
+  giveSSTD: () => void;
+  reasonYouCant: (test: string | boolean) => string;
+  indexOfMax: (arr: number[]) => number;
+  reasonPrettifier: (test: string) => string;
+  convoParse: () => void;
+  parsed: boolean;
+  forwardPassage: string | false;
+  getNPCs: (type: string) => npcid[];
+  getLovers: () => npcid[];
+  getExclusive: () => npcid[];
+  getFriends: () => npcid[];
+  npcHomes: npcHomes;
+  hadSexWith: (npc: npcid, level: number) => void;
+  isSuspicious: (npcid: npcid) => boolean;
+  npcEditorList: () => string;
+  churchLaunch: (church: string) => void;
+
+  // Anenn markup
+  editorCalc: (NPC: NPC) => void;
+
+  camFlag : (value: string) => any;
+
+  setCamShow: () => void;
+  /* ========== */
+
+  vow: IntSetupVows;
+  npcTemplate: IntSetupNPCtemplate;
 }
 
 interface ↂinterface {
@@ -325,6 +354,7 @@ interface ↂinterface {
   plans: plans;
   sched: ↂsched;
   home: ↂhome;
+  toys: ↂtoys;
   flag: ↂflag;
   pc: PC;
   skill: Skills;
@@ -350,6 +380,7 @@ interface ↂinterface {
 
 interface aw {
   besty: {}; // a temporary variable home for Besty that can be burned at will
+  npcTemplates: {};
   dialogCloseEvent: () => void;
   dishes: dish[];
   ingredients: any;
@@ -516,6 +547,15 @@ interface aw {
   hang: awHangData;
   badWords: string[];
   tempJobContent: string; // workaround for besty fuckery in randomly adding sex scenes to job events
+  textingMacroData: IntTextingMacroContent[];
+  textingMacroCount: number;
+  data: {
+    [propName: string]: string;
+  };
+  pseudo: IntAWpseudo;
+  SAL: any;
+  asbs: string;
+  npcTemplate: IntAWnpcTemplate;
 }
 
 
@@ -541,6 +581,7 @@ interface setupLibrary {
   initSAN: { (): void };
   sexActN: any;
   callSexAct: { (book: string, chapter: string, page?: string | -1, chapArray?: 0 | any[]): string };
+  callModSexAct: { (book: string, chapter: string, page?: string | -1, chapArray?: 0 | any[]): string };
   sexact: any;
   killSA: { (): void };
   initSA: { (): void };
@@ -902,6 +943,20 @@ interface ↂhome {
   };
 }
 
+interface ↂtoys {
+  parts: {
+    mouth: false | string; // free or sextoy key
+    arms: false | string;
+    legs: false | string;
+    asshole: false | string;
+    clit: false | string;
+    vagina: false | string;
+    groin: false | string;
+    nipples: false | string;
+    breasts: false | string;
+  };
+}
+
 interface ↂmakeup {
   eye: string[];
   lip: string[];
@@ -958,62 +1013,6 @@ interface ↂstoreInv {
   shoes: any[];
 }
 
-interface ↂsex {
-  tabs: number;
-  pos: string;
-  posNPC: string[];
-  lastPos: string;
-  pcAct: string;
-  pcLastAct: string;
-  pcActRecord: string[];
-  npcAct: string[];
-  npcLastAct: string[];
-  npcActRecord: string[][];
-  inPosition: number[];
-  target: number;
-  enviroTags: string[];
-  situOrg: number;
-  pcOrgasm: number;
-  npcOrgasm: number[];
-  turns: number;
-  start: boolean;
-  activeNPC: string[];
-  npcCount: number;
-  startTime: 0 | time;
-  film: boolean;
-  pcOutput: string;
-  npcOutput: string[];
-  orgText: {
-    [propName: string]: string;
-  };
-  cumInfo: any[];
-  encounter: string[];
-  speed: number;
-  pcBC: any;
-  npcBC: BirthCon[];
-  fucking: boolean;
-  pcWetness: number;
-  npcWetness: number[];
-  pcLube: lubeObject;
-  npcLube: lubeObject[];
-  pcOrgQuality: any[];
-  npcOrgQuality: 0 | any[];
-  earlyOut: boolean;
-  passage: string;
-  risky: boolean;
-  orgCountPC: number;
-  orgCountNPC: number[];
-  maleCount: number;
-  endFlag: boolean;
-  persona: string;
-  flag: {
-    [propName: string]: any;
-  };
-  scene: boolean;
-  npc: NPC[];
-  timer: number;
-  menu: false | string;
-}
 
 interface setupAWSC {
   ref: { (varName: string, opt: "parse" | "set", value?: any): any};

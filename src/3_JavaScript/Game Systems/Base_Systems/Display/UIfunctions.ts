@@ -77,7 +77,11 @@ setup.ui = {
       out += "<<link [img[Character Menu|IMGcharacter_disabled]]>><</link>>";
       out += "<<link [img[Social Menu|IMGcontacts_disabled]]>><</link>>";
       out += "<<link [img[Game Encyclopedia|IMGgameguide]]>><<replace '#guidecontainer'>><<include [[UIGuideContainer]]>><</replace>><</link>>";
-      out += "<<link [img[Game Settings|IMGsettings]]>><<replace '#awUIcontainer'>><<include [[MENU-GameSettingMain]]>><</replace>><</link>>";
+      if (aw.passage.title === "HomeMenu") {
+        out += "<<link [img[Game Settings|IMGsettings_disabled]]>><</link>>";
+      } else {
+        out += "<<link [img[Game Settings|IMGsettings]]>><<replace '#awUIcontainer'>><<include [[MENU-GameSettingMain]]>><</replace>><</link>>";
+      }
       if (ↂ.flag.alarmClock[0]) {
         // tslint:disable-next-line:max-line-length
         out += "<<link [img[Phone Alarm Clock|IMGalarmButtonOn]]>><<dialog 'Alarm Clock'>><<include [[menuAlarmClock]]>><</dialog>><</link>>";
@@ -345,7 +349,7 @@ setup.ui = {
         }
         let excluded = ["home", "homeT1", "homeT2", "homeT3", "homeT4", "bullseye"];
         if (!excluded.includes(ↂ.map.loc[0])) {
-          out += "<<link [img[Go Home|IMG_GoToHome]]>><<gotomap 'home' 'foyer'>><</link>>";
+          out += "<<link [img[Go Home|IMG_GoToHome]]>><<if State.active.variables.cart.length > 0>><<notify>>You must pay before leaving!<</notify>><<else>><<gotomap 'home' 'foyer'>><</if>><</link>>";
           ct++;
           if (ᛔ.cart.length > 0) {
             out += "<<link [img[Purchase Cart Items|IMG_PayShopIcon]]>><<run setup.shop.purchase()>>"
@@ -359,7 +363,7 @@ setup.ui = {
           out += school;
           ct++;
         }
-        if (ↂ.pc.status.milkStore >= ↂ.pc.body.lactCapacity * 0.8 &&
+        if (ↂ.pc.status.milkStore >= ↂ.pc.body.totalMilkCapacity * 0.75 &&
           State.active.variables.items.has(
             "NipJoy Manual Breast Pump",
             "Dainty-Tits Electric Breast Pump",
@@ -387,8 +391,14 @@ setup.ui = {
               }
             }
             // tslint:disable-next-line:max-line-length
-            if (ↂ.flag.schedDates.length !== 0 && ↂ.plans.current[i].type === "date" && ↂ.plans.current[i].missed && aw.time < (ↂ.plans.current[i].start + 60) && aw.time > ↂ.plans.current[i].start && ↂ.plans.current[i].locmap === ↂ.map.loc[1]) {
-              out += `<<link [img[Date ${ↂ.plans.current[i].name}|IMG_DatingIcon]]>><<run setup.npcDate.date("${ↂ.plans.current[i].npc[0]}", "${ↂ.plans.current[i].locmap}")>>`
+            const homes = ["homeT1", "homeT2", "homeT3", "homeT4", "homeT5"];
+            const place = ↂ.plans.current[i].locmap as string;
+            if (ↂ.flag.schedDates.length !== 0 && ↂ.plans.current[i].type === "date" && ↂ.plans.current[i].missed && aw.time < (ↂ.plans.current[i].start + 60) && aw.time > ↂ.plans.current[i].start && ↂ.plans.current[i].locmap === ↂ.map.loc[1] && aw.datePlaces[place][3] !== "Your home") {
+              out += `<<link [img[${ↂ.plans.current[i].name}|IMG_DatingIcon]]>><<run setup.npcDate.date("${ↂ.plans.current[i].npc[0]}", "${ↂ.plans.current[i].locmap}")>>`
+                    + "<</link>>";
+              ct++;
+            } else if (ↂ.flag.schedDates.length !== 0 && ↂ.plans.current[i].type === "date" && ↂ.plans.current[i].missed && aw.time < (ↂ.plans.current[i].start + 60) && aw.time > ↂ.plans.current[i].start && homes.includes(ↂ.map.loc[0]) && aw.datePlaces[place][3] === "Your home") {
+              out += `<<link [img[${ↂ.plans.current[i].name}|IMG_DatingIcon]]>><<run setup.npcDate.date("${ↂ.plans.current[i].npc[0]}", "${ↂ.plans.current[i].locmap}")>>`
                     + "<</link>>";
               ct++;
             }
@@ -440,24 +450,44 @@ setup.ui = {
             }
           }
         }
-        if (excluded.includes(ↂ.map.loc[0])) {
+        if (excluded.includes(ↂ.map.loc[0]) && (ↂ.map.loc[0] !== "BFhome" || State.active.variables.BFlove)) {
           out += "<<link [img[Brush your teeth|IMG_BrushTeethIcon]]>><<run setup.bath.brushTeeth()>>"
             + "<<addTime 2>><</link>>";
           ct++;
           if ((setup.time.minutes() >= 1320 || setup.time.minutes() < 240) && home.includes(ↂ.map.loc[0])) {
-            if (ↂ.map.loc[1] === "bedroom") {
-              out += "<<link [img[Go to Sleep|IMG_SleepIcon]]>><<run setup.sleep.go()>><</link>>";
-              ct++;
-            } else { // this variant has a setTimeout to prevent the navigation/sleep conflict.
-              out += "<<link [img[Go to Sleep|IMG_SleepIcon]]>><<gotomap 'home' 'bedroom'>><<run setTimeout(()=> setup.sleep.go(), 500)>><</link>>";
-              ct++;
+            if (ↂ.map.loc[0] === "BFhome" && State.active.variables.BFlove) {
+              // sleep over
+              if (ↂ.map.loc[1] === "bedroom") {
+                out += "<<link [img[Go to Sleep|IMG_SleepIcon]]>><<run setup.sleep.go()>><</link>>";
+                ct++;
+              } else { // this variant has a setTimeout to prevent the navigation/sleep conflict.
+                out += "<<link [img[Go to Sleep|IMG_SleepIcon]]>><<gotomap 'BFhome' 'bedroom'>><<run setTimeout(()=> setup.sleep.go(), 500)>><</link>>";
+                ct++;
+              }
+            } else if (ↂ.map.loc[0] !== "BFhome") {
+              if (ↂ.map.loc[1] === "bedroom") {
+                out += "<<link [img[Go to Sleep|IMG_SleepIcon]]>><<run setup.sleep.go()>><</link>>";
+                ct++;
+              } else { // this variant has a setTimeout to prevent the navigation/sleep conflict.
+                out += "<<link [img[Go to Sleep|IMG_SleepIcon]]>><<gotomap 'home' 'bedroom'>><<run setTimeout(()=> setup.sleep.go(), 500)>><</link>>";
+                ct++;
+              }
             }
           }
         }
-        if (ↂ.pc.status.happy < -7) {
+        if (ↂ.pc.status.happy < -5 && ↂ.map.loc[2] !== "bridge") {
+          out += `<<link [img[Finish it all|IMG-SuicideIcon]]>><<gotomap "world" "bridge" "bridge">><</link>>`;
+          ct++;
+        }
+        if (ↂ.pc.status.happy < -7 && ↂ.map.loc[2] !== "bridge") {
           const nums = Math.max(0, 6 - ct);
           for (let i = 0; i < nums; i++) {
             out += `<<link [img[Finish it all|IMG-SuicideIcon]]>><<gotomap "world" "bridge" "bridge">><</link>>`;
+          }
+        } else if (ↂ.pc.status.happy < -7) {
+          const nums = Math.max(0, 6 - ct);
+          for (let i = 0; i < nums; i++) {
+            out += `<<link [img[Finish it all|IMG-SuicideIcon]]>><<dialog "Last choice">>You stand on the bridge banister and look into the dark blue waters of the Sahne river.<br><br>@@.mono;This is too much for me. Just one step and this all will be over for good.@@<br><br>Your knees are trembling as ancient self-preservation mechanisms try to save you from making the step to the nonexistence.<br><br>@@.mono;Come on, <<print ↂ.pc.main.name>> you can do it. Just close your eyes and take a step forward...@@<br><br><center><<button "Jump">><<run setup.badEnd("suicide")>><</button>><<button "Don't">><<run Dialog.close()>><</button>></center><</dialog>><</link>>`;
           }
         }
       }
@@ -649,7 +679,7 @@ setup.ui = {
       }
     }
     if (ↂ.pc != null) {
-      if (k < 8 && ↂ.pc.status.nutrition !== undefined && setup.valToBMI(ↂ.pc.status.nutrition.realWeight) < 15) {
+      if (k < 8 && ↂ.pc.status.nutrition !== undefined && setup.valToBMI(ↂ.pc.status.nutrition.realWeight) < 15 && !ↂ.flag.Prologue) {
         output += `<img data-passage="IMGstatus_Starvation" style="opacity:0.7;">`;
         k++;
       }
@@ -717,7 +747,7 @@ setup.ui = {
         }
         k++;
       }
-      if (k < 8 && ↂ.pc.status.wombA.fetus.length > 0 || ↂ.pc.status.wombB.fetus.length > 0) {
+      if (k < 8 && (ↂ.pc.status.wombA.fetus.length > 0 && ↂ.pc.status.wombA.know) || (ↂ.pc.status.wombB.fetus.length > 0 && ↂ.pc.status.wombB.know)) {
         output += `<img data-passage="IMGstatus_pregnant" style="opacity:0.7;">`;
         k++;
       }
@@ -792,9 +822,14 @@ setup.ui = {
     UI.saves();
   },
   menuButtonTrigger(): void {
-    $("#menu-item-restart").click(() => UI.restart());
+    $("#menu-item-restart").click(function() {
+      setup.dialog("Are You Sure?", `<center><h2>Restart the Game</h2><<button "RESTART">><<run UI.restart()>><</button>><br><br>Caution: It is safer to close the game tab and reopen the game. The restart functionality can cause errors to arise during gameplay on some systems.</center>`);
+    });
     $("#menu-item-settings").click(() => UI.settings());
-    $("#menu-item-saves").click(() => setup.ui.saveLaunch());
+    $("#menu-item-saves").click(function() {
+      Engine.play(aw.passage.title);
+      setup.ui.saveLaunch();
+    });
   },
   npcCount(): string {
     let x = State.active.variables.UIimg.length;

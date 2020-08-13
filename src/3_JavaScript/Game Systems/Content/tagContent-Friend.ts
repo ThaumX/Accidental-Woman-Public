@@ -116,7 +116,7 @@ aw.tagContent.friend.illnessBad = [
 aw.tagContent.friend.nakedBottom = [
   `
   <<if aw.npc[setup.interact.status.npc].kink.exhibition || aw.npc[setup.interact.status.npc].kink.liberate>>@@.npc;Oh, wow. Nice day for giving your kitten some fresh air, mm? Looking good by the way.@@<<elseif aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Oh, damn, <<print ↂ.pc.main.name>> please, cover your butt with something!@@<<else>>@@.npc;Oh... well... I am pretty sure that you are aware that you are half naked, huh?@@<</if>><br>
-  <<has exhibition>>You can't but wiggle your <<p assSize>> butt a bit, presenting your nakedness to the friend.<br>@@.mono;Oh yes, stare at me. Damn, that is exciting!@@<br>
+  <<has exhibition>>You can't but wiggle your <<pcAssSize>> butt a bit, presenting your nakedness to the friend.<br>@@.mono;Oh yes, stare at me. Damn, that is exciting!@@<br>
   @@.pc;Do you like it?@@<br><<arouse 2>><<orhas slut>><<arouse 2>>You can't but enjoy the attention to your naked bottom and pussy.<br><<orhas liberate>>You feel pretty comfortable with your lower part naked.<br><<orhas shame>><<stress 10 "Naked pussy convo">>You feel terribly insecure and going tomato red from embarassment.<br><<arouse -2>>@@.mono;How did I ever allow that to happen? I want just die right now.@@<br><<or>><<stress 7 "Naked pussy convo">>You feel pretty uncomfortable being exposed like this even with a friend.<br><<arouse -1>><</has>>
   <<dialogchoice>>
       <<dbutt "Present" "ↂ.pc.kink.exhibition">><<intreplace>><<ctagcontent "friend" "NakedBottomPresent">><</intreplace>>

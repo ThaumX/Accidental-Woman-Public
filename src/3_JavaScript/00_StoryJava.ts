@@ -89,9 +89,14 @@ setup.resourceLoadFinished = function(): void {
     "Monitoring the Tissue Vats...",
     "Creating Link to Azathoth...",
     "Blaming Besty...",
-    "Blaming Besty!",
     "Polishing Bones...",
     "Industrializing the Birthrate...",
+    "Planting Tentacle Monsters...",
+    "Dosing the Town Water Supply...",
+    "Generating Weaponized Puns...",
+    "Percolating the Breast Milk...",
+    "Securing the SCP Content...",
+    "Herding the Bimbos...",
   ];
   const verb = State.temporary.verb.pluck();
   const first = `<div id="imgpbar"></div><br><span id="verb" class="megrim white" style="font-size: 1.2rem;font-weight:bold;">${verb}</span><<repeat 2s>><<replace "#verb">><<= _verb.pluck()>><</replace>><</repeat>>`;
@@ -115,7 +120,7 @@ setup.resourceLoadFinished = function(): void {
     }
     if (pass) {
       start();
-    } else if (cunter < 11) {
+    } else if (cunter < 36) {
       setTimeout(cockery, 200);
     } else {
       start();
@@ -136,7 +141,9 @@ if (window.performance) {
 }
 
 $(function() {
-  $(document).tooltip();
+  $(document).tooltip({
+    hide: false,
+  });
 });
 
 

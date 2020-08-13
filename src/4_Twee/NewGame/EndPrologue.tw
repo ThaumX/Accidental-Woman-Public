@@ -32,6 +32,10 @@
 <</if>>
 <<set ↂ.map.loc = ["home","foyer"]>>
 <<set $activeNPC = []>>
+<<set $gamestate.characters += 1>>
+<<run setup.storeState()>>
+<<set $showMenuButton = true>>
+<<set $showData = true>>
 <<goto "FinalProloguePage">>
 </div>
 
@@ -49,7 +53,7 @@
 <</timed>>
 <<timed 3000ms>>
   <<replace "#cocker">>
-    <span class="megrim blackOutline" style="font-size:40px;font-weight:bolder;"><<link "It All Starts Here">>
+    <span class="megrim blackOutline" style="font-size:30px;font-weight:bolder;"><<button "It All Starts Here">>
       <<replace "#cocker">>
         <<animexit "biggo" "fadeInUp" "fadeOutUp">>
         <<status>>
@@ -60,7 +64,7 @@
           <</script>>
         <</timed>>
       <</replace>>
-    <</link>></span>
+    <</button>></span>
   <</replace>>
 <</timed>>
 </div>

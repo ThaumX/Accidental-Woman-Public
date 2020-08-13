@@ -37,6 +37,9 @@ interface setupInitialize {
 
 setup.initialize = {} as setupInitialize;
 
+// Anenn markup!
+aw.npcTemplates = {};
+
 setup.initialize.zero = function() {
   // should be running mod loading commandos
   const balls = function() {
@@ -95,12 +98,26 @@ setup.initialize.one = function() {
   State.active.variables.AW.toStoreNPCs = [];
   State.active.variables.AW.pcPortrait = "[img[You|IMGpcPort]]";
 
+  State.active.variables.npcTemplate = {
+    enabled: false,
+    ratio: 25,
+    count: 0,
+  };
+
   // TIME AND DATE STUFFS*/
   State.active.variables.time = [18, 0, false];
   State.active.variables.date = [1, 1, 4, 2032]; // in-game date day, week, month, year*/
   State.active.variables.timeChunk = 0;
   State.active.variables.timeCount = 0;
   State.active.variables.tVal = 120960;
+
+  // BF Homes
+  State.active.variables.BFid = "n101";
+  State.active.variables.BFname = "Lily";
+  State.active.variables.BFnum = 4;
+  State.active.variables.BFlove = false;
+  State.active.variables.BFhome = false;
+  State.active.variables.BFroom = "living room";
 
   // play time*/
   State.active.variables.week = 0;
@@ -1052,6 +1069,7 @@ setup.initialize.nine = function() {
     npcOrgasm: [],
     turns: 0,
     start: true,
+    rape: false,
     activeNPC: [],
     npcCount: 0,
     startTime: 0,
@@ -1087,11 +1105,15 @@ setup.initialize.nine = function() {
     endFlag: false,
     persona: "norm",
     flag: {
-      askedCondom: false,
-      knowsAcid: false,
       askedPullOut: false,
       askedCumInside: false,
+      askedCondom: false,
       triedRemoveCondom: false,
+      pickedDom: 0,
+      pickedSub: 0,
+      anal: false,
+      oral: false,
+      vag: false,
     },
     scene: false,
     npc: [],
@@ -1111,9 +1133,43 @@ setup.initialize.ten = function() {
 
   // CHILDS ARRAY
   ↂ.child = [];
+
+  // SEXTOYS OBJECT AND STUFF
+  ↂ.toys = {
+  parts : {
+    mouth: false,
+    arms: false,
+    legs: false,
+    asshole: false,
+    clit: false,
+    vagina: false,
+    groin: false,
+    nipples: false,
+    breasts: false,
+    },
+  };
+
   // GAME FLAGGERS
 
   ↂ.flag = {
+    camShow: {
+      nickname: '',
+      popularity: 0,
+      dailyStream: true,
+      actualRequest: 0,
+      daysAbsent: 0,
+      followers: 0,
+      stats: {
+        expCap : 10,
+        experience: 0,
+        level: 1
+      },
+      flags: [],
+      story: {
+        home_shows : 0,
+        park_shows : 0
+      }
+    },
     LilyResult: [],
     sleepfailwarn: false,
     profane: false, // whether character's name is slutty/profanity
@@ -1128,16 +1184,31 @@ setup.initialize.ten = function() {
     LilyHouseAvailable: false,
     StaredLily: false,
     main: {
-      male: {},
+      male: {
+        workResponse: 0,
+        saraIntro: false,
+      },
       female: {
         firstText: false,
         metLily: false,
         helpResp: 0,
+        kimIntro: false,
+        whatIsIt: false,
+        kimSpecial: false,
+        kimPregnant: false,
       },
       startText: false,
       mainStart: false,
       omniKey: 0,
+      rangBellToday: false,
+      active: [true, false, false, false, false, false, false, false, false],
+      progress: [0, 0, 0, 0, 0, 0, 0, 0, 0], // 0 to 1000 to represent one decimal place
+      known: [true, false, false, false, false, false, false, false, false],
+      deadline: [191520, 241920, 0, 0, 0, 0, 0, 0, 0],
+      contacts: [false, false, false, 0, 0, 0, 0],
     },
+    lilyTased: 0,
+    buggedLily: 0,
     selfEmployed: false,
     unemployedDays: 0,
     selfEmployType: "none",
@@ -1284,7 +1355,7 @@ setup.initialize.ten = function() {
     door: { // unlock door/burger codes
       megaTits: 0,
       tries: 2,
-      code: 1661,
+      code: 1551,
       ultraFertile: 0,
       puddlingCunt: 0,
       pussyPheromones: 0,
@@ -1329,8 +1400,9 @@ setup.initialize.ten = function() {
     oystersWithMom: false,
     playerNotes: ["none"],
     bank: { // information on whether you have X bank account with the bank.
-      faust: { saving: false, loan: false, credit: false },
-      indigo: { saving: false, loan: false, credit: false },
+      faust: { saving: false, loan: false, credit: false, appLoan: false, appCred: false},
+      indigo: { saving: false, loan: false, credit: false, appLoan: false, appCred: false},
+      payment: 0,
     },
     listenToLily: 0,
     prologueBusReaction: [0],
@@ -1378,14 +1450,24 @@ setup.initialize.ten = function() {
     suicideList: [],
     schedHangs: [],
     schedDates: [],
+    homeVisit: [0, "none"],
+    doms: [],
+    subs: [],
+    keyHolding: ["none", "none"], // npcId and stage
+    keyHolders: ["none", "none"], // npcId and stage
+    sendKeyReturned: [false, false, false],
+    sendKeyLost: [false, false, false],
     psycho: {
       caught: false,
     },
+    victimName: "",
     jobEvents: {  // tracks job related events
       services: {
         sawChinese: false,
       },
-      sperm: {},
+      sperm: {
+        boardBoss: 0,
+      },
       bureau: {},
       maid: {
         firstDay: true,
@@ -1428,6 +1510,10 @@ setup.initialize.ten = function() {
       residentialHannaWorks: true, // false if dealer is busted so he will not appear more at the corner.
       residentialHannaMet: false, // if pc ever met Hanna - used for correct npc behaviour when pc talks to him
     },
+    hannaStory: {
+      stage: "none",
+      money: 0,
+    },
     farm: { // IntFarmFlags
       member: false,
       joinDate: [0, 0, 0, 0],
@@ -1448,6 +1534,11 @@ setup.initialize.ten = function() {
     psychoAttend : { // doctor's name: [if subscribed to the doctor, last week number pc attended, last month number pc attended, last event text used]
       lecter: [false, 0, 0, 0],
     },
+    churchAttend: {
+      outer: false,
+      cock: false,
+      man: false,
+    },
     plasticOperationType: "none", // because i need to store it somewhere
     plasticOperationSize: "none",
     expandP: false,
@@ -1462,9 +1553,20 @@ setup.initialize.ten = function() {
     wlgRead: false,
     magazinesCount: 0,
     magazinesTotal: 4,
+    shelterVisits: 0,
+    bestialityExperience: false,
+    fairMail: false,
     fairShooting: false,
     fairMilking: false,
     fertilitySeal: false,
+    fuckMachineDildo: "false",
+    marriage: {
+      date: [1, 1, 1, 2032],
+      npc: "none",
+      discussion: false,
+      NPCvows: ["none", "none", "none"], // obligatory, optional, optional
+      PCvows: [],
+    },
     npcInducedInteractions: {
       destination: 0,
       intType: "none",
@@ -1496,6 +1598,25 @@ setup.initialize.ten = function() {
       health: [],
     },
     pumpDumpUnlock: false,
+    sexRecord: {
+      makeout: 0,
+      sex: 0,
+      oral: 0,
+      anal: 0,
+      public: 0,
+      domsub: 0,
+      forced: 0,
+      creampie: 0,
+      accidentCP: 0,
+      unprotected: 0,
+      nocumNPC: 0,
+      nocumPC: 0,
+    },
+    vows: {},
+    liveTogether: false,
+    liveWith: "none",
+    moveInFlag: false,
+    liveWithTier: 0,
   };
   aw.con.info("Initialized Flags.");
 
@@ -1565,13 +1686,13 @@ setup.initialize.ten = function() {
       totalIncome: 0,
       totalExpense: 0,
       bank: 0,
-      bankInterestPer: 1,
+      bankInterestPer: 2,
       bankInterest: 0,
       loan: 0,
       loanPayment: 0,
       loanInterest: 0,
-      loanInterestPer: 12,
-      creditInterestPer: 20,
+      loanInterestPer: 5,
+      creditInterestPer: 8,
       creditInterest: 0,
       credit: 0,
       sett: {

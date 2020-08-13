@@ -27,62 +27,6 @@ interface VagFluid {
   ovary: any[];
 }
 
-interface SexRecord {
-  vanilla: number;
-  oralPC: number;
-  oralNPC: number;
-  anal: number;
-  public: number;
-  swallowed: number;
-  creampie: number;
-  accidentCP: number;
-  forced: number;
-  unprotected: number;
-  interupted: number;
-  nocumNPC: number;
-  nocumPC: number;
-  mob: number;
-  bondage: number;
-  sadoMaso: number;
-  watersport: number;
-  domsub: number;
-  roleplay: number;
-  fetish: number;
-  exhibit: number;
-  rapist: number;
-  raped: number;
-  saboPCbc: number;
-  caughtSabo: number;
-  PCsaboBC: number;
-  PCsaboCaught: number;
-  sexlocs: string[];
-  tags: string[];
-}
-
-interface NPCflags {
-  other: string[];
-  events: string[];
-  knows: string[];
-  rumor: string[];
-  exes: string[];
-  kids: number;
-  kidsPC: number;
-  cheatonPC: number;
-  cheatedon: number;
-  cheatWithPC: number;
-  knowPCcheated: number;
-  PCknowCheated: number;
-  toys: boolean;
-  toysPublic: boolean;
-  knowPCpreg: boolean;
-  isFather: boolean;
-  thinkFather: boolean;
-  suspicion: number;
-  PCsuspicion: number;
-  thinkPCfaithful: boolean;
-  thinkNPCfaithful: boolean;
-  knowsAcidVag: boolean
-}
 
 interface AddictionStatus {
   sex: number;
@@ -943,23 +887,7 @@ interface DataRecord {
   sex: DataSex;
   flag: DataFlag;
   info?: IntNPCRecordInfo;
-}
-
-interface IntNPCRecordInfo {
-  bodyGeneral: boolean;
-  bodyJunk: boolean;
-  bodyTits: boolean;
-  bodyDetail: boolean;
-  status: number;
-  fert: number;
-  trait: number;
-  kink: number;
-  mutate: boolean;
-  core: number;
-  pref: number;
-  sched: boolean;
-  bGround: number;
-  stories : boolean[];
+  cheat?: IntNPCrecCheat;
 }
 
 interface DataFlag {

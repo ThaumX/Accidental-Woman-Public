@@ -40,7 +40,7 @@ setup.map.nav = function(main: locationMain, sub: string, tert: string|false = f
   let dest;
   const homes = ["homeT1", "homeT2", "homeT3", "homeT4", "homeT5"];
   const BFhomes = ["BFhomeT1", "BFhomeT2", "BFhomeT3", "BFhomeT4", "BFhomeT5"];
-  if (State.active.variables.cart.length > 0 && ↂ.map.loc[0] !== "bullseye") {
+  if (State.active.variables.cart.length > 0 && ↂ.map.loc[0] !== "bullseye" && ↂ.map.loc[1] !== "cumandgo") {
     setup.notify("Can't leave without paying!");
     return;
   }
@@ -771,15 +771,11 @@ setup.map.distToExit = function(m: locationMain, s: 0 | string = 0, t: 0 | strin
     },
     BFhome() {
       const ts = {
-        foyer: 10,
+        exterior: 10,
         living: 11,
         kitchen: 11,
         bedroom: 12,
         bath: 12,
-        balcony: 12,
-        clean: 18,
-        bed2: 12,
-        bed3: 12,
       };
       return ts[s];
     },
@@ -1241,7 +1237,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
                 image: "IMGkum&goStore2",
                 passage: "ResidentialCornerInteriorB",
                 loc: "Cum & Go",
-                desc: "are in the section the store that has cleaning, hygiene, and medicine items.",
+                desc: "You are in the section the store that has cleaning, hygiene, and medicine items.",
               };
               break;
             case "shop2":
@@ -1323,7 +1319,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
               break;
             case "sports":
               ret = {
-                name: "Neighborhoot Sports Field",
+                name: "Neighborhood Sports Field",
                 image: "IMGresidentialCourtyard2",
                 passage: "ResidentialSports",
                 loc: "Residential - Sports",
@@ -1363,7 +1359,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
         case "reservoir":
           ret = {
             name: "Tesla Reservoir",
-            image: "IMGtestLocImage",
+            image: "IMGTeslaLocImage",
             passage: "ResidentialReservoir",
             loc: "Tesla Reservoir",
             desc: "You are standing next to a man-made lake that holds Appletree's water supply, though it seems to be treated more like a recreational area.",
@@ -1482,14 +1478,72 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
           };
           break;
         case "government":
-          ret = {
-            name: "Appletree Government Services District",
-            image: "IMG-Location-GovtArea",
-            passage: "ResidentialGovernment",
-            loc: "Government District",
-            desc: "You are in the government district of Appletree.",
-          };
-          break;
+          switch (tert) {
+            case "college":
+              ret = {
+                name: "Appletree College",
+                image: "IMG-Location-GovtCol",
+                passage: "ResidentialGovernmentCollege",
+                loc: "Appletree College",
+                desc: "You are standing in front of the college building.",
+              };
+              break;
+            case "school":
+              ret = {
+                name: "Appletree School",
+                image: "IMG-Location-GovtSchool",
+                passage: "ResidentialGovernmentSchool",
+                loc: "Appletree School",
+                desc: "You are standing in front of the school building.",
+              };
+              break;
+            case "kindergarden":
+              ret = {
+                name: "Appletree Creche and Kindergarden",
+                image: "IMG-Location-GovtCreche",
+                passage: "ResidentialGovernmentCreche",
+                loc: "Creche & Kindergarden",
+                desc: "You are in the creche building.",
+              };
+              break;
+            case "uni":
+              ret = {
+                name: "Appletree University",
+                image: "IMG-Location-GovtUni",
+                passage: "ResidentialGovernmentUniversity",
+                loc: "Appletree University",
+                desc: "You are front of the Appletree university main building.",
+              };
+              break;
+            case "stadium":
+              ret = {
+                name: "Appletree City Stadium",
+                image: "IMG-Location-GovtStadium",
+                passage: "ResidentialGovernmentStadium",
+                loc: "City Stadium",
+                desc: "You are at the only town's stadium.",
+              };
+              break;
+            case "police":
+              ret = {
+                name: "Appletree Police Dept",
+                image: "IMG-Location-GovtPolice",
+                passage: "ResidentialGovernmentPolice",
+                loc: "Appletree Police Dept.",
+                desc: "You are standing in the police department.",
+              };
+              break;
+            default:
+              ret = {
+                name: "Appletree Government Services District",
+                image: "IMG-Location-GovtArea",
+                passage: "ResidentialGovernment",
+                loc: "Government District",
+                desc: "You are in the government district of Appletree.",
+              };
+              break;
+            };
+            break;
       }
       break;
     case "homeT1":
@@ -1633,8 +1687,6 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
       }
       break;
     case "homeT3":
-    case "homeT4":
-    case "homeT5":
       switch (sub) {
         case "kitchen":
           ret = {
@@ -1712,78 +1764,143 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
           break;
       }
       break;
-    case "BFhomeT1":
-    case "BFhomeT2":
-    case "BFhomeT3":
-    case "BFhomeT4":
-    case "BFhomeT5":
+    case "homeT4":
+    case "homeT5":
       switch (sub) {
         case "kitchen":
           ret = {
-            name: "Friend's Kitchen",
+            name: "Your Kitchen",
             image: "IMGhomeKitchen",
-            passage: "homeBFT2kitchen",
-            loc: "Friend's Kitchen",
-            desc: "You are standing in your friend's kitchen.",
+            passage: "homeT4kitchen",
+            loc: "Home - Kitchen",
+            desc: "You are standing in your kitchen.",
           };
           break;
         case "bath":
           ret = {
-            name: "Friend's Bathroom",
+            name: "Your Bathroom",
             image: "IMGhomeBathRoom",
-            passage: "homeBFT2bath",
-            loc: "Friend's Bathroom",
-            desc: "You are standing in your friend's bathroom.",
+            passage: "homeT4bath",
+            loc: "Home - Bathroom",
+            desc: "You are standing in your bathroom.",
           };
           break;
         case "balcony":
           ret = {
-            name: "Friend's Balcony",
+            name: "Your Balcony",
             image: "IMGhomeBalcony",
-            passage: "homeBFT2balcony",
-            loc: "Friend's Balcony",
-            desc: "You are standing on your friend's balcony.",
+            passage: "homeT4balcony",
+            loc: "Home - Balcony",
+            desc: "You are standing on your balcony.",
           };
           break;
         case "clean":
           ret = {
-            name: "Cleaning",
+            name: "Cleaning Options",
             image: "IMGhomePlaceholder",
-            passage: "homeBFT2clean",
-            loc: "Friend's Cleaning",
-            desc: "You're inside your friend's home.",
+            passage: "homeT2clean",
+            loc: "Home Management",
+            desc: "You're inside your home.",
           };
           break;
         case "bed2":
+          ret = {
+            name: "Spare Bedroom",
+            image: "IMGhomeBedRoom",
+            passage: "homeT4bed2",
+            loc: "Home - Spare Bedroom",
+            desc: "You are standing in your spare bedroom.",
+          };
+          break;
         case "bed3":
+          ret = {
+            name: "Home Office",
+            image: "IMG-HomeBedroomThree",
+            passage: "homeT4bed2",
+            loc: "Home - Home Office",
+            desc: "You are standing in your home office, which is really just a third bedroom.",
+          };
+          break;
         case "bedroom":
           ret = {
-            name: "Friend's Bedroom",
+            name: "Your Bedroom",
             image: "IMGhomeBedRoom",
-            passage: "homeBFT2bedroom",
-            loc: "Friend's Bedroom",
-            desc: "You are standing in your friend's bedroom.",
+            passage: "homeT4bedroom",
+            loc: "Home - Bedroom",
+            desc: "You are standing in your bedroom.",
           };
           break;
         case "living":
           ret = {
-            name: "Friend's Living Room",
+            name: "Your Living Room",
             image: "IMGhomeLivingRoom",
-            passage: "homeBFT2livingroom",
-            loc: "Friend's Living Room",
-            desc: "You are standing in your friend's living room.",
+            passage: "homeT4livingroom",
+            loc: "Home - Living Room",
+            desc: "You are standing in your living room.",
           };
           break;
         case "foyer":
         default:
           ret = {
-            name: "Friend's Foyer",
+            name: "Your Foyer",
             image: "IMGhomeFoyer",
-            passage: "homeBFT2Foyer",
-            loc: "Friend's Foyer",
-            desc: "You are standing in your friend's foyer.",
+            passage: "homeT4foyer",
+            loc: "Home - Foyer",
+            desc: "You are standing in your foyer.",
           };
           break;
+      }
+      break;
+    case "BFhome":
+      // get relevant BF infos
+      const bfname = (State.active.variables.BFname != null) ? State.active.variables.BFname : "Error";
+      const bfnum = (State.active.variables.BFnum != null) ? State.active.variables.BFnum : 4;
+      switch (sub) {
+        case "kitchen":
+          ret = {
+            name: `${bfname}'s Kitchen`,
+            image: `IMG-BFkitchen${bfnum}`,
+            passage: "homeBFkitchen",
+            loc: `${bfname}'s Kitchen`,
+            desc: `You are standing in ${bfname}'s kitchen.`,
+          };
+          break;
+        case "bath":
+          ret = {
+            name: `${bfname}'s Bathroom`,
+            image: `IMG-BFbath${bfnum}`,
+            passage: "homeBFbath",
+            loc: `${bfname}'s Bathroom`,
+            desc: `You are standing in ${bfname}'s bathroom.`,
+          };
+          break;
+        case "bedroom":
+          ret = {
+            name: `${bfname}'s Bedroom`,
+            image: `IMG-BFbed${bfnum}`,
+            passage: "homeBFbedroom",
+            loc: `${bfname}'s Bedroom`,
+            desc: `You are standing in ${bfname}'s bedroom.`,
+          };
+          break;
+        case "living":
+          ret = {
+            name: `${bfname}'s Living Room`,
+            image: `IMG-BFliving${bfnum}`,
+            passage: "homeBFlivingroom",
+            loc: `${bfname}'s Living Room`,
+            desc: `You are standing in ${bfname}'s living room.`,
+          };
+          break;
+        case "exterior":
+        default:
+          ret = {
+            name: `${bfname}'s Place`,
+            image: (bfnum > 4) ? `IMG-BFdoor2` : `IMG-BFdoor1`,
+            passage: "homeBFexterior",
+            loc: `${bfname}'s Place`,
+            desc: `You are standing in front of ${bfname}'s front door.`,
+          }
       }
       break;
     case "downtown":
@@ -1798,12 +1915,25 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
           };
           break;
         case "holefoods":
-          ret = {
-            name: "Hole Foods Marketplace",
-            image: "IMG_HoleFoodsExt",
-            passage: "DowntownHole",
-            loc: "Hole Foods Exterior",
-            desc: "You're standing outside the Hole Foods Marketplace. It's a rather ritzy-looking grocery store, that seems to focus on the health and <i>lifestyle</i> benefits of a good diet.",
+          switch (tert) {
+            case "inside":
+              ret = {
+                name: "Hole Foods inside",
+                image: "IMG-HoleFoodsInside",
+                passage: "DowntownHoleinside",
+                loc: "Hole Foods Inside",
+                desc: "You're in the spacious grocery store full of all kinds of goods. It seems, they have like every possible food you can think of.",
+              };
+              break;
+            case "outside":
+              ret = {
+                name: "Hole Foods Marketplace",
+                image: "IMG_HoleFoodsExt",
+                passage: "DowntownHole",
+                loc: "Hole Foods Exterior",
+                desc: "You're standing outside the Hole Foods Marketplace. It's a rather ritzy-looking grocery store, that seems to focus on the health and <i>lifestyle</i> benefits of a good diet.",
+                };
+                break;
           };
           break;
         case "corp":

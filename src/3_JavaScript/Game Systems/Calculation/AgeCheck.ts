@@ -362,9 +362,9 @@ Macro.add("agecheck", {
     }
     let success;
     if (this.args[0] === 21) {
-      success = setup.ageCheck.ageCheck21(this.args[1], this.args[2]);
+      success = setup.ageCheck.ageCheck21(this.args[1] as 0 | 1 | 2 | 3, this.args[2]);
     } else if (this.args[0] === 18) {
-      success = setup.ageCheck.ageCheck18(this.args[1], this.args[2]);
+      success = setup.ageCheck.ageCheck18(this.args[1] as 0 | 1 | 2 | 3, this.args[2]);
     } else {
       return this.error(`Age argument provided to agecheck can be either 18 or 21. Got ${this.args[0]} instead.`);
     }

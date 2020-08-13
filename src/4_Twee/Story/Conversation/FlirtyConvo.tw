@@ -46,7 +46,7 @@
     <<set setup.interact.status.temp.ctag = _ctag>>
   <</if>>
 <</silently>>
-<<if _ctag !== "none" || !setup.interact.status.temp.usedTags.includes(_ctag)>>>>
+<<if _ctag !== "none" || !setup.interact.status.temp.usedTags.includes(_ctag)>>
   <<ctagcontent "flirty" _ctag>>
 <<else>>
   <<include [[NPCinteraction-FlirtyContinue]]>>
@@ -63,12 +63,14 @@
 <<set _ctag = setup.interact.status.temp.cTag>>
 <</silently>>
 <<dialogchoice>>
-<<dbutt "Saying Hello" false>><<set setup.interact.status.temp.ctag = "none">><<addTime 3>><<intgo "NPCinteraction-FlirtyTag">>
+<<dbutt "Saying Hello">><<set setup.interact.status.temp.ctag = "none">><<addTime 3>><<intgo "NPCinteraction-FlirtyTag">>
 <<dtext "happy">>You don't have an objective, you just wanted to say hello since you were nearby.
-<<dbutt "Arrange Date" false>><<set setup.interact.status.temp.ctag = "none">><<addTime 5>><<set _rr = random(1,4)>><<if !aw.npc[_npc].rship.rejected && _rr > 1>><<intgo "NPCinteraction-FlirtyDate">><<else>><<intgo "NPCinteraction-FlirtyNoDate">><</if>>
+<<dbutt "Arrange Date">><<set setup.interact.status.temp.ctag = "none">><<addTime 5>><<set _rr = random(1,4)>><<if !aw.npc[_npc].rship.rejected && _rr > 1>><<intgo "NPCinteraction-FlirtyDate">><<else>><<intgo "NPCinteraction-FlirtyNoDate">><</if>>
 <<dtext "bimbo">>You want to go out on a date!
-<<dbutt "Hang Out" false>><<set setup.interact.status.temp.ctag = "none">><<addTime 5>><<intgo "NPCinteraction-FlirtyHang">>
+<<dbutt "Hang Out">><<set setup.interact.status.temp.ctag = "none">><<addTime 5>><<intgo "NPCinteraction-FlirtyHang">>
 <<dtext "happy">>You thought you'd see about getting together sometime to hang out.
+<<dbutt "Bye">><<addTime 3>><<run setup.interact.exit()>>
+<<dtext "happy">>You need to go actually.
 <</dialogchoice>>
 
 

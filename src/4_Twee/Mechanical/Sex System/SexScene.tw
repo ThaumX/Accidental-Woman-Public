@@ -64,7 +64,7 @@
 </div>
 <div id="sexInfoPositionSide" class="tit">
   <span class="monospace white" style="font-size:26px;"><<print setup.timeDisp>></span><br>
-  <span class="monospace" style="font-size:20px;"><<print setup.time.dif(ↂ.sex.startTime,$time)>></span> mins<br>
+  <span class="monospace" style="font-size:20px;"><<print ↂ.sex.timer>></span> mins<br>
   ''NPCs:'' <<print ↂ.sex.npcCount>><br>
   ''Turns:'' <<print ↂ.sex.turns>>
 </div>
@@ -90,7 +90,7 @@
     <span class="megrim">Special Menu</span>
   <<else>>
     <<link "[img[Select Target|IMG_SexTarget]]">><<run setup.sex.characterTargets()>><</link>>
-    <span id="actside-redobutt" onclick="window.SugarCube.Engine.link(&quot;sex.sexAction('repeat')&quot;)">[img[Repeat Action|IMG_SexRedoAct]]</span>
+    <<if ↂ.sex.pcAct.substring(0, 10) === "positionCh">><span id="actside-redobutt" onclick="">[img[Repeat Action|IMG_SexRedoAct]]</span><<else>><span id="actside-redobutt" onclick="window.SugarCube.Engine.link(&quot;sex.sexAction('repeat')&quot;)">[img[Repeat Action|IMG_SexRedoAct]]</span><</if>>
     <<link "[img[Do Nothing|IMG_SexWait]]">><<run setup.sex.sexAction('doNothing')>><</link>>
     <<link "[img[Refresh|IMG_SexRefresh]]">><<run aw.go('SexScenePrimaryDisplay')>><</link>>
     <<link "[img[Escape|IMG_SexCancel]]">><<dialog 'Stop The Scene'>><<include [[SexEarlyEscapeMenu]]>><</dialog>><</link>>
@@ -546,7 +546,7 @@ Select a condom from your inventory or ask your partner for one.
 
 :: SexSceneRaiseHips [nobr]
 
-Laying on your back, you lift your legs into the air, you wrap your arms around the back of your knees and hug them to your <<p "boobsize.q">> <<p "tits.n">>. This leaves your feet sticking awkwardly into the air, but also serves to angle your hips upward. You stay like that for several minutes, allowing gravity to pull <<name _t>>'s <<w cum.n>> to the depths of your pussy.
+Laying on your back, you lift your legs into the air, you wrap your arms around the back of your knees and hug them to your <<p "tits.n">>. This leaves your feet sticking awkwardly into the air, but also serves to angle your hips upward. You stay like that for several minutes, allowing gravity to pull <<name _t>>'s <<w cum.n>> to the depths of your pussy.
 
 :: SexSceneScoopIn [nobr]
 

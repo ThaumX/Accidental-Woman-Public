@@ -17,12 +17,13 @@ interface setupStatus {
   tired: (amt: number, msg: string, tgt?: number | string) => void ;
   arousal: (amt: number | string, tgt?: number | string) => void ;
   satisfact: (amt: number, msg: string, tgt?: number | string) => void ;
-  getMilked: (pump: "hand" | "manual" | "electric" | "strong" | "super" | "industrial" | "magic") => void;
-  milk: () => number|void;
-  menuMilk: () => void;
   lonely: (amt: number, msg: string, tgt?: number | string) => void;
   record: (stat: string, val: number, msg?: string) => void;
   rPrint: (stat: string) => string;
+  badEnd: (reason: string) => void;
+  getMilked: (pump: "hand" | "manual" | "electric" | "strong" | "super" | "industrial" | "magic") => void;
+  milk: () => number | void;
+  menuMilk: () => void;
 }
 
 
@@ -126,6 +127,9 @@ setup.status.mentalUnfuck = function(): void {
   s.perversion += random(3, 5);
   if (s.perversion > 80) {
     s.perversion = 80;
+  }
+  if (ↂ.flag.badEnd === "stress" || ↂ.flag.badEnd === "anger" || ↂ.flag.badEnd === "depression" || ↂ.flag.badEnd === "need" || ↂ.flag.badEnd === "Loneliness" || ↂ.flag.badEnd === "mindbreak") {
+    ↂ.flag.badEnd = "none";
   }
   aw.S("pc");
 };
@@ -246,26 +250,48 @@ setup.status.stress = function(amt, msg = "unknown cause", tgt = -1) {
   }
   // make sure amt is a whole number.
   amt = Math.round(amt);
+  if (tit.status.overStress && pc) {
+    const thresher = (ↂ.flag.organDonor) ? 3 : 2;
+    for (let i = 0, cc = Math.abs(amt); i < cc; i++) {
+      if (random(0, 9) < thresher) {
+        amt += 1;
+      }
+    }
+  }
   // finally, add amount to stress.
-
+  const chk = tit.status.stress + amt;
   const total = tit.status.stress + amt;
   tit.status.stress += amt;
   // check for over or under values
-  if (total > 100) {
-    if (pc && tit.status.overStress) {
-      ↂ.flag.badEnd = "stress";
-    } else if (pc && ↂ.flag.organDonor) {
-      ↂ.flag.badEnd = "stress";
+  if (chk > 100 && pc) {
+    if (tit.status.overStress) {
+      setup.status.badEnd("stress");
+    } else if (ↂ.flag.organDonor) {
+      setup.status.badEnd("stress");
     } else {
       tit.status.overStress = true;
       setup.notify("<span class='bad'>You are dangerously stressed!</span>");
     }
-    tit.status.stress = 100 - random(1, 3);
-  } else if (tit.status.stress < 0) {
+    tit.status.stress = 80;
+  }
+  if (pc && tit.status.stress < 26 && ↂ.flag.badEnd === "stress") {
+    ↂ.flag.badEnd = "none";
+    tit.status.stress = 75;
+    // setup.status.record("stress", 50, "Removing Stress Doom Flag");
+  }
+  if (chk <= 0) {
     tit.status.stress = 0;
+    if (tit.status.overStress) {
+      tit.status.overStress = false;
+      tit.status.stress = 75;
+      if (pc) {
+        setup.notify("You are no longer dangerously stressed.");
+        setup.status.record("stress", 50, "Removing Overstressed Status");
+      }
+    }
   }
   if (pc) {
-    setup.statusSave("pc");
+    setup.statusSave();
   }
 };
 
@@ -346,14 +372,24 @@ setup.status.anger = function(amt, tgt = -1) {
   if (pc && aw.chad.anger && amt >= 0 && tit.status.anger >= 5) {
     amt = 0;
   }
+  if (tit.status.overAnger && pc) {
+    const thresher = (ↂ.flag.organDonor) ? 3 : 2;
+    for (let i = 0, cc = Math.abs(amt); i < cc; i++) {
+      if (random(0, 9) < thresher) {
+        amt += 1;
+      }
+    }
+  }
+
   const chk = tit.status.anger + amt;
   tit.status.anger += amt;
   // check for over or under values
   if (chk > 10) {
+    tit.status.anger = 8;
     if (pc && tit.status.overAnger) {
-      ↂ.flag.badEnd = "anger";
+      setup.status.badEnd("anger");
     } else if (pc && ↂ.flag.organDonor) {
-      ↂ.flag.badEnd = "anger";
+      setup.status.badEnd("anger");
     } else {
       tit.status.overAnger = true;
       if (pc) {
@@ -361,8 +397,15 @@ setup.status.anger = function(amt, tgt = -1) {
       }
     }
   }
+  if (chk < 1 && pc && ↂ.flag.badEnd === "anger") {
+    tit.status.anger = 6;
+    ↂ.flag.badEnd = "none";
+  } else if (chk < 1 && tit.status.overAnger) {
+    tit.status.anger = 6;
+    tit.status.overAnger = false;
+  }
   if (pc) {
-    setup.statusSave("pc");
+    setup.statusSave();
   }
 };
 
@@ -498,23 +541,44 @@ setup.status.happy = function(amt, msg = "unknown cause", tgt = -1) {
   }
   // make sure amt is a whole number
   amt = Math.round(amt);
+  if (tit.status.overDepress && pc) {
+    const thresher = (ↂ.flag.organDonor) ? 3 : 2;
+    for (let i = 0, cc = Math.abs(amt); i < cc; i++) {
+      if (random(0, 9) < thresher) {
+        amt -= 1;
+      }
+    }
+  }
   const chk = tit.status.happy + amt;
   tit.status.happy += amt;
   aw.con.info(`${note} ${amt} - final ${tit.status.happy}`);
   // check for over or under values
   if (chk < -9 && pc) {
-    if (tit.status.overDepress) {
-      ↂ.flag.badEnd = "depression";
-    } else if (ↂ.flag.organDonor) {
-      ↂ.flag.badEnd = "depression";
+    if (pc && tit.status.overDepress) {
+      setup.status.badEnd("depression");
+    } else if (pc && ↂ.flag.organDonor) {
+      setup.status.badEnd("depression");
     } else {
       tit.status.overDepress = true;
       setup.notify("<span class='bad'>You are dangerously depressed!</span>");
     }
     tit.status.happy = -10 + random(1, 2);
   }
+  if (pc && chk > 6 && ↂ.flag.badEnd === "depression") {
+    ↂ.flag.badEnd = "none";
+    tit.status.happy = -5;
+    setup.status.record("happy", -12, "Removing Depression Doom Flag");
+  }
+  if (tit.status.overDepress && chk > 6) {
+    tit.status.overDepress = false;
+    tit.status.happy = -5;
+    if (pc) {
+      setup.notify("You are no longer dangerously depressed.");
+      setup.status.record("happy", -12, "Removing Depressed Status.");
+    }
+  }
   if (pc) {
-    setup.statusSave("pc");
+    setup.statusSave();
   }
 };
 
@@ -583,7 +647,7 @@ setup.status.tired = function (amt, msg = "unknown cause", tgt = -1) {
       const forbid = ["JobberCon", "JobberConSex", "WeekSystemMainPage", "SleepStart", "SleepForward", "SexScenePrimaryDisplay"];
       if ((setup.time.aftMidnight || setup.time.midnight - aw.time < 240) && !forbid.includes(aw.passage.title) && random(1, 5) === 1) {
         setup.statusSave("pc");
-        if (ↂ.map.loc[0] === "home") {
+        if (ↂ.map.loc[0] === "home" || ↂ.map.loc[1] === "foyer" || ↂ.map.loc[1] === "kitchen" || ↂ.map.loc[1] === "balcony" || ↂ.map.loc[1] === "living" || ↂ.map.loc[1] === "bedroom" || ↂ.map.loc[1] === "bath") {
           aw.con.info("Normal sleep forced by status.tired function.");
           setup.status.stress(20, "Being so tired that you passed out");
           setup.status.happy(-3, "Being so tired that you passed out");
@@ -747,7 +811,10 @@ setup.status.arousal = function(amt, tgt = -1) {
       rolls = Math.max(1, rolls);
     }
     // first set up maximum arousal
-    let max = 10 + Math.ceil((1 + libido) / 2);
+    let max = 10 + Math.ceil(libido / 2);
+    if (pc && tit.kink.slut) {
+      max = 14;
+    }
     let top;
     for (let i = 0; i < rolls; i++) {
       if (amt > 0) {
@@ -767,25 +834,30 @@ setup.status.arousal = function(amt, tgt = -1) {
         tit.status.stress += cunt * random(1, 3);
       }
     }
+    const chk = tit.status.arousal + cunt;
     tit.status.arousal += cunt;
     // check for over or under values... more complicated!
-    if (pc && tit.kink.slut) {
-      max = 15;
+    if (chk >= (max - 1)) {
+      tit.status.bimbo += random(0, 1) + random(1, 2);
     }
-    if (tit.status.arousal >= (max - 2)) {
-      if (pc) {
-        if (!ↂ.sex.scene) {
-          setup.notify("<span class='bad'>You are dangerously aroused!</span>");
+    if (chk >= (max - 2) && pc && !ↂ.sex.scene) {
+      setup.notify("<span class='bad'>You are dangerously aroused!</span>");
+    }
+    if (chk > max) {
+      tit.status.arousal = max - 1;
+      if (pc && tit.status.mindbreak) {
+        if (ↂ.flag.organDonor) {
+          setup.badEnd("mindbreak");
+        } else {
+          setup.status.badEnd("mindbreak");
         }
-        tit.status.bimbo += random(0, 2) + random(0, 2);
-      } else {
-        tit.core.bimbo += random(3, 8);
-      }
-    }
-    if (tit.status.arousal > max) {
-      tit.status.arousal = max;
-      if (pc && random(1, 4) === 1) {
+        tit.status.bimbo += random(2, 5);
+      } else if (!tit.status.mindbreak && random(1, 4) === 1) {
         tit.status.mindbreak = true;
+        if (pc) {
+          tit.status.bimbo += random(2, 5);
+          setup.notify("<span class='bad'>Excessive arousal has fried your brain!</span>");
+        }
       }
     }
   }
@@ -795,272 +867,11 @@ setup.status.arousal = function(amt, tgt = -1) {
     aw.con.info(ms);
   }
   if (pc) {
-    setup.statusSave("pc");
+    setup.statusSave();
   }
 };
 
-setup.status.getMilked = function(pump: "hand"|"manual"|"electric"|"strong"|"super"|"industrial"|"magic" = "hand"): void {
-  aw.L("pc");
-  const T = State.temporary;
-  T.milk = {};
-  T.milk.amt = ↂ.pc.status.milkStore;
-  T.milk.cum = false;
-  T.milk.type = pump;
-  T.milk.cans = 0;
-  T.milk.incr = false;
-  const pumps = {
-    hand: 8,
-    manual: 12,
-    electric: 16,
-    strong: 22,
-    super: 28,
-    industrial: 34,
-    magic: 40,
-  };
-  const rate = Math.floor(ↂ.pc.body.totalMilkCapacity / 65) + pumps[pump];
-  const base = Math.ceil(T.milk.amt / rate);
-  const mod = 1 - ((ↂ.pc.body.tits.nipGirth - 3) / 10);
-  const time = Math.round(mod * base);
-  T.milk.time = time;
-  ↂ.pc.status.milkStore = 0;
-  // calc for milk canisters
-  aw.S();
-  setup.time.add(time);
-  T.milk.amt += ↂ.pc.status.milkStore;
-  ↂ.pc.status.milkStore = 0;
-  const totalMilk = T.milk.amt + ↂ.flag.milkTank;
-  if (pump !== "hand") {
-    T.milk.cans = Math.floor(totalMilk / 4000); // 4000ml = 4 liter milk cans
-    ↂ.flag.milkTank = totalMilk % 4000; // remainder goes to milk store
-    if (T.milk.cans > 0) { // add tanks to inventory if 1 or more
-      setup.consumables.add("breastMilkA", T.milk.cans);
-    }
-  }
-  setup.lactBreastCalc();
-  aw.S();
-  let cumtime = 20;
-  if (pump === "industrial" || pump === "magic") {
-    cumtime = 5;
-  } else if (pump === "strong" || pump === "super") {
-    cumtime = 10;
-  } else if (pump === "electric" || pump === "manual") {
-    cumtime = 15;
-  }
-  const m = ↂ.pc.status.milk;
-  switch (pump) {
-    case "magic":
-      if (m < 10 && random(1, 10) === 10) {
-        ↂ.pc.status.milk += 1;
-        T.milk.incr = true;
-      } else if (m < 8) {
-        ↂ.pc.status.milk += 1;
-        T.milk.incr = true;
-      }
-      break;
-    case "industrial":
-      if (m < 9 && random(1, 10) === 10) {
-        ↂ.pc.status.milk += 1;
-        T.milk.incr = true;
-      } else if (m < 7) {
-        ↂ.pc.status.milk += 1;
-        T.milk.incr = true;
-      }
-      break;
-    case "super":
-      if (m < 8 && random(1, 10) === 10) {
-        ↂ.pc.status.milk += 1;
-        T.milk.incr = true;
-      } else if (m < 6) {
-        ↂ.pc.status.milk += 1;
-        T.milk.incr = true;
-      }
-      break;
-    case "strong":
-      if (m < 7 && random(1, 10) === 10) {
-        ↂ.pc.status.milk += 1;
-        T.milk.incr = true;
-      } else if (m < 4) {
-        ↂ.pc.status.milk += 1;
-        T.milk.incr = true;
-      }
-      break;
-    case "electric":
-      if (m < 6 && random(1, 10) === 10) {
-        ↂ.pc.status.milk += 1;
-        T.milk.incr = true;
-      }
-      break;
-    case "manual":
-      if (m < 5 && random(1, 10) === 10) {
-        ↂ.pc.status.milk += 1;
-        T.milk.incr = true;
-      }
-      break;
-    case "hand":
-      if (m < 4 && random(1, 10) === 10) {
-        ↂ.pc.status.milk += 1;
-        T.milk.incr = true;
-      }
-      break;
-  }
-  if (T.milk.incr) {
-    ↂ.pc.status.milk++;
-  }
-  setup.breastCalc();
-  if ((ↂ.pc.status.arousal >= 3 && ↂ.pc.kink.nips && time >= cumtime) || (ↂ.pc.status.arousal >= 6 && time >= cumtime + 5)
-    || (ↂ.pc.status.arousal >= 8 && time >= cumtime)) {
-    ↂ.pc.status.arousal = 2;
-    T.milk.cum = true;
-    aw.S("pc");
-    setup.status.satisfact(random(3, 5), "A pleasurable milking");
-  } else {
-    aw.S("pc");
-    setup.status.satisfact(1, "Milking yourself");
-    setup.status.arousal(2);
-  }
-};
 
-setup.status.milk = function(): number|void {
-  const ᛔ = ↂ.pc;
-  const quality = ᛔ.body.lactation;
-  const capacity = ᛔ.body.totalMilkCapacity;
-  if (ᛔ.status.milk > 10) {
-    ᛔ.status.milk = 10;
-  }
-  const level = ᛔ.status.milk;
-  if (level <= 0) {
-    ᛔ.body.tits.lact.on = false;
-    if (ᛔ.status.milkStore > 0) {
-      ᛔ.status.milkStore -= random(1, 3);
-      if (ᛔ.status.milkStore <= 0) {
-        ᛔ.status.milkStore = 0;
-      } else {
-        ᛔ.body.tits.lact.on = true;
-      }
-      setup.lactBreastCalc();
-      aw.S();
-    }
-    return 0;
-  }
-  ᛔ.body.tits.lact.on = true;
-  const q = [0, 0.5, 1, 1.2, 1.4, 1.7, 2]; // body.lactation - base ability: 0-6
-  const w = [0, 0.1, 0.5, 1, 1.1, 1, 0.9, 0.8, 0.6, 0.4]; // weight-based lact adjust
-  const p = [0, 0.1, 0.3, 0.6, 0.8, 1, 1.1, 1.2, 1.3, 1.4, 1.5]; // status.milk (current lact) 0-10
-  const rr = [12, 11, 10, 10, 9, 9, 8];
-  let rate = Math.round(capacity / rr[quality]); // basic lact speed is based on breast/gland size, true fact. 8 is standard
-  if (ᛔ.status.health < 95) {
-    rate = Math.round(rate * (ᛔ.status.health / 120)); // adjust for poor health
-  }
-  rate = Math.round(rate * w[ᛔ.body.weight]); // adjust for weight
-  rate = Math.round(rate * q[quality]); // adjust for base lact ability
-  rate = Math.round(rate * p[level]); // lactation level adjust
-  rate = Math.round(rate / 4); // adjust for 15min increment from hourly calc
-  if (aw.chad.springer) {
-    rate = Math.round(rate / 4);
-  }
-  ᛔ.status.milkStore += rate;
-  let titsize = ᛔ.body.tits.base.size + Math.round(ᛔ.status.milkStore / 3);
-  if (titsize > ᛔ.body.tits.lact.max) {
-    titsize = ᛔ.body.tits.lact.max;
-  }
-  ᛔ.body.tits.lact.size = titsize;
-  setup.lactBreastCalc();
-  aw.S();
-  if (setup.eventAllowed) {
-    if (ᛔ.status.milkStore > capacity * 1.3) {
-      if (random(1, 2) === 1) {
-        const spill = ᛔ.status.milkStore - capacity;
-        ᛔ.status.milkStore = capacity + Math.round(spill * 0.1);
-        if (random(1, 20) === 5) {
-          ᛔ.status.stress += random(1, 2);
-          ᛔ.status.satisfaction -= random(1, 3);
-        }
-        if (random(1, 30) === 1) {
-          ᛔ.status.health -= 1;
-          ᛔ.status.happy -= 1;
-        }
-        if (random(1, 10) === 1) {
-          if (aw.chad.allowed && State.active.variables.cheat.permaLact) {
-            // no red
-          } else {
-            const mmin = Math.max(0, (ᛔ.body.lactation - 4));
-            if (ᛔ.status.milk > mmin) {
-              ᛔ.status.milk -= 1;
-              return -2;
-            }
-          }
-        }
-        return spill;
-      } else {
-        return -4;
-      }
-    }
-    if (ᛔ.status.milkStore > capacity) {
-      return -3;
-    }
-    if (ᛔ.status.milkStore >= (capacity * 0.8)) {
-      return -1;
-    }
-  } else {
-    setup.status.menuMilk();
-  }
-};
-
-setup.status.menuMilk = function(): void {
-  const milk = ↂ.pc.status.milkStore;
-  const cap = ↂ.pc.body.totalMilkCapacity;
-  const collect = Math.floor(cap * 0.85);
-  if (milk > collect) {
-    ↂ.flag.milkTank += milk - collect;
-    ↂ.pc.status.milkStore = collect;
-  }
-  setup.lactBreastCalc();
-  aw.S("pc");
-};
-
-
-
-/*
-<<elseif $args[0] == "N">>
-	<<if ndef $args[1]>>
-		<<set $AW.error += ", arousal setting error - no args sent to function in passage: ">>
-		<<set $AW.error += aw.passage.title>>
-		<<set ↂ.pc.status.arousal = 0>>
-	<<else>>
-		<<switch $args[1]>>
-		<<case 1>>
-			<<set ↂ.pc.status.arousal = -1>>
-		<<case 2>>
-			<<set ↂ.pc.status.arousal = -2>>
-		<<case 3>>
-			<<set ↂ.pc.status.arousal = -3>>
-		<<case 4>>
-			<<set ↂ.pc.status.arousal = -4>>
-		<<case 5>>
-			<<set ↂ.pc.status.arousal = -5>>
-		<<case 6>>
-			<<set ↂ.pc.status.arousal = -6>>
-		<<case default>>
-			<<set ↂ.pc.status.arousal = -1>>
-		<</switch>>
-	<</if>>
-	<<set ↂ.pc.status.arousal += $args[0]>>
-	<<if ↂ.pc.kink.hyperSlut>>
-		<<set ↂ.pc.status.arousal += 2>>
-	<<elseif ↂ.pc.kink.superSlut>>
-		<<set ↂ.pc.status.arousal += 1>>
-	<<elseif ↂ.pc.kink.slut>>
-		<<set ↂ.pc.status.arousal += either(0,0,1)>>
-	<</if>>
-	<<if ↂ.pc.trait.libido > 7>>
-		<<set ↂ.pc.status.arousal += 1>>
-	<</if>>
-	<<if ↂ.pc.status.arousal < -6>>
-		<<set ↂ.pc.status.arousal = -6>>
-	<<elseif ↂ.pc.status.arousal > 0>>
-		<<set ↂ.pc.status.arousal = 0>>
-  <</if>>
-*/
 /*****************************************
   ╔═╗┌─┐┌┬┐┬┌─┐
   ╚═╗├─┤ │ │└─┐───
@@ -1088,7 +899,6 @@ setup.status.satisfact = function (amt, msg = "unknown cause", tgt = -1) {
     // load status !!important!!
     setup.statusLoad("pc");
     tit = ↂ.pc; // create tit as reference to correct object
-    setup.status.record("satisfy", amt, msg);
   } else if ("number" === typeof tgt && tgt >= 0 && tgt < State.active.variables.activeNPC.length) {
     pc = false;
     id = State.active.variables.activeNPC[tgt];
@@ -1109,7 +919,6 @@ setup.status.satisfact = function (amt, msg = "unknown cause", tgt = -1) {
     }
     return;
   }
-  let chk = ↂ.pc.status.satisfaction;
   if (!aw.chad.satisfy) {
     // now we have the correct N/PC to edit. let's set some default values for ease.
     const stress = tit.status.stress; // returns character's stress, and we can manipulate freely.
@@ -1175,6 +984,7 @@ setup.status.satisfact = function (amt, msg = "unknown cause", tgt = -1) {
     // time for sign flip
     let r;
     let a = 1;
+    let change = 0;
     if (amt < 0) {
       mod *= -1;
       a = -1;
@@ -1188,51 +998,76 @@ setup.status.satisfact = function (amt, msg = "unknown cause", tgt = -1) {
       for (let i = 0; i < nRoll; i++) {
         r = random(0, 99);
         if (r < odds) {
-          ↂ.pc.status.satisfaction += a;
-          chk += a;
+          change += a;
         }
       }
     } else {
-      ↂ.pc.status.satisfaction += amt;
+      change += amt;
       const odds = Math.floor((mod - 1) * 100);
       const nRoll = Math.abs(amt);
       for (let i = 0; i < nRoll; i++) {
         r = random(0, 99);
         if (r < odds) {
-          ↂ.pc.status.satisfaction += a;
-          chk += a;
+          change += a;
         }
       }
     }
-  }
-  // check for over or under values
-  if (chk <= 0) {
-    tit.status.underSatisfy += Math.abs(chk);
-    tit.status.satisfaction = random(5, 15);
-    let x = 4 + Math.floor(tit[trait].libido / 2);
-    x += (pc && tit.kink.slut) ? 1 : 0;
-    if (x >= random(1, 10)) {
-      tit.status.need += 1;
-      if (pc && tit.status.need > 4) {
-        if (pc && ↂ.flag.organDonor) {
-          ↂ.flag.badEnd = "need";
-        } else if (random(0, 3) === 0) {
-          ↂ.flag.badEnd = "need";
+    // undersatisfy acts as a damper, increasing loss and decreasing gain by 1
+    if (tit.status.underSatisfy > 0) {
+      change -= 1;
+      tit.status.underSatisfy -= 1;
+    }
+    // accelerate loss of satisfaction due to need, and reduce gain. 10% per need level
+    if (tit.status.need > 0) {
+      const thresher = (pc && ↂ.flag.organDonor) ? tit.status.need * 2 : tit.status.need;
+      for (let i = 0, cc = Math.abs(change); i < cc; i++) {
+        if (random(0, 9) < thresher) {
+          change -= 1;
         }
-      } else if (tit.status.need > 3) {
-        const o = (ↂ.flag.organDonor) ? random(0, 4) : random(0, 20);
-        if (o === 0) {
-          ↂ.flag.badEnd = "need";
-        }
-      } else {
-        setup.notify("<span class='bad'>Your sexual need has increased!</span>");
       }
-    } else {
-      setup.notify("<span class='orange'>Your sexual satisfaction is very low!</span>");
+    }
+    let chk = tit.status.satisfaction + change;
+    tit.status.satisfaction += change;
+    if (chk < 10 && tit.status.need > 1 && (!setup.sexToys.check("pc", "groin") || !setup.sexToys.check("pc", "clit"))){
+      chk = 11;
+      tit.status.satisfaction = 10;
+    }
+    // check for over or under values
+    if (chk <= 0) {
+      tit.status.underSatisfy += Math.abs(chk); // add for going below zero
+      tit.status.satisfaction = random(20, 25); // gift satisfaction to limit rapid decline
+      tit.status.underSatisfy += Math.round(tit.status.satisfaction * 1.5); // add for gifted satisfaction
+      tit.status.need += 1; // increase need level
+      if (tit.status.need > 5) {
+          tit.status.need = 5;
+          if (pc) { // only PC gets bad end
+            setup.status.badEnd("satisfaction");
+          }
+      } else if (pc && tit.status.need > 2 && ↂ.flag.organDonor) {
+        tit.status.need = 2;
+        setup.status.badEnd("satisfaction");
+      } else {
+        if (pc) {
+          setup.notify("<span class='bad'>Your sexual need has increased!</span>");
+        }
+      }
+    }
+    if (pc && chk > 90 && ↂ.flag.badEnd === "satisfaction") {
+      ↂ.flag.badEnd = "none";
+      tit.status.satisfaction = random(20, 25);
+      setup.status.record("satisfy", -60, "Stopped the doom clock.");
+      setup.notify(`<span class="good">You've reduced your sexual need.</span>`);
+    } else if (chk > 90 && tit.status.need > 0) {
+      tit.status.need -= 1;
+      tit.status.satisfaction = random(20, 25);
+      if (pc) {
+        setup.status.record("satisfy", -60, "Paid off 1 level of sexual need.");
+        setup.notify(`<span class="good">You've reduced your sexual need.</span>`);
+      }
     }
   }
   if (pc) {
-    setup.statusSave("pc");
+    setup.statusSave();
   }
 };
 
@@ -1353,16 +1188,19 @@ setup.status.lonely = function(amt, msg = "unknown cause", tgt = -1): void {
     if (random(1, 3) === 1) {
       tit.status.happy += 1;
     }
-  } else if (chk >= 100) {
+  }
+  if (chk < 30 && pc && ↂ.flag.badEnd === "loneliness") {
+    ↂ.flag.badEnd = "none";
+    ↂ.pc.status.lonely = 60;
+    setup.status.record("lonely", 40, "Removing doom flag");
+  }
+  if (chk >= 100) {
     tit.status.happy -= 1;
-    setup.notify("<span class='bad'>You are extremely lonely!</span>");
     if (pc) {
-      const th = (ↂ.flag.organDonor) ? 3 : 1;
-      if (random(0, 4) < th) {
-        ↂ.flag.badEnd = "Loneliness";
-      }
+      setup.status.badEnd("loneliness");
+      setup.notify("<span class='bad'>You are extremely lonely!</span>");
     }
-  } else if (chk >= 80 && pc) {
+  } else if (chk >= 90 && pc) {
     tit.status.happy -= random(0, 1);
     setup.notify("<span class='peepbad'>You are very lonely!</span>");
   }
@@ -1418,5 +1256,239 @@ setup.status.rPrint = function(stat) {
   output += "</center>";
   return output;
 };
+
+setup.status.badEnd = function(reason: string) {
+  if (ↂ.flag.Prologue) {
+    return;
+  }
+  if (ↂ.flag.badEnd !== "none") {
+    // immediate death because 2 doom flag conditions
+    aw.con.warn(`Second active doom flag causes immediate bad end.`);
+    setup.badEnd(ↂ.flag.badEnd);
+  } else {
+    ↂ.flag.badEnd = reason;
+  }
+};
+
+
+setup.status.getMilked = function (pump: "hand" | "manual" | "electric" | "strong" | "super" | "industrial" | "magic" = "hand"): void {
+  aw.L("pc");
+  const T = State.temporary;
+  T.milk = {};
+  T.milk.amt = ↂ.pc.status.milkStore;
+  T.milk.cum = false;
+  T.milk.type = pump;
+  T.milk.cans = 0;
+  T.milk.incr = false;
+  const pumps = {
+    hand: 8,
+    manual: 12,
+    electric: 16,
+    strong: 22,
+    super: 28,
+    industrial: 34,
+    magic: 40,
+  };
+  const rate = Math.floor(ↂ.pc.body.totalMilkCapacity / 65) + pumps[pump];
+  const base = Math.ceil(T.milk.amt / rate);
+  const mod = 1 - ((ↂ.pc.body.tits.nipGirth - 3) / 10);
+  const time = Math.round(mod * base);
+  T.milk.time = time;
+  ↂ.pc.status.milkStore = 0;
+  // calc for milk canisters
+  aw.S();
+  setup.time.add(time);
+  T.milk.amt += ↂ.pc.status.milkStore;
+  ↂ.pc.status.milkStore = 0;
+  const totalMilk = T.milk.amt + ↂ.flag.milkTank;
+  if (pump !== "hand") {
+    T.milk.cans = Math.floor(totalMilk / 4000); // 4000ml = 4 liter milk cans
+    ↂ.flag.milkTank = totalMilk % 4000; // remainder goes to milk store
+    if (T.milk.cans > 0) { // add tanks to inventory if 1 or more
+      setup.consumables.add("breastMilkA", T.milk.cans);
+    }
+  }
+  setup.lactBreastCalc();
+  aw.S();
+  let cumtime = 20;
+  if (pump === "industrial" || pump === "magic") {
+    cumtime = 5;
+  } else if (pump === "strong" || pump === "super") {
+    cumtime = 10;
+  } else if (pump === "electric" || pump === "manual") {
+    cumtime = 15;
+  }
+  const m = ↂ.pc.status.milk;
+  switch (pump) {
+    case "magic":
+      if (m < 10 && random(1, 10) === 10) {
+        ↂ.pc.status.milk += 1;
+        T.milk.incr = true;
+      } else if (m < 8) {
+        ↂ.pc.status.milk += 1;
+        T.milk.incr = true;
+      }
+      break;
+    case "industrial":
+      if (m < 9 && random(1, 10) === 10) {
+        ↂ.pc.status.milk += 1;
+        T.milk.incr = true;
+      } else if (m < 7) {
+        ↂ.pc.status.milk += 1;
+        T.milk.incr = true;
+      }
+      break;
+    case "super":
+      if (m < 8 && random(1, 10) === 10) {
+        ↂ.pc.status.milk += 1;
+        T.milk.incr = true;
+      } else if (m < 6) {
+        ↂ.pc.status.milk += 1;
+        T.milk.incr = true;
+      }
+      break;
+    case "strong":
+      if (m < 7 && random(1, 10) === 10) {
+        ↂ.pc.status.milk += 1;
+        T.milk.incr = true;
+      } else if (m < 4) {
+        ↂ.pc.status.milk += 1;
+        T.milk.incr = true;
+      }
+      break;
+    case "electric":
+      if (m < 6 && random(1, 10) === 10) {
+        ↂ.pc.status.milk += 1;
+        T.milk.incr = true;
+      }
+      break;
+    case "manual":
+      if (m < 5 && random(1, 10) === 10) {
+        ↂ.pc.status.milk += 1;
+        T.milk.incr = true;
+      }
+      break;
+    case "hand":
+      if (m < 4 && random(1, 10) === 10) {
+        ↂ.pc.status.milk += 1;
+        T.milk.incr = true;
+      }
+      break;
+  }
+  if (T.milk.incr) {
+    ↂ.pc.status.milk++;
+  }
+  setup.breastCalc();
+  if ((ↂ.pc.status.arousal >= 3 && ↂ.pc.kink.nips && time >= cumtime) || (ↂ.pc.status.arousal >= 6 && time >= cumtime + 5)
+    || (ↂ.pc.status.arousal >= 8 && time >= cumtime)) {
+    ↂ.pc.status.arousal = 2;
+    T.milk.cum = true;
+    aw.S("pc");
+    setup.status.satisfact(random(3, 5), "A pleasurable milking");
+  } else {
+    aw.S("pc");
+    setup.status.satisfact(1, "Milking yourself");
+    setup.status.arousal(2);
+  }
+};
+
+setup.status.milk = function (): number | void {
+  const ᛔ = ↂ.pc;
+  const quality = ᛔ.body.lactation;
+  const capacity = ᛔ.body.totalMilkCapacity;
+  if (ᛔ.status.milk > 10) {
+    ᛔ.status.milk = 10;
+  }
+  const level = ᛔ.status.milk;
+  if (level <= 0) {
+    ᛔ.body.tits.lact.on = false;
+    if (ᛔ.status.milkStore > 0) {
+      ᛔ.status.milkStore -= random(1, 3);
+      if (ᛔ.status.milkStore <= 0) {
+        ᛔ.status.milkStore = 0;
+      } else {
+        ᛔ.body.tits.lact.on = true;
+      }
+      setup.lactBreastCalc();
+      aw.S();
+    }
+    return 0;
+  }
+  ᛔ.body.tits.lact.on = true;
+  const q = [0, 0.5, 1, 1.2, 1.4, 1.7, 2]; // body.lactation - base ability: 0-6
+  const w = [0, 0.1, 0.5, 1, 1.1, 1, 0.9, 0.8, 0.6, 0.4]; // weight-based lact adjust
+  const p = [0, 0.1, 0.3, 0.6, 0.8, 1, 1.1, 1.2, 1.3, 1.4, 1.5]; // status.milk (current lact) 0-10
+  const rr = [12, 11, 10, 10, 9, 9, 8];
+  let rate = Math.round(capacity / rr[quality]); // basic lact speed is based on breast/gland size, true fact. 8 is standard
+  if (ᛔ.status.health < 95) {
+    rate = Math.round(rate * (ᛔ.status.health / 120)); // adjust for poor health
+  }
+  rate = Math.round(rate * w[ᛔ.body.weight]); // adjust for weight
+  rate = Math.round(rate * q[quality]); // adjust for base lact ability
+  rate = Math.round(rate * p[level]); // lactation level adjust
+  rate = Math.round(rate / 4); // adjust for 15min increment from hourly calc
+  if (aw.chad.springer) {
+    rate = Math.round(rate / 4);
+  }
+  ᛔ.status.milkStore += rate;
+  let titsize = ᛔ.body.tits.base.size + Math.round(ᛔ.status.milkStore / 3);
+  if (titsize > ᛔ.body.tits.lact.max) {
+    titsize = ᛔ.body.tits.lact.max;
+  }
+  ᛔ.body.tits.lact.size = titsize;
+  setup.lactBreastCalc();
+  aw.S();
+  if (setup.eventAllowed) {
+    if (ᛔ.status.milkStore > capacity * 1.3) {
+      if (random(1, 2) === 1) {
+        const spill = ᛔ.status.milkStore - capacity;
+        ᛔ.status.milkStore = capacity + Math.round(spill * 0.1);
+        if (random(1, 20) === 5) {
+          ᛔ.status.stress += random(1, 2);
+          ᛔ.status.satisfaction -= random(1, 3);
+        }
+        if (random(1, 35) === 1) {
+          ᛔ.status.health -= 1;
+          ᛔ.status.happy -= 1;
+        }
+        if (random(1, 7) === 1) {
+          if (aw.chad.allowed && State.active.variables.cheat.permaLact) {
+            // no red
+          } else {
+            const mmin = Math.max(0, (ᛔ.body.lactation - 4));
+            if (ᛔ.status.milk > mmin) {
+              ᛔ.status.milk -= 1;
+              return -2;
+            }
+          }
+        }
+        return spill;
+      } else {
+        return -4;
+      }
+    }
+    if (ᛔ.status.milkStore > capacity) {
+      return -3;
+    }
+    if (ᛔ.status.milkStore >= (capacity * 0.8)) {
+      return -1;
+    }
+  } else {
+    setup.status.menuMilk();
+  }
+};
+
+setup.status.menuMilk = function (): void {
+  const milk = ↂ.pc.status.milkStore;
+  const cap = ↂ.pc.body.totalMilkCapacity;
+  const collect = Math.floor(cap * 0.85);
+  if (milk > collect) {
+    ↂ.flag.milkTank += milk - collect;
+    ↂ.pc.status.milkStore = collect;
+  }
+  setup.lactBreastCalc();
+  aw.S("pc");
+};
+
 
 

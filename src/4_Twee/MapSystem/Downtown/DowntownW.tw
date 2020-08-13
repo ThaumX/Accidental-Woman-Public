@@ -61,9 +61,21 @@
   <<closed "Besty's SlavSquat Academy">>
   <</openhours>>
 <<endhoverrevise>>
-<<hoverrevise lambda>>
-  <button class="disabled">Visit Church of Man</button>
-<<endhoverrevise>>
+<<if $date[0] === 7 && $time[0] > 9 && $time[0] < 17>>
+  <<hoverrevise lambdaA>>
+    <<button "Attend CoM Service">>
+      <<if ↂ.flag.churchAttend.man>>
+        <<dialog "The Church of Man">><center>You have already attended church this week, please come back next Sunday.</center><</dialog>>
+      <<else>>
+        <<dialog "The Church of Man">><<include [[ChurchMan]]>><</dialog>>
+      <</if>>
+    <</button>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise lambdaB>>
+    <button class="disabled">Visit CoM</button>
+  <<endhoverrevise>>
+<</if>>
 <<hoverrevise NoRagerts>>
   <<button "NoRagerts">><<agecheck 18 3 "AgePassNoRagerts">><</button>>
 <<endhoverrevise>>
@@ -78,7 +90,8 @@
 <<insertion beta>>[not implemented] Eat at HindenBurger. <span class="money">₢₢</span><<endinsertion>>
 <<insertion delta>>[not implemented] Visit Strap-on tools to shop for tools or hardware.<<endinsertion>>
 <<insertion gamma>>Visit Besty's SlavSquat Academy to check it out or sign up for a course. @@.ship;[ATHLETIC⧫MISC]@@<<endinsertion>>
-<<insertion lambda>>Visit the Church of Man. <<ctn>>[not implemented]<</ctn>><<endinsertion>>
+<<insertion lambdaB>>The Church of Man is currently closed. Services are available on Sunday from 10am until 4pm. <<ctn>>[mental health boost | 1hr]<</ctn>><<endinsertion>>
+<<insertion lambdaA>>Attend a church service at the Church of Man. <<ctn>>[mental health boost | 1hr]<</ctn>><<endinsertion>>
 <<insertion NoRagerts>>Old-styled Tattoo parlor<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
@@ -90,7 +103,8 @@
 
 :: DowntownWLOC [nobr]
 
-Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+<<f y>>ou notce an interesting thing on the sidewalk. It seems, it is some kind of public use machine for enlarging nipples. @@.mono;I wonder if it working?@@<br> 
+<center>[img[IMG-Puffification]]</center>
 
 
 :: DowntownShopNoRagerts [nobr map]
@@ -116,7 +130,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise tattoo>>
-  <<button "Make a tattoo">><<addTime 10>><<dialog "Tattoo parlor">><<include [[DowntownShopNoRagertsTattoo]]>><</dialog>><</button>>
+  <<button "Get a tattoo">><<addTime 10>><<dialog "Tattoo parlor">><<include [[DowntownShopNoRagertsTattoo]]>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise designer>>
   <<button "Design tattoo">><<dialog "Designer">><<include [[TattooCreator]]>><</dialog>><</button>>
@@ -163,3 +177,9 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 
 <center>[img[IMG-TattooLoc]]</center><br>
 You see some client already decided what tattoo she wants. It seems that this piece of art is almost done altough she may want to color it later.
+
+
+
+
+
+

@@ -114,6 +114,20 @@ class SexPos {
   get allowed() {
     const ᛔ = State.active.variables;
     const sex = ↂ.sex;
+    const sx = ↂ.sex.npc[ↂ.sex.target].main;
+    if (this.cat === "oralNPC") {
+      if (!setup.sex.clothesBlockChecker(sx._k, "pussy")) {
+        return 13;
+      }
+    } else if (this.cat === "oralPC") {
+      if (!setup.sex.clothesBlockChecker("pc", "pussy") || setup.sexToys.check("pc", "vagina") !== true) {
+        return 13;
+      }
+    } else if (this.cat !== "makeout") {
+      if (!setup.sex.clothesBlockChecker(sx._k, "pussy") || !setup.sex.clothesBlockChecker("pc", "pussy") || setup.sexToys.check("pc", this.pos[0].occupy[0]) !== true) {
+        return 13;
+      }
+    }
     if (this.key === sex.pos) {
       return 8;
     }
@@ -345,7 +359,7 @@ class SexPos {
         // none
       },
       special() { // unique action that occurs when this position is chosen.
-        // none
+        ↂ.sex.flag.oral = true;
       },
     },
     standOral: {
@@ -420,7 +434,7 @@ class SexPos {
         // none
       },
       special() { // unique action that occurs when this position is chosen.
-        // none
+        ↂ.sex.flag.oral = true;
       },
     },
     standingFacingNPCback: {
@@ -588,6 +602,7 @@ class SexPos {
       min: 2, // incl PC
       count: 2, // primary 'spots' in position
       sex: true, // whether sex or not
+      anal: false,
       speed: {max: 6, min: 1}, // if sex, a min and max fuck speed possible
       cum: [{deep: 1, mid: 4, vest: 5}, {bukkake: 1}],
       mult: 1.2, // multiplier to pleasure from position
@@ -663,6 +678,7 @@ class SexPos {
       min: 2, // incl PC
       count: 2, // primary 'spots' in position
       sex: true, // whether sex or not
+      anal: false,
       speed: {max: 6, min: 1}, // if sex, a min and max fuck speed possible
       cum: [{deep: 2, mid: 6, vest: 2}, {bukkake: 1}],
       mult: 1.1, // multiplier to pleasure from position
@@ -738,6 +754,7 @@ class SexPos {
       min: 2, // incl PC
       count: 2, // primary 'spots' in position
       sex: true, // whether sex or not
+      anal: false,
       speed: {max: 7, min: 1}, // if sex, a min and max fuck speed possible
       cum: [{deep: 5, mid: 4, vest: 1}, {bukkake: 1}],
       mult: 1.3, // multiplier to pleasure from position
@@ -813,6 +830,7 @@ class SexPos {
       min: 2, // incl PC
       count: 2, // primary 'spots' in position
       sex: true, // whether sex or not
+      anal: false,
       speed: {max: 8, min: 1}, // if sex, a min and max fuck speed possible
       cum: [{deep: 5, mid: 4, vest: 1}, {bukkake: 1}],
       mult: 1.3, // multiplier to pleasure from position
@@ -1114,6 +1132,7 @@ class SexPos {
       min: 2, // incl PC
       count: 2, // primary 'spots' in position
       sex: true, // whether sex or not
+      anal: false,
       speed: {max: 8, min: 1}, // if sex, a min and max fuck speed possible
       cum: [{deep: 5, mid: 3, vest: 1, cervix: 1}, {bukkake: 1}],
       mult: 1.2, // multiplier to pleasure from position
@@ -1189,6 +1208,7 @@ class SexPos {
       min: 2, // incl PC
       count: 2, // primary 'spots' in position
       sex: true, // whether sex or not
+      anal: false,
       speed: {max: 7, min: 1}, // if sex, a min and max fuck speed possible
       cum: [{deep: 2, cervix: 2, mid: 3, vest: 3}, {bukkake: 1}],
       mult: 1.2, // multiplier to pleasure from position
@@ -1264,6 +1284,7 @@ class SexPos {
       min: 2, // incl PC
       count: 2, // primary 'spots' in position
       sex: true, // whether sex or not
+      anal: false,
       speed: {max: 6, min: 1}, // if sex, a min and max fuck speed possible
       cum: [{deep: 2, cervix: 2, mid: 3, vest: 3}, {bukkake: 1}],
       mult: 1.2, // multiplier to pleasure from position
@@ -1396,7 +1417,7 @@ class SexPos {
         // none
       },
       special() { // occurs when chosen.
-        // none
+        ↂ.sex.flag.oral = true;
       },
     },
     layingMunchPosition: {
@@ -1471,7 +1492,7 @@ class SexPos {
         // none
       },
       special() { // occurs when chosen.
-        // none
+        ↂ.sex.flag.oral = true;
       },
     },
     SixtyNinePConTop: {
@@ -1483,7 +1504,7 @@ class SexPos {
       label: "Sixty-Nine",
       hover: "Climb over your partner so that your cunt is in their face and you have easy access to their junk too.",
       img: "IMGsexP_blowjobStanding",
-      cat: "oralNPC", // makeout, oralPC, oralNPC, sex
+      cat: "oralPC", // makeout, oralPC, oralNPC, sex
       basic: "lay",
       kink: ["none"],
       min: 2, // incl PC
@@ -1509,7 +1530,7 @@ class SexPos {
           handR: false,
           handL: false,
           blocked: ["none"],
-          occupy: ["none"],
+          occupy: ["pussy"],
           sex: 0,
           effect: {
             pleasure: {amt: 1, max: 10},
@@ -1531,7 +1552,7 @@ class SexPos {
           handR: false,
           handL: false,
           blocked: ["none"],
-          occupy: ["none"],
+          occupy: ["cock"],
           sex: 0,
           effect: {
             pleasure: {amt: 1, max: 10},
@@ -1546,7 +1567,7 @@ class SexPos {
         // none
       },
       special() { // occurs when chosen.
-        // none
+        ↂ.sex.flag.oral = true;
       },
     },
     doggyStyleSex: {
@@ -1564,6 +1585,7 @@ class SexPos {
       min: 2, // incl PC
       count: 2, // primary 'spots' in position
       sex: true, // whether sex or not
+      anal: false,
       speed: { max: 8, min: 1 }, // if sex, a min and max fuck speed possible
       cum: [{ deep: 5, mid: 4, vest: 1 }, { bukkake: 1 }],
       mult: 1.3, // multiplier to pleasure from position
@@ -1635,7 +1657,7 @@ class SexPos {
       img: "IMGsexP_doggyStyle",
       cat: "sex", // makeout, oralPC, oralNPC, sex
       basic: "lay",
-      kink: ["none"],
+      kink: ["anal"],
       min: 2, // incl PC
       count: 2, // primary 'spots' in position
       sex: true, // whether sex or not
@@ -1666,7 +1688,7 @@ class SexPos {
             pleasure: { amt: 50, max: 85 },
             arousal: true,
             wetness: 1,
-            strong: { kink: ["slut", "liberated"], trait: ["none"] },
+            strong: { kink: ["slut", "liberated", "anal"], trait: ["none"] },
             weak: { kink: ["shame"], trait: ["none"] },
           },
         },
@@ -1688,7 +1710,7 @@ class SexPos {
             pleasure: { amt: 60, max: 105 },
             arousal: true,
             wetness: 1,
-            strong: { kink: ["none"], trait: ["none"] },
+            strong: { kink: ["anal"], trait: ["none"] },
             weak: { kink: ["none"], trait: ["none"] },
           },
         },

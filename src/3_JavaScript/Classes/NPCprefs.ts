@@ -54,5 +54,17 @@ class NPCprefs {
     this.fancy = fancy;
     this.popular = popular;
   }
+  public get kids(): number {
+    return aw.npc[this._k].core.procreate.kids;
+  }
+  public get preg(): number {
+    return Math.max(aw.npc[this._k].core.procreate.preg, aw.npc[this._k].core.procreate.pleasure);
+  }
+  public get isCrazy(): number {
+    return Math.round((aw.npc[this._k].core.neurotic.impulsive + aw.npc[this._k].core.neurotic.unstable + aw.npc[this._k].core.neurotic.unstable) / 3);
+  }
+  public get isLoyal(): number {
+    return Math.round((aw.npc[this._k].core.loyalty.betrayal + aw.npc[this._k].core.loyalty.cheating + aw.npc[this._k].core.loyalty.cheating) / 3);
+  }
 }
 

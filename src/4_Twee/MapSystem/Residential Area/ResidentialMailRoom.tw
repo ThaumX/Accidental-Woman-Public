@@ -51,16 +51,30 @@
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
   <<button "Check Mail">><<dialog "Mailbox">>
-  <<if ($date[1] < 4 && $date[2] == 4)>>
+  <<if ($date[1] < 4 && $date[2] == 4) && ↂ.flag.fairMail === false>>
     Visit the official "Fuck for America" Fert Corps Fair on 19-21 of April! Tons of fun! Try yourself in competitions, win prizes, drink best local beer and most importantly, get knocked up by our best bulls! All weekend long at the fair field on the north of the Farm Coop! Come yourself, bring your friends!
     <p>@@.mono;Hmm... sounds interesting, maybe I should go?@@</p>
-    <<run setup.sched.new("Fert Corps Fair", "reminder", true, 146880, false, false, false, true, false, "Visiting this local country fair can be fun. At least they promised some entertainment... it must be just near the Farm Coop.", "Visit the fair")>>
+    <<run setup.sched.new("Fert Corps Fair", "reminder", true, 146880, false, false, false, true, false, "Visiting this local country fair can be fun. At least they promised some entertainment... it must be just near the Farm Coop.", "Visit the fair")>><<set ↂ.flag.fairMail = true>>
+  <<elseif ↂ.flag.sendKeyReturned[0] == true || ↂ.flag.sendKeyReturned[1] == true || ↂ.flag.sendKeyReturned[2] == true>>
+    You see a envelope you sent to yourself and your heart starts to beat a little faster. @@.mono;Oh, finally! I was worried it was lost already.@@
+    <<if ↂ.flag.sendKeyReturned[0] == true>><<run $items.pickUp("Chastity belt key")>><<set ↂ.flag.sendKeyReturned[0] == false>>
+    You quickly tear the envelope open and take the key to your belt.
+    <<elseif ↂ.flag.sendKeyReturned[1] == true>><<run $items.pickUp("Cplate 200 remote")>><<set ↂ.flag.sendKeyReturned[1] == false>>
+    You quickly tear the envelope open and take the remote to your chastity plate.
+    <<elseif ↂ.flag.sendKeyReturned[2] == true>><<run $items.pickUp("Clit shield remote")>><<set ↂ.flag.sendKeyReturned[2] == false>>
+    You quickly tear the envelope open and take the remote to your clit shield.
+    <</if>>
+    <<status 0>>
   <<else>>
   You check your mailbox for anything new, but all you've gotten is junk mail. You know you can't possibly have any credit at this point, but that doesn't stop credit card companies from offering you a shitty credit card... <i>0% APR for six months!</i> Of course, the fine print shows that the APR after 6 months is 34%...
   <</if>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
-  @@.disabled;<<button "Send Mail">><</button>>@@
+  <<if $items.has("Chastity belt key") || $items.has("Cplate 200 remote") || $items.has("Clit shield remote")>>
+    <<button "Mail you chastity keys to yourself">><<dialog "Send chastity keys">><<include [[ResidentialMailRoom-SendKeys]]>><</dialog>><</button>>
+  <<else>>
+    @@.disabled;<<button "Send Mail">><</button>>@@
+  <</if>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -81,4 +95,6 @@ Best credit card:<br>
 <img src="https://i.imgur.com/G5h0WBY.jpg">
 
 
+:: ResidentialMailRoom-SendKeys [nobr]
 
+<<status 1>><<arouse 1>><<f y>>ou take the envelope and hesitate for a second. @@.mono;Oh, what if it will be lost on mail? Then I am gonna be stuck in chastity for some long time... Ah, not a big deal, worst case I'll just buy spare keys from the sex shop if it won't return in a week, right?@@ You steel your nerves ready to close the envelope with your <<if $items.has("Chastity belt key")>><<link "Chastity belt key">><<run $items.drop("Chastity belt key")>><<run setup.omni.new("keysBelt")>><<status 0>><<run Dialog.close()>><</link>><</if>> <<if $items.has("Cplate 200 remote")>><<link "Cplate 200 remote">><<run $items.drop("Cplate 200 remote")>><<run setup.omni.new("keysPlate")>><<status 0>><<run Dialog.close()>><</link>><</if>> <<if $items.has("Clit shield remote")>><<link "Clit shield remote">><<run $items.drop("Clit shield remote")>><<run setup.omni.new("keysClit")>><<status 0>><<run Dialog.close()>><</link>><</if>> inside.

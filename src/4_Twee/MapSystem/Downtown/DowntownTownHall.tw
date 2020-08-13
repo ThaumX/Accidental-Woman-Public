@@ -137,7 +137,7 @@ With nothing else to be done, you <<link "sit down">>
 
 :: DowntownTHrapes2 [nobr]
 
-<<replace "#awUIcontainer">><<print setup.job.jobChoose(false)>><</replace>>
+<<replace "#awUIcontainer">><<print setup.job.jobChoose(0)>><</replace>>
 <<timed 200ms>>
 <<f h>>aving made your decision, the terminal presents you with two options.
 <br>
@@ -337,7 +337,7 @@ He nods. @@.npc;Okay, well, I'm approving your self employment visa. Go put that
 @@.npc;I will, thanks!@@ Your business done, you get up and make your way out of the visa office and town hall.
 </p>
 <center><<button "CONTINUE">><<addTime 8>><<set ↂ.flag.selfEmployed = true>><<status 0>><<go "DowntownTownhall">><</button>></center>
-<<case "diary">>
+<<case "dairy">>
 <p>
 Eventually, he looks up at you. @@.npc;So you're going to be a hucow then? That's pretty admirable, not to mention sexy...@@ He looks at your body for the first time since you entered. @@.npc;<<if ↂ.pc.body.tits.size > 5000>>It seems you've already got the udders for it. That's good, I've heard that the hucow treatments are expensive for freelancers.<<elseif ↂ.pc.body.tits.size > 1800>>It looks like you've already started getting your udders ready... though it seems like you still have a ways to go. Just don't get over your head in debt paying for the rest of your mods, okay?<<else>>Are you really sure about that? Your tits are nowhere near hucow level, and I hear those treatments are expensive.<</if>> In any case, have you considered signing up with the Farm Coop Dairy? It's gotta be easier than trying to freelance, and I hear they treat their cows really well.@@
 </p>
@@ -401,7 +401,7 @@ He uses your face to wipe away the dregs of cum oozing from his tip before fixin
 <</if>>
 <center><<button "CONTINUE">>
 <<if $SCresult[1]>><<addTime 20>><<else>><<addTime 35>><</if>>
-<<eatdrug "cum" 20>>
+<<eatdrug "cum" 20>><<run setup.hadSexWith("none",2)>>
 <<set ↂ.flag.selfEmployed = true>>
 <<status 0>>
 <<go "DowntownTownhall">>

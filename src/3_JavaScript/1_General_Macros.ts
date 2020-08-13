@@ -1,3 +1,4 @@
+
 //   ██████╗ ███████╗███╗   ██╗███████╗██████╗  █████╗ ██╗
 //  ██╔════╝ ██╔════╝████╗  ██║██╔════╝██╔══██╗██╔══██╗██║
 //  ██║  ███╗█████╗  ██╔██╗ ██║█████╗  ██████╔╝███████║██║
@@ -16,6 +17,12 @@
 Macro.add("updatePlayerHistory", {
   handler() {
     setup.updatePlayerHistory();
+  },
+});
+
+Macro.add("boober", {
+  handler() {
+    return new Wikifier(this.output, "<span class='hotpink big'>Ѡ</span>");
   },
 });
 
@@ -879,52 +886,6 @@ Macro.add("f", {
 });
 
 
-Macro.add("texting", {
-  tags: ["textpc", "textnpc"],
-  handler() {
-    State.temporary.textingMacroData = [];
-    State.temporary.textingMacroCount = 0;
-    let wiz = "";
-    if (this.payload[0].args[0] != null) {
-      wiz = `<div class="tit" style="position:absolute;top:5px;height:40px;right:5px;left:165px;background-color:#aaa;border-top-right-radius:8px;border-bottom-right-radius:4px;margin:0px;text-align:center;color:#222;border-width: 2px;border-style: solid;border-color: #99005b;font-size:1.4rem;">${this.payload[0].args[0].toUpperCase()}</div>`;
-    } else {
-      wiz = `<div class="tit" style="position:absolute;top:5px;height:40px;right:5px;left:165px;background-color:#aaa;border-top-right-radius:8px;margin:0px;text-align:center;color:#222;border-width: 2px;border-style: solid;border-color: #99005b;font-size:1.4rem;">UNKNOWN</div>`;
-    }
-    let out = `<div id="textingCuntainer"><div class="textingTitle">Enmity App</div>${wiz}<div id="texting">`;
-    const fText = State.temporary.textingMacroData;
-    let start = 1;
-    const leng = this.payload.length;
-    let t;
-    let delay;
-    for (let i = 1; i < leng; i++) {
-      if (this.payload[i].name === "textpc") {
-        break;
-      } else {
-        out += `<div class="textingNPC">${this.payload[i].contents}</div>`;
-        start = i + 1;
-      }
-    }
-    out += `</div><div id="textingSendbox"></div><div id="textingSend"><div id="textingTypewriter"><div class="print-line-1 anim-typewriter"><<print setup.fillerText([20,40])>></div></div> [img[IMG-SendMsgIcon]]</div></div><<timed 50ms>><<scri`;
-    for (let i = start; i < leng; i++) {
-      if (this.payload[i].name === "textpc") {
-        t = "pc";
-      } else {
-        t = "npc";
-        if (this.payload[i].args[0] != null && this.payload[i].args[0] !== undefined) {
-          delay = Number(this.payload[i].args[0]);
-        } else {
-          delay = random(1500, 3000) + "ms";
-        }
-      }
-      fText.push({type: t, text: this.payload[i].contents, delay});
-    }
-    out += `pt>>$("#textingSend").click(function(){setup.textingMacroFunction();});<</scri`;
-    out += `pt>><</timed>>`;
-    return new Wikifier(this.output, out);
-  },
-});
-
-
 Macro.add("tutorial", {
   tags: null,
   handler() {
@@ -1306,7 +1267,7 @@ Macro.add("dialogchoice", {
           if (test) { // if eval returns true, then allow the button like an "if" check
             txt = `<span id="${revTag}-butt"><<button "${payload.args[0].toUpperCase()}">>${payload.contents}<</button>></span>`;
           } else {
-            txt = `<span id="${revTag}-butt"><span class="disabled"><<button "${payload.args[0].toUpperCase()}">><</button>></span></span>`;
+            txt = `<span id="${revTag}-butt"><span class="disabled"><<tooltip "${setup.reasonYouCant(payload.args[1])}">><<button "${payload.args[0].toUpperCase()}">><</button>><</tooltip>><<run setup.tooltipper()>></span></span>`;
           }
         } else {
           txt = `<span id="${revTag}-butt"><<button "${payload.args[0].toUpperCase()}">>${payload.contents}<</button>></span>`;
@@ -1570,7 +1531,17 @@ Macro.add("name", {
     if (this.args.length < 1) {
       out = ↂ.pc.main.name;
     } else if (this.args.length === 1) {
-      out = aw.npc[this.args[0]].main.name;
+      if (this.args[0] === "s") {
+        out = ↂ.T.main.name;
+      } else if (this.args[0] === "h") {
+        out = State.active.variables.BFname;
+      } else if (this.args[0] === "w") {
+        out = aw.npc[ↂ.flag.liveWith].main.name;
+      } else if (aw.npc[this.args[0]] !== null) {
+        out = aw.npc[this.args[0]].main.name;
+      } else {
+        out = "[NPC Name Error]";
+      }
     } else {
       out = " ERROR IN NAME MACRO, TOO MANY ARGUMENTS PROVIDED. ";
     }

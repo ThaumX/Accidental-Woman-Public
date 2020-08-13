@@ -93,11 +93,10 @@ setup.omnItems.wombBbirth = {
 
 setup.omnItems.doomClock = {
   name: "Doom Clock",
-  type: "recurring",
+  type: "single",
   output: "none",
-  times: 6,
-  interval: 120,
-  icon: "IMGstatus_DeathSick",
+  interval: 480,
+  icon: "none",
   text: "You may die soon...",
   run: `if (ↂ.flag.badEnd !== "none") { setup.badEnd(ↂ.flag.badEnd); }`,
 };
@@ -127,4 +126,13 @@ setup.omnItems.unemployed3 = {
   duration: 600,
   icon: "none",
   run: `setup.badEnd("unemployed");`,
+};
+
+setup.omnItems.killer = {
+  name: "killer",
+  type: "single",
+  output: "dialog",
+  duration: 5760,
+  icon: "none",
+  run: `setup.badEnd("killer");`,
 };

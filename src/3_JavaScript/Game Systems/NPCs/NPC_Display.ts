@@ -441,7 +441,7 @@ setup.npcDisplay = {
         output += "</center></div>";
       } catch (e) {
         aw.con.warn(`Error in setup.npcDisplay.detailView (rship). ${e.name}: ${e.message}.`);
-        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Appologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
+        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Apologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
       }
       aw.replace("#npcMenuRShip", output);
       setTimeout(() => body(), 25);
@@ -503,7 +503,7 @@ setup.npcDisplay = {
         output += "</div>";
       } catch (e) {
         aw.con.warn(`Error in setup.npcDisplay.detailView (body). ${e.name}: ${e.message}.`);
-        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Appologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
+        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Apologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
       }
       aw.replace("#npcMenuBody", output);
       setTimeout(() => mutate(), 25);
@@ -622,7 +622,7 @@ setup.npcDisplay = {
         output += "</div>";
       } catch (e) {
         aw.con.warn(`Error in setup.npcDisplay.detailView (mutate). ${e.name}: ${e.message}.`);
-        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Appologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
+        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Apologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
       }
       aw.replace("#npcMenuMutate", output);
       setTimeout(() => fert(), 25);
@@ -650,7 +650,7 @@ setup.npcDisplay = {
         output += "</div>";
       } catch (e) {
         aw.con.warn(`Error in setup.npcDisplay.detailView (fert). ${e.name}: ${e.message}.`);
-        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Appologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
+        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Apologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
       }
       aw.replace("#npcMenuFert", output);
       setTimeout(() => status(), 25);
@@ -747,7 +747,7 @@ setup.npcDisplay = {
         output += "</div>";
       } catch (e) {
         aw.con.warn(`Error in setup.npcDisplay.detailView (status). ${e.name}: ${e.message}.`);
-        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Appologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
+        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Apologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
       }
       aw.replace("#npcMenuStatus", output);
       setTimeout(() => sched(), 25);
@@ -776,7 +776,7 @@ setup.npcDisplay = {
         output += "</div>";
       } catch (e) {
         aw.con.warn(`Error in setup.npcDisplay.detailView (sched). ${e.name}: ${e.message}.`);
-        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Appologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
+        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Apologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
       }
       aw.replace("#npcMenuSched", output);
       setTimeout(() => trait(), 25);
@@ -791,7 +791,7 @@ setup.npcDisplay = {
         output += "</div>";
       } catch (e) {
         aw.con.warn(`Error in setup.npcDisplay.detailView (trait). ${e.name}: ${e.message}.`);
-        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Appologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
+        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Apologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
       }
       aw.replace("#npcMenuTrait", output);
       setTimeout(() => kink(), 25);
@@ -993,7 +993,7 @@ setup.npcDisplay = {
         output += "</div>";
       } catch (e) {
         aw.con.warn(`Error in setup.npcDisplay.detailView (kink). ${e.name}: ${e.message}.`);
-        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Appologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
+        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Apologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
       }
       aw.replace("#npcMenuKink", output);
       setTimeout(() => core(), 25);
@@ -1034,7 +1034,7 @@ setup.npcDisplay = {
         output += "</div>";
       } catch (e) {
         aw.con.warn(`Error in setup.npcDisplay.detailView (core). ${e.name}: ${e.message}.`);
-        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Appologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
+        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Apologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
       }
       aw.replace("#npcMenuCore", output);
       setTimeout(() => pref(), 25);
@@ -1279,7 +1279,7 @@ setup.npcDisplay = {
         }
       } catch (e) {
         aw.con.warn(`Error in setup.npcDisplay.detailView (pref). ${e.name}: ${e.message}.`);
-        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Appologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
+        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Apologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
       }
       aw.replace("#npcMenuPref", output);
       setTimeout(() => bGround(), 25);
@@ -1353,7 +1353,7 @@ setup.npcDisplay = {
         }
       } catch (e) {
         aw.con.warn(`Error in setup.npcDisplay.detailView (bground). ${e.name}: ${e.message}.`);
-        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Appologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
+        output += `<div class="npcMenuGrid" style="grid-column: 2 / span 5; grid-row: 4 / span 3;">Apologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
       }
       aw.replace("#npcMenuBGround", output);
       setTimeout(() => stories(), 25);
@@ -1378,7 +1378,7 @@ setup.npcDisplay = {
         output += "</div>";
       } catch (e) {
         aw.con.warn(`Error in setup.npcDisplay.detailView (stories). ${e.name}: ${e.message}.`);
-        output += `<div class="npcMenuGrid">Appologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
+        output += `<div class="npcMenuGrid">Apologies, there was an error gathering this information. ${e.name}: ${e.message}.</div>`;
       }
       aw.replace("#npcMenuStories", output);
     }

@@ -7,7 +7,7 @@
 /*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
 <<include [[MAPhomeT2]]>>
 /*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
-<div id="mainshits">
+<div id="mainshits" class="extraRoomRight">
 <<homeItemDisp>>
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
 <p class="weather-disc"><<switch ↂ.map.weather>>
@@ -58,12 +58,16 @@
     <<dialog "Flashing">>@@.head3;Y@@ou lean against the railing and grab your <<if ↂ.pc.clothes.keys.top == 0 && ↂ.pc.clothes.keys.bra == 0>>already-exposed breasts<<elseif ↂ.pc.clothes.keys.top == 0>><<print aw.slot.bra.style>><<elseif ↂ.pc.clothes.keys.bra == 0>><<print aw.slot.top.style>><<else>><<print aw.slot.top.style>> and <<print aw.slot.bra.style>><</if>> with both hands, pulling upward and exposing your <<pcBoobSize>> breasts to the world. It's exhilarating, but there really wasn't anyone around to see you. Maybe when there's more people around...<</dialog>>
   <</button>>
 <<endhoverrevise>>
+<<hoverrevise tan>>
+	<<button "Tan">><<dialog "Tan">><<include [[homeBalcony-Tan]]>><</dialog>><</button>>
+<<endhoverrevise>>
 <<homeItemButtons>>
 </div>
 
 /*Main display for information about actions*/
 <div id="actionInfo">
 <<insertion flash>>Expose yourself for a quick thrill.<<endinsertion>>
+<<insertion tan>>Work on your tan. [25-35min, +tan]<<endinsertion>>
 <<homeItemInfo>>
 </div>
 <<timed 50ms>>

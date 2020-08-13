@@ -200,6 +200,7 @@ setup.hair = {
       msg = `You take <span class="monospace white">${Math.round(aw.hair[hairstyle].time * 1.5)}</span> minutes to style your hair into a ${aw.hair[hairstyle].name}, <span class="bad">but you fail and leave your hair a mess.</span> ${tex}`;
     }
     State.active.variables.AW.pcPortrait = setup.porn.femaleNPC(ↂ.pc, true);
+    setup.statusSave();
     return msg;
   },
   // weakens/musses hair

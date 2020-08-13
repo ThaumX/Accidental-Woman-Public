@@ -1,7 +1,15 @@
 
 :: NPC-Contact-Phone [nobr]
 
-<<set _nam = aw.npc[_npcContactID].main.name>>
+<<if _npcContactID == "n1014" && ↂ.flag.hannaStory.stage === "askedForHelp">>
+<<texting Hanna>>
+<<textpc>>Hey, are you ok?
+<<textpc>>Please answer, I am worried!
+<<textpc>>Hanna?
+<</texting>>
+<<safetoclose>>
+<<else>>
+<div id="mainshitsDiv"><<set _nam = aw.npc[_npcContactID].main.name>>
 <<set _acty = "Not much, just hanging out.">>
 <<set _mins = setup.time.minutes()>>
 <<if $date[0] < 6>>
@@ -29,10 +37,10 @@
 <<textpc>>Hey, what's up?
 <<textnpc>><<print _acty>>
 <<textnpc>><<print _actz>>
-<<textpc>>Well...<<replace "#optionsdiv">><<dialogchoice>><<dbutt "set a date">><<replace "#optionsdiv">><<datescheduler _npcContactID>><</replace>><<dtext "cute">>Ask the person out on a date.<<dbutt "nothing">><<set aw.npc[setup.interact.status.npc].rship.likePC -= 3>><<set aw.npc[setup.interact.status.npc].rship.lovePC -= 1>><<intgo "NPC-Contact-PhoneShit">><<dtext "silly">>You didn't have any reason for texting them.<<dbutt "hang out">><<replace "#optionsdiv">><<hangscheduler _npcContactID>><</replace>><<dtext "happy">>See if they want to hang out sometime.<</dialogchoice>><</replace>>
-<</texting>>
-<div id="optionsdiv"></div>
-
+<<textpc>>Well...<<replace "#optionsdiv">><<dialogchoice>><<dbutt "set a date">><<if setup.interactionMisc.dateDecision(_npcContactID)>><<replace "#optionsdiv">><<datescheduler _npcContactID>><</replace>><<else>><<replace "#mainshitsDiv">><<include [[NPC-Contact-Phone-RejectDate]]>><</replace>><</if>><<dtext "cute">>Ask the person out on a date.<<dbutt "nothing">><<set aw.npc[setup.interact.status.npc].rship.likePC -= 3>><<set aw.npc[setup.interact.status.npc].rship.lovePC -= 1>><<set aw.npc[_npcContactID].rship.companionrship.companion += 3>><<status 0>><<intgo "NPC-Contact-PhoneShit">><<dtext "silly">>You didn't have any reason for texting them.<<dbutt "hang out">><<replace "#optionsdiv">><<hangscheduler _npcContactID>><</replace>><<dtext "happy">>See if they want to hang out sometime.<</dialogchoice>><</replace>>
+<</texting>><<status 0>>
+<div id="optionsdiv"></div></div>
+<</if>>
 
 :: NPC-Contact-PhoneShit [nobr]
 
@@ -65,6 +73,22 @@
 <center><<button "close">><<intclose>><</button>></center>
 
 
+:: NPC-Contact-Phone-RejectDate [nobr]
+
+<<set _first = either("I thought about spending time together, would you like to?","Don't you want to go on a date with me?","Hey, I just thought, it would be nice to go out with you.")>>
+<<set _second = either("Oh","Sorry :(","Ugh, did not expect this tbh")>>
+<<set _third = either("I have too much job this week :(","Not sure I will have any free time soon.","I have a lot of stuff on my hands rn, sorry, not ready to date anytime soon.")>>
+<<texting _nam>>
+<<textpc>><<print _first>>
+<<textnpc>><<print _second>>
+<<textnpc>><<print _third>>
+<<textpc>>Oh I see...
+<<textpc>>Next time maybe?
+<<textnpc>>Emm, sure!
+<</texting>>
+<<set aw.npc[setup.interact.status.npc].rship.likeNPC -= 8>><<set aw.npc[setup.interact.status.npc].rship.loveNPC -= 2>><<has bitch>><<anger 3>><<or>><<anger 1>><</has>><<happy -2 "Being rejected sucks">>
+<center><<button "close">><<intclose>><</button>></center>
+
 :: missedDateChat [nobr]
 
 <<texting "Text chat">>
@@ -80,6 +104,7 @@
 <</texting>>
 <<safetoclose>>
 
+
 :: missedHangChat [nobr]
 
 <<texting "Text chat">>
@@ -91,3 +116,4 @@
 <<textpc>>Oh, so sorryyy
 <</texting>>
 <<safetoclose>>
+

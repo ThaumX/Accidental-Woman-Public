@@ -32,6 +32,7 @@ interface Array<T> {
   includesAny: {(search:any[]): boolean};
   findIndex: (arg: any) => number;
   shuffle: () => void;
+  random: () => any;
 }
 
 interface JSON {

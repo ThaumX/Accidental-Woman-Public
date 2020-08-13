@@ -68,10 +68,12 @@
 <<dialogchoice>>
 <<dbutt "Saying Hello">><<addTime 3>><<intgo "NPCinteraction-AcquaintRandom">>
 <<dtext "happy">>You don't have an objective, you just wanted to say hello since you were nearby.
-<<dbutt "Arrange Date">><<addTime 5>><<set _rr = random(1,3)>><<if !aw.npc[_npc].rship.rejected && _rr > 1>><<intgo "NPCinteraction-AcquaintDate">><<else>><<intgo "NPCinteraction-AcquaintNoDate">><</if>>
+<<dbutt "Arrange Date">><<addTime 5>><<if setup.interactionMisc.dateDecision(_npc)>><<intgo "NPCinteraction-AcquaintDate">><<else>><<intgo "NPCinteraction-AcquaintNoDate">><</if>>
 <<dtext "bimbo">>You want to go out on a date!
 <<dbutt "Hangout">><<addTime 5>><<set _rrr = random(1,3)>><<if !aw.npc[_npc].rship.rejected && _rrr > 1>><<intgo "NPCinteraction-AcquaintHang">><<else>><<intgo "NPCinteraction-AcquaintNoHang">><</if>>
 <<dtext "smile">>You want to chill together in a friendly way.
+<<dbutt "Bye">><<addTime 3>><<run setup.interact.exit()>>
+<<dtext "happy">>You need to go actually.
 <</dialogchoice>>
 
 
@@ -79,7 +81,7 @@
 
 <<set _npc = setup.interact.status.npc>>
 <<set aw.npc[_npc].rship.rejected = true>>
-<p>@@.pc;I saw you on my Twatter, and thought I'd say hi.@@</p>
+<p>@@.pc;<<= either("I saw you on my Twatter, and thought I'd say hi.","So, what's you up to?", "How do you do?")>>@@</p>
 <<ctagcontent "acquaintance" "random">>
 
 

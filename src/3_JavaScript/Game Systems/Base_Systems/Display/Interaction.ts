@@ -110,9 +110,14 @@ setup.interact.launch = function(
   // main content box - includes provided content
   output += `<div id="interactWindow">`;
   output += (content != null && content !== "none") ? content : "";
-  if (passage != null && Story.has(passage)) {
-    setup.interact.status.passage = passage;
-    output += `<<include [[${passage}]]>>`;
+  if (passage != null) {
+    if (Story.has(passage)) {
+      setup.interact.status.passage = passage;
+      output += `<<include [[${passage}]]>>`;
+    } else if (aw.pseudo.has(passage)) {
+      setup.interact.status.passage = passage;
+      output += `<<pseudo "${passage}">>`;
+    }
   }
   if (State.active.variables.screenReader) {
     output += `<br><a id="interactClose">Close Interact Window</a>`;
@@ -289,6 +294,11 @@ setup.interact.passage = function(passage: string): void {
     const cunt = `<<include [[${passage}]]>>`;
     aw.replace("#interactWindow", cunt);
     $("#interactWindow").animate({ scrollTop: 0 }, "fast");
+  } else if (aw.pseudo.has(passage)) {
+    setup.interact.status.passage = passage;
+    const cunt = `<<pseudo "${passage}">>`;
+    aw.replace("#interactWindow", cunt);
+    $("#interactWindow").animate({ scrollTop: 0 }, "fast");
   } else {
     aw.con.warn(`Attempted to load passage "${passage}" to interact window but passage doesn't exist.`);
   }
@@ -425,7 +435,7 @@ Macro.add("intgo", {
     if (this.args.length !== 1) {
       return this.error(`Incorrect number of arguments given to intgo macro - passage name only (${this.args.length} arguments given).`);
     }
-    if (typeof this.args[0] === "string" && Story.has(this.args[0])) {
+    if (typeof this.args[0] === "string" && (Story.has(this.args[0]) || aw.pseudo.has(this.args[0]))) {
       setup.interact.passage(this.args[0]);
     } else {
       return this.error(`Invalid or malformed passage name to intgo macro (${this.args[0]}).`);

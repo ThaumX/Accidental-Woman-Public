@@ -444,6 +444,7 @@ setup.jewel = {
       tongue: ["tongue"],
       neck: ["neck"],
       belly: ["belly"],
+      brow: ["brow"],
     };
     if (chk[jewSlot].includes(slot)) {
       return true;

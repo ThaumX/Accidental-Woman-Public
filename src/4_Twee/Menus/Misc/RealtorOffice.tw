@@ -1,6 +1,11 @@
 
 :: AppleCleftRealty [nobr]
 
+<<silently>>
+<<if ↂ.flag.moveInFlag>>
+  <<go AppleCleftRealtyMoveIn>>
+<</if>>
+<</silently>>
 <center>[img[IMG-AppleCleftRealty]]</center>
 <p>
 <<f e>>ntering the nicely-furnished real estate office, you immediately notice Tiffany sitting behind her desk. <<switch random(1,3)>><<case 1>>The office appears to be empty of customers, and Tiffany seems to be a little flushed and distracted behind her desk.<<case 2>>A middle-aged couple are sitting on a couch and appear to be taking a virtual tour judging by the <<info "AR glasses" "guideARglasses">> they're wearing. There seems to be a certain amount of tension hanging between the two of them.<<case 3>>The office has a couple different customers sitting in it; a man nearing his 30s seems to be reviewing some documents or paperwork on a slate, while two women are gesturing pointlessly into the air behind pairs of <<info "AR glasses" "guideARglasses">>.<</switch>> You walk up to Tiffany and say a simple @@.pc;Hello.@@
@@ -294,6 +299,7 @@ When you're done, you hand back the tablet and she ushers you over to a comforta
     <<set _mon += Math.round((ↂ.home.stats.rent - ↂ.homeOptions[_select].rent)/2)>>
   <</if>>
   <<set ↂ.home.stats = {name: ↂ.homeOptions[_select].name, tier: ↂ.homeOptions[_select].tier, finish: ↂ.homeOptions[_select].finish, upkeep: ↂ.homeOptions[_select].upkeep, nhood: ↂ.homeOptions[_select].nhood, location: ↂ.homeOptions[_select].location, rent: ↂ.homeOptions[_select].rent}>>
+  <<status 0>>
   <<run aw.cash(_mon, "rent")>>
   <<go AppleCleft-HomeSearch4>>
 <<nextbutton "LEAVE">><<go "AppleCleft-HomeSearch3">>
@@ -324,17 +330,70 @@ When you're done, you hand back the tablet and she ushers you over to a comforta
 <<f r>>emoving the AR glasses, you walk back over to Tiffany and hand them to her. @@.pc;I found the perfect place! It's the one at <<print ↂ.home.stats.name>>!@@
 </p>
 <p>
-Tiffany gives you a big smile. @@.npc;Awesome! Let's get you started on the paperwork, and then you can go tell the moving bots where to put the stuff in your new place!@@
+Tiffany gives you a big smile. @@.npc;Awesome! Let's get you started on the paperwork, and then you just have to wait for the moving bots to finish transporting your belongings to the new home!@@
 </p>
 <p>
-You spend the next several hours doing just that, and at the end you're able to admire your new place...
+You spend the next several hours doing just that, and at the end you're able to admire your new place... though you still need to position your furniture and other belongings the way you want them.
 </p>
 <center>
 <<button "CUNTINUE">>
 <<set _t = random(330,390)>>
 <<addTime _t>>
-
+<<run setup.homeItems.packUp()>>
 <<gotomap "home" "foyer">>
 <</button>>
 </center>
 
+
+:: AppleCleftRealtyMoveIn [nobr]
+
+<<silently>>
+<<set _npcid = ↂ.flag.liveWith>>
+<<if aw.npc[ↂ.flag.liveWith].background.wealth + 2 < ↂ.home.stats.tier>>
+  <<set _hChange = -1>>
+<<elseif aw.npc[ↂ.flag.liveWith].background.wealth < ↂ.home.stats.tier>>
+  <<set _hChange = 0>>
+<<else>>
+  <<set _hChange = 1>>
+<</if>>
+<</silently>>
+<img data-passage="IMG-AppleCleftRealty" style="float: right; margin: 10px 0px 25px 25px; border-radius: 5px;">
+<p>
+<<f y>>ou wait outside the Apple Cleft Realty office until <<name _npcid>> arrives.
+</p>
+<p>
+@@.npc;You ready to do this?@@
+</p>
+<p>
+@@.pc;Yep, let's go.@@ The two of you enter the real estate office together.
+</p>
+<p>
+You immediately notice Tiffany sitting behind her desk in the nicely-furnished office. <<switch random(1,3)>><<case 1>>The office appears to be empty of customers, and Tiffany seems to be a little flushed and distracted behind her desk.<<case 2>>A middle-aged couple are sitting on a couch and appear to be taking a virtual tour judging by the <<info "AR glasses" "guideARglasses">> they're wearing. There seems to be a certain amount of tension hanging between the two of them.<<case 3>>The office has a couple different customers sitting in it; a man nearing his 30s seems to be reviewing some documents or paperwork on a slate, while two women are gesturing pointlessly into the air behind pairs of <<info "AR glasses" "guideARglasses">>.<</switch>> You walk up to Tiffany and say a simple @@.pc;Hello.@@
+</p>
+<p>
+She looks up at you with a start. @@.npd;Oh, hello <<= ↂ.pc.main.name>>! Sorry, I was a bit distracted and didn't see you come in.@@ She gives you a bit of a sheepish smile, and angles her slate so you can see the screen. It shows what seems to be an in-progress <<info "NACA" "guideNACA">> match. @@.npd;It's so easy to get caught up watching a match!@@ She looks at <<name _npcid>> for a moment, obviously trying to remember <<n _npcid "hisher.q">> name. @@.npd;I'm so sorry, it seems I've forgotten your name...@@
+</p>
+<p>
+@@.npc;It's <<name _npcid>>,@@ <<n _npcid "heshe.q">> says with a smile @@.npc;and don't worry about it, it's been a while.@@
+</p>
+<p>
+Tiffany returns the smile. @@.npd;So what can I help the two of you with today?@@
+</p>
+<p>
+You give her a cheerful smile as you answer. @@.pc;We'd like to move in together!@@
+</p>
+<p>
+@@.npd;Oh, I see, congratulations! Well, I'm sure we'll find the perfect place for the two of you to share.@@ She gestures for the two of you to have a seat at her desk. @@.npd;Let's get started, shall we?@@
+</p>
+<center><span class="head1">. . . . .</span></center>
+<p>
+It takes a little time, but soon the two of you are able to agree on a new place. It's quite spacious, <<if _hChange > -1>>and you find that by sharing you actually end up saving some money on rent despite the bigger place.<<else>>and combined with <<name _npcid>>'s finances, you end up with the same rent as you had before.<</if>> <<if _hChange < 0>>The new place is similar in quality to your old place, <<name _npcid>> wouldn't have been able to afford somewhere nicer.<<elseif _hChange === 0>>The new place is a little nicer than than your old place, another benefit of living together and sharing the rent.<<else>>The new place is a good deal nicer than your last place, <<name _npcid>> didn't want to lower <<n _npcid "hisher.q">> standards. You can't complain though, because <<n _npcid "heshe.q">> was willing to pay for the upgrades.<</if>>
+</p>
+<p>
+After the hard part of choosing your new place is finished, it's just a matter of waiting for the moving bots to finish working. It takes several hours for the robots to do their thing, which gives you time to finish all the paperwork and spend some time relaxing with <<name _npcid>>. Compared to having to pack, transport, and unpack everything by hand, the robots are certainly worth the wait.
+</p>
+<center>
+<<button "Continue">>
+<<addTime 310>><<set ↂ.flag.liveTogether = true>><<set ↂ.flag.moveInFlag = false>><<status 0>><<go DowntownBank>>
+<</button>>
+</center>

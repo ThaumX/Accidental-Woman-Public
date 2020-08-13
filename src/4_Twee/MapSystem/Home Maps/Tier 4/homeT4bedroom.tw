@@ -1,0 +1,254 @@
+:: homeT4bedroom [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+<<set _isHome = setup.npcSched.home(ↂ.flag.liveWith)>>
+<<set _isRoom = setup.npcSched.roomLT(ↂ.flag.liveWith)>>
+<<set _isName = aw.npc[ↂ.flag.liveWith].main.name>>
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPhomeT4]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+<<homeItemDisp>>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>
+<<print setup.homeItems.placeDescription("pcHome", "bedroom")>>
+</p>
+<p>
+<<if _isHome>><<name w>> is currently <<if _isRoom == "balcony">>on<<else>>in<</if>> the <<= _isRoom>>.<<else>><<name w>> isn't home right now.<</if>>
+</p>
+/*<<deactivateNPC $activeNPC>>*/
+
+/*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<set _butlab = "Talk To " + _isName>>
+<<set _bfs = "Have Sex With " + _isName>>
+<<if _isHome && _isRoom === "bedroom">>
+  <<hoverrevise talkin>>
+    <<button _butlab>><<run setup.npcHomes.talk(true)>><</button>>
+  <<endhoverrevise>>
+  <<hoverrevise bfsecks>>
+    <<button _bfs>>
+      <<dialog "Seduction">>
+        <center>[img[IMG-ComeHereGesture]]<br>You entice <<name h>> into bed with you.<br><br>
+        <<button "Continue">><<set ↂ.sex.pcOutput = "With a simple hand gesture and a seductive smile, you find yourself making out with " + $BFname + ".">><<set ↂ.sex.enviroTags = ["bed","wall"]>><<set ↂ.sex.passage = "homeBFbedroom">><<run aw.S()>><<startSex $BFid>><<run Dialog.close()>><</button>>
+        </center>
+      <</dialog>>
+    <</button>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise notalkin>>
+    <button class="disabled"><<= _butlab>></button>
+  <<endhoverrevise>>
+  <<hoverrevise nobfsecks>>
+    <button class="disabled"><<= _bfs>></button>
+  <<endhoverrevise>>
+<</if>>
+<<hoverrevise masturbate>>
+  <<button "Masturbate">>
+     <<dialog “Masturbation”>>
+      <<if setup.sexToys.check("pc", "groin") == true && setup.sexToys.check("pc", "clit") == true>>
+      <div style="width:700px;">
+        That is just a quick placeholder for bigger and more complicated masturbation system. Notice that simple toyless masturbation can't fully satisfy you.
+        <br>
+        <<set _shra = '<img data-passage="IMG-masturbation1" style="border-radius:10px;float:left;margin-right:10px;height:500px;width:auto;">'>>
+        <<print _shra>>
+        <br>
+        <div style="width:50%; float:left;">
+          <<button "Quick fap [7-20 min]">>
+            <<if ↂ.pc.kink.hard>>
+              <<set _cumchance = random(0, 13)>>
+            <<else>>
+              <<set _cumchance = random(0, 10)>>
+            <</if>>
+            <<if _cumchance < 10>>
+              <<if ↂ.pc.status.satisfaction > 35>>
+                <<set _randomcum = 3>>
+              <<else>>
+                <<set _randomcum = random(10, 18)>>
+              <</if>>
+              <<set _randompiss = random(7, 20)>>
+              <<set _randomshit = random(-0,-3)>>
+              <<if ↂ.pc.kink.fap>>
+                <<set _randomcum = random(17, 23)>>
+              <</if>>
+              <<satisfy _randomcum "Masturbation">>
+              <<addTime _randompiss>>
+              <<stress _randomshit "Masturbation">>
+              <<arousal X2>>
+              <<updatebar>>
+              <<run Dialog.close()>>
+              <<run  setup.notify("You came and feel more satisfied.")>>
+            <<else>>
+              <<set _randomcum = random(10, 15) * -1>>
+              <<set _randompiss = random(7, 20)>>
+              <<set _randomshit = random(0, 6)>>
+              <<satisfy _randomcum "Masturbation">>
+              <<addTime _randompiss>>
+              <<stress _randomshit "Masturbation">>
+              <<run Dialog.close()>>
+              <<updatebar>>
+              <<run  setup.notify("You was not able to reach orgasm and feel less satisfied now.")>>
+            <</if>>
+            <<updatebar>>
+          <</button>>
+          <br>
+          <span style="font-size:0.65rem;">A fast session just to ease your libido.</span>
+        </div>
+        <div style="width:50%; float:left;">
+          <<button "Enjoy yourself [30-60 min]">>
+            <<if ↂ.pc.kink.hard>>
+              <<set _cumchance = random(0, 13)>>
+            <<else>>
+              <<set _cumchance = random(0, 10)>>
+            <</if>>
+            <<if _cumchance < 10>>
+              <<if ↂ.pc.status.satisfaction > 35>>
+                <<set _randomcum = 3>>
+              <<else>>
+                <<set _randomcum = random(19, 24)>>
+              <</if>>
+              <<set _randompiss = random(30, 60)>>
+              <<set _randomshit = random(-3,-5)>>
+              <<if ↂ.pc.kink.fap>>
+                <<set _randomcum = random(23, 29)>>
+              <</if>>
+              <<satisfy _randomcum "Masturbation">>
+              <<addTime _randompiss>>
+              <<stress _randomshit "Masturbation">>
+              <<arousal X2>>
+              <<updatebar>>
+              <<run Dialog.close()>>
+              <<run  setup.notify("You came and feel more satisfied.")>>
+            <<else>>
+              <<set _randomcum = random(12, 18) * -1>>
+              <<set _randompiss = random(30, 60)>>
+              <<set _randomshit = random(3, 7)>>
+              <<satisfy _randomcum "Masturbation">>
+              <<addTime _randompiss>>
+              <<stress _randomshit "Masturbation">>
+              <<updatebar>>
+              <<run Dialog.close()>>
+              <<run setup.notify("You was not able to reach orgasm and feel less satisfied now.")>>
+            <</if>>
+          <</button>>
+          <br>
+          <span style="font-size:0.65rem;">A long and relaxing session where you take the time to explore your body and work yourself toward a powerful orgasm.</span>
+        </div>
+      </div>
+      <<else>>
+      <div style="width:700px;">
+        <center>[img[IMG-HowIsupposedTo]]</center>
+        You realise that you actually can't masturbate with that chastity on.
+      </div>
+      <</if>>
+    <</dialog>>
+  <</button>>
+<<endhoverrevise>>
+<<hoverrevise sexdemo>>
+<<button "Tingler Hookup">>
+  <<dialog "Tingler Sex Friends">>
+  <<silently>><<set $temp = 0>>
+  <<set _prin = "<<radioset 'sexchoice' '$temp'>>Choose Your Partner...">>
+  <<for _i to 1; _i < 11; _i++>>
+  <<set _id = either(setup.npc.ready)>>
+  <<set _tx = aw.npc[_id].main.name + " (" + aw.npc[_id].main.age + ")">>
+  <<set _prin += "<<radioitem " + _id + ">>" + _tx>>
+  <</for>>
+  <<set _prin += "<</radioset>>">>
+  <<set $temp2 = 0>>
+  <<set _prin2 = "<<radioset 'sexchoice2' '$temp2'>>Choose Your Rapist...">>
+  <<for _i2 to 1; _i2 < 11; _i2++>>
+  <<set _id2 = either(setup.npc.ready)>>
+  <<set _tx2 = aw.npc[_id2].main.name + " (" + aw.npc[_id2].main.age + ")">>
+  <<set _prin2 += "<<radioitem " + _id2 + ">>" + _tx2>>
+  <</for>>
+  <<set _prin2 += "<</radioset>>">><</silently>>
+    <center>[img[IMG-TinglerApp]]
+    <<print _prin>>
+    <<button "!!!GO!!!">><<set ↂ.sex.pcOutput = "Your Tingler date shows up, ready to fuck. You both know what's happening, so you get to it.">><<set ↂ.sex.enviroTags = ["bed","wall"]>><<set ↂ.sex.passage = "homeT1bedroom">>
+    <<if random(1,10) === 1>>
+      <<run setup.giveSSTD()>>
+    <</if>>
+    <<run aw.S()>><<startSex $temp>><<run Dialog.close()>>
+    <</button>>
+    <hr>
+    <center>[img[IMG-Coerceme]]<br>
+    New app on the market, "CoerceMe" is made for finding consensual non-consent play dates.
+    <<print _prin2>>
+    <<button "!!!GO!!!">><<set ↂ.sex.enviroTags = ["bed","wall"]>><<set ↂ.sex.passage = "ResidentialSidewalk">><<set ↂ.sex.rape = true>><<set ↂ.sex.pcOutput = "You decide to meet at  at the sidewalk near your house. You get downstairs and wait nerviously until your CoerceMe date gets from behind from the <<publicPrivacy>>.">>
+    <<if random(1,5) === 1>>
+      <<run setup.giveSSTD()>>
+    <</if>>
+    <<run aw.S()>><<startSex $temp2>><<run Dialog.close()>>
+    <</button>>
+    </center>
+  <</dialog>>
+<</button>>
+<<endhoverrevise>>
+<<homeItemButtons>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion masturbate>>Pretty self-explanatory activity involving touching yourself in a sexual manner. <<ctn>>[10-30min]<</ctn>><<endinsertion>>
+<<insertion sexdemo>>Use the Tingler app to find someone close-by to have sex with.<<endinsertion>>
+<<homeItemInfo>>
+<<insertion talkin>>Have a conversation with <<name w>>.<<endinsertion>>
+<<insertion notalkin>><<name w>> must be in the same room with you to have a conversation.<<endinsertion>>
+<<insertion bfsecks>>Have sex with <<name w>>!<<endinsertion>>
+<<set _blech = ↂ.flag.liveWith>>
+<<insertion nobfsecks>>In order to have sex with <<name w>>, <<n _blech "heshe.q">> would need to actually be home.<<endinsertion>>
+</div>
+<<timed 50ms>>
+<<mapHomeEventAction>>
+<<mapHomeActions>>
+<</timed>>
+
+
+
+:: homeT4bedroomLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+
+

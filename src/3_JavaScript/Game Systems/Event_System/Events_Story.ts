@@ -239,7 +239,7 @@ setTimeout(() => (function() {
       name: "MainQuestStart",
       odds: 0,
       output: "interact",
-        lifetime: [148000, 150220],
+        lifetime: [147960, 151220],
       repeat: false,
       region: ["any"],
       condition() {
@@ -265,7 +265,7 @@ setTimeout(() => (function() {
           title: "Strange Text Message",
           size: 3,
         });
-        ↂ.buttons.FemLilyFirstMeeting = new CAB({
+        ↂ.buttons.VisitingLilyHouse = new CAB({
           id: "VisitingLilyHouse",
           text: "Meet with Lily",
           action: `<<run setup.map.nav("downtown","parking")>><<addTime 8>><<go "LilysPlace">>`,

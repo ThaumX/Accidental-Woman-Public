@@ -158,7 +158,7 @@ setup.fert.cycle = function(tgt: 0 | npcid = 0): void {
       aw.con.info(`Ovulation flag set to true!`);
     }
   }
-  if (cycDay <= periodLeng) {
+  if (cycDay <= periodLeng && !char.status.pregnant) {
     const str = [
       [69, 0],
       [69, 3],
@@ -779,6 +779,7 @@ setup.fert.finalMove = function(tgt: "pc"|npcid = "pc"): void {
       time: clone(cum.time),
       date: clone(cum.date),
       omniTime: cum.omniTime,
+      killer: cum.killer,
     };
     ᚥ.fluid.womb.push(new Cum(nuCum));
   }
@@ -1046,13 +1047,18 @@ setup.fert.zygoteCheck = function(tgt: "pc" | npcid = "pc"): void {
           flag: ["natural"],
         };
         ᚥ.status.wombA.know = false;
+        ᚥ.status.wombA.fetus.push(new Fetus(fet));
         aw.con.info(`A zygote implanted successfully in womb A! Father: ${zyg.father} :D`);
+        if (aw.npc[zyg.father] != null) {
+          aw.npc[zyg.father].record.flag.knowPCpreg = false;
+          aw.npc[zyg.father].record.flag.isFather = true;
+          aw.npc[zyg.father].record.flag.knowPCpreg = false;
+        }
         if (ᚥ.fert.splitter && random(1, 3) === 1) {
           fet.flag.push("twin");
           ᚥ.status.wombA.fetus.push(new Fetus(fet));
           aw.con.info(`The previous zygote split, and both implanted!`);
         }
-        ᚥ.status.wombA.fetus.push(new Fetus(fet));
       } else {
         aw.con.info(`A zygote failed to implant D:`);
       }
@@ -1539,6 +1545,10 @@ setup.fert.pcBirth = function(womb: "A" | "B"): IntPcBirthReturn {
       default:
         futa++;
         break;
+    }
+    // record kids to npc
+    if (aw.npc[fetus.father] != null) {
+      aw.npc[fetus.father].record.flag.kidsPC += 1;
     }
   }
   if (ↂ.pc.body.hips < 3 || ↂ.pc.body.pelvis < 3) {

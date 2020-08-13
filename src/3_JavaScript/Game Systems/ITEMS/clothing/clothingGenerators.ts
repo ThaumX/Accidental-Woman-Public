@@ -819,19 +819,7 @@ setup.clothesGen.bra = function(...args: [number, number, number, number, number
         bra[1] += either(5, 6, 6, 7); /*attractiveness*/
         bra[2] += either(4.5, 5, 5); /*+sexy or -cute*/
         bra[3] += 0; /*+formal or -casual*/
-        bra[4] += 5; /*exposure level 0-5*/
-        access.tits = true;
-        access.nip = true;
-        worn.delete("titsOut");
-        kinky = true;
-        break;
-      case 12:
-        bra[0][1] = "cupless bra";
-        subStyleList = [0, 0, 0, 1, 3, 5, 6, 7, 7];
-        bra[1] += either(5, 6, 6, 7); /*attractiveness*/
-        bra[2] += either(4.5, 5, 5); /*+sexy or -cute*/
-        bra[3] += 0; /*+formal or -casual*/
-        bra[4] += 5; /*exposure level 0-5*/
+        bra[4] += 6; /*exposure level 0-5*/
         access.tits = true;
         access.nip = true;
         worn.delete("titsOut");
@@ -4167,7 +4155,7 @@ setup.clothesGen.shoes = function(...args: [number, number, number, number, numb
         shoes[0][1] = "boots";
         colorList = [1, 7, 7, 7, 13];
         subStyleList = [0, 0, 6, 6, 7, 7, 8, 9, 9, 9, 10, 11, 12];
-        shoes[1] += either(-2, -2, -1, 0, 1, 2, 2); /*attractiveness*/
+        shoes[1] += either(-2, -1, -1, 0, 1, 2, 2, 3); /*attractiveness*/
         shoes[2] += either(-1, 1, 2, 3); /*+sexy or -cute*/
         shoes[3] += either(-1, 0, 1, 1, 2, 2, 3); /*+formal or -casual*/
         break;
@@ -4191,7 +4179,7 @@ setup.clothesGen.shoes = function(...args: [number, number, number, number, numb
         shoes[0][1] = "running shoes";
         colorList = [1, 2, 2, 2, 3, 4, 6, 7, 8, 13];
         subStyleList = [0];
-        shoes[1] += either(-2, 1, 2, 3); /*attractiveness*/
+        shoes[1] += either(-1, 1, 2, 3); /*attractiveness*/
         shoes[2] += either(-2, -1, -1, 0, 1, 2); /*+sexy or -cute*/
         shoes[3] += either(-3, -2, -1, 0); /*+formal or -casual*/
         athletic = true;

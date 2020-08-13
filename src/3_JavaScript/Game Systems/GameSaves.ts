@@ -27,29 +27,13 @@ Config.saves.onSave = function(save): void {
     //aw.con.info("Hey, the save.metadata be empty yo!");
     save.metadata = {};
   }
-  save.metadata.passage = JSON.stringify(aw.passage);
-  /*
-  if (save.metadata.sleepAutosave != null) {
-    const tPassage = clone(aw.passage);
-    save.title = save.metadata.sleepAutosave;
-    tPassage.title = "SleepSaver";
-    save.metadata.passage = JSON.stringify(tPassage);
-  } else {
-    save.metadata.passage = JSON.stringify(aw.passage);
+  if (save.metadata.sleepAutosave != null && save.metadata.sleepAutosave) {
+    aw.asbs = (save.metadata.asPassage == null) ? null : save.metadata.asPassage;
   }
-  */
+  save.metadata.passage = JSON.stringify(aw.passage);
   save.metadata.time = aw.tVal;
   save.metadata.version = setup.ver;
   save.metadata.npcs = {};
-  // const list = setup.NPCStoreList;
-  // for (let i = 0, c = list.length; i < c; i++) {
-  //   save.metadata.npcs[list[i]] = setup.AW.localRestore(list[i]);
-  //   if (save.metadata.npcs[list[i]] === "error") {
-  //     const msg = "error retrieving NPC for save" + list[i] + "!";
-  //     console.log(msg);
-  //   }
-  // }
-  // save.metadata.list = list;
   const keys = Object.keys(aw.npc);
   try {
     for (let i = 0, c = keys.length; i < c; i++) {
@@ -84,9 +68,11 @@ Config.saves.onSave = function(save): void {
     pref: JSON.stringify(ↂ.pref),
     cTag: JSON.stringify(aw.cTag),
     child: JSON.stringify(ↂ.child),
+    toys: JSON.stringify(ↂ.toys),
     buttons: [],
     parse: JSON.stringify(setup.parse),
   };
+  save.metadata.tempy = JSON.stringify(State.temporary);
   const bID = Object.keys(ↂ.buttons);
   if (bID.length > 0) {
     for (const id of bID) {
@@ -123,8 +109,11 @@ Config.saves.onSave = function(save): void {
   save.metadata.outfits = JSON.stringify(setup.outfits);
   save.metadata.interact = setup.interact.gameSave();
   save.metadata.scenario = setup.scenario.gameSave();
+  save.metadata.npcTemplate = JSON.stringify(aw.npcTemplate);
   save.metadata.wxSeed = JSON.stringify(setup.weather.seed);
   // aw.con.obj(save.metadata, "METADATA from saving the game!");
+
+
 };
 
 
@@ -138,17 +127,20 @@ Config.saves.onLoad = function(save) {
     setup.startsPassage = save.metadata.passover;
   }*/
   // const list = save.metadata.list;
-  if (State.active.variables.ver < 240) {
-    const content = `<div id='menuBlackout'></div><div id="backwardCunt"><h2>Game Save Invalid</h2><p>Sorry, it seems that you have tried to load a save from before version 0.24.0. Saves prior to version 0.24.0 are not supported. I'm sorry for the inconvenience, but you should still be able to use that save in an older version of the game if you are attached to it.</p><center><<button "TO START PAGE">><<goto "Start">><</button>></center></div>`;
+  if (State.active.variables.ver < 340 || setup.ver - State.active.variables.ver > 12) {
+    const content = `<div id='menuBlackout'></div><div id="backwardCunt"><h2>Game Save Invalid</h2><p>Sorry, it seems that you have tried to load a save from before version 0.34.0. Saves prior to version 0.34.0 are not supported. I'm sorry for the inconvenience, but you should still be able to use that save in an older version of the game if you are attached to it.</p><center><<button "TO START PAGE">><<goto "Start">><<script>>aw.replace("#awUIcontainer", "");<</script>><</button>></center></div>`;
     aw.replace("#awUIcontainer", content);
-    return;
+    return false;
+  } else if ((setup.ver > State.active.variables.ver || setup.ver > save.metadata.version ) && save.metadata.AShole != null) {
+    const content = `<div id='menuBlackout'></div><div id="backwardCunt"><h2>Game Save Invalid</h2><p>Sorry, it seems that you have tried to load an autosave from a previous version. Autosaves are only supported for the game version they are created in. I'm sorry for the inconvenience, but you should still be able to use that save in its version of the game, and then create a normal save after loading it. That normal save can probably be converted.</p><center><<button "TO START PAGE">><<goto "Start">><<script>>aw.replace("#awUIcontainer", "");<</script>><</button>></center></div>`;
+    aw.replace("#awUIcontainer", content);
+    return false;
   } else if (save.metadata.version == null || setup.ver > State.active.variables.ver || setup.ver > save.metadata.version) {
     // tslint:disable-next-line:max-line-length
-    const content = `<div id='menuBlackout'></div><div id="backwardCunt"><h1>Auto Backward Compatibility</h1><p>The game has detected that the save you just clicked to load is from a previous version of the game. The backward compatibility system is currently loading data from your save into the current game format. You should see the results appear below momentarily (if they haven't already).</p><p><b>HOW IT WORKS:</b> When your save is missing variables found in the new version, or if some data format is incompatible, default values for the current version will be used. This may result in minor changes to the game compared to the version your save is from. Major changes will receive more careful conversion to help keep your save playable. <span class="import">This system isn't foolproof, however, so if you notice bugs after loading a save, please check to see if they appear in a normal game before reporting them.</span> (This helps differentiate between an issue with this compatibility system, or an issue with the game code.)</p><p><b>COLOR KEY:</b> A color key is used to relate how significant alerts about your save file are. As expected: <span style="color: #f46741;">red is bad</span>, <span style="color: #f4a641;">orange isn't good</span>, and <span style="color: #f4dc41;">yellow is probably okay</span>. Note that except in the case of red, defaults will have been used, and the game should be playable.</p><h3>LOAD RESULTS</h3><p id="backCuntOut"></p></div>`;
+    const content = `<div id='menuBlackout'></div><div id="backwardCunt"><h1>Auto Backward Compatibility</h1><p>The game has detected that the save you just clicked to load is from a previous version of the game. The backward compatibility system is currently loading data from your save into the current game format. You should see the results appear below momentarily (if they haven't already).</p><p><b>HOW IT WORKS:</b> When your save is missing variables found in the new version, or if some data format is incompatible, default values for the current version will be used. This may result in minor changes to the game compared to the version your save is from. <span class="import"><b>This system isn't foolproof, however, so if you notice bugs after loading a save, please check to see if they appear in a normal game before reporting them.</b></span> (This helps differentiate between an issue with this compatibility system, or an issue with the game code.)</p><p><b>COLOR KEY:</b> A color key is used to relate how significant alerts about your save file are. As expected: <span style="color: #f46741;">red is bad</span>, <span style="color: #f4a641;">orange isn't good</span>, and <span style="color: #f4dc41;">yellow is probably okay</span>. Note that except in the case of red, defaults will have been used, and the game should be playable.</p><h3>LOAD RESULTS</h3><p id="backCuntOut"></p></div>`;
     aw.replace("#awUIcontainer", content);
     //setTimeout(() => setup.backward.main(save.metadata), 200);
-    setup.backward.main(save.metadata);
-    return false;
+    return setup.backward.main(save.metadata);
   } else {
     const keys = Object.keys(save.metadata.npcs);
     // setup.NPCStoreList = [];
@@ -248,6 +240,9 @@ Config.saves.onLoad = function(save) {
       ↂ.homeOptions = JSON.parse(save.metadata.ↂ.homeOptions);
     } catch (e) { window.alert("Warning! Failed to properly load home metadata!"); console.log(`PCLoadletter ${e.name}: ${e.message}.`); }
     try {
+      ↂ.toys = JSON.parse(save.metadata.ↂ.toys);
+    } catch (e) { /*window.alert("Warning! Failed to properly load toys metadata!");*/ console.log(`PCLoadletter ${e.name}: ${e.message}.`); }
+    try {
       if (save.metadata.ↂ.pcHistory != null) {
         ↂ.pcHistory = JSON.parse(save.metadata.ↂ.pcHistory);
       } else {
@@ -261,6 +256,17 @@ Config.saves.onLoad = function(save) {
     try {
       ↂ.map = new MapClass(JSON.parse(save.metadata.ↂ.map));
     } catch (e) { window.alert("Warning! Failed to properly load map data!"); console.log(`PCLoadletter ${e.name}: ${e.message}.`); }
+    try {
+      const temps = JSON.parse(save.metadata.tempy);
+      const ks = Object.keys(temps);
+      for (let i = 0, c = ks.length; i < c; i++){
+        State.temporary[ks[i]] = temps[ks[i]];
+      }
+      console.log(`Successfully loaded ${ks.length} temporary state properties.`);
+    } catch (e) {
+      window.alert(`Caution: Failed to properly load state temporary variables. The game will probably still work okay, but there may be minor errors that appear temporarily. Error: ${e.name}`);
+      console.log(`Error Loading Temporary ${e.name}: ${e.message}.`);
+    }
     try {
       ↂ.buttons = {};
       if (save.metadata.ↂ.buttons.length > 0) {
@@ -355,6 +361,11 @@ Config.saves.onLoad = function(save) {
     } else {
       aw.con.info("no scenario data to load.");
     }
+    try {
+      aw.npcTemplate = JSON.parse(save.metadata.npcTemplate);
+    } catch (e) {
+      aw.con.info("failed to parse aw.npcTemplate");
+    }
     aw.stsCalculus = JSON.parse(save.metadata.statusInfo1);
     setup.weather.seed = JSON.parse(save.metadata.wxSeed);
     aw.passage = JSON.parse(save.metadata.passage);
@@ -363,7 +374,6 @@ Config.saves.onLoad = function(save) {
       passedOut: false,
       passedOutType: "none",
     } as awSleep;
-    Engine.show();
     if (ↂ.map != null && ↂ.map.loc != null) {
       if (typeof ↂ.map.loc[2] !== "string") {
         setup.map.nav(ↂ.map.loc[0], ↂ.map.loc[1]);
@@ -383,11 +393,11 @@ Config.saves.onLoad = function(save) {
       };
     }<</scr` + `ipt>><<button "CONTINUE">><<setPCportrait>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<run Dialog.close()>><</button>></center>`;
     setup.dialog("Save Loaded", outie);
-    setTimeout(() => Engine.play(pasg), 100);
-    aw.L();
+    // setTimeout(() => Engine.play(pasg), 100);
+    // aw.L();
     State.active.variables.lastSaveTime = clone(aw.time);
     aw.S();
-    return false;
+    return pasg;
   }
 };
 

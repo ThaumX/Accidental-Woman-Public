@@ -166,7 +166,7 @@ setup.drag = {
     for (let i = 0; i < c; i++) {
       if (items[i] !== "none") {
         const x = (aw.jewel[items[i]].name.length > 12) ? aw.jewel[items[i]].name.slice(0, 12) : aw.jewel[items[i]].name;
-        ret += `<div id="${aw.jewel[items[i]].key}" class="jewItem">[img[${aw.jewel[items[i]].image}]]<span class="head"><b>${x}</b></span><br>${aw.jewel[items[i]].slot}</div>`;
+        ret += `<div id="${aw.jewel[items[i]].key}" class="jewItem">[img[${aw.jewel[items[i]].image}]]<span class="head"><b>${x}</b></span><br>${aw.jewel[items[i]].slot}, ATR: ${aw.jewel[items[i]].atr}</div>`;
       }
     }
     return ret;

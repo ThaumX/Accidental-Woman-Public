@@ -53,12 +53,12 @@ setup.npcProc = function(): void {
     } else if (aw.npc[nid].rship.companion === 0) { // check for last contact
       if (random(1, vals[2]) < 10) {
         // TODO actual contact
-        setup.notify(`If implemented, ${aw.npc[nid].name} would try to contact you today.`);
+        // setup.notify(`If implemented, ${aw.npc[nid].name} would try to contact you today.`);
       }
     } else if (aw.npc[nid].rship.companion < 35) { // check for less frequent contact
       if (random(1, vals[2]) < 5) {
         // TODO actual contact
-        setup.notify(`If implemented, ${aw.npc[nid].name} would try to contact you today.`);
+        // setup.notify(`If implemented, ${aw.npc[nid].name} would try to contact you today.`);
       }
     }
   };
@@ -134,6 +134,135 @@ setup.npcProc = function(): void {
       }
     }
   };
+  const suspicion = function(nid: string): void {
+    // to decrease or increase suspicion over time.
+    let change = -2;
+    if (aw.npc[nid].trait.iq < 95) {
+      change -= 1;
+    }
+    if (ↂ.pc.status.bimbo > 79) {
+      change += 1;
+    } else if (ↂ.pc.status.bimbo > 39) {
+      change += random(0, 1);
+    }
+    if (ↂ.pc.status.addict.sex > 79 || ↂ.pc.status.addict.cream > 79 || ↂ.pc.status.addict.cum > 79) {
+      change += 3;
+    } else if (ↂ.pc.status.addict.sex > 39 || ↂ.pc.status.addict.cream > 39 || ↂ.pc.status.addict.cum > 39) {
+      change += 1;
+    }
+    if (ↂ.pc.status.perversion > 49) {
+      change += random(0, 1);
+    }
+    if (ↂ.pc.kink.hyperSlut) {
+      change += 4;
+    } else if (ↂ.pc.kink.superSlut) {
+      change += 3;
+    } else if (ↂ.pc.kink.slut) {
+      change += 2;
+    } else if (ↂ.pc.kink.liberate) {
+      change += 1;
+    }
+    if (ↂ.job.code === "FT" || ↂ.job.code === "PR") {
+      change += 2;
+    }
+    if (aw.npc[nid].record.cheat.suspicion > 49) {
+      change += 2;
+    } else if (aw.npc[nid].record.cheat.suspicion > 29) {
+      change += 1;
+    }
+    if (change > 0 && (ↂ.pc.trait.isDevious || ↂ.pc.trait.isDeceptive)) {
+      change = Math.max(0, change - 2);
+    }
+    if (ↂ.pc.trait.isFlirty) {
+      change += 1;
+    }
+    aw.npc[nid].record.cheat.suspicion += change;
+    if (aw.chad.ninja) {
+      aw.npc[nid].record.cheat.suspicion = 0;
+    }
+    // ===== PC's Suspicion! ========
+    change = -2;
+    if (ↂ.pc.trait.extro) {
+      change -= 1;
+    }
+    if (ↂ.pc.trait.isDeceptive || ↂ.pc.trait.isDevious) {
+      change += random(1, 2);
+    }
+    if (ↂ.pc.trait.isOblivious) {
+      change -= 2;
+    }
+    if (ↂ.pc.trait.isPerceptive && aw.npc[nid].record.cheat.cheatonPC[0] > aw.npc[nid].record.cheat.cheatonPC[1]) {
+      change += 2;
+    }
+    if (aw.npc[nid].status.bimbo > 79) {
+      change += 1;
+    } else if (aw.npc[nid].status.bimbo > 39) {
+      change += random(0, 1);
+    }
+    if (aw.npc[nid].status.addict.sex > 79 || aw.npc[nid].status.addict.cream > 79 || aw.npc[nid].status.addict.cum > 79) {
+      change += 3;
+    } else if (aw.npc[nid].status.addict.sex > 39 || aw.npc[nid].status.addict.cream > 39 || aw.npc[nid].status.addict.cum > 39) {
+      change += 1;
+    }
+    if (aw.npc[nid].status.perversion > 49) {
+      change += random(0, 1);
+    }
+    if (aw.npc[nid].kink.hyperSlut) {
+      change += 4;
+    } else if (aw.npc[nid].kink.superSlut) {
+      change += 3;
+    } else if (aw.npc[nid].kink.slut) {
+      change += 2;
+    } else if (aw.npc[nid].kink.liberate) {
+      change += 1;
+    }
+    aw.npc[nid].record.cheat.PCsuspicion += change;
+  };
+  const cheat = function(nid: string): void {
+    // did the npc cheat on the player today?
+    const n = aw.npc[nid];
+    let a = 1;
+    if (n.kink.hyperSlut) {
+      a += 80;
+    } else if (n.kink.superSlut) {
+      a += 50;
+    } else if (n.kink.slut) {
+      a += 20;
+    }
+    if (n.trait.extro) {
+      a += 5;
+    }
+    if (!n.trait.intro) {
+      a += 5;
+    }
+    a -= Math.max(0, Math.round((n.rship.lovePC - 40) / 3));
+    a -= Math.max(0, Math.round((n.rship.likePC - 50) / 5));
+    a = Math.max(1, a); // always a 1% change of cheating.
+    if (n.main.female) {
+      a += 9;
+    }
+    if (random(0, 99) < a) {
+      // cheated.
+      const t = randomDist([3, 6, 9]); // type of cheating 0 = sex, 1 = oral, 2 = makeout
+      aw.npc[nid].record.cheat.cheatonPC[t * 2] += 1; // array indexes are 0, 2, 4
+      let diff = Math.min(aw.npc[nid].record.cheat.cheatonNPC[t * 2] - aw.npc[nid].record.cheat.cheatonNPC[(t * 2) + 1], 5);
+      if (ↂ.pc.trait.isOblivious) {
+        diff = 1;
+      } else if (ↂ.pc.trait.isPerceptive) {
+        diff += 2;
+      }
+      aw.npc[nid].record.cheat.PCsuspicion += (3 - t) * diff;
+      if (ↂ.pc.trait.intro) {
+        aw.npc[nid].record.cheat.PCsuspicion += (5 - t);
+      }
+      if (ↂ.pc.trait.isGoodMemory) {
+        aw.npc[nid].record.cheat.PCsuspicion += (3 - t);
+      }
+      if (ↂ.pc.trait.isNarcissist || ↂ.pc.trait.isBitch) {
+        aw.npc[nid].record.cheat.PCsuspicion -= (4 - t);
+      }
+    }
+  };
   // Begin the actual process
   for (const key of npcs) {
     increment(key);
@@ -142,6 +271,11 @@ setup.npcProc = function(): void {
       status(key);
     } catch (e) {
       aw.con.warn(`Error in npcProc status function for npc ${key}.\n  ${e.name}: ${e.message}`);
+    }
+    const t = aw.npc[key].rship.category;
+    if (t === "exclusive" || t === "lovers" || t === "engaged" || t === "married") {
+      suspicion(key);
+      cheat(key);
     }
   }
 };

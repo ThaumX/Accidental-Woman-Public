@@ -198,7 +198,8 @@ class Fert {
       }
       this.dta[0] = val;
     }
-  } public get egg(): number {
+  }
+  public get egg(): number {
     return this.dta[1];
   }
   public set egg(val: number) {

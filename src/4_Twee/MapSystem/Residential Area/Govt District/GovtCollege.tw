@@ -1,0 +1,73 @@
+
+:: ResidentialGovernmentCollege [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPgov]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+@@.head3;Y@@ou are standing In front of the main building of the Appletree Community College. The college focuses on technical and trade education, but also offers some inexpensive undergrad courses that could go toward getting an associate's degree. <<if $time[0] > 6 && $time[0] < 18>>You see the occasional student walking between buildings or loitering outside, most of the college's activity is hidden from view.<<elseif $time[0] > 17 && $time[0] < 23>>The lights inside reveal a small number of night classes currently in session.<<else>>At this time of night the building is mostly dark and abandoned.<</if>>
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>>
+<br><br>
+[img[IMG-AppletreeCommunityCollege]]
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Nothing here yet">><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Sorry<<endinsertion>>
+</div>
+
+
+:: ResidentialGovernmentCollegeLOC [nobr]
+
+<center>[img[IMG-PregnantMechanicStudent]]</center>
+<p>
+<<f l>>ooking around the college area, you spot a pregnant mechanic student working on a vehicle, probably as part of her coursework.
+</p>
+

@@ -97,19 +97,7 @@ With the USB stick in your hand, you run towards the printer.
 
 :: BcorpsEvent01-Run [nobr]
 
-You arrive at the printer. Out of breath, you put the USB stick inside of the printer and press the button. Immediately, the printer starts working.
-
-<<dialogchoice>>
-  <<dbutt "Wait">><<scenego "BcorpsEvent01-Wait">>
-  <<dtext "bored">>wait 5 minutes
-  <<dbutt "Stop">><<scenego "BcorpsEvent01-Trash">>
-  <<dtext "arrogant">>Stop the printing process and throw the already done pictures in the trash
-<</dialogchoice>>
-
-
-:: BcorpsEvent01-Wait [nobr]
-
- After waiting for what feels like a eternity, the printer is done and all the pictures are printed. You pick them up and take a look at them. You see that they are pornographic pictures.
+You arrive at the printer. Out of breath, you put the USB stick inside of the printer and press the button. Immediately, the printer starts working. After waiting for what feels like a eternity, the printer is done and all the pictures are printed. You pick them up and take a look at them. You see that they are pornographic pictures.
 
 <<dialogchoice>>
   <<dbutt "Take">><<scenego "BcorpsEvent01-Coworkerback">>
@@ -126,9 +114,9 @@ You get back to <<link "your work.">><<sceneclose>><</link>>
 
 :: BcorpsEvent01-Intothetrash [nobr]
 
- After throwing the pictures into the trash bin next to the printer, you go back to the lab where your Coworker <NPC1 name> is. 
-<br><br>@@.npc;Where are my Pictures? You said that you get them.@@
-<br><br>@@.pc;I threw them into the trash. Why would you print Porno Pictures out, while working?@@<br><br>
+ After throwing the pictures into the trash bin next to the printer, you go back to the lab where your coworker is.
+<br><br>@@.npc;Where are my Pictures? You said you'd get them done for me.@@
+<br><br>@@.pc;I threw them into trash. Why the heck would you print porn out at work?@@<br><br>
 You get back to <<link "your work.">><<sceneclose>><</link>>
 
 
@@ -215,7 +203,7 @@ He starts touching your <<p tits.n>> and then your <<p ass.n>>.<br>
   <<set aw.npc[$xyzzy].rship.companion += 15>>
   <<set aw.npc[$xyzzy].sleptover += 1>>
   <<set setup.sexitimes = $xyzzy>>
-  <<if random(1,10) === 1>><<set _drip = true>><<run setup.omni.new("sstd_dripsA")>><</if>>
+  <<if random(1,10) === 1>><<set _drip = true>><<run setup.giveSSTD()>><</if>>
   <<sceneclose>><<status 0>>
   <<script>>
   setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
@@ -366,7 +354,7 @@ Two women in SPURT containment suits walk down an underground hallway. The video
 Suddenly, audio interrupts the silence of the video. @@.npe;Sergeant Wang, we need you to take your squad and report immediately to the project ops center in F-7.@@ The dialog is accompanied by subtitles at the bottom of the video, helpfully labeled as "CONTROL".
 </p>
 <p>
-@@.npc;Roger, Control. I've only got one body with me, the rest are still replacing gear after that chemical spill. You want me to round up the whole squad?@@ Wang stops walking as she talks to control, leaving Jones continuing on her own for a few paces before realizing Wang has came to a halt.
+@@.npc;Roger, Control. I've only got one body with me, the rest are still replacing gear after that chemical spill. You want me to round up the whole squad?@@ Wang stops walking as she talks to Control, leaving Jones continuing on her own for a few paces before realizing Wang has came to a halt.
 </p>
 <p>
 @@.npe;Negative, Sergeant. We lost contact with Alpha Squad just over three hours ago, time's up and we need an immediate SPURT response to evaluate the situation.@@
@@ -384,7 +372,7 @@ Suddenly, audio interrupts the silence of the video. @@.npe;Sergeant Wang, we ne
 @@.npe;Could you repeat that Wang?@@
 </p>
 <p>
-@@.npc;Nevermind control, we'll report the ops center in F-7 immediately.@@
+@@.npc;Nevermind Control, we'll report to the ops center in F-7 immediately.@@
 </p>
 <p>
 @@.npe;Thanks Sergeant Wang.@@ There's some hesitation on the open line. @@.npe;Please be careful, F-7 is currently in isolation lockdown according to containment protocol. Last contact from a project member was over four hours ago. Information is scarce due to the high security level, but this event seems to have been growing worse over the last 36 hours.@@

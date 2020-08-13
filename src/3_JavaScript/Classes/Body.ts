@@ -81,6 +81,9 @@ class Body {
       if (tail == null) {
         tail = "none";
       }
+      if (pelvis == null) {
+        pelvis = hips;
+      }
       // tslint:disable-next-line:max-line-length
       this.dta = [race, skinColor, tone, weight, shoulders, hips, waist, pelvis, height, ass, clit, labia, beauty, face, brow, nose, lips, jaw, eyeColor, lactation, lactCapacity, orgasm, energy, ears, topATR, botATR, ATR, tail];
     } else {

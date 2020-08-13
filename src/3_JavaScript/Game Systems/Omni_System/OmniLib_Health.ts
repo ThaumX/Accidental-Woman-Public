@@ -126,36 +126,38 @@ setup.omnItems.sstd_dripsA = {
   name: "Fever",
   type: "recurring",
   output: "none",
-  times: 6,
+  times: 5,
   interval: 480,
-  icon: "none",
-  text: "none",
-  run: `switch(this.times){
-    case 5:
-      UI.alert("You notice that you're feeling a bit under the weather, your throat feels a little scratchy.");
-      break;
-    case 4:
-      this.icon = "IMGstatus_Sick";
-      this.text = "You feel feverish and generally under the weather.";
-      break;
-    case 3:
-      UI.alert("Your fever persists, though your throat and nose seem to be much improved. Maybe your cold is almost over?");
-      break;
-    case 2:
-      UI.alert("You still have a week fever, and remain a little fatigued, but you definitely feel better than before. You've noticed that it tingles a little when you pee, and resolve to drink some more water.");
-      break;
-    case 1:
-      this.icon = "none";
-      this.text = "none";
-      UI.alert("Finally, your fever seems to have gone away.");
-      break;
-    case 0:
-    default:
-      if (setup.omni.matching("the Drips") === 0) {
-        setup.omni.new("sstd_dripsB");
-        ↂ.pc.status.disease.push("drips");
+  icon: "IMGstatus_Sick",
+  text: "You feel under the weather.",
+  run: `
+  if (!ↂ.pc.status.disease.includes("fever")) {
+    super.die();
+  } else {
+    switch(this.times){
+      case 4:
+        UI.alert("You notice that you're feeling a bit under the weather, your throat feels a little scratchy.");
+        break;
+      case 3:
+        status.dialog("Sick with a Cold","<center><<= either("[img[IMG-SweatyThree]]","[img[IMG-SweatyFour]]")>><br>You're feeling feverish and generally under the weather, perhaps you have a cold?</center>");
+        break;
+      case 2:
+        status.dialog("Sick with a Cold","<center><<= either("[img[IMG-SweatySix]]","[img[IMG-SweatyFive]]")>><br>Your fever persists, though your throat and nose seem to be much improved. Maybe your cold is almost over?</center>");
+        break;
+      case 1:
+        status.dialog("Sick with a Cold","<center><<= either("[img[IMG-SweatyOne]]","[img[IMG-SweatyTwo]]")>><br>You still have a weak fever, and remain a little fatigued, but you definitely feel better than before. You've noticed that it tingles a little when you pee, and resolve to drink some more water.</center>");
+        break;
+      case 0:
+      default:
+        aw.L();
+        if (setup.omni.matching("the Drips") === 0) {
+          ↂ.pc.status.disease.push("drips");
+          setup.omni.new("sstd_dripsB");
+        }
+        ↂ.pc.status.disease.delete("fever");
         aw.S();
-      }
+        UI.alert("Finally, your fever seems to have gone away.");
+    }
   }`,
 };
 
@@ -165,32 +167,177 @@ setup.omnItems.sstd_dripsB = {
   output: "none",
   interval: 60,
   icon: "IMGstatus_SickVag",
-  text: "You are infected with Scortumbacter Ducatus.",
+  text: "You are infected with Scortumbacter Ducatus aka The Drips.",
   run: `aw.L("pc");
-  ↂ.pc.status.wetness += 10;
-  setup.condition.add({ loc:"vagFluid", amt:5, tgt:"pc", wet:5, type:"femlube"});
-  if (ↂ.pc.body.pussy.wetness < 5) {
-    ↂ.pc.body.pussy.wetness = 5;
-  }
-  if (random(1, 48) === 1) {
-
-    if (random(1, 3) > 1) {
-      ↂ.pc.body.labia += 1;
-      UI.alert("You notice some discomfort down below, and suddenly realize that your labia have grown larger");
-    } else {
-      ↂ.pc.body.clit += 1;
-      UI.alert("Noticing some discomfort from your clit, you realize that it's as hard as a rock... and it also seems to have grown somewhat.");
-    }
-  }
   if (random(1, 250) === 250) {
     UI.alert("It seems like your case of the drips has finally cleared up!");
+    ↂ.pc.status.disease.delete("drips")
     aw.S("pc");
-    setup.omni.kill("the Drips");
   }
   if (!ↂ.pc.status.disease.includes("drips")) {
+    super.die();
+  } else {
+    ↂ.pc.status.wetness += 10;
+    setup.condition.add({ loc:"vagFluid", amt:5, tgt:"pc", wet:5, type:"femlube"});
+    setup.condition.add({ loc:"genitals", amt:5, tgt:"pc", wet:5, type:"femlube"});
+    if (ↂ.pc.body.pussy.wetness < 5) {
+      ↂ.pc.body.pussy.wetness = 5;
+    }
+    if (random(1, 48) === 1) {
+
+      if (random(1, 3) > 1) {
+        ↂ.pc.body.labia += 1;
+        UI.alert("You had noticed some discomfort down below, and when you check you realize that your labia have grown larger!");
+      } else {
+        ↂ.pc.body.clit += 1;
+        UI.alert("Having noticed some discomfort from your clit, you realize that it's as hard as a rock... and when you explore it briefly with your fingers, discover that it also seems to have grown.");
+      }
+    }
     aw.S("pc");
-    setup.omni.kill("the Drips");
+  }`,
+};
+
+setup.omnItems.cold = {
+  name: "A Cold",
+  type: "recurring",
+  output: "none",
+  times: 5,
+  interval: 480,
+  icon: "IMGstatus_Sick",
+  text: "You feel under the weather.",
+  run: `
+  if (!ↂ.pc.status.disease.includes("cold")) {
+    super.die();
+  } else {
+    switch(this.times){
+      case 4:
+        UI.alert("You notice that you're feeling a bit under the weather, your throat feels a little scratchy.");
+        break;
+      case 3:
+        status.dialog("Sick with a Cold","<center><<= either("[img[IMG-SweatyThree]]","[img[IMG-SweatyFour]]")>><br>You're feeling feverish and generally under the weather, perhaps you have a cold?</center>");
+        break;
+      case 2:
+        status.dialog("Sick with a Cold","<center><<= either("[img[IMG-SweatySix]]","[img[IMG-SweatyFive]]")>><br>Your fever persists, though your throat and nose seem to be much improved. Maybe your cold is almost over?</center>");
+        break;
+      case 1:
+        status.dialog("Sick with a Cold","<center><<= either("[img[IMG-SweatyOne]]","[img[IMG-SweatyTwo]]")>><br>You still have a week fever, and remain a little fatigued, but you definitely feel better than before. You've noticed that it tingles a little when you pee, and resolve to drink some more water.</center>");
+        break;
+      case 0:
+      default:
+        UI.alert("Finally, your fever seems to have gone away.");
+        aw.L();
+        ↂ.pc.status.disease.delete("cold");
+        aw.S();
+    }
+  }`,
+};
+
+setup.omnItems.moronovirus = {
+  name: "Weird feeling",
+  type: "recurring",
+  output: "none",
+  times: 5,
+  interval: 520,
+  icon: "IMGstatus_Sick",
+  text: "You feel funny; is it your brain itches?",
+  run: `
+  if (!ↂ.pc.status.disease.includes("moronovirus")) {
+    super.die();
+  } else {
+    switch(this.times){
+      case 4:
+        UI.alert("You notice that your mood improved recently.");
+        ↂ.pc.status.happy += 2;
+        setup.status.record("happy", 2, "That brain itch makes you happy it seems");
+        ↂ.pc.status.bimbo += 5;
+        aw.S();
+        break;
+      case 3:
+        UI.alert("You feel really great!");
+        ↂ.pc.status.happy += 3;
+        setup.status.record("happy", 3, "That brain itch makes you happy it seems");
+        ↂ.pc.status.bimbo += 7;
+        aw.S();
+        break;
+      case 2:
+        UI.alert("It is a bit hard to concentrate but this doesn't bother you too much.");
+        ↂ.pc.status.happy += 3;
+        ↂ.pc.trait.libido += 1;
+        setup.status.record("happy", 3, "That brain itch makes you happy it seems");
+        ↂ.pc.status.bimbo += 10;
+        aw.S();
+        break;
+      case 1:
+        UI.alert("You feel not that happy as you were recently but at least that tingle in your brain starts to lessen out.");
+        ↂ.pc.status.happy += 1;
+        ↂ.pc.trait.libido += 1;
+        setup.status.record("happy", 1, "That brain itch makes you happy it seems");
+        ↂ.pc.status.bimbo += 15;
+        aw.S();
+        break;
+      case 0:
+      default:
+        UI.alert("Finally, you feel healthy ones again.");
+        aw.L();
+        ↂ.pc.status.bimbo -= 33;
+        ↂ.pc.status.happy -= 1;
+        ↂ.pc.trait.libido -= 1;
+        setup.status.record("happy", -1, "You miss being happy for no reason...");
+        ↂ.pc.status.disease.delete("moronovirus");
+        aw.S();
+    }
+  }`,
+};
+
+setup.omnItems.sstd_WetHeat = {
+  name: "Wet Heat",
+  type: "perpetual",
+  output: "none",
+  interval: 60,
+  icon: "IMGstatus_Sick",
+  text: "You are infected with the Wet Heat disease.",
+  run: `aw.L("pc");
+  if (random(1, 250) === 250) {
+    UI.alert("It seems like your case of the Wet Heat has cleared up on its own!");
+    ↂ.pc.status.disease.delete("wetHeat")
+    aw.S("pc");
   }
-  aw.S("pc");`,
+  if (!ↂ.pc.status.disease.includes("wetHeat")) {
+    super.die();
+  } else {
+    ↂ.pc.status.wetness += 5;
+    setup.condition.add({ loc:"vagFluid", amt:5, tgt:"pc", wet:5, type:"femlube"});
+    const locs = ["hair", "face", "chest", "back", "hands", "stomach", "butt", "groin", "genitals", "thighs", "legs", "feet"];
+    for (let i = 0, c = locs.length; i < c; i++) {
+      const l = locs[i] as "hair" | "face" | "chest" | "back" | "hands" | "stomach" | "butt" | "groin" | "genitals" | "thighs" | "legs" | "feet";
+      setup.condition.add({ loc: l, amt: 5, tgt: "pc", wet: 5, type: "sweat" });
+    }
+    let msg = "<center>[img[IMG-Sweats" + random(1,9) + "]]<br>Your case of the Wet Heat has caused your body to once again be soaked with sweat. You feel the craving for a big hot creampie building within you as your body maintains its constant state of arousal.</center>";
+    if (ↂ.pc.status.arousal < 4) {
+      ↂ.pc.status.arousal = 4;
+    }
+    if (random(1, 2) === 1) {
+      ↂ.pc.status.addict.cream += 1;
+    }
+    ↂ.pc.status.addict.creamNeed += 1;
+    if (random(1, 48) === 1) {
+      ↂ.pc.status.bimbo += 3;
+      if (!ↂ.pc.kink.risky) {
+        ↂ.pc.kink.risky = true;
+        msg += "<center>@@.change;You have developed a kink for risky sex.@@</center>";
+      } else if (!ↂ.pc.kink.pregnancy) {
+        ↂ.pc.kink.pregnancy = true;
+        msg += "<center>@@.change;You have developed a kink for getting pregnant.@@</center>";
+      } else if (!ↂ.pc.kink.cumSlut){
+        ↂ.pc.kink.cumSlut = true;
+        msg += "<center>@@.change;You have developed a love of semen, you're a cumslut now.@@</center>";
+      } else {
+        msg += "<center>@@.change;Your need for a creampie is dulling your wits.@@</center>";
+        ↂ.pc.status.bimbo += 5;
+      }
+    }
+    aw.S("pc");
+    setup.dialog("Wet Heat", msg);
+  }`,
 };
 

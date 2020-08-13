@@ -1675,6 +1675,16 @@ Macro.add("generateNPC", {
         ar = [90, 1, 8, 1];
       }
       npc.body.brow = arr[randomDist(ar)];
+      if (npc.body.race === "middle eastern") {
+        ar = [0, 1, 5, 20, 5, 1];
+      } else if (npc.body.race === "southern European" || npc.body.race === "south Asian") {
+        ar = [0, 1, 8, 10, 4, 1];
+      } else if (npc.body.race === "black") {
+        ar = [0, 0, 0, 5, 20, 5];
+      } else {
+        ar = [0, 5, 10, 5, 2, 1];
+      }
+      npc.body.lips = randomDist(ar);
       /*basics*/
     }
 
@@ -1709,6 +1719,16 @@ Macro.add("generateNPC", {
         ar = [90, 1, 8, 1];
       }
       npc.body.brow = arr[randomDist(ar)];
+      if (npc.body.race === "middle eastern") {
+        ar = [0, 1, 5, 20, 5, 1];
+      } else if (npc.body.race === "southern European" || npc.body.race === "south Asian") {
+        ar = [0, 1, 8, 10, 4, 1];
+      } else if (npc.body.race === "black") {
+        ar = [0, 0, 0, 5, 20, 5];
+      } else {
+        ar = [0, 5, 10, 5, 2, 1];
+      }
+      npc.body.lips = randomDist(ar);
       /*basics*/
     }
 
@@ -2552,20 +2572,13 @@ Macro.add("generateNPC", {
       npc.flags.exes = ["none"];
       npc.flags.kids = randomDist([80, Math.max(0, npc.main.age - 20), Math.max(0, npc.main.age - 30)]);
       npc.flags.kidsPC = 0;
-      npc.flags.cheatonPC = 0;
-      npc.flags.cheatedon = 0;
-      npc.flags.cheatWithPC = 0;
-      npc.flags.knowPCcheated = 0;
-      npc.flags.PCknowCheated = 0;
       npc.flags.toys = false;
       npc.flags.toysPublic = false;
       npc.flags.knowPCpreg = false;
       npc.flags.isFather = false;
       npc.flags.thinkFather = false;
-      npc.flags.suspicion = 0;
-      npc.flags.PCsuspicion = 0;
-      npc.flags.thinkPCfaithful = true;
-      npc.flags.thinkNPCfaithful = true;
+      npc.flags.openRship = false;
+      npc.flags.knowsAcidVag = false;
     }
 
     function generateNPCrelationship(npc) {
@@ -2592,29 +2605,18 @@ Macro.add("generateNPC", {
       npc.rship.sleptover = 0;
       npc.rship.pcslept = 0;
       npc.sex = {
-        vanilla: 0,
-        oralPC: 0,
-        oralNPC: 0,
+        makeout: 0,
+        sex: 0,
+        oral: 0,
         anal: 0,
         public: 0,
-        swallowed: 0,
+        domsub: 0,
+        forced: 0,
         creampie: 0,
         accidentCP: 0,
-        forced: 0,
         unprotected: 0,
-        interupted: 0,
         nocumNPC: 0,
         nocumPC: 0,
-        mob: 0,
-        bondage: 0,
-        sadoMaso: 0,
-        watersport: 0,
-        domsub: 0,
-        roleplay: 0,
-        fetish: 0,
-        exhibit: 0,
-        rapist: 0,
-        raped: 0,
         saboPCbc: 0,
         caughtSabo: 0,
         PCsaboBC: 0,
@@ -2646,7 +2648,7 @@ Macro.add("generateNPC", {
       const arr = [
         [8, 17],
         [9, 18],
-        [15, 0],
+        [15, 24],
         [0, 9],
       ];
       npc.sched.workhours = arr[r];
@@ -4151,118 +4153,133 @@ Macro.add("generateNPC", {
     /*GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG*/
     /*GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG*/
     function generateRandomNPC(npcid, gen, destArry, arch, wealth, age, homo, race) {
-      /*determine the NPC's gender*/
-      let rand;
-      let cock = 0;
-      let arc;
-      let ar;
-      let res;
-      let gender;
-      rand = Math.floor(randomFloat(100)) + 1;
-      if (rand > gen) {
-        cock++;
-      }
-      rand = Math.floor(randomFloat(100)) + 1;
-      if (rand > gen) {
-        cock++;
-      }
-      rand = Math.floor(randomFloat(100)) + 1;
-      if (rand > gen) {
-        cock++;
-      }
-      rand = Math.floor(randomFloat(10000)) + 1;
-      if (rand <= setup.npcSetting.futaRate) {
-        if (cock > 2 && setup.npcSetting.futaMale) {
-          gender = 4; /*male-type futa*/
+      let npc: any = {};
+      if (State.active.variables.npcTemplate.enabled && Object.keys(aw.npcTemplate).length > 0 && random(0, 99) < State.active.variables.npcTemplate.ratio) {
+        // use npc template instead of generator...
+        const key = either(Object.keys(aw.npcTemplate));
+        npc = clone(aw.npcTemplate[key]);
+        npc.main.id = npcid;
+        npc.main.name = setup.nameRandomizer(npc.main.gender, npc.body.race);
+        npc.main.surname = setup.surnameRandomizer(npc.body.race);
+        if (gender === 1 || gender === 4) {
+          npc.main.portrait = setup.porn.maleNPC(npc);
         } else {
-          gender = 3; /*female-type futa*/
+          npc.main.portrait = setup.porn.femaleNPC(npc);
         }
-      } else if (cock > 1) {
-        /*is male npc*/
-        gender = 1;
       } else {
-        /*is female NPC*/
-        gender = 2;
-      }
-      /*determining archetype if player settings are in effect*/
-      if (arch[0] === -1) {
-        arch = determineArchetype(gender);
-      }
-      /*SET UP BASIC NPC OBJECTS!!!*/
-      const npc: any = {
-        main: {},
-        body: {},
-        fert: {},
-        bground: {},
-        rship: {},
-        friends: ["none"],
-        flags: {},
-        makeout: ["none"],
-        clothes: {},
-        status: {},
-        cond: {},
-        outfit: {},
-        mutate: {},
-        core: {},
-        pref: {},
-        sched: {},
-      };
-      npc.main.id = npcid;
-      /*determine age and birthday*/
-      npc.main.age = generateRandomAge(age[0], age[1]);
-      npc.main.bd = generateBirthday(npc.main.age);
-      /*set up the essential variables tracking NPC life and such.*/
-      setupMainVars(gender, npc);
-      racistHitlerFuck(race, npc);
-      npc.main.name = setup.nameRandomizer(gender, npc.body.race);
-      npc.main.surname = setup.surnameRandomizer(npc.body.race);
-      if (gender === 1 || gender === 4) {
-        genRandMaleBody(npc);
-        mutateNPCmale(npc);
-        randomMaleFertility(npc);
-        sexualCharacterMale(npc);
-      } else {
-        genRandFemaleBody(npc);
-        mutateNPCfemale(npc);
-        randomFemaleFertility(npc);
-        sexualCharacterFemale(npc);
-      }
-      if (gender === 3 || gender === 4) {
-        randomFutaFertility(gender, npc);
-        sexualCharacterFuta(gender, npc);
-      }
-      setupNPCflags(npc);
-      generateRandomBackground(npc, gender);
-      generateNPCrelationship(npc);
-      if (gender === 1 || gender === 4) {
-        randomMaleFace(npc);
-        generateNPCmiscMale(npc);
-        generateMalePersonality(npc);
-        generateMaleStatus(npc);
-        generateMalePrefs(npc);
-        generateMaleOutfits(npc);
-        npc.main.portrait = setup.porn.maleNPC(npc);
-      } else {
-        randomFemaleFace(npc);
-        generateNPCmiscFemale(npc);
-        generateFemalePersonality(npc);
-        generateFemaleStatus(npc);
-        generateFemalePrefs(npc);
-        generateFemaleOutfits(npc);
-        // determineFemaleNPCportrait(npc);
-        npc.main.portrait = setup.porn.femaleNPC(npc);
-      }
-      determineTraits(npc);
-      generateRandomSchedule(npc);
-      generateRandomCondition(npc);
-      donSomeClothing(npc);
-      /*determine the nickname*/
-      ar = [75, 25];
-      res = randomDist(ar);
-      if (res === 0) {
-        npc.main.nickname = "none";
-      } else {
-        npc.main.nickname = setup.nickRandomizer(gender, npc.main.name, npc.body);
+        /*determine the NPC's gender*/
+        let rand;
+        let cock = 0;
+        let arc;
+        let ar;
+        let res;
+        let gender;
+        rand = Math.floor(randomFloat(100)) + 1;
+        if (rand > gen) {
+          cock++;
+        }
+        rand = Math.floor(randomFloat(100)) + 1;
+        if (rand > gen) {
+          cock++;
+        }
+        rand = Math.floor(randomFloat(100)) + 1;
+        if (rand > gen) {
+          cock++;
+        }
+        rand = Math.floor(randomFloat(10000)) + 1;
+        if (rand <= setup.npcSetting.futaRate) {
+          if (cock > 2 && setup.npcSetting.futaMale) {
+            gender = 4; /*male-type futa*/
+          } else {
+            gender = 3; /*female-type futa*/
+          }
+        } else if (cock > 1) {
+          /*is male npc*/
+          gender = 1;
+        } else {
+          /*is female NPC*/
+          gender = 2;
+        }
+        /*determining archetype if player settings are in effect*/
+        if (arch[0] === -1) {
+          arch = determineArchetype(gender);
+        }
+        /*SET UP BASIC NPC OBJECTS!!!*/
+        npc = {
+          main: {},
+          body: {},
+          fert: {},
+          bground: {},
+          rship: {},
+          friends: ["none"],
+          flags: {},
+          makeout: ["none"],
+          clothes: {},
+          status: {},
+          cond: {},
+          outfit: {},
+          mutate: {},
+          core: {},
+          pref: {},
+          sched: {},
+        };
+        npc.main.id = npcid;
+        /*determine age and birthday*/
+        npc.main.age = generateRandomAge(age[0], age[1]);
+        npc.main.bd = generateBirthday(npc.main.age);
+        /*set up the essential variables tracking NPC life and such.*/
+        setupMainVars(gender, npc);
+        racistHitlerFuck(race, npc);
+        npc.main.name = setup.nameRandomizer(gender, npc.body.race);
+        npc.main.surname = setup.surnameRandomizer(npc.body.race);
+        if (gender === 1 || gender === 4) {
+          genRandMaleBody(npc);
+          mutateNPCmale(npc);
+          randomMaleFertility(npc);
+          sexualCharacterMale(npc);
+        } else {
+          genRandFemaleBody(npc);
+          mutateNPCfemale(npc);
+          randomFemaleFertility(npc);
+          sexualCharacterFemale(npc);
+        }
+        if (gender === 3 || gender === 4) {
+          randomFutaFertility(gender, npc);
+          sexualCharacterFuta(gender, npc);
+        }
+        setupNPCflags(npc);
+        generateRandomBackground(npc, gender);
+        generateNPCrelationship(npc);
+        if (gender === 1 || gender === 4) {
+          randomMaleFace(npc);
+          generateNPCmiscMale(npc);
+          generateMalePersonality(npc);
+          generateMaleStatus(npc);
+          generateMalePrefs(npc);
+          generateMaleOutfits(npc);
+          npc.main.portrait = setup.porn.maleNPC(npc);
+        } else {
+          randomFemaleFace(npc);
+          generateNPCmiscFemale(npc);
+          generateFemalePersonality(npc);
+          generateFemaleStatus(npc);
+          generateFemalePrefs(npc);
+          generateFemaleOutfits(npc);
+          // determineFemaleNPCportrait(npc);
+          npc.main.portrait = setup.porn.femaleNPC(npc);
+        }
+        determineTraits(npc);
+        generateRandomSchedule(npc);
+        generateRandomCondition(npc);
+        donSomeClothing(npc);
+        /*determine the nickname*/
+        ar = [75, 25];
+        res = randomDist(ar);
+        if (res === 0) {
+          npc.main.nickname = "none";
+        } else {
+          npc.main.nickname = setup.nickRandomizer(gender, npc.main.name, npc.body);
+        }
       }
       /*construct the actual NPC*/
       npcid = "n" + npcid;

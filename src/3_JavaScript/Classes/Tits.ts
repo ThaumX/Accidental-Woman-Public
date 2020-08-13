@@ -143,9 +143,9 @@ class Tits {
   }
   get size(): number {
     if (this.lact.on) {
-      return this.lact.size;
+      return this.lact.size + this.silicone;
     }
-    return this.base.size;
+    return this.base.size + this.silicone;
   }
   set size(num: number) {
     aw.con.info(`warning: set tit size via setter on passage ${aw.passage.title}`);

@@ -1,7 +1,10 @@
 
 :: DateStart [nobr]
 
-
+<<silently>>
+<<set _khRes = setup.sexToys.chastityCheck>>
+<<set _randChastity = random(1,3)>>
+<</silently>>
 <p>
 <<f y>>ou meet up with <<= aw.date.name>> at <<print ↂ.map.name>>, ready to begin your date.
 <<if aw.date.npc.rship.dates < 4>>
@@ -26,15 +29,83 @@
   <<orhas op>>
     You find that you're curious about what you'll be getting up to tonight, if <<= aw.date.name>> has any surprises in store for you. @@.mono;Well, I guess it's not like it needs to be an adventure <i>every</i> time, but I hope this time is...@@
   <<or>>
-    You find yourself wondering what the two of you will be doing tonight, idly considering some potential options. @@.mono;It's been a while since I've been to <<print either("Nacho Daddy", "Cock of the Walk", "Hot Porking", "Remplir L'Uterus", "Udder Delights", "Grand Peter's Halfway Inn")>>...@@
+    You find yourself wondering what the two of you will be doing tonight, idly considering some potential options. @@.mono;<<if aw.date.dateType === "yourhome" || aw.date.dateType === "BFhome">>I wonder if we should watch something together...<<else>>It's been a while since I've been to <<print either("Nacho Daddy", "Cock of the Walk", "Hot Porking", "Remplir L'Uterus", "Udder Delights", "Grand Peter's Halfway Inn")>>...<</if>>@@
   <</has>>
 <</if>>
 </p>
 <p>
-Once the two of you meet up, you quickly work your way through the expected greetings and compliments. <<= aw.date.convoText>> After that, the two of you start thinking about the first stop on your date.
+<<if setup.interactionMisc.isDom(aw.date.npc.key)>>Once you meet, you kiss <<= aw.date.name>>'s hand and get a headpat in return.<<elseif setup.interactionMisc.isSub(aw.date.npc.key)>>Once you meet, <<= aw.date.name>> <<print either("politely greets you as a good sub and you smile.","greets you but you feel something bratty in your sub's voice.")>><<else>>Once the two of you meet up, you quickly work your way through the expected greetings and compliments.<</if>> <<= aw.date.convoText>><<if setup.interactionMisc.isDom(aw.date.npc.key) && ↂ.flag.keyHolders[1] == "gotKeysBelt" && !ↂ.toys.parts.groin>><<if _randChastity === 3>><<set ↂ.flag.keyHolders[1] = "none">><<run $items.pickUp("Chastity belt key")>>@@.npc;I guess it is time to unlock you, don't you think?@@ @@.pc;Oh, yes, thank you!@@ <<= aw.date.name>> smiles and hands you the key, a couple of seconds and a little "click" later you are free once again.<<run setup.omni.kill("Chastity")>><<run setup.sexToys.remove("pc", "chastityBelt")>><<else>>@@.pc;Please... can you take it off? I can't bear this anymore, I am so desperate!@@ @@.npc;No, girl, I want you to stay like this for a little longer, desperate, horny and leaking. Now thank me for keeping you locked.@@ You almost sob. @@.pc;T-thank you...@@<</if>><<elseif setup.interactionMisc.isDom(aw.date.npc.key) && ↂ.flag.keyHolders[1] == "gotKeysCplate" && !ↂ.toys.parts.groin>><<if _randChastity === 3>><<set ↂ.flag.keyHolders[1] = "none">><<run $items.pickUp("Cplate 200 remote")>>@@.npc;I guess it is time to unlock you, don't you think?@@ @@.pc;Oh, yes, thank you!@@ <<= aw.date.name>> smiles and hands you the remote, a couple of seconds and a little "click" later you are free once again.<<run setup.omni.kill("Cplate 200")>><<run setup.sexToys.remove("pc", "cPlate")>><<else>>@@.pc;Please... can you take it off? I can't bear this anymore, I am so desperate!@@ @@.npc;No, girl, I want you to stay like this for a little longer, desperate, horny and leaking. Now thank me for keeping you locked.@@ You almost sob. @@.pc;T-thank you...@@<</if>><<elseif setup.interactionMisc.isDom(aw.date.npc.key) && ↂ.flag.keyHolders[1] == "gotKeysClit"  && !ↂ.toys.parts.clit>><<if _randChastity === 3>><<set ↂ.flag.keyHolders[1] = "none">><<run $items.pickUp("Clit shield remote")>>@@.npc;I guess it is time to unlock you, don't you think?@@ @@.pc;Oh, yes, thank you!@@ <<= aw.date.name>> smiles and hands you the remote, a couple of seconds and a little "click" later your clit is free once again.<<run setup.omni.kill("Clit shield")>><<run setup.sexToys.remove("pc", "clitShield")>><<else>>@@.pc;Please... can you take it off? I can't bear this anymore, I am so desperate!@@ @@.npc;No, girl, I want you to stay like this for a little longer, desperate, horny and leaking. Now thank me for keeping you locked.@@ You almost sob. @@.pc;T-thank you...@@<</if>><</if>><<if setup.interactionMisc.isDom(aw.date.npc.key) && ↂ.flag.keyHolders[1] == "askedToBringTheKey">><<if _khRes[0] == "haveBoth">><<arouse 1>>@@.npc;Have you followed my instructions?@@ You nod and hand <<= aw.date.name>> <<if _khRes[1] == "chastityBelt">><<set ↂ.flag.keyHolders[1] = "gotKeysBelt">><<run $items.drop("Chastity belt key")>>the keys.<<elseif _khRes[1] == "cPlate">><<set ↂ.flag.keyHolders[1] = "gotKeysCplate">><<run $items.drop("Cplate 200 remote")>>the remote.<<else>><<set ↂ.flag.keyHolders[1] = "gotKeysClit">><<run $items.drop("Clit shield remote")>>the remote.<</if>> After quickly checking that your chastity is indeed in its place through your clothes, <<= aw.date.name>> nods and smiles. @@.npc;Such a good girl you are. That will make me sure you don't abuse your lady bits while I am away.@@ @@.pc;But...@@ @@.npc;No buts. You will stay like this until I decide to let you out, got it?@@ You just nod.<<has bitch>>@@.mono;Ugh, I hate it! I already want to touch it, fuck!@@<<or>>@@.mono;Ugh, this makes me feel so obedient and small... I can't even touch it now without <<= aw.date.name>>'s permission!@@<</has>><<elseif _khRes[0] == "haveBothCageOff">>@@.npc;Have you followed my instructions?@@ You nod and hand <<= aw.date.name>> <<if _khRes[1] == "chastityBelt">><<run setup.sexToys.insert("pc", "groin", "chastityBelt")>><<include [[DateStart-chastityOmni1]]>><<set ↂ.flag.keyHolders[1] = "gotKeysBelt">><<run $items.drop("Chastity belt key")>>the keys.<<elseif _khRes[1] == "cPlate">><<run setup.sexToys.insert("pc", "groin", "cPlate")>><<include [[DateStart-chastityOmni2]]>><<set ↂ.flag.keyHolders[1] = "gotKeysCplate">><<run $items.drop("Cplate 200 remote")>>the remote.<<else>><<run setup.sexToys.insert("pc", "clit", "clitShield")>><<include [[DateStart-chastityOmni3]]>><<set ↂ.flag.keyHolders[1] = "gotKeysClit">><<run $items.drop("Clit shield remote")>>the remote.<</if>><<arouse 1>> <<= aw.date.name>> checks if yout chastity is indeed in its place through your clothes and frowns. @@.npc;Tsk-tsk-tsk. Go get it on right now, before I punished you.@@ You have no options than to rush to the<<publicPrivacy>> and put it on like you've been ordered. When you return back red from humiliation <<= aw.date.name>> locks it with a smile. @@.npc;I guess since you did not follow my order to the letter you gonna stay in this thing for a long time now.@@ @@.pc;But...@@ @@.npc;No buts. You will stay like this until I decide to let you out, got it?@@ You just nod.<<has bitch>>@@.mono;Ugh, I hate it! I already want to touch it, fuck!@@<<or>>@@.mono;Ugh, this makes me feel so obedient and small... I can't even touch it now without <<= aw.date.name>>'s permission!@@<<else>>@@.npc;Have you followed my instructions?@@ You feel like a total failure. @@.pc;I... didn't. Sorry!@@ <<= aw.date.name>> frowns obviously dissapointed with you. @@.npc;Next time then. I can understand that there can be daily life problems but I hope you will try your best next time. Okay, let's begin our date anyway.@@<<stress 10 "You failed your dom">><<happy -1 "You failed your dom">><<set ↂ.flag.keyHolders[0] == "none">><<set ↂ.flag.keyHolders[1] == "none">><<run setup.date.badThings(4, 2, 3)>><</if>><<else>> After that, the two of you start thinking about the first stop on your date.<</if>>
 </p>
-<<print setup.date.locationPicker()>>
+<<print setup.date.locationPicker()>><<status 0>>
 
 
+:: DateStart-chastityOmni1 [nobr]
+
+<<script>>
+  const omni = {
+    name: "Chastity belt",
+    type: "perpetual",
+    output: "none",
+    interval: 60,
+    icon: "IMGstatus_chastity",
+    text: "Your pussy is locked up in the chastity belt.",
+    run: `aw.L("pc");
+    ↂ.pc.status.wetness += 1;
+    if (ↂ.pc.status.satisfaction < 10) {ↂ.pc.status.satisfaction = 10;}
+    let illFate = random(1, 100);
+    if (illFate < 20) {
+      setup.notify('<<= either("You feel the desperate urge to touch you pussy...","You would pay anything just to play with your poor locked slit right now...","The need to play with your girl grows almost unbearable...")>>');
+    }
+    aw.S("pc");`,
+  }
+  setup.omni.new(omni);
+<</script>>
+
+
+:: DateStart-chastityOmni2 [nobr]
+
+<<script>>
+  const omni = {
+    name: "Cplate 200",
+    type: "perpetual",
+    output: "none",
+    interval: 60,
+    icon: "IMGstatus_chastity",
+    text: "Your pussy is locked up in the chastity plate.",
+    run: `aw.L("pc");
+    ↂ.pc.status.wetness += 1;
+    if (ↂ.pc.status.satisfaction < 10) {ↂ.pc.status.satisfaction = 10;}
+    let illFate = random(1, 100);
+    if (illFate < 20) {
+      setup.notify('<<= either("You feel the desperate urge to touch you pussy...","You would pay anything just to play with your poor locked slit right now...","The need to play with your girl grows almost unbearable...")>>');
+    }
+    aw.S("pc");`,
+  }
+  setup.omni.new(omni);
+<</script>>
+
+
+:: DateStart-chastityOmni3 [nobr]
+
+<<script>>
+  const omni = {
+    name: "Clit shield",
+    type: "perpetual",
+    output: "none",
+    interval: 60,
+    icon: "IMGstatus_chastity",
+    text: "Your clitoris is locked up in the chastity shield.",
+    run: `aw.L("pc");
+    ↂ.pc.status.wetness += 1;
+    setup.condition.add({ loc:"vagFluid", amt:2, tgt:"pc", wet:2, type:"femlube"});
+    if (ↂ.pc.status.satisfaction < 10) {ↂ.pc.status.satisfaction = 10;}
+    let illFate = random(1, 100);
+    if (illFate 2 30) {
+      setup.notify('<<= either("You feel the desperate urge to touch you tiny pleasure button...","You would pay anything just to play with your poor locked clit right now...","The need to play with yourself grows almost unbearable...")>>');
+    }
+    aw.S("pc");`,
+  }
+  setup.omni.new(omni);
+<</script>>
 
 

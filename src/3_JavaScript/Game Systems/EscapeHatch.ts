@@ -28,7 +28,7 @@ setup.escape = {
     aw.replace("#escapeHatch", butt);
   },
   click() {
-    const warn = `<div id="ehatchMessage"><<if aw.passage.tags.includes("badend")>><center>The Escape Hatch function is disabled on bad-end screens.<br><br><<button "CANCEL">><<run setup.escape.close()>><</button>></center><<else>><center><h2>WARNING</h2></center><p>This escape button is intended to allow you to escape from a dead-end or failure that prevented code from finishing. Please report any situation that requires you to use this as a bug so we can fix it! Using this escape button, even for its intended purpose, may break your game. There's also the possibility that you will overwrite a good autosave with a bad one. <i>You have been warned!</i></p><center><<button "CANCEL">><<run setup.escape.close()>><</button>><<tab>><<button "ESCAPE">><<run setup.escape.exec()>><</button>></center><</if>></div>`;
+    const warn = `<div id="ehatchMessage"><center>[img[IMG-escapeButton]]</center><br><<if aw.passage.tags.includes("badend")>><center>The Escape Hatch function is disabled on bad-end screens.<br><br><<button "CANCEL">><<run setup.escape.close()>><</button>></center><<else>><center><<button "CANCEL">><<run setup.escape.close()>><</button>><<tab>><<button "ESCAPE">><<run setup.escape.exec()>><</button>></center><</if>></div>`;
     aw.replace("#escapeHatchMsg", warn);
   },
   close() {

@@ -81,8 +81,8 @@
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion shop>>@@.exp;Browse the store's selection of imported pharmaceuticals and novelty lighters.@@<<endinsertion>>
-<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion shop>>Browse the store's selection of imported pharmaceuticals and novelty lighters.<<endinsertion>>
+<<insertion hovCart>>Launches a popup that contains a list of all the items in your cart, along with the total discount price.<<endinsertion>>
 <<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
@@ -271,11 +271,19 @@ You browse through the shelves.<br><br>
 </td></tr>
 <tr><td class="storeitem" style="width:20%;">
   Lubricant
-  <img src="https://i5.walmartimages.com/asr/a08c4b5c-66c2-4f6d-9137-015d9c7bc5cb_1.ccc160347d70fd029a0925612eb6064a.jpeg" style="width:auto;height:100px;display:block;">
+  <img data-passage="IMG-Item-BullseyeLube" style="width:auto;height:100px;display:block;">
 </td><td style="padding-bottom:10px;">
   A standard economy-size bottle of personal lubricant in the Bullseye generic brand. Safe for condoms, and apparently can also be used as a penetrating lubricant to loosen rusted parts...
 </td><td style="width:15%;padding-left:15px;">
   @@.money;<<mon>>19@@ <span id="buyshit11"></span><br><<button "Add to Cart">><<set $cart.push(["Bullseye Lube", "consume", 19, "genericLubricant", 40])>><<append "#buyshit11">>@@.exp;Added!@@<</append>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Rat Poison
+  <img data-passage="IMG-Item-RatPosion" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  The bottle of poisonous liquid for deratization. Higly toxic for mammals.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>40@@ <span id="buyshit12"></span><br><<button "Add to Cart">><<set $cart.push(["Rat Poison", "consume", 40, "RatPoison", 1])>><<append "#buyshit12">>@@.exp;Added!@@<</append>><</button>>
 </td></tr>
 </table>
 
@@ -308,6 +316,14 @@ You browse through the shelves.<br><br>
   The latest issue of 'BROOD: Baby Factory', a quarterly magazine all about multiple-child pregnancies. The magazine covers a variety of topics, from fashion and lifestyle tips for pregnant women, to fertility enhancement and conception guides. While the magazine does place an emphasis on the joys of pregnancy and the fulfillment from being a mother, it also acknowledges the financial benefits as well. There are regular profiles on mothers who make their living from government birth subsidies.
 </td><td style="width:15%;padding-left:15px;">
   @@.money;<<mon>>11@@ <span id="buyshit3"></span><br><<button "Add to Cart">><<set $cart.push(["Brood magazine", "consume", 11, "brood", 1])>><<replace "#buyshit3">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Semen Bottle
+  <img data-passage="IMG-Item-Semen" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  The small bottle of natural fresh human semen.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>30@@ <span id="buyshit4"></span><br><<button "Add to Cart">><<set $cart.push(["Semen Bottle", "consume", 30, "SemenBottle", 1])>><<replace "#buyshit4">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 </table>
 
@@ -398,8 +414,8 @@ You run into a neighbor in the aisle, you don't know her but you've seen her bef
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion shop>>@@.exp;You could always use more.@@<<endinsertion>>
-<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion shop>>You could always use more.<<endinsertion>>
+<<insertion hovCart>>launches a popup that contains a list of all the items in your cart, along with the total discount price.<<endinsertion>>
 <<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
@@ -483,7 +499,7 @@ It seems there is some old advertisement of one of these german beer brands...<b
 0>>
 <p id="gene">
 <br><br>
-Browsing around the Cum & Go closest to your own home, you have a sudden flash of insight as you look at the small rack of magazines. @@.mono;I don't know who would even buy these things these days, but based on the trend so far...@@ You start pulling stacks of magazines forward to look behind them. You aren't even a quarter of the way done when you spot a familiar sheaf of paper behind some "#16&Fuckin" magazines. <<link "Pick it up">><<pickup "$items" "Gene Therapy 06">><<run Dialog.close()>><<run UI.alert("You pick up the paper documents")>><</link>>.
+Browsing around the Cum & Go closest to your own home, you have a sudden flash of insight as you look at the small rack of magazines. @@.mono;I don't know who would even buy these things these days, but based on the trend so far...@@ You start pulling stacks of magazines forward to look behind them. You aren't even a quarter of the way done when you spot a familiar sheaf of paper behind some "#16&Fuckin" magazines. <<link "Pick it up">><<pickup "$items" "Gene Therapy 06">><<run Dialog.close()>><<run ("You pick up the paper documents")>><</link>>.
 </p>
 <</if>>
 <br><<comment "Yes, I know blinker fluid isn't a thing. It's a joke.">>
@@ -524,8 +540,8 @@ Browsing around the Cum & Go closest to your own home, you have a sudden flash o
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion shop>>@@.exp;See if the store actually has what you need, or if you'll actually have to go to a real store.@@<<endinsertion>>
-<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion shop>>See if the store actually has what you need, or if you'll actually have to go to a real store.<<endinsertion>>
+<<insertion hovCart>>launches a popup that contains a list of all the items in your cart, along with the total discount price.<<endinsertion>>
 <<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
@@ -617,8 +633,8 @@ You run into a neighbor in the aisle, you don't know her but you've seen her bef
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion shop>>@@.exp;Look for some ingredients for cooking some special dish at home.@@<<endinsertion>>
-<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion shop>>Look for some ingredients for cooking some special dish at home.<<endinsertion>>
+<<insertion hovCart>>launches a popup that contains a list of all the items in your cart, along with the total discount price.<<endinsertion>>
 <<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
@@ -632,7 +648,7 @@ You run into a neighbor in the aisle, you don't know her but you've seen her bef
 
 :: ResidentialCornerInteriorFood [nobr]
 
-You browse through the shelves.<br><br>
+You browse through the shelves. The choice is rather poor, you see only some basic groceries on the shelves.<br><br>
 <table id="noBorder">
 <tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Various goods:</td></tr>
 <tr><td class="storeitem" style="width:20%;">
@@ -642,30 +658,6 @@ You browse through the shelves.<br><br>
   A bag with loafs of bread.
 </td><td style="width:15%;padding-left:15px;">
   @@.money;<<mon>>2@@ <span id="buyshit1"></span><br><<button "Add to Cart">><<set $cart.push(["Bread", "simple", 2, "Bread"])>><<replace "#buyshit1">>@@.exp;Added!@@<</replace>><</button>>
-</td></tr>
-<tr><td class="storeitem" style="width:20%;">
-  Cheese
-  <img data-passage="IMG-Item-CookCheese" style="width:100px;height:auto;display:block;">
-</td><td style="padding-bottom:10px;">
-  Some fancy cheese made from natural hucow milk.
-</td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>3@@ <span id="buyshit2"></span><br><<button "Add to Cart">><<set $cart.push(["Cheese", "simple", 5, "Cheese"])>><<append "#buyshit2">>@@.exp;Added!@@<</append>><</button>>
-</td></tr>
-<tr><td class="storeitem" style="width:20%;">
-  Lettuce
-  <img data-passage="IMG-Item-CookLettuce" style="width:100px;height:auto;display:block;">
-</td><td style="padding-bottom:10px;">
-  A lettuce for salads and whatnot.
-</td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>3@@ <span id="buyshitLettuce"></span><br><<button "Add to Cart">><<set $cart.push(["Lettuce","simple",3,"Lettuce"])>><<append "#buyshitLettuce">>@@.exp;Added!@@<</append>><</button>>
-</td></tr>
-<tr><td class="storeitem" style="width:20%;">
-  Patty
-  <img data-passage="IMG-Item-CookPatty" style="width:100px;height:auto;display:block;">
-</td><td style="padding-bottom:10px;">
-  Two pieces of meat ready for cooking.
-</td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>6@@ <span id="buyshitPatty"></span><br><<button "Add to Cart">><<set $cart.push(["Patty", "simple", 6, "Patty"])>><<append "#buyshitPatty">>@@.exp;Added!@@<</append>><</button>>
 </td></tr>
 <tr><td class="storeitem" style="width:20%;">
   Eggs
@@ -684,14 +676,6 @@ You browse through the shelves.<br><br>
   @@.money;<<mon>>3@@ <span id="buyshitHam"></span><br><<button "Add to Cart">><<set $cart.push(["Ham", "simple", 7, "Ham"])>><<append "#buyshitHam">>@@.exp;Added!@@<</append>><</button>>
 </td></tr>
 <tr><td class="storeitem" style="width:20%;">
-  Hucow milk
-  <img data-passage="IMG-Item-CookHucowMilk" style="width:100px;height:auto;display:block;">
-</td><td style="padding-bottom:10px;">
-  A jug of natural hucow milk from local Farm COOP.
-</td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>3@@ <span id="buyshitHucow"></span><br><<button "Add to Cart">><<set $cart.push(["Hucow milk", "simple", 9, "Hucow milk"])>><<append "#buyshitHucow">>@@.exp;Added!@@<</append>><</button>>
-</td></tr>
-<tr><td class="storeitem" style="width:20%;">
   Mayo
   <img data-passage="IMG-Item-CookMayo" style="width:100px;height:auto;display:block;">
 </td><td style="padding-bottom:10px;">
@@ -706,37 +690,5 @@ You browse through the shelves.<br><br>
   Cheap imitation made of soy, pretty widespread milke substitute after Furious cow disease pandemic.
 </td><td style="width:15%;padding-left:15px;">
   @@.money;<<mon>>3@@ <span id="buyshitSoy"></span><br><<button "Add to Cart">><<set $cart.push(["Soy milk", "simple", 4, "Soy milk"])>><<append "#buyshitSoy">>@@.exp;Added!@@<</append>><</button>>
-</td></tr>
-<tr><td class="storeitem" style="width:20%;">
-  Flour
-  <img data-passage="IMG-Item-CookFlour" style="width:100px;height:auto;display:block;">
-</td><td style="padding-bottom:10px;">
-  Very well crushed wheat.
-</td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>5@@ <span id="buyshitFlour"></span><br><<button "Add to Cart">><<set $cart.push(["Flour", "simple", 5, "Flour"])>><<append "#buyshitFlour">>@@.exp;Added!@@<</append>><</button>>
-</td></tr>
-<tr><td class="storeitem" style="width:20%;">
-  Oil
-  <img data-passage="IMG-Item-Oil" style="width:100px;height:auto;display:block;">
-</td><td style="padding-bottom:10px;">
-  Cooking oil in a bottle.
-</td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>7@@ <span id="buyshitOil"></span><br><<button "Add to Cart">><<set $cart.push(["Oil", "simple", 7, "Oil"])>><<append "#buyshitOil">>@@.exp;Added!@@<</append>><</button>>
-</td></tr>
-<tr><td class="storeitem" style="width:20%;">
-  Tomato
-  <img data-passage="IMG-Item-Tomato" style="width:100px;height:auto;display:block;">
-</td><td style="padding-bottom:10px;">
-  Round red vegetable.
-</td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>6@@ <span id="buyshitTomato"></span><br><<button "Add to Cart">><<set $cart.push(["Tomato", "simple", 6, "Tomato"])>><<append "#buyshitTomato">>@@.exp;Added!@@<</append>><</button>>
-</td></tr>
-<tr><td class="storeitem" style="width:20%;">
-  Potato
-  <img data-passage="IMG-Item-Potato" style="width:100px;height:auto;display:block;">
-</td><td style="padding-bottom:10px;">
-  A popular vegetable for various dishes.
-</td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>4@@ <span id="buyshitPotato"></span><br><<button "Add to Cart">><<set $cart.push(["Potato", "simple", 4, "Potato"])>><<append "#buyshitPotato">>@@.exp;Added!@@<</append>><</button>>
 </td></tr>
 </table>

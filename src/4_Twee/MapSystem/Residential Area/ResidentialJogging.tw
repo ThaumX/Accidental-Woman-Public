@@ -67,6 +67,9 @@
         <<set ↂ.pc.status.exercise += _outcome>>
         <<SCX>><<SC "AT">>
         <<status 0>>
+        <<if ↂ.pc.status.happy < 2>>
+          <<happy 1 "Exercising can improve mood">>
+        <</if>>
         <<run setup.notify("Ouch! You accidentally fall and hit your knee while jogging.")>>
       <<else>>
         <<set _randomtime = random(30, 40)>>
@@ -76,6 +79,9 @@
         <<set ↂ.pc.status.exercise += _outcome>>
         <<SCX>><<SC "AT">>
         <<status 0>>
+        <<if ↂ.pc.status.happy < 2>>
+          <<happy 1 "Exercising can improve mood">>
+        <</if>>
         <<run setup.notify("You jogged for some time.")>>
       <</if>>
       <<go ResidentialJogging>>
@@ -99,6 +105,9 @@
         <<set ↂ.pc.status.exercise += _outcome>>
         <<SCX>><<SC "AT">>
         <<status 0>>
+        <<if ↂ.pc.status.happy < 2>>
+          <<happy 1 "Exercising can improve mood">>
+        <</if>>
         <<go ResidentialJogging>>
         <<run setup.notify("Ouch! You accidentally fall and hit your knee while jogging.")>>
       <<else>>
@@ -109,6 +118,9 @@
         <<set ↂ.pc.status.exercise += _outcome>>
         <<SCX>><<SC "AT">>
         <<status 0>>
+        <<if ↂ.pc.status.happy < 2>>
+          <<happy 1 "Exercising can improve mood">>
+        <</if>>
         <<go ResidentialJogging>>
         <<run setup.notify("You sprinted until lost your breath.")>>
       <</if>>
@@ -125,8 +137,8 @@
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion jog>>Take advantage of the relatively secluded path and go jogging. [30min]<<endinsertion>>
-<<insertion sprint>>Try intensive sprinting to squeeze the maximum out of your training. [20min]<<endinsertion>>
+<<insertion jog>>Take advantage of the relatively secluded path and go jogging. <<ctn>>[30min]<</ctn>><<endinsertion>>
+<<insertion sprint>>Try intensive sprinting to squeeze the maximum out of your training. <<ctn>>[20min]<</ctn>><<endinsertion>>
 <<insertion beta>>Take advantage of the relatively secluded path to take a nice relaxing bike ride. Requires Bicycle [Missing]<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>

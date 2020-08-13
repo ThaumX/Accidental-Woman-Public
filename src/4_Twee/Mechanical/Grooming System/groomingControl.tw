@@ -68,8 +68,8 @@
 <fieldset>
   <legend>Extra Clean</legend>
   <table id="invisTable"><tr>
-  <td style="width:50%;"><<checkboxB "_pussyWash" false true>> Rinse out vagina</td>
-  <td><<checkboxB "_enema" false true>> Enema (requires enema kit)</td>
+  <td style="width:50%;"><<if setup.sexToys.check("pc", "vagina") !== true>>Can't rinse out vagina<<else>><<checkboxB "_pussyWash" false true>> Rinse out vagina<</if>></td>
+  <td><<if setup.sexToys.check("pc", "asshole") !== true>>Can't use enema<<else>><<checkboxB "_enema" false true>> Enema (requires enema kit)<</if>></td>
   </tr></table>
 </fieldset>
 <fieldset>
@@ -78,7 +78,7 @@
   <td style="width:50%;"><<checkboxB "_legShave" false true>> Shave your legs</td>
   <td><<checkboxB "_armShave" false true>> Shave your armpits</td></tr><tr>
   <td><<checkboxB "_bikiniShave" false true>> Shave bikini zone</td>
-  <td><<checkboxB "_pubes" false true>> Groom your pubic hair</td>
+  <td><<if setup.sexToys.check("pc", "vagina") !== true>>Can't groom pubic hair<<else>><<checkboxB "_pubes" false true>> Groom your pubic hair<</if>></td>
   </tr></table>
 </fieldset>
 <span style="font-size:0.65rem;">You will shave automatically based on your grooming settings. These force you to shave regardless.</span>

@@ -85,6 +85,7 @@ setup.sleep = {
     } else { // run the sleep, yo
       if (State.active.variables.pref.autoSave && State.active.variables.lastSaveTime !== aw.time) {
       aw.replace("#awUIcontainer", `<div id="autosavePic"></div>`);
+      Engine.play(aw.passage.title);
       }
       setTimeout(function() {
         setup.sleep.bedtime(passage);
@@ -113,24 +114,19 @@ setup.sleep = {
       let labe = setup.time.dayName(State.active.variables.date[0]) + " Evening, ";
       labe += (State.active.variables.date[0] + (State.active.variables.date[1] * 7));
       labe += "-" + State.active.variables.date[2] + "-" + State.active.variables.date[3];
-      try { // why besty... , { sleepAutosave: labe, passover: setup.startsPassage}
-        Save.autosave.save(labe);
-      } catch (e) {
-        aw.con.warn(`Autosave failed with error - ${e.name}: ${e.message}`);
-        UI.alert(`It seems like the autosave function failed due to an ${e.name} error. We're working on the issue, but for now you can turn off autosaves in the game settings menu.`);
-      }
-    }
-    setTimeout(function() {
-      aw.replace("#awUIcontainer", ` `);
+      const AShole = {autosave: true, asPassage: passage};
+      Save.autosave.save(labe, AShole);
+    } else {
       setup.sleep.start(passage);
-    }, 1000);
+    }
   },
   // starts the sleeping process
   start(passage): void {
+    aw.replace("#awUIcontainer", ` `);
+    aw.L();
     // chintzy code to reset prologue flags
     ↂ.flag.Prologue = false;
     ↂ.flag.prologueSunday = false;
-    
     // end chintzy code
     setup.sleep.setWakeTime();
     setup.escape.sit = "sleep";
@@ -150,6 +146,7 @@ setup.sleep = {
     aw.sleep.startDate = [aw.timeArray[2], aw.timeArray[3], aw.timeArray[4], aw.timeArray[5]];
     aw.sleep.passedOut = false;
     ↂ.flag.sleepfailwarn = false;
+    ↂ.flag.main.rangBellToday = false;
     if (passage === "PassedOut") {
       aw.con.warn("PLAYER PASSED OUT AND WAS FORCED INTO SLEEP");
       setup.startsPassage = aw.passage.title;
@@ -160,8 +157,8 @@ setup.sleep = {
       setup.startsPassage = aw.passage.title;
     }
     aw.sleep.startLoc = [ↂ.map.loc[0], ↂ.map.loc[1], (ↂ.map.loc[2] == null) ? "main" : ↂ.map.loc[2]];
-    aw.L();
     setup.dirtyHome();
+    setup.homeItems.effects();
     // ↂ.pc.status.sleep = true;
     // ᛔ.showMenuButton = false;
     aw.S();
@@ -363,6 +360,13 @@ setup.sleep = {
     ↂ.sched.showered = false;
     ↂ.flag.preg.morningSickToday = false;
     ↂ.flag.coffeeToday = 0;
+    ↂ.flag.bank.faust.appCred = false;
+    ↂ.flag.bank.faust.appLoan = false;
+    ↂ.flag.bank.indigo.appLoan = false;
+    ↂ.flag.bank.indigo.appCred = false;
+    if (aw.chad.clean) {
+      setup.clothes.washing();
+    }
     aw.S();
     setup.sleep.environmentEffect();
     setup.totalATR();
@@ -442,6 +446,11 @@ setup.sleep = {
     }
     ↂ.sched.showered = false;
     ↂ.flag.preg.morningSickToday = false;
+    ↂ.flag.coffeeToday = 0;
+    ↂ.flag.bank.faust.appCred = false;
+    ↂ.flag.bank.faust.appLoan = false;
+    ↂ.flag.bank.indigo.appLoan = false;
+    ↂ.flag.bank.indigo.appCred = false;
     aw.S();
     setup.status.happy(-3, "Waking up and realizing you passed out");
     setup.status.stress(25, "Waking up and realizing you passed out");
@@ -465,22 +474,40 @@ setup.sleep = {
         break;
       }
     }
+    if (!ↂ.pc.status.inPublic) {
+      aw.sleep.passedOutType = "fine";
+    }
     let texts = "<p>";
     switch (aw.sleep.passedOutType) {
       case "fine":
         texts += "By some miracle of the elder gods, you wake up unmolested...";
         break;
       case "creampie":
-        texts += "You dream of having drunken sex, someone thrusting into your pussy without caring about your pleasure.";
-        setup.devirgin();
-        ↂ.pc.fert.creampie("unknown", -99, "default");
-        setup.condition.add({ loc: "thighs", amt: 5, tgt: "pc", wet: 5, type: "cum" });
+        if (setup.sexToys.check("pc", "groin") === true) {
+          texts += "You dream of having drunken sex, someone thrusting into your pussy without caring about your pleasure.";
+          setup.devirgin();
+          ↂ.pc.fert.creampie("unknown", -99, "default");
+          setup.condition.add({ loc: "thighs", amt: 5, tgt: "pc", wet: 5, type: "cum" });
+        } else {
+          texts += "You dream of having drunken sex, someone thrusting into your ass without caring about your pleasure.";
+          setup.devirgin("A");
+          setup.condition.add({ loc: "anusFluid", amt: 10, tgt: "pc", wet: 10, type: "cum" });
+          setup.condition.add({ loc: "thighs", amt: 5, tgt: "pc", wet: 5, type: "cum" });
+        }
+        
         break;
       case "hugeCreampie":
-        texts += "You have a strange sex dream during your sleep. When the man finishes inside you, he seems to just keep cuming and cuming without stopping.";
-        setup.devirgin();
-        ↂ.pc.fert.creampie("unknown", 120, "deep");
-        setup.condition.add({ loc: "thighs", amt: 20, tgt: "pc", wet: 20, type: "cum" });
+        if (setup.sexToys.check("pc", "groin") === true) {
+          texts += "You have a strange sex dream during your sleep. When the man finishes inside you, he seems to just keep cuming and cuming without stopping.";
+          setup.devirgin();
+          ↂ.pc.fert.creampie("unknown", 120, "deep");
+          setup.condition.add({ loc: "thighs", amt: 20, tgt: "pc", wet: 20, type: "cum" });
+        } else {
+          texts += "You have a strange sex dream during your sleep. When the man finishes inside you, he seems to just keep cuming and cuming without stopping.";
+          setup.devirgin("A");
+          setup.condition.add({ loc: "anusFluid", amt: 25, tgt: "pc", wet: 25, type: "cum" });
+          setup.condition.add({ loc: "thighs", amt: 20, tgt: "pc", wet: 5, type: "cum" });
+        }
         break;
       case "bukkake":
         texts += "You dream of the rain, warm droplets falling from the sky to coat your skin. Eventually being soaked leaves you feeling cold, and the dream retreats.";
@@ -488,24 +515,46 @@ setup.sleep = {
         break;
       case "stretch":
         texts += "You have a strange dream where you discover that your lover has a gargantuan cock. The two of you try with all your might, and eventually you're able to take him inside you.";
-        setup.devirgin();
-        let res = "notfit";
-        do {
-          res = ↂ.pc.body.pussy.insert(10);
-        } while (res === "notfit");
-        ↂ.pc.fert.creampie("unknown", 60, "deep");
+        if (setup.sexToys.check("pc", "groin") === true) {
+          setup.devirgin();
+          let res = "notfit";
+          do {
+            res = ↂ.pc.body.pussy.insert(10);
+          } while (res === "notfit");
+          ↂ.pc.fert.creampie("unknown", 60, "deep");
+        } else {
+          setup.devirgin("A");
+          let res = "notfit";
+          do {
+            res = ↂ.pc.body.asshole.insert(10);
+          } while (res === "notfit");
+          setup.condition.add({ loc: "anusFluid", amt: 15, tgt: "pc", wet: 25, type: "cum" });
+        }
         break;
       case "dongRemoval":
-        texts += "You dream of giving birth, it happens too quickly so you give birth on the way to the hospital without any pain relief. Eventually though, you're comforted by the hums and beeps of hospital equipment.";
-        let str = "notfit";
-        do {
-          str = ↂ.pc.body.pussy.insert(15);
-        } while (str === "notfit");
-        ↂ.pc.body.pussy.tight = 15;
-        ↂ.pc.status.health -= 20;
-        setup.status.record("health", -20, "Giant dong removal surgery");
-        setup.startsPassage = "ResidentialMedicalHospital";
-        ↂ.map.loc = ["residential", "medical", "hospital"];
+        if (setup.sexToys.check("pc", "groin") === true) {
+          texts += "You dream of giving birth, it happens too quickly so you give birth on the way to the hospital without any pain relief. Eventually though, you're comforted by the hums and beeps of hospital equipment.";
+          let str = "notfit";
+          do {
+            str = ↂ.pc.body.pussy.insert(15);
+          } while (str === "notfit");
+          ↂ.pc.body.pussy.tight = 15;
+          ↂ.pc.status.health -= 20;
+          setup.status.record("health", -20, "Giant dong removal surgery");
+          setup.startsPassage = "ResidentialMedicalHospital";
+          ↂ.map.loc = ["residential", "medical", "hospital"];
+        } else {
+          texts += "You dream of giving birth with your butt for some reason. It happens too quickly so you give birth on the way to the hospital without any pain relief. Eventually though, you're comforted by the hums and beeps of hospital equipment.";
+          let str = "notfit";
+          do {
+            str = ↂ.pc.body.asshole.insert(15);
+          } while (str === "notfit");
+          ↂ.pc.body.asshole.tight = 15;
+          ↂ.pc.status.health -= 20;
+          setup.status.record("health", -20, "Giant dong removal surgery");
+          setup.startsPassage = "ResidentialMedicalHospital";
+          ↂ.map.loc = ["residential", "medical", "hospital"];
+        }
         break;
       case "mermaid":
         texts += "You dream that you meet a wizened old wizard who casts a spell to let you breathe underwater.";
@@ -573,14 +622,18 @@ setup.sleep = {
     } else {
       setTimeout(function() {
         setup.sleep.bar(8);
-      }, 500);
+      }, 200);
       setTimeout(function() {
-        setup.sleep.bar(10);
-      }, 600);
+        State.clearTemporary();
+        aw.con.info(`Cleared temporary variables`);
+        setup.sleep.bar(5);
+      }, 300);
     }
     setTimeout(function() {
-      setup.sleep.bar(5);
-    }, 400);
+      setup.lab.nightProgress();
+      setup.lab.questCheck();
+      setup.sleep.bar(10);
+    }, 100);
     setTimeout(function() {
       setup.npcSched.generate();
       setup.sleep.bar(12);
@@ -1074,6 +1127,7 @@ setup.sleep = {
       if (ↂ.pc.fert.boost > 0 && random(1, 3) < 3) {
         ↂ.pc.fert.boost -= 1;
       }
+      setup.drug.reduction();
       aw.S();
     } catch (e) {
       aw.con.error("sleep.status", e);
@@ -1174,7 +1228,10 @@ setup.sleep = {
     }
     const score = Math.round(((quality * weights[0]) + (ment * weights[1]) + (clean * weights[2])) / divisor);
     aw.con.info(`Environment Score: ${score}, derived from items ${quality}, home ${ment}, clean ${clean}`);
-    const msgy = `Environment Effects: ${score} - items ${quality}, home ${ment}, clean ${clean}`;
+    const qs = Math.round(((quality + 100) / 200) * 10);
+    const hs = Math.round(((ment + 100) / 200) * 10);
+    const cs = Math.round(((clean + 100) / 200) * 10);
+    const msgy = `Environment Effects: ${score} - items ${qs}, home ${hs}, clean ${cs}`;
     let hap = 0;
     let stress = 0;
     let sat = 0;

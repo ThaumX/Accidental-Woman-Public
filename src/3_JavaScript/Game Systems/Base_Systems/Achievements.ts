@@ -233,7 +233,7 @@ aw.achieve = {
     description: "Don't forget to arch your back when moping the floors!",
   },
   tsar: {
-    name: "Just Tsar",
+    name: "Tsar juices",
     image: "IMG-TsarAch",
     description: "Super secret one. Besty is proud of you.",
   },
@@ -371,6 +371,21 @@ aw.achieve = {
     name: "Heartbreaker",
     image: "IMG-HeartbreakerAch",
     description: "You finally won Lily's heart, only to break it.",
+  },
+  sparky: {
+    name: "Sparky",
+    image: "IMG-SparkyAch",
+    description: "You were tasered by Lily's door defense system.",
+  },
+  jehovah: {
+    name: "Jehovah's Witness",
+    image: "IMG-JehovahAch",
+    description: "You really like showing up randomly at people's front door.",
+  },
+  killer: {
+    name: "Till death do us part",
+    image: "IMG-KillerAch",
+    description: "You murdered your first NPC.",
   },
 };
 aw.unlocks = ["Prologue skip", "Mega Tits", "Mega Fertile", "Mega Wet", "FemaleQuickStart", "contentMessage"];

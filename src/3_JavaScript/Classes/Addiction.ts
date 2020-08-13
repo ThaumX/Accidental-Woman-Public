@@ -317,14 +317,15 @@ class Addiction {
       }
       this.dta[16] = val;
     }
-  } public get withdrawl(): boolean {
+  } public get withdrawl(): boolean | 0 {
     return this.dta[17];
   }
-  public set withdrawl(val: boolean) {
-    if (typeof val !== "boolean") {
+  public set withdrawl(val: boolean | 0) {
+    if (typeof val !== "boolean" && val !== 0) {
       aw.con.warn(`Attempted to set ${this._k} withdrawl to non-boolean value!`);
+    } else if (val === 0) {
+      this.dta[17] = false;
     } else {
-
       this.dta[17] = val;
     }
   }

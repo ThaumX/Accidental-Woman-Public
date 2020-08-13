@@ -12,6 +12,7 @@ interface setupCook {
   list: () => string;
   cook: (dishNumber: number, additional: string) => string;
   skill: (skillReq: number) => string;
+  eatingList: () => string;
 }
 
 interface dish {
@@ -47,11 +48,11 @@ if (aw.dishes === null || aw.dishes === undefined) {
 
 setup.cook.list = function(): string {
   let out = `<<include [[Consumables]]>><div id="cookDiv"><p><<f Y>>ou check your fridge to see what meals you can actually cook.</p><p>@@.mono;Maybe I should replenish my ingredients stash visiting Cum'n Go or Hole Foods...@@</p>@@.note;The system is only partly implemented now. Special food is intended to be used for home dates and hangouts, so it is not edible in a standard way. If you are looking for food for your character, good news, she eats by herself, check the spendings in weekly morning menu. You can buy ingredients in the Cum'n go for now on.@@<br><br>`;
-  const addIngr = ["SatyrTablet", "SatyrVial", "Heat300", "Heat150", "Heat100", "ZoneBottle1", "FocusVial80", "FocusVial40", "FocusTablet40", "SemenBottle"];
+  const addIngr = ["SatyrTablet", "SatyrVial", "Heat300", "Heat150", "Heat100", "ZoneBottle1", "FocusVial80", "FocusVial40", "FocusTablet40", "SemenBottle", "RatPoison"];
   let addDrop = "";
   for (let index = 0; index < addIngr.length; index++) {
     if (setup.consumables.hasConsumable(addIngr[index], 1) ) {
-      addDrop += addIngr[index];
+      addDrop += ` "${addIngr[index]}"`;
     }
   }
   for (let index = 0; index < aw.dishes.length; index++) {
@@ -89,8 +90,10 @@ setup.cook.list = function(): string {
       }
       if (hasAll && aw.dishes[index].skill <= ↂ.skill.curCook) {
         out += `<div style="width: 200px; height: 500px; background-color: #380c0c; border-radius: 15px; padding: 15px; float: left; margin-left: 10px; margin-top: 10px;"><img data-passage="${aw.dishes[index].img}" style="border-radius: 10px; float: left; margin-right: 10px; margin-bottom: 5px; width: 200px; height: 200px;"><span style="float: left; width: 100%;"><span class="wdColor"><b>${aw.dishes[index].name}</b></span> ${aw.dishes[index].cookTime} min.<br><span class="handwriting wdGray"><small>${aw.dishes[index].desc}</small></span><br><small style="word-break: break-all;">${ingredientList}</small><br>Skill: ${setup.cook.skill(aw.dishes[index].skill)}</span><span style="float: left"><<dropdown "$additionalIngr" "none" ${addDrop}>> <<button "Cook">><<replace "#cookDiv">><<print setup.cook.cook("${index}", "${State.active.variables.additionalIngr}")>><</replace>><</button>></span></div>`;
+      } else if (hasAll) {
+        out += `<div style="width: 200px; height: 500px; background-color: #3e3e3e; border-radius: 15px; padding: 15px; float: left; margin-left: 10px; margin-top: 10px;"><img data-passage="${aw.dishes[index].img}" style="border-radius: 10px; float: left; margin-right: 10px; margin-bottom: 5px; width: 200px; height: 200px;"><span style="float: left; width: 100%;"><span class="wdColor"><b>${aw.dishes[index].name}</b></span> ${aw.dishes[index].cookTime} min.<br><span class="handwriting wdGray"><small>${aw.dishes[index].desc}</small></span><br><small style="word-break: break-all;">${ingredientList}</small><br>Skill: ${setup.cook.skill(aw.dishes[index].skill)}</span><span style="float: left">@@.disabled;<<button "Cook">><</button>>@@</span><br><i>Not enough skill</i></div>`;
       } else {
-        out += `<div style="width: 200px; height: 500px; background-color: #875076; border-radius: 15px; padding: 15px; float: left; margin-left: 10px; margin-top: 10px;"><img data-passage="${aw.dishes[index].img}" style="border-radius: 10px; float: left; margin-right: 10px; margin-bottom: 5px; width: 200px; height: 200px;"><span style="float: left; width: 100%;"><span class="wdColor"><b>${aw.dishes[index].name}</b></span> ${aw.dishes[index].cookTime} min.<br><span class="handwriting wdGray"><small>${aw.dishes[index].desc}</small></span><br><small style="word-break: break-all;">${ingredientList}</small><br>Skill: ${setup.cook.skill(aw.dishes[index].skill)}</span><span style="float: left">@@.disabled;<<button "Cook">><</button>>@@</span></div>`;
+        out += `<div style="width: 200px; height: 500px; background-color: #3e3e3e; border-radius: 15px; padding: 15px; float: left; margin-left: 10px; margin-top: 10px;"><img data-passage="${aw.dishes[index].img}" style="border-radius: 10px; float: left; margin-right: 10px; margin-bottom: 5px; width: 200px; height: 200px;"><span style="float: left; width: 100%;"><span class="wdColor"><b>${aw.dishes[index].name}</b></span> ${aw.dishes[index].cookTime} min.<br><span class="handwriting wdGray"><small>${aw.dishes[index].desc}</small></span><br><small style="word-break: break-all;">${ingredientList}</small><br>Skill: ${setup.cook.skill(aw.dishes[index].skill)}</span><span style="float: left">@@.disabled;<<button "Cook">><</button>>@@</span><br><i>No proper ingredients</i></div>`;
       }
     }
   }
@@ -149,7 +152,9 @@ setup.cook.cook = function(dishNumber: number, additional: string): string {
   if (State.active.variables.additionalIngr !== "none") {
     out += `<<dropconsumable ${State.active.variables.additionalIngr}>>`;
     item3 = ` (${State.active.variables.additionalIngr}-flavored.)`;
-    item4 = `[${State.active.variables.additionalIngr.substring(0, 1).toUpperCase()}]`;
+    item4 = `[${State.active.variables.additionalIngr.substring(0, 2).toUpperCase()}]`;
+  } else {
+    item4 = `[Pl]`;
   }
   aw.con.info(`setup.cook.cook, processedIngrQuality is ${processedIngrQuality} dishNumber is ${dishNumber}, additional ingr is ${additional}, result is ${result}`);
   switch (result) {
@@ -194,6 +199,32 @@ setup.cook.skill = function(skillReq): string {
   } else {
     out = "piece of cake";
   }
+  return out;
+};
+
+setup.cook.eatingList = function(): string {
+  const addIngr = ["SA", "HE", "ZO", "FO", "SE", "RA", "PL"]; // satyr, heat, zone, focus, semen, poison, plain
+  const addIngrFull = ["Satyr", "Heat", "Zone", "Focus", "Semen", "Poison", "Plain"]; // satyr, heat, zone, focus, semen, poison
+  let out = `<div id="dateEatingDiv">`;
+  let cunt = 0;
+  for (let index = 0; index < aw.dishes.length; index++) {
+    for (let ii = 0; ii < addIngr.length; ii++) {
+      if (State.active.variables.items.has(("Normal quality " + aw.dishes[index].name + " [" + addIngr[ii] + "]") )) {
+        out += `<<button "${aw.dishes[index].name} [${addIngrFull[ii]}]">><<replace "#dateEatingDiv">><<= setup.date.eatHome(2, "${aw.date.npc.key}", "${aw.dishes[index].name}", ${index}, "${addIngr[ii]}")>><</replace>><<run $items.drop("Normal quality ${aw.dishes[index].name} [${addIngr[ii]}]")>><</button>>`;
+        cunt++;
+      } else if (State.active.variables.items.has(("Poor quality " + aw.dishes[index].name + " [" + addIngr[ii] + "]"))) {
+        out += `<<button "Crappy ${aw.dishes[index].name} [${addIngrFull[ii]}]">><<replace "#dateEatingDiv">><<= setup.date.eatHome(1, "${aw.date.npc.key}", "${aw.dishes[index].name}", ${index}, "${addIngr[ii]}")>><</replace>><<run $items.drop("Poor quality ${aw.dishes[index].name} [${addIngr[ii]}]")>><</button>>`;
+        cunt++;
+      } else if (State.active.variables.items.has(("Good quality " + aw.dishes[index].name + " [" + addIngr[ii] + "]"))) {
+        out += `<<button "Good ${aw.dishes[index].name} [${addIngrFull[ii]}]">><<replace "#dateEatingDiv">><<= setup.date.eatHome(3, "${aw.date.npc.key}", "${aw.dishes[index].name}", ${index}, "${addIngr[ii]}")>><</replace>><<run $items.drop("Good quality ${aw.dishes[index].name} [${addIngr[ii]}]")>><</button>>`;
+        cunt++;
+      }
+    }
+  }
+  if (cunt === 0) {
+    out += `It seems there is nothing you have to serve for the dinner. You shrug to the <<= aw.date.name>>. @@.pc;Wanna order some pizza?@@ <<= either("It seems, <<= aw.date.name>> was hoping for some home food but you can't say for sure.", "<<= aw.date.name>> gives out almost unnoticeable sigh of relief.", "<<= aw.date.name>> shrugs back.")>> @@.npc;Yeah, sure!<<if aw.date.dateType == "BFhome">> I'll order it!<</if>>@@ In just a dozen of minutes <<if aw.date.dateType == "BFhome">><<= aw.date.name>><<else>>you<</if>> take the order from the courier at the door and bring<<if aw.date.dateType == "BFhome">>s<</if>> it to the table. You start your dinner chatting about various stuff at the same time.`;
+  }
+  out += `</div>`
   return out;
 };
 
@@ -576,8 +607,8 @@ aw.dishes = [
       key: "lichMeat",
       desc: "A weird traditional dish from guam. It is basically an oddy shaped ham salad.",
       img: "IMG-Item-Lichmeat",
-      skill: 25,
-      checks: [8, 10, 13],
+      skill: 105,
+      checks: [10, 15, 20],
       cookTime: 28,
       cookText: "You start to form a skull from ham...",
       cookFail: "hmmm, this look much more like a cat than a lich's head. This means it is ruined and there is nobody to blame except yourself.",
@@ -588,7 +619,7 @@ aw.dishes = [
       ],
       result: "Lich Meat",
       known: true,
-      baseQuality: 40,
+      baseQuality: 120,
       run() {},
   },
 ];

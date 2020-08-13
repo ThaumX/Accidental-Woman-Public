@@ -1,0 +1,180 @@
+:: homeBFlivingroom [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPBFhome]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>
+<<f y>>ou are standing in <<name h>>'s living room.
+<<switch $BFnum>>
+<<case 1>>
+The tiny space isn't any wider than the kitchen nook, and there's barely enough room to fit a couch and entertainment center into the small space. An exceedingly optimistic person may call the space "cozy", but in reality it's simply cramped.
+<<case 2>>
+The small living space features a large window, which does help to keep it from appearing claustrophobic. The room is somewhat awkward in layout, with only one wall that can really be the focus of the room. <<name h>> has bought a comfortable couch set, but the remaining furniture is all of the cheap Fitta variety.
+<<case 3>>
+The small room has a cozy appearance, helped by the warm wood floor. A small desk sits in front of the room's window, while a window in the apartment's front door helps let in more light. The room has only a single couch, but that's plenty of space for the two of you.
+<<case 4>>
+It's not a large room, but it's well tied-together by the modern furnishings and wallpaper on one wall. There's plenty of room to sit, and a large window lets in a nice amount of light. Two potted plants add a splash of color to the room.
+<<case 5>>
+The room has plenty of natural light thanks to a large floor-to-ceiling window. A gas fireplace in the wall adds some extra comfort to the room, and wooden shelves provide the perfect place to display photos and keepsakes. The modular couch in the room can be rearranged in numerous ways to fit the occasion.
+<<case 6>>
+The room is somewhat rectangular, with a comfortable amount of floor space. A huge window makes up one wall, while the other two are tastefully decorated. The room has a definite modern aesthetic, but you can tell the room sees regular use.
+<<case 7>>
+The huge room is divided into two areas, one for watching TV, and another that serves more as a reading and music room. Some of the furniture is actually custom-built into the walls, and a large carpet provides a more comfortable surface than the marble floors.
+<</switch>>
+</p>
+<p>
+<<if $BFhome>><<name h>> is currently in the <<= $BFroom>>.<<else>><<name h>> isn't home right now.<</if>>
+</p>
+/*Time & furnishing descriptive addon! <<mapHomeDesc>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<set _butlab = "Talk To " + $BFname>>
+<<if $BFhome && $BFroom === "living room">>
+  <<hoverrevise talkin>>
+    <<button _butlab>><<run setup.npcHomes.talk()>><</button>>
+  <<endhoverrevise>>
+  <<hoverrevise spendtime>>
+    <<button "Spend Time">><<lonely -10>><<addtime 60>><<set aw.npc[$BFid].rship.companion += random(3, 8)>><<dialog "Spend Time">><center>[img[IMG-SpendTime]]</center><p>You spend some time relaxing with <<name h>>.</p><</dialog>><</button>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise notalkin>>
+    <button class="disabled"><<= _butlab>></button>
+  <<endhoverrevise>>
+  <<hoverrevise nospendtime>>
+    <button class="disabled">Spend Time</button>
+  <<endhoverrevise>>
+<</if>>
+<<hoverrevise relco>>
+<<button "Relax on Couch">>
+  <<switch $BFnum>>
+  <<case 1 2>>
+    <<stress -2 "Relaxing on a couch">>
+  <<case 3 4 5>>
+    <<stress -3 "Relaxing on a couch">>
+  <<case 6 7>>
+    <<stress -4 "Relaxing on a couch">>
+  <</switch>>
+  <<addTime 30>>
+  <<run setup.refresh()>>
+  <<run UI.alert("You relax on <<name h>>'s couch for 30 minutes.")>>
+<</button>>
+<<endhoverrevise>>
+<<hoverrevise tvw>>
+<<button "Watch TV">>
+<<dialog "Watching TV">><<include [[TV]]>><</dialog>>
+<</button>>
+<<endhoverrevise>>
+<<hoverrevise read>>
+  <<button "Read Something">>
+    <<set _randomcum = random(0, 1, 1)>>
+    <<set _randompiss = random(45, 55)>>
+    <<addTime _randompiss>>
+    <<happy _randomcum "Having an empty mind makes you happy!">>
+    <<updatebar>>
+    <<dialog "Browsing with your phone">><<include [[WasteTimeOnPhone]]>><</dialog>>
+  <</button>>
+<<endhoverrevise>>
+<<hoverrevise meditate>>
+  <<button "Meditate">>
+    <<go FuckThatMeditation>>
+  <</button>>
+<<endhoverrevise>>
+<<hoverrevise time>>
+<<button "Waste Time">><<addTime 60>><<go homeBFlivingroom>><</button>>
+<<endhoverrevise>>
+<<if $BFnum > 4>>
+  <<hoverrevise exerb>>
+    <<button "Use Exercise Bike">>
+      <<arouse 2>>
+      <<set _tad = random(25, 35)>>
+      <<addTime _tad>>
+      <<set ↂ.pc.status.exercise += (Math.round(ↂ.skill.athletic / 6) + random(1, 5))>>
+      <<set ↂ.pc.status.energy.amt -= random(2, 4)>>
+      <<status 0>>
+      <<if ↂ.pc.status.happy < 3>>
+        <<happy 1 "Exercising can improve mood">>
+      <</if>>
+      <<SCX>>
+      <<SC "AT" 10>>
+      <<dialog "Exercise Bike">>
+        <img data-passage="IMG-bikeHome" style="float: left; margin:10px 25px 10px 0px;">
+        <p>@@.head3;A@@fter some tossing you manage to seat on the bike. This requires you to fit this so-called "pin" inside your vagina and it takes you some time to find a comfortable position. You start turning the pedals exercising on the exercise bike. The seat pin get you aroused and you find it pretty hard to concentrate on exercising with this cock-shaped "stability pin" sliding back and forth in your pussy.</p>
+        <p>@@.mono;What they even think about when they created this thing? The "stability pin" is basically a dildo. And how guys are supposed to use it... ah, right, I got it... Mmm, in any case this feels pretty nice... and I must admit it holds me on the seat pretty good.@@</p>
+        <p>After about 30 minutes you feel pretty exhausted and stand up from the bike. The pin comes out of your pussy with a sloppy sound.</p>
+      <</dialog>>
+    <</button>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise noexerb>>
+    <button class="disabled">Use Exercise Bike</button>
+  <<endhoverrevise>>
+<</if>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion time>>@@.exp;Stare out the window or something for an hour to kill some time.@@<<endinsertion>>
+<<insertion meditate>>Spend some time clearing your mind. [20-35min]<<endinsertion>>
+<<insertion read>>Since you don't actually have anything to read, this really means browsing the internet on your phone. You could always search for an ebook though. [45-55 min].<<endinsertion>>
+<<insertion relco>>Spend some time relaxing on <<name h>>'s couch [30 min]<<endinsertion>>
+<<insertion tvw>>Spend some time watching TV. [30 min]<<endinsertion>>
+<<insertion exerb>>Workout on the bike. (-energy, +exercise) [30min]<<endinsertion>>
+<<insertion noexerb>>While it's a nice thought, <<name h>> doesn't have an exercise bike.<<endinsertion>>
+<<insertion talkin>>Have a conversation with <<name h>>.<<endinsertion>>
+<<insertion notalkin>><<name h>> must be in the same room with you to have a conversation.<<endinsertion>>
+<<insertion spendtime>>Spend some time relaxing with <<name h>>. [60 min]<<endinsertion>>
+<<insertion nospendtime>><<name h>> must be here to spend time with!<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+<<mapBFHomeEventAction>>
+<<mapBFHomeActions>>
+<</timed>>
+
+
+
+:: homeBFT2livingroomLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>

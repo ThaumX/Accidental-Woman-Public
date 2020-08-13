@@ -5,7 +5,7 @@
 
 <</silently>>
 /*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
-<<include [[MAPresidential]]>>
+<<include [[MAPreservoir]]>>
 /*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
 <div id="mainshits">
 /* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
@@ -42,7 +42,7 @@
 <p> <<mapEvent>></p>/*Event notification spot*/
 /*<<mapEvent>>*/
 /*LOCATION description of  location*/
-@@.head3;T@@his area isn't ready yet, I'm afraid.
+@@.head3;Y@@ou are standing next to a man-made lake that holds Appletree's water supply, though it seems to be treated more like a recreational area.
 /*Time & furnishing descriptive addon! <<mapHomeRes>>*/
 /*IN-PASSAGE span text*/
 <span id="locact"></span><<selfthought>></div>
@@ -52,6 +52,24 @@
 <<hoverrevise alpha>>
 @@.disabled;<<button "Streaking">><</button>>@@
 <<endhoverrevise>>
+<<if ↂ.flag.hannaStory.stage == "askedForHelp">>
+<<hoverrevise hanna>>
+<<button "Look for Hanna">><<script>>
+  const scene = {
+      passage: "HannaCaptured",
+      content: "none",
+      image: "IMG-Tesla-sidebar",
+      topImage: "IMG-Tesla-top",
+      title: "Looking for Hanna",
+      allowSave: false,
+      sidebar: `<h2>Tesla reservoir</h2>`,
+      showTime: true,
+      allowMenu: false,
+    };
+    setup.scenario.launch(scene);
+<</script>><</button>>
+<<endhoverrevise>>
+<</if>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>

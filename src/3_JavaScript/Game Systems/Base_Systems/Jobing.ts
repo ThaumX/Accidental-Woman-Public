@@ -317,19 +317,21 @@ setup.job = {
     const ᚥ = aw.jobData[ↂ.job.code];
     // clothes check
     let override = false;
-    const clothesCheck = ᚥ.clothesRequired();
-    if (!clothesCheck[0]) {
-      override = true;
-      const argument = {
-        allowMenu: false,
-        allowSave: false,
-        block: false,
-        passage: clothesCheck[1],
-        image:  clothesCheck[2],
-        content: clothesCheck[3],
-        title: clothesCheck[4],
-      };
-      setTimeout(() => setup.scenario.launch(argument), 100);
+    if (ᚥ.clothesRequired() !== undefined) {
+      const clothesCheck = ᚥ.clothesRequired();
+      if (!clothesCheck[0]) {
+        override = true;
+        const argument = {
+          allowMenu: false,
+          allowSave: false,
+          block: false,
+          passage: clothesCheck[1],
+          image:  clothesCheck[2],
+          content: clothesCheck[3],
+          title: clothesCheck[4],
+        };
+        setTimeout(() => setup.scenario.launch(argument), 100);
+      }
     }
     if (!override) {
       // Adding some random event that fits the rank
@@ -375,13 +377,13 @@ setup.job = {
           if (NpcChance > 85) {
             const args = {
               passage: "NPCinteraction-StrangerSayHi",
-              block: true,
+              block: false,
               content: `<<status 1>><<set $intNPC = '${npc}'>><<set $intType = "work">><<status 0>>`,
               image: aw.npc[npc].main.picture,
               title: aw.npc[npc].main.name,
               size: 3,
               callback() {
-                setup.time.add(random(12, 22));
+                // meow
               },
               onclose() {
                 // setup.refresh(); GODDAMN IT BESTY!
@@ -981,7 +983,7 @@ setup.job = {
   jobChoose(restricted: number = 0): string {
     // get list of possible jobs, limit to Institute if restricted.
     const list = Object.keys(aw.jobData);
-    if (restricted === 1) {
+    if (restricted === 1 && !State.active.variables.AW.startMale && !ↂ.flag.prologuePassedScience) {
       list.delete("IT"); // if fem prologue did not pass science test
     }
     // remove jobs already worked at (quit or fired, can't be rehired)
@@ -1024,14 +1026,12 @@ setup.job = {
       });
       `;
     }
-    if (restricted) {
-      const tot = Object.keys(aw.jobData).length;
-      jobs += `<div>Showing ${list.length} of ${tot} possible careers.</div>`;
-    }
+    const tot = Object.keys(aw.jobData).length;
+    jobs += `<div>Showing ${list.length} of ${tot} possible careers.</div>`;
     scrp += "<</scr" +
       "ipt>><</timed>>";
     // time to combine outputs
-    const exitButton = (!restricted) ? `<div style="position:absolute;bottom:10px;right:10px;height:40px;width:100px;"><<button "CANCEL">><<replace "#awUIcontainer">><</replace>><</button>>` : "";
+    const exitButton = (restricted === 0) ? `<div style="position:absolute;bottom:10px;right:10px;height:40px;width:100px;"><<button "CANCEL">><<replace "#awUIcontainer">><</replace>><</button>>` : "";
     const out = `<div id="jobChooseCunt"><div id="listCunt">${jobs}</div><div id="infoCunt"><div><h2>Select A Job</h2><b>Caution:</b> To comply with the <<info "guideJDA" "Jobs Distribution Act">> of 2027, the R.A.P.E.S. Job Application System automatically terminates your current employment upon successfully applying to a new position.</div></div>${exitButton}${scrp}</div>`;
     return out;
   },

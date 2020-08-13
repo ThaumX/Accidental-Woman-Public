@@ -579,6 +579,9 @@ class Relation {
     this.dating = false;
     this.lovePC -= 30;
     this.likePC -= 20;
+    if (this._k === ↂ.flag.liveWith) {
+      setup.rship.moveOut();
+    }
   }
 }
 

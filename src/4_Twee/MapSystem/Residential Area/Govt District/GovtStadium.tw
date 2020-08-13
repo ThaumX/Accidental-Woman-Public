@@ -1,0 +1,89 @@
+
+
+:: ResidentialGovernmentStadium [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPgov]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+
+<<case "sct">>
+
+<<case "ovc">>
+
+<<case "-ra">>
+
+<<case "ra">>
+
+<<case "+ra">>
+
+<<case "fog">>
+
+<<case "shra">>
+
+<<case "tsra">>
+
+<<case "-sn">>
+
+<<case "sn">>
+
+<<case "+sn">>
+
+<<default>>
+
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+<p> <<mapEvent>></p>/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+@@.head3;Y@@ou are at the town's stadium. The big poster above the main entrance announces the next cockmongering match, it seems the Appletree stadium will host a lot of NACA WCC matches this year. You wonder why this new sport has become so popular in favor of the more traditional options such as Basketball and Football. <br>
+<center>[img[IMG-CockmongeringPoster]]</center>
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<if State.active.variables.date[0] === 6>>
+    <<button "Watch a match">><<dialog "Cockmongering match">><<include [ResidentialGovernmentStadiumMatch]>><</dialog>><</button>>
+  <<else>>
+    @@.disabled;<<button "No events today">><</button>>@@
+  <</if>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Buy tickets to todays match. [20-30<<mon>>, 60-80 min.]<<endinsertion>>
+</div>
+
+
+:: ResidentialGovernmentStadiumLOC [nobr]
+
+<center>[img[IMG-CockmongerInCrowd]]</center>
+<p>
+<<f a>>s you mingle with a small crowd of cockmongering fans, you're surprised to see one of the home team players come out to mingle a bit with the crowd. She's naked, of course, and escorted by a stadium security guard. The people are really respectful, however, so it doesn't seem like the guard is really necessary. She has a black bag with some memorabilia which she hands out to some of the more enthusiastic fans.
+</p>
+
+
+:: ResidentialGovernmentStadiumMatch [nobr]
+
+<<set _tim = random(60-80)>><<addtime _tim>><<set _team1 = either("69ers", "The Packers", "Baltimore Beavers")>><<set _team2 = either("Green Bay Throat Packers", "Pittsburg Pussies", "Appletree Aardvarks")>><<set _cost = random(20,30)>><<set _minus = _cost * -1>><p>@@.head3;Y@@ou come to the tickets kiosk and look at the screen. It seems that <<print _team1>> <<print _team2>> will fight in <<print either("semi-finals","finals", "quarter-finals", "qualifying match")>> in just <<print random(8, 28) minutes>>. You press the button to get the ticket. <<print either("@@.mono;I certainly need to watch this one!@@","@@.mono;Hope <<print _team1>> will win!@@")>></p>
+<p><<run aw.cash(_minus, "misc")>><<print either("After paying @@.money;<<print _cost>><<mon>>@@ and getting your ticket you head inside through the big entrance.","You pay @@.money;<<print _cost>><<mon>>@@ to the machine and get the small plastic ticket. Through the spacious entrance you get inside the stadium looking for your seat.")>> <<print either("There is a lot of people and the stadium seems pretty crowded already.","To your surprise the crowd is pretty small and there are a lot of free seats at the stadium.")>> You take your seat and stare around waiting for the match to start. <<print either("It seems cheerleaders will start in just a minute.","Cheerleaders of both teams are already preparing for the dance at the field.")>> A couple minutes later the cheerleader show starts and people around stop talking and focus in the show. <<print either("Cheerleaders skimpy dresses are pretty hot and you enjoy the acrobatic elements.","The show goes pretty well and you find yourself geniunely enjoing it.")>> After the show the upbeat music starts and teams go from their dressing rooms to the field which is already prepared for the upcoming match.</p>
+<p>
+The match is pretty intense, <<print either("you are not surprised that", "it feels surprising that")>> <<print either(_team1, _team2)>> wins. 
+</p>
+<p>
+After the end you join the crowd heading towards the entrance discussing the match and some of the most fascinating moments.
+</p><<happy 2 "Watching sports is fun!">><<stress -10 "Watching sports is fun!">><<arousal 1>><<status 0>>
+<<button "Go out">><<run Dialog.close()>><</button>>
+

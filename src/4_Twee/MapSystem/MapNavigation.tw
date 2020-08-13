@@ -131,7 +131,7 @@
     setup.map.nav("residential","common","main");
   });
   $("area.navVisit").click(function(){
-    setup.notify("The ability to visit a friend or lover is not available right now, sorry.");
+    setup.dialog("Visit Someone", "<<include [[ResidentialVisitFriends]]>>");
     /*will add in dialog box to run this scenario*/
   });
   $("area.navParking").click(function(){
@@ -160,7 +160,7 @@
     <map name="residentialMap" id="residentialMap">
       <area data-passage="" alt="Go Home" title="Go Home" coords="204,370,376,498" shape="rect" class="map-green-area navHome">
       <area data-passage="" alt="Apartment Building" title="Apartment Building" coords="204,224,376,371" shape="rect" class="map-green-area navCommon">
-      <area data-passage="" alt="Visit A Friend" title="Visit A Friend" coords="1,213,66,499" shape="rect" class="map-blue-area navVisit">
+      <area data-passage="" alt="Visit Someone" title="Visit Someone" coords="1,213,66,499" shape="rect" class="map-blue-area navVisit">
       <area data-passage="" alt="Parking Lot" title="Parking Lot" coords="386,499,386,138,498,137,497,286,454,286,446,292,446,412,451,420,475,421,475,498" shape="poly" class="map-red-area navParking">
       <area data-passage="" alt="Recreation Area" title="Recreation Area" coords="476,498,476,418,456,417,449,405,448,294,454,287,499,287,499,498" shape="poly" class="map-green-area navRecreation">
       <area data-passage="" alt="Cum &amp; Go" title="Cum &amp; Go" coords="67,210,0,40" shape="rect" class="map-green-area navCumandgo">
@@ -223,6 +223,35 @@
 </div>
 
 
+:: MAPindustrial [nobr map]
+
+
+/*Must be in timer to delay start because script runs before passage render*/
+<<timed 50ms>>
+<<script>>
+  $("area.navexit").click(function(){
+    setup.map.nav("world","appletree");
+  });
+  $("area.navwarehouse").click(function(){
+    setup.dialog("Warehouse", "<<f y>>ouy tug on the lock on the door but it is closed.");
+  });
+<</script>>
+<</timed>>
+<div id="location-bar">
+  <div id="location-bar-map">
+    <img data-passage="IMG-Map-Industrial" usemap="#industrialMap">
+    <map name="industrialMap" id="industrialMap">
+      <area data-passage="" alt="exit" title="exit" coords="15,308,487,481" shape="rect" class="map-red-area navexit">
+      <area data-passage="" alt="warehouse" title="warehouse" coords="26,59,62,2" shape="rect" class="navwarehouse">
+    </map>
+  </div>
+  <img id="location-bar-cover" data-passage="IMG-Map-Industrial">
+  <div id="location-bar-image">
+    <<link [img[ↂ.map.imageName]]>><<set _pasg = aw.passage.title>><<set _pasg += "LOC">><<dialog ↂmap.name>><<include _pasg>><</dialog>><</link>>
+    <div id="namediv" class="locationNameDiv head1"><<print ↂ.map.name>></div>
+  </div>
+</div>
+
 
 :: MAPcumandgo [nobr map]
 
@@ -231,7 +260,11 @@
 <<timed 50ms>>
 <<script>>
   $("area.navexterior").click(function(){
-    setup.map.nav("residential","cumandgo","exterior");
+    if (State.active.variables.cart.length > 0) {
+      setup.notify("You must pay before leaving!");
+    } else {
+      setup.map.nav("residential","cumandgo","exterior");
+    }
   });
   $("area.navcheckout").click(function(){
     setup.map.nav("residential","cumandgo","checkout");
@@ -280,7 +313,7 @@
     setup.map.nav("world","appletree");
   });
   $("area.navholefoods").click(function(){
-    setup.map.nav("downtown","holefoods");
+    setup.map.nav("downtown","holefoods","outside");
   });
   $("area.navcorp").click(function(){
     setup.map.nav("downtown","corp");
@@ -423,10 +456,10 @@
 <<timed 50ms>>
 <<script>>
   $("area.navpollridersentrance").click(function(){
-    setup.map.nav("downtown","club","pollridersentrance");
+    setup.map.nav("downtown", "club", "pollridersentrance");
   });
   $("area.navpollriderslounge").click(function(){
-    setup.map.nav("downtown","club","pollriderslounge");
+    setup.map.nav("downtown", "club", "pollriderslounge");
   });
   $("area.navpollridersprivate").click(function(){
     setup.dialog("Peeking",`<<include [[DowntownClubRidersPrivatePeek]]>>`);
@@ -435,11 +468,11 @@
     setup.map.nav("downtown","club","pollridersbar");
   });
   $("area.navpollriderswc").click(function(){
-    setup.map.nav("downtown","club","pollriderswc");
+    setup.map.nav("downtown", "club", "pollriderswc");
   });
   $("area.navpollridersstaff").click(function(){
     if (ↂ.job.code === "PR") {
-      setup.map.nav("downtown","club","pollridersstaff");
+      setup.map.nav("downtown", "club", "pollridersstaff");
     } else {
       setup.notify(either("Staff only", "Thou shall not pass", "Nope.", "Don't even try", "Still nope", "You are not a valid staff member"));
     }
@@ -635,16 +668,16 @@
   <div id="location-bar-map">
     <img data-passage="IMG-T1HomeMap" usemap="#homeT1map">
     <map name="homeT1map" id="homeT1map">
-        <area alt="Leave Home" title="Leave Home" coords="132,360,498,499" shape="rect" class="map-red-area navleave">
-        <area alt="Home Management" title="Home Management" coords="130,360,1,498" shape="rect" class="map-blue-area navmanage">
-        <area alt="Living Room" title="Living Room" coords="311,172,493,348" shape="rect" class="navliving">
-        <area alt="Wardrobe" title="Wardrobe" coords="259,173,312,348" shape="rect" class="map-blue-area navwardrobe">
-        <area alt="Bedroom" title="Bedroom" coords="123,172,257,347" shape="rect" class="navbedroom">
-        <area alt="Bathroom" title="Bathroom" coords="6,172,119,348" shape="rect" class="navbathroom">
-        <area alt="Balcony" title="Balcony" coords="387,170,494,47" shape="rect" class="navbalcony">
-        <area alt="Kitchen" title="Kitchen" coords="202,47,384,170" shape="rect" class="navkitchen">
-        <area alt="Foyer" title="Foyer" coords="6,170,5,45,80,46,78,97,108,133,200,132,200,169" shape="poly" class="navfoyer">
-        <area alt="QuickClean" title="QuickClean" coords="83,46,81,95,108,132,199,131,200,46" shape="poly" class="map-blue-area navclean">
+        <area alt="Leave Home" title="Leave Home" coords="286,359,497,499" shape="rect" class="map-red-area navleave">
+        <area alt="Home Management" title="Home Management" coords="0,359,137,499" shape="rect" class="map-blue-area navmanage">
+        <area alt="Living Room" title="Living Room" coords="306,350,496,350,497,175,380,174,379,193,303,194" shape="poly" class="navliving">
+        <area alt="Wardrobe" title="Wardrobe" coords="142,359,277,499" shape="rect" class="map-blue-area navwardrobe">
+        <area alt="Bedroom" title="Bedroom" coords="112,161,201,160,207,194,265,194,267,349,106,350" shape="poly" class="navbedroom">
+        <area alt="Bathroom" title="Bathroom" coords="0,170,109,171,103,350,0,351,0,200" shape="poly" class="navbathroom">
+        <area alt="Balcony" title="Balcony" coords="381,170,496,170,496,2,385,0" shape="poly" class="navbalcony">
+        <area alt="Kitchen" title="Kitchen" coords="208,44,210,189,377,190,377,46" shape="poly" class="navkitchen">
+        <area alt="Foyer" title="Foyer" coords="0,40,77,48,82,93,108,131,203,133,203,158,110,157,105,167,0,166" shape="poly" class="navfoyer">
+        <area alt="QuickClean" title="QuickClean" coords="2,35,83,43,87,86,111,125,204,126,202,90,203,41,380,41,379,1,0,0,0,16" shape="poly" class="map-blue-area navclean">
     </map>
   </div>
   <img id="location-bar-cover" data-passage="IMG-T1HomeMap">
@@ -698,16 +731,16 @@
   <div id="location-bar-map">
     <img data-passage="IMGtier2home" usemap="#homeT2Map">
     <map name="homeT2Map" id="homeT2Map">
-      <area data-passage="" alt="Leave Home" title="Leave Home" coords="152,409,499,499" shape="rect" class="map-red-area navleave">
-      <area data-passage="" alt="Home Management" title="Home Management" coords="149,409,0,499" shape="rect" class="map-blue-area navmanage">
-      <area data-passage="" alt="Balcony" title="Balcony" coords="1,367,73,366,85,207,1,207" shape="poly" class="navbalcony">
-      <area data-passage="" alt="Kitchen" title="Kitchen" coords="73,406,85,253,265,254,265,405" shape="poly" class="navkitchen">
-      <area data-passage="" alt="Living Room" title="Living Room" coords="85,251,95,92,304,92,309,252" shape="poly" class="navliving">
-      <area data-passage="" alt="Bathroom" title="Bathroom" coords="418,405,402,197,499,197,499,406" shape="poly" class="navbath">
-      <area data-passage="" alt="Foyer" title="Foyer" coords="267,405,267,257,330,257,333,405" shape="poly" class="navfoyer">
-      <area data-passage="" alt="Quick Clean" title="Quick Clean" coords="335,405,414,405,403,257,333,257" shape="poly" class="map-blue-area navclean">
-      <area data-passage="" alt="Wardrobe" title="Wardrobe" coords="311,254,403,254,399,196,310,196" shape="poly" class="map-blue-area navwardrobe">
-      <area data-passage="" alt="Bedroom" title="Bedroom" coords="309,194,305,56,471,56,487,194" shape="poly" class="navbedroom">
+      <area data-passage="" alt="Leave Home" title="Leave Home" coords="130,410,499,498" shape="rect" class="map-red-area navleave">
+      <area data-passage="" alt="Home Management" title="Home Management" coords="0,369,78,368,123,404,122,499,2,499,0,422" shape="poly" class="map-blue-area navmanage">
+      <area data-passage="" alt="Balcony" title="Balcony" coords="0,363,83,363,90,260,91,176,0,176" shape="poly" class="navbalcony">
+      <area data-passage="" alt="Kitchen" title="Kitchen" coords="99,261,90,370,127,403,263,401,263,368,289,341,288,262" shape="poly" class="navkitchen">
+      <area data-passage="" alt="Living Room" title="Living Room" coords="100,253,300,255,295,95,100,95" shape="poly" class="navliving">
+      <area data-passage="" alt="Bathroom" title="Bathroom" coords="419,403,411,284,412,249,405,201,500,200,500,403" shape="poly" class="navbath">
+      <area data-passage="" alt="Foyer" title="Foyer" coords="267,402,268,368,319,316,405,315,412,404" shape="poly" class="navfoyer">
+      <area data-passage="" alt="Quick Clean" title="Quick Clean" coords="0,140,93,140,94,90,129,90,130,3,2,1,0,108" shape="poly" class="map-blue-area navclean">
+      <area data-passage="" alt="Wardrobe" title="Wardrobe" coords="405,311,409,251,400,200,318,200,308,251,316,309" shape="poly" class="map-blue-area navwardrobe">
+      <area data-passage="" alt="Bedroom" title="Bedroom" coords="306,51,311,193,491,194,474,53" shape="poly" class="navbedroom">
     </map>
   </div>
   <img id="location-bar-cover" data-passage="IMGtier2home">
@@ -764,17 +797,17 @@
   <div id="location-bar-map">
     <img data-passage="IMG-T3HomeMap" usemap="#t3HomeMap">
     <map name="t3HomeMap" id="t3HomeMap">
-      <area alt="Leave Home" title="Leave Home" coords="1,460,444,460,438,367,499,366,499,499,1,499" shape="poly" class="map-red-area navleave">
-      <area alt="Home Options" title="Home Options" coords="381,259,498,259,499,364,387,366" shape="poly" class="map-blue-area navmanage">
-      <area alt="Foyer" title="Foyer" coords="301,457,299,356,331,356,328,259,377,259,384,381,431,381,435,457" shape="poly" class="navfoyer">
-      <area alt="Wardrobe" title="Wardrobe" coords="155,457,158,357,294,357,296,457" shape="poly" class="map-blue-area navwardrobe">
-      <area alt="Bathroom" title="Bathroom" coords="158,353,161,277,324,277,326,352" shape="poly" class="navbath">
-      <area alt="Bedroom" title="Bedroom" coords="-1,457,149,457,156,276,7,277" shape="poly" class="navbedroom">
-      <area alt="Kitchen" title="Kitchen" coords="6,274,22,128,119,127,138,163,334,164,335,255,322,256,322,273" shape="poly" class="navkitchen">
-      <area alt="Quick Clean" title="Quick Clean" coords="499,254,499,212,489,142,408,142,412,189,377,189,380,254" shape="poly" class="map-blue-area navclean">
-      <area alt="2nd Bedroom" title="2nd Bedroom" coords="488,138,474,7,346,6,352,138" shape="poly" class="navbedtwo">
-      <area alt="Living Room" title="Living Room" coords="127,6,341,7,348,136,337,162,140,161,119,122" shape="poly" class="navliving">
-      <area alt="Balcony" title="Balcony" coords="123,5,115,123,22,124,35,5" shape="poly" class="navbalcony">
+      <area coords="304,448,436,448,434,375,500,374,500,498,302,499" shape="poly" alt="Leave Home" title="Leave Home" class="map-red-area navleave">
+      <area coords="381,259,389,369,500,371,500,258" shape="poly" alt="Home Options" title="Home Options" class="map-blue-area navmanage">
+      <area coords="328,275,332,444,432,444,430,374,384,374,378,275" shape="poly" alt="Foyer" title="Foyer" class="navfoyer">
+      <area coords="159,354,297,354,299,467,155,467" shape="poly" alt="Wardrobe" title="Wardrobe" class="map-blue-area navwardrobe">
+      <area coords="161,269,158,351,325,352,323,270" shape="poly" alt="Bathroom" title="Bathroom" class="navbath">
+      <area coords="150,458,154,275,4,277,1,337,0,458" shape="poly" alt="Bedroom" title="Bedroom" class="navbedroom">
+      <area coords="8,266,327,266,326,178,138,160,18,162" shape="poly" alt="Kitchen" title="Kitchen" class="navkitchen">
+      <area coords="380,253,500,254,500,145,374,145" shape="poly" alt="Quick Clean" title="Quick Clean" class="map-blue-area navclean">
+      <area coords="351,140,497,139,481,2,344,1" shape="poly" alt="2nd Bedroom" title="2nd Bedroom" class="navbedtwo">
+      <area coords="148,5,143,153,324,172,345,170,336,6" shape="poly" alt="Living Room" title="Living Room" class="navliving">
+      <area coords="20,156,133,154,144,5,35,4" shape="poly" alt="Balcony" title="Balcony" class="navbalcony">
     </map>
   </div>
   <img id="location-bar-cover" data-passage="IMG-T3HomeMap">
@@ -785,34 +818,87 @@
 </div>
 
 
+
 :: MAPhomeT4 [nobr map]
 
+/*Must be in timer to delay start because script runs before passage render*/
+<<timed 50ms>>
+<<script>>
+  $("area.navleave").click(function(){
+    setup.map.nav("residential","common","main");
+  });
+  $("area.navmanage").click(function(){
+    State.active.variables.returnTo = aw.passage.title;
+    aw.go("HomeMenu");
+  });
+  $("area.navbalcony").click(function(){
+    setup.map.nav("home","balcony");
+  });
+  $("area.navkitchen").click(function(){
+    setup.map.nav("home","kitchen");
+  });
+  $("area.navliving").click(function(){
+    setup.map.nav("home","living");
+  });
+  $("area.navbath").click(function(){
+    setup.map.nav("home","bath");
+  });
+  $("area.navfoyer").click(function(){
+    setup.map.nav("home","foyer");
+  });
+  $("area.navbedtwo").click(function(){
+    setup.map.nav("home","bed2");
+  });
+  $("area.navbedthree").click(function(){
+    setup.map.nav("home","bed3");
+  });
+  $("area.navclean").click(function(){
+    setup.quickClean();
+  });
+  $("area.navwardrobe").click(function(){
+    State.variables.returnTo = aw.passage.title;
+    aw.go("MainWardrobe");
+  });
+  $("area.navbedroom").click(function(){
+    setup.map.nav("home","bedroom");
+  });
+<</script>>
+<</timed>>
+<div id="location-bar">
+  <div id="location-bar-map">
+    <img data-passage="IMG-T4House" usemap="#t4HomeMap">
+    <map name="t4HomeMap" id="t4HomeMap">
+      <area coords="1,433,321,431,339,451,394,451,413,431,498,432,499,499,1,499" shape="poly" alt="Leave Home" title="Leave Home" class="map-red-area navleave">
+      <area coords="71,342,199,430" shape="rect" alt="Foyer" title="Foyer" class="navfoyer">
+      <area coords="67,243,1,431" shape="rect" alt="Bathroom" title="Bathroom" class="navbath">
+      <area coords="117,293,50" shape="circle" alt="Wardrobe" title="Wardrobe" class="map-blue-area navwardrobe">
+      <area coords="367,400,49" shape="circle" alt="Quick Clean" title="Quick Clean" class="map-blue-area navclean">
+      <area coords="167,84,321,296" shape="rect" alt="Kitchen" title="Kitchen" class="navkitchen">
+      <area coords="143,2,332,78" shape="rect" alt="Balcony" title="Balcony" class="navbalcony">
+      <area coords="499,234,328,77" shape="rect" alt="Living Room" title="Living Room" class="navliving">
+      <area coords="66,48,49" shape="circle" alt="Home Options" title="Home Options" class="map-blue-area navmanage">
+      <area coords="15,100,148,99,143,236,2,237,12,116" shape="poly" alt="Bedroom" title="Bedroom" class="navbedroom">
+      <area coords="368,240,500,350" shape="rect" alt="2nd Bedroom" title="2nd Bedroom" class="navbedtwo">
+      <area coords="204,304,314,430" shape="rect" alt="3rd Bedroom" title="3rd Bedroom" class="navbedthree">
+    </map>
+  </div>
+  <img id="location-bar-cover" data-passage="IMG-T4House">
+  <div id="location-bar-image">
+    <<link [img[ↂ.map.imageName]]>><<set _pasg = aw.passage.title>><<set _pasg += "LOC">><<dialog ↂmap.name>><<include _pasg>><</dialog>><</link>>
+    <div id="namediv" class="locationNameDiv head1"><<print ↂ.map.name>></div>
+  </div>
+</div>
 
 
 
-:: MAPhomeT5 [nobr map]
 
-
-
-
-:: MAPBFhomeT1 [nobr map]
-
-
-
-
-:: MAPBFhomeT2 [nobr map]
+:: MAPBFhome [nobr map]
 
 /*Must be in timer to delay start because script runs before passage render*/
 <<timed 50ms>>
 <<script>>
   $("area.navleave").click(function(){
     setup.map.nav("residential","sidewalk");
-  });
-  $("area.navmanage").click(function(){
-    setup.notify("This isn't your house to manage!.");
-  });
-  $("area.navbalcony").click(function(){
-    setup.map.nav("BFhome","balcony");
   });
   $("area.navkitchen").click(function(){
     setup.map.nav("BFhome","kitchen");
@@ -823,14 +909,13 @@
   $("area.navbath").click(function(){
     setup.map.nav("BFhome","bath");
   });
-  $("area.navfoyer").click(function(){
-    setup.map.nav("BFhome","foyer");
-  });
-  $("area.navclean").click(function(){
-    setup.notify("Why do you want to do this?");
-  });
   $("area.navwardrobe").click(function(){
-    setup.notify("You don't know them well enough for that.");
+    if (State.active.variables.BFlove) {
+      State.variables.returnTo = aw.passage.title;
+      aw.go("wardrobeMain");
+    } else {
+      UI.alert("You can't adjust your wardrobe at your friend's house.");
+    }
     /*State.variables.returnTo = aw.passage.title;
     aw.go("wardrobeMain");*/
   });
@@ -841,40 +926,22 @@
 <</timed>>
 <div id="location-bar">
   <div id="location-bar-map">
-    <img data-passage="IMGtier2bfhome" usemap="#BFhomeT2Map">
-    <map name="BFhomeT2Map" id="BFhomeT2Map">
-      <area data-passage="" alt="Exit" title="Exit" coords="2,413,368,499" shape="rect" class="map-red-area navleave">
-      <area data-passage="" alt="Balcony" title="Balcony" coords="428,364,416,207,499,208,499,364" shape="poly" class="navbalcony">
-      <area data-passage="" alt="Menu" title="Menu" coords="459,458,48" shape="circle" class="map-blue-area navmanage">
-      <area data-passage="" alt="Kitchen" title="Kitchen" coords="426,405,415,256,237,256,235,405" shape="poly" class="navkitchen">
-      <area data-passage="" alt="Foyer" title="Foyer" coords="234,405,235,260,175,260,168,405" shape="poly" class="navfoyer">
-      <area data-passage="" alt="Quick Clean" title="Quick Clean" coords="166,405,172,260,92,260,82,405" shape="poly" class="map-blue-area navclean">
-      <area data-passage="" alt="Bathroom" title="Bathroom" coords="78,405,93,195,14,195,-1,302,1,405" shape="poly" class="navbath">
-      <area data-passage="" alt="Wardrobe" title="Wardrobe" coords="92,258,193,258,195,195,96,195" shape="poly" class="map-blue-area navwardrobe">
-      <area data-passage="" alt="Kitchen" title="Kitchen" coords="415,253,404,91,202,91,195,253" shape="poly" class="navkitchen">
-      <area data-passage="" alt="Bedroom" title="Bedroom" coords="188,193,193,56,31,55,14,193" shape="poly" class="navbedroom">
+    <img data-passage="IMG-BFhomeMap" usemap="#BFhomeMap">
+    <map name="BFhomeMap" id="BFhomeMap">
+      <area data-passage="" alt="Exit" title="Exit" coords="254,335,494,495" shape="rect" class="map-red-area navleave">
+      <area data-passage="" alt="Kitchen" title="Kitchen" coords="8,153,245,330" shape="rect" class="navkitchen">
+      <area data-passage="" alt="Bathroom" title="Bathroom" coords="254,153,494,330" shape="rect" class="navbath">
+      <area data-passage="" alt="Wardrobe" title="Wardrobe" coords="8,335,245,496" shape="rect" class="map-blue-area navwardrobe">
+      <area data-passage="" alt="Living Room" title="Living Room" coords="6,4,244,148" shape="rect" class="navliving">
+      <area data-passage="" alt="Bedroom" title="Bedroom" coords="253,4,494,148" shape="rect" class="navbedroom">
     </map>
   </div>
-  <img id="location-bar-cover" data-passage="IMGtier2bfhome">
+  <img id="location-bar-cover" data-passage="IMG-BFhomeMap">
   <div id="location-bar-image">
     <<link [img[ↂ.map.imageName]]>><<set _pasg = aw.passage.title>><<set _pasg += "LOC">><<dialog ↂmap.name>><<include _pasg>><</dialog>><</link>>
     <div id="namediv" class="locationNameDiv head1"><<print ↂ.map.name>></div>
   </div>
 </div>
-
-
-:: MAPBFhomeT3 [nobr map]
-
-
-
-
-:: MAPBFhomeT4 [nobr map]
-
-
-
-
-:: MAPBFhomeT5 [nobr map]
-
 
 
 
@@ -1502,13 +1569,41 @@
   $("area.navexit").click(function(){
     setup.map.nav("world","appletree");
   });
+  $("area.navcollege").click(function(){
+    setup.map.nav("residential","government", "college");
+  });
+  $("area.navschool").click(function(){
+    setup.map.nav("residential","government", "school");
+  });
+  $("area.navkindergarden").click(function(){
+    setup.map.nav("residential","government", "kindergarden");
+  });
+  $("area.navuni").click(function(){
+    setup.map.nav("residential","government", "uni");
+  });
+  $("area.navstadium").click(function(){
+    setup.map.nav("residential","government", "stadium");
+  });
+  $("area.navpolice").click(function(){
+    setup.map.nav("residential","government", "police");
+  });
+  $("area.navthing").click(function(){
+    UI.alert("The area is on reconstruction.");
+  });
 <</script>>
 <</timed>>
 <div id="location-bar">
   <div id="location-bar-map">
     <img data-passage="IMG-GovDistrictMap" usemap="#govdist">
     <map name="govdist" id="govdist">
-      <area alt="Exit" title="Exit" coords="139,499,1,0" shape="rect" class="map-red-area navexit">
+      <area alt="Exit" title="Exit" coords="173,390,328,499" shape="rect" class="map-red-area navexit">
+      <area alt="College" title="College" coords="162,392,0,499" shape="rect" class="navcollege">
+      <area alt="School" title="School" coords="162,99,1,0" shape="rect" class="navschool">
+      <area alt="Kindergarden" title="Kindergarden" coords="0,140,164,354" shape="rect" class="navkindergarden">
+      <area alt="University" title="University" coords="336,0,500,353" shape="rect" class="navuni">
+      <area alt="Staduim" title="Staduim" coords="171,139,329,352" shape="rect" class="navstadium">
+      <area alt="Police" title="Police" coords="170,100,329,0" shape="rect" class="navpolice">
+      <area alt="Building on reconstruction" title="Building on reconstruction" coords="337,391,498,499" shape="rect" class="navthing">
     </map>
   </div>
   <img id="location-bar-cover" data-passage="IMG-GovDistrictMap">
@@ -1519,7 +1614,27 @@
 </div>
 
 
+:: MAPreservoir [nobr map]
 
-
-
+/*Must be in timer to delay start because script runs before passage render*/
+<<timed 50ms>>
+<<script>>
+  $("area.navexit").click(function(){
+    setup.map.nav("world","appletree");
+  });
+<</script>>
+<</timed>>
+<div id="location-bar">
+  <div id="location-bar-map">
+    <img data-passage="IMG-TeslaRes" usemap="#tesres">
+    <map name="tesres" id="tesres">
+      <area alt="Exit" title="Exit" coords="173,390,328,499" shape="rect" class="map-red-area navexit">
+    </map>
+  </div>
+  <img id="location-bar-cover" data-passage="IMG-TeslaRes">
+  <div id="location-bar-image">
+    <<link [img[ↂ.map.imageName]]>><<set _pasg = aw.passage.title>><<set _pasg += "LOC">><<dialog ↂmap.name>><<include _pasg>><</dialog>><</link>>
+    <div id="namediv" class="locationNameDiv head1"><<print ↂ.map.name>></div>
+  </div>
+</div>
 

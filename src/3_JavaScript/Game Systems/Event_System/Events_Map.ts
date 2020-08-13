@@ -21,7 +21,7 @@ setTimeout(() => (function() {
       output: "interact",
       lifetime: [[1, 2, 4, 2032], 0],
       condition() {
-        if (!ↂ.pc.status.inPublic || !setup.clothes.exposed.bottom || ↂ.map.loc[0] === "home" || (setup.clothes.desc.exposureBottom < 41 && (aw.slot.bottom !== 0 && "object" === typeof aw.slot.bottom && ↂ.pc.clothes.worn.bottom !== "off") || (aw.slot.panties !== 0 && "object" === typeof aw.slot.panties && ↂ.pc.clothes.worn.panties !== "off"))) {
+        if (!ↂ.pc.status.inPublic || !setup.clothes.exposed.bottom || ↂ.map.loc[0] === "home" || (ↂ.pc.clothes.stats.exposureBot < 41 && (aw.slot.bottom !== 0 && "object" === typeof aw.slot.bottom && ↂ.pc.clothes.worn.bottom !== "off") || (aw.slot.panties !== 0 && "object" === typeof aw.slot.panties && ↂ.pc.clothes.worn.panties !== "off"))) {
           return false;
         }
         if (aw.chad.police) {
@@ -35,7 +35,7 @@ setTimeout(() => (function() {
             return false;
           }
         }
-        if ((aw.slot.panties !== 0 && "object" === typeof aw.slot.panties && ↂ.pc.clothes.worn.panties !== "off") && setup.clothes.desc.exposureBottom < 50 && random(1, 4) > 1) {
+        if ((aw.slot.panties !== 0 && "object" === typeof aw.slot.panties && ↂ.pc.clothes.worn.panties !== "off") && ↂ.pc.clothes.stats.exposureBot < 50 && random(1, 4) > 1) {
           return false;
         }
         return true;
@@ -241,7 +241,10 @@ setTimeout(() => (function() {
       repeat: true,
       region: ["downtown"],
       condition() {
-        if (!ↂ.pc.status.inPublic || !setup.clothes.exposed.bottom || ↂ.map.loc[0] === "home" || setup.escape.sit === "scene" || ↂ.map.loc[1] === "recreation" || (ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] !== "main") || (ↂ.map.loc[0] !== "downtown" && ↂ.map.loc[0] !== "bullseye")) {
+        if (ↂ.map.loc[0] === "home" || setup.escape.sit === "scene" || ↂ.map.loc[1] === "recreation" || (ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] !== "main") || (ↂ.map.loc[0] !== "downtown" && ↂ.map.loc[0] !== "bullseye")) {
+          return false;
+        }
+        if (!ↂ.pc.status.inPublic || !setup.clothes.exposed.bottom || (ↂ.pc.clothes.stats.exposureBot < 41 && (aw.slot.bottom !== 0 && "object" === typeof aw.slot.bottom && ↂ.pc.clothes.worn.bottom !== "off") || (aw.slot.panties !== 0 && "object" === typeof aw.slot.panties && ↂ.pc.clothes.worn.panties !== "off"))) {
           return false;
         }
         return true;
@@ -252,6 +255,7 @@ setTimeout(() => (function() {
         }
         setup.skillGain("exhib", 15);
         UI.alert(either("Some guy walking behind you whistles as he stares at your naked bottom.", "A group of girls are giggling while pointing in your direction.", "A young guy blushes when he sees your exposed pussy."));
+        aw.S();
       },
     },
     {
@@ -261,6 +265,9 @@ setTimeout(() => (function() {
       repeat: false,
       region: ["downtown"],
       condition() {
+        if (ↂ.flag.Prologue || setup.escape.sit === "jobbing" || setup.escape.sit === "scene" || setup.escape.sit === "interact") {
+          return false;
+        }
         return true;
       },
       action(count) {
@@ -277,7 +284,7 @@ setTimeout(() => (function() {
       repeat: true,
       region: ["residential", "downtown"],
       condition() {
-        if (ↂ.map.loc[0] === "home" || ↂ.map.loc[1] === "mall" || ↂ.map.loc[1] === "townhall" || ↂ.map.loc[1] === "corp" || ↂ.map.loc[1] === "bank" ||  ↂ.map.loc[0] === "BFhome" || ↂ.flag.Prologue || setup.escape.sit === "jobbing" || setup.escape.sit === "scene" || setup.escape.sit === "interact") {
+        if (ↂ.map.loc[0] === "home" || ↂ.map.loc[1] === "mall" || ↂ.map.loc[1] === "townhall" || ↂ.map.loc[1] === "corp" || ↂ.map.loc[1] === "bank" || ↂ.map.loc[1] === "club" ||  ↂ.map.loc[0] === "BFhome" || ↂ.flag.Prologue || setup.escape.sit === "jobbing" || setup.escape.sit === "scene" || setup.escape.sit === "interact") {
           return false;
         } else {
           return true;
@@ -344,6 +351,9 @@ setTimeout(() => (function() {
       repeat: false,
       region: ["downtown"],
       condition() {
+        if (ↂ.flag.Prologue || setup.escape.sit === "jobbing" || setup.escape.sit === "scene" || setup.escape.sit === "interact") {
+          return false;
+        }
         if (aw.clothes[ↂ.pc.clothes.keys.top].values.dirty > 0 || aw.clothes[ↂ.pc.clothes.keys.bottom].values.dirty > 0) {
           return true;
         }
@@ -406,13 +416,16 @@ setTimeout(() => (function() {
     },
     {
       name: "publicOpinion",
-      odds: 50,
+      odds: 70,
       output: "none",
       repeat: false,
-      region: ["home"],
+      region: ["homeT1"],
       condition() {
         if (setup.time.now()[0] > 9 && setup.time.now()[0] < 21) {
           return true;
+        }
+        if (ↂ.flag.Prologue || setup.escape.sit === "jobbing" || setup.escape.sit === "scene" || setup.escape.sit === "interact") {
+          return false;
         }
         return false;
       },
@@ -447,7 +460,11 @@ setTimeout(() => (function() {
         return false;
       },
       action(count) {
-        setup.dialog("Letter", `You wake up in a hospital room. It takes you some time to recall what happened, though you still aren't sure why you ended up here. The nurse explains that you were brought in unconscious by an Institute Agent yesterday. They took care of your bruises, concussion, and the other minor injuries they found. She nods to the small table near the bed, it seems he left a note for you.<br><br>You pick it up and begin to read. @@.npc;<<= ↂ.pc.main.name>>! I hope you are alright after your <i>fall down the stairs</i>. Also, you will be pleased to know that I took special care of our new friend. He won't be bothering you anymore with his business ideas about forest hiking. <i>Please,</i> be careful next time, it was super lucky that I was able to catch you. Get well. Craig.<br><br>P.S. You have good friends, they called me fast enough when you went missing.<br><br>P.P.S. We better keep the story about yesterday's party between us, okay?@@`);
+        let text = "You have good friends, they called me fast enough when you went missing.";
+        if (setup.npc.acquainted.includes["n1027"] || setup.npc.friends.includes["n1027"] || setup.npc.lover.includes["n1027"]) {
+          text = "I always care about those who are around me, but please, don't risk yourself anymore.";
+        };
+        setup.dialog("Letter", `You wake up in a hospital room. It takes you some time to recall what happened, though you still aren't sure why you ended up here. The nurse explains that you were brought in unconscious by an Institute Agent yesterday. They took care of your bruises, concussion, and the other minor injuries they found. She nods to the small table near the bed, it seems he left a note for you.<br><br>You pick it up and begin to read. @@.npc;<<= ↂ.pc.main.name>>! I hope you are alright after your <i>fall down the stairs</i>. Also, you will be pleased to know that I took special care of our new friend. He won't be bothering you anymore with his business ideas about forest hiking. <i>Please,</i> be careful next time, it was super lucky that I was able to catch you from <i>falling down from the ladder</i>. Get well. Craig.<br><br>P.S. ${text}<br><br>P.P.S. We better keep the story about yesterday's party between us, okay?@@<<run setup.npcInfo.level("n1027", {bodyGeneral: true})>><<set aw.npc.n1027.rship.acquaint = true>><<run setup.npc.acquainted.push("n1027")>>`);
         State.active.variables.PsychoCraigSave = false;
         aw.S();
       },
@@ -459,6 +476,9 @@ setTimeout(() => (function() {
       repeat: false,
       region: ["bridge"],
       condition() {
+        if (ↂ.flag.Prologue || setup.escape.sit === "jobbing" || setup.escape.sit === "scene" || setup.escape.sit === "interact") {
+          return false;
+        }
         return true;
       },
       action(count) {
@@ -479,6 +499,9 @@ setTimeout(() => (function() {
       repeat: true,
       region: ["downtown"],
       condition() {
+        if (ↂ.flag.Prologue || setup.escape.sit === "jobbing" || setup.escape.sit === "scene" || setup.escape.sit === "interact") {
+          return false;
+        }
         if (State.active.variables.pref.waterworks && ↂ.map.loc[1] === "mall") {
           return true;
         } else {
@@ -516,6 +539,36 @@ setTimeout(() => (function() {
           image: "IMG-LesbianSceneRight",
           topImage: "IMG-LesbianSceneTop",
           title: "Tanning invitation",
+          allowSave: true,
+          sidebar: `<h2>${ↂ.map.loc[0]}</h2>`,
+          showTime: true,
+          allowMenu: true,
+        };
+        setup.scenario.launch(go);
+      },
+    },
+    {
+      name: "strayDog",
+      odds: 100,
+      output: "scene",
+      repeat: true,
+      region: ["residential"],
+      condition() {
+        if (setup.escape.sit === "jobbing" || setup.escape.sit === "scene" || setup.escape.sit === "interact") {
+          return false;
+        } else if (ↂ.map.loc[1] === "recreation" || ↂ.map.loc[1] === "sidewalk" || ↂ.map.loc[1] === "parking" || ↂ.map.loc[1] === "jogging" || ↂ.map.loc[1] === "park") {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action(count) {
+        const go = {
+          passage: "Stray-dog",
+          content: "none",
+          image: "IMG-StrayDogRight",
+          topImage: "IMG-StrayDogTop",
+          title: "Stray dog",
           allowSave: true,
           sidebar: `<h2>${ↂ.map.loc[0]}</h2>`,
           showTime: true,

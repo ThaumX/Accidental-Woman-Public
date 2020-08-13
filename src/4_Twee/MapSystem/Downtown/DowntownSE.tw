@@ -67,9 +67,21 @@
   <<closed "Starsucks">>
   <</openhours>>
 <<endhoverrevise>>
-<<hoverrevise lambda>>
-  <button class="disabled">Visit TotOG</button>
-<<endhoverrevise>>
+<<if $date[0] === 6 && $time[0] > 11 && $time[0] < 19>>
+  <<hoverrevise lambdaA>>
+    <<button "Attend TotOG Service">>
+      <<if ↂ.flag.churchAttend.outer>>
+        <<dialog "Temple of the Outer Gods">><center>You have already attended temple this week, please come back next Saturday.</center><</dialog>>
+      <<else>>
+        <<dialog "Temple of the Outer Gods">><<include [[TotOG]]>><</dialog>>
+      <</if>>
+    <</button>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise lambdaB>>
+    <button class="disabled">Visit TotOG</button>
+  <<endhoverrevise>>
+<</if>>
 <<hoverrevise phi>>
   <<button "Unique Location">><</button>>
 <<endhoverrevise>>
@@ -85,7 +97,8 @@
 <<insertion omega>>The same coffee place that spread to the point of being ubiquitous, and can be found just about everywhere.<<endinsertion>>
 <<insertion delta>>[not implemented] Visit Pen Island, an office supply store.<<endinsertion>>
 <<insertion gamma>>Visit Mrs. Fubb's Parlor to check out the school or sign up for a course. @@.ship;[COMMUNICATION⧫MISC]@@<<endinsertion>>
-<<insertion lambda>>Visit the Temple of the Outer Gods <<ctn>>[not implemented]<</ctn>><<endinsertion>>
+<<insertion lambdaB>>The Temple of the Outer Gods is currently closed. Services are available on Saturday from noon until 6pm. <<ctn>>[mental health boost | 1hr]<</ctn>><<endinsertion>>
+<<insertion lambdaA>>Attend a church service at the Temple of the Outer Gods. <<ctn>>[mental health boost | 1hr]<</ctn>><<endinsertion>>
 <<insertion phi>>[not implemented]<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
@@ -98,4 +111,7 @@
 :: DowntownSELOC [nobr]
 
 Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+
+
+
 

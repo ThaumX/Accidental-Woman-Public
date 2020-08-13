@@ -42,7 +42,7 @@
 <p> <<mapEvent>></p>/*Event notification spot*/
 /*<<mapResHome>>*/
 /*LOCATION description of  location*/
-@@.head3;Y@@ou are standing in the residential pool area. It isn't a large pool, but right now there aren't many people here.
+@@.head3;Y@@ou are standing in the residential pool area. It isn't a large pool, but right now there aren't many people here. You notice the sign "Life-guard is on duty" and the smaller plate states today's guy is <<= either("Hlebo Screb","Eja Prince","B. Reedgay")>> but can't see any guard around. @@.mono;Hmm, maybe he is away?@@
 /*Time & furnishing descriptive addon! <<mapResDesc>>*/
 /*IN-PASSAGE span text*/
 <span id="locact"></span><<selfthought>></div>
@@ -50,7 +50,7 @@
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise swim>>
-<<button "Go Swimming">><<dialog "Tanning">><<include [[ResidentialPooling]]>><</dialog>><</button>>
+<<button "Go Swimming">><<dialog "Swimming">><<include [[ResidentialPooling]]>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -83,8 +83,8 @@ A <b>very</b> happy woman is relaxing in the water.<br>
 
 :: ResidentialPooling-Swim [nobr]
 
-@@.head3;Y@@ou get into the water and start exercising, your <<if setup.clothes.exposed.top && setup.clothes.exposed.bottom>>naked<</if>> body glitters under the clear water as you swim. Doing your best you try to finish 500m as fast as you can. Your muscles working steadily under your skin while you make your way from one wall of the pool to another and back. <<addtime 8>><<SCX>><<SC "AT">><<if $SCresult[1]>><<happy 1 "Swimming is fun">>To your joy it seems, that you managed to beat your personal record today!<<else>>You feel completely exhausted after finishing your distance and get out of the pool panting heavily. <</if>>After wiping yourself with a towel you feel ready to continue your day.<<set _outcome = Math.round(_athl / 2)>><<set _rand = random(2, 4)>><<set ↂ.pc.status.energy.amt -= _rand>><<set ↂ.pc.status.exercise += _outcome>><<status 0>><br><center><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></center>
+@@.head3;Y@@ou get into the water and start exercising, your <<if setup.clothes.exposed.top && setup.clothes.exposed.bottom>><<SCX>><<SC "EX">>naked<</if>> body glitters under the clear water as you swim. Doing your best you try to finish 500m as fast as you can. Your muscles working steadily under your skin while you make your way from one wall of the pool to another and back. <<addtime 8>><<SCX>><<SC "AT">><<if $SCresult[1]>><<happy 1 "Swimming is fun">>To your joy it seems, that you managed to beat your personal record today!<<else>>You feel completely exhausted after finishing your distance and get out of the pool panting heavily. <</if>>After wiping yourself with a towel you feel ready to continue your day.<<set _outcome = Math.round(_athl / 2)>><<set _rand = random(2, 4)>><<set ↂ.pc.status.energy.amt -= _rand>><<set ↂ.pc.status.exercise += _outcome>><<if ↂ.pc.status.happy < 2>><<happy 1 "Exercising can improve mood">><</if>><<status 0>><br><center><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></center>
 
 :: ResidentialPooling-Relax [nobr]
 
-@@.head3;Y@@ou get into the water and just float on the surface with your face up relaxing and enjoying the feeling. Your <<if setup.clothes.exposed.top>>bare<</if>> <<p breasts.n>> floating slightly rising above water level.<<addtime 27>> After a while you think you had enough and get out from the pool. Wiping yourself with a towel you feel ready to go.<<happy 1 "Relaxing in the pool was fun">><<anger -1>><<stress -12 "Swimming">><br><center><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></center>
+<<set _rand = random(2, 4)>><<set ↂ.pc.status.exercise += _rand>><<set _breadGuyPool = random(1,2)>>@@.head3;Y@@ou get into the water and just float on the surface with your face up relaxing and enjoying the feeling. Your <<if setup.clothes.exposed.top>>bare<</if>> <<p breasts.n>> floating slightly rising above water level.<<addtime 27>> After a while you think you had enough and get out from the pool. Wiping yourself with a towel you feel ready to go.<<happy _breadGuyPool "Relaxing in the pool was fun">><<anger -1>><<stress -14 "Swimming">><<status 0>><br><center><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></center>

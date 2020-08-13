@@ -142,6 +142,7 @@ setup.breastCalc = function(): void {
       }
     }
   }
+  aw.S("pc");
   setup.lactBreastCalc();
 };
 
@@ -152,7 +153,7 @@ setup.lactBreastCalc = function(): void {
   const band = body.tits.band;
   let size;
   body.tits.lact.size = Math.min((body.tits.base.size + Math.round(PC.status.milkStore / 3)), body.tits.lact.max);
-  size = Math.round(body.tits.lact.size / 10);
+  size = Math.round((body.tits.lact.size + body.tits.silicone) / 10);
   if (isNaN(size)) {
     alert(`Something's fucky - milkStore: ${PC.status.milkStore}, lact.size: ${size}.`);
   }
@@ -240,6 +241,7 @@ setup.lactBreastCalc = function(): void {
       }
     }
   }
+  aw.S("pc");
 };
 
 // calculates breast shape based on input and returns real shape

@@ -1,96 +1,141 @@
 :: customNPC [nobr hidden startpage]
 
-<div id="cardback">
+<div id="cardback" class="blocker dgreyPattern">
 <div id="cunt" style="width: 80%; height: 90%; margin: 2.5% auto; overflow-y: auto; padding: 5px 25px 5px 10px; background-color: rgba(0,0,0,0.5); border-radius:10px;">
 <<silently>>
 <<set $helpText = "There's a ton of stuff here! I recommend reading the instructions, because if you don't read the instructions: 'You're gonna have a bad time'<br><br>In all seriousness, if you don't understand a setting, you should probably leave it alone. Using these settings moves the game away from intended play.">>
 <</silently>>
-<<widget "boober">><<print "@@.handwriting;.hotpink;Ѡ@@">><</widget>>
 
 <center>[img[IMGnpcgenerator]]<br><br>
-@@.contButt;<<button "Accept">>
-<<go Introduction>>
-<</button>>@@ <<button "Save Template">><<go saveNPCsettings>><</button>> <<button "Load Template">><<go loadNPCsettings>><</button>> <<button "Cancel">>
-<<go Introduction>>
-<</button>> <<button [[Test NPCs (OUTDATED)|npcGeneratorTest]]>><</button>></center>
+@@.contButt;<<button "CLOSE">><<status 0>>
+  <<go Introduction>>
+  <</button>>@@ <<button "Save Template">><<go saveNPCsettings>><</button>> <<button "Load Template">><<go loadNPCsettings>><</button>>
+</center>
 
 <br>@@.head2;Instructions@@<br><br>
 
-<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px; margin: 5px;">
-  @@.handwriting;.white;The NPC generator in Accidental Woman is a complicated piece of machinery. Fortunately, I'm here to supply you with a few monkey wrenches in the form of the@@ @@.ident;NPC Generator Settings@@ @@.handwriting;.white;and@@ @@.ident;Custom NPC Templates@@@@.handwriting;.white; (//custom npc templates are later in development, and give far more control over random NPCs as well as adding the ability to specify customized NPCs.//). These settings are designed to let you encounter the types of NPCs that you'd like in Appletree.<br><br>''NPC Settings''--The below options all control the way that NPCs are generated, but not in a uniform way. Each setting will have a basic description of it's purpose, and an on/off button. Leaving a setting off will mean that it won't have any effect.<br><br>In some cases these settings dramatically alter the way that NPCs are generated. In addition, making lots of changes to the NPC personality core can result in odd or predictable behavior, or NPCs that all behave the same. While being able to control the world you play in is part of the plan for Accidental Woman, giving control to you means less control for the game to provide the planned experience. Settings that have the boob symbol@@ <<boober>> @@.handwriting;.white;next to it means that the setting has potential to cause problems. The more boobs, the more potential for chaos it has.@@<br>
-  @@.yellow;It is important to press "Set" button in each block after you made any adjusments to it, even turning the control off\on.@@
-</div>
+@@.white;The NPC generator in Accidental Woman is a complicated piece of machinery. Fortunately, I'm here to supply you with a few monkey wrenches in the form of the NPC Generator Settings. These settings are designed to let you encounter the types of NPCs that you'd like in Appletree. Check out the <<info "Encyclopedia" "guideNPCTemplate">> for more information on how NPC settings and templates work.<br><br>The below options all control the way that NPCs are generated, but not in a uniform way. Each setting will have a basic description of it's purpose, and an on/off button. Leaving a setting off will mean that it won't have any effect. In general, the settings skew the probability ratios, but do not eliminate options. For example, skewing breast size toward larger breasts won't make <i>all</i> female NPCs generate with large breasts. Instead, large breasts will be more common.@@<br><br>
+@@.yellow;It is important to press the "Set" button in each block after you made any adjustments to it, even turning the control off\on.@@
+<br><hr>
 
-<br>@@.head3;Primary Settings@@<br><br>
+@@.head2;Primary Settings@@<br><br>
 
-<div style="float: left;">
-  <div style="width: 48%; float: left; margin-right: 20px;">
+<center>
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <br>''Gender Ratio'' <<boober>><br>Set the percentage of females created when NPCs are generated. <br>//[ie "25" = 25 percent of NPCs will be female. "0" = no females, and "100" = no males.]//<br><br><<set _gendercon = 50>>
+    ''Active'': <<set _genderRateOn = setup.npcSetting.gender[0]>><<checkboxA "_genderRateOn" false true>> <br><br>
+    ''Current value'': <span id="genderrate"> - <<print setup.npcSetting.gender[1]>></span> <<textbox "_gendercon" _gendercon>> 
+    <<button "SET">>
+      <<set setup.npcSetting.gender[0] = _genderRateOn>>
+      <<set setup.npcSetting.gender[1] = Number(_gendercon)>>
+      <<set setup.npcSetting.gender[1] = Number(_gendercon)>>
+      <<replace "#genderrate">><<print setup.npcSetting.gender[1]>><</replace>>
+    <</button>>
+  <br><br></div><br>
 
-    <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-      ''Gender Ratio'' <<boober>><br>Set the percentage of females created when NPCs are generated. [ie "25" = 25 percent of NPCs will be female. "0" = no females, and "100" = no males.]<br><<set _gendercon = 50>>
-      <<checkboxA "_genderRateOn" false true>> current:<span id="genderrate"><<print setup.npcSetting.gender[1]>></span> <<textbox "_gendercon" _gendercon>> @@.uibutton;<<button "SET">><<set setup.npcSetting.gender[0] = _genderRateOn>><<set setup.npcSetting.gender[1] = Number(_gendercon)>><<set setup.npcSetting.gender[1] = Number(_gendercon)>><<replace "#genderrate">><<print setup.npcSetting.gender[1]>><</replace>><</button>>@@
-    </div>
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <br>''Futa Ratio'' <<boober>><br>Set the rate that futas (hermaphrodites) occur. 10 is default, which is absurdly high. "10" = 0.1% or 1/1000th of NPCs. Set to "0" for no generated hermaphrodites. This setting does not effect fixed or semi-fixed NPCs, and no, it won't change Lily. [ie "5" = 0.05%, "100" = 1%]<br><br><<set _futarate = 10>>
+    ''Current value'': <span id="futarate"> - <<print setup.npcSetting.futaRate>></span> <<textbox "_futarate" _futarate>> <<button "SET">><<set setup.npcSetting.futaRate = Number(_futarate)>><<replace "#futarate">><<print setup.npcSetting.futaRate>><</replace>><</button>>
+  <br><br></div><br>
 
-    <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-      ''Futa Ratio'' <<boober>><br>Set the rate that futas (hermaphrodites) occur. 10 is default, which is absurdly high. "10" = 0.1% or 1/1000th of NPCs. Set to "0" for no generated hermaphrodites. This setting does not effect fixed or semi-fixed NPCs, and no, it won't change Lily. [ie "5" = 0.05%, "100" = 1%]<br><<set _futarate = 10>>
-      Current: <span id="futarate"><<print setup.npcSetting.futaRate>></span> <<textbox "_futarate" _futarate>> @@.uibutton;<<button "SET">><<set setup.npcSetting.futaRate = Number(_futarate)>><<replace "#futarate">><<print setup.npcSetting.futaRate>><</replace>><</button>>@@
-    </div>
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <br>''Allow Male-Type Futas''<br>When futas are generated, 1/8th of them are of the male subtype, meaning they have a generally male body but have an extra vagina. Turn this off to disable, and 100% of futas will have a female body.
+    <br><br><<set _futaMale = setup.npcSetting.futaMale>><<checkboxA "_futaMale" false true>><<button "SET">><<set setup.npcSetting.futaMale = _futaMale>><</button>><br>
+  <br></div><br>
 
-    <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-      ''Allow Male-Type Futas''<br>When futas are generated, 1/8th of them are of the male subtype, meaning they have a generally male body but have an extra vagina. Turn this off to disable, and 100% of futas will have a female body.<br>
-      <<checkboxA "_futaMale" false true>>@@.uibutton;<<button "SET">><<set setup.npcSetting.futaMale = _futaMale>><</button>>@@
-    </div>
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <br>''Trap Occurrance''<br>Set whether NPCs will generate with opposite genitals, and at what rate for each gender.<br>@@.note;"Trap" NPCs are not implemented yet, and should appear later in development.@@
+  <br><br></div><br>
 
-    <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-      ''Trap Occurrance''<br>Set whether NPCs will generate with opposite genitals, and at what rate for each gender.<br>@@.note;"Trap" NPCs are not implemented yet, and should appear later in development.@@
-    </div>
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <br>''Wealth Skew'' <<boober>><br>Skew the wealthiness of generated NPCs toward being more or less wealthy.<br> <div id="wealthverifier">''Active'': <<= setup.npcSetting.wealth[0]>>, ''Actual male value'': <<= setup.npcSetting.wealth[1]>>, ''Actual female value'': <<= setup.npcSetting.wealth[2]>>.</div><br>
+    <<set _npcWealth = setup.npcSetting.wealth[0]>><<checkboxA "_npcWealth" false true>><br><br>
+    MALE: <<radiogaga "_maleWealthProp" _maleWealthProp "Poor" "Shoestring" "Neutral" "Well-Off" "Rich">><br>
+    FEMALE: <<radiogaga "_femWealthProp" _femWealthProp "Poor" "Shoestring" "Neutral" "Well-Off" "Rich">><br>
+    <br><<button "SET">><<set setup.npcSetting.wealth[0] = _npcWealth, setup.npcSetting.wealth[1] = _maleWealthProp, setup.npcSetting.wealth[2] = _femWealthProp>><<replace "#wealthverifier">>''Active'': <<= setup.npcSetting.wealth[0]>>, ''Actual male value'': <<= setup.npcSetting.wealth[1]>>, ''Actual female value'': <<= setup.npcSetting.wealth[2]>>.<</replace>><</button>>
+  <br><br></div><br>
 
-    <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-      ''Wealth Skew'' <<boober>><br>Skew the wealthiness of generated NPCs toward being more or less wealthy.<br>
-      <<checkboxA "_npcWealth" false true>> <<button "SET">><<set setup.npcSetting.wealth[0] = _npcWealth>><</button>><br>
-      MALE: <<radiogaga "setup.npcSetting.wealth[1]" setup.npcSetting.wealth[1] "Poor" "Shoestring" "Neutral" "Well-Off" "Rich">> <br>
-      FEMALE: <<radiogaga "setup.npcSetting.wealth[2]" setup.npcSetting.wealth[2] "Poor" "Shoestring" "Neutral" "Well-Off" "Rich">>
-    </div>
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <br>''Marriage Ratio:''<<boober>><<boober>><br>
+    rate of marriage in generated NPCs. //Thaum: Not implemented yet.//<br><br>
+  <br><br></div><br>
+</center>
 
-    <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-      ''Marriage Ratio:''<<boober>><<boober>><br>
-      rate of marriage in generated NPCs.<br><br>
-    </div>
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <center><br>''Race Distribution''<br>Set the relative likeliness of a generated NPC being a certain race. Enter values for each race category. Default values are: (845,43,35,50,24,3). [ie (10,1,1,1,1,1) would make white 10x more likely than any other race, and would be 66.6% of the generated population.] //Race doesn't play a role in NPC generation beyond basic cosmetic differences like skin and eye color//<br><<set _race1=845, _race2=43, _race3=35, _race4=50, _race5=24, _race6=3>></center><br>
+    
+    <center>''White'' @@.note;(includes Gaelic, Nordic, S European)@@</center>
+    <center><<textbox "_race1" _race1>></center>
+    <br>
+    <center>''Black'' @@.note;(includes African)@@</center>
+    <center><<textbox "_race2" _race2>></center>
+    <br>
+    <center>''Hispanic''</center>
+    <center><<textbox "_race3" _race3>></center>
+    <br>
+    <center>''Asian'' @@.note;(includes Asian, South Asian, Southeast Asian)@@</center>
+    <center><<textbox "_race4" _race4>></center>
+    <br>
+    <center>''Middle Eastern'' @@.note;(includes N Africa)@@</center>
+    <center><<textbox "_race5" _race5>></center>
+    <br>
+    <center>''Native American'' @@.note;(will include Pacific Islander)@@</center>
+    <center><<textbox "_race6" _race6>></center><br>
 
-  </div>
+    <center>''Current Setting:'' @@.monospace;<span id="racesetting"><br>
+    White: <<print setup.npcSetting.race[1][0]>><br>
+    Black: <<print setup.npcSetting.race[1][1]>><br>
+    Hispanic: <<print setup.npcSetting.race[1][2]>><br> 
+    Asian: <<print setup.npcSetting.race[1][3]>><br>
+    Middle Eastern: <<print setup.npcSetting.race[1][4]>><br> 
+    Native American: <<print setup.npcSetting.race[1][5]>><br></span>@@ 
+    
+    <br><<button "SET">><<set setup.npcSetting.race[0] = _race>><<set setup.npcSetting.race[1] = [Number(_race1),Number(_race2),Number(_race3),Number(_race4),Number(_race5),Number(_race6)]>>
+    <<replace "#racesetting">>
+      @@.monospace;<span id="racesetting"><br>
+      White: <<print setup.npcSetting.race[1][0]>><br>
+      Black: <<print setup.npcSetting.race[1][1]>><br>
+      Hispanic: <<print setup.npcSetting.race[1][2]>><br> 
+      Asian: <<print setup.npcSetting.race[1][3]>><br>
+      Middle Eastern: <<print setup.npcSetting.race[1][4]>><br> 
+      Native American: <<print setup.npcSetting.race[1][5]>><br></span>@@
+    <</replace>><</button>> 
+    
+    <br><br>Enable: <<set _race = setup.npcSetting.race[0]>><<checkboxA "_race" false true>></center>
+  <br></div><br>
 
-  <div style="width: 48%; float: left; margin-right: 20px;">
+<center>
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <br>''Homosexuality'' <<boober>><<boober>><br>Set the relative rate of homosexuality in NPCs. You can turn homosexuality off for a gender, or adjust the rate it occurs.<br> <div id="homoverifier">''Active'': <<= setup.npcSetting.homo[0]>>, ''Actual male value'': <<= setup.npcSetting.homo[1][1]>>, ''Actual female value'': <<= setup.npcSetting.homo[1][3]>>.</div><br>
+    Active: <<set _npcHomo = setup.npcSetting.homo[0]>><<checkboxA "_npcHomo" false true>> <br><br>
+    Male: <<checkboxA "_npcHomoM" false true>> Rate: <<radiogaga "_homoMaleProp" _homoMaleProp "Rare" "Normal" "More" "Even More" "common">><br>
+    Female: <<checkboxA "_npcHomoF" false true>> Rate: <<radiogaga "_homoFemProp" _homoFemProp "Rare" "Normal" "More" "Even More" "common">><br><br>
+    <<button "SET">>
+      <<set setup.npcSetting.homo[0] = _npcHomo>>
+      <<set setup.npcSetting.homo[1][0] = _npcHomoM>>
+      <<set setup.npcSetting.homo[1][2] = _npcHomoF>>
+      <<set
+        setup.npcSetting.homo[1][1] = _homoMaleProp,
+        setup.npcSetting.homo[1][3] = _homoFemProp
+      >>
+      <<replace "#homoverifier">>''Active'': <<= setup.npcSetting.homo[0]>>, ''Actual male value'': <<= setup.npcSetting.homo[1][1]>>, ''Actual female value'': <<= setup.npcSetting.homo[1][3]>>.<</replace>>
+    <</button>>
+  <br><br></div><br>
 
-    <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-      ''Race Distribution''<br>Set the relative likeliness of a generated NPC being a certain race. Enter values for each race category. Default values are: (845,43,35,50,24,3). [ie (10,1,1,1,1,1) would make white 10x more likely than any other race, and would be 66.6% of the generated population.] //Race doesn't play a role in NPC generation beyond basic cosmetic differences like skin and eye color//<br><<set _race1=845, _race2=43, _race3=35, _race4=50, _race5=24, _race6=3>>
-      <<textbox "_race1" _race1>> 1. White @@.note;(includes Gaelic, Nordic, S European)@@<br>
-      <<textbox "_race2" _race2>> 2. Black @@.note;(includes African)@@<br>
-      <<textbox "_race3" _race3>> 3. Hispanic<br>
-      <<textbox "_race4" _race4>> 4. Asian @@.note;(includes Asian, South Asian, Southeast Asian)@@<br>
-      <<textbox "_race5" _race5>> 5. Middle Eastern @@.note;(includes N Africa)@@<br>
-      <<textbox "_race6" _race6>> 6. Native American @@.note;(will include Pacific Islander)@@<br>
-      Current Setting: @@.monospace;<span id="racesetting">1) <<print setup.npcSetting.race[1][0]>>, 2) <<print setup.npcSetting.race[1][1]>>, 3) <<print setup.npcSetting.race[1][2]>>, 4) <<print setup.npcSetting.race[1][3]>>, 5) <<print setup.npcSetting.race[1][4]>>, 6) <<print setup.npcSetting.race[1][5]>>.</span>@@  @@.uibutton;<<button "SET">><<set setup.npcSetting.race[0] = _race>><<set setup.npcSetting.race[1] = [Number(_race1),Number(_race2),Number(_race3),Number(_race4),Number(_race5),Number(_race6)]>><<replace "#racesetting">>1) <<print setup.npcSetting.race[1][0]>>, 2) <<print setup.npcSetting.race[1][1]>>, 3) <<print setup.npcSetting.race[1][2]>>, 4) <<print setup.npcSetting.race[1][3]>>, 5) <<print setup.npcSetting.race[1][4]>>, 6) <<print setup.npcSetting.race[1][5]>>.<</replace>><</button>>@@ Enable: <<checkboxA "_race" false true>>
-    </div>
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <br>''Age Range'' <<boober>><<boober>><br>Enforce a range of potential ages for NPCs. Generated NPCs will fall within this age range. NPCs will be >= Min Age, and < Max Age. [ie "18" & "31" will generate NPCs 18 to 30 years old.] //I won't stop ridiculous values here, but it can bork your game.//<br><br>
+    <<set _minage = 18>><<set _maxage = 31>>
+    ''Active'': <<set _ageskew = setup.npcSetting.age[0]>><<checkboxA "_ageskew" false true>> <br><br>
+    ''Current value'': <span id="agerange">''<<print setup.npcSetting.age[1][0]>>'' to ''<<print setup.npcSetting.age[1][1]>>''</span><br><br>
+    MIN: <<textbox "_minage" _minage>> MAX: <<textbox "_maxage" _maxage>> 
+    
+    <<button "SET">><<set setup.npcSetting.age[0] = _ageskew>><<set setup.npcSetting.age[1][0] = Number(_minage)>><<set setup.npcSetting.age[1][1] = Number(_maxage)>><<replace "#agerange">><<print setup.npcSetting.age[1][0]>> to <<print setup.npcSetting.age[1][1]>><</replace>><<if setup.npcSetting.age[1][0] < 16>><<run UI.alert("I see what you did there ;)")>><</if>><<if setup.npcSetting.age[1][0] >= setup.npcSetting.age[1][1]>><<set setup.npcSetting.age[1] = [18,31]>><<run UI.alert("Max age must be greater than min age!")>><</if>><</button>>
+  <br><br></div><br>
+</center><hr>
+<br>@@.head3;Physical Body Settings@@<br><br>
 
-    <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-      ''Homosexuality'' <<boober>><<boober>><br>Set the relative rate of homosexuality in NPCs. You can turn homosexuality off for a gender, or adjust the rate it occurs.<br>
-      <<checkboxA "_npcHomo" false true>> <<button "SET">><<set setup.npcSetting.homo[0] = _npcHomo>><<set setup.npcSetting.homo[1][0] = _npcHomoM>><<set setup.npcSetting.homo[1][2] = _npcHomoF>><</button>><br>
-      Male: <<checkboxA "_npcHomoM" false true>> Rate: <<radiogaga "setup.npcSetting.homo[1][1]" setup.npcSetting.homo[1][1] "Rare" "Normal" "More" "Even More" "common">><br>
-      Female: <<checkboxA "_npcHomoF" false true>> Rate: <<radiogaga "setup.npcSetting.homo[1][3]" setup.npcSetting.homo[1][3] "Rare" "Normal" "More" "Even More" "common">>
-    </div>
-
-    <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-      ''Age Range'' <<boober>><<boober>><br>Enforce a range of potential ages for NPCs. Generated NPCs will fall within this age range. NPCs will be >= Min Age, and < Max Age. [ie "18" & "31" will generate NPCs 18 to 30 years old.] //I won't stop ridiculous values here, but it can bork your game.//<br><<set _minage = 18>><<set _maxage = 31>>
-      <<checkboxA "_ageskew" false true>> Current:<span id="agerange"><<print setup.npcSetting.age[1][0]>> to <<print setup.npcSetting.age[1][1]>></span><br>MIN: <<textbox "_minage" _minage>> MAX: <<textbox "_maxage" _maxage>> @@.uibutton;<<button "SET">><<set setup.npcSetting.age[0] = _ageskew>><<set setup.npcSetting.age[1][0] = Number(_minage)>><<set setup.npcSetting.age[1][1] = Number(_maxage)>><<replace "#agerange">><<print setup.npcSetting.age[1][0]>> to <<print setup.npcSetting.age[1][1]>><</replace>><<if setup.npcSetting.age[1][0] < 16>><<run UI.alert("I see what you did there ;)")>><</if>><<if setup.npcSetting.age[1][0] >= setup.npcSetting.age[1][1]>><<set setup.npcSetting.age[1] = [18,31]>><<run UI.alert("Max age must be greater than min age!")>><</if>><</button>>@@
-    </div>
-
-  </div>
-</div>
-
-<br><br><br>@@.head3;Physical Body Settings@@<br><br>
-
-<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px; width: 95%; float: left; margin: 5px;">
-  ''Height'' <<boober>><br>Set the relative likeliness of a generated NPC being in a certain height category. Enter values for each category values can be zero. Default values are: (5,20,50,20,5). [ie (10,1,1,1,1,) would make very short people 10x more likely than any other height cateogory.]
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Height'' <<boober>><br>Set the relative likeliness of a generated NPC being in a certain height category. Enter values for each category values can be zero. Default values are: (5,20,50,20,5). [ie (10,1,1,1,1,) would make very short people 10x more likely than any other height cateogory.]</center>
   <<set _Mheight = [5,20,50,20,5]>><<set _Fheight = [5,20,50,20,5]>>
   <table><tr>
   <td>
@@ -110,13 +155,13 @@
   </td>
   </tr><tr><td colspan=2>Current: <span id="heightsetting">''Male:'' 1) <<print setup.npcSetting.height[1][0]>>, 2) <<print setup.npcSetting.height[1][1]>>, 3) <<print setup.npcSetting.height[1][2]>>, 4) <<print setup.npcSetting.height[1][3]>>, 5) <<print setup.npcSetting.height[1][4]>>. -- ''Female:'' 1) <<print setup.npcSetting.height[2][0]>>, 2) <<print setup.npcSetting.height[2][1]>>, 3) <<print setup.npcSetting.height[2][2]>>, 4) <<print setup.npcSetting.height[2][3]>>, 5) <<print setup.npcSetting.height[2][4]>>.</span>
   </td></tr><tr><td colspan=2>
-  Control Enabled: <<checkboxA "_height" false true>> -- Change Setting: @@.uibutton;<<button "SET">><<set setup.npcSetting.height[0] = _height>>
-  <<set setup.npcSetting.height[1] = [Number(_Mheight[0]),Number(_Mheight[1]),Number(_Mheight[2]),Number(_Mheight[3]),Number(_Mheight[4])]>><<set setup.npcSetting.height[2] = [Number(_Fheight[0]),Number(_Fheight[1]),Number(_Fheight[2]),Number(_Fheight[3]),Number(_Fheight[4])]>><<replace "#heightsetting">>''Male:'' 1) <<print setup.npcSetting.height[1][0]>>, 2) <<print setup.npcSetting.height[1][1]>>, 3) <<print setup.npcSetting.height[1][2]>>, 4) <<print setup.npcSetting.height[1][3]>>, 5) <<print setup.npcSetting.height[1][4]>>. -- ''Female:'' 1) <<print setup.npcSetting.height[2][0]>>, 2) <<print setup.npcSetting.height[2][1]>>, 3) <<print setup.npcSetting.height[2][2]>>, 4) <<print setup.npcSetting.height[2][3]>>, 5) <<print setup.npcSetting.height[2][4]>>.<</replace>><</button>>@@
-  </td></tr></table>
-</div>
+  ''Control Enabled'': <<set _height = setup.npcSetting.height[0]>><<checkboxA "_height" false true>> -- Change Setting: <<button "SET">><<set setup.npcSetting.height[0] = _height>>
+  <<set setup.npcSetting.height[1] = [Number(_Mheight[0]),Number(_Mheight[1]),Number(_Mheight[2]),Number(_Mheight[3]),Number(_Mheight[4])]>><<set setup.npcSetting.height[2] = [Number(_Fheight[0]),Number(_Fheight[1]),Number(_Fheight[2]),Number(_Fheight[3]),Number(_Fheight[4])]>><<replace "#heightsetting">>''Male:'' 1) <<print setup.npcSetting.height[1][0]>>, 2) <<print setup.npcSetting.height[1][1]>>, 3) <<print setup.npcSetting.height[1][2]>>, 4) <<print setup.npcSetting.height[1][3]>>, 5) <<print setup.npcSetting.height[1][4]>>. -- ''Female:'' 1) <<print setup.npcSetting.height[2][0]>>, 2) <<print setup.npcSetting.height[2][1]>>, 3) <<print setup.npcSetting.height[2][2]>>, 4) <<print setup.npcSetting.height[2][3]>>, 5) <<print setup.npcSetting.height[2][4]>>.<</replace>><</button>>
+  </td></tr></table><br>
+</div><br>
 
-<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px; width: 95%; float: left; margin: 5px;">
-  ''Muscle Tone'' <<boober>><br>Set the relative likeliness of a generated NPC being in a certain category. Enter values for each category values can be zero. [ie (10,1,1,1,1,) would make very short people 10x more likely than any other tone cateogory.]
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Muscle Tone'' <<boober>><br>Set the relative likeliness of a generated NPC being in a certain category. Enter values for each category values can be zero. [ie (10,1,1,1,1) would make very frail people 10x more likely than any other tone cateogory.]</center>
   <<set _Mtone = [5,20,50,20,5]>><<set _Ftone = [5,20,50,20,5]>>
   <table><tr>
   <td>
@@ -138,13 +183,13 @@
   </td>
   </tr><tr><td colspan=2>Current: <span id="tonesetting">''Male:'' 1) <<print setup.npcSetting.tone[1][0]>>, 2) <<print setup.npcSetting.tone[1][1]>>, 3) <<print setup.npcSetting.tone[1][2]>>, 4) <<print setup.npcSetting.tone[1][3]>>, 5) <<print setup.npcSetting.tone[1][4]>>, 6) <<print setup.npcSetting.tone[1][5]>>. -- ''Female:'' 1) <<print setup.npcSetting.tone[2][0]>>, 2) <<print setup.npcSetting.tone[2][1]>>, 3) <<print setup.npcSetting.tone[2][2]>>, 4) <<print setup.npcSetting.tone[2][3]>>, 5) <<print setup.npcSetting.tone[2][4]>>, 6) <<print setup.npcSetting.tone[2][5]>>.</span>
   </td></tr><tr><td colspan=2>
-  Control Enabled: <<checkboxA "_tony" false true>> -- Change Setting: @@.uibutton;<<button "SET">><<set setup.npcSetting.tone[0] = _tony>>
-  <<set setup.npcSetting.tone[1] = [Number(_Mtone[0]),Number(_Mtone[1]),Number(_Mtone[2]),Number(_Mtone[3]),Number(_Mtone[4]),Number(_Mtone[5])]>><<set setup.npcSetting.tone[2] = [Number(_Ftone[0]),Number(_Ftone[1]),Number(_Ftone[2]),Number(_Ftone[3]),Number(_Ftone[4]),Number(_Ftone[5])]>><<replace "#tonesetting">>''Male:'' 1) <<print setup.npcSetting.tone[1][0]>>, 2) <<print setup.npcSetting.tone[1][1]>>, 3) <<print setup.npcSetting.tone[1][2]>>, 4) <<print setup.npcSetting.tone[1][3]>>, 5) <<print setup.npcSetting.tone[1][4]>>, 6) <<print setup.npcSetting.tone[1][5]>>. -- ''Female:'' 1) <<print setup.npcSetting.tone[2][0]>>, 2) <<print setup.npcSetting.tone[2][1]>>, 3) <<print setup.npcSetting.tone[2][2]>>, 4) <<print setup.npcSetting.tone[2][3]>>, 5) <<print setup.npcSetting.tone[2][4]>>, 6) <<print setup.npcSetting.tone[2][5]>>.<</replace>><</button>>@@
-  </td></tr></table>
-</div>
+  Control Enabled: <<set _tony = setup.npcSetting.tone[0]>><<checkboxA "_tony" false true>> -- Change Setting: <<button "SET">><<set setup.npcSetting.tone[0] = _tony>>
+  <<set setup.npcSetting.tone[1] = [Number(_Mtone[0]),Number(_Mtone[1]),Number(_Mtone[2]),Number(_Mtone[3]),Number(_Mtone[4]),Number(_Mtone[5])]>><<set setup.npcSetting.tone[2] = [Number(_Ftone[0]),Number(_Ftone[1]),Number(_Ftone[2]),Number(_Ftone[3]),Number(_Ftone[4]),Number(_Ftone[5])]>><<replace "#tonesetting">>''Male:'' 1) <<print setup.npcSetting.tone[1][0]>>, 2) <<print setup.npcSetting.tone[1][1]>>, 3) <<print setup.npcSetting.tone[1][2]>>, 4) <<print setup.npcSetting.tone[1][3]>>, 5) <<print setup.npcSetting.tone[1][4]>>, 6) <<print setup.npcSetting.tone[1][5]>>. -- ''Female:'' 1) <<print setup.npcSetting.tone[2][0]>>, 2) <<print setup.npcSetting.tone[2][1]>>, 3) <<print setup.npcSetting.tone[2][2]>>, 4) <<print setup.npcSetting.tone[2][3]>>, 5) <<print setup.npcSetting.tone[2][4]>>, 6) <<print setup.npcSetting.tone[2][5]>>.<</replace>><</button>>
+  </td></tr></table><br>
+</div><br>
 
-<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px; width: 95%; float: left; margin: 5px;">
-  ''Weight'' <<boober>><br>Set the relative likeliness of a generated NPC being in a certain category. Enter values for each category values can be zero. [ie (10,1,1,1,1,) would make very short people 10x more likely than any other weight cateogory.]
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Weight'' <<boober>><br>Set the relative likeliness of a generated NPC being in a certain category. Enter values for each category values can be zero. [ie (10,1,1,1,1,) would make very fat people 10x more likely than any other weight cateogory.]</center>
   <<set _Mweight = [5,20,50,20,5]>><<set _Fweight = [5,20,50,20,5]>>
   <table><tr>
   <td>
@@ -166,13 +211,13 @@
   </td>
   </tr><tr><td colspan=2>Current: <span id="weightsetting">''Male:'' 1) <<print setup.npcSetting.weight[1][0]>>, 2) <<print setup.npcSetting.weight[1][1]>>, 3) <<print setup.npcSetting.weight[1][2]>>, 4) <<print setup.npcSetting.weight[1][3]>>, 5) <<print setup.npcSetting.weight[1][4]>>, 6) <<print setup.npcSetting.weight[1][5]>>. -- ''Female:'' 1) <<print setup.npcSetting.weight[2][0]>>, 2) <<print setup.npcSetting.weight[2][1]>>, 3) <<print setup.npcSetting.weight[2][2]>>, 4) <<print setup.npcSetting.weight[2][3]>>, 5) <<print setup.npcSetting.weight[2][4]>>, 6) <<print setup.npcSetting.weight[2][5]>>.</span>
   </td></tr><tr><td colspan=2>
-  Control Enabled: <<checkboxA "_fatty" false true>> -- Change Setting: @@.uibutton;<<button "SET">><<set setup.npcSetting.weight[0] = _fatty>>
-  <<set setup.npcSetting.weight[1] = [Number(_Mweight[0]),Number(_Mweight[1]),Number(_Mweight[2]),Number(_Mweight[3]),Number(_Mweight[4]),Number(_Mweight[5])]>><<set setup.npcSetting.weight[2] = [Number(_Fweight[0]),Number(_Fweight[1]),Number(_Fweight[2]),Number(_Fweight[3]),Number(_Fweight[4]),Number(_Fweight[5])]>><<replace "#weightsetting">>''Male:'' 1) <<print setup.npcSetting.weight[1][0]>>, 2) <<print setup.npcSetting.weight[1][1]>>, 3) <<print setup.npcSetting.weight[1][2]>>, 4) <<print setup.npcSetting.weight[1][3]>>, 5) <<print setup.npcSetting.weight[1][4]>>, 6) <<print setup.npcSetting.weight[1][5]>>. -- ''Female:'' 1) <<print setup.npcSetting.weight[2][0]>>, 2) <<print setup.npcSetting.weight[2][1]>>, 3) <<print setup.npcSetting.weight[2][2]>>, 4) <<print setup.npcSetting.weight[2][3]>>, 5) <<print setup.npcSetting.weight[2][4]>>, 6) <<print setup.npcSetting.weight[2][5]>>.<</replace>><</button>>@@
-  </td></tr></table>
-</div>
+  Control Enabled: <<set _fatty = setup.npcSetting.weight[0]>><<checkboxA "_fatty" false true>> -- Change Setting: <<button "SET">><<set setup.npcSetting.weight[0] = _fatty>>
+  <<set setup.npcSetting.weight[1] = [Number(_Mweight[0]),Number(_Mweight[1]),Number(_Mweight[2]),Number(_Mweight[3]),Number(_Mweight[4]),Number(_Mweight[5])]>><<set setup.npcSetting.weight[2] = [Number(_Fweight[0]),Number(_Fweight[1]),Number(_Fweight[2]),Number(_Fweight[3]),Number(_Fweight[4]),Number(_Fweight[5])]>><<replace "#weightsetting">>''Male:'' 1) <<print setup.npcSetting.weight[1][0]>>, 2) <<print setup.npcSetting.weight[1][1]>>, 3) <<print setup.npcSetting.weight[1][2]>>, 4) <<print setup.npcSetting.weight[1][3]>>, 5) <<print setup.npcSetting.weight[1][4]>>, 6) <<print setup.npcSetting.weight[1][5]>>. -- ''Female:'' 1) <<print setup.npcSetting.weight[2][0]>>, 2) <<print setup.npcSetting.weight[2][1]>>, 3) <<print setup.npcSetting.weight[2][2]>>, 4) <<print setup.npcSetting.weight[2][3]>>, 5) <<print setup.npcSetting.weight[2][4]>>, 6) <<print setup.npcSetting.weight[2][5]>>.<</replace>><</button>>
+  </td></tr></table><br>
+</div><br>
 
-<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px; width: 95%; float: left; margin: 5px;">
-  ''Beauty'' <<boober>><br>Set the relative likeliness of a generated NPC being in a certain beauty category. Enter values for each category values can be zero. Default values are: (5,20,50,20,5). [ie (10,1,1,1,1,) would make very short people 10x more likely than any other beauty cateogory.]
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Beauty'' <<boober>><br>Set the relative likeliness of a generated NPC being in a certain beauty category. Enter values for each category values can be zero. Default values are: (5,20,50,20,5). [ie (10,1,1,1,1,) would make very handsome people 10x more likely than any other beauty cateogory.]</center>
   <<set _Mbeauty = [5,20,50,20,5]>><<set _Fbeauty = [5,20,50,20,5]>>
   <table><tr>
   <td>
@@ -192,247 +237,314 @@
   </td>
   </tr><tr><td colspan=2>Current: <span id="beautysetting">''Male:'' 1) <<print setup.npcSetting.beauty[1][0]>>, 2) <<print setup.npcSetting.beauty[1][1]>>, 3) <<print setup.npcSetting.beauty[1][2]>>, 4) <<print setup.npcSetting.beauty[1][3]>>, 5) <<print setup.npcSetting.beauty[1][4]>>. -- ''Female:'' 1) <<print setup.npcSetting.beauty[2][0]>>, 2) <<print setup.npcSetting.beauty[2][1]>>, 3) <<print setup.npcSetting.beauty[2][2]>>, 4) <<print setup.npcSetting.beauty[2][3]>>, 5) <<print setup.npcSetting.beauty[2][4]>>.</span>
   </td></tr><tr><td colspan=2>
-  Control Enabled: <<checkboxA "_pretty" false true>> -- Change Setting: @@.uibutton;<<button "SET">><<set setup.npcSetting.beauty[0] = _pretty>>
-  <<set setup.npcSetting.beauty[1] = [Number(_Mbeauty[0]),Number(_Mbeauty[1]),Number(_Mbeauty[2]),Number(_Mbeauty[3]),Number(_Mbeauty[4])]>><<set setup.npcSetting.beauty[2] = [Number(_Fbeauty[0]),Number(_Fbeauty[1]),Number(_Fbeauty[2]),Number(_Fbeauty[3]),Number(_Fbeauty[4])]>><<replace "#beautysetting">>''Male:'' 1) <<print setup.npcSetting.beauty[1][0]>>, 2) <<print setup.npcSetting.beauty[1][1]>>, 3) <<print setup.npcSetting.beauty[1][2]>>, 4) <<print setup.npcSetting.beauty[1][3]>>, 5) <<print setup.npcSetting.beauty[1][4]>>. -- ''Female:'' 1) <<print setup.npcSetting.beauty[2][0]>>, 2) <<print setup.npcSetting.beauty[2][1]>>, 3) <<print setup.npcSetting.beauty[2][2]>>, 4) <<print setup.npcSetting.beauty[2][3]>>, 5) <<print setup.npcSetting.beauty[2][4]>>.<</replace>><</button>>@@
-  </td></tr></table>
-</div>
+  Control Enabled: <<set _pretty = setup.npcSetting.beauty[0]>><<checkboxA "_pretty" false true>> -- Change Setting: <<button "SET">><<set setup.npcSetting.beauty[0] = _pretty>>
+  <<set setup.npcSetting.beauty[1] = [Number(_Mbeauty[0]),Number(_Mbeauty[1]),Number(_Mbeauty[2]),Number(_Mbeauty[3]),Number(_Mbeauty[4])]>><<set setup.npcSetting.beauty[2] = [Number(_Fbeauty[0]),Number(_Fbeauty[1]),Number(_Fbeauty[2]),Number(_Fbeauty[3]),Number(_Fbeauty[4])]>><<replace "#beautysetting">>''Male:'' 1) <<print setup.npcSetting.beauty[1][0]>>, 2) <<print setup.npcSetting.beauty[1][1]>>, 3) <<print setup.npcSetting.beauty[1][2]>>, 4) <<print setup.npcSetting.beauty[1][3]>>, 5) <<print setup.npcSetting.beauty[1][4]>>. -- ''Female:'' 1) <<print setup.npcSetting.beauty[2][0]>>, 2) <<print setup.npcSetting.beauty[2][1]>>, 3) <<print setup.npcSetting.beauty[2][2]>>, 4) <<print setup.npcSetting.beauty[2][3]>>, 5) <<print setup.npcSetting.beauty[2][4]>>.<</replace>><</button>>
+  </td></tr></table><br>
+</div><br><hr>
 
-<br><br><br>@@.head3;Sexual Characteristics@@<br><br>
+<br>@@.head3;Sexual Characteristics@@<br>
 
-<div style="float: left; width: 100%;">
-  <div style="width: 48%; float: left; margin-right: 20px;">
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Breast Size:''<br>Skew the generation.<br> <div id="boobsverifier">''Active'': <<= setup.npcSetting.tits[0]>>, ''Actual value'': <<= setup.npcSetting.tits[1]>>.</div><br>
+    <<set _titties = setup.npcSetting.tits[0]>><<checkboxA "_titties" false true>> <br><br> <<radiogaga "_tittiesProp" _tittiesProp "Smallest" "Smaller" "Average" "Bigger" "Biggest">>
+    <<button "SET">><<set setup.npcSetting.tits[0] = _titties, setup.npcSetting.tits[1] = _tittiesProp>><<replace "#boobsverifier">>''Active'': <<= setup.npcSetting.tits[0]>>, ''Actual value'': <<= setup.npcSetting.tits[1]>>.<</replace>><</button>><br><br>
+  </center>
+<br><br></div>
 
-    <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-    ''Breast Size:''<br>Skew the generation.<br>
-    <<checkboxA "_titties" false true>> <<radiogaga "setup.npcSetting.tits[1]" setup.npcSetting.tits[1] "Even Smaller" "Smaller" "Neutral" "Larger" "Even Larger">>
-    <<button "SET">><<set setup.npcSetting.tits[0] = _titties>><</button>>
-    </div>
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Vaginal Tightness:''<br>Skew the generation.<br> <div id="pussyverifier">''Active'': <<= setup.npcSetting.pussy[0]>>, ''Actual value'': <<= setup.npcSetting.pussy[1]>>.</div><br>
+    <<set _pussy = setup.npcSetting.pussy[0]>><<checkboxA "_pussy" false true>> <br><br> <<radiogaga "_pussyProp" setup.npcSetting.pussy[1] "Tightest" "Tighter" "Average" "Looser" "Loosest">>
+    <<button "SET">><<set setup.npcSetting.pussy[0] = _pussy, setup.npcSetting.pussy[1] = _pussyProp>><<replace "#pussyverifier">>''Active'': <<= setup.npcSetting.pussy[0]>>, ''Actual value'': <<= setup.npcSetting.pussy[1]>>.<</replace>><</button>>
+  </center>
+<br><br></div>
 
-    <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-      ''Vaginal Tightness:''<br>Skew the generation.<br>
-      <<checkboxA "_pussy" false true>> <<radiogaga "setup.npcSetting.pussy[1]" setup.npcSetting.pussy[1] "Even Tighter" "Tighter" "Neutral" "Looser" "Even Looser">>
-      <<button "SET">><<set setup.npcSetting.pussy[0] = _pussy>><</button>>
-    </div>
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Circumcision:''<br>Skew the generation.<br> <div id="circumverifier">''Active'': <<= setup.npcSetting.circum[0]>>, ''Actual value'': <<= setup.npcSetting.circum[1]>>.</div><br>
+    <<set _circum = setup.npcSetting.circum[0]>><<checkboxA "_circum" false true>> <br><br> <<radiogaga "_circumProp" _circumProp "-" "-" "Never" "Always" "Inverse">>
+    <<button "SET">><<set setup.npcSetting.circum[0] = _circum, setup.npcSetting.circum[1] = _circumProp>><<replace "#circumverifier">>''Active'': <<= setup.npcSetting.circum[0]>>, ''Actual value'': <<= setup.npcSetting.circum[1]>>.<</replace>><</button>>
+  </center>
+<br><br></div>
 
-    <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-      ''Circumcision:''<br>Skew the generation.<br>
-      <<checkboxA "_circum" false true>> <<radiogaga "setup.npcSetting.circum[1]" setup.npcSetting.circum[1] "-" "-" "Never" "Always" "Inverse">>
-      <<button "SET">><<set setup.npcSetting.circum[0] = _circum>><</button>>
-    </div>
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Penis Size:''<br>Skew the generation.<br> <div id="cockverifier">''Active'': <<= setup.npcSetting.cock[0]>>, ''Actual value'': <<= setup.npcSetting.cock[1]>>.</div><br>
+    <<set _cock = setup.npcSetting.cock[0]>><<checkboxA "_cock" false true>> <br><br> <<radiogaga "_cockProp" _cockProp "Smallest" "Bigger" "Biggerer" "Giant" "Besty">>
+    <<button "SET">><<set setup.npcSetting.cock[0] = _cock, setup.npcSetting.cock[1] = _cockProp>><<replace "#cockverifier">>''Active'': <<= setup.npcSetting.cock[0]>>, ''Actual value'': <<= setup.npcSetting.cock[1]>>.<</replace>><</button>>
+  </center>
+<br><br></div>
 
-  </div>
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Orgasm Threshold:'' <<boober>> <br>Skew the generation.<br> <div id="orgasmverifier">''Active'': <<= setup.npcSetting.orgasm[0]>>, ''Actual value'': <<= setup.npcSetting.orgasm[1]>>.</div><br>
+    <<set _orgasm = setup.npcSetting.orgasm[0]>><<checkboxA "_orgasm" false true>> <br><br> <<radiogaga "_orgasmProp" _orgasmProp "Even Smaller" "Smaller" "Neutral" "Larger" "Even Larger">>
+    <<button "SET">><<set setup.npcSetting.orgasm[0] = _orgasm, setup.npcSetting.orgasm[1] = _orgasmProp>><<replace "#orgasmverifier">>''Active'': <<= setup.npcSetting.orgasm[0]>>, ''Actual value'': <<= setup.npcSetting.orgasm[1]>>.<</replace>><</button>>
+  </center>
+<br><br></div><hr>
 
-  <div style="width: 48%; float: left; margin-right: 20px;">
+<br>@@.head3;Reproduction@@<br><br>
 
-    <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-      ''Penis Size:''<br>Skew the generation.<br>
-      <<checkboxA "_cock" false true>> <<radiogaga "setup.npcSetting.cock[1]" setup.npcSetting.cock[1] "Smaller" "Bigger" "Biggerer" "Giant" "Besty">>
-      <<button "SET">><<set setup.npcSetting.cock[0] = _cock>><</button>>
-    </div>
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Fertility:'' <<boober>> <br>Skew the fertility of generated NPCs toward being more or less fertile.<br> <div id="fertverifier">''Active'': <<= setup.npcSetting.fertility[0]>>, ''Actual male value'': <<= setup.npcSetting.fertility[1]>>, ''Actual female value'': <<= setup.npcSetting.fertility[2]>>.</div><br>
+    <<set _fertility = setup.npcSetting.fertility[0]>><<checkboxA "_fertility" false true>> <br><br>
+    ''Males'': <<radiogaga "_fertMaleProp" _fertFemProp "Much Less" "Less" "Neutral" "More" "Much More">><br>  
+    ''Females'': <<radiogaga "_fertFemProp" _fertFemProp "Much Less" "Less" "Neutral" "More" "Much More">>
+    <br><br><<button "SET">><<set setup.npcSetting.fertility[0] = _fertility, setup.npcSetting.fertility[1] = _fertMaleProp, setup.npcSetting.fertility[2] = _fertFemProp>><<replace "#fertverifier">>''Active'': <<= setup.npcSetting.fertility[0]>>, ''Actual value'': <<= setup.npcSetting.fertility[1]>>, ''Actual female value'': <<= setup.npcSetting.fertility[2]>>.<</replace>><</button>>
+  </center>
+<br><br></div>
 
-    <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-      ''Orgasm Threshold:'' <<boober>> <br>Skew the generation.<br>
-      <<checkboxA "_orgasm" false true>> <<radiogaga "setup.npcSetting.orgasm[1]" setup.npcSetting.orgasm[1] "Even Smaller" "Smaller" "Neutral" "Larger" "Even Larger">>
-      <<button "SET">><<set setup.npcSetting.orgasm[0] = _orgasm>><</button>>
-    </div>
-
-  </div>
-</div>
-
-<br><br><br>@@.head3;Reproduction@@<br><br>
-
-<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-  ''Fertility:'' <<boober>> <br>Skew the fertility of generated NPCs toward being more or less fertile.<br>
-  <<checkboxA "_fertility" false true>> MALE: <<radiogaga "setup.npcSetting.fertility[1]" setup.npcSetting.fertility[1] "Much Less" "Less" "Neutral" "More" "Much More">>  FEMALE: <<radiogaga "setup.npcSetting.fertility[2]" setup.npcSetting.fertility[2] "Much Less" "Less" "Neutral" "More" "Much More">>
-  <<button "SET">><<set setup.npcSetting.fertility[0] = _fertility>><</button>>
-</div>
-
-<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-  ''Pregnancy Term:''<br>Skew the generation.<br>
-  <<checkboxA "_pregTerm" false true>> <<radiogaga "setup.npcSetting.pregTerm[1]" setup.npcSetting.pregTerm[1] "44 weeks" "-6 weeks" "-12 weeks" "-18 weeks" "-24 weeks">>
-  <<button "SET">><<set setup.npcSetting.pregTerm[0] = _pregTerm>><</button>>
-</div>
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Pregnancy Term:''<br>Skew the generation.<br> <div id="pregtermverifier">''Active'': <<= setup.npcSetting.pregTerm[0]>>, ''Actual value'': <<= setup.npcSetting.pregTerm[1]>>.</div><br>
+    <<set _pregTerm = setup.npcSetting.pregTerm[0]>><<checkboxA "_pregTerm" false true>> <<radiogaga "_pregtermProp" _pregtermProp "44 weeks" "-6 weeks" "-12 weeks" "-18 weeks" "-24 weeks">>
+    <<button "SET">><<set setup.npcSetting.pregTerm[0] = _pregTerm, setup.npcSetting.pregTerm[1] = _pregtermProp>><<replace "#pregtermverifier">>''Active'': <<= setup.npcSetting.pregTerm[0]>>, ''Actual value'': <<= setup.npcSetting.pregTerm[1]>>.<</replace>><</button>>
+  </center>
+<br><br></div><br><hr>
 
 <br>@@.head3;Mutations@@<br><br>
-<<checkboxA "_mutate" false true>><<button "SET">><<set setup.npcSetting.mutate[0] = _mutate>><</button>><br>
-<table style="width: 49%; float: left; margin: 5px;"><tr><td colspan=2>
-''Male Mutations'' <<boober>> //how common they are//
-</td></tr><tr><td>
-Smooth Voice </td><td><<radiogaga "setup.npcSetting.mutate[1][0]" setup.npcSetting.mutate[1][0] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Lilith's Curse </td><td><<radiogaga "setup.npcSetting.mutate[1][1]" setup.npcSetting.mutate[1][1] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-No Refractory </td><td><<radiogaga "setup.npcSetting.mutate[1][2]" setup.npcSetting.mutate[1][2] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Mega-Nuts </td><td><<radiogaga "setup.npcSetting.mutate[1][3]" setup.npcSetting.mutate[1][3] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Killer Sperm </td><td><<radiogaga "setup.npcSetting.mutate[1][4]" setup.npcSetting.mutate[1][4] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Bitch-Breaker </td><td><<radiogaga "setup.npcSetting.mutate[1][5]" setup.npcSetting.mutate[1][5] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Mega-Long </td><td><<radiogaga "setup.npcSetting.mutate[1][6]" setup.npcSetting.mutate[1][6] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Iron Muscles </td><td><<radiogaga "setup.npcSetting.mutate[1][7]" setup.npcSetting.mutate[1][7] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Virile </td><td><<radiogaga "setup.npcSetting.mutate[1][8]" setup.npcSetting.mutate[1][8] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Acid Pre </td><td><<radiogaga "setup.npcSetting.mutate[1][9]" setup.npcSetting.mutate[1][9] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Girthy </td><td><<radiogaga "setup.npcSetting.mutate[1][10]" setup.npcSetting.mutate[1][10] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Contortionist </td><td><<radiogaga "setup.npcSetting.mutate[1][11]" setup.npcSetting.mutate[1][11] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Lilith's Porphyria </td><td><<radiogaga "setup.npcSetting.mutate[1][12]" setup.npcSetting.mutate[1][12] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Power Ejaculation </td><td><<radiogaga "setup.npcSetting.mutate[1][13]" setup.npcSetting.mutate[1][13] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Multigasm </td><td><<radiogaga "setup.npcSetting.mutate[1][14]" setup.npcSetting.mutate[1][14] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Alcohol Immunity </td><td><<radiogaga "setup.npcSetting.mutate[1][15]" setup.npcSetting.mutate[1][15] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr></table>
 
-<table style="width: 49%; float: left; margin: 5px;"><tr><td colspan=2>
-''Female Mutations'' <<boober>> //how common they are//
-</td></tr><tr><td>
-Milk </td><td><<radiogaga "setup.npcSetting.mutate[2][0]" setup.npcSetting.mutate[2][0] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Acid </td><td><<radiogaga "setup.npcSetting.mutate[2][1]" setup.npcSetting.mutate[2][1] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-BC </td><td><<radiogaga "setup.npcSetting.mutate[2][2]" setup.npcSetting.mutate[2][2] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Multiple </td><td><<radiogaga "setup.npcSetting.mutate[2][3]" setup.npcSetting.mutate[2][3] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Gestate </td><td><<radiogaga "setup.npcSetting.mutate[2][4]" setup.npcSetting.mutate[2][4] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Cycle </td><td><<radiogaga "setup.npcSetting.mutate[2][5]" setup.npcSetting.mutate[2][5] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-TwinWomb </td><td><<radiogaga "setup.npcSetting.mutate[2][6]" setup.npcSetting.mutate[2][6] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Pheromone </td><td><<radiogaga "setup.npcSetting.mutate[2][7]" setup.npcSetting.mutate[2][7] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Period </td><td><<radiogaga "setup.npcSetting.mutate[2][8]" setup.npcSetting.mutate[2][8] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Immune </td><td><<radiogaga "setup.npcSetting.mutate[2][9]" setup.npcSetting.mutate[2][9] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Mouth </td><td><<radiogaga "setup.npcSetting.mutate[2][10]" setup.npcSetting.mutate[2][10] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Contort </td><td><<radiogaga "setup.npcSetting.mutate[2][11]" setup.npcSetting.mutate[2][11] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Cumpire </td><td><<radiogaga "setup.npcSetting.mutate[2][12]" setup.npcSetting.mutate[2][12] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-PseudoPreg </td><td><<radiogaga "setup.npcSetting.mutate[2][13]" setup.npcSetting.mutate[2][13] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-Elastic </td><td><<radiogaga "setup.npcSetting.mutate[2][14]" setup.npcSetting.mutate[2][14] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr><tr><td>
-LitePhero </td><td><<radiogaga "setup.npcSetting.mutate[2][15]" setup.npcSetting.mutate[2][15] "Never" "Less" "Normal" "More" "Much More">>
-</td></tr></table>
+  Select whether these options will be active in game or not: <<set _mutate = setup.npcSetting.mutate[0]>><<checkboxA "_mutate" false true>> 
+  <<button "SET">>
+    <<set setup.npcSetting.mutate[0] = _mutate>>
+    <<set
+      setup.npcSetting.mutate[1][0] = _smoothVoice,
+      setup.npcSetting.mutate[1][1] = _LilCourse,
+      setup.npcSetting.mutate[1][2] = _noRefract,
+      setup.npcSetting.mutate[1][3] = _megaNuts,
+      setup.npcSetting.mutate[1][4] = _kilSperm,
+      setup.npcSetting.mutate[1][5] = _bitBreak,
+      setup.npcSetting.mutate[1][6] = _megaLong,
+      setup.npcSetting.mutate[1][7] = _ironMuscle,
+      setup.npcSetting.mutate[1][8] = _virile,
+      setup.npcSetting.mutate[1][9] = _acidPre,
+      setup.npcSetting.mutate[1][10] = _girthy,
+      setup.npcSetting.mutate[1][11] = _contort,
+      setup.npcSetting.mutate[1][12] = _lilPorphy,
+      setup.npcSetting.mutate[1][13] = _powerEjac,
+      setup.npcSetting.mutate[1][14] = _multgasm,
+      setup.npcSetting.mutate[1][15] = _alcImun,
 
-<br><br>@@.head3;Primary Personality@@ <<boober>><<boober>><br><br>
+      setup.npcSetting.mutate[2][0] = _milk,
+      setup.npcSetting.mutate[2][1] = _acid,
+      setup.npcSetting.mutate[2][2] = _bc,
+      setup.npcSetting.mutate[2][3] = _multiple,
+      setup.npcSetting.mutate[2][4] = _gestate,
+      setup.npcSetting.mutate[2][5] = _cycle,
+      setup.npcSetting.mutate[2][6] = _twinWomb,
+      setup.npcSetting.mutate[2][7] = _pheromone,
+      setup.npcSetting.mutate[2][8] = _period,
+      setup.npcSetting.mutate[2][9] = _imune,
+      setup.npcSetting.mutate[2][10] = _mouth,
+      setup.npcSetting.mutate[2][11] = _contort,
+      setup.npcSetting.mutate[2][12] = _cumpire,
+      setup.npcSetting.mutate[2][13] = _pseudoPreg,
+      setup.npcSetting.mutate[2][14] = _elastic,
+      setup.npcSetting.mutate[2][15] = _lithePhero
+    >>
+  <</button>><br>
+  <table style="width: 49%; float: left; margin: 5px;"><tr><td colspan=2>
+  ''Male mutations'' <<boober>> //how common they are//
+  </td></tr><tr><td>
+  <<info "Smooth Voice" "guideMutateMale">> </td><td><<radiogaga "_smoothVoice" _smoothVoice "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Lilith's Curse" "guideMutateMale">> </td><td><<radiogaga "_LilCourse" _LilCourse "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "No Refractory" "guideMutateMale">> </td><td><<radiogaga "_noRefract" _noRefract "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Mega-Nuts" "guideMutateMale">> </td><td><<radiogaga "_megaNuts" _megaNuts "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Killer Sperm" "guideMutateMale">> </td><td><<radiogaga "_kilSperm" _kilSperm "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Bitch-Breaker" "guideMutateMale">> </td><td><<radiogaga "_bitBreak" _bitBreak "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Mega-Long" "guideMutateMale">> </td><td><<radiogaga "_megaLong" _megaLong "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Iron Muscles" "guideMutateMale">> </td><td><<radiogaga "_ironMuscle" _ironMuscle "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Virile" "guideMutateMale">> </td><td><<radiogaga "_virile" _virile "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Acid Pre" "guideMutateMale">> </td><td><<radiogaga "_acidPre" _acidPre "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Girthy" "guideMutateMale">> </td><td><<radiogaga "_girthy" _girthy "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Contortionist" "guideMutateMale">> </td><td><<radiogaga "_contort" _contort "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Lilith's Porphyria" "guideMutateMale">> </td><td><<radiogaga "_lilPorphy" _lilPorphy "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Power Ejaculation" "guideMutateMale">> </td><td><<radiogaga "_powerEjac" _powerEjac "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Multigasm" "guideMutateMale">> </td><td><<radiogaga "_multgasm" _multgasm "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Alcohol Immunity" "guideMutateMale">> </td><td><<radiogaga "_alcImun" _alcImun "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr></table>
+
+  <table style="width: 49%; float: left; margin: 5px;"><tr><td colspan=2>
+  ''Female mutations'' <<boober>> //how common they are//
+  </td></tr><tr><td>
+  <<info "Milk" "guideMutate">> </td><td><<radiogaga "_milk" _milk "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Acid" "guideMutate">> </td><td><<radiogaga "_acid" _acid "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "BC" "guideMutate">> </td><td><<radiogaga "_bc" _bc "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Multiple" "guideMutate">> </td><td><<radiogaga "_multiple" _multiple "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Gestate" "guideMutate">> </td><td><<radiogaga "_gestate" _gestate "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Cycle" "guideMutate">> </td><td><<radiogaga "_cycle" _cycle "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "TwinWomb" "guideMutate">> </td><td><<radiogaga "_twinWomb" _twinWomb "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Pheromone" "guideMutate">> </td><td><<radiogaga "_pheromone" _pheromone "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Period" "guideMutate">> </td><td><<radiogaga "_period" _period "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Immune" "guideMutate">> </td><td><<radiogaga "_imune" _imune "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Mouth" "guideMutate">> </td><td><<radiogaga "_mouth" _mouth "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Contort" "guideMutate">> </td><td><<radiogaga "_contort" _contort "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Cumpire" "guideMutate">> </td><td><<radiogaga "_cumpire" _cumpire "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "PseudoPreg" "guideMutate">> </td><td><<radiogaga "_pseudoPreg" _pseudoPreg "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Elastic" "guideMutate">> </td><td><<radiogaga "_elastic" _elastic "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "LitePhero" "guideMutate">> </td><td><<radiogaga "_lithePhero" _lithePhero "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr></table>
+<br><br><br>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><hr><br>@@.head3;Primary Personality@@ <<boober>><<boober>><br><br>
 
 ''Personality Archetypes:''<br>
-This is a slightly dubious setting intended to make it easier for players to get more of a certain type of NPCs, however NPC personality doesn't actually work according to a system of archetypes or individual traits. Setting an archetype would simply constrain a lot of other actual variables during generation. While a nice idea, this will probably wait until later to implement because of the inherent difficulty of focing archetypes in a deliberately non-archetype system. ^_^<br>
+//This is a slightly dubious setting intended to make it easier for players to get more of a certain type of NPCs, however NPC personality doesn't actually work according to a system of archetypes or individual traits. Setting an archetype would simply constrain a lot of other actual variables during generation. While a nice idea, this will probably wait until later to implement because of the inherent difficulty of focing archetypes in a deliberately non-archetype system.// ^_^<br><br>
 
-<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-  ''Openness:''<br> <<boober>><<boober>>Skew the generation of NPCs.<br>
-  <<checkboxA "_open" false true>> MALE: <<radiogaga "setup.npcSetting.open[1]" setup.npcSetting.open[1] "Much Less" "Less" "Neutral" "More" "Much More">>  FEMALE: <<radiogaga "setup.npcSetting.open[2]" setup.npcSetting.open[2] "Much Less" "Less" "Neutral" "More" "Much More">>
-  <<button "SET">><<set setup.npcSetting.open[0] = _open>><</button>>
-</div>
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Openness:''<br> <<boober>><<boober>>Skew the generation of NPCs.<br> <div id="openverifier">''Active'': <<= setup.npcSetting.open[0]>>, ''Actual male value'': <<= setup.npcSetting.open[1]>>, ''Actual female value'': <<= setup.npcSetting.open[2]>>.</div><br>
+    <<set _open = setup.npcSetting.open[0]>><<checkboxA "_open" false true>> <br><br>
+    MALE: <<radiogaga "_maleOpen" _maleOpen "Much Less" "Less" "Neutral" "More" "Much More">>  <br>
+    FEMALE: <<radiogaga "_femOpen" _femOpen "Much Less" "Less" "Neutral" "More" "Much More">>
+    <br>
+    <<button "SET">>
+      <<set setup.npcSetting.open[0] = _open, setup.npcSetting.open[1] = _maleOpen, setup.npcSetting.open[2] = _femOpen>>
+      <<replace "#openverifier">>''Active'': <<= setup.npcSetting.open[0]>>, ''Actual male value'': <<= setup.npcSetting.open[1]>>, ''Actual female value'': <<= setup.npcSetting.open[2]>>.<</replace>>
+    <</button>>
+  </center>
+<br></div>
 
-<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-  ''Intro/Extroversion:'' <<boober>><<boober>><br>Skew the generation of NPCs.<br>
-  <<checkboxA "_vert" false true>> MALE: <<radiogaga "setup.npcSetting.vert[1]" setup.npcSetting.vert[1] "Much Less" "Less" "Neutral" "More" "Much More">>  FEMALE: <<radiogaga "setup.npcSetting.vert[2]" setup.npcSetting.vert[2] "Much Less" "Less" "Neutral" "More" "Much More">>
-  <<button "SET">><<set setup.npcSetting.vert[0] = _vert>><</button>>
-</div>
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Intro/Extroversion:'' <<boober>><<boober>><br>Skew the generation of NPCs.<br> <div id="introextroverifier">''Active'': <<= setup.npcSetting.vert[0]>>, Actual male value: <<= setup.npcSetting.vert[1]>>, ''Actual female value'': <<= setup.npcSetting.vert[2]>>.</div><br>
+    <<set _vert = setup.npcSetting.vert[0]>><<checkboxA "_vert" false true>> <br><br>
+    MALE: <<radiogaga "_maleExtroIntro" _maleExtroIntro "Much Less" "Less" "Neutral" "More" "Much More">><br>
+    FEMALE: <<radiogaga "_femExtroIntro" _femExtroIntro "Much Less" "Less" "Neutral" "More" "Much More">>
+    <br>
+    <<button "SET">>
+      <<set setup.npcSetting.vert[0] = _vert, setup.npcSetting.vert[1] = _maleExtroIntro, setup.npcSetting.vert[2] = _femExtroIntro>>
+      <<replace "#introextroverifier">>''Active'': <<= setup.npcSetting.vert[0]>>, ''Actual male value'': <<= setup.npcSetting.vert[1]>>, ''Actual female value'': <<= setup.npcSetting.vert[2]>>.<</replace>>
+    <</button>>
+  </center>
+<br></div>
 
 /*''Willpower:''<br>Skew the generation of NPCs.<br>
 <<checkboxA "setup.npcSetting.fertility[0]" false true>> MALE: <<radiogaga "setup.npcSetting.fertility[1]" setup.npcSetting.fertility[1] "Much Less" "Less" "Neutral" "More" "Much More">>  FEMALE: <<radiogaga "setup.npcSetting.fertility[2]" setup.npcSetting.fertility[2] "Much Less" "Less" "Neutral" "More" "Much More">>
 <br><br>*/
 
-<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-  ''Intelligence Adjust:'' <<boober>><<boober>><br>Skew the generation of NPCs.<br>
-  <<checkboxA "_iq" false true>> MALE: <<radiogaga "setup.npcSetting.iq[1]" setup.npcSetting.iq[1] "Much Less" "Less" "Neutral" "More" "Much More">>  FEMALE: <<radiogaga "setup.npcSetting.iq[2]" setup.npcSetting.iq[2] "Much Less" "Less" "Neutral" "More" "Much More">>
-  <<button "SET">><<set setup.npcSetting.iq[0] = _iq>><</button>>
-</div>
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Intelligence Adjust:'' <<boober>><<boober>><br>Skew the generation of NPCs.<br> <div id="intverifier">''Active'': <<= setup.npcSetting.iq[0]>>, ''Actual male value'': <<= setup.npcSetting.iq[1]>>, ''Actual female value'': <<= setup.npcSetting.iq[2]>>.</div><br>
+    <<set _iq = setup.npcSetting.iq[0]>><<checkboxA "_iq" false true>> <br><br>
+    MALE: <<radiogaga "_maleIq" _maleIq "Much Less" "Less" "Neutral" "More" "Much More">><br>
+    FEMALE: <<radiogaga "_femIq" _femIq "Much Less" "Less" "Neutral" "More" "Much More">>
+    <br>
+    <<button "SET">>
+      <<set setup.npcSetting.iq[0] = _iq, setup.npcSetting.iq[1] = _maleIq, setup.npcSetting.iq[2] = _femIq>>
+      <<replace "#intverifier">>''Active'': <<= setup.npcSetting.iq[0]>>, ''Actual male value'': <<= setup.npcSetting.iq[1]>>, ''Actual female value'': <<= setup.npcSetting.iq[2]>>.<</replace>>
+    <</button>>
+  </center>
+<br></div><br><hr>
 
 <br>@@.head3;Opinion System Personality Traits@@ <<boober>><<boober>><<boober>><br><br>
 
-<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-  <<checkboxA "_persCore" false true>><<button "SET">><<set setup.npcSetting.persCore[0] = _persCore>><</button>>
+<<set _persCore = setup.npcSetting.persCore[0]>><<checkboxA "_persCore" false true>>
+<<button "SET">>
+  <<set setup.npcSetting.persCore[0] = _persCore>>
+<</button>>
+  <br><table style="width: 49%; float: right; margin: 5px;">
   <<set _list = [false,["strength","secure","preg","kids","evolve","pleasure"],["strength","life","liberty","property","honesty","integrity"],["strength","interest","empathy","caring","trust","altruism"],["strength","thoughtful","responsible","attention","trustworthy","structure"],["strength","betrayal","cheating","effort","permanence","family"],["strength","complex","learning","abstract","curiosity","novelty"],["strength","impulsive","unstable","addiction","anxiety","sensitive","anger","sadness"],["strength","selfinterest","selfworth","confidence","fragility","selfimage","mach","risk"]]>>
-  <table>
   <tr><td colspan=2>''Procreation''</td></tr>
   <<set _c = 1>>
   <<for _i = 0; _i < _list[_c].length; _i++>>
   <<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
   <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
-  <</for>>
+  <</for>><br>
   <tr><td colspan=2>''Morality''</td></tr>
   <<set _c = 2>>
   <<for _i = 0; _i < _list[_c].length; _i++>>
   <<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
   <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
-  <</for>>
+  <</for>><br>
   <tr><td colspan=2>''Agreeableness''</td></tr>
   <<set _c = 3>>
   <<for _i = 0; _i < _list[_c].length; _i++>>
   <<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
   <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
-  <</for>>
+  <</for>><br>
   <tr><td colspan=2>''Conscientiousness''</td></tr>
   <<set _c = 4>>
   <<for _i = 0; _i < _list[_c].length; _i++>>
   <<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
   <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
   <</for>>
+  <br></table>
+
+  <table style="width: 49%; float: keft; margin: 5px;">
   <tr><td colspan=2>''Loyalty''</td></tr>
   <<set _c = 5>>
   <<for _i = 0; _i < _list[_c].length; _i++>>
   <<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
   <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
-  <</for>>
+  <</for>><br>
   <tr><td colspan=2>''Curiosity''</td></tr>
   <<set _c = 6>>
   <<for _i = 0; _i < _list[_c].length; _i++>>
   <<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
   <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
-  <</for>>
+  <</for>><br>
   <tr><td colspan=2>''Neuroticism''</td></tr>
   <<set _c = 7>>
   <<for _i = 0; _i < _list[_c].length; _i++>>
   <<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
   <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
-  <</for>>
+  <</for>><br>
   <tr><td colspan=2>''Ego''</td></tr>
   <<set _c = 8>>
   <<for _i = 0; _i < _list[_c].length; _i++>>
   <<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
   <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
-  <</for>>
-  </table>
-</div>
+  <</for>><br>
+  <br></table>
+<br>
 
-<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:5px; margin: 5px; width: 100%;">
-  @@.head3;NPC Preferences@@<br><br>
-  ''Height:''<br>
-  ''Weight:''<br>
-  ''Muscle:''<br>
-  ''Other:''<br>
-  ''Fancy:''<br>
-  ''Expensive:''<br>
-  ''Active:''<br>
-  ''Romance:''<br>
-  ''Excite:''<br>
-  ''Trendy:''<br>
-  ''Night:''<br>
-  ''Novel:''<br>
-</div>
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>
+    @@.head3;NPC Preferences@@<br><br>
+    ''Height:''<br>
+    ''Weight:''<br>
+    ''Muscle:''<br>
+    ''Other:''<br>
+    ''Fancy:''<br>
+    ''Expensive:''<br>
+    ''Active:''<br>
+    ''Romance:''<br>
+    ''Excite:''<br>
+    ''Trendy:''<br>
+    ''Night:''<br>
+    ''Novel:''<br>
+  <br></center>
+</div><br>
 
 <center>
-@@.contButt;<<button "Accept">><<status 0>>
-<<go Introduction>>
-<</button>>@@ <<button "Cancel">>
-<<go Introduction>><</button>> <<button [[Test NPCs (OUTDATED)|npcGeneratorTest]]>><</button>><br><br></center>
-</div>
+  @@.contButt;<<button "CLOSE">><<status 0>>
+  <<go Introduction>>
+  <</button>>@@<br><br>
+  </center>
+  </div>
 </div>
 
 
@@ -701,3 +813,534 @@ This is a slightly dubious setting intended to make it easier for players to get
 <</dialog>><</link>>
 <br><br>
 <span id="supercuntshit"><<print _testingOutput>></span>
+
+
+
+:: customNPCmenu [nobr]
+
+
+@@.yellow;It is important to press the "Set" button in each block after you made any adjustments to it, even turning the control off\on.<br>
+Changing these settings during the game <b>will not</b> affect existing NPCs.<br>NPC settings only apply when a new NPC is being generated.@@
+<br><hr>
+
+@@.head2;Primary Settings@@<br><br>
+
+<center>
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <br>''Gender Ratio'' <<boober>><br>Set the percentage of females created when NPCs are generated. <br>//[ie "25" = 25 percent of NPCs will be female. "0" = no females, and "100" = no males.]//<br><br><<set _gendercon = 50>>
+    ''Active'': <<set _genderRateOn = setup.npcSetting.gender[0]>><<checkboxA "_genderRateOn" false true>> <br><br>
+    ''Current value'': <span id="genderrate"> - <<print setup.npcSetting.gender[1]>></span> <<textbox "_gendercon" _gendercon>> 
+    <<button "SET">>
+      <<set setup.npcSetting.gender[0] = _genderRateOn>>
+      <<set setup.npcSetting.gender[1] = Number(_gendercon)>>
+      <<set setup.npcSetting.gender[1] = Number(_gendercon)>>
+      <<replace "#genderrate">><<print setup.npcSetting.gender[1]>><</replace>>
+    <</button>>
+  <br><br></div><br>
+
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <br>''Futa Ratio'' <<boober>><br>Set the rate that futas (hermaphrodites) occur. 10 is default, which is absurdly high. "10" = 0.1% or 1/1000th of NPCs. Set to "0" for no generated hermaphrodites. This setting does not effect fixed or semi-fixed NPCs, and no, it won't change Lily. [ie "5" = 0.05%, "100" = 1%]<br><br><<set _futarate = 10>>
+    ''Current value'': <span id="futarate"> - <<print setup.npcSetting.futaRate>></span> <<textbox "_futarate" _futarate>> <<button "SET">><<set setup.npcSetting.futaRate = Number(_futarate)>><<replace "#futarate">><<print setup.npcSetting.futaRate>><</replace>><</button>>
+  <br><br></div><br>
+
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <br>''Allow Male-Type Futas''<br>When futas are generated, 1/8th of them are of the male subtype, meaning they have a generally male body but have an extra vagina. Turn this off to disable, and 100% of futas will have a female body.
+    <br><br><<set _futaMale = setup.npcSetting.futaMale>><<checkboxA "_futaMale" false true>><<button "SET">><<set setup.npcSetting.futaMale = _futaMale>><</button>><br>
+  <br></div><br>
+
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <br>''Trap Occurrance''<br>Set whether NPCs will generate with opposite genitals, and at what rate for each gender.<br>@@.note;"Trap" NPCs are not implemented yet, and should appear later in development.@@
+  <br><br></div><br>
+
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <br>''Wealth Skew'' <<boober>><br>Skew the wealthiness of generated NPCs toward being more or less wealthy.<br> <div id="wealthverifier">''Active'': <<= setup.npcSetting.wealth[0]>>, ''Actual male value'': <<= setup.npcSetting.wealth[1]>>, ''Actual female value'': <<= setup.npcSetting.wealth[2]>>.</div><br>
+    <<set _npcWealth = setup.npcSetting.wealth[0]>><<checkboxA "_npcWealth" false true>><br><br>
+    MALE: <<radiogaga "_maleWealthProp" _maleWealthProp "Poor" "Shoestring" "Neutral" "Well-Off" "Rich">><br>
+    FEMALE: <<radiogaga "_femWealthProp" _femWealthProp "Poor" "Shoestring" "Neutral" "Well-Off" "Rich">><br>
+    <br><<button "SET">><<set setup.npcSetting.wealth[0] = _npcWealth, setup.npcSetting.wealth[1] = _maleWealthProp, setup.npcSetting.wealth[2] = _femWealthProp>><<replace "#wealthverifier">>''Active'': <<= setup.npcSetting.wealth[0]>>, ''Actual male value'': <<= setup.npcSetting.wealth[1]>>, ''Actual female value'': <<= setup.npcSetting.wealth[2]>>.<</replace>><</button>>
+  <br><br></div><br>
+
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <br>''Marriage Ratio:''<<boober>><<boober>><br>
+    rate of marriage in generated NPCs. //Thaum: Not implemented yet.//<br><br>
+  <br><br></div><br>
+</center>
+
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <center><br>''Race Distribution''<br>Set the relative likeliness of a generated NPC being a certain race. Enter values for each race category. Default values are: (845,43,35,50,24,3). [ie (10,1,1,1,1,1) would make white 10x more likely than any other race, and would be 66.6% of the generated population.] //Race doesn't play a role in NPC generation beyond basic cosmetic differences like skin and eye color//<br><<set _race1=845, _race2=43, _race3=35, _race4=50, _race5=24, _race6=3>></center><br>
+    
+    <center>''White'' @@.note;(includes Gaelic, Nordic, S European)@@</center>
+    <center><<textbox "_race1" _race1>></center>
+    <br>
+    <center>''Black'' @@.note;(includes African)@@</center>
+    <center><<textbox "_race2" _race2>></center>
+    <br>
+    <center>''Hispanic''</center>
+    <center><<textbox "_race3" _race3>></center>
+    <br>
+    <center>''Asian'' @@.note;(includes Asian, South Asian, Southeast Asian)@@</center>
+    <center><<textbox "_race4" _race4>></center>
+    <br>
+    <center>''Middle Eastern'' @@.note;(includes N Africa)@@</center>
+    <center><<textbox "_race5" _race5>></center>
+    <br>
+    <center>''Native American'' @@.note;(will include Pacific Islander)@@</center>
+    <center><<textbox "_race6" _race6>></center><br>
+
+    <center>''Current Setting:'' @@.monospace;<span id="racesetting"><br>
+    White: <<print setup.npcSetting.race[1][0]>><br>
+    Black: <<print setup.npcSetting.race[1][1]>><br>
+    Hispanic: <<print setup.npcSetting.race[1][2]>><br> 
+    Asian: <<print setup.npcSetting.race[1][3]>><br>
+    Middle Eastern: <<print setup.npcSetting.race[1][4]>><br> 
+    Native American: <<print setup.npcSetting.race[1][5]>><br></span>@@ 
+    
+    <br><<button "SET">><<set setup.npcSetting.race[0] = _race>><<set setup.npcSetting.race[1] = [Number(_race1),Number(_race2),Number(_race3),Number(_race4),Number(_race5),Number(_race6)]>>
+    <<replace "#racesetting">>
+      @@.monospace;<span id="racesetting"><br>
+      White: <<print setup.npcSetting.race[1][0]>><br>
+      Black: <<print setup.npcSetting.race[1][1]>><br>
+      Hispanic: <<print setup.npcSetting.race[1][2]>><br> 
+      Asian: <<print setup.npcSetting.race[1][3]>><br>
+      Middle Eastern: <<print setup.npcSetting.race[1][4]>><br> 
+      Native American: <<print setup.npcSetting.race[1][5]>><br></span>@@
+    <</replace>><</button>> 
+    
+    <br><br>Enable: <<set _race = setup.npcSetting.race[0]>><<checkboxA "_race" false true>></center>
+  <br></div><br>
+
+<center>
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <br>''Homosexuality'' <<boober>><<boober>><br>Set the relative rate of homosexuality in NPCs. You can turn homosexuality off for a gender, or adjust the rate it occurs.<br> <div id="homoverifier">''Active'': <<= setup.npcSetting.homo[0]>>, ''Actual male value'': <<= setup.npcSetting.homo[1][1]>>, ''Actual female value'': <<= setup.npcSetting.homo[1][3]>>.</div><br>
+    Active: <<set _npcHomo = setup.npcSetting.homo[0]>><<checkboxA "_npcHomo" false true>> <br><br>
+    Male: <<checkboxA "_npcHomoM" false true>> Rate: <<radiogaga "_homoMaleProp" _homoMaleProp "Rare" "Normal" "More" "Even More" "common">><br>
+    Female: <<checkboxA "_npcHomoF" false true>> Rate: <<radiogaga "_homoFemProp" _homoFemProp "Rare" "Normal" "More" "Even More" "common">><br><br>
+    <<button "SET">>
+      <<set setup.npcSetting.homo[0] = _npcHomo>>
+      <<set setup.npcSetting.homo[1][0] = _npcHomoM>>
+      <<set setup.npcSetting.homo[1][2] = _npcHomoF>>
+      <<set
+        setup.npcSetting.homo[1][1] = _homoMaleProp,
+        setup.npcSetting.homo[1][3] = _homoFemProp
+      >>
+      <<replace "#homoverifier">>''Active'': <<= setup.npcSetting.homo[0]>>, ''Actual male value'': <<= setup.npcSetting.homo[1][1]>>, ''Actual female value'': <<= setup.npcSetting.homo[1][3]>>.<</replace>>
+    <</button>>
+  <br><br></div><br>
+
+  <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+    <br>''Age Range'' <<boober>><<boober>><br>Enforce a range of potential ages for NPCs. Generated NPCs will fall within this age range. NPCs will be >= Min Age, and < Max Age. [ie "18" & "31" will generate NPCs 18 to 30 years old.] //I won't stop ridiculous values here, but it can bork your game.//<br><br>
+    <<set _minage = 18>><<set _maxage = 31>>
+    ''Active'': <<set _ageskew = setup.npcSetting.age[0]>><<checkboxA "_ageskew" false true>> <br><br>
+    ''Current value'': <span id="agerange">''<<print setup.npcSetting.age[1][0]>>'' to ''<<print setup.npcSetting.age[1][1]>>''</span><br><br>
+    MIN: <<textbox "_minage" _minage>> MAX: <<textbox "_maxage" _maxage>> 
+    
+    <<button "SET">><<set setup.npcSetting.age[0] = _ageskew>><<set setup.npcSetting.age[1][0] = Number(_minage)>><<set setup.npcSetting.age[1][1] = Number(_maxage)>><<replace "#agerange">><<print setup.npcSetting.age[1][0]>> to <<print setup.npcSetting.age[1][1]>><</replace>><<if setup.npcSetting.age[1][0] < 16>><<run UI.alert("I see what you did there ;)")>><</if>><<if setup.npcSetting.age[1][0] >= setup.npcSetting.age[1][1]>><<set setup.npcSetting.age[1] = [18,31]>><<run UI.alert("Max age must be greater than min age!")>><</if>><</button>>
+  <br><br></div><br>
+</center><hr>
+<br>@@.head3;Physical Body Settings@@<br><br>
+
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Height'' <<boober>><br>Set the relative likeliness of a generated NPC being in a certain height category. Enter values for each category values can be zero. Default values are: (5,20,50,20,5). [ie (10,1,1,1,1,) would make very short people 10x more likely than any other height cateogory.]</center>
+  <<set _Mheight = [5,20,50,20,5]>><<set _Fheight = [5,20,50,20,5]>>
+  <table><tr>
+  <td>
+  ''Male''<br>
+  <<textbox "_Mheight[0]" _Mheight[0]>> 1. V-Short<br>
+  <<textbox "_Mheight[1]" _Mheight[1]>> 2. Short<br>
+  <<textbox "_Mheight[2]" _Mheight[2]>> 3. Average<br>
+  <<textbox "_Mheight[3]" _Mheight[3]>> 4. Tall<br>
+  <<textbox "_Mheight[4]" _Mheight[4]>> 5. V-Tall
+  </td><td>
+  ''Female''<br>
+  <<textbox "_Fheight[0]" _Mheight[0]>> 1. V-Short<br>
+  <<textbox "_Fheight[1]" _Mheight[1]>> 2. Short<br>
+  <<textbox "_Fheight[2]" _Mheight[2]>> 3. Average<br>
+  <<textbox "_Fheight[3]" _Mheight[3]>> 4. Tall<br>
+  <<textbox "_Fheight[4]" _Mheight[4]>> 5. V-Tall
+  </td>
+  </tr><tr><td colspan=2>Current: <span id="heightsetting">''Male:'' 1) <<print setup.npcSetting.height[1][0]>>, 2) <<print setup.npcSetting.height[1][1]>>, 3) <<print setup.npcSetting.height[1][2]>>, 4) <<print setup.npcSetting.height[1][3]>>, 5) <<print setup.npcSetting.height[1][4]>>. -- ''Female:'' 1) <<print setup.npcSetting.height[2][0]>>, 2) <<print setup.npcSetting.height[2][1]>>, 3) <<print setup.npcSetting.height[2][2]>>, 4) <<print setup.npcSetting.height[2][3]>>, 5) <<print setup.npcSetting.height[2][4]>>.</span>
+  </td></tr><tr><td colspan=2>
+  ''Control Enabled'': <<set _height = setup.npcSetting.height[0]>><<checkboxA "_height" false true>> -- Change Setting: <<button "SET">><<set setup.npcSetting.height[0] = _height>>
+  <<set setup.npcSetting.height[1] = [Number(_Mheight[0]),Number(_Mheight[1]),Number(_Mheight[2]),Number(_Mheight[3]),Number(_Mheight[4])]>><<set setup.npcSetting.height[2] = [Number(_Fheight[0]),Number(_Fheight[1]),Number(_Fheight[2]),Number(_Fheight[3]),Number(_Fheight[4])]>><<replace "#heightsetting">>''Male:'' 1) <<print setup.npcSetting.height[1][0]>>, 2) <<print setup.npcSetting.height[1][1]>>, 3) <<print setup.npcSetting.height[1][2]>>, 4) <<print setup.npcSetting.height[1][3]>>, 5) <<print setup.npcSetting.height[1][4]>>. -- ''Female:'' 1) <<print setup.npcSetting.height[2][0]>>, 2) <<print setup.npcSetting.height[2][1]>>, 3) <<print setup.npcSetting.height[2][2]>>, 4) <<print setup.npcSetting.height[2][3]>>, 5) <<print setup.npcSetting.height[2][4]>>.<</replace>><</button>>
+  </td></tr></table><br>
+</div><br>
+
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Muscle Tone'' <<boober>><br>Set the relative likeliness of a generated NPC being in a certain category. Enter values for each category values can be zero. [ie (10,1,1,1,1) would make very frail people 10x more likely than any other tone cateogory.]</center>
+  <<set _Mtone = [5,20,50,20,5]>><<set _Ftone = [5,20,50,20,5]>>
+  <table><tr>
+  <td>
+  ''Male''<br>
+  <<textbox "_Mtone[0]" _Mtone[0]>> 1. Frail<br>
+  <<textbox "_Mtone[1]" _Mtone[1]>> 2. Weak<br>
+  <<textbox "_Mtone[2]" _Mtone[2]>> 3. Normal<br>
+  <<textbox "_Mtone[3]" _Mtone[3]>> 4. Toned<br>
+  <<textbox "_Mtone[4]" _Mtone[4]>> 5. Muscular<br>
+  <<textbox "_Mtone[5]" _Mtone[4]>> 6. Body Builder
+  </td><td>
+  ''Female''<br>
+  <<textbox "_Ftone[0]" _Mtone[0]>> 1. Frail<br>
+  <<textbox "_Ftone[1]" _Mtone[1]>> 2. Weak<br>
+  <<textbox "_Ftone[2]" _Mtone[2]>> 3. Normal<br>
+  <<textbox "_Ftone[3]" _Mtone[3]>> 4. Toned<br>
+  <<textbox "_Ftone[4]" _Mtone[4]>> 5. Muscular<br>
+  <<textbox "_Ftone[5]" _Mtone[4]>> 6. Body Builder
+  </td>
+  </tr><tr><td colspan=2>Current: <span id="tonesetting">''Male:'' 1) <<print setup.npcSetting.tone[1][0]>>, 2) <<print setup.npcSetting.tone[1][1]>>, 3) <<print setup.npcSetting.tone[1][2]>>, 4) <<print setup.npcSetting.tone[1][3]>>, 5) <<print setup.npcSetting.tone[1][4]>>, 6) <<print setup.npcSetting.tone[1][5]>>. -- ''Female:'' 1) <<print setup.npcSetting.tone[2][0]>>, 2) <<print setup.npcSetting.tone[2][1]>>, 3) <<print setup.npcSetting.tone[2][2]>>, 4) <<print setup.npcSetting.tone[2][3]>>, 5) <<print setup.npcSetting.tone[2][4]>>, 6) <<print setup.npcSetting.tone[2][5]>>.</span>
+  </td></tr><tr><td colspan=2>
+  Control Enabled: <<set _tony = setup.npcSetting.tone[0]>><<checkboxA "_tony" false true>> -- Change Setting: <<button "SET">><<set setup.npcSetting.tone[0] = _tony>>
+  <<set setup.npcSetting.tone[1] = [Number(_Mtone[0]),Number(_Mtone[1]),Number(_Mtone[2]),Number(_Mtone[3]),Number(_Mtone[4]),Number(_Mtone[5])]>><<set setup.npcSetting.tone[2] = [Number(_Ftone[0]),Number(_Ftone[1]),Number(_Ftone[2]),Number(_Ftone[3]),Number(_Ftone[4]),Number(_Ftone[5])]>><<replace "#tonesetting">>''Male:'' 1) <<print setup.npcSetting.tone[1][0]>>, 2) <<print setup.npcSetting.tone[1][1]>>, 3) <<print setup.npcSetting.tone[1][2]>>, 4) <<print setup.npcSetting.tone[1][3]>>, 5) <<print setup.npcSetting.tone[1][4]>>, 6) <<print setup.npcSetting.tone[1][5]>>. -- ''Female:'' 1) <<print setup.npcSetting.tone[2][0]>>, 2) <<print setup.npcSetting.tone[2][1]>>, 3) <<print setup.npcSetting.tone[2][2]>>, 4) <<print setup.npcSetting.tone[2][3]>>, 5) <<print setup.npcSetting.tone[2][4]>>, 6) <<print setup.npcSetting.tone[2][5]>>.<</replace>><</button>>
+  </td></tr></table><br>
+</div><br>
+
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Weight'' <<boober>><br>Set the relative likeliness of a generated NPC being in a certain category. Enter values for each category values can be zero. [ie (10,1,1,1,1,) would make very fat people 10x more likely than any other weight cateogory.]</center>
+  <<set _Mweight = [5,20,50,20,5]>><<set _Fweight = [5,20,50,20,5]>>
+  <table><tr>
+  <td>
+  ''Male''<br>
+  <<textbox "_Mweight[0]" _Mweight[0]>> 1. Anorexic<br>
+  <<textbox "_Mweight[1]" _Mweight[1]>> 2. Skinny<br>
+  <<textbox "_Mweight[2]" _Mweight[2]>> 3. Average<br>
+  <<textbox "_Mweight[3]" _Mweight[3]>> 4. Heavyset<br>
+  <<textbox "_Mweight[4]" _Mweight[4]>> 5. Chubby<br>
+  <<textbox "_Mweight[5]" _Mweight[4]>> 6. Fat
+  </td><td>
+  ''Female''<br>
+  <<textbox "_Fweight[0]" _Mweight[0]>> 1. Anorexic<br>
+  <<textbox "_Fweight[1]" _Mweight[1]>> 2. Skinny<br>
+  <<textbox "_Fweight[2]" _Mweight[2]>> 3. Lithe<br>
+  <<textbox "_Fweight[3]" _Mweight[3]>> 4. Plush<br>
+  <<textbox "_Fweight[4]" _Mweight[4]>> 5. Chubby<br>
+  <<textbox "_Fweight[5]" _Mweight[4]>> 6. Fat
+  </td>
+  </tr><tr><td colspan=2>Current: <span id="weightsetting">''Male:'' 1) <<print setup.npcSetting.weight[1][0]>>, 2) <<print setup.npcSetting.weight[1][1]>>, 3) <<print setup.npcSetting.weight[1][2]>>, 4) <<print setup.npcSetting.weight[1][3]>>, 5) <<print setup.npcSetting.weight[1][4]>>, 6) <<print setup.npcSetting.weight[1][5]>>. -- ''Female:'' 1) <<print setup.npcSetting.weight[2][0]>>, 2) <<print setup.npcSetting.weight[2][1]>>, 3) <<print setup.npcSetting.weight[2][2]>>, 4) <<print setup.npcSetting.weight[2][3]>>, 5) <<print setup.npcSetting.weight[2][4]>>, 6) <<print setup.npcSetting.weight[2][5]>>.</span>
+  </td></tr><tr><td colspan=2>
+  Control Enabled: <<set _fatty = setup.npcSetting.weight[0]>><<checkboxA "_fatty" false true>> -- Change Setting: <<button "SET">><<set setup.npcSetting.weight[0] = _fatty>>
+  <<set setup.npcSetting.weight[1] = [Number(_Mweight[0]),Number(_Mweight[1]),Number(_Mweight[2]),Number(_Mweight[3]),Number(_Mweight[4]),Number(_Mweight[5])]>><<set setup.npcSetting.weight[2] = [Number(_Fweight[0]),Number(_Fweight[1]),Number(_Fweight[2]),Number(_Fweight[3]),Number(_Fweight[4]),Number(_Fweight[5])]>><<replace "#weightsetting">>''Male:'' 1) <<print setup.npcSetting.weight[1][0]>>, 2) <<print setup.npcSetting.weight[1][1]>>, 3) <<print setup.npcSetting.weight[1][2]>>, 4) <<print setup.npcSetting.weight[1][3]>>, 5) <<print setup.npcSetting.weight[1][4]>>, 6) <<print setup.npcSetting.weight[1][5]>>. -- ''Female:'' 1) <<print setup.npcSetting.weight[2][0]>>, 2) <<print setup.npcSetting.weight[2][1]>>, 3) <<print setup.npcSetting.weight[2][2]>>, 4) <<print setup.npcSetting.weight[2][3]>>, 5) <<print setup.npcSetting.weight[2][4]>>, 6) <<print setup.npcSetting.weight[2][5]>>.<</replace>><</button>>
+  </td></tr></table><br>
+</div><br>
+
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Beauty'' <<boober>><br>Set the relative likeliness of a generated NPC being in a certain beauty category. Enter values for each category values can be zero. Default values are: (5,20,50,20,5). [ie (10,1,1,1,1,) would make very handsome people 10x more likely than any other beauty cateogory.]</center>
+  <<set _Mbeauty = [5,20,50,20,5]>><<set _Fbeauty = [5,20,50,20,5]>>
+  <table><tr>
+  <td>
+  ''Male''<br>
+  <<textbox "_Mbeauty[0]" _Mbeauty[0]>> 1. <br>
+  <<textbox "_Mbeauty[1]" _Mbeauty[1]>> 2. <br>
+  <<textbox "_Mbeauty[2]" _Mbeauty[2]>> 3. <br>
+  <<textbox "_Mbeauty[3]" _Mbeauty[3]>> 4. <br>
+  <<textbox "_Mbeauty[4]" _Mbeauty[4]>> 5. 
+  </td><td>
+  ''Female''<br>
+  <<textbox "_Fbeauty[0]" _Mbeauty[0]>> 1. <br>
+  <<textbox "_Fbeauty[1]" _Mbeauty[1]>> 2. <br>
+  <<textbox "_Fbeauty[2]" _Mbeauty[2]>> 3. <br>
+  <<textbox "_Fbeauty[3]" _Mbeauty[3]>> 4. <br>
+  <<textbox "_Fbeauty[4]" _Mbeauty[4]>> 5. 
+  </td>
+  </tr><tr><td colspan=2>Current: <span id="beautysetting">''Male:'' 1) <<print setup.npcSetting.beauty[1][0]>>, 2) <<print setup.npcSetting.beauty[1][1]>>, 3) <<print setup.npcSetting.beauty[1][2]>>, 4) <<print setup.npcSetting.beauty[1][3]>>, 5) <<print setup.npcSetting.beauty[1][4]>>. -- ''Female:'' 1) <<print setup.npcSetting.beauty[2][0]>>, 2) <<print setup.npcSetting.beauty[2][1]>>, 3) <<print setup.npcSetting.beauty[2][2]>>, 4) <<print setup.npcSetting.beauty[2][3]>>, 5) <<print setup.npcSetting.beauty[2][4]>>.</span>
+  </td></tr><tr><td colspan=2>
+  Control Enabled: <<set _pretty = setup.npcSetting.beauty[0]>><<checkboxA "_pretty" false true>> -- Change Setting: <<button "SET">><<set setup.npcSetting.beauty[0] = _pretty>>
+  <<set setup.npcSetting.beauty[1] = [Number(_Mbeauty[0]),Number(_Mbeauty[1]),Number(_Mbeauty[2]),Number(_Mbeauty[3]),Number(_Mbeauty[4])]>><<set setup.npcSetting.beauty[2] = [Number(_Fbeauty[0]),Number(_Fbeauty[1]),Number(_Fbeauty[2]),Number(_Fbeauty[3]),Number(_Fbeauty[4])]>><<replace "#beautysetting">>''Male:'' 1) <<print setup.npcSetting.beauty[1][0]>>, 2) <<print setup.npcSetting.beauty[1][1]>>, 3) <<print setup.npcSetting.beauty[1][2]>>, 4) <<print setup.npcSetting.beauty[1][3]>>, 5) <<print setup.npcSetting.beauty[1][4]>>. -- ''Female:'' 1) <<print setup.npcSetting.beauty[2][0]>>, 2) <<print setup.npcSetting.beauty[2][1]>>, 3) <<print setup.npcSetting.beauty[2][2]>>, 4) <<print setup.npcSetting.beauty[2][3]>>, 5) <<print setup.npcSetting.beauty[2][4]>>.<</replace>><</button>>
+  </td></tr></table><br>
+</div><br><hr>
+
+<br>@@.head3;Sexual Characteristics@@<br>
+
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Breast Size:''<br>Skew the generation.<br> <div id="boobsverifier">''Active'': <<= setup.npcSetting.tits[0]>>, ''Actual value'': <<= setup.npcSetting.tits[1]>>.</div><br>
+    <<set _titties = setup.npcSetting.tits[0]>><<checkboxA "_titties" false true>> <br><br> <<radiogaga "_tittiesProp" _tittiesProp "Smallest" "Smaller" "Average" "Bigger" "Biggest">>
+    <<button "SET">><<set setup.npcSetting.tits[0] = _titties, setup.npcSetting.tits[1] = _tittiesProp>><<replace "#boobsverifier">>''Active'': <<= setup.npcSetting.tits[0]>>, ''Actual value'': <<= setup.npcSetting.tits[1]>>.<</replace>><</button>><br><br>
+  </center>
+<br><br></div>
+
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Vaginal Tightness:''<br>Skew the generation.<br> <div id="pussyverifier">''Active'': <<= setup.npcSetting.pussy[0]>>, ''Actual value'': <<= setup.npcSetting.pussy[1]>>.</div><br>
+    <<set _pussy = setup.npcSetting.pussy[0]>><<checkboxA "_pussy" false true>> <br><br> <<radiogaga "_pussyProp" setup.npcSetting.pussy[1] "Tightest" "Tighter" "Average" "Looser" "Loosest">>
+    <<button "SET">><<set setup.npcSetting.pussy[0] = _pussy, setup.npcSetting.pussy[1] = _pussyProp>><<replace "#pussyverifier">>''Active'': <<= setup.npcSetting.pussy[0]>>, ''Actual value'': <<= setup.npcSetting.pussy[1]>>.<</replace>><</button>>
+  </center>
+<br><br></div>
+
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Circumcision:''<br>Skew the generation.<br> <div id="circumverifier">''Active'': <<= setup.npcSetting.circum[0]>>, ''Actual value'': <<= setup.npcSetting.circum[1]>>.</div><br>
+    <<set _circum = setup.npcSetting.circum[0]>><<checkboxA "_circum" false true>> <br><br> <<radiogaga "_circumProp" _circumProp "-" "-" "Never" "Always" "Inverse">>
+    <<button "SET">><<set setup.npcSetting.circum[0] = _circum, setup.npcSetting.circum[1] = _circumProp>><<replace "#circumverifier">>''Active'': <<= setup.npcSetting.circum[0]>>, ''Actual value'': <<= setup.npcSetting.circum[1]>>.<</replace>><</button>>
+  </center>
+<br><br></div>
+
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Penis Size:''<br>Skew the generation.<br> <div id="cockverifier">''Active'': <<= setup.npcSetting.cock[0]>>, ''Actual value'': <<= setup.npcSetting.cock[1]>>.</div><br>
+    <<set _cock = setup.npcSetting.cock[0]>><<checkboxA "_cock" false true>> <br><br> <<radiogaga "_cockProp" _cockProp "Smallest" "Bigger" "Biggerer" "Giant" "Besty">>
+    <<button "SET">><<set setup.npcSetting.cock[0] = _cock, setup.npcSetting.cock[1] = _cockProp>><<replace "#cockverifier">>''Active'': <<= setup.npcSetting.cock[0]>>, ''Actual value'': <<= setup.npcSetting.cock[1]>>.<</replace>><</button>>
+  </center>
+<br><br></div>
+
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Orgasm Threshold:'' <<boober>> <br>Skew the generation.<br> <div id="orgasmverifier">''Active'': <<= setup.npcSetting.orgasm[0]>>, ''Actual value'': <<= setup.npcSetting.orgasm[1]>>.</div><br>
+    <<set _orgasm = setup.npcSetting.orgasm[0]>><<checkboxA "_orgasm" false true>> <br><br> <<radiogaga "_orgasmProp" _orgasmProp "Even Smaller" "Smaller" "Neutral" "Larger" "Even Larger">>
+    <<button "SET">><<set setup.npcSetting.orgasm[0] = _orgasm, setup.npcSetting.orgasm[1] = _orgasmProp>><<replace "#orgasmverifier">>''Active'': <<= setup.npcSetting.orgasm[0]>>, ''Actual value'': <<= setup.npcSetting.orgasm[1]>>.<</replace>><</button>>
+  </center>
+<br><br></div><hr>
+
+<br>@@.head3;Reproduction@@<br><br>
+
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Fertility:'' <<boober>> <br>Skew the fertility of generated NPCs toward being more or less fertile.<br> <div id="fertverifier">''Active'': <<= setup.npcSetting.fertility[0]>>, ''Actual male value'': <<= setup.npcSetting.fertility[1]>>, ''Actual female value'': <<= setup.npcSetting.fertility[2]>>.</div><br>
+    <<set _fertility = setup.npcSetting.fertility[0]>><<checkboxA "_fertility" false true>> <br><br>
+    ''Males'': <<radiogaga "_fertMaleProp" _fertFemProp "Much Less" "Less" "Neutral" "More" "Much More">><br>  
+    ''Females'': <<radiogaga "_fertFemProp" _fertFemProp "Much Less" "Less" "Neutral" "More" "Much More">>
+    <br><br><<button "SET">><<set setup.npcSetting.fertility[0] = _fertility, setup.npcSetting.fertility[1] = _fertMaleProp, setup.npcSetting.fertility[2] = _fertFemProp>><<replace "#fertverifier">>''Active'': <<= setup.npcSetting.fertility[0]>>, ''Actual value'': <<= setup.npcSetting.fertility[1]>>, ''Actual female value'': <<= setup.npcSetting.fertility[2]>>.<</replace>><</button>>
+  </center>
+<br><br></div>
+
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Pregnancy Term:''<br>Skew the generation.<br> <div id="pregtermverifier">''Active'': <<= setup.npcSetting.pregTerm[0]>>, ''Actual value'': <<= setup.npcSetting.pregTerm[1]>>.</div><br>
+    <<set _pregTerm = setup.npcSetting.pregTerm[0]>><<checkboxA "_pregTerm" false true>> <<radiogaga "_pregtermProp" _pregtermProp "44 weeks" "-6 weeks" "-12 weeks" "-18 weeks" "-24 weeks">>
+    <<button "SET">><<set setup.npcSetting.pregTerm[0] = _pregTerm, setup.npcSetting.pregTerm[1] = _pregtermProp>><<replace "#pregtermverifier">>''Active'': <<= setup.npcSetting.pregTerm[0]>>, ''Actual value'': <<= setup.npcSetting.pregTerm[1]>>.<</replace>><</button>>
+  </center>
+<br><br></div><br><hr>
+
+<br>@@.head3;Mutations@@<br><br>
+
+  Select whether these options will be active in game or not: <<set _mutate = setup.npcSetting.mutate[0]>><<checkboxA "_mutate" false true>> 
+  <<button "SET">>
+    <<set setup.npcSetting.mutate[0] = _mutate>>
+    <<set
+      setup.npcSetting.mutate[1][0] = _smoothVoice,
+      setup.npcSetting.mutate[1][1] = _LilCourse,
+      setup.npcSetting.mutate[1][2] = _noRefract,
+      setup.npcSetting.mutate[1][3] = _megaNuts,
+      setup.npcSetting.mutate[1][4] = _kilSperm,
+      setup.npcSetting.mutate[1][5] = _bitBreak,
+      setup.npcSetting.mutate[1][6] = _megaLong,
+      setup.npcSetting.mutate[1][7] = _ironMuscle,
+      setup.npcSetting.mutate[1][8] = _virile,
+      setup.npcSetting.mutate[1][9] = _acidPre,
+      setup.npcSetting.mutate[1][10] = _girthy,
+      setup.npcSetting.mutate[1][11] = _contort,
+      setup.npcSetting.mutate[1][12] = _lilPorphy,
+      setup.npcSetting.mutate[1][13] = _powerEjac,
+      setup.npcSetting.mutate[1][14] = _multgasm,
+      setup.npcSetting.mutate[1][15] = _alcImun,
+
+      setup.npcSetting.mutate[2][0] = _milk,
+      setup.npcSetting.mutate[2][1] = _acid,
+      setup.npcSetting.mutate[2][2] = _bc,
+      setup.npcSetting.mutate[2][3] = _multiple,
+      setup.npcSetting.mutate[2][4] = _gestate,
+      setup.npcSetting.mutate[2][5] = _cycle,
+      setup.npcSetting.mutate[2][6] = _twinWomb,
+      setup.npcSetting.mutate[2][7] = _pheromone,
+      setup.npcSetting.mutate[2][8] = _period,
+      setup.npcSetting.mutate[2][9] = _imune,
+      setup.npcSetting.mutate[2][10] = _mouth,
+      setup.npcSetting.mutate[2][11] = _contort,
+      setup.npcSetting.mutate[2][12] = _cumpire,
+      setup.npcSetting.mutate[2][13] = _pseudoPreg,
+      setup.npcSetting.mutate[2][14] = _elastic,
+      setup.npcSetting.mutate[2][15] = _lithePhero
+    >>
+  <</button>><br>
+  <table style="width: 49%; float: left; margin: 5px;"><tr><td colspan=2>
+  ''Male mutations'' <<boober>> //how common they are//
+  </td></tr><tr><td>
+  <<info "Smooth Voice" "guideMutateMale">> </td><td><<radiogaga "_smoothVoice" _smoothVoice "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Lilith's Curse" "guideMutateMale">> </td><td><<radiogaga "_LilCourse" _LilCourse "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "No Refractory" "guideMutateMale">> </td><td><<radiogaga "_noRefract" _noRefract "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Mega-Nuts" "guideMutateMale">> </td><td><<radiogaga "_megaNuts" _megaNuts "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Killer Sperm" "guideMutateMale">> </td><td><<radiogaga "_kilSperm" _kilSperm "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Bitch-Breaker" "guideMutateMale">> </td><td><<radiogaga "_bitBreak" _bitBreak "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Mega-Long" "guideMutateMale">> </td><td><<radiogaga "_megaLong" _megaLong "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Iron Muscles" "guideMutateMale">> </td><td><<radiogaga "_ironMuscle" _ironMuscle "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Virile" "guideMutateMale">> </td><td><<radiogaga "_virile" _virile "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Acid Pre" "guideMutateMale">> </td><td><<radiogaga "_acidPre" _acidPre "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Girthy" "guideMutateMale">> </td><td><<radiogaga "_girthy" _girthy "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Contortionist" "guideMutateMale">> </td><td><<radiogaga "_contort" _contort "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Lilith's Porphyria" "guideMutateMale">> </td><td><<radiogaga "_lilPorphy" _lilPorphy "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Power Ejaculation" "guideMutateMale">> </td><td><<radiogaga "_powerEjac" _powerEjac "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Multigasm" "guideMutateMale">> </td><td><<radiogaga "_multgasm" _multgasm "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Alcohol Immunity" "guideMutateMale">> </td><td><<radiogaga "_alcImun" _alcImun "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr></table>
+
+  <table style="width: 49%; float: left; margin: 5px;"><tr><td colspan=2>
+  ''Female mutations'' <<boober>> //how common they are//
+  </td></tr><tr><td>
+  <<info "Milk" "guideMutate">> </td><td><<radiogaga "_milk" _milk "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Acid" "guideMutate">> </td><td><<radiogaga "_acid" _acid "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "BC" "guideMutate">> </td><td><<radiogaga "_bc" _bc "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Multiple" "guideMutate">> </td><td><<radiogaga "_multiple" _multiple "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Gestate" "guideMutate">> </td><td><<radiogaga "_gestate" _gestate "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Cycle" "guideMutate">> </td><td><<radiogaga "_cycle" _cycle "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "TwinWomb" "guideMutate">> </td><td><<radiogaga "_twinWomb" _twinWomb "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Pheromone" "guideMutate">> </td><td><<radiogaga "_pheromone" _pheromone "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Period" "guideMutate">> </td><td><<radiogaga "_period" _period "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Immune" "guideMutate">> </td><td><<radiogaga "_imune" _imune "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Mouth" "guideMutate">> </td><td><<radiogaga "_mouth" _mouth "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Contort" "guideMutate">> </td><td><<radiogaga "_contort" _contort "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Cumpire" "guideMutate">> </td><td><<radiogaga "_cumpire" _cumpire "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "PseudoPreg" "guideMutate">> </td><td><<radiogaga "_pseudoPreg" _pseudoPreg "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "Elastic" "guideMutate">> </td><td><<radiogaga "_elastic" _elastic "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr><tr><td>
+  <<info "LitePhero" "guideMutate">> </td><td><<radiogaga "_lithePhero" _lithePhero "Never" "Less" "Normal" "More" "Much More">>
+  </td></tr></table>
+<br><br><br>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><hr><br>@@.head3;Primary Personality@@ <<boober>><<boober>><br><br>
+
+''Personality Archetypes:''<br>
+//This is a slightly dubious setting intended to make it easier for players to get more of a certain type of NPCs, however NPC personality doesn't actually work according to a system of archetypes or individual traits. Setting an archetype would simply constrain a lot of other actual variables during generation. While a nice idea, this will probably wait until later to implement because of the inherent difficulty of focing archetypes in a deliberately non-archetype system.// ^_^<br><br>
+
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Openness:''<br> <<boober>><<boober>>Skew the generation of NPCs.<br> <div id="openverifier">''Active'': <<= setup.npcSetting.open[0]>>, ''Actual male value'': <<= setup.npcSetting.open[1]>>, ''Actual female value'': <<= setup.npcSetting.open[2]>>.</div><br>
+    <<set _open = setup.npcSetting.open[0]>><<checkboxA "_open" false true>> <br><br>
+    MALE: <<radiogaga "_maleOpen" _maleOpen "Much Less" "Less" "Neutral" "More" "Much More">>  <br>
+    FEMALE: <<radiogaga "_femOpen" _femOpen "Much Less" "Less" "Neutral" "More" "Much More">>
+    <br>
+    <<button "SET">>
+      <<set setup.npcSetting.open[0] = _open, setup.npcSetting.open[1] = _maleOpen, setup.npcSetting.open[2] = _femOpen>>
+      <<replace "#openverifier">>''Active'': <<= setup.npcSetting.open[0]>>, ''Actual male value'': <<= setup.npcSetting.open[1]>>, ''Actual female value'': <<= setup.npcSetting.open[2]>>.<</replace>>
+    <</button>>
+  </center>
+<br></div>
+
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Intro/Extroversion:'' <<boober>><<boober>><br>Skew the generation of NPCs.<br> <div id="introextroverifier">''Active'': <<= setup.npcSetting.vert[0]>>, Actual male value: <<= setup.npcSetting.vert[1]>>, ''Actual female value'': <<= setup.npcSetting.vert[2]>>.</div><br>
+    <<set _vert = setup.npcSetting.vert[0]>><<checkboxA "_vert" false true>> <br><br>
+    MALE: <<radiogaga "_maleExtroIntro" _maleExtroIntro "Much Less" "Less" "Neutral" "More" "Much More">><br>
+    FEMALE: <<radiogaga "_femExtroIntro" _femExtroIntro "Much Less" "Less" "Neutral" "More" "Much More">>
+    <br>
+    <<button "SET">>
+      <<set setup.npcSetting.vert[0] = _vert, setup.npcSetting.vert[1] = _maleExtroIntro, setup.npcSetting.vert[2] = _femExtroIntro>>
+      <<replace "#introextroverifier">>''Active'': <<= setup.npcSetting.vert[0]>>, ''Actual male value'': <<= setup.npcSetting.vert[1]>>, ''Actual female value'': <<= setup.npcSetting.vert[2]>>.<</replace>>
+    <</button>>
+  </center>
+<br></div>
+
+/*''Willpower:''<br>Skew the generation of NPCs.<br>
+<<checkboxA "setup.npcSetting.fertility[0]" false true>> MALE: <<radiogaga "setup.npcSetting.fertility[1]" setup.npcSetting.fertility[1] "Much Less" "Less" "Neutral" "More" "Much More">>  FEMALE: <<radiogaga "setup.npcSetting.fertility[2]" setup.npcSetting.fertility[2] "Much Less" "Less" "Neutral" "More" "Much More">>
+<br><br>*/
+
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>''Intelligence Adjust:'' <<boober>><<boober>><br>Skew the generation of NPCs.<br> <div id="intverifier">''Active'': <<= setup.npcSetting.iq[0]>>, ''Actual male value'': <<= setup.npcSetting.iq[1]>>, ''Actual female value'': <<= setup.npcSetting.iq[2]>>.</div><br>
+    <<set _iq = setup.npcSetting.iq[0]>><<checkboxA "_iq" false true>> <br><br>
+    MALE: <<radiogaga "_maleIq" _maleIq "Much Less" "Less" "Neutral" "More" "Much More">><br>
+    FEMALE: <<radiogaga "_femIq" _femIq "Much Less" "Less" "Neutral" "More" "Much More">>
+    <br>
+    <<button "SET">>
+      <<set setup.npcSetting.iq[0] = _iq, setup.npcSetting.iq[1] = _maleIq, setup.npcSetting.iq[2] = _femIq>>
+      <<replace "#intverifier">>''Active'': <<= setup.npcSetting.iq[0]>>, ''Actual male value'': <<= setup.npcSetting.iq[1]>>, ''Actual female value'': <<= setup.npcSetting.iq[2]>>.<</replace>>
+    <</button>>
+  </center>
+<br></div><br><hr>
+
+<br>@@.head3;Opinion System Personality Traits@@ <<boober>><<boober>><<boober>><br><br>
+
+<<set _persCore = setup.npcSetting.persCore[0]>><<checkboxA "_persCore" false true>>
+<<button "SET">>
+  <<set setup.npcSetting.persCore[0] = _persCore>>
+<</button>>
+  <br><table style="width: 49%; float: right; margin: 5px;">
+  <<set _list = [false,["strength","secure","preg","kids","evolve","pleasure"],["strength","life","liberty","property","honesty","integrity"],["strength","interest","empathy","caring","trust","altruism"],["strength","thoughtful","responsible","attention","trustworthy","structure"],["strength","betrayal","cheating","effort","permanence","family"],["strength","complex","learning","abstract","curiosity","novelty"],["strength","impulsive","unstable","addiction","anxiety","sensitive","anger","sadness"],["strength","selfinterest","selfworth","confidence","fragility","selfimage","mach","risk"]]>>
+  <tr><td colspan=2>''Procreation''</td></tr>
+  <<set _c = 1>>
+  <<for _i = 0; _i < _list[_c].length; _i++>>
+  <<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
+  <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
+  <</for>><br>
+  <tr><td colspan=2>''Morality''</td></tr>
+  <<set _c = 2>>
+  <<for _i = 0; _i < _list[_c].length; _i++>>
+  <<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
+  <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
+  <</for>><br>
+  <tr><td colspan=2>''Agreeableness''</td></tr>
+  <<set _c = 3>>
+  <<for _i = 0; _i < _list[_c].length; _i++>>
+  <<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
+  <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
+  <</for>><br>
+  <tr><td colspan=2>''Conscientiousness''</td></tr>
+  <<set _c = 4>>
+  <<for _i = 0; _i < _list[_c].length; _i++>>
+  <<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
+  <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
+  <</for>>
+  <br></table>
+
+  <table style="width: 49%; float: keft; margin: 5px;">
+  <tr><td colspan=2>''Loyalty''</td></tr>
+  <<set _c = 5>>
+  <<for _i = 0; _i < _list[_c].length; _i++>>
+  <<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
+  <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
+  <</for>><br>
+  <tr><td colspan=2>''Curiosity''</td></tr>
+  <<set _c = 6>>
+  <<for _i = 0; _i < _list[_c].length; _i++>>
+  <<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
+  <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
+  <</for>><br>
+  <tr><td colspan=2>''Neuroticism''</td></tr>
+  <<set _c = 7>>
+  <<for _i = 0; _i < _list[_c].length; _i++>>
+  <<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
+  <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
+  <</for>><br>
+  <tr><td colspan=2>''Ego''</td></tr>
+  <<set _c = 8>>
+  <<for _i = 0; _i < _list[_c].length; _i++>>
+  <<set _pri = '<<radiogaga "setup.npcSetting.persCore[' + _c +'][' + _i + ']" setup.npcSetting.persCore[' + _c +'][' + _i + '] "Much Less" "Less" "Neutral" "More" "Much More">>'>>
+  <tr><td><<print _list[_c][_i]>></td><td><<print _pri>></td></tr>
+  <</for>><br>
+  <br></table>
+<br>
+
+<div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
+  <center><br>
+    @@.head3;NPC Preferences@@<br><br>
+    ''Height:''<br>
+    ''Weight:''<br>
+    ''Muscle:''<br>
+    ''Other:''<br>
+    ''Fancy:''<br>
+    ''Expensive:''<br>
+    ''Active:''<br>
+    ''Romance:''<br>
+    ''Excite:''<br>
+    ''Trendy:''<br>
+    ''Night:''<br>
+    ''Novel:''<br>
+  <br></center>
+</div><br>
+

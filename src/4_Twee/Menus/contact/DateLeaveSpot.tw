@@ -21,6 +21,55 @@
 <</dialogchoice>>
 
 
+:: DateLeaveDatespotHome [nobr]
+
+<<set _leaveText = either("I think it's time to do something else", "Hey, let's do something else")>>
+
+<p>Feeling that you've did this for long enough, you speak up to your date. @@.pc;Hey <<= aw.date.name>>, <<= _leaveText>>.@@</p>
+
+<p>@@.npc;Okay then, so what's up next?@@</p>
+
+<<dialogchoice>>
+<<dbutt "nevermind">><<addTime 2>><<scenereplace>><<print aw.dateSpots[aw.date.spot].desc>><br><<print aw.dateSpots[aw.date.spot].buttonGen()>><</scenereplace>>
+<<dtext "awkward">>On second thought, you've decided that you aren't quite ready to stop...
+<<dbutt "new activity">><<addTime 3>><<scenerefresh>><<scenereplace>><p><<f t>>he two of you consider your options for a new activity.</p><<print setup.date.locationPicker()>><</scenereplace>>
+<<dtext "smile">>Choose something else to continue your date.
+<<dbutt "follow">><<addTime 3>><<scenerefresh>><<scenereplace>><<= setup.date.npcChoice()>><</scenereplace>>
+<<dtext "smile">>Skip any options and just do what your date chooses.
+<<dbutt "end date">><<addTime 5>><<scenereplace>><<include [[DateLeaveAmicablePC]]>><</scenereplace>>
+<<dtext "tired">>It's getting late, or other similar sentiments. Time to leave.
+<<dbutt "sex">><<addTime 3>><<scenereplace>><<include [[DateEndSexPCask]]>><</scenereplace>>
+<<dtext "slut">>Invite your date to the bedroom for 'fun'.
+<</dialogchoice>>
+
+
+:: DateLeaveSpotSexitimesHome [nobr]
+
+<<replace "#Scene-Image-Top">>[img[IMG-EndofDateBanner]]<</replace>>
+<p>
+<<= aw.date.name>> gives you a knowing smile. @@.npc;So, shouldn't we <<= either("<i>check the bedroom</i>","spend some time in a <i>more fun way?</i>")>>?@@
+</p>
+<<dialogchoice>>
+<<dbutt "Yes">>
+<<set aw.date.npc.rship.likePC += random(2, 3)>>
+<<set aw.date.npc.rship.likeNPC += random(2, 3)>>
+<<set aw.date.npc.rship.lovePC += random(2, 4)>>
+<<set aw.date.npc.rship.loveNPC += random(2, 4)>>
+<<set ↂ.sex.passage = aw.passage.title>>
+<<set ↂ.sex.pcOutput = "It doesn't take long before the two of you are in the bed.">>
+<<set ↂ.sex.enviroTags = ["bed","wall"]>>
+<<set aw.date.npc.rship.companion += 25>>
+<<set aw.date.npc.rship.sleptover += 1>>
+<<set setup.sexitimes = aw.date.npcid>>
+<<run setup.date.end()>>
+<<script>>
+setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
+<</script>>
+<<dtext "happy">>Let <<= aw.date.name>> lead you to the bedroom, and probably more.
+<<dbutt "No">><<addTime 5>><<run setup.date.end()>>
+<<dtext "bored">>You think it is time to end the date.
+<</dialogchoice>>
+<br><br>
 
 
 :: DateLeaveSpotSexitimes [nobr]
@@ -35,8 +84,8 @@
 <<set aw.date.npc.rship.likeNPC += random(2, 3)>>
 <<set aw.date.npc.rship.lovePC += random(2, 4)>>
 <<set aw.date.npc.rship.loveNPC += random(2, 4)>>
-<<set ↂ.sex.passage = aw.passage.title>>
-<<set ↂ.sex.pcOutput = "It doesn't take long before the two of you are naked in your bed.">>
+<<set ↂ.sex.passage = "homeT" + ↂ.home.stats.tier + "bedroom">>
+<<set ↂ.sex.pcOutput = "It doesn't take long before the two of you are in the bed.">>
 <<set ↂ.sex.enviroTags = ["bed","wall"]>>
 <<set aw.date.npc.rship.companion += 25>>
 <<set aw.date.npc.rship.sleptover += 1>>
@@ -52,7 +101,7 @@ setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
 <<set aw.date.npc.rship.lovePC += random(2, 4)>>
 <<set aw.date.npc.rship.loveNPC += random(2, 4)>>
 <<set ↂ.sex.passage = "ResidentialSidewalk">>
-<<set ↂ.sex.pcOutput = "It doesn't take long before the two of you are naked in bed.">>
+<<set ↂ.sex.pcOutput = "It doesn't take long before the two of you are in bed.">>
 <<set ↂ.sex.enviroTags = ["bed","wall"]>>
 <<set aw.date.npc.rship.companion += 25>>
 <<set aw.date.npc.rship.sleptover += 1>>
@@ -91,7 +140,11 @@ setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
 You look at <<= aw.date.name>> hungrily, <<if ↂ.pc.status.arousal > 5>>your arousal painted on your face<<else>>imitating the smoldering arousal you've seen in the movies<</if>>. @@.pc;Hey, what do you say we take this date somewhere a little more... <b><i>intimate</i></b>?@@
 </p>
 <center><<= $SCtext[1]>></center>
+<<if aw.date.dateType == "yourhome" || aw.date.dateType == "BFhome">> 
+<<include [[DateEndSexPCyesHome]]>>
+<<else>>
 <<include [[DateEndSexPCyes]]>>
+<</if>>
 <<else>>
 <p>
 Confident in your appeal at this point, you catch <<= aw.date.name>>'s eye by grabbing one of your <<p tit.q>> <<p breasts.n>> in one hand, while the other mimes grabbing your crotch. <br><br>@@.pc;Hey, what do you say we go somewhere we can fuck?@@
@@ -99,6 +152,29 @@ Confident in your appeal at this point, you catch <<= aw.date.name>>'s eye by gr
 <center><<= $SCtext[1]>></center>
 <<include [[DateEndSexPCno]]>>
 <</if>>
+
+
+:: DateEndSexPCyesHome [nobr]
+
+<p>
+<<= aw.date.name>> looks at your body greedily before replying. @@.npc;Oh yeah!@@
+</p>
+<center><<button "Let's fuck!">>
+<<set aw.date.npc.rship.likePC += random(2, 3)>>
+<<set aw.date.npc.rship.likeNPC += random(2, 3)>>
+<<set aw.date.npc.rship.lovePC += random(2, 4)>>
+<<set aw.date.npc.rship.loveNPC += random(2, 4)>>
+<<set ↂ.sex.passage = aw.passage.title>>
+<<set ↂ.sex.pcOutput = "It doesn't take long before the two of you in the bed.">>
+<<set ↂ.sex.enviroTags = ["bed","wall"]>>
+<<set aw.date.npc.rship.companion += 25>>
+<<set aw.date.npc.rship.sleptover += 1>>
+<<set setup.sexitimes = aw.date.npcid>>
+<<run setup.date.end()>>
+<<script>>
+setTimeout(()=>setup.sex.startSex(setup.sexitimes), 200);
+<</script>>
+<</button>></center>
 
 
 :: DateEndSexPCyes [nobr]
@@ -113,7 +189,7 @@ Confident in your appeal at this point, you catch <<= aw.date.name>>'s eye by gr
 <<set aw.date.npc.rship.lovePC += random(2, 4)>>
 <<set aw.date.npc.rship.loveNPC += random(2, 4)>>
 <<set ↂ.sex.passage = "homeT" + ↂ.home.stats.tier + "bedroom">>
-<<set ↂ.sex.pcOutput = "It doesn't take long before the two of you are naked in your bed.">>
+<<set ↂ.sex.pcOutput = "It doesn't take long before the two of you in the bed.">>
 <<set ↂ.sex.enviroTags = ["bed","wall"]>>
 <<set aw.date.npc.rship.companion += 25>>
 <<set aw.date.npc.rship.sleptover += 1>>
@@ -129,7 +205,7 @@ setTimeout(()=>setup.sex.startSex(setup.sexitimes), 200);
 <<set aw.date.npc.rship.lovePC += random(2, 4)>>
 <<set aw.date.npc.rship.loveNPC += random(2, 4)>>
 <<set ↂ.sex.passage = "ResidentialSidewalk">>
-<<set ↂ.sex.pcOutput = "It doesn't take long before the two of you are naked in bed.">>
+<<set ↂ.sex.pcOutput = "It doesn't take long before the two of you are in bed.">>
 <<set ↂ.sex.enviroTags = ["bed","wall"]>>
 <<set aw.date.npc.rship.companion += 25>>
 <<set aw.date.npc.rship.sleptover += 1>>
@@ -164,12 +240,12 @@ It seems your little mating display didn't win <<= aw.date.name>> over, judging 
 <<replace "#Scene-Image-Top">>[img[IMG-EndofDateBanner]]<</replace>>
 <<= aw.date.name>> looks at you with a smile. @@.npc;This has been fun, <<= ↂ.pc.main.name>>, but I think its just about time to call it a night... We should really do this again though!@@<br>
 <<dialogchoice>>
-<<dbutt "we should">><<replace "#answers">>
+/* <<dbutt "we should">><<replace "#answers">>
 <p>You answer with a smile. @@.pc;We really should! when's good for you?@@</p>
 <<set _npc = aw.date.npcid>><<datescheduler _npc>>
 <br><div id="coco"><center><<button "END DATE">><<addTime 10>><<replace "#coco">><<include [[DateLeaveSpotAmicable2]]>><</replace>><</button>></center></div>
 <</replace>><<scenerefresh>>
-<<dtext "kissheart">>You'd like to go out again too, so go ahead and make plans.
+<<dtext "kissheart">>You'd like to go out again too, so go ahead and make plans. */
 <<dbutt "sounds nice">><<addTime 5>><<scenego [[DateLeaveSpotAmicable2]]>><<scenerefresh>>
 <<dtext "kiss">>You wouldn't mind going out again, but you're not quite ready to make a date yet.
 <<dbutt "not so much">><<addTime 5>><<scenego [[DateLeaveSpotAmicable2]]>><<scenerefresh>>

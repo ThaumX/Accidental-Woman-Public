@@ -186,3 +186,248 @@ You agree meekly with a simple @@.pc;yes@@ and follow her upstairs and back to t
 <br><br>
 
 
+:: MSF-StartText [nobr]
+
+<<texting "Lily">>
+<<textnpc>>Hey <<name>>, I need you to stop by my place this weekend.
+<<textnpc>>I'll be home all weekend, so anytime from 0800 to 2300 should be fine.
+<<textpc>>Okay... what do you need me to do?
+<<textnpc>>This time just setting you up with access to my basement lab, and also explaining your first task.
+<<textnpc>>You don't have to start this weekend, but we do have a deadline to meet.
+<<textpc>>Okay, I'll stop by.
+<<textnpc>><<if ↂ.flag.main.female.helpResp === 1>>Be sure that you do.<<else>>Thanks, see you then.<</if>> <<replace "#cockifer">><<safetoclose>><</replace>>
+<</texting>>
+<div id="cockifer">
+...
+</div>
+
+
+:: MSF-GetAccessKey [nobr]
+
+<<status 1>>
+<<run $items.pickUp("Lily's Access Card")>>
+<<set ↂ.flag.main.active[0] = true>>
+<<run setup.omni.kill(ↂ.flag.main.omniKey)>>
+<<status 0>>
+<p>
+<<f y>>ou climb the steps to Dr. Richard's front door and ring the bell. A moment later you hear a bang followed by "@@.npc;Fuck!@@" from inside. A little while later a slightly disheveled-looking Lily opens the door. @@.npc;Hey <<name>>, come on in.@@ She's wearing a T-shirt and a thin pair of shorts, and is pitching a pretty obvious tent.
+</p>
+<p>
+You freeze, shocked by your unexpected discovery. @@.pc;<<has bitch>>Holy shit! You're a trap!?<<or>>Wow! I never realized you were a T-girl!<</has>>@@
+</p>
+<p>
+Lily blushes a little <<has bitch>>and looks angry. @@.npc;Excuse me, but I am ''not'' a trap!@@<<or>>and looks upset. @@.npc;I am ''not'' a T-girl.@@<</has>> She steps away from the entrance and crosses her arms over her chest. @@.npc;Anyway, come inside.@@
+</p>
+<p>
+You walk through the door to stand in Dr. Richard's foyer, turning to face the upset scientist. @@.pc;I'm sorry... It's just, well, it's pretty obvious right now that you have a penis...@@ You gesture to the tent in her shorts.
+</p>
+<p>
+Lily bends a little to look down over her breasts and realizes how obvious her erection is. Her blush intensifies, and she turns and closes the front door silently. She pauses for a few moments before finally turning back to face you. @@.npc;So, yes, I have a penis. I'm actually intersex though, not a <<has bitch>>"trap" as you so crudely put it<<or>>trans-woman<</has>>. I was born with both sets of reproductive organs, though I've taken certain drugs to help develop normal function...@@ She puts her hands on her hips and fixes you with a resolute stare. @@.npc;Is that a problem?@@
+</p>
+<p>
+You look away from her intense gaze. @@.pc;No, no problem...@@ You force your gaze back to her face. @@.pc;I'm sorry about that, I was just so surprised...@@
+</p>
+<div id="cuntainer">
+<center>
+<<if (ↂ.pc.kink.slut || ↂ.pc.kink.liberate) && ↂ.pc.trait.libido > 4 && !ↂ.pc.trait.intro && !ↂ.pc.trait.cl>>
+  <<button "Can I See?">>
+    <<SCX>><<SC "COM" 15>>
+    <<if $SCresult[1]>>
+      <<replace "#cuntainer">><center><<print $SCtext[1]>></center><<include [[MSF-GetAccessKeyPass]]>><</replace>>
+    <<else>>
+      <<replace "#cuntainer">><center><<print $SCtext[1]>></center><<include [[MSF-GetAccessKeyFail]]>><</replace>>
+    <</if>>
+  <</button>>
+<<else>>
+  <<hoverrevise why>>
+  <button class="disabled">Can I See?</button>
+  <<endhoverrevise>><br>
+  <<insertion why>><<ctn>>To ask to see Lily's equipment, you must be a slut or at least liberated and you must have a high libido, not be introverted, and not be close-minded.<</ctn>><<endinsertion>>
+<</if>>
+</center>
+</div>
+<p>
+Lily gestures for you to follow her. @@.npc;Come on, let's go get you that access card.@@ She starts walking to the basement stairs. You wait as she opens a complex lock on the door to the stairway, and then follow her down.
+</p>
+<center>[img[IMG-ElectronicsLabSpace]]</center>
+<p>
+The lab space looks pretty similar to what you saw last time at first glance, but after taking a closer look you realize that the arrangement of parts and pieces is different from what you saw last time. This time they seem to be better organized, sorted into clusters of similar items.
+</p>
+<p>
+You look back and see that Lily is standing at the electronics desk in front of a laptop. She's messing with what appears to be a card and card reader. @@.pc;What's this?@@
+</p>
+<p>
+She looks back at you. @@.npc;Just getting your access card ready. Come here so I can scan your thumbprints.@@ She points to a simple fingerprint reader attached to the laptop. You walk over and hold your thumb out. @@.npc;Just push your thumb on the pad and hold it until the light turns green.@@ You comply, first pushing your right thumb onto the pad. When the light turns green, you repeat the process with your left.
+</p>
+<p>
+@@.npc;Okay, now I need you to push your thumb onto the chip-looking thing on that card.@@ Once you do, you hear the computer chirp. @@.npc;Okay, you're all set.@@ She pulls the card out of the reader. @@.npc;When you want to get in through the basement door, just insert this card into the reader next to the door while you have your thumb on that chip. Then push your thumb on the fingerprint reader, and finally enter the 4-digit PIN. The door will unlock, and you can pull out the access card.@@
+</p>
+<p>
+@@.pc;What's the PIN?@@
+</p>
+<p>
+@@.npc;The PIN is 2625. If you have a hard time remembering it, open the phone on your cell and look at the numbers. The numbers spell cock.@@ She chuckles a bit and then hands you the access card. It's thicker and heavier than you expected.
+</p>
+<center>
+<div style="border:2px solid deepskyblue;border-radius:4px;padding:10px;">
+<<ctn>>You obtained Lily's Access Card!<</ctn>><br>
+<img data-passage="IMG_Item_AccessCard" style="width: 125px; height: 125px;">
+</div>
+</center>
+<p>
+You take the card hesitantly. @@.pc;So, umm, why do I need special access to your basement? Couldn't you have just let me in normally?@@
+</p>
+<p>
+@@.npc;Because I know you have your own schedule. If you can only work while I'm here, you might not be able to finish everything by the deadline.@@ She gives you a smile with too much of an edge to it to feel friendly. @@.npc;I really don't want to have to make "deadline" into a literal term.@@
+</p>
+<p>
+You swallow reflexively despite having a dry mouth. @@.pc;Okay... So what is it that you need me to do, and when do I need to have it done by?@@
+</p>
+<p>
+Lily launches into a detailed set of instructions for inspecting the various parts in the basement, what to look for, how to keep track of it, and what to do with things that fail your inspection. Luckily the work itself doesn't seem to be too difficult; it will just be time consuming. She also tells you that she'll have some written instructions pinned up in case you forget something.
+</p>
+<<comment "I actually figured out what the instructions would be based on this stage of fixing the machine... Then I decided that actually having to read them would be way too boring and probably wouldn't contribute to the story in any sort of meaningful way.">>
+<p>
+@@.npc;My <i>friend</i> Kim may be stopping by from time to time to help out.@@ She gives you a serious look. @@.npc;She doesn't know the details of our little arrangement... and I expect it to stay that way. If she asks, tell her that your boss at the Institute owes me a favor. Is that clear?@@
+</p>
+<p>
+You nod. @@.pc;Yes... Should I try to avoid her?@@
+</p>
+<p>
+@@.npc;You don't have to avoid her, exactly, though it's probably best if you don't meet outside of coincidence here in the lab.@@ She seems to notice your expression. @@.npc;Don't worry, I'm sure you'll get along fine. But just in case you start getting ideas about getting along too well, I'll lay this out now: ''she's mine''.@@
+</p>
+<p>
+You aren't sure exactly what she means, there's too much of an edge in her voice for this to be a simple jealous warning. @@.pc;She's yours?@@
+</p>
+<p>
+Lily waves her hand. @@.npc;The details aren't important, you'll probably see on your own soon enough.@@
+</p>
+<p>
+Lily looks at a clock on the wall and then starts walking down one of the paths through the sea of parts. @@.npc;Well, now that that's over with there's actually a couple things I really need to take care of... I'll show you out the basement entrance.@@ She looks back at you and gestures for you to follow.
+</p>
+<p>
+The two of you make your way through the sea of parts toward a heavy-looking door on the far wall that you realize must be the direct entrance to the lab. When she reaches the door, she pushes a doorbell-looking button on the wall and you hear a series of mechanical sounds as bolts retract. She pulls the door open, holding it for you. @@.npc;Don't forget the deadline. Four weeks, May 21st.@@
+</p>
+<p>
+You step outside into the below-ground area in front of Lily's townhouse. @@.pc;Don't worry, I won't forget Dr. Richards.@@
+</p>
+<p>
+@@.npc;Good. I'll be seeing you.@@ She gently closes the door, leaving you alone. 
+</p>
+<center>
+<<button "Climb Up To The Street">>
+<<addtime 10>><<go "LilysPlace">>
+<</button>>
+</center>
+
+
+
+
+:: MSF-GetAccessKeyPass [nobr]
+
+<p>
+@@.pc;That's amazing!@@ You're quiet for a few moments as you look her over more thoroughly. @@.pc;Intersex conditions aren't *that* rare, but I can't even imagine how rare it is to have two complete sets of reproductive organs... or how that's even possible. And you look like a normal--and quite attractive--woman too!@@
+</p>
+<p>
+Lily nods. @@.npc;It's too odd to have established statistics. I don't usually broadcast it, but people in Appletree tend to be a lot more accepting of my... anatomical peculiarities.@@ She looks in the distance for a moment, seemingly remembering a fun encounter. @@.npc;Usually I just tell people that ask that I have XXY chromosomes, so I have both XX and XY. That seems to satisfy people's curiosity.@@
+</p>
+<p>
+@@.pc;But XXY isn't that rare I don't think... and don't they normally look like boys with somewhat stunted sexual development?@@
+</p>
+<p>
+She looks a little surprised that you know that. @@.npc;It's called Klinefelter syndrome, and it happens in about 1 in 1000 births. And you're right, many people that have it aren't aware of it. It commonly causes people to have a micropenis and small testicles, in addition to difficulty producing viable sperm. But generally they look male, yes.@@
+</p>
+<p>
+@@.pc;But that isn't you, though...@@ you prompt her.
+</p>
+<p>
+She shakes her head and sighs. @@.npc;Well, since you seem so genuinely curious, I suppose it wouldn't hurt to tell you.@@ She pauses a moment before continuing. @@.npc;I started out with 47 chromosomes, and would have likely ended up as a man with uninspiring equipment. But something unique happened while I was a zygote; my chromosomes weren't copied properly when a cell divided. In my case, one of the 4 cells divided into two, each missing a chromosome. One ended up with two X chromosomes, the other with an X and Y. This resulted in a condition known as mosaicism where some of my cells are XXY, some are XX, and some are XY. This kind of defect in cell copying isn't rare at all, though when it happens to a zygote it can cause some profound effects or even miscarriage depending on the chromosomes.@@
+</p>
+<p>
+You nod encouragingly. @@.pc;I see what you mean. Something fairly common happened in a specific way with specific starting conditions... and the result was something extremely rare.@@ You smile at her. @@.pc;I'm sure it caused problems for you, I imagine just being intersex is tough... but at the same time it seems pretty cool to have two sets of equipment. How does that work, anyway?@@
+</p>
+<p>
+Lily chuckles. @@.npc;You're right, aside from social issues it ''is'' pretty cool to have both. As for how it works... that's a long conversation... To keep it simple, I ended up with an extra reproductive bud as a fetus, one XX and one XY. This resulted in having 4 gonads, a pair of XX and XY. The tissue responded fairly predictably from there. Most of my tissue is XXY, which happens to respond poorly to androgens while still responding normally to female gonadotropins.@@ She gestures to her well-developed body. @@.npc;That caused me to develop my feminine appearance.@@
+</p>
+<p>
+@@.pc;I know this is probably a little inappropriate, but I'm just so curious to see how it works anatomically... Do you think I could take a look down there?@@
+</p>
+<p>
+Lily doesn't seem surprised, but she does take several seconds to think before she answers. @@.npc;I guess it's fine, I've shown people for worse reasons... No touching though.@@ Without ceremony, she pulls her shorts down over her hips, allowing her still semi-erect cock to spring free. She bends over some, lowering the shorts until they're stretched between her knees. She stands back up proudly. @@.npc;This is me.@@
+</p>
+<center>[img[IMG-LilysCrotch]]<br><<link "Relevant Anatomical Diagram">><<dialog "Lily's Anatomy">><center>[img[IMG-FutaAnatomy]]</center><</dialog>><</link>></center>
+<p>
+As you stare a bead of pre forms at her urethra, her cock seeming to regain a little vigor at being watched. Her testicles are hanging loosely in her sack, and are a good deal larger than you expected. You notice that they seem to be a little wet, along with her inner thighs. Unfortunately her sack is hiding whatever is behind it from view, so you lower yourself into a crouch to try and see under them.
+</p>
+<p>
+Lily realizes your intention and silently uses her hand to lift her testicles forward and up, giving you a clear view of her female parts. You're surprised to see that she has a clit in addition to her cock. The base of her sack seems to merge into her clitoral hood, and two pretty-normal looking labia emerge below that. At first glance it looks pretty-much indistinguishable from a normal woman's slit, but after looking carefully you notice you don't see a urethra. For the most part it looks pretty normal.
+</p>
+<p>
+Lily bends over and quickly pulls her shorts back up. @@.npc;Okay, I think that's enough of a show for now.@@
+</p>
+<p>
+You stand back up. @@.pc;Ahh, thanks for showing me. You have some lovely ummm... equipment.@@
+</p>
+<p>
+You notice that Lily seems to have a hint of a blush on her checks. @@.npc;Umm, thanks <<name>>.@@ She suddenly realizes that her cock is still sticking up out of her waistband, and quickly adjusts herself.
+</p>
+
+
+:: MSF-GetAccessKeyFail [nobr]
+
+<p>
+@@.pc;Seriously?@@ You bend over to take a closer look at Lily's crotch. @@.pc;Can I look at your junk?@@
+</p>
+<p>
+Dr. Richards takes a step back and you hear a beeping noise that seems to emanate from within your skull. @@.npc;Yes, seriously, and no, you may not.@@
+</p>
+<p>
+You stand back up, bothered by the noise and realizing that she took the request a lot more seriously than you intended. @@.pc;Ahh, sorry about that... bad joke.@@
+</p>
+
+
+:: MSF-TaskOneComplete [nobr]
+
+<<status 1>>
+<<set ↂ.flag.main.known[1] = true>>
+<<set ↂ.flag.main.active[1] = true>>
+<<status 0>>
+<<texting "Lily">>
+  <<textnpc>>Hey <<name>>, thanks for your help, we're officially done with the inspection.
+  <<textnpc>>I've got your next task ready.
+  <<textpc>>What is it?
+  <<textnpc>>Because pretty much every single EM coil is ruined, we need to obtain some new enameled wire.
+  <<textnpc>>We can't buy it all at once without raising attention, so you'll be buying it in small batches from a contact I have down in the industrial area.
+  <<textpc>>Umm... buying it all?
+  <<textnpc>>Don't worry, I don't expect you to actually pay for it, I'll take care of that.
+  <<textpc>>Oh, okay then. I was gonna say...
+  <<textnpc>>It shouldn't be too big of a deal. I'll leave some instructions in the lab like before.
+  <<textpc>>Okay...
+  <<textnpc>>I have three contacts that you can buy wire from. All you have to do is take one of the anonymous credit chits, drive over to the contact, make a purchase, and bring the wire back.
+  <<textnpc>>Honestly, it's a lot simpler than what you just finished... The purchases just need to be spaced out a bit.
+  <<textpc>>Okay, I'm sure I can handle it.
+  <<textnpc>>Yeah, easy-peasy. The only thing is that you can only make a purchase from a contact once per day... so I wouldn't wait till the last minute.
+  <<textpc>>I get that... but how many trips are we talking about? 
+  <<textnpc>>Well... the amount of wire you can buy depends on the contact, and how much wire they can sell under the table that day. If I had to guess... 50 trips?
+  <<textpc>>Oh... That's more than I thought.
+  <<textnpc>>Well if it was something quick and easy, I wouldn't need you, would I?
+  <<textpc>>Yeah...
+  <<textnpc>>Okay, you've got until the end of June. I'll see you around.<<replace "#pasty">><<safetoclose>><</replace>>
+  <</texting>>
+
+
+:: MSF-TaskTwoComplete [nobr]
+
+<<status 1>>
+<<set ↂ.flag.main.known[2] = true>>
+<<set ↂ.flag.main.active[2] = true>>
+<<status 0>>
+<<texting "Lily">>
+  <<textnpc>>Hey <<name>>, thanks for your help, you've gathered enough wire.
+  <<textnpc>>Unfortunately, I don't have your next task ready because the developer hasn't written that far yet.
+  <<textnpc>>Hint: it's wrapping wire to make EM coils.
+  <<textpc>>So when does the story continue?
+  <<textnpc>>It could be as early as version 0.33!
+  <<textnpc>>Thanks for playing. I'll see you around.<<replace "#pasty">><<safetoclose>><</replace>>
+<</texting>>
+

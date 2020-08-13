@@ -69,14 +69,27 @@
           <<scrolltop "#menuContent">>
         <</button>>
       <</if>>
+      <<if $swim == "[cheats]" || $swim == "[dev]" || $swim == "[elite]" || $swim == "[backer]">>
+        <<button "NPCS">>
+          <<replace "#labler">>NPC SETTINGS<</replace>>
+          <<replace "#menuContent">><<include [[customNPCmenu]]>><</replace>>
+          <<scrolltop "#menuContent">>
+        <</button>>
+      <<else>>
+        <<button "NPCS">>
+          <<replace "#labler">><span class="bad">NPC SETTINGS UNAVAILABLE</span><</replace>>
+          <<replace "#menuContent">><center>Sorry, changing NPC Generator settings during the game is currently a backer level feature. Generator settings can still be adjusted before starting a new game.</center><</replace>>
+          <<scrolltop "#menuContent">>
+        <</button>>
+      <</if>>
       <<button "STATS">>
           <<replace "#labler">>GAME STATISTICS<</replace>>
           <<replace "#menuContent">><<include [[MENU-GAME-Stats]]>><</replace>>
           <<scrolltop "#menuContent">>
         <</button>>
-      <<button "SYSTEM">>
+      /*<<button "SYSTEM">>
         <<run UI.settings()>>
-      <</button>>
+      <</button>>*/
       <<button "THEME">>
         <<replace "#labler">>THEME CONTROLS<</replace>>
         <<replace "#menuContent">><<include [[MenuThemeSettingsIncorporated]]>><</replace>>
@@ -121,8 +134,8 @@
       <<print settings.fontsize.toUpperCase()>>
       </fieldset>
       <fieldset>
-      <legend style="color:#7fdbff;">SCREEN READER FRIENDLY INTERFACE</legend>
-      <<if $screenReader>><span class="bad">DISABLED</span><<else>><span class="good">ENABLED</span><</if>>
+      <legend style="color:#7fdbff;">SRF INTERFACE</legend>
+      <<if $screenReader>><span class="bad">ENABLED</span><<else>><span class="good">DISABLED</span><</if>>
       </fieldset>
       /*<fieldset>
       <legend style="color:#7fdbff;">TEXT THEME</legend>
@@ -157,6 +170,9 @@
 :: MENU-GameSettingMain [nobr]
 
 <div style="width:95%;text-align:justify;margin:10px auto;">
+<center><<button "OPEN SYSTEM SETTINGS">>
+        <<run UI.settings()>>
+      <</button>></center>
 <fieldset>
   <legend><<checkboxA "$AW.metric" false true>> Use Metric</legend>
   You use a system of measures with arbitrary units. Does it emphasize intra-category conversion over intra-category practicality (and an extra helping of regional variation)? If so, you can use this option to turn on metric. :D
@@ -229,6 +245,10 @@
 <fieldset>
   <legend><<checkboxA "$pref.miscarriage" false true>> Miscarriages</legend>
   Turn this off to disable natural miscarriages in the game. Natural miscarriages can normally occur early term (first trimester) at random, with the odds affected by your fertility. More than 20% of pregnancies in the real world end this way. Natural miscarriages can also happen mid to late term as a result of bad health and drug abuse, and they are preventable. There are no penalties for disabling natural miscarriages.
+</fieldset>
+<fieldset>
+  <legend><<checkboxA "$npcTemplate.enabled" false true>> NPC Templates</legend>
+  Turn on or off the use of NPC Templates when generating new NPCs. You can use this setting to disable the NPC Template system if you only want to generate a limited number of NPCs that follow the templates.
 </fieldset>
 <fieldset>
   <legend>Load Game Statistics</legend>
@@ -536,10 +556,24 @@ if (State.active.variables.pref.sound == null) {
 <</button>>
 </div>
 <h3>About the Music</h3>
-[img[IMG-MusicCover-Utopia]]<br>
-A chillstep mix by ChilloutDeer. [Support the Artist!|https://streamlabs.com/chilloutdeer]
+[img[IMG-MusicCover-Oblivion]]<br>
+A chillout mix by ChilloutDeer. [Support the Artist!|https://streamlabs.com/chilloutdeer]
 </center>
 <div class="note" style="width: 50%; margin: 20px auto; text-align: left;">
+00:00 Direct - Abandon (Ecepta Remix)
+03:32 Andy Leech - René
+07:03 Emiliano Secchi - Collide
+11:14 Dawncall - Spirited
+15:13 Direct - Abandon
+18:36 Cubist - A Distance Away
+22:13 Trastler - Air
+26:45 Phelian - Luna (Emiliano Secchi Remix)
+31:11 AIЯLIИES - Aloft
+36:08 Menual & Phelian - Ecstasy
+40:53 Shah - Solitude
+44:01 Anfield - Away
+48:25 Azaleh - Rainy Nights
+/* UTOPIA
 00:00 Dimatis - Mists<br>
 03:12 Aurai & Vesky - Leavetakings<br>
 07:07 Sappheiros - Passion (Day 7 Remix)<br>
@@ -554,6 +588,7 @@ A chillstep mix by ChilloutDeer. [Support the Artist!|https://streamlabs.com/chi
 42:35 Glimpse - The Stranger<br>
 47:04 KISNOU x Silencyde - The Awakening<br>
 52:10 Michael St Laurent - Halcyon<br>
+*/
 </div>
 
 

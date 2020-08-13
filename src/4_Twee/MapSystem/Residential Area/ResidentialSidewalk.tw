@@ -52,7 +52,7 @@
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Go For A Walk">><<set _gape = random(14, 24)>><<run setup.notify('You stroll for some time relaxing and looking at the world around you.')>><<addtime _gape>><<stress -4 "Going for a walk">><</button>>
+  <<button "Go For A Walk">><<set _gape = random(14, 24)>><<run UI.alert('You stroll for some time relaxing and looking at the world around you.')>><<addtime _gape>><<stress -4 "Going for a walk">><</button>>
 <<endhoverrevise>>
 <<hoverrevise whore>>
   <<button "Stand at the Corner">><<set $streetWalkLoc = "rescorner">><<dialog "Preparing to work">><<include [[StreetWalkerManager]]>><</dialog>><</button>>
@@ -70,8 +70,8 @@
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>Take some time to stroll around the residential area. It's exercise, but without all the difficulty.<<endinsertion>>
-<<insertion whore>>Strut your stuff at the side of the road. Perhaps someone will ask you out on a "date"! [15min]<<endinsertion>>
+<<insertion alpha>>Take some time to stroll around the residential area. It's exercise, but without all the difficulty. <<ctn>>[15-25min]<</ctn>><<endinsertion>>
+<<insertion whore>>Strut your stuff at the side of the road. Perhaps someone will ask you out on a "date"! <<ctn>>[15min]<</ctn>><<endinsertion>>
 <<insertion beta>>Wait around at the shuttle stop for the next shuttlebus headed around town.<<endinsertion>>
 /* <<insertion gamma>>Talk to the odd guy in 1950 styled clothes.<<endinsertion>> */
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>

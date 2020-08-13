@@ -37,14 +37,14 @@ aw.tagContent.acquaintance.random = [
   <<if ↂ.job.percept > 2>>@@.npc;Oh, nice place!@@<<set aw.npc[setup.interact.status.npc].rship.likePC += 5>><<else>>@@.npc;Aah. Cool.@@<br><<set aw.npc[setup.interact.status.npc].rship.likePC -= 5>><</if>>
   @@.pc;Well, it is just a job as many others.@@<br><</if>>
   <<include [[NPCinteraction-AcquaintContinue]]>>`,
-  `<<n setup.interact.status.npc "heshe.q">> looks at you with a curious expression on the face.<br>
+  `<<print aw.npc[setup.interact.status.npc].main.name>> looks at you with a curious expression on the face.<br>
   @@.npc;How long are you in Appletree?@@<br>
   @@.pc;Not very much actually, I am still new here.@@<br>
   You take an expansive look around for show, as if seeing the place for the first time.<br>
   @@.npc;Well, I hope you like it as much as I do!@@<br>
   @@.pc;We'll see.@@<br>
   <<include [[NPCinteraction-AcquaintContinue]]>>`,
-  `@@.npc;Ugh, my <<= either("friend","uncle","coworker")>> is a local lore gatherer and he told me super interesting things about Muchi Valley yesterday. It seems there is a net of ancient tunnels under the ground on the north-west part, around springs and such. I wonder if somebody went there.@@<br>
+  `@@.npc;Oh, I know the thing that you may like! My <<= either("friend","uncle","coworker")>> is a local lore gatherer and he told me super interesting things about Muchi Valley yesterday. It seems there is a net of ancient tunnels under the ground on the north-west part, around springs and such. I wonder if somebody went there.@@<br>
   @@.pc;Well, maybe they should make an expedition to see how deep the rabbit hole is.@@<br>
   @@.npc;Yeah, I even feel tempted to go and look there by myself, but to be honest I am afraid of small places and darkness so I am not sure I'll get enough courage.@@<br>
   <<include [[NPCinteraction-AcquaintContinue]]>>`,
@@ -122,7 +122,7 @@ aw.tagContent.acquaintance.illnessBad = [
 ];
 aw.tagContent.acquaintance.nakedBottom = [
   `<<if aw.npc[setup.interact.status.npc].kink.exhibition || aw.npc[setup.interact.status.npc].kink.liberate>>@@.npc;Oh, wow. Nice day for giving your kitten some fresh air, mm? Looking good by the way, I certainly like the view!@@<br><<elseif aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Oh, damn, <<print ↂ.pc.main.name>> please, cover your butt with something!@@<br><<else>>@@.npc;Oh... well... I am pretty sure that you are aware that you are half naked, huh?@@<br><</if>>
-  <<has exhibition>>You can't but wiggle your <<p assSize>> butt a bit, presenting your nakedness to <<if aw.npc[setup.interact.status.npc].main.female>>her<<else>>him<</if>>.<br><br>@@.mono;Oh yes, stare at me. Damn, that is exciting!@@<br>@@.pc;Do you like it?@@<br><<arouse 2>><<orhas slut>><<arouse 2>>You can't but enjoy the attention to your naked bottom and pussy.<br><br><<orhas liberate>>You feel pretty comfortable with your lower part naked.<br><br><<orhas shame>><<stress 10 "Naked Pussy Convo">>You feel terribly insecure and going tomato red from embarassment.<br><<arouse -2>>@@.mono;How did I ever allow that to happen? I want just die right now.@@<br><<or>><<stress 7 "Naked Pussy Convo">>You feel pretty uncomfortable being exposed like this especially in front of the person you know.<br><<arouse -1>><</has>>
+  <<has exhibition>>You can't but wiggle your <<pcAssSize>> butt a bit, presenting your nakedness to <<if aw.npc[setup.interact.status.npc].main.female>>her<<else>>him<</if>>.<br><br>@@.mono;Oh yes, stare at me. Damn, that is exciting!@@<br>@@.pc;Do you like it?@@<br><<arouse 2>><<orhas slut>><<arouse 2>>You can't but enjoy the attention to your naked bottom and pussy.<br><br><<orhas liberate>>You feel pretty comfortable with your lower part naked.<br><br><<orhas shame>><<stress 10 "Naked Pussy Convo">>You feel terribly insecure and going tomato red from embarassment.<br><<arouse -2>>@@.mono;How did I ever allow that to happen? I want just die right now.@@<br><<or>><<stress 7 "Naked Pussy Convo">>You feel pretty uncomfortable being exposed like this especially in front of the person you know.<br><<arouse -1>><</has>>
   <<dialogchoice>>
       <<dbutt "Present" "ↂ.pc.kink.exhibition">><<intreplace>><<ctagcontent "acquaintance" "NakedBottomPresent">><</intreplace>>
       <<dtext "smug">>Give <<print aw.npc[setup.interact.status.npc].main.name>> a bit better view on your lady bits.
@@ -685,5 +685,10 @@ aw.tagContent.acquaintance.lewdTattoo = [
   @@.pc;What?@@<br>
   @@.npc;It is just... ugh, nevermind...@@<br>
   <<link "Emm...">><<intgo "NPCinteraction-AcquaintContinue">><</link>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 4>>
+  `,
+];
+
+aw.tagContent.acquaintance.aroused = [
+  `@@.mono;Oh... what as it? So hard to follow the convo while I am so aroused...@@
   `,
 ];

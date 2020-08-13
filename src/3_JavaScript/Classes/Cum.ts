@@ -81,11 +81,15 @@ class Cum {
     } else {
       this.quant = quant;
     }
+    try {
     if (killer != null) {
       this.killer = killer;
-    } else if (owner !== "unknown") {
+    } else if (setup.testes.test(owner)) {
       this.killer = aw.npc[owner].mutate.killerSperm;
     } else {
+      this.killer = (random(1, 10) === 10) ? true : false;
+    }
+    } catch (e) {
       this.killer = false;
     }
     if (amt === -1) {

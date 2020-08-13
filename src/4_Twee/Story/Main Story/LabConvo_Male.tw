@@ -1,0 +1,328 @@
+/*
+███╗   ███╗ █████╗ ██╗     ███████╗    ██╗     ██╗██╗  ██╗   ██╗
+████╗ ████║██╔══██╗██║     ██╔════╝    ██║     ██║██║  ╚██╗ ██╔╝
+██╔████╔██║███████║██║     █████╗      ██║     ██║██║   ╚████╔╝
+██║╚██╔╝██║██╔══██║██║     ██╔══╝      ██║     ██║██║    ╚██╔╝
+██║ ╚═╝ ██║██║  ██║███████╗███████╗    ███████╗██║███████╗██║
+╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝    ╚══════╝╚═╝╚══════╝╚═╝
+*/
+
+
+:: ML0-Menu [nobr]
+
+
+<div id="convo">
+<h3>What would you like to talk to Lily about?</h3>
+<p>
+<<link "Just say hello">><<replace "#convo">><<include [[ML0-Hello]]>><</replace>><</link>><br>
+<<link "What's the deal with your lab assistant?">><<replace "#convo">><<include [[ML0-LabAssist]]>><</replace>><</link>><br>
+<<link "Why take everything apart to put it back together again?">><<replace "#convo">><<include [[ML0-WhyApart]]>><</replace>><</link>><br>
+<<link "All of this was in the Rejuvinator?">><<replace "#convo">><<include [[ML0-Rejuv]]>><</replace>><</link>><br>
+<<link "What comes next?">><<replace "#convo">><<include [[ML0-Next]]>><</replace>><</link>>
+</p>
+<p>
+<<tutorial "convosTut">>The available conversation subjects will change as the main story progresses, so be sure to check back when the machine project enters a new stage! Additionally, some subject options may only be available once you've talked about a prerequisite subject!<</tutorial>>
+</p>
+</div>
+
+
+:: ML0-Next [nobr]
+
+<<addTime 3>>
+<p>
+<<f c>>urious what the next step is in repairing the rejuvenator after the inspection is finished, you walk over to Lily who is <<switch _labLily>><<case 1 2 3 4 5 8>>sitting at the electronics workstation.<<case 6>>is walking around the lab.<<case 7 10>>sitting at the desk in the middle of the room.<<case 9>>standing in front of a whiteboard covered in scribbles.<</switch>> @@.pc;Hey Lils, you got a minute?@@
+</p>
+<p>
+She looks up from her work, a little annoyed at being interrupted. @@.npc;Yeah, sure. What's up?@@
+</p>
+<p>
+@@.pc;Well, I just wanted to see what we're going to be working on next.@@ You shrug. @@.pc;Like, what's the next step to fix the rejuvenator?@@
+</p>
+<p>
+Lily ponders for a moment. @@.npc;Honestly <<name>>, it's really hard to say at this point... I suppose no matter how the electronics and other components turn out, we'll probably need to rebuild a couple of the electromagnets.@@
+</p>
+<p>
+You aren't really sure what that might entail though. @@.pc;Okay, thanks Lily.@@
+</p>
+<p>
+@@.npc;No problem@@ she says, as she returns to her work.
+</p>
+
+
+:: ML0-Rejuv [nobr]
+
+
+<<addTime 5>>
+<p>
+<<f a>>dmiring the sheer amount of <i>stuff</i> that made up the machine that turned you into a woman, you walk over to Lily who is <<switch _labLily>><<case 1 2 3 4 5 8>>sitting at the electronics workstation.<<case 6>>walking around the lab.<<case 7 10>>sitting at the desk in the middle of the room.<<case 9>>standing in front of a whiteboard covered in scribbles.<</switch>> @@.pc;Hey Lils, you got a minute?@@
+</p>
+<p>
+She sighs and looks up from her work. @@.npc;Sure, what do you need <<name>>?@@
+</p>
+<p>
+<<has bitch>><<or>>@@.pc;Sorry for interrupting you...@@ <</has>>You struggle to phrase the question that's on your mind. @@.pc;I didn't realize that so many parts went into making the rejuvenator.@@ You gesture to the sea of parts to emphasize your point. @@.pc;The device that I remember seems like it was a lot smaller... are all these parts really necessary?@@
+</p>
+<p>
+@@.npc;What, did you think it only took a tanning bed, some lights, and a magnet to turn you into a woman?@@ She pinches the bridge of her nose with one hand, while holding up the other to ask you to give her a minute. Several seconds later she looks up. @@.npc;I'm sorry, that was uncalled for. I was really concentrating, and I have the bad habit of snapping when I'm interrupted.@@ She glances out at the sea of parts. @@.npc;It's a really, really, complicated machine. It took two years to design and build the thing, and that's not counting the theoretical work before I got started.@@
+</p>
+<p>
+@@.pc;Well of course, it's amazing, changing someone's DNA in such a short time...@@ You shrug. @@.pc;It's just hard to connect the rejuvenator I saw with all these parts. I mean, there are some tubes over there that look like they came from an old folding chair, and that thing there looks just like a sex machine...@@
+</p>
+<p>
+Lily chuckles a little. @@.npc;Well, I was more concerned with form than function... And building the thing was already expensive...@@ She shrugs and smiles. @@.npc;I used what I could that would get the job done. That thing ''is'' a sex machine.@@ She chuckles some more. @@.npc;It has enough "thrusting power" to get the job done, and a custom linear actuator would have cost at least twice as much.@@
+</p>
+<p>
+You nod knowingly. @@.pc;So it was a tanning bed, some lights, a magnet, and a <i>sex machine</i> that turned me into a woman!@@
+</p>
+<p>
+The two of you laugh for a few moments. @@.npc;That's about right, but you forgot to mention that it was a <i>used</i> sex machine.@@ She raises her eyebrows at you playfully. @@.npc;But in all seriousness, once all this stuff is assembled again, the rejuvenator will look pretty much the same way you remember it... depending on how many folding chairs we have to replace, of course.@@
+</p>
+<p>
+@@.pc;Okay, I'll get out of your hair Lils. Thanks for answering my question.@@
+</p>
+<p>
+She gives you a smile. @@.npc;You're welcome, I'll talk to you later.@@
+</p>
+
+
+:: ML0-Hello [nobr]
+
+<<addTime 1>>
+<p>
+You wave at Lily from across the room. @@.pc;Hey Lils.@@
+</p>
+<p>
+She looks up and waves back. @@.npc;Hey <<name>>.@@
+</p>
+
+
+:: ML0-WhyApart [nobr]
+
+
+<<addTime 5>>
+<p>
+You walk up to Lily who is <<switch _labLily>><<case 1 2 3 4 5 8>>sitting at the electronics workstation.<<case 6>>walking around the lab.<<case 7 10>>sitting at the desk in the middle of the room.<<case 9>>standing in front of a whiteboard covered in scribbles.<</switch>> 
+@@.pc;"Hey Lils I've been wondering; why take everything apart just to put it back together again?"@@
+</p>
+<p>
+Lily slowly stops what she's doing and looks at you, fixing you with an "are you serious right now?" stare. Suddenly she breaks into a laugh and it takes her several moments before she can answer. @@.npc;Haaahhh... You're fucking with me! I guess I could use a break.@@
+</p>
+<p>
+You're suddenly faced with a decision: either play along and pretend you were joking, or reveal that you were seriously asking the question. @@.pc;Ahh... Well...@@
+</p>
+<p>
+Your indecision only served to take away your choice, as Lily picks up on it almost immediately. @@.npc;Oh. You weren't joking... Sorry, I thought the answer was obvious...@@ She looks back at her work for a moment before facing you again. @@.npc;Basically, when the accident happened there was a lot of stray current and even some fire, right?@@
+</p>
+<p>
+You nod. @@.pc;Yeah, it was a mess in here.@@
+</p>
+<p>
+Lily continues. @@.npc;If we knew what was damaged, we could just replace it. Unfortunately, there are a lot of delicate components, and the damage was pretty extensive. Because of that, it's faster to take it apart and inspect all the parts at once rather than trying to find and fix what's broken one piece at a time.@@
+</p>
+<p>
+To your chagrin, the answer <b>is</b> pretty obvious. @@.pc;Yeah, that makes a lot of sense... I guess I just didn't think it through.@@
+</p>
+<p>
+Lily gives you a warm smile. @@.npc;It's fine, but I guess I should get back to work. There's a lot to do if we're ever going to get this fixed...@@
+</p>
+<p>
+@@.pc;Okay, I'll let you get back to it.@@ You give a small wave and walk over to a different area so she can focus on her work.
+</p>
+
+
+:: ML0-LabAssist [nobr]
+
+
+<<addTime 5>>
+<p>
+<<switch _labLily>><<case 1 2 3 4 5 8>>You take an office chair and roll it over to where Lily is working at the electronics workbench, sitting down next to her before you speak up.<<case 6>>You walk over to Lily, who is busy checking the progress of inspecting and cleaning the assorted components in the basement.<<case 7 10>>You take a seat on one of the office chairs that are at the desk in the middle of the room. Lily is sitting at the desk and working on something.<<case 9>>You walk over to the whiteboard and stare at the incomprehensible math written there. Lily seems to understand it just fine, and continues to work on the problem.<</switch>> @@.pc;Hey Lily, I wanted to ask you about your lab assistant Sara.@@
+</p>
+<p>
+Lily looks over over at you briefly before turning back to her work. @@.npc;Yeah? What about?@@
+</p>
+<p>
+@@.pc;It's just that she seems to be avoiding me, and when I talk to her she seems pretty evasive.@@ You shrug. @@.pc;I don't know, I guess I just wanted to know more about her.@@
+</p>
+<p>
+Lily turns back to you before answering. @@.npc;Well, I suppose that might be partially my fault. Since she's from the Institute, I think we sort of fell into the habit of working as if this were an Institute lab... It's a different sort of environment.@@ She shrugs as if to say "that's just how it is."
+</p>
+<p>
+@@.pc;I don't really get why people would want to work where things are so uptight, but I suppose that would explain things...@@
+</p>
+<p>
+Lily looks thoughtful for a moment before replying. @@.npc;Imagine working in a lab, just a large single room with equipment. Now imagine that in addition to your peers working with you, your boss was also there, along with her peers. And their bosses. And those boss's boss. It's just the nature of the work we do that ends up putting a lot of different levels of people together. It's pretty similar elsewhere, too, whether you work at@@ <<info "guideBlackButte" "Black Butte">> @@.npc;or a university.@@
+</p>
+<p>
+You hadn't really thought about that. @@.pc;That makes sense. It's kinda a shame though, huh?@@
+</p>
+<p>
+Lily just shrugs. @@.npc;I suppose you get used to it, it really doesn't bother me. I'm sure Sara will open up some with a little time though.@@
+</p>
+<p>
+@@.pc;Okay, well I'll let you get back to work.@@
+</p>
+<p>
+@@.npc;Thanks, you know what they say... No rest for the wicked.@@
+</p>
+
+
+
+
+/*
+███╗   ███╗ █████╗ ██╗     ███████╗    ███████╗ █████╗ ██████╗  █████╗
+████╗ ████║██╔══██╗██║     ██╔════╝    ██╔════╝██╔══██╗██╔══██╗██╔══██╗
+██╔████╔██║███████║██║     █████╗      ███████╗███████║██████╔╝███████║
+██║╚██╔╝██║██╔══██║██║     ██╔══╝      ╚════██║██╔══██║██╔══██╗██╔══██║
+██║ ╚═╝ ██║██║  ██║███████╗███████╗    ███████║██║  ██║██║  ██║██║  ██║
+╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝    ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝
+*/
+
+
+:: MS0-Menu [nobr]
+
+
+<div id="convo">
+<h3>What would you like to talk to Sara about?</h3>
+<p>
+<<if ↂ.flag.main.male.saraIntro>>
+<<link "Just say hello">><<replace "#convo">><<include [[MS0-Hello]]>><</replace>><</link>><br>
+<<link "Ask how she ended up helping Lily">><<replace "#convo">><<include [[MS0-Helping]]>><</replace>><</link>><br>
+<<link "Find out what she knows about the Rejuvinator">><<replace "#convo">><<include [[MS0-Knows]]>><</replace>><</link>><br>
+<<link "Ask her how long she's been in Appletree">><<replace "#convo">><<include [[MS0-Appletree]]>><</replace>><</link>>
+<<else>>
+<<link "Introduce yourself">><<replace "#convo">><<include [[MS0-Intro]]>><</replace>><</link>>
+<</if>>
+</p>
+<p>
+<<tutorial "convosTut">>The available conversation subjects will change as the main story progresses, so be sure to check back when the machine project enters a new stage! Additionally, some subject options may only be available once you've talked about a prerequisite subject!<</tutorial>>
+</p>
+</div>
+
+
+:: MS0-Intro [nobr]
+
+<<addTime 5>>
+<<set ↂ.flag.main.male.saraIntro = true>>
+<<status 0>>
+<p>
+While Lily told you that she'd have a lab assistant helping out with rebuilding the Rejuvenator, she didn't really tell you much about her. You decide to go introduce yourself and meet her for yourself. You walk over to where Sara is <<switch _labSara>><<case 2 3 4>>quietly working on organizing the various parts and components.<<case 5 6>>cleaning a batch of non-electronic parts in the sink.<<case 7>>carefully wiping down components with a cloth.<<case 8 9 10>>sitting at a workbench and carefully inspecting parts.<</switch>> You give her a friendly smile when she looks up at you. @@.pc;Hello, you must be Sara, I'm Lily's <<if aw.npc.n101.rship.dating>>girlfriend<<else>>friend<</if>> <<name>>.@@
+</p>
+<p>
+Sara smiles at you nervously. @@.npc;Hello <<name>>, it's nice to meet you. Dr. Richards mentioned that you might be stopping by.@@ She doesn't seem to be planning to say anything else, and just looks at you with a polite but nervous expression.
+</p>
+<p>
+@@.pc;Oh... well, I just thought I'd come over and introduce myself. I'll let you get back to it...@@
+</p>
+<p>
+@@.npc;Ahh, yes, thankyou. It was nice to meet you.@@
+</p>
+<p>
+@@.pc;You too.@@ You walk away from Sara to let her get back to work. @@.mono;I wonder why she seemed so nervous? Maybe she's just really shy?@@
+</p>
+
+
+:: MS0-Hello [nobr]
+
+
+<<addTime 1>>
+<p>
+You notice Sara seems <<switch _labSara>><<case 1 2 3>>to have finished putting away a batch of finished parts<<case 4 5>>to have finished cleaning a batch of parts<<case 6 7>>to have finished wiping down the components she was working on<<case 8 9 10>>to have finished inspecting some parts<</switch>> and decide it's a good time to say hi. You catch her attention and give her a small wave. @@.pc;Hello Sara.@@
+</p>
+<p>
+She looks at you and gives you a small nod. @@.npc;Hello.@@ She quickly <<switch _labSara>><<case 1 2 3>>walks over to pick up a new batch of components to put away.<<case 4 5>>grabs a new set of components and places them in the sink to start cleaning.<<case 6 7>>starts working on wiping down another set of components.<<case 8 9 10>>grabs another part and starts running down a checklist.<</switch>>
+</p>
+
+
+:: MS0-Helping [nobr]
+
+
+<<addTime 5>>
+<p>
+Curious about the mysterious person in the lab, you walk over to where Sara is <<switch _labSara>><<case 2 3 4>>quietly working on organizing the various parts and components.<<case 5 6>>cleaning a batch of non-electronic parts in the sink.<<case 7>>carefully wiping down components with a cloth.<<case 8 9 10>>sitting at a workbench and carefully inspecting parts.<</switch>> @@.pc;Hey Sara, I was curious, how'd you end up working here?@@
+</p>
+<p>
+She looks at you nervously before answering. @@.npc;Umm... how I ended up here?@@
+</p>
+<p>
+You nod encouragingly. @@.pc;You work for the Institute, right? I was just curious how you ended up helping Lily with her project...@@
+</p>
+<p>
+@@.npc;Well, it's not like I had a choice.@@ Sara suddenly seems to panic a little. @@.npc;Umm, I mean, my boss assigned me to help Dr. Richards, right? So what I mean is, I have to work where they tell me... Not that I dislike it or anything like that...@@
+</p>
+<p>
+You do your best to ignore her somewhat odd behavior. @@.pc;Yeah, Lily just mentioned that someone owed her a favor. I'm not really sure how things work with the Institute yet...@@
+</p>
+<p>
+She seems to relax a little. @@.npc;I'm pretty new here too, and they just had me cleaning and organizing things, so there wasn't really much actual work for me to do... I guess borrowing or loaning out lab techs is pretty common.@@
+</p>
+<p>
+You nod in understanding. @@.pc;I see... I always figured things were really rigid and organized at the Institute, so it'd be weird for someone to leave their department or whatnot. If people get borrowed and move around, it makes more sense that they'd be fine with you working here.@@
+</p>
+<p>
+@@.npc;Well, they say at TiTS science always comes first.@@ Sara shrugs with a slight smile. @@.npc;The number of support staff like me a lab needs always varies based on what project or research the lab is working on. We get traded around a good deal, there's even a system for supervision and performance reviews and all that HR stuff when we're outside our home lab.@@
+</p>
+<p>
+@@.pc;Well, it sounds like you get a chance to work on different sorts of things. That's good if you don't want to get bored, right?@@
+</p>
+<p>
+Sara chuckles lightly before answering. @@.npc;Well... even though the lab changes, I'm just a tech, so the work I do doesn't change much from lab to lab. It's not bad though.@@ She glances at the clock. @@.npc;Sorry, I need to get back to work...@@
+</p>
+<p>
+You nod @@.pc;Sure, nice talking to you.@@ You make your way over to a different part of the lab to let her get back to work.
+</p>
+
+
+:: MS0-Knows [nobr]
+
+
+<<addTime 4>>
+<p>
+You walk over to where Sara is <<switch _labSara>><<case 2 3 4>>quietly working on organizing the various parts and components.<<case 5 6>>cleaning a batch of non-electronic parts in the sink.<<case 7>>carefully wiping down components with a cloth.<<case 8 9 10>>sitting at a workbench and carefully inspecting parts.<</switch>> @@.pc;Hey Sara, I was just wondering what you knew about the machine we're working on.@@
+</p>
+<p>
+She looks up at you with a slightly confused expression. @@.npc;Sure? ... It's basically a device that allows scanning and repairing DNA at the cellular level.@@ You can practically see a question mark floating above her head.
+</p>
+<p>
+@@.pc;Well, I expected Lily to have told you.@@ You give her a smile. @@.pc;It's pretty amazing, right? Just thinking about the possibilities... it's crazy!@@
+</p>
+<p>
+Sara doesn't seem to share your level of enthusiasm. @@.npc;Well, Dr. Richards occasionally refers to it as "the Rejuvenator", so it's pretty obvious what it's intended for...@@ she shrugs nonchalantly. @@.npc;Still, I try not to get excited about crazy Institute projects until they actually work, you know?@@
+</p>
+<p>
+You nod, her response putting a damper on your mood. @@.pc;I suppose that's smart, it would be pretty disappointing if it doesn't work...@@
+</p>
+<p>
+Sara notices your mood change and seems to panic a little. @@.npc;Hey, it IS an exciting project, right? So it's okay to be excited about it.@@
+</p>
+<p>
+You give her a warm smile. @@.pc;Thanks. I'll stop getting in your way, talk to you later.@@
+</p>
+<p>
+@@.npc;Ahh, yeah, thanks.@@ She nods awkwardly at you. @@.npc;Talk to you later.@@
+</p>
+<p>
+@@.mono;I guess she doesn't know about the accident, or the fact that the machine really does work... or well, used to work.@@
+</p>
+
+
+:: MS0-Appletree [nobr]
+
+
+<<addTime 5>>
+<p>
+You walk over to where Sara is <<switch _labSara>><<case 2 3 4>>quietly working on organizing the various parts and components.<<case 5 6>>cleaning a batch of non-electronic parts in the sink.<<case 7>>carefully wiping down components with a cloth.<<case 8 9 10>>sitting at a workbench and carefully inspecting parts.<</switch>> @@.pc;Hey Sara, I was just thinking; I'm pretty new in town, and was wondering how long you've lived here.@@ You gesture around you awkwardly. @@.pc;You know, see if you had any tips or recommendations on things to do in the valley.@@
+</p>
+<p>
+@@.npc;Well, I haven't been here all that long myself... Tips and recommendations huh?@@ She looks thoughtful for a moment. @@.npc;It's really easy to change apartments here, so if you don't like yours I'd say stop by a realty office. Robots will move your stuff and everything.@@ She pauses another moment while she thinks. @@.npc;If you want to get out of town, Hoden Springs is a pretty nice place to relax and it doesn't cost anything.@@
+</p>
+<p>
+You smile. @@.pc;Thanks. I'll have to check it out sometime.@@
+</p>
+<p>
+@@.npc;Sorry, but I really need to get back to work...@@ She looks apologetic.
+</p>
+<p>
+@@.pc;Oh, sure, sorry for getting in the way!@@ You walk a short ways away so that she can get back to work.
+</p>
+
+

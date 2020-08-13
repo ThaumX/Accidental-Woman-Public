@@ -32,7 +32,7 @@
 /*LOCATION description of  location*/
 <p>@@.head3;Y@@ou are standing in a secluded little parking lot that is mostly surrounded by trees. It almost looks like the parking lot for some forest campground, except for the signs directing you toward Hoden Spring.</p>
 <p>
-<<ctn>>The Hoden Springs area is not complete<</ctn>>
+
 </p>
 /*Time & furnishing descriptive addon! <<mapHomeRes>>*/
 /*IN-PASSAGE span text*/
@@ -96,7 +96,7 @@ Nothing here.
 /*LOCATION description of  location*/
 <p>@@.head3;Y@@ou're at the Hoden Springs Recreation Center, which looks a lot more governmental than you'd expect for a public park. Still, it has everything you'd need to enjoy the springs in comfort, including a mini convenience store and food stand.</p>
 <p>
-<<ctn>>The Hoden Springs area is not complete<</ctn>>
+
 </p>
 /*Time & furnishing descriptive addon! <<mapHomeRes>>*/
 /*IN-PASSAGE span text*/
@@ -159,7 +159,7 @@ Nothing here.</center>
 /*LOCATION description of  location*/
 <p>@@.head3;Y@@ou are standing in the changing room building next to the recreation center. There is a line of changing rooms on one wall, while the rest of the building is taken up with standard unisex restroom facilities. The changing rooms are rather nice, they are surprisingly spacious and have benches with wooden doors.</p>
 <p>
-<<ctn>>The Hoden Springs area is not complete<</ctn>>
+
 </p>
 /*Time & furnishing descriptive addon! <<mapHomeRes>>*/
 /*IN-PASSAGE span text*/
@@ -168,10 +168,7 @@ Nothing here.</center>
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <span class="disabled"><<button "Change">><</button>></span>
-<<endhoverrevise>>
-<<hoverrevise beta>>
-  <span class="disabled"><<button "Peek">><</button>></span>
+  <<button "Change">><<set setup.menuvar = 'clothes'>><<run aw.replace('#awUIcontainer', '<<include [[MainCharacterMenu]]>>')>><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -181,7 +178,6 @@ Nothing here.</center>
 /*Main display for information about actions*/
 <div id="actionInfo">
 <<insertion alpha>>Go to the stall to change your clothes.<<endinsertion>>
-<<insertion beta>>Try too peek some nude visitors.<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
@@ -227,7 +223,7 @@ You see some girls changing in the corner of the room, they look pretty cheerful
 /*LOCATION description of  location*/
 <p>@@.head3;Y@@ou're standing amongst the trees a short distance from the springs, and the area is surprisingly nice. The undergrowth is remarkably sparse, and there's several moss-covered rocks strewn about. <<if not ↂ.pc.trait.isOblivious>>When the wind shifts just right you get a hint of a delicious smell that seems to be coming from deeper in the woods. It reminds you of a patisserie, but there's a strong floral note to the smell as well...<</if>></p>
 <p>
-<<ctn>>The Hoden Springs area is not complete<</ctn>>
+
 </p>
 /*Time & furnishing descriptive addon! <<mapHomeRes>>*/
 /*IN-PASSAGE span text*/
@@ -320,10 +316,10 @@ For a moment you think you see movement deeper in the woods, perhaps a flash of 
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <span class="disabled"><<button "Swim">><</button>></span>
+  <<button "Swim">><<dialog "Swim">><<include [[MapSpringsBeach-Swim]]>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
-  <span class="disabled"><<button "Tan">><</button>></span>
+  <<button "Tan">><<dialog "Tan">><<include [[MapSpringsBeach-Tan]]>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -343,6 +339,26 @@ For a moment you think you see movement deeper in the woods, perhaps a flash of 
 <center>
 Some of the local girls are tanning naked on the beach.<br><br><<has exhibition>>@@.mono;Wow, that's a great idea! If I tan naked, everyone will be able to see my body too!@@<<orhas shame>>>@@.mono;Ugh, that's just gross. Why do they have to get naked in front of everybody, even if it's on the beach!?@@<<or>>>@@.mono;Interesting, is this is a nudist beach?@@<</has>><br>
 [IMG[IMG-SpringsBeachGirlNude]]</center>
+
+
+:: MapSpringsBeach-Swim [nobr]
+
+<<if !setup.clothes.swimwear>>
+@@.head3;Y@@ou head to the shore just to realise that you have your clothes steel on. <<has exhibition>>@@.mono;Oh, I better get into a swimsuit first... or just get naked!@@<<or>>@@.mono;Oh, I better get into a swimsuit first...@@<</has>><br><center><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></center>
+<<else>>
+<p>@@.head3;Y@@ou get to the shore and try the water. @@.mono;Oh, it is pretty warm in fact!@@ </p>After just a couple of steps you are waist-deep in the lake. You take a deep breathe and get into the water. Your <<if setup.clothes.exposed.top>>bare<</if>> <<p breasts.n>> floating slightly rising above water level while you relax swimming on your back.<<addtime 27>><<happy 1 "Relaxing in the lake was fun">><<anger -1>><<stress -12 "Swimming">><<status 0>><br><center><<button "Get out from the water">><<run Dialog.close()>><<updatebar>><</button>></center>
+<</if>>
+
+
+:: MapSpringsBeach-Tan [nobr]
+
+<<set _tim = setup.time.now()>><<if ↂ.pc.clothes.worn.bottom === "normal" || ↂ.pc.clothes.worn.top === "normal">>
+@@.head3;Y@@our tan will be less than perfect if you work on it with your outerwear still on.<<addtime 1>><br><center><<button "Got it">><<run Dialog.close()>><<updatebar>><</button>></center>
+<<elseif _tim[0] < 7 || _tim[0] > 18>>
+@@.head3;Y@@ou suddenly realise that it is pretty silly to work on your tan while there is no sun in the sky.<<addtime 1>><br><center><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></center>
+<<else>><<set ↂ.pc.clothes.worn.coat = "off">><center>[img[IMG-TanningNaked]]</center><br>
+@@.head3;Y@@ou lie on the recliner enjoying the feeling of warm beams caressing your <<p skincolor.q>> skin. <<if !setup.clothes.exposed.top>>You adjust your bra a couple of times to avoid white lines on your shoulders and back. <<else>>Your free <<p breasts.n>> are praising the sun proudly <<if setup.clothes.exposed.bottom>>as well as your bare bottom.<</if>><<has exhibition>><<happy 1 "Tanning was nice">><<arousal 1>><br><br>@@.mono;Mmm... being naked outside is a pure bliss...@@<br><br><<orhas shame>><<stress 15 "Ashamed of nude tanning">><br><br>@@.mono;Omg, what am I doing?! Anybody can see me like this lying here!@@<br><br>You can't stop thinking about your naked parts and feel stressed fighting the urge to cover them with your hands or towel.<</has>><</if>><<addtime 30>><<stress -8 "Relaxing during tanning">><<set ↂ.flag.tan += random(0,1)>>Lying in the recliner you turn around a couple of times and relax with your mind drifting away from all your recent problems. After some time you decide that it is a good idea to finish your tanning for today and get up after joyful stretch.<br><center><<button "Go away">><<run Dialog.close()>><<status 0>><<updatebar>><</button>></center>
+<</if>>
 
 
 :: MapSpringsCave [nobr map]
@@ -414,5 +430,3 @@ Some of the local girls are tanning naked on the beach.<br><br><<has exhibition>
 
 <center>
 Nope, nothing inresting here... <i>for now.</i></center>
-
-

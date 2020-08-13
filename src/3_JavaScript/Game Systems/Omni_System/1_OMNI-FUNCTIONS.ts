@@ -315,13 +315,18 @@ setup.omni = {
   },*/
   // deletes the OmniEvent from the aw.omni object
   kill(key: string): void {
-    try {
-      const keys = Object.keys(aw.omni);
-      for (let index = 0; index < keys.length; index++) {
-        if (aw.omni[keys[index]].name === key) {
-          delete aw.omni[keys[index]];
+    if (aw.omni[key] == null) {
+      if (setup.omni.matching(key) > 0) {
+        const keys = setup.omni.keys();
+        for (const k of keys) {
+          if (aw.omni[k].name === key) {
+            key = k;
+            break;
+          }
         }
       }
+    }
+    try {
       delete aw.omni[key];
     } catch (e) {
       aw.con.warn(`Failed to delete OmniEvent with key "${key}". ${e.name}: ${e.message}.`);
@@ -397,77 +402,79 @@ setup.omni = {
         }
       }
     }
-    if (k < 6 && ↂ.flag.badEnd !== "none") {
-      output += `<img data-passage="IMGstatus_DeathSick" title="You feel an impending sense of doom...">`;
-      k++;
-    }
-    if (k < 6 && ↂ.pc.status.health < 16) {
-      output += `<img data-passage="IMGstatus_Dead" title="You have dangerously low health.">`;
-      k++;
-    }
-    if (k < 6 && ↂ.pc.status.addict.jonesing > 5) {
-      output += `<img data-passage="IMGstatus_DrugCraving" title="You know what you need." style="opacity:0.7;">`;
-      k++;
-    }
-    if (k < 6 && ↂ.flag.BackupTraits.libido < ↂ.pc.trait.libido && !ↂ.flag.Prologue) {
-      output += `<img data-passage="IMGstatus_IncreasedLibido" title="Your libido is higher than usual." style="opacity:0.7;">`;
-      k++;
-    }
-    if (k < 6 && ↂ.pc.status.alcohol > 0) {
-      switch (ↂ.pc.status.alcohol) {
-        case 1:
-        case 2:
-          output += `<img data-passage="IMGstatus_AlcTipsy" title="You have a slight buzz.">`;
-          break;
-        case 3:
-        case 4:
-          output += `<img data-passage="IMGstatus_AlcTipsy" title="You are a little bit tipsy.">`;
-          break;
-        case 5:
-        case 6:
-          output += `<img data-passage="IMGstatus_AlcDrunk" title="You are quite tipsy.">`;
-          break;
-        case 7:
-        case 8:
-          output += `<img data-passage="IMGstatus_AlcDrunk" title="You are drunk.">`;
-          break;
-        case 9:
-        case 10:
-          output += `<img data-passage="IMGstatus_AlcWasted" title="You are wasted.">`;
-          break;
-        case 11:
-        case 12:
-          output += `<img data-passage="IMGstatus_AlcWasted" title="You are black-out drunk.">`;
+    if (!ↂ.flag.Prologue) {
+      if (k < 6 && ↂ.flag.badEnd !== "none") {
+        output += `<img data-passage="IMGstatus_DeathSick" title="You feel an impending sense of doom... [see Encyclopedia Entry Doom]">`;
+        k++;
       }
-      k++;
-    }
-    if (k < 6 && ↂ.pc.status.happy < -4) {
-      output += `<img data-passage="IMGstatus_Depressed" title="You are depressed.">`;
-      k++;
-    }
-    if (k < 6 && ↂ.pc.status.lonely > 74) {
-      output += `<img data-passage="IMGstatus_Lonely" title="You are lonely.">`;
-      k++;
-    }
-    if (k < 6 && ↂ.pc.status.stress > 74) {
-      output += `<img data-passage="IMGstatus_Stressed" title="You are stressed out.">`;
-      k++;
-    }
-    if (k < 6 && ↂ.pc.status.satisfaction < 20) {
-      output += `<img data-passage="IMGstatus_Unsatisfied" title="You are very unsatisfied.">`;
-      k++;
-    }
-    if (k < 6 && ↂ.pc.status.birthCon.diaphragm.worn) {
-      output += `<img data-passage="IMGstatus_diaphragm" title="You are wearing a diaphragm.">`;
-      k++;
-    }
-    if (k < 6 && ↂ.pc.status.wombA.fetus.length > 0 || ↂ.pc.status.wombB.fetus.length > 0) {
-      output += `<img data-passage="IMGstatus_pregnant" title="You are pregnant. Congratulations!">`;
-      k++;
-    }
-    if (k < 6 && ↂ.pc.status.nutrition !== undefined && setup.valToBMI(ↂ.pc.status.nutrition.realWeight) < 15) {
-      output += `<img data-passage="IMGstatus_Starvation" title="You are starving. Death is near...">`;
-      k++;
+      if (k < 6 && ↂ.pc.status.health < 16) {
+        output += `<img data-passage="IMGstatus_Dead" title="You have dangerously low health.">`;
+        k++;
+      }
+      if (k < 6 && ↂ.pc.status.addict.jonesing > 5) {
+        output += `<img data-passage="IMGstatus_DrugCraving" title="You know what you need." style="opacity:0.7;">`;
+        k++;
+      }
+      if (k < 6 && ↂ.flag.BackupTraits.libido < ↂ.pc.trait.libido && !ↂ.flag.Prologue) {
+        output += `<img data-passage="IMGstatus_IncreasedLibido" title="Your libido is higher than usual." style="opacity:0.7;">`;
+        k++;
+      }
+      if (k < 6 && ↂ.pc.status.alcohol > 0) {
+        switch (ↂ.pc.status.alcohol) {
+          case 1:
+          case 2:
+            output += `<img data-passage="IMGstatus_AlcTipsy" title="You have a slight buzz.">`;
+            break;
+          case 3:
+          case 4:
+            output += `<img data-passage="IMGstatus_AlcTipsy" title="You are a little bit tipsy.">`;
+            break;
+          case 5:
+          case 6:
+            output += `<img data-passage="IMGstatus_AlcDrunk" title="You are quite tipsy.">`;
+            break;
+          case 7:
+          case 8:
+            output += `<img data-passage="IMGstatus_AlcDrunk" title="You are drunk.">`;
+            break;
+          case 9:
+          case 10:
+            output += `<img data-passage="IMGstatus_AlcWasted" title="You are wasted.">`;
+            break;
+          case 11:
+          case 12:
+            output += `<img data-passage="IMGstatus_AlcWasted" title="You are black-out drunk.">`;
+        }
+        k++;
+      }
+      if (k < 6 && ↂ.pc.status.happy < -4) {
+        output += `<img data-passage="IMGstatus_Depressed" title="You are depressed.">`;
+        k++;
+      }
+      if (k < 6 && ↂ.pc.status.lonely > 74) {
+        output += `<img data-passage="IMGstatus_Lonely" title="You are lonely.">`;
+        k++;
+      }
+      if (k < 6 && ↂ.pc.status.stress > 74) {
+        output += `<img data-passage="IMGstatus_Stressed" title="You are stressed out.">`;
+        k++;
+      }
+      if (k < 6 && ↂ.pc.status.satisfaction < 20) {
+        output += `<img data-passage="IMGstatus_Unsatisfied" title="You are very unsatisfied.">`;
+        k++;
+      }
+      if (k < 6 && ↂ.pc.status.birthCon.diaphragm.worn) {
+        output += `<img data-passage="IMGstatus_diaphragm" title="You are wearing a diaphragm.">`;
+        k++;
+      }
+      if (k < 6 && ↂ.pc.status.wombA.fetus.length > 0 || ↂ.pc.status.wombB.fetus.length > 0) {
+        output += `<img data-passage="IMGstatus_pregnant" title="You are pregnant. Congratulations!">`;
+        k++;
+      }
+      if (k < 6 && ↂ.pc.status.nutrition !== undefined && setup.valToBMI(ↂ.pc.status.nutrition.realWeight) < 15) {
+        output += `<img data-passage="IMGstatus_Starvation" title="You are starving. Death is near...">`;
+        k++;
+      }
     }
     return output;
   },

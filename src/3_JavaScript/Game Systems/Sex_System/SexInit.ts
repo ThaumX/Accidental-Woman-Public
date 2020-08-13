@@ -8,6 +8,77 @@
 
     SEX SCENE INITIALIZATION AND CLOSURE FUNCTIONS
 */
+
+// sex data interface
+interface ↂsex {
+  tabs: number;
+  pos: string;
+  posNPC: string[];
+  lastPos: string;
+  pcAct: string;
+  pcLastAct: string;
+  pcActRecord: string[];
+  npcAct: string[];
+  npcLastAct: string[];
+  npcActRecord: string[][];
+  inPosition: number[];
+  target: number;
+  enviroTags: string[];
+  situOrg: number;
+  pcOrgasm: number;
+  npcOrgasm: number[];
+  turns: number;
+  start: boolean;
+  rape: boolean;
+  activeNPC: string[];
+  npcCount: number;
+  startTime: 0 | time;
+  film: boolean;
+  pcOutput: string;
+  npcOutput: string[];
+  orgText: {
+    [propName: string]: string;
+  };
+  cumInfo: any[];
+  encounter: string[];
+  speed: number;
+  pcBC: any;
+  npcBC: BirthCon[];
+  fucking: boolean;
+  pcWetness: number;
+  npcWetness: number[];
+  pcLube: lubeObject;
+  npcLube: lubeObject[];
+  pcOrgQuality: any[];
+  npcOrgQuality: 0 | any[];
+  earlyOut: boolean;
+  passage: string;
+  risky: boolean;
+  orgCountPC: number;
+  orgCountNPC: number[];
+  maleCount: number;
+  endFlag: boolean;
+  persona: string;
+  flag: {
+    askedPullOut: boolean;
+    askedCumInside: boolean;
+    askedCondom: boolean;
+    triedRemoveCondom: boolean;
+    pickedDom: number;
+    pickedSub: number;
+    anal: boolean;
+    oral: boolean;
+    vag: boolean;
+    [propName: string]: any;
+  };
+  scene: boolean;
+  npc: NPC[];
+  timer: number;
+  menu: false | string;
+}
+
+
+
 /*THIS FILE CONTAINS FUNCTIONS USED DURING SEX SCENES BY ACTIONS, POSITIONS, ETC*/
 if (setup.sex === null || setup.sex === undefined) {
   setup.sex = {} as setupSex;
@@ -123,7 +194,15 @@ setup.sex.startSex = function(...args: string[]): void {
     aw.con.info(`The sexPos library took ${res}ms to load.`);
     sex.endFlag = false;
     sex.flag = {
+      askedPullOut: false,
+      askedCumInside: false,
       askedCondom: false,
+      triedRemoveCondom: false,
+      pickedDom: 0,
+      pickedSub: 0,
+      anal: false,
+      oral: false,
+      vag: false,
     };
     sex.turns = 0;
     sex.speed = 0;
@@ -200,6 +279,9 @@ setup.sex.startSex = function(...args: string[]): void {
     }
     sex.timer = 0;
     aw.S();
+    for (let index = 0; index < sex.npc.length; index++) {
+      setup.sex.NpcClothes(ↂ.sex.npc[index].key);
+    }
     setup.forbiddenList();
     aw.go("SexScenePrimaryDisplay");
     State.temporary.t = sex.activeNPC[0];
@@ -232,6 +314,8 @@ setup.sex.close = function(): void {
   }
   if (sex.orgCountPC > 0) {
     sex.flag.pcCame = true;
+    ↂ.pc.status.arousal = 1;
+    aw.S("pc");
   } else {
     sex.flag.pcCame = false;
   }
@@ -251,6 +335,45 @@ setup.sex.close = function(): void {
       sex.npc[i].rship.likePC -= random(6, 10);
     }
   }
+  for (let i = 0, c = sex.activeNPC.length; i < c; i++) {
+    if (ↂ.sex.flag.oral) {
+      sex.npc[i].record.sex.oral += 1;
+      setup.hadSexWith("n" + sex.npc[i].main.id, 2);
+    }
+    if (ↂ.sex.flag.vag) {
+      sex.npc[i].record.sex.sex += 1;
+    }
+    if (ↂ.sex.flag.anal) {
+      sex.npc[i].record.sex.anal += 1;
+      ↂ.flag.sexRecord.anal += 1;
+    }
+    if (ↂ.sex.flag.vag || ↂ.sex.flag.anal) {
+      setup.hadSexWith("n" + sex.npc[i].main.id, 1);
+    }
+    if (!ↂ.sex.flag.vag && !ↂ.sex.flag.anal && !ↂ.sex.flag.oral) {
+      setup.hadSexWith("n" + sex.npc[i].main.id, 3);
+    }
+    if (ↂ.pc.status.inPublic) {
+      sex.npc[i].record.sex.public += 1;
+      ↂ.flag.sexRecord.public += 1;
+    }
+    if (ↂ.sex.rape) {
+      sex.npc[i].record.sex.forced += 1;
+      ↂ.flag.sexRecord.forced += 1;
+    }
+    if (!ↂ.sex.flag.npcCame) {
+      sex.npc[i].record.sex.nocumNPC += 1;
+      ↂ.flag.sexRecord.nocumNPC += 1;
+    }
+    if (!ↂ.sex.flag.pcCame) {
+      sex.npc[i].record.sex.nocumPC += 1;
+      ↂ.flag.sexRecord.nocumPC += 1;
+    }
+    if (ↂ.sex.flag.pickedDom > 3 || ↂ.sex.flag.pickedSub > 3) {
+      sex.npc[i].record.sex.domsub += 1;
+      ↂ.flag.sexRecord.domsub += 1;
+    }
+  }
   setup.status.tired(sex.orgCountPC, "Having orgasms wears you out");
   ↂ.pc.status.energy.amt -= sex.orgCountPC * 2;
   if (ↂ.pc.status.energy.amt < 0) {
@@ -261,6 +384,7 @@ setup.sex.close = function(): void {
   }
   ↂ.pc.status.wetness = sex.pcWetness;
   ↂ.pc.status.pleasure = 0;
+  setup.drug.eatDrug("sex", 10);
   aw.S();
   if (passage !== "JobberConSex") {
     setup.time.add(sex.timer);
@@ -278,6 +402,7 @@ setup.sex.close = function(): void {
   sex.speed = 0;
   sex.lastPos = "none";
   sex.pcLastAct = "none";
+  sex.rape = false;
   sex.pcActRecord = [];
   sex.npcLastAct = [];
   sex.npcActRecord = [];

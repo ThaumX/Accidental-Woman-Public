@@ -113,9 +113,14 @@ setup.scenario.launch = function(
   const toppo = (topImage != null && topImage !== "none") ? `<img data-passage="${topImage}">` : "";
   output += `<div id="Scene-Passage-Cunt"><div id="Scene-Image-Top">${toppo}</div><div id="Scene-Passage">`;
   output += (content != null && content !== "none") ? content : "";
-  if (passage != null && Story.has(passage)) {
-    setup.scenario.status.passage = passage;
-    output += `<<include [[${passage}]]>>`;
+  if (passage != null) {
+    if (Story.has(passage)) {
+      setup.scenario.status.passage = passage;
+      output += `<<include [[${passage}]]>>`;
+    } else if (aw.pseudo.has(passage)) {
+      setup.scenario.status.passage = passage;
+      output += `<<pseudo "${passage}">>`;
+    }
   }
   let sImg = "";
   if (image != null && image !== "none") {
@@ -173,9 +178,14 @@ setup.scenario.launch2 = function(
   const toppo = (topImage != null && topImage !== "none") ? `<img data-passage="${topImage}"><br>` : "";
   output += toppo;
   output += (content != null && content !== "none") ? content : "";
-  if (passage != null && Story.has(passage)) {
-    setup.scenario.status.passage = passage;
-    output += `<<include [[${passage}]]>>`;
+  if (passage != null) {
+    if (Story.has(passage)) {
+      setup.scenario.status.passage = passage;
+      output += `<<include [[${passage}]]>>`;
+    } else if (aw.pseudo.has(passage)) {
+      setup.scenario.status.passage = passage;
+      output += `<<pseudo "${passage}">>`;
+    }
   }
   output += `</div></div><div id="scenarioImagePanel"><div id="scenarioImage">`;
   if (title != null && title !== "none") {
@@ -425,11 +435,13 @@ setup.scenario.refresh = function(): void {
   let content;
   if (setup.scenario.status.passage != null && Story.has(setup.scenario.status.passage)) {
     content = `<<include [[${setup.scenario.status.passage}]]>>`;
+  } else if (setup.scenario.status.passage != null && aw.pseudo.has(setup.scenario.status.passage)) {
+    content = `<<pseudo "${setup.scenario.status.passage}">>`;
   } else if (setup.scenario.status.content != null && setup.scenario.status.content !== "none") {
     content = setup.scenario.status.content;
   } else {
     aw.con.warn(`scenario.refresh failure because of lack of saved content!`);
-    content = `<h3>Appologies! It seems some kind of error occurred that broke the scenario system (scenario.replace failure). Click the below button to close this scenario prematurely.</h3><br><<button "EXIT/CLOSE">><<run setup.scenario.close()>><</button>>`;
+    content = `<h3>Apologies! It seems some kind of error occurred that broke the scenario system (scenario.replace failure). Click the below button to close this scenario prematurely.</h3><br><<button "EXIT/CLOSE">><<run setup.scenario.close()>><</button>>`;
   }
   let output = "";
   try {
@@ -487,6 +499,11 @@ setup.scenario.passage = function(passage: string): void {
   if (Story.has(passage)) {
     setup.scenario.status.passage = passage;
     const cunt = `<<include [[${passage}]]>>`;
+    aw.replace("#Scene-Passage", cunt);
+    $("#Scene-Passage-Cunt").animate({ scrollTop: 0 }, "fast");
+  } else if (aw.pseudo.has(passage)) {
+    setup.scenario.status.passage = passage;
+    const cunt = `<<pseudo "${passage}">>`;
     aw.replace("#Scene-Passage", cunt);
     $("#Scene-Passage-Cunt").animate({ scrollTop: 0 }, "fast");
   } else {
@@ -602,7 +619,7 @@ Macro.add("scenego", {
     if (this.args.length !== 1) {
       return this.error(`Incorrect number of arguments given to intgo macro - passage name only (${this.args.length} arguments given).`);
     }
-    if (typeof this.args[0] === "string" && Story.has(this.args[0])) {
+    if (typeof this.args[0] === "string" && (Story.has(this.args[0]) || aw.pseudo.has(this.args[0]))) {
       setup.scenario.passage(this.args[0]);
     } else {
       return this.error(`Invalid or malformed passage name to intgo macro (${this.args[0]}).`);

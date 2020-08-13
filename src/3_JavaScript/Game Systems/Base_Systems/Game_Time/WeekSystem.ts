@@ -26,6 +26,7 @@ interface setupWeek {
   financeReset: () => void;
   livingCondition: () => void;
   phone: () => void;
+  insanePrefChecker: (npcId: string) => number[];
   tempData: {
     hTier: number;
     hFin: number;
@@ -63,6 +64,11 @@ setup.week.start = function(): string {
   if (ↂ.flag.tan < 0) {
     ↂ.flag.tan = 0;
   }
+  ↂ.flag.churchAttend = {
+    outer: false,
+    cock: false,
+    man: false,
+  };
   const pay = Math.round(ↂ.job.att.weekHours * ↂ.job.rules.payrate);
   aw.con.info(`calculated pay was ${pay}.`);
   aw.cash(pay, "job");
@@ -86,7 +92,16 @@ setup.week.start = function(): string {
   ↂ.home.finance.lessons = setup.school.charge();
   aw.cash(ↂ.home.finance.lessons, "school");
   // ↂ.home.finance.rent = Math.ceil(ↂ.home.stats.rent / 4);
-  const payRent = Math.ceil(ↂ.home.stats.rent / 4) * -1;
+  let payRent = Math.ceil(ↂ.home.stats.rent / 4) * -1;
+  if (ↂ.flag.liveTogether) { // reductions in rent for living together
+    if (aw.npc[ↂ.flag.liveWith].background.wealth + 2 < ↂ.home.stats.tier) {
+      // no rent change
+    } else if (aw.npc[ↂ.flag.liveWith].background.wealth < ↂ.home.stats.tier) {
+      payRent = Math.round(payRent * 0.8);
+    } else {
+      payRent = Math.round(payRent * 0.7);
+    }
+  }
   aw.cash(payRent, "rent");
   ↂ.job.att.weekDays = 0;
   ↂ.job.att.showed = [0, false, false, false, false, false, false, false];
@@ -143,6 +158,10 @@ setup.week.start = function(): string {
 };
 
 setup.week.creditCalc = function(): void {
+  aw.L();
+  setup.bank.weeklyRun();
+  /*
+  When you forget that you wrote functions for this, and ended up rewriting them but better.
   const bankInt = Math.ceil(ↂ.home.finance.bank * (ↂ.home.finance.bankInterestPer / 1000));
   const credInt = Math.ceil(ↂ.home.finance.credit * (ↂ.home.finance.creditInterestPer / 1000));
   const loanInt = Math.ceil(ↂ.home.finance.loan * (ↂ.home.finance.loanInterestPer / 1000));
@@ -167,6 +186,7 @@ setup.week.creditCalc = function(): void {
   if (credInt > 0) { // pay credit account interest... principle payments are manual, hehehe
     State.active.variables.AW.cash -= credInt;
   }
+  */
 };
 
 // starts async processing and tutorial
@@ -221,15 +241,61 @@ setup.week.phone = function(): void { // sees which NPCs will text you this week
   for (const npcId in aw.npc) {
     if (aw.npc[npcId].rship.category !== null) {
       const cat = aw.npc[npcId].rship.category;
+      // let's see if NPC want to explore realtionship with PC
+      let braveryRate = aw.npc[npcId].rship.lovePC + (aw.npc[npcId].trait.libido * 2) + (aw.npc[npcId].trait.will * 2) + (ↂ.pc.status.atr * 5);
+      if (aw.npc[npcId].trait.lowEsteem === 1) {
+        braveryRate -= 30;
+      } else if (aw.npc[npcId].trait.lowEsteem === -1) {
+        braveryRate += 10;
+      }
+      if (aw.npc[npcId].trait.extro) {
+        braveryRate += 10;
+      }
+      if (aw.npc[npcId].trait.intro) {
+        braveryRate -= 10;
+      }
+      if (aw.npc[npcId].main.female && !aw.npc[npcId].trait.bi && !aw.npc[npcId].trait.homo) {
+        braveryRate -= 30;
+      }
+      if (!aw.npc[npcId].main.female && aw.npc[npcId].main.male && !aw.npc[npcId].trait.bi && aw.npc[npcId].trait.homo) {
+        braveryRate -= 30;
+      }
+      if (aw.npc[npcId].main.female && aw.npc[npcId].trait.homo) {
+        braveryRate += 10;
+      }
+      const npcPrefs = setup.week.insanePrefChecker(npcId);
+      let npcPrefsScore = 0;
+      for (let index = 0; index < npcPrefs.length; index++) {
+        npcPrefsScore += npcPrefs[index];
+      }
+      if (setup.interactionMisc.isDom(npcId) || setup.interactionMisc.isSub(npcId)) {
+        braveryRate += 50;
+      }
+      braveryRate += (npcPrefsScore * 4);
+      if (braveryRate < 0) {braveryRate = 5;} // here, take your puny chance anyway
+      const wannaMeet = (100 - aw.npc[npcId].rship.companion) + Math.floor(aw.npc[npcId].rship.likePC / 2);
+      // now to the main code
       switch (cat) {
         case "aquaint":
-          if (aw.npc[npcId].rship.companion < 5) {
-            potentHangNpc.push(npcId);
+          if (random(0, 150) < braveryRate) {
+            if (aw.npc[npcId].rship.companion < 50) {
+              potentDateNpc.push(npcId);
+            }
+          } else {
+            if (random(0, 350) < wannaMeet) {
+              potentHangNpc.push(npcId);
+            }
           }
           break;
         case "friend":
-          if (aw.npc[npcId].rship.companion < 25) {
-            potentHangNpc.push(npcId);
+          if (random(0, 100) < braveryRate) {
+            if (aw.npc[npcId].rship.companion < 50) {
+              potentDateNpc.push(npcId);
+            }
+          } else {
+            if (random(0, 170) < wannaMeet) {
+              potentHangNpc.push(npcId);
+            }
           }
           break;
         case "engaged":
@@ -252,25 +318,84 @@ setup.week.phone = function(): void { // sees which NPCs will text you this week
   if (potentDateNpc.length > 0) {
     for (let i = 0; i < potentDateNpc.length; i++) {
       if (ↂ.flag.schedDates.indexOf(potentDateNpc[i]) === -1) {
-        const time = (random(0, 6) * 1440) + (random (600, 1260)) + lastTime;
-        lastTime += random(20, 50);
-        State.active.variables.tempShitNPC = potentHangNpc[i];
-        const omni = {
-          name: `${potentDateNpc[i]} wants to ask PC out.`,
-          type: "single",
-          output: "interact",
-          duration: time,
-          icon: "none",
-          text: "none",
-          run: `
-            if (ↂ.flag.schedDates.indexOf("${potentDateNpc[i]}") === -1) {
-              setup.interact.status.npc = "${potentDateNpc[i]}";
-          setup.interact.launch({passage: "none", npcid: "${potentDateNpc[i]}", content: '<span id="dateTexting"><<texting "${aw.npc[potentDateNpc[i]].main.name}">><<textnpc>><<= either("Hey, what's up?", "Hi! How it's going?")>><<textpc>><<= either("Hi! Meh, as always", "Standard daily stuff")>><<textnpc>><<= either('Wanted to ask you out this week or maybe next, mm?', 'Hey, dont you want to go for a date? Some good food, nice time together and whatnot?', 'I hope I dont distract you from something important, just wanted to ask if you would like to go out with me somewhere. What do you think?')>><</texting>><<dialogchoice>><<dbutt "Okay">><<replace "#dateTexting">><<set $cumquat = "${potentDateNpc[i]}">><<datescheduler $cumquat>><</replace>><<dtext "excited">>Yeah, lets do it!<<dbutt "Nope">><<replace "#dateTexting">>@@.pc;<<= either('Sorry, too busy. Maybe later, I ll write you.', 'Oh, I have so much on my hands right now, I am not sure I will be free this week.', 'So nice of you, I am just not ready for dating now.')>>@@<br><br>You stare for a minute until the answer arrives.<br><br>@@.npc;<<= either('Oh, I understand. Next time then, XOXO', 'Well write me when you ll be ready to meet okay?', 'Okay.')>>@@<<npcLike 2 "${potentDateNpc[i]}" -5>><</replace>><<dtext "confused">>Reject it in some not-offending way.<</dialogchoice>></span>', block: false, title: "Phone message", size: 3});
+        if (random(1,5) > 3) {
+          const time = (random(0, 6) * 1440) + (random (600, 1260)) + lastTime;
+          lastTime += random(20, 50);
+          State.active.variables.tempShitNPC = potentHangNpc[i];
+          let first = `<<= either("Hey, what's up?", "Hi! How it's going?")>>`;
+          let second = `<<= either("Hi! Meh, as always", "Standard daily stuff")>>`;
+          let third = `<<= either('Wanted to ask you out this week or maybe next, mm?', 'Hey, dont you want to go for a date? Some good food, nice time together and whatnot?', 'I hope I dont distract you from something important, just wanted to ask if you would like to go out with me somewhere. What do you think?')>>`;
+          let fourth = `<<= either('Oh, I understand. Next time then, XOXO', 'Well write me when you ll be ready to meet okay?', 'Okay.')>>`;
+          let daddy = "master";
+          if (aw.npc[ↂ.flag.doms[potentDateNpc[i]]].main.female) { daddy = "mistress"; };
+          if (setup.interactionMisc.isDom(potentDateNpc[i])) {
+            first = `<<= either("Hello, pet!", "How does my favorite toy doing?")>>`;
+            second = `<<= either("<<greetings>>, ${daddy}!", "Ohh, I am so glad you wrote me, ${daddy}!")>>`;
+            third = `<<= either('I feel like meeting you this or next week.', 'I want us to meet, when you are able to do it?', 'I want to go out with you, my little slave.')>>`;
+            fourth = `<<= either('Too bad. Write me asap then.', 'Grr. I just hate real life intruding and taking my slave from me. Well, write me as soon as you will able to meet.', 'Okay.')>>`;
+          }
+          if (setup.interactionMisc.isSub(potentDateNpc[i])) {
+            first = `<<= either("<<greetings>> mistress!", "I got so lonely without seeing you, mistress!")>>`;
+            second = `<<= either("Hello, my pet. Got needy? :)", "Somebody is in need to be topped as I can see? :)")>>`;
+            third = `<<= either('Yup-yup! Please, can we meet soon?', 'I would like to see you so much, can we go out? I have dreams about you already... the naughty ones ^_^', 'Please, can I ask you to go out with me?')>>`;
+            fourth = `<<= either('Yes, mistress :(', 'I will wait, mistress :(', 'Okay :(')>>`;
+          }
+          const omni = {
+            name: `${potentDateNpc[i]} wants to ask PC out.`,
+            type: "single",
+            output: "interact",
+            duration: time,
+            icon: "none",
+            text: "none",
+            run: `
+              if (ↂ.flag.schedDates.indexOf("${potentDateNpc[i]}") === -1) {
+                setup.interact.status.npc = "${potentDateNpc[i]}";
+            setup.interact.launch({passage: "none", npcid: "${potentDateNpc[i]}", content: '<span id="dateTexting"><<texting "${aw.npc[potentDateNpc[i]].main.name}">>
+            <<textnpc>>${first}
+            <<textpc>>${second}
+            <<textnpc>>${third}
+            <</texting>><<dialogchoice>><<dbutt "Okay">><<replace "#dateTexting">><<set $cumquat = "${potentDateNpc[i]}">><<datescheduler $cumquat>><</replace>><<dtext "excited">>Yeah, lets do it!<<dbutt "Nope">><<replace "#dateTexting">>@@.pc;<<= either('Sorry, too busy. Maybe later, I ll write you.', 'Oh, I have so much on my hands right now, I am not sure I will be free this week.', 'So nice of you, I am just not ready for dating now.')>>@@<br><br>You stare for a minute until the answer arrives.<br><br>@@.npc;${fourth}@@<<npcLike 2 "${potentDateNpc[i]}" -5>><</replace>><<dtext "confused">>Reject it in some not-offending way.<</dialogchoice>></span>', block: false, title: "Phone message", size: 3});
+              }
+          `,
+          };
+          setup.omni.new(omni as IntOmniData);
+          aw.con.info(`${aw.npc[potentDateNpc[i]].main.name} was scheduled to text PC at ${time} for a date.`);
+        } else {
+          let time = 0;
+          let shashliki = random(0,1);
+          for (let index = 1; index < ↂ.job.rules.worktime.length; index++) {
+            if (ↂ.job.rules.worktime[index] !== 0) {
+              time += 1440;
+            } else {
+              if (shashliki === 0) {
+                time += (random (720, 1100));
+                break;
+              } else {
+                shashliki = 1;
+              }
             }
-        `,
-        };
-        setup.omni.new(omni as IntOmniData);
-        aw.con.info(`${aw.npc[potentDateNpc[i]].main.name} was scheduled to text PC at ${time} for a date.`);
+          }
+          lastTime += random(20, 50);
+          if (time > 10080) {
+            aw.con.warn(`${aw.npc[potentDateNpc[i]].main.name} tried to schedule a visit to PC home ${time} which resulted in omni created abort.`);
+          } else {
+            const omni = {
+              name: `${potentDateNpc[i]} wants to visit PC.`,
+              type: "single",
+              output: "none",
+              duration: time,
+              icon: "none",
+              text: "none",
+              run: `
+              setup.notify("@@.rumble;RING RING!@@ It seems somebody is at the door.");
+              ↂ.flag.homeVisit = [aw.time, ${potentDateNpc[i]}];
+              aw.S();
+              `,
+            };
+            setup.omni.new(omni as IntOmniData);
+            aw.con.info(`${aw.npc[potentDateNpc[i]].main.name} was scheduled to visit PC at ${time}.`);
+          }
+        }
       }
     }
   }
@@ -295,7 +420,185 @@ setup.week.phone = function(): void { // sees which NPCs will text you this week
       }
     }
   }
-
+  if (ↂ.flag.doms.length > 0) {
+    for (let index = 0; index < ↂ.flag.doms.length; index++) {
+      if (aw.npc[ↂ.flag.doms[index]].rship.companion < random(60,80) && random(0, 10) > 7) {
+        let omni = {};
+        const tasks = [1];
+        if (ↂ.flag.keyHolders[0] !== ↂ.flag.doms[index] && ↂ.flag.keyHolders[1] === "none") {
+          tasks.push(2);
+        }
+        const task = either(tasks);
+        switch (task) {
+          case 1:
+            let time = (random(0, 6) * 1440) + (random (600, 720));
+            let daddy = "master";
+            if (aw.npc[ↂ.flag.doms[index]].main.female) { daddy = "mistress"; };
+            omni = {
+              name: `${ↂ.flag.doms[index]} wants to dom PC.`,
+              type: "single",
+              output: "interact",
+              duration: time,
+              icon: "none",
+              text: "none",
+              run: `
+              let State.temporary.panties = "I do...";
+              let State.temporary.answer = "Then take them off discretely. And send me a photo ;)";
+              let photo = "IMG-PantyShot1";
+              if (ↂ.pc.clothes.worn.panties === "off" || ↂ.pc.clothes.worn.panties === 0) {
+                State.temporary.panties = "I don't...";
+                State.temporary.answer = "Oh, such a naughty girl you are. Send me a photo, slut ;)";
+              }
+              if (setup.sexToys.check("pc", "clit") !== true) {
+                State.temporary.photo = "IMG-PantyShot2";
+              }
+              ↂ.pc.clothes.worn.panties = "off";
+              setup.interact.status.npc = "${ↂ.flag.doms[index]}";
+              setup.interact.launch({passage: "none", npcid: "${ↂ.flag.doms[index]}", content: '<<texting "${aw.npc[ↂ.flag.doms[index]].main.name}">><<arouse 1>><<happy 1 "Having a dom is nice">>
+              <<textnpc>>So, how does my favorite slut doing this morning?
+              <<textpc>>I am okay, ${daddy}!
+              <<textnpc>>Do you wear panties right now?
+              <<textpc>><<= _panties>>
+              <<textnpc>><<= _answer>>
+              <<textpc>>Oh... Yes, I will, just a second, ${daddy}!
+              <<textpc>><img data-passage="_photo">
+              <<textnpc>>Good girl. Stay like this today.
+              <<textpc>>But...
+              <<textpc>>What if somebody gonna notice it?
+              <<textnpc>>Then you gonna be very embarassed, my little slut, right?
+              <<textpc>>...Yes ${daddy} >_<
+              <<textnpc>>Good girl :)
+              <</texting>>
+              <<safetoclose>>', block: false, title: "Phone message", size: 3});
+              aw.S();
+              `,
+            };
+            break;
+          case 2:
+            time = (random(0, 6) * 1440) + (random (720, 1080));
+            daddy = "master";
+            if (aw.npc[ↂ.flag.doms[index]].main.female) { daddy = "mistress"; };
+            omni = {
+              name: `${ↂ.flag.doms[index]} wants to dom PC.`,
+              type: "single",
+              output: "interact",
+              duration: time,
+              icon: "none",
+              text: "none",
+              run: `
+              ↂ.flag.keyHolders[0] = ["${ↂ.flag.doms[index]}"];
+              ↂ.flag.keyHolders[1] = "askedToBringTheKey";
+              let State.temporary.ChastityOne = "I want you to buy a chastity belt of your choice this week, pet.";
+              let State.temporary.ChastityTwo = "Y-yes, ${daddy}, I will do it...";
+              let State.temporary.ChastityThree = "Good girl. As I know they sell keys and remotes separately, don't forget to buy them too. Put the chastity on as soon as you get it, take keys to our next date ;)";
+              if (State.active.variables.items.has("Chastity belt") || State.active.variables.items.has("Cplate 200") ||State.active.variables.items.has("Clit shield")) {
+                let State.temporary.ChastityOne = "You have the chastity belt, right?";
+                if (setup.sexToys.check("pc", "clit") !== true) {
+                  let State.temporary.ChastityTwo = "Yes, ${daddy}... I have my ${setup.sexToys.check("pc", "clit")} on right now...}";
+                  let State.temporary.ChastityThree = "Such a good girl you are, already locked tight! Take keys to our next date ;)";
+                } else {
+                  let State.temporary.ChastityTwo = "Yes, ${daddy}...";
+                  let State.temporary.ChastityThree = "Put the chastity on and take keys to our next date ;)";
+                }
+              }
+              setup.interact.status.npc = "${ↂ.flag.doms[index]}";
+              setup.interact.launch({passage: "none", npcid: "${ↂ.flag.doms[index]}", content: '<<texting "${aw.npc[ↂ.flag.doms[index]].main.name}">><<arouse 1>><<happy 1 "Having a dom is nice">>
+              <<textnpc>><<= _ChastityOne>>
+              <<textpc>><<= _ChastityTwo>>
+              <<textnpc>><<= _ChastityThree>>
+              <<textpc>>As you wish, ${daddy}!
+              <<textnpc>>Good girl.
+              <<textnpc>>I let you to choose when your next date will happen.
+              <</texting>>
+              <<set $cumquat = "${ↂ.flag.doms[index]}">><<datescheduler $cumquat>>
+              <<safetoclose>>', block: false, title: "Phone message", size: 3});
+              aw.S();
+              `,
+            };
+          break;
+          case 3:
+            /*time = (random(0, 6) * 1440) + (random (720, 1080));
+            daddy = "master";
+            if (aw.npc[ↂ.flag.doms[index]].main.female) { daddy = "mistress"; };
+            omni = {
+              name: `${ↂ.flag.doms[index]} wants to dom PC.`,
+              type: "single",
+              output: "interact",
+              duration: time,
+              icon: "none",
+              text: "none",
+              run: `
+              let State.temporary.panties = "I do...";
+              let State.temporary.answer = "Then take them off discretely. And send me a photo ;)";
+              let photo = "IMG-PantyShot1";
+              if (ↂ.pc.clothes.worn.panties === "off" || ↂ.pc.clothes.worn.panties === 0) {
+                State.temporary.panties = "I don't...";
+                State.temporary.answer = "Oh, such a naughty girl you are. Send me a photo, slut ;)";
+              }
+              if (setup.sexToys.check("pc", "clit") !== true) {
+                State.temporary.photo = "IMG-PantyShot2";
+              }
+              ↂ.pc.clothes.worn.panties = "off";
+              setup.interact.status.npc = "${ↂ.flag.doms[index]}";
+              setup.interact.launch({passage: "none", npcid: "${ↂ.flag.doms[index]}", content: '<<texting "${aw.npc[ↂ.flag.doms[index]].main.name}">><<arouse 1>><<happy 1 "Having a dom is nice">>
+              <<textnpc>>So, how does my favorite slut doing this morning?
+              <<textpc>>I am okay, ${daddy}!
+              <<textnpc>>Do you wear panties right now?
+              <<textpc>><<= _panties>>
+              <<textnpc>><<= _answer>>
+              <<textpc>>Oh... Yes, I will, just a second, ${daddy}!
+              <<textpc>><img data-passage="_photo">
+              <<textnpc>>Good girl. Stay like this today.
+              <<textpc>>But...
+              <<textpc>>What if somebody gonna notice it?
+              <<textnpc>>Then you gonna be very embarassed, my little slut, right?
+              <<textpc>>...Yes ${daddy} >_<
+              <<textnpc>>Good girl :)
+              <</texting>>
+              <<safetoclose>>', block: false, title: "Phone message", size: 3});
+              aw.S();
+              `,
+            };*/
+          break;
+          default:
+            break;
+        }
+        setup.omni.new(omni as IntOmniData);
+        aw.con.info(`${aw.npc[ↂ.flag.doms[index]].main.name} was scheduled to ldr dom PC at ${time}.`);
+      }
+    }
+  }
+  // some additional story stuff
+  if (aw.npc.n1014.rship.acquaint && aw.npc.n1014.rship.likeNPC < 30 && ↂ.flag.hannaStory.stage === "none" && random(1,3) === 3) {
+    let omni = {};
+    const time = (random(0, 6) * 1440) + (random (720, 1080));
+    omni = {
+      name: `Hanna texts asking for money`,
+      type: "single",
+      output: "interact",
+      duration: time,
+      icon: "none",
+      text: "none",
+      run: `
+      setup.interact.status.npc = "n1014";
+      setup.interact.launch({passage: "none", npcid: "n1014", content: '<div id="hannaText"><<texting "Hanna Bowen">>
+      <<textnpc>>Hey, ${ↂ.pc.main.name}!
+      <<textpc>>Hi?
+      <<textnpc>>I know that we are not super close pals but I am in a really tight spot rn -_-
+      <<textnpc>>Can you borrow me <<mon>>100?
+      <</texting>>
+      <<dialogchoice>>
+        <<dbutt "Sure">><<replace "#hannaText">><<include [[HannaBowen-quest-a-yes]]>><</replace>>
+        <<dtext "happy">>Of course, I'll send it now :)
+        <<dbutt "No">><<replace "#hannaText">><<include [[HannaBowen-quest-a-no]]>><</replace>>
+        <<dtext "arrogant">>Sorry, I have no free money now :(
+      <</dialogchoice>></div>
+      ', block: false, title: "Phone message", size: 3});
+      aw.S();
+      `,
+    };
+  setup.omni.new(omni as IntOmniData);
+  }
 };
 
 setup.week.livingCondition = function(): void {
@@ -309,6 +612,21 @@ setup.week.livingCondition = function(): void {
     hHood: ↂ.home.stats.nhood || 1,
     hLoc: ↂ.home.stats.location || 1,
   };
+  if (ↂ.flag.liveTogether) {
+    let ba = 0;
+    let bmax = 5;
+    if (aw.npc[ↂ.flag.liveWith].background.wealth + 2 < ↂ.home.stats.tier) {
+      // no change to ba
+    } else if (aw.npc[ↂ.flag.liveWith].background.wealth < ↂ.home.stats.tier) {
+      ba = 1;
+    } else {
+      ba = 2;
+      bmax = 6;
+    }
+    t.hFin = Math.min(t.hFin + ba, bmax);
+    t.hUp = Math.min(t.hUp + ba, bmax);
+    t.hHood = Math.min(t.hHood + ba, bmax);
+  }
   const v = [-3, -2, -1, 0, 1, 2];
   let h = (v[t.hFin] * 3) + (v[t.hUp] * 4) + (v[t.hLoc] * 2) + v[t.hHood];
   h *= 3 - ((t.hTier / 5) * 3);
@@ -383,3 +701,66 @@ setup.week.financeReset = function(): void {
   ᚥ.car = 0;
   ᚥ.cable = 0;
 };
+
+setup.week.insanePrefChecker = function(npcId: string): number[] { // [height, weight, large boobs, small boobs, ]
+  const result = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  if (aw.npc[npcId] == null) {
+    aw.con.warn(`Error in setup.week.insanePrefChecker, ${npcId} was not found in aw.npc!`);
+    return result;
+  }
+  // HEIGHT
+  const height = [59, 62, 66, 71, 74]; // border values
+  let pos = 0;
+  for (let index = 0; index < height.length; index++) {
+    if (77 >= height[index]){
+      pos = (index + 1);
+    }
+  }
+  if (pos > 4) {pos = 4};
+  result[0] = aw.npc[npcId].pref.Fheight[pos];
+  // WEIGHT
+  result[1] = aw.npc[npcId].pref.Fweight[(ↂ.pc.body.weight - 1)];
+  // BOOBS
+  if (ↂ.pc.body.tits.size > 1500) {
+    result[2] = aw.npc[npcId].pref.Fother[0];
+  } else {
+    result[2] = 0;
+  }
+  if (ↂ.pc.body.tits.size < 600) {
+    result[3] = aw.npc[npcId].pref.Fother[1];
+  } else {
+    result[3] = 0;
+  }
+  // HIPS
+  if (ↂ.pc.body.hips > 4) {
+    result[4] = aw.npc[npcId].pref.Fother[2];
+  } else {
+    result[4] = 0;
+  }
+  if (ↂ.pc.body.hips < 3) {
+    result[5] = aw.npc[npcId].pref.Fother[3];
+  } else {
+    result[5] = 0;
+  }
+  // IQ - screw it for now
+  result[6] = 0;
+  result[7] = 0;
+  // STYLISH?!
+  result[8] = 0;
+  // MAKEUP?!
+  result[9] = 0;
+  // BUTT
+  if (ↂ.pc.body.ass > 4) {
+    result[10] = aw.npc[npcId].pref.Fother[8];
+  } else {
+    result[10] = 0;
+  }
+  if (ↂ.pc.body.ass < 3) {
+    result[10] = aw.npc[npcId].pref.Fother[9];
+  } else {
+    result[10] = 0;
+  }
+  // MUSCLE
+  result[11] = aw.npc[npcId].pref.Fmuscle[(ↂ.pc.body.tone - 1)];
+  return result;
+}

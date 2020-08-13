@@ -99,3 +99,149 @@ setup.omnItems.pussyBot = {
     }`,
 };
 
+setup.omnItems.keysBelt = {
+  name: "keysBelt",
+  type: "single",
+  output: "none",
+  duration: 6100,
+  icon: "none",
+  run: `if (random(0,10) > 8) {
+    ↂ.flag.sendKeyReturned[0] == true;
+  } else {
+    ↂ.flag.sendKeyLost[0] == true;
+  }
+  as.S();`,
+};
+
+setup.omnItems.keysPlate = {
+  name: "keysPlate",
+  type: "single",
+  output: "none",
+  duration: 5900,
+  icon: "none",
+  run: `if (random(0,10) > 8) {
+    ↂ.flag.sendKeyReturned[1] == true;
+  } else {
+    ↂ.flag.sendKeyLost[1] == true;
+  }
+  as.S();`,
+};
+
+setup.omnItems.keysClit = {
+  name: "keysClit",
+  type: "single",
+  output: "none",
+  duration: 5750,
+  icon: "none",
+  run: `if (random(0,10) > 8) {
+    ↂ.flag.sendKeyReturned[2] == true;
+  } else {
+    ↂ.flag.sendKeyLost[2] == true;
+  }
+  as.S();`,
+};
+
+
+setup.omnItems.keysShortage = {
+  name: "keysShortage",
+  type: "single",
+  output: "none",
+  duration: 7750,
+  icon: "none",
+  run: `
+  ↂ.flag.sendKeyLost[0] = false;
+  ↂ.flag.sendKeyLost[1] = false;
+  ↂ.flag.sendKeyLost[2] = false;
+  as.S();`,
+};
+
+
+setup.omnItems.hannaAsksForMore = {
+  name: "hannaAsksForMore",
+  type: "single",
+  output: "none",
+  duration: 11622,
+  icon: "none",
+  run: `setup.interact.status.npc = "n1014";
+    setup.interact.launch({passage: "none", npcid: "n1014", content: '<<set _hanna1 = either("Hey","What's up? It's me, Hanna","<<greetings>>")>><<set _hanna2 = either("I am terribly sorry but I need to borrow some more money from you :(((","I hate to be annoying but I need to ask you once again for additional money...","I know how it sounds, but I really need to ask you for more money :(")>><div id="hannaText"><<texting "Hanna Bowen">>
+    <<textnpc>><<print _hanna1>>
+    <<textpc>>Hi!
+    <<textnpc>><<print _hanna2>>
+    <<textnpc>>I have serious problems here... Can you send me 100 more?
+    <<textpc>>Ugh...
+    <<dialogchoice>>
+        <<dbutt "Sure">><<replace "#hannaText">><<include [[HannaBowen-quest-a-yes]]>><</replace>>
+        <<dtext "happy">>Oh, sure. Just return them and don't forget the money I previously borrowed you please.
+        <<dbutt "No">><<replace "#hannaText">><<include [[HannaBowen-quest-a-no]]>><</replace>>
+        <<dtext "arrogant">>Sorry, you haven't returned money I already borrowed to you.
+      <</dialogchoice>></div>
+    ', block: true, title: "Phone message", size: 3});
+    aw.S();`,
+};
+
+setup.omnItems.hannaInTroubles = {
+  name: "hannaInTroubles",
+  type: "single",
+  output: "none",
+  duration: 11622,
+  icon: "none",
+  run: `setup.interact.status.npc = "n1014";
+    setup.interact.launch({passage: "none", npcid: "n1014", content: '<<texting "Hanna Bowen">>
+    <<textnpc>><<name>>
+    <<textpc>>Umm, hi?
+    <<textpc>>Hey, you wanted something?
+    <<textpc>>Hello?
+    <<textnpc>>Iam at tesla res they tookme pls co
+    <<textpc>>What? Where are you?
+    <<textpc>>Hey, are you still there?
+    <</texting>>
+    <br>@@.mono;Hmm, that's weird. We are not so close, why did she wrote me in the first place?@@
+    <<safetoclose>><<set ↂ.flag.hannaStory.stage = "askedForHelp">><<run setup.omni.new("hannaDeathCounter")>>
+    ', block: false, title: "Phone message", size: 3});
+    aw.mapNPC.downtown.club.n1014.cond = function() { return false };
+    aw.S();`,
+};
+
+setup.omnItems.hannaDeathCounter = {
+  name: "hannaDeathCounter",
+  type: "single",
+  output: "none",
+  duration: 600,
+  icon: "none",
+  run: `
+  ↂ.flag.hannaStory.stage = "died"
+  delete aw.npc["n1014"];
+  aw.S();
+  `,
+};
+
+setup.omnItems.hannaReturnsMoney = {
+  name: "hannaReturnsMoney",
+  type: "single",
+  output: "none",
+  duration: 21522,
+  icon: "none",
+  run: `
+  setup.interact.status.npc = "n1014";
+    setup.interact.launch({passage: "none", npcid: "n1014", content: '<<set _monHan = 2000 + ↂ.flag.hannaStory.money>><<texting "Hanna Bowen">>
+    <<textnpc>>Hi, sugarcube!
+    <<textnpc>>Just wanted to share some good news!
+    <<textnpc>>I got a job and well
+    <<textnpc>>I am clean for last two weeks too
+    <<textpc>>Oh, that's cool! Congrats!
+    <<textnpc>>Thanks! ^_^ 
+    <<textnpc>>And also, I sent you all my debt, I am really grateful!
+    <<textpc>>Oh, thanks, you shouldn't do that to be honest.
+    <<textnpc>>It is okay, sugar, this is a honestly earned money and I want you to take them.
+    <<textpc>>Oh okay
+    <<textpc>>Well, see ya! ;)
+    <<textpc>>And thanks once again.
+    <</texting>>
+    You check your balance and see that @@.mon;<<mon>><<= _monHan>>@@ got to your balance.
+    <<safetoclose>><<run aw.cash(_monHan, "misc")>>
+    ', block: false, title: "Phone message", size: 3});
+    aw.mapNPC.downtown.club.n1014.cond = function() { return false };
+    aw.S();
+  `,
+};
+

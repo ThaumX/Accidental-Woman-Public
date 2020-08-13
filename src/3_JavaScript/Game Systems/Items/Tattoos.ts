@@ -148,7 +148,7 @@ setup.tattoo.simpleList = function(): string {
         } else {
           imgType = `data-passage="`;
         }
-        out += `<img ${imgType}${T.img}" style="border-radius: 10px; float: left; margin-right: 10px; margin-bottom: 10px; width: 120px; height: 120px;">`;
+        out += `<span style="text-align: center;"><center><img ${imgType}${T.img}" style="border-radius: 10px; float: left; margin-right: 10px; margin-bottom: 10px; width: 120px; height: 120px;"><br>${placesNames[index]}</center></span>`;
         }
       }
     }
@@ -266,7 +266,7 @@ setup.tattoo.create = function(): string {
   setup.tattoo.temporary.item.text = State.active.variables.TcustomText;
   setup.tattoo.temporary.item.lewd = State.active.variables.TcustomLewd;
   setup.tattoo.temporary.item.cost = (setup.tattoo.temporary.item.atr * 30) + 30 + random(10, 25);
-  setup.tattoo.tattooLib.push(setup.tattoo.temporary.item);
+  setup.tattoo.tattooLib.push(clone(setup.tattoo.temporary.item));
   aw.S();
   let stats = (setup.tattoo.temporary.item.temp) ? "Temporary " : "Permanent ";
   stats += (setup.tattoo.temporary.item.lewd) ? "lewd " : "";

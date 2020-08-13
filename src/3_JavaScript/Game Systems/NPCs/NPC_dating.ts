@@ -25,6 +25,7 @@ interface NpcDate {
   remove: (npcId: string) => boolean;
   moveToLoc: (npcId: string) => boolean;
   date: (npcId: string, datePlace: string) => boolean;
+  homeDateTime: () => boolean;
 }
 
 interface datePLaces {
@@ -38,7 +39,7 @@ setup.npcDate.propose = function(npcId) {
   let proposeHours;
   let nextweek = false;
   let output = "";
-  if (State.active.variables.date[1] > 6) {
+  if (State.active.variables.date[0] > 6) {
     nextweek = true;
   } else {
     nextweek = false;
@@ -56,14 +57,14 @@ setup.npcDate.propose = function(npcId) {
   } else {
     const futa = random(1, 3);
     if (futa === 1) { // next vacation day
-      for (let i = 6; i > (State.active.variables.date[1] - 1); i--) {
+      for (let i = 6; i > (State.active.variables.date[0] - 1); i--) {
         if (aw.npc[npcId].sched.workdays[i] === false) {
           proposeWeekDay = i;
           proposeHours = random(11, 21);
         }
       }
     } else { // next working day evening
-      for (let i = 6; i > (State.active.variables.date[1] - 1); i--) {
+      for (let i = 6; i > (State.active.variables.date[0] - 1); i--) {
         if (aw.npc[npcId].sched.workdays[i] === true) {
           proposeWeekDay = i;
           proposeHours = random((aw.npc[npcId].sched.workhours[1] + 1), 21);
@@ -79,7 +80,12 @@ setup.npcDate.propose = function(npcId) {
   if (proposeWeekDay < State.active.variables.date[0] && nextweek === false) {
     nextweek = true;
   }
-  const proposePlace = Object.keys(aw.datePlaces)[random(0, 3)];
+  if (proposeWeekDay > 6) {
+    proposeWeekDay = 6;
+  } else if (proposeWeekDay < 1) {
+    proposeWeekDay = 1;
+  }
+  const proposePlace = Object.keys(aw.datePlaces)[random(0, 4)];
   const weekdays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
   output += (nextweek) ? "Maybe next " : "Maybe this ";
   output += `${weekdays[(proposeWeekDay - 1)]}, at ${proposeHours}:00 in the ${aw.datePlaces[proposePlace][3]}?`;
@@ -206,33 +212,45 @@ setup.npcDate.remove = function(npcId) {
     delete ↂ.sched.npcDate[npcId];
     return true;
   } else {
-    aw.con.warn("Date flag not found in the ↂ.flag.schedDates!");
+    aw.con.warn(`Date flag ${npcId} not found in the ↂ.flag.schedDates!`);
     return false;
   }
 };
+
+setup.npcDate.homeDateTime = function() {
+  if (ↂ.sched.npcDate !== null && ↂ.flag.schedDates.length > 0) {
+    for (let i = 0; i < ↂ.plans.current.length; i++) {
+      const homes = ["homeT1", "homeT2", "homeT3", "homeT4", "homeT5"];
+      const place = ↂ.plans.current[i].locmap as string;
+      if (ↂ.flag.schedDates.length !== 0 && ↂ.plans.current[i].type === "date" && ↂ.plans.current[i].missed && aw.time < (ↂ.plans.current[i].start + 60) && aw.time > ↂ.plans.current[i].start && homes.includes(ↂ.map.loc[0]) && aw.datePlaces[place][3] === "Your home") {
+        State.active.variables.doorNPC = ↂ.plans.current[i].npc;
+        aw.S();
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+  return false;
+}
 
 setup.npcDate.date = function(npcId, datePlace) {
   if (npcId == null) {
     aw.con.warn("no npc id was supplied to setup.npcDate.date");
     return false;
   }
-  const ᛔ = State.active.variables;
-  const day = ᛔ.date[0] as 1 | 2 | 3 | 4 | 5 | 6 | 7;
-  const week = ᛔ.date[1];
-  if (ↂ.flag.schedDates.includes(npcId)) {
     setup.npcDate.remove(npcId);
     for (let i = 0; i < ↂ.plans.current.length; i++) {
       if (ↂ.plans.current[i].type === "date" && ↂ.plans.current[i].npc[0] === npcId) {
         ↂ.plans.current[i].missed = false;
       }
     }
-    /*setup.dialog("Dating", `Wohoo! Don't forget that proper ladies never suck it on the first date. <<comment "This is a placeholder now, but in next releases there will be actual dating :3">><<updatebar>>`);*/
-    setup.date.start(npcId);
+    let type = "out";
+    if (datePlace === "yourhome") {
+      type = "yourhome";
+    }
+    setup.date.start(npcId, type);
     return true;
-  } else {
-    aw.con.warn("Date flag not found in the ↂ.flag.schedDates!");
-    return false;
-  }
 };
 
 Macro.add("datescheduler", {
@@ -265,4 +283,5 @@ aw.datePlaces = {
   club: ["downtown", "club", "main", "Club district"],
   mall: ["downtown", "mall", false, "Mall"],
   amuse: ["downtown", "amuse", false, "Amusement district"],
+  yourhome: ["home", "foyer", false, "Your home"],
 };

@@ -15,6 +15,7 @@
 <p>
 <<f Y>>ou approach the <<if aw.npc[_npc].main.female>>woman<<else>>man<</if>> that caught your eye, trying to come up with a suitable way to start a conversation with a complete stranger without looking like a total weirdo. <<if ↂ.pc.trait.intro>>You try to avoid panicking as you get closer, something easier said than done.<<elseif ↂ.pc.kink.slut>>You’re pretty sure that being a weirdo won’t get in the way of sex, so you’re not too worried.<<else>>@@.mono;Well, what’s the worst that could happen?@@<</if>>
 </p>
+<<if ↂ.toys.parts.mouth === false>>
 <<dialogchoice>>
 <<dbutt "honest">><<addTime 3>><<intgo "NPCinteraction-StrangerHonest">>
 <<dtext "awkward">>Just be honest, say you found them interesting and wanted to come and say hello.
@@ -27,6 +28,26 @@
 <<dbutt "Deceive">><<intgo "NPCinteraction-StrangerLie">>
 <<dtext "smug">>Pretend like you've met the person before and say hello.
 <</dialogchoice>>
+<<else>>
+@@.mono;Oh, I won't be able to talk with this gag in! I can't believe I am that dumb. And <<if aw.npc[_npc].main.female>>she<<else>>he<</if>> sees it! Ohmy...@@
+<<dialogchoice>>
+<<dbutt "Mhmhhmb!" "!ↂ.pc.kink.shame">><<addTime 3>><<intgo "NPCinteraction-StrangerPlayerIsIdiotLol">>
+<<dtext "muted">>Try to speak coherently.
+<<dbutt "Leave">><<intclose>>
+<<dtext "slut">>Go away before it get too embarassing...
+<</dialogchoice>>
+<</if>>
+
+
+:: NPCinteraction-StrangerPlayerIsIdiotLol [nobr]
+
+<p>@@.pc;Mhmmhm!@@</p>
+<p>@@.npc;Emm... miss, you were kidnapped? This... gag in your mouth, should I call the police?@@</p>
+You shake your head in a "Nope" way.
+<p>@@.npc;Ugh... then have fun... I better go...Goodluck...<i style="font-size: 8px;">Perv</i>@@</p>
+You look at <<if aw.npc[_npc].main.female>>her<<else>>his<</if>> back while <<if aw.npc[_npc].main.female>>she<<else>>he<</if>> goes away. 
+<p>@@.mono;I am an idiot.@@</p>
+<<safetoclose>><<stress 5 "Mhmhhmb!">>
 
 
 :: NPCinteraction-StrangerHonest [nobr]
@@ -80,12 +101,22 @@
     <p>
     <<if aw.npc[_npc].main.female>>She<<else>>He<</if>> looks at you for a moment before answering. <<dn>>Oh, umm, hi. I'm <<= aw.npc[_npc].main.name>>... Nice to meet you, I guess?<</dn>>
     </p>
+    <<silently>>
+      <<set $npcPrefsScore = 0>>
+      <<script>>
+        const npcPrefs = setup.week.insanePrefChecker(setup.interact.status.npc);
+          let npcPrefsScore = 0;
+          for (let index = 0; index < npcPrefs.length; index++) {
+            State.active.variables.npcPrefsScore += npcPrefs[index];
+          }
+      <</script>>
+    <</silently>>
     <<dialogchoice>>
       <<dbutt "chat">><<addTime 2>><<intgo "NPCinteraction-StrangerTryChat">>
       <<dtext "awkward">>Now that you're acquaintances, try to make a little small talk.
-      <<dbutt "number">><<set _randy = random(1,3)>><<if _randy == 1>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
+      <<dbutt "number">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 5>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
       <<dtext "cute">>Just get the person's number so you can talk or hang out some time.
-      <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = random(1,3)>><<if _randy < 3>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
+      <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 7>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
       <<dtext "kissheart">>Get straight to the point, and ask them out on a date sometime.
       <<dbutt "lets Fuck" "ↂ.pc.kink.slut || ↂ.pc.liberate">><<intgo "NPCinteraction-StrangerSex">>
       <<dtext "slut">>Convince them that sexytimes should commence immediately.
@@ -96,12 +127,22 @@
 
 :: NPCinteraction-StrangerContinue [nobr]
 
+<<silently>>
+    <<set $npcPrefsScore = 0>>
+    <<script>>
+      const npcPrefs = setup.week.insanePrefChecker(setup.interact.status.npc);
+        let npcPrefsScore = 0;
+        for (let index = 0; index < npcPrefs.length; index++) {
+          State.active.variables.npcPrefsScore += npcPrefs[index];
+        }
+  <</script>>
+<</silently>>
 <<dialogchoice>>
   <<dbutt "chat">><<addTime 2>><<intgo "NPCinteraction-StrangerTryChat">>
   <<dtext "awkward">>Now that you're acquaintances, try to make a little small talk.
-  <<dbutt "number">><<set _randy = random(1,3)>><<if _randy == 1>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
+  <<dbutt "number">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 5>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
   <<dtext "cute">>Just get the person's number so you can talk or hang out some time.
-  <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = random(1,3)>><<if _randy < 3>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
+  <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 7>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
   <<dtext "kissheart">>Get straight to the point, and ask them out on a date sometime.
   <<dbutt "lets Fuck" "ↂ.pc.kink.slut || ↂ.pc.liberate">><<intgo "NPCinteraction-StrangerSex">>
   <<dtext "slut">>Convince them that sexytimes should commence immediately.
@@ -115,7 +156,16 @@
 <<set _npc = setup.interact.status.npc>>
 <<set _int = setup.interact.status.temp.interrupt>>
 <<set _ctag = setup.interact.status.temp.cTag>>
+<<set $npcPrefsScore = 0>>
+<<script>>
+  const npcPrefs = setup.week.insanePrefChecker(setup.interact.status.npc);
+    let npcPrefsScore = 0;
+    for (let index = 0; index < npcPrefs.length; index++) {
+      State.active.variables.npcPrefsScore += npcPrefs[index];
+    }
+<</script>>
 <</silently>>
+
 <<if _int>>
     <<ctagcontent "stranger" _ctag>>
 <<else>>
@@ -125,9 +175,9 @@
     <p><<print either("@@.npc;Oh, hai! This was pretty sweet to be honest, he-he. I am <<= aw.npc[_npc].main.name>>, nice to meet you!@@","@@.npc;He-he, I like it. Name's <<= aw.npc[_npc].main.name>>, you look awesome and it is a pleasure to meet you!@@", "@@.npc;Wow, that was unexpected... and rather nice! I am <<= aw.npc[_npc].main.name>>!@@")>></p>
     <<set _blah = setup.cTag.getTag(3, false)>><p><<set _pff = aw.npc[_npc].main.name>><<print setup.interactionMisc.tagText(_blah, _pff)>></p>
     <<dialogchoice>>
-      <<dbutt "number">><<set _randy = random(1,10)>><<if _randy < 3>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
+      <<dbutt "number">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 5>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
       <<dtext "cute">>Just get the person's number so you can talk or hang out some time.
-      <<dbutt "Ask Out">><<set _randy = random(1,10)>><<if _randy < 4>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
+      <<dbutt "Ask Out">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 7>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
       <<dtext "kissheart">>Get straight to the point, and ask them out on a date sometime.
       <<dbutt "lets Fuck" "ↂ.pc.kink.slut || ↂ.pc.liberate">><<intgo "NPCinteraction-StrangerSex">>
       <<dtext "slut">>Convince them that sexytimes should commence immediately.
@@ -171,12 +221,12 @@
       <<set aw.npc.n1014.rship.lovePC -= 5>>
       <<set aw.npc.n1014.rship.likePC -= 16>>
     <<elseif _randFail < 70>><<set aw.npc[_npc].rship.rejected = true>>
-      <p><<print either("@@.npc;Ehmm. Sorry, I am not interested... I need to go.@@","@@.npc;Ugh? I don't use hooker's services, sorry. Mmm, goodbye.@@","@@npc;Ugh, what? I don't know what you are thinking, but sorry, I am not from thins kind of... I guess I better go now.@@")>></p>
+      <p><<print either("@@.npc;Ehmm. Sorry, I am not interested... I need to go.@@","@@.npc;Ugh? I don't use hooker's services, sorry. Mmm, goodbye.@@","@@.npc;Ugh, what? I don't know what you are thinking, but sorry, I am not from thins kind of... I guess I better go now.@@")>></p>
       <<safetoclose>><<set aw.npc[_npc].rship.rejected = true>>
       <<set aw.npc.n1014.rship.lovePC -= 3>>
       <<set aw.npc.n1014.rship.likePC -= 8>>
     <<elseif _randFail < 90>><<set aw.npc[_npc].rship.rejected = true>>
-      <p><<print either("@@.npc;Like really? Oh, I'd wish to to be honest, but you don't know my spouse. I better go until somebody sees me talking with you... but mmm good luck I guess?@@","@@npc;Mmmhm, sorry, I don't want to offend you and such, but you are just not my type.@@")>></p>
+      <p><<print either("@@.npc;Like really? Oh, I'd wish to to be honest, but you don't know my spouse. I better go until somebody sees me talking with you... but mmm good luck I guess?@@","@@.npc;Mmmhm, sorry, I don't want to offend you and such, but you are just not my type.@@")>></p>
       <<safetoclose>>
       <<set aw.npc.n1014.rship.lovePC += 2>>
       <<set aw.npc.n1014.rship.likePC += 6>>
@@ -207,23 +257,24 @@
 <<set _aiRes = either(true, false)>>
 <</silently>>
 <<if _aiRes>>
-  <p><<print either("@@.npc;Sure, let's go!@@","@@.npc;If you invite, hehe...@@")>></p>
-  <p>@@.pc;Oh yes, hop on into my car, cutie!@@</p>
+  <p><<print either("@@.npc;Sure, let's go!@@","@@.npc;If you want, hehe...@@")>></p>
+  <p>@@.pc;Oh yes, let's do it!!@@</p>
   <center>
   <<button "Rock-n-roll!">>
+  <<set $sexNpcGosh = setup.interact.status.npc>><<status 0>>
   <<addtime 39>>
-  <<run setup.npcInfo.level(_npc, {bodyGeneral: true})>>
-  <<run setup.npcInfo.level(_npc, {bodyJunk: true})>>
-  <<run setup.npcInfo.level(_npc, {bodyDetail: 1})>>
-  <<set aw.npc[_npc].rship.likePC += random(7, 12)>>
-  <<set aw.npc[_npc].lovePC += random(1, 3)>>
+  <<run setup.npcInfo.level($sexNpcGosh, {bodyGeneral: true})>>
+  <<run setup.npcInfo.level($sexNpcGosh, {bodyJunk: true})>>
+  <<run setup.npcInfo.level($sexNpcGosh, {bodyDetail: 1})>>
+  <<set aw.npc[$sexNpcGosh].rship.likePC += random(7, 12)>>
+  <<set aw.npc[$sexNpcGosh].lovePC += random(1, 3)>>
   <<set ↂ.sex.passage = aw.passage.title>>
   <<set ↂ.sex.pcOutput = "It takes not that long to get to your bedroom together.">>
-  <<set ↂ.sex.enviroTags = ["wall"]>>
-  <<set aw.npc[_npc].rship.companion += 15>>
-  <<set aw.npc[_npc].sleptover += 1>>
-  <<set setup.sexitimes = _npc>>
-  <<sceneclose>><<status 0>>
+  <<set ↂ.sex.enviroTags = ["wall", "public"]>>
+  <<set aw.npc[$sexNpcGosh].rship.companion += 15>>
+  <<set aw.npc[$sexNpcGosh].sleptover += 1>>
+  <<set setup.sexitimes = $sexNpcGosh>>
+  <<intclose>><<status 0>>
   <<script>>
   setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
   <</script>>
@@ -255,20 +306,21 @@
   <p>@@.pc;Oh yes, hop on into my car, cutie!@@</p>
   <center>
   <<button "Rock-n-roll!">>
+  <<set $sexNpcGosh = setup.interact.status.npc>><<status 0>>
   <<addtime 39>>
   <<gotomap "home" "bedroom">>
-  <<run setup.npcInfo.level(_npc, {bodyGeneral: true})>>
-  <<run setup.npcInfo.level(_npc, {bodyJunk: true})>>
-  <<run setup.npcInfo.level(_npc, {bodyDetail: 1})>>
-  <<set aw.npc[_npc].rship.likePC += random(7, 12)>>
-  <<set aw.npc[_npc].lovePC += random(1, 3)>>
+  <<run setup.npcInfo.level($sexNpcGosh, {bodyGeneral: true})>>
+  <<run setup.npcInfo.level($sexNpcGosh, {bodyJunk: true})>>
+  <<run setup.npcInfo.level($sexNpcGosh, {bodyDetail: 1})>>
+  <<set aw.npc[$sexNpcGosh].rship.likePC += random(7, 12)>>
+  <<set aw.npc[$sexNpcGosh].lovePC += random(1, 3)>>
   <<set ↂ.sex.passage = aw.passage.title>>
   <<set ↂ.sex.pcOutput = "It takes not that long to get to your bedroom together.">>
   <<set ↂ.sex.enviroTags = ["bed","wall","chair"]>>
-  <<set aw.npc[_npc].rship.companion += 15>>
-  <<set aw.npc[_npc].sleptover += 1>>
-  <<set setup.sexitimes = _npc>>
-  <<sceneclose>><<status 0>>
+  <<set aw.npc[$sexNpcGosh].rship.companion += 15>>
+  <<set aw.npc[$sexNpcGosh].sleptover += 1>>
+  <<set setup.sexitimes = $sexNpcGosh>>
+  <<intclose>><<status 0>>
   <<script>>
   setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
   <</script>>
@@ -301,6 +353,14 @@
 <<set _npc = setup.interact.status.npc>>
 <<set _int = setup.interact.status.temp.interrupt>>
 <<set _ctag = setup.interact.status.temp.cTag>>
+<<set $npcPrefsScore = 0>>
+<<script>>
+  const npcPrefs = setup.week.insanePrefChecker(setup.interact.status.npc);
+    let npcPrefsScore = 0;
+    for (let index = 0; index < npcPrefs.length; index++) {
+      State.active.variables.npcPrefsScore += npcPrefs[index];
+    }
+<</script>>
 <</silently>>
 <<if _int>>
     <<ctagcontent "stranger" _ctag>>
@@ -311,9 +371,9 @@
     <<dialogchoice>>
       <<dbutt "chat">><<addTime 2>><<intgo "NPCinteraction-StrangerTryChat">>
       <<dtext "awkward">>Now that you're acquaintances, try to make a little small talk.
-      <<dbutt "number">><<set _randy = random(1,4)>><<if _randy == 1>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
+      <<dbutt "number">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 5>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
       <<dtext "cute">>Just get the person's number so you can talk or hang out some time.
-      <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = random(1,3)>><<if _randy < 2>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
+      <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 7>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
       <<dtext "kissheart">>Get straight to the point, and ask them out on a date sometime.
       <<dbutt "lets Fuck" "ↂ.pc.kink.slut || ↂ.pc.liberate">><<intgo "NPCinteraction-StrangerSex">>
       <<dtext "slut">>Convince them that sexytimes should commence immediately.
@@ -350,6 +410,14 @@
 <<set _npc = setup.interact.status.npc>>
 <<set _int = setup.interact.status.temp.interrupt>>
 <<set _ctag = setup.interact.status.temp.cTag>>
+<<set $npcPrefsScore = 0>>
+<<script>>
+  const npcPrefs = setup.week.insanePrefChecker(setup.interact.status.npc);
+    let npcPrefsScore = 0;
+    for (let index = 0; index < npcPrefs.length; index++) {
+      State.active.variables.npcPrefsScore += npcPrefs[index];
+    }
+<</script>>
 <</silently>>
 <<if _int>>
     <<ctagcontent "stranger" _ctag>>
@@ -361,7 +429,7 @@
     <<dialogchoice>>
       <<dbutt "chat">><<addTime 2>><<intgo "NPCinteraction-StrangerTryChat">>
       <<dtext "awkward">>Try to make a little small talk.
-      <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = random(1,3)>><<if _randy < 3>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
+      <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 5>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
       <<dtext "kissheart">>Get straight to the point, and ask them out on a date sometime.
       <<dbutt "lets Fuck" "ↂ.pc.kink.slut || ↂ.pc.liberate">><<intgo "NPCinteraction-StrangerSex">>
       <<dtext "slut">>Convince them that sexytimes should commence immediately.
@@ -400,9 +468,9 @@
 
 <<silently>>
 <<set _npc = setup.interact.status.npc>> /* warning - for initial load only, no DOM! */
-<<run setup.npcInfo.level(_npc, {bodyGeneral: true})>>
-<<set aw.npc[_npc].rship.acquaint = true>>
-<<run setup.npc.acquainted.push(_npc)>>
+<<run setup.npcInfo.level(setup.interact.status.npc, {bodyGeneral: true})>>
+<<set aw.npc[setup.interact.status.npc].rship.acquaint = true>>
+<<run setup.npc.acquainted.push(setup.interact.status.npc)>>
 <</silently>>
 You take out your phone.
 <<dp>>Hey, let's trade info. I'll send you a text sometime.<</dp>>
@@ -455,3 +523,15 @@ You take out your phone.
   <<safetoclose>>
 <</if>>
 
+
+:: NPCinteraction-StrangerSexGo [nobr]
+
+<<button "Sex!">>
+<<set ↂ.sex.passage = aw.passage.title>><<set ↂ.sex.pcOutput = "He drags you to the <<publicPrivacy>> to have some hot action.">><<set ↂ.sex.enviroTags = ["wall", "public"]>><<set setup.sexitimes = setup.interact.status.npc>><<run setup.interact.exit()>><<script>>setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);<</script>>
+<</button>>
+
+:: NPCinteraction-StrangerRape [nobr]
+
+<<button "Get raped">>
+<<set ↂ.sex.passage = aw.passage.title>><<set ↂ.sex.pcOutput = "He drags you to the <<publicPrivacy>> to have some hot action.">><<set ↂ.sex.enviroTags = ["wall", "public"]>><<set setup.sexitimes = setup.interact.status.npc>><<set ↂ.sex.rape = true>><<run setup.interact.exit()>><<script>>setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);<</script>>
+<</button>>

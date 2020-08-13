@@ -60,9 +60,10 @@ class SexAct {
   public req: string[];
   public forbid: string[];
   public special: () => void;
+  public condition: () => boolean;
   public button: string;
   public uniqueReq: () => void | boolean;
-  constructor({name, key, label, hover, tab, cat, kink, skill, parts, effect, sex, menu, tags, req, forbid, special, uniqueReq = "none"}: {
+  constructor({ name, key, label, hover, tab, cat, kink, skill, parts, effect, sex, menu, tags, req, forbid, special, condition, uniqueReq = "none" }: {
     name: string,
     key: string,
     label: string,
@@ -75,10 +76,11 @@ class SexAct {
     effect: sexEffectObject,
     sex: sexGenderNumber,
     tags: string[],
-    menu: false|string,
+    menu: false | string,
     req: string[],
     forbid: string[],
     special: (() => void),
+    condition: (() => boolean),
     uniqueReq: "none" | (() => void),
   }) {
     this.name = name;
@@ -99,6 +101,7 @@ class SexAct {
     this.req = jQuery.extend(true, [], req);
     this.forbid = jQuery.extend(true, [], forbid);
     this.special = special;
+    this.condition = condition;
     if (menu) { // <<hoverrevise ${key}Lab>>
       this.button = `<button id="${key}-button" onclick="window.SugarCube.Engine.link('sex.popup(${menu})')">${label}</button>`;
     } else {
@@ -106,15 +109,15 @@ class SexAct {
     }
     if ("object" !== typeof this.effect.wetness) {
       const x = this.effect.wetness;
-      this.effect.wetness = {pcAmt: x, npcAmt: x, pcMax: 20, npcMax: 20};
+      this.effect.wetness = { pcAmt: x, npcAmt: x, pcMax: 20, npcMax: 20 };
     }
     if ("object" !== typeof this.effect.arousal) {
       const x = this.effect.arousal;
-      this.effect.arousal = { pcAmt: x, npcAmt: x, pcMax: 10, npcMax: 10};
+      this.effect.arousal = { pcAmt: x, npcAmt: x, pcMax: 10, npcMax: 10 };
     }
     if ("object" !== typeof this.effect.pleasure) {
       const x = this.effect.pleasure;
-      this.effect.pleasure = { pcAmt: x, npcAmt: x, pcMax: 120, npcMax: 120};
+      this.effect.pleasure = { pcAmt: x, npcAmt: x, pcMax: 120, npcMax: 120 };
     }
     if (this.effect.wetness.pcMax === null || this.effect.wetness.pcMax === undefined) {
       this.effect.wetness.pcMax = 20;
@@ -135,12 +138,12 @@ class SexAct {
       this.effect.pleasure.npcMax = 100;
     }
     if (uniqueReq === "none") {
-      this.uniqueReq = function() {return true; };
+      this.uniqueReq = function() { return true; };
     } else {
       this.uniqueReq = uniqueReq;
     }
   }
-  get allowed() { // return 0:good, 1:parts, 2:gender, 3:forbid enviro, 4:missing enviro, 5:censor, 6:insufficient skill
+  get allowed() { // return 0:good, 1:parts, 2:gender, 3:forbid enviro, 4:missing enviro, 5:censor, 6:insufficient skill, 7:clothing
     const ᛔ = State.active.variables;
     try {
       if (!aw.sexActRef[ↂ.sex.pos][ↂ.sex.target][this.key]) {
@@ -150,6 +153,19 @@ class SexAct {
       aw.con.warn(`Failure in sexact allowed - sex.valid - ${e.name}: ${e.message}`);
     }
     const sx = ↂ.sex.npc[ↂ.sex.target].main;
+    if (!setup.sex.clothesBlockChecker("pc", this.parts[0])) {
+      return 1;
+    }
+    if (!setup.sex.clothesBlockChecker(sx._k, this.parts[1])) {
+      return 1;
+    }
+    if (setup.sexToys.check("pc", this.parts[0]) !== true) {
+      return 1;
+    }
+    // aw.con.warn(`allowed: ${this.key}`);
+    if (eval(aw.sexAct[this.key].condition()) === false) {
+      return 1;
+    }
     try {
       if (this.sex === 1 && !sx.male) {
         return 2;
@@ -225,7 +241,7 @@ class SexAct {
       tab: "touch", // the action tab that this action belongs in.
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 10, oral: 0, exhibition: 0, seduction: 10, prostitute: 0}, // req skill to use action
+      skill: { sex: 10, oral: 0, exhibition: 0, seduction: 10, prostitute: 0 }, // req skill to use action
       parts: ["hand", "chest"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -267,6 +283,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     squeezeBreasts: {
       name: "squeeze and heft breasts", // name of the action
@@ -276,7 +293,7 @@ class SexAct {
       tab: "touch", // the action tab that this action belongs in.
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 10, oral: 0, exhibition: 0, seduction: 10, prostitute: 0}, // req skill to use action
+      skill: { sex: 10, oral: 0, exhibition: 0, seduction: 10, prostitute: 0 }, // req skill to use action
       parts: ["hand", "chest"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -318,6 +335,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     suckNipples: {
       name: "suck nipples", // name of the action
@@ -327,7 +345,7 @@ class SexAct {
       tab: "touch", // the action tab that this action belongs in.
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 10, oral: 10, exhibition: 0, seduction: 10, prostitute: 0}, // req skill to use action
+      skill: { sex: 10, oral: 10, exhibition: 0, seduction: 10, prostitute: 0 }, // req skill to use action
       parts: ["lips", "chest"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -369,6 +387,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     cupBalls: {
       name: "cup balls", // name of the action
@@ -378,7 +397,7 @@ class SexAct {
       tab: "touch", // the action tab that this action belongs in.
       cat: "handjob", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["hand", "balls"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -420,6 +439,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     slowDown: {
       name: "Slow Down", // name of the action
@@ -429,7 +449,7 @@ class SexAct {
       tab: "move", // the action tab that this action belongs in.
       cat: "sex", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 10, oral: 0, exhibition: 0, seduction: 20, prostitute: 0}, // req skill to use action
+      skill: { sex: 10, oral: 0, exhibition: 0, seduction: 20, prostitute: 0 }, // req skill to use action
       parts: ["skip", "head"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -466,6 +486,7 @@ class SexAct {
       tags: ["none"], // special tags for action, mainly for unique kink effects
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
+      condition() { return true; },
       special() {
         const sex = ↂ.sex;
         sex.speed -= 1;
@@ -485,7 +506,7 @@ class SexAct {
       tab: "move", // the action tab that this action belongs in.
       cat: "sex", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 10, oral: 0, exhibition: 0, seduction: 20, prostitute: 0}, // req skill to use action
+      skill: { sex: 10, oral: 0, exhibition: 0, seduction: 20, prostitute: 0 }, // req skill to use action
       parts: ["skip", "head"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -522,6 +543,7 @@ class SexAct {
       tags: ["none"], // special tags for action, mainly for unique kink effects
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
+      condition() { return true; },
       special() {
         const sex = ↂ.sex;
         sex.speed += 1;
@@ -541,7 +563,7 @@ class SexAct {
       tab: "move", // the action tab that this action belongs in.
       cat: "sex", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 30, oral: 0, exhibition: 0, seduction: 50, prostitute: 0}, // req skill to use action
+      skill: { sex: 30, oral: 0, exhibition: 0, seduction: 50, prostitute: 0 }, // req skill to use action
       parts: ["skip", "head"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -578,6 +600,7 @@ class SexAct {
       tags: ["none"], // special tags for action, mainly for unique kink effects
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
+      condition() { return true; },
       special() {
         const sex = ↂ.sex;
         sex.speed += 2;
@@ -634,6 +657,7 @@ class SexAct {
       tags: ["none"], // special tags for action, mainly for unique kink effects
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
+      condition() { return true; },
       special() {
         ↂ.sex.flag.askedPullOut = true;
       },
@@ -689,6 +713,7 @@ class SexAct {
       tags: ["none"], // special tags for action, mainly for unique kink effects
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
+      condition() { return true; },
       special() {
         ↂ.sex.flag.askedCumInside = true;
       },
@@ -707,7 +732,7 @@ class SexAct {
       tab: "other", // the action tab that this action belongs in.
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["skip", "cock"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -742,6 +767,7 @@ class SexAct {
       tags: ["none"], // special tags for action, mainly for unique kink effects
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
+      condition() { return true; },
       special() {}, // TODO dead fish check
     },
     strokeCock: {
@@ -752,7 +778,7 @@ class SexAct {
       tab: "touch", // the action tab that this action belongs in.
       cat: "handjob", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 30, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 30, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["hand", "cock"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -794,6 +820,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     fingerPussy: {
       name: "finger her pussy", // name of the action
@@ -803,7 +830,7 @@ class SexAct {
       tab: "touch", // the action tab that this action belongs in.
       cat: "handjob", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 30, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 30, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["hand", "pussy"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -845,6 +872,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     touchCock: {
       name: "touch cock", // name of the action
@@ -854,7 +882,7 @@ class SexAct {
       tab: "touch", // the action tab that this action belongs in.
       cat: "handjob", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["hand", "cock"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -896,6 +924,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     testing: {
       name: "testing", // name of the action
@@ -905,7 +934,7 @@ class SexAct {
       tab: "touch", // the action tab that this action belongs in.
       cat: "handjob", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["skip", "cock"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -947,6 +976,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     playWithNipples: {
       name: "play with your nipples", // name of the action
@@ -956,7 +986,7 @@ class SexAct {
       tab: "self", // the action tab that this action belongs in.
       cat: "fap", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["skip", "chest"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -995,6 +1025,7 @@ class SexAct {
       tags: ["none"], // special tags for action, mainly for unique kink effects
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
+      condition() { return true; },
       special() {
         try {
           if (ↂ.pc.kink.nips) {
@@ -1014,7 +1045,7 @@ class SexAct {
       tab: "self", // the action tab that this action belongs in.
       cat: "fap", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["skip", "chest"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1054,6 +1085,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     rubOwnClit: {
       name: "rub your clit", // name of the action
@@ -1063,7 +1095,7 @@ class SexAct {
       tab: "self", // the action tab that this action belongs in.
       cat: "fap", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["skip", "chest"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1105,6 +1137,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     passionateKiss: {
       name: "passionate kiss", // name of the action
@@ -1112,9 +1145,9 @@ class SexAct {
       label: "Kiss . Passionately", // label for button/s for action
       hover: "Kiss your target passionately and enthusiastically.", // tooltip text
       tab: "kiss", // the action tab that this action belongs in.
-      cat: "kiss", // category of the action ex: makeout sex oral handjob anal
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["lips", "lips"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1156,16 +1189,17 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     sensualKiss: {
       name: "sensual kiss", // name of the action
       key: "sensualKiss", // key of the action
       label: "Kiss . Sensually", // label for button/s for action
-      hover: "Use your hand to rub your target's chest in a firm but sensual manner.", // tooltip text
+      hover: "Kiss your target in a sensual manner.", // tooltip text
       tab: "kiss", // the action tab that this action belongs in.
-      cat: "kiss", // category of the action ex: makeout sex oral handjob anal
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["lips", "lips"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1207,6 +1241,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     romanticKiss: {
       name: "romantic Kiss", // name of the action
@@ -1214,9 +1249,9 @@ class SexAct {
       label: "Kiss . Romantically", // label for button/s for action
       hover: "Kiss your target in an intimate and romantic manner.", // tooltip text
       tab: "kiss", // the action tab that this action belongs in.
-      cat: "kiss", // category of the action ex: makeout sex oral handjob anal
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["lips", "lips"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1258,6 +1293,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     nibbleEar: {
       name: "nibble ear", // name of the action
@@ -1267,7 +1303,7 @@ class SexAct {
       tab: "kiss", // the action tab that this action belongs in.
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 25, oral: 25, exhibition: 0, seduction: 25, prostitute: 0}, // req skill to use action
+      skill: { sex: 25, oral: 25, exhibition: 0, seduction: 25, prostitute: 0 }, // req skill to use action
       parts: ["lips", "head"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1309,6 +1345,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     necking: {
       name: "necking", // name of the action
@@ -1318,7 +1355,7 @@ class SexAct {
       tab: "kiss", // the action tab that this action belongs in.
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 25, oral: 25, exhibition: 0, seduction: 25, prostitute: 0}, // req skill to use action
+      skill: { sex: 25, oral: 25, exhibition: 0, seduction: 25, prostitute: 0 }, // req skill to use action
       parts: ["lips", "head"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1360,6 +1397,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     lickCock: {
       name: "lick cock", // name of the action
@@ -1369,7 +1407,7 @@ class SexAct {
       tab: "kiss", // the action tab that this action belongs in.
       cat: "oral", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 20, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 20, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["lips", "cock"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1388,7 +1426,7 @@ class SexAct {
           pcAmt: 2,
           npcAmt: 3,
         },
-        cum: {face: 7, mouth: 3}, // can override cum destination from position. Needs Object if override!
+        cum: { face: 7, mouth: 3 }, // can override cum destination from position. Needs Object if override!
         satisfy: [10, 10], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
         strong: { // list of traits/kinks that this action is strong for
           pcKink: ["sizequeen", "cumSlut"],
@@ -1409,6 +1447,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     kissCock: {
       name: "kiss cock", // name of the action
@@ -1418,7 +1457,7 @@ class SexAct {
       tab: "kiss", // the action tab that this action belongs in.
       cat: "oral", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 25, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 25, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["lips", "cock"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1437,7 +1476,7 @@ class SexAct {
           pcAmt: 2,
           npcAmt: 3,
         },
-        cum: {face: 7, mouth: 3}, // can override cum destination from position. Needs Object if override!
+        cum: { face: 7, mouth: 3 }, // can override cum destination from position. Needs Object if override!
         satisfy: [10, 10], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
         strong: { // list of traits/kinks that this action is strong for
           pcKink: ["sizequeen", "cumSlut"],
@@ -1458,6 +1497,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     exploreVulva: {
       name: "explore vulva with tongue", // name of the action
@@ -1467,7 +1507,7 @@ class SexAct {
       tab: "kiss", // the action tab that this action belongs in.
       cat: "oral", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 25, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 25, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["lips", "vulva"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1486,7 +1526,7 @@ class SexAct {
           pcAmt: 2,
           npcAmt: 3,
         },
-        cum: {hair: 5, back: 5}, // can override cum destination from position. Needs Object if override!
+        cum: { hair: 5, back: 5 }, // can override cum destination from position. Needs Object if override!
         satisfy: [10, 10], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
         strong: { // list of traits/kinks that this action is strong for
           pcKink: ["sizequeen", "cumSlut"],
@@ -1501,12 +1541,13 @@ class SexAct {
           npcTrait: ["none"],
         },
       },
-      sex: 1, // required sex of the target. 0: none 1: male 2: female
+      sex: 2, // required sex of the target. 0: none 1: male 2: female
       menu: false, // menu option - has dialog() text if a popup menu is necessary
       tags: ["none"], // special tags for action, mainly for unique kink effects
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     suckCockHead: {
       name: "suck on cockhead", // name of the action
@@ -1516,7 +1557,7 @@ class SexAct {
       tab: "kiss", // the action tab that this action belongs in.
       cat: "oral", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 10, oral: 30, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 10, oral: 30, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["lips", "cock"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1535,7 +1576,7 @@ class SexAct {
           pcAmt: 2,
           npcAmt: 3,
         },
-        cum: {face: 1, mouth: 9}, // can override cum destination from position. Needs Object if override!
+        cum: { face: 1, mouth: 9 }, // can override cum destination from position. Needs Object if override!
         satisfy: [10, 10], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
         strong: { // list of traits/kinks that this action is strong for
           pcKink: ["sizequeen", "cumSlut"],
@@ -1556,6 +1597,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     strokeVulvaTongue: {
       name: "stroke vulva with tongue", // name of the action
@@ -1565,7 +1607,7 @@ class SexAct {
       tab: "kiss", // the action tab that this action belongs in.
       cat: "oral", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 10, oral: 30, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 10, oral: 30, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["lips", "vulva"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1584,7 +1626,7 @@ class SexAct {
           pcAmt: 2,
           npcAmt: 3,
         },
-        cum: {hair: 5, back: 5}, // can override cum destination from position. Needs Object if override!
+        cum: { hair: 5, back: 5 }, // can override cum destination from position. Needs Object if override!
         satisfy: [10, 10], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
         strong: { // list of traits/kinks that this action is strong for
           pcKink: ["slut"],
@@ -1605,6 +1647,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     suckCockInOut: {
       name: "suck cock in and out of mouth", // name of the action
@@ -1614,7 +1657,7 @@ class SexAct {
       tab: "kiss", // the action tab that this action belongs in.
       cat: "oral", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 35, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 35, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["lips", "cock"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1633,7 +1676,7 @@ class SexAct {
           pcAmt: 1,
           npcAmt: 3,
         },
-        cum: {face: 1, mouth: 9}, // can override cum destination from position. Needs Object if override!
+        cum: { face: 1, mouth: 9 }, // can override cum destination from position. Needs Object if override!
         satisfy: [10, 10], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
         strong: { // list of traits/kinks that this action is strong for
           pcKink: ["sizequeen", "cumSlut", "slut"],
@@ -1654,6 +1697,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     lickClit: {
       name: "lick clit", // name of the action
@@ -1663,7 +1707,7 @@ class SexAct {
       tab: "kiss", // the action tab that this action belongs in.
       cat: "oral", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 40, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 40, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["lips", "cock"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1682,7 +1726,7 @@ class SexAct {
           pcAmt: 1,
           npcAmt: 3,
         },
-        cum: {hair: 5, back: 5}, // can override cum destination from position. Needs Object if override!
+        cum: { hair: 5, back: 5 }, // can override cum destination from position. Needs Object if override!
         satisfy: [10, 10], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
         strong: { // list of traits/kinks that this action is strong for
           pcKink: ["none"],
@@ -1703,6 +1747,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     rubAgainstTarget: {
       name: "rub body against target", // name of the action
@@ -1712,8 +1757,8 @@ class SexAct {
       tab: "move", // the action tab that this action belongs in.
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 10, oral: 0, exhibition: 0, seduction: 10, prostitute: 0}, // req skill to use action
-      parts: ["hand", "chest"], // the used parts - 0: player 1: target
+      skill: { sex: 10, oral: 0, exhibition: 0, seduction: 10, prostitute: 0 }, // req skill to use action
+      parts: ["skip", "skip"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 1, // actual amount
@@ -1754,6 +1799,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     grindVulvaAgainst: {
       name: "grind vulva against", // name of the action
@@ -1763,7 +1809,7 @@ class SexAct {
       tab: "move", // the action tab that this action belongs in.
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 30, oral: 0, exhibition: 0, seduction: 10, prostitute: 0}, // req skill to use action
+      skill: { sex: 30, oral: 0, exhibition: 0, seduction: 10, prostitute: 0 }, // req skill to use action
       parts: ["groin", "groin"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1805,6 +1851,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     embrace: {
       name: "embrace", // name of the action
@@ -1814,7 +1861,7 @@ class SexAct {
       tab: "move", // the action tab that this action belongs in.
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 10, oral: 0, exhibition: 0, seduction: 10, prostitute: 0}, // req skill to use action
+      skill: { sex: 10, oral: 0, exhibition: 0, seduction: 10, prostitute: 0 }, // req skill to use action
       parts: ["chest", "chest"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1856,6 +1903,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     passionateEmbrace: {
       name: "passionate embrace", // name of the action
@@ -1865,7 +1913,7 @@ class SexAct {
       tab: "move", // the action tab that this action belongs in.
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 10, oral: 0, exhibition: 0, seduction: 10, prostitute: 0}, // req skill to use action
+      skill: { sex: 10, oral: 0, exhibition: 0, seduction: 10, prostitute: 0 }, // req skill to use action
       parts: ["chest", "chest"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1907,6 +1955,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     rockHips: {
       name: "rock hips", // name of the action
@@ -1916,7 +1965,7 @@ class SexAct {
       tab: "move", // the action tab that this action belongs in.
       cat: "sex", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["skip", "chest"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1958,6 +2007,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     liftLegsInAir: {
       name: "lift your legs", // name of the action
@@ -1967,7 +2017,7 @@ class SexAct {
       tab: "move", // the action tab that this action belongs in.
       cat: "sex", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 50, oral: 0, exhibition: 0, seduction: 10, prostitute: 0}, // req skill to use action
+      skill: { sex: 50, oral: 0, exhibition: 0, seduction: 10, prostitute: 0 }, // req skill to use action
       parts: ["skip", "chest"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -1988,7 +2038,7 @@ class SexAct {
           npcAmt: 3,
           npcMax: 20,
         },
-        cum: {deep: 6, cervix: 4}, // can override cum destination from position. Needs Object if override!
+        cum: { deep: 6, cervix: 4 }, // can override cum destination from position. Needs Object if override!
         satisfy: [10, 10], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
         strong: { // list of traits/kinks that this action is strong for
           pcKink: ["risky", "pregnancy"],
@@ -2009,6 +2059,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
       uniqueReq() {
         if (ↂ.sex.pos === "missionary") {
           return true;
@@ -2025,8 +2076,8 @@ class SexAct {
       tab: "speak", // the action tab that this action belongs in.
       cat: "talk", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 0, exhibition: 0, seduction: 40, prostitute: 0}, // req skill to use action
-      parts: ["skip", "chest"], // the used parts - 0: player 1: target
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 40, prostitute: 0 }, // req skill to use action
+      parts: ["skip", "skip"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 0, // actual amount
@@ -2067,6 +2118,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     whisperInEar: {
       name: "whisper in ear", // name of the action
@@ -2076,7 +2128,7 @@ class SexAct {
       tab: "speak", // the action tab that this action belongs in.
       cat: "talk", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 0, exhibition: 0, seduction: 40, prostitute: 0}, // req skill to use action
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 40, prostitute: 0 }, // req skill to use action
       parts: ["lips", "head"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -2118,6 +2170,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     putOnCondom: {
       name: "put on condom", // name of the action
@@ -2127,8 +2180,8 @@ class SexAct {
       tab: "kink", // the action tab that this action belongs in.
       cat: "talk", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 0, exhibition: 0, seduction: 20, prostitute: 0}, // req skill to use action
-      parts: ["skip", "chest"], // the used parts - 0: player 1: target
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 20, prostitute: 0 }, // req skill to use action
+      parts: ["skip", "cock"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: -250, // actual amount
@@ -2158,6 +2211,7 @@ class SexAct {
       tags: ["none"], // special tags for action, mainly for unique kink effects
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
+      condition() { return true; },
       special() {
         const ᛔ = State.active.variables;
         let condom = "default";
@@ -2238,8 +2292,8 @@ class SexAct {
       tab: "kink", // the action tab that this action belongs in.
       cat: "other", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 20, oral: 0, exhibition: 0, seduction: 45, prostitute: 0}, // req skill to use action
-      parts: ["hand", "cock"], // the used parts - 0: player 1: target
+      skill: { sex: 20, oral: 0, exhibition: 0, seduction: 45, prostitute: 0 }, // req skill to use action
+      parts: ["skip", "cock"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 50, // actual amount
@@ -2279,6 +2333,7 @@ class SexAct {
       tags: ["none"], // special tags for action, mainly for unique kink effects
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
+      condition() { return true; },
       uniqueReq() {
         if (!ↂ.sex.npcBC[ↂ.sex.target].condom.worn) {
           return false;
@@ -2303,16 +2358,16 @@ class SexAct {
         }
       }, // special function to be run when action is taken.
     },
-    removeOwnClothing: {
-      name: "remove your clothing", // name of the action
-      key: "removeOwnClothing", // key of the action
-      label: "Remove Your Clothing", // label for button/s for action
-      hover: "<span class='import'>[not implemented]</span> There's text here to read, but clothing still needs work before this action is implemented properly.", // tooltip text
-      tab: "other", // the action tab that this action belongs in.
-      cat: "other", // category of the action ex: makeout sex oral handjob anal
+    removeOwnTop: {
+      name: "remove own top", // name of the action
+      key: "removeOwnTop", // key of the action
+      label: "Remove Your Top", // label for button/s for action
+      hover: "Remove your upper clothes", // tooltip text
+      tab: "item", // the action tab that this action belongs in.
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
-      parts: ["skip", "chest"], // the used parts - 0: player 1: target
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
+      parts: ["hand", "skip"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 0, // actual amount
@@ -2352,18 +2407,27 @@ class SexAct {
       tags: ["none"], // special tags for action, mainly for unique kink effects
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
-      special() {}, // special function to be run when action is taken.
+      special() {
+        ↂ.pc.clothes.worn.top = "off";
+      }, // special function to be run when action is taken.
+      condition() {
+        if (ↂ.pc.clothes.worn.top === "off" || ↂ.pc.clothes.worn.top === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      },
     },
-    removeTargetClothing: {
-      name: "remove target clothing", // name of the action
-      key: "removeTargetClothing", // key of the action
-      label: "Remove . Clothing", // label for button/s for action
-      hover: "<span class='import'>[not implemented]</span> There's text here to read, but clothing still needs work before this action is implemented properly.", // tooltip text
-      tab: "other", // the action tab that this action belongs in.
-      cat: "other", // category of the action ex: makeout sex oral handjob anal
+    removeOwnBra: {
+      name: "remove own bra", // name of the action
+      key: "removeOwnBra", // key of the action
+      label: "Remove Your Bra", // label for button/s for action
+      hover: "Remove your bra.", // tooltip text
+      tab: "item", // the action tab that this action belongs in.
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
-      parts: ["hand", "chest"], // the used parts - 0: player 1: target
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
+      parts: ["hand", "skip"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 0, // actual amount
@@ -2403,7 +2467,376 @@ class SexAct {
       tags: ["none"], // special tags for action, mainly for unique kink effects
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
-      special() {}, // special function to be run when action is taken.
+      special() {
+        ↂ.pc.clothes.worn.bra = "off";
+      }, // special function to be run when action is taken.
+      condition() {
+        if (ↂ.pc.clothes.worn.bra === "off" || ↂ.pc.clothes.worn.bra === 0 || (ↂ.pc.clothes.worn.top === "normal" && typeof(ↂ.pc.clothes.worn.top) === "string")) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+    },
+    removeOwnBottom: {
+      name: "remove own bottom", // name of the action
+      key: "removeOwnBottom", // key of the action
+      label: "Remove Your Bottom", // label for button/s for action
+      hover: "Remove your bottom clothes.", // tooltip text
+      tab: "item", // the action tab that this action belongs in.
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
+      kink: ["none"], // any kinks action contains/implies for censorship purposes
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
+      parts: ["hand", "skip"], // the used parts - 0: player 1: target
+      effect: { // the effect information for the action
+        pleasure: { // pleasure (prog to orgasm) given by action
+          pcAmt: 0, // actual amount
+          pcMax: 25, // max allowed percent  - won't increase pleasure above that point.
+          npcAmt: 0,
+          npcMax: 25,
+        },
+        arousal: { // arousal gain from action (base)
+          pcAmt: 1,
+          pcMax: 6,
+          npcAmt: 1,
+          npcMax: 6,
+        },
+        wetness: { // amount of wetness to increase
+          pcAmt: 1,
+          pcMax: 8,
+          npcAmt: 1,
+          npcMax: 8,
+        },
+        cum: false, // can override cum destination from position. Needs Object if override!
+        satisfy: [2, 2], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
+        strong: { // list of traits/kinks that this action is strong for
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+        weak: { // list of traits/kinks that decrease effect/weak for.
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+      },
+      sex: 0, // required sex of the target. 0: none 1: male 2: female
+      menu: false, // menu option - has dialog() text if a popup menu is necessary
+      tags: ["none"], // special tags for action, mainly for unique kink effects
+      req: ["none"], // required environmental tags
+      forbid: ["none"], // forbidden environmental tags
+      special() {
+        ↂ.pc.clothes.worn.bottom = "off";
+      }, // special function to be run when action is taken.
+      condition() {
+        if (ↂ.pc.clothes.worn.bottom === "off" || ↂ.pc.clothes.worn.bottom === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+    },
+    removeOwnPanties: {
+      name: "remove own panties", // name of the action
+      key: "removeOwnPanties", // key of the action
+      label: "Remove Your Panties", // label for button/s for action
+      hover: "Get rid of this pesky thing that gets in the way of the fun.", // tooltip text
+      tab: "item", // the action tab that this action belongs in.
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
+      kink: ["none"], // any kinks action contains/implies for censorship purposes
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
+      parts: ["hand", "skip"], // the used parts - 0: player 1: target
+      effect: { // the effect information for the action
+        pleasure: { // pleasure (prog to orgasm) given by action
+          pcAmt: 0, // actual amount
+          pcMax: 25, // max allowed percent  - won't increase pleasure above that point.
+          npcAmt: 0,
+          npcMax: 25,
+        },
+        arousal: { // arousal gain from action (base)
+          pcAmt: 1,
+          pcMax: 6,
+          npcAmt: 1,
+          npcMax: 6,
+        },
+        wetness: { // amount of wetness to increase
+          pcAmt: 1,
+          pcMax: 8,
+          npcAmt: 1,
+          npcMax: 8,
+        },
+        cum: false, // can override cum destination from position. Needs Object if override!
+        satisfy: [2, 2], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
+        strong: { // list of traits/kinks that this action is strong for
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+        weak: { // list of traits/kinks that decrease effect/weak for.
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+      },
+      sex: 0, // required sex of the target. 0: none 1: male 2: female
+      menu: false, // menu option - has dialog() text if a popup menu is necessary
+      tags: ["none"], // special tags for action, mainly for unique kink effects
+      req: ["none"], // required environmental tags
+      forbid: ["none"], // forbidden environmental tags
+      special() {
+        ↂ.pc.clothes.worn.panties = "off";
+      }, // special function to be run when action is taken.
+      condition() {
+        if (ↂ.pc.clothes.worn.panties === "off" || ↂ.pc.clothes.worn.panties === 0 || (ↂ.pc.clothes.worn.bottom === "normal" && typeof(ↂ.pc.clothes.worn.bottom) === "string")) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+    },
+    removeTargetTop: {
+      name: "remove target top", // name of the action
+      key: "removeTargetTop", // key of the action
+      label: "Remove . Top", // label for button/s for action
+      hover: "Remove the top of your sex partner.", // tooltip text
+      tab: "item", // the action tab that this action belongs in.
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
+      kink: ["none"], // any kinks action contains/implies for censorship purposes
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
+      parts: ["hand", "skip"], // the used parts - 0: player 1: target
+      effect: { // the effect information for the action
+        pleasure: { // pleasure (prog to orgasm) given by action
+          pcAmt: 0, // actual amount
+          pcMax: 25, // max allowed percent  - won't increase pleasure above that point.
+          npcAmt: 0,
+          npcMax: 25,
+        },
+        arousal: { // arousal gain from action (base)
+          pcAmt: 1,
+          pcMax: 6,
+          npcAmt: 1,
+          npcMax: 6,
+        },
+        wetness: { // amount of wetness to increase
+          pcAmt: 1,
+          pcMax: 8,
+          npcAmt: 1,
+          npcMax: 8,
+        },
+        cum: false, // can override cum destination from position. Needs Object if override!
+        satisfy: [2, 2], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
+        strong: { // list of traits/kinks that this action is strong for
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+        weak: { // list of traits/kinks that decrease effect/weak for.
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+      },
+      sex: 0, // required sex of the target. 0: none 1: male 2: female
+      menu: false, // menu option - has dialog() text if a popup menu is necessary
+      tags: ["none"], // special tags for action, mainly for unique kink effects
+      req: ["none"], // required environmental tags
+      forbid: ["none"], // forbidden environmental tags
+      special() {
+        ↂ.T.clothes.worn.top = "off";
+      }, // special function to be run when action is taken.
+      condition() {
+        if (ↂ.T.clothes.worn.top === "off" || ↂ.T.clothes.worn.top === false) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+    },
+    removeTargetBra: {
+      name: "remove target bra", // name of the action
+      key: "removeTargetBra", // key of the action
+      label: "Remove . Bra", // label for button/s for action
+      hover: "Remove the bra of your sex partner.", // tooltip text
+      tab: "item", // the action tab that this action belongs in.
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
+      kink: ["none"], // any kinks action contains/implies for censorship purposes
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
+      parts: ["hand", "skip"], // the used parts - 0: player 1: target
+      effect: { // the effect information for the action
+        pleasure: { // pleasure (prog to orgasm) given by action
+          pcAmt: 0, // actual amount
+          pcMax: 25, // max allowed percent  - won't increase pleasure above that point.
+          npcAmt: 0,
+          npcMax: 25,
+        },
+        arousal: { // arousal gain from action (base)
+          pcAmt: 1,
+          pcMax: 6,
+          npcAmt: 1,
+          npcMax: 6,
+        },
+        wetness: { // amount of wetness to increase
+          pcAmt: 1,
+          pcMax: 8,
+          npcAmt: 1,
+          npcMax: 8,
+        },
+        cum: false, // can override cum destination from position. Needs Object if override!
+        satisfy: [2, 2], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
+        strong: { // list of traits/kinks that this action is strong for
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+        weak: { // list of traits/kinks that decrease effect/weak for.
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+      },
+      sex: 0, // required sex of the target. 0: none 1: male 2: female
+      menu: false, // menu option - has dialog() text if a popup menu is necessary
+      tags: ["none"], // special tags for action, mainly for unique kink effects
+      req: ["none"], // required environmental tags
+      forbid: ["none"], // forbidden environmental tags
+      special() {
+        ↂ.T.clothes.worn.bra = "off";
+      }, // special function to be run when action is taken.
+      condition() {
+        if (ↂ.T.clothes.worn.bra === "off" || ↂ.T.clothes.worn.bra === false || (ↂ.T.clothes.worn.top === "normal" && typeof(ↂ.T.clothes.outfits.casual.top) === "string")) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+    },
+    removeTargetBottom: {
+      name: "remove target bottom", // name of the action
+      key: "removeTargetBottom", // key of the action
+      label: "Remove . Bottom", // label for button/s for action
+      hover: "Remove the bottom clothes of your sex partner.", // tooltip text
+      tab: "item", // the action tab that this action belongs in.
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
+      kink: ["none"], // any kinks action contains/implies for censorship purposes
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
+      parts: ["hand", "skip"], // the used parts - 0: player 1: target
+      effect: { // the effect information for the action
+        pleasure: { // pleasure (prog to orgasm) given by action
+          pcAmt: 0, // actual amount
+          pcMax: 25, // max allowed percent  - won't increase pleasure above that point.
+          npcAmt: 0,
+          npcMax: 25,
+        },
+        arousal: { // arousal gain from action (base)
+          pcAmt: 1,
+          pcMax: 6,
+          npcAmt: 1,
+          npcMax: 6,
+        },
+        wetness: { // amount of wetness to increase
+          pcAmt: 1,
+          pcMax: 8,
+          npcAmt: 1,
+          npcMax: 8,
+        },
+        cum: false, // can override cum destination from position. Needs Object if override!
+        satisfy: [2, 2], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
+        strong: { // list of traits/kinks that this action is strong for
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+        weak: { // list of traits/kinks that decrease effect/weak for.
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+      },
+      sex: 0, // required sex of the target. 0: none 1: male 2: female
+      menu: false, // menu option - has dialog() text if a popup menu is necessary
+      tags: ["none"], // special tags for action, mainly for unique kink effects
+      req: ["none"], // required environmental tags
+      forbid: ["none"], // forbidden environmental tags
+      special() {
+        ↂ.T.clothes.worn.bottom = "off";
+      }, // special function to be run when action is taken.
+      condition() {
+        if (ↂ.T.clothes.worn.bottom === "off" || ↂ.T.clothes.worn.bottom === false) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+    },
+    removeTargetPanties: {
+      name: "remove target underwear", // name of the action
+      key: "removeTargetPanties", // key of the action
+      label: "Remove . Underwear", // label for button/s for action
+      hover: "Remove the underwear of your sex partner.", // tooltip text
+      tab: "item", // the action tab that this action belongs in.
+      cat: "makeout", // category of the action ex: makeout sex oral handjob anal
+      kink: ["none"], // any kinks action contains/implies for censorship purposes
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
+      parts: ["hand", "skip"], // the used parts - 0: player 1: target
+      effect: { // the effect information for the action
+        pleasure: { // pleasure (prog to orgasm) given by action
+          pcAmt: 0, // actual amount
+          pcMax: 25, // max allowed percent  - won't increase pleasure above that point.
+          npcAmt: 0,
+          npcMax: 25,
+        },
+        arousal: { // arousal gain from action (base)
+          pcAmt: 1,
+          pcMax: 6,
+          npcAmt: 1,
+          npcMax: 6,
+        },
+        wetness: { // amount of wetness to increase
+          pcAmt: 1,
+          pcMax: 8,
+          npcAmt: 1,
+          npcMax: 8,
+        },
+        cum: false, // can override cum destination from position. Needs Object if override!
+        satisfy: [2, 2], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
+        strong: { // list of traits/kinks that this action is strong for
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+        weak: { // list of traits/kinks that decrease effect/weak for.
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+      },
+      sex: 0, // required sex of the target. 0: none 1: male 2: female
+      menu: false, // menu option - has dialog() text if a popup menu is necessary
+      tags: ["none"], // special tags for action, mainly for unique kink effects
+      req: ["none"], // required environmental tags
+      forbid: ["none"], // forbidden environmental tags
+      special() {
+        ↂ.T.clothes.worn.panties = "off";
+      }, // special function to be run when action is taken.
+      condition() {
+        if (ↂ.T.clothes.worn.panties === "off" || ↂ.T.clothes.worn.panties === false || (ↂ.T.clothes.worn.bottom === "normal" && typeof(ↂ.T.clothes.outfits.casual.bottom) === "string")) {
+          return false;
+        } else {
+          return true;
+        }
+      },
     },
     slapFace: {
       name: "slap face with your hand", // name of the action
@@ -2413,7 +2846,7 @@ class SexAct {
       tab: "kink", // the action tab that this action belongs in.
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["bdsm", "domsub", "impact", "sadomasochism", "rough", "pain", "masochist", "sadist", "angry"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 20, oral: 0, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 20, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["hand", "face"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -2454,6 +2887,13 @@ class SexAct {
       tags: ["dom"], // special tags for action, mainly for unique kink effects
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
+      condition() {
+        if (ↂ.pc.kink.dom) {
+          return true;
+        } else {
+          return false;
+        }
+      },
       special() {
         let out = "error";
         if (ↂ.sex.npc[ↂ.sex.target].kink.sub || ↂ.sex.npc[ↂ.sex.target].kink.masochist) {
@@ -2474,7 +2914,7 @@ class SexAct {
       tab: "kink", // the action tab that this action belongs in.
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["bdsm", "domsub", "impact", "sadomasochism", "pain", "masochist", "sadist"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 15, oral: 0, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 15, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["hand", "butt"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -2515,6 +2955,13 @@ class SexAct {
       tags: ["dom"], // special tags for action, mainly for unique kink effects
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
+      condition() {
+        if (ↂ.pc.kink.dom) {
+          return true;
+        } else {
+          return false;
+        }
+      },
       special() {
         let out = "error";
         if (ↂ.sex.npc[ↂ.sex.target].kink.sub || ↂ.sex.npc[ↂ.sex.target].kink.masochist) {
@@ -2533,7 +2980,7 @@ class SexAct {
       tab: "kink", // the action tab that this action belongs in.
       cat: "makeout", // category of the action ex: makeout sex oral handjob anal
       kink: ["bdsm", "domsub", "sadomasochism", "pain", "masochist", "sadist"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 20, oral: 0, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
+      skill: { sex: 20, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
       parts: ["hand", "chest"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -2572,6 +3019,13 @@ class SexAct {
       tags: ["dom"], // special tags for action, mainly for unique kink effects
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
+      condition() {
+        if (ↂ.pc.kink.dom) {
+          return true;
+        } else {
+          return false;
+        }
+       },
       special() {
         let out = "error";
         if (ↂ.sex.npc[ↂ.sex.target].kink.sub || ↂ.sex.npc[ↂ.sex.target].kink.masochist) {
@@ -2590,8 +3044,8 @@ class SexAct {
       tab: "other", // the action tab that this action belongs in.
       cat: "other", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: {sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0}, // req skill to use action
-      parts: ["hand", "chest"], // the used parts - 0: player 1: target
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
+      parts: ["hand", "skip"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 0, // actual amount
@@ -2622,6 +3076,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       special() {}, // special function to be run when action is taken.
+      condition() { return true; },
     },
     thatsEnough: {
       name: "that's enough", // name of the action
@@ -2632,7 +3087,7 @@ class SexAct {
       cat: "other", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
       skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
-      parts: ["hand", "chest"], // the used parts - 0: player 1: target
+      parts: ["hand", "skip"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
           pcAmt: 0, // actual amount
@@ -2662,6 +3117,7 @@ class SexAct {
       tags: ["none"], // special tags for action, mainly for unique kink effects
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
+      condition() { return true; },
       special() {
         setup.sex.close();
       },
@@ -2677,7 +3133,7 @@ class SexAct {
   let cnt = 0;
   for (let i = 0, c = keys.length; i < c; i++) {
     aw.sexAct[keys[i]] = new SexAct(act[keys[i]]);
-    cnt ++;
+    cnt++;
   }
   setup.sex.sexActList = Object.keys(aw.sexAct);
   aw.con.info(`${cnt} sex actions loaded.`);

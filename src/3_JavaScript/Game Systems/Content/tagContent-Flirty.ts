@@ -117,7 +117,7 @@ aw.tagContent.flirty.illnessBad = [
 ];
 aw.tagContent.flirty.nakedBottom = [
   `<<if aw.npc[setup.interact.status.npc].kink.exhibition || aw.npc[setup.interact.status.npc].kink.liberate>>@@.npc;Oh, wow. Nice day for giving your kitten some fresh air, mm? Looking good by the way, I certainly like the view, but what if somebody else see you like that?@@<<elseif aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Oh, damn, <<print ↂ.pc.main.name>> please, cover your butt with something! People can see you!@@<<else>>@@.npc;Oh... well... I am pretty sure that you are aware that you are half naked, huh? Feeling bold today?@@<</if>><br>
-  <<has exhibition>>You can't but wiggle your <<p assSize>> butt a bit, presenting your nakedness to the flirty.<br>
+  <<has exhibition>>You can't but wiggle your <<pcAssSize>> butt a bit, presenting your nakedness to <<print aw.npc[setup.interact.status.npc].main.name>>.<br>
   @@.mono;Oh yes, stare at me. Damn, that is exciting!@@<br>
   @@.pc;Do you like it?@@<<arouse 2>><<orhas slut>><<arouse 2>>You can't but enjoy the attention to your naked bottom and pussy.<br>
   <<orhas liberate>>You feel pretty comfortable with your lower part naked.<br>

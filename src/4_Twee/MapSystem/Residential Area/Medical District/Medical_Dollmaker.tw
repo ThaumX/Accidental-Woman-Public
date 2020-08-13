@@ -111,19 +111,20 @@ State.active.variables.plasticSurgeryScenario = {
 <</silently>>
 <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
 Current Breast size: <<print ↂ.pc.body.tits.cup>>. Price: @@.money;₢250-400@@<br>
-<p>@@.npc;Take note that this kind of surgery affects only your natural fat tissue, it doesn't change the silicon or Expand+ implants you may have. Also we will take care about proper shape but can't really give any guarantees of specific shape. You can be rest assured it would not be saggy though.@@<p>
-<<if ↂ.pc.body.tits.size > 150>>
-  <<button "Reduction -100cc">><<set ↂ.flag.plasticOperationSize = 100>><<set ↂ.flag.plasticOperationCost = 250>><<set ↂ.flag.plasticOperationType = "breastReduction">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
-<<elseif ↂ.pc.body.tits.size > 250>>
-  <<button "Reduction -100cc">><<set ↂ.flag.plasticOperationSize = 100>><<set ↂ.flag.plasticOperationCost = 250>><<set ↂ.flag.plasticOperationType = "breastReduction">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
-<<elseif ↂ.pc.body.tits.size > 650>>
+<p>@@.npc;Take note that this kind of surgery affects only your natural fat tissue, it doesn't change the silicon or Expand+ implants you may have. Also we will take care about proper shape but can't really give any guarantees of specific shape. You can be rest assured it would not be saggy though.@@</p>
+<<if ↂ.pc.body.tits.base.size > 650>>
   <<button "Reduction -100cc">><<set ↂ.flag.plasticOperationSize = 100>><<set ↂ.flag.plasticOperationCost = 250>><<set ↂ.flag.plasticOperationType = "breastReduction">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
   <<button "Reduction -200cc">><<set ↂ.flag.plasticOperationSize = 200>><<set ↂ.flag.plasticOperationCost = 300>><<set ↂ.flag.plasticOperationType = "breastReduction">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
   <<button "Reduction -500cc">><<set ↂ.flag.plasticOperationSize = 500>><<set ↂ.flag.plasticOperationCost = 400>><<set ↂ.flag.plasticOperationType = "breastReduction">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+<<elseif ↂ.pc.body.tits.base.size > 250>>
+  <<button "Reduction -100cc">><<set ↂ.flag.plasticOperationSize = 100>><<set ↂ.flag.plasticOperationCost = 250>><<set ↂ.flag.plasticOperationType = "breastReduction">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
+<<elseif ↂ.pc.body.tits.base.size > 150>>
+  <<button "Reduction -100cc">><<set ↂ.flag.plasticOperationSize = 100>><<set ↂ.flag.plasticOperationCost = 250>><<set ↂ.flag.plasticOperationType = "breastReduction">><<status>><<run Dialog.close()>><<run setup.scenario.launch($plasticSurgeryScenario);>><</button>>
 <<else>>
-<p>@@.npc;Can't reduce your breast miss, sorry to say but you don't have much to work with...@@<p>
+<p>@@.npc;Can't reduce your breast miss, sorry to say but you don't have much to work with...@@</p>
 <</if>>
 </div>
+<br>
 <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
 Current Breast augmentation: <<if ↂ.pc.body.tits.silicone === 0>>None<<elseif ↂ.flag.expandP>><<= ↂ.pc.body.tits.silicone>>cc Expand+ implants<<else>><<= ↂ.pc.body.tits.silicone>>cc implants<</if>> Price: @@.money;₢200-480@@<br>
 <p>@@.npc;Here is the list of implants, which are possible to install with your current breast size. <<if ↂ.pc.body.tits.silicone !== 0>>Please note that implants removal will probably change your breast shape. Also you must know that there is a limit for the volume we can implant during one operation, if you trying to achieve... bigger sizes in future you should do it gradually. Except the case where you install our newest product, "Expand+", those can be changed in size by a simple injection after installation.<</if>>@@
@@ -306,87 +307,88 @@ It is not possible to perform a liposuction, you hardly have any fat!
   <<status 1>>
   <<set ↂ.pc.body.tits.silicone = ↂ.flag.plasticOperationSize>>
   <<if ↂ.flag.plasticOperationSize === 0>><<set ↂ.pc.body.tits.shape = "relaxed">><</if>>
+  <<status 0>>
   <<pcBreastCalc>>
   <<set ↂ.pc.status.health -= random(15,30)>><<run setup.status.record("health", -30, "Plastic surgery")>>
   <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
   <<run setup.omni.new("postBoobsSurgery")>>
-  <<status 0>>
 <<case "expand+">>
   <<status 1>>
   <<set ↂ.flag.expandP = true>>
   <<set ↂ.pc.body.tits.silicone = ↂ.flag.plasticOperationSize>>
+  <<status 0>>
   <<pcBreastCalc>>
   <<set ↂ.pc.status.health -= random(15,30)>><<run setup.status.record("health", -30, "Plastic surgery")>>
   <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
   <<run setup.omni.new("postBoobsSurgery")>>
-  <<status 0>>
 <<case "titShape">>
   <<status 1>>
   <<set ↂ.pc.body.tits.shape = ↂ.flag.plasticOperationSize>>
+  <<status 0>>
   <<set ↂ.pc.status.health -= random(4,15)>><<run setup.status.record("health", -15, "Plastic surgery")>>
   <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
   <<pcBreastCalc>>
-  <<status 0>>
 <<case "nipLength">>
   <<status 1>>
   <<set ↂ.pc.body.tits.nipLength = ↂ.flag.plasticOperationSize>>
+  <<status 0>>
   <<set ↂ.pc.status.health -= random(3,10)>><<run setup.status.record("health", -10, "Plastic surgery")>>
   <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
   <<pcBreastCalc>>
-  <<status 0>>
 <<case "nipGirth">>
   <<set ↂ.pc.body.tits.nipGirth = ↂ.flag.plasticOperationSize>>
+  <<status 0>>
   <<set ↂ.pc.status.health -= random(3,10)>><<run setup.status.record("health", -10, "Plastic surgery")>>
   <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
   <<pcBreastCalc>>
-  <<status 0>>
 <<case "areolaWidth">>
   <<set ↂ.pc.body.tits.areola = ↂ.flag.plasticOperationSize>>
+  <<status 0>>
   <<set ↂ.pc.status.health -= random(3,10)>><<run setup.status.record("health", -10, "Plastic surgery")>>
   <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
   <<pcBreastCalc>>
-  <<status 0>>
 <<case "areolaPuff">>
   <<status 1>>
   <<set ↂ.pc.body.tits.puffy = ↂ.flag.plasticOperationSize>>
+  <<status 0>>
   <<set ↂ.pc.status.health -= random(3,10)>><<run setup.status.record("health", -10, "Plastic surgery")>>
   <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
   <<pcBreastCalc>>
-  <<status 0>>
 <<case "breastReduction">>
   <<status 1>>
-  <<set ↂ.pc.body.tits.size -= ↂ.flag.plasticOperationSize>>
-  <<if ↂ.pc.body.tits.size < 50>><<set ↂ.pc.body.tits.size = 50>><</if>>
+  <<set ↂ.pc.body.tits.base.size -= ↂ.flag.plasticOperationSize>>
+  <<if ↂ.pc.body.tits.base.size < 50>><<set ↂ.pc.body.tits.base.size = 50>><</if>>
   <<set ↂ.pc.status.health -= random(8,20)>><<run setup.status.record("health", -10, "How dare you to shrink sacred titties lol! (Plastic surgery)")>>
+  <<status 0>>
   <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
   <<set ↂ.pc.body.tits.shape = either("round", "perky")>>
   <<run setup.omni.new("postBoobsSurgery")>>
   <<pcBreastCalc>>
-  <<status 0>>
 <<case "noseForm">>
   <<status 1>>
   <<set ↂ.pc.body.nose = ↂ.flag.plasticOperationSize>>
   <<set ↂ.pc.status.health -= random(8,18)>><<run setup.status.record("health", -18, "Plastic surgery")>>
-  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
   <<status 0>>
+  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
 <<case "jawForm">>
   <<status 1>>
   <<set ↂ.pc.body.jaw = ↂ.flag.plasticOperationSize>>
   <<set ↂ.pc.status.health -= random(8,18)>><<run setup.status.record("health", -18, "Plastic surgery")>>
-  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
   <<status 0>>
+  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
 <<case "lipsForm">>
   <<status 1>>
   <<set ↂ.pc.body.lips = ↂ.flag.plasticOperationSize>>
   <<set ↂ.pc.status.health -= random(5,13)>><<run setup.status.record("health", -13, "Plastic surgery")>>
-  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
   <<status 0>>
+  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
 <<case "lipo">>
   <<set ↂ.pc.body.weight -= 1>>
   <<set ↂ.pc.status.nutrition.realWeight = setup.initialWeight()>>
   <<set ↂ.pc.status.health -= random(8,18)>><<run setup.status.record("health", -18, "Plastic surgery")>>
-  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
   <<status 0>>
+  <<run aw.cash(-ↂ.flag.plasticOperationCost, "medical")>>
+  
 <<default>>
 Shit, this shouldn't happen at all. Somehow you broke the surgery system. You fault, don't you dare blame Besty this time. Okay, let's consider our options now. I ll leave a link here so you can escape this broken scenario so I hope you'll be able to continue the game. Also pls let us know on discord or on the game site bugtracker about this. Oh, and sorry for this, buddy, game is big so bugs are quite possible.
 <br>

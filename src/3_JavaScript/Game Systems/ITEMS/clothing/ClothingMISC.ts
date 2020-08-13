@@ -37,8 +37,8 @@ interface setupClothesDesc {
   atr: number;
   sexy: number;
   formal: number;
-  exposureTop: number;
-  exposureBottom: number;
+  exposureTop: string;
+  exposureBottom: string;
 }
 
 interface setupClothesOutfit {
@@ -414,6 +414,18 @@ setup.clothes.defineObjects = function(): void {
         return 0;
       }
       return hem - 5;
+    },
+  });
+  Object.defineProperty(setup.clothes, "wearingSkirt", {
+    set() {},
+    get(): boolean {
+      if (aw.slot.top !== 0 && "object" === typeof aw.slot.top && aw.slot.top.type === "dress") {
+        return true;
+      }
+      if (aw.slot.bottom !== 0 && "object" === typeof aw.slot.bottom && aw.slot.bottom.type === "skirt") {
+        return true;
+      }
+      return false;
     },
   });
 };

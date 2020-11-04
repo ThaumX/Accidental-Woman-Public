@@ -436,7 +436,7 @@ setup.library.initSAN = function() {
     },
     tongueClit: {
       standard: [
-        `Wondering what's going to come next, your curiosity is answered as you feel <<name _t>>'s come to rest against your <<if setup.sexToys.check("pc", "clit") == true>>${either("aroused", "firm", "swollen")} <<p 'clit.n'>>. With a delicious pressure, you feel <<his _t>> tongue probe your clit; pushing it in different directions as it seems to explore. You feel a surprising shock of pleasure as the tongue moves overtop and tries to dive down beneath your hood. <<name _t>>'s exploration continues on for several moments, and you enjoy every delicious second of it.<<else>>locked clit. With a frustruation, you feel <<his _t>> tongue circle your clit shield and pushing it in different directions. This doesn't feel like a lot at all and you feel humiliated by <<name _t>>'s cruel teasing.<</if>>`,
+        `Wondering what's going to come next, your curiosity is answered as you feel <<name _t>>'s come to rest against your <<if setup.sexToys.check("pc", "clit") == true>>${either("aroused", "firm", "swollen")} <<p 'clit.n'>>. With a delicious pressure, you feel <<his _t>> tongue probe your clit; pushing it in different directions as it seems to explore. You feel a surprising shock of pleasure as the tongue moves overtop and tries to dive down beneath your hood. <<name _t>>'s exploration continues on for several moments, and you enjoy every delicious second of it.<<else>>locked clit. With a frustration, you feel <<his _t>> tongue circle your clit shield and pushing it in different directions. This doesn't feel like a lot at all and you feel humiliated by <<name _t>>'s cruel teasing.<</if>>`,
       ],
       lesbian: "none",
       public: "none",
@@ -665,7 +665,7 @@ setup.library.initSAN = function() {
       ],
       openPublic: "none",
       nonCon: [
-        `You sob and clench while <<name _t>> ravages your hole in a constant stream of rapid merciless thrusts. Paying no attention to your comfort <<he>> pushes <<his>> <<n _t "cock.s">> <<n _t "cock.n">> deep down your slit painfully stretching your <<p 'curwet.q'>> <<p 'labia.n'>>, <<his>> panting mixes with your short moans and the slurping sound of <<name _t>>'s cock forcing inside your hole over and over again. <<has rape>>The horror makes your arousal even spicier and you geniunely enjoy the raping.<<or>>Hoping this to end you lose any sense of time feeling abused and humiliated.<</has>>. <<name _t>> doesn't seem like stopping anytime before <<he>> will shoot <<his>> jizz deep inside you, no matter of your opinion on this and you have no other options than to submit to the pounding.`,
+        `You sob and clench while <<name _t>> ravages your hole in a constant stream of rapid merciless thrusts. Paying no attention to your comfort <<he>> pushes <<his>> <<n _t "cock.s">> <<n _t "cock.n">> deep down your slit painfully stretching your <<p 'curwet.q'>> <<p 'labia.n'>>, <<his>> panting mixes with your short moans and the slurping sound of <<name _t>>'s cock forcing inside your hole over and over again. <<has rape>>The horror makes your arousal even spicier and you genuinely enjoy the raping.<<or>>Hoping this to end you lose any sense of time feeling abused and humiliated.<</has>>. <<name _t>> doesn't seem like stopping anytime before <<he>> will shoot <<his>> jizz deep inside you, no matter of your opinion on this and you have no other options than to submit to the pounding.`,
       ],
       romantic: "none",
       risky: "none",

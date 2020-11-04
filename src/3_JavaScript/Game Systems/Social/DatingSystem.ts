@@ -508,7 +508,7 @@ setup.date.pcQuestion = function(): string {
     out += `<p>In order to avoid any more awkwardness, the two of you continue your date.</p>`;
   }
   if (aw.date.eligible[0] === "married" && aw.date.eligible[1]) {
-    // pee pee poo poo, nuthing here
+    // pee pee poo poo, nothing here
   } else {
     out += aw.dateSpots[aw.date.spot].buttonGen();
   }
@@ -1569,7 +1569,5 @@ setup.date.askOpen = function(): number {
   setup.date.statRefresh();
   return 3;
 };
-
-
 
 

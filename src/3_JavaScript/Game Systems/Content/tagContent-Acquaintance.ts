@@ -641,7 +641,7 @@ aw.tagContent.acquaintance.stainedClothes = [
 
 aw.tagContent.acquaintance.stainedClothesCum = [
   `@@.pc;This is cum, silly.@@<br><<set aw.npc[setup.interact.status.npc].rship.likePC -= 3 >><<set aw.npc[setup.interact.status.npc].rship.lovePC -= 4 >>
-  @@.npc;Well, you are not a shamefest, don't you? Better clean yourself anyway.@@<br>
+  @@.npc;Well, you are not a shamefast, don't you? Better clean yourself anyway.@@<br>
   @@.pc;Well, will do.@@<br>
   <<include [[NPCinteraction-AcquaintContinue]]>>
   `,

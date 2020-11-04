@@ -315,7 +315,7 @@ setup.npcDisplay = {
         output += `<b>Suicide Score:</b> ${sscore}`;
         output += "</div>";
         // =================================================
-        // end of the data formating and try block
+        // end of the data formatting and try block
       } catch (e) {
         aw.con.warn(`Error in setup.npcDisplay.detailView (main). ${e.name}: ${e.message}.`);
         // give standard error message to output
@@ -1319,9 +1319,9 @@ setup.npcDisplay = {
           (ᛝ.background.dadDead) ? "" : happyFamily.push("Father");
           (ᛝ.background.momDead) ? "" : happyFamily.push("Mother");
           (ᛝ.background.sister) ? happyFamily.push("Sister") : "";
-          (ᛝ.background.sisterYounger) ? happyFamily.push("Yonger sister") : "";
+          (ᛝ.background.sisterYounger) ? happyFamily.push("Younger sister") : "";
           (ᛝ.background.brother) ? happyFamily.push("Brother") : "";
-          (ᛝ.background.brotherYounger) ? happyFamily.push("Yonger brother") : "";
+          (ᛝ.background.brotherYounger) ? happyFamily.push("Younger brother") : "";
           (ᛝ.background.married) ? happyFamily.push("Spouse") : "";
           (ᛝ.background.exSpouse) ? happyFamily.push("Ex spouse") : "";
           output += `${happyFamily}`;
@@ -1341,9 +1341,9 @@ setup.npcDisplay = {
           (ᛝ.background.dadDead) ? "" : happyFamily.push("Father");
           (ᛝ.background.momDead) ? "" : happyFamily.push("Mother");
           (ᛝ.background.sister) ? happyFamily.push("Sister") : "";
-          (ᛝ.background.sisterYounger) ? happyFamily.push("Yonger sister") : "";
+          (ᛝ.background.sisterYounger) ? happyFamily.push("Younger sister") : "";
           (ᛝ.background.brother) ? happyFamily.push("Brother") : "";
-          (ᛝ.background.brotherYounger) ? happyFamily.push("Yonger brother") : "";
+          (ᛝ.background.brotherYounger) ? happyFamily.push("Younger brother") : "";
           (ᛝ.background.married) ? happyFamily.push("Spouse") : "";
           (ᛝ.background.exSpouse) ? happyFamily.push("Ex spouse") : "";
           output += `${happyFamily}`;

@@ -556,7 +556,7 @@ setup.calculateBreastStats = function(vol: number, shoulder: number, weight: num
   if (tempCup < 0) {
     cupNum = -1;
     cupRaw = -1;
-    cup = "nonexistant";
+    cup = "nonexistent";
     bra = "playing dress-up";
   } else if (tempCup <= 0) {
     cupNum = 0;
@@ -629,15 +629,15 @@ setup.deepThoughts = function(num: number = -1): string {
     "Snakes are just tails with faces.",
     "Jerky is more like an animal cracker than animal crackers are.",
     `Tobacco companies are killing their best customers, while condom companies are preventing their future customers.`,
-    "How did cats aquire such a fond taste for fish if they’re afraid of the water?",
+    "How did cats acquire such a fond taste for fish if they’re afraid of the water?",
     `You can put “fuck”, or “fucking” pretty fucking much fucking anywhere in a fucking sentence and fucking still be grammatically fucking correct.`,
     "If portal guns were real, it would revolutionize glory holes.",
-    "Every teacher born in England is an english teacher.",
+    "Every teacher born in England is an English teacher.",
     `If you choose not to have kids, you’re literally breaking a family tradition that goes back millions of years.`,
     `When you’re a kid, dick jokes are considered adult content, but when you’re an adult, they’re considered immature.`,
     "Cops are like strippers; they can touch you but you can’t touch them.",
     "You can go your entire life without drinking water or eating.",
-    "It is very possible that at some point Tarzan tried to mate with a gorrila.",
+    "It is very possible that at some point Tarzan tried to mate with a gorilla.",
     `Its common for babies to fall asleep and wake up in different locations all the time, but as an adult the idea of that happening is terrifying.`,
     "It doesn’t matter if you’re gay or straight, you still probably find 95% of people unattractive.",
     "Batman is essentially a Pay2Win Superhero",
@@ -649,7 +649,7 @@ setup.deepThoughts = function(num: number = -1): string {
     "When you park your car, you literally leave your most expensive possession lying out in the road.",
     `If snakes lost their legs for giving Adam and Eve the apple of enlightenment, clams must have really fucked up.`,
     "People with bad spelling might have the best passwords.",
-    `We live in a time where companies that make obsolete/non-competetive products can blame their losses on people “killing the industry”`,
+    `We live in a time where companies that make obsolete/non-competitive products can blame their losses on people “killing the industry”`,
     "The worst part about ‘being the bigger man’ is letting the other person think they are right.",
     "Do porn editors get in trouble for not looking at porn during working hours?",
     "Hypochondria is the only sickness hypochondriacs don’t think they have.",
@@ -770,7 +770,7 @@ setup.sexyLines = function(): string {
       "You know, I've been told that I have a really talented tongue. They weren't talking about my skill at giving speeches though...",
     ],
     force: [
-      "I know it's not something you're supposed to say, but I really like a man who takes what he wants from a woman's body... Being iresistable is so sexy.",
+      "I know it's not something you're supposed to say, but I really like a man who takes what he wants from a woman's body... Being irresistible is so sexy.",
     ],
     dom: ["I've sometimes been known as the Worm Assassin... and it's your worm I'll be whipping into shape tonight."],
     water: ["I hope you don't mind things getting a little wet-and-wild in the bedroom..."],
@@ -990,7 +990,7 @@ setup.statusLoad = function(tipe: string = "all"): void {
       break;
   }
   if (detect) {
-    const msg = `''FATAL ERROR''<br>An unknown memory error has occured. One or more problems were detected in the live variable memory system. This problem can corrupt game saves because accumulating errors are not immediately noticeable. It is highly recommended that you completely close your browser and open it again before continuing, or simply restart your computer.<br><br>If you continue to get this error after restarting, the save you are using may have been corrupted. Also, while there is no way to determine the cause of the problem with your computer's memory, some programs can manipulate memory in a way that will cause this class of error. Try playing AW with any extra programs closed to see if that resolves the problem.`;
+    const msg = `''FATAL ERROR''<br>An unknown memory error has occurred. One or more problems were detected in the live variable memory system. This problem can corrupt game saves because accumulating errors are not immediately noticeable. It is highly recommended that you completely close your browser and open it again before continuing, or simply restart your computer.<br><br>If you continue to get this error after restarting, the save you are using may have been corrupted. Also, while there is no way to determine the cause of the problem with your computer's memory, some programs can manipulate memory in a way that will cause this class of error. Try playing AW with any extra programs closed to see if that resolves the problem.`;
     State.active.variables.AW.error = msg;
     State.display("errorPassage");
   }
@@ -2355,7 +2355,7 @@ setup.indexOfMax = function(arr: number[]): number {
 
 setup.reasonPrettifier = function(reason: string): string {
   const listShortHands = ["risky", "pregnancy", "sizequeen", "cumSlut", "sub", "exhibition", "masochist", "buttSlut", "public", "slut", "superSlut", "hyperSlut", "oral", "anal", "force", "rape", "liberate", "easy", "nips", "dom", "water", "bond", "hard", "fap", "shame", "intro", "extro", "op", "cl", "caring", "bitch", "maternal", "romantic", "deceptive", "devious", "persuasive", "perceptive", "forgetful", "forgiving", "lowEsteem", "picky", "crude", "friendly", "approachable", "relaxed", "flirty", "materialist", "uncaring", "kind", "hatesKids", "aromantic", "honest", "straightForward", "follower", "oblivious", "goodMemory", "vengeful", "narcissist", "lowStandards", "refined", "unfriendly", "unapproachable", "ambitious", "shy", "hippy"];
-  const listFullNames = ["into risky sex", "into pregnant sex", "a sizequeen", "a cum slut", "a sub", "an exhibitionist", "a masochist", "a butt slut", "into public sex", "a slut", "a super slut", "a hyper slut", "into oral sex", "into anal sex", "into being forced to have sex", "into a rape fetish", "liberated sexually", "easy to please", "a person with sensitive nipples", "into dom", "into pissplay", "into bondage", "a hard to please", "into fapping", "a shamefeast", "introverted", "extroverted", "open minded", "closed minded", "caring", "a bitch", "a maternal person", "a romantic person", "a deceptive person", "a devious person", "a persuasive person", "a perceptive person", "a forgetful person", "a forgiving person", "a person with low self esteem", "a picky person", "a crude person", "a friendly person", "an approachable person", "a relaxed person", "a flirty person", "a materialist", "uncaring", "a kind person", "someone who hates kids", "aromantic", "a honest person", "a straightforward person", "a follower", "oblivious", "a person who hold grudges", "a vengeful person", "a narcissist", "a person with low standards", "a refined person", "a not friendly person", "an unapproachable person", "an ambitious person", "a shy person", "a hippy"];
+  const listFullNames = ["into risky sex", "into pregnant sex", "a sizequeen", "a cum slut", "a sub", "an exhibitionist", "a masochist", "a butt slut", "into public sex", "a slut", "a super slut", "a hyper slut", "into oral sex", "into anal sex", "into being forced to have sex", "into a rape fetish", "liberated sexually", "easy to please", "a person with sensitive nipples", "into dom", "into pissplay", "into bondage", "a hard to please", "into fapping", "a shamefast", "introverted", "extroverted", "open minded", "closed minded", "caring", "a bitch", "a maternal person", "a romantic person", "a deceptive person", "a devious person", "a persuasive person", "a perceptive person", "a forgetful person", "a forgiving person", "a person with low self esteem", "a picky person", "a crude person", "a friendly person", "an approachable person", "a relaxed person", "a flirty person", "a materialist", "uncaring", "a kind person", "someone who hates kids", "aromantic", "a honest person", "a straightforward person", "a follower", "oblivious", "a person who hold grudges", "a vengeful person", "a narcissist", "a person with low standards", "a refined person", "a not friendly person", "an unapproachable person", "an ambitious person", "a shy person", "a hippy"];
   const piss = reason.replace(/\s/g, "");
   if (listShortHands.indexOf(piss, 0) !== -1) {
     return listFullNames[listShortHands.indexOf(piss, 0)];

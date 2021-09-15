@@ -1,0 +1,635 @@
+:: TentacleStoreMain [nobr]
+
+<center><<link [img[IMG-StrangeShopkeeperSml]]>><<dialog "Easter Egg">><center>[img[IMG-TentacleSistersPreview]]<br>[img[IMG-Eggnancy]]</center><</dialog>><</link>></center>
+
+<div id="mainshits">
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+
+<p>
+<<f y>>ou step inside the unusual shop and look around. The eccentric shopkeeper is sitting in her usual spot, she looks up from her book and gives you a smile before going back to reading. The species binder sits in its usual spot on the counter, and the baby tentacles in the display behind it are showing varying amounts of activity. <<set _ra = random(1,10)>><<if _ra < 3>>One of the little guys seems to notice you looking and waves its glans at you playfully.<<elseif _ra < 5>>One of the little guys seems to be excited by your proximity, and leaves a smear of slime along the side of its tank.<<elseif _ra == 10>>One of the small creatures seems to be facinated by you, seeming to stare at you with the tip of its engorged glans.<</if>>
+</p>
+
+</div>
+
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+
+<<hoverrevise alpha>>
+<<button "Browse Species">><<addTime 10>><<updatebar>><<dialog "Species Binder">><<include [[TentacleSpeciesBinder]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+<<button "Construpo Tubulus Effercio">><<if $AW.cash < 50>><<run UI.alert("You can't afford this!")>><<else>><<addTime 10>><<run aw.cash(-50, "misc")>><<go "ConstrupoTubulusEffercio">><</if>><</button>>
+<<endhoverrevise>>
+<<if ↂ.flag.tentacle.browsed>>
+<<hoverrevise delta>>
+<<button "Construpo Macro Gravido">><<if $AW.cash < 50>><<run UI.alert("You can't afford this!")>><<else>><<addTime 10>><<run aw.cash(-50, "misc")>><<go "ConstrupoMacroGravido">><</if>><</button>>
+<<endhoverrevise>>
+<<hoverrevise gamma>>
+<<button "Clavus Purpureus Distendi">><<if $AW.cash < 50>><<run UI.alert("You can't afford this!")>><<else>><<addTime 10>><<run aw.cash(-50, "misc")>><<go "ClavusPurpureusDistendi">><</if>><</button>>
+<<endhoverrevise>>
+<<hoverrevise epsilon>>
+<<button "Construpo Rosa Nervifoliae">><<if $AW.cash < 50>><<run UI.alert("You can't afford this!")>><<else>><<addTime 10>><<run aw.cash(-50, "misc")>><<go "ConstrupoRosaNervifoliae">><</if>><</button>>
+<<endhoverrevise>>
+<<else>>
+<<hoverrevise cant>>
+<button class="disabled">Construpo Macro Gravido</button>
+<button class="disabled">Clavus Purpureus Distendi</button>
+<button class="disabled">Construpo Rosa Nervifoliae</button>
+<<endhoverrevise>>
+<</if>>
+<<hoverrevise leave>>
+<<button "Leave">><<run setup.map.nav("downtown","club", "main")>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Take a look through the "Species Binder" the shopkeeper leaves on the counter.<<endinsertion>>
+<<insertion beta>>Visit Fred and Freddy for some fun. @@.money;<<mon>>50@@<<endinsertion>>
+<<insertion delta>>Visit Marius and Maria for some fun. @@.money;<<mon>>50@@<<endinsertion>>
+<<insertion gamma>>Visit Purple for some fun. @@.money;<<mon>>50@@<<endinsertion>>
+<<insertion epsilon>>Visit Phineas for some fun. @@.money;<<mon>>50@@<<endinsertion>>
+<<insertion leave>>Leave the Little Shop of Tentacles<<endinsertion>>
+<<insertion cant>>You aren't brave enough to visit a tentacle you know nothing about!<<endinsertion>>
+</div>
+
+
+:: TentacleSpeciesBinder [nobr]
+
+<<set ↂ.flag.tentacle.browsed = true>><<status 0>><<go "TentacleStoreMain">>
+<center>[img[IMG-SpeciesBinder]]</center>
+<p><<f y>>ou walk over to the counter and open the large binder. Most of the species inside are marked "UNAVAILABLE" in red letters, but there are a few species that are available that catch your eye...</p>
+<div class="alme" style="width:700px; padding:25px; position:relative; margin:20px 100px 20px 100px; border: 2px solid #CCC;">
+<img data-passage="IMG-Tentacles-FredSquare" style="float:left; margin:0px 25px 25px 0px;">
+<b>Name/s:</b> Fred (M) & Freddy (M)<br>
+<b>Species:</b> Construpo Tubulus Effercio<br>
+<b>Prefered Orifice:</b> Vagina<br><br>
+<b>Description:</b> The Effercio species, like others in the Tubulus family, consist of a single tentacle without a seperate body or limbs. Its coloration tend toward earth tones, with a distinctive red-ochre glans. The front of its body has a very phallic shape similar to a human penis. Unlike many Tubulus species, the rear portion of its body is much thicker and can resemble the main body of other tentacle species, though anatomically it is still tentacle. The bulky portion makes up about two-fifths of the tentacles length, but can be as much as two-thirds in very young specimins. This portion of the body is not very flexible, and usually maintains firm contact with the ground. While the Effercio tends to be slow compared to other Tubulus species because of this, it does serve as a counterweight that allows the Effercio to lift the front portion of its body off the ground without using something as an anchor.<br><br>
+<b>Behavior:</b> The Effercio has a strong preference for vaginal penetration with its glans, though they have been known to use other orifices if they are wet enough and it's prefered orifice is unavailable. The Effercio exhibits strong thrusting behavior, but tends not to do much binding, rubbing, or constricting. This makes it a good species for beginners, those averse to being bound, or for use with other species. Its most unique behavior is a very large ejaculation of a substance that is similar in texture and coloration to human semen. It typically displays this behavior after successive orgasms have dialated the cervix, making it easier for the powerful ejaculation to send fluid into the womb. The chemical action of the substance makes the womb more compatible with tentacle pregnancy. Depending on the sex of the Effercio, the ejaculation can also contain sperm or egg cells. When penetratring a non-vaginal orifice, the Effercio's ejaculatory reflex tends to be very random, and can happen too early or not at all.<br><br>
+<b>Habitat:</b> Effercio is one of the few tentacle species that can survive in an arid environment, though they require plenty of water to do so. Like most tentacles, they prefer more humidity in its living area, and will produce more lubricating secretions and ejaculate if kept at a higher humidity with plenty of water.<br><br>
+<b>Notes:</b> If you're trying to breed tentacles vaginally but don't seem to be having much luck getting pregnant, playing with an Effercio can help transform your uterus to be more compatible for tentacle pregnancy with all species!
+</div>
+<div class="alme" style="width:700px; padding:25px; position:relative; margin:20px 100px 20px 100px; border: 2px solid #CCC;">
+<b>Name/s:</b> Marius (M) and Maria (F)<br>
+<b>Species:</b> Construpo Macro Gravido<br>
+<b>Preferred Orifice:</b> Anus<br><br>
+<b>Description:</b> The Gravido species consists of a single organism with the ability to self-impregnate. It consists of a purple body with an extremely long tentacle the coloration of which pales toward the tip where it's white with some pinkish tinges. Unlike the Effercio, the glans looks inhuman. When in rest, the over 15 meters long and relatively thin tentacle is coiled around the main mass of the body, giving it a shape vaguely reminiscent of a pregnant belly poking out of a sandy beach. The main mass presents a cloaca that lies closed when in rest. However, when the Gravido is active, the cloaca opens to display a very human looking vulva. During such periods of activity, the main body reveals a very stable base with cilia that attach firmly to whatever surface it deems appropriate for its procreation, preferring soil over concrete.<br><br>
+<b>Behavior:</b> The Gravido has a strong preference for anal penetration for reproductive reasons. Seventy-five percent of its tentacle is actually a combination of a sperm sack and an urethra, both producing and aiding in expelling its contents toward the glans. However, that physiology comes with a caveat: the sperm is rendered infertile at ambient temperature, requiring the sack to be at temperatures ranging from 35 to 38 degrees Celsius, thus making human bodies the perfect place to activate its seed and self-impregnate. The Gravido will invariably look for the human's anus to penetrate, even if an aroused vagina is within reach. The male component ejaculates inactive seed over the anus to lubricate its entrance and then proceeds to penetrate from anal to oral cavity the entirety of the human body with the glans carefully moving around to find the path of least resistance. Once the glans and enough of the male component are out of the mouth, it seeks the Gravido female component to penetrate and impregnate. The female component secretes pheromones to attract the now full of active seed glans toward it for self-impregnation. Once the male component finds the cervical ring (the interior of the Gravido female component is almost identical to a human reproductive system), the glans penetrates the uterus and discharges the complete contents of the sperm sack inside to fulfill its biological imperative. When this is successful, the mound that already looked like a pregnant belly before can double or triple in girth until it looks like a very gravid and ready to burst belly.<br><br>
+<b>Habitat:</b> Gravido prefers a tropical environment due to its special reproductive needs. Like most tentacles, they prefer more humidity in its living area, and will produce more lubricating secretions and ejaculate if kept at a higher humidity with plenty of water.<br><br>
+<b>Notes:</b> The human vagina pheromones are remarkably similar to those of the female component. If the tentacled woman is still sensate enough to move, it can trick the male component to penetrate her instead. While human eggs are by default incompatible with the Gravido sperm, this doesn't deter the extremely active sperm cells from trying and rarely succeeding. These successful impregnations begin cell division and acute growth until the egg is the size of a Gravido egg (about the size of a ping pong ball), which attempts to settle itself into the womb lining. However, the body will quickly reject them and force the almost solid mass of cells out in a birth-like experience as the eggs force themselves out of the body. This abortive labor has the side effect of making the uterus more receptive to human pregnancies and making the cervical ring more relaxed due to the abuse the Gravido eggs gave it.
+</div>
+<div class="alme" style="width:700px; padding:25px; position:relative; margin:20px 100px 20px 100px; border: 2px solid #CCC;">
+<b>Name/s:</b> Purple (M)<br>
+<b>Species:</b> Clavus Purpureus Distendi<br>
+<b>Preferred Orifice:</b> Any<br><br>
+<b>Description:</b> The Distendi species is interesting because of the fact that it's literally, a tentacle. A walking tentacle. Its body is about 75 centimeters tall and goes from a relatively thin glans to a prehensile base that is about 25 centimeters in diameter. As its scientific name implies, it presents a purple coloration and three large green suckers on the front. These suckers are mostly cosmetic in function since they have rounded borders and are to ample and short to exert any kind of suction. The Distendi secretes all over its body a watery relaxant substance in a kind of sweating function. The female of the species (not present at The Little Shop of Tentacles) presents a vaginal opening on the lowermost sucker.<br><br>
+<b>Behavior:</b> The Distendi is a rather abnormal member of the tentacle creature family. Unlike most of its brethren, it has almost no interest in reproduction except when a female Distendi is present and in heat (which only happens once a year for up to a week). However, the male Distendi is a creature of lust that lives for penetration. It's rather alarming how it will single-mindedly 'attack' the anal or vaginal orifices of any being in its presence, regardless of gender and species and proceed to insert as much of its body as it can inside the chosen orifice.<br><br>
+<b>Habitat:</b> The Distendi species prefers a urban environment due to its sexual needs. While it prefers warm temperatures, what it requires more than anything is an abundance of orifices within its general vicinity. It will produce more relaxant sweat if kept at a higher temperature and atmospheric moisture.<br><br>
+<b>Notes:</b> The Distendi is the species that almost breaks the golden rule of The Little Shop of Tentacles, that is, consent. While the client will give their consent to being penetrated by the Distendi, which hole and how far it will go in and how much it will stretch it is not up to the client. It is recommended to wait a month or two between visits to the Distendi in order to avoid vaginal and/or anal prolapsing and reduction of the clients' reproductive capabilities and/or the ability to control the excretion of feces. Use the Distendi at your own risk.
+</div>
+<div class="alme" style="width:700px; padding:25px; position:relative; margin:20px 100px 20px 100px; border: 2px solid #CCC;">
+<b>Name/s:</b> Phineas (M)<br> <!-- I chose this name because one of the meanings of the Hebrew word is 'brazen mouth' and it makes a lot of sense xD-->
+<b>Species:</b> Construpo Rosa Nervifoliae<br>
+<b>Preferred Orifice:</b> Mouth<br><br>
+<b>Description:</b> The Nervifoliae species is one of the most plant-like tentacles created. Its resting appearance is like that of an oversized rose with the petals closed and the stigma visible. Said petals have the distinctive appearance of a roughly drawn human penis, which is what gives it its specific species name. When active, the petals open, revealing fleshy tongue-like appendices with nodules and a pistil that looks like a thick human penis... if penis were prehensile.  As its genus Rosa implies, the coloration is like that of a rose. The outside of the petals is a deep red and the nodule covered tongues when opened decreases in hue from the deep red to almost pinkish white where it joins the pistil-like tentacle, which presents a greenish coloration ranging from greenish white at the base to dark green at the base of the glans, which presents the same deep red coloration of the outside of the petals.<br><br>
+<b>Behavior:</b> The Nervifoliae seems to take its plant-like appearance very seriously. When resting it's very passive and stays in rest until someone or something breathes on the general vicinity of the stigma-like glans. In its natural environment, its base lies rooted under the soil, but in The Little Shop of Tentacles, it lies on a tray with some moist soil to keep it healthy. Once active, the petals open very quickly and the pistil-like tentacle moves to insert itself into the mouth of the closest being. Once inside, it begins to penetrate the oral cavity and throat in search of stimulation. When the Nervifoliae reaches orgasm, in true plant-like behaviour, ejaculates some fluid mixed with fertilized and almost ready to hatch eggs, eggs which require the warm environment that the inside of a warm blooded being can provide to hatch. The ejaculated fluid serves as a lubricant for both the eggs first and the hatched infantile Nervifoliae to climb out of the mouth a few minutes after the parent tentacle orgasmed.<br><br>
+<b>Habitat:</b> The Nervifoliae species is a tropical species which requires warm temperatures and moist air.<br><br>
+<b>Notes:</b> While the Nervifoliae can be approached as if the client wants to perform a fellatio on the tentacle, it has demonstrated a preference for busty women that nestled it in their cleavage. If the client is busty and wants to enjoy a better experience, it's recommended to do so. Due to its reproductive actions, expect an increase in throat capacity and harder to trigger gag reflex after a session with the Nervifoliae.
+</div>
+
+
+
+:: ConstrupoTubulusEffercio [nobr]
+
+<<achieve "tentacled">>
+<<run ↂ.pc.body.pussy.insert(5)>>
+<<run ↂ.pc.body.pussy.insert(5)>>
+
+<<addTime 5>>
+<p>
+<<f w>>ithout giving it any more thought than usual, you make your decision. @@.pc;I'd like to play with Fred and Freddy please.@@
+</p>
+<p>
+The shopkeeper's face lights up with a big smile. @@.npc;Great!@@ She gets up from her chair and walks over to a door on the back wall. @@.npc;Right this way!@@
+</p>
+<p>
+You follow the woman through the door and into a long corridor with a concrete floor and walls made of cinderblocks, both painted white. Florescent light fixtures give the spartan hallway an actinic glare, and it takes you a moment for your eyes to adjust after the subdued lighting in the shop area. You hear some moaning coming through one of the heavy doors you pass. @@.mono;Sounds like somebody is having fun...@@
+</p>
+<p>
+She stops in front of a door and holds it open for you. @@.npc;Here you are, you can go ahead and get ready while I go and fetch Fred and Freddy.@@ She points to something you can't really see from the hallway. @@.npc;If you want to keep your clothes clean, you can put them up here on the shelf.@@
+</p>
+<p>
+You step inside the room, which turns out to the be size of a small bedroom. It takes you a few moments to adjust to the lower light level inside, which thankfully has a lot warmer quality than the hallway. The room is incredibly spartan; the floor is the same white-painted concrete as the hallway, with a pair of drains in each of the far corners. The only furniture, if you could call it that, are some thick foam yoga mats. There's a metal shelf high up on the wall next to the door, a dimmer switch for the lights, and a short coiled up garden hose connected to a spigot.
+</p>
+<p>
+You go ahead and get yourself undressed, not sure what else to do with yourself while you wait. As you get naked, you notice an occasional scream of ecstasy loud enough to penetrate the thick walls. <<has slut>>You grin widely, eager for this new experience.<<or>>You're nervous and part of you is wondering what in the world you've gotten yourself into, but there's a definite underpinning of arousal there too.<</has>> Without thinking about it your hand slides downward, reaching between your legs to part your <<p "labia.q">> <<p "labia.n">>. <<if ↂ.pc.body.pussy.wetness == 1>>You're surprised to find that your normally-dry <<p "vulva.n">> has gotten damp.<<elseif ↂ.pc.body.pussy.wetness < 4>>You're surprised to find that your <<p "vulva.n">> is rather wet.<<else>>You're surprised to find that you're already flooding with lubrication, your hand now sodden with your nectar.<<if ↂ.pc.body.pussy.wetness > 4>>You feel some of it begin to tickle its way down your inner thigh, a small rivulet forming as your <<p "pussy.n">> reacts to your questing hand.<</if>><</if>>
+</p>
+<p>
+Despite expecting it to happen, you're still startled when the metal panel in the wall suddenly slides upward. You stare in wonder as Fred and Freddy slowly slither their way into the room, their bulbous heads pointed at you the entire time. @@.pc;Umm... Hello guys.@@
+</p>
+<p>
+The two tentacle creatures don't seem to register your words, and simply continue slithering toward you on the fat portion of their bodies, their business ends pointed in the general direction of your crotch the entire time. You stand there in trepidation, unsure of what to do and what you've gotten yourself into as the two creatures make their way toward you. Your reverie is broken when Fred--or perhaps Freddy--rubs against your inner thigh. To your surprise, he's quite warm; for some reason you expected the tentacle creatures to be cool to the touch. Freddy--or maybe Fred--joins its brother and presses the side of his tentacle against the inside of your other thigh.
+</p>
+<p>
+Looking down, you realize that the height is rather challenging for them, the pudgy portion of their bodies arcing upward against your ankles as they seek to reach your <<p "pussy.n">>. Their enthusiasm doesn't seem to be affected, however, as they compete to rub their bulbous heads between your pussy lips. You feel a tingling warm sensation spreading out from where they've touched you, the fluid leaking from their slits acting like some kind of sensitizing lubricant. @@.pc;Wow, your precum is the good stuff, huh?@@
+</p>
+<p>
+Realizing that Fred and Freddy won't really be able to get started until you're closer to the ground, you slowly ease yourself down onto your hands and knees. The two tentacle creatures keep pace with your movement, never removing their heads from your <<p "vulva.n">> as you settle to the floor. It doesn't take long before Fred--though it could be Freddy--pushes his way inside your now-throbbing cunt. Making a noise somewhere between a moan and a sigh of contentment as Fred's bulky head bumps against your cervix, you settle yourself down to rest on your elbows and forearms. <<if ↂ.pc.body.tits.size > 1999>>Your <<p "tits.s">> <<p "tits.n">> squish against the mat beneath you, acting like sensitive pillows<<elseif ↂ.pc.body.tits.size > 1499>>Your <<p "tits.s">> <<p "tits.n">> press against the mat beneath you, stimulating your nipples<<elseif ↂ.pc.body.tits.size > 999>>Your <<p "tits.s">> <<p "tits.n">> hang beneath you, their swaying motion dragging your hard nipples against the mat<<else>>Your <<p "tits.s">> <<p "tits.n">> jiggle beneath you<</if>> as the girthy tentacle pushes firmly against your depths before starting a strong pistoning motion in your <<p "pussy.n">>.
+</p>
+<p>
+Freddy--or whichever one isn't fucking you--isn't satisfied to merely wait his turn. @@.pc;Ahhnn!@@ you let out a surprised moan as he suddely pushes forcefully against your clit.
+<<if ↂ.pc.body.pussy.tight > 7>>/* Double Penetration */
+<<run ↂ.pc.body.pussy.insert(10)>><<run ↂ.pc.body.pussy.insert(10)>>
+He keeps pushing, his bulbous head working slowly lower until suddenly he shoves into your <<p "pussy.n">> alongside his brother. You moan again as the two of them fuck you in an alternating motion; one delving deeper to ram against your cervix as the other slides outward in preparation for another thrust.
+<<else>>/* One in the Ass */
+<<run ↂ.pc.body.asshole.insert(5)>><<run ↂ.pc.body.asshole.insert(5)>>
+He keeps pushing, and finding insufficient room to join his brother in your <<p "pussy.n">>, he works his way around to your back door. Before you have a chance to react, the girthy tentacle is sliding up your ass on a wave of tingly precum. It takes only a moment for the two of them to set up an alternating motion, one slamming deep inside you as the other withdraws.
+<</if>>
+It takes only moments before you cum, your body squeezing ineffectually on the thick intruders. The two tentacles don't seem to care, however, and continue pistoning inside you as you ride the wave of your first orgasm into a second and then a third. The world shrinks for you then, your mind completely occupied by the pleasure. 
+</p>
+<p>
+Sometime later--though you couldn't say how long--you notice something is different. Fred or Freddy is burried inside you, pushing hard against your womb, while the other tentacle seems to be outside waiting. By the time you've recognized the change, the tentacle inside you starts to cum. Suddenly your womb is suffused with a sensation of heat that is soon joined by the feeling of pressure. An extremely intense orgasm overtakes you, and as your pussy clamps down you can feel the swellings of the tentacle as each bolus of cum travels along its length to spray into you. Lost in pleasure, you feel a sudden emptiness as the spent tentacle yanks itself out of you. You barely have time to register its absense before the other tentacle slams deep inside you to pump its own seed its own seed inside you. Your orgasm continues, intensified by the almost painful pressure radiating from your baby bag.
+</p>
+<p>
+You avoid passing out from the extreme pleasure, but the whole thing is over before you realize it. You could swear you hear a wet popping sound as the second tentacle withdraws from your <<p "pussy.n">> to be followed by a torrent of pressurized <<p "cum.n">>.
+</p>
+<center>
+[img[IMG-Tentacles-FredAction]]<br><br>
+</center>
+<p>
+It takes you some time to recover your senses, you stay on your knees as cum slowly forces its way through your cervix to flow out of your pussy and dribble onto the mat. There's a sizeable pool between your legs by the time you're ready to stand up again, though the warm pressure in your womb tells you that it's still stuffed with tentacle seed, and that it'll be a while before it finishes draining out of you. When you do finally stand up, you look down at your abdomen. You aren't certain, but it looks like you can see a slight bulge right where your inflated baby sack should be.
+</p>
+<p>
+Realizing that you've been in the tentacle shop for a surprisingly long time, you quickly grab your clothes from the shelf and make your way naked on unsteady legs to the shower to get cleaned up.
+</p>
+<center>
+<<button "RETURN">><<addTime 55>><<arouse -5>><<satisfy 20 "Tentacle Playtime">><<happy 2 "Tentacle Playtime">><<stress -10 "Tentacle Playtime">><<run setup.omni.new("TentCreamPie")>><<go "TentacleStoreMain">><</button>><br><br>
+</center>
+
+
+:: ConstrupoMacroGravido [nobr]
+
+
+<<run ↂ.pc.body.asshole.insert(5)>>
+<<run ↂ.pc.body.asshole.insert(5)>>
+
+<<addTime 5>>
+<p>
+<<f w>>ithout giving it any more thought than usual, you make your decision. @@.pc;I'd like to play with Marius and Maria please.@@
+</p>
+<p>
+The shopkeeper's face lights up with a big smile. @@.npc;Great!@@ She gets up from her chair and walks over to a door on the back wall. @@.npc;Right this way!@@
+</p>
+<p>
+You follow the woman through the door and into a long corridor with a concrete floor and walls made of cinderblocks, both painted white. Florescent light fixtures give the spartan hallway an actinic glare, and it takes you a moment for your eyes to adjust after the subdued lighting in the shop area. You hear some moaning coming through one of the heavy doors you pass. @@.mono;Sounds like somebody is having fun...@@
+</p>
+<p>
+She stops in front of a door and holds it open for you. @@.npc;Here you are, you can go ahead and get ready while I go and fetch Fred and Freddy.@@ She points to something you can't really see from the hallway. @@.npc;If you want to keep your clothes clean, you can put them up here on the shelf.@@
+</p>
+<p>
+You step inside the room, which turns out to the be size of a small bedroom. It takes you a few moments to adjust to the lower light level inside, which thankfully has a lot warmer quality than the hallway. The room is devoid of furniture save from the shelf where you can put your clothes and the floor is  almost completely covered in soil. The only other things besides the shelf are a dimmer switch for the lights, and a short coiled up garden hose connected to a spigot.
+</p>
+<p>
+You go ahead and get yourself undressed, not sure what else to do with yourself while you wait. As you get naked, you notice an occasional scream of ecstasy loud enough to penetrate the thick walls. <<has slut>>You grin widely, eager for this new experience.<<or>>You're nervous and part of you is wondering what in the world you've gotten yourself into, but there's a definite underpinning of arousal there too.<</has>> Without thinking about it your hand slides downward, reaching between your legs to part your <<p "labia.q">> <<p "labia.n">>. <<if ↂ.pc.body.pussy.wetness == 1>>You're surprised to find that your normally-dry <<p "vulva.n">> has gotten damp.<<elseif ↂ.pc.body.pussy.wetness < 4>>You're surprised to find that your <<p "vulva.n">> is rather wet.<<else>>You're surprised to find that you're already flooding with lubrication, your hand now sodden with your nectar.<<if ↂ.pc.body.pussy.wetness > 4>>You feel some of it begin to tickle its way down your inner thigh, a small rivulet forming as your <<p "pussy.n">> reacts to your questing hand.<</if>><</if>>
+</p>
+<p>
+You're not surprised when a metal panel opens to reveal your partner for this playtime. However, you're actually surprised when you gaze upon Marius and Maria as the creature slides down into the room. It looks, as its description said in the page, like round belly poking out of the sand, however, the sand is the coiled length of the actual tentacle. The tip of the tentacle raises up questing at the air, as if it had noticed you... which it probably did.
+</p>
+<p>
+Smiling, you raise your shoulders in a soft shrug and proceed onto the soil from the part of the room where you removed your clothing. You can feel the coolness of the moist ground with your bare feet. It feels a bit pleasurable to sink slightly into it as you approach the creature. And as you approach, so rises the tentacle from the coiling mound. It finds your legs and begins to coil around your knee as it looks for your orifices. You decide to kneel down to make it easier for Marius to work and fall down on all fours with your butt towards the mound that is Maria.
+</p>
+<p>
+When Marius' tip caresses your <<p vulva.n>> you shiver in pleasure and imagine that it might just penetrate you that way. But the brochure and the girl told you that this creature preferred anal, so you try to relax your body for the upcoming anal penetration. Marius climbs further and stops, making you look back as you see the tentacle looking tall over your <<p ass.n>> like a cobra poised to strike and rising even higher as you look back. Then, it strikes, the tip finding your <<p asshole.n>> and suddenly, squirting over it some kind of liquid before starting to penetrate it.
+</p>
+<p>
+The sensation of the tentacle entering you is somewhat pleasurable as it keeps squirting dollops of liquid that keep lubricating its passage and it distracts you from the sensation of how the tentacle keeps on climbing your leg despite having already found your hole. Once you notice that, you find it confusing for a moment then remember that the brochure mentioned oral cavity... This tentacle will completely penetrate you from ass to mouth!
+</p>
+<p>
+Once you feel Marius doubling and entering your colon, you feel a shiver run up and down your spine and almost making your arms give up and topple onto the soil. As the slithering Marius keeps climbing inside and outside of your body, your mind struggles to remember what the brochure said... it said that the tentacle would then penetrate the mound behind you... Maria as it's called. And you're looking away from Maria. Not wanting to see a long tentacle coming out of your mouth to look for its female part, you try to crawl to turn towards Maria, but the parts of Marius still outside you are surprisingly strong and don't allow you much freedom of movement. The most you manage is to lay on all fours to the side, with your face close to a closed slit that you assume is Maria's genitals.
+</p>
+<p>
+By then, Marius has already curved twice and is almost at the beginning of the colon and about to cross the ileum into the small intestine. Soon the questing tentacle finds its target and enters, the uncomfortable sensation dulled by the constant slithering penetration of your <<p asshole.n>> and by how aroused your mind is by the idea that Marius will run the entire length of your digestive tract before it is done.
+</p>
+<p>You have lost sense of the time enough to think it will take a long while, but Marius is nothing if not a persistent and impatient tentacle and barely a few minutes have passed since it entered your body. Despite the quickness of its passage, Marius is surprisingly gentle with your insides, conforming to their shape as it keeps going on (and in!). Soon enough, it finds your stomach and crosses the pylorus. As if sensing the end of its journey through your body, the parts of Marius still out of you quicken its penetration of your <<p asshole.n>> and the glans dives into your esophagus without pausing.
+</p>
+<p>
+As it passes your throat, it triggers your gag reflex but since the esophagus is plugged by Marius, nothing comes out of it save further exciting the tentacle by telling it that its almost out of you as your throat clenches around it.
+</p>
+<p>
+Finally, it finds your mouth, which has opened by reflex due to the gagging and exits it. This sensation and sight is enough to make you orgasm, making you lose your senses for a moment.
+</p>
+<p>
+When you recover, over a meter of Marius is already popping out of your body and your poor neglected pussy is drenched with your orgasm and your lust. You somehow manage to remember that the brochure said that Marius could manage to fake impregnate you if you tricked it and feeling that the strength of the parts still outside your <<p asshole.n>> has diminished enough and is not keeping you still since its focus is now in looking for its female counterpart which as you gaze toward it, see that the slit has opened revealing a very pretty vulva and that the glans is closing in on it.
+</p>
+<center>
+<<if ↂ.pc.kink.pregnancy && ↂ.pc.kink.slut>>
+<<button "TRICK MARIUS">><<addTime 45>><<go "ConstrupoMacroGravidoB">><</button>>
+<<hoverrevise why>><button class="disabled">WATCH MARIUS</button><<endhoverrevise>><br>
+<<insertion why>>You are too aroused by the idea of psuedo pregnancy to resist!<<endinsertion>>
+<<else>>
+<<button "TRICK MARIUS">><<addTime 45>><<go "ConstrupoMacroGravidoB">><</button>>
+<<button "WATCH MARIUS">><<addTime 45>><<go "ConstrupoMacroGravidoC">><</button>>
+<</if>>
+</center>
+
+
+:: ConstrupoMacroGravidoB [nobr]
+
+
+<p>
+<<f y>>ou manage to squirm a bit in place to raise onto your knees and with your hands try to coax the thin but surprisingly strong Marius down, slowly but surely diverting its attention to your <<p pussy.n>> instead of Maria's. If your mouth wasn't forced into an O by Marius, you'd grin like a lust-crazed woman, but that doesn't deter you from the mental pleasure of trying to perform that grin.
+</p>
+<p>
+Marius' glans finds your drenched <<p pussy.n>> and enters quickly, almost without care, its forced entry making you orgasm yet again and your cervical ring palpitates. Such motion attracts the attention of Marius and the almost needle-thin soft tip of the glans finds the entrance of the <<p womb.n>> and settles in. Soon, you feel its entire length squirming inside your body as it begins to ejaculate, quickly filling your plugged <<p womb.n>> and slowly but surely inflating your belly until you look almost nine months pregnant with triplets at the very least. In the pleasured daze you are in, you try to rationalize that you should be in pain from the somewhat quick inflation, but probably the sperm has some kind of relaxant quality, which would explain why the entire ordeal was pleasurable and at most, somewhat uncomfortable.
+</p>
+<p>
+Once Marius is spent, it coils back and unplugs your <<p womb.n>> and begins to pull itself out of you. As literal buckets of seed begin to push out of your <<p womb.n>> alongside Marius' glans, you have the biggest orgasm since this started and actually lose consciousness for several minutes.
+</p>
+<center>[img[IMG-MariusMegaCreampie]]</center>
+<p>
+When you wake up, you are lying on your side, in a muddy mess of soil mixed with fluids, both Marius and yours and Marius has just finished extricating itself from your anus with a loud pop. You look at your belly and while certainly still swollen, it mostly looks like you overate and not given birth to liters of tentacle creature semen.
+</p>
+<<if ↂ.flag.tentacle.breeder || ↂ.pc.mutate.pseudoPreg>><<addTime 15>><<achieve "egged">>
+<p>
+You start to rise but suddenly feel as if you were punched in the belly... except the punch seemed to come from within. Your cervix started dilating as your body reflectively begins to push and push. Still relaxed by Marius' seed, it's not very painful and soon enough you pop out a fleshy ball. You look sadly at it as it is one of your precious eggs mutated by the creature semen and aborted by your body.
+</p>
+<center>[img[IMG-EggLoad]]</center>
+<p>
+As you look at the discarded egg, your belly swells a little and then you feel the false labor start again as you pop out more of the abortive attempts to breed you.
+</p>
+<<else>>
+<p>
+You examine yourself closely, wondering what happened to that pseudo-pregnancy the species binder mentioned. @@.mono;Perhaps I'm just not compatible enough with tentacles?@@
+</p>
+<<comment "If you aren't able to get pseudo-pregnant here, try having a go with Fred and Freddy to become more compatible first.">>
+<</if>>
+<p>
+You stand up and get ready to leave the room for the shower, your belly still slightly swollen from the overdrive session of breeding with Marius. As if remembering that originally this was an anal play session, you touch your <<p asshole.n>> you notice that it's still quite dilated and suspect that you will have an easier time performing anal after this.
+</p>
+<p>
+Realizing that you've been in the tentacle shop for a surprisingly long time, you quickly grab your clothes from the shelf and make your way naked on unsteady legs to the shower to get cleaned up.
+</p>
+/*ACTUAL COMMENT I gave this tentacle the ability to make the anus more dilated naturally and if PC is a slut and has pregnant fetish, that her reproductive capabilities get better, how much better, that's up to you guys and how you want to implement it*/
+<center> 
+<<button "RETURN">><<addTime 15>><<arouse -5>><<satisfy 20 "Tentacle Playtime">><<happy 2 "Tentacle Playtime">><<stress -10 "Tentacle Playtime">>
+<<if ↂ.flag.tentacle.breeder || ↂ.pc.mutate.pseudoPreg>>
+  <<set ↂ.pc.fert.implant += 1>><<set ↂ.pc.fert.vagHostile += 1>>
+  <<run UI.alert("You get the feeling that your womb has become more hospitable.")>>
+<</if>>
+<<set ↂ.pc.body.asshole.tight = Math.max(6, Math.min(14, ↂ.pc.body.asshole.tight + 2))>>
+<<status 0>>
+<<run setup.omni.new("TentCreamPie")>><<run setup.omni.new("TentAllThrough")>>
+<<go "TentacleStoreMain">><</button>>
+</center>
+
+
+:: ConstrupoMacroGravidoC [nobr]
+
+
+<p><<f f>>ascinated, you watch as the tip enters the Maria's pussy and goes in deeper. Soon you feel the entirety of your body almost squirm as your intruder begins to ejaculate its seed deep inside Maria, the sensation of it almost like a vibration that goes all over your body from the inside out and driving you to another orgasm, this one literally mindshattering as you lose consciousness.
+</p>
+<p>
+When you wake up, you are lying on your side, in a muddy mess of soil mixed with fluids and your mouth is empty. You look back weakly and feel more than see as Marius glans slithers out of your <<p asshole.n>>
+</p>
+<p>
+When you finally manage to stand, you look down and see that your belly remains mostly flat with only a small swelling from the way Marius had been filling your entire digestive tract, but as you touch your <<p asshole.n>> you notice that it's still quite dilated and suspect that you will have an easier time performing anal after this.
+</p>
+<p>
+Realizing that you've been in the tentacle shop for a surprisingly long time, you quickly grab your clothes from the shelf and make your way naked on unsteady legs to the shower to get cleaned up.
+</p>
+/*ACTUAL COMMENT I gave this tentacle the ability to make the anus more dilated naturally and if PC is a slut and has pregnant fetish, that her reproductive capabilities get better, how much better, that's up to you guys and how you want to implement it*/
+<center> 
+<<button "RETURN">><<addTime 10>><<arouse -5>><<satisfy 20 "Tentacle Playtime">><<happy 2 "Tentacle Playtime">><<stress -10 "Tentacle Playtime">>
+<<set ↂ.pc.body.asshole.tight = Math.max(6, Math.min(14, ↂ.pc.body.asshole.tight + 2))>>
+<<status 0>>
+<<run setup.omni.new("TentAllThrough")>><<go "TentacleStoreMain">><</button>>
+</center>
+
+
+:: ClavusPurpureusDistendi [nobr]
+
+
+
+<<addTime 5>>
+<p>
+<<f w>>ithout giving it any more thought than usual, you make your decision. @@.pc;I'd like to play with Purple please.@@
+</p>
+<p>
+The shopkeeper's face lights up with a big smile. @@.npc;Great!@@ She gets up from her chair and walks over to a door on the back wall. @@.npc;Right this way!@@
+</p>
+<p>
+You follow the woman through the door and into a long corridor with a concrete floor and walls made of cinderblocks, both painted white. Florescent light fixtures give the spartan hallway an actinic glare, and it takes you a moment for your eyes to adjust after the subdued lighting in the shop area. You hear some moaning coming through one of the heavy doors you pass. @@.mono;Sounds like somebody is having fun...@@
+</p>
+<p>
+She stops in front of a door and holds it open for you. @@.npc;Here you are, you can go ahead and get ready while I go and fetch Purple.@@ She points to something you can't really see from the hallway. @@.npc;If you want to keep your clothes clean, you can put them up here on the shelf.@@
+</p>
+<p>
+You step inside the room, which turns out to the be size of a small bedroom. It takes you a few moments to adjust to the lower light level inside, which thankfully has a lot warmer quality than the hallway. The room has what looks like a raised obstetrician's chair, with a small ramp and a step just below where your groin would be. On the wall there is the shelf she mentioned and a dimmer switch for the lights. Also, there's a short coiled up garden hose connected to a spigot on the opposite end of the room.
+</p>
+<p>
+You go ahead and get yourself undressed, not sure what else to do with yourself while you wait. As you get naked, you notice an occasional scream of ecstasy loud enough to penetrate the thick walls. <<has slut>>You grin widely, eager for this new experience.<<or>>You're nervous and part of you is wondering what in the world you've gotten yourself into, but there's a definite underpinning of arousal there too.<</has>> Without thinking about it your hand slides downward, reaching between your legs to part your <<p "labia.q">> <<p "labia.n">>. <<if ↂ.pc.body.pussy.wetness == 1>>You're surprised to find that your normally-dry <<p "vulva.n">> has gotten damp.<<elseif ↂ.pc.body.pussy.wetness < 4>>You're surprised to find that your <<p "vulva.n">> is rather wet.<<else>>You're surprised to find that you're already flooding with lubrication, your hand now sodden with your nectar.<<if ↂ.pc.body.pussy.wetness > 4>>You feel some of it begin to tickle its way down your inner thigh, a small rivulet forming as your <<p "pussy.n">> reacts to your questing hand.<</if>><</if>>
+</p>
+<p>
+You sit down on the chair with the help of the step and set your legs on the braces set for them, leaving your <<p pussy.n>> and <<p asshole.n>> rather vulnerable. As you settle down, you are not surprised when a metal panel opens to reveal your partner for this playtime. However, you're actually surprised when you gaze upon Purple's body as the creature skitters into the room. It looks, as its description said in the page, like a purple and green oversized severed tentacle. As you look, it seems to notice you and the upper and central suckers seem to make a rather cartoonish face in the shape of a smirk. You have to suppress a giggle as you see it skip as if it was walking toward you. 
+</p>
+<p>
+As soon as it finds the small ramp, Purple slows its pace and takes its time to reach and settle on the small step you used before. As it stops moving, you hear a soft whirr and soon feel Purple's warm presence close enough to your groin to arouse you even more than you already are. You look down and notice that the step must have been an elevation platform and now you can look at Purple closely. As the brochure claimed, it looks as if it's sweating. How considerate of purple to self-lubricate before having its way with you!
+</p>
+<p>
+You see the glans of the tentacle move from side to side in rather accurate imitation of a dubitative human demeanor. The brochure claimed that Purple was the one who would choose the hole to stretch and you're fine with that. But you also wish that Purple would get a move on! You're really aroused and it's leaving you wanting!
+</p>
+<<if random(1,4) > 2>>/* VAGINAL */
+<<set _ori = 1>>
+<<run ↂ.pc.body.pussy.insert(8)>><<run ↂ.pc.body.pussy.insert(10)>>
+<p>
+Purple finally decides and literally jumps towards your <<p pussy.n>>, curving its glans in order to aim into your hole. Purple finds its mark with ease and you silently give thanks to your <<p pussy.n>> for being wet enough because such a motion pushed a sizable chunk of its head into your <<p pussy.n>> and already you feel it stretching out.
+</p>
+<p>
+Once Purple has settled into your <<p pussy.n>>, it begins to squirm and almost vibrate as it begins to push itself deeper into you. Its sweat mixes with your juices and when its chemicals meet your flesh, they are absorbed into your body, sedating the pain receptors and mildly relaxing the muscles governing how stretchy your <<p pussy.n>> can get. And that's a good thing, because Purple's motions are already stretching your <<p pussy.n>> beyond what any <<p penis.n>> has ever managed.
+</p>
+<p>
+Thanks to Purple's sweat, what might have felt like torture, feels instead very pleasurable as its flesh kind of vibrates your whole sex, driving your arousal higher than you thought possible, drowning your mind in mindless lust as it manages to stretch you past what a baby's body would... and it's not stopping. You can feel your <<p pussy.n>> stretching both in width and in depth, the tip of Purple bumping against your <<p womb.n>> and the mixture of juices and sweat allowing the tight ring to relax enough for its glans to make entry into your <<p womb.n>>. 
+</p>
+<p>
+Such entry drives you to a long orgasm that has you squirming in place on the chair and lose consciousness for a few seconds... or so it seemed, because only the base and a few centimetres of Purple are outside your body and your belly is slightly distended with a squiggly conic shape easily appreciable from outside. That sight coupled with the afterglow of the previous orgasm you were still riding on drives you to another orgasm. And this time you really pass out due to the extreme pleasure and sensation of having your <<p pussy.n>> stretched beyond what you thought possible.
+</p>
+<p>
+When you regain yourself, it takes a few seconds to refocus your eyes and once you do, you see Purple backing down towards the panel through which it came through with a cartoonish smile of satisfaction on its suckers. The panel opens and as soon as Purple crosses the threshold, it closes down. It still takes you a several minutes to be able to stand on your own feet without shaking and quivering with aftershocks from the extreme orgasms you just experienced.
+</p>
+<p>
+You look down and caress your <<p pussy.n>> with care, trying to see how it looks like. Your labia feel wide open and it takes a few tries to feel your vagina... and a finger was not enough. Neither were two or three. Not even four. Until your entire hand wasn't inside, you weren't able to completely feel how stretched Purple made you. And that was with you opening your hand inside your <<p pussy.n>>. You certainly hope this stretching is not permanent, but given the girth of what you had inside you just moments ago, you think it might take months to get your <<p pussy.n>> to look at least somewhat normal again.
+</p>
+<<else>>/* ANAL */
+<<set _ori = 2>>
+<<run ↂ.pc.body.asshole.insert(8)>><<run ↂ.pc.body.asshole.insert(10)>>
+<p>
+Purple finally decides and literally jumps towards your <p asshole.n>, curving its glans in order to aim into your hole. Purple finds its mark with ease and you silently give thanks to your <<p pussy.n>> for being wet enough to drool onto your <<p asshole.n>> because such a motion pushed a sizable chunk of its head into your <<p asshole.n>> and already you feel it stretching out.
+</p>
+<p>
+Once Purple has settled into your <<p asshole.n>>, it begins to squirm and almost vibrate as it begins to push itself deeper into you. Its sweat mixes with your internal juices and when its chemicals meet your flesh, they are absorbed into your body, sedating the pain receptors and mildly relaxing the muscles governing how stretchy your <<p asshole.n>> can get. And that's a good thing, because Purple's motions are already stretching it beyond what any <<p penis.n>> has ever managed.
+</p>
+<p>
+Thanks to Purple's sweat, what might have felt like torture, feels instead mildly pleasurable as its flesh kind of vibrates your whole groin, driving your arousal higher than you thought possible, drowning your mind in mindless lust as it manages to stretch you more than you thought possible and it's not making signs that it's going to stop. You can feel your <<p asshole.n>> stretching in width, but also feel that as Purple deepens its penetration, your rectum and colon are also stretching out. 
+</p>
+<p>
+You manage to look down and see that almost half of Purple is already inside your <<p asshole.n>>. Such a sight coupled with the low-key vibrations drives you to a long orgasm that has you squirming in place on the chair and lose consciousness for a few seconds... or so it seemed, because only the base and a few centimetres of Purple are outside your body and your belly is slightly distended with a squiggly conic shape easily appreciable from outside. That sight along with the afterglow of the previous orgasm you were still riding on drives you to another orgasm. And this time you really pass out due to the extreme pleasure and sensation of having your <<p asshole.n>> stretched beyond what you thought possible.
+</p>
+<p>
+When you regain yourself, it takes a few seconds to refocus your eyes and once you do, you see Purple backing down towards the panel through which it came through with a cartoonish smile of satisfaction on its suckers. The panel opens and as soon as Purple crosses the threshold, it closes down. It still takes you a several minutes to be able to stand on your own feet without shaking and quivering with aftershocks from the extreme orgasms you just experienced.
+</p>
+<p>
+You look back and try to caress your <<p asshole.n>> with care, trying to feel how it ended up like. Your <<p asshole.n>> still feels wide open and it takes a few tries to feel the walls of your rectum... and a finger was not enough. Neither were two or three. Not even four. Until your entire hand wasn't inside, you weren't able to completely feel how stretched Purple made you. And that was with you opening your hand inside your <<p asshole.n>>. You certainly hope this stretching is not permanent, but given the girth of what you had inside you just moments ago, you think it might take months to get your <<p asshole.n>> to look at least somewhat normal again.
+</p>
+<</if>>
+<p>
+Realizing that you've been in the room for a surprisingly long time, you quickly grab your clothes from the shelf and make your way naked on unsteady legs to the shower to get cleaned up.
+</p>
+<center>
+<<button "RETURN">><<addTime 55>><<arouse -5>><<satisfy 20 "Tentacle Playtime">><<happy 2 "Tentacle Playtime">><<stress -10 "Tentacle Playtime">>
+<<if _ori == 1>>
+  <<set ↂ.pc.body.pussy.tight = Math.max(8, Math.min(ↂ.pc.body.pussy.tight + 3, 14))>>
+  <<if ↂ.pc.kink.pregnancy || ↂ.pc.kink.risky || random(1,3) == 3>>
+    <<if ↂ.pc.fert.wombHealth > 0>>
+      <<set ↂ.pc.fert.wombHealth -= 1>>
+      <<run UI.alert("You get the feeling that your womb has recovered some of its vitality.")>>
+    <<else>>
+      <<set ↂ.pc.fert.multEgg = Math.round(ↂ.pc.fert.multEgg * 1.1)>>
+      <<set ↂ.pc.fert.egg += 1>>
+      <<run UI.alert("You get the feeling that your overies have become more active.")>>
+    <</if>>
+  <</if>>
+  <<status 0>>
+  <<run setup.omni.new("TentStretchVag")>>
+<<else>>
+  <<set ↂ.pc.body.asshole.tight = Math.max(8, Math.min(ↂ.pc.body.asshole.tight + 3, 14))>>
+  <<status 0>>
+  <<run setup.omni.new("TentStretchAss")>>
+<</if>>
+<<go "TentacleStoreMain">>
+<</button>>
+</center>
+
+
+:: ConstrupoRosaNervifoliae [nobr]
+
+
+
+<<addTime 5>>
+<p>
+<<f w>>ithout giving it any more thought than usual, you make your decision. @@.pc;I'd like to play with Phineas please.@@
+</p>
+<p>
+The shopkeeper's face lights up with a big smile. @@.npc;Great!@@ She gets up from her chair and walks over to a door on the back wall. @@.npc;Right this way!@@
+</p>
+<p>
+You follow the woman through the door and into a long corridor with a concrete floor and walls made of cinderblocks, both painted white. Florescent light fixtures give the spartan hallway an actinic glare, and it takes you a moment for your eyes to adjust after the subdued lighting in the shop area. You hear some moaning coming through one of the heavy doors you pass. @@.mono;Sounds like somebody is having fun...@@
+</p>
+<p>
+She stops in front of a door and holds it open for you. @@.npc;Here you are, you can go ahead and get ready while I go and fetch Phineas.@@ She points to something you can't really see from the hallway. @@.npc;If you want to keep your clothes clean, you can put them up here on the shelf.@@
+</p>
+<p>
+You step inside the room, which turns out to the be size of a small bedroom. It takes you a few moments to adjust to the lower light level inside, which thankfully has a lot warmer quality than the hallway. The room has a comfortable looking chair and a table with one side against the wall as the only furniture. The table presents a couple of rails and a basin-like depression. On the wall there is the shelf she mentioned, a dimmer switch for the lights and beside the table there is a metal panel through which you assume Phineas will be delivered to you. 
+</p>
+<p>
+You go ahead and get yourself undressed, not sure what else to do with yourself while you wait. As you get naked, you notice an occasional scream of ecstasy loud enough to penetrate the thick walls. <<has slut>>You grin widely, eager for this new experience.<<or>>You're nervous and part of you is wondering what in the world you've gotten yourself into, but there's a definite underpinning of arousal there too.<</has>> Without thinking about it your hand slides downward, reaching between your legs to part your <<p "labia.q">> <<p "labia.n">>. <<if ↂ.pc.body.pussy.wetness == 1>>You're surprised to find that your normally-dry <<p "vulva.n">> has gotten damp.<<elseif ↂ.pc.body.pussy.wetness < 4>>You're surprised to find that your <<p "vulva.n">> is rather wet.<<else>>You're surprised to find that you're already flooding with lubrication, your hand now sodden with your nectar.<<if ↂ.pc.body.pussy.wetness > 4>>You feel some of it begin to tickle its way down your inner thigh, a small rivulet forming as your <<p "pussy.n">> reacts to your questing hand.<</if>><</if>>
+</p>
+<p>
+You sit down on the chair and wait for a few seconds until the panel opens and in and down the rails slides a tray with what looks like a giant closed rose on top of a small mound of soil, though you can see that the glans is already glistening under the light. The tray slides on the table until its stops at the end of the rails in front of you.
+</p>
+<<if ↂ.pc.body.tits.size > 499>>
+<p>
+You remember that the brochure mentioned that this tentacle, Phineas, prefers busty women. And since you are one, you raise your hands and carefully grab the underside of the creature, then slowly lean back, which the back of the chair is designed to accept and you set the root-like appendix at the bottom in the cleavage between your bountiful bosom. It feels cold as it touches your warm skin and you can suppress a shiver and a deep exhalation, the warm air brushing the creature and triggering it to activity. Very quickly and in succession, the root opens and you feel suction as it affixes itself to your <<p tits.n>>, then the petals open to lie down against the curve of your <<p tits.n>>, the tongue-like petals palpitating as they contact your warm skin; and then, the tentacle itself quests for a couple seconds in search for the origin of the warm air. The sudden movements and reactions have made you hyperventilate a little and that's more than enough for Phineas to find its mark.
+</p>
+<<else>>
+Lacking in the assets that Phineas would prefer, you lean forward towards the rose-like tentacle creature and your breath reaches its exposed glans, triggering it into activity. The root that was in the soil shoots open and latches onto the tray with an audible sound of suction, the petals open revealing the glistening tentacle and it takes a couple seconds to find its bearings... or rather, to find your mouth as the point of origin of the warm breath that made it wake up. It all takes a little under five seconds and your mouth lies open in wonder, which is enough for Phineas to find its mark.
+<</<else>>
+<</if>>
+<p>
+The tentacle shoots towards your mouth and forces its way inside without allowing you to think much about it. It stretches itself slightly as it forces its way into your body, the glans shooting fluid from the moment it touched your tongue. This liquid is lubricating its passage as the glans nestles itself just milimeters from crossing your throat. This gives you a few seconds respite to accustom yourself to having it in your mouth, but this period of inactivity soon stops as the tentacle begins to stretch and contract, the glans caressing the back of your tongue as if it was a relatively flaccid but thick penis gently fucking your mouth.
+</p>
+<p>
+Not wanting for Phineas to do all the work, you begin to actively suck on the tentacle, the taste of the fluid rather sweet and appetizing helping you along with that idea. This pleases Phineas which in turn makes its tentacle thrust deeper, past your throat. The sudden intrusion, despite you being actively sucking it, makes you choke and gag a little, but the fluid, apart from being sweet serves as a kind of relaxant and your gag reflex stops acting up. A few seconds later, you put your hand to your neck and can easily feel the thick tentacle bulging and pulsating under your skin.
+</p>
+<p>
+This sensation is more than enough to make your brain trigger a meltdown in your pleasure neurons that drives a jolt down to your <<p pussy.n>> and makes you cum. This orgasm makes you reflexively start to choke a little which in turn serves to stimulate Phineas towards its orgasm. It begins to twitch and pulsate faster and it starts to ejaculate copious quantities of fluid down your esophagus. However, you also feel some round objects passing past your lips inside Phineas' tentacle and even though your mind is a bit addled by lust, you manage to remember that the brochure said that it would ejaculate fertilized eggs into you. As the first orb passes through your throat, you cum again, the reflexive choking triggered by the orgasm again aiding the passage of the intruder and its content down into your body. If you were sensate enough to count the orbs, you would have counted at least ten or more eggs dropping down your esophagus and settling into your stomach.
+</p>
+<p>
+As soon as all the eggs nestle in the extremely warm pool of fluid and neutralized acid, Phineas begins to retract, all the way up your throat while still ejaculating fluid, though this time the fluid is thicker and syrup-like and doesn't pass down easily. Finally, the glans leaves your mouth and the tentacle stands completely vertical as the petals close again around it.
+
+<<if ↂ.pc.body.tits.size > 499>>
+Your belly slightly rounded by the contents of your stomach, you breathe out a bit in relief and as you feel the suckers let go of your <<p tits.n>> you gingerly pull Phineas out of your cleavage and put it back onto the mound of soil on the tray and lean back on the chair.
+<<else>>
+Your belly slightly rounded by the contents of your stomach, you breathe out a bit in relief and lean back on the chair.
+<</if>>
+</p>
+<p>
+As if on cue, as soon as you laid back, the tray begins to pull back into the open panel which closes as soon as Phineas and the tray are through. And as soon as the panel slides closed, you marvel at the feeling of the syrupy ejaculate still clinging to your mouth and throat for a couple seconds before you hear a muffled popping sound followed by another and another. The creature's eggs have hatched inside you! You panic for a moment before you feel something sliding up your esophagus.
+</p>
+<p>
+The sensation isn't very comfortable, as it feels as if you were vomiting in slow motion a thick chunk of food, but the relaxant fluid is still doing its job and keeps your body from violently gagging and throwing up. Still, as the first 'baby' touches your tongue, not even the fluid can keep you from doubling over the table and opening your mouth wide, expelling the intruder accompanied by a thick glob of the syrupy ejaculate. As you try to gather your wits, a second one comes out and then a third and a fourth. Until the twelfth creature hasn't left your body, your mouth doesn't even try to start to close. You reflexively swallow and feel that no syrupy fluid remains in your mouth and throat, which prompts you to look down at Phineas' offspring. 
+</p>
+<p>
+The creatures look like miniature Phineas but with the petals pulled back against the root, giving them a kind of floppy bullet-like appearance as they squiggle inside the syrupy fluid that accompanied them in their climb up the insides of your body. However, thirty seconds later, you can see that one of them is starting to close the petals around the tentacle proper. That was the first one out and in sequence, you watch in awe as the diminutive creatures close their petals and lie in rest, like cut roses floating in a pool.
+</p>
+<p>
+Realizing that you've been in the tentacle shop for a surprisingly long time, you quickly grab your clothes from the shelf and make your way naked on unsteady legs to the shower to get cleaned up.
+</p>
+<center> 
+<<button "RETURN">><<addTime 55>><<arouse -5>><<satisfy 20 "Tentacle Playtime">><<happy 2 "Tentacle Playtime">><<stress -10 "Tentacle Playtime">>
+<<if ↂ.skill.oral < 120>>
+<<set ↂ.skill.oral += random(6,8)>>
+<<status 0>>
+<<run UI.alert("You get the feeling that this experience has made you better at oral sex.")>>
+<</if>>
+<<run setup.omni.new("TentCumBreath")>><<go "TentacleStoreMain">><</button>>
+</center>
+
+
+
+
+
+
+:: TentacleStoreFirstTime [nobr]
+
+
+<<arouse 1>>
+<img data-passage="IMG-StrangeShopkeeper" style="float:right;margin:25px 25px 25px 50px;">
+<p>
+<<f w>>ith a little trepidation, you step forward and try the sturdy-looking metal door. @@.mono;It's probably locked anyway...@@ To your surprise, the door pulls open without any resistance and you step into a small room that defies any expectations. It looks like a mix of things: mysterious 90s oriental store, exotic pet shop, florist, Brooklyn bodega, and perhaps a little compounding pharmacy thrown in for good measure. A woman--presumably the shopkeeper--is sitting in a wooden chair reading a book, and she's wearing a monacle of all things. She finally seems to notice you once the door closes behind you with an audible bang.
+</p>
+<p>
+@@.npc;Hello! Welcome to my little... umm... shop. What can I do for you?@@
+</p>
+<p>
+You stumble for an answer. @@.pc;Umm... hi. I saw the door and I was curious... what is this place?@@ Your gaze is drawn to a window next to the shopkeeper when a passing shadow dims the light for a moment. @@.mono;Wait, that window shouldn't even be possible in a building this size!@@
+</p>
+<p>
+The shopkeeper's voice suddenly recaptures your attention with her laughter. @@.npc;haha... Anyway, I decided to turn my tentacle breeding hobby into a profession so I could share these cute guys with the world. And here we are: My Little Shop of Tentacles. We've got several species you can bring home as a pet, along with everything you need to raise them and take care of them. We've also got several... robust... adult tentacles that you can play with in one of our private rooms if you're looking for a umm... massage.@@
+</p>
+<p>
+It seems pretty obvious what kind of massage she's alluding to, but you can't help being curious. @@.pc;A massage?@@
+</p>
+<p>
+The shopkeeper smiles and nods. @@.npc;That's right. Not everyone has the time or patience to raise their own tentacle creature, let alone the space.@@ She shakes her head as if to say "they don't know what they're missing". @@.npc;So I've set up several private rooms where customers such as yourself can spend time with a tentacle creature--or creatures--of your choosing. It's sort of like a pet cafe... you get to enjoy my cute tentacles without any of the responsibility, or having to clean up!@@ She stands up, picking up a binder from the counter and opening it to show you one of the laminated pages. 
+</p>
+<div class="alme" style="width:700px; padding:25px; position:relative; margin:20px 100px 20px 100px; border: 2px solid #CCC;">
+<img data-passage="IMG-Tentacles-FredSquare" style="float:left; margin:0px 25px 25px 0px;">
+<b>Name/s:</b> Fred (M) & Freddy (M)<br>
+<b>Species:</b> Construpo Tubulus Effercio<br>
+<b>Prefered Orifice:</b> Vagina<br><br>
+<b>Description:</b> The Effercio species, like others in the Tubulus family, consist of a single tentacle without a seperate body or limbs. Its coloration tend toward earth tones, with a distinctive red-ochre glans. The front of its body has a very phallic shape similar to a human penis. Unlike many Tubulus species, the rear portion of its body is much thicker and can resemble the main body of other tentacle species, though anatomically it is still tentacle. The bulky portion makes up about two-fifths of the tentacles length, but can be as much as two-thirds in very young specimins. This portion of the body is not very flexible, and usually maintains firm contact with the ground. While the Effercio tends to be slow compared to other Tubulus species because of this, it does serve as a counterweight that allows the Effercio to lift the front portion of its body off the ground without using something as an anchor.<br><br>
+<b>Behavior:</b> The Effercio has a strong preference for vaginal penetration with its glans, though they have been known to use other orifices if they are wet enough and it's prefered orifice is unavailable. The Effercio exhibits strong thrusting behavior, but tends not to do much binding, rubbing, or constricting. This makes it a good species for beginners, those averse to being bound, or for use with other species. Its most unique behavior is a very large ejaculation of a substance that is similar in texture and coloration to human semen. It typically displays this behavior after successive orgasms have dialated the cervix, making it easier for the powerful ejaculation to send fluid into the womb. The chemical action of the substance makes the womb more compatible with tentacle pregnancy. Depending on the sex of the Effercio, the ejaculation can also contain sperm or egg cells. When penetratring a non-vaginal orifice, the Effercio's ejaculatory reflex tends to be very random, and can happen too early or not at all.<br><br>
+<b>Habitat:</b> Effercio is one of the few tentacle species that can survive in an arid environment, though they require plenty of water to do so. Like most tentacles, they prefer more humidity in its living area, and will produce more lubricating secretions and ejaculate if kept at a higher humidity with plenty of water.<br><br>
+<b>Notes:</b> If you're trying to breed tentacles vaginally but don't seem to be having much luck getting pregnant, playing with an Effercio can help transform your uterus to be more compatible for tentacle pregnancy with all species!
+</div>
+<p>
+The room sank into silence as you read, <<has slut>>and your growing arousal made if difficult to avoid touching yourself.<<or>>making you feel a little awkward at your growing arousal once you finish.<</has>> @@.pc;So these things will get you pregnant?@@
+</p>
+<p>
+The shopkeeper grins happily. @@.npc;Absolutely, if that's what you're into. But it's not a "real" pregnancy; you're basically a surrogate for a tentacle mommy and daddy, it's called tentacle breeding. A lot of people like it because you can have a whole lot of different pregnancy experiences: short gestation for days or weeks or a long gestation of months, growing a big belly or not growing much of a belly at all, birthing tiny babies or big babies, and even anal pregnancy.@@ She gives you a conspiratorial smile. @@.npc;I'm sure that last one is going to be real popular with a certain group of men...@@ She looks panicked for a moment. @@But! if that's not your thing, don't worry! You can only get pregnant if you use male and female tentacles of the same species together. Some similar species can sometimes make a baby together, but it's rare. Anyway, it's really easy to avoid being impregnated if you don't want to be.@@
+</p>
+<p>
+<<has pregnancy>>@@.pc;Actually... tentacle breeding sounds like fun!@@<<or>>@@.pc;I see...@@<</has>>
+</p>
+<p>
+The shopkeeper nods. @@.npc;I've got a special going on today. Fred and Freddy are a bit lonely, so I'm giving a discount on having a little playtime with them. Let's roll that in with a "new customer" discount and say... 15 credits. What do you say?@@
+</p>
+<<dialogchoice>>
+    <<dbutt "YES">><<addTime 10>><<run aw.cash(-15, "misc")>><<go "TentacleStoreFirstTimeB">>
+    <<dtext "slut">>This sounds like fun!
+    <<dbutt "NO">><<addTime 5>><<go "DowntownClub">>
+    <<dtext "disturbed">>I don't think this is something for me.
+  <</dialogchoice>>
+
+
+:: TentacleStoreFirstTimeB [nobr]
+
+<<achieve "tentacled">>
+<<run ↂ.pc.body.pussy.insert(5)>>
+<<run ↂ.pc.body.pussy.insert(5)>>
+
+<<addTime 5>>
+<p>
+<<f w>>ithout really thinking about it, you make your decision. @@.pc;Sure... I'll give it a try.@@
+</p>
+<p>
+The shopkeeper's face lights up with a big smile. @@.npc;Great!@@ She gets up from her chair and walks over to a door on the back wall. @@.npc;Right this way!@@
+</p>
+<p>
+You follow the woman through the door and into a long corridor with a concrete floor and walls made of cinderblocks, both painted white. Florescent light fixtures give the spartan hallway an actinic glare, and it takes you a moment for your eyes to adjust after the subdued lighting in the shop area. @@.mono;Wow, how many rooms are there?@@
+</p>
+<p>
+The woman points to a door with big yellow lettering that says "SHOWER". @@.npc;Bathroom and showers are in here if you need to clean up. We also have some gym lockers if you want to come prepared next time.@@ She smiles like she's convinced you'll be coming again, and resumes walking down the hallway.
+</p>
+<p>
+You hear some moaning coming through one of the heavy doors you pass. @@.mono;Sounds like somebody is having fun...@@
+</p>
+<p>
+She stops in front of a door and holds it open for you. @@.npc;Here you are, you can go ahead and get ready while I go and fetch Fred and Freddy.@@ She points to something you can't really see from the hallway. @@.npc;If you want to keep your clothes clean, you can put them up here on the shelf.@@
+</p>
+<p>
+You step inside the room, which turns out to the be size of a small bedroom. It takes you a few moments to adjust to the lower light level inside, which thankfully has a lot warmer quality than the hallway. The room is incredibly spartan; the floor is the same white-painted concrete as the hallway, with a pair of drains in each of the far corners. The only furniture, if you could call it that, are some thick foam yoga mats. There's a metal shelf high up on the wall next to the door, a dimmer switch for the lights, and a short coiled up garden hose connected to a spigot.
+</p>
+<p>
+You go ahead and get yourself undressed, not sure what else to do with yourself while you wait. As you get naked, you notice an occasional scream of ecstasy loud enough to penetrate the thick walls. <<has slut>>You grin widely, eager for this new experience.<<or>>You're nervous and part of you is wondering what in the world you've gotten yourself into, but there's a definite underpinning of arousal there too.<</has>> Without thinking about it your hand slides downward, reaching between your legs to part your <<p "labia.q">> <<p "labia.n">>. <<if ↂ.pc.body.pussy.wetness == 1>>You're surprised to find that your normally-dry <<p "vulva.n">> has gotten damp.<<elseif ↂ.pc.body.pussy.wetness < 4>>You're surprised to find that your <<p "vulva.n">> is rather wet.<<else>>You're surprised to find that you're already flooding with lubrication, your hand now sodden with your nectar.<<if ↂ.pc.body.pussy.wetness > 4>>You feel some of it begin to tickle its way down your inner thigh, a small rivulet forming as your <<p "pussy.n">> reacts to your questing hand.<</if>><</if>>
+</p>
+<p>
+You're startled when a metal panel in the wall suddenly slides upward. @@.mono;Holy Cock, I didn't even notice that!@@ You stare in wonder as Fred and Freddy slowly slither their way into the room, their bulbous heads pointed at you the entire time. @@.pc;Umm... Hello guys.@@
+</p>
+<p>
+The two tentacle creatures don't seem to register your words, and simply continue slithering toward you on the fat portion of their bodies, their business ends pointed in the general direction of your crotch the entire time. You stand there in trepidation, unsure of what to do and what you've gotten yourself into as the two creatures make their way toward you. Your reverie is broken when Fred--or perhaps Freddy--rubs against your inner thigh. To your surprise, he's quite warm; for some reason you expected the tentacle creatures to be cool to the touch. Freddy--or maybe Fred--joins its brother and presses the side of his tentacle against the inside of your other thigh.
+</p>
+<p>
+Looking down, you realize that the height is rather challenging for them, the pudgy portion of their bodies arcing upward against your ankles as they seek to reach your <<p "pussy.n">>. Their enthusiasm doesn't seem to be affected, however, as they compete to rub their bulbous heads between your pussy lips. You feel a tingling warm sensation spreading out from where they've touched you, the fluid leaking from their slits acting like some kind of sensitizing lubricant. @@.pc;Wow, your precum is the good stuff, huh?@@
+</p>
+<p>
+Realizing that Fred and Freddy won't really be able to get started until you're closer to the ground, you slowly ease yourself down onto your hands and knees. The two tentacle creatures keep pace with your movement, never removing their heads from your <<p "vulva.n">> as you settle to the floor. It doesn't take long before Fred--though it could be Freddy--pushes his way inside your now-throbbing cunt. Making a noise somewhere between a moan and a sigh of contentment as Fred's bulky head bumps against your cervix, you settle yourself down to rest on your elbows and forearms. <<if ↂ.pc.body.tits.size > 2999>>Your <<p "tits.s">> <<p "tits.n">> squish against the mat beneath you, acting like sensitive pillows<<elseif ↂ.pc.body.tits.size > 1999>>Your <<p "tits.s">> <<p "tits.n">> press against the mat beneath you, stimulating your nipples<<elseif ↂ.pc.body.tits.size > 1600>>Your <<p "tits.s">> <<p "tits.n">> hang beneath you, their swaying motion dragging your hard nipples against the mat<<else>>Your <<p "tits.s">> <<p "tits.n">> jiggle beneath you<</if>> as the girthy tentacle pushes firmly against your depths before starting a strong pistoning motion in your <<p "pussy.n">>.
+</p>
+<p>
+Freddy--or whichever one isn't fucking you--isn't satisfied to merely wait his turn. @@.pc;Ahhnn!@@ you let out a surprised moan as he suddely pushes forcefully against your clit.
+<<if ↂ.pc.body.pussy.tight > 7>>/* Double Penetration */
+<<run ↂ.pc.body.pussy.insert(10)>><<run ↂ.pc.body.pussy.insert(10)>>
+He keeps pushing, his bulbous head working slowly lower until suddenly he shoves into your <<p "pussy.n">> alongside his brother. You moan again as the two of them fuck you in an alternating motion; one delving deeper to ram against your cervix as the other slides outward in preparation for another thrust.
+<<else>>/* One in the Ass */
+<<run ↂ.pc.body.asshole.insert(5)>><<run ↂ.pc.body.asshole.insert(5)>>
+He keeps pushing, and finding insufficient room to join his brother in your <<p "pussy.n">>, he works his way around to your back door. Before you have a chance to react, the girthy tentacle is sliding up your ass on a wave of tingly precum. It takes only a moment for the two of them to set up an alternating motion, one slamming deep inside you as the other withdraws.
+<</if>>
+It takes only moments before you cum, your body squeezing ineffectually on the thick intruders. The two tentacles don't seem to care, however, and continue pistoning inside you as you ride the wave of your first orgasm into a second and then a third. The world shrinks for you then, your mind completely occupied by the pleasure. 
+</p>
+<p>
+Sometime later--though you couldn't say how long--you notice something is different. Fred or Freddy is burried inside you, pushing hard against your womb, while the other tentacle seems to be outside waiting. By the time you've recognized the change, the tentacle inside you starts to cum. Suddenly your womb is suffused with a sensation of heat that is soon joined by the feeling of pressure. An extremely intense orgasm overtakes you, and as your pussy clamps down you can feel the swellings of the tentacle as each bolus of cum travels along its length to spray into you. Lost in pleasure, you feel a sudden emptiness as the spent tentacle yanks itself out of you. You barely have time to register its absense before the other tentacle slams deep inside you to pump its own seed its own seed inside you. Your orgasm continues, intensified by the almost painful pressure radiating from your baby bag.
+</p>
+<p>
+You avoid passing out from the extreme pleasure, but the whole thing is over before you realize it. You could swear you hear a wet popping sound as the second tentacle withdraws from your <<p "pussy.n">> to be followed by a torrent of pressurized <<p "cum.n">>.
+</p>
+<center>
+[img[IMG-Tentacles-FredAction]]<br><br>
+</center>
+<p>
+It takes you some time to recover your senses, you stay on your knees as cum slowly forces its way through your cervix to flow out of your pussy and dribble onto the mat. There's a sizeable pool between your legs by the time you're ready to stand up again, though the warm pressure in your womb tells you that it's still stuffed with tentacle seed, and that it'll be a while before it finishes draining out of you. When you do finally stand up, you look down at your abdomen. You aren't certain, but it looks like you can see a slight bulge right where your inflated baby sack should be.
+</p>
+<p>
+Realizing that you've been in the tentacle shop for a surprisingly long time, you quickly grab your clothes from the shelf and make your way naked on unsteady legs to the shower to get cleaned up.
+</p>
+<center>
+<<button "RETURN">><<addTime 55>><<arouse -5>><<satisfy 20 "Tentacle Playtime">><<happy 2 "Tentacle Playtime">><<stress -10 "Tentacle Playtime">><<run setup.omni.new("TentCreamPie")>><<go "DowntownClub">><</button>><br><br>
+</center>
+
+

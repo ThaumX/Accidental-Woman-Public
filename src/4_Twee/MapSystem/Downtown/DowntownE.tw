@@ -47,13 +47,19 @@
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Cock of the Walk">><</button>>
+  <<openhours 10 23>>
+  <<button "Cock of the Walk">><<dialog "Cock of the Walk">><<set _rando = random(1,3)>><<if _rand == 3>><<include [[cockofthewalkevent]]>><<else>><<print setup.food.fastfood("cockofthewalk")>><</if>><</dialog>><</button>>
+  <<closed "Cock of the Walk">>
+  <</openhours>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
-  <<button "Udder Delights">><</button>>
+  <<openhours 10 23>>
+    <<button "Udder Delights">><<dialog "Udder Delights">><<print setup.food.fastfood("udderdelights")>><</dialog>><</button>>
+    <<closed "Udder Delights">>
+  <</openhours>>
 <<endhoverrevise>>
 <<hoverrevise phi>>
-  <<button "The Phoenix Next">><</button>>
+  <<button "The Phoenix Nest">><<addTime 3>><<go "DowntownEphoenixnest">><</button>>
 <<endhoverrevise>>
 <<hoverrevise gamma>>
   <<openhours 8 12 16 20>>
@@ -82,7 +88,7 @@
 <<insertion delta>>[not implemented]<<endinsertion>>
 <<insertion gamma>>Visit the Maid Pouffiasse training school to check it out or sign up for a course. @@.ship;[CLEANING⧫SEDUCTION]@@<<endinsertion>>
 <<insertion lambda>><<endinsertion>>
-<<insertion phi>>[not implemented] Visit The Phoenix Nest bookstore and member's club.<<endinsertion>>
+<<insertion phi>>Visit The Phoenix Nest bookstore and member's club.<<endinsertion>>
 <<insertion pi>>Take a look at Teat Treats, and perhaps grab a super-delicious desert. It's sure to improve your mood!<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 
@@ -96,4 +102,367 @@
 :: DowntownELOC [nobr]
 You notice some girls on the street, dressed in rather revealing university uniform.<br>
 [img[IMG-UniversityGirls]]
+
+
+:: DowntownEphoenixnest [nobr map]
+
+<<timed 50ms>>
+<<script>>
+  $("area.navleave").click(function(){
+    setup.map.nav("world","appletree");
+  });
+  $("area.navholefoods").click(function(){
+    setup.map.nav("downtown","holefoods");
+  });
+  $("area.navcorp").click(function(){
+    setup.map.nav("downtown","corp");
+  });
+  $("area.navbank").click(function(){
+    setup.map.nav("downtown","bank");
+  });
+  $("area.navsouthwest").click(function(){
+    setup.map.nav("downtown","southwest");
+  });
+  $("area.navwest").click(function(){
+    setup.map.nav("downtown","west");
+  });
+  $("area.navnorthwest").click(function(){
+    setup.map.nav("downtown","northwest");
+  });
+  $("area.navsoutheast").click(function(){
+    setup.map.nav("downtown","southeast");
+  });
+  $("area.naveast").click(function(){
+    setup.map.nav("downtown","east");
+  });
+  $("area.navnortheast").click(function(){
+    setup.map.nav("downtown","northeast");
+  });
+  $("area.navtownhall").click(function(){
+    setup.map.nav("downtown","townhall");
+  });
+  $("area.navtownsquare").click(function(){
+    setup.map.nav("downtown","square");
+  });
+  $("area.navpark").click(function(){
+    setup.map.nav("downtown","park");
+  });
+  $("area.navcommunity").click(function(){
+    setup.map.nav("downtown","community");
+  });
+  $("area.navmall").click(function(){
+    setup.map.nav("downtown","mall","exterior");
+  });
+  $("area.navclub").click(function(){
+    setup.map.nav("downtown","club", "main");
+  });
+  $("area.navamuse").click(function(){
+    setup.map.nav("downtown","amuse");
+  });
+  $("area.navadult").click(function(){
+    setup.map.nav("downtown","adult");
+  });
+<</script>>
+<</timed>>
+<div id="location-bar">
+  <div id="location-bar-map">
+    <img data-passage="IMGdowntownMap" usemap="#downtownMap">
+    <map name="downtownMap" id="downtownMap">
+      <area data-passage="" alt="Leave Downtown" title="Leave Downtown" coords="27,499,26,54,138,51,138,0,-1,1,0,499" shape="poly" class="map-red-area navleave">
+      <area data-passage="" alt="Leave Downtown" title="Leave Downtown" coords="402,499,402,390,473,391,473,0,498,0,499,499,483,499,430,499" shape="poly" class="map-red-area navleave">
+      <area data-passage="" alt="Hole Foods" title="Hole Foods" coords="28,390,138,499" shape="rect" class="map-green-area navholefoods">
+      <area data-passage="" alt="Corporate Park" title="Corporate Park" coords="141,391,358,499" shape="rect" class="navcorp">
+      <area data-passage="" alt="Wells-Citibank of America" title="Wells-Citibank of America" coords="361,390,400,499" shape="rect" class="navbank">
+      <area data-passage="" alt="Southwest Downtown" title="Southwest Downtown" coords="28,388,138,279" shape="rect" class="navsouthwest">
+      <area data-passage="" alt="West Downtown" title="West Downtown" coords="29,168,138,277" shape="rect" class="navwest">
+      <area data-passage="" alt="Northwest Downtown" title="Northwest Downtown" coords="30,57,138,166" shape="rect" class="navnorthwest">
+      <area data-passage="" alt="Town Hall" title="Town Hall" coords="143,374,143,289,198,290,198,335,301,336,301,291,356,291,355,375,283,375,281,381,220,381,216,375" shape="poly" class="navtownhall">
+      <area data-passage="" alt="Town Square" title="Town Square" coords="200,334,299,267" shape="rect" class="navtownsquare">
+      <area data-passage="" alt="Central Park" title="Central Park" coords="147,282,196,282,196,263,301,263,302,281,351,281,352,176,193,177,193,199,168,226,147,226" shape="poly" class="navpark">
+      <area data-passage="" alt="Community Center" title="Community Center" coords="143,225,167,225,191,199,191,172,144,172" shape="poly" class="navcommunity">
+      <area data-passage="" alt="Applewood Mall" title="Applewood Mall" coords="142,161,311,58" shape="rect" class="map-green-area navmall">
+      <area data-passage="" alt="Southeast Downtown" title="Southeast Downtown" coords="471,387,363,280" shape="rect" class="navsoutheast">
+      <area data-passage="" alt="East Downtown" title="East Downtown" coords="363,168,470,277" shape="rect" class="naveast">
+      <area data-passage="" alt="Northeast Downtown" title="Northeast Downtown" coords="363,164,471,57" shape="rect" class="navnortheast">
+      <area data-passage="" alt="Club District" title="Club District" coords="310,57,360,166" shape="rect" class="navclub">
+      <area data-passage="" alt="Amusement District" title="Amusement District" coords="141,55,360,-1" shape="rect" class="map-green-area navamuse">
+      <area data-passage="" alt="Adult District" title="Adult District" coords="363,55,471,-1" shape="rect" class="navadult">
+    </map>
+  </div>
+  <img id="location-bar-cover" data-passage="IMGdowntownMap">
+  <div id="location-bar-image">
+      <<link [img[IMG-PhoenixTop]]>><<set _pasg = "DowntownEphoenixnestLOC">><<dialog ↂmap.name>><<include _pasg>><</dialog>><</link>>
+    <div id="namediv" class="locationNameDiv head1"><<print "Phoenix Nest">></div>
+  </div>
+</div>
+<div id="mainshits">
+<p>
+<<selfthought>>
+</p>
+<p>
+@@.head3;Y@@ou're standing in the dark and old-fashioned book store. Although the ambience obviously can't be old since Appletree is a newly built town the wood shelves, wallpapers, and little details here and there success in creating the cozy and somewhat enigmatic Victorian-era feeling.<<if ↂ.flag.bookClub.level == "firstTime">>There is nobody here but you see a sign with a hand pointing upstairs.<<elseif ↂ.flag.bookClub.level == "anotherTime">>The place is empty but already know that you should go upstairs.<<elseif ↂ.flag.bookClub.level == "none">>You can see a young well-dressed man <<= either("sorting books on the shelf","reading at the counter","checking books on the shelf with a list in his hand")>><<else>>You can see a Ewan <<= either("sorting books on the shelf","reading at the counter","checking books on the shelf with a list in his hand")>><</if>>.
+</p>
+<p id="locact"></p>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Shop">><<dialog "Shopping:">><<addtime 8>>
+		<<include [[DowntownEphoenixnestBookBuy]]>>
+	<</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+<<if ↂ.flag.bookClub.asked !== true>>
+  <<button "Ask about the club">>
+  <<script>>
+  const args = {
+    passage: "DowntownEphoenixnestClubAsk",
+    block: false,
+    content: `none`,
+    image: "none",
+    npcid: "none",
+    title: "Book club",
+    size: 3,
+    callback() {
+    },
+    onclose() {
+      setup.refresh();
+    },
+  };
+  setup.interact.launch(args);
+  <</script>><</button>>
+  <<elseif ↂ.flag.bookClub.level == "firstTime">>
+  <<button "Go upstairs">>
+  <<script>>
+  const scene = {
+      passage: "PhoenixClub",
+      content: "none",
+      image: "IMG-PhoenixClub",
+      topImage: "IMG-PhoenixClub-top",
+      title: "Phoenix club",
+      allowSave: false,
+      sidebar: `<h2>Phoenix nest</h2><h3>Upper floor</h3>`,
+      showTime: false,
+      allowMenu: false,
+    };
+    setup.scenario.launch(scene);
+<</script>><</button>>
+<<elseif ↂ.flag.bookClub.level == "anotherTime">>
+  <<button "Go upstairs">>
+  <<script>>
+  const scene = {
+      passage: "PhoenixClubNext",
+      content: "none",
+      image: "IMG-PhoenixClub",
+      topImage: "IMG-PhoenixClub-top",
+      title: "Phoenix club",
+      allowSave: false,
+      sidebar: `<h2>Phoenix nest</h2><h3>Upper floor</h3>`,
+      showTime: false,
+      allowMenu: false,
+    };
+    setup.scenario.launch(scene);
+<</script>><</button>>
+<</if>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+<<hoverrevise checkOut>>
+  <<button "Checkout">><<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<elseif _result === "no afford">><<notify>><span class="bad">Insufficient Funds!</span><</notify>><<elseif _result === "already has">><<notify>><span class="bad">You already has same item in your wardrobe!</span><</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Browse Phoenix Nest's selection of books and magazines<<endinsertion>>
+<<insertion beta>><<if ↂ.flag.bookClub.level == "none">>Ask about the member's club<<else>>Go to the "book club" meeting.<</if>><<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+
+:: DowntownEphoenixnestLOC [nobr]
+
+<<f i>>t seems that the pictures used for decoration are pretty antique and <i>frivolous</i>.<br>
+<center>[img[IMG-PhoenixWall]]</center>
+
+
+:: DowntownEphoenixnestBookBuy [nobr]
+
+You browse through the shelves.<br><br>
+<table id="noBorder">
+<tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Various goods:</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Syntetix Bimbo magazine
+  <img data-passage="IMG-ItemBimboMagazine" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A new issue of 'SyntetiX Bimbo', periodical covering the lifestyle of this specific group. The magazine is quite thick. The majority of the pages are ads for different clothing, perfume, and cosmetic surgery services.  The layout includes simple sentences in a large font and lots of colorful, supplemental illustrations. The sentences are simple and the illustrations are focused at the more complicated concepts, like 'managing your shoe collection.'
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>12@@ <span id="buyshit1"></span><br><<button "Add to Cart">><<set $cart.push(["Syntetix Bimbo magazine", "consume", 12, "syntetix", 1])>><<replace "#buyshit1">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Shameless magazine
+  <img data-passage="IMG-Item-Shameless" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  New issue of 'Shameless', periodic magazine centered about exhibitionism and related topics. The journal covers all aspects of this tricky art, starting from getting away from police to most effective ways to flash strangers. Because of the theme, there are not that much clothes advertising inside, mostly shoes, perfume and sex toys.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>9@@ <span id="buyshit2"></span><br><<button "Add to Cart">><<set $cart.push(["Shameless magazine", "consume", 9, "shameless", 1])>><<replace "#buyshit2">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Brood magazine
+  <img data-passage="IMG-Item-Brood" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  The latest issue of 'BROOD: Baby Factory', a quarterly magazine all about multiple-child pregnancies. The magazine covers a variety of topics, from fashion and lifestyle tips for pregnant women, to fertility enhancement and conception guides. While the magazine does place an emphasis on the joys of pregnancy and the fulfillment from being a mother, it also acknowledges the financial benefits as well. There are regular profiles on mothers who make their living from government birth subsidies.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>11@@ <span id="buyshit3"></span><br><<button "Add to Cart">><<set $cart.push(["Brood magazine", "consume", 11, "brood", 1])>><<replace "#buyshit3">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Work like a German
+  <img data-passage="IMG-Item-WLG" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  The latest issue of 'WLG', a weekly magazine about jobbing hard. You can expect a lot of career advices, ways to boost your productivity and help with self-promoting.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>10@@ <span id="buyshit4"></span><br><<button "Add to Cart">><<set $cart.push(["Work like a German", "consume", 10, "wlg", 1])>><<replace "#buyshit4">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+</table>
+
+
+:: PhoenixInvite [nobr]
+
+<<set ↂ.flag.bookClub.level = "firstTime">><<status 0>>
+<<texting "Ewan Langford">>
+  <<textnpc>>Hello, miss <<surname>>. I am honored to inform you that you are invited to the Phoenix Nest club members meeting.
+  <<textnpc>>Luckily, it is scheduled for today so I am sorry for notifying you so late. I hope you will be able to come.
+  <<textpc>>Oh thank you! I'll come!
+<</texting>><center>@@.com;To continue conversation, click the 'send' button (blue arrow).@@</center>
+<<safetoclose>>
+
+
+:: PhoenixSecondInvite [nobr]
+
+<<set ↂ.flag.bookClub.level = "anotherTime">><<status 0>>
+<<texting "Ewan Langford">>
+  <<textnpc>>Hello, miss <<surname>>.
+  <<textnpc>><<= either("I hope to see you at our next meeting this today.","I am glad to invite you to a Phoenix book club meeting today.","Our next meeting will be conducted today. It is my good honor to invite you.")>>
+  <<textpc>><<= either("I will attend the meeting.", "Thank you.", "Pleased to hear that.", "I will be there, thank you.")>>
+<</texting>>
+
+<<safetoclose>>
+
+
+:: DowntownEphoenixnestClubAsk [nobr]
+
+<<addtime 13>><<set ↂ.flag.bookClub.asked = true>><<f y>>ou come to the cashier.
+<<has intro>><p>@@.pc;Ummm... hi. I was wondering about...@@</p>
+<p>He turns to you with a polite yet a bit amused look. @@.npc;Yes?@@</p>
+<p>@@.pc;... a book club. I heard you have...@@</p>
+<p>He smiles and nods. @@.npc;Oh, sure, I got you, ma'am. Yes, we host the closed members club here.@@</p>
+<<or>><p>@@.pc;Hello, I heard you have a members club here. Can I join?@@</p>
+<p>He turns to you with a polite smile and nods. @@.npc;Good day, ma'am. Yes, we host the private members club here.@@</p>
+<</has>>
+<p>@@.pc;Private? You mean I can't join, or is there a membership fee?@@ He smirks. This man has an unusual aura, you feel yourself loosening up as you're around him. He gives you a close look from top to bottom as if evaluating you; his attention shifts back to your face and you feel yourself falling into the depth of his eyes again.</p>
+<p>@@.npc;Mind you, nothing like this. We just do little background checks on new members before allowing them to join. Our key priority is to keep space safe and confidential for our members so I believe you kindly understand this requirement.@@</p>
+<p>@@.mono;Ugh, that's pretty weird for a book club...@@ You nod a couple times. @@.pc;Oh, of course, confidentiality and all that, sure! It is quite important.@@</p>
+<p>@@.npc;So, you were asking to join, ma'am?@@ Seeing your hesitation he continues. @@.npc;I can see that it may sound unusual but those are rules we follow for years in the sake of our honored members, so I am afraid this is the only way. I can assure you you won't regret going through the simple check to join the ci<small>rc</small>... club@@</p>
+
+<<dialogchoice>>
+  <<dbutt "Yes">><<intreplace>><<include [[DowntownEphoenixnestClubAsk-yes]]>><</intreplace>>
+  <<dtext "happy">>Yes, I would like to!
+  <<dbutt "No">><<intclose>>
+  <<dtext "mute">>Not sure to be honest, thanks, I gotta go.
+<</dialogchoice>>
+<<updatebar>>
+
+:: DowntownEphoenixnestClubAsk-yes [nobr]
+
+<p>You smile enthusiastically. @@.pc;Yes, I would like to!@@</p>
+<p>He goes to the counter and returns with a sheet of paper. @@.npc;Of course. Just fill out this form and I will notify you about the next meeting.@@</p>
+<p>You thank him and take a sit in one of the comfortable vintage-looking chairs. @@.mono;Hmm, his manners are offbeat. And his accent... maybe he is from Britain? Anyway it is much easier to think without those two bottomless wells looking right into my soul... It feels as if he knows all of my secrets or something. Not that he is not pretty, I'd reveal some of my <i>dirty secrets</i> to him, tee-hee!@@ You think of how it would be nice to get your hands on his slim body before removing idiotic expression from your face and returning to the paper in your hands. @@.mono;It's not the time to think about his cock, <<name>>! Hmm-hmm, let's see what we got here...@@</p>
+<span class="handwriting wdGray">
+1. Your name:</span>
+<p>@@.mono;That's pretty easy...@@ You write <<name>> <<surname>> into the field.</p>
+<span class="handwriting wdGray">
+2. Your gender:</span>
+<p>@@.mono;Well, <<if $AW.startMale>>right now it is female, right?<<else>>despite all this rejuvenator event it is still female I believe...<</if>>@@</p>
+<span class="handwriting wdGray">
+3. Name three of your most expressed sexual fetishes:</span>
+<p>@@.mono;<<if ↂ.pc.trait.perceptive != -1>>Is this really a book club...<<else>>Such a weird question... but maybe they discuss some erotica there too?<</if>><<has shame>> Not to mention this is plain embarrassing...<<or>><</has>>@@ You think for a moment and write "<<fetishes>>" into the field.</p>
+<span class="handwriting wdGray">
+4. Your age:</span>
+<p>You write number "<<print ↂ.pc.main.ageID>>" and peek at the end of the paper to see how many questions are left; there seems to be 14 of them. You find a small minority of them to be pretty awkward and sex related while others you would expect to see in pretty much any questionnaire.</p>
+<p>It takes around 10 minutes to finish it all and you stand up from your overly cozy chair. @@.pc;Mister...@@ He raises his head and you find yourself staring into his deep green eyes once again. @@.npc;Langford. Ewan Langford.@@ @@.pc;...Langford, I am done with this!@@</p>
+<p>He takes the paper and quickly glances over it. @@.npc;Splendid! I'll write you in a day or two miss... <<surname>>!@@</p>
+<p>@@.pc;Oh, I can't wait to join the club! Can I know more about it already? Some books I need to take with me maybe?@@ He just smiles. @@.npc;Don't worry about it, there is no need for any preparations! Just wait until I write you.@@ You take it that he won't give up any information before they make a decision on your application and raise your arm to shake hands. @@.pc;Well, don't make lady wait for too long then, mister Langford, giggle!@@ He politely smiles once again giving you a warm handshake. @@.mono;Gosh, I started speaking just like him. His British posh stuff must be contagious...@@</p>
+<p>@@.npc;I can assure you, we'll never make you wait a minute longer than absolutely necessary, ma'am!@@</p>
+<<safetoclose>>
+<<run setup.omni.new("phoenixAnswer")>>
+
+
+:: PhoenixClub [nobr]
+
+<<set ↂ.flag.bookClub.level == "member">><<stress 10 "The circle initiation was a little bit creepy.">><<eatdrug "heat" 15>><<run setup.omni.new("Heat")>><<f y>>ou go upstairs for some reason trying to step lightly. @@.mono;Hmm, where is everyone?@@ With the soft carpet under your feet and the panels hung on the walls, the hall is quiet enough for you to feel your heart pounding in your chest. Walking into the hall you notice a subtle incense in the air. Your thoughts swirl as you try to place the scent, but you come back to yourself as the scent seems to quickly fade away. The lights are weak and red and give the place a surreal and mysterious presence. You look around and notice the ceiling is filled with metal ornaments. @@.mono;Are those?..@@
+<p>@@.npc;Good evening.@@ In any other situation you would jump from the sudden intrusion, but this familiar voice has soothed your concerns before they've even risen up. Ewan stands in the door way at your left smiling subtly.</p>
+<p>@@.pc;Oh, you scared me, mister Langford, good evening.@@</p>
+<p>@@.npc;I can assure you I had no such intention, ma'am.@@ He steps closer to you and presents his arm to lead you into the room he emerged from. @@.npc;It is my very good honor to invite you to your first circle meeting, miss <<surname>>.@@</p>
+<p>Ewan leads you into a room even more dimly lit than the hallway you arrived in. As your eyes slowly adjust to the room, you find the place. The place looks like an expensive gentlemen's club which you would expect to see in a movie about Victorian London. Around ten people are sitting in comfy chairs and couches, half of them are women, and all of them are overdressed for what should be a simple meeting of a book club. @@.mono;Well, it doesn't look like a book club at all...@@ Ewan leads you to the center of the room and you feel a little bit uneasy while eleven people shamelessly contemplate you.</p>
+<p>@@.npc;I am glad to introduce to you, ladies and gentlemen, miss <<name>> <<surname>>, the newest member of our circle.@@ You expect some reaction, maybe clapping or some words from members, but can't see anything apart from a few nods. Feeling more and more awkward you make a vile attempt to break the ice. @@.pc;Umm, hi? Nice to meet you all...@@ Your voice dies out in the dead silence of the room and you feel your back sweating. You feel dizzy for some reason.</p>
+<p>@@.npc;Ahem... As a sign of following our good traditions we test our new members.@@ You look back at Ewan. @@.mono;Oh, what have I got myself into?@@ He gestures to the small table with two seats. There is something on the table but you can't say what it is from where you stand. Nerviously gulping, you take a seat at the platen. Ewan looks at the middle-aged women in the high chair. @@.npc;Amelia, would you kindly?@@ She has magnificent make-up and a flawless black dress, though it is a bit vintage. Her skin is very pale and you fight the urge to giggle with a sudden silly thought. @@.mono;Nice, I got into a vampire's lair now... Okay, <<name>>, you are clearly getting hysterical. Just play along...@@</p>	
+<p>Amelia's gaze never leaves you as she takes the contents of a small box on the table. It is a deck of cards, but you don't recognize them as standard playing cards. Having no suits, these cards instead depict some foreign looking imagery. With her gaze seeming to peer into your soul, she shuffles the deck before arranging them in a pattern reminiscent of solitaire. Her beautiful hands move fast and you feel charmed with their swift and precise movements. When she finishes there are five cards in front of you. @@.npd;Flip three of them, child.@@ Her voice is deep and guttural; it provokes arousal and makes you think about kissing her sweet plump dark-red lips for a moment.</p>
+<center>[img[IMG-Taro1]]</center><br>
+<center><<checkboxB "_lul" 0 1>><<tab>><<checkboxB "_lul2" 0 1>><<tab>><<checkboxB "_lul3"  0 1>><<tab>><<checkboxB "_lul4" 0 1>><<tab>><<checkboxB "_lul5" 0 1>><br>	<center><<checkboxB "_lul" 0 1>><<tab>><<checkboxB "_lul2" 0 1>><<tab>><<checkboxB "_lul3"  0 1>><<tab>><<checkboxB "_lul4" 0 1>><<tab>><<checkboxB "_lul5" 0 1>><br>
+<<button "Choose">><<if _lul + _lul2 + _lul3 + _lul4 + _lul5  == 3>><<scenego "PhoenixClub-second">><<else>><<notify>>Amelia said to choose 3 cards...<</notify>><</if>><</button>></center><<status 0>>
+
+
+:: PhoenixClub-second [nobr]
+
+<<arousal 4>><<addtime 97>><<SCX>><<SC "OR">><<SC "SX">><center>[img[IMG-Taro2]]</center><br>
+
+<<f y>> ou turn three cards and put them closer to youself looking at the pictures. Amelia glances quickly at the cards you have choosen. @@.npd;Ah, of course. Interesting ways you had passed, unusual ways I'd rather say. Not every living person can brag they went through the changes of such power as you did. But I see even more ahead. And that appetency as well... You will be a virtue member of the circle. Stand up, <<name>>.@@	
+<p>You obey and realize that other members surrounded you while you was ogling cards and listening to Amelia. Their hands softly touch you; brushing, teasing, palping your flesh. In other situation you would try to stop it but <<has slut>>you have some ideas where it is going now<<or>>your head feels too heavy to resist<</has>>. @@.npe;Welcome to the circle...@@ Somebody behind you puts a soft black narrow scarf over your eyes blindfolding you and the worlds disappears. All is left is their hands brushing over your body and your hard breath. Button by button they remove your clothes and it rustle down to your legs...</p>
+<p>... You are floating on the waves while dozens of hands tease your body, squeezing and pinching your nipples, fingers sliding into your<<if setup.sexToys.check("pc", "clit") === true>> pussy and back hole<<else>>back hole<</if>> shamelessly exploring every inch of your body. Each touch feels as a pure bliss; you moan with pleasure and bite your lips until somebody's soft lips covers yours and you almost cum from the sensation. Biting and barely holding your drool you revel the deep french kissing with somebody you don't even see. @@.mono;I... oh... I don't want it to ever end...@@</p>	
+<p>Suddenly lips disappear and hands push you down to the ground forcing you to crawl forward on all fours. Mindlessly and happily you obey until your mouth bumps into something warm, moist... and delicious. Through the mist in your head you realize that this time it is completely different set of lips. Those lips bear only females and you start licking the plump wet vulva of a perfect stranger almost drowning in her dampness.</p>	
+<center>[img[IMG-PhoenixNestLick]]</center><br>
+<p>Licking the clit with your tongue you are sluggishly surprised that you get so much pleasure from giving oral sex. This doesn't matter much to you since the delight is just way too great and her moaning is so loud. You hear rhytmicall squishing sounds around you, moaning coming from all around you and internally submit to your place in this orgy before diving back to the pussy of the girl. @@.npd;Mmm...mmm...ohhmyyyyyYYY!@@ She cums right on your face spraying you with her juice and you can't but collect it with your hand and drink it thirstily.</p>
+<p>You push yourself back to her pussy to get more of that deligtful vulva nectar and when somebody's cock enters your <<if setup.sexToys.check("pc", "clit") === true>><<run ↂ.pc.fert.creampie("unknown", 80, "default")>><<eatdrug "cream" 2>><<run ↂ.pc.body.pussy.insert(3)>>own pussy<<else>><<run ↂ.pc.body.asshole.insert(3)>><<run setup.condition.add({loc: "asshole", amt: 4, tgt: "pc", wet: 5, type: "cum"})>>asshole<</if>> you accept it gladly and gratefully. You do your best to continue licking and sucking her lips and clit while the thick hot dick slides in and out of your hole giving you the best ride of your life.</p><<satisfy 25 'Phoenix circle orgy'>><<status 0>> 	
+<p>Clenching and shivering girl cums once again and you feel her clit throbbing under your nimble tongue. Her screaming pushes the man behind you over the edge and he finishes deep inside your hole pushing his stiff pulsing cock as far as he can. Domino principle continues to work as it makes you cum too; you moan and beg and pant stuck between them for it seems like an eternity before finally falling from all fours to the soft carpet.</p>
+<p>When you regain your consciousness you found that your blindfold went off. There is nobody in the room, your clothes are neatly folded on the chair. @@.mono;Was it... a dream?@@ You wake up and feel that the carpet is still moist which means it all was real. You try to pull on the doorknobs in the room but it seems all of them are closed. @@.pc;Hey? Anybody still here?@@ Dressing up and going down the stairs you wonder if you did a good job and would they invite you again for the next <i>Book club meeting</i>...</p><<run setup.omni.new("phoenixPartyCall")>><<updatebar>><<status 0>>
+<center><<button "Exit">><<sceneclose>><</button>></center>
+
+
+:: PhoenixClubNext [nobr]
+
+<<eatdrug "heat" 15>><<f y>>ou go upstairs smelling incense, your feet are drowning in the thick red carpet on the floor.<<if ↂ.pc.status.addict.heat > 80>>@@.mono;Do I smell Heat drug? Hmm...@@<<elseif ↂ.pc.status.addict.heat > 40>>@@.mono;Hmm, this smell reminds me of something...@@<</if>> Getting to the massive wooden door you press on it and enter the main room. Most of the members are already here having a quiet chat so you occupy a free place on the luxurious leather sofa between the formal-dressed man in his 40s and a woman with voluptuous dark red lips. Amelia is sitting on the high chair in the deep corner of the dimly lit room smoking and smiling subtly. She nods you in a solemn and mystique fashion but in this weird place, this doesn't feel too flatulent. The club has this special atmosphere justifying all the oddities and adding a thick layer of importance to everything that happens here. For some reason, it doesn't feel like an ordinary sex club at least not when you are inside. Once you cross the border to this kingdom of lust and languor you find yourself doubting or criticizing anything that happens here.
+<p>
+While you hesitate while trying to grasp your emotions and feelings about the Phoenix Club its leader stands up and other members cease their talking and turn to her. She feels very confident and bossy without putting any visible effort into it and you feel mesmerized by her prominent figure in the same black dress you saw her last time. She smiles in a sly yet somehow polite and formal fashion before addressing the members.
+</p>
+<p>
+@@.npc;Ladies and gentlemen, it is my good honor to greet you at our weekly meeting of the Phoenix club. Today is an important day, today the moon is growing and the Mars is as bright as it gets only once a decade. Its lazy dance with Venus hides secret vigor, hidden from the simpletons and we, the bearer of true meanings and connoisseurs of delights shall oblige to this dance altogether. As the writer said, "Thou old melancholy devil, out of thy lament soundeth a lurement: thou resemblest those who with their praise of chastity secretly invite to voluptuousness!" And like those, wandering in the dark in a search of the light we follow the birth of the moon to give our prayers to the fountain of life, crimson and free...@@
+</p>
+<p>
+@@.mono;Oh, we finally talk about books and writers it seems? But who is this writer? I feel illiterate now. She could at least elucidate us on who said that...@@ You feel that you slowly lose the idea of what Amelia is talking about while your head slowly gets dizzy. Still clinging to the speech you can only catch some parts but the overall idea is elusive.
+</p>
+<p>
+After a while, you find yourself just ogling Amelia talking with wide artistic gestures towards her audience. You don't understand a word and just enjoying the sound of her voice. She looks so enigmatic and attractive and you can't stop but imagine touching her perfect pale skin and kneading those plump breasts of her. When she finishes her speech you barely notice her absently <<link "licking your lips">><<scenego "PhoenixClubNext-2">><</link>>.</p>
+
+
+:: PhoenixClubNext-2 [nobr]
+
+<center>[img[IMG-PhoenixLips]]</center><br>
+<<f i>>t doesn't take long before the main part of the evening begins. Through that mist in your head and blurriness in your eyes, you notice that all around you look different, more desirable. They act sensual and uninhibited now. Some of them stand up and start worshipping Amelia's body while others are making out with each other. Your gaze slowly drifts around the room until it fixates on the women with plump red lips, you can't stop ogling her and she returns your stare with her eyes half-closed and a soft soundless moan. Slowly and sensually, she crawls closer to you, and in a moment you are pressed to the sofa by her weight. She covers your skin with kisses and each one of them feels blissful and ecstatic.
+<p>
+You release your desire wild and caress her curvy body moaning and squirming underneath her. Still hugging you she presses her knee to your pussy and <<if setup.sexToys.check("pc", "clit") === true>><<else>>despite your clit being inaccessible <</if>>you can't but rub it to her leg while her delicious sweet lips meet with yours. Her thick tongue invades your mouth forcing your mouth open giving you the sloppiest kiss of your life. Drool runs down your cheek as she almost fucks your mouth with her tongue. Each and every inch of your skin feels extra sensitive giving your a pure carnal with even the softest touch. She starts bouncing back and forth slightly which makes you focus your blurry vision once again. After some struggle to regain at least some level of consciousness you barely register that your partner's dress is obscenely yanked to her back and somebody rams her from behind.
+</p>
+<p>
+She comes almost immediately spasming right above you and you feel her orgasm like it was yours. strings of saliva drool down from her agape mouth while she screams in a most obscene fashion thrashing on your body. <<has hard>>Despite it is usually hard for you to orgasm y<<orhas easy>>It doesn't usually take much to make you cum even in a normal situation, so y<<or>>Y<</has>>ou feels that shaking of a knee pressed to your clit is just too overwhelming and succumb to the orgasm yourself more from the arousal than actual stimulation. @@.pc;AaaaahhAHHHHH AHHHH!...@@
+</p>
+<p>
+You can't remember most of the evening. You are standing on the sidewalk not that far from the Phoenix club, your clothes are smeared with various fluids and you feel something gurgling in your pussy with every step. It looks like you can barely remember the last two hours or so. Your memory is filled with pictures of lustful orgy and it is hard to recall specific events of that evening. Your knees are shaking a bit but there is a wide goofy smile on your face you can't remove. @@.mono;Those guys know a thing or two on how to make those club meetings exciting, hehe! I should totally go there next time!@@
+</p>
+<<run setup.condition.add({ loc: "genitals", amt: 8, tgt: "pc", wet: 8, type: "cum"})>><<run setup.condition.add({ loc: "groin", amt: 15, tgt: "pc", wet: 15, type: "lube"})>><<run setup.condition.add({ loc: "face", amt: 5, tgt: "pc", wet: 5, type: "saliva"})>><<satisfy 25 'Phoenix circle orgy'>><<run setup.omni.new("phoenixPartyCall")>><<addtime 112>><<updatebar>><<status 0>><<button "Exit">><<sceneclose>><</button>>
 

@@ -18,6 +18,7 @@ interface setupSchedule {
   cleaner: () => void;
   appointments: (time: number) => plan[] | false;
   calendar: () => twee;
+  kill: (name: string) => boolean;
 }
 
 interface plans {
@@ -330,3 +331,31 @@ setup.sched.calendar = function() {
     return `Sorry, calendar function broke somehow, the error is ${e}`;
   }
 };
+
+setup.sched.kill = function(name: string): boolean {
+  if(name.length < 1) {
+    aw.con.warn(`No event name was supplied for setup.sched.kill, aborting...`);
+    return false;
+  } else {
+    for (let index = 0; index < ↂ.plans.upcoming.length; index++) {
+      if (ↂ.plans.upcoming[index].name === name) {
+        delete ↂ.plans.upcoming[index];
+        return true;
+      }
+    }
+    for (let index = 0; index < ↂ.plans.current.length; index++) {
+      if (ↂ.plans.current[index].name === name) {
+        delete ↂ.plans.current[index];
+        return true;
+      }
+    }
+    for (let index = 0; index < ↂ.plans.past.length; index++) {
+      if (ↂ.plans.past[index].name === name) {
+        delete ↂ.plans.past[index];
+        return true;
+      }
+    }
+  }
+  return false;
+};
+

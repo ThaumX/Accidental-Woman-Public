@@ -54,21 +54,471 @@
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
-<<hoverrevise alpha>>
-  <<button "Visit your kids">><<dialog "Kids">><center><h2>Coming Soon! [v0.37]</h2></center>This part is not complete yet, so have a list of your kids for now:<br><<= setup.child.nameDisplay()>><</dialog>><</button>>
-<<endhoverrevise>>
+
+<<if ↂ.child.length > 0>>
+  <<hoverrevise alpha>>
+  <<openhours 9 18>>
+    <<button "Visit your kids">><<run setup.interact.launch({ passage: "ResidentialGovernmentCrecheMain", block: true, title: "Appletree nursery", size: 4})>><</button>>
+    <<closed "Appletree Nursery">>
+  <</openhours>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise notHas>>
+  <<button "Visit your kids">><</button>>
+  <<endhoverrevise>>
+<</if>>
 </div>
 
 /*Main display for information about actions*/
 <div id="actionInfo">
 <<insertion alpha>>Look at your crotchfruits.<<endinsertion>>
+<<insertion notHas>>You don't have children yet, there's no reason to visit the nursery.<<endinsertion>>
 </div>
 
 
-:: ResidentialGovernmentCrecheLOC [nobr]
+:: ResidentialGovernmentCrecheMain [nobr]
 
-<center>[img[IMG-CrecheWindow]]</center>
-<p>
-<<f c>>urious, you walk up to the large building and peek in one of the windows. All you see is what appears to be an empty daycare room. @@.mono;I wonder where the kids are?@@
-</p>
+<<if ↂ.flag.nurseryVisit>>
+  <center>[img[IMG-Location-GovtCreche]]</center><br>
 
+  You decide to visit your kids again, taking the path to the nursery in the government area you find Liam sitting at his post, at the entrance to the place. @@.npc;Hey young mommy, a new visit?@@<br><br>
+
+  @@.pc;Yeah, are things okay around here?@@ He leans towards you.<br><br>
+
+  @@.npc;As calm as ever, I suppose... Except for the noise of the children, of course. But after some time working here you get used to it.@@ You and he direct your attention to the side patio, where a nurse is trying to look after some children while they play.<br><br>
+
+  @@.npc;They are our future, after all. But anyway... You can come in, feel free.@@<br><br>
+
+  You thank him when he sits back.<br><br>
+
+  <center>
+  <<button "Go into the Nursery">><<intreplace>>
+    <center>[img[IMG-NurseryEntrance]]</center><br>
+
+    You enter the nursery again, feeling the energy of the special and well-decorated environment, the place exudes an energy of intense life that makes you feel happy. The reception room has some other mothers, you wait a few minutes until you are attended by Dr. Victória again. @@.npc;Hi, <<name>>! Your kids will be happy to see you. Not all mothers return to see their children.@@<br><br>
+
+    She mentions, before adopting a sad expression. @@.pc;Well, if I have children, I can't just leave them here and pretend they don't exist... They are also my responsibility.@@<br><br>
+
+    Your words seem to restore some of the doctor's peaceful and cheerful expression. @@.npc;Y-Yeah... Well, you don't want to waste any more time I think. You are a registered mommy, you can visit your kids whenever you want.@@<br><br>
+
+    She points to one of the screens on the side of the wall. @@.npc;There is the children's routine, where they are, and what they are doing. Feel free to see your kids, now I need to meet the other mommies.@@<br><br>
+
+    She goes back to her work.<br><br>
+
+    <center>
+    <<button "Kids list">>
+      <<intreplace>><<include [[KidsList]]>><</intreplace>>
+    <</button>>
+    </center>
+  <</intreplace>><</button>>
+  </center>
+<<else>><<set ↂ.flag.nurseryVisit = true>>
+  <center>[img[IMG-Location-GovtCreche]]</center><br>
+
+  Now you are officially a mother, for the first time you decide to visit your kids at the government daycare in Appletree. As you approach the entrance you are greeted by a casually dressed security guard, he seems to assume the reason for your visit and extends his hand to greet you. @@.npc;One of the new mommies in town coming to see your kid, right? The name is Liam.@@<br><br>
+
+  He throws you a smile when you extend your hand to answer his greeting. @@.pc;Yeah, I'm <<name>>, I have <<= ↂ.child.length>> kids here. So, this is a government facility... I think I have to do some kind of bureaucracy to be able to see them?@@<br><br>
+
+  It removes the sunglasses, so you can have a complete view of the security. You can give him 25 years, he has a casual and also very flirty tone, you can see that he has a toned body under his clothes. @@.npc;I love watching the regular flow of young mommies here to see the kids, I think efforts to reverse the population decline are affecting, at least in Appletree.@@<br><br>
+
+  You've heard about population decay, where people in the modern world no longer wish to have children, you can think of several reasons when he mentions it. @@.pc;Yeah, but I don't think you want to be chatting with the local security, are you? Haha@@<br><br>
+  
+  @@.pc;Hehe~ Yeah, I'm not here to flirt... Sorry.@@ 
+  
+  @@.npc;You can come in, talk to Vic. She will take care of everything.@@<br><br>
+
+  @@.pc;Vic? I guess it's the nurse who takes care of the kids or something?@@<br><br>
+  
+  @@.npc;Victoria is the nurse, and she is also the most motherly woman I have ever seen, even though she is so young.@@ He points in the direction of the nursery entrance door.<br><br>
+
+  @@.npc;I would like to talk to you more at some point, you are a very beautiful thing... And I am always willing to help fight population decline.@@ Liam mentions opening the way for you, by his light laugh you can say it's a joke, but the sense of it certainly sounds serious on his part.<br><br>
+  
+  <center>
+  <<button "Go into the Nursery">><<intreplace>>
+    <center>[img[IMG-NurseryEntrance]]</center><br>
+
+    You take the path inside, when you arrive at the service room, realizing that it is small but well decorated and with bright colors, a perfect environment for stimulating children's imagination. You see two nurses talking in the corner of the room, one of them is wearing a relatively short pink dress, while the other is wearing a white coat besides. They notice your presence, the nurse wearing a lab coat soon dismisses the other and comes to see you.<br><br>
+
+    @@.npd;Hello, new mommy?@@ It comes to you in a calm tone.<br><br>
+
+    @@.pc;Yeah, I'm <<name>> <<surname>>.@@ The security guard told me that I should look for Vic, the head nurse.<br><br>
+
+    She points to the identification on her chest. Victoria is a young girl, you could give her 22 or 23 years old, but she acts confidently. She is a brunette, with light brown hair and eyes, fair skin, and wide C breasts, despite the lab coat you could say that she has a modestly wide pair of hips. All of this makes her look like a mother's ideal archetype, in desire, and good genes. @@.npd;You found it, Victoria Gallagher. But I'm happy for you, congratulations on your kid! I will just need to register, so you will have free access to your kids whenever you want.@@<br><br>
+
+    You nod positively, collaborating with a quick registration with some of your data. Soon Victoria ends, with a final touch on her tablet. @@.npd;Okay, sorry about that. The government requires mothers to be identified, you know... Government bureaucracy.@@<br><br>
+
+    @@.pc;Yeah, I understand that. So, where are the kids? I am interested to know about how they are treated.@@ She keeps the tablet in her coat pocket when she looks visibly satisfied with your question.<br><br>
+
+    @@.npd;I can give you a tour of the facilities, you will see that our children are treated very well.@@ She tells you to follow her, taking you through the main corridor and showing you some rooms.<br><br>
+
+    @@.npd;We have a medical room equipped with everything, if necessary. The government is generous with funds to keep kids healthy. I am the pediatrician, besides taking care of the nursery coordination.@@ She says proudly in her voice, although without losing much of her professional pose. She keeps showing you the place, soon you enter the teaching sector, where 2 classrooms are currently empty.<br><br>
+
+    @@.npd;Children need to receive education, this is partly done here, in basic education for children up to 3 years old at least.@@ You continue until you reach the service sector, where the kitchen and cleaning are taken care of. You can see some people watching over here.<br><br>
+
+    @@.npd;Not much to see here, just food preparation and cleaning, which includes the kids' trash. Really... Babies make a ton of dirt, despite being so cute.@@ Then you are taken through the main corridor of the premises to a double door.<br><br>
+
+    @@.npd;And here, is where kids who can already walk are left to play and learn.@@ Victoria opens the doors, showing a large hall that you could say is a children's sanctuary. A few dozen kids absently have fun with toys and with each other, most of them are about 1 or 2 years old with a separate area for younger children. The lounge has large glass windows allowing sunlight to come in abundantly, you also see 4 nurses constantly watching every step of the children.<br><br>
+
+    @@.npd;The low birth numbers combat plan seems to have affected, for modern people who don't want to take care of their kids... I think the best way is to offer this care. I know that they are not all, but most current parents are what I call "accidental parents". People who only decide to have a child if the pill fails, but in reality, this is always the last thing on their mind... You know, raising a child requires a lot, you need to give up your wishes if you donate to your child's body and soul, this is love. But this is something that nobody else wants to do...@@ You already begin to imagine what she means.<br><br>
+
+    @@.npd;I am not judging you, it is the most pleasant job in the world to be able to take care of these children, to watch them grow day by day... I do not understand why modern people have lost their motherly instinct.@@ You feel a legitimate love emanating from her voice and her eyes towards the children. She calls one of the nurses, asking about your kids.<br><br>
+
+    @@.npd;This mommy wants to see her kid... Name is <<name>> <<surname>>. I don't know exactly how old her kids are...@@ The nurse quickly checks with her tablet before mentioning it to you.<br><br>
+
+    @@.npe;Mrs. <<surname>>, I have a list of all the babies in the nursery today, when you want to visit any of your children just ask any girl on the team.@@ You nod positively to the nurse, she shows you the tablet with your information. You can visit any of your kids.<br><br>
+
+    <center>
+    <<button "Kids list">>
+      <<intreplace>><<include [[KidsList]]>><</intreplace>>
+    <</button>>
+    </center>
+  <</intreplace>><</button>>
+  </center>
+<</if>>
+
+
+:: KidsList [nobr]
+<center><span class="head1"><<name>> <<surname>>'s profile</span></center><br><br>
+
+''Race'': <<race>><br>
+''Fertility'': <<fert>><br> 
+''Children'': <<= ↂ.child.length>> kids so far<br><br>
+
+Woman description: Considering the status, the children probably have different parents, giving a greater genetic variety but severely damaging affective bonds.<br><br>
+
+<hr><span class="head3">Children list</span><br><br>
+
+<<for _i, _child range ↂ.child>>
+  <<capture _child>>
+    <span class="head4"><<= _child.name>> <<= _child.surname>>, <<= _child.sexDesc>></span><br><br>
+
+    You conceived your <<= _child.sexDesc>> with a <<= _child.dadRace>> ethnicity man. The <<= _child.sexDesc>> has <<= _child.ageYear>> years.<br><br>
+
+    Kid's traits...<br>
+    //Skin: <<= _child['skinColor']>> skin tone//<br>
+    //Eyes: <<= _child['eyeColor']>> eyes//<br>
+    //Hair: <<= _child['hairColor']>>, <<= _child.hairCurlDesc>> hair//<br>
+    //Weight: <<= _child.weight>>//<br><br>
+
+    <<button "Dedicate time to <<= _child.name>>">>
+      <<set setup.selectedChild = _child>>
+      <<dialog "Children's time">><<include [[ChildEvents]]>><</dialog>>
+    <</button>><br><br><br>
+  <</capture>>
+<</for>>
+
+
+:: ChildEvents [nobr]
+
+<div id="choice">
+<<if setup.selectedChild.ageYear < 1>><<addTime 30>>
+  You decide to take care of your baby <<= setup.selectedChild.sexDesc>>, <<= setup.selectedChild.name>>. Young babies are usually under the strong care of nurses, although mothers still have ample access for as long as they want. You go to the sector for children up to one year old, several children being cared for by some nurses. @@.npc;Madam, can I help you? I think you want to find your baby, lady... <<surname>>.@@<br><br>
+
+  A young <<= either("asian", "white", "latina", "older")>> nurse questions you while looking at your identification. @@.pc;Of course, I want to spend some time with my <<= setup.selectedChild.sexDesc>>.@@<br><br>
+
+  She thinks for a while as she looks around, before pointing at you. @@.npc;There, feel free to breastfeed, or take it to the garden if you want.@@<br><br>
+  
+  You thank the nurse, before going to see your baby. When you approach name is sleeping peacefully in the crib, the environment is clean and the child looks in perfect condition, you can't help but smile when you bring your hand close to your baby and caress the short <<= setup.selectedChild.hairColor>> hair.<br><br>
+
+  The child's light sleep is broken at your touch, but he does not cry. @@.pc;Hey cute little thing, how are you? I know you still can't speak, but I would love to hear your first words.@@<br><br>
+
+  You keep caressing and watching your baby, feeling your heart fill with a maternal feeling and total satisfaction when your baby looks at you and occasionally smiles at you.<br><br>
+
+  <<dialogchoice>>
+    <<dbutt "Breastfeed" "setup.status.milk() <= -1">><<replace "#choice">><<include "Baby-Breastfeed">><</replace>>
+    <<dtext "happy">>Breastfeeding my baby is always so good...
+    <<dbutt "Play time">><<replace "#choice">><<include "Baby-PlayTime">><</replace>>
+    <<dtext "happy">>That looks nice!
+    <<dbutt "Make a video of your baby">><<replace "#choice">><<include "Baby-BabyVideo">><</replace>>
+    <<dtext "happy">>Everyone likes baby videos!
+    <<dbutt "Teething problems" "setup.selectedChild.ageMonth >= 8">><<replace "#choice">><<include "Baby-TeethingProblems">><</replace>>
+    <<dtext "disturbed">>My baby is teething...
+  <</dialogchoice>>
+<<elseif setup.selectedChild.ageYear < 1>><<addTime 30>>
+  You decide to go see your child, << = setup.selectedChild.name >> you are already over 1 year old and from then on children can receive less care, the nursery nurses seem to have a policy of encouraging independence for children whenever possible. You reach the large area where the children spend most of their time, and ask one of the nurses where <<= setup.selectedChild.name>> is.<br><br>
+
+  @@.npc;Oh, ma'am <<surname>>. Your baby is in the toy area, you probably already know that.@@ She points to the surrounding area where children under 2 years stay. You thank him and go there starting a search for your baby among several children, for a normal person that would be relatively difficult, but you are a mother and can instinctively recognize your child without much delay, who is taking a few steps freely in the middle to all other toys.<br><br>
+
+  @@.pc;Hehe, you seem to be enjoying yourself.@@ You kneel in front of <<= setup.selectedChild.name>>, your baby recognizes you after a few moments.<br><br>
+
+  @@.npd;Mommy!@@ At this age, children start babbling words and gradually mastering motor coordination, you feel a motherly affection again taking hold within you in the face of something as cute as <<= setup.selectedChild.name>>. You sit in front of your child, he can take steps but still clumsy, but you like what you see.<br><br>
+
+  <<dialogchoice>>
+    <<dbutt "Diaper problem">><<replace "#choice">><<include "BabyOlder-ChangingDiapers">><</replace>>
+    <<dtext "disturbed">>Maybe I need to check the diaper...?
+    <<dbutt "Make a video!">><<replace "#choice">><<include "BabyOlder-BabyPlayVideo">><</replace>>
+    <<dtext "happy">>Everyone likes baby videos!
+  <</dialogchoice>>
+<<else>>
+  You decide to spend time with <<= setup.selectedChild.sexDesc>>, your child is no longer a newborn baby, but a child over 2 years old, according to what you see in the interface of the nursery routine, children of that age are divided between recreation and some basic education in the courtyard.<br><br>
+
+  You will find a large covered and fenced area on the patio outside the nursery, as safe as the rest of the nursery. Some children are spread out playing, with the same energy as always, but a distinctly dressed woman tries to catch the attention of a small group of children, you get close to the small crowd and manage to find your kid whose focus is totally locked on the woman. This area of ​​the patio reminds you of a small classroom, a large screen behind the woman serves as a picture, showing some basic things for the children.<br><br>
+
+  @@.npd;Please, kids... Pay attention to this, if you want to have a competitive advantage in the market when you are an adult it is good to start early!@@ She points to the screen, struggling for the children to learn something.<br><br>
+
+  @@.npd;Hey, are you a mom? I think you found your kid here... If you would like, you can help to keep him focused in class.@@<br><br>
+
+  @@.pc;Are classes compulsory?@@ You approach the young teacher, questioning her.<br><br>
+
+  @@.npd;Not really, at that age. Classes are optional for young children like this, but we try to teach them from an early age, and mothers have full access to help.@@ She gives you a tired smile.<br><br>
+
+  @@.npd;Or you can just spend some time with your child, perhaps playing with them on the patio. Now... I need to continue this.@@<br><br>
+
+  <<dialogchoice>>
+    <<dbutt "Teach your child">><<replace "#choice">><<include "Child-BasicClass">><</replace>>
+    <<dtext "happy">>Can I help my child with learning.
+    <<dbutt "Play time">><<replace "#choice">><<include "Child-PlayTime">><</replace>>
+    <<dtext "happy">>It is better to dedicate time to play a little!
+    <<dbutt "Record you kid!">><<replace "#choice">><<include "Child-ChildPlayVideo">><</replace>>
+    <<dtext "happy">>Everyone likes baby videos!
+  <</dialogchoice>>
+<</if>>
+</div>
+
+
+:: Baby-TeethingProblems [nobr]
+
+You approach your baby's crib, a nurse is sitting in the armchair next to the crib taking some notes on the tablet. She notices when you approach and get up to greet you, you ask if everything is fine with <<= setup.selectedChild.name>>. @@.npc;Yes, well this one is teething... A little occasional fever, some pain too but nothing out of the ordinary. In a few weeks this should be over, once <<= setup.selectedChild.name>> teeth are better positioned on the gum.@@<br><br>
+
+You saw some videos about baby teething, nothing too profound though, but you decide to clear up any doubts about it. @@.npc;Ah yes, the pain passes easily with something cold, if you have already extracted a tooth you understand how it works. So we're just giving <<= setup.selectedChild.name>> cold baby food.@@<br><br>
+
+The nurse points to a small pot next to her. @@.npc;I was going to feed your baby now, he is on a fever, but if you want to feed...@@<br><br>
+
+You give a brief smile when you nod your head. @@.pc;I would love to, I want to spend some time with my baby.@@<br><br>
+
+The nurse gives you space, allowing you to take care of everything here. You approach the crib and caress your baby gently, with a gesture of legitimate maternal affection. @@.pc;Hi... My little one. So your first teeth are coming, huh? That should hurt but...@@<br><br>
+
+You take the small pot of baby food, and while opening it to feed <<= setup.selectedChild.name>> you mention it. @@.pc;I think it will help you, and should you be hungry too?@@<br><br>
+
+Your baby seems a little agitated though, you may notice that he just stopped crying, probably because of the teething pain. Seeing your baby in pain is something that weighs on your heart, but it is normal for babies of that age. The best you can do is feed him something cold so that he can have pain relief.<br><br>
+
+//You take a spoon and, positioning your baby, you try to take a first spoonful of the gelatinous and cold food.// @@.pc;Come on, eat this, you'll feel better...@@<br><br>
+
+You place the spoon in front of your baby's mouth, hoping that he will then grab the gelatinous food on his own to encourage the child's independence from an early age. <<= setup.selectedChild.name>> starts to chew the cold food, a small portion of it falls into the bib attached to his neck. You then prepare a new spoonful after a few seconds, repeating the process. @@.pc;Okay, one more... Soon the pain will pass.@@<br><br>
+
+The <<= setup.selectedChild.name>> way of eating is still quite clumsy, which makes things even cuter, you can't help but have a light laugh when you see your baby chewing on the jelly. @@.pc;Heh... You can take work, but it's the cutest thing I know.@@<br><br>
+
+You feel the maternal affection taking over the moment again, filling you with satisfaction when you can dedicate quality time to your baby. Spoon after spoon the child seems to be calmer, the tears dry and then your baby increases the pace at which he eats. @@.pc;I think the pain is finally gone, don't you? I said it would help...@@<br><br>
+
+You drop the empty pot on the side table, and then you turn to <<= setup.selectedChild.name>>, cleaning the rest of the food around his mouth. After spending 15 minutes on food and care, the pain is finally gone for now and you can dedicate a lot of time to your baby. In the end, <<name>> falls asleep, and you notice the nurse again returning to routine care. @@.npc;Are you leaving?@@<br><br>
+
+You nod, explaining that you need to take care of other tasks, and <<= setup.selectedChild.name>> is already asleep, after all. @@.pc;I need to go now, take good care of him, I don't like seeing him in pain...@@<br><br>
+
+<<run setup.status.getMilked("baby")>><<addTime 130>><<happy 2>><<arousal -2>>
+
+//By Anenn//
+
+
+:: Baby-BabyVideo [nobr]
+
+You have the idea of ​​making a short video of remembrance, knowing that children have a fast growth rate, in two years your little baby will be huge. It will be a child and you will probably miss the time when he was a baby. You don't have to think for long, you quickly pull your cell phone into your pocket and start a video, directly on the streets social networks. @@.pc;Hey everyone, this is a short video, but for me I know it will be valuable in the future...@@<br><br>
+
+You turn a camera over to your baby, who rests calmly in the crib. @@.pc;This is my <<= setup.selectedChild.sexDesc>>, <<= setup.selectedChild.name>>! I would love for him to be able to speak, at least a few words... But <<= setup.selectedChild.name>> is still very young, unfortunately. It's VERY cute though...@@<br><br>
+
+You let your motherly affection take care of the video, caressing your baby with one hand, but just keeping a camera focused on it. People who watch the video are able to feel your motherly love in your tone of voice, something really rare these days. @@.pc;I want to be there when he says the first word, but it can be difficult though... Unfortunately life requires a lot of our time... But I will try hard to try.@@<br><br>
+
+You have a very maternal conversation with the people who are watching your stream, for several minutes you play with <<= setup.selectedChild.name>>, giving your baby some toys, dividing your attention between that and the stream, <<= setup.selectedChild.name>> luckily it's calm today, your child smiles and plays peacefully with the toys you give him. @@.pc;Hehe, I’ve always heard that babies can be quite loud, and there are few babies with a calm temperament.@@<br><br>
+
+The comment bar starts showing several people sharing their maternal or fatherly experiences, many people sharing the stress of taking care of a baby, dirty diapers, taking the time, caring and loving. However, being a mother or father requires a lot, everyone knows that motherhood demands total self-giving for the family, although it seems that modern people have forgotten to think that having children is a means of personal satisfaction. @@.pc;Hmm... If you don't want to dedicate yourself to your family, don't have children. Children are not supposed to give you personal satisfaction!@@<br><br>
+
+Some comments annoy you and you need to give a firmer answer, after about 10 minutes you decide to end the stream. Wondering whether sharing the maternal moments you have with your children to an audience on social media is appropriate, although you think it may inspire some mothers to be more present in their children's lives, which is worth the effort.<br><br>
+
+You dedicate yourself for a good amount of time for your baby, amid games, some laughter and motherly smiles you don't feel the time passing.<br><br>
+
+<<run setup.status.getMilked("baby")>><<addTime 130>><<happy 2>><<arousal -2>>
+
+//By Anenn//
+
+
+:: Baby-Breastfeed [nobr]
+
+Your breasts are full of milk and you are looking at your baby, you smile to yourself with the idea of ​​breastfeeding. You remove your T-shirt and your bra, without much shyness since you may occasionally see other mothers doing the same.<br><br>
+
+You sit in a chair next to your baby's crib with him in your arms, approaching your left nipple and hoping he is hungry. After a few moments, he recognizes what is happening and instinctively grabs your breast with small hands and grabs the nipple, starting to suck. You feel the milk flow through your nipple inside your baby's mouth, feeling filled with satisfaction and great happiness runs through your body while you feed your child.<br><br>
+
+@@.pc;It looks like you are- Uhh! Are you hungry? hehe@@ You smile widely feeling the strong suction, taking the milk out of your breast. It is an intoxicating sensation, the constant sucking makes you feel a unique pleasure, unlike any sexual relationship. It is the pleasure of the maternal bond between a mother and her child, breastfeeding forms a permanent bond for both. The warmth of your baby's mouth and the pressure of tiny hands against your breast cause you some waves of pleasure, although no bigger than the love you feel now, the movements seem like something instinctive for the child to express the greatest amount of milk possible from your breast. Quantity is not your concern though, you are a great milk producer, thanks to your good genes, genes that now also live in your baby.<br><br>
+
+You are going to grow big and strong, you know? I will stay close to you until the end.<br><br>
+
+You forget all the rest, work, duties, extra tasks, money, at that moment the world comes down to you and your child. You are delivered to your baby, allowing yourself to forget about everything else. @@.pc;Okay, now... You need to suck from each other, this one also has a lot of milk.@@<br><br>
+
+You remove your left nipple, even if the <<= setup.selectedChild.name>> doesn't want to, but soon you place the child in front of your other nipple, which soon receives the same attention from your baby. You let out a sigh showing satisfaction and pleasure when your baby starts sucking, sucking your milk again. @@.pc;H-Hey, you are very strong.@@<br><br>
+
+You feel the pressure on your right breast, caused by your baby who pulls your breast a little while trying to sip more of your milk, you have no other option if you do not leave it. Again you smile to yourself, thinking about what your baby will be like when he is a little older. How name will look like you, how you will relate to your baby when he reaches adolescence. You are lost in your thoughts and the depth of the breastfeeding moment for several minutes, until the child is completely satisfied and stops sipping your milk, leaving your breasts considerably empty.<br><br>
+
+@@.pc;Did you like it? I liked it, you are the cutest thing in the world, you know?@@ You hug your baby lovingly before returning him to the crib, stroking his short hair again before putting on your clothes. You take your cell phone to realize that you spent 2 hours with your baby, between breastfeeding and caressing you had a great time, you look at your kid to realize that he is starting to fall asleep again.<br><br>
+
+@@.pc;Mommy has to go now, I need to take care of a lot of things, work and make some money for us... But I'll be back soon, okay?@@ You tell your baby, feeling your heart heavy, but responsibilities call you and cannot be ignored. You give space for nurses to take care of it, knowing that your baby is safe and protected here.<br><br><br>
+
+<<run setup.status.getMilked("baby")>><<addTime 130>><<happy 2>><<arousal -2>>
+
+//By Anenn//
+
+
+:: Baby-PlayTime [nobr]
+
+You know that there is an area with several toys for children of that age, deciding that you want to have some quality time with your child you start talking. @@.pc;Shall we leave the cradle? Mommy wants to spend time with you.@@<br><br>
+
+You smile at your baby, before gently picking him up and going to the play area for children under 2 years old. When you arrive you can see a circular area surrounded with a glass barrier of a few centimeters, preventing the children from leaving there and padded with a soft and clean plush carpet. Several toys are scattered on the playground and two nurses watch from afar while the children play.<br><br>
+
+Then you place your child on the soft floor, sitting next to him and encouraging him to start exploring the new environment and playing with objects. @@.pc;Come on, <<= setup.selectedChild.name>>! You have a whole new world to discover... Let mommy help you.@@<br><br>
+
+You bite your lips in a motherly animation before you start to encourage your baby to handle toys, a huge myriad of educational objects, or for pure fun. You can't help but try to stimulate some words from your baby and spend several minutes admiring them while your child crawls on the floor, interested in selecting some specific toys while ignoring others and starting to show interest. @@.pc;This... You can put these cubes together and make words with it.@@<br><br>
+
+You put together a few cubes forming a few words, always trying to stimulate your child's first words. You speak slowly each of the words you have formed, looking directly into your baby's eyes. @@.pc;Love... Life... Kindness...@@<br><br>
+
+After a few minutes and amid a few laughs you can hear your baby babbling a word, although not quite yet. @@.pc;Hehe, you're getting there! You'll soon be able to master this, baby.@@<br><br>
+
+You forget about the passing of time while still playing with your baby, allowing yourself to be carried away by those pleasurable moments always feeling great satisfaction when donating your time to your child.<br><br>
+
+Looking around you don't see many mothers, you start to remember Victoria's words when she mentions that modern parents no longer want to dedicate themselves to their children, preferring to leave them in a daycare or school, and then forget about their existence. For a few moments, your mind wanders through those thoughts, making you feel a great emptiness when thinking about these situations, lack of love, and hopelessness take your heart for a brief moment breaking your smile and starting to bring down your mood until until you look at your baby again.
+
+You come out of the depths of your thoughts and turn to your baby, who is looking directly at you. I realize that he is slowly beginning to master the power of language, and one of his first words was you. This sheds light on the emptiness you felt, causing maternal love to come back into you, which expresses this with an affectionate smile, stroking your baby's short hair.<br><br>
+
+Again, you turn totally towards your baby, without remembering the passage of time. Several minutes later you realize that <<name>> is already looking exhausted and you need to return your baby to the crib. You carry him on your lap back to his sleeping place, where a nurse is changing the sheet. @@.npd;Mrs. <<surname>>! I just cleaned your baby's crib, I hope the time on the playground was pleasant.@@<br><br>
+
+@@.pc;Yeah, that was it.@@ You don't mention much more, but your expression reflects your state of mind and your love for your baby. You put him in the clean cradle, gently so you don't wake him up. The nurse seems to smile a little when she sees your care for your baby.<br><br>
+
+@@.npd;It is not very common to see mothers regularly present here...@@ A brief moment of silence passes before you remember your routine and duties, looking at your phone and remembering that you spent about 2 hours.<br><br>
+
+@@.pc;I need to go now, take care of him, please...@@ The nurse responds with a positive nod before you leave.<br><br><br>
+
+<<addTime 130>><<happy 2>><<arousal -2>>
+
+//By Anenn//<br><br>
+
+
+:: BabyOlder-ChangingDiapers [nobr]
+
+After a few moments, you feel a smelly airwave reaching you, considering the distance of the other children, only <<= setup.selectedChild.name>> may be giving off that smell. You realize that you have to do something about it, you probably have a case of dirty diapers in your hands. @@.pc;Ugh... I think you need some help with that.@@<br><br>
+
+You make an expression that displays a mixture of tension and tenderness, although you love your child and dedicate yourself to them, those moments are always unpleasant. You take <<= setup.selectedChild.name>> on your lap and take it out of the playground area. Upon leaving a nurse asks if you would like help with something. @@.npc;Mrs. <<surname>>, if you want I can change the <<= setup.selectedChild.name>> diaper.@@<br><br>
+
+She mentions it, also seeming to smell it. @@.pc;N-No, I take care of that, I want to do something for my child... Besides just having moments of play. << = setup.selectedChild.name >> it's my responsibility...@@<br><br>
+
+The nurse seems a little surprised by your statement, but she just nods, indicating the birthplace of <<= setup.selectedChild.name>>. When you arrive at the crib again you have a pair of clean diapers waiting on the bedside table next to you, the nurses keep everything in good condition. @@.pc;Great, that's a big help... Now... The diaper...@@<br><br>
+
+You mention it by laying <<= setup.selectedChild.name>> on the table and taking a few seconds to gather the courage to do that. Biting your lips, you unfasten the sides of the diaper, opening it, and then you are hit again by a smelly wave, holding your breath you can see your child's poop, however, at that age the poop is already solid. @@.pc;Y-Yeah, I imagined something like this, let's clean you up.@@<br><br>
+
+You roll up the dirty diaper and throw it in the trash, then you take a new diaper and leave it open while you look for something to clean the <<= setup.selectedChild.name>> butt. You use a small white towel, deciding that this will do, you pass it on your child's ass to remove any remnants of poop and prevent diaper rash. @@.pc;Uh... I think this is enough, clean again!@@<br><br>
+
+You celebrate your victory, immediately noticing a baby ointment to your left. You start to feel like a mother of Netflix series, traditional women, and dedicated to their children. Most women today see this as something from another reality, many think it would mean the end of life for them, but you don't feel that way. The experience of motherhood, responsibility, and the desire to fulfill your role in your child's life fills you with maternal love, giving greater meaning to your life and your efforts. You know you could just abandon your child here and never see you again, but you don't want to do that, and thinking about doing such a thing makes you feel bad.<br><br>
+
+You turn your baby's ass up high, and fill your hand with smooth ointment, hoping it will be enough and pour it out with gentle movements. The skin <<= setup.selectedChild.name>> is soft, as smooth as the ointment you hold. You feel that the responsibility of being a mother is difficult, but it is rewarding. After a few moments you spread it over the butt of <<= setup.selectedChild.name>>, and then you're free to put on the new diaper. It is a little awkward in the beginning, but soon you can position your baby correctly, fitting it in the diaper. @@.pc;Victory, clean again! It took a few minutes.@@<br><br>
+
+You smile for yourself, before returning your baby to the playground area. You spend a lot of time with <<= setup.selectedChild.name>> until it is time for you to get back to your tasks.<br><br><br>
+
+<<addTime 130>><<happy 2>><<arousal -2>>
+
+//By Anenn//<br><br>
+
+
+:: BabyOlder-BabyPlayVideo [nobr]
+
+You watch your child play happily with the various toys scattered on the floor when you have an idea. Dedicated mothers in general enjoy proudly making remembrance videos, even posting it on social media for everyone to see their source of pride. Liking the idea, you pull your cell phone out of your pocket and immediately adjust the camera to your profile, starting to record your baby. @@.pc;Hey <<= setup.selectedChild.name>>, what are you doing? Hehe@@<br><br>
+
+<<= setup.selectedChild.name>> looks at you, but without responding in words, just taking a block of letters and offering it to you before turning to a different toy. You let out a smile with a little laugh as you continue to record your baby. @@.pc;This is my baby <<= setup.selectedChild.sexDesc>>, <<= setup.selectedChild.name>>. He's already over a year...@@<br><br>
+
+You continue to share some trivial information about your baby while allowing him to continue playing but always following him closely. One of the next toys is a box with a puzzle, you are sure it should not be here for children so young, but you give it a chance thinking about having some good memories. @@.pc;<<= setup.selectedChild.name>>, do you know what this is? Say yes or no to mommy.@@<br><br>
+
+You open the box by placing this in front of your baby, he tries to stammer an answer, but you don't quite understand the meaning. @@.npc;Do!@@<br><br>
+
+@@.pc;Do you know? Do you know that you need to fit each piece in the correct place?@@<br><br>
+
+@@npc;Mommy? hehe@@ He laughs at you, even though he knows that <<= setup.selectedChild.name>> still doesn't understand your words, he throws some pieces of the puzzle in the air, you expected such a reaction though.<br><br>
+
+@@.pc;Haha, I think it's too early to try this...@@ You follow the recording for a few minutes while your son spends his energy with you and the playground toys, you finish the video with 20 minutes of recording, with a message for the other mothers of Appletree.<br><br>
+
+@@.pc;For any mother who is listening to me, I know that many simply abandon their children at the government daycare... My advice is, don't do this. Motherhood is difficult and requires responsibility, but I can't imagine how empty life would be without my son's love. Rethink what you are doing.@@ After the last and serious message, some very simple, yet deeply maternal and pleasant moments that are now recorded on your social network for all to see.<br><br>
+
+You continue for a long time having fun with your baby until he is tired and his energy is spent, then you go back to your tasks knowing that he is safe and well taken care of.<br><br><br>
+
+<<addTime 130>><<happy 2>><<arousal -2>>
+
+//By Anenn//<br><br>
+
+
+:: Child-BasicClass [nobr]
+
+You sit next to your child, he is distracted by some friends when you arrive and kneel in front of him. @@.pc;Hi darling. How are you?@@<br><br>
+
+@@.npd;Mommy!@@ You receive a hug and cannot contain a smile.<br><br>
+
+@@.pc;Let's pay attention in class now, okay? Just for a while.@@ <<= setup.selectedChild.name>> has not yet fully mastered the gift of speech, but your child can already speak some things and has excellent motor coordination. You ask that name sit beside you, in front of the young teacher who continues the effort to pass on basic teachings about the alphabet and the pronunciation of words.<br><br>
+
+In the beginning, your child pays attention, but at some point, another child calls the attention of <<= setup.selectedChild.name>>, you decide to rebuke that. @@.pc;<<= setup.selectedChild.name>>, dear... Please, now you need to pay attention in class.@@<br><br>
+
+You draw your child's attention back to class, knowing that children of that age easily lose focus, you just encourage him to do the right thing. @@.npd;Hehe... Sorry, mommy.@@<br><br>
+
+You continue to ensure that your child's attention is focused on the class for the next few minutes, always also offering support, especially in terms of improving speaking skills. <<= setup.selectedChild.name>> is still unable to form large sentences, but learning and helping with this makes you feel very satisfied. @@.pc;Listen to mommy now, do you see that sentence? Repeat slowly...@@<br><br>
+
+<<= either(
+  "You constantly encourage <<= setup.selectedChild.name>> to do its best, even though your child still doesn't understand exactly what's going on. Watching <<= setup.selectedChild.name>> practice your speaking skills fills you with maternal pride, you bite your lower lip feeling your heart fill with that feeling and caress his <<= setup.selectedChild.hairCurlDesc>>, <<= setup.selectedChild.hairColor>> hair.",
+  "Despite your best efforts, it is difficult to maintain the focus of name in class, you dedicate yourself to the maximum though. Your child is the cutest thing you've ever seen, at least you feel that way every time you see him, you hug him gently in the middle of the class, giving a manifestation of love that ends up filling everyone's eyes."
+)>><br><br>
+
+The class lasts more than an hour, but the moments with your children are always very pleasant and you do not see the time passing, just remembering your routine when you again receive a message on your cell phone, which vibrates in your pocket. @@.npc;I see that duty also calls you, thanks for helping with that, these little devils have more energy than 3 adult people at that age.@@<br><br>
+
+The young teacher speaks, realizing that you will need to get back to your tasks. @@.pc;Now mommy needs to go, but I'll be back, okay? Behave yourself, dear.@@<br><br>
+
+<<= setup.selectedChild.name>> seems to be very sad when you mention it, you feel the same, but you kiss your child's forehead and get out of it, knowing that <<= setup.selectedChild.name>> is protected.<br><br><br>
+
+<<addTime 130>><<happy 2>><<arousal -2>>
+
+//By Anenn//
+
+
+:: Child-PlayTime [nobr]
+
+You approach <<= setup.selectedChild.name>> and ask your child to have fun with you. <<= setup.selectedChild.name>> welcomes you cheerfully, already managing to speak a few words, but not yet very elaborate phrases.<br><br>
+
+@@.npd;Mommy! Want play?@@ You let out a little laugh, but take your child's hand and take it to the center of the yard where most of the children's toys are, already designed to stimulate the motor coordination of young children.<br><br>
+
+@@.pc;I came to spend some time with you, come on... What do you want to do? You say, then <<= setup.selectedChild.name>> points to the balance, without saying any more than a mischievous smile, typical of children of that age. Full of life, energy, and innocence. You take your child on your lap and take him to an empty spot on the swing, feeling that <<= setup.selectedChild.name>> has grown considerably, no longer being the baby you carried easily in your arms, and that he will grow much more. You feel that you need to enjoy each moment with <<= setup.selectedChild.name>>, each day is precious.<br><br>
+
+@@.pc;Let's do this!@@ You put him on the floor in front of the swing, where he quickly sits down, and looking at you with a mischievous smile looks at you in anticipation that you start to pack this. You start shaking it, for several minutes realizing that such a simple activity is capable of making such a happy <<= setup.selectedChild.name>>, you hear your child's laughter and you can't help yourself without ending up laughing a little too.<br><br>
+
+<<= either(
+  "After several moments you have a broken focus when you see on the side a girl of about 3 years old on the swing, trying to propel herself. Her expression is not one of happiness, your mind wanders again wondering where this girl's mother might be if she receives any attention from her parents. You are brought back from your thoughts by the voice of <<= setup.selectedChild.name>> though.", 
+  "You see two mothers focused on their children, as young as you are, and as laid back as you can judge. This is an image that gives your heart a little hope, even though you know that many of these children are forgotten here by their parents, almost never receiving attention from their mothers.",
+  "You can forget about your problems during that moment, you are dedicating all your love and attention to your child, being filled with a strong maternal affection and the satisfaction of having the chance to give that love to your child."
+)>><br><br>
+
+@@.npd;Mommy...@@ <<= setup.selectedChild.name>> is still waiting for you to continue driving, you again turn your attention to your child, letting your dark thoughts be ignored for now. The fun activity takes up your time until you feel tired, but <<= setup.selectedChild.name>> doesn't feel tired though, your child has enough energy to play for several hours.<br><br>
+
+@@.pc;<<= setup.selectedChild.name>>, we've been playing around for a long time, but I need to go now ... Mommy needs to do some chores, but I'll be back, okay?@@ You kiss <<= setup.selectedChild.name>>'s forehead, realizing that your child has been considerably saddened, but duty calls you.<br><br><br>
+
+<<addTime 130>><<happy 2>><<arousal -2>>
+
+//By Anenn//
+
+
+:: Child-ChildPlayVideo [nobr]
+
+You approach << = setup.selectedChild.name >> and think of something fun, a video as a souvenir during a game is always a useful activity considering that kids grow up fast. Approaching your child you offer to go to the toys in the central part of the garden. @@.pc;<<= setup.selectedChild.name>>, do you want to play with mommy? Let's have some fun, what do you think?@@<br><br>
+
+<<= setup.selectedChild.name>> looks at you with interest, then half-smiles. Your <<= setup.selectedChild.sexDesc>> is over 2 years old, you feel that time has passed quickly, perhaps more than you would like. @@.npc;Yeah, of course, mommy.@@<br><br>
+
+Your <<= setup.selectedChild.sexDesc>> looks at you with an innocent look, expecting to leave the classroom and start playing, you grab his hand and take him to the toys in the central garden. Several swings and other toys that stimulate children's motor coordination are there, under the constant care of nurses. @@.pc;So, which toy do you prefer?@@<br><br>
+
+You realize that the focus of <<= setup.selectedChild.name>> is on several things, everything seems to attract the attention of children at that age, making it easily distracting. But your <<= setup.selectedChild.sexDesc>> seems to hold your eyes on the big central slide, already being used by some children, curiosity becomes evident and strong in your child's eyes. @@.npc;There!@@<br><br>
+
+<<= setup.selectedChild.name>> innocently points, you let go of his hand and give him the incentive for your <<= setup.selectedChild.name>> to play. @@.pc;You can go, dear. If you need me, I'll be here.@@<br><br>
+
+You grab your phone while <<= setup.selectedChild.name>> takes quick, but still awkward, steps to the swing. You start recording a video for your social networks, while <<= setup.selectedChild.name>> starts to socialize with other children. @@.pc;Hello everyone, especially the young mothers. I want to share this, today I saw that my <<= setup.selectedChild.sexDesc>> is growing fast... It is a strange feeling... I am watching my child grow up fast and I want to remember as much as possible.@@<br><br>
+
+You explain a little of your feelings, but soon you point the camera at <<= setup.selectedChild.name>> while he is socializing and playing on the swing, seems to maintain a somewhat elaborate dialogue, but the mastery of the words and phrases of these children grows day by day. You leave your comments as a background narrator while recording <<= setup.selectedChild.name>>, to expose your thoughts.<br><br>
+
+Occasionally <<= setup.selectedChild.name>> looks back at you when you return a smile and continues to encourage your <<= setup.selectedChild.desDesc>> to continue what you are doing. After almost 15 minutes you feel that you have extended the video beyond what you would like, your comments and the moment you lived with your child are recorded as a rock on your social networks, you also hope that this can serve as an inspiration for more mothers pay more attention to their children. After all, the best way to do this is to serve as a good example.<br><br>
+
+The play is far from over, considering the enormous energy of the children, you sit on a bench under shade to watch, you spend a lot of time and the experience is relaxing for you, you can forget about work, duties, and other annoying tasks.<br><br>
+
+You know you can't prolong it infinitely though, after a long time you check your cell phone again to realize that you need to get back to your duties. You approach <<= setup.selectedChild.name>>, which already seems to know your departure, when you kneel yours <<= setup.selectedChild.sexDesc>> changes the expression of laughter and innocent joy to an expression sad. @@.npc;Mommy, are you leaving?@@<br><br>
+
+This is the hardest part, ever. You can see that <<= setup.selectedChild.name>> starts to cry, seeing the tears streaming down your child's face makes you feel a deep weight in your heart. @@.pc;Yes, I need to take care of some things, but I will be back soon. Promise!@@<br><br>
+
+You hug your <<= setup.selectedChild.sexDesc>> affectionately, kissing your child on the forehead at the end before you can get out of there.<br><br><br>
+
+<<addTime 130>><<happy 2>><<arousal -2>>
+
+//By Anenn//

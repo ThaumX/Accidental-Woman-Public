@@ -149,7 +149,7 @@ setup.scene.locationLib = function(loc: string): string {
     ret = `Currently no description written`;
     break;
   case "bullseye":
-    ret = `You are at Bullseye, a large nation-wide department store chain. They carry a little bit of everything, but if you're looking for something uncommon or high-quality you'll usually have to look elsewhere. Bullseye is considered the 'upscale' competitor to Bal*Mart, with a nicer appearance and slightly better customer service.<br><br>Interesting Trivia: Bullseye's original target logo had a brown--rather than blue--bullseye circle. In the 1990s, customers began refering to the store as 'Brown-Eye', leading to the redesign of the company's logo.`;
+    ret = `You are at Bullseye, a large nation-wide department store chain. They carry a little bit of everything, but if you're looking for something uncommon or high-quality you'll usually have to look elsewhere. Bullseye is considered the 'upscale' competitor to Bal*Mart, with a nicer appearance and slightly better customer service.<br><br>Interesting Trivia: Bullseye's original target logo had a brown--rather than blue--bullseye circle. In the 1990s, customers began referring to the store as 'Brown-Eye', leading to the redesign of the company's logo.`;
     break;
   case "t1home":
     ret = `You are in your tiny studio apartment in Appletree.`;

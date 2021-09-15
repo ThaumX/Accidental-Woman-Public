@@ -11,14 +11,12 @@ You think about it for a moment. <<button "Yes, I'm sure">><<status>><<addTime 4
 :: paperForgea [nobr]
 
 <<set $helpText = "There are consequences to age, which was already covered. Similarly, having an age on your ID significantly different from your apparent age will have consequences. The minimum age you can set is 18 because you have to be able to work. The highest is 40.">>
-<<if ndef ↂ.pc.main.ageID>>
-	<<set ↂ.pc.main.ageID = 21>>
-<</if>>
+<<set _ageShits = 21>>
 @@.npc;Aaaand, now you need to decide how old you'll be. Your documents have to say you're at least 18, though I'd stick with 21 for obvious reasons.@@ <<if ↂ.pc.main.age < 18>>@@.npc;Of course, with the way you look people are seriously going to think you have fake ID. Don't worry though, I've got you covered.@@<<elseif ↂ.pc.main.age < 21>>@@.npc;I think you can pull off the whole 'just looks young for her age' thing, especially since you're actually <<print ↂ.pc.main.ageOriginal>>.@@<<elseif ↂ.pc.main.age > 28>>@@.npc;I'd really avoid trying to go too young... You'd look like one of those delusional ladies if you tried 21.@@<<else>>@@.npc;Somewhere in your twenties should probably be fine.@@<</if>>
 <br><br>
-@@.pc;Okay, let's go with <<textbox "ↂ.pc.main.ageID" ↂ.pc.main.ageID>>.@@
+@@.pc;Okay, let's go with <<textbox "_ageShits" _ageShits>>.@@
 
-<<link "continue...">><<set ↂ.pc.main.ageID = Number(ↂ.pc.main.ageID)>><<status>><<addTime 5>><<go paperForgeb>><</link>>
+<<link "continue...">><<status 1>><<set ↂ.pc.main.ageID = Number(_ageShits)>><<status 0>><<addTime 5>><<go paperForgeb>><</link>>
 
 :: paperForgeb [nobr]
 
@@ -53,6 +51,7 @@ Lily shrugs. @@.npc;There really isn't one, since outside insurers won't insure 
 :: paperForgec [nobr]
 
 <<set $helpText = "Being an organ donor has very little to do with donating your organs (unless you're actually in that situation in the game, then all bets are off). What opting out of being an organ donor does is put the game into 'easy mode' in regard to bad endings. You can read more info about the difference in the FAQ.">>
+<<set _MaxwellLord = true>>
 Lily does a couple quick things on her slate, before looking back up at you. Fortunately the position of the slate covers up the fact that you were more interested in her breasts than the information on the screen. @@.npc;Okay, here's one that'll seem a bit odd... Do you want to be an organ donor?@@
 <br><br>
 @@.pc;Huh?@@
@@ -63,8 +62,12 @@ Of course you do, since they're so obvious about it. You never opted out before 
 <br><br>
 @@.npc;Well, normally I'd just say 'be an organ donor', cause it's the right thing and whatnot, but here in Appletree... Let's just say that some of the people here tend to be a little, umm, overzealous. Sooo, yeah, just thought I'd ask. You want to opt out?@@
 <br><br>
-<<link "Be a Donor">><<set ↂ.flag.organDonor = true>><<status>><<addTime 7>><<go paperForged>><</link>> <<link "Opt Out">><<set ↂ.flag.organDonor = false>><<status>><<addTime 7>><<go paperForged>><</link>>
-<<comment "Being an organ donor doesn't increase difficulty per se, but it does make thresholds for getting a bad end less forgiving. If you ever think 'how is the pc going on like nothing happened?' you should be an organ donor.">>
+<<button "Be a Donor">><<set _MaxwellLord = true>><<replace "#donorkabab">>Organ Donor!<</replace>><</button>> <span id="donorkabab"><<if _MaxwellLord>>Organ Donor!<<else>>Not A Donor<</if>></span> <<button "Opt Out">><<set _MaxwellLord = false>><<replace "#donorkabab">>Not A Donor<</replace>><</button>>
+<<comment "Being an organ donor is a depreciated difficulty setting. To get the same Organ Donor experience, choose Hard difficulty.">>
+<br><br>
+<<include [[DifficultySetting]]>>
+<br><br>
+<center><<button "CONTINUE">><<addTime 7>><<go paperForged>><</button>></center><br><br><br>
 
 
 :: paperForged [nobr]
@@ -78,7 +81,7 @@ You don't entirely get it, but there isn't much choice but to play along...@@.pc
 <br><br>
 Lily is still grinning like crazy, but you can tell she's making an effort to be at least a little bit more serious. @@.npc;If you're going to blend in and live as a woman, you've got a ''lot'' to learn. Things that you'd only ever learn if you grew up as a girl, but that it'd be nearly impossible not to learn if you did.@@ 
 <br><br>
-@@.mono;I'd rather be ''//with//'' a girl that learning how to be one... Like that jogging goddess...@@ Lily's staring at you, and you pull your mind from the gutter in order to answer. @@.pc;Okay, so I need to learn how to be a girl.@@
+@@.mono;I'd rather be ''//with//'' a girl than learn how to be one... Like that jogging goddess...@@ Lily's staring at you, and you pull your mind from the gutter in order to answer. @@.pc;Okay, so I need to learn how to be a girl.@@
 <br><br>Her grin is mostly gone now, and you can tell that as much as she may be enjoying the idea of 'teaching you to be a girl', she has some serious motives too. @@.npc;I know it's not your idea of a fun time, but you'll really stand out if you don't learn some stuff. People might not be able to put a finger on exactly what it is, but it'll unnerve them. If you want to have friends, a social life, or even a job...@@
 <br><br>
 Seeing how serious she's gotten, you decide you'd better pay attention. @@.pc;Okay Lily. I get it, so teach me Sensei.@@
@@ -89,7 +92,15 @@ After one last serious look, she stands up and offers you her hand. @@.npc;Come 
 <br><br>
 You take her hand, and by the time you're standing, her lips have curled back up into an amused grin.
 <br><br>
-<<link "Continue">><<go storyStart16a>><</link>>
+<<link "Continue">>
+<<if ↂ.flag.organDonor === 2>>
+  <<set $AW.cash += 1200>>
+<</if>>
+<<if ↂ.flag.organDonor === 1>>
+  <<set $AW.cash += 2400>>
+<</if>>
+<<status 0>>
+<<go storyStart16a>><</link>>
 <br>
 
 

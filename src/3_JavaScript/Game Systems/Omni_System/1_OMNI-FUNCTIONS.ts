@@ -33,7 +33,7 @@ where objects are added as part of a centralized repository.
 .                certain number of times. [e.g. status effect - drug]
 .  "condition" : a irregularly-timed event that occurs based on a cycle count
 .                of set intervals. It also implements its effect based
-.                on this count, and can change over time. [e.g. withdrawl]
+.                on this count, and can change over time. [e.g. withdrawal]
 .  "chain"     : most complex event, has a set of unique events that
 .                occur at set times in the 'chain', including variable
 .                execution time ranges, and self-adding events to the
@@ -71,7 +71,7 @@ interface IntOmniData { // incoming data to OmniEvent constructor
 
 interface IntChainEvent {
   random: boolean; // if check randomizer before running set to true.
-  odds: number; // number in 100 chance of occuring. 90 = 90% chance.
+  odds: number; // number in 100 chance of occurring. 90 = 90% chance.
   run: string;
 }
 
@@ -467,12 +467,16 @@ setup.omni = {
         output += `<img data-passage="IMGstatus_diaphragm" title="You are wearing a diaphragm.">`;
         k++;
       }
-      if (k < 6 && ↂ.pc.status.wombA.fetus.length > 0 || ↂ.pc.status.wombB.fetus.length > 0) {
-        output += `<img data-passage="IMGstatus_pregnant" title="You are pregnant. Congratulations!">`;
-        k++;
-      }
       if (k < 6 && ↂ.pc.status.nutrition !== undefined && setup.valToBMI(ↂ.pc.status.nutrition.realWeight) < 15) {
         output += `<img data-passage="IMGstatus_Starvation" title="You are starving. Death is near...">`;
+        k++;
+      }
+      if (k < 6 && ↂ.pc.body.tits.base.size >= 24000) {
+        output += `<img data-passage="IMGstatus_weight" title="Your breasts are dangerously heavy ${setup.calcBreastWeight(ↂ.pc.body.tits.base.size)}">`;
+        k++;
+      }
+      if (k < 6 && ((ↂ.pc.status.wombA.fetus.length > 0 && ↂ.pc.status.wombA.know) || (ↂ.pc.status.wombB.fetus.length > 0 && ↂ.pc.status.wombB.know))) {
+        output += `<img data-passage="IMGstatus_pregnant" title="You are pregnant. Congratulations!">`;
         k++;
       }
     }

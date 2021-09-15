@@ -105,5 +105,5 @@ setup.unitHeight = function(input: number, type: unit): string {
     in: conv1(0.08333333, 2.54, " feet", "cm"),
     cm: conv2(0.0328084, " feet", "cm"),
   };
-  return gat[type] || "unitHeight requries 'in' or 'cm' argument";
+  return gat[type] || "unitHeight requires 'in' or 'cm' argument";
 };

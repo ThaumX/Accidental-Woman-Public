@@ -4,9 +4,14 @@
 <<silently>>
   <<run setup.date.serious()>>
 <</silently>>
+
+<div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:6px 20px;">
+  <<print setup.rship.timeToAdvance(aw.date.npcid)>> Is <<= aw.date.name>> like you enough for it yet? That's another question.<br>
+</div>
+
 <div id="blepblep"><p><<f y>>ou decide it's time to bring up something serious with <<= aw.date.name>>, so you steel your nerves...</p></div>
 <div id="seriousness">
-<<if ↂ.flag.marriage.discussion>><<button "Discuss marriage">><<replace "#seriousness">><<include [[Wedding-a]]>><</replace>><<set ↂ.flag.marriage.discussion = false>><<status 0>><<replace "#blepblep">><</replace>><</button>><br><</if>>
+<<if ↂ.flag.marriage.discussion.inProgress>><<button "Discuss marriage">><<replace "#seriousness">><<if ↂ.flag.marriage.discussion.date == false>><<include [[Wedding-a]]>><<elseif !ↂ.flag.marriage.discussion.vows>><<print setup.vow.npcVowsProposal(aw.date.npc.key)>><<elseif !ↂ.flag.marriage.discussion.place>><<include [[Wedding-e]]>><<elseif !ↂ.flag.marriage.discussion.officiator>><<include [[Wedding-e]]>><<include [[Wedding-g]]>><<elseif !ↂ.flag.marriage.discussion.vows>><<elseif !ↂ.flag.marriage.discussion.vows>><</if>><</replace>><<status 0>><<replace "#blepblep">><</replace>><</button>><br><</if>>
 <<dialogchoice>>
 <<dbutt "ACCUSE" _canAccuse>><<replace "#seriousness">><<include [[PlayerAccusesDate]]>><</replace>>
 <<dtext "mad">>Accuse <<= aw.date.name>> of cheating on you.
@@ -45,7 +50,7 @@
     <p>@@.pc;Oh...@@</p>
   <</if>>
   <br><<button "Back">><<status 0>><<replace "#kissisness">><<print aw.dateSpots[aw.date.spot].buttonGen()>><</replace>><</button>>
-</div>
+</div><<run setup.date.statRefresh()>>
 
 
 :: DateSpotPreg [nobr]
@@ -61,7 +66,7 @@
 <div id="suckadick">
 <<dialogchoice>>
 <<dbutt "IT'S YOURS">><<if _isDad>><<replace "#suckadick">><<include [[DateSpotPregTrue]]>><</replace>><<else>><<replace "#suckadick">><<include [[DateSpotPregLie]]>><</replace>><</if>>
-<<dtext "proud">><<if _isDad>>Tell <<= aw.date.name>> that it's <<n aw.date.npcid "hishers.q">>.<<else>>Lie and tell <<= aw.date.name>> that the baby is <<n aw.date.npcid "hishers.q">>.<</if>>
+<<dtext "proud">><<if _isDad>>Tell <<= aw.date.name>> that it's <<n $npc "hishers.q">>.<<else>>Lie and tell <<= aw.date.name>> that the baby is <<n $npc "hishers.q">>.<</if>>
 <<dbutt "THANKS">><<run setup.date.goodThings(3,2,4)>><<replace "#suckadick">><p>You thank <<n $npc "himher.q">> before finding out what's next on your date.</p><<print aw.dateSpots[aw.date.spot].buttonGen()>><</replace>><<run setup.date.statRefresh()>>
 <<dtext "pleased">>Just thank <<= aw.date.name>> for congratulating you.
 <</dialogchoice>>
@@ -115,7 +120,7 @@ You ask <<= aw.date.name>> if it's possible to have an open relationship so that
 <<case 1>>
 <<= aw.date.name>> happily responds that sex is great, and the both of you should fuck whoever you want.
 <<case 2>>
-<<= aw.date.name>> thinks about it for a while, but eventually agrees that <<n aw.date.npcid "heshe.q">> would be fine with an open relationship.
+<<= aw.date.name>> thinks about it for a while, but eventually agrees that  "heshe.q">> would be fine with an open relationship.
 <<case 3>>
 <<= aw.date.name>> gets really upset with you for suggesting such a thing. Obviously the answer is no, if you want to sleep with other people, you'll have to be prepared to break up with <<n $npc "himher.q">>.
 <</switch>>
@@ -236,25 +241,25 @@ You made out with someone else <<= _pcheat[2]>> times.
 <<set _bimby = true>>
 <<if ↂ.pc.status.bimbo > 49 || ↂ.pc.kink.hyperSlut>><<set _bimby = false>><</if>>
 <p>
-<<f y>>ou angrily confront <<= aw.date.name>> about your suspicions.
+<<f y>>ou angrily confront <<print aw.date.name>> about your suspicions.
 </p>
 <p>
-<<= aw.date.name>> admits to having sex with someone else <<= _pcheat[0]>> times, giving someone oral <<= _pcheat[1]>> times, and making out with someone else <<= _pcheat[2]>> times.
+<<print aw.date.name>> admits to having sex with someone else <<= _npcheat[0]>> times, giving someone oral <<= _npcheat[1]>> times, and making out with someone else <<= _npcheat[2]>> times.
 </p>
 <p>
 <<if aw.date.npc.rship.lovePC > 69>>
-<<= aw.date.name>> gives you a sincere and heartfelt apology, and seems genuinely remorseful about <<n aw.date.npcid "hisher.q">> actions and how they've hurt you.
+<<print aw.date.name>> gives you a sincere and heartfelt apology, and seems genuinely remorseful about the actions and how they've hurt you.
 <<elseif aw.date.npc.rship.lovePC > 39>>
-<<= aw.date.name>> apologizes for <<n aw.date.npcid "hisher.q">> infidelity, and seems sorry about hurting you.
+<<print aw.date.name>> apologizes for the infidelity, and seems sorry about hurting you.
 <<else>>
-<<= aw.date.name>> acts like <<n aw.date.npcid "hisher.q">> cheating isn't a big deal, but gives you a simple apology anyway.
-<<if>>
+<<print aw.date.name>> acts like the cheating isn't a big deal, but gives you a simple apology anyway.
+<</if>>
 </p>
 <div id="ladycock">
 <<dialogchoice>>
-<<dbutt "FORGIVE">><<replace "$ladycock">><p>You forgive <<= aw.date.name>> and decide to move on from this episode and continue the relationship.</p><<= aw.dateSpots[aw.date.spot].buttonGen()>><</replace>>
+<<dbutt "FORGIVE">><<replace "#ladycock">><p>You forgive <<= aw.date.name>> and decide to move on from this episode and continue the relationship.</p><<= aw.dateSpots[aw.date.spot].buttonGen()>><</replace>>
 <<dtext "angel">>Mistakes happen. Forgive <<= aw.date.name>>'s infidelity.
-<<dbutt "BREAK UP" _bimby>><<replace "$ladycock">><p>You break up with <<= aw.date.name>>, stating that you can't stay with someone who cheats on you.</p><<run aw.date.npc.rship.breakUp()>><<run setup.date.badThings(5, 5, 0)>><<run setup.date.statRefresh()>><center><<button "END THE DATE">><<run setup.date.end()>><</button>></center><</replace>>
+<<dbutt "BREAK UP" _bimby>><<replace "#ladycock">><p>You break up with <<= aw.date.name>>, stating that you can't stay with someone who cheats on you.</p><<run aw.date.npc.rship.breakUp()>><<run setup.date.badThings(5, 5, 0)>><<run setup.date.statRefresh()>><center><<button "END THE DATE">><<run setup.date.end()>><</button>></center><</replace>>
 <<dtext "angry">><<if _bimby>>You can't bring yourself to break up with <<= aw.date.name>>.<<else>>You won't put up with cheating in your relationships. Dump <<= aw.date.name>>.<</if>>
 <</dialogchoice>>
 </div>
@@ -302,13 +307,15 @@ You made out with someone else <<= _pcheat[2]>> times.
   <<set _approveMI = false>>
   <<run setup.date.badThings(3, 3, 2)>>
 <</if>>
+<<set $npc = aw.date.npcid>>
 <</silently>>
+
 <<if _approveMI>>
 <p>
 @@.pc;So <<= aw.date.name>>, what do you think about moving in together?@@
 </p>
 <p>
-<<= aw.date.name>> looks contemplative for a moment before <<n aw.date.npcid "hisher.q">> face lights up with a smile. @@.npc;You know what, that sounds really nice. I bet we could even afford a pretty nice place once we pool our rent money.@@
+<<= aw.date.name>> looks contemplative for a moment before <<n $npc "hisher.q">> face lights up with a smile. @@.npc;You know what, that sounds really nice. I bet we could even afford a pretty nice place once we pool our rent money.@@
 </p>
 <<has bitch || materialist>>
 <p>
@@ -326,7 +333,7 @@ You nod. @@.pc;That's definitely a nice bonus... So, how do we do this?@@
 </p>
 <</has>>
 <p>
-@@.npc;Well, the real estate office will pretty much take care of everything for us, so we just have to decide when to go over there.@@ <<n aw.date.npcid "heshe.q">> thinks for a moment. @@.npc;There's no rush or anything, how about you just give me a call when you have time to head to the real estate office?@@
+@@.npc;Well, the real estate office will pretty much take care of everything for us, so we just have to decide when to go over there.@@ <<n $npc "heshe.q">> thinks for a moment. @@.npc;There's no rush or anything, how about you just give me a call when you have time to head to the real estate office?@@
 </p>
 <p>
 @@.pc;Yeah, that works for me.@@ You smile widely. @@.pc;I'm getting pretty excited!@@
@@ -339,7 +346,7 @@ You nod. @@.pc;That's definitely a nice bonus... So, how do we do this?@@
 @@.pc;So <<= aw.date.name>>, what do you think about moving in together?@@
 </p>
 <p>
-<<= aw.date.name>> gives you a serious look, <<n aw.date.npcid "hisher.q">> lips curling into a slight frown. @@.npc;I don't know, <<name>>. I don't really think we're ready for that yet.@@
+<<= aw.date.name>> gives you a serious look, <<n $npc "hisher.q">> lips curling into a slight frown. @@.npc;I don't know, <<name>>. I don't really think we're ready for that yet.@@
 </p>
 <p>
 You shrug, trying not to seem dejected as you reply. @@.pc;I suppose you're right, it's a big step.@@

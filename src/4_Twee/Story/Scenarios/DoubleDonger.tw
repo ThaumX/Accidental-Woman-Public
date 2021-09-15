@@ -1,0 +1,687 @@
+
+
+
+:: DoubleDongerFuckMachineMenu [nobr]
+
+<div id="doubledongerdiv">
+<img data-passage="IMG-DoubleDongerBig" style="float:left;margins:0px 25px 25px 0px;">
+<center>
+<<button "Use">><<run aw.homeItems.doubleDonger.action(1)>><</button>> 
+<<if !ↂ.flag.doubleDonger.loaded && ↂ.flag.doubleDonger.used > 1>>
+    <<if $items.has("Liter of Semen")>>
+        <<button "Refill">><<addTime 10>><<run $items.drop("Liter of Semen")>><<set ↂ.flag.doubleDonger.loaded = true>><<status 0>><<replace "#doubledongerdiv">><p>Opening up the side panel of the double donger machine, you follow the instructions printed on the inside of the panel to replace the empty semen cryo canister with a new one.</p><</replace>><</button>>
+    <<else>>
+        <<hoverrevise refill>><button class="disabled">Refill</button><<endhoverrevise>> 
+    <</if>>
+<</if>>
+<<button "Cancel">><<run Dialog.close()>><</button>>
+</center>
+<<insertion refill>><<ctn>>You need a 1 liter canister of semen to refill this.<</ctn>><<endinsertion>><br>
+<<comment "The expanded Double Donger writing is courtesy of Shadowkeeper256!">>
+</div>
+
+:: DoubleDongerFuckMachineFirst [nobr]
+
+<center>
+    <<= either("[img[IMG-MachineDildoVag1]]","[img[IMG-MachineDildoVag2]]")>>
+</center>
+<<set _freeHole = setup.sexToys.check("pc", "vagina")>>
+<<set _freeAss = setup.sexToys.check("pc", "ass")>>
+<<if _freeHole === true && _freeAss === true>>
+    <<set _result = ↂ.pc.body.pussy.insert(4)>>
+    <<status 0>>
+    <p>
+    You get onto the sex machine and position its dildoes against your <<p 'curwet.q'>> <<p 'vulva.n'>> and asshole. 
+    <<if _result === 'loose'>>
+        <<addtime 1>>
+        The head goes in without any resistance and after just a couple of seconds your hungry holes swallow the dildoes entirely. <<has sizeQueen>>@@.mono;Oh, I really need a bigger thing next time, these are just way too tiny...@@<</has>>
+    <<elseif _result === 'fits'>>
+        <<addtime 2>>
+        The dildoes slide into your pussy and ass without any serious efforts.
+    <<elseif _result === 'stretch'>>
+        <<addtime 4>>
+        It takes you some time to stretch your holes with the dildoes heads until they finally make their way inside. @@.mono;Oh, that's what I call stretching!@@
+    <<elseif _result === 'overstretch'>>
+        <<addtime 5>>
+        It takes a lot of unrelenting effort before your holes finally accept them. @@.mono;Oh my... it feels so full!@@
+        <<happy 1 "Stretching your holes is always a pleasure for any size queen.">> 
+    <<elseif _result === 'pain'>>
+        <<addtime 6>>
+        You try one way and another for a couple of minutes but it seems that your holes are way too tight for the damn thing. In a last desperate attempt you push it with force and squeak with pain when they suddenly slide in. @@.mono;Oh shit, I hope I didn't damage anything down there... It feels like Vlad the Impaler would love this for sure, *giggle*... oh gosh, this did hurt. Okay, okay, <<= ↂ.pc.main.name>> just take a deep breath, it is getting better already... and feels just plain awesome to be honest, sooo stretching!@@
+        <<has sizeQueen>>
+            <<happy 1 "Stretching your hole is always a pleasure for any size queen.">>
+        <<or>>
+        <</has>>          
+    <<elseif _result === 'notfit'>>
+        <<addtime 10>>
+        You fiddle with the dildoes for some time but despite your efforts the damn things just don't fit. When your holes start aching you give up and lie back from the uncomfortable position you were in for the last ten minutes and take a deep breath. @@.mono;Okay, <<= ↂ.pc.main.name>>, this time we overestimated a thing or two, right? I am afraid I need to work up to this size from something smaller. Grrr, I want to fuck it so much!@@
+    <</if>>
+    </p>
+    <<if _result !== "notfit">>
+        <<silently>>
+        <<run ↂ.pc.body.asshole.insert(4)>>
+        <<run ↂ.pc.body.asshole.insert(4)>>
+        <<run ↂ.pc.body.asshole.insert(4)>>
+        <<run ↂ.pc.body.asshole.insert(4)>>
+        <<run ↂ.pc.body.pussy.insert(4)>>
+        <<run ↂ.pc.body.pussy.insert(4)>>
+        <<set ↂ.flag.doubleDonger.used += 1>>
+        <<set ↂ.flag.doubleDonger.firstTime = false>>
+        <<set ↂ.flag.doubleDonger.loaded = false>>
+        <<status 0>>
+        <</silently>>
+        <<addtime 27>>
+        <p>
+        You turn the fuck machine on. With gentle humming it starts to slide the stiff cocks in and out and you relax enjoying the sensation. With every thrust it pulls and pushes your both holes and after a while you find yourself 
+        <<if setup.sexToys.check("pc", "clit") === true>>
+            playing with your <<p clit.s>> <<p clit.n>> mindlessly.
+        <<else>>
+            playing with your nipples mindlessly. @@.mono;Oh, if not for this clit shield...@@
+        <</if>>
+        </p><p>
+        After a while you feel that you could take some more serious fucking and rotate the control knob. Machine gains the pace and you moan with pleasure still playing with your parts with your hands. Sliding down a bit you make the fucking more deep and bite your lip while dildos aggressively pokes the depths of your <<p pussy.q>> <<p pussy.n>> and asshole. 
+        </p>
+        <<if setup.sexToys.check("pc", "clit") === true>>
+            <<set _randomcum += 6>>
+            <<set _randomcum = _randomcum * 4>>
+            <<if ↂ.pc.kink.fap>>
+                <<set _randomcum += 5>>
+            <</if>>
+            <<set _stress = random(-7,-11)>>
+            <<stress _stress "Masturbation">>
+            <<satisfy _randomcum "Masturbation">>
+            <<arousal -4>>
+            <<eatdrug "cream" 4>>
+            <<run ↂ.pc.fert.creampie("unknown", 200, "deep")>>
+            <<run setup.condition.add({ loc: "anus", amt: 100, tgt: "pc", wet: 100, type: "cum"})>>
+            <<run setup.condition.add({ loc: "genitals", amt: 20, tgt: "pc", wet: 20, type: "cum"})>>
+            <<run setup.condition.add({ loc: "groin", amt: 15, tgt: "pc", wet: 15, type: "cum"})>>
+            <<run setup.condition.add({ loc:"vagina", amt:7, tgt:"pc", wet:5, type:"femlube"})>>
+            <<run setup.condition.add({ loc:"genitals", amt:5, tgt:"pc", wet:5, type:"femlube"})>>
+            <p>
+            Enjoying it a bit too much you suddenly realize that your orgasm is building inside, your throbbing clit gets sensitive and so nice to rub, you fumble it relentlessly until... @@.pc;Oh...oh...ohshit... yeaaaaAAH!@@
+            </p><p>
+            Your orgasm is so intense you almost don't notice the two dildoes stopping their motion and then hilting themselves as deep into your holes as they can. The one in your pussy pushing snugly against your cervix, strongly enough to notice but not so much as to be painful. A little voice in the back of your head marvels at the precision of this before the machine hits it's next phase and your senses are once more overcome by orgasmic bliss as both of your holes are suddenly filled with powerful blasts of liquid heat @@.pc;Oh...FUUUUUUUUUCK!@@
+            </p><p>
+            Throughout your extended orgasm you feel more and more liquid being forcefully blasted into your <<p pussy.n>> and <<p anus.n>>. The dildo in your <<p anus.n>> stops shooting it's load fairly quickly, the one in your  <<p pussy.q>> <<p pussy.n>>, on the other hand, continues for what feels like an eternity. A now even quieter little voice in your head, drowned out by your ongoing orgasm, notes that most of it must be getting pushed straight through your cervix and into your <<p womb.n>> as there is very little coming back out past the dildo. This seems confirmed as your stomach starts to distend somewhat.<br>
+            It actually starts to hurt somewhat when the flow suddenly stops and the dildoes start retracting, stopping just short from exiting your body.
+            </p><p>
+            Regaining your senses you put your shaking hand to the controls and turn the machine off just breathing heavily and enjoying the aftertaste of your orgasm.
+            </p><p>
+            After a while you regain control of your limbs and lift yourself off of the machine. As you do the dildoes pop free followed by an expulsion of liquids, most of it from your <<p anus.n>> but surprisingly little from your <<p pussy.n>>. It is then that you notice that the mystery liquid you assumed was some kind of lube is, in fact, <<p cum.n>>!
+            </p><p>
+            <<has risky || pregnancy>>
+                @@.mono;Hmmmm, what a nice surprise, my <<p fert.q>> <<p womb.n>> feels so full!@@
+                <<happy 3 "Getting a nice creamy filling from the Double Donger">>
+            <<or>>
+                @@.mono;Oh shit, what if I get pregnant!? I feel so full!@@
+                <<happy -2 "Getting an unwanted creamy filling from the Double Donger">>
+                <<stress 15 "Getting an unwanted creamy filling from the Double Donger">>
+            <</has>>
+            </p>
+        <<else>>
+            <<set _randomcum += 6>>
+            <<set _randomcum = _randomcum * 3>>
+            <<if ↂ.pc.kink.fap>>
+                <<set _randomcum += 4>>
+            <</if>>
+            <<set _stress = random(-5,-8)>>
+            <<stress _stress "Masturbation">>
+            <<satisfy _randomcum "Masturbation">>
+            <<arousal -3>>
+            <<run setup.condition.add({ loc:"vagina", amt:7, tgt:"pc", wet:5, type:"femlube"})>>
+            <<run setup.condition.add({ loc:"genitals", amt:5, tgt:"pc", wet:5, type:"femlube"})>>
+            <p>
+            You enjoy the double penetration a lot but it seems not enough without being able to play with your clit. In a desperate attempt to cum you focus on your <<p nips.n>> twisting and turning them. Suddenly you feel that this may be enough to push you over the frustratingly delicious edge you are surfing. With a suppressed moan and lip biting you start shaking and cumming around the dildo, plunging your slit. @@.pc;Oh yes, oh yes, oh yeeeeas!@@ It doesn't feel as strong as usual clit orgasm but it is still something and you drift in a blissful state for some time.
+            </p><p>
+            While your orgasm is rolling through your body you notice a change as the dildoes stop pistoning and instead push themselves as deep as they can go, the one in your <<p pussy.q>> <<p pussy.n>> settling with some noticeable but pain-free pressure against your cervix. @@.mono;Hmmmm, did my orgasm trigger some hidden functi...@@ Your thoughts are interrupted as a sudden sensation of liquid heat blasts your insides @@.pc;...oooooooh!@@
+            </p><p>
+            @@.mono;Are, are they cumming in me!?@@ It is very quickly apparent to you that, yes, they are "cumming" in you.
+            </p>
+            <<has risky || pregnancy>>
+                <p>
+                @@.mono;Hmmmm, what a nice surprise, I can feel it filling me up!@@ You happily sit out the rest of your orgasm being given a double-creampie until first the dildo in your ass then some time later the one in your <<p pussy.n>> stop ejaculating and partially draw back into the machine. Your <<p belly.n>> so full it's visibly distended and giving you a slight discomfort.
+                </p><p>
+                You put your hand on the controls and turn the machine off just enjoying the aftertaste of your orgasm and the double filling.
+                </p><p>
+                After a while you lift yourself off of the machine. As you do the dildoes pop free followed by an expulsion of liquids. It is then that you notice that the mystery liquid you assumed was some kind of lube is, in fact, <<p cum.n>>!
+                </p><p>
+                @@.mono;Oh my, and so much is stuck in my <<p fert.q>> <<p womb.n>>! I wonder if I'll get pregnant?@@ The thought excites you enough that you don't stop to wonder if the machine was supposed to be filled with <<p cum.n>>...
+                </p>
+                <<happy 3 "Getting a nice creamy filling from the Double Donger">>
+                <<eatdrug "cream" 4>>
+                <<run ↂ.pc.fert.creampie("unknown", 150, "deep")>>
+                <<run ↂ.pc.fert.creampie("unknown", 25, "default")>>
+                <<run ↂ.pc.fert.creampie("unknown", 25, "shallow")>>
+                <<run setup.condition.add({ loc: "anus", amt: 100, tgt: "pc", wet: 100, type: "cum"})>>
+                <<run setup.condition.add({ loc: "genitals", amt: 20, tgt: "pc", wet: 20, type: "cum"})>>
+                <<run setup.condition.add({ loc: "groin", amt: 15, tgt: "pc", wet: 15, type: "cum"})>>
+            <<orhas cumSlut>>
+                <p>
+                @@.mono;What an interesting surprise, its filling me up so much!@@ You stay on the machine for a bit longer, enjoying the rest of your orgasm, but as the dildo in your ass stops ejaculating you decide that's enough.
+                </p><p>
+                You put your hand on the controls and turn the machine off just enjoying the aftertaste of your orgasm and the double filling.
+                </p><p>
+                After a while you lift yourself off of the machine. As you do the dildoes pop free followed by an expulsion of liquids, there must have still been a bit of pressure in the system because you can feel the dildo in your pussy expel some more liquid on the way out and one last spurt hits your <<p vulva.n>> as it exits your body.
+                </p><p>
+                It is then that you notice that the mystery liquid you assumed was some kind of lube is, in fact, <<p cum.n>>!
+                </p><p>
+                @@.mono;Oh my, that's a lot of yummy cum!@@ You can't help but wonder if it was supposed to be <<p cum.n>> or if someone somewhere is getting off on the idea of inseminating unsuspecting women just having some fun on a sex machine... ?
+                </p>
+                <<happy 1 "Getting a nice creamy filling from the Double Donger">>
+                <<eatdrug "cream" 2>>
+                <<run ↂ.pc.fert.creampie("unknown", 100, "deep")>>
+                <<run ↂ.pc.fert.creampie("unknown", 25, "default")>>
+                <<run ↂ.pc.fert.creampie("unknown", 25, "shallow")>>
+                <<run ↂ.pc.fert.creampie("unknown", 25, "vulva")>>
+                <<run setup.condition.add({ loc: "anus", amt: 100, tgt: "pc", wet: 100, type: "cum"})>>
+                <<run setup.condition.add({ loc: "genitals", amt: 20, tgt: "pc", wet: 20, type: "cum"})>>
+                <<run setup.condition.add({ loc: "groin", amt: 15, tgt: "pc", wet: 15, type: "cum"})>>
+            <<or>>
+                <p>
+                @@.mono;What the!? This is not what I wanted, I feel so full already!@@ You pull yourself off the still ejaculating fake <<p cocks.n>>. Doing this before turning off the machine proves to be a mistake as there is now liquid flying everywhere.
+                </p><p>
+                You quickly put your hand on the controls and turn the machine off but still most of your body gets covered in what your panicked mind suddenly recognizes as @@.pc;<<p cum.n>>!?@@
+                </p><p>
+                @@.mono;Oh fuck, that's so much cum, and some of that is in me! What if I get pregnant!?@@ You wonder to yourself what sick fuck thought it would be a good idea to fill a machine like this with <<p cum.n>> ...
+                </p>
+                <<happy -2 "Getting an unwanted creamy filling from the Double Donger">>
+                <<stress 15 "Getting an unwanted creamy filling from the Double Donger">>
+                <<eatdrug "cream" 1>>
+                <<run ↂ.pc.fert.creampie("unknown", 10, "deep")>>
+                <<run ↂ.pc.fert.creampie("unknown", 10, "default")>>
+                <<run ↂ.pc.fert.creampie("unknown", 20, "shallow")>>
+                <<run ↂ.pc.fert.creampie("unknown", 50, "vulva")>>
+                <<run setup.condition.add({ loc: "anus", amt: 30, tgt: "pc", wet: 30, type: "cum"})>>
+                <<run setup.condition.add({ loc: "groin", amt: 15, tgt: "pc", wet: 15, type: "cum"})>>
+                <<run setup.condition.add({ loc: "hands", amt: 30, tgt: "pc", wet: 50, type: "cum"})>>
+                <<run setup.condition.add({ loc: "chest", amt: 50, tgt: "pc", wet: 50, type: "cum"})>>
+                <<run setup.condition.add({ loc: "back", amt: 50, tgt: "pc", wet: 50, type: "cum"})>>
+                <<run setup.condition.add({ loc: "butt", amt: 50, tgt: "pc", wet: 50, type: "cum"})>>
+                <<run setup.condition.add({ loc: "thighs", amt: 50, tgt: "pc", wet: 50, type: "cum"})>>
+                <<run setup.condition.add({ loc: "legs", amt: 50, tgt: "pc", wet: 50, type: "cum"})>>
+            <</has>>
+        <</if>>
+    <</if>>          
+<<elseif typeof _freeHole == "string">>
+    <<= _freeHole>>
+<<else>>
+    <<= _freeAss>>
+<</if>>
+<br>
+<center>
+<<button "Finish">>
+<<run Dialog.close()>>
+<</button>>
+</center>
+
+
+:: DoubleDongerFuckMachineFull [nobr]
+
+
+<center>
+    <<= either("[img[IMG-MachineDildoVag1]]","[img[IMG-MachineDildoVag2]]")>>
+</center>
+<<set _freeHole = setup.sexToys.check("pc", "vagina")>>
+<<set _freeAss = setup.sexToys.check("pc", "ass")>>
+/*check if the PC is too horny to care about the 'surprise'*/
+<<if ↂ.pc.status.arousal >= 8 || ↂ.pc.trait.libido >= 5>><<set _horny = 1>><<else>><<set _horny = 0>><</if>>
+<<if _freeHole === true && _freeAss === true>>
+    <<set _result = ↂ.pc.body.pussy.insert(4)>>
+	<<set _resultass = ↂ.pc.body.asshole.insert(4)>>
+    <<status 0>>
+    <p>
+    <<has risky || pregnancy>>
+		You eagerly get onto the machine and position its dildoes against your <<p 'curwet.q'>> <<p 'vulva.n'>> and asshole. @@.mono;Hmmm, I can't wait for that creamy filling!@@
+	<<orhas cumslut>>
+		You get onto the sex machine and position its dildoes against your <<p 'curwet.q'>> <<p 'vulva.n'>> and asshole. @@.mono;Hmmm, I can't wait for that yummy <<p cum.n>>!@@
+	<<or>>
+        <<if _horny>>
+            You get onto the sex machine and position its dildoes against your <<p 'curwet.q'>> <<p 'vulva.n'>> and asshole, too horny to think about it's <i>other</i> function.
+        <<else>>
+		    You get onto the sex machine and position its dildoes against your <<p 'curwet.q'>> <<p 'vulva.n'>> and asshole, the machine's <i>other</i> function in the back of your mind. @@.mono;I'll have to time it right but this thing does give a nice Bukkake!@@
+		<</if>>
+	<</has>>
+    You get onto the sex machine and position its dildoes against your <<p 'curwet.q'>> <<p 'vulva.n'>> and asshole. 
+    <<if _result === 'loose' && _resultass !== 'notfit'>>
+        <<addtime 1>>
+        The head goes in without any resistance and after just a couple of seconds your hungry holes swallow the dildoes entirely. <<has sizeQueen>>@@.mono;Oh, I really need a bigger thing next time, these are just way too tiny...@@<</has>>
+    <<elseif _result === 'fits' && _resultass !== 'notfit'>>
+        <<addtime 2>>
+        The dildoes slide into your pussy and ass without any serious efforts.
+    <<elseif _result === 'stretch' && _resultass !== 'notfit'>>
+        <<addtime 4>>
+        It takes you some time to stretch your holes with the dildoes heads until they finally make their way inside. @@.mono;Oh, that's what I call stretching!@@
+    <<elseif _result === 'overstretch' && _resultass !== 'notfit'>>
+        <<addtime 5>>
+        It takes a lot of unrelenting effort before your holes finally accept them. @@.mono;Oh my... it feels so full!@@
+        <<happy 1 "Stretching your holes is always a pleasure for any size queen.">>
+    <<elseif _result === 'pain' && _resultass !== 'notfit'>>
+        <<addtime 6>>
+        You try one way and another for a couple of minutes but it seems that your holes are still way too tight for the damn thing. In a last desperate attempt you push it with force and squeak with pain when they suddenly slide in. @@.mono;Oh shit, I hope I didn't damage anything down there... It feels like Vlad the Impaler would love this for sure, *giggle*... oh gosh, this did hurt. Okay, okay, <<= ↂ.pc.main.name>> just take a deep breath, it is getting better already... and feels just plain awesome to be honest, sooo stretching!@@
+        <<has sizeQueen>>
+            <<happy 1 "Stretching your hole is always a pleasure for any size queen.">>
+        <</has>>          
+    <<elseif _result === 'notfit' || _resultass === 'notfit'>>
+        <<addtime 10>>
+        You fiddle with the dildoes for some time but despite your efforts the damn things just don't fit. When your <<if _result === 'notfit' && _resultass === 'notfit'>>holes start<<elseif _result === 'notfit'>><<p pussy.n>> starts<<else>><<p anus.n>> starts<</if>> aching you give up and lie back from the uncomfortable position you were in for the last ten minutes and take a deep breath. @@.mono;Okay, <<= ↂ.pc.main.name>>, this time we overestimated a thing or two, right? I am afraid I need to work up to this size from something smaller. Grrr, I want to fuck it so much!@@
+    <</if>>
+    </p>
+    <<if _result !== "notfit" && _resultass !== "notfit">>
+        <<run ↂ.pc.body.asshole.insert(4)>>
+        <<run ↂ.pc.body.asshole.insert(4)>>
+        <<run ↂ.pc.body.asshole.insert(4)>>
+        <<run ↂ.pc.body.asshole.insert(4)>>
+        <<run ↂ.pc.body.pussy.insert(4)>>
+        <<run ↂ.pc.body.pussy.insert(4)>>
+		<<set ↂ.flag.doubleDonger.used++>>
+        <<set ↂ.flag.doubleDonger.loaded = false>>
+        <<status 0>>
+        <<addtime 27>>
+        <p>
+        You turn the fuck machine on. With gentle humming it starts to slide the stiff cocks in and out and you relax enjoying the sensation. With every thrust it pulls and pushes your both holes and after a while you start 
+        <<if setup.sexToys.check("pc", "clit") === true>>
+            playing with your <<p clit.s>> <<p clit.n>>. @@.mono;Oooh, I missed this...@@
+        <<else>>
+            playing with your nipples. @@.mono;Oh, if not for this clit shield! But oh have I missed this sensation of fullness.@@
+        <</if>>
+        </p><p>
+        After a while you feel that you could take some more serious fucking and rotate the control knob. The machine gains pace and you moan with pleasure still playing with yourself. You slide down a bit to make the fucking deeper and bite your lip while the dildoes aggressively explore the depths of your <<p pussy.q>> <<p pussy.n>> and asshole. <<if ↂ.flag.doubleDonger.used >= 9>>@@.mono;Ooooh, I think I'm getting addicted to this thing ... <<if _horny>>don't care, too horny!<<else>>but I don't care about that right now, sooo gooooooood!@@<</if>><</if>>
+        </p>
+        <<if setup.sexToys.check("pc", "clit") === true && ↂ.pc.status.arousal >= 4>>
+            <<set _randomcum += 6>>
+            <<set _randomcum = _randomcum * 4>>
+            <<if ↂ.pc.kink.fap>>
+                <<set _randomcum += 5>>
+            <</if>>
+            <<set _stress = random(-7,-11)>>
+            <<stress _stress "Masturbation">>
+            <<satisfy _randomcum "Masturbation">>
+            <<arousal -4>>
+			<<eatdrug "cream" 4>>
+			<<run ↂ.pc.fert.creampie("unknown", 200, "deep")>>
+			<<run setup.condition.add({ loc: "anus", amt: 100, tgt: "pc", wet: 100, type: "cum"})>>
+			<<run setup.condition.add({ loc: "genitals", amt: 20, tgt: "pc", wet: 20, type: "cum"})>>
+			<<run setup.condition.add({ loc: "groin", amt: 15, tgt: "pc", wet: 15, type: "cum"})>>
+            <<run setup.condition.add({ loc:"vagina", amt:7, tgt:"pc", wet:5, type:"femlube"})>>
+            <<run setup.condition.add({ loc:"genitals", amt:5, tgt:"pc", wet:5, type:"femlube"})>>
+            <p>
+            You feel your orgasm building , your throbbing clit getting more sensitive and so nice to rub, you redouble your efforts until... @@.pc;Oh...oh...ohshit... yeaaaaAAH!@@
+            </p><p>
+            Your orgasm is so intense you almost forget what comes next as the two dildoes stop their motion and then hilt themselves as deep into your holes as they can. The one in your pussy once again pushing snugly against your cervix.
+			</p><p>
+			<<has risky || pregnancy || cumslut>>
+				@@.mono;Oh...here it comes!!@@ The machine hits it's next phase and your senses are once more overcome by orgasmic bliss as both of your holes are once again filled with powerful blasts of liquid heat @@.pc;Oh...FUUUUUUUUUCK!@@
+			<<or>>
+				<<if _horny>>
+					@@.mono;I should...!!@@ Being too horny you don't manage to finish the thought before the machine hits it's next phase and your senses are once more overcome by orgasmic bliss as both of your holes are once again filled with powerful blasts of liquid heat @@.pc;Oh...FUUUUUUUUUCK!@@
+				<<else>>
+					@@.mono;I should get off before it fills me up again!!@@ Unfortunately the strenght of your orgasm has rendered your legs inoperable and you don't manage to move before the machine hits it's next phase and your senses are once more overcome by orgasmic bliss as both of your holes are once again filled with powerful blasts of liquid heat @@.pc;Oh...FUUUUUUUUUCK!@@
+				<</if>>
+			<</has>>
+			</p><p>
+			Throughout your extended orgasm you feel more and more liquid being forcefully blasted into your <<p pussy.n>> and <<p anus.n>>. The dildo in your <<p anus.n>> stops shooting it's load fairly quickly, the one in your  <<p pussy.q>> <<p pussy.n>>, continues for <<has risky || pregnancy>>just a little longer<<or>>what feels like an eternity<</has>>. Your stomach starting to distend again under the influence of the injected <<p cum.n>>.<br>
+			It actually starts to hurt a little bit when the flow stops and the dildoes start retracting, stopping just short from exiting your body. <<has risky || pregnancy>>@@.mono;Ahhh, sooo ... fuulllll ... I love it@@<</has>>
+			</p><p>
+			Regaining your senses you put your shaking hand to the controls and turn the machine off just breathing heavily and enjoying the aftertaste of your orgasm.
+			</p><p>
+			After a while you regain control of your limbs, and your mind, and lift yourself off of the machine. As you do the dildoes pop free followed by an expulsion of liquids, most of it from your <<p anus.n>> but again surprisingly little from your <<p pussy.n>>. The smell of <<p cum.n>> heavy on the air.
+			</p><p>
+			<<has risky || pregnancy>>
+				@@.mono;Hmmmm, my <<p fert.q>> <<p womb.n>> feels so full!@@
+				<<happy 3 "Getting a nice creamy filling from the Double Donger">>
+			<<orhas cumslut>>
+				@@.mono;Oooh that was nice, it would have been nicer getting it on my face though. And what if I get pregnant? I feel so full!@@
+				<<happy 1 "Getting some nice cream from the Double Donger">>
+				<<stress 4 "Getting a risky filling from the Double Donger">>
+			<<or>>
+				@@.mono;Shit, I didn't manage to get off, what if I get pregnant!? I feel so full!@@
+				<<happy -1 "Getting an unwanted creamy filling from the Double Donger">>
+				<<stress 10 "Getting an unwanted creamy filling from the Double Donger">>
+			<</has>>
+            </p>
+        <<else>>
+            <<set _randomcum += 6>>
+            <<set _randomcum = _randomcum * 3>>
+            <<if ↂ.pc.kink.fap>>
+                <<set _randomcum += 4>>
+            <</if>>
+            <<set _stress = random(-5,-8)>>
+            <<stress _stress "Masturbation">>
+            <<satisfy _randomcum "Masturbation">>
+            <<arousal -3>>
+            <<run setup.condition.add({ loc:"vagina", amt:7, tgt:"pc", wet:5, type:"femlube"})>>
+            <<run setup.condition.add({ loc:"genitals", amt:5, tgt:"pc", wet:5, type:"femlube"})>>
+            <p>
+            You enjoy the double penetration a lot but <<if ↂ.pc.status.arousal >= 6>>it's not enough without being able to play with your clit. In a desperate attempt to cum you focus on your <<p nips.n>> twisting and turning them.<<else>>not being very aroused in the first place is making it harder to reach orgasm. In a desperate attempt to cum you put your other hand to use on your <<p nips.n>> twisting and turning them.<</if>>
+			<<has easy || nips>>
+				The nipple play nudges you closer and closer until it pushes you over the delicious edge you are surfing. With a suppressed moan and lip biting you start shaking and cumming around the dildo, plunging your slit. @@.pc;Oh yes, oh yes, oh yeeeeas!@@ It doesn't feel as strong as <<if ↂ.pc.status.arousal >= 6>>a clit orgasm<<else>>your usual orgasms<</if>> but it is still wonderful and you drift in a blissful state for some time.
+			<<or>>
+				You remain stuck at a frustratingly delicious edge for a, seemingly, long time until suddenly the wave you've been surfing breaks. With a loud moan and much biting of your lip you start shaking and cumming around the dildo plunging your slit. @@.pc;Oh yes, oh yes, oh yeeeeas!@@ It doesn't feel quite as strong as <<if ↂ.pc.status.arousal >= 6>>a clit orgasm<<else>>your usual orgasms<</if>> but it's still amazing and you drift in a blissful state for some time.
+			<</has>>
+            </p><p>
+            While your orgasm is rolling through your body you notice the dildoes stop pistoning and push themselves as deep as they can go, the one in your <<p pussy.q>> <<p pussy.n>> settling with some noticeable but pain-free pressure against your cervix. @@.mono;Hmmmm, I almost forgot abou...@@ Your thoughts are interrupted as a sudden sensation of liquid heat blasts your insides @@.pc;...oooooooh!@@
+            </p>
+			<p>
+			@@.mono;OOOh, they are they cumming in me again!@@ A large volume of liquid enters your body.
+			</p>
+			<<has risky || pregnancy>>
+				<p>
+				@@.mono;Mmmhmm, yeah fill me up!@@ You happily sit out the rest of your orgasm being given a double-creampie until first the dildo in your ass then some time later the one in your <<p pussy.n>> stop ejaculating and partially draw back into the machine. Your <<p belly.n>> so full it's visibly distended and giving you a slight discomfort.
+				</p><p>
+				You put your hand on the controls and turn the machine off just enjoying the aftertaste of your orgasm and the double filling of potent <<p cum.n>>.
+				</p><p>
+				After a while you lift yourself off of the machine. As you do the dildoes pop free followed by a river of <<p cum.n>> flowing mostly out of your ass.
+				</p><p>
+				@@.mono;Ahhhh, so much <<p cum.>> in my <<p fert.q>> <<p womb.n>>! I wonder if I'll get pregnant?@@ The thought excites you so much it makes you slightly horny again. <<arousal 2>>
+				</p>
+				<<happy 3 "Getting a nice creamy filling from the Double Donger">>
+				<<eatdrug "cream" 4>>
+				<<run ↂ.pc.fert.creampie("unknown", 150, "deep")>>
+				<<run ↂ.pc.fert.creampie("unknown", 25, "default")>>
+				<<run ↂ.pc.fert.creampie("unknown", 25, "shallow")>>
+				<<run setup.condition.add({ loc: "anus", amt: 100, tgt: "pc", wet: 100, type: "cum"})>>
+				<<run setup.condition.add({ loc: "genitals", amt: 20, tgt: "pc", wet: 20, type: "cum"})>>
+				<<run setup.condition.add({ loc: "groin", amt: 15, tgt: "pc", wet: 15, type: "cum"})>>
+			<<orhas cumSlut>>
+				<p>
+				@@.mono;Ah, its filling me up so much!@@ You stay on the machine for a bit longer, enjoying the rest of your orgasm, but as the dildo in your ass stops ejaculating you decide that's enough.
+				</p><p>
+				You put your hand on the controls and turn the machine off just enjoying the aftertaste of your orgasm and the double filling.
+				</p><p>
+				After a while you lift yourself off of the machine. As you do the dildoes pop free followed by a stream of cum. Just like last time there must have still been a bit of pressure in the system because you can feel the dildo in your pussy expel some more cum on the way out and one last spurt hits your <<p vulva.n>> as it exits your body. @@.mono;Oooh, I love getting covered in cum!@@
+				</p><p>
+				@@.mono;Mmmmhhmmmm, such a nice amount of yummy cum!@@
+				</p>
+				<<happy 1 "Getting a nice creamy filling from the Double Donger">>
+				<<eatdrug "cream" 2>>
+				<<run ↂ.pc.fert.creampie("unknown", 100, "deep")>>
+				<<run ↂ.pc.fert.creampie("unknown", 25, "default")>>
+				<<run ↂ.pc.fert.creampie("unknown", 25, "shallow")>>
+				<<run ↂ.pc.fert.creampie("unknown", 25, "vulva")>>
+				<<run setup.condition.add({ loc: "anus", amt: 100, tgt: "pc", wet: 100, type: "cum"})>>
+				<<run setup.condition.add({ loc: "genitals", amt: 20, tgt: "pc", wet: 20, type: "cum"})>>
+				<<run setup.condition.add({ loc: "groin", amt: 15, tgt: "pc", wet: 15, type: "cum"})>>
+			<<or>>
+				<p>
+				@@.mono;Shit shit, I forgot! This is not what I wanted, I feel so full already!@@ You pull yourself off the still ejaculating fake <<p cocks.n>>. Doing this before turning off the machine proves to be a mistake as there is now liquid flying everywhere. <<if _horny>>But in your horny state you don't really care about that and just lay there as you, and part of the room, get painted white with large amounts of <<p cum.n>><</if>>
+				</p><p>
+				You put your hand on the controls and turn the machine off and then you look down at your body in dismay.
+				</p><p>
+				@@.mono;Oh fuck, that's so much cum, and some of that's in me! What if I get pregnant!?@@ You wonder to yourself what came over you when you decided to refill the machine ... <<if ↂ.flag.doubleDonger.used >= 4>>Are you <<if _horny>>just that horny? Or are you <</if>>subconsciously developing a pregnancy fetish??<</if>><br>
+				You resolve to never refill the machine... again<<if ↂ.flag.doubleDonger.used >= 4>>... maybe<</if>>.
+				</p>
+				<<happy -2 "Getting an unwanted creamy filling from the Double Donger">>
+				<<stress 15 "Getting an unwanted creamy filling from the Double Donger">>
+				<<eatdrug "cream" 1>>
+				<<run ↂ.pc.fert.creampie("unknown", 10, "deep")>>
+				<<run ↂ.pc.fert.creampie("unknown", 10, "default")>>
+				<<run ↂ.pc.fert.creampie("unknown", 20, "shallow")>>
+				<<run ↂ.pc.fert.creampie("unknown", 50, "vulva")>>
+				<<run setup.condition.add({ loc: "anus", amt: 30, tgt: "pc", wet: 30, type: "cum"})>>
+				<<run setup.condition.add({ loc: "groin", amt: 15, tgt: "pc", wet: 15, type: "cum"})>>
+				<<run setup.condition.add({ loc: "hands", amt: 30, tgt: "pc", wet: 50, type: "cum"})>>
+				<<run setup.condition.add({ loc: "chest", amt: 50, tgt: "pc", wet: 50, type: "cum"})>>
+				<<run setup.condition.add({ loc: "back", amt: 50, tgt: "pc", wet: 50, type: "cum"})>>
+				<<run setup.condition.add({ loc: "butt", amt: 50, tgt: "pc", wet: 50, type: "cum"})>>
+				<<run setup.condition.add({ loc: "thighs", amt: 50, tgt: "pc", wet: 50, type: "cum"})>>
+				<<run setup.condition.add({ loc: "legs", amt: 50, tgt: "pc", wet: 50, type: "cum"})>>
+			<</has>>
+        <</if>>
+    <</if>>          
+<<elseif typeof _freeHole == "string">>
+    <<= _freeHole>>
+<<else>>
+    <<= _freeAss>>
+<</if>>
+<br>
+<center>
+<<button "Finish">>
+<<run Dialog.close()>>
+<</button>>
+</center>
+
+
+
+:: DoubleDongerFuckMachineEmpty [nobr]
+
+
+<center>
+    <<= either("[img[IMG-MachineDildoVag1]]","[img[IMG-MachineDildoVag2]]")>>
+</center>
+<<set _freeHole = setup.sexToys.check("pc", "vagina")>>
+<<set _freeAss = setup.sexToys.check("pc", "ass")>>
+/*check if the PC is too horny to care about the 'surprise'*/
+<<if ↂ.pc.status.arousal >= 6 || ↂ.pc.trait.libido >= 5>><<set _horny = 1>><<else>><<set _horny = 0>><</if>>
+/*check if this is the second time the PC uses the machine (doesn't know it needs a refill yet)*/
+<<if ↂ.flag.doubleDonger.used == 1>><<set _seconduse = 1>><<else>><<set _seconduse = 0>><</if>>
+<<if _freeHole === true && _freeAss === true>>
+    <<set _result = ↂ.pc.body.pussy.insert(4)>>
+	<<set _resultass = ↂ.pc.body.asshole.insert(4)>>
+    <<status 0>>
+    <p>
+    <<has risky || pregnancy>>
+	You eagerly get onto the machine and position its dildoes against your <<p 'curwet.q'>> <<p 'vulva.n'>> and asshole. <<if _seconduse>>@@.mono;Hmmm, I can't wait for that creamy filling!@@<<else>>@@.mono;Too bad it's empty, but it'll still be fun!!@@<</if>>
+	<<orhas cumslut>>
+	You get onto the sex machine and position its dildoes against your <<p 'curwet.q'>> <<p 'vulva.n'>> and asshole. <<if _seconduse>>@@.mono;Hmmm, I can't wait for that yummy <<p cum.n>>!@@<<else>>@@.mono;Too bad there won't be any yummy <<p cum.n>>, but it'll still be fun!!@@<</if>>
+	<<or>>
+        <<if _horny>>
+            You get onto the sex machine and position its dildoes against your <<p 'curwet.q'>> <<p 'vulva.n'>> and asshole<<if _seconduse>>, too horny to think about it's <i>other</i> function<</if>>.
+        <<else>>
+		    You get onto the sex machine and position its dildoes against your <<p 'curwet.q'>> <<p 'vulva.n'>> and asshole, the machine's <i>other</i> function in the back of your mind. <<if _seconduse>>@@.mono;I don't really want another <<p cum.n>> bath but I just want to fuck this machine!@@<<else>>@@.mono;Well, at least it's empty so I can just have fun riding it!@@<</if>>
+		<</if>>
+	<</has>>
+    You get onto the sex machine and position its dildoes against your <<p 'curwet.q'>> <<p 'vulva.n'>> and asshole. 
+    <<if _result === 'loose' && _resultass !== 'notfit'>>
+        <<addtime 1>>
+        The head goes in without any resistance and after just a couple of seconds your hungry holes swallow the dildoes entirely. <<has sizeQueen>>@@.mono;Oh, I really need a bigger thing next time, these are just way too tiny...@@<</has>>
+    <<elseif _result === 'fits' && _resultass !== 'notfit'>>
+        <<addtime 2>>
+        The dildoes slide into your pussy and ass without any serious efforts.
+    <<elseif _result === 'stretch' && _resultass !== 'notfit'>>
+        <<addtime 4>>
+        It takes you some time to stretch your holes with the dildoes heads until they finally make their way inside. @@.mono;Oh, that's what I call stretching!@@
+    <<elseif _result === 'overstretch' && _resultass !== 'notfit'>>
+        <<addtime 5>>
+        It takes a lot of unrelenting effort before your holes finally accept them. @@.mono;Oh my... it feels so full!@@
+        <<happy 1 "Stretching your holes is always a pleasure for any size queen.">>
+    <<elseif _result === 'pain' && _resultass !== 'notfit'>>
+        <<addtime 6>>
+        You try one way and another for a couple of minutes but it seems that your holes are still way too tight for the damn thing. In a last desperate attempt you push it with force and squeak with pain when they suddenly slide in. @@.mono;Oh shit, I hope I didn't damage anything down there... It feels like Vlad the Impaler would love this for sure, *giggle*... oh gosh, this did hurt. Okay, okay, <<= ↂ.pc.main.name>> just take a deep breath, it is getting better already... and feels just plain awesome to be honest, sooo stretching!@@
+        <<has sizeQueen>>
+            <<happy 1 "Stretching your hole is always a pleasure for any size queen.">>
+        <</has>>          
+    <<elseif _result === 'notfit' || _resultass === 'notfit'>>
+        <<addtime 10>>
+        You fiddle with the dildoes for some time but despite your efforts the damn things just don't fit. When your <<if _result === 'notfit' && _resultass === 'notfit'>>holes start<<elseif _result === 'notfit'>><<p pussy.n>> starts<<else>><<p anus.n>> starts<</if>> aching you give up and lie back from the uncomfortable position you were in for the last ten minutes and take a deep breath. @@.mono;Okay, <<= ↂ.pc.main.name>>, this time we overestimated a thing or two, right? I am afraid I need to work up to this size from something smaller. Grrr, I want to fuck it so much!@@
+    <</if>>
+    </p>
+    <<if _result !== "notfit" && _resultass !== "notfit">>
+        <<run ↂ.pc.body.asshole.insert(4)>>
+        <<run ↂ.pc.body.asshole.insert(4)>>
+        <<run ↂ.pc.body.asshole.insert(4)>>
+        <<run ↂ.pc.body.asshole.insert(4)>>
+        <<run ↂ.pc.body.pussy.insert(4)>>
+        <<run ↂ.pc.body.pussy.insert(4)>>
+		<<set ↂ.flag.doubleDonger.used++>>
+        <<status 0>>
+        <<addtime 27>>
+        <p>
+        You turn the fuck machine on. With gentle humming it starts to slide the stiff cocks in and out and you relax enjoying the sensation. With every thrust it pulls and pushes your both holes and after a while you start 
+        <<if setup.sexToys.check("pc", "clit") === true>>
+            playing with your <<p clit.s>> <<p clit.n>>. @@.mono;Oooh, I missed this...@@
+        <<else>>
+            playing with your nipples. @@.mono;Oh, if not for this clit shield! But oh have I missed this sensation of fullness.@@
+        <</if>>
+        </p><p>
+        After a while you feel that you could take some more serious fucking and rotate the control knob. The machine gains pace and you moan with pleasure still playing with yourself. You slide down a bit to make the fucking deeper and bite your lip while the dildoes aggressively explore the depths of your <<p pussy.q>> <<p pussy.n>> and asshole.
+		<<if ↂ.flag.doubleDonger.used >= 9>><span class="mono">I think I'm getting addicted to this thing... <<if _horny>>don't care, too horny!<<else>>but I don't care about that right now, sooo gooooooood!<</if>><</if>></span>
+        </p>
+        <<if setup.sexToys.check("pc", "clit") === true && ↂ.pc.status.arousal >= 6>>
+            <<set _randomcum += 6>>
+            <<set _randomcum = _randomcum * 4>>
+            <<if ↂ.pc.kink.fap>>
+                <<set _randomcum += 5>>
+            <</if>>
+            <<set _stress = random(-7,-11)>>
+            <<stress _stress "Masturbation">>
+            <<satisfy _randomcum "Masturbation">>
+            <<arousal -4>>
+            <<run setup.condition.add({ loc:"vagina", amt:7, tgt:"pc", wet:5, type:"femlube"})>>
+            <<run setup.condition.add({ loc:"genitals", amt:5, tgt:"pc", wet:5, type:"femlube"})>>
+            <p>
+            You feel your orgasm building , your throbbing clit getting more sensitive and so nice to rub, you redouble your efforts until... @@.pc;Oh...oh...ohshit... yeaaaaAAH!@@
+            </p><p>
+            Your orgasm is so intense you almost forget what comes next as the two dildoes stop their motion and then hilt themselves as deep into your holes as they can. The one in your pussy once again pushing snugly against your cervix.
+			</p><p>
+			<<if _seconduse>>
+				<<has risky || pregnancy || cumslut>>
+					@@.mono;Oh...here it comes!!@@ The machine hits it's next phase and ... gives an angry beep @@.pc;Wait, what happened?!@@
+				<<or>>
+					<<if _horny>>
+						@@.mono;I should get off before it fills me up again!!@@ Being too horny you don't quite notice that the machine gives an angry beep until you notice through the haze that there's no flow of liquids into your body... @@.pc;Wait, what?!@@
+					<<else>>
+						@@.mono;I should get off before it fills me up again!!@@ Unfortunately the strength of your orgasm has rendered your legs inoperable and you don't manage to move before the machine hits it's next phase and  ... gives an angry beep. You're somewhat relieved to not be getting your insides bathed in <<p cum.n>> this time but can't help but wonder @@.pc;Wait, what happened?!@@
+					<</if>>
+				<</has>>
+			<<else>>
+				<<has risky || pregnancy || cumslut>>
+					@@.mono;Ah, too bad this is where the ride ends.@@ The machine gives out the expected beep and the little display on the controls flashes it's "tank empty" sign at you.
+					</p><p>
+					You ignore it and just let your orgasm wash over you. A thought lazily bubbling up in the back of your mind @@.mono;I should find something to refill it.@@
+				<<or>>
+					<<if _horny>>
+						@@.mono;Hmmm, sooo gooooood!!@@ In your horny state you don't notice the machine give it's angry beep and you merely ride out the rest of your orgasm in bliss.
+					<<else>>
+						@@.mono;Hmmmm, that feels so good!!@@ Not having any strength in your legs you remain seated for a while longer riding out your orgasm in peace and the angry beep coming from the machine assures you there's no creamy surprise this time.
+					<</if>>
+				<</has>>
+			<</if>>
+			</p><p>
+			<<if _seconduse>>
+				After you come down enough from your orgasm you look down and notice that the controls have a built-in display that wasn't visible before, it's flashing a red "reservoir empty" message at you.
+				</p><p>
+				<<has risky || pregnancy || cumslut>>Somewhat disappointed, y<<or>>Y<</has>>ou turn the machine off just breathing heavily <<has risky || pregnancy || cumslut>>but still manage to<<or>>and<</has>> enjoy the aftertaste of your orgasm as you wait for your legs to regain their strength.
+				</p><p>
+				After a while you regain control of your limbs and lift yourself off of the machine. You lay next to the machine for a little while, thinking.
+				</p><p>
+				<<has risky || pregnancy>>
+					@@.mono;Hmmmm, what an unfortunate turn of events, I was looking forward to that double filling!@@
+					<<happy -3 "Not getting a wanted creamy filling from the Double Donger">>
+				<<orhas cumslut>>
+					@@.mono;awww, I was looking forward to the yummy <<p cum.n>>!@@
+					<<happy -1 "Didn't get any nice cream from the Double Donger">>
+				<<or>>
+					@@.mono;hmm, what a nice turn of events!@@
+					<<happy 1 "Didn't get an unwanted creamy filling from the Double Donger">>
+				<</has>>
+			<<else>>
+				After you come down enough from your orgasm you turn the machine off breathing heavily and enjoy the aftertaste of your orgasm as you wait for your legs to regain their strength.
+				</p><p>
+				Once they do you lift yourself off of the machine. You decide to lay next to it for a little while, still glowing from your orgasm.
+				</p><p>
+				<<has risky || pregnancy>>
+					@@.mono;Hmmmm, that was nice. It would have been better with a double filling of <<p cum.n>> though!@@
+					<<arousal 2>>
+				<<or>>
+					@@.mono;Hmmmm, that was great!@@
+				<</has>>
+				<br>After resting a little you make a point of looking around the machine until you find a small port between the two dildoes that you hadn't noticed with a little liquid symbol next to it. @@.mono;Ah, that must be to refill it...@@
+			<</if>>
+            </p>
+        <<else>>
+            <<set _randomcum += 6>>
+            <<set _randomcum = _randomcum * 3>>
+            <<if ↂ.pc.kink.fap>>
+                <<set _randomcum += 4>>
+            <</if>>
+            <<set _stress = random(-5,-8)>>
+            <<stress _stress "Masturbation">>
+            <<satisfy _randomcum "Masturbation">>
+            <<arousal -3>>
+            <<run setup.condition.add({ loc:"vagina", amt:7, tgt:"pc", wet:5, type:"femlube"})>>
+            <<run setup.condition.add({ loc:"genitals", amt:5, tgt:"pc", wet:5, type:"femlube"})>>
+            <p>
+            You enjoy the double penetration a lot but <<if ↂ.pc.status.arousal >= 6>>it's not enough without being able to play with your clit. In a desperate attempt to cum you focus on your <<p nips.n>> twisting and turning them.<<else>>not being very aroused in the first place is making it harder to reach orgasm. In a desperate attempt to cum you put your other hand to use on your <<p nips.n>> twisting and turning them.<</if>>
+			<<has easy || nips>>
+				The nipple play nudges you closer and closer until it pushes you over the delicious edge you are surfing. With a suppressed moan and lip biting you start shaking and cumming around the dildo, plunging your slit. @@.pc;Oh yes, oh yes, oh yeeeeas!@@ It doesn't feel as strong as <<if ↂ.pc.status.arousal >= 6>>a clit orgasm<<else>>your usual orgasms<</if>> but it is still wonderful and you drift in a blissful state for some time.
+			<<or>>
+				You remain stuck at a frustratingly delicious edge for a, seemingly, long time until suddenly the wave you've been surfing breaks. With a loud moan and much biting of your lip you start shaking and cumming around the dildo plunging into your slit. @@.pc;Oh yes, oh yes, oh yeeeeas!@@ It doesn't feel quite as strong as <<if ↂ.pc.status.arousal >= 6>>a clit orgasm<<else>>your usual orgasms<</if>> but it's still amazing and you drift in a blissful state for some time.
+			<</has>>
+            </p><p>
+            While your orgasm is rolling through your body you notice the dildoes stop pistoning and push themselves as deep as they can go, the one in your <<p pussy.q>> <<p pussy.n>> settling with some noticeable but pain-free pressure against your cervix. @@.mono;Hmmmm, I almost forgot abou...@@ Your thoughts are interrupted as there is a sudden angry beep below you and the machine remains still
+            </p>
+			<<if _seconduse>>
+				<p>
+				@@.mono;Huh, what?@@
+				</p>
+			<</if>>
+			<<has risky || pregnancy>>
+				<p>
+				<<if _seconduse>>You look down trying to figure out what's going on and see a little display you hadn't noticed before light up on the controls. @@.mono;Reservoir empty??? Awww, I was looking forward to being filled up!@@<</if>> You sit out the rest of your orgasm<<if _seconduse>> somewhat dejectedly<</if>>.
+				</p><p>
+				You put your hand on the controls and turn the machine off just enjoying the aftertaste of your orgasm. <<if _seconduse>>Though less than you had hoped.<</if>>
+				</p><p>
+				After a while you lift yourself off of the machine. <<if _seconduse>>As you do you can't help thinking that you need to find a way to refill it.<</if>>
+				</p>
+				<<if _seconduse>>
+					<<happy -3 "Didn't get a nice creamy filling from the Double Donger">>
+				<</if>>
+			<<orhas cumSlut>>
+				<p>
+				<<if _seconduse>>You look down trying to figure out what's going on and see a little display you hadn't noticed before light up on the controls. @@.mono;Reservoir empty??? Awww, I was looking forward to some lovely cum!@@<</if>><br>
+				You stay on the machine for a bit longer, enjoying the rest of your orgasm.
+				</p><p>
+				You put your hand on the controls and turn the machine off just enjoying the aftertaste of your orgasm. <<if _seconduse>>You can't help but feel a little disappointed at the lack of <<p cum.n>> though<</if>>
+				</p><p>
+				After a while you lift yourself off of the machine.
+				</p>
+				<<if _seconduse>>
+					<<happy -1 "Didn't get any nice cream from the Double Donger">>
+				<</if>>
+			<<or>>
+				<<if _seconduse>><p>You look down trying to figure out what's going on and see a little display you hadn't noticed before light up on the controls. @@.mono;Reservoir empty... That's fine!@@ Though you can't help but wonder if some deeper part of you was looking forward to a cumbath...</p><</if>>
+				<p>
+				You put your hand on the controls and turn the machine off and enjoy the rest of your orgasm.
+				</p><p>
+				@@.mono;Hmm, this thing gives me such wonderful orgasms@@
+				</p>
+				<<if ↂ.flag.doubleDonger.used <= 3>><<happy 3 "Didn't get an unwanted creamy filling from the Double Donger">><<elseif ↂ.flag.doubleDonger.used <= 8>><<happy 2 "Didn't get an unwanted, you think?, creamy filling from the Double Donger">><<else>><<happy 1 "Didn't get a maybe not entirely unwanted, you think?, creamy filling from the Double Donger">><</if>>
+			<</has>>
+			<p>Your curiosity gets the better of you and you take a closer look at the machine. You find a latch and open the side panel, inside you see some machinery and a cryo canister. Some helpful instructions are printed on the inside of the panel. @@.mono;Ah, so that's how to refill it.@@<br>
+			<<has risky || pregnancy || cumslut>>
+				You resolve to find a source for refill as soon as possible.
+			<<or>>
+				You resolve to never refill the machine<<if ↂ.flag.doubleDonger.used <= 3>>, ever.<<elseif ↂ.flag.doubleDonger.used <= 8>>. @@.mono;but maybe...@@<<else>>. @@.mono;Every once in a while wouldn't hurt, though, would it?@@<</if>>
+			<</has>>
+			</p>
+        <</if>>
+    <</if>>          
+<<elseif typeof _freeHole == "string">>
+    <<= _freeHole>>
+<<else>>
+    <<= _freeAss>>
+<</if>>
+<br>
+<center>
+<<button "Finish">>
+<<run Dialog.close()>>
+<</button>>
+</center>
+
+
+
+/*
+<<silently>>
+<<status 1>>
+<<set ↂ.flag.doubleDonger.used += 1>>
+<<status 0>>
+<</silently>>
+<center>
+<<= either("[img[IMG-MachineDildoVag1]]","[img[IMG-MachineDildoVag2]]")>>
+</center>
+<<set _freeHole = setup.sexToys.check("pc", "vagina")>><<if _freeHole === true>><<set _result = ↂ.pc.body.pussy.insert(4)>>You get onto the sexmachine and position its dildos against your <<p 'curwet.q'>> <<p 'vulva.n'>> and asshole. <<if _result === 'loose'>><<addtime 1>>The head goes in without any resistance and after just a couple of seconds your hungry holes swallow all the dildo. <<has sizeQueen>>@@.mono;Oh, I really need a bigger thing next time, this thing is just way too tiny...@@<<or>><</has>> <<elseif _result === 'fits'>><<addtime 2>>Your pussy accepts the dildo and it slides in without any serious efforts as well as your ass. <<elseif _result === 'stretch'>><<addtime 4>>It takes you some time to stretch your holes with dildos heads until it finally makes it's way inside. @@.mono;Oh, that's what I call stretching!@@ <<elseif _result === 'overstretch'>><<addtime 5>>It takes a lot of efforts to fit the dildos until your holes relentlessly accepts it. @@.mono;Oh my... it feels so full!@@<<happy 1 "Stretching your holes is always a pleasure for any size queen.">> <<elseif _result === 'pain'>><<addtime 6>>You try one way and another for a couple of minutes but it seems that your holes are way too tight for the damn thing. In a last vile attempt you push it with force and squeak with pain when they suddenly slides in. @@.mono;Oh shit, I hope I did not damage anything down there... It feels like Vlad the Impaler would love this for sure, giggle... oh gosh, this did hurt. Okay, okay, <<= ↂ.pc.main.name>> just take a deep breath, it is getting better already... and feels just plain awesome to be honest, sooo stretching!@@<<has sizeQueen>><<happy 1 "Stretching your hole is always a pleasure for any size queen.">><<or>><</has>>
+<<elseif _result === 'notfit'>><<addtime 10>>You fiddle with the dildo for some time but despite your efforts the damn things just doesn't fit. When your hole entrances starts aching you give up and lie back from uncomfortable position you was in for last ten minutes and take a deep breath. @@.mono;Okay, <<= ↂ.pc.main.name>>, this time we overestimated a thing or two, right? I am afraid I need to work up to this size from something smaller. Grrr, I want to fuck it so much!@@
+<</if>><<if _result !== "notfit">><<run ↂ.pc.body.asshole.insert(4)>><<run ↂ.pc.body.asshole.insert(4)>><<run ↂ.pc.body.asshole.insert(4)>><<run ↂ.pc.body.asshole.insert(4)>><<run ↂ.pc.body.pussy.insert(4)>><<run ↂ.pc.body.pussy.insert(4)>><<addtime 27>>You turn the fuck machine on. With gentle humming it starts to slide the stiff cocks in and out and you relax enjoying the sensation. With every thrust it pulls and pushes your both holes and after a while you find yourself <<if setup.sexToys.check("pc", "clit") === true>>playing with your <<p clit.s>> <<p clit.n>> mindlessly.<<else>>playing with your nipples mindlessly. @@.mono;Oh, if not this clit shield...@@<</if>> After a while you feel that you could take some more serious fucking and rotate the control knob. Machine gains the pace and you moan with pleasure still playing with your parts with your hands. Sliding down a bit you make the fucking more deep and bite your lip while dildos aggressively pokes the depths of your <<p pussy.q>> <<p pussy.n>> and asshole. <<if setup.sexToys.check("pc", "clit") === true>><<set _randomcum += 2 + aw.homeItems["${machine}"].quality>><<set _randomcum = _randomcum * 4>><<if ↂ.pc.kink.fap>><<set _randomcum += 5>><</if>><<set _stress = random(-7,-11)>><<stress _stress "Masturbation">><<satisfy _randomcum "Masturbation">><<arousal -4>><<run setup.condition.add({ loc:"vagina", amt:7, tgt:"pc", wet:5, type:"femlube"})>><<run setup.condition.add({ loc:"genitals", amt:5, tgt:"pc", wet:5, type:"femlube"})>>Enjoying it a bit too much you suddenly realize that your orgasm is building inside, your throbbing clit gets sensitive and so nice to rub, you fumble it relentlessly until... @@.pc;Oh...oh...ohshit... yeaaaaAAH!@@<p>Regaining your senses you put your shaking hand to the control knob and turn the machine off just breathing heavily and enjoying the aftertaste of your orgasm.</p><<else>><<if ↂ.pc.kink.easy || ↂ.pc.kink.nips>><<set _randomcum += 2 + aw.homeItems["${machine}"].quality>><<set _randomcum = _randomcum * 3>><<if ↂ.pc.kink.fap>><<set _randomcum += 4>><</if>><<set _stress = random(-5,-8)>><<stress _stress "Masturbation">><<satisfy _randomcum "Masturbation">><<arousal -3>><<run setup.condition.add({ loc:"vagina", amt:7, tgt:"pc", wet:5, type:"femlube"})>><<run setup.condition.add({ loc:"genitals", amt:5, tgt:"pc", wet:5, type:"femlube"})>>You enjoy the double penetration a lot but it seems not enough without being able to play with your clit. In a desperate attempt to cum you focus on your <<p nips.n>> twisting and turning them. Suddenly you feel that this may be enough to push you over the frustratingly delicious edge you are surfing. With a suppressed moan and lip biting you start shaking and cumming around the dildo, plunging your slit. @@.pc;Oh yes, oh yes, oh yeeeeas!@@ It doesn't feel as strong as usual clit orgasm but it is still something and you drift in a blissful state for some time. <p>Regaining your senses you put your shaking hand to the control knob and turn the machine off just breathing heavily and enjoying the aftertaste of your orgasm.</p>@@<<else>>You enjoy the penetration a lot but it seems not enough without being able to play with your clit. In a desperate attempt to cum you focus on your <<p nips.n>> twisting and turning them. You continue to play with them in any way possible trying to push yourself over the frustratingly delicious edge you are surfing but no avail. After about 20 minutes of self-inflicted torture you give up and almost cry when you turn off the fuckmachine even more desperate and craving for orgasm than before.<<arousal 3>><</if>><</if>><</if>>
+<<else>><<= _freeHole>><</if>><br><center><<button "Finish">><<run Dialog.close()>><</button>></center>
+*/

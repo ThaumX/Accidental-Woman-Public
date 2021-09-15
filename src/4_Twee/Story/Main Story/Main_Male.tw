@@ -35,7 +35,7 @@
 <<textnpc>>I'll be home all weekend... so anytime from 0800 to say 2300.
 <<textpc>>Cool, I'll see you later then.
 <<textnpc>>Don't forget! <<replace "#cockifer">><<safetoclose>><</replace>>
-<</texting>>
+<</texting>><center>@@.com;To continue conversation, click the 'send' button (blue arrow).@@</center>
 <div id="cockifer">
 ...
 </div>
@@ -282,17 +282,20 @@ You step outside into the below-ground area in front of Lily's townhouse. @@.pc;
 </center>
 
 
+
+
 :: MSM-TaskOneComplete [nobr]
 
 <<status 1>>
 <<set ↂ.flag.main.known[1] = true>>
+<<set ↂ.flag.main.active[0] = false>>
 <<set ↂ.flag.main.active[1] = true>>
 <<status 0>>
 <<if not $AW.startMale>>
   <<include [[MSF-TaskOneComplete]]>>
 <<else>>
   <<texting "Lily">>
-  <<textnpc>>Hey <<name>>, I've got some good news!
+  <<textnpc>>Hey <<name>>, I've got some good news! ...
   <<textpc>>Well don't keep me waiting!
   <<textnpc>>We're finally finished with inspecting the parts for the rejuvenator. Everything's all organized and ready for assembly when we're ready.
   <<textnpc>>There's also some bad news though...
@@ -322,6 +325,7 @@ You step outside into the below-ground area in front of Lily's townhouse. @@.pc;
   <<textnpc>>Cool, I'll ttyl <<replace "#pasty">><<safetoclose>><</replace>>
   <</texting>>
 <</if>>
+<center>@@.com;To continue conversation, click the 'send' button (blue arrow).@@</center>
 <div id="pasty">
 </div>
 
@@ -331,23 +335,105 @@ You step outside into the below-ground area in front of Lily's townhouse. @@.pc;
 
 <<status 1>>
 <<set ↂ.flag.main.known[2] = true>>
+<<set ↂ.flag.main.active[1] = false>>
 <<set ↂ.flag.main.active[2] = true>>
 <<status 0>>
 <<if not $AW.startMale>>
   <<include [[MSF-TaskTwoComplete]]>>
 <<else>>
   <<texting "Lily">>
-  <<textnpc>>Hey <<name>>, I've got some good news!
+  <<textnpc>>Hey <<name>>, I've got some good news! ...
   <<textpc>>Well don't keep me waiting!
   <<textnpc>>We've finally got enough wire to build the custom electromagnets!
   <<textpc>>Let me guess, there's bad news too.
-  <<textnpc>>Damn straight! I have no clue what to do next because the developer hasn't written that far yet!
-  <<textnpc>>Hint: It's coiling wire to make electromagnets.
-  <<textpc>>When will it be ready?
-  <<textnpc>>Really soon, probably in version 0.33! Thanks for playing!<<replace "#pasty">><<safetoclose>><</replace>>
+  <<textnpc>>Well, not really... 
+  <<textnpc>>Now we actually have to wind the custom electromagnets though. It's not very fun, but it isn't what I'd call bad news.
+  <<textpc>>Oh, okay then. Need me to lend a hand?
+  <<textnpc>>Sure, if you'd like. I printed out a full set of instructions for my lab assistant Sara, so you should be able to pitch in whenever you feel like it.
+  <<textpc>>Cool, I'll be sure to stop by then.
+  <<textnpc>>Thanks!<<replace "#pasty">><<safetoclose>><</replace>>
   <</texting>>
 <</if>>
+<center>@@.com;To continue conversation, click the 'send' button (blue arrow).@@</center>
 <div id="pasty">
 </div>
 
+
+
+:: MSM-TaskThreeComplete [nobr]
+
+
+<<status 1>>
+<<set ↂ.flag.main.known[3] = true>>
+<<set ↂ.flag.main.active[2] = false>>
+<<set ↂ.flag.main.active[3] = true>>
+<<status 0>>
+<<if not $AW.startMale>>
+  <<include [[MSF-TaskThreeComplete]]>>
+<<else>>
+  <<texting "Lily">>
+  <<textnpc>>Hey <<name>>, we're finally done with the electromagnets!
+  <<textpc>>Finally!
+  <<textnpc>>Yeah... it's not exactly the fastest or most interesting work.
+  <<textnpc>>I think Sara got pissed over the number of coils that failed testing.
+  <<textpc>>Oh? Why'd they fail?
+  <<textnpc>>Well, we just have really tight tolerances, obviously. A small mistake on the more complicated ones can mess the whole thing up.
+  <<textpc>>Ahh, yeah... That makes sense.
+  <<textpc>>I can understand being annoyed at having to rewind some of those too...
+  <<textnpc>>Yeah, but it couldn't be helped.<br>Anyways, I'm ready to start the initial assembly.
+  <<textpc>>Anything you need help with?
+  <<textnpc>>Not really, to be honest. It's mostly just assembling the framework and some of the mechanical components.
+  <<textnpc>>You're welcome to hang out in the lab if you want, though.
+  <<textpc>>Oh, okay. I'm sure Sara will appreciate the break.
+  <<textnpc>>Yeah, she's been doing surprisingly good work.
+  <<textnpc>>I'm still working on sourcing some of the special components, I'll let you know when I'm ready to start rounding those up.
+  <<textpc>>Okay, just let me know.
+  <<textnpc>>Will do, ttyl<<replace "#pasty">><<safetoclose>><</replace>>
+  <</texting>>
+<</if>>
+<center>@@.com;To continue conversation, click the 'send' button (blue arrow).@@</center>
+<div id="pasty">
+</div>
+
+
+:: MSM-TaskFourComplete [nobr]
+
+
+<<status 1>>
+<<set ↂ.flag.main.known[4] = true>>
+<<set ↂ.flag.main.active[3] = false>>
+<<set ↂ.flag.main.active[4] = true>>
+<<status 0>>
+<<if not $AW.startMale>>
+  <<include [[MSF-TaskFourComplete]]>>
+<<else>>
+  <<texting "Lily">>
+  <<textnpc>>Hey <<name>>, I've finally wrangled up sources for all the special components.
+  <<textpc>>Oh, that's good news, right?
+  <<textnpc>>Yes and no...
+  <<textnpc>>It's good that we'll be able to get what we need. The methods for getting some of them aren't so great.
+  <<textpc>>Oh... I see.
+  <<textnpc>>Have you ever heard of a guy named Oleg Bestarius?
+  <<textpc>>I think... Isn't he that guy that runs the Slavsquat school?
+  <<textnpc>>Well yes, but he also has plenty of connections with the Russian Mafia...
+  <<textpc>>And I'm guessing we need something from them?
+  <<textnpc>>Well, in a roundabout way... you know how it is with the Russians.
+  <<textpc>>Umm... Batshit Crazy?
+  <<textnpc>>Well yes, but they should also be willing to make some credits on a certain item they don't have any use for.
+  <<textpc>>You hope.
+  <<textnpc>>Yeah, I hope.
+  <<textpc>>So you're going to need a hand.
+  <<textnpc>>Yeah, please. I don't want to get Sara involved in this, it'd be pretty hard to explain.
+  <<textpc>>Okay, I'll stop by.
+  <<textnpc>>There's several other rare things to get our hands on too, besides the Russian thing.
+  <<textpc>>Of course, lol
+  <<textnpc>>Well, none are dangerous like that, at least.
+  <<textnpc>>There's no rush though, I won't need them until a little later in the assembly. Still, it'd be best to get started rather than wait till the last minute.
+  <<textpc>>Sure.
+  <<textnpc>>Thanks, I'll leave some instructions in case I'm out of the lab.<<replace "#pasty">><<safetoclose>><</replace>>
+  <</texting>>
+<</if>>
+<center>@@.com;To continue conversation, click the 'send' button (blue arrow).@@</center>
+<div id="pasty">
+</div>
 

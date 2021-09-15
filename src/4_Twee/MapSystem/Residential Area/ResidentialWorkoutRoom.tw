@@ -59,7 +59,7 @@
     <<if ↂ.pc.status.energy.amt < 4>>
       @@.disabled;<<button "Exercise on the treadmill [Too tired]">><</button>>@@
     <<else>>
-      <<button "Exercise on the treadmill [30-40 min]">>
+      <<button "Treadmill [30-40 min]">>
       <<status 1>>
         <<set _athl = ↂ.skill.athletic>>
         <<set _outcome = Math.round(_athl / 5)>>
@@ -92,7 +92,7 @@
           <</if>>
           <<updatebar>>
           <<run Dialog.close()>>
-          <<run setup.notify("You exercised on the threadmill for some time.")>>
+          <<run setup.notify("You exercised on the treadmill for some time.")>>
         <</if>>
         
       <</button>>
@@ -101,7 +101,7 @@
     <<if ↂ.pc.status.energy.amt < 5>>
       @@.disabled;<<button "Heavy muscle training [Too tired]">><</button>>@@
     <<else>>
-      <<button "Heavy muscle training [20-30 min]">>
+      <<button "Heavy training [20-30 min]">>
         <<set _athl = ↂ.skill.athletic>>
         <<set _outcome = Math.round(_athl / 2)>>
         <<set _shitHappens = random(0, 100) - _athl>>
@@ -118,7 +118,7 @@
             <<happy 1 "Exercising can improve mood">>
           <</if>>
           <<run Dialog.close()>>
-          <<run setup.notify("Ouch! You accidentaly strained a muscle while exercising.")>>
+          <<run setup.notify("Ouch! You accidentally strained a muscle while exercising.")>>
         <<else>>
           <<set _randomtime = random(20, 30)>>
           <<set _randomenergy = random(5, 6)>>
@@ -137,7 +137,21 @@
       <</button>>
     <</if>>
     <br>
-    @@.disabled;<<button "Kegelator 3000 training [Need the proper training]">><</button>>@@
+    <<if ↂ.pc.status.energy.amt < 5>>
+      @@.disabled;<<button "Kegelator 3000 training [Too tired]">><</button>>@@
+    <<else>>
+      <<button "Kegelator 3000 training">><<run Dialog.close()>>
+        <<dialog "Kegelator 3000">>
+          <center>[img[IMG-GymMachine]]</center><br>
+            <<if ↂ.flag.kegelator == false>>
+              @@.head3;Y@@ou inspect the machine. It's unlike any gym machine you've ever seen, and has it's own power cable. The label on the side says "Kegelator 3000". Once you see the attachment point, you suddenly realize what the is used for...<<has shame>><<addtime 3>><p>@@.mono;Oh, that's so indecent!@@</p><p>Feeling offended by the sole idea of using such device in the place where anybody can come you pout and decide to stick to the more traditional workout eqipment.<br><center><<button "Leave">><<run Dialog.close()>><</button>></center></p><<or>><<addtime 24>><<set _freeHole = setup.sexToys.check("pc", "vagina")>><<if _freeHole === true>><p>@@.mono;Oh, now I see, giggle! Need to give it a try I think...@@</p>You quickly undress and get into position. It is not very comfortable to stay in this mid-squat position and it forces you to slide the rubber-covered rod deep down your <<p pussy.q>> <<p pussy.n>> in order to fully get into it. <<set _result = ↂ.pc.body.pussy.insert(2)>>You point the tip of the rod to your <<p 'curwet.q'>> <<p 'vulva.n'>> and push it in. <<if _result == 'loose'>>It slips inside your pussy surprisingly easy.<<elseif _result == 'fits'>>It slids in with a pleasurable slurping sound.<<elseif _result == 'stretch'>>You can't but moan when it stretches your pussy sliding in.<<elseif _result == 'overstretch'>>It takes some force to actually fit the toy inside your pussy. You gasp when it finally slides in with a loud slurping sound making you feel full and super stretched.<<elseif _result == 'notfit'>>Regardless of your efforts it doesn't fit into your tight pussy and you give up after a couple of minutes of frustruating attempts.<</if>><<if _result !== 'notfit'>><p><<run ↂ.pc.body.pussy.insert(3)>><<run ↂ.pc.body.pussy.insert(4)>>You push the button making the machine start and the rod begins to slowly but steadily inflate inside your pussy. @@.pc;Ooohh-hh!@@ You feel like your poor pussy is going to burst but it stops just before. With a thick inflated ball inside you feel locked to the machine for good now. With a small beep the part with the rod starts moving away forcing you to follow it with your pelvic. Reaching the furthest point it stops for a moment before sliding back on the rail. The process repeats and you realise that you have no other option than squat every time the cruel machine forces you to do this. The constant tugging and pushing on your vagina walls makes you leaky and throbbing while your legs cries with fatique after just a couple of minutes.</p> <p>The intense forced excercise continies and you feel arousal growing inside you from this humiliating forced excercise — with your legs spreaded and sweat running down your body you indecently drool on your <<p tits.n>>. The cruel and genius nature of this machine become obvious. You just feel too good to stop and wound up squatting much more than you'd do in a normal situation.</p><p><<set _athl = (ↂ.skill.athletic + 10)>><<set _outcome = Math.round(_athl / 2)>><<set _randomenergy = random(5, 6)>><<set ↂ.pc.status.energy.amt -= _randomenergy>><<set ↂ.pc.status.exercise += _outcome>><<SCX>><<SC "AT">><<if ↂ.pc.status.happy < 2>><<happy 1 "Exercising can improve mood">><</if>><<if ↂ.pc.kink.hard>>After some time you feel that you can't endure it any longer and need to give up on the idea of cumming or else your poor glutes will ache for a full week from the workout. With a pout you turn the cruel machine off and pout for some time while the rod slowly deflates. Knot disappears and releases your sore pussy so you can leave the machine.<<else>>Panting and shaking you slip over edge on another merciless push of the rod and orgasm still squatting rhytmically. It goes over and over until after a minute or so you finally regain enough conciousness to reach for the "stop" button. It stops moving back and forth whle the knot slowly deflates and releases your sore pussy so you can leave the machine.<<satisfy 17 "Kegelator">><<set ↂ.pc.status.arousal -= 4>><</if>></p><</if>><<else>><p>@@.mono;Damn, I can't use it with my <<p pussy.n>> being out of access!@@</p><</if>><</has>><br><center><<button "Leave">><<run Dialog.close()>><</button>></center>
+          <<else>>
+            <<addtime 24>>@@.head3;Y@@ou get to the machine.<<if _freeHole === true>><<has shame>><<addtime 3>><p>@@.mono;Maybe I should give it a try maybe?..@@</p><p>You ponder the idea for some time and finally decide to do this. The sole idea makes you blush profusely but you are already in the heat of your decision. You quickly lock the door of the workout room from the inside and get prepared to use this obscene device.</p><<or>><<set _freeHole = setup.sexToys.check("pc", "vagina")>><p>@@.mono;Time for another round today. tee-hee!@@ You quickly undress and get into position.</p><</has>>You get into the awkard mid-crouched position and prepare to slide the rubber-covered rod deep down your <<p pussy.q>> <<p pussy.n>>. <<set _result = ↂ.pc.body.pussy.insert(2)>>You point the tip of the rod to your <<p 'curwet.q'>> <<p 'vulva.n'>> and push it in. <<if _result == 'loose'>>It slips inside your pussy surprisingly easy.<<elseif _result == 'fits'>>It slids in with a pleasurable slurping sound.<<elseif _result == 'stretch'>>You can't but moan when it stretches your pussy sliding in.<<elseif _result == 'overstretch'>>It takes some force to actually fit the toy inside your pussy. You gasp when it finally slides in with a loud slurping sound making you feel full and super stretched.</p><<elseif _result == 'notfit'>>Regardless of your efforts it doesn't fit into your tight pussy and you give up after a couple of minutes of frustruating attempts.<</if>></p><<if _result !== 'notfit'>><p><<run ↂ.pc.body.pussy.insert(3)>><<run ↂ.pc.body.pussy.insert(4)>>You push the button making the machine start and the rod begins to slowly but steadily inflate inside your pussy. @@.pc;Ooohh-hh!@@ You feel like your poor pussy is going to burst but it stops just before. With a thick inflated ball inside you feel locked to the machine for good now. With a small beep the part with the rod starts moving away forcing you to follow it with your pelvic. Reaching the furthest point it stops for a moment before sliding back on the rail. The process repeats and you realise that you have no other option than squat every time the cruel machine forces you to do this. The constant tugging and pushing on your vagina walls makes you leaky and throbbing while your legs cries with fatique after just a couple of minutes.</p> <p>The intense forced excercise continies and you feel arousal growing inside you from this humiliating forced excercise — with your legs spreaded and sweat running down your body you indecently drool on your <<p tits.n>>. The cruel and genius nature of this machine become obvious. You just feel too good to stop and wound up squatting much more than you'd do in a normal situation.</p><p><<set _athl = (ↂ.skill.athletic + 10)>><<set _outcome = Math.round(_athl / 2)>><<set _randomenergy = random(5, 6)>><<set ↂ.pc.status.energy.amt -= _randomenergy>><<set ↂ.pc.status.exercise += _outcome>><<SCX>><<SC "AT">><<if ↂ.pc.status.happy < 2>><<happy 1 "Exercising can improve mood">><</if>><<if ↂ.pc.kink.hard>>After some time you feel that you can't endure it any longer and need to give up on the idea of cumming or else your poor glutes will ache for a full week from the workout. With a pout you turn the cruel machine off and pout for some time while the rod slowly deflates. Knot disappears and releases your sore pussy so you can leave the machine. <<else>>Panting and shaking you slip over edge on another merciless push of the rod and orgasm still squatting rhytmically. It goes over and over until after a minute or so you finally regain enough conciousness to reach for the "stop" button. It stops moving back and forth whle the knot slowly deflates and releases your sore pussy so you can leave the machine.<<satisfy 17 "Kegelator">><<set ↂ.pc.status.arousal -= 4>><</if>></p><</if>><<else>><p>@@.mono;Damn, I can't use it with my <<p pussy.n>> being out of access!@@</p><</if>><br><center><<button "Leave">><<run Dialog.close()>><</button>></center>
+          <</if>>
+          <<set ↂ.flag.kegelator = true>><<status 0>>
+        <</dialog>>
+      <</button>>
+      <</if>>
     </center>
   <</dialog>>
 <</button>>

@@ -47,7 +47,7 @@ if (aw.dishes === null || aw.dishes === undefined) {
 }
 
 setup.cook.list = function(): string {
-  let out = `<<include [[Consumables]]>><div id="cookDiv"><p><<f Y>>ou check your fridge to see what meals you can actually cook.</p><p>@@.mono;Maybe I should replenish my ingredients stash visiting Cum'n Go or Hole Foods...@@</p>@@.note;The system is only partly implemented now. Special food is intended to be used for home dates and hangouts, so it is not edible in a standard way. If you are looking for food for your character, good news, she eats by herself, check the spendings in weekly morning menu. You can buy ingredients in the Cum'n go for now on.@@<br><br>`;
+  let out = `<<include [[Consumables]]>><div id="cookDiv"><p><<f Y>>ou check your fridge to see what meals you can actually cook.</p><p>@@.mono;Maybe I should replenish my ingredients stash visiting Cum'n Go or Hole Foods...@@</p>@@.note;Special food is intended to be used for home dates and hangouts, so it is not edible in a standard way. If you are looking for food for your character, good news, she eats by herself, check the spendings in weekly morning menu. You can buy ingredients in the Cum'n go for now on.@@<br><br>`;
   const addIngr = ["SatyrTablet", "SatyrVial", "Heat300", "Heat150", "Heat100", "ZoneBottle1", "FocusVial80", "FocusVial40", "FocusTablet40", "SemenBottle", "RatPoison"];
   let addDrop = "";
   for (let index = 0; index < addIngr.length; index++) {
@@ -102,8 +102,9 @@ setup.cook.list = function(): string {
 };
 
 setup.cook.cook = function(dishNumber: number, additional: string): string {
+  State.temporary.dishNumber = dishNumber;
   let ingrQuality = 2;
-  let usedOwnMilk = "";
+
   for (let ii = 0; ii < aw.dishes[dishNumber].ingredients.length; ii++) {
     if (aw.dishes[dishNumber].ingredients[ii].length > 1) {
       let found = false;
@@ -117,7 +118,7 @@ setup.cook.cook = function(dishNumber: number, additional: string): string {
       if (found === false) {
         if (aw.dishes[dishNumber].ingredients[ii].includes("Soy milk") || aw.dishes[dishNumber].ingredients[ii].includes("Hucow milk")) {
           if (setup.consumables.amtOfConsumable("breastMilkA") > 0) {
-            usedOwnMilk = " In absence of any milk in the fridge you have used some of your own from the Cryo-Canister.";
+            State.temporary.usedOwnMilk = " In absence of any milk in the fridge you have used some of your own from the Cryo-Canister.";
           }
         }
       }
@@ -127,8 +128,7 @@ setup.cook.cook = function(dishNumber: number, additional: string): string {
     }
   }
   const processedIngrQuality = Math.floor(ingrQuality / aw.dishes[dishNumber].ingredients.length);
-  let out = `<<status 1>><<addtime ${aw.dishes[dishNumber].cookTime}>><center><img data-passage="${either("IMG-Cooking1", "IMG-Cooking2", "IMG-Cooking3", "IMG-Cooking4", "IMG-Cooking5")}"></center>`;
-  out += `<p><<print either("<<f A>>fter getting sure you have everything you need you start cooking.","<<f Y>> check if you have everything you need for a dish and proceed to cooking.")>>${usedOwnMilk} ${aw.dishes[dishNumber].cookText}`;
+  let out = `<<include "MarriageEvents-Cooking">>`;
   let result = 0;
   setup.SCXfunc();
   setup.SCfunc("CO", (aw.dishes[dishNumber].checks[0] - processedIngrQuality));
@@ -177,12 +177,16 @@ setup.cook.cook = function(dishNumber: number, additional: string): string {
       out += `You managed to make ${aw.dishes[dishNumber].result}, it smells wonderful and you are very happy with a result.<<happy 1 "Cooking Success">>`;
       break;
     default:
-      out += `Oh shit, error in setup.cook.cook, pls report!`;
+      out += `Oh shit, error 62 in setup.cook.cook, pls report!`;
       break;
   }
+  if (item !== "Error :(") {
   aw.invItems.info[item] = aw.dishes[dishNumber].desc + item2 + item3;
   aw.invItems.image[item] = aw.dishes[dishNumber].img;
   out += `</p><<pickup "$items" "${item}">><<status 0>><<updatebar>>`;
+  } else {
+    out += `Oh shit, error 63 in setup.cook.cook, pls report!`;
+  }
   return out;
 };
 
@@ -429,7 +433,7 @@ aw.dishes = [
       ingredients: [
           ["Flour"],
           ["Cheese"],
-          ["Egg"],
+          ["Eggs"],
       ],
       result: "Pasta",
       known: true,
@@ -449,7 +453,7 @@ aw.dishes = [
       ingredients: [
           ["Flour"],
           ["Hucow milk", "Soy milk"],
-          ["Egg"],
+          ["Eggs"],
       ],
       result: "Cookies",
       known: true,
@@ -481,7 +485,7 @@ aw.dishes = [
   {
       name: "Prairy Oysters",
       key: "prairyOysters",
-      desc: "A popular midwest dish with bull's testicles in a sauce.",
+      desc: "A popular Midwest dish with bull's testicles in a sauce.",
       img: "IMG-Item-PrairyOysters",
       skill: 60,
       checks: [10, 15, 22],
@@ -532,7 +536,7 @@ aw.dishes = [
       checks: [10, 13, 18],
       cookTime: 65,
       cookText: "You add the ingredients and put the bowl on fire...",
-      cookFail: "after some time it starts smelling like a boiled piss, which is not right at all. It seems your omorashi soup went very wrong.",
+      cookFail: "after some time it starts smelling like boiled piss, which is not right at all. It seems your omorashi soup went very wrong.",
       ingredients: [
         ["Bread"],
         ["Hucow milk", "Soy milk"],
@@ -587,7 +591,7 @@ aw.dishes = [
   {
       name: "Snake salad",
       key: "snakeSalad",
-      desc: "The simpliest dish known to the humanity.",
+      desc: "The simplest dish known to the humanity.",
       img: "IMG-Item-Snake",
       skill: 5,
       checks: [3, 5, 7],
@@ -605,7 +609,7 @@ aw.dishes = [
   {
       name: "Lich Meat",
       key: "lichMeat",
-      desc: "A weird traditional dish from guam. It is basically an oddy shaped ham salad.",
+      desc: "A weird traditional dish from Guam. It is basically an oddly shaped ham salad.",
       img: "IMG-Item-Lichmeat",
       skill: 105,
       checks: [10, 15, 20],

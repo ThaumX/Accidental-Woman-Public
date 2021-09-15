@@ -130,7 +130,8 @@ setup.condition.add = function({ loc, amt, tgt, wet, type}: { loc: conditionLoca
 };
 
 setup.condition.dry = function(): void {
-  const places = ["back", "butt", "chest", "face", "feet", "genitals", "groin", "hair", "hands", "legs", "stomach", "thighs"];
+  const places = ["back", "butt", "chest", "face", "feet", "genitals", "groin", "hair", "hands", "legs", "stomach", "thighs", "vagFluid", "anusFluid"];
+  const placesNames = ["back", "butt", "chest", "face", "feet", "genitals", "groin", "hair", "hands", "legs", "stomach", "thighs", "vagina", "anus"];
   for (let index = 0; index < places.length; index++) {
     if (Object.keys(ↂ.pc.cond[places[index]]).length !== 0) {
       const liquids = clone(Object.keys(ↂ.pc.cond[places[index]]));
@@ -139,7 +140,7 @@ setup.condition.dry = function(): void {
           if (random(0, 1) === 1) {
             if (ↂ.pc.cond[places[index]].water.amt === 1) {
               delete(ↂ.pc.cond[places[index]].water);
-              aw.con.info(`${places[index]} dried off completely.`);
+              aw.con.info(`${placesNames[index]} dried off completely.`);
             } else {
               ↂ.pc.cond[places[index]].water.amt -= 1;
               aw.con.info(`Removed 1 amt of water from ${places[index]}.`);
@@ -151,7 +152,7 @@ setup.condition.dry = function(): void {
               ↂ.pc.cond[places[index]][liquids[i]].wet--;
               aw.con.info(`Removed 1 amt of ${liquids[i]} from ${places[index]}.`);
               if (ↂ.pc.cond[places[index]][liquids[i]].wet === 0) {
-                aw.con.info(`${liquids[i]} at ${places[index]} dried off but still there as a stain.`);
+                aw.con.info(`${liquids[i]} at the ${placesNames[index]} dried off but still there as a stain.`);
               }
             }
           }

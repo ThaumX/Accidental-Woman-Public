@@ -153,7 +153,11 @@ setTimeout(() => (function() {
       repeat: false,
       region: ["downtown"],
       condition() {
-        return true;
+        if (ↂ.flag.Prologue || setup.escape.sit === "jobbing" || setup.escape.sit === "scene" || setup.escape.sit === "interact") {
+          return false;
+        } else {
+          return true;
+        }
       },
       action(count) {
         const args = {
@@ -198,7 +202,11 @@ setTimeout(() => (function() {
       repeat: false,
       region: ["downtown"],
       condition() {
-        return true;
+        if (ↂ.flag.Prologue || setup.escape.sit === "jobbing" || setup.escape.sit === "scene" || setup.escape.sit === "interact") {
+          return false;
+        } else {
+          return true;
+        }
       },
       action(count) {
         const args = {
@@ -260,7 +268,7 @@ setTimeout(() => (function() {
     },
     {
       name: "crazyBum",
-      odds: 10,
+      odds: 50,
       output: "none",
       repeat: false,
       region: ["downtown"],
@@ -345,6 +353,53 @@ setTimeout(() => (function() {
       },
     },
     {
+      name: "DarkAlley",
+      odds: 200,
+      output: "scene",
+      repeat: true,
+      region: ["downtown"],
+      condition() {
+        if (!setup.time.aftMidnight || setup.time.now()[0] < 22) {
+          return false;
+        }
+        if (setup.gate(["violent", "rape", "pain", "choking", "noncon"])) {
+          return false;
+        }
+        if (ↂ.map.loc[0] === "home" || ↂ.map.loc[1] === "mall" || ↂ.map.loc[1] === "townhall" || ↂ.map.loc[1] === "corp" || ↂ.map.loc[0] === "BFhome" || ↂ.flag.Prologue || setup.escape.sit === "jobbing" || setup.escape.sit === "scene" || setup.escape.sit === "interact") {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      action(count) {
+        let chance = 20;
+        if (ↂ.map.loc[1] === "club" || ↂ.map.loc[1] === "adult") {
+          chance += 10;
+        }
+        if (ↂ.pc.mutate.pheromone) {
+          chance += 10;
+        }
+        if (ↂ.pc.mutate.litePhero) {
+          chance += 5;
+        }
+        chance += (setup.prostitution.appearance() * 2);
+        if (random(0, 100) < chance) {
+          const go = {
+            passage: "LeisRapistEncounter",
+            content: "none",
+            image: "IMG-RapistPortrait",
+            topImage: "IMG-RapeSceneTop",
+            title: "Unexpected rendezvous",
+            allowSave: false,
+            sidebar: `<h2>${ↂ.map.loc[0]}</h2>`,
+            showTime: true,
+            allowMenu: false,
+          };
+          setup.scenario.launch(go);
+        }
+      },
+    },
+    {
       name: "dirty",
       odds: 1000,
       output: "none",
@@ -366,7 +421,7 @@ setTimeout(() => (function() {
               passage: "NPCinteraction-Dirty",
               block: false,
               content: `<<set $intNPC = '${ↂ.map.NPC[index]}'>>`,
-              image: aw.npc[ↂ.map.NPC[index]].main.picture,
+              npcid: ↂ.map.NPC[index],
               title: aw.npc[ↂ.map.NPC[index]].main.name,
               size: 3,
               callback() {
@@ -402,6 +457,7 @@ setTimeout(() => (function() {
             block: false,
             content: `<<set $intNPC = 'n1012'>>`,
             image: aw.npc.n1012.main.picture,
+            npcid: "n1012",
             title: aw.npc.n1012.main.name,
             size: 3,
             callback() {
@@ -461,11 +517,29 @@ setTimeout(() => (function() {
       },
       action(count) {
         let text = "You have good friends, they called me fast enough when you went missing.";
-        if (setup.npc.acquainted.includes["n1027"] || setup.npc.friends.includes["n1027"] || setup.npc.lover.includes["n1027"]) {
+        if (setup.npc.acquainted.includes("n1027") || setup.npc.friends.includes("n1027") || setup.npc.lover.includes("n1027")) {
           text = "I always care about those who are around me, but please, don't risk yourself anymore.";
-        };
+        }
         setup.dialog("Letter", `You wake up in a hospital room. It takes you some time to recall what happened, though you still aren't sure why you ended up here. The nurse explains that you were brought in unconscious by an Institute Agent yesterday. They took care of your bruises, concussion, and the other minor injuries they found. She nods to the small table near the bed, it seems he left a note for you.<br><br>You pick it up and begin to read. @@.npc;<<= ↂ.pc.main.name>>! I hope you are alright after your <i>fall down the stairs</i>. Also, you will be pleased to know that I took special care of our new friend. He won't be bothering you anymore with his business ideas about forest hiking. <i>Please,</i> be careful next time, it was super lucky that I was able to catch you from <i>falling down from the ladder</i>. Get well. Craig.<br><br>P.S. ${text}<br><br>P.P.S. We better keep the story about yesterday's party between us, okay?@@<<run setup.npcInfo.level("n1027", {bodyGeneral: true})>><<set aw.npc.n1027.rship.acquaint = true>><<run setup.npc.acquainted.push("n1027")>>`);
         State.active.variables.PsychoCraigSave = false;
+        aw.S();
+      },
+    },
+    {
+      name: "ErWakeup",
+      odds: 0,
+      output: "none",
+      repeat: false,
+      region: ["medical"],
+      condition() {
+        if (State.active.variables.erWakeUp === true) {
+          return true;
+        }
+        return false;
+      },
+      action(count) {
+        setup.dialog("ICU", `You wake up in a hospital room. It takes you some time to recall what happened, though you still aren't sure why you ended up here. The nurse explains that you came here bleeding yesterday. They took good care of you and you generally feel much better now. <<if ↂ.flag.Healthcare>>Thanks your insurance, it cost only @@.money;<<mon>>150@@<<else>>Hospital services cost you @@.money;<<mon>>300@@ but it is still much better than die you decide.<</if>> After a while you are ready to leave the bed and sign out from the hospital.<br><center><<button "Get out">><<run Dialog.close()>><</button>></center>`);
+        State.active.variables.erWakeUp = false;
         aw.S();
       },
     },
@@ -510,7 +584,7 @@ setTimeout(() => (function() {
       },
       action(count) {
         setup.dialog("Accidental Puddle", `@@.head3;Y@@ou notice a young girl acting a bit odd. She clenches her legs--which are covered by white leggings--causing her to walk with small rapid steps. She is turning her head back and forth, looking all around for something while biting her lip in a nervous manner. As she passes you, the girl starts to whine quietly with her hand holding her lower belly area.<br><br>
-        <<if ↂ.pc.trait.perceptive == 1>>@@.mono;Oh, poor girl, I hope she finds the toilet in time... Although I can't remember if they have any in this part of the mall.@@<<else>>@@.mono;I wonder what is wrong with her? Is she in pain?@@<</if>> You stare at the girl wondering if you can help her in some way, but before you can do anything she seems to spot what she was looking for and starts walking quickly toward it. Looking toward where she's headed, you quickly spot a restroom sign. You watch as she hurries down the mall concorse, when you notice that she seems to be headed right into the path of a man who's walking while distracted by his phone. It's too late to warn them, and you stare entranced at the inevitable disaster.<br><br>
+        <<if ↂ.pc.trait.perceptive == 1>>@@.mono;Oh, poor girl, I hope she finds the toilet in time... Although I can't remember if they have any in this part of the mall.@@<<else>>@@.mono;I wonder what is wrong with her? Is she in pain?@@<</if>> You stare at the girl wondering if you can help her in some way, but before you can do anything she seems to spot what she was looking for and starts walking quickly toward it. Looking toward where she's headed, you quickly spot a restroom sign. You watch as she hurries down the mall concourse, when you notice that she seems to be headed right into the path of a man who's walking while distracted by his phone. It's too late to warn them, and you stare entranced at the inevitable disaster.<br><br>
         The girl lets out a pained @@.npc;Ouch!@@ as she collides with the man, barely managing to remain on her feet.<br><br>
         The man seems to be apologizing for not paying attention, but it seems it's too late for for the girl; the impact seems to have jostled her bladder. She squeals as she desperately tries to regain control over her overstretched bladder by grabbing her crotch with both hands. The effort seems to fail miserably, however, as her leggings start changing to a darker color. She stands there, crying, as piss runs down her legs.<br><br>
         She suddenly runs into the open doorway of the restroom, leaving only a puddle of urine on the mall floor.<br>
@@ -577,6 +651,487 @@ setTimeout(() => (function() {
         setup.scenario.launch(go);
       },
     },
+    {
+      name: "lostWallet",
+      odds: 10,
+      output: "none",
+      repeat: false,
+      region: ["downtown"],
+      condition() {
+        if (ↂ.flag.Prologue || setup.escape.sit === "jobbing" || setup.escape.sit === "scene" || setup.escape.sit === "interact") {
+          return false;
+        }
+        return true;
+      },
+      action(count) {
+        setup.dialog("Lost wallet", `<<addtime 3>><<set _fortune = random(12,45)>>Walking you see something on the ground. The leather brown wallet looks well-used. You pick it up and open. It seems there is no info about the owner, just some discount cards without a name or any ID and @@.mon;<<mon>><<= _fortune>>@@. @@.mono;Well, it seems I got lucky today!@@. You take the cash and put the wallet back to the ground.<<run aw.cash(_fortune, "misc")>><<status 0>>`);
+      },
+    },
+    {
+      name: "waterFromCar",
+      odds: 10,
+      output: "none",
+      repeat: false,
+      region: ["downtown"],
+      condition() {
+        if (ↂ.flag.Prologue || setup.escape.sit === "jobbing" || setup.escape.sit === "scene" || setup.escape.sit === "interact" || ↂ.map.loc[1] === "club" ) {
+          return false;
+        }
+        return true;
+      },
+      action(count) {
+        setup.dialog("Car", `<<addtime 3>>The car suddenly drives near the sidewalk and splashes you with muddy water from the puddle on the road. @@.pc;Fuck! <<has bitch>>Bloody fucking bastard, I wish your fucking cock rot off!<<or>><</has>>@@<<run setup.condition.add({ loc: "chest", amt: 50, tgt: "pc", wet: 50, type: "water"})>> You try to remove at least some water from your clothes but it seems you are completely soaked now.<<status 0>>`);
+      },
+    },
+    // ---- Anenn markup ----
+    // Mya event 1
+    {
+      name: "favorToMya_1",
+      odds: 50,
+      output: "none",
+      repeat: false,
+      region: ["any"],
+      condition() {
+        if ((ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "dorms") && !ↂ.flag.jobEvents.hucowFarm.myaFavour1 && !ↂ.flag.job.HD.hecow && ↂ.flag.jobEvents.hucowFarm.newJobBreeding1 && !ↂ.pc.status.wombA.preg) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action(count) {
+        setup.dialog("A favor for Mya... This is safe?", "<<include [[Ranch-NewJob-MyaFavour-A1]]>>");
+      }
+    },
+
+    // MC vs Diesel (Repeable, open aft accept Mya Favor 1)
+    {
+      name: "playerVsBull",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if ((ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "dorms") && ↂ.flag.jobEvents.hucowFarm.myaFavour1 === 'accepted') {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("It's so weird... Right?", "<<include [[Ranch-NewJob-MCxDiesel-A1]]>>");
+      }
+    },
+
+    // Cowgirls lesbian party
+    {
+      name: "ranchLesbianParty",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if ((ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "dorms") && !ↂ.flag.job.HD.hecow && ↂ.flag.jobEvents.hucowFarm.newJobBreeding1) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("A normal day in the ranch...?", "<<include [[Ranch-NewJob-LesbianParty-A1]]>>");
+      }
+    },
+
+    // Cowgirls talk with the MC
+    {
+      name: "cowsTalkTime",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if ((ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "dairy") && !ↂ.flag.job.HD.hecow && ↂ.flag.jobEvents.hucowFarm.newJobBreeding1) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("Cowgirls after dairy milking", "<<include [[Ranch-NewJob-TalkWithCows]]>>");
+      }
+    },
+
+    // Anenn: Random events at ranch
+    // Warehouse
+    {
+      name: "sexTraces",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if (ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "warehouse") {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("Traces of pussy fuck...?", "<<include [[Ranch-weirdTraces-A1]]>>");
+      }
+    },
+    {
+      name: "cowsVsMaleFarmhand",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if ((ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "warehouse") && ↂ.flag.jobEvents.hucowFarm.myaFavour1 === 'accepted' && !ↂ.flag.job.HD.hecow) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("Male farmhands fucking ranch cows...?", "<<include [[Ranch-MaleFarmhandX2Cowgirls-A1]]>>");
+      }
+    },
+
+    // Dorms
+    {
+      name: "theBigSexSmell",
+      odds: 100,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if (ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "dorms") {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("That smell...", "<<include [[Ranch-theBigSexSmell-A1]]>>");
+      }
+    },
+    {
+      name: "bullsAndCowsRoutine",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if (ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "dorms" && State.variables.time[0] < 18) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("Their routine...", "<<include [[Ranch-bullsAndCowsRoutine-A1]]>>");
+      }
+    },
+    // Cowgirls morning yoga - intro
+    {
+      name: "cowgirlsMorningYoga",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if (ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "dorms" && State.variables.time[0] < 12 && !ↂ.flag.jobEvents.hucowFarm.nudeYogaIntro) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("Cowgirls morning yoga", "<<include [[Ranch-cowgirlsMorningYoga-A1]]>>");
+      }
+    },
+
+    // Dairy
+    {
+      name: "milkyPartyDairy",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if ((ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "dairy") && (State.variables.time[0] >= 18) && !ↂ.flag.job.HD.hecow && ↂ.pc.body.tits.lact.on) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("A milky war?", "<<include [[Ranch-CowsMilkyWar-A1]]>>");
+      }
+    },
+    // Milking scene (No need work at the ranch)
+    {
+      name: "myMilkingTime",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if ((ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "dairy") && !ↂ.flag.job.HD.hecow && ↂ.pc.body.tits.lact.on) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("Lactating? Go get that milk out!", "<<include [[Ranch-Hucow-MilkingFriend-A1]]>>");
+      }
+    },
+
+    // Main
+    {
+      name: "milkWarMainCourtyard",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if ((ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "main") && (State.variables.time[0] < 18) && !ↂ.flag.job.HD.hecow && ↂ.pc.body.tits.lact.on) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("Some cows having milky dance!", "<<include [[Ranch-CowgirlsMilkyDancing-A1]]>>");
+      }
+    },
+
+    // Barn
+    {
+      name: "cowsRidingBullCompetition",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if ((ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "barn") && !ↂ.flag.job.HD.hecow) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("Riding competition?", "<<include [[Ranch-cowsRidingBullCompetition-A1]]>>");
+      }
+    },
+    // Bulls jizz dispute and breeding
+    {
+      name: "bullsJizzDispute",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if ((ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "barn") && !ↂ.flag.job.HD.hecow) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("Jizz competition", "<<include [[Ranch-bullsJizzDispute-A1]]>>");
+      }
+    },
+    // The mechanical bull
+    {
+      name: "mechanicalBull",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if (ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "barn") {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("The mechanical bull", "<<include [[Ranch-mechanicalBull-A1]]>>");
+      }
+    },
+
+    // Market
+    {
+      name: "ranchMarketGirl",
+      odds: 100,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if (ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "market") {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("A little pervert pussy", "<<include [[Ranch-ranchMarketGirl-A1]]>>");
+      }
+    },
+    {
+      name: "ranchMarketCouple",
+      odds: 100,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if (ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "market") {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("Now it's a perverted couple...", "<<include [[Ranch-ranchMarketCouple-A1]]>>");
+      }
+    },
+    {
+      name: "streamerAtRanch",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if (ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "market") {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("A streamer at the ranch market", "<<include [[Ranch-streamerAtRanch-A1]]>>");
+      }
+    },
+
+    // Office
+    {
+      name: "cowgirlOnOffice",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if (ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "office") {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("What is this?", "<<include [[Ranch-cowgirlOnOffice-A1]]>>");
+      }
+    },
+    {
+      name: "cowgirlLesbianOffice",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if (ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "office" && !ↂ.flag.farm.events.lesbOffice) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("What is this?", "<<include [[Ranch-cowgirlLesbianOffice-A1]]>>");
+      }
+    },
+    {
+      name: "cowgirlLesbianOffice2",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if (ↂ.map.loc[1] === "coop" && ↂ.map.loc[2] === "office" && ↂ.flag.farm.events.lesbOffice === "accepted") {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        setup.dialog("So, those two again, uh?", "<<include [[Ranch-cowgirlLesbianOffice-B1]]>>");
+      }
+    },
+    {
+      name: "beachGuy",
+      odds: 100,
+      output: "interact",
+      repeat: false,
+      region: ["world"],
+      condition() {
+        if (ↂ.flag.Prologue || setup.escape.sit === "jobbing" || setup.escape.sit === "scene" || setup.escape.sit === "interact") {
+          return false;
+        }
+        if (ↂ.map.loc[2] === "beach") {
+          return true;
+        }
+        return false;
+      },
+      action(count) {
+        const args = {
+          passage: "ResortBeach-beachGuy-1",
+          block: false,
+          content: ``,
+          image: "none",
+          title: "Conversation",
+          size: 3,
+          callback() {
+            setup.time.add(random(3, 8));
+          },
+          onclose() {
+            setup.refresh();
+          },
+        };
+        setup.interact.launch(args);
+      },
+    },
+    // BFhome
+    {
+      name: "JobIsShitScene",
+      odds: 50,
+      output: "none",
+      repeat: true,
+      region: ["any"],
+      condition() {
+        if (ↂ.map.loc[0] === "BFhome" && setup.escape.sit !== "scene" && setup.escape.sit !== "interact") {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      action() {
+        const args = {
+          passage: "JobIsShitScene-1",
+          block: false,
+          content: "",
+          image: "none",
+          title: "Conversation",
+          size: 3,
+          callback() {
+            setup.time.add(random(3, 8));
+          },
+          onclose() {
+            setup.refresh();
+          },
+        };
+        setup.interact.launch(args);
+      }
+    },
   ];
   for (const event of events) {
     event.category = "map";
@@ -591,7 +1146,7 @@ setTimeout(() => (function() {
   lifetime?: [number | [number, number, number, number], number | [number, number, number, number]]; // game time that event is valid between. [start, end] 0 = no start or end valid time.
   repeat?: boolean; // if the event can be repeated, or if it's once only (default true, repeatable)
   priorEvent?: string | string[];  // required event or events that must have happened first. (default "none")
-  interupt?: boolean; // interupt event processing when this event occurs (default false)
+  interupt?: boolean; // interrupt event processing when this event occurs (default false)
   output?: string; // either "interact" or "scene" if one of those outputs is used, otherwise "none"
   omni?: string; // name of an omni that must be active for the event to run, or "none"
   region?: string | string[]; // name of game region that event can occur in (or "any"). checks either loc[1] if loc[0] is "world", or loc[0]. ex: ["residential", "downtown"]

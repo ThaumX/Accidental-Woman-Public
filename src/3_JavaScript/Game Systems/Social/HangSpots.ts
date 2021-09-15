@@ -266,7 +266,7 @@ class HangSpot {
           key: "hindenburgerDinner",
           label: "Order food",
           info: "Make a choice and order some burger or grill.",
-          twee: `The waitress dressed in oktoberfest-styled garments approaches your stall to take your order. You decide to order some <<print either("Kaiser burger", "Blitzkrieg burger", "Bratwurst", "Special bacon Hindenburger", "Potato salad")>> and <<= aw.hang.name>> goes for <<print either("Red Baron hotdog", "Pork ribs with K98 sauce", "Kriegssteak", "the same dish")>>. <<print either("After some waiting", "Almost immediately")>> waitress brings your plates and three cups of different mustard. <<has cl>>You prefer to keep silent while eating having troubles with coming up with appropriate theme of conversation and just enjoying the company<<or>>You start a small talk discussing <<print either("recent news", "upcoming movies", "<<= aw.hang.name>>'s life last days")>>.<</has>>The food <<print either("is delicious", "is pretty mediocre", "tastes odd", "tastes awful")>>. After <<print either("finishing the dish", "eating the half", "giving up on the dish after some struggling.")>> you feel that you had enough.<<addtime 48>>`,
+          twee: `The waitress dressed in Oktoberfest-styled garments approaches your stall to take your order. You decide to order some <<print either("Kaiser burger", "Blitzkrieg burger", "Bratwurst", "Special bacon Hindenburger", "Potato salad")>> and <<= aw.hang.name>> goes for <<print either("Red Baron hotdog", "Pork ribs with K98 sauce", "Kriegssteak", "the same dish")>>. <<print either("After some waiting", "Almost immediately")>> waitress brings your plates and three cups of different mustard. <<has cl>>You prefer to keep silent while eating having troubles with coming up with appropriate theme of conversation and just enjoying the company<<or>>You start a small talk discussing <<print either("recent news", "upcoming movies", "<<= aw.hang.name>>'s life last days")>>.<</has>>The food <<print either("is delicious", "is pretty mediocre", "tastes odd", "tastes awful")>>. After <<print either("finishing the dish", "eating the half", "giving up on the dish after some struggling.")>> you feel that you had enough.<<addtime 48>>`,
           check() {
               return true;
           },
@@ -333,7 +333,7 @@ class HangSpot {
           repeatable: false,
         },
       ],
-      aiTags: [[]],
+      aiTags: [["neutral", "neutEthic","casual"]],
     },
     {
       key: "foodcourt",
@@ -385,12 +385,12 @@ class HangSpot {
           ai: [],
         },
       ],
-      aiTags: [[]],
+      aiTags: [["neutral", "neutEthic","casual"]],
     },
     {
       key: "luterus",
       name: "Remplir L'Uterus",
-      shortDesc: "A fancy french restaurant.",
+      shortDesc: "A fancy French restaurant.",
       loc: ["downtown", "southeast", false],
       topImg: "IMG-Restaurant-Remplir-Luterus-Inside",
       img: "IMG-Restaurant-Remplir-Luterus",
@@ -444,7 +444,7 @@ class HangSpot {
           key: "luterusTalk",
           label: "Talk",
           info: "Have a nice chit-chat about things.",
-          twee: `<<if ↂ.pc.trait.intro>>You struggle with starting a proper conversation trying your best to find a topic to talk about. To your relief, <<= aw.hang.name>> break the silence before it gets too awkard.<<else>>You feel pretty comfortable starting a chat with <<= aw.hang.name>> and discuss things.<</if>><<print setup.storythread.getStory(aw.hang.npcid)>><<addtime 16>>`,
+          twee: `<<if ↂ.pc.trait.intro>>You struggle with starting a proper conversation trying your best to find a topic to talk about. To your relief, <<= aw.hang.name>> break the silence before it gets too awkward.<<else>>You feel pretty comfortable starting a chat with <<= aw.hang.name>> and discuss things.<</if>><<print setup.storythread.getStory(aw.hang.npcid)>><<addtime 16>>`,
           check() {
               return true;
           },
@@ -457,7 +457,7 @@ class HangSpot {
           ai: [],
         },
       ],
-      aiTags: [[]],
+      aiTags: [["neutral", "neutEthic","casual"]],
     },
     {
       key: "olddongho",
@@ -467,7 +467,7 @@ class HangSpot {
       topImg: "IMG-Restaurant-OldDongHo-Inside",
       img: "IMG-Restaurant-OldDongHo",
       desc: `Seafood and wok restaurant is dark and noisy. Prices on the chalkboard menu above the bar looks pretty cheap and the big sign says "We guarantee good quality! No complains on quality for more than 10 years!"`,
-      arrivalText: "You arrive at the place and take a seat at the small table in dark crowded restaurant. It takes some time until you realise that there are no waiters and you need to make order yourself at the bar.",
+      arrivalText: "You arrive at the place and take a seat at the small table in dark crowded restaurant. It takes some time until you realize that there are no waiters and you need to make order yourself at the bar.",
       departText: "You leave the place.",
       category: "restaurant",
       quality: 1,
@@ -497,7 +497,7 @@ class HangSpot {
           key: "olddonghoBeer",
           label: "Beer",
           info: "Go to the bar to get some beer",
-          twee: `You find that the place have only one beer, "Spirit of Wisconsin" which is pretty weird for a chinese place. Getting two bottles you return to <<= aw.hang.name>>. <<if ↂ.pc.trait.crude == -1>>The beer tastes terrible and it seems, <<= aw.hang.name>> thinks so too.<br><br>@@.npc;Why we ever came to this terrible place?@@<br><br>@@.pc;Mmm, I am asking myself the same question to be honest.@@<<elseif ↂ.pc.trait.crude == 1>>The beer is right in your taste - cheap and hits right in the head.<<else>>You are pretty sure that you have tried better beer in your life than this one.<</if>><<addtime 18>>.`,
+          twee: `You find that the place have only one beer, "Spirit of Wisconsin" which is pretty weird for a Chinese place. Getting two bottles you return to <<= aw.hang.name>>. <<if ↂ.pc.trait.crude == -1>>The beer tastes terrible and it seems, <<= aw.hang.name>> thinks so too.<br><br>@@.npc;Why we ever came to this terrible place?@@<br><br>@@.pc;Mmm, I am asking myself the same question to be honest.@@<<elseif ↂ.pc.trait.crude == 1>>The beer is right in your taste - cheap and hits right in the head.<<else>>You are pretty sure that you have tried better beer in your life than this one.<</if>><<addtime 18>>.`,
           check() {
               return true;
           },
@@ -530,7 +530,7 @@ class HangSpot {
           ai: [],
         },
       ],
-      aiTags: [[]],
+      aiTags: [["neutral", "neutEthic","casual"]],
     },
     {
       key: "happyCream",
@@ -555,7 +555,7 @@ class HangSpot {
             }
           },
           label: "Waitress show.",
-          twee: `<p><<print either("@@.npc;Hey, it is almost time for the show!@@","@@.npc;Oh, cool, it seems the show is starting!@@")>></p><p><<print either("@@.pc;Ugh?@@","@@.pc;What show?@@")>></p><p><<print either("@@.npc;They have this dance thing every hour or so, never saw it before!@@","@@.npc;Shhh! It is starting!@@")>></p><p><<= aw.date.name>> points to the counter and you see a couple of waitress free their breasts which is followed by customers cheering. Upbeat music starts and they begin to dance with their full jugs bouncing with every motion. Your date whisper to your ear @@.npc;You see, it is like a local tradition of these milkshake places, you haven't heard of it? It first started as a TV advertisement and then they decided to make those shows in each restaraunt they have, hear the jingle?@@</p><p>You have hard time paying attention to the music mesmerized by girls pressing their boobs together so hard that their milk poured down their aprons. Still, you start to notice the words of the song playing on the background. @@.smeared;...Happy teat, yummy teat! Squeeze yourself a tasty treat! Everyone who loves icecream join with us in milky dream!@@ @@.mono;That sounds... odd. But the show is pretty nice to see!@@</p><p>Waitress continue to dance for a cuple minutes more until the music ends on a triumphant @@.smeared;TASTY CREAM TASTY CREAM JOIN THE YUMMY MILKY DREAM!@@ note and most of the customers applause to the soaked with their own milk girls. You turn back to <<= aw.date.name>></p><p>@@.pc;Well, that was entertaining for sure, he-he!@@</p><<addtime 7>>`,
+          twee: `<p><<print either("@@.npc;Hey, it is almost time for the show!@@","@@.npc;Oh, cool, it seems the show is starting!@@")>></p><p><<print either("@@.pc;Ugh?@@","@@.pc;What show?@@")>></p><p><<print either("@@.npc;They have this dance thing every hour or so, never saw it before!@@","@@.npc;Shhh! It is starting!@@")>></p><p><<= aw.date.name>> points to the counter and you see a couple of waitress free their breasts which is followed by customers cheering. Upbeat music starts and they begin to dance with their full jugs bouncing with every motion. Your date whisper to your ear @@.npc;You see, it is like a local tradition of these milkshake places, you haven't heard of it? It first started as a TV advertisement and then they decided to make those shows in each restaurant they have, hear the jingle?@@</p><p>You have hard time paying attention to the music mesmerized by girls pressing their boobs together so hard that their milk poured down their aprons. Still, you start to notice the words of the song playing on the background. @@.smeared;...Happy teat, yummy teat! Squeeze yourself a tasty treat! Everyone who loves icecream join with us in milky dream!@@ @@.mono;That sounds... odd. But the show is pretty nice to see!@@</p><p>Waitress continue to dance for a couple minutes more until the music ends on a triumphant @@.smeared;TASTY CREAM TASTY CREAM JOIN THE YUMMY MILKY DREAM!@@ note and most of the customers applause to the soaked with their own milk girls. You turn back to <<= aw.date.name>></p><p>@@.pc;Well, that was entertaining for sure, he-he!@@</p><<addtime 7>>`,
           prep() {
             aw.date.enjoy[1] += random(7, 12);
             aw.date.qual += random(3, 7);
@@ -569,7 +569,7 @@ class HangSpot {
           key: "happyCreamTalk",
           label: "Talk",
           info: "Have a nice chit-chat about things.",
-          twee: `<<if ↂ.pc.trait.intro>>You struggle with starting a proper conversation trying your best to find a topic to talk about. To your relief, <<= aw.hang.name>> break the silence before it gets too awkard.<<else>>You feel pretty comfortable starting a chat with <<= aw.hang.name>> and discuss things.<</if>><<print setup.storythread.getStory(aw.hang.npcid)>><<addtime 16>>`,
+          twee: `<<if ↂ.pc.trait.intro>>You struggle with starting a proper conversation trying your best to find a topic to talk about. To your relief, <<= aw.hang.name>> break the silence before it gets too awkward.<<else>>You feel pretty comfortable starting a chat with <<= aw.hang.name>> and discuss things.<</if>><<print setup.storythread.getStory(aw.hang.npcid)>><<addtime 16>>`,
           check() {
               return true;
           },
@@ -602,7 +602,7 @@ class HangSpot {
           ai: [],
         },
       ],
-      aiTags: [[]],
+      aiTags: [["neutral", "neutEthic","casual"]],
     },
     {
       key: "teatTreats",
@@ -612,9 +612,9 @@ class HangSpot {
       topImg: "IMG-TeatsTreats-Inside",
       img: "IMG-Restaurant-TeatTreats",
       desc: "The well-lit place is divided by booth with tables where you can get icecream made fresh from the teat in an icecream machine which topless hucows waitress carry around.",
-      arrivalText: "You enter the Teat Treats and take a seat in on e of the booths.",
+      arrivalText: "You enter the Teat Treats and take a seat in one of the booths.",
       departText: "You leave the place..",
-      category: "restaraunt",
+      category: "restaurant",
       quality: 4,
       events: [],
       activities: [
@@ -622,7 +622,7 @@ class HangSpot {
           key: "teatTreatsIcecream",
           label: "Icecream",
           info: "Ask a waitress for an Icecream.",
-          twee: `You call a hucow passing by for an icecream. With a courteous smile she approach you booth and hand you the menu. After researching it for some time you and <<= aw.hang.name>> make a choice. You decide to order <<print either("vanilla", "chocolate", "banana")>> icecream. Nodding, the girl gets the icecream machine on and start milking her impressive udders with a suction pumps. She seems to enjoy the process a lot judging by her face.<<if ↂ.pc.body.lactation > 4>><br><br>@@.mono;I think I could do it faster, this girl can barely give any milk. But maybe it was a just too many customers today already?@@<br><br><</if>> When she fills the machine she press some buttons and the device rumbles quitly while processing the milk and adding additional ingredients. In about two minutes she hands you your icecream and leave your booth still smiling with subsiding delight. The treat tastes <<print either("pretty good", "good", "nice", "a bit odd and you start suspecting that hucow serving you is a heavy smoker")>>. After a while you finished your desserts and just happy and calmly sitting being pretty satisfied with yourselves.<<set $teatTreatsIcecream = true>><<addtime 17>>`,
+          twee: `You call a hucow passing by for an icecream. With a courteous smile she approach you booth and hand you the menu. After researching it for some time you and <<= aw.hang.name>> make a choice. You decide to order <<print either("vanilla", "chocolate", "banana")>> icecream. Nodding, the girl gets the icecream machine on and start milking her impressive udders with a suction pumps. She seems to enjoy the process a lot judging by her face.<<if ↂ.pc.body.lactation > 4>><br><br>@@.mono;I think I could do it faster, this girl can barely give any milk. But maybe it was a just too many customers today already?@@<br><br><</if>> When she fills the machine she press some buttons and the device rumbles quietly while processing the milk and adding additional ingredients. In about two minutes she hands you your icecream and leave your booth still smiling with subsiding delight. The treat tastes <<print either("pretty good", "good", "nice", "a bit odd and you start suspecting that hucow serving you is a heavy smoker")>>. After a while you finished your desserts and just happy and calmly sitting being pretty satisfied with yourselves.<<set $teatTreatsIcecream = true>><<addtime 17>>`,
           check() {
               return true;
           },
@@ -655,7 +655,7 @@ class HangSpot {
           repeatable: true,
         },
       ],
-      aiTags: [[]],
+      aiTags: [["neutral", "neutEthic","casual"]],
     },
     {
       key: "cineplex",
@@ -690,7 +690,7 @@ class HangSpot {
           ai: [],
         },
       ],
-      aiTags: [[]],
+      aiTags: [["neutral", "neutEthic","casual"]],
     },
     {
       key: "firingrange",
@@ -725,7 +725,7 @@ class HangSpot {
           ai: [],
         },
       ],
-      aiTags: [[]],
+      aiTags: [["neutral", "neutEthic","casual"]],
     },
     {
       key: "bowling",
@@ -760,7 +760,7 @@ class HangSpot {
           ai: [],
         },
       ],
-      aiTags: [[]],
+      aiTags: [["neutral", "neutEthic","casual"]],
     },
     {
       key: "karaoke",
@@ -810,21 +810,11 @@ class HangSpot {
           ai: [],
         },
       ],
-      aiTags: [[]],
+      aiTags: [["neutral", "neutEthic","casual"]],
     },
   ];
   for (const spot of spots) {
     aw.hangSpots[spot.key] = new HangSpot(spot as HangSpotData);
   }
 })();
-
-
-
-
-
-
-
-
-
-
 

@@ -1221,7 +1221,7 @@ Macro.add("generateNPC", {
       let res;
       let t;
       /*NOW ONTO THE GOODS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-      /*male doesn't have pussy, herm calced seperately*/
+      /*male doesn't have pussy, herm calced separately*/
       npc.body.tits = {};
       npc.body.tits.size = 0;
       npc.body.tits.shape = "flat";

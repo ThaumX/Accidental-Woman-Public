@@ -343,7 +343,7 @@ setup.cTag.build = function(async: boolean = true): void {
     }
     if (setup.clothes.access.ass) {
       ᛟ.push("assAccess");
-    } else if (setup.clothes.access.butt) {
+    } else if (setup.clothes.access.butt && !setup.clothes.wearingSkirt) {
       ᛟ.push("buttAccess");
     }
     if (setup.clothes.access.nip) {
@@ -705,14 +705,15 @@ setup.cTag.selfThoughts = {
     "Well, if I desire to wank, it will be much easier.",
   ],
   assAccess: [
-    "<i>Ahhh,</i> it feels nice not to have any clothing chafing between my legs.",
-    "Well, if I want to take a dump, it will be much easier.",
+    "<i>Ahhh,</i> it feels nice not to have any clothing chafing between my ass cheeks.",
+    "It's so liberating to be dressed this way.",
     "By the way, mommy told me not to sit on rocks too long to avoid piles. Why have I suddenly remembered it? Ah yes. Because my ass is naked.",
   ],
   buttAccess: [
-    "This feeling of the wind on my butt... thee-hee.",
+    "This feeling of the wind on my butt... tee-hee.",
     "I should avoid sitting on wet benches.",
-    "Of course, my butt is pretty, and people like seeing it… But I should better put on a belt.",
+    "It's so much easier to move around without pants on.",
+    "I know people will love seeing my butt... it's a little embarrassing though!",
   ],
   nipAccess: [
     "My nipples have gotten pretty hard, haven't they?",
@@ -739,7 +740,7 @@ setup.cTag.selfThoughts = {
   kinkyClothes: [
     "<<if ↂ.pc.status.inPublic>>Mmmmm. These clothes are even better when I wear them in public.<<else>>Naughty clothes are the best.<</if>>",
     "<<if ↂ.pc.status.inPublic>>Oh shit, they all ogle me! What will I do if somebody comes to me offering to bang?<<else>>If I take my bra off, this cute wearing will become naughty and tempting. The people outside will go crazy, I think.<</if>>",
-    "<<if ↂ.pc.status.inPublic>>I certainly look defiant wearing these clothes. And I do like it so much that I feel butterflies in my stomach!<<else>>These clothes will make everybody wanting to undress me!</if>>",
+    "<<if ↂ.pc.status.inPublic>>I certainly look defiant wearing these clothes. And I do like it so much that I feel butterflies in my stomach!<<else>>These clothes will make everybody wanting to undress me!<</if>>",
   ],
   nightwear: [
     "<<if ↂ.pc.status.inPublic>>I wonder if I should have gotten changed before coming out?<<else>>...<</if>>",
@@ -838,7 +839,7 @@ setup.cTag.selfThoughts = {
     "<<has pregnancy>>I'll be giving birth soon... I wonder how long it'll take to get pregnant again?<<or>>Not too much longer now, I'll be giving birth soon.<</has>>",
     "My back aches, this belly is heavy!<<has pregnancy>> It's so worth it though!<</has>>",
     "<<has pregnancy>>I just <b>love</b> being pregnant!<<or>>My feet are so swollen these days, I can't wait to get this over with.<</has>>",
-    "I look like a clumsy duck with this belly!<<has pregnancy>>Eh… should I care, after all? My baby surely doesn’t!<</has>>",
+    "I look like a clumsy duck with this belly! <<has pregnancy>>Eh… should I care? After all my baby surely doesn’t!<</has>>",
     "I should start finding money to pay for a maternity home service.",
   ],
   preg: [

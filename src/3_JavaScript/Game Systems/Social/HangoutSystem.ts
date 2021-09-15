@@ -17,10 +17,11 @@ interface SetupHangout {
   hang: (npcId: string, hangPlace: string) => boolean;
   start: (npcid: npcid) => void;
   statusBar: () => string;
+  statRefresh: () => void;
   tracking: () => void;
   pbar: (amt: number, color: string) => string;
   howAbout: (spot: string) => string;
-  howAboutResult: (spot: string) => void;
+  howAboutResult: (spot: string) => string;
   sel: (key: string) => void;
   locationPicker: () => string;
   activity: (actKey: string) => void;
@@ -141,8 +142,8 @@ setup.hang.checkIfFree = function(weekday, next, time, hangPlace, npcId) {
         return scheduleCheck(weekday, next, time, npcId);
       }
     } else if (weekday === State.active.variables.date[0]) {
-      if ((time + 1) > State.active.variables.date[0]) {
-        aw.con.info("(time+1) > State.active.variables.time[0]");
+      if (time > State.active.variables.date[0]) {
+        aw.con.info(`time (${(time + 1)}) > State.active.variables.time[0]`);
         if (scheduleCheck(weekday, next, time, npcId) === true) {
           setup.hang.scheduleHang(weekday, next, time, hangPlace, npcId);
           return "Okay, seems fine!";
@@ -287,6 +288,7 @@ setup.hang.start = function(npcid: npcid) {
   };
   aw.hang.convoHist.push(aw.hang.convoTag);
   aw.hang.convoText = setup.hang.tagText(aw.hang.convoTag, aw.hang.name);
+  setup.npcInfo.encounter(npcid); // meow
   const scen = {
     content: "<<include [[HangStart]]>>",
     sidebar: setup.hang.statusBar(), // replace with svg builder function
@@ -321,6 +323,10 @@ setup.hang.statusBar = function(): string {
   return output;
 };
 
+setup.hang.statRefresh = function(): void {
+  aw.replace("#Scene-Sidebar-Info", setup.date.statusBar());
+};
+
 // adds basic hang information to NPC and player
 setup.hang.tracking = function(): void {
   aw.hang.npc.rship.daysince = 0;
@@ -332,11 +338,11 @@ setup.hang.tracking = function(): void {
 
 setup.hang.howAbout = function(spot: string): string {
   const phrase1 = either("gives your suggestion some thought.", "ponders your suggestion for a moment.", "takes a moment to consider.", " looks away for a moment, thinking.");
-  const output = `<div id="howAbout">You suggest heading to ${aw.hangSpots[spot].name}.<br><br><<= aw.date.name>> ${phrase1} <print setup.hang.howAboutResult("${spot}")>></div><br><div></div>`;
+  const output = `<div id="howAbout">You suggest heading to ${aw.hangSpots[spot].name}.<br><br><<= aw.hang.name>> ${phrase1} ${setup.hang.howAboutResult(spot)}</div><br><div></div>`;
   return output;
 };
 
-setup.hang.howAboutResult = function(spot: string): void {
+setup.hang.howAboutResult = function(spot: string): string {
   const ais = setup.interactionMisc.coconutBrain(aw.hang.npc.key, aw.hangSpots[spot].aiTags[0]);
   aw.hang.aiRes = ais[0];
   let output = "<br><br><span class='npc'>";
@@ -369,8 +375,7 @@ setup.hang.howAboutResult = function(spot: string): void {
   }
   output += ` ${ais[1]} </span><br><br>`
   output += `<<button "GO THERE">><<run aw.hangSpots[aw.hang.proposed].arrive()>><</button>> <<button "ON SECOND THOUGHT">><<scenereplace>><<print setup.hang.locationPicker()>><</scenereplace>><</button>>`;
-  $("#pulsie").removeClass("pulse");
-  aw.append("#howAbout", output);
+  return output;
 };
 
 setup.hang.sel = function(key: string): void {
@@ -448,6 +453,7 @@ setup.hang.activity = function(actKey: string): void {
   } else {
     setup.scenario.replace(content);
   }
+  setup.hang.statRefresh();
 };
 
 setup.hang.saySomething = function(type: string): void {
@@ -504,6 +510,7 @@ setup.hang.saySomething = function(type: string): void {
   output += "<br>" + aw.hangSpots[aw.hang.spot].buttonGen();
   setup.scenario.refresh();
   setup.scenario.replace(output);
+  setup.hang.statRefresh();
 };
 
 setup.hang.aiQuery = function(aiKeys: string[], note?: string): number {
@@ -617,7 +624,7 @@ setup.hang.end = function(): void {
     aw.hang.npc.rship.likePC -= random(4, 7);
   }
   setup.scenario.close();
-  delete aw.hang;
+  // delete aw.hang;
 };
 
 setup.hang.tagText = function(tag: string, name: string): string {

@@ -99,7 +99,10 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <span class="disabled"><<button "Not implemented">><</button>></span>
+  <<button "Swim">><<dialog "Swim">><<include [[MapResortBeach-Swim]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "Tan">><<dialog "Tan">><<include [[MapResortBeach-Tan]]>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -108,14 +111,110 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>Such a shame.<<endinsertion>>
+<<insertion alpha>>Swim in the lake. [15-20 min]<<endinsertion>>
+<<insertion beta>>Tan on the shore. It seems you need to pay for the recliner [30 min, <<mon>>2]<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
 
 ::MapResortBeachLOC [nobr]
 
-Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+@@.head3;Y@@ou see a crowd on the beach, they seem to have some sort of size competition and girl furiously fighting to get the prize.<br>
+<center>[img[IMG-ResortBeachFlash]]</center>
+
+
+:: MapResortBeach-Swim [nobr]
+
+<<if !setup.clothes.swimwear>>
+@@.head3;Y@@ou head to the shore just to realise that you have your clothes steel on. <<has exhibition>>@@.mono;Oh, I better get into a swimsuit first... or just get naked!@@<<or>>@@.mono;Oh, I better get into a swimsuit first...@@<</has>><br><center><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></center>
+<<else>>
+<<set _blepblep = random(1,5)>><<if _blepblep == 5>><<run Dialog.close()>>
+<<script>>
+  const scene = {
+      passage: "ResortBeach-tentacle",
+      content: "none",
+      image: "IMG-tentacle-side",
+      topImage: "IMG-tentacle-top",
+      title: "Swimming",
+      allowSave: false,
+      sidebar: `<h2>Clitea lake</h2>`,
+      showTime: false,
+      allowMenu: false,
+    };
+    setup.scenario.launch(scene);
+<</script>>
+<<else>>
+<center>[img[IMG-SwimmingCLitea]]</center><br>
+<p>@@.head3;Y@@ou get to the shore and try the water. @@.mono;Oh, it is pretty warm in fact!@@ </p>After just a couple of steps you are waist-deep in the lake. You take a deep breath and get into the water. Your <<if setup.clothes.exposed.top>>bare<</if>> <<p breasts.n>> floating slightly rising above water level while you relax swimming on your back.<<addtime 16>><<happy 1 "Relaxing in the lake was fun">><<anger -1>><<stress -12 "Swimming">><<status 0>><br><center><<button "Get out from the water">><<run Dialog.close()>><<updatebar>><</button>></center>
+<</if>>
+<</if>>
+
+
+:: ResortBeach-tentacle [nobr]
+
+<p>@@.head3;Y@@ou get to the shore and try the water. It is pretty warm and you walk straight into the water until your shoulders are submerged. Leaning forward you start swimming enjoying the relaxing feeling. In a minute you are pretty far from the shore already and sounds of people having fun on the shore becomes muffed and far. Taking a deep breath you dive under the water and swim for some time with your eyes closed. Something touches your leg but you don't pay much attention, probably it is an algae or maybe some fish.</p>
+<p>You get back to the surface and turn to your back to float and relax for some time. @@.mono;I should go here more often, this is straight delightful! Also this cloud looks like a...@@ Something touches you again, but this time it doesn't feel like like a gentle touch. Something is tugging you down, under the water!</p>
+<center><<button "Fight it">><<scenego "ResortBeach-tentacle-fight">><</button>><<tab>><<button "Dive to see what is it">><<scenego "ResortBeach-tentacle-dive">><</button>></center>
+
+
+:: ResortBeach-tentacle-fight [nobr]
+
+<<SCX>><<SC "AT" 10>>
+<<if $SCresult[1]>>
+<<f y>>ou fight the slimey thing on your ankle and wiggle furiously to get it off. It slowly pulls you underwater and you take a deep breath before you are submerged under the water against your will. You dont see anything in a muddy water but do your best to save your life. With a lucky punch of your foot you manage to shook it off. The weird thing is gone, you feel air bubbles floating up around your body and start swimming as fast as you can towards the shore. Water in your eyes makes it hard to see anything but fear gives you wings and in less than a minute you are already coughing on the beach.
+<p>@@.mono;Fuck! Fuck! What did just happened?! Fuck!@@ You blink until you are able to see again and stare at the water. It is calm and clean. Filled with fear you crawl away from the shore line and breathe deep until you manage to calm down. @@.mono;Shit, I don't know what it was but damn, I won't even touch these waters ever again...@@</p>
+<center><<button "Go away">><<stress 18 "Almost drown in the lake">><<status 0>><<sceneclose>><</button>></center>
+<<else>>
+<<f y>>ou fight the slimey thing on your ankle and wiggle furiously to get it off. It slowly pulls you underwater and you take a deep breath before you are submerged under the water against your will. Doing your best to save your life you punch and pull the thing on your leg but no avail. Finally you give up and take control over the panic enough to open your eyes and look at the creature, holding you.
+<center><<button "Oh my">><<scenego "ResortBeach-tentacle-dive">><</button>></center>
+<</if>>
+
+
+:: ResortBeach-tentacle-dive [nobr]
+<<gate "extreme" "noncon">>
+<<f p>>ulled under water you hold your breath ogling the insaneously weird-looking creature holding you. Ugly clew of flesh it looks like a dismorfed crossbreed of a squid and an octopus. Shocked you cant but stare on this abomination. Gigerian invertebrate reaches for your body with more and more long muscular tentacles pulling you clother and closer to the opening mouth-like inner part. The view on a pulsing insides of a creatures clicks something deep and ancient in your brain and you start struggling beyond hope trying to avoid the contact with the giant disgusting mouth of a creature at all costs. Twitching hopeleslly you lost last bubbles of air you still had in your lungs. @@.mono;NOOOOOOO! FUCK!! GET AWAYFROMME!!!@@ With a mouth open wide you scream silently as creature engulfs your torso and head with it's soft flesh.
+<p>When it touches you you jerk one last time and give up. You can't hold your breath anymore. In the darkness you inhale hoping to just lose your conciousness by drowning but you your surprise you are still awake. Water coming to your lungs feels... breathable? Your body struggles to accept it as a new source of the oxygen and it is hard to breath thick liquid but after a dosen of breathes you feel that creature's inner volume can sustain your life.</p>
+<p>The most part of your body is in the soft cold pulsing womb with only your arms and legs poking outside and held by muscular tentacles. You can feel colder outer water on your back but no amount of resistance allows you to release yourself. Motionlessly, you allow the creature to do what it want asking millions of questions you have no answers to.</p>
+<p>Soft touches on your stomach and face make you stiffen yourself again. You don't know what will come next and have absolutely no way to fight the abomination so you passively accept its actions just shivering with horror as little appendages touches your torso as like searching for something. When they touch your mouth you try turning your head away but in a moment fleash holding you stiffens forcing you to accept gentle touches of the creature's insides. @@.mono;I... hope it is just a dream, god please may it be just a dream, pleaaasee...@@</p>
+<p><<if setup.sexToys.check("pc", "asshole") || setup.sexToys.check("pc", "vagina") || setup.sexToys.check("pc", "clit") || setup.sexToys.check("pc", "mouth")>>Touching your sex-toys creature stops for a moment just to jerk them forcefully from you and you flinch. @@.mono;Ouch! Easy, you!@@ <</if>>As you sob silently they seem to focus on some points of interest on your body and you twitch as something soft slides along between your pussy lips. @@.mono;Oh... Is it going to... OHHH!@@ Slowly and steadily thick piece of slime-covered flesh slides right into your vagina forcing you to accept it. Your stare into the darkness with your mouth open as you have never experienced anything before. Strong yet careful spur fills you perfectly moving further with every pulsation. Thousands of smaller appendages caressing your body you start to relax giving up your body to the creature.</p>
+<p>Pushing to your uterus tentacle cock start pusling more and you feel it getting thicker and thicker. You can't but push yourself on this member. Bending and silently moaning you breath hard trying to get enough air from the liquid surrounding you while creature fucks you with growing fierce and amplitude. Stiff and thick tentacle waves inside your stretched pussy pushing you clother and closer to the weirdest orgasm in your life. Your hands outside of the monster mindlessly opens and close grabing nothing but a water of the lake as waves of orgasm overwhemls you one after another. You tremble and gasp in the womb of the creature and your mind gets slower and muddy like the water around you two at the bottom of the lake.</p>
+<center><<button "Lose conciousness">><<scenego "ResortBeach-tentacle-end">><</button>></center>
+<</gate>>
+<<has slut>><<stress 15 "Sex with a monster">><<orhas liberated>><<stress 20 "Sex with a monster">><<orhas shame>><<stress 35 "Sex with a monster">><<or>><<stress 23 "Sex with a monster">><</has>>
+<<set ↂ.pc.status.wetness += 10>><<run ↂ.pc.body.pussy.insert(3)>><<run ↂ.pc.body.pussy.insert(4)>><<run ↂ.pc.body.pussy.insert(5)>><<run ↂ.pc.body.pussy.insert(6)>><<satisfaction 37 "Sex with a monster">>
+<<set ↂ.pc.status.perversion += random(9, 18)>><<set ↂ.pc.status.corrupt += random(9, 18)>><<run setup.omni.new("pseudoPreg")>><<run setup.hadSexWith("none",1)>><<run setup.condition.add({ loc:"genitals", amt:5, tgt:"pc", wet:5, type:"slime"})>>
+<<run setup.clothes.remove("panties")>>
+<<run setup.clothes.remove("bra")>>
+<<run setup.sexToys.remove("pc", "groin")>>
+<<run setup.sexToys.remove("pc", "asshole")>>
+<<run setup.sexToys.remove("pc", "clit")>>
+<<run setup.sexToys.remove("pc", "vagina")>>
+<<run setup.sexToys.remove("pc", "mouth")>>
+<<run setup.sexToys.remove("pc", "arms")>>
+<<run setup.sexToys.remove("pc", "legs")>>
+<<run setup.sexToys.remove("pc", "nipples")>>
+<<run setup.sexToys.remove("pc", "breasts")>>
+<<set ↂ.pc.status.energy.amt -= 4>>
+<<run setup.devirgin("P")>>
+<<status 0>><<addtime 49>>
+
+
+:: ResortBeach-tentacle-end [nobr]
+
+<<f y>>ou float on the surface of the lake. You have no idea how many time has passed and why you are still alive. Suddenly, you remember and almost drown with a uncontrollable twitch of you whole body. Coughing you exhale a good amount of liquid from your lungs and can barely hold on the water. Still abased you slowly swim to the shore far away, it takes around ten minutes until you feel the sand under your feet.
+<p>Standing on your knees on the shore you look at your body. You totally naked, you can notice red markings on your limbs and your pussy is sore, puffy and itches like hell. @@.mono;It. Was. Not. A. Dream...@@ You cover yourself with your arms and stand on your wobbly legs to get to your belongings on the recliner and a towel. Seems nobody pays much attention to yet another nude girl and in a minute you are sitting on a recliner covered in a cozy towel and looking at the still mysterious lake lying in front of you. @@.mono;Shit, I don't know what it was but damn, but I won't even touch these waters ever again...@@</p>
+<center><<button "Go away">><<sceneclose>><</button>></center>
+
+
+:: MapResortBeach-Tan [nobr]
+
+<<set _tim = setup.time.now()>><<if ↂ.pc.clothes.worn.bottom === "normal" || ↂ.pc.clothes.worn.top === "normal">>
+@@.head3;Y@@our tan will be less than perfect if you work on it with your outerwear still on.<<addtime 1>><br><center><<button "Got it">><<run Dialog.close()>><<updatebar>><</button>></center>
+<<elseif _tim[0] < 7 || _tim[0] > 18>>
+@@.head3;Y@@ou suddenly realize that it is pretty silly to work on your tan while there is no sun in the sky.<<addtime 1>><br><center><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></center>
+<<else>><<run aw.cash(-2, "misc")>><<set ↂ.pc.clothes.worn.coat = "off">><center>[img[IMG-TanningNaked]]</center><br>
+@@.head3;Y@@ou lie on the recliner enjoying the feeling of warm beams caressing your <<p skincolor.q>> skin. <<if !setup.clothes.exposed.top>>You adjust your bra a couple of times to avoid white lines on your shoulders and back. <<else>>Your free <<p breasts.n>> are praising the sun proudly <<if setup.clothes.exposed.bottom>><<SCX>><<SC "EX">>as well as your bare bottom.<</if>><<has exhibition>><<happy 1 "Tanning was nice">><<arousal 1>><br><br>@@.mono;Mmm... being naked outside is a pure bliss...@@<br><br><<orhas shame>><<stress 15 "Ashamed of nude tanning">><br><br>@@.mono;Omg, what am I doing?! Anybody can see me like this lying here!@@<br><br>You can't stop thinking about your naked parts and feel stressed fighting the urge to cover them with your hands or towel.<</has>><</if>><<addtime 30>><<stress -8 "Relaxing during tanning">><<set ↂ.flag.tan += random(0,1)>>Lying in the recliner you turn around a couple of times and relax with your mind drifting away from all your recent problems. After some time you decide that it is a good idea to finish your tanning for today and get up after joyful stretch.<br><center><<button "Go away">><<run Dialog.close()>><<status 0>><<updatebar>><</button>></center>
+<</if>>
 
 
 :: MapResortRestaurant [nobr map]
@@ -159,7 +258,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <span class="disabled"><<button "Not implemented">><</button>></span>
+  <<button "Order food">><<dialog "Lakefront restaurant">><<print setup.food.fastfood("lakefront")>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -168,7 +267,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>Such a shame.<<endinsertion>>
+<<insertion alpha>>Eat something at the Lakefront restaurant. [20 min]<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
@@ -219,7 +318,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <span class="disabled"><<button "Not implemented">><</button>></span>
+  <<button "Buy a drink">><<dialog "Hinden Burger Beer">><<print setup.food.bar("beachBar")>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -228,7 +327,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>Such a shame.<<endinsertion>>
+<<insertion alpha>>Order something to drink.<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
@@ -279,7 +378,10 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <span class="disabled"><<button "Slide down">><<dialog "Slide">><<include [[WaterParkSlide]]>><</dialog>><</button>></span>
+  <<button "Slide down">><<dialog "Slide">><<include [[WaterParkSlide]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise pool>>
+  <<button "Swim in the pool">><<dialog "Pool">><<include [[WaterParkPooling]]>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -288,7 +390,8 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>Such a shame.<<endinsertion>>
+<<insertion alpha>>Enjoy the waterslide. [+HAP, 10min]<<endinsertion>>
+<<insertion pool>>Spend some time in the pool exercising or relaxing.<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
@@ -299,6 +402,16 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 <center>[img[IMG-SlideBoob]]</center>
 
 
+:: WaterParkPooling [nobr]
+
+<span id="poolSpan"><<if !setup.clothes.swimwear>>
+@@.head3;Y@@ou are still sane enough to avoid swimming with your clothes on.<br><br>@@.mono;I should either get some swimwear either undress completely.@@<<comment "You can manage your clothes in the character menu, it is not necessary to use the wardrobe at home to strip of some (or all!) clothes.">><<addtime 1>><br><center><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></center>
+<<else>><center>[img[IMG-SwimmingPool]]</center><br>
+@@.head3;Y@@ou get to the border of the pool and try the water with your foot.<br><br>@@.mono;<<print either("Ugh, a bit chilly", "Just about right temperature", "Wow, it is so warm today!")>>@@<br><br>
+<center><<button "Relax in the pool">><<replace "#poolSpan">><<include [[ResidentialPooling-Relax]]>><</replace>><</button>><<if ↂ.pc.status.energy.amt < 4>>@@.disabled;<<button "Swim training [Too tired]">><</button>>@@<<else>><<button "Swim training">><<replace "#poolSpan">><<include [[ResidentialPooling-Swim]]>><</replace>><</button>><</if>></center>
+<</if>></span>
+
+
 :: WaterParkSlide [nobr]
 
 <<if !setup.clothes.swimwear>>
@@ -306,7 +419,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 <<else>>
 <p>@@.head3;Y@@ou get on the stairs to the top of the tower. The stairs are pretty slippery despite of the special "anti-slippery" surface. Hovewer, you manage to get to the top without breaking any bones and wait for your turn to slide down. After all people vanish inside the waterslide tube you get to it. You feel not exactly ready but there is already a line behind you so you have no choice. Holding onto the bar above the slide you get yourself in and release the grip.</p>
 <p>
-@@.pc;Weeeeeee!@@ Sliding in the dark tube feels fun and scary at the same time while you rapidly travel through it. After the turn you see a light on the end of the tube which grows larger and larger until you slide out like a bullet to the pool. With a splash you submerge under the water for a moment and get your nose full of water. Getting to the surface you blow the water out and blink a couple of times. @@.mono;Phew! That was fun!@@<<happy 1 "Watersliding!">><<stress -15 "Watersliding!">>
+@@.pc;Weeeeeee!@@ Sliding in the dark tube feels fun and scary at the same time while you rapidly travel through it. After the turn you see a light on the end of the tube which grows larger and larger until you slide out like a bullet to the pool. With a splash you submerge under the water for a moment and get your nose full of water. Getting to the surface you blow the water out and blink a couple of times. @@.mono;Phew! That was fun!@@<<happy 1 "Watersliding!">><<stress -15 "Watersliding!">><<addtime 5>><<status 0>>
 </p>
 <</if>>
 
@@ -351,7 +464,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <span class="disabled"><<button "Not implemented">><</button>></span>
+  <span class="disabled"><<button "Book a boat">><</button>></span>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -360,7 +473,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>Such a shame.<<endinsertion>>
+<<insertion alpha>>There are no free boats.<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
@@ -471,7 +584,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <span class="disabled"><<button "Not implemented">><</button>></span>
+  <<button "Steal a ball">><<dialog "Ball hunt">><<status 1>><<set _ball = random(0,8)>><<if _ball == 8>><<pickup "$items" "Golf ball">><center>[img[IMG-Item-GolfBall]]</center><br>You see a nice golf ball and put it into your pocket. @@.mono;Tee-hee, I gonna have some fun with it!@@<<else>>You look around but can't spot any golf balls on the grass field.<<addtime 4>><</if>><<status 0>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -480,12 +593,13 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>Such a shame.<<endinsertion>>
+<<insertion alpha>>Look for a nice golf ball. [4 min]<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
 
 :: MapResortGolfLOC [nobr]
 
-Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+<<f i>>t seems golf is a pretty popular activity among wealthy citizens of Appletree.<br>
+<center>[img[IMG-GolfNude]]</center>
 

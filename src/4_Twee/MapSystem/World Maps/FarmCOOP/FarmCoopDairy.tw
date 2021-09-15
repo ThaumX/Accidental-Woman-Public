@@ -89,6 +89,17 @@ If you were a registered freelance hucow, you could probably get some limited me
 <<hoverrevise milktrain>>
   <<button "Lactation Training">><<addtime 45>><<run aw.cash(-60, "medical")>><<set ↂ.pc.status.milk += 1>><<status 0>><<dialog "Lactation Training">><center>[img[IMG-BreastPumpTreatment]]</center><p>When you tell the staff member that you're looking for some lactation training to get your breasts up closer to full production, you're told to sit back down in the waiting area. Rather than a nurse, it seems you'll be taken care of by a dairy hand. It isn't long before a hucow girl enters through the large double doors dragging a wheeled milking machine behind her.</p><p>She wheels the pump in front of you before sitting down beside you. @@.npc;You're here for the lactation training, right?@@</p><p>@@.pc;That's right.@@</p><p>She starts setting up the machine for pumping, giving your closest udder a heft before pinching your nipple thoughtfully. She notices your worried expression. @@.npc;Don't worry about this little guy right here, he's gentle.@@ She gives the milker an affectionate pat. @@.npc;Lactation training is pretty easy, we just set the pump to try an pump out more than you're actually capable of supplying, and then spend a little time sucking on empty teats. Your body takes the hint, and increases its level of milk production.@@</p><p>You nod as she starts the pump up and attaches a cup to each nipple. The sucking sensation is noticeable, but feels rather weak. @@.pc;Is that it? It feels pretty weak...@@</p><p>She grins at you before grabbing onto an adjustment dial with one hand and leaning forward to look at your nipple carefully. @@.npc;Don't worry girl, it'll pick right up. I've just gotta turn up the intensity while I watch your emission. Once I see it's trying to suck more than you can give, we leave it at that setting for the rest of the session. If we went too hard too fast, it might end up hurting you, so it's better to start slow.@@ The suction continues to grow as she talks, and pretty soon you feel yourself starting to get damp between the legs from the tugging on your nipples.</p><p>The hucow dairy hand stands up. @@.npc;You're all set. Unfortunately one of these sessions will only get you maybe ten percent towards your full natural production, but with enough sessions we can get you all the way.@@ She looks around to see if anyone is listening in. @@.npc;A'course, you can train your udders yourself with a pump. The stronger the better if you want to reach maximum milk production, but even a normal pump should be able to get you half way there with enough time. Just don't let the milk build up too-too much, or go too long without milking, or your training will decrease naturally.@@ She gives you a kind smile. @@.npc;Okay, just leave that pump on there for 30 minutes and then you can go. I'll come back around later to collect it.@@</p><</dialog>><</button>>
 <<endhoverrevise>>
+  <<if ↂ.flag.coopMilkAsk>>
+    <<if ↂ.pc.body.tits.lact.on>>
+      <<hoverrevise getmilk>>
+        <<button "Get Milked">><<addTime 10>><<run setup.scenario.launch({topImage: "IMG-DairyTopBar", allowSave: false, showTime: false, allowMenu: false, passage: "FreelanceGetMilked", sidebar: "<center>Farm Coop Dairy<br>Milking Chamber</center>", image: "none", title: "Dairy Milking"})>><</button>>
+      <<endhoverrevise>>
+    <<else>>
+      <<hoverrevise nomilk>>
+      <span class="disabled"><<button "Get Milked">><</button>></span>
+      <<endhoverrevise>>
+    <</if>>
+  <</if>>
 <<else>>
   <<hoverrevise member>>
     <span class="disabled"><<button "Browse Treatments">><</button>></span>
@@ -106,6 +117,8 @@ If you were a registered freelance hucow, you could probably get some limited me
 
 /*Main display for information about actions*/
 <div id="actionInfo">
+<<insertion getmilk>>Ask to get milked in the dairy's milking chamber with the hucows.<<endinsertion>>
+<<insertion nomilk>>You must be lactating to be milked!<<endinsertion>>
 <<insertion lactamax>>Purchase a Lactamax Autoinjector for <span class="mon">₢420</span> <<ctn>>[10 min]<</ctn>><<endinsertion>>
 <<insertion mammarex>>Purchase a Mammarex Autoinjector for <span class="mon">₢149</span> <<ctn>>[10 min]<</ctn>><<endinsertion>>
 <<insertion bovinex>>Get injected with the Bovinex gene therapy. <span class="mon">₢699</span><<endinsertion>>

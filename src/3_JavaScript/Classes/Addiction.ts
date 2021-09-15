@@ -322,7 +322,7 @@ class Addiction {
   }
   public set withdrawl(val: boolean | 0) {
     if (typeof val !== "boolean" && val !== 0) {
-      aw.con.warn(`Attempted to set ${this._k} withdrawl to non-boolean value!`);
+      aw.con.warn(`Attempted to set ${this._k} withdrawal to non-boolean value!`);
     } else if (val === 0) {
       this.dta[17] = false;
     } else {

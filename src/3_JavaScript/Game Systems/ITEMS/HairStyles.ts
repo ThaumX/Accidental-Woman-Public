@@ -143,6 +143,9 @@ setup.hair = {
         if (res) {
           ↂ.hairStyle.push(hairstyle);
           msg += `@@.good;You learned the ${aw.hair[hairstyle].name} hairstyle!@@ ${tex}`;
+          if (ↂ.hairStyle.length >= Object.keys(aw.hair).length) {
+            setup.achieve.new("hairStyles");
+          }
         } else {
           msg += `@@.bad;You failed to learn the ${aw.hair[hairstyle].name} hairstyle.@@ ${tex}`;
         }
@@ -346,7 +349,7 @@ aw.hair = {};
     frenchBun: {
       name: "French bun",
       key: "frenchBun",
-      sDesc: "is up in a french bun",
+      sDesc: "is up in a French bun",
       lDesc: "",
       learn: 18,
       atr: 3,
@@ -359,7 +362,7 @@ aw.hair = {};
     frenchTwist: {
       name: "French twist",
       key: "frenchTwist",
-      sDesc: "is up in a french twist",
+      sDesc: "is up in a French twist",
       lDesc: "",
       learn: 21,
       atr: 4,

@@ -1,1 +1,1 @@
-setup.expectedImageLength = 2817; setup.latestresourceversion = false; 
+setup.expectedImageLength = 3074; setup.latestresourceversion = false; 

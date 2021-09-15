@@ -77,7 +77,7 @@ setup.breastCalc = function(): void {
   if (cup < 0) {
     body.tits.base.cupNum = -1;
     body.tits.base.cupRaw = -1;
-    body.tits.base.cup = "nonexistant";
+    body.tits.base.cup = "nonexistent";
     body.tits.base.bra = "playing dress-up";
   } else if (cup === 0) {
     body.tits.base.cupNum = 0;
@@ -175,7 +175,7 @@ setup.lactBreastCalc = function(): void {
   let cupStart, cupStop, cupLet, cupFraq, braLet;
   if (cup < 0) {
     body.tits.lact.cupNum = -1;
-    body.tits.lact.cup = "nonexistant";
+    body.tits.lact.cup = "nonexistent";
     body.tits.lact.bra = "playing dress-up";
   } else if (cup === 0) {
     body.tits.lact.cupNum = 0;
@@ -245,7 +245,7 @@ setup.lactBreastCalc = function(): void {
 };
 
 // calculates breast shape based on input and returns real shape
-setup.calcBreastShape = function ({ size, silicone, weight, band, shape,
+setup.calcBreastShape = function({ size, silicone, weight, band, shape,
 }: { size: number, silicone: number, weight: number, band: number, shape: string } = { size, silicone, weight, band, shape }): string {
   let res = shape;
   if ((size >= 700 || weight > 4) && shape === "athletic") {

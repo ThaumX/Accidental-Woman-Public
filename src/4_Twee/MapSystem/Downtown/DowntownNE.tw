@@ -45,10 +45,7 @@
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Old Dong Ho">><</button>>
-<<endhoverrevise>>
-<<hoverrevise beta>>
-  <<button "Restaurant">><</button>>
+  <<button "Old Dong Ho">><<dialog "Old Dong Ho">><<print setup.food.fastfood("olddongho")>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise delta>>
   <<button "Hand Job Pros">><<addTime 4>><<go DowntownShopHandJob>><</button>>
@@ -65,9 +62,6 @@
   <<closed "Pump & Dump">>
   <</openhours>>
 <<endhoverrevise>>
-<<hoverrevise phi>>
-  <<button "Unique Location">><</button>>
-<<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
@@ -75,12 +69,10 @@
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>[not implemented] Chinese Cuisine <span class="money">₢</span><<endinsertion>>
-<<insertion beta>>[not implemented]<<endinsertion>>
+<<insertion alpha>>Eat at Old Dong Ho <span class="money">₢</span><<endinsertion>>
 <<insertion delta>>Visit the Hand Job Pros Salon & Spa to get some pampering and perhaps a manicure or new hairstyle.<<endinsertion>>
 <<insertion gamma>>Visit Freak Dance Dancing School to check it out or sign up for a course. @@.ship;[DANCE⧫EXHIBITION]@@<<endinsertion>>
 <<insertion lambda>>Visit the Pump & Dump pawn shop and gun store.<<endinsertion>>
-<<insertion phi>>[not implemented]<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
@@ -284,7 +276,7 @@ He smiles at you. @@.npc;Well, that depends...@@
 His grin grows. @@.npc;By letting me fuck that hot cunt of yours right now. Raw, of course. No cop's gonna put up with that for a minor bust.@@
 </p>
 <<dialogchoice>>
-<<dbutt "Come get it">><<addTime 28>><<eatdrug "cream" 4>><<run setup.hadSexWith("none",1)>><<run ↂ.pc.fert.creampie("unknown", 60, "deep")>><<run ↂ.pc.fert.inseminate("unknown", 10, "womb")>><<set ↂ.flag.pumpDumpUnlock = true>><<run ↂ.pc.body.pussy.insert(4)>><<status 0>><<has risky || pregnancy>><<satisfy 50 "A Pump & Dump fuck with a creampie finish">><<happy 2 "A Pump & Dump fuck with a creampie finish">><<stress -20 "A Pump & Dump fuck with a creampie finish">><<or>><<satisfy 35 "A nice Pump & Dump fuck">><<stress -5 "A nice Pump & Dump fuck">><</has>><<run setup.devirgin("P")>><<scrolltop "#repbox">><<replace "#repbox">><<include [[DowntownNEpumpdumpSpec2]]>><</replace>>
+<<dbutt "Come get it">><<addTime 28>><<eatdrug "cream" 4>><<run setup.hadSexWith("none",1)>><<run ↂ.pc.fert.creampie("Todd Winkle", 60, "deep")>><<run ↂ.pc.fert.inseminate("Todd Winkle", 10, "womb")>><<set ↂ.flag.pumpDumpUnlock = true>><<run ↂ.pc.body.pussy.insert(4)>><<status 0>><<has risky || pregnancy>><<satisfy 50 "A Pump & Dump fuck with a creampie finish">><<happy 2 "A Pump & Dump fuck with a creampie finish">><<stress -20 "A Pump & Dump fuck with a creampie finish">><<or>><<satisfy 35 "A nice Pump & Dump fuck">><<stress -5 "A nice Pump & Dump fuck">><</has>><<run setup.devirgin("P")>><<scrolltop "#repbox">><<replace "#repbox">><<include [[DowntownNEpumpdumpSpec2]]>><</replace>>
 <<dtext "slut">>Let the Pump & Dump clerk fuck your pussy.
 <<dbutt "No Thanks">><<addTime 3>><<run Dialog.close()>>
 <<dtext "arrogant">>You're not letting some guy creampie you.
@@ -324,7 +316,7 @@ There's some clapping, and you suddenly remember that the two of you weren't alo
 </td><td style="padding-bottom:10px;">
   The Tauran Union Compact Pistol CP38 is a small semi-automatic handgun intended to be easy to carry for self defense or as a backup weapon. The weapon is unique because it has a curved frame, allowing it to be carried more snugly against the hip or leg. The curved handgrip requires that you use the correct hand, and can take a little getting used to. The weapon comes equipped with a compact LED flashlight in front of the trigger guard.<br><br>Ammunition: .38 ACP | 8 rounds | Semi Auto
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>299@@ <span id="buyshit1"></span><br><<button "Add to Cart">><<set $cart.push(["Compact Pistol","simple",299,"Compact Pistol"])>><<append "#buyshit1">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>299@@ <span id="buyshit1"></span><br><<button "Add to Cart">><<set $cart.push(["Compact Pistol","simple",299,"Compact Pistol"])>><<replace "#buyshit1">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 
 <tr><td class="storeitem" style="width:20%;">
@@ -333,7 +325,7 @@ There's some clapping, and you suddenly remember that the two of you weren't alo
 </td><td style="padding-bottom:10px;">
   The Lugie Light Compact Revolver is exactly what the name implies: it's both light and compact. Designed to be reliable and easy to carry, this weapon is focused on self defense. A laser sight is built into the firearm between the barrel and trigger guard, improving accuracy at short range and reducing the likelihood of the weapon getting caught on something. Because of its short barrel, this weapon has rapidly decreasing accuracy for distances beyond 10m.<br><br>Ammunition: 9mm | 5 rounds | Double Action
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>399@@ <span id="buyshit2"></span><br><<button "Add to Cart">><<set $cart.push(["LCR","simple",399,"LCR"])>><<append "#buyshit2">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>399@@ <span id="buyshit2"></span><br><<button "Add to Cart">><<set $cart.push(["LCR","simple",399,"LCR"])>><<replace "#buyshit2">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 
 <tr><td class="storeitem" style="width:20%;">
@@ -342,7 +334,7 @@ There's some clapping, and you suddenly remember that the two of you weren't alo
 </td><td style="padding-bottom:10px;">
   Designed over 100 years ago, the Simpson's Armory Model 1911 is still around, and has been copied, customized, and modified by countless firearms manufacturers over the decades. While there's no single reason for the design's persistance, and newer designs have surpassed it in every category but nostalgia, it remains a functional and effective weapon.<br><br>Ammunition: .45 ACP | 8 rounds | Semi Auto
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>499@@ <span id="buyshit3"></span><br><<button "Add to Cart">><<set $cart.push(["Model 1911","simple",499,"Model 1911"])>><<append "#buyshit3">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>499@@ <span id="buyshit3"></span><br><<button "Add to Cart">><<set $cart.push(["Model 1911","simple",499,"Model 1911"])>><<replace "#buyshit3">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 
 <tr><td class="storeitem" style="width:20%;">
@@ -351,7 +343,7 @@ There's some clapping, and you suddenly remember that the two of you weren't alo
 </td><td style="padding-bottom:10px;">
   The Gluck G20 is a full-frame handgun used primarily by law enforcement. While sharing the same basic design as all the Gluck full-frame weapons, this one is chambered to fire 10mm ammunition. The basic Gluck design has been around for decades, though occasional minor updates are made to improve the design. This particular weapon is a Gen5 design. While somewhat more expensive than other options, the Gluck G20 has proven to be reliable and effective.<br><br>Ammunition: 10mm | 15 rounds | Semi Auto
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>599@@ <span id="buyshit4"></span><br><<button "Add to Cart">><<set $cart.push(["Gluck G20","simple",599,"Gluck G20"])>><<append "#buyshit4">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>599@@ <span id="buyshit4"></span><br><<button "Add to Cart">><<set $cart.push(["Gluck G20","simple",599,"Gluck G20"])>><<replace "#buyshit4">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 
 <tr><td class="storeitem" style="width:20%;">
@@ -360,7 +352,7 @@ There's some clapping, and you suddenly remember that the two of you weren't alo
 </td><td style="padding-bottom:10px;">
   The E7 Plasma Pistol from EAF is the only plasma weapon available to the civilian market. Because of the extreme lethality of plasma weapons combined with their ability to ignore most types of police body armor, they are expected to be banned in the near future. This has made the E7 very popular due to the 'buy it while you still can' mentality. Despite this popularity, the weapon has several drawbacks: its bulk and weight make single-handed operation impractical, it requires a warmup period before firing the first time, and both the weapon and ammunition are very expensive.<br><br>Ammunition: E7 Cartridge | 10-20 shots | Semi Auto
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>1999@@ <span id="buyshit5"></span><br><<button "Add to Cart">><<set $cart.push(["E7","simple",1999,"E7"])>><<append "#buyshit5">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>1999@@ <span id="buyshit5"></span><br><<button "Add to Cart">><<set $cart.push(["E7","simple",1999,"E7"])>><<replace "#buyshit5">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 <tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Special Inventory</td></tr>
 <<if ↂ.flag.pumpDumpUnlock>>
@@ -370,7 +362,7 @@ There's some clapping, and you suddenly remember that the two of you weren't alo
 </td><td style="padding-bottom:10px;">
   Cyka is a Slavic firearms company in North Asia. The Blyat design started as a whale project to create a machine pistol in the United Kingdom. In a rare bout of good decision-making, the UK government decided to give up on designing their own weapons and instead bought from the Germans. The abandoned design was appropriated by Cyka and eventually turned into their signature weapon. They solved the most pressing issues with the design by using lighter ammunition, but it still has a high rate of jams and misfires. Despite the overall poor quality of the design and manufacturing, it has remained popular because it is extremely simple to modify the civilian model to fire in full automatic.<br><br>Ammunition: 22LR | 33 rounds | Automatic
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>499@@ <span id="buyshit6"></span><br><<button "Add to Cart">><<set $cart.push(["Blyat 22","simple",499,"Blyat 22"])>><<append "#buyshit6">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>499@@ <span id="buyshit6"></span><br><<button "Add to Cart">><<set $cart.push(["Blyat 22","simple",499,"Blyat 22"])>><<replace "#buyshit6">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 
 <tr><td class="storeitem" style="width:20%;">
@@ -379,7 +371,7 @@ There's some clapping, and you suddenly remember that the two of you weren't alo
 </td><td style="padding-bottom:10px;">
   The Milwaukee Brewery and Firearms Kraft 11 is a civilian version of a weapon originally produced by the now-defunct Wisconsin Armaments Corporation. The original M11 subcompact machine pistol--commonly called the WAC-11--was manufactured in the 1970s and intended for military use. The Kraft 11 is an almost exact copy of the original design, however the fire mode selection mechanism is not included. A knowledgeable individual can manually chance to automatic firing mode by disassembling the weapon, though this is illegal. MBF maintains that nostalgia for 1980s action movies is the largest driver of Kraft 11 sales, and not the potential for automatic fire.<br><br>Ammunition: .38 ACP | 30 rounds | Automatic
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>699@@ <span id="buyshit7"></span><br><<button "Add to Cart">><<set $cart.push(["Kraft 11","simple",699,"Kraft 11"])>><<append "#buyshit7">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>699@@ <span id="buyshit7"></span><br><<button "Add to Cart">><<set $cart.push(["Kraft 11","simple",699,"Kraft 11"])>><<replace "#buyshit7">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 
 <tr><td class="storeitem" style="width:20%;">
@@ -388,7 +380,7 @@ There's some clapping, and you suddenly remember that the two of you weren't alo
 </td><td style="padding-bottom:10px;">
   This firearm was most likely obtained illegally from the Institute. Civilian possession is likely illegal due to the presence of a burst fire mode. The weapon seems to fire frangible flechettes at extremely high speed. Little else is known about the weapon. Acquiring new ammunition is likely to be extremely difficult or outright impossible.<br><br>Ammunition: Flechette | 75 | Semi Auto / 4 Round Burst
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>1799@@ <span id="buyshit8"></span><br><<button "Add to Cart">><<set $cart.push(["Institute Sidearm","simple",1799,"Institute Sidearm"])>><<append "#buyshit8">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>1799@@ <span id="buyshit8"></span><br><<button "Add to Cart">><<set $cart.push(["Institute Sidearm","simple",1799,"Institute Sidearm"])>><<replace "#buyshit8">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 <<else>>
 <tr><td colspan=3>The clerk doesn't show you the "special inventory", perhaps you should ask him about it.</td></tr>

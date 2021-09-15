@@ -31,6 +31,8 @@ interface IntSetupNpcDisplay {
   printList: (group: string) => string;
   printNear: () => string;
   detailView: (npcid: string) => void;
+  sexView: (npcid: string) => string;
+  sexViewTwo: (npcid: string) => string;
 }
 
 setup.npcDisplay = {
@@ -315,7 +317,7 @@ setup.npcDisplay = {
         output += `<b>Suicide Score:</b> ${sscore}`;
         output += "</div>";
         // =================================================
-        // end of the data formating and try block
+        // end of the data formatting and try block
       } catch (e) {
         aw.con.warn(`Error in setup.npcDisplay.detailView (main). ${e.name}: ${e.message}.`);
         // give standard error message to output
@@ -550,7 +552,7 @@ setup.npcDisplay = {
                   mutationsu += "Acid precum";
                   break;
                 case "contort":
-                  mutationsu += "Сontortionist";
+                  mutationsu += "Contortionist";
                   break;
                 case "cumpire":
                   mutationsu += "Lilith's Porphyria";
@@ -580,7 +582,7 @@ setup.npcDisplay = {
                   mutationsu += "Rapid Gestation";
                   break;
                 case "cycle":
-                  mutationsu += "Hyper Menstral Cycle";
+                  mutationsu += "Hyper Menstrual Cycle";
                   break;
                 case "twinWomb":
                   mutationsu += "Twin Wombs";
@@ -706,7 +708,8 @@ setup.npcDisplay = {
           output += "<br><b>Arousal:</b> ";
           output += (ᛝ.status.arousal > 7) ? "extremely aroused." : (ᛝ.status.arousal > 3) ? "aroused." : "nope.";
           output += "<br><b>Alcohol:</b> ";
-          output += (ᛝ.status.alcohol > 7) ? "very drunk." : (ᛝ.status.health > 2) ? "drunk." : "sober.";
+          if (ᛝ.status.alcohol > 7) { output += "very drunk." } else if (ᛝ.status.alcohol > 2) { output += "drunk." } else { output +=  "sober." }
+          // output += (ᛝ.status.alcohol > 7) ? "very drunk." : (ᛝ.status.health > 2) ? "drunk." : "sober.";
           if (ᛝ.status.wombA.preg || ᛝ.status.wombB.preg) {
             if (ᛝ.status.wombA.weeks > 5 || ᛝ.status.wombB.weeks > 5) {
               output += "<br><b>Pregnancy:</b> looks pregnant.";
@@ -729,7 +732,8 @@ setup.npcDisplay = {
           output += "<br><b>Arousal:</b> ";
           output += (ᛝ.status.arousal > 7) ? "extremely aroused." : (ᛝ.status.arousal > 3) ? "aroused." : "nope.";
           output += "<br><b>Alcohol:</b> ";
-          output += (ᛝ.status.alcohol > 7) ? "very drunk." : (ᛝ.status.health > 2) ? "drunk." : "sober.";
+          if (ᛝ.status.alcohol > 7) { output += "very drunk." } else if (ᛝ.status.alcohol > 2) { output += "drunk." } else { output +=  "sober." }
+          // output += (ᛝ.status.alcohol > 7) ? "very drunk." : (ᛝ.status.alcohol > 2) ? "drunk." : "sober.";
           if (ᛝ.status.wombA.preg || ᛝ.status.wombB.preg) {
             if (ᛝ.status.wombA.weeks > 5 || ᛝ.status.wombB.weeks > 5) {
               output += "<br><b>Pregnancy:</b> looks pregnant.";
@@ -738,10 +742,10 @@ setup.npcDisplay = {
           output += "<br><b>Birth Control:</b> ";
           output += (ᛝ.status.birthCon.diaphragm.type !== "none") ? "diaphragm. " : "";
           output += (ᛝ.status.birthCon.femaleCondom.type !== "none") ? "female condom. " : "";
-          output += (ᛝ.status.birthCon.menstrualCup.type !== "none") ? "menstrual сup. " : "";
+          output += (ᛝ.status.birthCon.menstrualCup.type !== "none") ? "menstrual cup. " : "";
           output += (ᛝ.status.birthCon.sponge.type !== "none") ? "sponge. " : "";
           output += (ᛝ.status.birthCon.condom.type !== "none") ? "condom. " : "";
-          output += (ᛝ.status.birthCon.headCap.type !== "none") ? "head сap. " : "";
+          output += (ᛝ.status.birthCon.headCap.type !== "none") ? "head cap. " : "";
           output += (ᛝ.status.birthCon.hormoneType !== "none") ? "hormonal. " : "";
          }
         output += "</div>";
@@ -1319,13 +1323,14 @@ setup.npcDisplay = {
           (ᛝ.background.dadDead) ? "" : happyFamily.push("Father");
           (ᛝ.background.momDead) ? "" : happyFamily.push("Mother");
           (ᛝ.background.sister) ? happyFamily.push("Sister") : "";
-          (ᛝ.background.sisterYounger) ? happyFamily.push("Yonger sister") : "";
+          (ᛝ.background.sisterYounger) ? happyFamily.push("Younger sister") : "";
           (ᛝ.background.brother) ? happyFamily.push("Brother") : "";
-          (ᛝ.background.brotherYounger) ? happyFamily.push("Yonger brother") : "";
+          (ᛝ.background.brotherYounger) ? happyFamily.push("Younger brother") : "";
           (ᛝ.background.married) ? happyFamily.push("Spouse") : "";
           (ᛝ.background.exSpouse) ? happyFamily.push("Ex spouse") : "";
           output += `${happyFamily}`;
-          output += (ᛝ.background.rShip) ? "<br><b>Relations:</b> in relationship." : "<br><b>Relations:</b> free";
+          if (ᛝ.background.rShip) { output += "<br><b>Relations:</b> in relationship" } else { output += "<br><b>Relations:</b> free" }
+          // output += (ᛝ.background.rShip) ? "<br><b>Relations:</b> in relationship." : "<br><b>Relations:</b> free";
           output += "</div>";
         } else if (ᚥ.bGround > 2 || aw.chad.psychic) {
           const cockWealth = ["poor", "shoestring", "middle", "well-off", "rich"];
@@ -1341,14 +1346,15 @@ setup.npcDisplay = {
           (ᛝ.background.dadDead) ? "" : happyFamily.push("Father");
           (ᛝ.background.momDead) ? "" : happyFamily.push("Mother");
           (ᛝ.background.sister) ? happyFamily.push("Sister") : "";
-          (ᛝ.background.sisterYounger) ? happyFamily.push("Yonger sister") : "";
+          (ᛝ.background.sisterYounger) ? happyFamily.push("Younger sister") : "";
           (ᛝ.background.brother) ? happyFamily.push("Brother") : "";
-          (ᛝ.background.brotherYounger) ? happyFamily.push("Yonger brother") : "";
+          (ᛝ.background.brotherYounger) ? happyFamily.push("Younger brother") : "";
           (ᛝ.background.married) ? happyFamily.push("Spouse") : "";
           (ᛝ.background.exSpouse) ? happyFamily.push("Ex spouse") : "";
           output += `${happyFamily}`;
-          output += (ᛝ.background.rShip) ? "<br><b>Relations:</b> in relationship" : "<br><b>Relations:</b> free";
-          output += (ᛝ.background.affair) ? ", has affair." : "."; 
+          if (ᛝ.background.rShip) { output += "<br><b>Relations:</b> in relationship" } else { output += "<br><b>Relations:</b> free" }
+          // output += (ᛝ.background.rShip) ? "<br><b>Relations:</b> in relationship" : "<br><b>Relations:</b> free";
+          output += (ᛝ.background.affair) ? ", has affair." : ".";
           output += "</div>";
         }
       } catch (e) {
@@ -1383,6 +1389,102 @@ setup.npcDisplay = {
       aw.replace("#npcMenuStories", output);
     }
     setTimeout(() => main(), 50);
+  },
+  sexView(npcid: string): string {
+    const ᛝ = aw.npc[npcid];
+    let output = "";
+    // rship
+    let shippy = "Acquaintance";
+    let realShip = false;
+    let friendy = true;
+    if (ᛝ.rship.married) {
+      shippy = "Married";
+      realShip = true;
+    } else if (ᛝ.rship.engaged) {
+      shippy = "Engaged";
+      realShip = true;
+    } else if (ᛝ.rship.lovers) {
+      shippy = "Lovers";
+      realShip = true;
+    } else if (ᛝ.rship.exclusive) {
+      shippy = "Exclusive";
+      realShip = true;
+    } else if (ᛝ.rship.dating) {
+      shippy = "Dating";
+    } else if (ᛝ.rship.friend) {
+      if (ᛝ.rship.likeNPC >= 80 && ᛝ.rship.likePC >= 80) {
+        shippy = "Best Friends";
+        realShip = true;
+      } else {
+        shippy = "Friends";
+      }
+    } else {
+      friendy = false;
+    }
+    output += `<b>Relationship:</b> ${shippy}<br>`;
+    // Alco
+    output += `<b>Alcohol:</b> `;
+    if (ᛝ.status.alcohol > 7) {
+      output += "very drunk.";
+    } else if (ᛝ.status.alcohol > 2) {
+      output += "drunk.";
+    } else {
+      output += "sober.";
+    }
+    output += `<br>`;
+    // Stress
+    output += "<br><b>Anger:</b>" + (ᛝ.status.overAnger) ? "Looks not angry. " : "Looks angry. ";
+    output += "<br><b>Stress:</b>" + (ᛝ.status.overStress) ? "Looks relaxed. " : "Looks stressed. ";
+    output += "<br><b>Mood:</b>" + (ᛝ.status.overDepress) ? "Looks okay. " : "Looks depressed. ";
+    output += "<br><b>Health:</b> ";
+    output += (ᛝ.status.health > 70) ? "healthy." : (ᛝ.status.health > 30) ? "not very healthy." : "really not healthy.";
+    // Arousal
+    output += "<br><b>Arousal:</b> ";
+    output += (ᛝ.status.arousal > 7) ? "extremely aroused." : (ᛝ.status.arousal > 3) ? "aroused." : "vestigial.";
+    // Wetness
+    output += "<br><b>Wetness:</b> ";
+    output += (ᛝ.status.wetness > 7) ? "extremely wet." : (ᛝ.status.wetness > 3) ? "wet." : "dry.";
+    // Current action:
+    output += `<br><b>Wetness:</b> ${ↂ.sex.pcAct}`;
+    return output;
+  },
+  sexViewTwo(npcid: string): string {
+    const ᛝ = aw.npc[npcid];
+    let output = "";
+    output += "<b>Basic information:</b><br>";
+    output += `A ${ᛝ.body.race} person with ${ᛝ.body.skinColor} skin, ${aw.parse(npcid, "tone.q")} ${aw.parse(npcid, "weight.q")} body ${aw.parse(npcid, "height.q")} tall. `;
+    output += `Regarding body you notice ${aw.parse(npcid, "shoulder.q")} shoulders, ${aw.parse(npcid, "hip.q")} hips, ${aw.parse(npcid, "waist.q")} waist and a ${aw.parse(npcid, "ass.q")} butt. `;
+    output += `Considering ${ᛝ.body.face} face with ${ᛝ.body.eyeColor} eyes, ${ᛝ.body.brow} brows, ${ᛝ.body.nose} nose and ${ᛝ.body.jaw} jaw ${ᛝ.main.name} can be described as ${aw.parse(npcid, "beauty.q")}. `;
+    output += (ᛝ.body.ears === "pierced") ? `Both ears are pierced. ` : "";
+    const atrList = ["hideous", "unattractive", "unprepossessing", "normal", "nice", "adorable", "splendid"];
+    output += `It is safe to say that ${aw.parse(npcid, "pronounhisher.q")} overall attractiveness is ${atrList[Math.floor(aw.npc.n101.status.atr / 2)]}.<br>`;
+
+    if (ᛝ.main.female) {
+      output += "<br><b>Tits information:</b><br>";
+      output += `She has ${aw.parse(npcid, "breastshape.q")} ${aw.parse(npcid, "breast.q")} tits of ${aw.parse(npcid, "cupsize.q")} size`;
+      output += (ᛝ.body.tits.lact.on) ? ` which are lactating. ` : ". ";
+      output += `${ᛝ.main.name}'s nipples are ${ᛝ.body.tits.shape} shaped, ${aw.parse(npcid, "niplength.q")} and ${aw.parse(npcid, "nipwidth.q")}. Areolas are ${aw.parse(npcid, "areolapuffy.q")} and ${aw.parse(npcid, "areolasize.q")}.<br>`;
+    }
+    if (ᛝ.main.male) {
+      output += `${ᛝ.main.name}'s cock length is ${aw.parse(npcid, "cock.q")}, girth is ${aw.parse(npcid, "cockgirth.q")} and the head is ${aw.parse(npcid, "cockhead.q")},`;
+      output += (ᛝ.body.cock.circum) ? " the cock is circumsized. " : " ";
+      output += `${aw.parse(npcid, "pronounhisher.q")} ${aw.parse(npcid, "ballsag.q")} ${aw.parse(npcid, "ballsack.q")} ballsack is`;
+      if (ᛝ.body.balls.count === 2) { // typical AW
+        output += ` filled with ${aw.parse(npcid, "ballsize.q")} testicles. `;
+      } else if (ᛝ.body.balls.count > 2) {
+        output += ` filled with ${ᛝ.body.balls.count} ${aw.parse(npcid, "ballsize.q")} testicles. `;
+      } else if (ᛝ.body.balls.count === 1) {
+        output += ` filled with only one lonely ${aw.parse(npcid, "ballsize.q")} testicle. `;
+      } else { // poor guy
+        output += " empty. ";
+      }
+    }
+    if (ᛝ.main.female) {
+      output += `Her ${(ᛝ.body.pussy.virgin) ? "virgin" : ""} pussy is ${aw.parse(npcid, "pussy.q")} with the ${aw.parse(npcid, "clit.q")} clit and ${aw.parse(npcid, "labia.q")} labia. `;
+    }
+    output += "Asshole can be described as ";
+    output += (ᛝ.body.asshole.virgin) ? `virgin and ${aw.parse(npcid, "anus.q")}.<br>` : `not virgin and ${aw.parse(npcid, "anus.q")}.<br>`;
+    return output;
   },
 };
 

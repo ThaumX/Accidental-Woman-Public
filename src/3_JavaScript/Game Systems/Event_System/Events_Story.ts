@@ -268,7 +268,7 @@ setTimeout(() => (function() {
         ↂ.buttons.VisitingLilyHouse = new CAB({
           id: "VisitingLilyHouse",
           text: "Meet with Lily",
-          action: `<<run setup.map.nav("downtown","parking")>><<addTime 8>><<go "LilysPlace">>`,
+          action: `<<addTime 8>><<go "LilysPlace">>`,
           cond: `if (aw.timeArray[1] > 7 && aw.timeArray[1] <= 23 && aw.timeArray[2] > 5){ return true;} return false;`,
           oneTime: true,
         });
@@ -277,6 +277,99 @@ setTimeout(() => (function() {
         } else {
           ↂ.flag.main.omniKey = setup.omni.new("angryDM", {duration: 3600});
         }
+      },
+    },
+
+    // Anenn Markup BFhome
+    {
+      name: "PregnancyHornyCrisis",
+      odds: 100,
+      output: "dialog",
+      lifetime: [0, 0],
+      repeat: true,
+      region: ["homeT1", "homeT2", "homeT3", "homeT4", "homeT5"],
+      condition() {
+        // check
+        if (ↂ.pc.status.wombA.preg || ↂ.pc.status.wombB.preg) {
+          const growA = ↂ.pc.status.wombA.growth;
+          const growB = ↂ.pc.status.wombB.growth;
+          if (growA > 49 || growB > 49) {
+            return true;
+          }
+        }
+        return false;
+      },
+      action(count) {
+        // effect
+        aw.L();
+        if (ↂ.pc.status.arousal < 6) {
+          ↂ.pc.status.arousal = 6;
+        } else {
+          ↂ.pc.status.arousal += 3;
+        }
+        aw.S("pc");
+        setup.dialog("Pregnancy horny crisis", "<<include [[PregnancyHornyCrisis]]>>");
+      },
+    },
+
+    {
+      name: "cookingSpouse",
+      odds: 100,
+      output: "dialog",
+      lifetime: [0, 0],
+      repeat: true,
+      region: ["homeT1", "homeT2", "homeT3", "homeT4", "homeT5", "BFhome"],
+      condition() {
+        // check
+        if (!ↂ.flag.marriage.spouseAngry && State.variables.time[0] >= 19 && State.variables.location === "Home - Kitchen") {
+          const _chance = either(true, false, false, false, false);
+
+          if (_chance) { return true }
+        }
+        return false;
+      },
+      action(count) {
+        setup.dialog("Special dinner", "<<include [[cookingSpouse]]>>");
+      },
+    },
+    {
+      name: "spouseGoingOutAsk",
+      odds: 100,
+      output: "dialog",
+      lifetime: [0, 0],
+      repeat: true,
+      region: ["homeT1", "homeT2", "homeT3", "homeT4", "homeT5", "BFhome"],
+      condition() {
+        // check
+        if (!ↂ.flag.marriage.spouseAngry && State.variables.time[0] >= 16) {
+          const _chance = either(true, false, false, false, false);
+
+          if (_chance) { return true }
+        }
+        return false;
+      },
+      action(count) {
+        setup.dialog("Going out together?", "<<include [[spouseGoingOutAsk]]>>");
+      },
+    },
+    {
+      name: "spouseRelaxingCouch",
+      odds: 100,
+      output: "dialog",
+      lifetime: [0, 0],
+      repeat: true,
+      region: ["homeT1", "homeT2", "homeT3", "homeT4", "homeT5", "BFhome"],
+      condition() {
+        // check
+        if (!ↂ.flag.marriage.spouseAngry && State.variables.time[0] >= 16 && State.variables.location === "Home - Living Room") {
+          const _chance = either(true, false, false, false, false);
+
+          if (_chance) { return true }
+        }
+        return false;
+      },
+      action(count) {
+        setup.dialog("Wanna join me?", "<<include [[spouseRelaxingCouch]]>>");
       },
     },
   ];
@@ -293,11 +386,11 @@ setTimeout(() => (function() {
   lifetime?: [number | [number, number, number, number], number | [number, number, number, number]]; // game time that event is valid between. [start, end] 0 = no start or end valid time.
   repeat?: boolean; // if the event can be repeated, or if it's once only (default true, repeatable)
   priorEvent?: string | string[];  // required event or events that must have happened first. (default "none")
-  interupt?: boolean; // interupt event processing when this event occurs (default false)
+  interupt?: boolean; // interrupt event processing when this event occurs (default false)
   output?: string; // either "interact" or "scene" if one of those outputs is used, otherwise "none"
   omni?: string; // name of an omni that must be active for the event to run, or "none"
   region?: string | string[]; // name of game region that event can occur in (or "any"). checks either loc[1] if loc[0] is "world", or loc[0]. ex: ["residential", "downtown"]
-  condition: string | (() => boolean); // function or stringified function assignment to check for evenet conditions.
+  condition: string | (() => boolean); // function or stringified function assignment to check for event conditions.
   action: string | (() => void); // function or stringified function to run when event occurs. supplied argument num for number of times executed, starting with 1 the first time it runs.
 */
 

@@ -15,6 +15,12 @@
 <<set _cash += ↂ.flag.jobQuiz.retail>>
 <<set _cash -= ↂ.flag.jobQuiz.testSubject * 4>>
 <<set $AW.cash += _cash>>
+<<if ↂ.flag.organDonor === 2>>
+  <<set $AW.cash += 1200>>
+<</if>>
+<<if ↂ.flag.organDonor === 1>>
+  <<set $AW.cash += 2400>>
+<</if>>
 <<set ↂ.flag.prologueFemPaid = true>>
 <<status 0>>
 <</if>>
@@ -57,8 +63,9 @@ He once again waits until it seems like you're finished. @@.npc;Okay hit the nex
 <center><<button "NEXT">><<set ↂ.pc.main.ageID = Number(ↂ.pc.main.ageID)>><<status>><<addTime 3>><<go FemStart6b>><</button>></center>
 
 
-:: FemStart6b [nobr]
+:: FemStart6b [nobr noui]
 
+<<set _organDonor = true>>
 <div style="margin:25px;padding:25px;border-width:5px;border-style:solid;border-color:#909090;background-color:#303030;color:#ddd;border-radius:12px;">
 <center>[img[IMG-AppMD_InstiCare]]<br>
 Sign up for InstiCare? <<button "YEP">><<set ↂ.flag.Healthcare = true>><<replace "#care">>YES<</replace>><</button>> <<button "NOPE">><<set ↂ.flag.Healthcare = false>><<replace "#care">>NO<</replace>><</button>><<tab>><span class="exp">Currently: <span id="care"><<if ↂ.flag.Healthcare>>YES<<else>>NO<</if>></span></span>
@@ -67,9 +74,12 @@ Sign up for InstiCare? <<button "YEP">><<set ↂ.flag.Healthcare = true>><<repla
 
 <br><hr><br>
 <center>[img[IMG-OrganDonorAd]]<br>
-Sign up as an Organ Donor?<<button "YEP">><<set ↂ.flag.organDonor = true>><<replace "#organ">>YES<</replace>><</button>> <<button "NOPE">><<set ↂ.flag.organDonor = false>><<replace "#organ">>NO<</replace>><</button>><<tab>><span class="exp">Currently: <span id="organ"><<if ↂ.flag.organDonor>>YES<<else>>NO<</if>></span></span>
+Sign up as an Organ Donor?<<button "YEP">><<set _organDonor = true>><<replace "#organ">>YES<</replace>><</button>> <<button "NOPE">><<set _organDonor = false>><<replace "#organ">>NO<</replace>><</button>><<tab>><span class="exp">Currently: <span id="organ"><<if _organDonor>>YES<<else>>NO<</if>></span></span>
 </center>
-@@.note;Being an organ donor would normally help those who can't afford lab-grown organs using their own DNA. In Appletree, however, donated organs are usually utilized for research. <span class="orange">Being an organ donor is actually an increased difficulty mode.</span>@@
+@@.note;Being an organ donor would normally help those who can't afford lab-grown organs using their own DNA. In Appletree, however, donated organs are usually utilized for research. <span class="orange">Being an organ donor has no impact on difficulty.</span>@@
+<br><hr><br>
+<<include [[DifficultySetting]]>>
+<br>
 <center>
 <<button "ACCEPT">><<addTime 5>><<set $activeNPC = []>><<go "FemStart6c">><</button>>
 </center>
@@ -116,7 +126,7 @@ You quickly install the Emnity chat app, but find that your account has been del
 <<textpc>>D-334 is what it says on the door.
 <<textnpc>>Okay, I'll be there soon with a care package!
 <<textpc>>k, see you soon.<<replace "#cunthunt">><center><<button "CONTINUE">><<addTime 26>><<pcTotalATR>><<set $activeNPC = ["n102"]>><<go "FemStart7">><</button>></center><</replace>>
-<</texting>>
+<</texting>><center>@@.com;To continue conversation, click the 'send' button (blue arrow).@@</center>
 <div id="cunthunt">
 
 </div>

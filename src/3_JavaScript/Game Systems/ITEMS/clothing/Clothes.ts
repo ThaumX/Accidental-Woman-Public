@@ -65,9 +65,17 @@ interface setupClothes {
   nightwear: boolean;
   swimwear: boolean;
   damaged: boolean;
+  wearingSkirt: boolean;
   outfit: setupClothesOutfit;
   gameSave: () => string;
   desc: setupClothesDesc;
+  braWord: string; // gives noun (often with adjective) about bra. if no bra, returns "no bra"
+  topWord: string; // gives noun (often with adjective) about top. if no top, returns "no top"
+  topAndBraWord: string; // gives braWord and topWord in appropriate combination for current wear status.
+  damage: (slot: string, amt: number) => void; // damages clothes by amount. Note: negative number will heal
+  takeOff: (slot: string) => void; // sets clothes wear status to "off" for given slot, if clothes are worn in slot (safe) [players can reequip by changing wear]
+  makeDirty: (slot: string, amt: number) => void; // makes clothes in a slot more dirty. (negative will clean)
+  timeEffect: () => void; // runs with every 15-minute chunk and causes regular wear-and-tear on clothes as well as dirtiness.
 }
 
 
@@ -184,7 +192,7 @@ class Garment {
     padoImg = "none",
     img = 0,
   // tslint:disable-next-line:max-line-length
-  }: {key?: string, nick?: string, type: clothingType, slot: clothingSlot, colorWord: string, styleWord: string, subStyleWord: string, tertiaryWord: string, fabricWord: string, atr: number, sexy: number, formal: number, exposure: number, flag: object, damage: number, cond: object, dirty: number, wetness: number, style: number, subStyle: number, fabric: number, color: number, origin: string, price: number|"none", swimwear?: boolean, nightwear?: boolean, athletic?: boolean, kinky?: boolean, accessNip?: boolean, accessPussy?: boolean, accessButt?: false, accessTits?: boolean, accessAss?: boolean, wear?: string[], save: boolean, padoImg: string, img?: string|0}, ) {
+  }: {key?: string, nick?: string, type: clothingType, slot: clothingSlot, colorWord: string, styleWord: string, subStyleWord: string, tertiaryWord: string, fabricWord: string, atr: number, sexy: number, formal: number, exposure: number, flag: object, damage: number, cond: object, dirty: number, wetness: number, style: number, subStyle: number, fabric: number, color: number, origin: string, price: number|"none", swimwear?: boolean, nightwear?: boolean, athletic?: boolean, kinky?: boolean, accessNip?: boolean, accessPussy?: boolean, accessButt?: false, accessTits?: boolean, accessAss?: boolean, wear?: string[], save: boolean, padoImg: string, img?: string|0} ) {
     if (key === "none") {
       this.key = setup.clothes.keyGen();
     } else {
@@ -236,6 +244,13 @@ class Garment {
     this.padoImg = padoImg;
     this.img = img;
   }
+  get curExposure(): number {
+    if (this.wetness > 2) {
+      return (this.values.exposure + 10);
+    } else {
+      return this.values.exposure;
+    }
+  }
   // color hex code
   get hex(): string {
     return setup.clothes.colorHex(this.values.color);
@@ -246,7 +261,7 @@ class Garment {
   }
   // exposure word
   get exposure(): string {
-    return setup.clothes.exposureWord(this.values.exposure);
+    return setup.clothes.exposureWord(this.curExposure);
   }
   // formal word
   get formal() {
@@ -429,7 +444,7 @@ class Garment {
       fontSize = "18px";
     }
     const stat = `<img data-passage="IMG-WardrobeCloStatusIcon" class="wardrobeStatusHov imgButton" title="${this.status}">`;
-    output += `<div class="WardGarmentTextbox"><span style="color:#ffcc92;font-size:${fontSize};"><b>${name}</b></span><br>ATR: ${this.atr} (${this.values.atr}), ${this.sexy}, Formality:&nbsp;${this.formal}, ${this.exposure}&nbsp;(${this.values.exposure})<br><span style="font-size:75%">from</span>&nbsp;<span class="wdGray handwriting">${this.origin}</span> <span style="font-size:75%">for</span>&nbsp;<span class="money">₢${this.price}</span> ${stat}</div></div>`;
+    output += `<div class="WardGarmentTextbox"><span style="color:#ffcc92;font-size:${fontSize};"><b>${name}</b></span><br>ATR: ${this.atr} (${this.values.atr}), ${this.sexy}, Formality:&nbsp;${this.formal}, ${this.exposure}&nbsp;(${this.curExposure})<br><span style="font-size:75%">from</span>&nbsp;<span class="wdGray handwriting">${this.origin}</span> <span style="font-size:75%">for</span>&nbsp;<span class="money">₢${this.price}</span> ${stat}</div></div>`;
     return output;
   }
 }
@@ -483,7 +498,7 @@ setup.clothes.details = function(key: string): string {
     }
   }
   output += `<div style="display:inline-block;width:47%;margin: 10px 2% 10px 0px;">Attractiveness:&nbsp;&nbsp;${ᛝ.atr}&nbsp;(${ᛝ.values.atr})<br>Formality:&nbsp;${ᛝ.formal}<br>Origin:&nbsp;&nbsp;<span class="handwriting wdGray">${ᛝ.origin}</span><br>${hem}${tagA}<br>${tagN}</div>`;
-  output += `<div style="display:inline-block;width:47%;margin: 10px 0px 10px 2%;">Sexy/Cute:&nbsp;${ᛝ.sexy}<br>Exposure:&nbsp;${ᛝ.exposure}&nbsp;(${ᛝ.values.exposure})<br>Price:&nbsp;&nbsp;<span class="monospace money">₢${ᛝ.price}</span><br><br>${tagK}<br>${tagS}</div><br>${access}</p>`;
+  output += `<div style="display:inline-block;width:47%;margin: 10px 0px 10px 2%;">Sexy/Cute:&nbsp;${ᛝ.sexy}<br>Exposure:&nbsp;${ᛝ.exposure}&nbsp;(${ᛝ.curExposure})<br>Price:&nbsp;&nbsp;<span class="monospace money">₢${ᛝ.price}</span><br><br>${tagK}<br>${tagS}</div><br>${access}</p>`;
   output += `<p><span class="tit" style="font-size:1.2rem;color:#ffcc92;">Wearable Positions:</span><br>${setup.clothes.wearWords(ᛝ.key)}</p>`;
   output += `<p><<textbox "_nickname" "Enter a name">><<button "Set Name">><<set aw.clothes.${ᛝ.key}.nick = _nickname>><<replace "#mainName">><<print _nickname>><br><</replace>><</button>> <<button "Reset Name">><<set aw.clothes.${ᛝ.key}.nick = false>><<replace "#mainName">>Name Reset!<br><</replace>><</button>></p>`;
   output += "</div>";
@@ -622,6 +637,9 @@ setup.clothes.calculate = function(): void {
   } else if (ᛝ.keys.top !== 0 && ᛝ.worn.top !== "off" && aw.slot.top.type === "onepiece") {
     dressy = true;
     exterior.bottom = "bra";
+  } else if (ᛝ.keys.bra !== 0 && ᛝ.worn.bra !== "off" && aw.slot.bra.type === "swimOnePiece") {
+    dressy = true;
+    exterior.bottom = "bra";
   } else if (ᛝ.keys.bottom !== 0 && ᛝ.worn.bottom !== "off") {
     // clothes
     exterior.bottom = "bottom";
@@ -644,31 +662,31 @@ setup.clothes.calculate = function(): void {
   let divisor = 4.5;
   try {
     if (exterior.top === "top" && ᛝ.keys.bra !== 0) {
-      expTop = Math.round(ↂ.pc.body.topATR * (aw.slot.top.values.exposure / 50) * (aw.slot.bra.values.exposure / 50));
-      ᛝ.stats.exposureTop = Math.round((aw.slot.top.values.exposure / 50) * (aw.slot.bra.values.exposure / 50) * 50);
+      expTop = Math.round(ↂ.pc.body.topATR * (aw.slot.top.curExposure / 50) * (aw.slot.bra.curExposure / 50));
+      ᛝ.stats.exposureTop = Math.round((aw.slot.top.curExposure / 50) * (aw.slot.bra.curExposure / 50) * 50);
     } else if (exterior.top === "nude") {
       expTop = ↂ.pc.body.topATR;
       ᛝ.stats.exposureTop = 50;
     } else {
-      expTop = Math.round(ↂ.pc.body.topATR * (aw.slot[exterior.top].values.exposure / 50));
-      ᛝ.stats.exposureTop = aw.slot[exterior.top].values.exposure;
+      expTop = Math.round(ↂ.pc.body.topATR * (aw.slot[exterior.top].curExposure / 50));
+      ᛝ.stats.exposureTop = aw.slot[exterior.top].curExposure;
     }
   } catch (e) {
     console.log(`Failed at area 1 with values error - ${e.name}: ${e.message}.`);
   }
   try {
     if (exterior.bottom === "bottom" && ᛝ.keys.panties !== 0) {
-      expBot = Math.round(ↂ.pc.body.botATR * (aw.slot.bottom.values.exposure / 50) * (aw.slot.panties.values.exposure / 50));
-      ᛝ.stats.exposureBot = Math.round((aw.slot.bottom.values.exposure / 50) * (aw.slot.panties.values.exposure / 50) * 50);
+      expBot = Math.round(ↂ.pc.body.botATR * (aw.slot.bottom.curExposure / 50) * (aw.slot.panties.curExposure / 50));
+      ᛝ.stats.exposureBot = Math.round((aw.slot.bottom.curExposure / 50) * (aw.slot.panties.curExposure / 50) * 50);
     } else if (exterior.bottom === "top" && ᛝ.keys.panties !== 0) {
-      expBot = Math.round(ↂ.pc.body.botATR * (aw.slot.top.values.exposure / 50) * (aw.slot.panties.values.exposure / 50));
-      ᛝ.stats.exposureBot = Math.round((aw.slot.top.values.exposure / 50) * (aw.slot.panties.values.exposure / 50) * 50);
+      expBot = Math.round(ↂ.pc.body.botATR * (aw.slot.top.curExposure / 50) * (aw.slot.panties.curExposure / 50));
+      ᛝ.stats.exposureBot = Math.round((aw.slot.top.curExposure / 50) * (aw.slot.panties.curExposure / 50) * 50);
     } else if (exterior.bottom === "nude") {
       expBot = ↂ.pc.body.botATR;
       ᛝ.stats.exposureBot = 50;
     } else {
-      expBot = Math.round(ↂ.pc.body.botATR * (aw.slot[exterior.bottom].values.exposure / 50));
-      ᛝ.stats.exposureBot = aw.slot[exterior.bottom].values.exposure;
+      expBot = Math.round(ↂ.pc.body.botATR * (aw.slot[exterior.bottom].curExposure / 50));
+      ᛝ.stats.exposureBot = aw.slot[exterior.bottom].curExposure;
     }
   } catch (e) {
     console.log(`Failed at area 2 with values error - ${e.name}: ${e.message}.`);
@@ -731,7 +749,7 @@ setup.clothes.calculate = function(): void {
 setup.clothes.wear = function(key: string, slot: 0|clothingSlot = 0): "ERROR!"|"Success!" {
   // equips item into slot
   if (aw.clothes[key] == null || aw.clothes[key] === undefined) {
-    aw.con.warn(`Attempted to wear non-existant garment with key: ${key}. Skipping.`);
+    aw.con.warn(`Attempted to wear nonexistent garment with key: ${key}. Skipping.`);
     return "ERROR!";
   }
   const ᛝ = ↂ.pc.clothes;
@@ -773,7 +791,7 @@ setup.clothes.remove = function(slot: clothingSlot): "ERROR!"|"Success!" {
   // removes item from slot
   const ᛝ = ↂ.pc.clothes;
   if (!Object.keys(aw.slot).includes(slot)) {
-    aw.con.warn(`attemted to remove clothing from bad slot name! (${slot}).`);
+    aw.con.warn(`Attempted to remove clothing from bad slot name! (${slot}).`);
     return "ERROR!";
   }
   aw.slot[slot] = 0;
@@ -787,11 +805,16 @@ setup.clothes.remove = function(slot: clothingSlot): "ERROR!"|"Success!" {
 // deletes clothing from object store aw.clothes
 setup.clothes.delete = function(key: string, force: boolean = false): void {
   if (aw.clothes[key] == null || aw.clothes[key] === undefined) {
-    aw.con.warn(`Attempted to delete non-existant garment with key: ${key}. Skipping.`);
+    aw.con.warn(`Attempted to delete nonexistent garment with key: ${key}. Skipping.`);
     return;
   }
   if (aw.clothes[key].save && !force) {
     return; // don't delete safe objects
+  }
+  const slut = aw.clothes[key].slot; // get slot of item.
+  const inSlut = ↂ.pc.clothes.keys[slut]; // get key of current item in slot
+  if (inSlut === key) { // if item is being warn, removes it before deleting.
+    setup.clothes.remove(slut);
   }
   delete aw.clothes[key];
   const ᚥ = ↂ.ward;
@@ -1234,7 +1257,7 @@ setup.clothes.staining = function(place: string, amt: number, type: string): voi
         case "legs":
         aw.clothes[ↂ.pc.clothes.keys.coat].values.dirty += FullAmount;
         aw.clothes[ↂ.pc.clothes.keys.coat].wetness += WaterFullAmount;
-          break;
+        break;
         default:
           break;
       }
@@ -1299,8 +1322,8 @@ setup.clothes.staining = function(place: string, amt: number, type: string): voi
       aw.clothes[ↂ.pc.clothes.keys.bottom].values.dirty += FullAmount;
     }
   }
-  if (msg === "dirty") {setup.notify('Your clothes got dirty.')}
-  if (msg === "wet") {setup.notify('Your clothes got wet.')}
+  if (msg === "dirty") {setup.notify("Your clothes got dirty.")}
+  if (msg === "wet") {setup.notify("Your clothes got wet.")}
   aw.S("pc");
   aw.con.info(`setup.clothes.staining complete. Input: ${place} ${amt} ${type}.`);
 };

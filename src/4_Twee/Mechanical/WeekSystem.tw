@@ -106,7 +106,7 @@ You will be presented with a tabbed window containing all of the week summary in
 </td><td width="15%">
 <<button "Set Spending">><<switch _foodSpend>><<case "Average">><<set ↂ.home.finance.sett.foodLevel = 3>><<case "Poor">><<set ↂ.home.finance.sett.foodLevel = 1>><<case "None">><<set ↂ.home.finance.sett.foodLevel = 0>><<case "Cheap">><<set ↂ.home.finance.sett.foodLevel = 2>><<case "Fancy">><<set ↂ.home.finance.sett.foodLevel = 4>><<case "Luxury">><<set ↂ.home.finance.sett.foodLevel = 5>><</switch>><<replace "#foodspend">><<print setup.spendingLevel(ↂ.home.finance.sett.foodLevel)>><</replace>><</button>>
 </td></tr><tr><td>
-''Household Goods Spending:'' <<helpPop "Household Goods" "Household goods are many of the other things you'd buy at a grocery store that aren't actually food, or that are only an occassional purchase like spices. Paper towels, toilet paper, soap, and shampoo all fall in this category, along with alcohol like wine or beer.">>
+''Household Goods Spending:'' <<helpPop "Household Goods" "Household goods are many of the other things you'd buy at a grocery store that aren't actually food, or that are only an occasional purchase like spices. Paper towels, toilet paper, soap, and shampoo all fall in this category, along with alcohol like wine or beer.">>
 </td><td>
 <span id="goodspend" class="ident"><<print setup.spendingLevel(ↂ.home.finance.sett.goodsLevel)>></span>
 </td><td>
@@ -225,7 +225,7 @@ TOTAL EXPENSES: <<helpPop "Total Expenses" "The total amount of expenses for the
 </td><td width="10%">
 @@.bad;.monospace;<<mon>><<print ↂ.home.finance.totalExpense>>@@
 </td></tr><tr><td>
-<<if _surDef >= 0>>''SURPLUS:'' <<helpPop "Surplus" "The amount of money you have remaining after mandatory expenses.">> <<else>>''DEFICIT:'' <<helpPop "Deficit" "This means that your mandatory expenses exceed your income. This is okay if it happens occassionally, but it could indicate that you're spending more than you can afford.">><</if>>
+<<if _surDef >= 0>>''SURPLUS:'' <<helpPop "Surplus" "The amount of money you have remaining after mandatory expenses.">> <<else>>''DEFICIT:'' <<helpPop "Deficit" "This means that your mandatory expenses exceed your income. This is okay if it happens occasionally, but it could indicate that you're spending more than you can afford.">><</if>>
 </td><td>
 <<if _surDef >= 0>>@@.money;<<mon>><<print _surDef>>@@<<else>>@@.bad;.monospace;<<mon>><<print _surDef>>@@<</if>>
 </td></tr>
@@ -256,7 +256,7 @@ LOAN BALANCE: <<helpPop "Loan Balance" "The amount you owe for bank loans. Note 
 </td></tr><tr><td>
 Rent:
 </td><td width="10%">
-@@.money;<<mon>><<print ↂ.home.finance.rent>>@@
+@@.money;<<mon>><<print ↂ.flag.lastRent>>@@
 </td></tr><tr><td>
 Food:
 </td><td width="10%">
@@ -282,7 +282,7 @@ Utilities:
 </td></tr><tr></tr><tr><td>
 @@.ident;TOTAL PRIMARY EXPENSES\:@@
 </td><td width="10%">
-@@.bigmoney;<<mon>><<print (ↂ.home.finance.rent + ↂ.home.finance.food + ↂ.home.finance.goods + ↂ.home.finance.supplies + ↂ.home.finance.electric + ↂ.home.finance.water)>>@@
+@@.bigmoney;<<mon>><<print (ↂ.flag.lastRent + ↂ.home.finance.food + ↂ.home.finance.goods + ↂ.home.finance.supplies + ↂ.home.finance.electric + ↂ.home.finance.water)>>@@
 </td></tr></table>
 
 <table><tr class="divide"><td colspan=2>@@.head3;Vehicle expenses@@<<helpPop "Vehicle Expenses" "Basic costs of owning and operating a vehicle. Owning a car gives you more freedom, but also incurs regular costs.">></td></tr>

@@ -21,9 +21,9 @@
 <<dtext "awkward">>Just be honest, say you found them interesting and wanted to come and say hello.
 <<dbutt "pickup" "ↂ.pc.trait.flirty != -1">><<intgo "NPCinteraction-StrangerPickup">>
 <<dtext "slut">>Just approach them and tell them flat-out you think that they're hot.
-<<dbutt "be cool" "ↂ.pc.trait.vert !== 'introverted'">><<intgo "NPCinteraction-StrangerCool">>
+<<dbutt "be cool" "!ↂ.pc.trait.intro">><<intgo "NPCinteraction-StrangerCool">>
 <<dtext "cool">>Try and play it cool, acting as if it's totally normal to walk up to a stranger and start talking to them.
-<<dbutt "excuse" false>><<intgo "NPCinteraction-StrangerExcuse">>
+<<dbutt "excuse">><<intgo "NPCinteraction-StrangerExcuse">>
 <<dtext "angel">>Try to use an excuse to explain why you're there trying to speak to them. <span class="bad">[not implemented yet]</span>
 <<dbutt "Deceive">><<intgo "NPCinteraction-StrangerLie">>
 <<dtext "smug">>Pretend like you've met the person before and say hello.
@@ -34,7 +34,7 @@
 <<dbutt "Mhmhhmb!" "!ↂ.pc.kink.shame">><<addTime 3>><<intgo "NPCinteraction-StrangerPlayerIsIdiotLol">>
 <<dtext "muted">>Try to speak coherently.
 <<dbutt "Leave">><<intclose>>
-<<dtext "slut">>Go away before it get too embarassing...
+<<dtext "slut">>Go away before it get too embarrassing...
 <</dialogchoice>>
 <</if>>
 
@@ -44,7 +44,7 @@
 <p>@@.pc;Mhmmhm!@@</p>
 <p>@@.npc;Emm... miss, you were kidnapped? This... gag in your mouth, should I call the police?@@</p>
 You shake your head in a "Nope" way.
-<p>@@.npc;Ugh... then have fun... I better go...Goodluck...<i style="font-size: 8px;">Perv</i>@@</p>
+<p>@@.npc;Ugh... then have fun... I better go...Good luck...<i style="font-size: 8px;">Perv</i>@@</p>
 You look at <<if aw.npc[_npc].main.female>>her<<else>>his<</if>> back while <<if aw.npc[_npc].main.female>>she<<else>>he<</if>> goes away. 
 <p>@@.mono;I am an idiot.@@</p>
 <<safetoclose>><<stress 5 "Mhmhhmb!">>
@@ -114,9 +114,9 @@ You look at <<if aw.npc[_npc].main.female>>her<<else>>his<</if>> back while <<if
     <<dialogchoice>>
       <<dbutt "chat">><<addTime 2>><<intgo "NPCinteraction-StrangerTryChat">>
       <<dtext "awkward">>Now that you're acquaintances, try to make a little small talk.
-      <<dbutt "number">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 5>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
+      <<dbutt "number">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, Math.floor(_randy))>><<if _result < 5>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
       <<dtext "cute">>Just get the person's number so you can talk or hang out some time.
-      <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 7>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
+      <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, Math.floor(_randy))>><<if _result < 7>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
       <<dtext "kissheart">>Get straight to the point, and ask them out on a date sometime.
       <<dbutt "lets Fuck" "ↂ.pc.kink.slut || ↂ.pc.liberate">><<intgo "NPCinteraction-StrangerSex">>
       <<dtext "slut">>Convince them that sexytimes should commence immediately.
@@ -140,9 +140,9 @@ You look at <<if aw.npc[_npc].main.female>>her<<else>>his<</if>> back while <<if
 <<dialogchoice>>
   <<dbutt "chat">><<addTime 2>><<intgo "NPCinteraction-StrangerTryChat">>
   <<dtext "awkward">>Now that you're acquaintances, try to make a little small talk.
-  <<dbutt "number">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 5>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
+  <<dbutt "number">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, Math.floor(_randy))>><<if _result < 5>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
   <<dtext "cute">>Just get the person's number so you can talk or hang out some time.
-  <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 7>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
+  <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, Math.floor(_randy)>><<if _result < 7>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
   <<dtext "kissheart">>Get straight to the point, and ask them out on a date sometime.
   <<dbutt "lets Fuck" "ↂ.pc.kink.slut || ↂ.pc.liberate">><<intgo "NPCinteraction-StrangerSex">>
   <<dtext "slut">>Convince them that sexytimes should commence immediately.
@@ -175,9 +175,9 @@ You look at <<if aw.npc[_npc].main.female>>her<<else>>his<</if>> back while <<if
     <p><<print either("@@.npc;Oh, hai! This was pretty sweet to be honest, he-he. I am <<= aw.npc[_npc].main.name>>, nice to meet you!@@","@@.npc;He-he, I like it. Name's <<= aw.npc[_npc].main.name>>, you look awesome and it is a pleasure to meet you!@@", "@@.npc;Wow, that was unexpected... and rather nice! I am <<= aw.npc[_npc].main.name>>!@@")>></p>
     <<set _blah = setup.cTag.getTag(3, false)>><p><<set _pff = aw.npc[_npc].main.name>><<print setup.interactionMisc.tagText(_blah, _pff)>></p>
     <<dialogchoice>>
-      <<dbutt "number">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 5>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
+      <<dbutt "number">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, Math.floor(_randy))>><<if _result < 5>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
       <<dtext "cute">>Just get the person's number so you can talk or hang out some time.
-      <<dbutt "Ask Out">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 7>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
+      <<dbutt "Ask Out">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, Math.floor(_randy))>><<if _result < 7>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
       <<dtext "kissheart">>Get straight to the point, and ask them out on a date sometime.
       <<dbutt "lets Fuck" "ↂ.pc.kink.slut || ↂ.pc.liberate">><<intgo "NPCinteraction-StrangerSex">>
       <<dtext "slut">>Convince them that sexytimes should commence immediately.
@@ -282,7 +282,7 @@ You look at <<if aw.npc[_npc].main.female>>her<<else>>his<</if>> back while <<if
   <</button>>
   </center>
 <<else>>
-  <p><<print either("@@.npc;Oh, not like this, sorry... I am too afraid somebody gona see us. Maybe we could do it in your's place or somewhere?@@","@@.npc;Ugh, you mean right here? But anybody can see us here, this is too much, sorry. Maybe we could get to your place instead, mm?@@")>></p>
+  <p><<print either("@@.npc;Oh, not like this, sorry... I am too afraid somebody gonna see us. Maybe we could do it in your place or somewhere?@@","@@.npc;Ugh, you mean right here? But anybody can see us here, this is too much, sorry. Maybe we could get to your place instead, mm?@@")>></p>
   <<dialogchoice>>
     <<dbutt "Okay">><<addTime 2>><<intgo "NPCinteraction-StrangerSex-Myplace">>
     <<dtext "bimbo">>Okay, pussy, hop on into my car then.
@@ -371,9 +371,9 @@ You look at <<if aw.npc[_npc].main.female>>her<<else>>his<</if>> back while <<if
     <<dialogchoice>>
       <<dbutt "chat">><<addTime 2>><<intgo "NPCinteraction-StrangerTryChat">>
       <<dtext "awkward">>Now that you're acquaintances, try to make a little small talk.
-      <<dbutt "number">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 5>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
+      <<dbutt "number">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, Math.floor(_randy))>><<if _result < 5>><<addTime 2>><<set _tt = "number">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerContactInfo">><</if>>
       <<dtext "cute">>Just get the person's number so you can talk or hang out some time.
-      <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 7>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
+      <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, Math.floor(_randy))>><<if _result < 7>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
       <<dtext "kissheart">>Get straight to the point, and ask them out on a date sometime.
       <<dbutt "lets Fuck" "ↂ.pc.kink.slut || ↂ.pc.liberate">><<intgo "NPCinteraction-StrangerSex">>
       <<dtext "slut">>Convince them that sexytimes should commence immediately.
@@ -429,7 +429,7 @@ You look at <<if aw.npc[_npc].main.female>>her<<else>>his<</if>> back while <<if
     <<dialogchoice>>
       <<dbutt "chat">><<addTime 2>><<intgo "NPCinteraction-StrangerTryChat">>
       <<dtext "awkward">>Try to make a little small talk.
-      <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, _randy)>><<if _result < 5>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
+      <<dbutt "Ask Out" "(ↂ.pc.trait.flirty > -1)">><<set _randy = ↂ.pc.status.atr>><<set _randy += $npcPrefsScore>><<set _result = random(0, Math.floor(_randy))>><<if _result < 5>><<addTime 2>><<set _tt = "date">><<intgo "NPCinteraction-StrangerReject">><<else>><<addTime 5>><<intgo "NPCinteraction-StrangerDate">><</if>>
       <<dtext "kissheart">>Get straight to the point, and ask them out on a date sometime.
       <<dbutt "lets Fuck" "ↂ.pc.kink.slut || ↂ.pc.liberate">><<intgo "NPCinteraction-StrangerSex">>
       <<dtext "slut">>Convince them that sexytimes should commence immediately.

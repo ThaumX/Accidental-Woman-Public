@@ -269,6 +269,12 @@ setup.map.time = function(start: "def"|"current"|string[] = "def", dest: "def"|"
     setup.alert(`Invalid destination location passed to travel time calculator: ${dest}.`);
     return 5;
   }
+  if (dMain.slice(0, 5) === "homeT") {
+    dMain = "home";
+  }
+  if (sMain.slice(0, 5) === "homeT") {
+    sMain = "home";
+  }
   // Time to actually get down to bidness
   let sum = 0;
   let s = sSub;
@@ -1028,7 +1034,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
             image: "IMGBullseyeWomens2",
             passage: "BEwomens1",
             loc: "Bullseye - Women's",
-            desc: "you look at the variety of the clothing that seems to be displayed following absolutely no organising method whatsoever.",
+            desc: "you look at the variety of the clothing that seems to be displayed following absolutely no organizing method whatsoever.",
           };
           break;
         case "womens2":
@@ -1037,7 +1043,7 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
             image: "IMGBullseyeWomens1",
             passage: "BEwomens2",
             loc: "Bullseye - Women's",
-            desc: "you look at the variety of the clothing that seems to be displayed following absolutely no organising method whatsoever.",
+            desc: "you look at the variety of the clothing that seems to be displayed following absolutely no organizing method whatsoever.",
           };
           break;
         case "lingerie":
@@ -1455,6 +1461,15 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
               passage: "MedicalPsychiatrist",
               loc: "H. Lecter M.D. Psychiatric Clinic",
               desc: "You are in the waiting room of Dr. Lecter's Psychiatric Clinic",
+            };
+            break;
+          case "addict":
+            ret = {
+              name: '"Sunrise" addiction clinic.',
+              image: "IMG-SunriseTopPic",
+              passage: "MedicalAddict",
+              loc: '"Sunrise" addiction clinic.',
+              desc: `You're standing in the lobby of the "Sunrise" clinic. The place looks very professional and high-tech.`,
             };
             break;
           default:
@@ -2123,6 +2138,51 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
               desc: "You're in the chillout zone of Shake & Pop nightclub in club district of downtown Appletree.",
             };
             break;
+          case "wrenchentrance":
+            ret = {
+              name: "Wrench Entrance",
+              image: "IMG-WrenchEntrance",
+              passage: "DowntownClubWrenchEntrance",
+              loc: "Wrench - Entrance",
+              desc: "You're in the entrance of Wrench nightclub in club district of downtown Appletree. It is a pretty quiet place despite of the small crowd in the main hall which is visible through the corridor. The muffed music you hear is pretty aggressive.",
+            };
+            break;
+          case "wrenchbardance":
+            ret = {
+              name: "Wrench Bar & Dancefloor",
+              image: "IMG-WrenchBarDance",
+              passage: "DowntownClubWrenchBardance",
+              loc: "Wrench - Bar & Dancefloor",
+              desc: "You're standing on the Dancefloor of the Wrench club. People are dancing along with the harsh EBM tune, more of them standing at the bar at the far wall or chatting and flirting near the walls.",
+            };
+            break;
+          case "wrenchlounge":
+            ret = {
+              name: "Wrench Lounge",
+              image: "IMG-WrenchLounge",
+              passage: "DowntownClubWrenchLounge",
+              loc: "Wrench - Lounge",
+              desc: "You're in the Wrench club lounge zone. Most of the sofas are occupied. Place is filled with a quiet murmur of chatting with occasional bursts of giggling and some more obscene sounds like muffed moans here and there. Visitors are drinking, flirting and petting in pairs or triples.",
+            };
+            break;
+          case "wrenchwc":
+            ret = {
+              name: "Wrench WC",
+              image: "IMG-WrenchWC",
+              passage: "DowntownClubWrenchWC",
+              loc: "Wrench - WC",
+              desc: "You're standing in the Wrench club WC. The place is fairly clean and looks much better than you expect night club's lavatory should look like.",
+            };
+            break;
+          case "wrenchbooths":
+            ret = {
+              name: "Wrench Booths",
+              image: "IMG-WrenchBooths",
+              passage: "DowntownClubWrenchBooths",
+              loc: "Wrench - Booths",
+              desc: "You're in the entrance of Wrench nightclub in club district of downtown Appletree. It is a pretty quiet place despite of the small crowd in the main hall which is visible through the corridor. The muffed lounge music you hear is pretty pleasant.",
+            };
+            break;
           case "pollridersentrance":
             ret = {
               name: "Poll Riders entrance",
@@ -2405,17 +2465,17 @@ setup.map.lookup = function(loc: mapLocArray): locationInfo {
                 name: "Parking",
                 image: "IMG-VisitorsParking",
                 passage: "MapVisitorParking",
-                loc: "Visitors centre parking",
-                desc: "You're standing on the gravel parking near the visitors centre.",
+                loc: "Visitors' center parking",
+                desc: "You're standing on the gravel parking near the visitors' center.",
               };
               break;
             case "centre":
               ret = {
-                name: "Visitors centre",
+                name: "Visitors center",
                 image: "IMG-VisitorsInside",
                 passage: "MapVisitorCentre",
-                loc: "Visitors centre building",
-                desc: "You're standing in the hall of Muchi Valley visitors centre.",
+                loc: "Visitors' center building",
+                desc: "You're standing in the hall of Muchi Valley visitors' center.",
               };
               break;
           }

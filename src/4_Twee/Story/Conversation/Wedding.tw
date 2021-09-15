@@ -1,7 +1,5 @@
 :: Wedding-a [nobr]
 
-<div id="weddingBox">
-<span class="import">The wedding itself is not implemented yet but you can set a date and discuss vows with NPC already.</span><br>
 <<silently>>
 <<set aw.besty.weddingWeekdays = ["error", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]>>
 <<set aw.besty.weddingMonths = ["error", "January", "February", "March", "April", "May", "June", "Sol", "July", "August", "September", "October", "November", "December"]>>
@@ -9,19 +7,25 @@
 <<set aw.besty.weddingMonth = 1>>
 <<set aw.besty.nextyear = false>>
 <</silently>>
-<p>@@.npc;So, we need to set up a date I guess?@@</p>
-<p>@@.pc;Hmm...@@ You think for a second.</p> 
+<p>@@.npc;I guess first we need to set up a date.@@</p>
+<p>@@.pc;Yes, of course! Hmm, let's see...@@ You think for a second.</p> 
 <center><div id="npcSchedBox">
   What's about <<button "[-]">><<set aw.besty.weddingMonthday -= 1>><<if aw.besty.weddingMonthday < 1>><<set aw.besty.weddingMonthday = 1>><</if>><<if aw.besty.weddingMonthday > 28>><<set aw.besty.weddingMonthday = 28>><</if>><<replace "#weddingMonthdayDiv">><<print aw.besty.weddingMonthday>> (<<print aw.besty.weddingWeekdays[aw.besty.weddingMonthday]>>)<</replace>><</button>>&nbsp;&nbsp;<span id="weddingMonthdayDiv"><<print aw.besty.weddingMonthday>> (<<print aw.besty.weddingWeekdays[aw.besty.weddingMonthday]>>)</span>&nbsp;&nbsp;<<button "[+]">><<set aw.besty.weddingMonthday += 1>><<if aw.besty.weddingMonthday < 1>><<set aw.besty.weddingMonthday = 1>><</if>><<if aw.besty.weddingMonthday > 28>><<set aw.besty.weddingMonthday = 28>><</if>><<replace "#weddingMonthdayDiv">><<print aw.besty.weddingMonthday>> (<<print aw.besty.weddingWeekdays[aw.besty.weddingMonthday]>>)<</replace>><</button>> of <<button "[-]">><<set aw.besty.weddingMonth -= 1>><<if aw.besty.weddingMonth < 1>><<set aw.besty.weddingMonth = 1>><</if>><<if aw.besty.weddingMonth > 13>><<set aw.besty.weddingMonth = 13>><</if>><<replace "#weddingMonthDiv">><<print aw.besty.weddingMonths[aw.besty.weddingMonth]>><</replace>><</button>>&nbsp;&nbsp;<span id="weddingMonthDiv"><<print aw.besty.weddingMonths[aw.besty.weddingMonth]>></span>&nbsp;&nbsp;<<button "[+]">><<set aw.besty.weddingMonth += 1>><<if aw.besty.weddingMonth < 1>><<set aw.besty.weddingMonth = 1>><</if>><<if aw.besty.weddingMonth > 13>><<set aw.besty.weddingMonth = 13>><</if>><<replace "#weddingMonthDiv">><<print aw.besty.weddingMonths[aw.besty.weddingMonth]>><</replace>><</button>> <span id="nicebesty"><<if aw.besty.nextyear>>Next<<else>>This<</if>></span>&nbsp;<<button "year">><<if aw.besty.nextyear>><<set aw.besty.nextyear = false>><<else>><<set aw.besty.nextyear = true>><</if>><<replace "#nicebesty">><<if aw.besty.nextyear>>Next<<else>>This<</if>><</replace>><</button>> year?<br><<= setup.curTimeDisplay()>><br>
-  <<button "Propose">><<set $timeo = setup.time.humanInterfaceToDate(aw.besty.weddingMonthday, aw.besty.weddingMonth, aw.besty.nextyear)>><<if $timeo[1] == false>><<replace "#weddingBox">>@@.npc;Hmm, seems like a bad date to me, maybe some another one?@@<br><<include [[Wedding-a]]>><</replace>><<else>><<run setup.sched.new("Wedding!", "reminder", true, $timeo[0], false, false, false, true, aw.date.npc.key, "Wedding!", "The most important day!")>><<replace "#weddingBox">><<include "Wedding-b">><</replace>><</if>><<status 0>><</button>>
-</div></center></div>
+  <<button "Propose">><<set $timeo = setup.time.humanInterfaceToDate(aw.besty.weddingMonthday, aw.besty.weddingMonth, aw.besty.nextyear)>><<if $timeo[1] == false>><<replace "#seriousness">>@@.npc;Hmm, seems like a bad date to me, maybe some another one?@@<br><<include [[Wedding-a]]>><</replace>><<else>><<set ↂ.flag.marriage.date = setup.time.dateToArray($timeo[0] + 720)>><<run setup.sched.new("Wedding!", "reminder", true, $timeo[0], false, false, false, true, aw.date.npc.key, "It is time to go to your wedding!", "The most important day!")>><<status 0>><<replace "#seriousness">><<set ↂ.flag.marriage.discussion.date = true>><<set ↂ.flag.marriage.npc = aw.date.npc.key>><<include "Wedding-b">><</replace>><</if>><<status 0>><</button>>
+</div></center>
 
 
 :: Wedding-b [nobr]
 
 <p><<print aw.date.name>> thinks for a moment. <<if (aw.time + 43200) < $timeo[0]>>@@.npc;Yeah, this is a good date! @@<<else>>@@.npc;Hmmm it seems pretty soon for me... I mean the preparations and all... But okay, if you want it, let's do it!@@<</if>> As if preparing, <<print aw.date.name>> cleans <<if aw.date.npc.main.female>>her<<else>>his<</if>> throat. @@.npc;I thought it is a nice time to discuss you know, vows.@@</p>
-<p>@@.pc;Sure, go ahead. It seems you have something in mind?@@</p>
-<<run setup.vow.init(aw.date.npcid)>><<print setup.vow.npcVowsProposal(aw.date.npc.key)>>
+<<dialogchoice>>
+  <<dbutt "Yup">><<replace "#seriousness">><<run setup.vow.init(aw.date.npcid)>><<set ↂ.flag.marriage.discussion.vows = true>><<print setup.vow.npcVowsProposal(aw.date.npc.key)>><</replace>>
+  <<dtext "love">>Sure, go ahead. It seems you have something in mind?
+  <<dbutt "later">><<replace "#seriousness">><p>You continue your date.</p><<run setup.omni.new("weddingDiscussion")>><<print aw.dateSpots[aw.date.spot].buttonGen()>><</replace>>
+  <<dtext "happy">>Just continue with your date for now, you will discuss the vows and other details later.
+  <<dbutt "Cancel">><<replace "#seriousness">><<include [[Wedding-fuckit]]>><</replace>>
+  <<dtext "mad">>You don't to marry anymore.
+<</dialogchoice>>
 
 
 :: Wedding-fuckit [nobr]
@@ -31,7 +35,22 @@
 <p><<print aw.date.name>> eyes widens. @@.npc;Wha-? I... Are you serious?@@</p>
 <p>@@.pc;Yeah. I don't think it is a good idea anymore.@@</p>
 <p><<print aw.date.name>> opens and closes mouth in silence a couple of times then shakes <<if aw.date.npc.main.female>>her<<else>>his<</if>> head before standing up. @@.npc;I... I'll call you... later maybe.@@</p>
-<center><<button "End">><<stress 20 "You cancelled the wedding">><<run setup.npc.enemies.push(aw.date.npcid)>><<set aw.npc[aw.date.npcid].rship.likePC -= 50 >><<set aw.npc[aw.date.npcid].rship.lovePC -= 50 >><<run setup.date.end()>><<status 0>><</button>></center>
+<center><<button "End">><<stress 20 "You cancelled the wedding">><<run setup.npc.enemies.push(aw.date.npcid)>><<set aw.npc[aw.date.npcid].rship.likePC -= 50>><<set aw.npc[aw.date.npcid].rship.lovePC -= 50 >><<run setup.date.end()>><<set ↂ.flag.marriage.discussion.inProgress = false>><<set ↂ.flag.marriage.discussion.date = false>><<set ↂ.flag.marriage.discussion.vows = false>><<set ↂ.flag.marriage.discussion.dress = false>><<set ↂ.flag.marriage.discussion.guests = false>><<run setup.omni.new("heartBroken")>><<run setup.sched.kill("Wedding!")>><<status 0>><</button>></center>
+
+
+:: Wedding-cancel [nobr]
+
+<<set _nam = aw.npc[_npcContactID].main.name>>
+<<texting _nam>>
+<<textpc>><<has bitch>>You know what? Let's cancell the wedding, fuck it.<<or>>I don't think we really should to do all this. Wedding I mean.<</has>>
+<<textnpc>>...
+<<textnpc>>What???
+<<textnpc>>Are you kidding me?
+<<textpc>>I don't think it is a good idea anymore.
+<<textnpc>>Screw it.
+<<textnpc>>Don't write me ever.
+<</texting>>
+<<stress 20 "You cancelled the wedding">><<run setup.npc.enemies.push(aw.date.npcid)>><<set aw.npc[aw.date.npcid].rship.likePC -= 50 >><<set aw.npc[aw.date.npcid].rship.lovePC -= 50 >><<set ↂ.flag.marriage.discussion.inProgress = false>><<set ↂ.flag.marriage.discussion.date = false>><<set ↂ.flag.marriage.discussion.vows = false>><<set ↂ.flag.marriage.discussion.place = false>><<set ↂ.flag.marriage.discussion.venue = false>><<set ↂ.flag.marriage.discussion.dress = false>><<set ↂ.flag.marriage.discussion.guests = false>><<set ↂ.flag.marriage.discussion.smallThings[2] = "none">><<run setup.omni.new("heartBroken")>><<run setup.sched.kill("Wedding!")>><<status 0>>
 
 
 :: Wedding-vowsObject [nobr]
@@ -40,9 +59,9 @@
 <p>It takes some time but you manage to persuade <<print aw.date.name>> to drop this idea but in the end you win.</p>
 <<else>><p><<print aw.date.name>> listens to you but shakes <<if aw.date.npc.main.female>>her<<else>>his<</if>> head. @@.npc;Sorry, I really think this is important... Hey, it shouldn't be that hard, right?@@</p>
   <<dialogchoice>>
-    <<dbutt "Yes">><<replace "#weddingBox">><<include [[Wedding-c-alt]]>><</replace>>
+    <<dbutt "Yes">><<replace "#seriousness">><<include [[Wedding-c-alt]]>><</replace>>
     <<dtext "happy">>You agree to keep this vow intact.
-    <<dbutt "fuck it">><<replace "#weddingBox">><<include [[Wedding-fuckit]]>><</replace>>
+    <<dbutt "fuck it">><<replace "#seriousness">><<include [[Wedding-fuckit]]>><</replace>>
     <<dtext "mad">>You don't want this bloody marriage anymore.
   <</dialogchoice>>
 <</if>>
@@ -114,3 +133,157 @@
 :: Wedding-d [nobr]
 
 <<print setup.vow.NPCvowsCB()>>
+
+
+:: Wedding-e [nobr]
+
+<<set _nam = aw.npc[ↂ.flag.marriage.npc].main.name>>
+<p>@@.npc;Hmm, seems fine by me! I am glad we sorted it out! Now to the other stuff... let's decide about the place of the ceremony, should we?@@</p>
+<p>@@.pc;Okies, what are the options? I am still new in the town.@@</p>
+<p><<print _nam>> thinks for a second. @@.npc;Well, let's see. First and most obvious is the Town Hall, official, formal and old-stylish. It will be just a short paperwork thing, not much of a celebration. More fancy option is the Central park, there is that nice place near the fountain, trees and such. Other options are churches. The Church of the Holy Phallus, The Church of Man and of course the Temple of Elder gods. Fun to think, but I never actually asked you about your religious beliefs by the way. But anyway, these three are the options too. As far as I know you don't need to be a congregant to book the wedding there.@@</p>
+<p><<print _nam>> looks up recalling where else you can get married. @@.npc;Ah, right! I know they conduct ceremonies in the farm coop, you know, those more hucow-oriented. And we can just rent a hall at the entertainment district of course.@@</p>
+<p>@@.pc;Hmm... pretty wide choice as by me. Do you have any preferences yourself?@@</p>
+<p><<print setup.interactionMisc.weddingPlaceCB(ↂ.flag.marriage.npc)>></p><<set ↂ.flag.marriage.discussion.place = "">>
+<center><<button "Town hall">><<set ↂ.flag.marriage.discussion.place = "Town hall">><<status 0>><<replace "#seriousness">><<include [[Wedding-f]]>><</replace>><</button>><<tab>><<button "Central Park">><<set ↂ.flag.marriage.discussion.place = "Central Park">><<status 0>><<replace "#seriousness">><<include [[Wedding-f]]>><</replace>><</button>><<tab>><<button "Church of the Holy Phallus">><<set ↂ.flag.marriage.discussion.place = "Church of the Holy Phallus">><<status 0>><<replace "#seriousness">><<include [[Wedding-f]]>><</replace>><</button>><<tab>><<button "Church of Man">><<set ↂ.flag.marriage.discussion.place = "Church of Man">><<status 0>><<replace "#seriousness">><<include [[Wedding-f]]>><</replace>><</button>><<tab>><<button "Temple of Elder gods">><<set ↂ.flag.marriage.discussion.place = "Temple of Elder gods">><<status 0>><<replace "#seriousness">><<include [[Wedding-f]]>><</replace>><</button>><<tab>><<button "Farm coop">><<set ↂ.flag.marriage.discussion.place = "Farm coop">><<status 0>><<replace "#seriousness">><<include [[Wedding-f]]>><</replace>><</button>><<tab>><<button "Rented hall">><<set ↂ.flag.marriage.discussion.place = "Rented hall">><<status 0>><<replace "#seriousness">><<include [[Wedding-f]]>><</replace>><</button>></center>
+
+
+:: Wedding-f [nobr]
+
+<p>@@.npc;<<print ↂ.flag.marriage.discussion.place>>, mm? Sounds okay to me, as long as you are happy, <<name>>!@@ You smile.</p>
+<<if aw.npc[ↂ.flag.marriage.npc].background.wealth > 1>><p>@@.npc;Don't worry loveslut, I'll cover the cost of the wedding!@@</p>
+<p>@@.pc;Oh, thank you! Won't this make a big impact on your wealth?@@ <<= aw.npc[ↂ.flag.marriage.npc].main.name>> @@.npc;It's okay, it is not that much. I want this day to be super special for you!@@</p>
+<<else>>
+<<set _cost = random(120,200)>><<if ↂ.flag.marriage.discussion.place == "Town hall">><<set _cost = _cost - 70>><</if>><<set _overall = _cost * 2>>
+<p>@@.npc;Well, let's see how much it will cost...@@ <<= aw.npc[ↂ.flag.marriage.npc].main.name>> presses some buttons on the slate to calculate the amount of money you need to pay for the wedding, decorations and such. @@.npc;Hmm... it will be <<= _overall>> bucks. Your part is <<= _cost>>.@@</p>
+<p>@@.pc;I see. No problemo, I'll send it right now.@@ You get your phone and pay your half of the wedding expenses.</p><<set _cost = _cost * -1>><<run aw.cash(_cost, "misc")>>
+<</if>>
+<<dialogchoice>>
+  <<dbutt "continue">><<replace "#seriousness">><<include [[Wedding-g]]>><</replace>>
+  <<dtext "love">>So, I guess we need to discuss what kind of ceremony we want to have next?
+  <<dbutt "later">><<replace "#seriousness">><p>You continue your date.</p><<run setup.omni.new("weddingDiscussion")>><<print aw.dateSpots[aw.date.spot].buttonGen()>><</replace>>
+  <<dtext "happy">>Just continue with your date for now, you will discuss other details later.
+  <<dbutt "Cancel">><<replace "#seriousness">><<include [[Wedding-fuckit]]>><</replace>>
+  <<dtext "mad">>You don't to marry anymore.
+<</dialogchoice>>
+<<status 0>>
+
+
+:: Wedding-g [nobr]
+
+<p>@@.pc;So, I guess we need to discuss what kind of ceremony we want to have next?@@</p>
+<p>@@.npc;What are the options? We can book any officiator, right?@@</p>
+<<print setup.interactionMisc.officiator()>>
+
+
+:: Wedding-j [nobr]
+
+
+<p>@@.npc;I think you should choose a dress for the occasion but this is up to you.@@ <<print aw.npc[ↂ.flag.marriage.npc].main.name>> giggles. @@.npc;You know, it's a bad luck to see a bride in a wedding dress before the ceremony...@@</p>
+<p>@@.pc;Ah, I had no idea you are so old-fashioned!@@</p>
+<p>@@.npc;Hey, let me be romantical!@@ You hug <<print aw.npc[ↂ.flag.marriage.npc].main.name>></p>
+<p>@@.pc;Of course, sweetie! I'll take care about it. Oh, who you will invite?@@</p>
+<p>@@.npc;Hmmmmm... let's see... <<if !aw.npc[ↂ.flag.marriage.npc].background.dadDead || !aw.npc[ↂ.flag.marriage.npc].background.momDead>>My <<if !aw.npc[ↂ.flag.marriage.npc].background.dadDead>>Father <</if>><<if !aw.npc[ↂ.flag.marriage.npc].background.momDead>>Mom<</if>> of course.<</if>><<if !aw.npc[ↂ.flag.marriage.npc].background.sister>><<print either("Ann","Joline","Mary")>>, my sister, <</if>><<if !aw.npc[ↂ.flag.marriage.npc].background.brother>><<print either("Terry","Johnny","Mike")>>, my borther is a jerk but I can't ignore him ugh...<</if>> and of course a couple of my close friends, I guess <<print either("Gilliam", "Chloe", "Frank")>> and <<print either("Helen", "Christian", "Susan")>>... And what about you?@@</p>
+<<print setup.interactionMisc.selectGuests()>>
+
+
+:: Wedding-h [nobr]
+
+<p>@@.npc;Well, good. I guess the last thing to take care of is decorations and food, right?@@</p>
+<p>Ypu both scroll through the options on the slate to see what are the typical options.<<if ↂ.flag.marriage.discussion.place == "Town hall">>Sadly, since you have choosen the simple wedding at the town hall you have no options for decorations so it is more about "See what you could get" thing for you both. In the end you both decide that all these bells and whistles don't worth changing the initial plan.<<else>>The options provided by local wedding catering and decor companies are vast and it takes time before you come to the agreement.<</if>></p>
+<center><<if ↂ.flag.marriage.discussion.place == "Town hall">><<button "Continue">><<replace "#seriousness">><<include [[Wedding-i]]>><</replace>><<status 0>><</button>><<else>><<button "Standard">><<set ↂ.flag.marriage.discussion.smallThings[2] = "Usual wedding decorations">><<replace "#seriousness">><<include [[Wedding-i]]>><</replace>><<status 0>><</button>><<tab>><<button "Bimbo style">><<set ↂ.flag.marriage.discussion.smallThings[2] = "Pink Bimbo-styled decorations">><<replace "#seriousness">><<include [[Wedding-i]]>><</replace>><<status 0>><</button>><<tab>><<button "Gothic decorations">><<set ↂ.flag.marriage.discussion.smallThings[2] = "Black and red gothic-styled decorations">><<replace "#seriousness">><<include [[Wedding-i]]>><</replace>><<status 0>><</button>><</if>></center>
+
+
+:: Wedding-i [nobr]
+
+<p>@@.npc;Perfect! Then I guess we have finished all the preparations, just need to send the invitations. Can you take care of it? I know there are lots of apps available to create such cards.@@</p>
+<p>You nod. @@.pc;Sure, sweetie, I'll take care of it!@@</p>
+<p>@@.npc;That's my perfect future wife!@@</p>
+<p>You continue your date.</p><<print aw.dateSpots[aw.date.spot].buttonGen()>>
+
+
+:: timeToDiscuss [nobr]
+
+<div id="mainshitsDiv">
+<<if !ↂ.flag.marriage.discussion.date || !ↂ.flag.marriage.discussion.vows || !ↂ.flag.marriage.discussion.dress || !ↂ.flag.marriage.discussion.guests || !ↂ.flag.marriage.discussion.place || !ↂ.flag.marriage.discussion.officiator || ↂ.flag.marriage.discussion.smallThings[0] !== "none" ||>><<set _nam = aw.npc[ↂ.flag.marriage.npc].main.name>>
+<<texting _nam>>
+  <<textnpc>>Hey, <<name>>! 
+  <<textnpc>>I thought we need to meet, you know to discuss the wedding and such.
+  <<textnpc>>And also I miss you already <3
+  <<textpc>>Awww :3
+<</texting>>
+ <<dialogchoice>><<dbutt "sure">><<replace "#mainshitsDiv">><<datescheduler _npcContactID>><</replace>><<dtext "cute">>Set up a date to discuss the wedding.<<dbutt "later">><<replace "#mainshitsDiv">><<include [[timeToDiscuss-busy]]>><</replace>><<dtext "sad">>You will set up a date later since you are busy now.<<dbutt "Cancel">><<replace "#mainshitsDiv">><<include [[Wedding-cancel]]>><</replace>><<dtext "mad">>You don't to marry anymore.<</dialogchoice>>
+<<else>>
+<<texting _nam>>
+  <<textnpc>>Hi, sweetie! 
+  <<textnpc>>Just decided to write you because I miss you so much already.
+  <<textnpc>>Very thrilled about the wedding!
+  <<textpc>>I am too, honey!
+  <<textpc>><3
+<</texting>>
+<</if>>
+</div>
+
+:: timeToDiscuss-busy [nobr]
+
+<<set _nam = aw.npc[ↂ.flag.marriage.npc].main.name>>
+<<texting _nam>>
+  <<textpc>>Oh, I'll text you later, can't write rn.
+  <<textnpc>>Sure
+  <<textnpc>>Just remember, there is not much time left!
+  <<textpc>>Yeah, ofc. XOXO
+  <<textnpc>><3
+<</texting>>
+<<safetoclose>>
+<<set ↂ.flag.marriage.disinterested += 1>><<status 0>>
+
+
+:: Marriage-a [nobr]
+
+<<print setup.wedding.dressing();>>
+<p><center><<button "You are ready">><<scenego "Marriage-b">><</button>></center></p>
+
+
+:: Marriage-b [nobr]
+
+<<print setup.vow.marriageVowsExchange();>>
+
+
+:: Marriage-c [nobr]
+
+<<print setup.wedding.question();>>
+
+
+:: Marriage-d [nobr]
+
+<<print setup.wedding.accept();>>
+
+
+:: Marriage-runAway [nobr]
+
+<<f y>>ou shake your head.
+<p>@@.pc;No.@@</p>
+<p>Everybody looks at you in disbelief. @@.npc;W-wha?...@@ You feel your heart racing but it is too late to stop already.</p>
+<p>@@.pc;I... won't marry you, <<print aw.npc[ↂ.flag.marriage.npc].main.name>>. <<has bitch>>Go fuck yourself you all.<<or>>I... I am sorry...<</has>>@@</p>
+<p>You run from the ceremony both figuratively and literally while <<print aw.npc[ↂ.flag.marriage.npc].main.name>> and guests stand speechless.</p>
+<p><center><<button "RUN">><<sceneclose>><</button>></center></p>
+<<stress 40 "You ran away from the wedding">><<run setup.npc.enemies.push(aw.date.npcid)>><<set aw.npc[aw.date.npcid].rship.likePC -= 50>><<set aw.npc[aw.date.npcid].rship.lovePC -= 50 >><<run setup.date.end()>><<set ↂ.flag.marriage.discussion.inProgress = false>><<set ↂ.flag.marriage.discussion.date = false>><<set ↂ.flag.marriage.discussion.vows = false>><<set ↂ.flag.marriage.discussion.dress = false>><<set ↂ.flag.marriage.discussion.guests = false>><<run setup.omni.new("heartBroken")>><<status 0>>
+
+
+:: Marriage-e [nobr]
+
+<<print setup.wedding.afterAcceptance()>>
+
+
+:: Marriage-f [nobr]
+
+<<print setup.wedding.party()>>
+
+
+:: Marriage-g [nobr]
+
+<<print setup.wedding.toHome()>>
+
+
+:: Marriage-h [nobr]
+
+<<print setup.wedding.honey()>>

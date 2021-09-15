@@ -3,13 +3,117 @@
 <div id="cardback" class="blocker dgreyPattern">
 <div id="cunt" style="width: 80%; height: 90%; margin: 2.5% auto; overflow-y: auto; padding: 5px 25px 5px 10px; background-color: rgba(0,0,0,0.5); border-radius:10px;">
 <<silently>>
-<<set $helpText = "There's a ton of stuff here! I recommend reading the instructions, because if you don't read the instructions: 'You're gonna have a bad time'<br><br>In all seriousness, if you don't understand a setting, you should probably leave it alone. Using these settings moves the game away from intended play.">>
+  <<set $helpText = "There's a ton of stuff here! I recommend reading the instructions, because if you don't read the instructions: 'You're gonna have a bad time'<br><br>In all seriousness, if you don't understand a setting, you should probably leave it alone. Using these settings moves the game away from intended play.">>
 <</silently>>
 
 <center>[img[IMGnpcgenerator]]<br><br>
-@@.contButt;<<button "CLOSE">><<status 0>>
-  <<go Introduction>>
-  <</button>>@@ <<button "Save Template">><<go saveNPCsettings>><</button>> <<button "Load Template">><<go loadNPCsettings>><</button>>
+@@.contButt;
+  <<button "CLOSE">>
+    <<status 0>>
+    <<run setup.saveData({
+      orgasmAdjust : 0,
+      futaRate     : setup.npcSetting.futaRate,
+      futaMale     : setup.npcSetting.futaMale,
+      gender       : [ setup.npcSetting.gender[0], setup.npcSetting.gender[1] ],
+      arch         : [ false, [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0] ],
+      wealth       : [ setup.npcSetting.wealth[0], setup.npcSetting.wealth[1], setup.npcSetting.wealth[2] ],
+      age          : [ setup.npcSetting.age[0], setup.npcSetting.age[1], setup.npcSetting.age[2] ],
+      homo         : [ setup.npcSetting.homo[0], setup.npcSetting.homo[1] ],
+      race         : [ setup.npcSetting.race[0], setup.npcSetting.race[1] ],
+      height       : [ setup.npcSetting.height[0], setup.npcSetting.height[1], setup.npcSetting.height[2] ],
+      tone         : [ setup.npcSetting.tone[0], setup.npcSetting.tone[1], setup.npcSetting.tone[2] ],
+      weight       : [ setup.npcSetting.weight[0], setup.npcSetting.weight[1], setup.npcSetting.weight[2] ],
+      fertility    : [ setup.npcSetting.fertility[0], setup.npcSetting.fertility[1], setup.npcSetting.fertility[2] ],
+      cock         : [ setup.npcSetting.cock[0], setup.npcSetting.cock[1] ],
+      pussy        : [ setup.npcSetting.pussy[0], setup.npcSetting.pussy[1] ],
+      circum       : [ setup.npcSetting.circum[0], setup.npcSetting.circum[1] ],
+      beauty       : [ setup.npcSetting.beauty[0], setup.npcSetting.beauty[1], setup.npcSetting.beauty[2] ],
+      orgasm       : [ setup.npcSetting.orgasm[0], setup.npcSetting.orgasm[1], 0 ],
+      pregTerm     : [ setup.npcSetting.pregTerm[0], setup.npcSetting.pregTerm[1] ],
+      tits         : [ setup.npcSetting.tits[0], setup.npcSetting.tits[1] ],
+      mutate       : [ setup.npcSetting.mutate[0], setup.npcSetting.mutate[1], setup.npcSetting.mutate[2] ],
+      married      : [ false, 0 ],
+      open         : [ setup.npcSetting.open[0], setup.npcSetting.open[1], setup.npcSetting.open[2] ],
+      vert         : [ setup.npcSetting.vert[0], setup.npcSetting.vert[1], setup.npcSetting.vert[2] ],
+      iq           : [ setup.npcSetting.iq[0], setup.npcSetting.iq[1], setup.npcSetting.iq[2] ],
+      names        : [ false, [0], [0], [0] ],
+      persCore     : [
+        setup.npcSetting.persCore[0],
+        setup.npcSetting.persCore[1],
+        setup.npcSetting.persCore[2],
+        setup.npcSetting.persCore[3],
+        setup.npcSetting.persCore[4],
+        setup.npcSetting.persCore[5],
+        setup.npcSetting.persCore[6],
+        setup.npcSetting.persCore[7],
+        setup.npcSetting.persCore[8],
+      ],
+      pref         : {
+        enabled: setup.npcSetting.pref[0],
+        Fweight: setup.npcSetting.pref[1],
+        Mweight: setup.npcSetting.pref[2],
+        Fheight: setup.npcSetting.pref[3],
+        Mheight: setup.npcSetting.pref[4],
+        Fmuscle: setup.npcSetting.pref[5],
+        Mmuscle: setup.npcSetting.pref[6],
+        Fother: setup.npcSetting.pref[7],
+        Mother: setup.npcSetting.pref[8],
+      },
+    })>>
+    <<go Introduction>>
+  <</button>>@@ 
+  <<button "Reset to default">>
+    <<set setup.npcSetting = {
+      orgasmAdjust: 0,
+      futaRate: 10,
+      futaMale: true,
+      gender: [false, 50],
+      arch: [false, [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]],
+      wealth: [false, 0, 0],
+      age: [false, [18, 30], [30, 45]],
+      homo: [false, [true, 0, true, 0]],
+      race: [false, [0, 0, 0, 0, 0, 0]],
+      height: [false, [5, 20, 50, 20, 5], [5, 20, 50, 20, 5]],
+      tone: [false, [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]],
+      weight: [false, [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]],
+      fertility: [false, 0, 0],
+      cock: [false, -1],
+      pussy: [false, 0],
+      circum: [false, 0],
+      beauty: [false, [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]],
+      orgasm: [false, 0, 0],
+      pregTerm: [false, -1],
+      tits: [false, 0],
+      mutate: [false, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+      married: [false, 0],
+      open: [false, 0, 0],
+      vert: [false, 0, 0],
+      iq: [false, 0, 0],
+      names: [false, [0], [0], [0]],
+      persCore: [
+        false,
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+      ],
+      pref: {
+        enabled: false,
+        Fweight: [0, 0, 0, 0, 0, 0],
+        Mweight: [0, 0, 0, 0, 0, 0],
+        Fheight: [0, 0, 0, 0, 0],
+        Mheight: [0, 0, 0, 0, 0],
+        Fmuscle: [0, 0, 0, 0, 0, 0],
+        Mmuscle: [0, 0, 0, 0, 0, 0],
+        Fother: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        Mother: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      },
+    }>>
+  <</button>> <<button "Save Template">><<go saveNPCsettings>><</button>> <<button "Load Template">><<go loadNPCsettings>><</button>>
 </center>
 
 <br>@@.head2;Instructions@@<br><br>
@@ -22,20 +126,19 @@
 
 <center>
   <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
-    <br>''Gender Ratio'' <<boober>><br>Set the percentage of females created when NPCs are generated. <br>//[ie "25" = 25 percent of NPCs will be female. "0" = no females, and "100" = no males.]//<br><br><<set _gendercon = 50>>
+    <br>''Gender Ratio'' <<boober>><br>Set the percentage of females created when NPCs are generated. <br>//[ie "25" = 25 percent of NPCs will be female. "0" = no females, and "100" = no males.]//<br><br>
     ''Active'': <<set _genderRateOn = setup.npcSetting.gender[0]>><<checkboxA "_genderRateOn" false true>> <br><br>
-    ''Current value'': <span id="genderrate"> - <<print setup.npcSetting.gender[1]>></span> <<textbox "_gendercon" _gendercon>> 
+    ''Current value'': <span id="genderrate"> - <<print setup.npcSetting.gender[1]>></span> <<set _gendercon = setup.npcSetting.gender[1]>><<textbox "_gendercon" _gendercon>> 
     <<button "SET">>
       <<set setup.npcSetting.gender[0] = _genderRateOn>>
-      <<set setup.npcSetting.gender[1] = Number(_gendercon)>>
       <<set setup.npcSetting.gender[1] = Number(_gendercon)>>
       <<replace "#genderrate">><<print setup.npcSetting.gender[1]>><</replace>>
     <</button>>
   <br><br></div><br>
 
   <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
-    <br>''Futa Ratio'' <<boober>><br>Set the rate that futas (hermaphrodites) occur. 10 is default, which is absurdly high. "10" = 0.1% or 1/1000th of NPCs. Set to "0" for no generated hermaphrodites. This setting does not effect fixed or semi-fixed NPCs, and no, it won't change Lily. [ie "5" = 0.05%, "100" = 1%]<br><br><<set _futarate = 10>>
-    ''Current value'': <span id="futarate"> - <<print setup.npcSetting.futaRate>></span> <<textbox "_futarate" _futarate>> <<button "SET">><<set setup.npcSetting.futaRate = Number(_futarate)>><<replace "#futarate">><<print setup.npcSetting.futaRate>><</replace>><</button>>
+    <br>''Futa Ratio'' <<boober>><br>Set the rate that futas (hermaphrodites) occur. 10 is default, which is absurdly high. "10" = 0.1% or 1/1000th of NPCs. Set to "0" for no generated hermaphrodites. This setting does not effect fixed or semi-fixed NPCs, and no, it won't change Lily. [ie "5" = 0.05%, "100" = 1%]<br><br>
+    ''Current value'': <span id="futarate"> - <<print setup.npcSetting.futaRate>></span> <<set _futarate = setup.npcSetting.futaRate>><<textbox "_futarate" _futarate>> <<button "SET">><<set setup.npcSetting.futaRate = Number(_futarate)>><<replace "#futarate">><<print setup.npcSetting.futaRate>><</replace>><</button>>
   <br><br></div><br>
 
   <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
@@ -108,8 +211,8 @@
   <div id="savebox" style="width:95%;margin:10px auto;border-width:3px;border-style:dotted;border-radius:6px;border-color:deepskyblue;">
     <br>''Homosexuality'' <<boober>><<boober>><br>Set the relative rate of homosexuality in NPCs. You can turn homosexuality off for a gender, or adjust the rate it occurs.<br> <div id="homoverifier">''Active'': <<= setup.npcSetting.homo[0]>>, ''Actual male value'': <<= setup.npcSetting.homo[1][1]>>, ''Actual female value'': <<= setup.npcSetting.homo[1][3]>>.</div><br>
     Active: <<set _npcHomo = setup.npcSetting.homo[0]>><<checkboxA "_npcHomo" false true>> <br><br>
-    Male: <<checkboxA "_npcHomoM" false true>> Rate: <<radiogaga "_homoMaleProp" _homoMaleProp "Rare" "Normal" "More" "Even More" "common">><br>
-    Female: <<checkboxA "_npcHomoF" false true>> Rate: <<radiogaga "_homoFemProp" _homoFemProp "Rare" "Normal" "More" "Even More" "common">><br><br>
+    Male: <<set _npcHomoM = setup.npcSetting.homo[1][0]>><<checkboxA "_npcHomoM" false true>> Rate: <<radiogaga "_homoMaleProp" _homoMaleProp "Rare" "Normal" "More" "Even More" "common">><br>
+    Female: <<set _npcHomoF = setup.npcSetting.homo[1][2]>><<checkboxA "_npcHomoF" false true>> Rate: <<radiogaga "_homoFemProp" _homoFemProp "Rare" "Normal" "More" "Even More" "common">><br><br>
     <<button "SET">>
       <<set setup.npcSetting.homo[0] = _npcHomo>>
       <<set setup.npcSetting.homo[1][0] = _npcHomoM>>

@@ -127,7 +127,7 @@ setup.clothes.outfit = {
     const allowed = ["Casual", "Work", "Fancy", "Home", "Night"];
     const ᚥ = setup.outfits;
     if (ᚥ[name] === null || setup.outfits[name] === undefined) {
-      aw.con.warn(`Attempted to wear nonexistant outfit: ${name}`);
+      aw.con.warn(`Attempted to wear nonexistent outfit: ${name}`);
       return;
     }
     if (rand && allowed.includes(name)) {

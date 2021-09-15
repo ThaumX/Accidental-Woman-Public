@@ -141,6 +141,43 @@ class BirthCon {
     if (this.headCap.worn) { return true; }
     return false;
   }
+
+  // Anenn Markup
+  get currentContraceptive(): string {
+    let output = "";
+
+    // Hormonal contraceptive bullshit
+    if (this.hormoneType === "pill") {
+      output = "pill";
+    }
+    else if (this.hormoneType === "patch") {
+      output = "patch";
+    }
+    else if (this.hormoneType === "depo shot") {
+      output = "contraceptive injection";
+    }
+
+    // Physical contraceptive bullshit
+    else if (this.condom.worn) {
+      output = "condom"
+    }
+    else if (this.diaphragm.worn) {
+      output = "diaphragm"
+    }
+    else if (this.femaleCondom.worn) {
+      output = "woman condom"
+    }
+    else if (this.sponge.worn) {
+      output = "contraceptive sponge"
+    }
+    else if (this.femaleCondom.worn) {
+      output = "cervical cap"
+    }
+
+    return output;
+  }
+
+
   get wornType(): string {
     let bc = "";
     if (this.diaphragm.worn) { bc += "diaphragm"; }

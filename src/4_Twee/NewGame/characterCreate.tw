@@ -21,11 +21,11 @@ This is the basic information on how to use different parts of the game UI. Thro
 <<nextcard "Important <<if _com[1]>>✓<</if>>">>
 <div class="cardhorn">[img[IMGinstructions1]]</div><<set _com[1] = true>>
 <<nextcard "Overview <<if _com[2]>>✓<</if>>">>
-<div class="cardhorn">[img[IMGinstructions2]]</div><<set _com[2] = true>>
+<div class="cardhorn">[img[IMGinstructions2b]]</div><<set _com[2] = true>>
 <<nextcard "CellBar <<if _com[3]>>✓<</if>>">>
 <div class="cardhorn">[img[IMGinstructions3]]</div><<set _com[3] = true>>
 <<nextcard "Cellphone <<if _com[4]>>✓<</if>>">>
-<div class="cardhorn">[img[IMGinstructions4]]</div><<set _com[4] = true>>
+<div class="cardhorn">[img[IMGinstructions4b]]</div><<set _com[4] = true>>
 <<nextcard "Small One <<if _com[5]>>✓<</if>>">>
 <div class="cardhorn">[img[IMGinstructions5]]</div><<set _com[5] = true>>
 <<nextcard "Navigation <<if _com[6]>>✓<</if>>">>
@@ -246,6 +246,8 @@ This is the basic information on how to use different parts of the game UI. Thro
 <<nextcard "Mutations <<if _com[8]>>☑<<else>>□<</if>>">>
 <<include [[CharacterCreate3Mutation]]>><<set _com[8] = true>>
 <<nextbutton>>
+<span class="cardbuttTemplate"><<button "Peek Body and Face">><<dialog "Face">><<setPCportrait>><<print $AW.pcPortrait>><br><br><div id="bpcock" style="height:800px;position:relative;padding:0px;display:block;"><<print setup.bodyPortraitFemale("PC")>></div><</dialog>><</button>>
+<<nextbutton>>
 <span class="cardbuttTemplate"><<button "Randomize">><<go CharCreateRandomizer>><</button>>
 <<nextbutton>>
 <span class="cardbuttTemplate"><<button "Load Template">><<go LoadCharacterTemplate>><</button>></span>
@@ -305,6 +307,7 @@ Many aspects of your character can be changed (voluntarily or involuntarily) thr
   <br><br>
   <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:10px 6px;">
     <b>Height:</b><<tab>><span id="hgtsizin"><<= Math.floor(ↂ.pc.body.height / 12)>>ft <<= (ↂ.pc.body.height % 12)>>in &nbsp;&nbsp; <<= Math.round(ↂ.pc.body.height * 2.54)>>cm</span>
+     <<if $screenReader == true>><<button "shorter">><<set ↂ.pc.body.height -= 1>><<replace "#alternate">><<= Math.floor(ↂ.pc.body.height / 12)>>ft <<= (ↂ.pc.body.height % 12)>>in &nbsp;&nbsp; <<= Math.round(ↂ.pc.body.height * 2.54)>>cm<</replace>><</button>><<tab>><<button "taller">><<set ↂ.pc.body.height += 1>><<replace "#alternate">><<= Math.floor(ↂ.pc.body.height / 12)>>ft <<= (ↂ.pc.body.height % 12)>>in &nbsp;&nbsp; <<= Math.round(ↂ.pc.body.height * 2.54)>>cm<</replace>><</button>><<else>>
     <p>
       <label for="amounth">Inches:</label>
       <input type="text" id="amounth" readonly style="border:0; color:#000; font-weight:bold;">
@@ -329,6 +332,7 @@ Many aspects of your character can be changed (voluntarily or involuntarily) thr
         $( "#amounth" ).val( $( "#sliderh" ).slider( "value" ));
       <</script>>
     <</timed>>
+    <</if>>
   </div>
   <table id="invisTable" class="butter" style="width:90%;">
   <tr><td style="width:42%"><span class="head3">Race: <<helpPop "Race" "This attribute has almost no effect on the game, and is only used descriptively. Also, I'm aware that hispanic is a region or origin and not a race, however trying to use actual racial terms would get real confusing (and offensive), real fast, or we'd be stuck with using 'Native American' as a definition, which aside from also being confusing, would also be racially/genetically inaccurate.">> </span><div id="racer" style="display:inline-block;border-width:2px;border-color:#666;border-radius:15px;font-size:1.3rem;"><<print ↂ.pc.body.race>></div> </td>
@@ -482,12 +486,12 @@ Many aspects of your character can be changed (voluntarily or involuntarily) thr
     <<radioitem 4>><span class="orange">Masculine</span>
     <<radioitem 5>><span class="bad">Broad</span>
   <</radioset>>
-  <<radioset "waister" "ↂ.pc.body.waist">>Waist <<helpPop "Waist Size" "The waist is somewhat unusual in that it's size has little to do witht he location itself, and more to do with the shape and size of the surrounding areas. The options presented in character creation represent naturally-occuring shapes, though the largest and smallest options are less common. The width of the waist doesn't actually vary much, and both the size and 'curviness' of the waist are largely determined by the shape of the hips and ribcage. For the hips it's the shape of and width between the illiac crests. For the ribcage, it's the size and inward slope of the floating ribs. This value corresponds to the ribcage, as the hips have additional settings. Note that this value is somewhat proportional, as the final appearance of the waist depends on hip size. Because of this, you can have a 'curvy' appearance dispite a wider waist (large hips), or have a more straight appearance even with a narrow waist (small hips). The 'slender' or 'delicate' look tends to have a narrow waist and small hips. The 'fit' or 'athletic' look tends to have a wider waist and moderate to small hips (for better definition of muscle/structural lines).">> [img[IMG-LittleChangeIcon]]
+  <<radioset "waister" "ↂ.pc.body.waist">>Waist <<helpPop "Waist Size" "The waist is somewhat unusual in that it's size has little to do with the location itself, and more to do with the shape and size of the surrounding areas. The options presented in character creation represent naturally-occurring shapes, though the largest and smallest options are less common. The width of the waist doesn't actually vary much, and both the size and 'curviness' of the waist are largely determined by the shape of the hips and ribcage. For the hips it's the shape of and width between the iliac crests. For the ribcage, it's the size and inward slope of the floating ribs. This value corresponds to the ribcage, as the hips have additional settings. Note that this value is somewhat proportional, as the final appearance of the waist depends on hip size. Because of this, you can have a 'curvy' appearance despite a wider waist (large hips), or have a more straight appearance even with a narrow waist (small hips). The 'slender' or 'delicate' look tends to have a narrow waist and small hips. The 'fit' or 'athletic' look tends to have a wider waist and moderate to small hips (for better definition of muscle/structural lines).">> [img[IMG-LittleChangeIcon]]
     <<radioitem 4>>Curvy/Feminine
     <<radioitem 3>>Average
     <<radioitem 2>>No Waist/Masculine
   <</radioset>>
-  <<radioset "hipster" "ↂ.pc.body.hips">>Hips <<helpPop "Hip Size" "Refers specifically to the width and protrusion of the illium (hip bones) that sit below the waist. The illium serve numerous purposes, including muscle attachement and support for the abdominal cavity. The 'size' or 'width' of the hips usually refers to the placement and distance between the two illiac crests, rather than the size of the bones themselves. Wider hips are associated with higher fertility, and reduce pregnancy complications by providing better support and more room to the expanded uterus and displaced organs. See the butt/hip shape guide for how this value relates to butt shape.<br><br><span class='ship'><b>Impacts:</b></span> Fertility and Femininity">> [img[IMG-LittleChangeIcon]]
+  <<radioset "hipster" "ↂ.pc.body.hips">>Hips <<helpPop "Hip Size" "Refers specifically to the width and protrusion of the ilium (hip bones) that sit below the waist. The ilium serve numerous purposes, including muscle attachment and support for the abdominal cavity. The 'size' or 'width' of the hips usually refers to the placement and distance between the two iliac crests, rather than the size of the bones themselves. Wider hips are associated with higher fertility, and reduce pregnancy complications by providing better support and more room to the expanded uterus and displaced organs. See the butt/hip shape guide for how this value relates to butt shape.<br><br><span class='ship'><b>Impacts:</b></span> Fertility and Femininity">> [img[IMG-LittleChangeIcon]]
     <<radioitem 1>><span class="bad">Very Narrow</span>
     <<radioitem 2>><span class="orange">Narrow</span>
     <<radioitem 3>>Svelte
@@ -495,7 +499,7 @@ Many aspects of your character can be changed (voluntarily or involuntarily) thr
     <<radioitem 5>>Curvy
     <<radioitem 6>>Childbearing
   <</radioset>>
-  <<radioset "pelvic" "ↂ.pc.body.pelvis">>Pelvic Girdle <<helpPop "Pelvic Girdle" "The pelvic girdle is a simple way to refer to the oval formed by the pelvic bones when looking down through the body. Specifically, it is formed by the pubic bones, the inner/lower rim of the illius (hip bones), and the sacrum (connection of spine and hips). A baby being born must pass through the pelvic girdle, so it is strongly linked to the ease of childbirth. Narrow pelvic girdles often result in complications in childbirth, and would commonly result in death before the advent of C-section surgery and antibiotics. The size of the pelvic girdle also plays a role in the creation of a 'thigh gap', along with the trichanter width. See the butt/hip shape guide for how this value relates to butt shape.<br><br><span class='ship'><b>Impacts:</b></span> Childbirth and Thigh Gap">> [img[IMG-LittleChangeIcon]]
+  <<radioset "pelvic" "ↂ.pc.body.pelvis">>Pelvic Girdle <<helpPop "Pelvic Girdle" "The pelvic girdle is a simple way to refer to the oval formed by the pelvic bones when looking down through the body. Specifically, it is formed by the pubic bones, the inner/lower rim of the ilia (hip bones), and the sacrum (connection of spine and hips). A baby being born must pass through the pelvic girdle, so it is strongly linked to the ease of childbirth. Narrow pelvic girdles often result in complications in childbirth, and would commonly result in death before the advent of C-section surgery and antibiotics. The size of the pelvic girdle also plays a role in the creation of a 'thigh gap', along with the trochanter width. See the butt/hip shape guide for how this value relates to butt shape.<br><br><span class='ship'><b>Impacts:</b></span> Childbirth and Thigh Gap">> [img[IMG-LittleChangeIcon]]
     <<radioitem 1>><span class="bad">Very Narrow</span>
     <<radioitem 2>><span class="orange">Narrow</span>
     <<radioitem 3>>Svelte
@@ -503,7 +507,7 @@ Many aspects of your character can be changed (voluntarily or involuntarily) thr
     <<radioitem 5>>Curvy
     <<radioitem 6>>Childbearing
   <</radioset>>
-	<<radioset "buttsizin" "ↂ.pc.body.ass">>Butt Size <<helpPop "Butt Size" "Refers to the general size and <i>'juicyness'</i> of your rear end, as affected by your genetic predisposition for size. Note that your body tone and bodyweight will also affect the apparent size and description of your butt.">> [img[IMG-CanChangeIcon]]
+	<<radioset "buttsizin" "ↂ.pc.body.ass">>Butt Size <<helpPop "Butt Size" "Refers to the general size and <i>'juiciness'</i> of your rear end, as affected by your genetic predisposition for size. Note that your body tone and bodyweight will also affect the apparent size and description of your butt.">> [img[IMG-CanChangeIcon]]
     <<radioitem 1>><span class="bad">Flat</span>
     <<radioitem 2>><span class="orange">Small</span>
     <<radioitem 3>>Average
@@ -531,7 +535,7 @@ Many aspects of your character can be changed (voluntarily or involuntarily) thr
 	/*BREAST SIZE IS HERE!*/
   <<pcBreastCalc>><<tempTitLimits>>
   <div style="border-width:2px;border-style:dotted;border-color:#dfe;border-radius:12px;padding:10px 6px;">
-    <b>Breast Size:</b>  <<link [img[Breast & Bra Size Guide!|IMG_tits32px]]>><<dialog "Breast & Bra Size Guide">><<include [[InfoBreastGuide]]>><</dialog>><</link>> <<helpPop "Breast Variables" "The breast size guide contains more information about breast variables. The short version is that characters with breasts have two variables that determine their bra size. 1) volume in cubic centimeters. 2) band size in inches. (//Note that because nobody uses actual centimeter values for band size, this is not converted to metric//)<br><br>Band size is determined by a combination of weight and shoulder width, while volume is a base statistic that remains the same unless the character gains/loses weight during the game, or becomes pregnant.<br><br>Size is reported in two ways, either the bra size //like 32F// or in a raw cup size that is based entirely on volume and a 34 inch band //like E-cup//. Bra size is more representitive of appearance, while the raw cup size is a way to describe volume alone. //saying 'large D-cup' is a lot easier to understand than saying 680cc!// This value is only rarely used, and primarily because it is more representitive for certain gameplay elements like lactation. To convert between the raw cup and bra cup sizes, simply subtract 1 cup size for every 2 inches larger band size, or add 1 cup size for every 2 inches smaller band size.">> <<if setup.achieve.isUnlocked("Mega Tits")>>[🔑]<</if>> [img[IMG-CanChangeIcon]]
+    <b>Breast Size:</b>  <<link [img[Breast & Bra Size Guide!|IMG_tits32px]]>><<dialog "Breast & Bra Size Guide">><<include [[InfoBreastGuide]]>><</dialog>><</link>> <<helpPop "Breast Variables" "The breast size guide contains more information about breast variables. The short version is that characters with breasts have two variables that determine their bra size. 1) volume in cubic centimeters. 2) band size in inches. (//Note that because nobody uses actual centimeter values for band size, this is not converted to metric//)<br><br>Band size is determined by a combination of weight and shoulder width, while volume is a base statistic that remains the same unless the character gains/loses weight during the game, or becomes pregnant.<br><br>Size is reported in two ways, either the bra size //like 32F// or in a raw cup size that is based entirely on volume and a 34 inch band //like E-cup//. Bra size is more representative of appearance, while the raw cup size is a way to describe volume alone. //saying 'large D-cup' is a lot easier to understand than saying 680cc!// This value is only rarely used, and primarily because it is more representative for certain gameplay elements like lactation. To convert between the raw cup and bra cup sizes, simply subtract 1 cup size for every 2 inches larger band size, or add 1 cup size for every 2 inches smaller band size.">> <<if setup.achieve.isUnlocked("Mega Tits")>>[🔑]<</if>> [img[IMG-CanChangeIcon]]
     <<tab>><span id="boobiesizin"><div style="display:inline-block;width:150px;">Bra Size: <<pcBraSize>></div> Raw Cup Size: <<pcCupSize>></span>
     <p>
       <label for="amount">Breast Volume:</label><span id="alternate"><<= ↂ.pc.body.tits.base.size>></span>

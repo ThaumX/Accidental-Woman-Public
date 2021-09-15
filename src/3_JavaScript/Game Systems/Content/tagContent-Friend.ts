@@ -117,7 +117,7 @@ aw.tagContent.friend.nakedBottom = [
   `
   <<if aw.npc[setup.interact.status.npc].kink.exhibition || aw.npc[setup.interact.status.npc].kink.liberate>>@@.npc;Oh, wow. Nice day for giving your kitten some fresh air, mm? Looking good by the way.@@<<elseif aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Oh, damn, <<print ↂ.pc.main.name>> please, cover your butt with something!@@<<else>>@@.npc;Oh... well... I am pretty sure that you are aware that you are half naked, huh?@@<</if>><br>
   <<has exhibition>>You can't but wiggle your <<pcAssSize>> butt a bit, presenting your nakedness to the friend.<br>@@.mono;Oh yes, stare at me. Damn, that is exciting!@@<br>
-  @@.pc;Do you like it?@@<br><<arouse 2>><<orhas slut>><<arouse 2>>You can't but enjoy the attention to your naked bottom and pussy.<br><<orhas liberate>>You feel pretty comfortable with your lower part naked.<br><<orhas shame>><<stress 10 "Naked pussy convo">>You feel terribly insecure and going tomato red from embarassment.<br><<arouse -2>>@@.mono;How did I ever allow that to happen? I want just die right now.@@<br><<or>><<stress 7 "Naked pussy convo">>You feel pretty uncomfortable being exposed like this even with a friend.<br><<arouse -1>><</has>>
+  @@.pc;Do you like it?@@<br><<arouse 2>><<orhas slut>><<arouse 2>>You can't but enjoy the attention to your naked bottom and pussy.<br><<orhas liberate>>You feel pretty comfortable with your lower part naked.<br><<orhas shame>><<stress 10 "Naked pussy convo">>You feel terribly insecure and going tomato red from embarrassment.<br><<arouse -2>>@@.mono;How did I ever allow that to happen? I want just die right now.@@<br><<or>><<stress 7 "Naked pussy convo">>You feel pretty uncomfortable being exposed like this even with a friend.<br><<arouse -1>><</has>>
   <<dialogchoice>>
       <<dbutt "Present" "ↂ.pc.kink.exhibition">><<intreplace>><<ctagcontent "friend" "NakedBottomPresent">><</intreplace>>
       <<dtext "smug">>Give your friend a bit better view on your lady bits.
@@ -180,7 +180,7 @@ aw.tagContent.friend.practNakedBottom = [
   `
   <<print aw.npc[setup.interact.status.npc].main.name>>'s stare reminds you about your risky dress choice. Your pussy and ass are almost visible to your friend <<has exhibition>><<arouse 2>>which makes you more arouse <br>
   @@.mono;If I lean a bit all my private parts will be visible, mmm@@<br><<orhas slut || liberate>>which is pretty comfortable for you in fact.<br>
-  @@.mono;I am pretty sure <<print aw.npc[setup.interact.status.npc].main.name>> likes the view, hehe.@@<br><<orhas shame>><<arouse -2>><<stress 5 "Naked pussy convo">>which makes you really nervous.<br>@@.mono;I shoudn't dress like that in a first place, oh, what I was even thinking about?@@<br><<or>><<stress 3 "Naked pussy convo">>which makes you feel uneasy.<br>
+  @@.mono;I am pretty sure <<print aw.npc[setup.interact.status.npc].main.name>> likes the view, hehe.@@<br><<orhas shame>><<arouse -2>><<stress 5 "Naked pussy convo">>which makes you really nervous.<br>@@.mono;I shouldn't dress like that in a first place, oh, what I was even thinking about?@@<br><<or>><<stress 3 "Naked pussy convo">>which makes you feel uneasy.<br>
   @@.mono;Well, I am dressed risky today for sure. What will <<print aw.npc[setup.interact.status.npc].main.name>> think about me?@@<br><</has>>
   <<if aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Oh, you have really risky clothes today. I'd never dare to dress like that being in your place!@@<br>
   <<else>>@@.npc;Wow, pretty revealing clothes you have there. Enjoying the fresh air, huh?@@<br><</if>>
@@ -477,7 +477,7 @@ aw.tagContent.friend.mindbreak = [
   @@.pc;I am so sorry. It was really tough times lately.@@<br>
   @@.npc;Oh, it is okay.@@<br>
   <<include [[NPCinteraction-FriendsContinue]]>>
-  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10 "mindbreak convo">>You start histerically giggling.<br>
+  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10 "mindbreak convo">>You start hysterically giggling.<br>
   @@.npc;Oh, poor you. Try to calm down, I ll drive you home...@@<br><<addtime 54>>
   You cry all the way while <<print aw.npc[setup.interact.status.npc].main.name>> drive the car to your house, but start to feel better when you get to the house. <<print aw.npc[setup.interact.status.npc].main.name>> leaves you in your house after getting sure you are okay now.<br>
   <<link "Say goodbye">><<addtime 54>><<gotomap "home" "foyer">><<run setup.interact.exit()>><</link>>
@@ -485,8 +485,8 @@ aw.tagContent.friend.mindbreak = [
 ];
 aw.tagContent.friend.flooded = [
   `<<if ↂ.pc.clothes.keys.panties == 0 || ↂ.pc.clothes.worn.panties === "pulledAside" || ↂ.pc.clothes.worn.panties === "pulledOff" || ↂ.pc.clothes.worn.panties === "off">>
-    You feel your juices running down your inner thights with no panties in a way to stop them.<br>
-    <<has exhibition>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will notice that. That is so embarassingly exciting!@@<<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<</has>>
+    You feel your juices running down your inner thighs with no panties in a way to stop them.<br>
+    <<has exhibition>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will notice that. That is so embarrassingly exciting!@@<<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<</has>>
   <<else>>
     You feel your juices making a slippery mess slowly soaking through your panties.<br><<has slut>>@@.mono;Speaking with a person while being flooded like that is so naughty!@@<<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<</has>>
   <</if>>
@@ -524,7 +524,7 @@ aw.tagContent.friend.stressedNope = [
 
 aw.tagContent.friend.stressedAbit = [
   `<<has extro>>@@.pc;Yeah, I am under a pressure lately. Work and everything in general you know. Don't know if I can deal with all this much longer...<<stress -5 "Talking about stress">>@@<<or>>@@.pc;Yeah, I am under a pressure lately.@@<</has>><<set aw.npc[setup.interact.status.npc].rship.likePC += 5 >><br>
-  @@.npc;Oh, thats sucks. You really need a vacation, maybe you should take a trip to the Lake Clitea, or that hiking tour in Angler Woods? Fresh air, nature, all this stuff to calm you down a bit?@@<br>
+  @@.npc;Oh, that sucks. You really need a vacation, maybe you should take a trip to the Lake Clitea, or that hiking tour in Angler Woods? Fresh air, nature, all this stuff to calm you down a bit?@@<br>
   @@.pc;Well, that may be a solution. So...@@<br>
   <<include [[NPCinteraction-FriendsContinue]]>>
   `,

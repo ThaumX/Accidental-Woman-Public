@@ -336,6 +336,14 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
       mod -= 1;
     }
     break;
+  case "MA":
+      skill = ↂ.skill.curMartial;
+      type = "martial";
+    break;
+  case "FT":
+      skill = ↂ.skill.curFight;
+      type = "fight";
+    break;
   case "FI":
   case "fi":
   case "FN":
@@ -479,6 +487,13 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
     skill = "NONE";
     type = "gen";
   }
+  /*difficulty scaling mod bonus*/
+  if (ↂ.flag.organDonor < 3) {
+    mod += 3;
+    if (ↂ.flag.organDonor === 1) {
+      mod += 2;
+    }
+  }
   /*compute bonus*/
   let bonus;
   let total;
@@ -498,7 +513,7 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
     AW.sCheck = true;
   }
   let gain = false;
-  if (AW.sCheck) {
+  if (AW.sCheck && !ↂ.flag.Prologue) {
     const forbid = ["gen", "will"];
     if (!forbid.includes(type)) {
       gain = setup.skillGain(type, dc);
@@ -547,6 +562,7 @@ setup.SCfunc = function(skillType: any, DCnum?: number, diceSize?: string | numb
   }
   return AW.sCheck;
 };
+
 setup.skillup = function(skillType: string): string {
   let out;
   if (skillType === undefined) {
@@ -581,8 +597,10 @@ setup.skillGain = function(type: string, dc: number): boolean {
     clean: "clean",
     shop: "shop",
     cook: "cook",
-    kegel: "kegel",
+    martial: "martial",
     firearms: "firearms",
+    kegel: (random(1, 2) === 2) ? "sex" : "athletic",
+    fight: (random(1, 3) === 3) ? "athletic" : "martial",
     lie: (random(1, 3) === 3) ? "seduction" : "comm",
     strip: (random(1, 2) === 2) ? "seduction" : "dancing",
     perform: (random(1, 2) === 2) ? "comm" : "art",
@@ -607,24 +625,43 @@ setup.skillGain = function(type: string, dc: number): boolean {
   }
   let base = skill;
   let bonus = setup.skillModCalc(skill);
-  bonus += 9;
+  if (ↂ.flag.organDonor > 2) {
+    bonus += 4;
+  }
   if (bonus >= dc) {
     const x = Math.min(2, ((bonus - dc) * 0.25) + 1);
     base = Math.round(skill * x);
+    // aw.con.info(`skill = ${skill}, bonus = ${bonus}, dc = ${dc}, base = ${base}`);
   } else if (dc > bonus) {
     const x = Math.max(0.5, (1 - (0.06 * (dc - bonus))));
     base = Math.round(skill * x);
+    // aw.con.info(`skill = ${skill}, bonus = ${bonus}, dc = ${dc}, base = ${base}`);
   }
   const diff = Math.round(Math.pow(base, 1.66));
+  // aw.con.info(`diff = ${diff}`);
   const huh = Math.round(Math.max(1, diff));
+  // aw.con.info(`huh = ${huh}`);
   const r = random(0, huh);
   aw.con.info(`skill gain check (${type}): random of 0 to ${huh} must be less than ${skill}. Result ${r}.`);
-  if (r < skill) {
-    // skill up
-    ↂ.skill[skillWord] += 1;
-    aw.S();
-    setup.notify(`<span class="good" style="font-size:1.25rem">Skill Up!</span> Your ${typer[type]} skill increased!`);
-    return true;
+  if (r <= skill) {
+    // check for skill up already that day
+    if (ↂ.flag.skillup[skillWord]) {
+      setup.notify(`You already improved you ${typer[type]} skill today.`);
+    } else {
+      // skill up
+      ↂ.skill[skillWord] += 1;
+      try {
+        ↂ.flag.skillup[skillWord] = true;
+      } catch (e) {
+        aw.con.warn("Missing flag skillup object.");
+      }
+      aw.S();
+      setup.notify(`<span class="good" style="font-size:1.25rem">Skill Up!</span> Your ${typer[type]} skill increased!`);
+      if (ↂ.skill[skillWord] >= 100) {
+        setup.achieve.new("skill100");
+      }
+      return true;
+    }
   }
   return false;
 };
@@ -647,6 +684,6 @@ setup.skillModCalc = function(skill: number): number {
   } else {
     bonus = 0;
   }
-  return Math.max(0, bonus - 1);
+  return Math.max(0, bonus - 2);
 };
 

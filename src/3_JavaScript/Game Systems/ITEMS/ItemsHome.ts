@@ -40,6 +40,7 @@ interface setupHomeItems {
   qualityCalculator: (place: string) => number;
   placeDescription: (place: string, room: string) => string;
   packUp: () => void;
+  bedFinder: () => boolean;
 }
 
 
@@ -359,7 +360,7 @@ setup.homeItems = {
         return result;
       }
     } else if (place === "BfHome") {
-      // nuthing here for now
+      // nothing here for now
       aw.con.warn(`setup.homeItems.qualityCalculator can only calculate PC home now!`);
       return 0;
     } else {
@@ -435,7 +436,7 @@ setup.homeItems = {
       }
       return output;
     } else if (place === "BfHome") {
-      // nuthing here for now
+      // nothing here for now
       return "placeDescription can only calculate PC home now!";
     } else {
       aw.con.warn(`setup.homeItems.placeDescription was supplied with not expected place name! ${place}`);
@@ -444,7 +445,7 @@ setup.homeItems = {
     return "Error in placeDescription function, sorry!";
   },
   packUp() {
-    const rooms = ["kitchen", "bath","balcony","bed2","bed3","bedroom","living","foyer"];
+    const rooms = ["kitchen", "bath", "balcony", "bed2", "bed3"," bedroom", "living", "foyer"];
     for (const room of rooms) {
       for (const item of ↂ.home.item[room]) {
         ↂ.home.item.owned.push(item);
@@ -452,6 +453,23 @@ setup.homeItems = {
       ↂ.home.item[room] = [];
     }
   },
+  bedFinder() {
+    const listOfFurniture = ↂ.home.item.bedroom.concat(
+      ↂ.home.item.bed2,
+      ↂ.home.item.bed3,
+    );
+    let count = 0;
+    listOfFurniture.forEach(function(blin) {
+      if (aw.homeItems[blin].tags.includes("bed")) {
+        count++;
+      }
+    });
+    if (count > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 };
 // START DEFINING ACTUAL ITEMS
 aw.homeItems = {};
@@ -808,7 +826,7 @@ aw.homeItems = {};
               setup.status.arousal(2);
             }
             setup.time.add(30);
-            setup.dialog("Stocking yourself hard", "@@.head3;C@@losing the heavy upper piece by yourself is surprisingly difficult but somehow you manage to pull it off. Without the lock being in place and closed you can get out at any moment so you decide to investigate the sensation of vulnerability granted by that restraning furniture. The stocks forced you into a bent position, causing your butt to puff out proudly. <<if ↂ.pc.kink.bond || ↂ.pc.kink.sub>>@@.mono;I am so helpless in that position... can't stop imagining being taken rudely while locked in this...@@<<elseif ↂ.pc.kink.masochist>>@@.mono;Oh, that is perfect furniture for receiving some serious spanking. I could use some right now honestly...@@<<else>>@@.mono;I feel a bit silly locked in this. But in the right circumstances it still can be useful... I guess.@@<</if>> After some time, you feel your back start to ache and try to get out. Surprisingly, the upper piece is too heavy and you realise that you are not strong enough to push it up. @@.mono;Oops...@@ It takes you more than a dozen of minutes of struggle to finally get free from the device. <<if ↂ.pc.kink.bond || ↂ.pc.kink.sub>>You find the experience rather arousing.<<else>> You find the experience pretty afwul.<</if>> @@.mono;Hmm, I could lock somebody in it I guess...@@");
+            setup.dialog("Stocking yourself hard", "@@.head3;C@@losing the heavy upper piece by yourself is surprisingly difficult but somehow you manage to pull it off. Without the lock being in place and closed you can get out at any moment so you decide to investigate the sensation of vulnerability granted by that restraining furniture. The stocks forced you into a bent position, causing your butt to puff out proudly. <<if ↂ.pc.kink.bond || ↂ.pc.kink.sub>>@@.mono;I am so helpless in that position... can't stop imagining being taken rudely while locked in this...@@<<elseif ↂ.pc.kink.masochist>>@@.mono;Oh, that is perfect furniture for receiving some serious spanking. I could use some right now honestly...@@<<else>>@@.mono;I feel a bit silly locked in this. But in the right circumstances it still can be useful... I guess.@@<</if>> After some time, you feel your back start to ache and try to get out. Surprisingly, the upper piece is too heavy and you realize that you are not strong enough to push it up. @@.mono;Oops...@@ It takes you more than a dozen of minutes of struggle to finally get free from the device. <<if ↂ.pc.kink.bond || ↂ.pc.kink.sub>>You find the experience rather arousing.<<else>> You find the experience pretty afwul.<</if>> @@.mono;Hmm, I could lock somebody in it I guess...@@");
           } else {
             setup.status.arousal(1);
             setup.time.add(15);
@@ -907,7 +925,7 @@ aw.homeItems = {};
       type: "furniture",
       image: "IMG-HomeItem-BrokenStool",
       tags: ["chair"],
-      desc: "An old collapsable stool that now only has 3 legs.",
+      desc: "An old collapsible stool that now only has 3 legs.",
       mult: false,
       quality: 0,
       cost: 0,
@@ -988,7 +1006,7 @@ aw.homeItems = {};
             try {
               aw.homeItemsSwitch(this.key, "bustedAirMattress");
             } catch (e) {
-              aw.con.warn(`Error switching out air matress after it breaks... ${e.name}: ${e.message}`);
+              aw.con.warn(`Error switching out air mattress after it breaks... ${e.name}: ${e.message}`);
             }
           }
           setup.sleep.go();
@@ -2445,27 +2463,24 @@ aw.homeItems = {};
       tags : ["sexmachine"],
       desc: "An elaborate saddle-style sex machine with a thick padded leather seat mounted on a solid wood base meant for standing.  Dildos are already attached.",
       mult: true,
-      quality: 1,
+      quality: 4,
       cost: 300,
       fragile: 5,
       button: "Double Donger",
-      info: "This baby has two thrusting dildos to fill you up, give it a ride.",
+      info: "This baby has two thrusting dildos to fill you up. Open the menu.",
       notRoom: ["foyer"],
       shop: ["prude"],
-      menu: "@@.head3;Y@@ou examine the sex machine.<br><br><<button 'Use'>><<run aw.homeItems.doubleDonger.action(1)>><<run Dialog.close()>><</button>><<tab>><<button 'Cancel'>><<run Dialog.close()>><</button>>",
+      menu: "<<include [[DoubleDongerFuckMachineMenu]]>>",
       effect() {
         // nope
       },
       action(nn) {
-        if (nn === 1) {
-          let machine = "doubleDonger";
-          setup.dialog(`<center><<= either("[img[IMG-MachineDildoVag1]]","[img[IMG-MachineDildoVag2]]")>></center>
-          <<set _freeHole = setup.sexToys.check("pc", "vagina")>><<if _freeHole === true>><<set _result = ↂ.pc.body.pussy.insert(4)>>You get onto the sexmachine and position its dildos against your <<p 'curwet.q'>> <<p 'vulva.n'>> and asshole. <<if _result === 'loose'>><<addtime 1>>The head goes in without any resistance and after just a couple of seconds your hungry holes swallow all the dildo. <<has sizeQueen>>@@.mono;Oh, I really need a bigger thing next time, this thing is just way too tiny...@@<<or>><</has>> <<elseif _result === 'fits'>><<addtime 2>>Your pussy accepts the dildo and it slides in without any serious efforts as well as your ass. <<elseif _result === 'stretch'>><<addtime 4>>It takes you some time to stretch your holes with dildos heads until it finally makes it's way inside. @@.mono;Oh, that's what I call stretching!@@ <<elseif _result === 'overstretch'>><<addtime 5>>It takes a lot of efforts to fit the dildos until your holes relentlessy accepts it. @@.mono;Oh my... it feels so full!@@<<happy 1 "Stretching your holes is always a pleasure for any size queen.">> <<elseif _result === 'pain'>><<addtime 6>>You try one way and another for a couple of minutes but it seems that your holes are way too tight for the damn thing. In a last vile attempt you push it with force and sqeak with pain when they suddenly slides in. @@.mono;Oh shit, I hope I did not damage anything down there... It feels like Vlad the Impaler would love this for sure, giggle... oh gosh, this did hurt. Okay, okay, <<= ↂ.pc.main.name>> just take a deep breath, it is getting better already... and feels just plain awesome to be honest, sooo stretching!@@<<has sizeQueen>><<happy 1 "Stretching your hole is always a pleasure for any size queen.">><<or>><</has>>
-          <<elseif _result === 'notfit'>><<addtime 10>>You fiddle with the dildo for some time but despite your efforts the damn things just doesn't fit. When your hole entrances starts aching you give up and lie back from uncomfortable position you was in for last ten minutes and take a deep breath. @@.mono;Okay, <<= ↂ.pc.main.name>>, this time we overestimated a thing or two, right? I am afraid I need to work up to this size from something smaller. Grrr, I want to fuck it so much!@@
-          <</if>><<if _result !== "notfit">><<run ↂ.pc.body.asshole.insert(4)>><<run ↂ.pc.body.asshole.insert(4)>><<run ↂ.pc.body.asshole.insert(4)>><<run ↂ.pc.body.asshole.insert(4)>><<run ↂ.pc.body.pussy.insert(4)>><<run ↂ.pc.body.pussy.insert(4)>><<addtime 27>>You turn the fuck machine on. With gentle humming it starts to slide the stiff cocks in and out and you relax enjoying the sensation. With every thrust it pulls and pushes your both holes and after a while you find yourself <<if setup.sexToys.check("pc", "clit") === true>>playing with your <<p clit.s>> <<p clit.n>> mindlessly.<<else>>playing with your nipples mindlesly. @@.mono;Oh, if not this clit shield...@@<</if>> After a while you feel that you could take some more serious fucking and rotate the control knob. Machine gains the pace and you moan with pleasure still playing with your parts with your hands. Sliding down a bit you make the fucking more deep and bite your lip while dildos aggressively pokes the depths of your <<p pussy.q>> <<p pussy.n>> and asshole. <<if setup.sexToys.check("pc", "clit") === true>><<set _randomcum += 2 + aw.homeItems["${machine}"].quality>><<set _randomcum = _randomcum * 4>><<if ↂ.pc.kink.fap>><<set _randomcum += 5>><</if>><<set _stress = random(-7,-11)>><<stress _stress "Masturbation">><<satisfy _randomcum "Masturbation">><<arousal -4>><<run setup.condition.add({ loc:"vagina", amt:7, tgt:"pc", wet:5, type:"femlube"})>><<run setup.condition.add({ loc:"genitals", amt:5, tgt:"pc", wet:5, type:"femlube"})>>Enjoying it a bit too much you suddenly realise that your orgasm is building inside, your throbbing clit gets sensitive and so nice to rub, you fumble it relentlessly until... @@.pc;Oh...oh...ohshit... yeaaaaAAH!@@<p>Regaining your senses you put your shaking hand to the control knob and turn the machine off just breathing heavily and enjoying the aftertaste of your orgasm.</p><<else>><<if ↂ.pc.kink.easy || ↂ.pc.kink.nips>><<set _randomcum += 2 + aw.homeItems["${machine}"].quality>><<set _randomcum = _randomcum * 3>><<if ↂ.pc.kink.fap>><<set _randomcum += 4>><</if>><<set _stress = random(-5,-8)>><<stress _stress "Masturbation">><<satisfy _randomcum "Masturbation">><<arousal -3>><<run setup.condition.add({ loc:"vagina", amt:7, tgt:"pc", wet:5, type:"femlube"})>><<run setup.condition.add({ loc:"genitals", amt:5, tgt:"pc", wet:5, type:"femlube"})>>You enjoy the double penetration a lot but it seems not anough without being able to play with your clit. In a desperate attempt to cum you focus on your <<p nips.n>> twisting and turning them. Suddenly you feel that this may be enough to push you over the frustruatingly delicious edge you are surfing. With a supressed moan and lip biting you start shaking and cumming around the dildo, plunging your slit. @@.pc;Oh yes, oh yes, oh yeeeeas!@@ It doesn't feel as strong as usual clit orgasm but it is still something and you drift in a blissful state for some time. <p>Regaining your senses you put your shaking hand to the control knob and turn the machine off just breathing heavily and enjoying the aftertaste of your orgasm.</p>@@<<else>>You enjoy the penetration a lot but it seems not anough without being able to play with your clit. In a desperate attempt to cum you focus on your <<p nips.n>> twisting and turning them. You continue to play with them in any way possible trying to push yourself over the frustruatingly delicious edge you are surfing but no avail. After about 20 minutes of self-inflicted torture you give up and almost cry when you turn off the fuckmachine even more desperate and craving for orgasm than before.<<arousal 3>><</if>><</if>><</if>>
-          <<else>><<= _freeHole>><</if>><br><center><<button "Finish">><<run Dialog.close()>><</button>></center>`);
+        if (ↂ.flag.doubleDonger.firstTime) {
+          aw.replace("#doubledongerdiv", "<<include [[DoubleDongerFuckMachineFirst]]>>")
+        } else if (ↂ.flag.doubleDonger.loaded) {
+          aw.replace("#doubledongerdiv", "<<include [[DoubleDongerFuckMachineFull]]>>");
         } else {
-        // nope
+          aw.replace("#doubledongerdiv", "<<include [[DoubleDongerFuckMachineEmpty]]>>");
         }
       },
     },
@@ -3026,6 +3041,9 @@ aw.homeItems = {};
         // nothing
       },
       action() {
+        if (ↂ.pc.status.energy.amt < 4) {
+          setup.notify("You are too tired to use the bike!");
+        } else {
         setup.status.arousal(2);
         setup.time.add(random(25, 35));
         ↂ.pc.status.exercise += (Math.round(ↂ.skill.athletic / 6) + random(1, 5));
@@ -3037,6 +3055,7 @@ aw.homeItems = {};
         setup.SCXfunc();
         setup.SCfunc("AT", 10);
         setup.dialog("Exercise Bike", `<img data-passage="IMG-bikeHome" style="float: left; margin:10px 25px 10px 0px;"><p>@@.head3;A@@fter some tossing you manage to seat on the bike. This requires you to fit this so-called "pin" inside your vagina and it takes you some time to find a comfortable position. You start turning the pedals exercising on the exercise bike. The seat pin get you aroused and you find it pretty hard to concentrate on exercising with this cock-shaped "stability pin" sliding back and forth in your pussy.</p><p>@@.mono;What they ever thought about when created this thing? It is basically a dildo. And how guys are supposed to use it... ah, right, I got it... Mmm, in any case this feels pretty nice... and I must admit it holds me on the seat pretty good.@@</p><p>After about 30 minutes you feel pretty exhausted and stand up from the bike. The pin comes out of your pussy with a sloppy sound.</p><<updatebar>>`);
+      }
       },
     },
     woomba: {
@@ -3319,7 +3338,7 @@ aw.homeItems = {};
       name: "Laptop",
       key: "laptop",
       image: "IMG-Item-Laptop",
-      type: "decor",
+      type: "electronic",
       tags : ["breakable"],
       desc: "A simple but useful pink laptop.",
       mult: false,
@@ -3328,8 +3347,8 @@ aw.homeItems = {};
       fragile: false,
       button: "Use Laptop",
       info: "Use your laptop, of course. <span class='import'>Note: Cam show system/content is not complete.</span>",
-      notRoom: ["none"],
-      shop: ["bullseye"],
+      notRoom: ["bathroom", "kitchen", "foyer", "bed2", "bed3"],
+      shop: ["bullseyeElectronics"],
       menu: false,
       effect() {
         setup.setCamShow();
@@ -3351,7 +3370,7 @@ aw.homeItems = {};
       fragile: 500,
       button: "Spy",
       info: "",
-      notRoom: ["bathroom", "kitchen", "bedroom", "foyer", "living", "bed2"],
+      notRoom: ["bathroom", "kitchen", "foyer"],
       shop: ["bullseyeElectronics"],
       menu: false,
       effect() {

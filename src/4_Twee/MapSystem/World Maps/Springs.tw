@@ -168,7 +168,7 @@ Nothing here.</center>
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Change">><<set setup.menuvar = 'clothes'>><<run aw.replace('#awUIcontainer', '<<include [[MainCharacterMenu]]>>')>><</button>>
+  <<button "Change">><<set _eventChance = random(0,3)>><<if _eventChance == 3>><<interact "Undressing" 3>><<include [[SpringsChangingUndressingEvent]]>><</interact>><<else>><<set setup.menuvar = 'clothes'>><<run aw.replace('#awUIcontainer', '<<include [[MainCharacterMenu]]>>')>><</if>><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -187,6 +187,51 @@ Nothing here.</center>
 <center>
 You see some girls changing in the corner of the room, they look pretty cheerful.<br>
 [IMG[IMG-changingBoothGirls]]</center>
+
+
+:: SpringsChangingUndressingEvent [nobr]
+
+<<f y>>ou close the curtain and start undressing. Removing one article of clothing after another you feel that something is a bit odd. The slight uneasy feeling is itching in the back of your head as if somebody watches you. Covering your naked boobs with your hand you turn around to notice that the curtain just so slightly twitched.
+<<dialogchoice>>
+  <<dbutt "Ignore">><<addTime 3>><<intclose>>
+  <<dtext "awkward">>Just finish dressing as if nothing happened. Probably it is just a fluke anyway.
+  <<dbutt "Inspect">><<addTime 3>><<intgo "SpringsChangingUndressingEvent-2">>
+  <<dtext "suspicious">>Yank the curtain open.
+<</dialogchoice>>
+
+
+:: SpringsChangingUndressingEvent-2 [nobr]
+
+<<set _pizdets = random(0,3)>><<if _pizdets == 3>>
+<<f y>>ou rapidly shift the curtain to the side expecting to catch the peeking Tom. @@.pc;Well-well-well! Look who we got here!@@ Looking down with a sarcastically bemused face you see a guy who was obviously peeking through the gap between the curtain and the wall. The unexpected turn of events makes him freeze on the spot with his eyes shifting in a rapid pace between your face and your breasts, still somewhat covered by your arm. He opens his mouth, then closes left speechless and blushing while you ponder your options. [not implemented yet, sorry!] <<link "close">><<intclose>><</link>>
+<<dialogchoice>>
+  <<dbutt "Shoo" false>><<addTime 3>><<intgo "SpringsChangingUndressingEvent-2-Shoo">>
+  <<dtext "mad">>Scold the guy to get him away from here.
+  <<dbutt "Invite" false>><<addTime 3>><<intgo "SpringsChangingUndressingEvent-2-Invite">>
+  <<dtext "bimbo">>Why not have some fun with this guy?
+  <<dbutt "Punish" false>><<addTime 3>><<intgo "SpringsChangingUndressingEvent-2-Punish">>
+  <<dtext "doomguy">>Somebody should get his punishment for peeking at the undressing girls!
+<</dialogchoice>>
+<<else>>
+<<f y>>ou rapidly shift the curtain to the side expecting to catch the peeping Tom. @@.pc;Well-well-we...@@ You start scolding the alleged voyeur in a loud fashion but stop mid-sentence.
+<p>To your surprise there is nobody leaning to the curtain. People in the room turns to the sound of your voice with curiosity. Both males and females stare at your totally naked body <<has exhibition>><<arousal 1>>and you can't but feel the sudden surge of arousal. @@.pc;Oh, sorry, I just thought... whatever...@@ You allow yourself a little pleasure of showing off your bod using both your hands to slowly swing the curtain back while your tits do a delicate bounce due to your arm ceasing to cover and support it.<<orhas shame>><<stress 10 "Accidental striptease">>and you can't but feel absolutely terrible about standing in front of them in all your glory. In a panic, you quickly yank the curtain back only to fail miserably and lose your balance which forces you to use your both hands to grasp on the walls. Which, incidentally leaves your boobies bouncing obscenely in front of the crowd. With a desperate squeak you finally close the curtain and lean on the wall of the booth and sweat profusely feeling ashamed and stupid. @@.mono;Stupid, stupid <<name>>! I just want to stay here forever and never get out, fuck...@@<<or>><<stress 5 "Accidental striptease">>and you feel a bit uneasy standing in front of them in all your glory. Smiling awkwardly you quickly yank the curtain back. @@.pc;Ugh, that was rather stupid...tee-hee!@@<</has>></p>
+<<button "Oops">><<intclose>><</button>>
+<</if>><<status 0>>
+
+
+:: SpringsChangingUndressingEvent-2-Shoo [nobr]
+
+<<button "Close">><<intclose>><</button>>
+
+
+:: SpringsChangingUndressingEvent-2-Invite [nobr]
+
+<<button "Close">><<intclose>><</button>>
+
+
+:: SpringsChangingUndressingEvent-2-Punish [nobr]
+
+<<button "Close">><<intclose>><</button>>
 
 
 :: MapSpringsWoods [nobr map]
@@ -240,28 +285,40 @@ You see some girls changing in the corner of the room, they look pretty cheerful
     <<else>>
       <<addconsumable "gapecone">>
       <<dialog "Perfect cone!">>You got lucky and were able to find the perfect pinecone!<br>[img[IMG-Item-PineCone]]<br><<ctn>>Pinecone x 1 added to your inventory<</ctn>><</dialog>>
-    <</if>>
+    <</if>><<updatebar>>
   <</button>>
 <<endhoverrevise>>
-<<hoverrevise interaction>>
-  <<button "INTERACT 🗪">><<npcinteract>><</button>>
-<<endhoverrevise>>
 <<if not ↂ.pc.trait.isOblivious>>
-  <<hoverrevise nose>>
-    <span class="disabled"><<button "Follow your Nose">><</button>></span>
-  <<endhoverrevise>>
+  <<if ↂ.flag.sawLadyWoods>>
+    <<if ↂ.flag.metLadyWoods>>
+      <<hoverrevise visit>>
+        <<button "Lady of the Woods">><<addTime 10>><<set ↂ.flag.ladyWoodsBred += 1>><<status 0>><<run setup.scenario.launch({topImage: "IMG-LadyWoodsTopBar", allowSave: false, showTime: true, allowMenu: false, passage: "LadyOfTheWoods", image: "IMG-LadyWoodsPortrait", title: "The Lady of the Woods", sidebar: "Times Visited: <<= ↂ.flag.ladyWoodsBred>>"})>><</button>>
+      <<endhoverrevise>>
+    <<else>>
+      <<hoverrevise meet>>
+        <<button "Search the Woods">><<addTime 20>><<set ↂ.flag.metLadyWoods = true>><<status 0>><<run setup.scenario.launch({topImage: "IMG-WoodsTopImage", allowSave: false, showTime: true, allowMenu: false, passage: "SearchForLadyOfTheWoods", image: "none", title: "Searching the Woods"})>><</button>>
+      <<endhoverrevise>>
+    <</if>>
+  <<else>>
+    <<hoverrevise nose>>
+      <span class="disabled"><button>???????</button></span>
+    <<endhoverrevise>>
+  <</if>>
 <<else>>
   <<hoverrevise blind>>
     <span class="disabled"><button>???????</button></span>
   <<endhoverrevise>>
 <</if>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
 </div>
 
 /*Main display for information about actions*/
 <div id="actionInfo">
 <<insertion alpha>>Look for a nice pinecone.<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
-<<insertion nose>>Follow your nose, and search deeper in the woods for the lovely smell. <span class="import">[Caution: the woods can be dangerous for the unprepared]</span> <<ctn>>Not Implemented<</ctn>><<endinsertion>>
+<<insertion nose>>Perhaps you should look around before attempting to explore deeper in the woods...<<endinsertion>>
 <<insertion blind>><i>Perhaps if you weren't so <b>oblivious</b>...</i><<endinsertion>>
 </div>
 
@@ -274,6 +331,10 @@ For a moment you think you see movement deeper in the woods, perhaps a flash of 
 <img data-passage="IMG-TentaGirl4" style="border-radius:20px;">
 <</fadeout>>
 </center>
+<<status 1>>
+<<set ↂ.flag.sawLadyWoods = true>>
+<<status 0>>
+<<updatebar>>
 
 
 :: MapSpringsBeach [nobr map]
@@ -344,9 +405,9 @@ Some of the local girls are tanning naked on the beach.<br><br><<has exhibition>
 :: MapSpringsBeach-Swim [nobr]
 
 <<if !setup.clothes.swimwear>>
-@@.head3;Y@@ou head to the shore just to realise that you have your clothes steel on. <<has exhibition>>@@.mono;Oh, I better get into a swimsuit first... or just get naked!@@<<or>>@@.mono;Oh, I better get into a swimsuit first...@@<</has>><br><center><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></center>
+@@.head3;Y@@ou head to the shore just to realize that you have your clothes steel on. <<has exhibition>>@@.mono;Oh, I better get into a swimsuit first... or just get naked!@@<<or>>@@.mono;Oh, I better get into a swimsuit first...@@<</has>><br><center><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></center>
 <<else>>
-<p>@@.head3;Y@@ou get to the shore and try the water. @@.mono;Oh, it is pretty warm in fact!@@ </p>After just a couple of steps you are waist-deep in the lake. You take a deep breathe and get into the water. Your <<if setup.clothes.exposed.top>>bare<</if>> <<p breasts.n>> floating slightly rising above water level while you relax swimming on your back.<<addtime 27>><<happy 1 "Relaxing in the lake was fun">><<anger -1>><<stress -12 "Swimming">><<status 0>><br><center><<button "Get out from the water">><<run Dialog.close()>><<updatebar>><</button>></center>
+<p>@@.head3;Y@@ou get to the shore and try the water. @@.mono;Oh, it is pretty warm in fact!@@ </p>After just a couple of steps you are waist-deep in the lake. You take a deep breath and get into the water. Your <<if setup.clothes.exposed.top>>bare<</if>> <<p breasts.n>> floating slightly rising above water level while you relax swimming on your back.<<addtime 27>><<happy 1 "Relaxing in the lake was fun">><<anger -1>><<stress -12 "Swimming">><<status 0>><br><center><<button "Get out from the water">><<run Dialog.close()>><<updatebar>><</button>></center>
 <</if>>
 
 
@@ -355,7 +416,7 @@ Some of the local girls are tanning naked on the beach.<br><br><<has exhibition>
 <<set _tim = setup.time.now()>><<if ↂ.pc.clothes.worn.bottom === "normal" || ↂ.pc.clothes.worn.top === "normal">>
 @@.head3;Y@@our tan will be less than perfect if you work on it with your outerwear still on.<<addtime 1>><br><center><<button "Got it">><<run Dialog.close()>><<updatebar>><</button>></center>
 <<elseif _tim[0] < 7 || _tim[0] > 18>>
-@@.head3;Y@@ou suddenly realise that it is pretty silly to work on your tan while there is no sun in the sky.<<addtime 1>><br><center><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></center>
+@@.head3;Y@@ou suddenly realize that it is pretty silly to work on your tan while there is no sun in the sky.<<addtime 1>><br><center><<button "Go away">><<run Dialog.close()>><<updatebar>><</button>></center>
 <<else>><<set ↂ.pc.clothes.worn.coat = "off">><center>[img[IMG-TanningNaked]]</center><br>
 @@.head3;Y@@ou lie on the recliner enjoying the feeling of warm beams caressing your <<p skincolor.q>> skin. <<if !setup.clothes.exposed.top>>You adjust your bra a couple of times to avoid white lines on your shoulders and back. <<else>>Your free <<p breasts.n>> are praising the sun proudly <<if setup.clothes.exposed.bottom>>as well as your bare bottom.<</if>><<has exhibition>><<happy 1 "Tanning was nice">><<arousal 1>><br><br>@@.mono;Mmm... being naked outside is a pure bliss...@@<br><br><<orhas shame>><<stress 15 "Ashamed of nude tanning">><br><br>@@.mono;Omg, what am I doing?! Anybody can see me like this lying here!@@<br><br>You can't stop thinking about your naked parts and feel stressed fighting the urge to cover them with your hands or towel.<</has>><</if>><<addtime 30>><<stress -8 "Relaxing during tanning">><<set ↂ.flag.tan += random(0,1)>>Lying in the recliner you turn around a couple of times and relax with your mind drifting away from all your recent problems. After some time you decide that it is a good idea to finish your tanning for today and get up after joyful stretch.<br><center><<button "Go away">><<run Dialog.close()>><<status 0>><<updatebar>><</button>></center>
 <</if>>

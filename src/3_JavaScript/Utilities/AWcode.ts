@@ -426,7 +426,7 @@ setup.AW.localRestore = function(id: string, del: boolean = false): string {
     aw.con.warn(msg);
     return "error";
   }
-  /*Seperate deletion from getting data*/
+  /*Separate deletion from getting data*/
   if (del === true) {
     try {
       localStorage.removeItem(id);

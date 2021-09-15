@@ -30,6 +30,7 @@ setup.omnItems.powerTits = {
   text: "Your asshole is itchy from the PowerTits suppository",
   run: `
     aw.L("pc");
+    ↂ.flag.marriage.noTransform = false;
     const n = Math.min(ↂ.flag.drug.powerTits, 4);
     const tits = [10, 8, 4, 2, 0];
     const muscle = [10, 8, 4, 2, 0];
@@ -105,6 +106,7 @@ setup.omnItems.lactaMax = {
   icon: "IMGstatus_Drug",
   text: "You are still under the effects of LactaMax",
   run: `
+    ↂ.flag.marriage.noTransform = false;
     const round = 12 - this.times;
     aw.L("pc");
     let amt = 0;
@@ -247,6 +249,7 @@ setup.omnItems.kukragene = {
   icon: "IMGstatus_Drug",
   text: "Your tits itch from the Kukragene creme.",
   run: `
+    ↂ.flag.marriage.noTransform = false;
     aw.L("pc");
     let hl = 0;
     let msg = "You feel your tits swell a bit.";
@@ -296,6 +299,7 @@ setup.omnItems.hipsTreatment = {
   icon: "IMGstatus_Drug",
   text: "You got a Progenerate hip widening treatment.",
   run: `
+    ↂ.flag.marriage.noTransform = false;
     aw.L("pc");
     const round = 3 - this.times;
     let out = "ERROR - Hips Treatment";
@@ -338,7 +342,8 @@ setup.omnItems.basicFertilityTreat = {
   duration: 1800,
   icon: "IMGstatus_RejSickness",
   text: "Your reproductive tract aches from the treatment.",
-  run: "",
+  run: `ↂ.flag.marriage.noTransform = false;
+  aw.S();`,
 };
 
 
@@ -353,6 +358,7 @@ setup.omnItems.catTrans = {
   run: `
     const round = 6 - this.times;
     aw.L("pc");
+    ↂ.flag.marriage.noTransform = false;
     switch (round) {
       case 1:
         setup.notify("Your scalp tingles insistently");
@@ -397,6 +403,7 @@ setup.omnItems.dogTrans = {
   run: `
     const round = 6 - this.times;
     aw.L("pc");
+    ↂ.flag.marriage.noTransform = false;
     switch (round) {
       case 1:
         setup.notify("Your scalp tingles insistently");
@@ -441,6 +448,7 @@ setup.omnItems.foxTrans = {
   run: `
     const round = 6 - this.times;
     aw.L("pc");
+    ↂ.flag.marriage.noTransform = false;
     switch (round) {
       case 1:
         setup.notify("Your scalp tingles insistently");
@@ -485,6 +493,7 @@ setup.omnItems.bovinex = {
   run: `
     const round = 7 - this.times;
     aw.L("pc");
+    ↂ.flag.marriage.noTransform = false;
     switch (round) {
       case 1:
         setup.notify("Your scalp tingles insistently");
@@ -511,7 +520,9 @@ setup.omnItems.bovinex = {
         } else {
           ↂ.pc.body.tits.nipLength += 1;
         }
-        ↂ.pc.status.bimbo += random(5,10);
+        const x = random(5,10);
+        ↂ.pc.status.bimbo += x;
+        setup.status.record("bimbo", x, "Bovinex side effects");
         ↂ.pc.kink.nips = true;
         setup.breastCalc();
         break;
@@ -532,7 +543,9 @@ setup.omnItems.bovinex = {
         ↂ.pc.body.tits.areola += 1;
         ↂ.pc.body.tits.puffy += 1;
         ↂ.pc.mutate.milk = true;
-        ↂ.pc.status.bimbo += random(5,10);
+        const y = random(5,10);
+        ↂ.pc.status.bimbo += y;
+        setup.status.record("bimbo", y, "Bovinex side effects");
         let amtTwo = random(30, 40) * 5;
         ↂ.pc.body.tits.base.size += amtTwo;
         setup.breastCalc();
@@ -554,7 +567,9 @@ setup.omnItems.bovinex = {
           ↂ.pc.kink.hyperSlut = true;
         }
         ↂ.pc.kink.easy = true;
-        ↂ.pc.status.bimbo += random(5,10);
+        const z = random(5,10);
+        ↂ.pc.status.bimbo += z;
+        setup.status.record("bimbo", z, "Bovinex side effects");
         break;
       case 6:
         setup.notify("Your new ears and tail continue to grow");
@@ -602,15 +617,18 @@ setup.omnItems.teatEnhance = {
   run: `
     const round = 3 - this.times;
     aw.L("pc");
+    ↂ.flag.marriage.noTransform = false;
     switch (round) {
       case 1:
         setup.notify("Your nipples tingle pleasurably");
         setup.status.arousal(3);
+        aw.con.info("Teat Enhancement Case 1");
         break;
       case 2:
         setup.notify("Your nipples throb with pleasure");
         setup.status.arousal(3);
         aw.S("pc");
+        aw.con.info("Teat Enhancement Case 2");
         break;
       case 3:
         setup.notify("Your nipples ache from growing");
@@ -642,6 +660,7 @@ setup.omnItems.teatEnhance = {
         ↂ.pc.kink.nips = true;
         setup.breastCalc();
         aw.S("pc");
+        aw.con.info("Teat Enhancement Case 3");
         break;
     }
   `,
@@ -658,6 +677,7 @@ setup.omnItems.mammarex = {
   run: `
     const round = 3 - this.times;
     aw.L("pc");
+    ↂ.flag.marriage.noTransform = false;
     switch (round) {
       case 1:
         setup.notify("Your breasts tingle pleasurably");
@@ -681,7 +701,9 @@ setup.omnItems.mammarex = {
         const amt = Math.floor(ↂ.pc.body.tits.base.size / div) + (random(5,10) * 10);
         const msg = "your breasts have grown " + amt + "cc larger";
         setup.notify(msg);
-        ↂ.pc.status.bimbo += 3 * ↂ.flag.drug.mammarex;
+        const x = 3 * ↂ.flag.drug.mammarex;
+        ↂ.pc.status.bimbo += x;
+        setup.status.record("bimbo", x, "Mammarex side effects");
         ↂ.pc.status.energy.amt -= 2;
         ↂ.pc.body.tits.base.size += amt;
         setup.breastCalc();
@@ -691,3 +713,68 @@ setup.omnItems.mammarex = {
     setup.status.arousal(3);
   `,
 };
+
+setup.omnItems.envy = {
+  name: "Envy",
+  type: "recurring",
+  output: "dialog",
+  interval: 360,
+  times: 3,
+  icon: "IMGstatus_Drug",
+  text: "You are still under the effects of Envy",
+  run: `
+    const round = 3 - this.times;
+    aw.L("pc");
+    ↂ.flag.marriage.noTransform = false;
+    ↂ.flag.envyTaken = true;
+    const hurt = random(4, 10) * -1;
+    ↂ.pc.status.health += hurt;
+    setup.status.record("health", hurt, "Envy treatment side effects");
+    switch (round) {
+      case 1:
+        ↂ.pc.body.lactation = 0;
+        ↂ.pc.body.tits.size = 25;
+        ↂ.pc.status.milkStore = 0;
+        ↂ.pc.status.milk = 0;
+        ↂ.pc.body.tits.puffy = 0;
+        ↂ.pc.body.tits.base.size = 25;
+        ↂ.pc.body.tits.silicone = 0;
+        ↂ.pc.body.tits.shape = "athletic";
+        setup.breastCalc();
+        aw.S();
+        setup.dialog("Envy Transformation", "<<include [[EnvyTransform1]]>>");
+        break;
+      case 2:
+        ↂ.pc.fert.fertility = 1;
+        ↂ.pc.body.pussy.tight = 1;
+        ↂ.pc.body.asshole.tight = 1;
+        ↂ.pc.body.pussy.wetness = 0;
+        ↂ.pc.body.asshole.wetness = 0;
+        ↂ.pc.body.orgasm = 30;
+        setup.fert.playerStatsCalc();
+        ↂ.pc.trait.libido = 8;
+        ↂ.pc.kink.easy = false;
+        ↂ.pc.kink.nips = false;
+        ↂ.pc.kink.hard = true;
+        aw.S();
+        setup.dialog("Envy Transformation", "<<include [[EnvyTransform2]]>>");
+        break;
+      case 3:
+        ↂ.pc.status.health -= random(6, 12);
+        ↂ.pc.body.hips = 1;
+        ↂ.pc.body.ass = 1;
+        ↂ.pc.body.pelvis = 1;
+        ↂ.pc.body.waist = 5;
+        ↂ.pc.body.lips = 1;
+        aw.S();
+        setup.dialog("Envy Transformation", "<<include [[EnvyTransform3]]>>");
+        break;
+    }
+    setup.status.arousal(3);
+  `,
+};
+
+
+
+
+

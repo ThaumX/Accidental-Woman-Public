@@ -15,6 +15,14 @@ which as the name suggests, contains the NPC's npcid. (ex: n101)
       <<dialog "Body Portrait">><div id="bpcock" style="height:800px;width:350px;position:relative;padding:0px;display:block;margin-left:100px;"><<print setup.bodyPortraitFemale(_npcViewerID)>></div><</dialog>><</link>>
     </div>
   <</replace>>
+<<else>>
+  <<replace "#menuBodyImage">>
+    <div id="portContainer" style="position:relative;display:block;width:100%;height:100%;background-color:rgba(0,0,0,0.8);border-radius:8px;">
+      <<print setup.bodyPortraitMale(_npcViewerID)>>
+      <<link "<div style='position:absolute;top:0px;left:0px;right:0px;bottom:0px;z-index:2050;border:none;margin:0px'></div>">>
+      <<dialog "Body Portrait">><div id="bpcock" style="height:800px;width:350px;position:relative;padding:0px;display:block;margin-left:100px;"><<print setup.bodyPortraitMale(_npcViewerID)>></div><</dialog>><</link>>
+    </div>
+  <</replace>>
 <</if>>
 <<run setup.npcDisplay.detailView(_npcViewerID)>>
 <</silently>>

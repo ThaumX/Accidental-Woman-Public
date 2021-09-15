@@ -1,6 +1,6 @@
 :: BestHeadSalon [nobr]
 
-<<nobr>>
+<<nobr>><<run Dialog.close()>>
 <<set _nailcolor = either("red","yellow","orange","hot-pink","colorful")>>
 <<set _hair = either("A","B","C")>>
 <<set _time = false>>
@@ -42,7 +42,7 @@ She smiles as you approach "@@.npc;Oh! <<print _name>>, you come again!@@" She g
 <</if>>
 <br><br>
 <span id="salonmenu"><<button "Sit Down">><<replace "#salonmenu">>
-Feeling rushed, you sit down in the barber chair. The stylist hurridly covers you in the standard hair drape and looks at you expectantly. "@@.npc;What I do fo you?@@"
+Feeling rushed, you sit down in the barber chair. The stylist hurriedly covers you in the standard hair drape and looks at you expectantly. "@@.npc;What I do fo you?@@"
 <br><br>
 <<link "Get Your Hair Cut.">><<replace "#salonmenu">>
 	"@@.npc;How shore you wan it?@@" <<textbox "_length" ↂ.pc.groom.hairLength>> <<link "Cut">><<set _cost = 18>><<set _length = Math.clamp(_length, 0, ↂ.pc.groom.hairLength)>><<set _length = Math.round(_length)>><<set ↂ.pc.groom.hairLength = _length>><<addTime 15>><<replace "#salonmenu">><</replace>><<replace "#result">>She expertly trims your hair<<if _length == 0>>. You can't imagine why you decided to @@.change;shave your head bald@@.<<else>>, leaving it @@.change;<<print _length>> <<units>> long@@.<</if>><</replace>><<set _time = true>><</link>>
@@ -72,8 +72,8 @@ Feeling rushed, you sit down in the barber chair. The stylist hurridly covers yo
 <br><br>
 <</replace>><</button>><br><br></span>
 <span id="result">
-<<comment "The individual stylists actually remember you over time, though they'll never say your name correctly. This place is loosely based on a salon I occassionally go to to get my hair cut. The ladies there are all Korean and 55+ but quite nice. (They also remembered me the first time, and how I like my hair cut, and somehow seem to keep track of when each member of my immediate family is due for a haircut...)">>
+<<comment "The individual stylists actually remember you over time, though they'll never say your name correctly. This place is loosely based on a salon I occasionally go to to get my hair cut. The ladies there are all Korean and 55+ but quite nice. (They also remembered me the first time, and how I like my hair cut, and somehow seem to keep track of when each member of my immediate family is due for a haircut...)">>
 </span>
 <br><br>
-@@font-size:1.4rem;<<button "Leave the Salon">><<setPCportrait>><<set $AW.cash -= _cost>><<status 0>><<if _time>><<addTime 32>><<else>><<addTime 8>><</if>><<go BEbarber>><</button>>@@
+@@font-size:1.4rem;<<button "Leave the Salon">><<setPCportrait>><<run aw.cash((_cost * -1), "groom")>><<if _time>><<addTime 32>><<else>><<addTime 8>><</if>><<go BEbarber>><</button>>@@
 <</nobr>>

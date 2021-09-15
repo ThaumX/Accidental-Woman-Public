@@ -42,55 +42,11 @@
 </p>
 <p> <<mapEvent>></p>@@.head3;Y@@ou're in the changing room area located in the middle of all the clothing departments. There are several changing room doors lining the central corridor. There isn't a separate area for men or women, the changing area appears to be unisex. The rooms seem at least reasonably private though, unless someone was bold enough to walk right up to the door and peer underneath. There are blinking red lights on the cameras to help dissuade customers from shoplifting, though they're carefully positioned so that it's obvious they can't see inside the stalls.
 <br><br>
-@@.print;font-size:1.2rem;You can access special in-development stuff here!@@
-<br>@@.import;Just to be safe, save first before entering any of these testing areas!@@
-<br><br>
-@@.com;This area will be phased out after completion of the prologue, which is soon.@@<br><br>
 <<selfthought>>
 <<set _cunt = 1>>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
-<<hoverrevise deepthink>>
-<<button "Deep Thoughts">>
-<<set _print = "<<set _name = setup.nameRandomizer(" + either(1,2) + "," + either("'white'","'white'","'white'","'black'","'Asian'","'hispanic'") + ")>>">>
-<<print _print>>
-<<set _thought = setup.deepThoughts(_cunt)>>
-<<set _cunt += 1>>
-<<dialog "Deep Thoughts">>@@.head3;_name says@@<br><br>_thought<</dialog>>
-<</button>>
-<<endhoverrevise>>
-<<hoverrevise seegroup>>
-  <<button "NPC Census">>
-    <<dialog "NPC Groups">>
-      <table>
-      <tr><td colspan=3>@@.head3;''Your'' NPC Groups@@</td></tr>
-      <tr><td>''single:'' <<print setup.npc.single.length>></td>
-      <td>''in relationship:'' <<print setup.npc.rShip.length>></td>
-      <td>''married:'' <<print setup.npc.married.length>></td></tr>
-      <tr><td>''males:'' <<print setup.npc.male.length>></td>
-      <td>''females:'' <<print setup.npc.female.length>></td>
-      <td>''futas:'' <<print setup.npc.futa.length>></td></tr>
-      <tr><td>''18-21:'' <<print setup.npc.age18to21.length>></td>
-      <td>''22-27:'' <<print setup.npc.age22to27.length>></td>
-      <td>''28-33:'' <<print setup.npc.age28to33.length>></td></tr>
-      <tr><td>''34-39:'' <<print setup.npc.age34to39.length>></td>
-      <td>''40-49:'' <<print setup.npc.age40to49.length>></td>
-      <td>''50-59:'' <<print setup.npc.age50to59.length>></td></tr>
-      <tr><td>''poor:'' <<print setup.npc.poor.length>></td>
-      <td>''middle-income:'' <<print setup.npc.middle.length>></td>
-      <td>''wealthy:'' <<print setup.npc.wealthy.length>></td></tr>
-      <tr><td colspan=3>Dropouts: <<print setup.npc.education.dropout.length>>, Highschool: <<print setup.npc.education.hschool.length>>, Associates: <<print setup.npc.education.assoc.length>>, Bachelors: <<print setup.npc.education.bach.length>>, Masters: <<print setup.npc.education.master.length>>, Doctors: <<print setup.npc.education.doctor.length>></td></tr>
-      </table>
-    <</dialog>>
-  <</button>>
-<<endhoverrevise>>
-<<hoverrevise wastetime>>
-<<button "Pass Time">><<set UI.alert("You spend 15 minutes fapping")>><<addTime 15>><<updatebar>><</button>>
-<<endhoverrevise>>
-<<hoverrevise punch>>
-  <<button "Punch yourself">><<set ↂ.pc.status.health -= 10>><<run setup.status.record("health", -10, "Punching yourself")>><<updatebar>><</button>>
-<<endhoverrevise>>
 <<hoverrevise hovCart>>
 	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
 <<endhoverrevise>>
@@ -98,12 +54,6 @@
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion punch>>There is nearly no reason to do this, the only one being seeing your health decline, and perhaps a warning show up on the UI bar. You can't actually die yet, you'll just get flagged for death.<<endinsertion>>
-<<insertion wastetime>>There really isn't much reason to do this, except to see some of your stats change naturally over time, and possibly break the tutorial progression.<<endinsertion>>
-<<insertion sexi>>This is an initial look at the sex scene system which hasn't been updated to match all the changes in the javascript code behind the scenes, and thus probably barely works (if it even works at all). It has a lot of changes coming.<<endinsertion>>
-<<insertion seegroup>>See how many NPCs in the world fit into different categories, such as age, relationship status, and education.<<endinsertion>>
-<<insertion mapsplore>>@@.bad;<b>NOT RECOMMENDED!</b>@@ You should probably complete the prologue to see the map/homesystem or use the prologue skip feature.<<endinsertion>>
-<<insertion deepthink>>Find out what some of your NPCs are thinking about!<<endinsertion>>
 <<insertion hovCart>>It's your shopping cart... You click this to view it.<<endinsertion>>
 </div>
 
@@ -130,8 +80,6 @@ take a peek...
 
 
 
-
-
 :: demoStartSexScene [nobr]
 
 <<silently>>
@@ -148,7 +96,7 @@ take a peek...
 <<set _tempTags = ["chair","table","wall"]>>
 <</silently>>
 @@.head2;(unfinished) Sex Scene Demo@@<br><br>
-@@.walter;This is the demo of the sex scene system. As the title mentions, it isn't finished. Because we're using a sophisticated system to allow an unprecidented level of complexity and expandability in our sex scenes, the framework of code supporting that has to come first. The good news, is that once the framework is finished, it's going to be quite easy to add new actions that integrate with the rest automatically. I'll be sharing the object formats, which will make it easy for people to submit their own actions. (The writing will really need to wait for the parsers though!) This object-based approach is also a potential spot for user mods in the form of json files.@@
+@@.walter;This is the demo of the sex scene system. As the title mentions, it isn't finished. Because we're using a sophisticated system to allow an unprecedented level of complexity and expandability in our sex scenes, the framework of code supporting that has to come first. The good news, is that once the framework is finished, it's going to be quite easy to add new actions that integrate with the rest automatically. I'll be sharing the object formats, which will make it easy for people to submit their own actions. (The writing will really need to wait for the parsers though!) This object-based approach is also a potential spot for user mods in the form of json files.@@
 <br><br>
 @@.head3;Pick your companions@@<br>
 @@.info;Choose at least one, or up to 10 NPCs@@<br>

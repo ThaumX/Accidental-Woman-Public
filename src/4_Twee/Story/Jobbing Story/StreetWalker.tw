@@ -166,8 +166,12 @@ Skankiness: <<print setup.prostitution.skankyWord()>><br>
 
 :: StreetWalkerWork [nobr]
 
-<<addtime 15>><<print setup.prostitution.work($streetWalkLoc)>>
-
+<<addtime 15>>
+<<if setup.time.aftMidnight && (aw.time - setup.time.midnight) > 175>>
+<<f y>>ou wait around for 15 minutes, but the streets are pretty much deserted this late at night. You've hardly seen any activity at all, let alone a potential customer. @@.mono;I don't think I'll find a client this late... I might as well go home... I can always try again tomorrow.@@<br><center><<button "Leave">><<sceneclose>><<status 0>><<updatebar>><</button>></center>
+<<else>>
+<<print setup.prostitution.work($streetWalkLoc)>>
+<</if>>
 
 :: StreetWalkerJohn [nobr]
 
@@ -248,7 +252,7 @@ You turn around and see a service officer from the Appletree Police Department.
   <p>@@.pc;Just... waiting for my friend.@@</p>
   <p>@@.npc;M-hm. Well I better not see you here when I'll patrol this block next time.@@</p>
   <<has bitch>><p>@@.pc;I am not some whore, you know?!@@</p>
-  <p>@@.npc;Okay, okay, sorry miss, godd day to you.@@</p>
+  <p>@@.npc;Okay, okay, sorry miss, good day to you.@@</p>
   <<or>><p>@@.pc;Of course.@@</p><</has>>
   <p>The officer leaves and you feel relieve.</p><<stress -3 "The cop left...">>
   <p>@@.mono;Shit, almost got caught! I better stop working for today...@@</p>
@@ -257,7 +261,7 @@ You turn around and see a service officer from the Appletree Police Department.
   <p>@@.pc;Just... waiting for my friend.@@</p>
   <p>@@.npc;M-hm. Did you know that loitering is illegal? Your fine will be <span class="money">₢<<= _fine>></span>, and that's due right now.@@</p>
   <p>@@.mono;Ugh, this is just not fair!@@</p>
-  <p>You have no other choice but to pay the fine. The officer check his phone to see if your money got transfered and nods.</p>
+  <p>You have no other choice but to pay the fine. The officer check his phone to see if your money got transferred and nods.</p>
   <p>@@.npc;Now go home or wherever before I charge you more.@@</p>
   <p>@@.pc;Okay, okay, I am leaving already... damn.@@</p>
   <p><<button "Leave">><<updatebar>><<sceneclose>><<status 0>><</button>></p>
@@ -283,7 +287,7 @@ You turn around and see a service officer from the Appletree Police Department.
   <p>@@.mono;Shit.@@</p>
   <p>@@.pc;Please, officer!@@</p>
   <p>@@.npc;Please what? Your fine is <span class="money">₢150</span>, and that's due right now.@@</p>
-  <p>You have no other choice but to pay the fine. The officer check his phone to see if your money got transfered and nods.</p>
+  <p>You have no other choice but to pay the fine. The officer check his phone to see if your money got transferred and nods.</p>
   <p>@@.npc;Now go home or wherever before I charge you more. And I better never see you on this street again, got it? You are in the database now so if any officer will catch you again it will be a jail for sure.@@</p>
   <p>@@.pc;Okay, okay, I am leaving already... damn.@@</p>
   <p><<button "Leave">><<updatebar>><<sceneclose>><<status 0>><</button>></p>
@@ -297,7 +301,7 @@ You turn around and see a service officer from the Appletree Police Department.
   <p>He seems unsure for a second.</p>
   <p>@@.npc;M-hm. Okay, but you still be fined for loitering, <span class="money">₢<<= _fine>></span>, and that's due right now.@@</p>
   <p>@@.mono;Ugh, this is just not fair!@@</p>
-  <p>You have no other choice but to pay the fine. The officer check his phone to see if your money got transfered and nods.</p>
+  <p>You have no other choice but to pay the fine. The officer check his phone to see if your money got transferred and nods.</p>
   <p>@@.npc;Now go home or wherever before I charge you more.@@</p>
   <p>@@.pc;Okay, okay, I am leaving already... damn.@@</p>
   <p><<button "Leave">><<updatebar>><<sceneclose>><<status 0>><</button>></p>
@@ -317,7 +321,7 @@ You turn around and see a service officer from the Appletree Police Department.
     <p>@@.mono;Shit.@@</p>
     <p>@@.pc;Please, officer!@@</p>
     <p>@@.npc;Please what? Your fine is <span class="money">₢150</span>, and that's due right now.@@</p>
-    <p>You have no other choice but to pay the fine. The officer check his phone to see if your money got transfered and nods.</p>
+    <p>You have no other choice but to pay the fine. The officer check his phone to see if your money got transferred and nods.</p>
     <p>@@.npc;Now go home or wherever before I charge you more. And I better never see you on this street again, got it? You are in the database now so if any officer will catch you again it will be a jail for sure.@@</p>
     <p>@@.pc;Okay, okay, I am leaving already... damn.@@</p>
     <p><<button "Leave">><<updatebar>><<sceneclose>><<status 0>><</button>></p>

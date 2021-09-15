@@ -55,6 +55,14 @@ aw.tagContent.stranger.random = [
   @@.pc;Ugh? Like body changing drugs?@@<br>
   @@.npc;Yep, ugh indeed. She already spent like all the money she had after divorce, and to be honest I barely recognize her now.@@<br>
   @@.pc;Well, they seem to do wonders now with these things.@@<br>`,
+  `@@.npc;Have you heard a story about the golem?@@<br>
+  @@.pc;Like Prague golem?@@<br>
+  @@.npc;No, the one that made from the donated semen. Thornton steals all the cum they can lay their hands on and they modified the DNA to make a chimera creature with some CRISPR stuff or something. You see, there was a net of gloryholes with secret tubes and they all led to the secret lab deep down under the Institute.@@<br>
+  @@.pc;Sorry, but this is the bullshitiest bullshitery I was ever exposed to. Like never in a million years I gonna fall for that, heh.@@<br>
+  @@.npc;Oh come on, you know what they say, "there is always truth behind". I really think there is some shady story, maybe it is at least partially true. And just think about it, it was said that this abomination run off from the labs!@@<br>
+  @@.pc;OMG. Seriously? And I thought that flatearthers idiocy from my teenage times was the most stupid thing imaginable.@@<br>
+  @@.npc;You are so dull, you know? I am sure you never believed in Santa Claus when you was a boring, boring kid.@@
+  `,
 ];
 
 // PRIORITY ONE TAGS
@@ -136,12 +144,14 @@ aw.tagContent.stranger.nakedBottom = [
   <</dialogchoice>>`,
 ];
 aw.tagContent.stranger.NakedBottomPresent = [
-  `<<SCX>><<SC "SD" "20">>You lean forward, obcenely exposing your lady bits. @@.mono;Let's see what will you do if I ll act like that.@@<<if $SCresult[1]>><<set aw.npc[setup.interact.status.npc].rship.likePC += 5 >><br>
+  `<<SCX>><<SC "SD" "20">>You lean forward, obscenely exposing your lady bits. @@.mono;Let's see what will you do if I act like that.@@<<if $SCresult[1]>><<set aw.npc[setup.interact.status.npc].rship.likePC += 5 >><br>
   That arouses the stranger.<br>
+  @@.pc;So...@@<br>
+  <<include [[NPCinteraction-StrangerContinue]]>>
   <<else>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 5 >>You failed the check and NPC is pissed off. @@.npc;Please, can you cover or something? That is plain obscene.@@
   <<dialogchoice>>
       <<dbutt "Run" "ↂ.pc.kink.exhibition">><<run setup.interact.exit()>>
-      <<dtext "disturbed">>Run away in embarassment
+      <<dtext "disturbed">>Run away in embarrassment
       <<dbutt "Talk">><<intreplace>><<ctagcontent "stranger" "NakedBottomPresentChat">>
       <<dtext "awkward">>Ehh.. sure, sorry...
   <</dialogchoice>>
@@ -172,7 +182,7 @@ aw.tagContent.stranger.practNakedBottom = [
   <<orhas slut || liberate>>which is pretty comfortable for you in fact.
   @@.mono;I like the attention@@<br>
   <<orhas shame>><<arouse -2>><<stress 10 "Naked pussy convo">>which makes you really nervous.
-  @@.mono;I shoudn't dress like that in a first place, oh, what I was even thinking about?@@
+  @@.mono;I shouldn't dress like that in a first place, oh, what I was even thinking about?@@
   <<or>><<stress 5 "Naked pussy convo">>which makes you feel uneasy.<br>
   @@.mono;Well, I am dressed risky today for sure@@<</has>><br>
   <<dialogchoice>>
@@ -216,7 +226,7 @@ aw.tagContent.stranger.buckNaked = [
       <<dbutt "Act cool" "!ↂ.pc.kink.shame">><<intreplace>><<ctagcontent "stranger" "buckNakedCool">><</intreplace>>
       <<dtext "cool">>Just continue with the chat.
       <<dbutt "Run">><<run setup.interact.exit()>>
-      <<dtext "dismay">>Run away in embarassment
+      <<dtext "dismay">>Run away in embarrassment
   <</dialogchoice>>`,
 ];
 aw.tagContent.stranger.buckNakedPresent = [
@@ -229,7 +239,7 @@ aw.tagContent.stranger.buckNakedPresent = [
   @@.npc;Please, can you cover or something? That is plain obscene to be naked like that.@@
   <<dialogchoice>>
       <<dbutt "Run" "ↂ.pc.kink.exhibition">><<run setup.interact.exit()>>
-      <<dtext "disturbed">>Run away in embarassment
+      <<dtext "disturbed">>Run away in embarrassment
       <<dbutt "Talk">><<intreplace>><<ctagcontent "stranger" "buckNakedPresentChat">><</intreplace>>
       <<dtext "awkward">>Ehh.. sure, sorry...
   <</dialogchoice>>
@@ -262,7 +272,7 @@ aw.tagContent.stranger.buckNakedCool = [
 ];
 aw.tagContent.stranger.wetClothes = [
   `<<if ↂ.pc.clothes.keys.bra === 0>>
-  You notice the stranger looks at your chest and realise that your <<p nipl.q>> nipples are visible through the wet clothes.
+  You notice the stranger looks at your chest and realize that your <<p nipl.q>> nipples are visible through the wet clothes.
   <<has exhibition>><<arouse 1>>@@.mono;Oh yeah, I like that.@@<<orhas slut>>@@.mono;That is certainly drawing some attention.@@<<orhas shame>><<stress 7 "Wet clothes convo">>@@.mono;Oh shit, my nipples are showing!@@<<or>><<stress 2 "Wet clothes convo">>@@.mono;Oops, better cover that!@@<</has>>
   <<dialogchoice>>
       <<dbutt "Cover" "!ↂ.pc.kink.exhibition">><<intreplace>><<ctagcontent "stranger" "wetClothesCover">><</intreplace>>
@@ -270,7 +280,7 @@ aw.tagContent.stranger.wetClothes = [
       <<dbutt "Act cool" "!ↂ.pc.kink.shame">><<intreplace>><<ctagcontent "stranger" "wetClothesCool">><</intreplace>>
       <<dtext "cool">>Just continue with the chat.
       <<dbutt "Run">><<run setup.interact.exit()>>
-      <<dtext "dismay">>Run away in embarassment
+      <<dtext "dismay">>Run away in embarrassment
   <</dialogchoice>>
   <<else>>
   @@.npc;You are wet, you better change before you catch cold, miss.@@
@@ -318,7 +328,7 @@ aw.tagContent.stranger.pheromones = [ // that became way too big i am afraid
   <<else>><<set aw.npc[setup.interact.status.npc].rship.likePC += 20 >>You notice that stranger looks at you with some obvious arousal. He bites his lips while ogling your body.<br>
     <<has slut>>@@.mono;That guy looks like he is on a brink of pinning me down and fucking me really hard, I like that!@@<<orhas shame>><<stress 10 "pheromones convo">>@@.mono;Oh, why all the guys are looking at me like that? I am frightened.@@<<or>>@@.mono;It seems he really likes me.. in a sexual way.@@<</has>>
     <<dialogchoice>>
-      <<dbutt "Ask for it" "ↂ.pc.kink.superSlut || ↂ.pc.kink.hyperSlut || ↂ.pc.kink.rape || ↂ.pc.kink.publix">><<intreplace>><<ctagcontent "stranger" "pheromonesInvite">><</intreplace>>
+      <<dbutt "Ask for it" "ↂ.pc.kink.superSlut || ↂ.pc.kink.hyperSlut || ↂ.pc.kink.rape || ↂ.pc.kink.public">><<intreplace>><<ctagcontent "stranger" "pheromonesInvite">><</intreplace>>
       <<dtext "smug">>Wanna taste some, big boy?
       <<dbutt "Ignore">><<intreplace>><<ctagcontent "stranger" "pheromonesIgnore">><</intreplace>>
       <<dtext "confused">>Just continue with the chat.
@@ -351,10 +361,10 @@ aw.tagContent.stranger.pheromonesIgnore = [
   @@.npc;You want to see my dick, pretty? I have something to present to you, little bitch!@@<br>
   Stranger starts to unzip his pants...
   <<dialogchoice>>
-    <<dbutt "Okay" "ↂ.pc.kink.superSlut || ↂ.pc.kink.hyperSlut || ↂ.pc.kink.rape || ↂ.pc.kink.publix">>
-    <<dtext "smug">>Why not, lets shag him! <<intreplace>><<include [[NPCinteraction-StrangerSexGo]]>><</intreplace>>
-    <<dbutt "Freeze" "!$pref.rape">>
-    <<dtext "scared">>Paralyzed with fear you just stand.<<intreplace>><<include [[NPCinteraction-StrangerRape]]>><</intreplace>>
+    <<dbutt "Okay" "ↂ.pc.kink.superSlut || ↂ.pc.kink.hyperSlut || ↂ.pc.kink.rape || ↂ.pc.kink.public">><<intreplace>><<include [[NPCinteraction-StrangerSexGo]]>><</intreplace>>
+    <<dtext "smug">>Why not, lets fuck!
+    <<dbutt "Freeze">><<intreplace>><<include [[NPCinteraction-StrangerRape]]>><</intreplace>>
+    <<dtext "scared">>Paralyzed with fear you just stand.
     <<dbutt "Run">><<intreplace>><<ctagcontent "stranger" "pheromonesIgnoreRun">><</intreplace>>
     <<dtext "dismay">>Run away before you got any rapeys
     <<dbutt "Fight him">><<intreplace>><<ctagcontent "stranger" "pheromonesIgnoreFight">><</intreplace>>
@@ -373,8 +383,8 @@ aw.tagContent.stranger.pheromonesIgnoreRun = [
   <<set _r2 = random(0,10)>>
   <<if _r2 > 5 >>
     You successfully <<link "run away">><<run setup.interact.exit()>><</link>>
-  <<else>>
-    You try to run away but guy <<link "catches you">><<run setup.interact.exit()>><</link>>. (Need to add function call to start involuntary sex scene here)
+  <<else>><<has rape>><<stress 10 "Rape">><<or>><<stress 20 "Rape">><<has>>
+  <<set ↂ.sex.enviroTags = ["wall"]>><<set ↂ.sex.passage = aw.passage.title>><<set ↂ.sex.rape = true>><<set ↂ.sex.pcOutput = "You try to hit him but he holds you and drag you to the <<publicPrivacy>>. You do your best to break free but his grip is just way too tight...">><<if random(1, 5) === 1>><<run setup.giveSSTD()>><</if>><<run aw.S()>><<startSex setup.interact.status.npc>><<intclose>>
   <</if>>
 <<else>>
   It seems, some content filtering preferences gave you unnatural speed. You successfully <<link "run away">><<run setup.interact.exit()>><</link>>.
@@ -390,7 +400,7 @@ aw.tagContent.stranger.pheromonesIgnoreFight = [  // need to check for martial a
   <<elseif _r2 > 5 >><<set ↂ.pc.status.health -= 10>><<run setup.status.record("health", -10, "Fighting")>><<stress 25 "pheromones fight">>
   He punches you but you manage to fight the dude and knock him <<link "unconscious">><<run setup.interact.exit()>><</link>>.
   <<else>><<if $pref.rape>><<set ↂ.pc.status.health -= 15>><<run setup.status.record("health", -15, "Fighting")>><<stress 30 "pheromones fight">>
-      Guess what? Yep, rapeys! But you also got kicked in a face couple of times before you gave up. (Need to add function call to start involuntary sex scene here)<,p>
+  <<set ↂ.sex.enviroTags = ["wall"]>><<set ↂ.sex.passage = aw.passage.title>><<set ↂ.sex.rape = true>><<set ↂ.sex.pcOutput = "You try to hit him but he holds you and drag you to the <<publicPrivacy>>. You do your best to break free but his grip is just way too tight...">><<if random(1, 5) === 1>><<run setup.giveSSTD()>><</if>><<run aw.S()>><<startSex setup.interact.status.npc>><<intclose>>
     <<else>>
       You loose the fight but some citizens heard the brawl and called the police. Brave cops busted the guy before he did any harm to you. <<link "That was a close call, yep">><<run setup.interact.exit()>><</link>>.
     <</if>>
@@ -406,7 +416,7 @@ aw.tagContent.stranger.goddess = [
   <<include [[NPCinteraction-StrangerContinue]]>>`,
 ];
 aw.tagContent.stranger.hairyPits = [
-  `While talking your realise that your hairy armpit bushes are showing through the thin fabric. The stranger seems to be <<set _r = random(0,5)>><<if _r > 2 >><<set aw.npc[setup.interact.status.npc].rship.likePC -= 5 >>pretty disgusted by <<else>>okay with <</if>>that.
+  `While talking your realize that your hairy armpit bushes are showing through the thin fabric. The stranger seems to be <<set _r = random(0,5)>><<if _r > 2 >><<set aw.npc[setup.interact.status.npc].rship.likePC -= 5 >>pretty disgusted by <<else>>okay with <</if>>that.
   @@.pc;So...@@<br>
   <<include [[NPCinteraction-StrangerContinue]]>>`,
 ];
@@ -427,7 +437,7 @@ aw.tagContent.stranger.clownMakeup = [
   <<else>>
   @@.npc;Well, your makeup, miss... it is kinda messy, you know?@@
   @@.pc;Yeah, I am aware of that, thanks.@@
-  @@.mono;Oh shit, I better clean makeup asap. That is just embarassing.@@
+  @@.mono;Oh shit, I better clean makeup asap. That is just embarrassing.@@
   @@.pc;So...@@<br>
   <<include [[NPCinteraction-StrangerContinue]]>>
   <</if>>`,
@@ -564,7 +574,7 @@ aw.tagContent.stranger.mindbreak = [
   <<addtime 13>>
   <<set ↂ.pc.groom.makeup.clown = true>>
   <<stress -10 "mindbroken convo">>
-  You start histerically giggling.
+  You start hysterically giggling.
   @@.npc;Oh, I better go, please, forgive me, I just don't know how to help you miss. It will be okay, really...@@
   You cry ang laugh alone sitting on the floor for some time before you finally start to feel better.
   <<link "Get up">><<run setup.interact.exit()>><</link>>
@@ -572,8 +582,8 @@ aw.tagContent.stranger.mindbreak = [
 ];
 aw.tagContent.stranger.flooded = [
   `<<if ↂ.pc.clothes.keys.panties == 0 || ↂ.pc.clothes.worn.panties === "pulledAside" || ↂ.pc.clothes.worn.panties === "pulledOff" || ↂ.pc.clothes.worn.panties === "off">>
-    You feel your juices running down your inner thights with no panties in a way to stop them
-    <<has exhibition>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will notice that. That is so embarassingly exciting!@@<<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will not notice that.@@<</has>>
+    You feel your juices running down your inner thighs with no panties in a way to stop them
+    <<has exhibition>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will notice that. That is so embarrassingly exciting!@@<<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will not notice that.@@<</has>>
   <<else>>
     You feel your juices making a slippery mess slowly soaking through your panties.<<has slut>>@@.mono;Speaking with a person while being flooded like that is so naughty!@@<<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will not notice that.@@<</has>>
   <</if>>

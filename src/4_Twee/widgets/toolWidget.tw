@@ -7,16 +7,17 @@
 
 <<widget "boobgif">>
 <<silently>>
-<<set _boober = 15>>
-<<repeat 3000ms>>
-  <<set _boober += 1>>
-  <<if _boober > 30>>
-    <<set _boober = 1>>
-  <</if>>
-  <<set _booberin = "[img[IMGbounce" + _boober + "]]">>
-  <<replace "#boobers">><<print _booberin>><</replace>>
-<</repeat>>
-<</silently>><span id="boobers" class="rounded"><<print "[img[IMGbounce15]]">></span><</widget>>
+	<span id="boobers" class="rounded"><<print "[img[IMGbounce15]]">></span>
+	<<set _boober = 15>>
+	<<repeat 3000ms>>
+	<<set _boober += 1>>
+	<<if _boober > 30>>
+		<<set _boober = 1>>
+	<</if>>
+	<<set _booberin = "[img[IMGbounce" + _boober + "]]">>
+	<<replace "#boobers">><<print _booberin>><</replace>>
+	<</repeat>>
+<</silently>><</widget>>
 
 <<widget "numberWord">>\
 <<silently>>
@@ -259,7 +260,7 @@
 <<widget "LoadingText">>
 <<silently>>
 <<repeat 1800ms>>
-<<set _loadingtext = either("Giving NPCs free will...","Repairing Rejuvinator...","Cleaning up femlube drips...","Preparing mammary glands for lactation...","Calculating uterine lining growth...","Injecting naughty dreams...","Preparing subliminal programming...","Checking Institute agent's infiltration progress...","Distracting player from ''real'' danger...","Determining victors in sperm battles...","Determining if peeping tom likes what he sees...","Getting sheets dirty...","Checking for new chemicals in the tap water...","Murdering the unpopular NPCs...","Processing Player's psychological profile...","Using ∞ based statistics to process love...","Checking for subdermal implant activity...","Determining how favorite NPCs are lying...","Eagerly anticipating a bad end...","Contemplating referential ethics...","Processing NPC suicides...","Abusing NPCs for plot purposes...","Calculating Appletree's Rohypnol supply...","Determining which NPCs have nothing left to lose...","Implementing hypnotic commands...","Determining local jail's degeneration...","Calculating growth of local cults...","Screwing something up...","Processing...","Processing...","Reticulating splines...","Reticulating splines...")>>
+<<set _loadingtext = either("Giving NPCs free will...","Repairing Rejuvenator...","Cleaning up femlube drips...","Preparing mammary glands for lactation...","Calculating uterine lining growth...","Injecting naughty dreams...","Preparing subliminal programming...","Checking Institute agent's infiltration progress...","Distracting player from ''real'' danger...","Determining victors in sperm battles...","Determining if peeping tom likes what he sees...","Getting sheets dirty...","Checking for new chemicals in the tap water...","Murdering the unpopular NPCs...","Processing Player's psychological profile...","Using ∞ based statistics to process love...","Checking for subdermal implant activity...","Determining how favorite NPCs are lying...","Eagerly anticipating a bad end...","Contemplating referential ethics...","Processing NPC suicides...","Abusing NPCs for plot purposes...","Calculating Appletree's Rohypnol supply...","Determining which NPCs have nothing left to lose...","Implementing hypnotic commands...","Determining local jail's degeneration...","Calculating growth of local cults...","Screwing something up...","Processing...","Processing...","Reticulating splines...","Reticulating splines...")>>
 <<replace "#loadingtextspan">><<print _loadingtext>><</replace>>
 <</repeat>>
 <</silently>><span id="loadingtextspan" class="megrim white blinking" style="font-size:1.25rem;font-weight:bold;">Loading...</span><</widget>>
@@ -363,7 +364,7 @@
 	<<set _skeet = "<span style='background: darkred;color: white'>ERROR: Custom Radio Macro missing arguments.</span>">>
 <<elseif typeof($args[0]) != "string">>
 	<<set _skeet = "<span style='background: red;color: white'>ERROR: Custom Radio Macro first arg variable must be wrapped in quotes.</span>">>
-<<elseif $args[0][0] != "ↂ" && $args[0][0] != "$" && $args[0][0] != "_" && $args[0].slice(0,5) !== "setup">>
+<<elseif $args[0][0] != "ↂ" && $args[0][0] != "a" && $args[0][0] != "$" && $args[0][0] != "_" && $args[0].slice(0,5) !== "setup">>
 	<<set _skeet = "<span style='background: red;color: white'>ERROR: Custom Radio Macro first arg must be a variable name (missing $or_).</span>">>
 <<elseif def $args[2]>>
 	<<if isNaN($args[1]) && typeof($args[1]) != "boolean">>

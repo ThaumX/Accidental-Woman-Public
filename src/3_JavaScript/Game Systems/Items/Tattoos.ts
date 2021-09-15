@@ -148,7 +148,7 @@ setup.tattoo.simpleList = function(): string {
         } else {
           imgType = `data-passage="`;
         }
-        out += `<span style="text-align: center;"><center><img ${imgType}${T.img}" style="border-radius: 10px; float: left; margin-right: 10px; margin-bottom: 10px; width: 120px; height: 120px;"><br>${placesNames[index]}</center></span>`;
+        out += `<span style="text-align: center;"><center><img ${imgType}${T.img}" style="border-radius: 10px; float: left; margin-right: 10px; margin-bottom: 10px; width: 120px; height: 120px;"></center></span>`;
         }
       }
     }
@@ -740,7 +740,7 @@ setup.tattoo.tattooLib = [
     key: "fleur",
     positions: ["neck", "shoulderLeft", "shoulderRight", "armLeft", "armRight", "breast", "belly", "pubic", "thighLeft", "thighRight", "calfLeft", "calfRight", "feetLeft", "feetRight", "backUpper", "backLower", "butt", "asshole", "vagina"],
     shortDesc: `Fleur De Lis`,
-    longDesc: `a traditional french flower tattoo`,
+    longDesc: `a traditional French flower tattoo`,
     img: "IMG-Tattoo-FleurDeLis",
     text: false,
     type: "tattoo",

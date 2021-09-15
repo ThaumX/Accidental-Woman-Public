@@ -657,7 +657,7 @@ setup.genetics.babyGen = function(difficult: boolean, cSec: boolean, fetus: Fetu
       eyeColor: "unknown",
       skinColor: "unknown",
     };
-    // determine child colors basesd on combo of parents
+    // determine child colors based on combo of parents
     if (setup.npcid.test(f.father) && aw.npc[f.father] != null) {
       child.hairColor = setup.genetics.hair(momHair, aw.npc[f.father].groom.hairColor);
       child.eyeColor = setup.genetics.eyes(momEyes, aw.npc[f.father].body.eyeColor);

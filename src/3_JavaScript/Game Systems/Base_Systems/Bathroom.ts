@@ -1,10 +1,10 @@
 /*bathroom functions*/
 
 interface setupBath {
-  brushTeeth: { (): void };
+  brushTeeth: () => void;
   pubeLength: object;
-  shave: { (leg?: boolean, arm?: boolean, biki?: boolean, pube?: boolean): void };
-  shower: { ({ quick, vagWash, enema, relax, shaveArm, shaveLeg, shaveGroin, trimPubes }: { quick: boolean, vagWash: boolean, enema: boolean, relax: boolean, shaveArm: boolean, shaveLeg: boolean, shaveGroin: boolean, trimPubes: boolean }): void };
+  shave: (leg?: boolean, arm?: boolean, biki?: boolean, pube?: boolean) => number;
+  shower: ({ quick, vagWash, enema, relax, shaveArm, shaveLeg, shaveGroin, trimPubes }: { quick: boolean, vagWash: boolean, enema: boolean, relax: boolean, shaveArm: boolean, shaveLeg: boolean, shaveGroin: boolean, trimPubes: boolean }) => number;
 }
 
 
@@ -41,7 +41,7 @@ setup.bath = {
     "hairless" : 0,
   },
   // shaves the character
-  shave(leg: boolean = false, arm: boolean = false, biki: boolean = false, pube: boolean = false): void {
+  shave(leg: boolean = false, arm: boolean = false, biki: boolean = false, pube: boolean = false): number {
     const ᛔ = State.active.variables;
     const groom = ↂ.pc.groom;
     let msg = "";
@@ -69,8 +69,8 @@ setup.bath = {
     }
     aw.con.info(`Shaving: ${leg}, ${arm}, ${biki}, ${pube}, ${pube}`)
     aw.S();
-    if (time > 0) { setup.time.add(time); }
     setup.notify(msg);
+    return time;
   },
   // actually process taking a shower
   shower({
@@ -91,31 +91,32 @@ setup.bath = {
     shaveLeg: boolean,
     shaveGroin: boolean,
     trimPubes: boolean,
-  }): void {
+  }): number {
     const ᛔ = State.active.variables;
     const groom = ↂ.pc.groom;
     let vag;
     let anus;
     if (enema) {
-      // check if have enema equipment
+      if (!State.active.variables.items.has("Sultry Eve Enema Kit")){
+        enema = false;
+      }
     }
-    aw.L();
+    // aw.L();
     ↂ.pc.status.clean = 0;
-    vag = clone(ↂ.pc.cond.vagFluid);
     if (vagWash) {
-      const props = Object.keys(vag);
+      const props = Object.keys(ↂ.pc.cond.vagFluid);
       if (props.length > 0) {
         for (let i = 0, c = props.length; i < c; i++) {
-          if (vag[props[i]] <= 1) {
+          if (ↂ.pc.cond.vagFluid[props[i]] <= 7) {
             // kill it
-            delete vag[props[i]];
+            delete ↂ.pc.cond.vagFluid[props[i]];
           } else {
-            vag[props[i]] = Math.ceil(vag[props[i]] / 3);
+            ↂ.pc.cond.vagFluid[props[i]] = Math.ceil(ↂ.pc.cond.vagFluid[props[i]] / 2);
           }
         }
       }
     }
-    if (!enema) { anus = clone(ↂ.pc.cond.anusFluid); }
+    if (enema) { ↂ.pc.cond.anusFluid = {}; }
     ↂ.pc.cond.hair = {};
     ↂ.pc.cond.face = {};
     ↂ.pc.cond.chest = {};
@@ -128,10 +129,6 @@ setup.bath = {
     ↂ.pc.cond.thighs = {};
     ↂ.pc.cond.legs = {};
     ↂ.pc.cond.feet = {};
-    ↂ.pc.cond.vagFluid = {};
-    ↂ.pc.cond.anusFluid = {};
-    ↂ.pc.cond.vagFluid = clone(vag);
-    if (!enema) { ↂ.pc.cond.anusFluid = clone(anus); }
     aw.S();
     let time = 15 + random(0, 5);
     if (vagWash) { time += 5; }
@@ -158,10 +155,11 @@ setup.bath = {
       const x = random(1, 3) * -1;
       setup.status.stress(x, "A nice shower");
     }
-    setup.bath.shave(shaveLeg, shaveArm, shaveGroin, trimPubes);
+    time += setup.bath.shave(shaveLeg, shaveArm, shaveGroin, trimPubes);
     setup.tattoo.wash();
     setup.makeup.shower();
     setup.hair.shower();
+    return time;
   },
 };
 

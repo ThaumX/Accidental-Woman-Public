@@ -20,6 +20,11 @@
 <<set ↂ.pc.clothes.worn.shoes = "normal">>
 <<set ↂ.pc.clothes.worn.coat = "normal">>
 
+<<if setup.time.aftMidnight && (aw.time - setup.time.midnight) > 120>>
+  <<set ↂ.map.passage = "BEparking">>
+  <<run UI.alert("Bullseye is now closed for the night.")>>
+<</if>>
+
 /*Check for Checkout*/
 <<if ↂ.map.passage == "BEparking" && $cart.length > 0>>
   <<if $time[0] >= 16 && $time[0] <= 20>>/*shopping "rush-hour"*/
@@ -60,7 +65,7 @@
     <<set $location = "Bullseye - Checkout">>
     <<run setup.map.nav("bullseye","custserv")>>
   <<elseif _outcome === "already has">>
-    <<dialog 'Already has this'>>@@.exp;You realise that you already has same item in your wardrobe. Oh, how silly of you, who may need two copies of the same garment, right? Better put it back.@@<</dialog>>
+    <<dialog 'Already has this'>>@@.exp;You realize that you already has same item in your wardrobe. Oh, how silly of you, who may need two copies of the same garment, right? Better put it back.@@<</dialog>>
   <<else>>
     <<if ↂ.flag.Prologue && !ↂ.flag.ProBoughtClothes>>
       <<if _questCheck.panties>>

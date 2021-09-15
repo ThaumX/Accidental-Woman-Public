@@ -24,7 +24,7 @@ Config.saves.onSave = function(save): void {
     save.title = ↂ.map.name;
   }
   if (save.metadata == null) {
-    //aw.con.info("Hey, the save.metadata be empty yo!");
+    // aw.con.info("Hey, the save.metadata be empty yo!");
     save.metadata = {};
   }
   if (save.metadata.sleepAutosave != null && save.metadata.sleepAutosave) {
@@ -122,24 +122,21 @@ Config.saves.onLoad = function(save) {
   aw.replace("#awUIcontainer", "");
   aw.replace("#interactContainer", "");
   aw.replace("#scenarioContainer", "");
-  /*if (save.metadata.sleepAutosave != null) {
-    aw.con.info(`found the sleep return passage: ${save.metadata.passover}.`);
-    setup.startsPassage = save.metadata.passover;
-  }*/
+  console.log(`Loading save version ${save.metadata.version} - game version is ${setup.ver}.`);
   // const list = save.metadata.list;
-  if (State.active.variables.ver < 340 || setup.ver - State.active.variables.ver > 12) {
-    const content = `<div id='menuBlackout'></div><div id="backwardCunt"><h2>Game Save Invalid</h2><p>Sorry, it seems that you have tried to load a save from before version 0.34.0. Saves prior to version 0.34.0 are not supported. I'm sorry for the inconvenience, but you should still be able to use that save in an older version of the game if you are attached to it.</p><center><<button "TO START PAGE">><<goto "Start">><<script>>aw.replace("#awUIcontainer", "");<</script>><</button>></center></div>`;
+  if (save.metadata.version < 410) {
+    const content = `<div id='menuBlackout'></div><div id="backwardCunt"><h2>Game Save Invalid</h2><p>Sorry, it seems that you have tried to load a save from before version 0.41.0. Saves prior to version 0.41.0 are not supported. I'm sorry for the inconvenience, but you should still be able to use that save in an older version of the game if you are attached to it.</p><center><<button "TO START PAGE">><<goto "Start">><<script>>aw.replace("#awUIcontainer", "");<</script>><</button>></center></div>`;
     aw.replace("#awUIcontainer", content);
     return false;
-  } else if ((setup.ver > State.active.variables.ver || setup.ver > save.metadata.version ) && save.metadata.AShole != null) {
+  } else if (setup.ver > save.metadata.version && save.metadata.AShole != null) {
     const content = `<div id='menuBlackout'></div><div id="backwardCunt"><h2>Game Save Invalid</h2><p>Sorry, it seems that you have tried to load an autosave from a previous version. Autosaves are only supported for the game version they are created in. I'm sorry for the inconvenience, but you should still be able to use that save in its version of the game, and then create a normal save after loading it. That normal save can probably be converted.</p><center><<button "TO START PAGE">><<goto "Start">><<script>>aw.replace("#awUIcontainer", "");<</script>><</button>></center></div>`;
     aw.replace("#awUIcontainer", content);
     return false;
-  } else if (save.metadata.version == null || setup.ver > State.active.variables.ver || setup.ver > save.metadata.version) {
+  } else if (save.metadata.version == null || setup.ver > save.metadata.version) {
     // tslint:disable-next-line:max-line-length
     const content = `<div id='menuBlackout'></div><div id="backwardCunt"><h1>Auto Backward Compatibility</h1><p>The game has detected that the save you just clicked to load is from a previous version of the game. The backward compatibility system is currently loading data from your save into the current game format. You should see the results appear below momentarily (if they haven't already).</p><p><b>HOW IT WORKS:</b> When your save is missing variables found in the new version, or if some data format is incompatible, default values for the current version will be used. This may result in minor changes to the game compared to the version your save is from. <span class="import"><b>This system isn't foolproof, however, so if you notice bugs after loading a save, please check to see if they appear in a normal game before reporting them.</b></span> (This helps differentiate between an issue with this compatibility system, or an issue with the game code.)</p><p><b>COLOR KEY:</b> A color key is used to relate how significant alerts about your save file are. As expected: <span style="color: #f46741;">red is bad</span>, <span style="color: #f4a641;">orange isn't good</span>, and <span style="color: #f4dc41;">yellow is probably okay</span>. Note that except in the case of red, defaults will have been used, and the game should be playable.</p><h3>LOAD RESULTS</h3><p id="backCuntOut"></p></div>`;
     aw.replace("#awUIcontainer", content);
-    //setTimeout(() => setup.backward.main(save.metadata), 200);
+    // setTimeout(() => setup.backward.main(save.metadata), 200);
     return setup.backward.main(save.metadata);
   } else {
     const keys = Object.keys(save.metadata.npcs);
@@ -256,7 +253,7 @@ Config.saves.onLoad = function(save) {
     try {
       ↂ.map = new MapClass(JSON.parse(save.metadata.ↂ.map));
     } catch (e) { window.alert("Warning! Failed to properly load map data!"); console.log(`PCLoadletter ${e.name}: ${e.message}.`); }
-    try {
+    /*try {
       const temps = JSON.parse(save.metadata.tempy);
       const ks = Object.keys(temps);
       for (let i = 0, c = ks.length; i < c; i++){
@@ -266,7 +263,7 @@ Config.saves.onLoad = function(save) {
     } catch (e) {
       window.alert(`Caution: Failed to properly load state temporary variables. The game will probably still work okay, but there may be minor errors that appear temporarily. Error: ${e.name}`);
       console.log(`Error Loading Temporary ${e.name}: ${e.message}.`);
-    }
+    }*/
     try {
       ↂ.buttons = {};
       if (save.metadata.ↂ.buttons.length > 0) {
@@ -312,7 +309,8 @@ Config.saves.onLoad = function(save) {
     if (save.metadata.omniValue != null) {
       setup.omni.value = save.metadata.omniValue;
     } else {
-      setup.omni.value = State.active.variables.tVal - 110880;
+      window.alert(`WARNING: Your save is corrupt. Play at your own risk. Error: omniValue null`);
+      console.log(`Error Loading Omni - Error: omniValue null.`);
     }
     const result = setup.omni.omniRestore(save.metadata.omni);
     if (result !== "success") {
@@ -370,10 +368,12 @@ Config.saves.onLoad = function(save) {
     setup.weather.seed = JSON.parse(save.metadata.wxSeed);
     aw.passage = JSON.parse(save.metadata.passage);
     const pasg = aw.passage.title;
+    aw.con.info(`Save passage was ${pasg}`);
     aw.sleep = {
       passedOut: false,
       passedOutType: "none",
     } as awSleep;
+    /*
     if (ↂ.map != null && ↂ.map.loc != null) {
       if (typeof ↂ.map.loc[2] !== "string") {
         setup.map.nav(ↂ.map.loc[0], ↂ.map.loc[1]);
@@ -381,6 +381,7 @@ Config.saves.onLoad = function(save) {
         setup.map.nav(ↂ.map.loc[0], ↂ.map.loc[1], ↂ.map.loc[2]);
       }
     }
+    */
     Dialog.close();
     setup.cTag.build(true);
     const outie = `<center><h3>Your save has been loaded!</h3><<scri` + `pt>>if (State.active.variables.pref.sound == null) {
@@ -395,8 +396,8 @@ Config.saves.onLoad = function(save) {
     setup.dialog("Save Loaded", outie);
     // setTimeout(() => Engine.play(pasg), 100);
     // aw.L();
-    State.active.variables.lastSaveTime = clone(aw.time);
     aw.S();
+
     return pasg;
   }
 };

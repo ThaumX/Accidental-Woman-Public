@@ -1,0 +1,383 @@
+
+:: DowntownClubWrenchEntrance [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPwrench]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<p>
+@@.head3;Y@@ou're in the entrance of Wrench nightclub in club district of downtown Appletree. It is a pretty quiet place despite of the small crowd in the main hall which is visible through the corridor. The muffed lounge music you hear is pretty pleasant.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+    <<button "Go out">><<gotomap "downtown" "club" "main">><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Leave the club.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+:: DowntownClubWrenchEntranceLOC [nobr]
+
+There is a couple having some intimate fun in the darkness of the passage to the club.
+<center>[img[IMG-WrenchLoc1]]</center>
+
+
+
+:: DowntownClubWrenchBardance [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPwrench]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<p>
+@@.head3;Y@@ou're standing on the Dancefloor of the Wrench club. People are dancing along with the harsh EBM tune, more of them standing at the bar at the far wall or chatting and flirting near the walls.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+    <<if ↂ.pc.status.energy.amt < 2>>
+    @@.disabled;<<button "Dance [Too tired]">><</button>>@@
+  <<else>>
+    <<button "Dance">>
+      <<dialog "Dancing">>
+        <<include [[DowntownClubShakeDanceMenu]]>>
+      <</dialog>>
+    <</button>>
+  <</if>>
+<<endhoverrevise>>
+<<hoverrevise bar>>
+    <<button "Take a drink">><<dialog "Wrench Bar">><<print setup.food.bar("wrench")>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Join the crowd on a dancefloor<<endinsertion>>
+<<insertion bar>>Go to the bar and order something flammable.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+:: DowntownClubWrenchBardanceLOC [nobr]
+
+<<set _rando = random(0,3)>><<if _rando == 0>>You look around but can't notice anything remarkable. Just people dancing and having fun around you.<br>
+<center>[img[IMG-WrenchLoc2]]</center>
+<<elseif _rando == 1>>
+You look around to see some more gothic-dressed visitors dancing in their own omnious and creepy way. @@.mono;Well, to each their own I guess...@@<br>
+<center>[img[IMG-WrenchClubLocDance1]]</center>
+<<else>>
+You look around but can't notice anything remarkable. Just people dancing and having fun around you.<br>
+<center>[img[IMG-WrenchLoc3]]</center>
+<</if>>
+
+
+:: DowntownClubWrenchLounge [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPwrench]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<p>
+@@.head3;Y@@ou're in the Wrench club lounge zone. Most of the sofas are occupied. Place is filled with a quiet murmur of chatting with occasional bursts of giggling and some more obcene sounds like muffed moans here and there. Visitors are drinking, flirting and petting in pairs or triples.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+    <<button "Relax">><<dialog "Relaxing">>[img[IMG-WrenchRelax]]<br><<addtime 21>><<arousal 1>>@@.head3;Y@@ou sit on the couch and spend some time relaxing and getting your mind together. It is much more quiet here and your eardrums rest after the agressive attack they endured on the dancefloor. The only distraction is people petting on the sofa nearby but their supressed moans and giggling are much easier to ignore though they start to add their toll to your arousal.<br><br>After a while you feel more energetic and rested and stand up to join the fun once again.<<if ↂ.pc.status.energy.amt < 3>><<set ↂ.pc.status.energy.amt += 1>><</if>><<status 0>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+    <<button "Look for pusher">><<set _randomtime = random(3, 10)>><<addTime _randomtime>><<set _chance = 4>><<if ↂ.pc.trait.perceptive !== -1>><<set _chance -= 1>><</if>><<if ↂ.pc.status.addict.maxValue > 50>><<set _chance -= 1>><</if>><<set _result = random(1, _chance)>><<if _result === 1>><<dialog "Dealer">><<include "ShakenPopDealerSucess">><</dialog>><<elseif _result === 3>><<dialog "Dealer">><<include "ShakenPopDealerCritFail">><</dialog>><<else>><<run setup.notify("You try to find anyone who looks like a drug dealer, but fail.")>><</if>><<updatebar>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Relax on the sofa [+energy, 20min].<<endinsertion>>
+<<insertion beta>>Look for a somebody who can sell some drugs.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+:: DowntownClubWrenchLoungeLOC [nobr]
+
+Some couple has fun at the sofa in the corner. It seems, they just met each other.<br>
+<center>[img[IMG-WrenchLoc4]]</center>
+
+
+:: DowntownClubWrenchWC [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPwrench]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<p>
+@@.head3;Y@@ou're standing in the Wrench club WC. The place is fairly clean and looks much better than you expect night club's lavatory should look like.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+    <<button "Pee">><<dialog "Pee">><center>[img[IMG-PissingStall]]</center><br>@@.head3;Y@@ou enter the stall and sit on the toilet shrugging from the cold rim touching your bare buttocks. After a moment and a little effort, clear yellow urine starts leaving your body splashing against the water in the toilet. It goes for almost a minute until you finally feel empty and ready to leave. <<if setup.sexToys.check("pc", "groin") == true>>After a quick wipe, you dress up and leave the stall to wash your hands.<<else>>Chastity prevents you from wiping your vagina with a toilet paper so you have no option than to clean yourself later in the shower. You sigh, dress up and leave the stall to wash your hands.<</if>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+    <<button "Mirror">><<dialog "Mirror">><center><div style="width: 500px;" id="menuPortraitCunt"><<print $UIimg[0]>></div></center><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Relief yourself.<<endinsertion>>
+<<insertion beta>>Look at yourself in the mirror.<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+:: DowntownClubWrenchWCLOC [nobr]
+
+@@.rumble;Psssssssssss@@<br>
+Somebody seems to enjoy their long awaited relief in the stall<br>
+<center>[img[IMG-WrenchLoc5]]</center>
+
+
+:: DowntownClubWrenchBooths [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPwrench]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc"><<switch ↂ.map.weather>>
+<<case "clr">>
+<<case "sct">>
+<<case "ovc">>
+<<case "-ra">>
+<<case "ra">>
+<<case "+ra">>
+<<case "fog">>
+<<case "shra">>
+<<case "tsra">>
+<<case "-sn">>
+<<case "sn">>
+<<case "+sn">>
+<<default>>
+<</switch>>
+<<print setup.weather.curWeather()>>
+</p>
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p> <<mapEvent>></p>
+<p>
+@@.head3;Y@@ou're in the entrance of Wrench nightclub in club district of downtown Appletree. It is a pretty quiet place despite of the small crowd in the main hall which is visible through the corridor. The muffed music you hear is pretty aggressive.
+</p>
+<p id="locact"></p>
+<<selfthought>>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+    <<button "Look for a mate">><<include [[WrenchSexSearch]]>><</button>>
+<<endhoverrevise>>
+<<hoverrevise interaction>>
+  <<button "INTERACT 🗪">><<npcinteract>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Look for somebody to fuck with. [10-50 min]<<endinsertion>>
+<<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+:: DowntownClubWrenchBoothsLOC [nobr]
+
+You see somebody having a great time socializing in one of the booths. <br>
+<center>[img[IMG-WrenchLoc6]]</center>
+
+
+:: WrenchSexSearch [nobr]
+
+<<SCX>>
+  <<SC "SD" 7>>
+<<if $SCresult[1]>><<set _daddyspunk = (setup.npc.male.length - 1)>><<set _randDude = random(0, _daddyspunk)>><<set $DancingNpc = setup.npc.male[_randDude]>><<set ↂ.flag.npcInducedInteractions.intNPC = $DancingNpc>>
+  <<happy 1 "You drew the attention of some guy">>
+  <<status 0>>
+  <<script>>
+      const args = {
+      passage: "NPCinteraction-WrenchNpc",
+      block: false,
+      content: "none",
+      image: aw.npc[State.active.variables.DancingNpc].main.picture,
+      title: aw.npc[State.active.variables.DancingNpc].main.name,
+      size: 3,
+      callback() {
+        setup.time.add(random(2, 4));
+      },
+      onclose() {
+        setup.refresh();
+      },
+    };
+    setup.interact.launch(args);
+  <</script>>
+<<else>>
+<<dialog "Mate">><<set _shra = '<img data-passage="IMG-LonelyWrench" style="border-radius:10px;float:left;margin-right:10px;height:500px;width:auto;">'>>
+<<print _shra>>You try to make acquaintances but it seems nobody is interested in you today. You have a couple of chats with guys but all of them makes some excuses and leave after a while.<br><br>@@.mono;I wonder if I am not attractive? Or maybe I just lack social skills to introduce myself properly and seduct them? Gosh, who would thought that finding an one-night stand as a woman would be so hard!@@<<addtime 13>><<stress 5 "Rejected at the club">><<status 0>><br><br><center><<button "Leave">><<run Dialog.close()>><</button>></center><</dialog>>
+<</if>>

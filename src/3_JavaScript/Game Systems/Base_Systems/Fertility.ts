@@ -187,7 +187,7 @@ setup.fert.cycle = function(tgt: 0 | npcid = 0): void {
   }
 };
 
-// subfunction, calculates the relative riskyness of day of cycle for cycle of length
+// subfunction, calculates the relative riskiness of day of cycle for cycle of length
 setup.fert.riskyDay = function(day: number, length: number): number {
   const fov = (length < 26) ? 13 : 14;
   if (day < (fov - 7)) {
@@ -378,7 +378,7 @@ setup.fert.playerStatsCalc = function(): void {
     case 0:
       f.egg = 1;
       f.implant = 2;
-      f.vagHostile = random(12, 14);
+      f.vagHostile = random(1, 3);
       f.period = 4;
       f.wombHealth = 2;
       f.multEgg = 1;
@@ -388,7 +388,7 @@ setup.fert.playerStatsCalc = function(): void {
     case 1:
       f.egg = 5;
       f.implant = 7;
-      f.vagHostile = random(13, 15);
+      f.vagHostile = random(5, 7);
       f.period = 6;
       f.wombHealth = 1;
       f.multEgg = 3;
@@ -397,7 +397,7 @@ setup.fert.playerStatsCalc = function(): void {
     case 2:
       f.egg = 10;
       f.implant = 7;
-      f.vagHostile = random(14, 16);
+      f.vagHostile = random(8, 10);
       f.period = 5;
       f.multEgg = 10;
       f.femaleFlag = ["none"];
@@ -405,7 +405,7 @@ setup.fert.playerStatsCalc = function(): void {
     case 3:
       f.egg = 14;
       f.implant = 10;
-      f.vagHostile = random(15, 17);
+      f.vagHostile = random(11, 13);
       f.period = 4;
       f.multEgg = 15;
       f.femaleFlag = ["none"];
@@ -413,7 +413,7 @@ setup.fert.playerStatsCalc = function(): void {
     case 4:
       f.egg = 17;
       f.implant = 12;
-      f.vagHostile = random(16, 18);
+      f.vagHostile = random(14, 16);
       f.period = 3;
       f.multEgg = 18;
       f.femaleFlag = ["none"];
@@ -429,7 +429,7 @@ setup.fert.playerStatsCalc = function(): void {
     case 6:
       f.egg = 23;
       f.implant = 18;
-      f.vagHostile = random(18, 20);
+      f.vagHostile = random(20, 22);
       f.period = 2;
       f.multEgg = 36;
       f.femaleFlag = ["none"];
@@ -437,7 +437,7 @@ setup.fert.playerStatsCalc = function(): void {
     case 7:
       f.egg = 26;
       f.implant = 24;
-      f.vagHostile = random(24, 26);
+      f.vagHostile = random(23, 25);
       f.period = 1;
       f.wombHealth = -1;
       f.multEgg = 54;
@@ -446,16 +446,16 @@ setup.fert.playerStatsCalc = function(): void {
     case 8:
       f.egg = 30;
       f.implant = 30;
-      f.vagHostile = random(28, 30);
+      f.vagHostile = random(26, 28);
       f.period = 1;
-      f.wombHealth = -3;
+      f.wombHealth = -2;
       f.multEgg = 78;
       f.femaleFlag = ["fertStorm", "goddess"];
       break;
     case 9:
       f.egg = 46;
       f.implant = 38;
-      f.vagHostile = 32;
+      f.vagHostile = 30;
       f.period = 1;
       f.wombHealth = -3;
       f.multEgg = 114;
@@ -562,19 +562,22 @@ setup.fert.spread = function(tgt: "pc"|npcid = "pc",
         cervix: "womb",
       },
     };
-    const survivalBase = 35; // something of a setting here, higher = more sperm death
+    const drugs = setup.drug.isOn();
+    const survivalBase = (drugs.includes("satyrfert")) ? 80 : 90; // something of a setting here, higher = more sperm death
     const desto = dests[direction][from]; // set destination/s
     const per = percent / 100;
     for (const cum of ᚥ.fluid[from]) {
       if (cum.vol > 0) {
         // death const is percentage of sperm that survive per operation.
-        const death = Math.max(0.01, (90 - Math.max(0, (survivalBase - (ᚥ.vagHostile + cum.surv + cum.surv)))) / 100);
+        const death = Math.max(0.01, Math.min(0.98, (100 - (survivalBase - (cum.surv * 4 + Math.round(ᚥ.vagHostile * 2)))) / 100));
         cum.amt = Math.round(cum.amt * death);
         if (desto === "womb") {
-          const pene = Math.max(0.1, Math.min(0.95, (random(75, 125) - (ᚥ.vagHostile + cum.surv)) / 100));
-          cum.amt = Math.round(cum.amt * pene);
+          if (!drugs.includes("heatfert")) { // dialates cervix, all sperm penetrate
+            const pene = Math.max(0, Math.min(1, (ᚥ.vagHostile * 4 + cum.surv * 2 - 38) / 100));
+            cum.amt = Math.round(cum.amt * pene);
+          }
         }
-        if (desto === "cervix" && tgt === "pc" && ↂ.pc.status.birthCon.diaphragm.worn) {
+        if (((Array.isArray(desto) && desto.includes("cervix")) || desto === "cervix") && tgt === "pc" && ↂ.pc.status.birthCon.diaphragm.worn) {
           const multo = (100 - (ↂ.pc.status.birthCon.diaphragm.effect - (ↂ.pc.status.birthCon.diaphragm.sabo * 4))) / 100;
           cum.amt = Math.round(cum.amt * multo);
           cum.vol = Math.round(cum.vol * multo);
@@ -654,11 +657,11 @@ setup.fert.spread = function(tgt: "pc"|npcid = "pc",
   // switch between spread operations to move in different ways.
   switch (dir) {
     case "time":
-      move("deep", "cervward", 75);
-      move("vulva", "cervward", 25);
-      move("vest", "cervward", 35);
-      move("mid", "cervward", 50);
-      move("cervix", "cervward", 80);
+      move("deep", "outward", 95);
+      move("vulva", "cervward", 5);
+      move("vest", "cervward", 10);
+      move("mid", "cervward", 20);
+      move("cervix", "cervward", 40);
       // dry out
       dry();
       break;
@@ -666,7 +669,7 @@ setup.fert.spread = function(tgt: "pc"|npcid = "pc",
       move("vulva", "inward", 45);
       move("vest", "inward", 50);
       move("mid", "inward", 50);
-      move("cervix", "inward", 50);
+      move("cervix", "inward", 35);
       move("deep", "inward", 50);
       break;
     case "out":
@@ -681,7 +684,7 @@ setup.fert.spread = function(tgt: "pc"|npcid = "pc",
       move("vest", "cervward", 90);
       move("mid", "cervward", 90);
       move("deep", "cervward", 35);
-      move("cervix", "cervward", 80);
+      move("cervix", "cervward", 50);
       break;
     case "push in":
       move("vulva", "cervward", 50);
@@ -697,14 +700,14 @@ setup.fert.spread = function(tgt: "pc"|npcid = "pc",
       move("vulva", "inward", 95);
       move("vest", "inward", 90);
       move("mid", "inward", 30);
-      move("cervix", "inward", 15);
+      move("cervix", "inward", 10);
       break;
     case "diaphragm":
       move("vulva", "cervward", 95);
       move("vest", "cervward", 95);
       move("mid", "cervward", 95);
       move("deep", "cervward", 90);
-      move("cervix", "cervward", 90);
+      move("cervix", "cervward", 80);
       break;
     case "douche":
       move("deep", "outward", 90);
@@ -865,7 +868,9 @@ setup.fert.spermAge = function(tgt: "pc"|npcid = "pc"): void {
   const mute = (tgt === "pc") ? ↂ.pc.mutate.cycle : aw.npc[tgt].mutate.cycle;
   for (let i = 0, c = ᚥ.fluid.ovary.length; i < c; i++) {
     if (ᚥ.fluid.ovary[i].halfLife != null) {
-      ᚥ.fluid.ovary[i].halfLife(ᚥ.vagHostile, mute);
+      const drugs = setup.drug.isOn();
+      const hostile = (drugs.includes("satyrfert")) ? ᚥ.vagHostile + 5 : ᚥ.vagHostile;
+      ᚥ.fluid.ovary[i].halfLife(hostile, mute);
     } else {
       aw.con.warn(`setup.fert.spermAge -> fert.fluid.ovary index [${i}] is not a Cum object.`);
     }
@@ -887,9 +892,10 @@ setup.fert.ovulate = function(tgt: "pc"|npcid = "pc"): void {
   const eggRelease = (ᚥ.status.birthCon.ineffective || ᚥ.status.birthCon.hormone <= 0) ?
     (ᚥ.fert.egg + ᚥ.fert.boost) * 5 :
     ((ᚥ.fert.egg + ᚥ.fert.boost) * 5) - ᚥ.status.birthCon.hormone;
-  const multiple = Math.round(((ᚥ.fert.multEgg + (ᚥ.fert.boost * 10)) * 0.3));
+  const multiple = Math.round(((ᚥ.fert.multEgg + (ᚥ.fert.boost * 10)) * 0.3) - ᚥ.status.birthCon.hormone);
   let released = 0;
-  if (random(1, 100) < eggRelease) {
+  const drugs = setup.drug.isOn();
+  if (random(1, 100) < eggRelease || drugs.includes("heatfert")) {
     released++;
     if (eggRelease > 100 && random(1, 100) < (eggRelease - 80)) {
       released++; // super fertile egg release bonus
@@ -1047,6 +1053,9 @@ setup.fert.zygoteCheck = function(tgt: "pc" | npcid = "pc"): void {
           flag: ["natural"],
         };
         ᚥ.status.wombA.know = false;
+        if (zyg.father.slice(0, 4) === "PTSC") {
+          ↂ.flag.surrogate.wombA = true;
+        }
         ᚥ.status.wombA.fetus.push(new Fetus(fet));
         aw.con.info(`A zygote implanted successfully in womb A! Father: ${zyg.father} :D`);
         if (aw.npc[zyg.father] != null) {
@@ -1058,6 +1067,10 @@ setup.fert.zygoteCheck = function(tgt: "pc" | npcid = "pc"): void {
           fet.flag.push("twin");
           ᚥ.status.wombA.fetus.push(new Fetus(fet));
           aw.con.info(`The previous zygote split, and both implanted!`);
+        }
+        // check for first pregnancy achievement
+        if (tgt === "pc") {
+          setup.achieve.new("firstPreggo");
         }
       } else {
         aw.con.info(`A zygote failed to implant D:`);
@@ -1091,6 +1104,9 @@ setup.fert.zygoteCheck = function(tgt: "pc" | npcid = "pc"): void {
           growth: 0,
           flag: ["natural"],
         };
+        if (zyg.father.slice(0, 4) === "PTSC") {
+          ↂ.flag.surrogate.wombB = true;
+        }
         ᚥ.status.wombB.fetus.push(new Fetus(fet));
         ᚥ.status.wombB.know = false;
         aw.con.info(`A zygote implanted successfully in womb B! :D`);
@@ -1117,8 +1133,20 @@ setup.fert.printCum = function(): string {
       output += "None";
     } else {
       for (const cum of ↂ.pc.fert.fluid[list[i]]) {
-        const nam = (cum.owner === "unknown") ? "Unknown" : aw.npc[cum.owner].name;
-        output += `<b>Donor:</b> ${nam} <b>Amount:</b> ${cum.amt}K sperm<br>`;
+        let name;
+        if (cum.owner === 'Progenerate Technologies GmbH') {
+          name = "Progenerate Technologies GmbH";
+        }
+        else if (cum.owner === 'Unknown') {
+          name = "Unknown";
+        }
+        else if (setup.testes.test(cum.owner)) {
+          name = aw.npc[cum.owner].name;
+        }
+        else {
+          name = cum.owner;
+        }
+        output += `<b>Donor:</b> ${name} <b>Amount:</b> ${cum.amt}K sperm<br>`;
       }
     }
     output += "</dd>";
@@ -1318,7 +1346,7 @@ setup.fert.fetusCheck = function(tgt: "pc" | npcid = "pc"): void {
   }
   if (State.active.variables.pref.miscarriage) {
     const mRate = 26 - (ᚥ.fert.fertility * 2);
-    const max = 7500; // calculated for consecutive randomizations to bring odds to right point (80 draws)
+    const maxi = 7500; // calculated for consecutive randomizations to bring odds to right point (80 draws)
     let misCount = 0;
     let lateTerm = false;
     const tCheck = Math.floor(38 / ᚥ.fert.pregTerm); // shorter pregnancies get more checks.
@@ -1343,7 +1371,7 @@ setup.fert.fetusCheck = function(tgt: "pc" | npcid = "pc"): void {
           if (ᚥ.status.wombA.fetus[i].grow[0] < 31) {
             // normal miscarry check because shit happens. (irl rates are 20-25% of pregnancies end in miscarriage)
             for (let j = 0; j < tCheck; j++) {
-              if (random(0, max) < mRate) {
+              if (random(0, maxi) < mRate) {
                 misCount++;
                 ᚥ.status.wombA.miscarry++;
                 ᚥ.status.wombA.total++;
@@ -1379,7 +1407,7 @@ setup.fert.fetusCheck = function(tgt: "pc" | npcid = "pc"): void {
           if (ᚥ.status.wombB.fetus[i].grow[0] < 31) {
             // normal miscarry check because shit happens. (irl rates are 20-25% of pregnancies end in miscarriage)
             for (let j = 0; j < tCheck; j++) {
-              if (random(0, max) < mRate) {
+              if (random(0, maxi) < mRate) {
                 misCount++;
                 ᚥ.status.wombB.miscarry++;
                 ᚥ.status.wombB.total++;
@@ -1405,7 +1433,7 @@ setup.fert.fetusCheck = function(tgt: "pc" | npcid = "pc"): void {
       } else {
         content += "You notice some cramps after waking up, and after getting up you spot some blood on the bed.<br>";
         content += "@@.mono;I'm having my period? That's odd...@@";
-        content += "<br><center>@@.note;You lost ${misCount} fetuses@@</center>";
+        content += `<br><center>@@.note;You lost ${misCount} fetuses@@</center>`;
       }
       setup.dialog("Miscarriage", content);
     }
@@ -1449,6 +1477,7 @@ setup.fert.birthCheck = function(tgt: "pc" | npcid): void {
       return ↂ.pc;
     }
   };
+  let anyBirth = false;
   const ᚥ = refGet();
   // check wombs for birth potential
   if (ᚥ.status.wombA.fetus.length > 0) {
@@ -1458,6 +1487,7 @@ setup.fert.birthCheck = function(tgt: "pc" | npcid): void {
         const odds = Math.min(30, Math.max(1, 100 - fetus.grow[0])) + 1;
         if (random(1, odds) === 1) {
           birth = true;
+          anyBirth = true;
         }
       }
     }
@@ -1483,6 +1513,7 @@ setup.fert.birthCheck = function(tgt: "pc" | npcid): void {
         const odds = Math.min(30, Math.max(1, 100 - fetus.grow[0])) + 1;
         if (random(1, odds) === 1) {
           birth = true;
+          anyBirth = true;
         }
       }
     }
@@ -1498,6 +1529,18 @@ setup.fert.birthCheck = function(tgt: "pc" | npcid): void {
       aw.con.info(`fetuses born from ${tgt}`);
       ᚥ.status.wombB.birthed += babies;
       ᚥ.status.wombB.total += babies;
+    }
+  }
+  // idiotic besty's inclusion to make nipples bigger due to pregnancy
+  if (anyBirth) {
+    if (ᚥ.body.tits.areola < 5) {
+      ᚥ.body.tits.areola += 1;
+    }
+    if (ᚥ.body.tits.nipGirth < 5) {
+      ᚥ.body.tits.nipGirth += 1;
+    }
+    if (ᚥ.body.tits.nipLength < 5) {
+      ᚥ.body.tits.nipLength += 1;
     }
   }
 };
@@ -1525,6 +1568,8 @@ setup.fert.pcBirth = function(womb: "A" | "B"): IntPcBirthReturn {
   let male = 0;
   let female = 0;
   let futa = 0;
+  let surrogate = false;
+  let reward = 0;
   for (const fetus of ↂ.pc.status[w].fetus) {
     if (fetus.health < 50) {
       badComp++;
@@ -1550,6 +1595,18 @@ setup.fert.pcBirth = function(womb: "A" | "B"): IntPcBirthReturn {
     if (aw.npc[fetus.father] != null) {
       aw.npc[fetus.father].record.flag.kidsPC += 1;
     }
+    if (fetus.father.slice(0, 4) === "PTSC") {
+      surrogate = true;
+    }
+  }
+  if (!surrogate && womb === "A") {
+    ↂ.flag.surrogate.wombA = false;
+  } else if (!surrogate && womb === "B") {
+    ↂ.flag.surrogate.wombB = false;
+  } else if (surrogate && womb === "A") {
+    ↂ.flag.surrogate.wombA = true;
+  } else if (surrogate && womb === "B") {
+    ↂ.flag.surrogate.wombB = true;
   }
   if (ↂ.pc.body.hips < 3 || ↂ.pc.body.pelvis < 3) {
     difficult = true;
@@ -1577,17 +1634,33 @@ setup.fert.pcBirth = function(womb: "A" | "B"): IntPcBirthReturn {
     }
   }
   // Generate babies ============================================
-  if (ↂ.job.code !== "PF") {
+  let yourBabies = true;
+  if (ↂ.job.code === "PF") {
+    yourBabies = false;
+  }
+  if (ↂ.flag.surrogate.wombA && womb === "A") {
+    yourBabies = false;
+    reward += setup.cashDiff(ↂ.flag.surrogate.value);
+    ↂ.flag.surrogate.wombA = false;
+    ↂ.flag.surrogate.value = 0;
+  } else if (ↂ.flag.surrogate.wombB && womb === "B") {
+    yourBabies = false;
+    reward += setup.cashDiff(ↂ.flag.surrogate.value);
+    ↂ.flag.surrogate.wombB = false;
+    ↂ.flag.surrogate.value = 0;
+  }
+  if (yourBabies) {
     setup.genetics.babyGen(difficult, cSec, ↂ.pc.status[w].fetus);
   }
   // ============================================================
+  // record keeping
   ↂ.pc.status[w].know = false;
   ↂ.pc.status[w].fetus = [];
   ↂ.pc.status[w].birthed += babies;
   ↂ.pc.status[w].total += babies;
-  ↂ.pc.status.kids += (ↂ.job.code === "PF") ? 0 : babies;
+  ↂ.pc.status.kids += (yourBabies) ? babies : 0;
   // womb health adjustment (damage)
-  const dmg = 2 + (babies * 3);
+  const dmg = 2 + babies;
   if (random(0, dmg) > ↂ.pc.fert.fertility) {
     ↂ.pc.fert.wombHealth++;
   }
@@ -1609,23 +1682,50 @@ setup.fert.pcBirth = function(womb: "A" | "B"): IntPcBirthReturn {
   if (ↂ.pc.status.health < 10) {
     ↂ.pc.status.health = 10;
   }
+  // stretching
+  ↂ.flag.preBirthTightness = ↂ.pc.body.pussy.tight;
+  if (ↂ.pc.body.pussy.tight < 10) {
+    ↂ.pc.body.pussy.tight = 10;
+  }
+  ↂ.pc.body.pussy.insert(12);
+  const timer: IntOmniData = {
+    name: "Sore Vagina",
+    type: "single",
+    output: "notify",
+    duration: 2880,
+    icon: "IMGstatus_Injured",
+    text: "Your vagina is sore and uncomfortable from giving birth.",
+    run: `setup.notify("Your pussy feels better now");
+    if(ↂ.flag.preBirthTightness < 10) {
+      aw.L();
+      ↂ.pc.body.pussy.tight = ↂ.flag.preBirthTightness;
+      if (ↂ.flag.preBirthTightness < 8) {
+        ↂ.pc.body.pussy.tight = 8;
+      }
+      aw.S();
+    }`,
+  };
+  setup.omni.new(timer);
+  // IMPORTANT - SAVE DATA BEFORE CASH
   aw.S();
-  const reward = (ↂ.job.code === "PF") ? babies * 150 : babies * 50;
-  if (!ↂ.flag.Healthcare && ↂ.job.code !== "PF") {
-    const newReward = reward - 1000;
-    if (newReward > 0) {
-      aw.cash(newReward, "birth");
+  reward += setup.cashDiff((!yourBabies) ? babies * 300 : babies * 125);
+  if (!ↂ.flag.Healthcare && yourBabies) {
+    reward -= 1000;
+    if (reward > 0) {
+      aw.cash(reward, "birth");
     } else {
-      aw.cash(newReward, "misc");
-    }
-  } else if (!ↂ.flag.Healthcare) {
-    const newReward = reward - 500;
-    if (newReward > 0) {
-      aw.cash(newReward, "birth");
+      aw.cash(reward, "medical");
     }
   } else {
     aw.cash(reward, "birth");
   }
+  // achievements
+  if (ↂ.pc.status.wombA.birthed + ↂ.pc.status.wombB.birthed >= 20) {
+    setup.achieve.new("broodMother");
+  } else if (ↂ.pc.status.wombA.birthed + ↂ.pc.status.wombB.birthed >= 5) {
+    setup.achieve.new("repopulation");
+  }
+  // setup data to send to birthing scene
   const data = {
     amt: babies,
     comp,
@@ -1657,6 +1757,14 @@ setup.fert.birthingScene = function(womb: "A" | "B"): twee {
   time *= (b.difficult) ? 1.5 : 1;
   time += (b.cSec) ? random(120, 240) : 0;
   time = Math.round(time);
+  const record = (b.amt > ↂ.flag.recordBirths) ? true : false;
+  if (b.amt > ↂ.flag.recordBirths) {
+    ↂ.flag.recordBirths = b.amt;
+    if (ↂ.job.code === "PF") {
+      ↂ.flag.job.PF.record = true;
+    }
+    aw.S("flag");
+  }
   const mins = time % 60;
   const hours = Math.floor(time / 60);
   const hw = (hours !== 1) ? "hours" : "hour";
@@ -1666,11 +1774,14 @@ setup.fert.birthingScene = function(womb: "A" | "B"): twee {
   const compw = (b.comp > 1) ? "babies" : "baby";
   let output = "<p>";
   if (b.cSec) {
-    output += `<<f y>>ou struggle for to give birth to your ${setup.numWord(b.amt)} ${bw}, but your best efforts aren't enough. Eventually you're prepped for surgery and taken back for a c-section. The whole ordeal took ${setup.numWord(hours)} ${hw} and ${setup.numWord(mins)} ${mw}. `;
+    output +=
+      `<<f y>>ou struggle for to give birth to your ${setup.numWord(b.amt)} ${bw}, but your best efforts aren't enough. Eventually you're prepped for surgery and taken back for a c-section. The whole ordeal took ${setup.numWord(hours)} ${hw} and ${setup.numWord(mins)} ${mw}. `;
   } else if (b.difficult) {
-    output += `<<f y>>ou struggle for ${setup.numWord(hours)} ${hw} and ${setup.numWord(mins)} ${mw} to give birth to ${setup.numWord(b.amt)} ${bw}. The experience wasn't what you'd hoped for, but at least you were able to avoid a c-section.`;
+    output +=
+      `<<f y>>ou struggle for ${setup.numWord(hours)} ${hw} and ${setup.numWord(mins)} ${mw} to give birth to ${setup.numWord(b.amt)} ${bw}. The experience wasn't what you'd hoped for, but at least you were able to avoid a c-section. `;
   } else {
-    output += `<<f y>>ou work hard for to give birth, and the process goes as smoothly as you'd hoped. After pushing for ${setup.numWord(hours)} ${hw} and ${setup.numWord(mins)} ${mw}, you were rewarded with the birth of ${setup.numWord(b.amt)} ${bw}. `;
+    output +=
+      `<<f y>>ou work hard for to give birth, and the process goes as smoothly as you'd hoped. After pushing for ${setup.numWord(hours)} ${hw} and ${setup.numWord(mins)} ${mw}, you were rewarded with the birth of ${setup.numWord(b.amt)} ${bw}. `;
   }
   if (b.badComp > 0) {
     output += "Unfortunately you weren't able to enjoy a normal bonding experience afterward. Right after birth ";
@@ -1707,9 +1818,20 @@ setup.fert.birthingScene = function(womb: "A" | "B"): twee {
   if (b.futa > 0 && b.male + b.female > 0) {
     output += `You also gave birth to ${setup.numWord(b.futa)} ${futaw} of mixed gender. `;
   }
+  if (record) {
+    output += `One of the nurses informs you that with ${b.amt} babies, you've beaten the Appletree record for live births!`;
+  }
   output += "</p>";
   if (ↂ.job.code === "PF") {
     output += `<p>Because you are a surrogate in the Progenerate Technologies Fecundate Division, the babies you gave birth to are immediately reported to Progenerate for handling. Your birthing bonus is handled automatically. Unfortunately, that also means you don't even get the chance to name them.</p><center><<button "CONTINUE">><<run setup.scenario.close()>><<if $time[2] && $time[0] > 1>><<run setup.sleep.go()>><</if>><</button>></center>`;
+  } else if ((womb === "A" && ↂ.flag.surrogate.wombA) || (womb === "B" && ↂ.flag.surrogate.wombB)) {
+    output += `<p>Because you are a surrogate for the Progenerate Technologies Surrogacy Center, the babies you gave birth to are immediately reported to Progenerate for handling. Your birthing bonus is handled automatically. Unfortunately, that also means you don't even get the chance to name them.</p><center><<button "CONTINUE">><<run setup.scenario.close()>><<if $time[2] && $time[0] > 1>><<run setup.sleep.go()>><</if>><</button>></center>`;
+    if (womb === "A") {
+      ↂ.flag.surrogate.wombA = false;
+    } else {
+      ↂ.flag.surrogate.wombB = false;
+    }
+    aw.S("flag");
   } else {
     output += `<center><<button "CONTINUE">><<scenego "BirthChildNaming">><</button>></center>`;
   }
@@ -1826,7 +1948,7 @@ setup.fert.tummyHugger = function(): string {
       const growth = function(): number {
         const termDays = ↂ.pc.fert.pregTerm * 7;
         const perXX = Math.round(10000 / termDays);
-        return Math.floor(perXX / 100);
+        return perXX / 100;
       };
       const gestDays = ↂ.pc.fert.pregTerm * 7;
       const growRate = growth();
@@ -1937,7 +2059,7 @@ setup.fert.cleanseBirthCon = function(tgt: "pc"|npcid = "pc"): void {
 setup.fert.progenerateInseminate = function(): void {
   aw.L("pc");
   const cData = {
-    owner: "unknown",
+    owner: "Progenerate Technologies GmbH",
     vol: 0,
     qual: 20,
     surv: 10,
@@ -1946,7 +2068,7 @@ setup.fert.progenerateInseminate = function(): void {
     killer: true,
   };
   ↂ.pc.fert.fluid.ovary.push(new Cum(cData));
-  ↂ.pc.fert.creampie("unknown", 30, "deep");
+  ↂ.pc.fert.creampie("Progenerate Technologies GmbH", 30, "deep");
   aw.S("pc");
 };
 

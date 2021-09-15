@@ -424,6 +424,7 @@ setup.time.add = function(addMin: number, disable: boolean | setupTimeAddArgs = 
       setup.omni.value += addMin;
     }
     setup.condition.dry();
+    setup.vow.vowsControl();
     // start the event checking function
     if (!args.event && !args.all) {
       const delay = (args.omni) ? setup.event.delay : (setup.event.delay + setup.omni.delay);
@@ -493,6 +494,9 @@ setup.time.chunk = function(min: number): void {
     State.active.variables.timeChunk = timeChunk;
     setup.cTag.build(false); // generates conversational tags - once per chunk group only.
     setup.clothes.drying();
+    setup.challenge.check();
+    setup.interactionMisc.spouseAngry();
+    setup.interactionMisc.divorceCheck();
   }
 };
 
@@ -597,6 +601,9 @@ setup.time.status = function(count: number): void {
       setup.condition.add({ loc: "chest", amt: a, type: "milk" });
     }
   }
+  if (ↂ.pc.body.tits.base.size >= 25000) {
+    setup.badEnd("breastSize");
+  }
   if (ↂ.pc.status.alcohol > 0) {
     const max = (ↂ.pc.status.alcohol > 4) ? 3 : 2; // reduce rate of alcohol lowering when more than tipsy.
     if (random(1, max) === 1) {
@@ -695,6 +702,18 @@ setup.time.status = function(count: number): void {
     if (base >= random(1, top)) {
       setup.status.arousal(1);
     }
+    if (State.active.variables.AW.tutorials && !ↂ.flag.stressWarned && ᛔ.status.stress > 70) {
+      setup.dialog("Stress",`<div style="border: 3px solid #ff5d3d;background-color:#000;text-align:center;padding:20px;min-width:500px;color: #ffc16b;"><span style="font-size:1.4rem;color:#ff5d3d;">Stress Warning</span><br><br>We have noticed that your character's stress levels are haywiring. Having high stress can result in a mental breakdown and many more nasty mental effects leading your character to the game over so you may want to take some time to manage it. One of the easiest options is to meditate in your living room, other include swimming in the pool, going to the massage parlor and many more.<br><br>Stress comes from number of various sources but the main thing causing it is your job. Note that working "hard" means putting all possible efforts into working and my not be the best option on a long run for your character stats, maybe taking it easier is a good idea?</div><br><center><<button "Will do something about that">><<run Dialog.close()>><</button>></center><<set ↂ.flag.stressWarned = true>><<status 0>>`);
+    }
+    if (State.active.variables.AW.tutorials && !ↂ.flag.lonelyWarned && ᛔ.status.lonely > 70) {
+      setup.dialog("Companionship",`<div style="border: 3px solid #ff5d3d;background-color:#000;text-align:center;padding:20px;min-width:500px;color: #ffc16b;"><span style="font-size:1.4rem;color:#ff5d3d;">Companionship Warning</span><br><br>Houston we have a problem. Well not us, but your character does indeed. As Bob Ross said "Everybody needs a friend" and so your character too. Your companionship status shows that your character feels lonely and this makes her not too happy. Introvert characters are less affected by this but in the end of the day, you probably want to avoid negative effects on <<name>> caused by loneliness. Good news is that you can fix it easily by hanging out, asking people to go on the dates, even talking on the street with other citizens may help!</div><br><center><<button "I guess I need to meet somebody">><<run Dialog.close()>><</button>></center><<set ↂ.flag.lonelyWarned = true>><<status 0>>`);
+    }
+    if (State.active.variables.AW.tutorials && !ↂ.flag.sexWarned && ᛔ.status.satisfaction < 15) {
+      setup.dialog("I can't get no satisfaction",`<div style="border: 3px solid #ff5d3d;background-color:#000;text-align:center;padding:20px;min-width:500px;color: #ffc16b;"><span style="font-size:1.4rem;color:#ff5d3d;">Satisfaction Warning</span><br><br>Yet another annoying warning for you, don't worry, it will only show once. The problem is <<name>>'s satisfaction level. She needs sex and she needs it now. Being overly chaste affects your character's happiness and also can cause lust-induced insanity. While being a fun idea by itself this will lead to game over which is not so good.<br><br>A notable exception is wearing some actual chastity which may... alter the mechanics ;) But usually you really want to keep your precious character satisfied and there is a solution to this! There are plenty of characters of all genders in the valley who are ready to fuck. Don't want to interact with those pesky humans? Well, there are some possibilities to satisfy yourself with masturbation or various sex toys you can buy at the adult store at the north of downtown.</div><br><center><<button "Time to fuck like there is no tomorrow!">><<run Dialog.close()>><</button>></center><<set ↂ.flag.sexWarned = true>><<status 0>>`);
+    }
+    if (State.active.variables.AW.tutorials && !ↂ.flag.cleanWarned && ↂ.home.clean.floors < 25) {
+      setup.dialog("What a mess!",`<div style="border: 3px solid #ff5d3d;background-color:#000;text-align:center;padding:20px;min-width:500px;color: #ffc16b;"><span style="font-size:1.4rem;color:#ff5d3d;">Cleanliness Warning</span><br><br>It seems your flat got very dirty. This severely affects your character's mood and happiness. Who would prefer to live in a messy house, right? One method of cleaning is doing a "Quick clean" by pressing on the broom icon on your home map. Better and long-term solution would be adjusting the frequency of cleaning in the home management menu. Also you may consider buying a cleaning robot at the electronic sections of some stores.</div><br><center><<button "Time to clean this all!">><<run Dialog.close()>><</button>></center><<set ↂ.flag.cleanWarned = true>><<status 0>>`);
+    }
   }
   /********************************************/
   /* PUT CONDITION ITEMS HERE, WETNESS, MILK,
@@ -749,18 +768,19 @@ setup.time.status = function(count: number): void {
       }
     }
   }
-  if (ↂ.pc.status.clean > 1) {
+  if (ↂ.pc.status.clean > 2) {
     const itemsToStain = ["bottom", "bra", "coat", "leg", "panties", "top"];
     for (let index = 0; index < itemsToStain.length; index++) {
       if (ↂ.pc.clothes.keys[itemsToStain[index]] !== 0) {
-        if (random(ↂ.pc.status.clean, 6) === 6) {
-          if (random(1, 3) === 3) { // approximate of 24 hours to get clothes to the filthy status if pc skin is filthy herself. Way too generous but I want to avoid too much micro with washing clothes daily and stuff.
+        if (random(ↂ.pc.status.clean, 10) === 10) {
+          if (random(1, 2) === 2) { // approximate of 24 hours to get clothes to the filthy status if pc skin is filthy herself. Way too generous but I want to avoid too much micro with washing clothes daily and stuff.
             aw.clothes[ↂ.pc.clothes.keys[itemsToStain[index]]].values.dirty++;
           }
         }
       }
     }
   }
+  setup.clothes.timeEffect(); // regular chance of damage and dirty for worn clothes.
   // ==================================================
   // !!! Bad Ending Check !!!
   // ==================================================
@@ -819,7 +839,7 @@ setup.time.missedCheck = function(): void { // VODKA
     const time = (setup.time.nowDay() + setup.time.minutes());
     const lastCall = (ↂ.plans.current[i].start + 60);
     try {
-      if (ↂ.plans.current[i].type === "date") {
+      if (ↂ.plans.current[i].type === "date" && ↂ.plans.current[i].missed === true) {
         if (ↂ.flag.schedDates.includes(ↂ.plans.current[i].npc[0]) && time > lastCall) {
           setup.interact.status.npc = ↂ.plans.current[i].npc[0];
           aw.npc[setup.interact.status.npc].rship.likePC -= 13;
@@ -1356,7 +1376,7 @@ setup.time.addictNeedIncrease = function(): void {
   return;
 };
 
-// applies drug withdrawl effects
+// applies drug withdrawal effects
 setup.time.withdrawl = function(drug: "sex" | "alc" | "heat" | "satyr" | "focus" | "cum" | "zone" | "cream", names: string): void {
   if (setup.omni.matching("Withdrawal") === 0) {
   const omni = setup.drug.omniGen(drug) as IntOmniData;

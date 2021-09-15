@@ -54,6 +54,7 @@ setup.weightCalc = function(): void { // weekly weight and tone calc function
   ↂ.pc.status.nutrition.diet = 0;
   ↂ.pc.status.nutrition.fast = 0;
   ↂ.pc.status.nutrition.junk = 0;
+  ↂ.pc.status.exercise = 0;
   aw.S();
 };
 

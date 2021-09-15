@@ -161,7 +161,7 @@
 </td><td>
 @@.bad;.monospace;<<mon>><<print ↂ.home.finance.totalExpense>>@@
 </td></tr><tr><td>
-<<if _surDef >= 0>>''SURPLUS:'' <<helpPop "Surplus" "The amount of money you have remaining after mandatory expenses.">> <<else>>''DEFICIT:'' <<helpPop "Deficit" "This means that your mandatory expenses exceed your income. This is okay if it happens occassionally, but it could indicate that you're spending more than you can afford.">><</if>>
+<<if _surDef >= 0>>''SURPLUS:'' <<helpPop "Surplus" "The amount of money you have remaining after mandatory expenses.">> <<else>>''DEFICIT:'' <<helpPop "Deficit" "This means that your mandatory expenses exceed your income. This is okay if it happens occasionally, but it could indicate that you're spending more than you can afford.">><</if>>
 </td><td>
 <<if _surDef >= 0>>@@.money;<<mon>><<print _surDef>>@@<<else>>@@.bad;.monospace;<<mon>><<print _surDef>>@@<</if>>
 </td></tr>
@@ -375,7 +375,7 @@
 </td><td>
 @@.bad;.monospace;<<mon>><<print ↂ.home.finance.totalExpense>>@@
 </td></tr><tr><td>
-<<if _surDef >= 0>>''SURPLUS:'' <<helpPop "Surplus" "The amount of money you have remaining after mandatory expenses.">> <<else>>''DEFICIT:'' <<helpPop "Deficit" "This means that your mandatory expenses exceed your income. This is okay if it happens occassionally, but it could indicate that you're spending more than you can afford.">><</if>>
+<<if _surDef >= 0>>''SURPLUS:'' <<helpPop "Surplus" "The amount of money you have remaining after mandatory expenses.">> <<else>>''DEFICIT:'' <<helpPop "Deficit" "This means that your mandatory expenses exceed your income. This is okay if it happens occasionally, but it could indicate that you're spending more than you can afford.">><</if>>
 </td><td>
 <<if _surDef >= 0>>@@.money;<<mon>><<print _surDef>>@@<<else>>@@.bad;.monospace;<<mon>><<print _surDef>>@@<</if>>
 </td></tr>
@@ -406,7 +406,9 @@
 :: WeekPlannerMain [nobr hidden]
 
 <<silently>>
-
+  <<if ↂ.pc.fert.ovuFlag && ↂ.flag.surrogate.type === 'Breeding surrogacy' && ↂ.flag.surrogate.chosen && ↂ.flag.surrogate.accept>>
+    <<run setup.dialog("Surrogacy Center App<br><br>You are entering your fertile period today, we send an automatic message to you and your partner. You can come to our nearest center at any time for treatment, we guarantee your total safety and pleasure during your stay.<br>Go to the Surrogacy Center to breed...")>>
+  <</if>>
 <</silently>>
 <center>@@.head1;Week Planner@@</center>
 <table><tr><td><center>
@@ -428,7 +430,7 @@
 </td><td width="15%">
 <<button "Set Spending">><<switch _foodSpend>><<case "Average">><<set ↂ.home.finance.sett.foodLevel = 3>><<case "Poor">><<set ↂ.home.finance.sett.foodLevel = 1>><<case "None">><<set ↂ.home.finance.sett.foodLevel = 0>><<case "Cheap">><<set ↂ.home.finance.sett.foodLevel = 2>><<case "Fancy">><<set ↂ.home.finance.sett.foodLevel = 4>><<case "Luxury">><<set ↂ.home.finance.sett.foodLevel = 5>><</switch>><<replace "#foodspend">><<spendingLevel ↂ.home.finance.sett.foodLevel>><</replace>><</button>>
 </td></tr><tr><td>
-''Household Goods Spending:'' <<helpPop "Household Goods" "Household goods are many of the other things you'd buy at a grocery store that aren't actually food, or that are only an occassional purchase like spices. Paper towels, toilet paper, soap, and shampoo all fall in this category, along with alcohol like wine or beer.">>
+''Household Goods Spending:'' <<helpPop "Household Goods" "Household goods are many of the other things you'd buy at a grocery store that aren't actually food, or that are only an occasional purchase like spices. Paper towels, toilet paper, soap, and shampoo all fall in this category, along with alcohol like wine or beer.">>
 </td><td>
 <span id="goodspend" class="ident"><<spendingLevel ↂ.home.finance.sett.goodsLevel>></span>
 </td><td>
@@ -470,21 +472,21 @@ Unobvious - <<cleanLevel ↂ.home.clean.deepclean>>@@
 </td></tr><tr><td width="30%">
 ''Straightening Up:'' <<helpPop "Straightening Up" "Straightening up represents putting things back where they belong, and generally keeping things tidy. Examples: <i>putting dishes in the sink, putting magazines away, throwing away any trash, or repositioning throw pillows.</i> A very clean home that isn't straightened up will look dirtier than it is, while a tidy home tends to look cleaner than it is. <i><b>Most</b> characters will find a tidy home more relaxing.</i>">>
 </td><td width="25%">
-<span id="straights" class="ident"><<switch ↂ.home.clean.pickingUp>><<case 0>>!Manual!<<case 1>>Rarely<<case 2>>Infrequently<<case 3>>Occassionally<<case 4>>Frequently<<case 5>>Constantly<</switch>></span>
+<span id="straights" class="ident"><<switch ↂ.home.clean.pickingUp>><<case 0>>!Manual!<<case 1>>Rarely<<case 2>>Infrequently<<case 3>>Occasionally<<case 4>>Frequently<<case 5>>Constantly<</switch>></span>
 </td><td width="30%">
-<<dropdown '_straightDrop' "Occassional" "Rarely" "Infrequent" "Frequent" "Constantly" "Manual">>
+<<dropdown '_straightDrop' "Occasional" "Rarely" "Infrequent" "Frequent" "Constantly" "Manual">>
 </td><td width="15%">
-<<button "Set Cleaning">><<switch _straightDrop>><<case "Occassional">><<set ↂ.home.clean.pickingUp = 3>><<case "Rarely">><<set ↂ.home.clean.pickingUp = 1>><<case "Infrequent">><<set ↂ.home.clean.pickingUp = 2>><<case "Frequent">><<set ↂ.home.clean.pickingUp = 4>><<case "Constantly">><<set ↂ.home.clean.pickingUp = 5>><<case "Manual">><<set ↂ.home.clean.pickingUp = 0>><</switch>><<replace "#straights">><<switch ↂ.home.clean.pickingUp>><<case 0>>!Manual!<<case 1>>Rarely<<case 2>>Infrequently<<case 3>>Occassionally<<case 4>>Frequently<<case 5>>Constantly<</switch>><</replace>><</button>>
+<<button "Set Cleaning">><<switch _straightDrop>><<case "Occasional">><<set ↂ.home.clean.pickingUp = 3>><<case "Rarely">><<set ↂ.home.clean.pickingUp = 1>><<case "Infrequent">><<set ↂ.home.clean.pickingUp = 2>><<case "Frequent">><<set ↂ.home.clean.pickingUp = 4>><<case "Constantly">><<set ↂ.home.clean.pickingUp = 5>><<case "Manual">><<set ↂ.home.clean.pickingUp = 0>><</switch>><<replace "#straights">><<switch ↂ.home.clean.pickingUp>><<case 0>>!Manual!<<case 1>>Rarely<<case 2>>Infrequently<<case 3>>Occasionally<<case 4>>Frequently<<case 5>>Constantly<</switch>><</replace>><</button>>
 </td></tr><tr><td>
 ''Cleaning:'' <<helpPop "Cleaning" "Cleaning represents the more involved acts of cleaning such as sweeping, mopping, dusting, and other tasks. This is the activity that results in actual cleanliness, rather than the appearance of cleanliness. It takes more time, and has the largest effect on your home's cleanliness.">>
 </td><td>
-<span id="cleans" class="ident"><<switch ↂ.home.clean.doCleaning>><<case 0>>!Manual!<<case 1>>Rarely<<case 2>>Infrequently<<case 3>>Occassionally<<case 4>>Frequently<<case 5>>Constantly<</switch>></span>
+<span id="cleans" class="ident"><<switch ↂ.home.clean.doCleaning>><<case 0>>!Manual!<<case 1>>Rarely<<case 2>>Infrequently<<case 3>>Occasionally<<case 4>>Frequently<<case 5>>Constantly<</switch>></span>
 </td><td>
-<<dropdown '_cleanDrop' "Occassional" "Rarely" "Infrequent" "Frequent" "Constantly" "Manual">>
+<<dropdown '_cleanDrop' "Occasional" "Rarely" "Infrequent" "Frequent" "Constantly" "Manual">>
 </td><td>
-<<button "Set Cleaning">><<switch _cleanDrop>><<case "Occassional">><<set ↂ.home.clean.doCleaning = 3>><<case "Rarely">><<set ↂ.home.clean.doCleaning = 1>><<case "Infrequent">><<set ↂ.home.clean.doCleaning = 2>><<case "Frequent">><<set ↂ.home.clean.doCleaning = 4>><<case "Constantly">><<set ↂ.home.clean.doCleaning = 5>><<case "Manual">><<set ↂ.home.clean.doCleaning = 0>><</switch>><<replace "#cleans">><<switch ↂ.home.clean.doCleaning>><<case 0>>!Manual!<<case 1>>Rarely<<case 2>>Infrequently<<case 3>>Occassionally<<case 4>>Frequently<<case 5>>Constantly<</switch>><</replace>><</button>>
+<<button "Set Cleaning">><<switch _cleanDrop>><<case "Occasional">><<set ↂ.home.clean.doCleaning = 3>><<case "Rarely">><<set ↂ.home.clean.doCleaning = 1>><<case "Infrequent">><<set ↂ.home.clean.doCleaning = 2>><<case "Frequent">><<set ↂ.home.clean.doCleaning = 4>><<case "Constantly">><<set ↂ.home.clean.doCleaning = 5>><<case "Manual">><<set ↂ.home.clean.doCleaning = 0>><</switch>><<replace "#cleans">><<switch ↂ.home.clean.doCleaning>><<case 0>>!Manual!<<case 1>>Rarely<<case 2>>Infrequently<<case 3>>Occasionally<<case 4>>Frequently<<case 5>>Constantly<</switch>><</replace>><</button>>
 </td></tr><tr><td>
-''Washing Dishes:'' <<helpPop "Dishes" "Dishes are pretty self-explanatory. Regardless of the setting chosen (except manual), time spent on the chore will be divided evenly between days. Doing dishes less frequently is more efficient, but can lower comfort and the appearance of cleanliness.<br><br>@@.note;You do actually have the modern equivilent of a dishwasher, which is a high-efficiency device that sanitizes dishes a couple at a time in under a minute. Despite being fast and environmentally friendly--particularly for those living alone with a relatively small amount of dishes--it still takes time to pre-rinse, insert, take out, and put away dishes.@@">>
+''Washing Dishes:'' <<helpPop "Dishes" "Dishes are pretty self-explanatory. Regardless of the setting chosen (except manual), time spent on the chore will be divided evenly between days. Doing dishes less frequently is more efficient, but can lower comfort and the appearance of cleanliness.<br><br>@@.note;You do actually have the modern equivalent of a dishwasher, which is a high-efficiency device that sanitizes dishes a couple at a time in under a minute. Despite being fast and environmentally friendly--particularly for those living alone with a relatively small amount of dishes--it still takes time to pre-rinse, insert, take out, and put away dishes.@@">>
 </td><td>
 <span id="dishs" class="ident"><<switch ↂ.home.clean.doDishes>><<case 0>>!Manual!<<case 1>>When Have To<<case 2>>When Sink Full<<case 3>>Daily<<case 4>>After Meals<<case 5>>After Using<</switch>></span>
 </td><td>

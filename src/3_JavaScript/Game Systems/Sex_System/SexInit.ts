@@ -121,12 +121,12 @@ setup.sex.startSex = function(...args: string[]): void {
         args.push(ᛔ.activeNPC[0]);
       } else {
         aw.con.warn("--No active NPCs to fallback to. aborting");
-        UI.alert("An error has occured: no NPCs were supplied to have sex with.");
+        UI.alert("An error has occurred: no NPCs were supplied to have sex with.");
         return;
       }
     }
     // create activeNPC list of npcids
-    sex.activeNPC = []; // set array of active NPCs in the sex scenearoo
+    sex.activeNPC = []; // set array of active NPCs in the sex scenario
     if (Array.isArray(args[0])) {
       for (let i = 0, c = args[0].length; i < c; i++) {
         if ("number" === typeof args[0][i]) {
@@ -175,6 +175,33 @@ setup.sex.startSex = function(...args: string[]): void {
       sex.pos = "standFaceTogether";
     }
     if (ↂ.pc.status.inPublic) {
+      sex.enviroTags.push("public");
+    }
+    if (ↂ.sex.passage.substr(0, 4) === "home") {
+      for (let index = 0; index < ↂ.home.item.bedroom.length; index++) {
+        switch (aw.homeItems[ↂ.home.item.bedroom[index]].tags[0]) {
+          case "table":
+            sex.enviroTags.push("table");
+            break;
+          case "chair":
+            sex.enviroTags.push("chair");
+            break;
+          case "sexmachine":
+            sex.enviroTags.push("sexmachine");
+            break;
+          case "bed":
+            sex.enviroTags.push("bed");
+            break;
+          case "couch":
+            sex.enviroTags.push("couch");
+            break;
+          case "sexaid":
+            sex.enviroTags.push("sexaid");
+            break;
+          default:
+            break;
+        }
+      }
       sex.enviroTags.push("public");
     }
     sex.npcCount = sex.activeNPC.length;
@@ -273,7 +300,7 @@ setup.sex.startSex = function(...args: string[]): void {
     };
     sex.orgCountPC = 0;
     sex.orgText = {};
-    ↂ.pc.status.pleasure = random(25, 50);
+    ↂ.pc.status.pleasure = random(25, 50) + Math.floor(ↂ.pc.status.arousal * 15);
     if (sex.passage === "empty" || sex.passage === "none") {
       sex.passage = aw.passage.title;
     }
@@ -281,6 +308,11 @@ setup.sex.startSex = function(...args: string[]): void {
     aw.S();
     for (let index = 0; index < sex.npc.length; index++) {
       setup.sex.NpcClothes(ↂ.sex.npc[index].key);
+      ↂ.sex.npcBC[index].condom.worn = false;
+      ↂ.sex.npcBC[index].condom.break = false;
+      ↂ.sex.npcBC[index].condom.health = 0;
+      ↂ.sex.npcBC[index].condom.sabo = 0;
+      ↂ.sex.npcBC[index].condom.effect = 0;
     }
     setup.forbiddenList();
     aw.go("SexScenePrimaryDisplay");
@@ -342,6 +374,9 @@ setup.sex.close = function(): void {
     }
     if (ↂ.sex.flag.vag) {
       sex.npc[i].record.sex.sex += 1;
+      if (!ↂ.sex.npcBC[0].condom.worn) {
+        ↂ.flag.marriage.vowsControl.IUD = false;
+      }
     }
     if (ↂ.sex.flag.anal) {
       sex.npc[i].record.sex.anal += 1;
@@ -393,7 +428,7 @@ setup.sex.close = function(): void {
   // TODO specifics of actions sorting, for kink and NPC rship var
   // lubricant effect
   // wetness transfer
-  sex.activeNPC = []; // set array of active NPCs in the sex scenearoo
+  sex.activeNPC = []; // set array of active NPCs in the sex scenario
   sex.npc = [];
   sex.pos = "none";
   sex.enviroTags = [];

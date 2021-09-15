@@ -173,7 +173,7 @@ Macro.add("gotodev", {
     if (State.active.variables.swim === "[dev]" && State.active.variables.AW.debugPause) {
       const sec = (this.args.length > 1 && !isNaN(this.args[1])) ? Number(this.args[1]) : 2500;
       State.temporary.tempCunter = true;
-      const output = `DEBUGGING PAUSE: Continuing automatically in ${sec} miliseconds.<br><<button "CONTINUE">><<run Engine.play("${passage}", true)>><</button>> <<button "PAUSE">><<set _tempCunter = false>><</button>>`;
+      const output = `DEBUGGING PAUSE: Continuing automatically in ${sec} milliseconds.<br><<button "CONTINUE">><<run Engine.play("${passage}", true)>><</button>> <<button "PAUSE">><<set _tempCunter = false>><</button>>`;
       setTimeout(function() {
         if (State.temporary.tempCunter) {
           Engine.play(passage, true);
@@ -1021,7 +1021,7 @@ Used like <<if>> default sugarcube macro.
 This version parses pc character values to save time.
 it uses JS logical operators && and || for multiple clauses.
 Use parenthesis to distinguish clauses if necessary.
-!!! leave space between logical operators and parenthisis and values.!!!
+!!! leave space between logical operators and parenthesis and values.!!!
 Example: <<has ( slut || liberated ) && cumSlut>>
 
 It will parse the values for kinks, traits, and mutations so that
@@ -1570,5 +1570,62 @@ Macro.add("redact", {
   },
 });
 
+Macro.add("fetishes", {
+  handler() {
+    let out = "";
+    const kinks = ["risky", "pregnancy", "sizequeen", "cumSlut", "sub", "exhibition", "masochist", "buttSlut", "public", "slut", "superSlut", "hyperSlut", "oral", "force", "dom", "water", "bond", "fap"];
+    const kinksNames = ["into risky sex", "into pregnancy", "into big cocks", "a cum slut", "a submissive", "into exhibition", "a masochist", "love anal", "into public sex", "a slut", "a total slut", "very much into everything", "into sucking cocks", "into being taken by force", "into being a domme", "into piss play", "into bondage", "a big fan of fapping"];
+    const final = [] as string[];
+    for (let index = 0; index < kinks.length; index++) {
+      if (ↂ.pc.kink[kinks[index]]) {
+        final.push(kinksNames[index]);
+      }
+    }
+    if (final.length > 2) {
+      out = `I am ${final[0]}, ${final[1]} and ${final[2]}.`;
+    } else if (final.length > 0) {
+      out = `I am ${final[0]}.`;
+    } else {
+      out = `To be honest, I don't know if I am into something specific.`;
+    }
+    return new Wikifier(this.output, out);
+  },
+});
 
+Macro.add("race", {
+  handler() {
+    if (!ↂ.pc.body.race) {
+      throw new TypeError(`Player race is not defined!`);
+    }
 
+    const playerRace = ↂ.pc.body.race;
+
+    return new Wikifier(this.output, playerRace);
+  }
+});
+
+Macro.add("fert", {
+  handler() {
+    if (!ↂ.pc.fert.fertility) {
+      throw new TypeError(`Player fertility is not defined!`);
+    }
+
+    let fertilityDesc;
+
+    if (ↂ.pc.fert.fertility === 0) {
+      fertilityDesc = "Barren";
+    } else if (ↂ.pc.fert.fertility === 1) {
+      fertilityDesc = "Very low";
+    } else if (ↂ.pc.fert.fertility === 2) {
+      fertilityDesc = "Low";
+    } else if (ↂ.pc.fert.fertility === 3) {
+      fertilityDesc = "Normal";
+    } else if (ↂ.pc.fert.fertility === 4) {
+      fertilityDesc = "High";
+    } else if (ↂ.pc.fert.fertility > 4) {
+      fertilityDesc = "Very high";
+    }
+
+    return new Wikifier(this.output, fertilityDesc);
+  }
+});

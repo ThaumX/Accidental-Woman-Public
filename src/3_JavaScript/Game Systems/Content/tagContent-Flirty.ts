@@ -121,7 +121,7 @@ aw.tagContent.flirty.nakedBottom = [
   @@.mono;Oh yes, stare at me. Damn, that is exciting!@@<br>
   @@.pc;Do you like it?@@<<arouse 2>><<orhas slut>><<arouse 2>>You can't but enjoy the attention to your naked bottom and pussy.<br>
   <<orhas liberate>>You feel pretty comfortable with your lower part naked.<br>
-  <<orhas shame>><<stress 10 "Naked pussy convo">>You feel terribly insecure and going tomato red from embarassment.<<arouse -2>><br>
+  <<orhas shame>><<stress 10 "Naked pussy convo">>You feel terribly insecure and going tomato red from embarrassment.<<arouse -2>><br>
   @@.mono;How did I ever allow that to happen? I want just die right now. What will <<print aw.npc[setup.interact.status.npc].main.name>> think about me?@@<br>
   <<or>><<stress 7 "Naked pussy convo">>You feel pretty uncomfortable being exposed like this even with a flirty.<<arouse -1>><br><</has>>
   <<dialogchoice>>
@@ -190,7 +190,7 @@ aw.tagContent.flirty.practNakedBottom = [
   <<orhas slut || liberate>>which is pretty comfortable for you in fact.<br>
   @@.mono;I am pretty sure <<print aw.npc[setup.interact.status.npc].main.name>> likes the view, hehe.@@
   <<orhas shame>><<arouse -2>><<stress 5 "Naked pussy convo">>which makes you really nervous.<br>
-  @@.mono;I shoudn't dress like that in a first place, oh, what I was even thinking about?@@
+  @@.mono;I shouldn't dress like that in a first place, oh, what I was even thinking about?@@
   <<or>><<stress 3 "Naked pussy convo">>which makes you feel uneasy.<br>
   @@.mono;Well, I am dressed risky today for sure. <<print aw.npc[setup.interact.status.npc].main.name>> will surely think I am a slut or something.@@<br><</has>>
   <<if aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Oh, you have really risky clothes today. I'd never dare to dress like that being in your place!@@
@@ -261,7 +261,7 @@ aw.tagContent.flirty.buckNaked = [
   `<<print aw.npc[setup.interact.status.npc].main.name>> stares at your nude body <<has exhibition>><<aroused 2>>which makes you more aroused<br>
   @@.mono;Oh yeah, I can't believe I am doing that! Presenting "the goods" to <<print aw.npc[setup.interact.status.npc].main.name>>, oh, I gonna get moist now!@@<br>
   <<orhas slut || liberate>>which you can deal with.<br>
-  @@.mono;That is prety exciting, not sure if <<print aw.npc[setup.interact.status.npc].main.name>> will like that though.@@
+  @@.mono;That is pretty exciting, not sure if <<print aw.npc[setup.interact.status.npc].main.name>> will like that though.@@
   <<orhas shame>><<aroused -2>><<stress 25 "Naked convo">>which makes you panic.<br>
   @@.mono;Shit, <<print aw.npc[setup.interact.status.npc].main.name>> will think that I am batshit crazy or something!@@<br>
   <<or>><<stress 15 "Naked convo">>which makes you feel terrible.<br>
@@ -490,7 +490,7 @@ aw.tagContent.flirty.mindbreak = [
   @@.pc;I am so sorry. It was really tough times lately.@@<br>
   @@.npc;Oh, it is okay. Here, take the handkerchief.@@<br>
   <<include [[NPCinteraction-FlirtyContinue]]>>
-  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10 "mindbreak convo">>You start switching randomly between crying and histerically giggling.<br>
+  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10 "mindbreak convo">>You start switching randomly between crying and hysterically giggling.<br>
   @@.npc;Oh, poor you. Try to calm down, I ll drive you home...@@<br>
   You cry all the way while <<print aw.npc[setup.interact.status.npc].main.name>> drive the car to your house, but start to feel better when you get to the house. <<print aw.npc[setup.interact.status.npc].main.name>> leaves you in your house after getting sure you are okay now.<br>
   <<link "Say goodbye">><<addtime 54>><<gotomap "home" "foyer">><<run setup.interact.exit()>><</link>>
@@ -498,8 +498,8 @@ aw.tagContent.flirty.mindbreak = [
 ];
 aw.tagContent.flirty.flooded = [
   `<<if ↂ.pc.clothes.keys.panties == 0 || ↂ.pc.clothes.worn.panties === "pulledAside" || ↂ.pc.clothes.worn.panties === "pulledOff" || ↂ.pc.clothes.worn.panties === "off">>
-    You feel your juices running down your inner thights with no panties in a way to stop them.<br>
-    <<has exhibition>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will notice that. That is so embarassingly exciting!@@<<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<</has>><br>
+    You feel your juices running down your inner thighs with no panties in a way to stop them.<br>
+    <<has exhibition>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will notice that. That is so embarrassingly exciting!@@<<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<</has>><br>
   <<else>>
     You feel your juices making a slippery mess slowly soaking through your panties.<<has slut>>@@.mono;Speaking with a person while being flooded like that is so naughty!@@<<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<</has>><br>
   <</if>>

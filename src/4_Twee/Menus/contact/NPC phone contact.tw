@@ -2,11 +2,20 @@
 :: NPC-Contact-Phone [nobr]
 
 <<if _npcContactID == "n1014" && ↂ.flag.hannaStory.stage === "askedForHelp">>
-<<texting Hanna>>
+<<texting "Hanna">>
 <<textpc>>Hey, are you ok?
 <<textpc>>Please answer, I am worried!
 <<textpc>>Hanna?
 <</texting>>
+<<safetoclose>>
+<<elseif _npcContactID === "n1005" && ↂ.flag.main.components[2] == 1>><<set _mins = setup.time.minutes()>><<if _mins < 1200>><<set _answer = "Of course. Come to the amusement district, I will be there tonight.">><<else>><<set _answer = "Of course. Let's meet at the amusement district, I will be there tomorrow.">><</if>>
+<<texting "Oleg">>
+<<textpc>><<greetings>> 
+<<textpc>>Can we meet? I need to discuss some business with you.
+<<textnpc>><<print _answer>>
+<<textpc>>Thank you! I will come.
+<</texting>><center>@@.com;To continue conversation, click the 'send' button (blue arrow).@@</center>
+<center>@@.com;To continue conversation, click the 'send' button (blue arrow).@@</center>
 <<safetoclose>>
 <<else>>
 <div id="mainshitsDiv"><<set _nam = aw.npc[_npcContactID].main.name>>
@@ -37,7 +46,7 @@
 <<textpc>>Hey, what's up?
 <<textnpc>><<print _acty>>
 <<textnpc>><<print _actz>>
-<<textpc>>Well...<<replace "#optionsdiv">><<dialogchoice>><<dbutt "set a date">><<if setup.interactionMisc.dateDecision(_npcContactID)>><<replace "#optionsdiv">><<datescheduler _npcContactID>><</replace>><<else>><<replace "#mainshitsDiv">><<include [[NPC-Contact-Phone-RejectDate]]>><</replace>><</if>><<dtext "cute">>Ask the person out on a date.<<dbutt "nothing">><<set aw.npc[setup.interact.status.npc].rship.likePC -= 3>><<set aw.npc[setup.interact.status.npc].rship.lovePC -= 1>><<set aw.npc[_npcContactID].rship.companionrship.companion += 3>><<status 0>><<intgo "NPC-Contact-PhoneShit">><<dtext "silly">>You didn't have any reason for texting them.<<dbutt "hang out">><<replace "#optionsdiv">><<hangscheduler _npcContactID>><</replace>><<dtext "happy">>See if they want to hang out sometime.<</dialogchoice>><</replace>>
+<<textpc>>Well...<<replace "#optionsdiv">><<dialogchoice>><<dbutt "set a date">><<if setup.interactionMisc.dateDecision(_npcContactID)>><<replace "#optionsdiv">><<datescheduler _npcContactID>><</replace>><<else>><<replace "#mainshitsDiv">><<include [[NPC-Contact-Phone-RejectDate]]>><</replace>><</if>><<dtext "cute">>Ask the person out on a date.<<dbutt "nothing">><<set aw.npc[setup.interact.status.npc].rship.likePC -= 3>><<set aw.npc[setup.interact.status.npc].rship.lovePC -= 1>><<set aw.npc[_npcContactID].rship.companionship.companion += 3>><<status 0>><<intgo "NPC-Contact-PhoneShit">><<dtext "silly">>You didn't have any reason for texting them.<<dbutt "hang out">><<replace "#optionsdiv">><<hangscheduler _npcContactID>><</replace>><<dtext "happy">>See if they want to hang out sometime.<<if ↂ.flag.marriage.discussion.inProgress>><<dbutt "Cancel">><<replace "#mainshitsDiv">><<include [[Wedding-cancel]]>><</replace>><<dtext "mad">>You don't to marry anymore.<</if>><<if ↂ.flag.marriage.married !== false>><<dbutt "Divorce">><<replace "#mainshitsDiv">><<include [[PCdivorceChat]]>><</replace>><<dtext "mad">>You don't to be married anymore.<</if>><</dialogchoice>><</replace>>
 <</texting>><<status 0>>
 <div id="optionsdiv"></div></div>
 <</if>>
@@ -51,7 +60,7 @@
 <<textnpc>>Okay... hi.
 <<textnpc>>See ya around, I'm gonna go.
 <<textpc>>Okay, later!
-<</texting>>
+<</texting>><center>@@.com;To continue conversation, click the 'send' button (blue arrow).@@</center>
 <<elseif _randomShit === 2>>
 <<texting _nam>>
 <<textpc>>Not much, just wanted to chat for a bit.
@@ -60,7 +69,7 @@
 <<textnpc>>Nice.
 <<textnpc>>Sorry, I have stuff to do now. Can't talk rn.
 <<textpc>>Okay, see ya!
-<</texting>>
+<</texting>><center>@@.com;To continue conversation, click the 'send' button (blue arrow).@@</center>
 <<else>>
 <<texting _nam>>
 <<textpc>>Was bored and thought about chatting.
@@ -68,7 +77,7 @@
 <<textpc>>Oh, I see. Write back when you'll be free, kk?
 <<textnpc>>Yeah.
 <<textpc>>Okay, see ya!
-<</texting>>
+<</texting>><center>@@.com;To continue conversation, click the 'send' button (blue arrow).@@</center>
 <</if>>
 <center><<button "close">><<intclose>><</button>></center>
 
@@ -117,3 +126,23 @@
 <</texting>>
 <<safetoclose>>
 
+
+:: PCdivorceChat [nobr]
+
+<<set _nam = aw.npc[ↂ.flag.marriage.npc].main.name>>
+<<texting _nam>>
+<<textpc>>You know I really tried to save this marriage, <<name>>
+<<textnpc>>What?
+<<textpc>>We are divorcing.
+<<textnpc>>Wait, why?!
+<<textpc>>I am sorry, can't bear this anymore. I'll send you the papers and such.
+<<textnpc>>What happenned, <<name>>???
+<<textnpc>>Talk to me, dammit!
+<<textpc>>I don't feel like this is a good idea to continue it.
+<<textpc>>I don't feel happy with you anymore. I think it all happened too fast.
+<<textpc>>And was a huge mistake. Sorry, <<= _nam>>.
+<<textnpc>>Can we talk it out in person, please? Don't do anything in a haste!
+<<textnpc>><<name>>?
+<</texting>>
+<center><<button "Close">><<run setup.wedding.NPCdivorce("pcInducedBad")>><<status 0>><<intclose>><</button>></center>
+<<status 0>>

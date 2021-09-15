@@ -46,13 +46,13 @@
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Fuk Mi">><</button>>
+  <<button "Fuk Mi">><<dialog "Fuk Mi">><<print setup.food.fastfood("fukmi")>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
-  <<button "Hot Porking">><</button>>
+  <<button "Hot Porking">><<dialog "Hot Porking">><<print setup.food.fastfood("hotporking")>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise delta>>
-  <<button "Nature's Treasury">><</button>>
+  <<button "Nature's Treasury">><<addTime 3>><<go "DowntownSWnaturestreasury">><</button>>
 <<endhoverrevise>>
 <<hoverrevise gamma>>
   <<openhours 8 22>>
@@ -66,12 +66,6 @@
   <<closed "McDongald's">>
   <</openhours>>
 <<endhoverrevise>>
-<<hoverrevise lambda>>
-  <<button "Misc Location">><</button>>
-<<endhoverrevise>>
-<<hoverrevise phi>>
-  <<button "Unique Location">><</button>>
-<<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
@@ -79,13 +73,11 @@
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>[not implemented] Eat at Fuk Mi. <span class="money">₢₢₢</span><<endinsertion>>
-<<insertion beta>>[not implemented] Eat at Hot Porking. <span class="money">₢₢</span><<endinsertion>>
+<<insertion alpha>>Eat at Fuk Mi. <span class="money">₢₢₢</span><<endinsertion>>
+<<insertion beta>>Eat at Hot Porking. <span class="money">₢₢</span><<endinsertion>>
 <<insertion pi>>Take a look at McDongald's menu, and perhaps order a bite to eat.<<endinsertion>>
-<<insertion delta>>[not implemented] Nature's Treasury is a health food an nutritional supplement store, along with a range of unique products.<<endinsertion>>
-<<insertion gamma>>Visit BThe Oldest Profession Job Placement and Career Training Center to check it out or sign up for a course. @@.ship;[ORGANIZATION⧫FINANCE]@@<<endinsertion>>
-<<insertion lambda>>[not implemented]<<endinsertion>>
-<<insertion phi>>[not implemented]<<endinsertion>>
+<<insertion delta>>Nature's Treasury is a health food an nutritional supplement store, along with a range of unique products.<<endinsertion>>
+<<insertion gamma>>Visit the Oldest Profession Job Placement and Career Training Center to check it out or sign up for a course. @@.ship;[ORGANIZATION⧫FINANCE]@@<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
@@ -98,3 +90,245 @@
 
 Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
 
+
+
+:: DowntownSWnaturestreasury [nobr map]
+
+<<timed 50ms>>
+<<script>>
+  $("area.navleave").click(function(){
+    setup.map.nav("world","appletree");
+  });
+  $("area.navholefoods").click(function(){
+    setup.map.nav("downtown","holefoods");
+  });
+  $("area.navcorp").click(function(){
+    setup.map.nav("downtown","corp");
+  });
+  $("area.navbank").click(function(){
+    setup.map.nav("downtown","bank");
+  });
+  $("area.navsouthwest").click(function(){
+    setup.map.nav("downtown","southwest");
+  });
+  $("area.navwest").click(function(){
+    setup.map.nav("downtown","west");
+  });
+  $("area.navnorthwest").click(function(){
+    setup.map.nav("downtown","northwest");
+  });
+  $("area.navsoutheast").click(function(){
+    setup.map.nav("downtown","southeast");
+  });
+  $("area.naveast").click(function(){
+    setup.map.nav("downtown","east");
+  });
+  $("area.navnortheast").click(function(){
+    setup.map.nav("downtown","northeast");
+  });
+  $("area.navtownhall").click(function(){
+    setup.map.nav("downtown","townhall");
+  });
+  $("area.navtownsquare").click(function(){
+    setup.map.nav("downtown","square");
+  });
+  $("area.navpark").click(function(){
+    setup.map.nav("downtown","park");
+  });
+  $("area.navcommunity").click(function(){
+    setup.map.nav("downtown","community");
+  });
+  $("area.navmall").click(function(){
+    setup.map.nav("downtown","mall","exterior");
+  });
+  $("area.navclub").click(function(){
+    setup.map.nav("downtown","club", "main");
+  });
+  $("area.navamuse").click(function(){
+    setup.map.nav("downtown","amuse");
+  });
+  $("area.navadult").click(function(){
+    setup.map.nav("downtown","adult");
+  });
+<</script>>
+<</timed>>
+<div id="location-bar">
+  <div id="location-bar-map">
+    <img data-passage="IMGdowntownMap" usemap="#downtownMap">
+    <map name="downtownMap" id="downtownMap">
+      <area data-passage="" alt="Leave Downtown" title="Leave Downtown" coords="27,499,26,54,138,51,138,0,-1,1,0,499" shape="poly" class="map-red-area navleave">
+      <area data-passage="" alt="Leave Downtown" title="Leave Downtown" coords="402,499,402,390,473,391,473,0,498,0,499,499,483,499,430,499" shape="poly" class="map-red-area navleave">
+      <area data-passage="" alt="Hole Foods" title="Hole Foods" coords="28,390,138,499" shape="rect" class="map-green-area navholefoods">
+      <area data-passage="" alt="Corporate Park" title="Corporate Park" coords="141,391,358,499" shape="rect" class="navcorp">
+      <area data-passage="" alt="Wells-Citibank of America" title="Wells-Citibank of America" coords="361,390,400,499" shape="rect" class="navbank">
+      <area data-passage="" alt="Southwest Downtown" title="Southwest Downtown" coords="28,388,138,279" shape="rect" class="navsouthwest">
+      <area data-passage="" alt="West Downtown" title="West Downtown" coords="29,168,138,277" shape="rect" class="navwest">
+      <area data-passage="" alt="Northwest Downtown" title="Northwest Downtown" coords="30,57,138,166" shape="rect" class="navnorthwest">
+      <area data-passage="" alt="Town Hall" title="Town Hall" coords="143,374,143,289,198,290,198,335,301,336,301,291,356,291,355,375,283,375,281,381,220,381,216,375" shape="poly" class="navtownhall">
+      <area data-passage="" alt="Town Square" title="Town Square" coords="200,334,299,267" shape="rect" class="navtownsquare">
+      <area data-passage="" alt="Central Park" title="Central Park" coords="147,282,196,282,196,263,301,263,302,281,351,281,352,176,193,177,193,199,168,226,147,226" shape="poly" class="navpark">
+      <area data-passage="" alt="Community Center" title="Community Center" coords="143,225,167,225,191,199,191,172,144,172" shape="poly" class="navcommunity">
+      <area data-passage="" alt="Applewood Mall" title="Applewood Mall" coords="142,161,311,58" shape="rect" class="map-green-area navmall">
+      <area data-passage="" alt="Southeast Downtown" title="Southeast Downtown" coords="471,387,363,280" shape="rect" class="navsoutheast">
+      <area data-passage="" alt="East Downtown" title="East Downtown" coords="363,168,470,277" shape="rect" class="naveast">
+      <area data-passage="" alt="Northeast Downtown" title="Northeast Downtown" coords="363,164,471,57" shape="rect" class="navnortheast">
+      <area data-passage="" alt="Club District" title="Club District" coords="310,57,360,166" shape="rect" class="navclub">
+      <area data-passage="" alt="Amusement District" title="Amusement District" coords="141,55,360,-1" shape="rect" class="map-green-area navamuse">
+      <area data-passage="" alt="Adult District" title="Adult District" coords="363,55,471,-1" shape="rect" class="navadult">
+    </map>
+  </div>
+  <img id="location-bar-cover" data-passage="IMGdowntownMap">
+  <div id="location-bar-image">
+      <<link [img[IMG-NatureTresTop]]>><<set _pasg = "DowntownSWnaturestreasuryLOC">><<dialog ↂmap.name>><<include _pasg>><</dialog>><</link>>
+    <div id="namediv" class="locationNameDiv head1"><<print "Nature's treasury">></div>
+  </div>
+</div>
+<div id="mainshits">
+<p>
+<<selfthought>>
+</p>
+<p>
+@@.head3;Y@@ou're standing in Nature's Treasury, a health food an nutritional supplement store. The place is well lit and looks clean and friendly. There are lots of vegetables and fruits and a whole shelf full of little boxes and bottles with various supplements modern Americans are so obsessed with.
+</p>
+<p id="locact"></p>
+</div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise alpha>>
+  <<button "Shop for Food">><<dialog "Shopping:">><<addtime 16>>
+		<<include [[DowntownSWnaturestreasuryFood]]>>
+	<</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise beta>>
+  <<button "Supplements">><<dialog "Shopping:">><<include [[DowntownSWnaturestreasuryDrugs]]>><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+<<hoverrevise checkOut>>
+  <<button "Checkout">><<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<elseif _result === "no afford">><<notify>><span class="bad">Insufficient Funds!</span><</notify>><<elseif _result === "already has">><<notify>><span class="bad">You already has same item in your wardrobe!</span><</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>><</button>>
+<<endhoverrevise>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion alpha>>Browse Nature's Treasury's selection of food available for purchase<<endinsertion>>
+<<insertion beta>>Browse Nature's Treasury's selection of supplements available for purchase<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
+</div>
+
+<<timed 50ms>>
+  <<weatherDowntownAct>>
+<</timed>>
+
+
+:: DowntownSWnaturestreasuryLOC [nobr]
+
+<<f i>>t seems some customer did not think about the length of her dress before leaning for the lower shelf...<br>
+<center>[img[IMG-NatureTresLoc]]</center>
+
+
+:: DowntownSWnaturestreasuryFood [nobr]
+
+You browse through the shelves.<br><br>
+<table id="noBorder">
+<tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Various goods:</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Cheese
+  <img data-passage="IMG-Item-CookCheese" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  Some fancy cheese made from natural hucow milk.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>3@@ <span id="buyshit2"></span><br><<button "Add to Cart">><<set $cart.push(["Cheese", "simple", 5, "Cheese"])>><<replace "#buyshit2">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Pickles
+  <img data-passage="IMG-Item-CookPickles" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A jar of pickled cucumbers.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>3@@ <span id="buyshit332"></span><br><<button "Add to Cart">><<set $cart.push(["Pickles", "simple", 5, "Pickles"])>><<replace "#buyshit332">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Lettuce
+  <img data-passage="IMG-Item-CookLettuce" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A lettuce for salads and whatnot.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>3@@ <span id="buyshitLettuce"></span><br><<button "Add to Cart">><<set $cart.push(["Lettuce","simple",3,"Lettuce"])>><<replace "#buyshitLettuce">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Eggs
+  <img data-passage="IMG-Item-CookEggs" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  6 eggs in a cardboard.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>3@@ <span id="buyshitEggs"></span><br><<button "Add to Cart">><<set $cart.push(["Eggs", "simple", 3, "Eggs"])>><<replace "#buyshitEggs">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Hucow milk
+  <img data-passage="IMG-Item-CookHucowMilk" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A jug of natural hucow milk from local Farm COOP.
+</td><td style<="width:15%;padding-left:15px;">
+  @@.money;<<mon>>3@@ <span id="buyshitHucow"></span><br><<button "Add to Cart">><<set $cart.push(["Hucow milk", "simple", 9, "Hucow milk"])>><<replace "#buyshitHucow">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Tomato
+  <img data-passage="IMG-Item-Tomato" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  Round red vegetable.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>6@@ <span id="buyshitTomato"></span><br><<button "Add to Cart">><<set $cart.push(["Tomato", "simple", 6, "Tomato"])>><<replace "#buyshitTomato">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Potato
+  <img data-passage="IMG-Item-Potato" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A popular vegetable for various dishes.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>4@@ <span id="buyshitPotato"></span><br><<button "Add to Cart">><<set $cart.push(["Potato", "simple", 4, "Potato"])>><<replace "#buyshitPotato">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+</table>
+
+
+:: DowntownSWnaturestreasuryDrugs [nobr]
+
+You browse through the shelves.<br><br>
+<table id="noBorder">
+<tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Various goods:</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Big brainer
+  <img data-passage="IMG-Item-BigBrainer" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A natural cognitive supplement for stimulating brain activity, memory and cognition. 300 tablets.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>75@@ <span id="buyshit2"></span><br><<button "Add to Cart">><<set $cart.push(["Big brainer", "consume", 75, "bigBrainer"])>><<replace "#buyshit2">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Rubber Girl
+  <img data-passage="IMG-Item-RubberGirl" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A natural supplement enhancing the body's elasticity. One pill works for around 24 hours. 300 tablets. Prolonged use or consuming by the individuals with existing tendons and connective tissue abnormalities was not tested and can cause side effects.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>128@@ <span id="buyshit3"></span><br><<button "Add to Cart">><<set $cart.push(["Rubber girl", "consume", 128, "rubberGirl"])>><<replace "#buyshit3">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Titilator
+  <img data-passage="IMG-Item-Titilator" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A natural supplement enhancing the libido, prolonged 12 hours effect. Only for females. Overdosing may cause side effects. 300 tablets.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>110@@ <span id="buyshit6"></span><br><<button "Add to Cart">><<set $cart.push(["Titilator", "consume", 110, "Titilator"])>><<replace "#buyshit6">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Semen Bottle
+  <img data-passage="IMG-Item-Semen" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  The small bottle of natural fresh human semen.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>30@@ <span id="buyshit4"></span><br><<button "Add to Cart">><<set $cart.push(["Semen Bottle", "consume", 30, "SemenBottle", 1])>><<replace "#buyshit4">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+</table>

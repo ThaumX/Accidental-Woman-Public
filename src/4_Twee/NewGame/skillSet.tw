@@ -3,6 +3,11 @@
 <div id="cardback"></div>
 <<nobr>>
 <<silently>>
+<<if ↂ.flag.randomSkills > 0>>
+  <<set ↂ.pc.main.background = "custom">>
+  <<set $temp = "mysterious">>
+  <<run setup.skillRandom()>>
+<</if>>
 <<procS "PC calc">>
 <<set ↂ.pcskillpoints = 0>>
 <<if $AW.startMale>>
@@ -88,15 +93,15 @@
     <<set ↂ.pc.main.background = "team manager">>
   <<case "enter custom career">>
     <<set ↂ.pcskillpoints += 70>>
-    <<set ↂ.skill.prostitute += 60>>
-    <<set ↂ.pc.main.background = "man whore (he-bitch)">>
+    <<set ↂ.skill.prostitute += 70>>
+    <<set ↂ.pc.main.background = "prostitute">>
   <<case "custom">>
     <<if $temp == "enter custom career">>
       <<set ↂ.pcskillpoints += 70>>
       <<set ↂ.skill.prostitute += 60>>
-      <<set ↂ.pc.main.background = "man whore (he-bitch)">>
+      <<set ↂ.pc.main.background = "prostitute">>
     <<else>>
-      <<set ↂ.pcskillpoints += 110>>
+      <<set ↂ.pcskillpoints += 130>>
       <<set ↂ.pc.main.background = $temp>>
     <</if>>
   <</switch>>
@@ -474,10 +479,14 @@
   <<set ↂ.pc.status.wombB.exists = true>>
 <</if>>
 <<dateCalculate>>
-<<run setup.scs()>>
 <<procE>>
 <</silently>>
-<<gotodev "assignSkills">>
+<<if ↂ.flag.randomSkills > 0>>
+  <<go "randomSkillResults">>
+<<else>>
+  <<run setup.scs()>>
+  <<gotodev "assignSkills">>
+<</if>>
 <</nobr>>
 
 

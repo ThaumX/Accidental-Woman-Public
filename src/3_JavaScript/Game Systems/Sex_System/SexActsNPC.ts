@@ -1239,6 +1239,10 @@ class SexActN {
         if (ↂ.sex.flag.knowsAcid) {
           return false;
         }
+        const vowList = ↂ.flag.marriage.PCvows.concat(ↂ.flag.marriage.NPCvows);
+        if (vowList.includes("noCondom") || vowList.includes("noPill")) {
+          return false; // the vow forbids from using the condom
+        }
         return true;
       },
     },

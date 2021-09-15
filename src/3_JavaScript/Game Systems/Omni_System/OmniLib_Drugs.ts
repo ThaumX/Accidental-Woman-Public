@@ -48,6 +48,32 @@ setup.omnItems.roboThroatCannibal = {
     aw.S();`,
 };
 
+setup.omnItems.PerfectOral = {
+  name: "PerfectOral",
+  type: "single",
+  output: "none",
+  duration: 180,
+  icon: "IMGstatus_Drug",
+  text: "You are under the effect of Perfect Oral. Oral skill + 20",
+  run: `setup.status.tired(1, "Perfect Oral");
+    ↂ.flag.tempSkillBoost.oral -= 20;
+    ↂ.flag.tempSkillBoost.comm += 5;
+    aw.S();`,
+};
+
+setup.omnItems.PerfectOralCannibal = {
+  name: "PerfectOralCannibal",
+  type: "single",
+  output: "none",
+  duration: 180,
+  icon: "IMGstatus_Drug",
+  text: "You are under the effect of Perfect Oral.",
+  run: `setup.status.tired(1, "Side effect of Perfect Oral");
+    ↂ.flag.tempSkillBoost.comm += 5;
+    aw.S();`,
+};
+
+
 setup.omnItems.cumquat = {
   name: "Cumquat",
   type: "recurring",
@@ -211,7 +237,7 @@ setup.omnItems.ZoneBottle1 = {
   name: "Zone",
   type: "recurring",
   output: "notify",
-  times: 2,
+  times: 3,
   interval: 40,
   icon: "IMGstatus_Zone",
   text: "Serenity, calmness and energy is filling you.",
@@ -271,7 +297,7 @@ setup.omnItems.ZoneBottle3 = {
   name: "Zone",
   type: "recurring",
   output: "notify",
-  times: 2,
+  times: 3,
   interval: 40,
   icon: "IMGstatus_Zone",
   text: "Serenity, calmness and energy is filling you.",
@@ -351,6 +377,28 @@ setup.omnItems.ZoneInhaler3 = {
   `,
 };
 
+setup.omnItems.Heat150 = {
+  name: "Heat",
+  type: "single",
+  output: "notify",
+  duration: 160,
+  icon: "IMGstatus_Heat",
+  text: "All your body is sensitive, feeling of vibrant pleasure overwhelms you.",
+  run: `
+  aw.L("pc");
+    ↂ.flag.tempSkillBoost.sex += 6;
+    ↂ.flag.tempSkillBoost.oral += 6;
+    ↂ.flag.tempSkillBoost.seduction += 22;
+    ↂ.pc.kink.superSlut = ↂ.flag.BackupKinks.superSlut;
+    ↂ.pc.kink.hyperSlut = ↂ.flag.BackupKinks.hyperSlut;
+    ↂ.pc.kink.slut = ↂ.flag.BackupKinks.slut;
+    ↂ.pc.trait.op = ↂ.flag.BackupTraits.op;
+    ↂ.pc.trait.libido = (ↂ.flag.BackupTraits.libido + 1);
+    setup.omni.new("HeatLingering");
+  aw.S("pc");
+  `,
+};
+
 setup.omnItems.Heat = {
   name: "Heat",
   type: "single",
@@ -360,6 +408,15 @@ setup.omnItems.Heat = {
   text: "All your body is sensitive, feeling of vibrant pleasure overwhelms you.",
   run: `
   aw.L("pc");
+    let usedTo = Math.round(ↂ.pc.status.addict.heat * 0.1);
+    if (usedTo < 1) {usedTo = 0}
+    if (usedTo > 10) {usedTo = 10}
+    let add = (12 - usedTo);
+    if (add < 1) {add = 1};
+    if (add > 15) {add = 15};
+    ↂ.flag.tempSkillBoost.sex -= add;
+    ↂ.flag.tempSkillBoost.oral -= add;
+    ↂ.flag.tempSkillBoost.seduction -= add;
     ↂ.flag.tempSkillBoost.sex += 4;
     ↂ.flag.tempSkillBoost.oral += 4;
     ↂ.flag.tempSkillBoost.seduction += 16;
@@ -368,6 +425,7 @@ setup.omnItems.Heat = {
     ↂ.pc.kink.slut = ↂ.flag.BackupKinks.slut;
     ↂ.pc.trait.op = ↂ.flag.BackupTraits.op;
     ↂ.pc.trait.libido = (ↂ.flag.BackupTraits.libido + 1);
+    ↂ.pc.status.arousal++;
     setup.omni.new("HeatLingering");
   aw.S("pc");
   `,
@@ -382,7 +440,7 @@ setup.omnItems.HeatLingering = {
   text: "You feel residual effects of Heat still circulation through your body.",
   run: `
   aw.L("pc");
-  ↂ.pc.status.arousal++;
+  ↂ.pc.status.arousal--;
   ↂ.flag.tempSkillBoost.sex = -5;
   ↂ.flag.tempSkillBoost.oral = -5;
   ↂ.flag.tempSkillBoost.seduction -= 10;
@@ -402,7 +460,6 @@ setup.omnItems.HeatBackfire = {
   text: "Your body sensations and libido are lowered.",
   run: `
   aw.L("pc");
-  ↂ.pc.status.arousal--;
   ↂ.flag.tempSkillBoost.sex = 0;
   ↂ.flag.tempSkillBoost.oral = 0;
   ↂ.flag.tempSkillBoost.seduction = 0;
@@ -418,10 +475,9 @@ setup.omnItems.Satyr = {
   times: 8,
   interval: 120,
   icon: "IMGstatus_Satyr",
-  text: "You feel in a need of a good sex.",
+  text: "You feel in a need of a good fucking.",
   run: `
   aw.L("pc");
-  this.times
     ↂ.pc.status.arousal += Math.floor(this.times / 3);
     pc.status.wetness += Math.floor(this.times / 2);
     if (random(1,3) === 3) {ↂ.pc.trait.will--;}
@@ -459,3 +515,172 @@ setup.omnItems.mentalPills = {
   }
   }`,
 };
+
+setup.omnItems.rubberGirl = {
+  name: "rubberGirl",
+  type: "single",
+  output: "notify",
+  duration: 1200,
+  icon: "IMGstatus_Drug",
+  text: "You feel the effects of the Rubber Girl supplement. Your holes are more stretchy now.",
+  run: `
+    ↂ.pc.mutate.elastic = false;
+    aw.S();
+    setup.notify("@@.change;You feel that the effects of the supplement fades...@@");
+  `,
+};
+
+setup.omnItems.rubberGirlFail = {
+  name: "Rubber girl side effect",
+  type: "single",
+  output: "notify",
+  duration: 300,
+  icon: "IMGstatus_Sick",
+  text: "You don't feel so well for some reason.",
+  run: `
+    ↂ.pc.body.pussy.tight += 1;
+    ↂ.pc.body.asshole.tight += 1;
+    ↂ.pc.status.health -= 4;
+    setup.status.record("health", -4, "Side effect of Rubber girl supplement.");
+    aw.S();
+    setup.notify("@@.change;Your lower area feels more loose.@@");
+  `,
+};
+
+setup.omnItems.Titilator = {
+  name: "Titilator",
+  type: "single",
+  output: "notify",
+  duration: 720,
+  icon: "IMGstatus_IncreasedLibido",
+  text: "You feel more horny than usual.",
+  run: `
+    ↂ.pc.trait.libido = ↂ.flag.BackupTraits.libido;
+    aw.S();
+    setup.notify("@@.change;You feel that the effects of the supplement fades...@@");
+  `,
+};
+
+setup.omnItems.TitilatorFail = {
+  name: "Titilator side effects",
+  type: "recurring",
+  output: "notify",
+  times: 3,
+  interval: 120,
+  icon: "IMGstatus_Sick",
+  text: "You don't feel so well for some reason.",
+  run: `
+    const x = random(1, 4);
+    ↂ.pc.status.bimbo += x;
+    setup.status.record("bimbo", x, "Side effect of Titilator supplement.");
+    ↂ.pc.status.health -= 1;
+    setup.status.record("health", -1, "Side effect of Titilator supplement.")
+    aw.S();
+    setup.notify("@@.change;Your feel dizzy and weird. It got pretty hard to think straight for some reason...@@");
+  `,
+};
+
+setup.omnItems.dose_focus = {
+  name: "ison_focus",
+  type: "single",
+  output: "none",
+  duration: 420,
+  run: ``,
+};
+
+setup.omnItems.dose_zoneS = {
+  name: "ison_zone",
+  type: "single",
+  output: "none",
+  duration: 15,
+  run: ``,
+};
+
+setup.omnItems.dose_zoneL = {
+  name: "ison_zone",
+  type: "single",
+  output: "none",
+  duration: 80,
+  run: ``,
+};
+
+setup.omnItems.dose_heatA = {
+  name: "ison_heat",
+  type: "single",
+  output: "none",
+  duration: 760,
+  run: ``,
+};
+
+setup.omnItems.dose_heatB = {
+  name: "ison_heatfert",
+  type: "single",
+  output: "none",
+  duration: 1440,
+  run: ``,
+};
+
+setup.omnItems.dose_satyrA= {
+  name: "ison_satyr",
+  type: "single",
+  output: "none",
+  duration: 120,
+  run: ``,
+};
+
+setup.omnItems.dose_satyrB= {
+  name: "ison_satyrfert",
+  type: "single",
+  output: "none",
+  duration: 720,
+  run: ``,
+};
+
+setup.omnItems.dose_cum = {
+  name: "ison_cum",
+  type: "single",
+  output: "none",
+  duration: 360,
+  run: ``,
+};
+
+setup.omnItems.dose_sex = {
+  name: "ison_sex",
+  type: "single",
+  output: "none",
+  duration: 360,
+  run: ``,
+};
+
+setup.omnItems.dose_cream = {
+  name: "ison_cream",
+  type: "single",
+  output: "none",
+  duration: 360,
+  run: ``,
+};
+
+setup.omnItems.dose_alc = {
+  name: "ison_alc",
+  type: "single",
+  output: "none",
+  duration: 60,
+  run: ``,
+};
+
+setup.omnItems.bullMilk = {
+  name: "Bull's Milk effects",
+  type: "recurring",
+  output: "none",
+  times: 12,
+  interval: 60,
+  icon: "IMGstatus_Drug",
+  text: "You feel pretty great, vigorous even.",
+  run: `
+    if(random(1,3) === 3) {
+      setup.status.happy(1, "Bull's Milk Effects");
+    }
+    setup.status.stress(-3, "Bull's Milk Effects");
+  `,
+};
+

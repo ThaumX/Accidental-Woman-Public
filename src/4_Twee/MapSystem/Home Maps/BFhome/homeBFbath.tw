@@ -90,10 +90,20 @@ Luxurious is the best way to describe the large room, which seems to have every 
 <<hoverrevise grooming>>
   <<button "Grooming Menu">><<openGrooming>><</button>>
 <<endhoverrevise>>
-<<hoverrevise laundry>><<button "Laundry">><<dialog "Laundry">><<addtime 32>><<run setup.clothes.washing()>>
-@@.head3;Y@@ou open the washing machine and load your stuff. After pushing a couple of buttons it starts and you sit on top of it waiting for the laundry to be finished. It doesn't take long - modern clothes washers are far faster than their 20th-century predecessors, the full cycle including drying takes only about 30 minutes.<br><br>
-<<ctn>>This option is a manual override for auto laundry setting you can manage in the Home Control Menu. You only need to use it if you need to get your stuff cleaned right now.<</ctn>>
-<</dialog>><</button>>
+<<hoverrevise laundry>>
+<<button "Laundry">>
+  <<dialog "Laundry">>
+    <<if ↂ.flag.marriage.married>>
+      <<include "MarriageEvents-LaundryTogether">>
+    <<else>>
+      <<addtime 32>>
+      <<run setup.clothes.washing()>>
+      <center>[img[IMG-HelpMeStepBro]]</center>
+      @@.head3;Y@@ou open the washing machine and load your stuff. After pushing a couple of buttons it starts and you sit on top of it waiting for the laundry to be finished. It doesn't take long - modern clothes washers are far faster than their 20th-century predecessors, the full cycle including drying takes only about 30 minutes.<br><br>
+      <<ctn>>This option is a manual override for auto laundry setting you can manage in the Home Control Menu. You only need to use it if you need to get your stuff cleaned right now.<</ctn>>
+    <</if>>
+  <</dialog>>
+<</button>>
 <<endhoverrevise>>
 <<hoverrevise bodywriting>>
   <<button "Body Writing">><<dialog "Bodywriting">><<include [[bodyWriting]]>><</dialog>><</button>>
@@ -127,5 +137,10 @@ Luxurious is the best way to describe the large room, which seems to have every 
 
 
 :: homeBFT2bathLOC [nobr]
+
+Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+
+
+:: homeBFbathLOC [nobr]
 
 Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>

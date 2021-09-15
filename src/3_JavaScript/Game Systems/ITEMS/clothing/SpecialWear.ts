@@ -435,7 +435,7 @@ setup.clothesGen.swimTop = function(...args: [number, number, number, number, nu
       ["na", "na", "na", "na", "na", "BR"], 0, 0, 0, 0, 0, 0, 0, 0, 0, storeName, 0, 0, 0,
     ];
     bra[6] = either(styleList);
-    /*substyles: 0-none, 1-lace border, 2-convertable, 3-strapless, 4-lace covered, 5-front fasten, 6-wide strap, 7spaghetti strap*/
+    /*substyles: 0-none, 1-lace border, 2-convertible, 3-strapless, 4-lace covered, 5-front fasten, 6-wide strap, 7spaghetti strap*/
     switch (bra[6]) {
       case 1:
         bra[0][1] = "high-neck onepiece";

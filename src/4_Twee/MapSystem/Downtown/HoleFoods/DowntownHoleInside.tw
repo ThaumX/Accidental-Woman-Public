@@ -32,14 +32,17 @@
 <p>
 @@.head3;Y@@ou're in the spacious grocery store full of all kinds of goods. It seems, they have like every possible food you can think of.!
 </p>
-<p id="locact></p><<selfthought>></div>
+<<selfthought>></div>
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise shop>>
-<<button "Shop for Food">><<dialog 'Cum & Go Shopping:'>><<addtime 16>>
+<<button "Shop for Food">><<dialog "Shopping:">><<addtime 16>>
 		<<include [[DowntownHoleinsideFood]]>>
 	<</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
 <<endhoverrevise>>
 <<hoverrevise checkOut>>
   <<button "Checkout">><<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<else>><<notify>><span class="bad">Insufficient Funds!</span><</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>><</button>>
@@ -52,6 +55,7 @@
 /*Main display for information about actions*/
 <div id="actionInfo">
 <<insertion shop>>Look for some ingredients for cooking some special dish at home. [10-20min]<<endinsertion>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
 <<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
@@ -85,7 +89,7 @@ You browse through the shelves.<br><br>
 </td><td style="padding-bottom:10px;">
   Some fancy cheese made from natural hucow milk.
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>3@@ <span id="buyshit2"></span><br><<button "Add to Cart">><<set $cart.push(["Cheese", "simple", 5, "Cheese"])>><<append "#buyshit2">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>3@@ <span id="buyshit2"></span><br><<button "Add to Cart">><<set $cart.push(["Cheese", "simple", 5, "Cheese"])>><<replace "#buyshit2">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 <tr><td class="storeitem" style="width:20%;">
   Lettuce
@@ -93,7 +97,7 @@ You browse through the shelves.<br><br>
 </td><td style="padding-bottom:10px;">
   A lettuce for salads and whatnot.
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>3@@ <span id="buyshitLettuce"></span><br><<button "Add to Cart">><<set $cart.push(["Lettuce","simple",3,"Lettuce"])>><<append "#buyshitLettuce">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>3@@ <span id="buyshitLettuce"></span><br><<button "Add to Cart">><<set $cart.push(["Lettuce","simple",3,"Lettuce"])>><<replace "#buyshitLettuce">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 <tr><td class="storeitem" style="width:20%;">
   Patty
@@ -101,7 +105,7 @@ You browse through the shelves.<br><br>
 </td><td style="padding-bottom:10px;">
   Two pieces of meat ready for cooking.
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>6@@ <span id="buyshitPatty"></span><br><<button "Add to Cart">><<set $cart.push(["Patty", "simple", 6, "Patty"])>><<append "#buyshitPatty">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>6@@ <span id="buyshitPatty"></span><br><<button "Add to Cart">><<set $cart.push(["Patty", "simple", 6, "Patty"])>><<replace "#buyshitPatty">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 <tr><td class="storeitem" style="width:20%;">
   Eggs
@@ -109,7 +113,7 @@ You browse through the shelves.<br><br>
 </td><td style="padding-bottom:10px;">
   6 eggs in a cardboard.
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>3@@ <span id="buyshitEggs"></span><br><<button "Add to Cart">><<set $cart.push(["Eggs", "simple", 3, "Eggs"])>><<append "#buyshitEggs">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>3@@ <span id="buyshitEggs"></span><br><<button "Add to Cart">><<set $cart.push(["Eggs", "simple", 3, "Eggs"])>><<replace "#buyshitEggs">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 <tr><td class="storeitem" style="width:20%;">
   Ham
@@ -117,7 +121,7 @@ You browse through the shelves.<br><br>
 </td><td style="padding-bottom:10px;">
   A piece of Ham. For some reason, it is written 'HAMster' on the package.
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>3@@ <span id="buyshitHam"></span><br><<button "Add to Cart">><<set $cart.push(["Ham", "simple", 7, "Ham"])>><<append "#buyshitHam">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>3@@ <span id="buyshitHam"></span><br><<button "Add to Cart">><<set $cart.push(["Ham", "simple", 7, "Ham"])>><<replace "#buyshitHam">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 <tr><td class="storeitem" style="width:20%;">
   Hucow milk
@@ -125,7 +129,7 @@ You browse through the shelves.<br><br>
 </td><td style="padding-bottom:10px;">
   A jug of natural hucow milk from local Farm COOP.
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>3@@ <span id="buyshitHucow"></span><br><<button "Add to Cart">><<set $cart.push(["Hucow milk", "simple", 9, "Hucow milk"])>><<append "#buyshitHucow">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>3@@ <span id="buyshitHucow"></span><br><<button "Add to Cart">><<set $cart.push(["Hucow milk", "simple", 9, "Hucow milk"])>><<replace "#buyshitHucow">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 <tr><td class="storeitem" style="width:20%;">
   Mayo
@@ -133,7 +137,7 @@ You browse through the shelves.<br><br>
 </td><td style="padding-bottom:10px;">
   Good ol' mayonnaise in a jar.
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>3@@ <span id="buyshitMayo"></span><br><<button "Add to Cart">><<set $cart.push(["Mayo", "simple", 2, "Mayo"])>><<append "#buyshitMayo">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>3@@ <span id="buyshitMayo"></span><br><<button "Add to Cart">><<set $cart.push(["Mayo", "simple", 2, "Mayo"])>><<replace "#buyshitMayo">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 <tr><td class="storeitem" style="width:20%;">
   Soy milk
@@ -141,7 +145,7 @@ You browse through the shelves.<br><br>
 </td><td style="padding-bottom:10px;">
   Cheap imitation made of soy, pretty widespread milke substitute after Furious cow disease pandemic.
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>3@@ <span id="buyshitSoy"></span><br><<button "Add to Cart">><<set $cart.push(["Soy milk", "simple", 4, "Soy milk"])>><<append "#buyshitSoy">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>3@@ <span id="buyshitSoy"></span><br><<button "Add to Cart">><<set $cart.push(["Soy milk", "simple", 4, "Soy milk"])>><<replace "#buyshitSoy">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 <tr><td class="storeitem" style="width:20%;">
   Flour
@@ -149,7 +153,7 @@ You browse through the shelves.<br><br>
 </td><td style="padding-bottom:10px;">
   Very well crushed wheat.
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>5@@ <span id="buyshitFlour"></span><br><<button "Add to Cart">><<set $cart.push(["Flour", "simple", 5, "Flour"])>><<append "#buyshitFlour">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>5@@ <span id="buyshitFlour"></span><br><<button "Add to Cart">><<set $cart.push(["Flour", "simple", 5, "Flour"])>><<replace "#buyshitFlour">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 <tr><td class="storeitem" style="width:20%;">
   Oil
@@ -157,7 +161,7 @@ You browse through the shelves.<br><br>
 </td><td style="padding-bottom:10px;">
   Cooking oil in a bottle.
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>7@@ <span id="buyshitOil"></span><br><<button "Add to Cart">><<set $cart.push(["Oil", "simple", 7, "Oil"])>><<append "#buyshitOil">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>7@@ <span id="buyshitOil"></span><br><<button "Add to Cart">><<set $cart.push(["Oil", "simple", 7, "Oil"])>><<replace "#buyshitOil">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 <tr><td class="storeitem" style="width:20%;">
   Tomato
@@ -165,7 +169,7 @@ You browse through the shelves.<br><br>
 </td><td style="padding-bottom:10px;">
   Round red vegetable.
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>6@@ <span id="buyshitTomato"></span><br><<button "Add to Cart">><<set $cart.push(["Tomato", "simple", 6, "Tomato"])>><<append "#buyshitTomato">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>6@@ <span id="buyshitTomato"></span><br><<button "Add to Cart">><<set $cart.push(["Tomato", "simple", 6, "Tomato"])>><<replace "#buyshitTomato">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 <tr><td class="storeitem" style="width:20%;">
   Potato
@@ -173,6 +177,6 @@ You browse through the shelves.<br><br>
 </td><td style="padding-bottom:10px;">
   A popular vegetable for various dishes.
 </td><td style="width:15%;padding-left:15px;">
-  @@.money;<<mon>>4@@ <span id="buyshitPotato"></span><br><<button "Add to Cart">><<set $cart.push(["Potato", "simple", 4, "Potato"])>><<append "#buyshitPotato">>@@.exp;Added!@@<</append>><</button>>
+  @@.money;<<mon>>4@@ <span id="buyshitPotato"></span><br><<button "Add to Cart">><<set $cart.push(["Potato", "simple", 4, "Potato"])>><<replace "#buyshitPotato">>@@.exp;Added!@@<</replace>><</button>>
 </td></tr>
 </table>

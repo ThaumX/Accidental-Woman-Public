@@ -116,7 +116,7 @@ class Pussy {
     }
     aw.con.info(`New Pussy.insert() - inSize: ${inSize}, curStretch: ${curStretch}, maxStretch: ${maxStretch}.`);
     if (inSize < (es - curStretch) - 2 && inSize < this.tight) {
-      return "loose"; // fits very easily, will be up to kegals separately.
+      return "loose"; // fits very easily, will be up to Kegels separately.
     } else if (inSize <= (es - curStretch)) { // fits w/o extending existing stretch
       return "fits";
     } else if (inSize <= es) { // if size is bigger than the unstretched size it restarts the clock;
@@ -168,6 +168,7 @@ class Pussy {
       }
       this.stretch = this.maxStretch;
       this.tight += (stretchAmt + this.stretch) - this.maxStretch;
+      ↂ.flag.stretchCuntDown = 3;
       if (this.tight > 15) {
         this.tight = 15;
       }

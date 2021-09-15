@@ -41,7 +41,7 @@ setTimeout(() => (function () {
       region: ["any"],
       condition() {
         // check
-        if (setup.time.aftMidnight && (aw.time - setup.time.midnight) > 180 && !ↂ.flag.sleepfailwarn) {
+        if (setup.time.aftMidnight && (aw.time - setup.time.midnight) > 200 && !ↂ.flag.sleepfailwarn) {
           return true;
         }
         return false;
@@ -52,7 +52,7 @@ setTimeout(() => (function () {
         setup.status.record("fatigue", -10, "Staying up too late");
         ↂ.flag.sleepfailwarn = true;
         aw.S();
-        UI.alert("<span class='blur'>You are dangerously sleepy.</span>");
+        UI.alert("<span class='blur'>You are dangerously sleepy.</span><br><span class='bad' style='font-size:75%;'>Falling asleep in public is dangerous!</span>");
         setup.status.stress(10, "Staying up too late");
         setup.status.happy(-1, "Forcing yourself to stay awake");
       },
@@ -65,8 +65,8 @@ setTimeout(() => (function () {
       region: ["any"],
       condition() {
         // check
-        if (setup.time.aftMidnight && (aw.time - setup.time.midnight) > 230) {
-          if (setup.escape.sit === "jobbing" || setup.escape.sit === "scene" || setup.escape.sit === "interact" || aw.passage.title === "FuckThatMeditation" || ↂ.flag.Prologue) {
+        if (setup.time.aftMidnight && (aw.time - setup.time.midnight) > 260) {
+          if (setup.escape.sit === "jobbing" || setup.escape.sit === "scene" || setup.escape.sit === "interact" || aw.passage.title === "FuckThatMeditation" || ↂ.flag.Prologue || ↂ.sex.npc[0] !== undefined || aw.date !== undefined || aw.hang !== undefined) {
             return false;
           } else {
             return true;
@@ -77,8 +77,8 @@ setTimeout(() => (function () {
       action(count) {
         // effect
         if (ↂ.map.loc[0] === "home") {
-          setup.status.stress(15, "Passing out at home");
-          setup.status.happy(-2, "Passing out at home");
+          setup.status.stress(10, "Passing out at home");
+          setup.status.happy(-1, "Passing out at home");
           setup.sleep.start();
         } else {
           setup.sleep.start("PassedOut");
@@ -99,10 +99,10 @@ setTimeout(() => (function () {
   lifetime?: [number | [number, number, number, number], number | [number, number, number, number]]; // game time that event is valid between. [start, end] 0 = no start or end valid time.
   repeat?: boolean; // if the event can be repeated, or if it's once only (default true, repeatable)
   priorEvent?: string | string[];  // required event or events that must have happened first. (default "none")
-  interupt?: boolean; // interupt event processing when this event occurs (default false)
+  interupt?: boolean; // interrupt event processing when this event occurs (default false)
   output?: string; // either "interact" or "scene" if one of those outputs is used, otherwise "none"
   omni?: string; // name of an omni that must be active for the event to run, or "none"
   region?: string | string[]; // name of game region that event can occur in (or "any"). checks either loc[1] if loc[0] is "world", or loc[0]. ex: ["residential", "downtown"]
-  condition: string | (() => boolean); // function or stringified function assignment to check for evenet conditions.
+  condition: string | (() => boolean); // function or stringified function assignment to check for event conditions.
   action: string | (() => void); // function or stringified function to run when event occurs. supplied argument num for number of times executed, starting with 1 the first time it runs.
 */

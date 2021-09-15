@@ -40,6 +40,10 @@ setup.initialize = {} as setupInitialize;
 // Anenn markup!
 aw.npcTemplates = {};
 
+State.variables.clothes = "Casual";
+State.variables.hair = "Casual";
+State.variables.makeup = "Casual";
+
 setup.initialize.zero = function() {
   // should be running mod loading commandos
   const balls = function() {
@@ -991,59 +995,69 @@ setup.initialize.eight = function() {
   // **********************************************************************************/
   //               NPC SETTINGS  VARIABLES                                            */
   // **********************************************************************************/
-  setup.npcSetting = {
-    orgasmAdjust: 0,
-    futaRate: 10,
-    futaMale: true,
-    gender: [false, 50],
-    arch: [false, [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]],
-    wealth: [false, 0, 0],
-    age: [false, [18, 30], [30, 45]],
-    homo: [false, [true, 0, true, 0]],
-    race: [false, [0, 0, 0, 0, 0, 0]],
-    height: [false, [5, 20, 50, 20, 5], [5, 20, 50, 20, 5]],
-    tone: [false, [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]],
-    weight: [false, [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]],
-    fertility: [false, 0, 0],
-    cock: [false, -1],
-    pussy: [false, 0],
-    circum: [false, 0],
-    beauty: [false, [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]],
-    orgasm: [false, 0, 0],
-    pregTerm: [false, -1],
-    tits: [false, 0],
-    mutate: [false, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    married: [false, 0],
-    open: [false, 0, 0],
-    vert: [false, 0, 0],
-    iq: [false, 0, 0],
-    names: [false, [0], [0], [0]],
-    persCore: [
-      false,
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-    ],
-    pref: {
-      enabled: false,
-      Fweight: [0, 0, 0, 0, 0, 0],
-      Mweight: [0, 0, 0, 0, 0, 0],
-      Fheight: [0, 0, 0, 0, 0],
-      Mheight: [0, 0, 0, 0, 0],
-      Fmuscle: [0, 0, 0, 0, 0, 0],
-      Mmuscle: [0, 0, 0, 0, 0, 0],
-      Fother: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      Mother: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    },
-  };
-  aw.con.info("Initialized NPCsetting.");
-  aw.replace("#infos", "Getting Sexy...");
-  setTimeout(function() { setup.initialize.nine(); }, 100);
+  setup.settingsSaveObj = localStorage.getItem( "settingObj" );
+
+  if (setup.settingsSaveObj) {
+    setup.npcSetting = JSON.parse( setup.settingsSaveObj );
+
+    aw.con.info("Initialized NPCsetting.");
+    aw.replace("#infos", "Getting Sexy...");
+    setTimeout(function() { setup.initialize.nine(); }, 100);
+  } else {
+    setup.npcSetting = {
+      orgasmAdjust: 0,
+      futaRate: 10,
+      futaMale: true,
+      gender: [false, 50],
+      arch: [false, [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]],
+      wealth: [false, 0, 0],
+      age: [false, [18, 30], [30, 45]],
+      homo: [false, [true, 0, true, 0]],
+      race: [false, [0, 0, 0, 0, 0, 0]],
+      height: [false, [5, 20, 50, 20, 5], [5, 20, 50, 20, 5]],
+      tone: [false, [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]],
+      weight: [false, [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]],
+      fertility: [false, 0, 0],
+      cock: [false, -1],
+      pussy: [false, 0],
+      circum: [false, 0],
+      beauty: [false, [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]],
+      orgasm: [false, 0, 0],
+      pregTerm: [false, -1],
+      tits: [false, 0],
+      mutate: [false, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+      married: [false, 0],
+      open: [false, 0, 0],
+      vert: [false, 0, 0],
+      iq: [false, 0, 0],
+      names: [false, [0], [0], [0]],
+      persCore: [
+        false,
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+      ],
+      pref: {
+        enabled: false,
+        Fweight: [0, 0, 0, 0, 0, 0],
+        Mweight: [0, 0, 0, 0, 0, 0],
+        Fheight: [0, 0, 0, 0, 0],
+        Mheight: [0, 0, 0, 0, 0],
+        Fmuscle: [0, 0, 0, 0, 0, 0],
+        Mmuscle: [0, 0, 0, 0, 0, 0],
+        Fother: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        Mother: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      },
+    };
+    aw.con.info("Initialized NPCsetting.");
+    aw.replace("#infos", "Getting Sexy...");
+    setTimeout(function() { setup.initialize.nine(); }, 100);
+  }
 };
 
 setup.initialize.nine = function() {
@@ -1151,474 +1165,7 @@ setup.initialize.ten = function() {
 
   // GAME FLAGGERS
 
-  ↂ.flag = {
-    camShow: {
-      nickname: '',
-      popularity: 0,
-      dailyStream: true,
-      actualRequest: 0,
-      daysAbsent: 0,
-      followers: 0,
-      stats: {
-        expCap : 10,
-        experience: 0,
-        level: 1
-      },
-      flags: [],
-      story: {
-        home_shows : 0,
-        park_shows : 0
-      }
-    },
-    LilyResult: [],
-    sleepfailwarn: false,
-    profane: false, // whether character's name is slutty/profanity
-    triedForDeposit: false,
-    BEnewClothes: true,
-    Healthcare: true, // cheaper health care, unlocks more healthcare tomfuckery
-    organDonor: false, // hard mode
-    milkTank: 0, // amount of milk below a full container when pumping milk for sale
-    selfThought: "none",
-    LilyCoffee: true,
-    LilyCoffeeSuc: false,
-    LilyHouseAvailable: false,
-    StaredLily: false,
-    main: {
-      male: {
-        workResponse: 0,
-        saraIntro: false,
-      },
-      female: {
-        firstText: false,
-        metLily: false,
-        helpResp: 0,
-        kimIntro: false,
-        whatIsIt: false,
-        kimSpecial: false,
-        kimPregnant: false,
-      },
-      startText: false,
-      mainStart: false,
-      omniKey: 0,
-      rangBellToday: false,
-      active: [true, false, false, false, false, false, false, false, false],
-      progress: [0, 0, 0, 0, 0, 0, 0, 0, 0], // 0 to 1000 to represent one decimal place
-      known: [true, false, false, false, false, false, false, false, false],
-      deadline: [191520, 241920, 0, 0, 0, 0, 0, 0, 0],
-      contacts: [false, false, false, 0, 0, 0, 0],
-    },
-    lilyTased: 0,
-    buggedLily: 0,
-    selfEmployed: false,
-    unemployedDays: 0,
-    selfEmployType: "none",
-    job: {
-      IT: {
-        surgery: false,
-        secLab: false,
-        video: false,
-        breedIntro: false,
-        breedOne: false,
-        breedTwo: false,
-        breedThree: false,
-        breedFinal: false,
-        breedInsem: false,
-        breedPunish: false,
-        breedTrain: false,
-        tittenSex: false,
-        likeTits: false,
-        hateTits: false,
-        honest: false,
-        ugly: false,
-        breedRev: false,
-      },
-      IS: {
-        sawChinese: false,
-        metMarta: false,
-        martaVolunteer: false,
-        martaLounge: false,
-        martaFriend: false,
-        martaInterupt: false,
-        martaRescue: false,
-        martaDildo: false,
-        martaBreak: false,
-        martaAsked: false,
-        martaSex: false,
-      },
-      IB: {
-        responseTeam1: false,
-        responseTeam2: false,
-        responseTeamD: false,
-      },
-      PF: {
-        briefing: false,
-        birthCon: false,
-        hips: false,
-        moreHips: false,
-        inseminated: false,
-        splitter: false,
-        boost: false,
-        pregTest: false,
-        firstInsem: false,
-        saradberol: false,
-        stretch: false,
-      },
-      HD: {
-        braTrap: false,
-        smallBras: false,
-        hecow: false,
-        training: false,
-      },
-    },
-    drTittenCount: 0,
-    milesDriven: 0, // miles driven during the game
-    car: {
-      make: "Missibitchi",
-      model: "Lingual",
-      year: 2026,
-      mileage: random(85000, 95000),
-    },
-    OfferedHelpLily: 0,
-    DamagedCar: 0, // how damaged player's car is (repair quest to be able to leave the valley)
-    tempSkillBoost: { // temporary bonus to skills recorded here for later retraction
-      exhibition: 0,
-      prostitute: 0,
-      sex: 0,
-      oral: 0,
-      seduction: 0,
-      comm: 0,
-      org: 0,
-      probSolving: 0,
-      finance: 0,
-      art: 0,
-      athletic: 0,
-      dancing: 0,
-      clean: 0,
-      shop: 0,
-      cook: 0,
-      martial: 0,
-      firearms: 0,
-    },
-    BackupTraits: { // "real" personality of PC used for restoring
-      will: 0,
-      libido: 0,
-      open: 0,
-      vert: 0,
-      diq: 0,
-      iq: 0,
-      op: true,
-      cl: true,
-      intro: true,
-      extro: true,
-      sexuality: 0,
-      straight: true,
-      bi: true,
-      homo: true,
-      bitch: 0,
-      lowEsteem: 0,
-    },
-    BackupKinks: { // more of "real" personality of PC used for restoring
-      risky: true,
-      pregnancy: true,
-      sizequeen: true,
-      cumSlut: true,
-      sub: true,
-      exhibition: true,
-      masochist: true,
-      buttSlut: true,
-      public: true,
-      slut: true,
-      superSlut: true,
-      hyperSlut: true,
-      oral: true,
-      anal: true,
-      force: true,
-      rape: true,
-      liberate: true,
-      easy: true,
-      nips: true,
-      dom: true,
-      water: true,
-      bond: true,
-      hard: true,
-      fap: true,
-      shame: true,
-    },
-    gameEvents: {
-      map: {},
-      story: {},
-      mechanic: {},
-    },
-    StylistVisitA: 0, // records number of times seen the world's only 3 stylists
-    StylistVisitB: 0,
-    StylistVisitC: 0,
-    door: { // unlock door/burger codes
-      megaTits: 0,
-      tries: 2,
-      code: 1551,
-      ultraFertile: 0,
-      puddlingCunt: 0,
-      pussyPheromones: 0,
-    },
-    Prologue: true, // IMPORTANT - whether or not in prologue
-    prologueSunday: true, // important to prevent "sunday missed work issue"
-    ProBoughtClothes: false,
-    ProClothingQuest: {
-      panties: false,
-      bra: false,
-      top: false,
-      bottom: false,
-      dress: false,
-    },
-    ProHospitalCheckedBody: false,
-    CarWreckDmg: 0,
-    GaveTobyName: false,
-    weekTute: true,
-    exes: [],
-    finance: {
-      foodNoSpend: false,
-      goodsNoSpend: false,
-      supplyNoSpend: false,
-    },
-    BEpharmacist: {
-      met: false,
-      firstMeet: 0,
-      avail: true,
-    },
-    badEnd: "none", // IMPORTANT - type of bad ending triggered
-    badEndInit: false, // whether bad-end launching omni-event has been set
-    doomClock: false, // stores key to doomClock omni event for ending game
-    lily: {
-      weirdTalk: 0,
-      fuckedBathLesson: false,
-      fuckedBathLessonPCCame: false,
-      fuckedBathLessonLilyCumLoc: 0,
-    },
-    proResistedFap: false,
-    coffeeToday: 0, // amount of coffee drank in 1 day for limiting bonuses
-    sexTutorial: true,
-    oystersWithMom: false,
-    playerNotes: ["none"],
-    bank: { // information on whether you have X bank account with the bank.
-      faust: { saving: false, loan: false, credit: false, appLoan: false, appCred: false},
-      indigo: { saving: false, loan: false, credit: false, appLoan: false, appCred: false},
-      payment: 0,
-    },
-    listenToLily: 0,
-    prologueBusReaction: [0],
-    jobFairCheckedOut: [0, 0, 0, 0, 0, 0, 0],
-    jobQuiz: {
-      result: "none",
-      number: 0,
-      science: 0,
-      hr: 0,
-      janitor: 0,
-      cow: 0,
-      breed: 0,
-      semen: 0,
-      testSubject: 0,
-      retail: 0,
-    },
-    jobsWorked: {
-      IS: false,
-      IT: false,
-      IB: false,
-      MD: false,
-      FT: false,
-      PF: false,
-      HD: false,
-    },
-    parasite: { // general parasite recording/tracking
-      vagina: {
-        c39: {
-          has: false,
-          date: [0, 0, 0, 0],
-        },
-      },
-      anus: {},
-      breast: {},
-      head: {},
-      other: {},
-    },
-    prologueFemPaid: false,
-    prologuePassedScience: 0,
-    omni: {
-      creamHypno: 0,
-      kukragene: 0,
-    },
-    alarmClock: [false, 7, 0], // setting for the players wake-up alarm clock
-    suicideList: [],
-    schedHangs: [],
-    schedDates: [],
-    homeVisit: [0, "none"],
-    doms: [],
-    subs: [],
-    keyHolding: ["none", "none"], // npcId and stage
-    keyHolders: ["none", "none"], // npcId and stage
-    sendKeyReturned: [false, false, false],
-    sendKeyLost: [false, false, false],
-    psycho: {
-      caught: false,
-    },
-    victimName: "",
-    jobEvents: {  // tracks job related events
-      services: {
-        sawChinese: false,
-      },
-      sperm: {
-        boardBoss: 0,
-      },
-      bureau: {},
-      maid: {
-        firstDay: true,
-        fuckedUp: 0,
-        fuckedUpFlag: false,
-      },
-      fairyTail: {
-        firstDay: true,
-      },
-      pimp: {
-        askedForPractice: false,
-        firstTime: true,
-        hookerName: "Bunny Suxalot",
-        payRate: 20,
-        reputation: 0,
-      },
-      streetwalk: {
-        price: {
-          striptease: 15,
-          oral: 25,
-          vaginal: 40,
-          bareback: 80,
-          anal: 60,
-          titjob: 20,
-          kinky: 60,
-        },
-        apdCaughtStreetWalking: 0,
-      },
-    },
-    drug: { // IntDrugFlags
-      powerTits: 0,
-      lactaMax: 0,
-      bovinex: false,
-      teatEnhance: false,
-      mammarex: 0,
-      residentialPedroSwap: 666, // checker for refreshing drug dealer inventory
-      residentialPedroWorks: true, // false if dealer is busted so he will not appear more at the corner.
-      residentialPedroMet: false, // if pc ever met pedro - used for correct npc behaviour when pc talks to him
-      residentialHannaSwap: 666, // checker for refreshing drug dealer inventory
-      residentialHannaWorks: true, // false if dealer is busted so he will not appear more at the corner.
-      residentialHannaMet: false, // if pc ever met Hanna - used for correct npc behaviour when pc talks to him
-    },
-    hannaStory: {
-      stage: "none",
-      money: 0,
-    },
-    farm: { // IntFarmFlags
-      member: false,
-      joinDate: [0, 0, 0, 0],
-      milkPrice: 3,
-      weekMilk: false,
-    },
-    sawFertilitySealAd: false,
-    school: {
-      oppaidoGreenBelt: false,
-    },
-    apdCaughtNaked: 0,
-    caveAdventure: false,
-    addictWarned: false,
-    jobManualShown: false,
-    schoolManualShown: false,
-    dateManualShown: false,
-    statsManualShown: false,
-    psychoAttend : { // doctor's name: [if subscribed to the doctor, last week number pc attended, last month number pc attended, last event text used]
-      lecter: [false, 0, 0, 0],
-    },
-    churchAttend: {
-      outer: false,
-      cock: false,
-      man: false,
-    },
-    plasticOperationType: "none", // because i need to store it somewhere
-    plasticOperationSize: "none",
-    expandP: false,
-    plasticOperationCost: 0,
-    tan: 0, // let's say 1-10
-    mentalPrescription: false,
-    escapeHatch: "not used",
-    residentialDaisyMet: false,
-    syntetixRead: false,
-    shamelessRead: false,
-    broodRead: false,
-    wlgRead: false,
-    magazinesCount: 0,
-    magazinesTotal: 4,
-    shelterVisits: 0,
-    bestialityExperience: false,
-    fairMail: false,
-    fairShooting: false,
-    fairMilking: false,
-    fertilitySeal: false,
-    fuckMachineDildo: "false",
-    marriage: {
-      date: [1, 1, 1, 2032],
-      npc: "none",
-      discussion: false,
-      NPCvows: ["none", "none", "none"], // obligatory, optional, optional
-      PCvows: [],
-    },
-    npcInducedInteractions: {
-      destination: 0,
-      intType: "none",
-      intNPC: "none",
-    },
-    fempro: {
-      initResponse: 0,
-      likedClothes: 0,
-    },
-    preg: {
-      morningSickToday: false,
-      firstKick: false,
-      kickA: false,
-      kickB: false,
-      // info  Maint  Elasta Uteri
-      elastic: [false, false, false],
-      // info  Speed  Short  Quick
-      boostA: [false, false, false],
-      boostB: [false, false, false],
-    },
-    surrogateSignUp: false,
-    passedOut: 0,
-    status: {
-      happy: [],
-      stress: [],
-      lonely: [],
-      fatigue: [],
-      satisfy: [],
-      health: [],
-    },
-    pumpDumpUnlock: false,
-    sexRecord: {
-      makeout: 0,
-      sex: 0,
-      oral: 0,
-      anal: 0,
-      public: 0,
-      domsub: 0,
-      forced: 0,
-      creampie: 0,
-      accidentCP: 0,
-      unprotected: 0,
-      nocumNPC: 0,
-      nocumPC: 0,
-    },
-    vows: {},
-    liveTogether: false,
-    liveWith: "none",
-    moveInFlag: false,
-    liveWithTier: 0,
-  };
-  aw.con.info("Initialized Flags.");
+  setup.initializeFlags();
 
   // **********************************************************************************/
   //               HOME SYSTEM VARIABLES                                              */
@@ -1733,7 +1280,13 @@ setup.initialize.ten = function() {
   };
 
   // tslint:disable-next-line:max-line-length
-  ↂ.home.clean.cleaningTime = Math.round(((ↂ.home.clean.doCleaning + ↂ.home.clean.doCleaning + ↂ.home.clean.doCleaning + ↂ.home.clean.pickingUp + ↂ.home.clean.pickingUp + ↂ.home.clean.doDishes + ↂ.home.clean.doLaundry + ↂ.home.clean.doBed) / 8) * (5 * ↂ.home.clean.increment));
+  if (ↂ.flag.marriage.married) {
+    ↂ.home.clean.cleaningTime = Math.round(((ↂ.home.clean.doCleaning + ↂ.home.clean.doCleaning + ↂ.home.clean.doCleaning + ↂ.home.clean.pickingUp + ↂ.home.clean.pickingUp + ↂ.home.clean.doDishes + ↂ.home.clean.doLaundry + ↂ.home.clean.doBed) / 8) * (5 * ↂ.home.clean.increment) / 2);
+  }
+  else {
+    ↂ.home.clean.cleaningTime = Math.round(((ↂ.home.clean.doCleaning + ↂ.home.clean.doCleaning + ↂ.home.clean.doCleaning + ↂ.home.clean.pickingUp + ↂ.home.clean.pickingUp + ↂ.home.clean.doDishes + ↂ.home.clean.doLaundry + ↂ.home.clean.doBed) / 8) * (5 * ↂ.home.clean.increment));
+  }
+
   ↂ.home.item.owned.push("brokenCoffee");
   ↂ.home.item.owned.push("bustedStool");
   ↂ.home.item.owned.push("someBlankets");

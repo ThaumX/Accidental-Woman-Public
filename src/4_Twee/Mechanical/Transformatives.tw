@@ -26,11 +26,12 @@
       ↂ.pc.status.energy.amt -= random(2, 5);
       setup.dialog("Kukragene Breast Cream","<center>[img[IMG-BreastCream2]]</center><<f y>>ou rub more cream into your tits. It aches like hell, and your breasts almost seem to sag in your hands for a while afterward.");
     }
+    setup.breastCalc();
     aw.S();
   <</script>>
 <<else>>
   <<run setup.omni.new("kukragene")>>
-  <<dialog "Kukragene Breast Cream">><center>[img[IMG-BreastCream1]]</center><<f y>>ou rub the cream into your tits. It itches a bit.<</dialog>>
+  <<dialog "Kukragene Breast Cream">><center>[img[IMG-BreastCream1]]</center><<f y>>ou rub the cream into your tits. It itches a bit. Maybe it was not enough to have any effect?<</dialog>>
 <</if>>
 <<status 0>>
 <<description>>
@@ -141,6 +142,7 @@ if(ↂ.sex.scene){
 <<newconsumable "Mysterious Pinecone" "gapecone">>
 <<dialog "Mysterious Pinecone">><center>
 You hold the mysterious pinecone in your hand. How are you going to use it?<br><br>
+<<set _freeHole = setup.sexToys.check("pc", "vagina")>><<if _freeHole === true>>
 <<button "Vaginally">>
 <<status 1>>
 <<run setup.omni.new("sorePuss")>>
@@ -149,14 +151,14 @@ You hold the mysterious pinecone in your hand. How are you going to use it?<br><
 <<status 0>>
 <<run UI.alert("You spend some time using the mysterious pinecone in your pussy. It's not exactly pleasant, but when you're done you can tell that you'll be able to take larger insertions than before.")>>
 <<run Dialog.close()>>
-<</button>><<tab>><<button "Anally">>
+<</button>><<else>>@@.disabled;<<button "Orifice blocked">><</button>>@@<</if>><<tab>><<set _freeHoleA = setup.sexToys.check("pc", "asshole")>><<if _freeHoleA === true>><<button "Anally">>
 <<run setup.omni.new("soreButt")>>
 <<addTime 30>>
 <<set ↂ.pc.body.asshole.tight += 2>>
 <<status 0>>
 <<run UI.alert("You spend some time using the mysterious pinecone in your ass. It's not exactly pleasant, but when you're done you can tell that you'll be able to take larger insertions than before.")>>
 <<run Dialog.close()>>
-<</button>>
+<</button>><<else>>@@.disabled;<<button "Orifice blocked">><</button>>@@<</if>>
 </center><</dialog>>
 <<description>>
 <div class="consumable">
@@ -204,7 +206,9 @@ Popular South American fruit which is known for arousing effects. It temporary b
 <<status 1>>
 <<if setup.omni.matching("RoboThroat") >= 1>>
   <<script>>
-    ↂ.pc.status.bimbo += random(4,8);
+    const x = random(4,8);
+    ↂ.pc.status.bimbo += x;
+    setup.status.record("bimbo", x, "Huffing spraypaint (Robothroat Spray overdose)");
     ↂ.skill.comm -= 2;
     ↂ.pc.groom.lipMU = "fail";
     aw.S();
@@ -215,7 +219,9 @@ Popular South American fruit which is known for arousing effects. It temporary b
   <</script>>
 <<elseif ↂ.flag.tempSkillBoost.oral <= 10 && ↂ.skill.oral <= 180>>
   <<set ↂ.flag.tempSkillBoost.oral += 15>>
-  <<set ↂ.pc.status.bimbo += random(2,3)>>
+  <<set _xxx = random(2,3)>>
+  <<set ↂ.pc.status.bimbo += _xxx>>
+  <<run setup.status.record("bimbo", _xxx, "Robothroat Spray side effects")>>
   <<set ↂ.flag.tempSkillBoost.comm -= 5>>
   <<set ↂ.pc.groom.lipMU = "fail">>
   <<status 0>>
@@ -223,7 +229,9 @@ Popular South American fruit which is known for arousing effects. It temporary b
   <<arousal 3>>
   <<run setup.omni.new("roboThroat")>>
 <<else>>
-  <<set ↂ.pc.status.bimbo += random(2,5)>>
+  <<set _xxx = random(3,5)>>
+  <<set ↂ.pc.status.bimbo += _xxx>>
+  <<run setup.status.record("bimbo", _xxx, "Robothroat Spray side effects")>>
   <<set ↂ.flag.tempSkillBoost.comm -= 5>>
   <<set ↂ.pc.groom.lipMU = "fail">>
   <<status 0>>
@@ -235,7 +243,7 @@ Popular South American fruit which is known for arousing effects. It temporary b
 <div class="consumable">
 [img[IMG-Items-ROBOTHROAT]]
 <h3>ROBOTHROAT Oral Spray</h3>
-A special aerosol spray intended to make you better at oral sex. This appears to be an Indian knockoff of the more popular chinese product "Perfect Oral", which seems to be a knockoff of yet another product. @@.print;"2 times more !!metals power max!! than the leading brand!"@@ <i>You don't know of any other oral spray that acts like metallic spraypaint, so perhaps they got the original's formula wrong and just decided to roll with it.</i>
+A special aerosol spray intended to make you better at oral sex. This appears to be an Indian knockoff of the more popular Chinese product "Perfect Oral", which seems to be a knockoff of yet another product. @@.print;"2 times more !!metals power max!! than the leading brand!"@@ <i>You don't know of any other oral spray that acts like metallic spraypaint, so perhaps they got the original's formula wrong and just decided to roll with it.</i>
 <p>
 Increases oral sex skill. [lasts 180 minutes] Do not take more than directed.
 </p>
@@ -243,5 +251,55 @@ Increases oral sex skill. [lasts 180 minutes] Do not take more than directed.
 <</newconsumable>>
 <</if>>
 
+
+<<if !setup.consumables.consumableExists("PerfectOral")>>
+<<newconsumable "Perfect Oral Oral Sex Spray" "PerfectOral">>
+<<status 1>>
+<<if setup.omni.matching("PerfectOral") >= 1>>
+  <<script>>
+    const x = random(2,3)
+    ↂ.pc.status.bimbo += x;
+    setup.status.record("bimbo", x, "Overdose side effect from Perfect Oral spray")
+    ↂ.skill.comm -= 1;
+    ↂ.pc.groom.lipMU = "fail";
+    aw.S();
+    setup.status.satisfact((random(8,16) * -1), "Overdose side effect from Perfect Oral spray");
+    setup.makeup.calc();
+    setup.status.arousal(3);
+    UI.alert("Your attempt at overdosing on Perfect Oral did not go well.");
+  <</script>>
+<<elseif ↂ.flag.tempSkillBoost.oral <= 10 && ↂ.skill.oral <= 180>>
+  <<set ↂ.flag.tempSkillBoost.oral += 20>>
+  <<set _xxx = random(0,1)>>
+  <<set ↂ.pc.status.bimbo += _xxx>>
+  <<run setup.status.record("bimbo", _xxx, "Perfect Oral Spray side effects")>>
+  <<set ↂ.flag.tempSkillBoost.comm -= 5>>
+  <<set ↂ.pc.groom.lipMU = "fail">>
+  <<status 0>>
+  <<run setup.makeup.calc()>>
+  <<arousal 3>>
+  <<run setup.omni.new("PerfectOral")>>
+<<else>>
+  <<set _xxx = random(1,2)>>
+  <<set ↂ.pc.status.bimbo += _xxx>>
+  <<run setup.status.record("bimbo", _xxx, "Robothroat Spray side effects")>>
+  <<set ↂ.flag.tempSkillBoost.comm -= 5>>
+  <<set ↂ.pc.groom.lipMU = "fail">>
+  <<status 0>>
+  <<run setup.makeup.calc()>>
+  <<arousal 3>>
+  <<run setup.omni.new("PerfectOralCannibal")>>
+<</if>>
+<<description>>
+<div class="consumable">
+[img[IMG-Item-PerfectOral]]
+<h3>Perfect Oral Oral Sex Spray</h3>
+A special aerosol spray intended to make you better at oral sex. This appears to be a Chinese knockoff of the more popular Japanese product "楽しい子供の口のスプレー | Tanoshī Kodomo no Kuchi no Supurē", which your phone tells you means "fun kid mouth spray". "Mune wa ima wa daijōbudesu!!!"
+<p>
+Increases oral sex skill. [lasts 180 minutes] Do not take more than directed.
+</p>
+</div>
+<</newconsumable>>
+<</if>>
 
 

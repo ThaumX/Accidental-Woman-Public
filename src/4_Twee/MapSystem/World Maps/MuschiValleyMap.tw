@@ -1,7 +1,83 @@
 :: MuschiValleyMap [nobr map]
 
-<div id="cardback"></div>
-<div class="uicardbig" style="top:5px;bottom:5px;">
-<div class="head2" style="position:absolute;top:25px;right:25px;">Appletree</div>
-<<include [[MAPworld]]>>
+/*Must be in timer to delay start because script runs before passage render*/
+<<timed 50ms>>
+<<script>>
+  $("area.navappletree").click(function(){
+    setup.map.nav("world","appletree");
+  });
+  $("area.navinstitute").click(function(){
+    setup.map.nav("world","institute");
+  });
+  $("area.navwoods").click(function(){
+    /*setup.map.nav("world","woods");*/
+    setup.notify("<span class='warn'>The woods area is not available yet.</span>");
+  });
+  $("area.navforest").click(function(){
+    /*setup.map.nav("world","forest");*/
+    setup.notify("<span class='warn'>The forest area is not available yet.</span>");
+  });
+  $("area.navspring").click(function(){
+    setup.map.nav("world","spring", "parking");
+    /*setup.dialog("Map System", "<center><h3>Hoden Springs</h3>This area has some recreational activities and some other <i>interesting</i> things going on. It hasn't been implemented yet.<br>[img[IMG-SpringsMap]]</center>");*/
+  });
+  $("area.navcity").click(function(){
+    /*setup.map.nav("world","city");*/
+    setup.notify("<span class='warn'>You can never escape Appletree. <b>Never.</b></span>");
+  });
+  $("area.navbullseye").click(function(){
+    setup.map.nav("bullseye","parking");
+  });
+  $("area.navvisit").click(function(){
+    setup.map.nav("world","visitor","parking");
+    /*setup.dialog("Map System", "<center><h3>Muschi Valley Visitor's Center</h3>This area is where visitors can stop to find interesting activities and places to visit in the valley. It hasn't been implemented yet.<br>[img[IMG-VisitorsMap]]</center>");*/
+  });
+  $("area.navcoop").click(function(){
+    setup.map.nav("world","coop","main");
+  });
+  $("area.navrestricted").click(function(){
+    setup.map.nav("world","restricted","enter");
+    /*setup.dialog("Map System", "<center><span class='warn' style='font-size:1.25rem;'>WARNING: RESTRICTED AREA</span>This area has absolutely nothing interesting, just some agricultural research. Nope, not a place to visit at all. In fact, nobody should care that it hasn't been implemented yet.<br>[img[IMG-RestrictedAreaMap]]</center>");*/
+  });
+  $("area.navinfo").click(function(){
+    /*setup.map.nav("world","info");*/
+    setup.notify("<span class='warn'>I really don't know what's going on.</span>");
+  });
+  $("area.navlake").click(function(){
+    setup.map.nav("world","resort", "hotel");
+    /*setup.notify("<span class='warn'>The lake area is not available yet.</span>");
+    setup.dialog("Map System", "<center><h3>Clitea Lake Resort</h3>Recreational area with a hotel and waterslides! Sadly, it hasn't been implemented yet.<br>[img[IMG-ResortMap]]</center>"); */
+  });
+  $("area.navunknown").click(function(){
+    /*setup.map.nav("world","unknown");*/
+    setup.notify("<span class='warn'>There is nothing in the area that you clicked.</span>");
+  });
+  $("area.navbridge").click(function(){
+    setup.map.nav("world","bridge", "bridge");
+    /*setup.dialog("Map System", "<center>The bridge can't be jumped off of just yet.<br>[img[IMG-BridgeMap]]</center>"); */
+  });
+<</script>>
+<</timed>>
+
+<div id="WorldMapCunt">
+<img data-passage="IMG-Muschi-Valley-Map" usemap="#worldMap">
+<map name="worldMap" id="worldMap">
+    <area coords="354,328,533,452" shape="rect" alt="Appletree" title="Appletree" class="navappletree">
+    <area coords="603,358,35" shape="circle" alt="Sahnetorte Bridge" title="Sahnetorte Bridge" class="navbridge">
+    <area coords="743,335,39" shape="circle" alt="Visitor Center" title="Visitor Center" class="navvisit">
+    <area coords="912,434,62" shape="circle" alt="Farm Cooperative" title="Farm Cooperative" class="navcoop">
+    <area coords="923,279,64" shape="circle" alt="Bullseye Ubercenter" title="Bullseye Ubercenter" class="navbullseye">
+    <area coords="244,150,64" shape="circle" alt="Hoden Spring" title="Hoden Spring" class="navspring">
+    <area coords="895,697,74" shape="circle" alt="Lake Clitea" title="Lake Clitea" class="navlake">
+    <area coords="559,607,540,576,561,549,580,519,595,509,632,634,609,653,575,671,564,637" shape="poly" alt="Area 69" title="Area 69" class="navrestricted">
+    <area coords="709,985,54" shape="circle" alt="Threesome Peak" title="Threesome Peak" class="navunknown">
+    <area coords="352,588,308,595,291,613,264,618,245,590,245,530,277,512,301,516,330,549,354,563" shape="poly" alt="Institute Campus" title="Institute Campus" class="navinstitute">
+    <area coords="160,881,169,837,190,799,239,770,303,820,268,858,222,899,190,910" shape="poly" alt="National Forest" title="National Forest" class="navcity">
+    <area coords="956,101,991,52,1050,37,1087,40,1117,66,1146,107,1175,148,1198,163,1224,165,1257,163,1262,186,1230,198,1201,195,1166,177,1125,145,1096,110,1067,87,1047,104,1026,139" shape="poly" alt="Leave Muschi Valley" title="Leave Muschi Valley" class="navcity">
+    <area coords="356,229,408,238,426,252,458,250,481,255,499,276,525,290,560,299,571,314,601,317,638,308,673,308,703,308,729,288,749,288,776,302,790,293,813,302,837,302,854,296,854,264,869,232,863,215,872,165,854,121,764,104,741,115,735,142,714,165,685,177,644,171,601,180,589,156,580,121,569,104,534,92,501,77,461,69,434,77,429,110,420,139,394,156,367,165,347,191,341,209" shape="poly" alt="Angler Wood" title="Angler Wood" class="navforest">
+    <area coords="318,393,347,393,347,320,490,320,466,279,431,273,405,270,391,259,353,262,324,262,306,282,306,308,312,341,324,364" shape="poly" alt="Riesewood" title="Riesewood" class="navwoods">
+    <area coords="347,398,347,457,501,457,487,477,499,495,496,515,464,506,446,515,446,536,440,562,420,576,397,588,376,594,359,588,356,556,329,538,300,506,274,506,233,530,213,506,216,471,251,463,277,465,294,448,297,425,315,398" shape="poly" alt="Schwerwood" title="Schwerwood" class="navwoods">
+    <area coords="746,38,33" shape="circle" alt="Rail Station" title="Rail Station" class="navinfo">
+</map>
 </div>
+

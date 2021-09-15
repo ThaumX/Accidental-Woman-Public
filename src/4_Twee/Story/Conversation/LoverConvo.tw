@@ -60,6 +60,20 @@
 <<set _int = setup.interact.status.temp.interrupt>>
 <<set _ctag = setup.interact.status.temp.cTag>>
 <</silently>>
+<<if $BFhome>>
+<<dialogchoice>>
+<<dbutt "Saying Hello">><<set setup.interact.status.temp.ctag = "none">><<addTime 3>><<intgo "NPCinteraction-LoverTag">>
+<<dtext "happy">>You don't have an objective, you just wanted to say hello since you were nearby.
+<<dbutt "Go to Date">><<intclose>><<run setup.npcDate.date($BFid, "park")>>
+<<dtext "bimbo">>You want to go out on a date somewhere! Right now!
+<<dbutt "Go to Date">><<intclose>><<run setup.npcDate.date($BFid, "BFhome")>>
+<<dtext "bimbo">>You want to have a romantic evening today with your special someone.
+<<dbutt "Hang Out">><<set setup.interact.status.temp.ctag = "none">><<addTime 5>><<intgo "NPCinteraction-Loverhang">>
+<<dtext "happy">>You thought you'd see about getting together sometime to hang out.
+<<dbutt "Bye">><<addTime 3>><<run setup.interact.exit()>>
+<<dtext "happy">>You need to go actually.
+<</dialogchoice>>
+<<else>>
 <<dialogchoice>>
 <<dbutt "Saying Hello">><<set setup.interact.status.temp.ctag = "none">><<addTime 3>><<intgo "NPCinteraction-LoverTag">>
 <<dtext "happy">>You don't have an objective, you just wanted to say hello since you were nearby.
@@ -70,7 +84,7 @@
 <<dbutt "Bye">><<addTime 3>><<run setup.interact.exit()>>
 <<dtext "happy">>You need to go actually.
 <</dialogchoice>>
-
+<</if>>
 
 :: NPCinteraction-LoverDate [nobr]
 
@@ -90,7 +104,7 @@
 :: NPCinteraction-LoverHang [nobr]
 
 <<set _npc = setup.interact.status.npc>>
-<p>@@.pc;<<print either("Hey, don't you want to get together? I mean some hangout and whatnot.", "I think we totally shoud have a hangout together!", "I thought about spending some time together, buddy up style, what do you think?")>>@@</p>
+<p>@@.pc;<<print either("Hey, don't you want to get together? I mean some hangout and whatnot.", "I think we totally should have a hangout together!", "I thought about spending some time together, buddy up style, what do you think?")>>@@</p>
 <p>@@.npc;<<print either("Oh, it would be cool!", "Yeah, why not.", "Okies, count me in!")>>@@</p>
 <p>@@.npc;<<print either("Okay, let's set it up!", "Nice! When you will be free?", "Cool! Let's schedule it!")>>@@</p>
 

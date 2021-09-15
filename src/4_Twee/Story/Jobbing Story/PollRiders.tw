@@ -29,31 +29,14 @@
 <p><<print either("@@.npc;You must be <<= ↂ.pc.main.name>>, right? Good. Look, cutie, I had a tough week so I won't be against to be properly entertained so you may start.@@","@@.npc;Evening, you are the girl Hank told me about? Well, begin then, I'll relax here for a while, this bloody week sucked all the life from me.@@", "@@.npc;Well, not bad. Show me what you got, girl... let's see if you are as good as Hank told me.@@")>></p>
 <<has exhibition>><<arouse 1>><p><<print either("Feeling the arousal starting building up you begin the striptease routine.","Thanks to your exhibition fetish it doesn't take much for you to build up your attitude and start dancing.")>>
 <<or>><<print either("It takes a little bit of hesitation because you were not ready but you manage to dance.","With a short sigh you prepare yourself to dance.")>><</has>></p>
-<<print either("Dancing around the stripper pole you start removing your clothes one by one.","Sitting on his knees you slowly remove almost all of your attire until you get practically naked.")>><<print either("He looks pleased and you decide that it is a right time to slide your butt against his crotch with a painfully long and slowly strokes.","Judging by his breath getting fast and heavy you get sure that it is the right time to press your boobs into his face and wiggle them for his enjoyment.")>></p>
+<<print either("Dancing around the stripper pole you start removing your clothes one by one.","Sitting on his knees you slowly remove almost all of your attire until you get practically naked.")>><<print either("He looks pleased and you decide that it is a right time to slide your butt against his crotch with a painfully long and slowly strokes.","Judging by his breath getting fast and heavy you get sure that it is the right time to press your boobs into his face and wiggle them for his enjoyment.")>>
 <<SCX>><<SC "ST" "15">><<if $SCresult[1]>>
 <p><<print either("@@.npc;Mmmm you are soo good baby, I can't wait to get my hands on you... You'll get your tips I promise.@@","@@.npc;You are such a tease, girl, come here, I feel like I am getting much less <i>tired</i> now. Don't worry, tips are not a problem.@@")>></p>
 <<has shame>><p>@@.mono;Oh, he is going to fuck me?..But Hank said I must please this guy whatever it takes...@@</p><<or>><p>@@.mono;I got this guy worked up for sure, tee-hee. It seems it is time for "special services"...@@</p><</has>>
 <<dialogchoice>>
     <<dbutt "No">><<scenego "StripperEvent1-no">><<stress 15 "Turning down a strong request for special services as a stripper">><<set ↂ.job.stats.boss -= random(17,33)>>
     <<dtext "disturbed">>S-sorry, I can't...
-  <<dbutt "Sure">><<set _tips = random(60,90)>><<run aw.cash(_tips)>>
-  <<set _daddyspunk = (setup.npc.male.length - 1)>><<set _randDude = random(0, _daddyspunk)>><<set $VipClient = setup.npc.male[_randDude]>>
-  
-  <<run setup.npcInfo.level($VipClient, {bodyGeneral: true})>>
-  <<run setup.npcInfo.level($VipClient, {bodyJunk: true})>>
-  <<run setup.npcInfo.level($VipClient, {bodyDetail: 1})>>
-  <<set aw.npc[$VipClient].rship.likePC += random(3, 6)>>
-  <<set aw.npc[$VipClient].lovePC += random(1, 3)>>
-  <<set ↂ.sex.passage = aw.passage.title>>
-  <<set ↂ.sex.pcOutput = "She checks if the curtains are closed properly and grins to you before undressing you.">>
-  <<set ↂ.sex.enviroTags = ["bed","wall","chair"]>>
-  <<set aw.npc[$VipClient].rship.companion += 15>>
-  <<set aw.npc[$VipClient].sleptover += 1>>
-  <<set setup.sexitimes = $VipClient>>
-  <<run Dialog.close()>>
-  <<script>>
-  setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
-  <</script>>
+  <<dbutt "Sure">><<scenego "StripperEvent1-yes">><<set _tips = random(60,90)>><<run aw.cash(_tips)>>
     <<dtext "smug">>Oh yes, let's do it!
 	<</dialogchoice>>
 <<else>><<set _tips = random(30,40)>><<run aw.cash(_tips)>>
@@ -68,22 +51,28 @@
 :: StripperEvent1-no [nobr]
 
 <p>@@.pc;S-sorry, I can't...@@</p>
-<p><<print either("@@.pc;What?! Are you fuckin dumb, bitch?@@","@@.pc;Hmm... fuck it, I am leaving. Say Hank I am dissapointed. Like fucking a lot.@@")>></p>
+<p><<print either("@@.pc;What?! Are you fuckin dumb, bitch?@@","@@.pc;Hmm... fuck it, I am leaving. Say Hank I am disappointed. Like fucking a lot.@@")>></p>
 <p>You leave the stall as fast as you can.</p>
 <p>@@.mono;Oh, the manager will be furious...@@</p>
 <p><<link "Back to work">><<sceneclose>><<status 0>><</link>></p>
 
 
+:: StripperEvent1-yes [nobr]
+
+<<eatdrug "sex" 7>><<arousal 1>><<run setup.condition.add({loc: "asshole", amt: 4, tgt: "pc", wet: 5, type: "cum"})>><<run setup.hadSexWith("none",1)>><p>@@.pc;Oh yes, let's do it!@@ You come closer to the guy and he stands up. Roughly, he turns you around and forces you to lean forward. You gasp when you feel his cock pressed to your <<p buttshape.q>> shaped butt, his hands rapidly undressing you.</p>
+<<if setup.sexToys.check("pc", "groin") === true>><<run ↂ.pc.body.pussy.insert(3)>><<run ↂ.pc.fert.creampie("unknown", 35, "deep")>><<run setup.sexToys.remove("pc", "vagina")>><p>@@.npc;Such a nice pussy I see here! Get ready, baby, the daddy is in the house, haha!@@ Your <<p 'curwet.q'>> pussy involuntary twitches with anticipation.</p><<else>><<run ↂ.pc.body.asshole.insert(3)>><p>@@.npc;Oh, you are wearing a belt, slut? Pretty weird for a stripper, isn't it? Well, I can see at least one free hole from here anyway!@@</p><</if>><p>With his hands on your <<p hips.q>> hips he pushes his dick into your hole and you can't hold the moan. His cock slides inside and you can barely stand while he starts to fuck you relentlessly. You start feeling more and more pleasure but before you can hope for orgasm he suddenly picks up the pace and shoots his cum. @@.mono;Oh, this guy is a fast shooter... shit.@@ He looks completely satisfied while tugging his already semi-flaccid cock out. @@.npc;That's my girl! Now get the fuck out.@@</p>You dress and leave the stall to <<link "return to your work.">><<sceneclose>><<status 0>><</link>>
+
+
 :: StripperEvent2 [nobr]
 
 <center>[img[IMG-StripSadGuy]]</center>
-<p>@@.head3;A@@t the <<print either("end of your shif","beggining of your shift")>> some guy comes up to you. He looks pretty shy and it seems it takes visible efforts to overcome it.</p>
+<p>@@.head3;A@@t the <<print either("end of your shift","beginning of your shift")>> some guy comes up to you. He looks pretty shy and it seems it takes visible efforts to overcome it.</p>
 <p>@@.npc;S-sorry, are you... ehm... vacant? Oh. I mean, you are not busy now?@@</p>
 <<has bitch>><p>@@.pc;Do I look like I am giving a private show or something right now? What do you want, duckling?@@</p><<or>><p>@@.pc;No, I am all free, sweetheart. What;s the deal?@@</p><</has>>
 <p>He makes a couple of deep breaths like he is going to dive into the water.</p>
 <p>@@.npc;Ugh. You see, I have a request... a long story short, my wife well... she is also wearing a pants in our house so she kind of a mistress... She is rather upset with me because I was... jerking off while she is pregnant and... oh gosh... She ordered me to ask for a private lapdance here. And to explain it all to my stripper beforehand.@@</p>
 <p>@@.npc;Tee-hee. That doesn't sound like a punishment for me to be honest!@@</p>
-<p>He squeezes out an embarassed smile.</p>
+<p>He squeezes out an embarrassed smile.</p>
 <p>@@.npc;Well, there is a twist... she also locked me up in a spiked chastity cage, you know it...@@</p>
 <<has dom>><p>@@.pc;I am pretty much aware of this type of restraints.@@</p>
 <<or>><p>@@.pc;Wow, how does it work?@@</p>
@@ -111,10 +100,10 @@
 <<or>><<arousal 1>><p>@@.pc;Make yourself comfortable, mister.@@</p><</has>>
 <p>You start your stripper's routine dancing around the pole and slowly getting rid of your lingerie. It doesn't take long until the guys face begin to express all of the mixed feelings she certainly experience. Getting your tits naked you make your way closer to him and sit on his knees with your own apart. His eyes dance back and forth between your bare <<p tits.n>> and your barely covered <<p pussy.q>> <<p pussy.n>>.</p>
 <<has dom>><p>@@.mono;Damn, I like how much he suffers from this predicament!@@</p><</has>>
-<p>You lower yourself on his crotch and feel a hard bump of his cage pressing to your pussy through the fabric of his pants. Slowly rocking on his locked manhood you take him to the point where he is practically ready to cry from pain and frustruation.</p>
+<p>You lower yourself on his crotch and feel a hard bump of his cage pressing to your pussy through the fabric of his pants. Slowly rocking on his locked manhood you take him to the point where he is practically ready to cry from pain and frustration.</p>
 <p>@@.npc;Mmm-hmm...please...@@</p>
 <<has dom>><p>@@.pc;Please what? You know your unruly nub has deserved this, isn't it?@@</p><<or>><p>@@.pc;Oh, poor boy! But you asked for this yourself, remember?@@</p><</has>>
-<p>You do your best at getting him absolutely desperate pressing your <<p skincolor.q>> boobs to him and sliding your hands all across his shaking body. After about 10 minutes you decide that it is enough. <<has dom>>As a last gesture you put your hand to his crotch and sqeeze his swollen nuts with your palm making him squeal with pain.<</has>></p>
+<p>You do your best at getting him absolutely desperate pressing your <<p skincolor.q>> boobs to him and sliding your hands all across his shaking body. After about 10 minutes you decide that it is enough. <<has dom>>As a last gesture you put your hand to his crotch and squeeze his swollen nuts with your palm making him squeal with pain.<</has>></p>
 <p>@@.pc;That's all, love, I guess you enjoyed your show, tee-hee!@@</p>
 <p>Slowly gaining his senses back he nods, blushed and sweaty.</p>
 <p>@@.npc;Yes, mistress, thank you, mistress!@@</p><<set _tips = random(40,60)>><<run aw.cash(_tips)>>
@@ -123,3 +112,183 @@
 <p><<button "Back to work.">><<sceneclose>><<status 0>><</button>></p>
 
 
+:: Stripper-VipEvent-A1 [nobr]
+
+During your working hours at Poll Riders, you see all kinds of lewd things going on, just not having sex just because of the "company" policies, at least not having sex in plain sight.<br><br>
+
+At that moment a man that you think is in your 30s appears in front of you with a slight smile. @@.npc;So... I see that you are free to do a special dance?@@<br><br>
+
+He is wearing seemingly expensive clothes, unlike the other men around him he seems to be an outstanding man, you could say that he is a VIP. @@.pc;Well, if you can afford it, I'd love to do that, honey.@@<br><br>
+
+You give a mischievous smile though for purely professional reasons. @@.npc;You're a new face here, I haven't seen you yet...@@<br><br>
+
+He is well dressed, with a casual T-shirt, jeans, and sunglasses. He extends his hand in a friendly gesture, realizing that it is probably a VIP from the club you decide to greet him. He politely kisses your hand in a strangely chivalrous greeting, totally out of character for the kind of men who frequent this place. @@.npc;So, come on, I'm looking forward to seeing you stripping for me.@@<br><br>
+
+He runs his right hand through his blond hair combed back before heading to the upper floors of the club, where everything is calmer and there are fewer people. When you get there it takes you to one of the private rooms, unlike the small and noisy stalls on the lower floors where it is quiet, quiet, and well decorated. A heart-shaped bed in the background and a large sofa are predominant, you see a fridge with several drinks next to a mixology table to prepare drinks. @@.mono;Is this done just for... Dances?@@<br><br>
+
+You ponder, wondering if anything else can happen when it comes to VIPs, but you forget that for now. @@.npc;Then that's it. Can I ask your name?@@<br><br>
+
+@@.pc;<<name>> <<surname>>. And yours?@@<br><br>
+
+@@.npc;<<name>> uh? It's a beautiful name, but... Before I introduce myself, I would like to make sure that you do a good job.@@ He mentions while he sits relaxed on the couch.<br><br>
+
+@@.npc;So, I'll give you a big tip and a formal presentation... But let's just start with a show, I want to see what you have.@@ He removes his glasses before sinking onto the large, soft sofa, waiting for you to start.<br><br>
+
+@@.mono;Start with a dance? That means he has... a few more ideas for after that.@@ You ponder before you decide if you want to go ahead with it, he is a VIP and probably these men have extensive privileges in the club, you are not surprised if they could even fuck strippers. But you are also not obliged to do this.<br><br>
+
+You ponder for a few seconds and decide to accept the VIP customer's offer, assuming that if you do a good job his tip will be worthwhile. Few girls in the club have the opportunity to become a VIP's favorite girls, after all. You put on your best smile and start dancing in front of the mysterious man, deciding that you will do a good job of making him fascinated by you. It may be a little too high ambition for a stripper, but you always allow yourself to dream big and ambitious.<br><br>
+
+Hovering gracefully in front of your customer, you start to remove piece after piece of your clothes, most slowly and provocatively possible, your efforts do not take long to affect. You may notice the bulge under his jeans getting bigger quickly after you expose your breasts. You let yourself be carried away by the moment of the dance and in a single movement you cross your arms compressing your breasts, the sensual dance arousal starts to make your nipples hard and the hairs on your body start to stand up a little. @@.pc;Hehe, this is always fun...@@<br><br>
+
+You smile to yourself before continuing the dance, making your best effort to ensure that he will be delighted with you. @@.npc;It looks like we have a talented girl here...@@<br><br>
+
+He mumbles although it is audible enough for you to hear. Feeling encouraged you to remove the rest of your underwear, you turn to your client and lift your butt, removing your panties inch by inch in the most provocative way you can imagine until you let go, dropping it on the floor. When you are fully exposed you turn to the VIP, waiting for his next action. @@.npc;This is great, you have talent, <<name>>. But that was just the beginning, now...@@<br><br>
+
+He mentions it in a confident tone, you watch as he unzips his pants releasing the fully hardened cock for you, but he remains relaxed on the couch after that. @@.npc;It is time for you to continue the work.@@<br><br>
+
+You are indecisive when he mentions this, but it takes you a few seconds to realize that VIPs probably have unique rights in this club, even to fuck the girls.<br><br>
+
+''This is a defining moment for your career at Poll Riders, you can go back to doing shows for ordinary men, or you can follow a special path with a VIP, and you can become his favorite girl.''<br><br>
+
+<<dialogchoice>>
+  <<dbutt "Yes, sir...">><<scenego "Stripper-VipEvent-A2">>
+  <<dtext "confused">>I can get high tips, or even a better opportunity... Sure! hehe
+  <<dbutt "No!" "!ↂ.pc.kink.slut">><<set ↂ.flag.jobEvents.pollRiders.vipClient = 'rejected'>><<sceneclose>>
+  <<dtext "dismay">>Sorry, you better find some other girl I believe...
+<</dialogchoice>>
+
+
+:: Stripper-VipEvent-A2 [nobr]
+
+Several things come to mind, high tips or even getting a better chance than Poll Riders, so you decide to accept his proposal. You go to your client and get on your knees, in a very submissive position, you put on your most cuttey expression and ask.<br><br>
+
+@@.pc;So, do you want me to do something with them?@@ You mention, squeezing your breasts again.<br><br>
+
+@@.npc;Hmmm... I would love to, let's start with that, then.@@ It only breaks eye contact when you move forward on his penis, as blond pubic hairs cover his virility, the cock is pulsating and warm to the touch unlike the rest of the cold room. You cutely start the blowjob, licking the tip of the penis and allowing your saliva to drain all over the erect cock, you could say that it is 18cm long. After a few moments you allow your sputum to drain into your breasts, in an slutty and provocative gesture, you then align the hard penis between your boobs and start to gently press it between them.<br><br>
+
+@@.npc;You know very well how to tease a man, don't you?@@ He asks, can you notice that his breathing is a little tenser than at the beginning, deciding that your efforts are having an effect you start to press the penis in a constant rhythm up and down in a high-level erotic massage of skill. After a few minutes his body begins to radiate more heat, you notice that the cock is hard as a diamond and the VIP lets out occasional moans as you do your job. You snap the tip of the erect penis, giving your client a new source of pleasure in your mouth, you start using your tongue and hickeys while you gently massage his penis between your wet breasts.<br><br>
+
+<<if ↂ.pc.body.tits.lact.on>>
+  The flow of milk leaves your nipples uninterruptedly, you have active lactation and the white liquid that gushes from you begins to cover your body and your client's body, facilitating your massage work. You can feel it in your mouth too, tasting your milk while you serve one of your customers is an especially hot experience and you could bet he is loving it.<br><br>
+<</if>>
+
+You start to put more strength in the massage and your mouth with each hickey, you can feel the texture of your client's cock, it's veiny and pulsating, you can feel the veins pulsing more and more intensely between your breasts and in your mouth as his breathing also speeds up and the moans become more intense. Your body starts to follow the VIP and you feel warmer, excited but without losing focus on your main task: serving your client.<br><br>
+
+It doesn’t take much longer than that for him to reach his climax, in a breathless breath you completely snap the tip of his penis, without removing it from the middle of your breasts, when in intense pulsations you feel the bursts of cum appear inside your mouth which quickly becomes full. At that moment you release the VIP's penis, which emanates a few more jets of cum on your breasts before completely ceasing, leaving the exhausted man on the couch.<br><br>
+
+He looks at you then, still with his mouth full of his semen, and in an even more submissive gesture, you keep on your knees and open your mouth to show all the semen. @@.npc;You were great, <<name>>. I love talented girls, that was amazing.@@<br><br>
+
+He mentions while placing a hand lovingly on your face. @@.npc;Now... swallow it, I want to see you swallow every drop. From today you are my new bitch.@@<br><br>
+
+You feel like you've managed to win favoritism from one of the club's VIPs, and hold a smile when you do his bidding, swallowing the cum inside your mouth and licking your lips in front of him. He gets up and fixes his clothes, you do the same when he mentions.<br><br>
+
+@@.npc;You deserved it, enjoy.@@ He extends his hand giving you a valuable tip of 100 bucks.<br><br>
+
+@@.npc;I didn't have much time today, but next time we will do something more special... Be ready. By the way, the name's is Joseph Stewart.@@ He smiles before putting on his glasses and going his way.<br><br>
+
+<<button "Back to work.">><<arousal 2>><<run aw.cash(100, "Became a new VIP's bitch")>><<set ↂ.flag.jobEvents.pollRiders.vipClient = 'accept'>><<sceneclose>><</button>><br><br><br>
+
+//By Anenn//
+
+
+:: Stripper-VipEvent-B1 [nobr]
+
+You are working another day at the Poll Riders, towards the end of your shift you start to see the most empty club and you sit on the pole for a few minutes after a day of sensual dance. You have the opportunity to take a breath before ending your day, however soon you feel a hand on your foot, you turn to face another man to realize that it is Joseph again.<br><br>
+
+@@.npc;Hi, <<name>>. Do you have time for another private dance?@@ He throws you a warm smile, realizing that he is your VIP client. You gather your energies and put a smile on your face.<br><br>
+
+@@.pc;Of course, always ready for you.@@ It helps you get off the pole, so you again go to the upper floors and then again in the private room.<br><br>
+
+@@.pc;Uh... So, what do you have in mind today?@@ You ask, putting your most sensual expression in Joseph's direction.<br><br>
+
+@@.npc;Let's start with the traditional dance... It always helps me to relax, and open the mood.@@ He speaks as he sinks back on the couch, waiting for you to start the show.<br><br>
+
+You follow his orders, starting a private dance for the VIP, touching each part of your body, and then starting to remove your clothes, starting with the upper part of your body which after a few movements is naked with your breasts exposed to Joseph.<br><br>
+
+When you turn to face him, he is starting to unzip his pants, so his cock is free and starting to get hard. You feel your nipples harden at the sight, especially the expectation of doing something more today. But you continue the sensual dance, losing the bottom parts of your outfit for the next few moments. @@.mono.Hehe, I love it when they make that face...@@<br><br>
+
+You die the lower lip when you are naked for your new "master". During the time that you are pleasing him, you belong totally to him. After you are completely naked, you hover in front of Joseph, submissively waiting for his next orders.<br><br>
+
+You know, it's time for you to please me specially. But I will let you choose how you want to do this.<br><br>
+
+He points to the fully erect and pulsating penis in front of you, you have an idea of ​​what he wants you to do.<br><br>
+
+<<dialogchoice>>
+  <<dbutt "Cowgirl">><<scenego "Stripper-VipEvent-B2">>
+  <<dtext "happy">>Good old cowgirl, always a pleasure.
+  <<dbutt "R-Cowgirl">><<scenego "Stripper-VipEvent-A3">>
+  <<dtext "happy">>Hmm... Maybe a reverse cowgirl. Hehe
+  <<dbutt "No..." "!ↂ.pc.kink.slut">><<sceneclose>>
+  <<dtext "confused">>Sorry, you better find some other girl I believe...
+<</dialogchoice>>
+
+:: Stripper-VipEvent-B2 [nobr]
+
+You smile to yourself before approaching Joseph, climbing up to him as he approaches to kiss you, but you hold him in your hand and force him back against the couch casting a mischievous expression, he looks a little surprised but also seems to like it.<br><br>
+
+You grab his penis and start a little game, rubbing your pussy on his erect cock, provoking him more and more expecting a reaction from him at some point. You grab your breasts and bring a nipple to your mouth, looking provocatively at Joseph. @@.npc;Argh... You're a pro at provoking, after all.@@<br><br>
+
+He speaks with a hungry expression on his face, grabbing your butt and forcing his erect cock into your moist pussy, he penetrates you without any difficulty. @@.pc;Hmm...@@<br><br>
+
+You don't say anything, knowing the time for words is over, it's time for you to get fucked. Joseph jumps up to kiss you, in an instinctive movement he starts to be controlled by his arousal. You throw your arms around his neck, accepting and responding to your master's kiss and then allowing your dressing to sink your "master's" cock as deep into your femininity as possible, after a few moments you can feel it touch the deepest point.<br><br>
+
+You then break the kiss to let out a groan and wrap your legs around Joseph, making the weight of your body keep the tip of his penis pressing against your depths, stretching your vagina, and then hitting your cervix. You allow your arousal to take control of the situation, again kissing Joseph, feeling the pressure of his penis against your cervix is ​​a constant and pleasurable sensation, you are now the VIP's private bitch and will do anything to give him pleasure.<br><br>
+
+Moving your hips in smooth circular motions, makes the two of them let out some mutual moans of pleasure while you and he are still totally intertwined in intense sex, where the muffled moans take over the room. @@.pc;Hmmm... Your cock is- Aahhh... So good, master!@@<br><br>
+
+He grips your hips tightly, forcing you against his cock and stretching your pussy before tightened to the max, you can feel his breath getting heavier and heavier over time, the veins of his penis throbbing against the walls of your vagina and the mixed heat of your depths with Joseph's hot cock will soon bring you to orgasm. You moan loudly and throw your head back while he kisses your neck, without realizing you scratch his back during the waves of pleasure. @@.pc;Aaahhhhh! Master I- Aahhhh... I-I'm cumming! Hmm...@@<br><br>
+
+In each wave of pleasure, your vagina compresses Joseph's cock, still feeling the unbroken kiss that the tip of his penis gives to your cervix, you feel that he is also about to come, and after a few seconds of pulsation and intense breathing, he let go of his manly charge inside you, letting out a male groan.<br><br>
+
+You can feel the hot bursts passing through your cervix, already relaxed and stretched after a fuck and an intense orgasm. The sensation makes you feel complete, being possessed by a dominant "master", becoming his bitch. @@.pc;Hmm... Aahhh master... This is so warm!@@<br><br>
+
+Joseph just lets you go after he finishes emptying his balls on the new bitch he took for himself, then he sinks again on the couch, still panting but satisfied.<br><br>
+
+You allow his penis to come out of you, letting a part of the white, warm load leak out.<br><br>
+
+You gather your last strength after a day's work and line up to lick the leftover cum on Joseph's semi-erect penis that says nothing while you do the job. Making sure that every drop of his cum is swallowed by you, he soon gets up and strokes you again. @@.npc;Good job, you are my favorite bitch, <<name>>.@@<br><br>
+
+He starts to dress, you again follow him doing the same. @@.npc;That was special, we will have something like that again at some point when I have time, thanks.@@<br><br>
+
+He again gives you a tip of 100 bucks.<br><br>
+
+<<button "Back to work.">><<arousal -2>><<run ↂ.pc.fert.creampie("Joseph Stewart", 50, "deep")>><<run aw.cash(100, "Serve your master")>><<sceneclose>><</button>><br><br><br>
+
+//By Anenn//
+
+
+:: Stripper-VipEvent-B3 [nobr]
+
+You ponder something different, approaching Joseph you turn on your back, giving him a wide view of your butt and your pussy almost dripping in moisture. He seems to understand what you're up to, and just sinks on the couch, allowing you to do the job you want.<br><br>
+
+You grab his pulsating and hot penis in your right hand and align it with the entrance of your pussy, threatening several times to let it sink into your depths, but without doing so, just provoking it. @@.pc;Hehe, do you want me to let this in?@@<br><br>
+
+//You wink at him, looking back with a sensual expression on your face.// He takes a firm look and grabs your hips, sinking his penis into your female depths at once with all the strength he has, stretching your pussy at once. @@.pc;Aaahhhhhh! Master... Hmm... C-Calm down.@@<br><br>
+
+You let out a groan of innocent protest, but he soon responds. @@.npc;Bitchs are not allowed to complain.@@<br><br>
+
+He approaches devoutly and whispers in your ear, behind your back, pressing your body even more against his, thus hitting your cervix in one stroke and causing you an immediate wave of pleasure. @@.pc;pcHmmmm... This feels good!@@<br><br>
+
+You rub yourself against him, savoring the feeling of total submission to your "master" while he invades your femininity completely, stretching you, but there is no pain, only pleasure with your already experienced vagina that now belongs to him.<br><br>
+
+You feel him grab your breasts then, squeezing your nipples. He then gives a thrust against your pussy, marking the first of many others that follow this for several minutes. @@.pc;Aahhh! Master, I like- Hmmm... Of that, don't stop, please!@@<br><br>
+
+You feel your vagina being completely invaded and pressed, with each thrust the thick tip of his penis kisses your cervix but you allow him to do most of the work. All you do is moan, allowing the sound of your female moans to echo throughout the room making a chorus with the wet sound of constant thrusts.<br><br>
+
+You feel his penis inside you, thick and veiny, pulsating and hot, his hands roaming your breasts and the heat emanating from Joseph's body makes you reach orgasm again. @@.pc;Aaaahhhhh! *Gasping* Yes! Me- Hmmmmm! Fuck me, master!@@<br><br>
+
+With intense internal contractions, you start a light squirt, wetting Joseph's body and dripping down the couch. //You can feel his breath against you, heavy and thick, heavier and heavier with each thrust.// In addition to the heat and growing pulsations of his penis inside you, you know he is cumming to orgasm.<br><br>
+
+@@.pc;Cum inside me! Aahhhh... Do that, mast- Aahhh!@@ You are taken by surprise before you finish begging him to cum inside you, you feel a powerful thrust, in a single stroke he puts his penis completely inside of you, pressing heavily against your cervix and then releasing the sperm hot from him in your depths, this is added to your orgasm, almost synchronously you and he reach a climax together.<br><br>
+
+You throw your head back and roll your eyes with the waves of pleasure in each jet of hot and manly semen, feeling satisfied by that, you just enjoy for a few intense moments with your master.<br><br>
+
+When the mutual orgasm finally ends, the sound of the room is of two tired and breathless people, breathing heavily but without detaching from each other for some time. When you catch your breath you finally get off it, feeling sperm run quickly down your legs. Your butt hovers in front of him when you feel a strong slap on your buttock, causing a small jet of sperm to come out of your pussy to the floor, and a female moan of fright. @@.npc;Hehe... You are the best, <<name>>.@@<br><br>
+
+He caress you, then you and he take back your clothes. @@.pc;I think I'm satisfied for today, you're an excellent bitch.@@<br><br>
+
+It leaves you 100 bucks as a special tip. @@.npc;There will be a next time, for sure.@@<br><br>
+
+<<button "Back to work.">><<run ↂ.pc.fert.creampie("Joseph Stewart", 50, "deep")>><<arousal -2>><<run aw.cash(100, "Riding your master")>><<sceneclose>><</button>><br><br><br>
+
+//By Anenn//

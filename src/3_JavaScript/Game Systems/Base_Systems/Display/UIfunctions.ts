@@ -80,7 +80,7 @@ setup.ui = {
       if (aw.passage.title === "HomeMenu") {
         out += "<<link [img[Game Settings|IMGsettings_disabled]]>><</link>>";
       } else {
-        out += "<<link [img[Game Settings|IMGsettings]]>><<replace '#awUIcontainer'>><<include [[MENU-GameSettingMain]]>><</replace>><</link>>";
+        out += "<<link [img[Game Settings|IMGsettings]]>><<set setup.menuvar = 'prefs'>><<replace '#awUIcontainer'>><<include [[gameSettingsPage]]>><</replace>><</link>>";
       }
       if (ↂ.flag.alarmClock[0]) {
         // tslint:disable-next-line:max-line-length
@@ -424,10 +424,16 @@ setup.ui = {
             }
           }
         }
-        if (ↂ.map.loc[0] === "bullseye" && ↂ.map.loc[1] !== "parking") {
-          out += "<<link [img[Pay and head outside|IMG_PayShopIcon]]>><<run setup.map.nav('bullseye','parking')>>"
-            + "<</link>>";
-          ct++;
+        for (let i = 0; i < ↂ.plans.current.length; i++) {
+          if (ↂ.plans.current[i].name === "Wedding!" && ↂ.plans.current[i].missed && aw.time > (ↂ.plans.current[i].start - 60) && aw.time < (ↂ.plans.current[i].start + 60)) {
+              out += `<<link [img[Go to the Wedding|IMG-WeddingIcon]]>><<run setup.wedding.start("${ↂ.plans.current[i].npc}")>>` + "<</link>>";
+              ct++;
+          }
+          if (ↂ.map.loc[0] === "bullseye" && ↂ.map.loc[1] !== "parking") {
+            out += "<<link [img[Pay and head outside|IMG_PayShopIcon]]>><<run setup.map.nav('bullseye','parking')>>"
+              + "<</link>>";
+            ct++;
+          }
         }
         const cID = Object.keys(ↂ.buttons);
         if (cID.length > 0) {
@@ -440,7 +446,11 @@ setup.ui = {
         }
         if (excluded.includes(ↂ.map.loc[0]) || ↂ.map.loc[0] === "residential") {
           if (ↂ.map.loc[1] === "parking") {
-            out += "<<link [img[Drive your Car|IMG_DriveIcon]]>><<run setup.map.nav('world','appletree')>><</link>>";
+            if (ↂ.pc.status.alcohol > 3) {
+              out += `<<link [img[Get a Taxi|IMG_TaxiIcon]]>><<run aw.cash(-20), "car">><<status 0>><<run setup.map.nav('world','appletree')>><</if>><</link>>`;
+            ct++;
+            }
+            out += `<<link [img[Drive your Car|IMG_DriveIcon]]>><<set _policeChance = 0>><<if ↂ.pc.status.alcohol > 3>><<set _policeChance = random(1,3)>><</if>><<if _policeChance == 3>><<dialog "Driving">><<include [[AppletreePoliceDrunkMechanical]]>><</dialog>><<else>><<run setup.map.nav('world','appletree')>><</if>><</link>>`;
             ct++;
           } else {
             if (ↂ.map.loc[1] !== "medical") {
@@ -469,7 +479,7 @@ setup.ui = {
                 out += "<<link [img[Go to Sleep|IMG_SleepIcon]]>><<run setup.sleep.go()>><</link>>";
                 ct++;
               } else { // this variant has a setTimeout to prevent the navigation/sleep conflict.
-                out += "<<link [img[Go to Sleep|IMG_SleepIcon]]>><<gotomap 'home' 'bedroom'>><<run setTimeout(()=> setup.sleep.go(), 500)>><</link>>";
+                out += `<<link [img[Go to Sleep|IMG_SleepIcon]]>><<if $AW.tutorials && !ↂ.flag.bedWarned && !setup.homeItems.bedFinder()>><<dialog "Sleeping on floor?">><div style="border: 3px solid #ff5d3d;background-color:#000;text-align:center;padding:20px;min-width:500px;color: #ffc16b;"><span style="font-size:1.4rem;color:#ff5d3d;">Furniture Warning</span><br><br>It seems you have no bed in your flat. Just some friendly warning for you: sleeping on floor does nothing good for your character. The amount of restored energy is lower and this affects your character's happiness. You may want consider buying a proper bed at the Bullseye or Appletree mall shops.</div><br><center><<button "Okay, will do soon">><<set ↂ.flag.bedWarned = true>><<status 0>><<gotomap 'home' 'bedroom'>><<run setTimeout(()=> setup.sleep.go(), 500)>><</button>></center><</dialog>><<else>><<gotomap 'home' 'bedroom'>><<run setTimeout(()=> setup.sleep.go(), 500)>><</if>><</link>>`;
                 ct++;
               }
             }
@@ -747,9 +757,17 @@ setup.ui = {
         }
         k++;
       }
-      if (k < 8 && (ↂ.pc.status.wombA.fetus.length > 0 && ↂ.pc.status.wombA.know) || (ↂ.pc.status.wombB.fetus.length > 0 && ↂ.pc.status.wombB.know)) {
-        output += `<img data-passage="IMGstatus_pregnant" style="opacity:0.7;">`;
-        k++;
+      if (k < 8) {
+        if (ↂ.pc.body.tits.base.size >= 24000) {
+          output += `<img data-passage="IMGstatus_weight" title="Your breasts are dangerously heavy ${setup.calcBreastWeight(ↂ.pc.body.tits.base.size)}">`;
+          k++;
+        }
+      }
+      if (k < 8) {
+        if ((ↂ.pc.status.wombA.fetus.length > 0 && ↂ.pc.status.wombA.know) || (ↂ.pc.status.wombB.fetus.length > 0 && ↂ.pc.status.wombB.know)) {
+          output += `<img data-passage="IMGstatus_pregnant" style="opacity:0.7;">`;
+          k++;
+        }
       }
     }
     return output;

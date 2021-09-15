@@ -1,16 +1,37 @@
-
 :: BirthChildNaming [nobr]
 
-<p>
-<<f e>>ven though your <<if _plur>>babies<<else>>baby<</if>> will be staying in the hospital until collected by the government authorities for transfer to the infant creche, you're still invited to give <<if _plur>>them names<<else>>a name<</if>>. The nurse helping you with the paperwork sees your sadness, and is quick to point out that as long as you meet the required parenting qualifications--and file the paperwork with the Applecare office--you can pick up your <<if _plur>>babies<<else>>baby<</if>> in as few as a couple days. Taking another glance at you, she also points out that you can always visit your <<if _plur>>children<<else>>child<</if>> at the care facility, even if you don't meet the requirements.
-</p>
-<p>
-Your emotions are strong so soon after giving birth, so the nurse gives you your space as soon as she finishes explaining what you need to do.
-</p>
+<<if setup.selectedLover.rship.category === "married">><<happy 2>><<stress -1>>
+  <<f c>>hildren stay in the hospital to be taken to the government nursery, but you can still spend the next few hours with your <<if _plur>>babies<<else>>baby<</if>> and your husband. Nurses take care of paperwork, the state's basic bureaucracy.<br><br>
+
+  <<if setup.currentBaby.father === setup.selectedLover.key>>
+    Your husband sits in an armchair next to you, in a very satisfying silence when you and he are left alone with your <<if _plur>>babies<<else>>baby<</if>>. You breastfeed your new <<if _plur>>babies<<else>>baby<</if>>, finally giving a suitable destination for the milk inside your breasts. @@.npc;He's really beautiful, <<name>>. Wow... This is a fucking crazy experience, haha.@@<br><br>
+
+    He brings his right hand to his face, remembering everything that has happened in the past 24 hours since you went into labor. You laugh with the nervous expression on your husband's face.<br><br>
+
+    <<has pregnancy>>
+      @@.pc;Heh, this is perfect... But we will have others, our work is still far from over, we are young and we have a lot of sex to do.@@ You throw a mischievous smile at your husband, his reaction is mixed between happiness and nervousness, you just had a <<if _plur>>babies<<else>>baby<</if>> and you already plan to have others, even if these are just plans you decide to give your husband some time to absorb everything that happened today, and get rid of stress.<br><br>
+    <<or>>
+      @@.pc;Yeah... After that let's take some time before thinking about another <<if _plur>>babies<<else>>baby<</if>>. I think... We need to dedicate a lot of time to what we already have, after all.@@ Your husband agrees with you, although you can imagine that he wouldn't mind having other babies in the future, but you leave that for now. Now you just let yourself be filled with a maternal instinct and total affection for your <<if _plur>>babies<<else>>baby<</if>>, breastfeeding and taking care of him while he sleeps in your arms.<br><br>
+    <</has>>
+
+    Despite everything you've been through, you're really strong, as women in general have a natural strength to endure childbirth, pain and everything you've been through. Now you are filled with great maternal affection, and the desire to take care of your <<if _plur>>babies<<else>>baby<</if>>, for the next few hours you focus on just that.<br><br>
+  <<else>><<stress 1>>
+    However you will have problems in the end, your husband realized that he is certainly not the father of your <<if _plur>>babies<<else>>baby<</if>>. With a simple glance at the traits of the child you gave birth to, he knows he is not the father.<br><br>
+
+    He leaves the room before you can give any explanation, you know that you will probably be in trouble when you leave the hospital, and your marriage will likely be severely damaged, or it may even end.<br><br>
+
+    For now, you decide to try to ignore this, and dedicate your attention entirely to your <<if _plur>>babies<<else>>baby<</if>> that has just been born and now sucks the milk from your breasts, a worthy destination for your milk at last. You rest and take care of your baby for the next few hours.<br><br>
+    <<set setup.selectedLover.rship.lovePC = 0>>
+    <<set setup.selectedLover.rship.likePC = 0>>
+  <</if>>
+<<else>><<happy 1>>
+  <<f e>>ven though your <<if _plur>>babies<<else>>baby<</if>> will be staying in the hospital until collected by the government authorities for transfer to the infant creche, you're still invited to give <<if _plur>>them names<<else>>a name<</if>>. The nurse helping you with the paperwork sees your sadness, and is quick to point out that as long as you meet the required parenting qualifications--and file the paperwork with the Applecare office--you can pick up your <<if _plur>>babies<<else>>baby<</if>> in as few as a couple days. Taking another glance at you, she also points out that you can always visit your <<if _plur>>children<<else>>child<</if>> at the care facility, even if you don't meet the requirements.<br><br>
+
+  Your emotions are strong so soon after giving birth, so the nurse gives you your space as soon as she finishes explaining what you need to do.<br><br>
+<</if>>
+
 <<= setup.child.nameDisplay()>>
-<p>
-After you finish, the nurse leaves you to get some rest before your release from the hospital.
-</p>
-<center>
-<<button "CONTINUE">><<run setup.scenario.close()>><<if $time[2] && $time[0] > 1>><<run setup.sleep.go()>><</if>><</button>>
-</center>
+
+After you finish, the nurse leaves you to get some rest before your release from the hospital.<br><br>
+
+<center><<button "CONTINUE">><<run setup.scenario.close()>><<if $time[2] && $time[0] > 1>><<run setup.sleep.go()>><</if>><</button>></center>

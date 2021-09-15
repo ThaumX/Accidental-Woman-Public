@@ -62,11 +62,24 @@
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
+<<if ↂ.flag.jobEvents.hucowFarm.nudeYogaIntro>>
+  <<if State.variables.time[0] < 10>>
+    <<hoverrevise morningYoga1>>
+      <<button "Take the yoga class">><<run setup.dialog("It's my time to practice", "<<include [[Ranch-cowgirlsMorningYogaPracticing-A1]]>>")>><</button>>
+    <<endhoverrevise>>
+  <<else>>
+    <<hoverrevise morningYoga2>>
+      @@.disabled;<<button "Take the yoga class">><</button>>@@
+    <<endhoverrevise>>
+  <</if>>
+<</if>>
 </div>
 
 /*Main display for information about actions*/
 <div id="actionInfo">
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+<<insertion morningYoga1>>They are taking a new naked yoga class, is it a good idea if I join them?<<endinsertion>>
+<<insertion morningYoga2>>The cowgirls have regular yoga classes in the morning.<<endinsertion>>
 </div>
 
 

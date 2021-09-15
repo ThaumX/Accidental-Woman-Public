@@ -59,7 +59,7 @@ setup.omnItems.lateMiscarriage = {
   output: "alert",
   times: 18,
   interval: 45,
-  icon: "IMGstatus_VerySick",
+  icon: "IMGstatus_Bleeding",
   text: "You are bleeding heavily after having a miscarriage.",
   run: `aw.L();
     if (this.count > 0) {
@@ -68,6 +68,35 @@ setup.omnItems.lateMiscarriage = {
       const hl = random(min, max) * -1;
       ↂ.pc.status.health += hl;
       setup.status.record("health", hl, "Significant miscarriage")
+      if (ↂ.pc.status.health < 1) {
+        ↂ.flag.badEnd = "miscarriage";
+        // that's it... game over man, game over.
+        // flag isn't really used, because we go straight to the bad-end...
+        setup.badEnd("miscarriage");
+      }
+    }
+    aw.S();`,
+};
+
+setup.omnItems.bleeding = {
+  name: "Bleeding",
+  type: "recurring",
+  output: "alert",
+  times: 18,
+  interval: 45,
+  icon: "IMGstatus_Bleeding",
+  text: "You are bleeding heavily after having a gunshot wound.",
+  run: `aw.L();
+    if (this.count > 0) {
+      const max = Math.max(1, Math.ceil(this.times / 3)) * 4;
+      const min = Math.ceil(max * 0.75);
+      const hl = random(min, max) * -1;
+      ↂ.pc.status.health += hl;
+      setup.condition.add({ loc: "stomach", amt: 8, tgt: "pc", wet: 8, type: "blood"});
+      setup.status.record("health", hl, "Significant bleeding");
+      if (this.count === 7) {
+        UI.alert("Blood is pouring from the wound. Your vision becomes blurry, your feel hard to stay straight.");
+      }
       if (ↂ.pc.status.health < 1) {
         ↂ.flag.badEnd = "miscarriage";
         // that's it... game over man, game over.
@@ -250,6 +279,7 @@ setup.omnItems.moronovirus = {
         ↂ.pc.status.happy += 2;
         setup.status.record("happy", 2, "That brain itch makes you happy it seems");
         ↂ.pc.status.bimbo += 5;
+        setup.status.record("bimbo", 5, "Moronovirus infection");
         aw.S();
         break;
       case 3:
@@ -257,6 +287,7 @@ setup.omnItems.moronovirus = {
         ↂ.pc.status.happy += 3;
         setup.status.record("happy", 3, "That brain itch makes you happy it seems");
         ↂ.pc.status.bimbo += 7;
+        setup.status.record("bimbo", 7, "Moronovirus infection");
         aw.S();
         break;
       case 2:
@@ -265,6 +296,7 @@ setup.omnItems.moronovirus = {
         ↂ.pc.trait.libido += 1;
         setup.status.record("happy", 3, "That brain itch makes you happy it seems");
         ↂ.pc.status.bimbo += 10;
+        setup.status.record("bimbo", 10, "Moronovirus infection");
         aw.S();
         break;
       case 1:
@@ -273,13 +305,15 @@ setup.omnItems.moronovirus = {
         ↂ.pc.trait.libido += 1;
         setup.status.record("happy", 1, "That brain itch makes you happy it seems");
         ↂ.pc.status.bimbo += 15;
+        setup.status.record("bimbo", 15, "Moronovirus infection");
         aw.S();
         break;
       case 0:
       default:
         UI.alert("Finally, you feel healthy ones again.");
         aw.L();
-        ↂ.pc.status.bimbo -= 33;
+        ↂ.pc.status.bimbo -= 20;
+        setup.status.record("bimbo", -20, "Recovered from Moronovirus");
         ↂ.pc.status.happy -= 1;
         ↂ.pc.trait.libido -= 1;
         setup.status.record("happy", -1, "You miss being happy for no reason...");
@@ -322,6 +356,7 @@ setup.omnItems.sstd_WetHeat = {
     ↂ.pc.status.addict.creamNeed += 1;
     if (random(1, 48) === 1) {
       ↂ.pc.status.bimbo += 3;
+      setup.status.record("bimbo", 3, "Wet Heat Disease");
       if (!ↂ.pc.kink.risky) {
         ↂ.pc.kink.risky = true;
         msg += "<center>@@.change;You have developed a kink for risky sex.@@</center>";
@@ -333,7 +368,6 @@ setup.omnItems.sstd_WetHeat = {
         msg += "<center>@@.change;You have developed a love of semen, you're a cumslut now.@@</center>";
       } else {
         msg += "<center>@@.change;Your need for a creampie is dulling your wits.@@</center>";
-        ↂ.pc.status.bimbo += 5;
       }
     }
     aw.S("pc");

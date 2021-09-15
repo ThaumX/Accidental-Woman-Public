@@ -39,16 +39,16 @@
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Sit at a Table">><</button>>
+  <<button "Sit at a Table">><<dialog "Table">><<addtime 3>><center>[img[IMG-ParkTable]]<center><br>@@.mono;Somebody spend a lot of time carving this girl into the table I guess...@@ You relax some time sitting at the table and feel a little bit more rested.<<if ↂ.pc.status.energy.amt < 4>><<set ↂ.pc.status.energy.amt += 1>><</if>><<status 0>><<updatebar>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
-  <<button "Get a Refreshment">><</button>>
+  <<button "Get a Refreshment">><<dialog "swings">><<addtime 3>><<print setup.food.bar("parkStand")>><<updatebar>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise delta>>
-  <<button "Go to the Restroom">><</button>>
+  <<button "Go to the Restroom">><<set setup.menuvar = 'clothes'>><<run aw.replace('#awUIcontainer', '<<include [[MainCharacterMenu]]>>')>><</button>>
 <<endhoverrevise>>
 <<hoverrevise gamma>>
-  <<button "Sit on the Swings">><</button>>
+  <<button "Sit on the Swings">><<dialog "swings">><<addtime 24>><center>[img[IMG-ComCenSwings]]</center><br><<f y>>ou enjoy swinging for some time. <<if setup.clothes.wearingSkirt>>You are <<has exhibition>>excited<<or>>worried<</has>> about the fact that anybody can peek under your skirt while you swing but this <<has exhibition>>only makes it more enjoyable.<<or>>doesn't really that likely to happen after all.<</has>><</if>>The wind on your face feels nice and you just relax while stress and solicitudes leaves your head.<<stress -4 "Childlish fun">><<happy 1 "Childlish fun">><<status 0>><center><<button "Finish">><<run Dialog.close()>><</button>></center><<updatebar>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -60,7 +60,7 @@
 <<insertion alpha>>Sit down at an open table and relax for a while. <<ctn>>[not implemented]<</ctn>><<endinsertion>>
 <<insertion beta>>Walk over to the refreshment stand and get a drink or snack. <<ctn>>[not implemented]<</ctn>><<endinsertion>>
 <<insertion delta>>Go to the lady's room to freshen up or use the facilities. <<ctn>>[not implemented]<</ctn>><<endinsertion>>
-<<insertion gamma>>You're never too old to swing. <<ctn>>[not implemented]<</ctn>><<endinsertion>>
+<<insertion gamma>>You're never too old to swing. [-stress, +happiness, 10-15min]<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 

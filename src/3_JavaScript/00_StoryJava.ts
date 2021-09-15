@@ -34,6 +34,8 @@ if (setup.version == null || setup.version === undefined) {
 if (setup.ver == null || setup.ver === undefined) {
   setup.ver = 0;
 }
+else if (setup.ver === 350) { setup.ver = 390 }
+
 setup.loadOnce = 2;
 setup.sexActs = {};
 setup.sexPos = {};
@@ -85,7 +87,7 @@ setup.resourceLoadFinished = function(): void {
     "Firing up the Clone Vats...",
     "Transforming Transformatives...",
     "Generating Neko Ears...",
-    "<span class='blur'>Proding the Rogue AI...</span>",
+    "Proding the <span class='blur'>Rogue AI</span>...",
     "Monitoring the Tissue Vats...",
     "Creating Link to Azathoth...",
     "Blaming Besty...",
@@ -97,6 +99,11 @@ setup.resourceLoadFinished = function(): void {
     "Percolating the Breast Milk...",
     "Securing the SCP Content...",
     "Herding the Bimbos...",
+    "Ignoring Tropical Russia...",
+    "Simulating " + random(400, 800) + " wombs...",
+    "Destabilizing Governments...",
+    "Initializing Breast Physics...",
+    "Adding random bugs..."
   ];
   const verb = State.temporary.verb.pluck();
   const first = `<div id="imgpbar"></div><br><span id="verb" class="megrim white" style="font-size: 1.2rem;font-weight:bold;">${verb}</span><<repeat 2s>><<replace "#verb">><<= _verb.pluck()>><</replace>><</repeat>>`;
@@ -120,10 +127,11 @@ setup.resourceLoadFinished = function(): void {
     }
     if (pass) {
       start();
-    } else if (cunter < 36) {
+    } else if (cunter < 100) {
       setTimeout(cockery, 200);
     } else {
       start();
+      UI.alert("It looks like the game couldn't find the necessary resource files. This could be because the .zip hasn't been extracted, there are invalid characters in the filepath like ü instead of Ü, or you simply forgot to download the resource archive or move your game file to the correct location. <i>Check the HowTo image in the resource .zip for details about extracting and placing the game file.</i>");
     }
   }
   function start() {
@@ -143,6 +151,7 @@ if (window.performance) {
 $(function() {
   $(document).tooltip({
     hide: false,
+    position: { my: "left top+15", at: "left bottom", collision: "flipfit" },
   });
 });
 
@@ -166,7 +175,7 @@ function randomDist(splooge: number[]): number {
   } catch (e) {
     const msg1 = "Error: non array sent to randomDist - " + splooge + ": " + e.name + ": " + e.message;
     console.log(msg1);
-    UI.alert(msg1);
+    // UI.alert(msg1);
     return 0;
   }
   /*sum up total value of all array items*/
@@ -175,7 +184,7 @@ function randomDist(splooge: number[]): number {
     if (isNaN(splooge[i])) {
       const msg2 = "Error: non-numeric value sent to randomDist - value: " + splooge[i];
       console.log(msg2);
-      UI.alert(msg2);
+      // UI.alert(msg2);
       return 0;
     } else {
       bukkake += splooge[i];
@@ -184,7 +193,7 @@ function randomDist(splooge: number[]): number {
   /*check to make sure that values for distribution are greater than 0*/
   if (bukkake === 0) {
     console.log("Error: array value of zero sent to randomDist!");
-    UI.alert("Error: array value of zero sent to randomDist!");
+    // UI.alert("Error: array value of zero sent to randomDist!");
   }
   /*generate random number with max value of sum-1*/
   let hose = Math.floor(randomFloat(bukkake));
@@ -200,7 +209,7 @@ function randomDist(splooge: number[]): number {
   /*shouldn't reach this point.... if does, error!*/
   const msg3 = "Error: no matching item in distribution found in randomDist function. unpossible.";
   console.log(msg3);
-  UI.alert(msg3);
+  // UI.alert(msg3);
   return 0;
 }
 setup.randomDist = function(splooge: number[]): number {
@@ -210,7 +219,7 @@ setup.randomDist = function(splooge: number[]): number {
   } catch (e) {
     const msg1 = "Error: non array sent to randomDist - " + splooge + ": " + e.name + ": " + e.message;
     console.log(msg1);
-    UI.alert(msg1);
+    // UI.alert(msg1);
     return 0;
   }
   /*sum up total value of all array items*/
@@ -219,7 +228,7 @@ setup.randomDist = function(splooge: number[]): number {
     if (isNaN(splooge[i])) {
       const msg2 = "Error: non-numeric value sent to randomDist - value: " + splooge[i];
       console.log(msg2);
-      UI.alert(msg2);
+      // UI.alert(msg2);
       return 0;
     } else {
       bukkake += splooge[i];
@@ -228,7 +237,7 @@ setup.randomDist = function(splooge: number[]): number {
   /*check to make sure that values for distribution are greater than 0*/
   if (bukkake === 0) {
     console.log("Error: array value of zero sent to randomDist!");
-    UI.alert("Error: array value of zero sent to randomDist!");
+    // UI.alert("Error: array value of zero sent to randomDist!");
   }
   /*generate random number with max value of sum-1*/
   let hose = Math.floor(randomFloat(bukkake));
@@ -244,7 +253,7 @@ setup.randomDist = function(splooge: number[]): number {
   /*shouldn't reach this point.... if does, error!*/
   const msg3 = "Error: no matching item in distribution found in randomDist function. unpossible.";
   console.log(msg3);
-  UI.alert(msg3);
+  // UI.alert(msg3);
   return 0;
 };
 prerender.settingsetter = function(x) {

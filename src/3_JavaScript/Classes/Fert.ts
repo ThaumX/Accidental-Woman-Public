@@ -114,14 +114,17 @@ class Fert {
     };
     return cumData;
   }
-  public inseminate(owner: npcid | "unknown" = "unknown", vol: number = -99, loc: "vest" | "vulva" | "mid" | "deep" | "cervix" | "womb" | "ovary" | "random" = "random"): void {
+  public inseminate(owner: npcid | string = "unknown", vol: number = -99, loc: "vest" | "vulva" | "mid" | "deep" | "cervix" | "womb" | "ovary" | "random" = "random"): void {
     if (loc === "random") {
       loc = either("vest", "vest", "mid", "mid", "mid", "mid", "deep", "deep", "deep");
     }
     this.fluid[loc].push(new Cum({owner, vol}));
   }
-  public creampie(owner: "unknown" | npcid = "unknown", vol: number = -99, type: "default"|"deep"|"shallow"|"vulva" = "default"): void {
+  public creampie(owner: string | npcid = "unknown", vol: number = -99, type: "default"|"deep"|"shallow"|"vulva" = "default"): void {
     // if no volume is supplied, generates an average volume for unknowns, or gets an orgasm from npc/pc
+    if (owner === "unknown" && random(1, 200) === 200) {
+      owner = "n1005";
+    }
     if (vol === -99) {
       if (owner === "unknown") {
         vol = random(20, 30) + random(20, 30);
@@ -177,7 +180,9 @@ class Fert {
       setup.omni.kill("Semen in Vagina");
       setup.omni.new("creamPie", opt);
       setup.condition.add({ loc: "vagFluid", amt: vol, tgt: "pc", wet: vol, type: "cum"});
-      setup.condition.add({ loc: "genitals", amt: Math.round(vol / 5), tgt: "pc", wet: Math.round(vol / 5), type: "cum"});
+      setup.condition.add({ loc: "genitals", amt: Math.round(vol / 5), tgt: "pc", wet: Math.round(vol / 5), type: "cum" });
+      setup.drug.eatDrug("cream", Math.min(1, Math.round(vol / 3)));
+      setup.drug.eatDrug("cum", Math.min(1, Math.round(vol / 3)));
     }
   }
   // =====================================================================
@@ -190,8 +195,8 @@ class Fert {
     if (isNaN(val)) {
       aw.con.warn(`Attempted to set ${this._k} fertility to non-number value!`);
     } else {
-      if (val > 30) {
-        val = 30;
+      if (val > 9) {
+        val = 9;
       }
       if (val < 0) {
         val = 0;
@@ -207,8 +212,8 @@ class Fert {
     if (isNaN(val)) {
       aw.con.warn(`Attempted to set ${this._k} egg to non-number value!`);
     } else {
-      if (val > 30) {
-        val = 30;
+      if (val > 70) {
+        val = 70;
       }
       if (val < 0) {
         val = 0;
@@ -223,8 +228,8 @@ class Fert {
     if (isNaN(val)) {
       aw.con.warn(`Attempted to set ${this._k} implant to non-number value!`);
     } else {
-      if (val > 30) {
-        val = 30;
+      if (val > 50) {
+        val = 50;
       }
       if (val < 0) {
         val = 0;
@@ -239,8 +244,8 @@ class Fert {
     if (isNaN(val)) {
       aw.con.warn(`Attempted to set ${this._k} vagHostile to non-number value!`);
     } else {
-      if (val > 30) {
-        val = 30;
+      if (val > 50) {
+        val = 50;
       }
       if (val < 0) {
         val = 0;
@@ -274,8 +279,8 @@ class Fert {
       if (val > 10) {
         val = 10;
       }
-      if (val < -2) {
-        val = -2;
+      if (val < -3) {
+        val = -3;
       }
       this.dta[5] = val;
     }

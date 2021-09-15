@@ -76,7 +76,7 @@ setup.child.simpleDisplay = function() {
     }
     const he = (child.gender === 1) ? "He" : "She";
     output += `<div><span class="head">${cunt}. ${child.name} ${child.surname}</span> `;
-    output += `is a ${child.age} ${sex}. ${he} has ${child.skinColor} skin with ${child.eyeColor} eyes, along with ${curl[child.hairCurl]} ${child.hairColor} hair. ${he} is ${child.height} tall, and weighs ${child.weight}.`;
+    output += `is a ${child.age} ${sex}. ${he} has ${child.skinColor} skin with ${child.eyeColor} eyes, along with ${curl[child.hairCurl]} ${child.hairColor} hair. ${he} is ${child.height} tall, and weighs ${child.weight}. ${he} was fathered by ${child.dadName}.`;
     output += "</div>";
   }
   output += "</div>";

@@ -556,7 +556,7 @@ setup.calculateBreastStats = function(vol: number, shoulder: number, weight: num
   if (tempCup < 0) {
     cupNum = -1;
     cupRaw = -1;
-    cup = "nonexistant";
+    cup = "nonexistent";
     bra = "playing dress-up";
   } else if (tempCup <= 0) {
     cupNum = 0;
@@ -629,15 +629,15 @@ setup.deepThoughts = function(num: number = -1): string {
     "Snakes are just tails with faces.",
     "Jerky is more like an animal cracker than animal crackers are.",
     `Tobacco companies are killing their best customers, while condom companies are preventing their future customers.`,
-    "How did cats aquire such a fond taste for fish if they’re afraid of the water?",
+    "How did cats acquire such a fond taste for fish if they’re afraid of the water?",
     `You can put “fuck”, or “fucking” pretty fucking much fucking anywhere in a fucking sentence and fucking still be grammatically fucking correct.`,
     "If portal guns were real, it would revolutionize glory holes.",
-    "Every teacher born in England is an english teacher.",
+    "Every teacher born in England is an English teacher.",
     `If you choose not to have kids, you’re literally breaking a family tradition that goes back millions of years.`,
     `When you’re a kid, dick jokes are considered adult content, but when you’re an adult, they’re considered immature.`,
     "Cops are like strippers; they can touch you but you can’t touch them.",
     "You can go your entire life without drinking water or eating.",
-    "It is very possible that at some point Tarzan tried to mate with a gorrila.",
+    "It is very possible that at some point Tarzan tried to mate with a gorilla.",
     `Its common for babies to fall asleep and wake up in different locations all the time, but as an adult the idea of that happening is terrifying.`,
     "It doesn’t matter if you’re gay or straight, you still probably find 95% of people unattractive.",
     "Batman is essentially a Pay2Win Superhero",
@@ -649,7 +649,7 @@ setup.deepThoughts = function(num: number = -1): string {
     "When you park your car, you literally leave your most expensive possession lying out in the road.",
     `If snakes lost their legs for giving Adam and Eve the apple of enlightenment, clams must have really fucked up.`,
     "People with bad spelling might have the best passwords.",
-    `We live in a time where companies that make obsolete/non-competetive products can blame their losses on people “killing the industry”`,
+    `We live in a time where companies that make obsolete/non-competitive products can blame their losses on people “killing the industry”`,
     "The worst part about ‘being the bigger man’ is letting the other person think they are right.",
     "Do porn editors get in trouble for not looking at porn during working hours?",
     "Hypochondria is the only sickness hypochondriacs don’t think they have.",
@@ -701,7 +701,7 @@ setup.jokeThoughts = function(num: number = -1): string {
     `What´s the stupidest animal in the jungle? The polar bear.`, // for you, papa.
     ` Two mice chewing on a film roll. One of them says. “I think the book was better.`,
     `What was a more important invention than the first telephone? The second one.`,
-    `My grandfather had the heart of lion and a lifetime ban from the New your city zoo.`,
+    `My grandfather had the heart of lion and a lifetime ban from the New York City zoo.`,
     `Where did Lucy go after the explosion? Everywhere.`,
     `Two polar bears are sitting in a bathtub. The first one says, “Pass the soap.” The second one says, “No soap, radio!”`,
     `What did the hurricane say to the coconut palm tree? Hold on to your nuts, this is no ordinary blow job!`,
@@ -770,7 +770,7 @@ setup.sexyLines = function(): string {
       "You know, I've been told that I have a really talented tongue. They weren't talking about my skill at giving speeches though...",
     ],
     force: [
-      "I know it's not something you're supposed to say, but I really like a man who takes what he wants from a woman's body... Being iresistable is so sexy.",
+      "I know it's not something you're supposed to say, but I really like a man who takes what he wants from a woman's body... Being irresistible is so sexy.",
     ],
     dom: ["I've sometimes been known as the Worm Assassin... and it's your worm I'll be whipping into shape tonight."],
     water: ["I hope you don't mind things getting a little wet-and-wild in the bedroom..."],
@@ -840,7 +840,7 @@ setup.eMsg = function(reason: string|{name: string, message: string}): string {
   } else {
     msg = reason;
   }
-  return `<p class="monospace" style="background-color:crimson;color:#fffbc6;font-size:1.3rem;">Apologies, an error occured: ${msg}.</p>`;
+  return `<p class="monospace" style="background-color:crimson;color:#fffbc6;font-size:1.3rem;">Apologies, an error occurred: ${msg}.</p>`;
 };
 
 // a silly thing for the debug tools
@@ -875,6 +875,7 @@ setup.statusSave = function(tipe: string = "all"): void {
 
   switch (tipe) {
     case "all":
+      State.active.variables.AW.cash = Math.round(State.active.variables.AW.cash);
       aw.stsCalculus.α = btoa(JSON.stringify((State.active.variables.AW.cash * 7)));
       aw.stsCalculus.β = btoa(JSON.stringify(ↂ.job));
       aw.stsCalculus.ᛔ = btoa(JSON.stringify(ↂ.home));
@@ -893,6 +894,7 @@ setup.statusSave = function(tipe: string = "all"): void {
       }));
       break;
     case "cash":
+      State.active.variables.AW.cash = Math.round(State.active.variables.AW.cash);
       aw.stsCalculus.α = btoa(JSON.stringify((State.active.variables.AW.cash * 7)));
       break;
     case "job":
@@ -914,6 +916,7 @@ setup.statusSave = function(tipe: string = "all"): void {
       aw.stsCalculus.θ = btoa(JSON.stringify(ↂ.ward));
       break;
     default:
+      State.active.variables.AW.cash = Math.round(State.active.variables.AW.cash);
       aw.stsCalculus.α = btoa(JSON.stringify((State.active.variables.AW.cash * 7)));
       aw.stsCalculus.β = btoa(JSON.stringify(ↂ.job));
       aw.stsCalculus.γ = btoa(JSON.stringify(ↂ.sched));
@@ -937,7 +940,7 @@ setup.statusLoad = function(tipe: string = "all"): void {
   switch (tipe) {
     case "all":
       const c: number = Number(JSON.parse(atob(aw.stsCalculus.α)));
-      State.active.variables.AW.cash = c / 7;
+      State.active.variables.AW.cash = Math.round(c / 7);
       ↂ.job = JSON.parse(atob(aw.stsCalculus.β));
       ↂ.home = JSON.parse(atob(aw.stsCalculus.ᛔ));
       ↂ.skill = new Skills(JSON.parse(atob(aw.stsCalculus.ε)));
@@ -951,7 +954,7 @@ setup.statusLoad = function(tipe: string = "all"): void {
       break;
     case "cash":
       const d: number = Number(JSON.parse(atob(aw.stsCalculus.α)));
-      State.active.variables.AW.cash = d / 7;
+      State.active.variables.AW.cash = Math.round(d / 7);
       if (State.active.variables.AW.cash !== (d / 7)) {
         detect = true;
       }
@@ -976,7 +979,7 @@ setup.statusLoad = function(tipe: string = "all"): void {
       break;
     default:
       const b: number = Number(JSON.parse(atob(aw.stsCalculus.α)));
-      State.active.variables.AW.cash = b / 7;
+      State.active.variables.AW.cash = Math.round(b / 7);
       ↂ.job = JSON.parse(atob(aw.stsCalculus.β));
       ↂ.home = JSON.parse(atob(aw.stsCalculus.ᛔ));
       ↂ.skill = new Skills(JSON.parse(atob(aw.stsCalculus.ε)));
@@ -990,7 +993,7 @@ setup.statusLoad = function(tipe: string = "all"): void {
       break;
   }
   if (detect) {
-    const msg = `''FATAL ERROR''<br>An unknown memory error has occured. One or more problems were detected in the live variable memory system. This problem can corrupt game saves because accumulating errors are not immediately noticeable. It is highly recommended that you completely close your browser and open it again before continuing, or simply restart your computer.<br><br>If you continue to get this error after restarting, the save you are using may have been corrupted. Also, while there is no way to determine the cause of the problem with your computer's memory, some programs can manipulate memory in a way that will cause this class of error. Try playing AW with any extra programs closed to see if that resolves the problem.`;
+    const msg = `''FATAL ERROR''<br>An unknown memory error has occurred. One or more problems were detected in the live variable memory system. This problem can corrupt game saves because accumulating errors are not immediately noticeable. It is highly recommended that you completely close your browser and open it again before continuing, or simply restart your computer.<br><br>If you continue to get this error after restarting, the save you are using may have been corrupted. Also, while there is no way to determine the cause of the problem with your computer's memory, some programs can manipulate memory in a way that will cause this class of error. Try playing AW with any extra programs closed to see if that resolves the problem.`;
     State.active.variables.AW.error = msg;
     State.display("errorPassage");
   }
@@ -1639,7 +1642,7 @@ aw.cash = function(amt: number, reason: string = "misc"): void {
     aw.con.warn("Bad cash amt value to aw.cash!!!");
     return;
   }
-  aw.L();
+  aw.L("cash");
   const ᚥ = ↂ.home.finance;
   reason = reason.toLowerCase();
   if (amt > 0) {
@@ -1758,7 +1761,7 @@ aw.cash = function(amt: number, reason: string = "misc"): void {
 // content restriction function
 // returns true if content is blocked!
 // accepts either individual content strings, or an array of content strings;
-setup.gate = function(...content): boolean {
+setup.gate = function(...content: string[]): boolean {
   const items: string[] = content.flatten(); // allow array or comma item argument
   const ᛔ = State.active.variables.pref;
   const prime = ["xxx"];
@@ -1893,7 +1896,7 @@ aw.go = function(passage: string): void {
   if (Story.has(passage)) {
     Engine.play(passage, true);
   } else {
-    const output = `<center><span class="bad tit" style="font-size:1.25rem;">Apologies! Destination Doesn't Exist</span></center><p>It seems that the game tried to navigate to the passage "${passage}", but that passage doesn't actually exist, likely due to a typo or perhaps because of a rogue tentacle monster bumbling about. (They're rather clumsy!)<br><br>All hope isn't lost, however! There are a couple options you can take now to possibly get things back on track. You can A) close this dialog box and go back to the screen you were on to do something different, or B) click a button below to navigate there. There's a chance things won't work right afterward, and it voids the warranty, but it's better than just being stuck on a blank screen, right?</p> <center><<button "GO HOME">><<run setup.map.nav("home","foyer")>><</button>> <<GAMBLE PREVIOUS>><<set _dest = aw.passage.previous[0]>><<go _dest>><</button>></center>`;
+    const output = `<center><span class="bad tit" style="font-size:1.25rem;">Apologies! Destination Doesn't Exist</span></center><p>It seems that the game tried to navigate to the passage "${passage}", but that passage doesn't actually exist, likely due to a typo or perhaps because of a rogue tentacle monster bumbling about. (They're rather clumsy!)<br><br>All hope isn't lost, however! There are a couple options you can take now to possibly get things back on track. You can A) close this dialog box and go back to the screen you were on to do something different, or B) click a button below to navigate there. There's a chance things won't work right afterward, and it voids the warranty, but it's better than just being stuck on a blank screen, right?</p> <center><<button "GO HOME">><<run setup.map.nav("home","foyer")>><</button>><<tab>><<button "GAMBLE PREVIOUS">><<set _dest = aw.passage.previous[0]>><<go _dest>><</button>></center>`;
     setup.dialog("Uh Oh. Something is Fucked Up", output);
   }
 };
@@ -1935,6 +1938,11 @@ setup.badEnd = function(passage: string = "unknown"): void {
     aw.con.warn(`Attempted bad ending ${passage} in the prologue! Preventing.`);
     return;
   }
+  const fapList = ["miscarriage", "burst", "suicide", "depression", "starvation", "mindbreak"];
+  if (ↂ.flag.organDonor === 1 && fapList.includes(passage)) {
+    UI.alert(`You would have just died due to ${passage}, but you are immune thanks to Fap Difficulty!`);
+    return;
+  }
   const passages = {
     unknown: "BadEnd-Unknown",
     miscarriage: "BadEnd-Miscarriage",
@@ -1953,6 +1961,8 @@ setup.badEnd = function(passage: string = "unknown"): void {
     sacrifice: "BadEnd-Sacrifice",
     killer: "BadEnd-Killer",
     mindbreak: "BadEnd-FuckDoll",
+    challenge: "BadEnd-Challenge",
+    breastSize: "BadEnd-BreastSize",
   };
   const pas = (passages[passage] == null) ? "BadEnd-Unknown" : passages[passage];
   if (ↂ.flag.badEnd === "none") {
@@ -1960,7 +1970,6 @@ setup.badEnd = function(passage: string = "unknown"): void {
   }
   setTimeout(() => Engine.play(pas), 150);
 };
-
 
 
 setup.thousandComma = function(num: number): string {
@@ -2233,9 +2242,11 @@ setup.giveSSTD = function(): void {
     case 5:
     case 6:
     case 7:
-      ↂ.pc.status.disease.push("wetHeat");
-      setup.omni.new("sstd_WetHeat");
-      aw.con.info("Player given the Wet Heat");
+      if (setup.omni.matching("Wet Heat") !== 0) {
+        ↂ.pc.status.disease.push("wetHeat");
+        setup.omni.new("sstd_WetHeat");
+        aw.con.info("Player given the Wet Heat");
+      }
       break;
     case 8:
     case 9:
@@ -2261,7 +2272,7 @@ setup.reasonYouCant = function(test: string | boolean): string {
       if (test[0] === "!") {
         not = "not ";
       }
-      let what = setup.reasonPrettifier(test.substr(test.lastIndexOf(".")+1));
+      const what = setup.reasonPrettifier(test.substr(test.lastIndexOf(".") + 1));
       if (what === "hasGun()") {
         return `You need to have a gun to choose this option!`;
       }
@@ -2384,6 +2395,18 @@ setup.npcEditorList = function(): string {
   return output;
 };
 
+// Anenn Markup
+setup.getLoversHusb = (passage) => {
+  const lovers = setup.getLovers();
+  let output = `<h3>Your lovers list:</h3>`;
+
+  for (const npc of lovers) {
+    output += `<<button "${aw.npc[npc].main.name} ${aw.npc[npc].main.surname}">><<set setup.loverID = "${npc}">><<replace "#choice">><<include [[${passage}]]>><</replace>><</button>>`;
+  }
+
+  return output;
+};
+
 setup.churchLaunch = function(church: string): void {
   const scene = {
     topImage: "IMG-TempleImgTop",
@@ -2398,19 +2421,21 @@ setup.churchLaunch = function(church: string): void {
       scene.sidebar = "<img data-passage='IMG-ChurchSide-CoM' style='width:90%;height:auto'>";
       scene.image = "IMG-CoM-Priest";
       scene.title = "Church of Man";
-      ↂ.flag.churchAttend.outer = true;
-      ↂ.pc.status.corrupt += random(1, 3);
-      ↂ.pc.status.perversion += random(2, 5);
+      ↂ.flag.churchAttend.man = true;
+      ↂ.pc.status.corrupt += random(1, 2);
+      ↂ.pc.status.perversion += random(2, 3);
       break;
     case "TOG":
       scene.passage = "TotOG";
       scene.sidebar = "<img data-passage='IMG-ChurchSide-TOG' style='width:90%;height:auto'>";
       scene.image = "IMG-TotOG-Priest";
       scene.title = "Temple of the Outer Gods";
-      ↂ.flag.churchAttend.man = true;
-      ↂ.pc.status.bimbo += random(1, 2);
-      ↂ.pc.status.corrupt += random(1, 2);
-      ↂ.pc.status.perversion += random(2, 4);
+      ↂ.flag.churchAttend.outer = true;
+      const x = random(0, 1);
+      ↂ.pc.status.bimbo += x;
+      ↂ.pc.status.corrupt += random(2, 3);
+      setup.status.record("bimbo", x, "Touched by the Outer Gods");
+      ↂ.pc.status.perversion += random(1, 2);
       break;
     case "CHP":
       scene.passage = "ChurchCock";
@@ -2419,6 +2444,7 @@ setup.churchLaunch = function(church: string): void {
       scene.title = "Church of the Holy Phallus";
       ↂ.flag.churchAttend.cock = true;
       ↂ.pc.status.bimbo += 1;
+      setup.status.record("bimbo", 1, "Literally worshiping cock");
       ↂ.pc.status.corrupt += random(1, 2);
       ↂ.pc.status.perversion += random(3, 5);
       break;
@@ -2495,19 +2521,369 @@ setup.setCamShow = function(): any {
 
   // Random daily request
   ↂ.flag.camShow.actualRequest = random(1, 3);
+  const _folowers = ↂ.flag.camShow.followers;
 
-  if (ↂ.flag.camShow.daysAbsent > 3) {
-    ↂ.flag.camShow.popularity -= 1;
-    ↂ.flag.camShow.followers -= (random(1, 3) * ↂ.flag.camShow.daysAbsent);
-  } else if (ↂ.flag.camShow.daysAbsent > 6) {
-    ↂ.flag.camShow.popularity -= 2;
-    ↂ.flag.camShow.followers -= (random(2, 4) * ↂ.flag.camShow.daysAbsent);
-  } else if (ↂ.flag.camShow.daysAbsent > 12) {
-    ↂ.flag.camShow.popularity -= 3;
-    ↂ.flag.camShow.followers -= (random(3, 5) * ↂ.flag.camShow.daysAbsent);
+  if (_folowers > 0) {
+    if (ↂ.flag.camShow.daysAbsent > 3) {
+      ↂ.flag.camShow.popularity -= 1;
+      ↂ.flag.camShow.followers -= (random(1, 3) * ↂ.flag.camShow.daysAbsent);
+    } else if (ↂ.flag.camShow.daysAbsent > 6) {
+      ↂ.flag.camShow.popularity -= 2;
+      ↂ.flag.camShow.followers -= (random(2, 4) * ↂ.flag.camShow.daysAbsent);
+    } else if (ↂ.flag.camShow.daysAbsent > 12) {
+      ↂ.flag.camShow.popularity -= 3;
+      ↂ.flag.camShow.followers -= (random(3, 5) * ↂ.flag.camShow.daysAbsent);
+    }
   }
+  if (_folowers < 0) {
+    ↂ.flag.camShow.followers = 0;
+  }
+
+  if (ↂ.flag.camShow.popularity < 0) {
+    ↂ.flag.camShow.popularity = 0;
+  }
+
+  if (ↂ.flag.camShow.followers < 0) {
+    ↂ.flag.camShow.followers = 0;
+  }
+};
+
+setup.getCamReward = function() {
+  if (ↂ.flag.camShow.popularity > 100) {
+    ↂ.flag.camShow.popularity = 100;
+  }
+
+  if (ↂ.flag.camShow.followers < 0) {
+    ↂ.flag.camShow.followers = 0;
+  }
+
+  let _donations: number = ↂ.flag.camShow.followers * ↂ.flag.camShow.popularity;
+
+  if (_donations > 120) {
+    _donations = 120;
+  }
+
+  return _donations;
 };
 
 setup.camFlag = function(value) {
   return ↂ.flag.camShow.flags.includes(value);
+};
+
+// Surrogacy stuff!
+setup.setSurrogacy = function() {
+  if (ↂ.pc.status.wombA.fetus.length === 0 || ↂ.pc.status.wombA.zygote.length === 0) {
+    if (!ↂ.flag.hasOwnProperty("surrogate")) {
+      throw new TypeError(`Data object ${ↂ.flag} is not set correctly.`);
+    }
+
+    const asianEthnicity = ["Asian", "S Asian", "SE Asian"];
+    const type = ["Normal surrogacy", "Breeding surrogacy"].random();
+
+    let choiceCunt: number = random(0, 100);
+    let baseValue: number;
+    let baseChance: any;
+    let randomPerson: any;
+
+    if (type === "Normal surrogacy") {
+      baseValue = random(150, 200);
+      baseValue = random(0, 100);
+
+      if (baseChance >= choiceCunt) {
+        ↂ.flag.surrogate.chosen = true;
+        ↂ.flag.surrogate.type = type;
+        ↂ.flag.surrogate.value = baseValue;
+
+        setup.dialog("Surrogacy Center", "Hello, this is a message sent automatically to let you know that you have been selected for a surrogacy service, you can find details by going to one of our clinical centers during business hours!<br><br> ''Go to the Surrogacy Center''");
+      }
+    } else {
+      baseValue = random(300, 400);
+      baseChance = 100;
+
+      if (ↂ.pc.body.beauty === 1) {
+        choiceCunt -= random(10, 12);
+        baseValue -= random(60, 120);
+      } else if (ↂ.pc.body.beauty === 4) {
+        choiceCunt += random(6, 12);
+        baseValue += random(40, 80);
+      } else if (ↂ.pc.body.beauty === 5) {
+        choiceCunt += random(10, 12);
+        baseValue += random(60, 120);
+      }
+
+      if (ↂ.pc.body.race === "black") {
+        choiceCunt -= random(6, 12);
+        baseValue -= random(40, 80);
+      }
+
+      if (ↂ.pc.body.skinColor === "dark brown" || ↂ.pc.body.skinColor === "midnight") {
+        choiceCunt -= random(6, 12);
+        baseValue -= random(40, 80);
+      } else if (ↂ.pc.body.skinColor === "brown") {
+        choiceCunt -= random(6, 12);
+        baseValue -= random(30, 60);
+      }
+
+      if (ↂ.pc.body.tits.cup === "A-cup" || ↂ.pc.body.tits.cup === "B-cup" && !asianEthnicity.includes(ↂ.pc.body.race)) {
+        choiceCunt -= random(6, 12);
+        baseValue -= random(30, 60);
+      } else if (ↂ.pc.body.tits.cup === "D-cup" || ↂ.pc.body.tits.cup === "DD-cup" || ↂ.pc.body.tits.cup === "E-cup") {
+        choiceCunt += random(6, 12);
+        baseValue += random(40, 80);
+      }
+
+      if (ↂ.pc.body.hips === 1 || ↂ.pc.body.hips === 2 && !asianEthnicity.includes(ↂ.pc.body.race)) {
+        choiceCunt -= random(6, 12);
+        baseValue -= random(40, 80);
+      } else if (ↂ.pc.body.hips === 5 || ↂ.pc.body.hips === 6) {
+        choiceCunt += random(6, 12);
+        baseValue += random(40, 80);
+      }
+
+      if (baseValue > 500) {
+        baseValue = 500;
+      }
+
+      if (baseChance >= choiceCunt) {
+        randomPerson = ["white", "black", "asian", "middle eastern", "Gaelic"].random();
+
+        ↂ.flag.surrogate.chosen = true;
+        ↂ.flag.surrogate.type = type;
+        ↂ.flag.surrogate.value = baseValue;
+
+        setup.dialog("Surrogacy Center", "Hello, this is a message sent automatically to let you know that you have been selected for a surrogacy service, you can find details by going to one of our clinical centers during business hours!<br><br> ''Go to the Surrogacy Center''");
+
+        if (ↂ.flag.surrogate.history.bitchType === "exclusive") {
+          ↂ.flag.surrogate.person = "Ethan Cohen";
+        } else {
+          ↂ.flag.surrogate.person = setup.surnameRandomizer(randomPerson) + " " + setup.surnameRandomizer(randomPerson);
+        }
+      }
+    }
+  }
+};
+
+// Save cache
+setup.saveData = function( Object ) {
+  const settingsSaveObj = JSON.stringify(Object);
+
+  try {
+    localStorage.setItem("settingObj", settingsSaveObj);
+  } catch (error) {
+    throw new TypeError(`Error trying to convert the ${error} object!`);
+  }
+};
+
+setup.endOfAllThings = function(): void {
+  let sceneOuptut = "";
+  let comeOverHere = "<<f s>>uddenly your phone vibrates and you look at it. <p>@@.npc;Come here asap, the machine is ready!@@</p><p>@@.mono;Oh wow...@@</p><p>You quickly get into the car and soon enters the Lily's basement.</p><p>You enter the basement to see Lily testing some wires with a little handheld equipment. She turns to the sound. @@.pc;<<greetings>> Is it working okay?@@ She turns off the tool and stands up. @@.npc;I guess. I was just triple testing it to be sure but it seems it is 100% okay.@@ You bite your lip. @@.pc;Soo... now it can be used to turn me back, right?@@</p>";
+  if (ↂ.map.loc[0] === "Lily") {
+    comeOverHere = "";
+  }
+  // Main route calculation
+  let basicWay = 1; // 1,2,3,4
+  let lilyOpinion = Math.round((aw.npc.n101.rship.likePC + (aw.npc.n101.rship.lovePC * 2)) / 30); // 30-30
+  if (aw.npc.n101.rship.lovers || aw.npc.n101.rship.married || aw.npc.n101.rship.engaged || aw.npc.n101.rship.dating) {
+    lilyOpinion += 3;
+  }
+  if (setup.npc.enemies.includes("n101")) {
+    lilyOpinion -= 5;
+  }
+  if (lilyOpinion >  8) {
+    basicWay = 1; // Asking to stay female
+  } else if (lilyOpinion > 5) {
+    basicWay = 2; // Changing PC back
+  } else if (lilyOpinion > 0) {
+    basicWay = 3; // Refusal to change the PC
+  } else {
+    basicWay = 4; // Betrayal
+  }
+  // Subroutes calculations
+  if (basicWay === 1) {
+    if (State.active.variables.AW.startMale) {
+      sceneOuptut = `Lily clears her throat. @@.npc;You see, I really like you the way you are now. Maybe, just think about it, maybe you want to stay female since we got along so good after this incident?@@<br><center><<button "Stay a female">><<run setup.gameOver("stay female")>><</button>><<tab>><<button "No, make me male again.">><<run setup.gameOver("back to male")>><</button>></center>`;
+    } else {
+      sceneOuptut = `Lily clears her throat. @@.npc;You see, I really like you the way you are now. Maybe, just think about it, maybe you want to stick with this personality and ID since we got along so good after this incident? I really like your new look to be honest.@@<br><center><<button "Stay in this body">><<run setup.gameOver("stay female")>><</button>><<tab>><<button "No, make me my old self again.">><<run setup.gameOver("back to female")>><</button>></center>`;
+    }
+  }
+  if (basicWay === 2) {
+    if (State.active.variables.AW.startMale) {
+      sceneOuptut = `Lily nods and turns on the rejuvenator. @@.npc;Hop on, <<name>>! Time to make you a guy again!@@<br><center><<button "Get into the rejuvenator">><<run setup.gameOver("back to male")>><</button>></center>`;
+    } else {
+      sceneOuptut = `Lily nods and turns on the rejuvenator. @@.npc;Hop on, <<name>>! Time to turn you back to your old self! @@<br><center><<button "Get into the rejuvenator">><<run setup.gameOver("back to female")>><</button>></center>`;
+    }
+  }
+  if (basicWay === 3) {
+    sceneOuptut = `Lily shakes her head. @@.npc;Sorry, <<name>> but I don't think I will allow you to use the machine once again, not after all what happened this year. Thank you for your help but now you should go.@@<br><center><<button "Go away">><<run setup.gameOver("refused")>><</button>></center>`;
+  }
+  if (basicWay === 4) {
+    if (State.active.variables.AW.startMale) {
+      sceneOuptut = `Lily nods and turns on the rejuvenator. @@.npc;Hop on, <<name>>! Time to make you a guy again!@@<br><center><<button "Get into the rejuvenator">><<run setup.gameOver("betrayed")>><</button>></center>`;
+    } else {
+      sceneOuptut = `Lily nods and turns on the rejuvenator. @@.npc;Hop on, <<name>>! Time to turn you back to your old self!@@<br><center><<button "Get into the rejuvenator">><<run setup.gameOver("betrayed")>><</button>></center>`;
+    }
+  }
+  // Scene works
+  const scene = {
+    passage: "none",
+    content: comeOverHere + sceneOuptut,
+    image: "IMG-RejuvFinalRight",
+    topImage: "IMG-RejuvFinalTop",
+    title: "Rejuvenator",
+    allowSave: false,
+    sidebar: `<h2>???</h2>`,
+    showTime: false,
+    allowMenu: false,
+  };
+  setup.scenario.launch(scene);
+  aw.con.info(`Final decisions: LilyOpinion: ${lilyOpinion}, choosen ending: ${basicWay}`);
+};
+
+setup.gameOver = function(final: string): void {
+  const finals = ["stay female", "back to male", "back to female", "refused", "betrayed", "challenge fail"];
+  const finalsPassages = ["Final-stayFemale", "Final-backToMale", "Final-backToFemale", "Final-refused", "Final-betrayed", "Final-challengeFail"];
+  let out = "";
+  if (!finals.includes(final)) { // uh oh!
+    out = `Something gone broken in final. We are so terribly sorry about it! Please note us about this issue!`;
+  }
+  if (ↂ.flag.challengeMode === "beth" || ↂ.flag.challengeMode === "mary" || ↂ.flag.challengeMode === "marge") {
+    if (final === "back to male" || final === "back to female") {
+      if (ↂ.pc.status.kids < 10) {
+        final = "challenge fail";
+      }
+    }
+  }
+  setTimeout(() => Engine.play(finalsPassages[(finals.indexOf(final))]), 150);
+};
+
+setup.future = function(): string {
+  return "Future of NPC you knew was not implemented yet.";
+};
+
+// Name Sanity
+setup.nameChecker = function() {
+  const invalidList: any = [];
+
+  Object.keys(aw.npc)
+    .forEach( (ID) => {
+      if (!aw.npc[ID].main.name || !aw.npc[ID].main.surname || aw.npc[ID].main.name === "error") { invalidList.push( ID ); }
+    });
+
+  if (invalidList.length > 0) {
+    console.log(`invalidList.length NPCs have invalid name or surnames. NPCs ID list: ${invalidList}`);
+  } else {
+    console.log("The NPC's names are clean!");
+  }
+};
+
+
+// Anenn: cowgirls pregnancy ending checker
+setup.cowsPregCheck = function() {
+  let verifier: boolean = false;
+
+  if (aw.npc.n1018.status.wombA.weeks >= 38) {
+    State.variables.cowBirthingKey = "n1018";
+    verifier = true;
+  } else if (aw.npc.n1019.status.wombA.weeks >= 38) {
+    State.variables.cowBirthingKey = "n1019";
+    verifier = true;
+  } else if (aw.npc.n1020.status.wombA.weeks >= 38) {
+    State.variables.cowBirthingKey = "n1020";
+    verifier = true;
+  } else if (aw.npc.n1021.status.wombA.weeks >= 38) {
+    State.variables.cowBirthingKey = "n1021";
+    verifier = true;
+  }
+
+  return verifier;
+};
+
+setup.cashDiff = function(amt: number) {
+  if (ↂ.flag.organDonor === 2) {
+    return Math.round(amt * 1.5);
+  } else if (ↂ.flag.organDonor === 1) {
+    return amt * 2;
+  }
+  return amt;
+};
+
+setup.skillRandom = function() {
+  // function for randomized starting skills in character creation
+  const type = ↂ.flag.randomSkills;
+
+  const sexSkills = ["exhibition", "prostitute", "sex", "sex", "oral", "oral", "oral", "seduction", "seduction"];
+
+  const workSkills = ["comm", "comm", "org", "org", "probSolving", "finance", "clean", "clean"];
+
+  const lifeSkills = ["art", "art", "athletic", "dancing", "shop", "cook"];
+
+  for (let i = 0; i < 2; i++) {
+    const sk = either(sexSkills);
+    ↂ.skill[sk] += 5;
+  }
+
+  if (type === 1) {
+    // total random
+    for (let i = 0; i < 16; i++) {
+      const sk = either(workSkills);
+      ↂ.skill[sk] += 5;
+    }
+    for (let i = 0; i < 8; i++) {
+      const sk = either(lifeSkills);
+      ↂ.skill[sk] += 5;
+    }
+  } else {
+    // semi-random
+    // work skills
+    let sk = either(workSkills);
+    workSkills.delete(sk); // delete item/s to avoid repeat
+    ↂ.skill[sk] += 30;
+    sk = either(workSkills);
+    workSkills.delete(sk);
+    ↂ.skill[sk] += 20;
+    sk = either(workSkills);
+    workSkills.delete(sk);
+    ↂ.skill[sk] += 20;
+    sk = either(workSkills);
+    ↂ.skill[sk] += 10;
+    // life skills
+    sk = either(lifeSkills);
+    lifeSkills.delete(sk);
+    ↂ.skill[sk] += 20;
+    sk = either(lifeSkills);
+    lifeSkills.delete(sk);
+    ↂ.skill[sk] += 10;
+    sk = either(lifeSkills);
+    ↂ.skill[sk] += 10;
+  }
+};
+
+setup.calcBreastWeight = function(size: number): string {
+  const s = (size * 2) / 1000;
+  const w = Math.floor(s * 0.94);
+  const wt = Math.round((s * 0.94) * 10) - (w * 10);
+  const wp = Math.round((s * 0.94) * 2.205);
+  return `${w}.${wt}kg (${wp}lbs)`;
+};
+
+setup.megaCreampie = function(name: string) {
+  const cData = {
+    owner: name,
+    vol: 0,
+    qual: 20,
+    surv: 10,
+    quant: 30,
+    amt: 250000,
+    killer: true,
+  };
+  ↂ.pc.fert.fluid.ovary.push(new Cum(cData));
+  const opt = {
+    text: `The result of being bred by ${name}.`,
+  };
+  setup.omni.kill("Semen in Vagina");
+  setup.omni.new("creamPie", opt);
+  setup.condition.add({ loc: "vagFluid", amt: 25, tgt: "pc", wet: 10, type: "cum" });
+  setup.condition.add({ loc: "genitals", amt: 25, tgt: "pc", wet: 10, type: "cum" });
+  setup.drug.eatDrug("cream", 30);
+  setup.drug.eatDrug("cum", 10);
 };

@@ -315,7 +315,7 @@ setup.convoParse = function() {
   }
   // call functions as needed here
   try {
-    if (setup.parse.bimbo) {
+    if (setup.parse.bimbo && State.active.variables.parserBimbo) {
       bimboToo();
       bimboMono();
       yummyCock();
@@ -324,14 +324,14 @@ setup.convoParse = function() {
       yummyBallsMono();
       yummyCum();
       yummyCumMono();
-    } else if (setup.parse.slut) {
+    } else if (setup.parse.slut && State.active.variables.parserSlut) {
       yummyCock();
       yummyCockMono();
       yummyBalls();
       yummyBallsMono();
       yummyCum();
       yummyCumMono();
-    } else if (setup.parse.cum) {
+    } else if (setup.parse.cum && State.active.variables.parserCum) {
       yummyBalls();
       yummyBallsMono();
       yummyCum();

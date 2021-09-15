@@ -71,16 +71,13 @@
   <<closed "Fairy Tail">>
   <</openhours>>
 <<endhoverrevise>>
-<<hoverrevise delta>>
-  <<button "Explore">><<addTime 30>><<dialog "Exploring the Adult District">><<include [[AdultDistrictExplore]]>><</dialog>><</button>>
-<<endhoverrevise>>
 <<if $date[0] === 7 && $time[0] > 9 && $time[0] < 17>>
   <<hoverrevise lambdaA>>
     <<button "Attend CotHP Service">>
       <<if ↂ.flag.churchAttend.cock>>
         <<dialog "The Church of the Holy Phallus">><center>You have already attended church this week, please come back next Sunday.</center><</dialog>>
       <<else>>
-        <<dialog "The Church of the Holy Phallus">><<include [[ChurchCock]]>><</dialog>>
+        <<run setup.churchLaunch("CHP")>>
       <</if>>
     <</button>>
   <<endhoverrevise>>
@@ -89,9 +86,13 @@
     <button class="disabled">Visit CotHP</button>
   <<endhoverrevise>>
 <</if>>
-  <<hoverrevise whore>>
-    <<button "Stand at the Corner">><<set $streetWalkLoc = "adultDistr">><<dialog "Preparing to work">><<include [[StreetWalkerManager]]>><</dialog>><</button>>
-  <<endhoverrevise>>
+<<hoverrevise delta>>
+  <<button "Explore">><<addTime 30>><<dialog "Exploring the Adult District">><<include [[AdultDistrictExplore]]>><</dialog>><</button>>
+<<endhoverrevise>>
+
+<<hoverrevise whore>>
+  <<button "Stand at the Corner">><<set $streetWalkLoc = "adultDistr">><<dialog "Preparing to work">><<include [[StreetWalkerManager]]>><</dialog>><</button>>
+<<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
@@ -108,6 +109,7 @@
 <<insertion lambdaB>>The Church of the Holy Phallus is currently closed. Services are available on Sunday from 10am until 4pm. <<ctn>>[mental health boost | 1hr]<</ctn>><<endinsertion>>
 <<insertion lambdaA>>Attend a church service at the Church of the Holy Phallus. <<ctn>>[mental health boost | 1hr]<</ctn>><<endinsertion>>
 <<insertion whore>>Strut your stuff at the side of the road. Perhaps someone will ask you out on a "date"! [15min]<<endinsertion>>
+<<insertion fairy>>Visit the massage parlor. [-stress, 30-60min]<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
@@ -134,7 +136,7 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 </p>
 <center><span style="width: 400px;">[img[IMG-prudeShop]]</span></center>
 <p>
-@@.head3;Y@@ou're standing in Prude, big luxorious sex shop.</p>
+@@.head3;Y@@ou're standing in Prude, big luxurious sex shop.</p>
 <p id="locact"></p><<selfthought>>
 </div>
 /*LOCATION description of location without any reference to time/weather and doesn't mention character.*/
@@ -278,6 +280,14 @@ You browse through the shelves of the sex shop.<br><br>
 </td><td style="width:15%;padding-left:15px;">
   @@.money;<<mon>>100@@ <span id="buyshit102"></span><br><<if ↂ.flag.sendKeyLost[2] == true>>@@.disabled;<<button "Out of stock!">><</button>>@@<<else>><<button "Add to Cart">><<set $cart.push(["Clit shield remote","simple",100,"Clit shield remote"])>><<replace "#buyshit102">>@@.exp;Added!@@<</replace>><</button>><</if>>
 </td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  One Liter of Semen
+  <img data-passage="IMG-Item-Semen1L" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A special cryo vessel from Ferti-Seed containing one liter of preserved all-natural semen. The semen is guaranteed to be fertile after proper reactivation, and is even listed as being '100% human`. The container has special instructions on the back for thawing and reactivation, and warnings such as 'Do not Microwave'. 
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>69@@ <span id="buyshit103"></span><br><<button "Add to Cart">><<set $cart.push(["Liter of Semen","simple",69,"Liter of Semen"])>><<replace "#buyshit103">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
 </table>
 
 
@@ -316,10 +326,10 @@ Learn more about home items in the <<info "Encyclopedia" "guideHomeInventory">>
 <center>[img[IMG-FairyClient1]]</center>
 <p>@@.pc;Can I have um... it is called "Relaxation Bliss" here?@@</p>
 <p>@@.npc;Why, of course! <<= either("Karen","Vikki","Mary")>> will be your masseuse, room number 3, please!@@</p>
-<p>You pay @@.mon;30<<mon>>@@ and go to the room. The <<= either("busty","slim","yummy-looking")>> woman meets you with a smile and ask you to undress. <<has shame>>You feel a little bit nervious to undress in front of a stranger but force yourself to overcome it.<<or>><</has>> <<if setup.sexToys.check("pc", "groin") !== true || setup.sexToys.check("pc", "clit") !== true>>You feel a surge of embarrassment with your chastity on display but the woman doesn't show any signs that she has noticed it.<</if>>Getting onto the massage bed you relax and let the proffesional do her business.</p>
+<p>You pay @@.mon;30<<mon>>@@ and go to the room. The <<= either("busty","slim","yummy-looking")>> woman meets you with a smile and ask you to undress. <<has shame>>You feel a little bit nervous to undress in front of a stranger but force yourself to overcome it.<<or>><</has>> <<if setup.sexToys.check("pc", "groin") !== true || setup.sexToys.check("pc", "clit") !== true>>You feel a surge of embarrassment with your chastity on display but the woman doesn't show any signs that she has noticed it.<</if>>Getting onto the massage bed you relax and let the professional do her business.</p>
 <p>It feels like a bliss for sure. You had no idea you even have any muscles in some areas of you body but it is a nice surprise to know that they can be rubbed with some nice-smelling oil giving you such pleasure. Masseuse's hands feels warm and nice and you almost get asleep and lost any track of the time. By the moment she stops you feel almost sorry that the massage ended so fast. Although you notice you feel so much better when you dress back.</p>
 <p>@@.mono;Oh! I need to visit this place more!@@</p>
-<<button> "Leave">><<happy 2 "Massage">><<anger -3>><<stress -24 "Massage">><<status 0>><<run Dialog.close()>><</button>>
+<<button "Leave">><<happy 2 "Massage">><<anger -3>><<stress -24 "Massage">><<status 0>><<run Dialog.close()>><</button>>
 
 
 :: FairyTaleAsClient-Stone [nobr]
@@ -327,10 +337,10 @@ Learn more about home items in the <<info "Encyclopedia" "guideHomeInventory">>
 <center>[img[IMG-FairyClient2]]</center>
 <p>@@.pc;I want to try this "Stone aroma massage"!@@</p>
 <p>@@.npc;Why, of course! <<= either("Karen","Vikki","Mary")>> will be your masseuse, room number 3, please!@@</p>
-<p>You pay @@.mon;30<<mon>>@@ and go to the room. The <<= either("busty","slim","yummy-looking")>> woman meets you with a smile and ask you to undress. <<has shame>>You feel a little bit nervious to undress in front of a stranger but force yourself to overcome it.<<or>><</has>> <<if setup.sexToys.check("pc", "groin") !== true || setup.sexToys.check("pc", "clit") !== true>>You feel a surge of embarrassment with your chastity on display but the woman doesn't show any signs that she has noticed it.<<elseif setup.sexToys.check("pc", "asshole") !== true>> @@.mono;Oh I hope she won't comment on my buttplug!@@<<elseif setup.sexToys.check("pc", "vagina") !== true>> @@.mono;Oh I hope she won't comment on the toy in my pussy!@@<</if>> Getting onto the massage bed you relax and let the proffesional do her business.</p>
+<p>You pay @@.mon;30<<mon>>@@ and go to the room. The <<= either("busty","slim","yummy-looking")>> woman meets you with a smile and ask you to undress. <<has shame>>You feel a little bit nervous to undress in front of a stranger but force yourself to overcome it.<<or>><</has>> <<if setup.sexToys.check("pc", "groin") !== true || setup.sexToys.check("pc", "clit") !== true>>You feel a surge of embarrassment with your chastity on display but the woman doesn't show any signs that she has noticed it.<<elseif setup.sexToys.check("pc", "asshole") !== true>> @@.mono;Oh I hope she won't comment on my buttplug!@@<<elseif setup.sexToys.check("pc", "vagina") !== true>> @@.mono;Oh I hope she won't comment on the toy in my pussy!@@<</if>> Getting onto the massage bed you relax and let the professional do her business.</p>
 <p>The woman starts her preparations and soon you flinch with surprise when she puts a warm heavy stone on your back. The sensation is a little odd but soon you find that you, actually like it a lot. The warmth gets deep under your skin and force your sore muscles to relax. It feels fantastic as she adds more and more stones to your back before leaving you to enjoy your trance-like state for some time. When she returns back and start removing the stones you feel much more refreshed and full of energy.</p>
 <p>@@.mono;Oh! I need to visit this place more!@@</p>
-<<button> "Leave">><<happy 2 "Stone Massage">><<set ↂ.pc.status.energy.amt += 1>><<anger -1>><<stress -16 "Stone massage">><<status 0>><<run Dialog.close()>><</button>>
+<<button "Leave">><<happy 2 "Stone Massage">><<set ↂ.pc.status.energy.amt += 1>><<anger -1>><<stress -16 "Stone massage">><<status 0>><<run Dialog.close()>><</button>>
 
 
 :: FairyTaleAsClient-Special [nobr]
@@ -339,7 +349,7 @@ Learn more about home items in the <<info "Encyclopedia" "guideHomeInventory">>
 <p>@@.npc;Sorry, what do you mean, miss?@@</p>
 You feel a tad uncomfortable but continue. @@.pc;I mean not listed here... something more about my 'pleasure'@@ In a vile attempt to hint her you wink.
 <p>@@.npc;Oh. Aah! No, sorry miss, we don't provide any services of this kind here since it is prohibited by law. But we have a lot of standard massage options, if you wish.@@</p>
-<center><<button "Relaxation Bliss - 30<<mon>>, 45 min.">><<replace "#massageDiv">><<include [[FairyTaleAsClient-Relax]]>><</replace>><</button>><<button "Stone aroma massage - 45<<mon>>, 45 min.">><<replace "#massageDiv">><<include [[FairyTaleAsClient-Relax]]>><</replace>><</button>> <<button "Leave">><<run Dialog.close()>><</button>></center>
+<center><<button "Relaxation Bliss - 30<<mon>>, 45 min.">><<replace "#massageDiv">><<include [[FairyTaleAsClient-Relax]]>><</replace>><</button>><<button "Stone aroma massage - 45<<mon>>, 45 min.">><<replace "#massageDiv">><<include [[FairyTaleAsClient-Relax]]>><</replace>><</button>><<button "Leave">><<run Dialog.close()>><</button>></center>
 
 
 
@@ -423,7 +433,7 @@ A man's voice comes through the speaker. @@.npe;Come on girl, you know you aren'
 The girl doesn't respond, and just sits there staring at the floor.
 </p>
 <p>
-@@.npe;You're going to earn that money one way or another. You better do it now while the resquests are easy. You're gonna get desperate, and that's when the crazy starts.@@
+@@.npe;You're going to earn that money one way or another. You better do it now while the requests are easy. You're gonna get desperate, and that's when the crazy starts.@@
 </p>
 <p>
 This time a female voice speaks up. @@.npc;I've got a hundred creds if you bite your nipple till it bleeds.@@

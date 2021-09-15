@@ -99,7 +99,7 @@ aw.tagContent.fling.illnessBad = [
 aw.tagContent.fling.nakedBottom = [
   `
   <<if aw.npc[setup.interact.status.npc].kink.exhibition || aw.npc[setup.interact.status.npc].kink.liberate>>@@.npc;Oh, wow. Nice day for giving your kitten some fresh air, mm? Looking good by the way, I certainly like the view!@@<<elseif aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Oh, damn, <<print ↂ.pc.main.name>> please, cover your butt with something!@@<<else>>@@.npc;Oh... well... I am pretty sure that you are aware that you are half naked, huh?@@<</if>><br>
-  <<has exhibition>>You can't but wiggle your <<pcAssSize>> butt a bit, presenting your nakedness to the fling.<br>@@.mono;Oh yes, stare at me. Damn, that is exciting!@@<br><<arouse 2>><<orhas slut>><<arouse 2>>You can't but enjoy the attention to your naked bottom and pussy.<br><<orhas liberate>>You feel pretty comfortable with your lower part naked.<br><<orhas shame>><<stress 10 "Naked pussy convo">>You feel terribly insecure and going tomato red from embarassment.<br><<arouse -2>>@@.mono;How did I ever allow that to happen? I want just die right now.@@<br><<or>><<stress 7 "Naked pussy convo">>You feel pretty uncomfortable being exposed like this even with a fling.<br><<arouse -1>><</has>>
+  <<has exhibition>>You can't but wiggle your <<pcAssSize>> butt a bit, presenting your nakedness to the fling.<br>@@.mono;Oh yes, stare at me. Damn, that is exciting!@@<br><<arouse 2>><<orhas slut>><<arouse 2>>You can't but enjoy the attention to your naked bottom and pussy.<br><<orhas liberate>>You feel pretty comfortable with your lower part naked.<br><<orhas shame>><<stress 10 "Naked pussy convo">>You feel terribly insecure and going tomato red from embarrassment.<br><<arouse -2>>@@.mono;How did I ever allow that to happen? I want just die right now.@@<br><<or>><<stress 7 "Naked pussy convo">>You feel pretty uncomfortable being exposed like this even with a fling.<br><<arouse -1>><</has>>
   <<dialogchoice>>
       <<dbutt "Present" "ↂ.pc.kink.exhibition">><<intreplace>><<ctagcontent "fling" "NakedBottomPresent">><</intreplace>>
       <<dtext "smug">>Give <<print aw.npc[setup.interact.status.npc].main.name>> a bit better view on your lady bits.
@@ -164,7 +164,7 @@ aw.tagContent.fling.practNakedBottom = [
   `
   <<print aw.npc[setup.interact.status.npc].main.name>>'s stare reminds you about your risky dress choice. Your pussy and ass are almost visible to your fling <<has exhibition>><<arouse 2>>which makes you more arouse.<br>
   @@.mono;If I lean a bit all my private parts will be visible, mmm@@<br><<orhas slut || liberate>>which is pretty comfortable for you in fact.<br>
-  @@.mono;I am pretty sure <<print aw.npc[setup.interact.status.npc].main.name>> likes the view, hehe.@@<br><<orhas shame>><<arouse -2>><<stress 5 "Naked pussy convo">>which makes you really nervous.<br><br>@@.mono;I shoudn't dress like that in a first place, oh, what I was even thinking about?@@<br><<or>><<stress 3 "Naked pussy convo">>which makes you feel uneasy.<br>
+  @@.mono;I am pretty sure <<print aw.npc[setup.interact.status.npc].main.name>> likes the view, hehe.@@<br><<orhas shame>><<arouse -2>><<stress 5 "Naked pussy convo">>which makes you really nervous.<br><br>@@.mono;I shouldn't dress like that in a first place, oh, what I was even thinking about?@@<br><<or>><<stress 3 "Naked pussy convo">>which makes you feel uneasy.<br>
   @@.mono;Well, I am dressed risky today for sure. What will <<print aw.npc[setup.interact.status.npc].main.name>> think about me?@@<br><</has>>
   <<if aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Oh, you have really risky clothes today. I'd never dare to dress like that being in your place!@@
   <<else>>@@.npc;Wow, pretty revealing clothes you have there. Enjoying the fresh air, huh?@@<</if>>
@@ -233,7 +233,7 @@ aw.tagContent.fling.practNakedBottomPresentNotsorry = [
 aw.tagContent.fling.buckNaked = [
   `<<print aw.npc[setup.interact.status.npc].main.name>> stares at your nude body <<has exhibition>><<aroused 2>>which makes you more aroused.<br>
   @@.mono;Oh yeah, I can't believe I am doing that!@@<<orhas slut || liberate>>which you can deal with.<br>
-  @@.mono;That is prety exciting!@@<<orhas shame>><<aroused -2>><<stress 25 "Naked convo">>which makes you panic.<br>
+  @@.mono;That is pretty exciting!@@<<orhas shame>><<aroused -2>><<stress 25 "Naked convo">>which makes you panic.<br>
   @@.mono;AAA! I am totally naked in view of <<print aw.npc[setup.interact.status.npc].main.name>>!!!@@<<or>><<stress 15 "Naked convo">>which makes you feel terrible.<br>
   @@.mono;Oops, I am totally naked.@@<</has>><br>
   <<if aw.npc[setup.interact.status.npc].kink.shame>>
@@ -304,7 +304,7 @@ aw.tagContent.fling.buckNakedBottomPresentNotsorry = [
   `,
 ];
 aw.tagContent.fling.wetClothes = [
-  `<<if ↂ.pc.clothes.keys.bra === 0>>You notice <<print aw.npc[setup.interact.status.npc].main.name>> looks at your chest and realise that your <<p nipl.q>> <<p nipples.n>> are visible through the wet clothes.<br>
+  `<<if ↂ.pc.clothes.keys.bra === 0>>You notice <<print aw.npc[setup.interact.status.npc].main.name>> looks at your chest and realize that your <<p nipl.q>> <<p nipples.n>> are visible through the wet clothes.<br>
   <<has exhibition>><<arouse 1>>@@.mono;Oh yeah, I like that.@@<<orhas slut>>@@.mono;That is certainly drawing some attention.@@<<orhas shame>><<stress 7 "Wet clothes convo">>@@.mono;Oh shit, my nipples are showing!@@<<or>><<stress 2 "Wet clothes convo">>@@.mono;Oops, better cover that!@@<</has>><br>
   <<if aw.npc[setup.interact.status.npc].kink.shame>>It seems, <<if aw.npc[setup.interact.status.npc].main.female>>she is doing her<<else>>he is doing his best<</if>> to ignore your clearly visible nipples.<<else>>@@.npc;You are aware about your nipples being visible, yep?@@<</if>>
   <<dialogchoice>>
@@ -468,7 +468,7 @@ aw.tagContent.fling.mindbreak = [
   @@.pc;I am so sorry. It was really tough times lately.@@<br>
   @@.npc;Oh, it is okay.@@
   <<include [[NPCinteraction-FlingContinue]]>>
-  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10 "Mindbreak convo">>You start histerically giggling.<br>
+  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10 "Mindbreak convo">>You start hysterically giggling.<br>
   @@.npc;Oh, poor you. Try to calm down, I ll drive you home...@@<br>
   You cry all the way while <<print aw.npc[setup.interact.status.npc].main.name>> drive the car to your house, but start to feel better when you get to the house. <<print aw.npc[setup.interact.status.npc].main.name>> leaves you in your house after getting sure you are okay now.<br>
   <<link "Say goodbye">><<addtime 54>><<gotomap "home" "foyer">><<run setup.interact.exit()>><</link>>
@@ -476,8 +476,8 @@ aw.tagContent.fling.mindbreak = [
 ];
 aw.tagContent.fling.flooded = [
   `<<if ↂ.pc.clothes.keys.panties == 0 || ↂ.pc.clothes.worn.panties === "pulledAside" || ↂ.pc.clothes.worn.panties === "pulledOff" || ↂ.pc.clothes.worn.panties === "off">>
-    You feel your juices running down your inner thights with no panties in a way to stop them.<br>
-    <<has exhibition>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will notice that. That is so embarassingly exciting!@@<<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<</has>><br>
+    You feel your juices running down your inner thighs with no panties in a way to stop them.<br>
+    <<has exhibition>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will notice that. That is so embarrassingly exciting!@@<<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<</has>><br>
   <<else>>
     You feel your juices making a slippery mess slowly soaking through your panties.<br>
     <<has slut>>@@.mono;Speaking with a person while being flooded like that is so naughty!@@<<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<</has>><br>

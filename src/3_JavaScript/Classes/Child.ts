@@ -1,5 +1,5 @@
 /*
-
+  Children class
 */
 
 class Child {
@@ -42,14 +42,16 @@ class Child {
       this.birth = birth;
     }
     if (dadName == null) {
-      if (setup.npcid.test(father) && aw.npc[father] != null) {
-        try {
+      if (setup.npcid.test(father)) {
+        if (aw.npc[father] == null) {
+          this.dadName = "a forgotten person";
+        } else {
           this.dadName = aw.npc[father].main.name;
-        } catch (e) {
-          this.dadName = "forgotten";
         }
+      } else if (father === "unknown") {
+        this.dadName = "an unknown person";
       } else {
-        this.dadName = "unknown";
+        this.dadName = father;
       }
     } else {
       this.dadName = dadName;
@@ -61,6 +63,29 @@ class Child {
       this.name = name;
     }
   }
+
+  // Anenn Markup
+  public get sexDesc(): string {
+    let sexDesc;
+
+    if (this.gender === 1) { sexDesc = "boy" }
+    else                   { sexDesc = "girl" }
+
+    return sexDesc;
+  }
+  public get hairCurlDesc(): string {
+    let hairCurlDesc;
+
+    if (this.hairCurl === 0)      { hairCurlDesc = "straight" }
+    else if (this.hairCurl === 1) { hairCurlDesc = "slightly wavy" }
+    else if (this.hairCurl === 2) { hairCurlDesc = "wavy" }
+    else if (this.hairCurl === 3) { hairCurlDesc = "slightly curly" }
+    else if (this.hairCurl === 4) { hairCurlDesc = "curly" }
+    else if (this.hairCurl === 5) { hairCurlDesc = "very curly" }
+
+    return hairCurlDesc;
+  }
+
   public get ageRaw(): number {
     return aw.time - this.birth;
   }

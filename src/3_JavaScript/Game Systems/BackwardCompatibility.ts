@@ -33,6 +33,7 @@ interface setupBackward {
 setup.backward = {
   main(save: any): string {
     // New recursive function for object merging
+    /* Killed due to apparent shoddiness...
     function extend() {
 
       let result = {};
@@ -54,23 +55,11 @@ setup.backward = {
       }
       return result;
     }
+    */
     // onto main functionality
-    let output: string = "<<include [[Consumables]]>><<include [[Transformatives]]>><table id='invisTable'><tr><td style='width:50%;'>";
-    try {
-      // initialise Consumables code
-      const tempFuta = clone(State.variables.cInv);
-      new Wikifier(null, '<<include [[Consumables]]>><<include [[Transformatives]]>>');
-      // collect all consumables player have with count
-      for (let index = 0; index < tempFuta.all.length; index++) {
-        if (State.variables.cInv[tempFuta.all[index]].amt !== 0) {
-          new Wikifier(null, `<<addconsumable "${tempFuta.all[index]}" ${tempFuta[tempFuta.all[index]].amt}>>`);
-        }
-      }
-      aw.con.info(`finished loading and adding consumables.`);
-    } catch (e) {
-      output += "<span style='color: #f46741;'>Warning! Failed to properly load consumables!</span><br>";
-      console.log(`PCLoadletter ${e.name}: ${e.message}.`);
-    }
+    let output: string = "<<include [[Consumables]]>><table id='invisTable'><tr><td style='width:50%;'>";
+    aw.BackwardCompatibilityUsed = true;
+    // +++ OLD LOCATION CONSUMABLES CODE +++
     const keys = Object.keys(save.npcs);
     for (let i = 0, c = keys.length; i < c; i++) {
       try {
@@ -89,13 +78,7 @@ setup.backward = {
       }
       aw.con.info(`finished re-calculating npc physical atr values.`);
     }
-    if (save.version < 185) {
-      // some placeholders in case something calls for time before omni is loaded
-      State.active.variables.midnight = 0;
-      aw.tVal = 130260;
-    } else {
-      aw.tVal = save.time;
-    }
+    aw.tVal = save.time;
     try {
       const npcLoad = JSON.parse(save.npcDatas);
       const fixed = clone(setup.npc.fixedIDs);
@@ -143,7 +126,7 @@ setup.backward = {
       console.log(`PCLoadletter ${e.name}: ${e.message}.`); }
     try {
       // @ts-ignore
-      ↂ.job = extend(ↂ.job, JSON.parse(save.ↂ.job));
+      ↂ.job = jQuery.extend(true, ↂ.job, JSON.parse(save.ↂ.job));
       output += `<span style="color: #41f470;">Successfully Loaded Job Data</span><br>`;
       // output += setup.backward.loader(["ↂ", "job"], JSON.parse(save.ↂ.job));
     } catch (e) {
@@ -151,7 +134,7 @@ setup.backward = {
       console.log(`PCLoadletter ${e.name}: ${e.message}.`); }
     try {
       // @ts-ignore
-      ↂ.sched = extend(ↂ.sched, JSON.parse(save.ↂ.sched));
+      ↂ.sched = jQuery.extend(true, ↂ.sched, JSON.parse(save.ↂ.sched));
       output += `<span style="color: #41f470;">Successfully Loaded Schedule Data</span><br>`;
       // output += setup.backward.loader(["ↂ", "sched"], JSON.parse(save.ↂ.sched));
     } catch (e) {
@@ -159,7 +142,7 @@ setup.backward = {
       console.log(`PCLoadletter ${e.name}: ${e.message}.`); }
     try {
       // @ts-ignore
-      ↂ.plans = extend(ↂ.plans, JSON.parse(save.ↂ.plans));
+      ↂ.plans = jQuery.extend(true, ↂ.plans, JSON.parse(save.ↂ.plans));
       // output += setup.backward.loader(["ↂ", "plans"], JSON.parse(save.ↂ.plans));
       output += `<span style="color: #41f470;">Successfully Loaded Schedule Meta Data</span><br>`;
     } catch (e) {
@@ -167,7 +150,7 @@ setup.backward = {
       console.log(`PCLoadletter ${e.name}: ${e.message}.`); }
     try {
       // @ts-ignore
-      ↂ.home = extend(ↂ.home, JSON.parse(save.ↂ.home));
+      ↂ.home = jQuery.extend(true, ↂ.home, JSON.parse(save.ↂ.home));
       // output += setup.backward.loader(["ↂ", "home"], JSON.parse(save.ↂ.home));
       output += `<span style="color: #41f470;">Successfully Loaded Home Data</span><br>`;
     } catch (e) {
@@ -175,7 +158,7 @@ setup.backward = {
       console.log(`PCLoadletter ${e.name}: ${e.message}.`); }
     try {
       // @ts-ignore
-      ↂ.flag = extend(ↂ.flag, JSON.parse(save.ↂ.flag));
+      ↂ.flag = jQuery.extend(true, ↂ.flag, JSON.parse(save.ↂ.flag));
       // output += setup.backward.loader(["ↂ", "flag"], JSON.parse(save.ↂ.flag));
       output += `<span style="color: #41f470;">Successfully Loaded Game Flag Data</span><br>`;
       // aw.con.obj(ↂ.flag, "Updated Flag Object");
@@ -201,7 +184,7 @@ setup.backward = {
       console.log(`PCLoadletter ${e.name}: ${e.message}.`); }
     try {
       // @ts-ignore
-      ↂ.makeup = extend(ↂ.makeup, JSON.parse(save.ↂ.makeup));
+      ↂ.makeup = jQuery.extend(true, ↂ.makeup, JSON.parse(save.ↂ.makeup));
       // output += setup.backward.loader(["ↂ", "makeup"], JSON.parse(save.ↂ.makeup));
       output += `<span style="color: #41f470;">Successfully Loaded Makeup Data</span><br>`;
     } catch (e) {
@@ -209,7 +192,7 @@ setup.backward = {
       console.log(`PCLoadletter ${e.name}: ${e.message}.`); }
     try {
       // @ts-ignore
-      ↂ.makeupSet = extend(ↂ.makeupSet, JSON.parse(save.ↂ.makeupSet));
+      ↂ.makeupSet = jQuery.extend(true, ↂ.makeupSet, JSON.parse(save.ↂ.makeupSet));
       // output += setup.backward.loader(["ↂ", "makeupSet"], JSON.parse(save.ↂ.makeupSet));
     } catch (e) {
       output += "<span style='color: #f46741;'>Warning! Failed to properly load makeup metadata!</span><br>";
@@ -217,7 +200,7 @@ setup.backward = {
     try {
       // @ts-ignore
       ↂ.hairStyle = JSON.parse(save.ↂ.hairStyle);
-      if (!Array.isArray(ↂ.hairStyle)){
+      if (!Array.isArray(ↂ.hairStyle)) {
         ↂ.hairStyle = ["neat", "unkempt", "messy"];
         output += `<span style="color: #f4a641;">Hairstyle Data not an Array. Created new array.</span><br>`;
       } else {
@@ -229,7 +212,7 @@ setup.backward = {
       console.log(`PCLoadletter ${e.name}: ${e.message}.`); }
     try {
       // @ts-ignore
-      ↂ.ward = extend(ↂ.ward, JSON.parse(save.ↂ.ward));
+      ↂ.ward = jQuery.extend(true, ↂ.ward, JSON.parse(save.ↂ.ward));
       // output += setup.backward.loader(["ↂ", "ward"], JSON.parse(save.ↂ.ward));
       output += `<span style="color: #41f470;">Successfully Loaded Wardrobe Data</span><br>`;
     } catch (e) {
@@ -238,7 +221,7 @@ setup.backward = {
     output += "</td><td>";
     try {
       // @ts-ignore
-      ↂ.storeInv = extend(ↂ.storeInv, JSON.parse(save.ↂ.storeInv));
+      ↂ.storeInv = jQuery.extend(true, ↂ.storeInv, JSON.parse(save.ↂ.storeInv));
       // output += setup.backward.loader(["ↂ", "storeInv"], JSON.parse(save.ↂ.storeInv));
       output += `<span style="color: #41f470;">Successfully Loaded Store Inventory Data</span><br>`;
     } catch (e) {
@@ -246,39 +229,29 @@ setup.backward = {
       console.log(`PCLoadletter ${e.name}: ${e.message}.`); }
     try {
       // @ts-ignore
-      ↂ.homeOptions = extend(ↂ.homeOptions, JSON.parse(save.ↂ.homeOptions));
+      ↂ.homeOptions = jQuery.extend(true, ↂ.homeOptions, JSON.parse(save.ↂ.homeOptions));
       // output += setup.backward.loader(["ↂ", "homeOptions"], JSON.parse(save.ↂ.homeOptions));
     } catch (e) {
       output += "<span style='color: #f46741;'>Warning! Failed to properly load home metadata!</span><br>";
       console.log(`PCLoadletter ${e.name}: ${e.message}.`); }
     try {
       // @ts-ignore
-      setup.parse = extend(setup.parse, JSON.parse(save.ↂ.parse));
+      setup.parse = jQuery.extend(true, setup.parse, JSON.parse(save.ↂ.parse));
       // output += setup.backward.loader(["ↂ", "homeOptions"], JSON.parse(save.ↂ.homeOptions));
     } catch (e) {
       console.log(`error updating setup.parse ${e.name}: ${e.message}.`);
     }
-    try {
-      const temps = JSON.parse(save.metadata.tempy);
-      const ks = Object.keys(temps);
-      for (let i = 0, c = ks.length; i < c; i++) {
-        State.temporary[ks[i]] = temps[ks[i]];
-      }
-      console.log(`Successfully loaded ${ks.length} temporary state properties.`);
-    } catch (e) {
-      output += `<span style="color: #f4a641;">Failed to properly load State temporary data.</span><br>`;
-      console.log(`Error Loading Temporary ${e.name}: ${e.message}.`);
-    }
+
     try {
       // @ts-ignore
-      ↂ.pcHistory = extend(ↂ.pcHistory, JSON.parse(save.ↂ.pcHistory));
+      ↂ.pcHistory = jQuery.extend(true, ↂ.pcHistory, JSON.parse(save.ↂ.pcHistory));
       // output += setup.backward.loader(["ↂ", "pcHistory"], JSON.parse(save.ↂ.pcHistory));
     } catch (e) {
       output += "<span style='color: #f46741;'>Warning! Failed to properly load pc history data!</span><br>";
       console.log(`PCLoadletter ${e.name}: ${e.message}.`); }
     try {
       // @ts-ignore
-      ↂ.sex = extend(ↂ.sex, JSON.parse(save.ↂ.sex));
+      ↂ.sex = jQuery.extend(true, ↂ.sex, JSON.parse(save.ↂ.sex));
       // output += setup.backward.loader(["ↂ", "sex"], JSON.parse(save.ↂ.sex));
       output += `<span style="color: #41f470;">Successfully Loaded Sex Data</span><br>`;
     } catch (e) {
@@ -329,8 +302,8 @@ setup.backward = {
     }
     try {
       // @ts-ignore
-      ↂ.pref = extend(ↂ.pref, JSON.parse(save.ↂ.pref));
-      //output += setup.backward.loader(["ↂ", "pref"], JSON.parse(save.ↂ.pref));
+      ↂ.pref = jQuery.extend(true, ↂ.pref, JSON.parse(save.ↂ.pref));
+      // output += setup.backward.loader(["ↂ", "pref"], JSON.parse(save.ↂ.pref));
       output += `<span style="color: #41f470;">Successfully Loaded Preference Settings Data</span><br>`;
     } catch (e) {
       output += "<span style='color: #f46741;'>Warning! Failed to properly load preference data!</span><br>";
@@ -343,7 +316,7 @@ setup.backward = {
     if (save.omniValue != null) {
       setup.omni.value = save.omniValue;
     } else {
-      setup.omni.value = State.active.variables.tVal - 110880 - 110880;
+      output += `<span style='color: red;>OMNI VALUE IS MISSING - CORRUPTED SAVE!</span><br>`;
     }
     try {
       setup.clothes.gameLoad(save.clothing);
@@ -355,13 +328,11 @@ setup.backward = {
     } catch (e) {
       output += `<span style='color: #f4a641;'>setup.outfits JSON parse failed with error ${e.name}: ${e.message}</span><br>`;
     }
-    if (State.active.variables.npcTemplate == null || save.npcTemplate == null) {
+    if (typeof ↂ.flag.organDonor === "boolean") {
+      ↂ.flag.organDonor = 3;
+    }
+    if (save.npcTemplate == null) {
       aw.npcTemplate = {};
-      State.active.variables.npcTemplate = {
-        enabled: false,
-        ratio: 25,
-        count: 0,
-      };
       output += `<span style="color: #f4a641;">No NPC Template data in save. Created it!</span><br>`;
     } else {
       try {
@@ -411,9 +382,7 @@ setup.backward = {
     }
     aw.stsCalculus = JSON.parse(save.statusInfo1);
     setup.weather.seed = JSON.parse(save.wxSeed);
-    if (State.active.variables.pref.autoSave == null) {
-      State.active.variables.pref.autoSave = true;
-    }
+
     aw.passage = JSON.parse(save.passage);
     aw.sleep = {
       passedOut: false,
@@ -421,21 +390,7 @@ setup.backward = {
     } as awSleep;
     output += `<<include [[DEFsemiNPC-Prologue]]>><<button "CONTINUE">><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<run $("#awUIcontainer").empty()>><</button>>`;
     output += "</td></tr></table>";
-    if (State.active.variables.pref.miscarriage == null) {
-      State.active.variables.pref.miscarriage = true;
-    }
-    if (State.active.variables.pref.shortcuts == null) {
-      State.active.variables.pref.shortcuts = [true, true, true, true, false, false, true, true, false, false, false, false];
-    }
-    if (State.active.variables.pref.sound == null) {
-      State.active.variables.pref.sound = {
-        on: true,
-        volume: 1,
-        track: "utopia",
-        paused: false,
-        mute: false,
-      };
-    }
+
     if (ↂ.pc.status.energy.amt == null) {
       ↂ.pc.status.energy.amt = 5;
     }
@@ -453,12 +408,13 @@ setup.backward = {
     // RANDOMS GO HERE!
     if (save.version < 186 && ↂ.pc.groom.hairSets.normal != null) {
       ↂ.pc.groom.hairSets.standard = ↂ.pc.groom.hairSets.normal;
-      delete ↂ.pc.groom.hairSets.normal;
+      ↂ.pc.groom.hairSets.normal = undefined;
     }
-    State.active.variables.AW.pcPortrait = setup.porn.femaleNPC(ↂ.pc, true);
+    setup.clothes.defineCustomClothes(); // because sometimes they fail with padoImg for some reason
     aw.S();
     aw.append("#backCuntOut", output);
     const pasg = aw.passage.title;
+    /*
     if (ↂ.map != null && ↂ.map.loc != null) {
       aw.con.info(`Map information: Main: ${ↂ.map.loc[0]}, Secondary: ${ↂ.map.loc[0]}`);
       if (typeof ↂ.map.loc[2] !== "string") {
@@ -467,9 +423,7 @@ setup.backward = {
         setup.map.nav(ↂ.map.loc[0], ↂ.map.loc[1], ↂ.map.loc[2]);
       }
     }
-    if (State.active.variables.pub) {
-      aw.go("BCinit");
-    }
+    */
     return pasg;
   },
   // loads input object into supplied destination without completely
@@ -486,40 +440,40 @@ setup.backward = {
     // var to store unusual occurrences to report, like no default
     const alerts = [`iLoading save object ${target[(target.length - 1)]}:`];
     // create a subfunction for recursion in object tree
-    function load(dest: object, data: object) {
-      const keys = Object.keys(data);
+    function load(dest$: object, data$: object) {
+      const keys = Object.keys(data$);
       let i = 0;
       for (const c = keys.length; i < c; i++) {
-        if (dest[keys[i]] === null || dest[keys[i]] === undefined) {
+        if (dest$[keys[i]] === null || dest$[keys[i]] === undefined) {
           alerts.push(`1◌ The destination for save item ${keys[i]} is no longer in use, save item copied.`);
-          dest[keys[i]] = clone(data[keys[i]]);
-        } else if (Array.isArray(data[keys[i]])) {
-          if (Array.isArray(dest[keys[i]])) {
-            dest[keys[i]] = clone(data[keys[i]]);
+          dest$[keys[i]] = clone(data$[keys[i]]);
+        } else if (Array.isArray(data$[keys[i]])) {
+          if (Array.isArray(dest$[keys[i]])) {
+            dest$[keys[i]] = clone(data$[keys[i]]);
           } else {
             alerts.push(`3◌ save object ${keys[i]} is an array, but dest is not. Using Default Values.`);
           }
-        } else if (Array.isArray(dest[keys[i]])) {
-          alerts.push(`3◌ save item ${keys[i]} is not an array (${typeof data[keys[i]]}), but the destination is an Array. Using Default Values.`);
+        } else if (Array.isArray(dest$[keys[i]])) {
+          alerts.push(`3◌ save item ${keys[i]} is not an array (${typeof data$[keys[i]]}), but the destination is an Array. Using Default Values.`);
           /* if (typeof data[keys[i]] === "object") {
             dest[keys[i]] = clone(data[keys[i]]);
           } else {
             dest[keys[i]] = data[keys[i]];
           }*/
-        } else if (typeof dest[keys[i]] === "object") {
-          if (typeof data[keys[i]] === "object") {
+        } else if (typeof dest$[keys[i]] === "object") {
+          if (typeof data$[keys[i]] === "object") {
             try {
-              load(dest[keys[i]], data[keys[i]]);
+              load(dest$[keys[i]], data$[keys[i]]);
             } catch (e) {
-              alerts.push(`1◌ Failure loading object "${data[keys[i]]}" with error ${e.name}: ${e.message}! Default may be corrupted!`);
+              alerts.push(`1◌ Failure loading object "${data$[keys[i]]}" with error ${e.name}: ${e.message}! Default may be corrupted!`);
             }
           } else {
-            alerts.push(`2◌ Destination ${dest[keys[i]]} expecting an object, but save item is a ${typeof data[keys[i]]}. Using Default Values.`);
+            alerts.push(`2◌ Destination ${dest$[keys[i]]} expecting an object, but save item is a ${typeof data$[keys[i]]}. Using Default Values.`);
           }
-        } else if (typeof data[keys[i]] === "object") {
-          alerts.push(`2◌ Destination ${keys[i]} is an object, but the save item is a ${typeof data[keys[i]]}. Using Default Values.`);
+        } else if (typeof data$[keys[i]] === "object") {
+          alerts.push(`2◌ Destination ${keys[i]} is an object, but the save item is a ${typeof data$[keys[i]]}. Using Default Values.`);
         } else {
-          dest[keys[i]] = data[keys[i]];
+          dest$[keys[i]] = data$[keys[i]];
         }
       }
       alerts.push(`iHandled ${i} items!`);
@@ -551,6 +505,7 @@ setup.backward = {
     output += "<br>";
     return output;
   },
+  // obsolete code
   go(): void {
     const pasg = aw.passage.title;
     Engine.show();
@@ -569,6 +524,76 @@ setup.backward = {
     // Engine.show();
   },
 } as setupBackward;
+
+  // THIS FUNCTION IS RUN BY SUGARCUBE AFTER UNMARSHALLING THE STATE DATA, BEFORE LOADING PASSAGE
+  // add new State system variables that do not exist in the save for backward compatibility
+  // add temporary state variables that aren't normally kept
+  // any tasks that need to occur after state has been unmarshalled
+setup.loadNewStateVars = function(save) {
+  if (aw.BackwardCompatibilityUsed) {
+    // initialize Consumables code
+    try {
+      const tempFuta = clone(State.variables.cInv);
+      const cock = new Wikifier(null, "<<include [[Consumables]]>>");
+      // collect all consumables player have with count
+      for (let index = 0; index < tempFuta.all.length; index++) {
+        if (State.variables.cInv[tempFuta.all[index]].amt !== 0) {
+          const x = new Wikifier(null, `<<addconsumable "${tempFuta.all[index]}" ${tempFuta[tempFuta.all[index]].amt}>>`);
+        }
+      }
+      aw.con.info(`finished loading and adding consumables.`);
+    } catch (e) {
+      aw.con.warn("Warning! Failed to properly load consumables!");
+    }
+    if (State.active.variables.pub) {
+      const cock = new Wikifier(null, "<<include [[BCinit]]>>");
+    }
+  }
+  // load temporary variables again
+  try {
+    const temps = JSON.parse(save.tempy);
+    const ks = Object.keys(temps);
+    for (let i = 0, c = ks.length; i < c; i++) {
+      State.temporary[ks[i]] = temps[ks[i]];
+    }
+    console.log(`Successfully loaded ${ks.length} temporary state properties.`);
+  } catch (e) {
+    aw.con.warn(`Error Loading Temporary ${e.name}: ${e.message}.`);
+    window.alert(`Caution: Failed to properly load state temporary variables. The game may probably experience errors, particularly during dates or interaction with npcs, but should normalize on the next game day... Error: ${e.name}`);
+  }
+  State.active.variables.lastSaveTime = clone(aw.time);
+  // misc checks and such... probably not needed but doesn't hurt.
+  if (State.active.variables.pref.autoSave == null) {
+    State.active.variables.pref.autoSave = true;
+  }
+  if (State.active.variables.pref.miscarriage == null) {
+    State.active.variables.pref.miscarriage = true;
+  }
+  if (State.active.variables.pref.shortcuts == null) {
+    State.active.variables.pref.shortcuts = [true, true, true, true, false, false, true, true, false, false, false, false];
+  }
+  if (State.active.variables.pref.sound == null) {
+    State.active.variables.pref.sound = {
+      on: true,
+      volume: 1,
+      track: "utopia",
+      paused: false,
+      mute: false,
+    };
+  }
+  State.active.variables.AW.pcPortrait = setup.porn.femaleNPC(ↂ.pc, true);
+  // ADD NEW STATE VARIABLES YOU NEED HERE!
+  if (State.active.variables.npcTemplate == null) {
+    State.active.variables.npcTemplate = {
+      enabled: false,
+      ratio: 25,
+      count: 0,
+    };
+  }
+  State.active.variables.parserBimbo = true;
+  State.active.variables.parserSlut = true;
+  State.active.variables.parserCum = true;
+};
 
 Macro.add("cInit", {
   handler() {

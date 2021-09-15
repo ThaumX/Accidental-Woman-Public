@@ -56,6 +56,12 @@
     <button class="disabled">Abortion</button>
   <</if>>
 <<endhoverrevise>>
+<<hoverrevise envy>>
+  <<button "Envy Info">><<dialog "Envy Treatment Information">><<include [[EnvyInfoPanel]]>><</dialog>><</button>>
+<<endhoverrevise envy>>
+<<hoverrevise anuwet>>
+  <<button "Anuwet Info">><<dialog "Anuwet Treatment Information">><<include [[AnuwetInfoPanel]]>><</dialog>><</button>>
+<<endhoverrevise>>
 </div>
 
 /*Main display for information about actions*/
@@ -105,7 +111,7 @@ Even after getting naked and positioning your feet in the stirrups, you were sti
   @@.pc;But...@@
   </p>
   <p>
-  @@.npc;Look, I'm sorry, but it's illegal for me to perform an abortion this late in your term. Beside the law, there's also a lot more risk involved, and this clinic isn't set up for that kind of procedure.@@ The doctor rolls away from you and stands up. @@.npc;Your paperwork didn't mention it, but if there's a medical reason you need this procedure, you'll want to visit a specialist at the hopital.@@
+  @@.npc;Look, I'm sorry, but it's illegal for me to perform an abortion this late in your term. Beside the law, there's also a lot more risk involved, and this clinic isn't set up for that kind of procedure.@@ The doctor rolls away from you and stands up. @@.npc;Your paperwork didn't mention it, but if there's a medical reason you need this procedure, you'll want to visit a specialist at the hospital.@@
   </p>
   <p>
   Your abortion aborted, you're left to get dressed. Worst of all, when you talk to the reception desk afterward, you find out that the fee is only partially refundable. At least you were able to get @@.money;₢250@@ credited back to your account.
@@ -125,6 +131,7 @@ Even after getting naked and positioning your feet in the stirrups, you were sti
       <<set ↂ.pc.status.wombB.aborts += 1>>
       <<set ↂ.pc.fert.wombHealth -= random(1,2)>>
     <</if>>
+    <<set ↂ.pc.status.fertText = "@@.bad;Aborted@@">>
     <<status 0>>
   <</silently>>
   <p>
@@ -167,7 +174,8 @@ Even after getting naked and positioning your feet in the stirrups, you were sti
 <<set ↂ.pc.status.injury = ["none"]>>
 <<if ↂ.pc.status.disease.includes("wetHeat")>>
   <<set ↂ.pc.status.addict.cream += random(5,15)>>
-  <<set ↂ.pc.status.bimbo += 10>>
+  <<set ↂ.pc.status.bimbo += 8>>
+  <<run setup.status.record("bimbo", 8, "Wet Heat treatment side effect")>>
   <<if random(1,2) === 1>>
     <<set ↂ.pc.kink.risky = true>>
   <</if>>
@@ -276,4 +284,121 @@ The doctor proceeds to ask you some questions about your recent mental state and
 <p>After that you were left to wait for quite some time until the device finished and the doctor got around to removing it. Looking at your belly afterward showed a pretty design in dark pink right over where your womb should be. With the procedure done, you were ushered out of the office and handed an instruction pamphlet for your new tattoo.</p>
 
 
+:: EnvyInfoPanel [nobr]
 
+
+<<addTime 5>><<updatebar>>
+<center>[img[IMG-EnvyMedication]]<br>@@.head3;Envy treatment is now available for qualified patients!@@</center>
+<p>
+This revolutionary new treatment from France is now available with an out-of-pocket cost of only @@.money;<<mon>>100@@! Because this treatment has significant permanent effects, approval from a psychiatrist or certified psychologist is required before it can be administered.
+</p>
+<center>
+<<if ↂ.flag.envyTaken>>
+@@.ctext;[You've already taken Envy]@@
+<<else>>
+<<button "Get The Envy Treatment">><<addTime 3>><<go "EnvyAdminister">><<run Dialog.close()>><</button>>
+<</if>><br>
+[img[IMG-EnvyAdvert]]</center>
+
+
+:: EnvyAdminister [nobr]
+
+
+<p>
+<<f y>>ou walk up to the counter and wait for a moment until the receptionist looks up at you. @@.npc;Hello, how can we help you today?@@
+</p>
+<p>
+@@.pc;I'd like to get the Envy treatment please.@@
+</p>
+<p>
+You see her face contort in disgust before she quickly gets ahold of herself and her expression returns to neutrality. @@.npc;I see. I assume your psychiatrist or therapist told you that you're ready for this treatment?@@
+</p>
+<p>
+@@.mono;Shit! Well, I might as well go for it...@@ You speak up @@.pc;Yes, he said I was ready.@@
+</p>
+<p>
+The receptionist noticed how long you took to answer, but rather than be suspicious and question you further, she just shrugs and starts typing on her terminal. You stand there awkwardly for nearly a minute before she finishes and looks back up at you. @@.npc;Okay, you're all set. Please follow me back to an exam room.@@ She stands up and carefully tugs her short uniform skirt down to cover what little it can, and starts walking toward the hallway leading out of the lobby. @@.npc;Right this way please.@@
+</p>
+<p>
+You follow her back to a small exam room. She gestures toward the paper covered exam table. @@.npc;Have a seat please.@@ As you climb up awkwardly to sit on the table, she's already turned and started removing something from one of the cabinets. When she turns around, you see what looks like a gag attached to a large funnel.
+</p>
+<p>
+You point to the strange item as she walks over to you and ask @@.pc;What is that thing for?@@
+</p>
+<p>
+@@.npc;It's for the treatment@@ she says simply, before holding the mouthpiece right in front of your face. @@.npc;Open wide and put this in your mouth.@@ Without thinking you open your mouth, and she uses the opportunity to start pushing the awkward mouthpiece inside. Once the large flat piece surrounding the tube is lodged behind your lips, she speaks up again. @@.npc;You can rest your teeth on the bite guards, think of it like a large snorkel.@@ You comply, and she starts fastening the thick strap behind your head. Now it's impossible for you to spit it out without undoing the buckle first. @@.npc;The envy treatment requires you to swallow a large amount of fluid, and I've been told the taste and texture is just awful. This thing@@ she pats the black funnel in front of your forehead @@.npc;will make sure you swallow it all without wasting any, even if you throw some of it back up. It's very important that the dose is just right if you want to avoid the really bad side effects.@@
+</p>
+<p>
+@@.mono;Wait... even if I throw some up? Does that mean I'm going to have to drink my vomit if I puke!?@@ Your pulse spikes as you immediately start to get anxious. @@.mono;Maybe this wasn't such a good idea after all...@@ You hear a metallic click. While you were distracted the nurse took the opportunity to lock each wrist to the table with devices that look an awful lot like handcuffs. @@.mono;Shit!@@ You try to speak up and say that you've changed your mind. @@.pc;Ughhh ahhn guuh mmunh!@@
+</p>
+<p>
+The nurse gives you a little grin that indicates she's aware of your state of mind. @@.npc;Don't worry, the doctor should be here in a minute or two to give you your Envy.@@ With that, she turns and walks out the door. You try to yell after her, but she gives no indication of noticing your pleas.
+</p>
+<center>[img[IMG-EnvyTreatment]]</center>
+<p>
+The doctor strides in, and without even saying hello or waiting for some kind of response, starts pouring a white fluid into your funnel from a graduated plastic jug. It streams straight down the tube and into your mouth, triggering your gag reflex almost immediately. The fluid feels incredibly oily, like you're being forced to drink the contents of countless fish oil capsules. The taste is vaguely fishy as well, but if you had to describe it you'd say it tasted like a bad vaginal yeast infection.
+</p>
+<p>
+The doctor doesn't stop pouring just because you aren't swallowing, and you can feel the building pressure force more of the foul fluid into your mouth. Realizing you don't have much choice if you'd like to keep breathing, you start forcing down the thick liquid in large gulps.
+</p>
+<p>
+Sometime later, the doctor finally says something. @@.npd;Cock that stuff smells awful!@@ He upends the jug and finishes pouring the horrible liquid into your funnel. @@.npd;I'm SO glad I'm not a gynecologist.@@ He backs well away from you, either wanting to avoid the smell, or avoid getting any of the noxious fluid splashed on him. Probably both.
+</p>
+<p>
+You keep working on it and it feels like you've almost finished draining the large funnel, when your stomach finally decides that it has had enough. @@.mono;No, please...@@ You feel the familiar sensation of your guts contracting as you stomach forces some of the fluid back out of you... and back into the funnel.
+</p>
+<p>
+Now you have more to swallow, and to make things worse the already disgusting fluid now has the sour flavor of vomit added to it.
+</p>
+<center>@@.head1;. . .@@</center>
+<p>
+It takes quite a while, and you have more than one stomach induced "setback", but you eventually manage to force all the liquid down. At some point a nurse replaced the doctor, watching to make sure you finished drinking it all. Once you've managed to empty the funnel--and keep it empty--for a full ten minutes, the steps forward to unbuckle the funnel gag from your head. She doesn't bother to hide her expression of disgust, and something tells you that she's disgusted by more than just the foul smell.
+</p>
+<center>
+<<button "CONTINUE">>
+<<status 1>>
+<<run aw.cash(-100, "medical")>>
+<<run setup.omni.new("envy");>>
+<<set ↂ.flag.envyTaken = true>>
+<<status 0>>
+<<addTime 75>>
+<<go "MedicalDoctorWeiner">>
+<</button>>
+</center>
+
+
+:: AnuwetInfoPanel [nobr]
+
+<div id="assjuice">
+<center>
+[img[IMG-AnuwetAd]]
+</center>
+<p>
+The Anuwet treatment causes your anal membranes to secret a lubricating fluid when aroused. The pamphlet explains how, but all you're able to understand is that it causes your ass to mimic the lubricating function of the vagina using similar biology. The pamphlet itself seems to be heavily aimed towards gay men, but there's nothing that says a woman can't have a self-lubricating rear end as well.
+</p>
+<center>
+<<if ↂ.flag.anuwetTaken>>
+@@.ctext;[You've already received this treatment]@@
+<<else>>
+<<button "Get The Anuwet Treatment">>
+<<addTime 30>>
+<<set ↂ.pc.body.asshole.wetness = 3>>
+<<set ↂ.flag.anuwetTaken = true>>
+<<status 0>>
+<<arouse 5>>
+<<updatebar>>
+<<replace "#assjuice">><<include [[AnuwetAdminister]]>><</replace>>
+<</button>>
+<</if>>
+</center>
+</div>
+
+
+:: AnuwetAdminister [nobr]
+
+
+<center>[img[IMG-AnuwetTreatment]]</center>
+<p>
+<<f s>>urprisingly, the procedure is quick and painless, despite the glowing blue tool they used being rather scary looking. In fact, you rather enjoyed the procedure, and you find your holes squelching slightly with moisture as you walk back to the lobby.
+</p>
+<<run ↂ.pc.body.asshole.insert(5)>><<run ↂ.pc.body.asshole.insert(5)>>

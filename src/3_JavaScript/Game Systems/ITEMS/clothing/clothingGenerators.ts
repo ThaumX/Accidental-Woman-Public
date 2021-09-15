@@ -182,7 +182,7 @@ Macro.add("genDress", {
 LOWER BODY MACRO
 ARGUMENTS: 0-number to generate 1-Style selector, 2-fabric selector, 3-color, 4-quality bonus, 5-store name
 
-Style: 0-everything equally, 1-distro, 2-pants, 3-shorts,  4-skirts, 5-sexy, 6-pyjama pants only :) 7 - athletic
+Style: 0-everything equally, 1-distro, 2-pants, 3-shorts,  4-skirts, 5-sexy, 6-pajama pants only :) 7 - athletic
 Fabric: 0-standard, 1-fetish
 Color: 0-everything equally, 1-conservative, 2-flashy
 Quality: -2 to 2 for change to attractiveness
@@ -498,7 +498,7 @@ setup.clothesGen.panties = function(...args: [number, number, number, number, nu
         panties[4] += either(2, 3, 3, 4); /*exposure level 0-5*/
         break;
       case 7:
-        panties[0][4] = "chifon";
+        panties[0][4] = "chiffon";
         panties[1] += either(3, 4, 4, 5); /*attractiveness*/
         panties[2] += either(3, 4, 4, 5); /*+sexy or -cute*/
         panties[3] += either(3, 3, 4); /*+formal or -casual*/
@@ -710,7 +710,7 @@ setup.clothesGen.bra = function(...args: [number, number, number, number, number
       ["na", "na", "na", "na", "na", "BR"], 0, 0, 0, 0, 0, 0, 0, 0, 0, storeName, 0, 0, 0,
     ];
     bra[6] = either(styleList);
-    /*substyles: 0-none, 1-lace border, 2-convertable, 3-strapless, 4-lace covered, 5-front fasten, 6-wide strap, 7spaghetti strap*/
+    /*substyles: 0-none, 1-lace border, 2-convertible, 3-strapless, 4-lace covered, 5-front fasten, 6-wide strap, 7spaghetti strap*/
     switch (bra[6]) {
       case 1:
         bra[0][1] = "active bra";
@@ -855,7 +855,7 @@ setup.clothesGen.bra = function(...args: [number, number, number, number, number
         } /*+sexy or -cute*/
         break;
       case 2:
-        bra[0][2] = "convertable";
+        bra[0][2] = "convertible";
         bra[1] += either(-1, -0.5, -0.5, 0, 0, 0.5); /*attractiveness*/
         bra[2] += 0; /*+sexy or -cute*/
         bra[3] += either(0, -1, 1); /*+formal or -casual*/
@@ -1212,7 +1212,7 @@ setup.clothesGen.stocking = function(...args: [number, number, number, number, n
       ["na", "na", "na", "na", "na", "LG"], 0, 0, 0, 0, 0, 0, 0, 0, 0, storeName, 0, 0, 0,
     ];
     stocking[6] = either(styleList);
-    /*substyles: 0-none, 1-lace border, 2-convertable, 3-strapless, 4-lace covered, 5-front fasten, 6-wide strap, 7spaghetti strap*/
+    /*substyles: 0-none, 1-lace border, 2-convertible, 3-strapless, 4-lace covered, 5-front fasten, 6-wide strap, 7spaghetti strap*/
     switch (stocking[6]) {
       case 1:
         stocking[0][1] = "knee-high socks";
@@ -1695,7 +1695,7 @@ setup.clothesGen.upperBody = function(...args: [number, number, number, number, 
         nightwear = true;
         break;
       case 20:
-        upperBody[0][1] = "pyjama top";
+        upperBody[0][1] = "pajama top";
         necklineList = [0, 1, 1, 1, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9];
         sleeveList = [0, 0, 0, 0, 3, 5, 2, 7];
         upperBody[1] += either(3, 4, 4, 5); /*attractiveness*/
@@ -2033,7 +2033,7 @@ setup.clothesGen.upperBody = function(...args: [number, number, number, number, 
         upperBody[4] += either(2, 2.5, 3); /*exposure level 0-5*/
         break;
       case 7:
-        upperBody[0][4] = "chifon";
+        upperBody[0][4] = "chiffon";
         upperBody[1] += either(4, 5, 5); /*attractiveness*/
         upperBody[2] += either(4, 5, 5); /*+sexy or -cute*/
         upperBody[3] += either(3, 3, 4); /*+formal or -casual*/
@@ -3399,7 +3399,7 @@ setup.clothesGen.lowerBody = function(...args: [number, number, number, number, 
         athletic = true;
         break;
       case 26:
-        lowerbody[0][1] = "pyjama pants";
+        lowerbody[0][1] = "pajama pants";
         subStyleList = [0, 0, 0, 1, 2, 2, 3, 9, 10, 10, 11, 12, 14, 14];
         hemlinelist = [0, 0, 1];
         fabricList = [0, 0, 1, 1, 2, 9, 9, 9];

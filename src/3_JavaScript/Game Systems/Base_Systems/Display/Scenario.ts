@@ -98,6 +98,7 @@ setup.scenario.launch = function(
     return;
   }
   // basic html content
+  setup.shop.emptyCart();
   let output = `<div id="Scene-Background" class="darkTriangles fadeIn animated"><div id="Scene-Cunt"><div id="Scene-Title">`;
   if (title != null && title !== "none") {
     output += title; // adds unique scenario window title
@@ -147,7 +148,7 @@ setup.scenario.launch = function(
 
   // adds to page after wikifier
   aw.replace("#scenarioContainer", output);
-  //aw.con.info(output); // TODO remove me!
+  // aw.con.info(output); // TODO remove me!
   if (callback != null) {
     setTimeout(callback, 50);
   }
@@ -171,6 +172,7 @@ setup.scenario.launch2 = function(
     return;
   }
   // basic html content
+  setup.shop.emptyCart();
   let output = `<div id="scenarioMain" class="darkTriangles fadeIn animated"><div id="scenarioGrid">`;
   const menuStuff = setup.scenario.menuButtons(showTime, allowMenu, allowSave);
   output += `<div id="scenarioButtonPanel">${menuStuff}</div>`;
@@ -466,7 +468,7 @@ setup.scenario.refresh = function(): void {
 // empty the scenarioion window and place this content
 setup.scenario.replace = function(content: string): void {
   setup.scenario.status.content = content;
-  delete setup.scenario.status.passage;
+  setup.scenario.status.passage = '';
   aw.replace("#Scene-Passage", content);
   $("#Scene-Passage-Cunt").animate({ scrollTop: 0 }, "fast");
   if (setup.scenario.status.sidebar != null) {

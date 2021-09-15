@@ -387,5 +387,20 @@ aw.achieve = {
     image: "IMG-KillerAch",
     description: "You murdered your first NPC.",
   },
+  endgame: {
+    name: "The end",
+    image: "IMG-EndAch",
+    description: "You have beaten the Darksouls of porn games. Congrats!",
+  },
+  egged: {
+    name: "Egged",
+    image: "IMG-EggedAch",
+    description: "You were stuffed with eggs by a tentacle creature. Fun!",
+  },
+  tentacled: {
+    name: "Tentacled",
+    image: "IMG-TentacleAch",
+    description: "You voluntarily let some tentacles fuck you."
+  },
 };
 aw.unlocks = ["Prologue skip", "Mega Tits", "Mega Fertile", "Mega Wet", "FemaleQuickStart", "contentMessage"];

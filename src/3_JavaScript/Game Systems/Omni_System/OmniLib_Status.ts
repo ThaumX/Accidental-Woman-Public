@@ -92,6 +92,58 @@ setup.omnItems.creamPie = {
     aw.S("pc");`,
 };
 
+setup.omnItems.TentCreamPie = {
+  name: "Stuffed Vagina",
+  type: "recurring",
+  output: "none",
+  times: 15,
+  interval: 15,
+  icon: "IMGstatus_CumVag",
+  text: "Your pussy continues to leak the cum stuffed into your womb by tentacles",
+  run: `setup.condition.add({loc: "genitals", amt: 5, tgt: "pc", wet: 5, type: "cum"});`,
+};
+
+setup.omnItems.TentStretchVag = {
+  name: "Stretched Vagina",
+  type: "single",
+  output: "none",
+  duration: 180,
+  icon: "IMGstatus_CumVag",
+  text: "Your newly-stretched pussy still feels gaped.",
+  run: `setup.condition.add({loc: "genitals", amt: 5, tgt: "pc", wet: 5, type: "cum"});`,
+}
+
+setup.omnItems.TentStretchAss = {
+  name: "Stretched Anus",
+  type: "single",
+  output: "none",
+  duration: 180,
+  icon: "IMGstatus_CumAnus",
+  text: "Your newly-stretched asshole still feels gaped.",
+  run: `setup.condition.add({loc: "groin", amt: 5, tgt: "pc", wet: 5, type: "cum"});`,
+}
+
+setup.omnItems.TentCumBreath = {
+  name: "Cum Burps",
+  type: "single",
+  output: "none",
+  duration: 180,
+  icon: "IMGstatus_CumMouth",
+  text: "The taste and smell of cum pervades your nose and mouth.",
+  run: "",
+};
+
+setup.omnItems.TentAllThrough = {
+  name: "Slime Stuffed",
+  type: "recurring",
+  output: "none",
+  times: 15,
+  interval: 15,
+  icon: "IMGstatus_CumAnus",
+  text: "Your ass continues to leak the slime that Marius filled you with.",
+  run: `setup.condition.add({loc: "groin", amt: 5, tgt: "pc", wet: 5, type: "slime"});`,
+};
+
 setup.omnItems.assPie = {
   name: "Semen in Ass",
   type: "single",
@@ -124,5 +176,15 @@ setup.omnItems.pseudoPreg = {
   duration: 2880,
   icon: "IMGstatus_pregnantUnknown",
   text: "Your belly feels pretty odd. Feels like being pregnant but you are not entirely sure about it.",
+  run: "",
+};
+
+setup.omnItems.sexAddictChastity = {
+  name: "Sex addiction treatment",
+  type: "single",
+  output: "none",
+  duration: 43200,
+  icon: "none",
+  text: "30 days long chastity sentence you signed yourself into at Sunrise clinic.",
   run: "",
 };

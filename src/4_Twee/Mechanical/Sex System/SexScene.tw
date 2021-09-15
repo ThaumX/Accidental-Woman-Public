@@ -403,25 +403,10 @@ Current Action: <<print ↂ.sex.pcAct>><<tab>>Previous:
 </td></tr>
 </table>
 <<else>>
-This is the information display for NPC #<<print (_char + 1)>> of <<print ↂ.sex.activeNPC.length>>.<br>
-Current Action: <<print ↂ.sex.npcAct[_char]>><<tab>>Previous:
-<<for _i to ↂ.sex.npcActRecord[_char].length - 1; _i >= 0; _i-->>
-  <<set _printie = " " + ↂ.sex.npcActRecord[_char][_i]>>
-  <<if _i > 0>>
-    <<set _printie += ",">>
-  <<else>>
-    <<set _printie += ".">>
-  <</if>>
-  <<print _printie>>
-<</for>>
+<<set _who = ↂ.sex.npc[_char].key>>
+ /* <<set _npcViewerID = "n102">> */
+<div style="border-width:2px;border-style:solid;border-color:#dfe;border-radius:12px;padding:6px 10px; height: 300px; width: 25%; float: right;"><<print aw.npc[_who].main.picture>></div><div style="border-width:2px;border-style:solid;border-color:#dfe;border-radius:12px;padding:6px 10px; height: 300px; width: 70%;"><span style = "font-size: 26px; float: right;"><<if aw.npc[_who].main.female && !aw.npc[_who].main.male>>[img[IMGsexFemaleSymbol]]<<elseif !aw.npc[_who].main.female && aw.npc[_who].main.male>>[img[IMGsexMaleSymbol]]<<else>>[img[IMGsexFutaSymbol]]<</if>></span>  <span style = "font-size: 26px;"><<= aw.npc[_who].main.name>> <<= aw.npc[_who].main.surname>></span>, <span style = "color: darkgray;">26 y.o.</span><br><<= setup.npcDisplay.sexView(_who)>></div><div style="border-width:2px;border-style:solid;border-color:#dfe;border-radius:12px;padding:6px 10px; height: 600px; width: 25%; float: right;"><<if aw.npc[_who].main.female>><div id="bpcock" style="height:800px;width:260px;position:relative;padding:0px;display:block;"><<print setup.bodyPortraitFemale(_who)>></div><<else>><div id="bpcock" style="height:800px;width:260px;position:relative;padding:0px;display:block;"><<print setup.bodyPortraitMale(_who)>></div><</if>></div><div style="border-width:2px;border-style:solid;border-color:#dfe;border-radius:12px;padding:6px 10px; height: 600px; width: 70%;"><<= setup.npcDisplay.sexViewTwo(_who)>></div>
 <</if>>
-
-<br><br>
-<span class="quest" style="color:goldenrod">This is the character information screen, but it is (obviously) not complete. It will be similar to the standard character information screen, with the primary information area converted to show more information related to sex. Because the character information display isn't coded yet, it's absent here for now. It will be added as we start expanding on NPC capabilities in the near future.</span>
-<br><br><center>
-<h3>Demo Image - Generally what it will look like.</h3>
-[img[IMGcharInfoDemoSex]]
-</center>
 
 
 :: SexPositionChangeMenu [nobr]
@@ -462,7 +447,7 @@ Eventually, this area will display a sub-dialog for ending the sex scene. Becaus
 
 <center><h2>Condom Menu</h2>
 Select a condom from your inventory or ask your partner for one.
-<br><br>
+<br><br><h3>Normal Condoms</h3>
 <<if setup.consumables.hasConsumable("DuremaxSafeT")>>
   <<button "Duremax Safe-T">>
     <<set setup.sexCondomTempType = "duremaxT">>
@@ -518,6 +503,130 @@ Select a condom from your inventory or ask your partner for one.
   <<button "Pleasureburst HEX">>
     <<set setup.sexCondomTempType = "pleasureburst">>
     <<dropconsumable "pleasureburst">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Pleasureburst HEX</button>
+<</if>>
+<br><br><h3>Sabotaged Condoms</h3>
+<<if setup.consumables.hasConsumable("DuremaxSafeT-Sab1")>>
+  <<button "Duremax Safe-T">>
+    <<set setup.sexCondomTempType = "duremaxT-Sab1">>
+    <<dropconsumable "DuremaxSafeT-Sab1">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Duremax Safe-T</button>
+<</if>>
+<<if setup.consumables.hasConsumable("DuremaxSafePE-Sab1")>>
+  <<button "Duremax Safe-PE">>
+    <<set setup.sexCondomTempType = "duremaxPE-Sab1">>
+    <<dropconsumable "DuremaxSafePE-Sab1">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Duremax Safe-PE</button>
+<</if>>
+<<if setup.consumables.hasConsumable("trojancockS-Sab1")>>
+  <<button "Trojancock Sensations">>
+    <<set setup.sexCondomTempType = "trojancockS-Sab1">>
+    <<dropconsumable "trojancockS-Sab1">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Trojancock Sensations</button>
+<</if>>
+<br>
+<<if setup.consumables.hasConsumable("trojancockUL-Sab1")>>
+  <<button "Trojancock Uber (lubricated)">>
+    <<set setup.sexCondomTempType = "trojancockUL-Sab1">>
+    <<dropconsumable "trojancockUL-Sab1">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Trojancock Uber (lubricated)</button>
+<</if>>
+<<if setup.consumables.hasConsumable("trojancockUNL-Sab1")>>
+  <<button "Trojancock Uber (unlubricated)">>
+    <<set setup.sexCondomTempType = "trojancockUNL-Sab1">>
+    <<dropconsumable "trojancockUNL-Sab1">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Trojancock Uber (unlubricated)</button>
+<</if>>
+<<if setup.consumables.hasConsumable("pleasureburst-Sab1")>>
+  <<button "Pleasureburst HEX">>
+    <<set setup.sexCondomTempType = "pleasureburst-Sab1">>
+    <<dropconsumable "pleasureburst-Sab1">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Pleasureburst HEX</button>
+<</if>>
+<br><br><h3>Expertly-Sabotaged Condoms</h3>
+<<if setup.consumables.hasConsumable("DuremaxSafeT-Sab2")>>
+  <<button "Duremax Safe-T">>
+    <<set setup.sexCondomTempType = "duremaxT-Sab2">>
+    <<dropconsumable "DuremaxSafeT-Sab2">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Duremax Safe-T</button>
+<</if>>
+<<if setup.consumables.hasConsumable("DuremaxSafePE-Sab2")>>
+  <<button "Duremax Safe-PE">>
+    <<set setup.sexCondomTempType = "duremaxPE-Sab2">>
+    <<dropconsumable "DuremaxSafePE-Sab2">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Duremax Safe-PE</button>
+<</if>>
+<<if setup.consumables.hasConsumable("trojancockS-Sab2")>>
+  <<button "Trojancock Sensations">>
+    <<set setup.sexCondomTempType = "trojancockS-Sab2">>
+    <<dropconsumable "trojancockS-Sab2">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Trojancock Sensations</button>
+<</if>>
+<br>
+<<if setup.consumables.hasConsumable("trojancockUL-Sab2")>>
+  <<button "Trojancock Uber (lubricated)">>
+    <<set setup.sexCondomTempType = "trojancockUL-Sab2">>
+    <<dropconsumable "trojancockUL-Sab2">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Trojancock Uber (lubricated)</button>
+<</if>>
+<<if setup.consumables.hasConsumable("trojancockUNL-Sab2")>>
+  <<button "Trojancock Uber (unlubricated)">>
+    <<set setup.sexCondomTempType = "trojancockUNL-Sab2">>
+    <<dropconsumable "trojancockUNL-Sab2">>
+    <<run setup.sex.popupKill()>>
+    <<run setup.sex.sexAction("putOnCondom")>>
+  <</button>>
+<<else>>
+<button class="disabled">Trojancock Uber (unlubricated)</button>
+<</if>>
+<<if setup.consumables.hasConsumable("pleasureburst-Sab2")>>
+  <<button "Pleasureburst HEX">>
+    <<set setup.sexCondomTempType = "pleasureburst-Sab2">>
+    <<dropconsumable "pleasureburst-Sab2">>
     <<run setup.sex.popupKill()>>
     <<run setup.sex.sexAction("putOnCondom")>>
   <</button>>

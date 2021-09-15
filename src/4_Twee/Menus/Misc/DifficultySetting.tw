@@ -1,0 +1,125 @@
+:: DifficultySetting [nobr]
+
+
+
+<div id="difsetcunt" style="max-width:1100px;margin:25px 25px 25px 75px;border: 4px solid #CCC; padding:20px;border-radius:25px;">
+<<include [[DiffSettSub]]>>
+</div>
+
+
+
+:: DiffSettSub [nobr]
+
+<center><h2>Difficulty Setting</h2></center>
+<div>
+<<if ↂ.flag.organDonor === 4>>
+    <img data-passage='IMG-Diff4S' style='float:left;margin:0px 25px 35px 0px;'>
+<<else>>
+    <<link "<img data-passage='IMG-Diff4U' style='float:left;margin:0px 25px 35px 0px;'>">>
+        <<set ↂ.flag.organDonor = 4>><<run aw.S("flag")>>
+        <<replace "#difsetcunt">><<include [[DiffSettSub]]>><</replace>>
+    <</link>>
+<</if>>
+<p>
+Hard difficulty used to be called organ donor mode, and plays almost exactly like Medium except that there are no second chances if you don't take care of your character. This difficulty is the closest to how things really are in Appletree. A special achievement and some unlocks are planned for players who play in hard mode.
+</p>
+</div><br>
+<div>
+<<if ↂ.flag.organDonor === 3>>
+    <img data-passage='IMG-Diff3S' style='float:left;margin:0px 25px 35px 0px;'>
+<<else>>
+    <<link "<img data-passage='IMG-Diff3U' style='float:left;margin:0px 25px 35px 0px;'>">>
+        <<set ↂ.flag.organDonor = 3>><<run aw.S("flag")>>
+        <<replace "#difsetcunt">><<include [[DiffSettSub]]>><</replace>>
+    <</link>>
+<</if>>
+<p>
+Medium difficulty is the way the game was originally meant to be played. You'll have to pay attention to how you manage your character, but in general this is a simple task with common sense. The game will give you a chance to rescue your character by visiting a doctor or therapist if  the consequences of your actions catch up to you. You'll also need to improve your character's skills to take on more difficult tasks.
+</p>
+</div><br>
+<div>
+<<if ↂ.flag.organDonor === 2>>
+    <img data-passage='IMG-Diff2S' style='float:left;margin:0px 25px 35px 0px;'>
+<<else>>
+    <<link "<img data-passage='IMG-Diff2U' style='float:left;margin:0px 25px 35px 0px;'>">>
+        <<set ↂ.flag.organDonor = 2>><<run aw.S("flag")>>
+        <<replace "#difsetcunt">><<include [[DiffSettSub]]>><</replace>>
+    <</link>>
+<</if>>
+<p>
+Easy difficulty makes several aspects of the game easier. At this difficulty level, the life sim gameplay elements are much easier. Easer status management, more money, easier jobs, faster skill gain, and other changes make the game more forgiving while still retaining at least minor consequences for your actions. <i>There are no content penalties for playing on Easy compared to Medium, play the way you enjoy.</i>
+</p>
+</div><br>
+<div>
+<<if ↂ.flag.organDonor === 1>>
+    <img data-passage='IMG-Diff1S' style='float:left;margin:0px 25px 35px 0px;'>
+<<else>>
+    <<link "<img data-passage='IMG-Diff1U' style='float:left;margin:0px 25px 35px 0px;'>">>
+        <<if setup.swim === "[public]" || setup.swim === "[patron]">>
+            <<run UI.alert("Sorry, Fap Mode is only available for $5+ supporters at this time.")>>
+        <<else>>
+            <<set ↂ.flag.organDonor = 1>><<run aw.S("flag")>>
+            <<replace "#difsetcunt">><<include [[DiffSettSub]]>><</replace>>
+        <</if>>
+    <</link>>
+<</if>>
+<p>
+Fap difficulty is the easiest difficulty setting. In addition to being even easier than Easy, status-based bad ends are disabled. There isn't much gameplay at this difficulty level, but it's ideal for "exploring content"! This difficulty is ideal if you want to experience the story and explore Appletree easily and without consequences. Achievements and Unlocks are disabled in Fap Mode.
+</p>
+</div>
+
+
+:: DifficultySettingCompact [nobr]
+
+<fieldset style="max-width:400px;">
+<legend>DIFFICULTY SETTING <<link "[img[IMGhelpbutton]]">><<dialog "Difficulty Setting">><p><b>HARD:</b> Hard difficulty used to be called organ donor mode, and plays almost exactly like Medium except that there are no second chances if you don't take care of your character. This difficulty is the closest to how things really are in Appletree. A special achievement and some unlocks are planned for players who play in hard mode.</p><p><b>MEDIUM:</b> Medium difficulty is the way the game was originally meant to be played. You'll have to pay attention to how you manage your character, but in general this is a simple task with common sense. The game will give you a chance to rescue your character by visiting a doctor or therapist if  the consequences of your actions catch up to you. You'll also need to improve your character's skills to take on more difficult tasks.</p><p><b>EASY:</b> Easy difficulty makes several aspects of the game easier. At this difficulty level, the life sim gameplay elements are much easier. Easer status management, more money, easier jobs, faster skill gain, and other changes make the game more forgiving while still retaining at least minor consequences for your actions. <i>There are no content penalties for playing on Easy compared to Medium, play the way you enjoy.</i></p><p><b>FAP:</b> Fap difficulty is the easiest difficulty setting. In addition to being even easier than Easy, status-based bad ends are disabled. There isn't much gameplay at this difficulty level, but it's ideal for "exploring content"! This difficulty is ideal if you want to experience the story and explore Appletree easily and without consequences. Achievements and Unlocks are disabled in Fap Mode.</p><</dialog>><</link>></legend>
+<div id="difsetcunt">
+<<include [[DiffSettCompSub]]>>
+</div>
+</fieldset>
+
+
+:: DiffSettCompSub [nobr]
+
+
+<<if ↂ.flag.organDonor === 1>>
+    <img data-passage='IMG-Diff1S' style='display:inline-block;margin:0px 10px 0px 0px;width:54px;height:54px;'>
+<<else>>
+    <<link "<img data-passage='IMG-Diff1U' style='display:inline-block;margin:0px 10px 0px 0px;width:54px;height:54px;'>">>
+        <<if setup.swim === "[public]" || setup.swim === "[patron]">>
+            <<run UI.alert("Sorry, Fap Mode is only available for $5+ supporters at this time.")>>
+        <<else>>
+            <<set ↂ.flag.organDonor = 1>><<run aw.S("flag")>>
+            <<replace "#difsetcunt">><<include [[DiffSettCompSub]]>><</replace>>
+        <</if>>
+    <</link>>
+<</if>>
+<<if ↂ.flag.organDonor === 2>>
+    <img data-passage='IMG-Diff2S' style='display:inline-block;margin:0px 10px 0px 10px;width:54px;height:54px;'>
+<<else>>
+    <<link "<img data-passage='IMG-Diff2U' style='display:inline-block;margin:0px 10px 0px 10px;width:54px;height:54px;'>">>
+        <<set ↂ.flag.organDonor = 2>><<run aw.S("flag")>>
+        <<replace "#difsetcunt">><<include [[DiffSettCompSub]]>><</replace>>
+    <</link>>
+<</if>>
+<<if ↂ.flag.organDonor === 3>>
+    <img data-passage='IMG-Diff3S' style='display:inline-block;margin:0px 10px 0px 10px;width:54px;height:54px;'>
+<<else>>
+    <<link "<img data-passage='IMG-Diff3U' style='display:inline-block;margin:0px 10px 0px 10px;width:54px;height:54px;'>">>
+        <<set ↂ.flag.organDonor = 3>><<run aw.S("flag")>>
+        <<replace "#difsetcunt">><<include [[DiffSettCompSub]]>><</replace>>
+    <</link>>
+<</if>>
+<<if ↂ.flag.organDonor === 4>>
+    <img data-passage='IMG-Diff4S' style='display:inline-block;margin:0px 0px 0px 10px;width:54px;height:54px;'>
+<<else>>
+    <<link "<img data-passage='IMG-Diff4U' style='display:inline-block;margin:0px 0px 0px 10px;width:54px;height:54px;'>">>
+        <<set ↂ.flag.organDonor = 4>><<run aw.S("flag")>>
+        <<replace "#difsetcunt">><<include [[DiffSettCompSub]]>><</replace>>
+    <</link>>
+<</if>>
+
+
+
+
+

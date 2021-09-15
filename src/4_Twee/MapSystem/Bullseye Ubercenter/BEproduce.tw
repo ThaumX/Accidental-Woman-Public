@@ -51,7 +51,9 @@
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise hovExamine>>
-	<<button "Examine Produce">><<dialog "Examining">>You walk over to the oddly-popular chiller display with giant cucumbers to take a closer look. The vegetables are clean and look to be in good shape, with a deep green color. Picking one up, you're surprised at the weight. It's over a foot long, and ranges from three to four inches in diameter.<<if ↂ.pc.trait.libido > 3>> The cucumber looks delicious in more ways than one, and you had almost decided to buy it before you realize that there's no way you could fit it into your 'cart'.<<else>> You put the cucumber back down, unsure what the big deal is.<</if>><</dialog>><</button>>
+	<<button "Examine Produce">><<dialog "Examining">>You walk over to the oddly-popular chiller display with giant cucumbers to take a closer look. The vegetables are clean and look to be in good shape, with a deep green color. Picking one up, you're surprised at the weight. It's over a foot long, and ranges from three to four inches in diameter.<<if ↂ.pc.trait.libido > 3>> The cucumber looks delicious in more ways than one, and you had almost decided to buy it before you realize that there's no way you could fit it into your 'cart'.<<else>> You put the cucumber back down, unsure what the big deal is.<</if>><br><<addtime 16>>
+		<<include [[BEgroceryProduce]]>>
+	<</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -77,3 +79,36 @@
 :: BEproduceLOC [nobr]
 
 [img[IMGbullseyeBig]]
+
+
+
+:: BEgroceryProduce [nobr]
+
+You browse through the shelves.<br><br>
+<table id="noBorder">
+<tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Various goods:</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Lettuce
+  <img data-passage="IMG-Item-CookLettuce" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A lettuce for salads and whatnot.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>3@@ <span id="buyshitLettuce"></span><br><<button "Add to Cart">><<set $cart.push(["Lettuce","simple",3,"Lettuce"])>><<replace "#buyshitLettuce">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Tomato
+  <img data-passage="IMG-Item-Tomato" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  Round red vegetable.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>6@@ <span id="buyshitTomato"></span><br><<button "Add to Cart">><<set $cart.push(["Tomato", "simple", 6, "Tomato"])>><<replace "#buyshitTomato">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Potato
+  <img data-passage="IMG-Item-Potato" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A popular vegetable for various dishes.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>4@@ <span id="buyshitPotato"></span><br><<button "Add to Cart">><<set $cart.push(["Potato", "simple", 4, "Potato"])>><<replace "#buyshitPotato">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+</table>

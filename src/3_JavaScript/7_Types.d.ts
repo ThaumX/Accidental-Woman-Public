@@ -149,6 +149,7 @@ type locationMain =
   | "homeT3"
   | "homeT2"
   | "homeT1"
+  | "Lily"
 
 type locationInfo = {
   image: string,

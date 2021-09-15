@@ -316,7 +316,7 @@ class DateSpot {
         }
       }
     }
-    output += `<<hovrev complement>><<button "COMPLEMENT">><<run setup.date.saySomething("comp")>><</button>><</hovrev>><<hovrev sexy>><<button "SEXY">><<run setup.date.saySomething("sexy")>><</button>><</hovrev>><<hovrev rom>><<button "ROMANTIC">><<run setup.date.saySomething("rom")>><</button>><</hovrev>><<hovrev deep>><<button "DEEP">><<run setup.date.saySomething("deep")>><</button>><</hovrev>><<hovrev prop>><<button "SERIOUS">><<scenego "DateSpotSerious">><</button>><</hovrev>><<if aw.date.arouse > 40 || aw.date.enjoy[1] > 40>><<hovrev kiss>><<button "KISS">><<scenego "DateSpotKiss">><</button>><</hovrev>><<else>><<hovrev kiss>>@@.disabled;<<button "KISS">><</button>>@@<</hovrev>><</if>>`;
+    output += `<<hovrev complement>><<button "COMPLIMENT">><<run setup.date.saySomething("comp")>><</button>><</hovrev>><<hovrev sexy>><<button "SEXY">><<run setup.date.saySomething("sexy")>><</button>><</hovrev>><<hovrev rom>><<button "ROMANTIC">><<run setup.date.saySomething("rom")>><</button>><</hovrev>><<hovrev deep>><<button "DEEP">><<run setup.date.saySomething("deep")>><</button>><</hovrev>><<hovrev prop>><<button "SERIOUS">><<scenego "DateSpotSerious">><</button>><</hovrev>><<if aw.date.arouse > 40 || aw.date.enjoy[1] > 40>><<hovrev kiss>><<button "KISS">><<scenego "DateSpotKiss">><</button>><</hovrev>><<else>><<hovrev kiss>>@@.disabled;<<button "KISS">><</button>>@@<</hovrev>><</if>>`;
     desc += `<<hovins complement>>Compliment your date.<</hovins>><<hovins sexy>>Say something sexy.<</hovins>><<hovins rom>>Say something romantic.<</hovins>><<hovins deep>>Say something deep (or try to).<</hovins>><<hovins prop>>It's time for a serious subject, such as progressing your relationship or breaking up.<</hovins>><<hovins kiss>>Kiss <<= aw.date.name>><</hovins>>`;
     if (aw.date.dateType === "yourhome" || aw.date.dateType === "BFhome") {
       output += `<<hovrev leavewhyf>><<button "CHANGE">><<scenego "DateLeaveDatespotHome">><</button>><</hovrev>>`;
@@ -433,6 +433,42 @@ class DateSpot {
           gate: [],
           ai: [],
         },
+
+        // Anenn Markup
+        {
+          key: "hindenburgerDarkBeer",
+          label: "Order special beer",
+          info: "Special black beer? That... sounds fun.",
+          twee: `DSP-BlackBeer-Special`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.cash(random(-15, -30), "food");
+            aw.date.enjoy[1] += random(4, 9);
+            aw.date.qual += random(4, 6);
+            aw.S();
+            return true;
+          },
+          gate: [],
+          ai: [],
+        },
+        {
+          key: "hindenburger_undertableFun",
+          label: "Ask to be licked under the table.",
+          info: "You want an orgasm, why not have it?",
+          twee: `DSP-hindenburger_undertableFun`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.cash(random(-15, -30), "food");
+            aw.date.enjoy[1] += random(4, 9);
+            aw.date.qual += random(4, 6);
+            aw.S();
+            return true;
+          },
+        },
       ],
       aiTags: [["actLover", "neutEthic", "neutral", "group", "casual", "eat"]],
       type: "normal",
@@ -466,6 +502,100 @@ class DateSpot {
             aw.cash(random(-7, -14), "food");
             aw.date.enjoy[1] += random(3, 7);
             aw.date.qual += random(7, 12);
+            aw.S();
+            return true;
+          },
+          gate: [],
+          ai: [],
+        },
+
+        // Anenn Markup (Bigger events)
+        {
+          key: "starsucks_MC",
+          label: "Milky coffee",
+          info: "Order a simple and classic latte.",
+          twee: `DSP-MilkyCoffee-Special`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.cash(random(-15, -30), "food");
+            aw.date.enjoy[1] += random(4, 9);
+            aw.date.qual += random(4, 6);
+            aw.S();
+            return true;
+          },
+          gate: [],
+          ai: [],
+        },
+        {
+          key: "starsucks_DN",
+          label: "Dreamy Nighttime",
+          info: "Order a Dreamy Nighttime.",
+          twee: `DSP-Dreamy-Nighttime`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.cash(random(-15, -30), "food");
+            aw.date.enjoy[1] += random(4, 9);
+            aw.date.qual += random(4, 6);
+            aw.S();
+            return true;
+          },
+          gate: [],
+          ai: [],
+        },
+
+        // Anenn Markup (Smaller events)
+        {
+          key: "starsucks",
+          label: "Milkyshake",
+          info: "Special milkyshake, prepared with mothers love!",
+          twee: `DSP-Milkyshake`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.cash(random(-15, -30), "food");
+            aw.date.enjoy[1] += random(4, 9);
+            aw.date.qual += random(4, 6);
+            aw.S();
+            return true;
+          },
+          gate: [],
+          ai: [],
+        },
+        {
+          key: "starsucks",
+          label: "Motherly cappuccino",
+          info: "A cappuccino with a maternal touch.",
+          twee: `DSP-Cappuccino`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.cash(random(-15, -30), "food");
+            aw.date.enjoy[1] += random(4, 9);
+            aw.date.qual += random(4, 6);
+            aw.S();
+            return true;
+          },
+          gate: [],
+          ai: [],
+        },
+        {
+          key: "starsucks",
+          label: "Motherly macchiato",
+          info: "A cappuccino with a maternal touch.",
+          twee: `DSP-Macchiato`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.cash(random(-15, -30), "food");
+            aw.date.enjoy[1] += random(4, 9);
+            aw.date.qual += random(4, 6);
             aw.S();
             return true;
           },
@@ -548,6 +678,29 @@ class DateSpot {
           gate: [],
           ai: [],
         },
+
+        // Anenn Markup
+        {
+          key: "foodcourtKissing",
+          label: "Caresses",
+          info: "Have a snack next to <<= aw.date.name>> and then have a little fun",
+          twee: `DTS-foodcourtKissing`,
+          check() {
+              if (ↂ.pc.kink.shame) {
+                return false;
+              }
+              else {
+                return true;
+              }
+          },
+          prep() {
+            aw.date.arouse += random(7, 11);
+            aw.date.enjoy[1] += random(3, 7);
+            return true;
+          },
+          gate: [],
+          ai: [],
+        },
       ],
       aiTags: [["actLover", "neutEthic", "neutral", "crowd", "crude", "eat"]],
       type: "normal",
@@ -558,7 +711,7 @@ class DateSpot {
     {
       key: "luterus",
       name: "Remplir L'Uterus",
-      shortDesc: "A fancy french restaurant.",
+      shortDesc: "A fancy French restaurant.",
       loc: ["downtown", "southeast", false],
       topImg: "IMG-Restaurant-Remplir-Luterus-Inside",
       img: "IMG-Restaurant-Remplir-Luterus",
@@ -578,7 +731,7 @@ class DateSpot {
             }
           },
           label: "Music",
-          twee: `<<dialog "Musci">>As you get to the place you see that today there is a band playing for the clients in the corner of the restaraunt. The conterporary jazz sounds pretty pleasant and adds to the mood.<</dialog>>`,
+          twee: `<<dialog "Musci">>As you get to the place you see that today there is a band playing for the clients in the corner of the restaurant. The contemporary jazz sounds pretty pleasant and adds to the mood.<</dialog>>`,
           prep() {
             aw.date.enjoy[1] += random(5, 6);
             aw.date.qual += random(12, 20);
@@ -617,7 +770,7 @@ class DateSpot {
           key: "luterusWine",
           label: "Order wine",
           info: "Decide what wine you want to order.",
-          twee: `You spend some time browsing trough the wine card together. <<if ↂ.pc.trait.crude == -1>>You know things about wine and explain the differences between various types and tastes for some time before proposing some good <<print either("chianti", "prosecco", "sauvignon")>>.<<= aw.date.name>> agrees overwhelmed by your knowledge and commpetence.<<else>>You have no idea what is the difference between most of the options and just stick to the cheapest <<print either("white wine", "red wine", "rose wine", "champagne")>> you can find in the card.<</if>> After the waitress brings and opens the bottle you clink glasses and savor the wine. It <<print either("tastes surprisingly good", "tastes pretty much the way you expected", "tastes odd and you are not sure if you like it or not")>>. After the third glass you start feeling a bit dizzy<<if ↂ.pc.trait.intro>> and feel that it got much easier for you to talk and joke freely<</if>><<addtime 24>>.`,
+          twee: `You spend some time browsing trough the wine card together. <<if ↂ.pc.trait.crude == -1>>You know things about wine and explain the differences between various types and tastes for some time before proposing some good <<print either("chianti", "prosecco", "sauvignon")>>.<<= aw.date.name>> agrees overwhelmed by your knowledge and competence.<<else>>You have no idea what is the difference between most of the options and just stick to the cheapest <<print either("white wine", "red wine", "rose wine", "champagne")>> you can find in the card.<</if>> After the waitress brings and opens the bottle you clink glasses and savor the wine. It <<print either("tastes surprisingly good", "tastes pretty much the way you expected", "tastes odd and you are not sure if you like it or not")>>. After the third glass you start feeling a bit dizzy<<if ↂ.pc.trait.intro>> and feel that it got much easier for you to talk and joke freely<</if>><<addtime 24>>.`,
           check() {
               return true;
           },
@@ -670,6 +823,29 @@ class DateSpot {
           gate: [],
           ai: [],
         },
+
+        // Anenn Markup
+        {
+          key: "luterusCaresses",
+          label: "Get touched",
+          info: "Get some caresses and kisses after dinner.",
+          twee: `DTS-luterusCaresses`,
+          check() {
+              if (ↂ.pc.kink.shame) {
+                return false;
+              } else {
+                return true;
+              }
+          },
+          prep() {
+            aw.date.arouse += random(7, 11);
+            aw.date.enjoy[1] += random(3, 7);
+            aw.S();
+            return true;
+          },
+          gate: [],
+          ai: [],
+        },
       ],
       aiTags: [["actLover", "neutEthic", "neutral", "intimate", "fancy", "eat"]],
       type: "normal",
@@ -685,7 +861,7 @@ class DateSpot {
       topImg: "IMG-Restaurant-OldDongHo-Inside",
       img: "IMG-Restaurant-OldDongHo",
       desc: `Seafood and wok restaurant is dark and noisy. Prices on the chalkboard menu above the bar looks pretty cheap and the big sign says "We guarantee good quality! No quality complains for more than 10 years!"`,
-      arrivalText: "You arrive at the place and take a seat at the small table in dark crowded restaurant. It takes some time until you realise that there are no waiters and you need to make order yourself at the bar.",
+      arrivalText: "You arrive at the place and take a seat at the small table in dark crowded restaurant. It takes some time until you realize that there are no waiters and you need to make order yourself at the bar.",
       departText: "You leave the place.",
       category: "restaurant",
       quality: 2,
@@ -700,7 +876,7 @@ class DateSpot {
             }
           },
           label: "Argumenting",
-          twee: "Entering the place you see some well dressed drunk men arguing loudly in some asian language. You do your best to ignore them but after some time they start a fight knocking their table and it takes more than a minute before fat owner finally get them stop the nonsense and leave the place. It looks like the accident toned down <<= aw.date.name>>'s mood.",
+          twee: "Entering the place you see some well dressed drunk men arguing loudly in some Asian language. You do your best to ignore them but after some time they start a fight knocking their table and it takes more than a minute before fat owner finally get them stop the nonsense and leave the place. It looks like the accident toned down <<= aw.date.name>>'s mood.",
           prep() {
             aw.date.enjoy[1] += random(-3, -5);
             aw.date.qual += random(-8, -18);
@@ -718,7 +894,7 @@ class DateSpot {
             }
           },
           label: "Old Dong Ho",
-          twee: "While <<= aw.date.name>> discussing about what to order you mindlessly observe the room catching the atmosphere of the place. <<if ↂ.pc.trait.perceptive == 1>>For some reason some people on nearby table gather your attention. Buffy guy dressed in sportwear discussing something with two well-dressed chinese who look a bit not usual but it is hard to say what is wrong with them. Through the noisy chatter you hear some of the words they say.<br><br>@@.npc;...will deliver... every thursday...on the place...@@<br><br>@@.npc;...need no... unnecessary...mr. Bestiarus...at night...don't...the lights...@@<br><br>@@.mono;I wonder what are they talking about? Those guys looks odd.@@<br><br><<else>>There are a lot of people of various appearance and you are surprised how popular this place is.<</if>><br><br>@@.npc;Hey, <<= ↂ.pc.main.name>> will you make an order?@@<br><br>@@.npc;Oh, sorry, I just got distracted for a bit@@",
+          twee: "While <<= aw.date.name>> discussing about what to order you mindlessly observe the room catching the atmosphere of the place. <<if ↂ.pc.trait.perceptive == 1>>For some reason some people on nearby table gather your attention. Buffy guy dressed in sportwear discussing something with two well-dressed chinese who look a bit not usual but it is hard to say what is wrong with them. Through the noisy chatter you hear some of the words they say.<br><br>@@.npc;...will deliver... every thursday...on the place...yeah... Plank 57/3, industiral...password...my name...@@<br><br>@@.npc;...need no... unnecessary...mr. Bestiarus...at night...don't...the lights...@@<br><br>@@.mono;I wonder what are they talking about? Those guys looks odd.@@<br><br><<else>>There are a lot of people of various appearance and you are surprised how popular this place is.<</if>><br><br>@@.npc;Hey, <<= ↂ.pc.main.name>> will you make an order?@@<br><br>@@.npc;Oh, sorry, I just got distracted for a bit@@",
           prep() {
             return true;
           },
@@ -797,7 +973,7 @@ class DateSpot {
     {
       key: "happyCream",
       name: "Happy Cream",
-      shortDesc: "Local cafe specialising on doughnuts.",
+      shortDesc: "Local cafe specializing on doughnuts.",
       loc: ["downtown", "southeast", false],
       topImg: "IMG-HappyCream-Inside",
       img: "IMG-Restaurant-HappyCream",
@@ -812,7 +988,7 @@ class DateSpot {
           key: "happyCreamDonut",
           label: "Doughnuts and drinks",
           info: "Order some sweet-stuff.",
-          twee: `You both spend some time at the shelf with various doughnuts trying to choose some. Finally you both make a decision, <<= aw.date.name>> goes first and takes <<print either("strawberry", "plain", "vanilla")>> doughnut with <<print either("special cream topping", "banana cream topping", "moist cream topping")>> and you go with <<print either("same choice", "same topping but on chocolate doughnut", "same doughnut but with mapple syrope topping")>>. You both grab a cup of coffee and start savoring the delicious treat which tastes <<print either("amazing", "magnificent", "unbelievable good", "delightful")>>. After a while you finished your desserts and just happy and calmly sitting being pretty satisfied with yourselves.<<set $happyCreamDonut = true>><<addtime 17>>`,
+          twee: `You both spend some time at the shelf with various doughnuts trying to choose some. Finally you both make a decision, <<= aw.date.name>> goes first and takes <<print either("strawberry", "plain", "vanilla")>> doughnut with <<print either("special cream topping", "banana cream topping", "moist cream topping")>> and you go with <<print either("same choice", "same topping but on chocolate doughnut", "same doughnut but with maple syrup topping")>>. You both grab a cup of coffee and start savoring the delicious treat which tastes <<print either("amazing", "magnificent", "unbelievable good", "delightful")>>. After a while you finished your desserts and just happy and calmly sitting being pretty satisfied with yourselves.<<set $happyCreamDonut = true>><<addtime 17>>`,
           check() {
             if (State.active.variables.happyCreamDonut === false || State.active.variables.happyCreamDonut == null) {
               return true;
@@ -837,7 +1013,7 @@ class DateSpot {
           key: "happyCreamTalk",
           label: "Talk",
           info: "Have a nice chit-chat about things.",
-          twee: `<<if ↂ.pc.trait.intro>>You struggle with starting a proper conversation trying your best to find a topic to talk about. To your relief, <<= aw.date.name>> break the silence before it gets too awkard.<<else>>You feel pretty comfortable starting a chat with <<= aw.date.name>> and discuss things.<</if>><<print setup.storythread.getStory(aw.date.npcid)>><<addtime 16>>`,
+          twee: `<<if ↂ.pc.trait.intro>>You struggle with starting a proper conversation trying your best to find a topic to talk about. To your relief, <<= aw.date.name>> break the silence before it gets too awkward.<<else>>You feel pretty comfortable starting a chat with <<= aw.date.name>> and discuss things.<</if>><<print setup.storythread.getStory(aw.date.npcid)>><<addtime 16>>`,
           check() {
               return true;
           },
@@ -884,7 +1060,7 @@ class DateSpot {
       topImg: "IMG-TeatsTreats-Inside",
       img: "IMG-Restaurant-TeatTreats",
       desc: "The well-lit place is divided by booth with tables where you can get ice-cream made fresh from the teat in an ice-cream machine which topless hucows waitress carry around.",
-      arrivalText: "You enter the Teat Treats and take a seat in on e of the booths.",
+      arrivalText: "You enter the Teat Treats and take a seat in one of the booths.",
       departText: "You leave the place..",
       category: "dessert",
       quality: 4,
@@ -918,7 +1094,7 @@ class DateSpot {
           key: "teatTreatsShow",
           label: "Show",
           info: "Watch waitress show.",
-          twee: `<p><<print either("@@.npc;Hey, it is almost time for the show!@@","@@.npc;Oh, cool, it seems the show is starting!@@")>></p><p><<print either("@@.pc;Ugh?@@","@@.pc;What show?@@")>></p><p><<print either("@@.npc;They have this dance thing every hour or so, never saw it before!@@","@@.npc;Shhh! It is starting!@@")>></p><p><<= aw.date.name>> points to the counter and you see a couple of waitress free their breasts which is followed by customers cheering. Upbeat music starts and they begin to dance with their full jugs bouncing with every motion. Your date whisper to your ear @@.npc;You see, it is like a local tradition of these milkshake places, you haven't heard of it? It first started as a TV advertisement and then they decided to make those shows in each restaraunt they have, hear the jingle?@@</p><p>You have hard time paying attention to the music mesmerized by girls pressing their boobs together so hard that their milk poured down their aprons. Still, you start to notice the words of the song playing on the background. @@.smeared;...Happy teat, yummy teat! Squeeze yourself a tasty treat! Everyone who loves icecream join with us in milky dream!@@ @@.mono;That sounds... odd. But the show is pretty nice to see!@@</p><p>Waitress continue to dance for a cuple minutes more until the music ends on a triumphant @@.smeared;TASTY CREAM TASTY CREAM JOIN THE YUMMY MILKY DREAM!@@ note and most of the customers applause to the soaked with their own milk girls. You turn back to <<= aw.date.name>></p><p>@@.pc;Well, that was entertaining for sure, he-he!@@</p><<addtime 7>>`,
+          twee: `<p><<print either("@@.npc;Hey, it is almost time for the show!@@","@@.npc;Oh, cool, it seems the show is starting!@@")>></p><p><<print either("@@.pc;Ugh?@@","@@.pc;What show?@@")>></p><p><<print either("@@.npc;They have this dance thing every hour or so, never saw it before!@@","@@.npc;Shhh! It is starting!@@")>></p><p><<= aw.date.name>> points to the counter and you see a couple of waitress free their breasts which is followed by customers cheering. Upbeat music starts and they begin to dance with their full jugs bouncing with every motion. Your date whisper to your ear @@.npc;You see, it is like a local tradition of these milkshake places, you haven't heard of it? It first started as a TV advertisement and then they decided to make those shows in each restaurant they have, hear the jingle?@@</p><p>You have hard time paying attention to the music mesmerized by girls pressing their boobs together so hard that their milk poured down their aprons. Still, you start to notice the words of the song playing on the background. @@.smeared;...Happy teat, yummy teat! Squeeze yourself a tasty treat! Everyone who loves icecream join with us in milky dream!@@ @@.mono;That sounds... odd. But the show is pretty nice to see!@@</p><p>Waitress continue to dance for a couple minutes more until the music ends on a triumphant @@.smeared;TASTY CREAM TASTY CREAM JOIN THE YUMMY MILKY DREAM!@@ note and most of the customers applause to the soaked with their own milk girls. You turn back to <<= aw.date.name>></p><p>@@.pc;Well, that was entertaining for sure, he-he!@@</p><<addtime 7>>`,
           check() {
               return true;
           },
@@ -937,6 +1113,25 @@ class DateSpot {
           label: "Talk",
           info: "Have a nice chit-chat about things.",
           twee: `<<if ↂ.pc.trait.intro>>You try to think about something to ask <<= aw.date.name>> for some time.<<else>>You ask <<= aw.date.name>> about life.<</if>><<print setup.storythread.getStory(aw.date.npcid)>><p>@@.pc;Oh, I see.@@</p><<addtime 16>>`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.date.enjoy[1] += random(2, 5);
+            aw.date.qual += random(2, 6);
+            return true;
+          },
+          gate: [],
+          ai: [],
+          repeatable: true,
+        },
+
+        // Anenn Markup
+        {
+          key: "teatTreatsNippleSuck",
+          label: "Have an intimate talk",
+          info: "Have a nice chit-chat about things.",
+          twee: `DTS-teatTreatsNippleSuck`,
           check() {
               return true;
           },
@@ -1038,8 +1233,27 @@ class DateSpot {
           ai: [],
           repeatable: true,
         },
+
+        // Anenn Markup
+        {
+          key: "shakenpopKissing",
+          label: "Talk with your date",
+          info: "Get some good conversation with him, and maybe something more fun",
+          twee: `DTS-shakenpopKissing`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.date.enjoy[1] += random(2, 5);
+            aw.date.qual += random(6, 9);
+            return true;
+          },
+          gate: [],
+          ai: [],
+          repeatable: true,
+        },
       ],
-      aiTags: [["actLover", "neutEthic", "neutral", "crowd", "sloppy", "drink"]],
+      aiTags: [["actLover", "neutEthic", "neutral", "crowd", "sloppy"]],
       type: "normal",
       check() {
         return true;
@@ -1082,7 +1296,7 @@ class DateSpot {
           key: "parkStroll",
           label: "Stroll",
           info: "Walk through the park having a convo.",
-          twee: `You walk along the trail enjoying the fresh air and <<if ↂ.pc.trait.intro>>trying to think about possible conversation starters.<<else>>talking with <<= aw.date.name>>.<</if>><<print setup.storythread.getStory(aw.date.npcid)>><<addtime 16>><br>@@.pc;<<print either("Oh, I see.", "Pretty interesting.", "Well, that was a hell of a story")>>@@<p>@@.npc;Yeah... And what about you?@@</p><p>@@.pc;<<has op>>Well, I had my life changed since I moved here, in Appletree. I mean, changed a lot. I really can't tell you the details but... Well, I started literally from scratch and now trying to get my life together and well, learn the new way to live my life.<<orhas cl>>Mhm. Dunno what to tell you about. It is much more interesting to hear your stories to be honest.<<or>>Well, I had my ups and downs as anybody else. my life changed and but today I feel really good spending some quality time.<</has>>@@</p>`,
+          twee: `You walk along the trail enjoying the fresh air and <<if ↂ.pc.trait.intro>>trying to think about possible conversation starters.<<else>>talking with <<= aw.date.name>>.<</if>><<print setup.storythread.getStory(aw.date.npcid)>><<addtime 16>><br>@@.pc;<<print either("Oh, I see.", "Pretty interesting.", "Well, that was a hell of a story")>>@@<<if aw.date.npcid !== "n101" || aw.date.npcid !== "n102">><p>@@.npc;Yeah... And what about you?@@</p><p>@@.pc;<<has op>>Well, I had my life changed since I moved here, in Appletree. I mean, changed a lot. I really can't tell you the details but... Well, I started literally from scratch and now trying to get my life together and well, learn the new way to live my life.<<orhas cl>>Mhm. Dunno what to tell you about. It is much more interesting to hear your stories to be honest.<<or>>Well, I had my ups and downs as anybody else. my life changed and but today I feel really good spending some quality time.<</has>>@@</p><</if>>`,
           check() {
               return true;
           },
@@ -1115,12 +1329,33 @@ class DateSpot {
             } else {
               return false;
             }
-            },
+          },
           prep() {
             return true;
           },
           gate: ["public"],
           ai: [],
+        },
+
+        // Anenn Markup
+        {
+          key: "ParkCaresses",
+          label: "Park walk date.",
+          info: "Enjoy some time in the park with <<= aw.date.name>>.",
+          twee: `DTS-ParkCaresses`,
+          check() {
+              return true;
+          },
+          prep() {
+            ↂ.pc.status.exercise += random(5, 10);
+            aw.date.enjoy[1] += random(2, 5);
+            aw.date.qual -= random(1, 6);
+            aw.S();
+            return true;
+          },
+          gate: [],
+          ai: [],
+          repeatable: true,
         },
       ],
       aiTags: [["actLover", "neutEthic", "neutral", "group", "casual", "travel"]],
@@ -1147,7 +1382,7 @@ class DateSpot {
           key: "cineplexWatch",
           label: "Watch a movie",
           info: "Go and watch some miracle of animated pictures together.",
-          twee: `<<addtime 126>><p>@@.npc;What movies would you like to watch?@@</p><p>@@.pc;Well...@@</p>After watching the posters you discuss possible choices for some time before finally deciding to go to watch "<<print either("Dong of the Dead", "Sexorcist", "Ejacula", "Cockfest", "SpaceOrgy", "Uncle Fuck", "Fill Bill", "Ice dildo")>>". You pay your tickets and go to grab some popcorn. <<print either("Luckily, it is just about 5 minutes before film starts so you don't need to wait","The film starts in about 20 minutes so you need to wait.")>> Entering the movie theatre you find your seats and and wait for the lights go out. As usual you are forced to watch ridiculous amount of advertisment and trailers for upcoming movies before finally the movie itself begins. After about an hour you realize that you actually <<print either("like the film","don't like the film very much","feel pretty so-so about the film")>> and <<= aw.date.name>> seems to <<print either("enjoy the movie.", "be bored.")>>. When titles starts you blink from the lights and get up from the chairs discussing your impressions.`,
+          twee: `<<addtime 126>><p>@@.npc;What movies would you like to watch?@@</p><p>@@.pc;Well...@@</p>After watching the posters you discuss possible choices for some time before finally deciding to go to watch "<<print either("Dong of the Dead", "Sexorcist", "Ejacula", "Cockfest", "SpaceOrgy", "Uncle Fuck", "Fill Bill", "Ice dildo")>>". You pay your tickets and go to grab some popcorn. <<print either("Luckily, it is just about 5 minutes before film starts so you don't need to wait","The film starts in about 20 minutes so you need to wait.")>> Entering the movie theatre you find your seats and and wait for the lights go out. As usual you are forced to watch ridiculous amount of advertisement and trailers for upcoming movies before finally the movie itself begins. After about an hour you realize that you actually <<print either("like the film","don't like the film very much","feel pretty so-so about the film")>> and <<= aw.date.name>> seems to <<print either("enjoy the movie.", "be bored.")>>. When titles starts you blink from the lights and get up from the chairs discussing your impressions.`,
           check() {
               return true;
           },
@@ -1165,12 +1400,50 @@ class DateSpot {
           key: "cineplexSuck",
           label: "Watch a movie <i>on the last row</i>",
           info: "Watch some film or pretend to while having some sexy fun with <<= aw.date.name>>.",
-          twee: `<<addtime 124>><<SCX>><<SC "SD" 5>><p>@@.npc;What movies would you like?@@</p><p>@@.pc;Hmmm...I guess anything goes, choose yourself!@@</p><p>@@.npc;Let's see then... how about <<print either("Dong of the Dead", "Sexorcist", "Ejacula", "Cockfest", "SpaceOrgy", "Uncle Fuck", "Fill Bill", "Ice dildo")>>?@@</p><p>@@.pc;Sure, I am in!@@</p><p>You pay your tickets and go to grab some popcorn. <<print either("Luckily, it is just about 5 minutes before film starts so you don't need to wait","The film starts in about 20 minutes so you need to wait.")>> Entering the movie theatre you find your seats and and wait for the lights go out. As usual you are forced to watch ridiculous amount of advertisement and trailers for upcoming movies before finally the movie itself begins. It seems that the movie chosen by <<= aw.date.name>> is actually not that bad but you have <i>special</i> plans that don't include watching the screen.<<if $SCresult[1]>><<set aw.date.arouse += 7>><<set aw.date.enjoy[1] += 19>> Using the darkness around you as a cover you get to the floor between <<= aw.date.name>>'s legs.</p><p>@@.npc;<<= ↂ.pc.main.name>>, what are you...@@ ignoring the whisper you force <<if aw.npc[aw.date.npcid].main.female>>her<<else>>his<</if>> legs apart and get to <<if aw.npc[aw.date.npcid].main.female>>her pussy<<else>>his cock<</if>>. <<= aw.date.name>> gives up and just nervously looks around afraid you to be noticed. Luckily, there is no people on your row and <<if aw.npc[aw.date.npcid].main.female>>she<<else>>he<</if>> calms down and submits to your lewd assault with a light muffed moan when you <<if aw.npc[aw.date.npcid].main.female>>get her clothes out of the way and push your tongue deep into her pussy.<<else>>get his clothes out of the way and engulf his cock with your <<p lips.q>> lips.<</if>> You lick, suck and lap <<= aw.date.name>> until <<if aw.npc[aw.date.npcid].main.female>>she<<else>>he<</if>> can't hold it anymore and gives up to orgasm trying to make it as silent as possible.<<if aw.npc[aw.date.npcid].main.female>>she<<else>>he<</if>> body shakes in a silent spasms of pleasure <<if aw.npc[aw.date.npcid].main.female>>while her cunt clenches around your tongue.<<else>><<eatdrug "cum" 10>><<run setup.hadSexWith(aw.date.npcid, 2)>><<run setup.condition.add({loc: "face", amt: 5, tgt: "pc", wet: 5, type: "cum"})>><<run setup.omni.new("cumMouth")>>while his cock twitches into your mouth shooting blobs of warm sticky cum.<</if>></p><<else>><<set aw.date.enjoy[1] -= 11>><<stress 15 "Embarrassed with your fail at the cinema.">>Using the darkness around you as a cover you get to the floor between <<= aw.date.name>>'s legs.</p><p>@@.npc;<<= ↂ.pc.main.name>>, what are you...@@ ignoring the whisper you try to force <<if aw.npc[aw.date.npcid].main.female>>her<<else>>his<</if>> legs apart but <<if aw.npc[aw.date.npcid].main.female>>she<<else>>he<</if>> doesn't allow you to do it.<p><p>@@.npc;Are you insane? It's not the right time at all!@@</p><p>@@.npd;Shhhh!@@ @@.npd;We are trying to watch a movie here!@@</p><p>@@.npc;Sorry, she just... lost her glasses! Come on, get up.@@</p><</if>><p>Without saying anything you get back to your seat and resume to watch the movie. You already lost in the plot after missing just the small amount so you spend the rest of the film you spend trying to get who is this 'Major Cummings' and how does he related to the Sperm Whale Man. Occasionally you glance at <<= aw.date.name>> trying to get their attitude but it is hard to tell in the darkness of the cinema. When titles starts you blink from the lights and get up from the chairs <<if $SCresult[1]>>discussing your impressions.<<else>>in awkward silence.<</if>></p>`,
+          twee: `<<addtime 124>><<SCX>><<SC "SD" 5>><p>@@.npc;What movies would you like?@@</p><p>@@.pc;Hmmm...I guess anything goes, choose yourself!@@</p><p>@@.npc;Let's see then... how about <<print either("Dong of the Dead", "Sexorcist", "Ejacula", "Cockfest", "SpaceOrgy", "Uncle Fuck", "Fill Bill", "Ice dildo")>>?@@</p><p>@@.pc;Sure, I am in!@@</p>You pay your tickets and go to grab some popcorn. <<print either("Luckily, it is just about 5 minutes before film starts so you don't need to wait","The film starts in about 20 minutes so you need to wait.")>> Entering the movie theatre you find your seats and and wait for the lights go out. As usual you are forced to watch ridiculous amount of advertisement and trailers for upcoming movies before finally the movie itself begins. It seems that the movie chosen by <<= aw.date.name>> is actually not that bad but you have <i>special</i> plans that don't include watching the screen.<<if $SCresult[1]>><<set aw.date.arouse += 7>><<set aw.date.enjoy[1] += 19>> Using the darkness around you as a cover you get to the floor between <<= aw.date.name>>'s legs.<p>@@.npc;<<= ↂ.pc.main.name>>, what are you...@@ ignoring the whisper you force <<if aw.npc[aw.date.npcid].main.female>>her<<else>>his<</if>> legs apart and get to <<if aw.npc[aw.date.npcid].main.female>>her pussy<<else>>his cock<</if>>. <<= aw.date.name>> gives up and just nervously looks around afraid you to be noticed. Luckily, there is no people on your row and <<if aw.npc[aw.date.npcid].main.female>>she<<else>>he<</if>> calms down and submits to your lewd assault with a light muffed moan when you <<if aw.npc[aw.date.npcid].main.female>>get her clothes out of the way and push your tongue deep into her pussy.<<else>>get his clothes out of the way and engulf his cock with your <<p lips.q>> lips.<</if>> You lick, suck and lap <<= aw.date.name>> until <<if aw.npc[aw.date.npcid].main.female>>she<<else>>he<</if>> can't hold it anymore and gives up to orgasm trying to make it as silent as possible.<<if aw.npc[aw.date.npcid].main.female>>she<<else>>he<</if>> body shakes in a silent spasms of pleasure <<if aw.npc[aw.date.npcid].main.female>>while her cunt clenches around your tongue.<<else>><<eatdrug "cum" 10>><<run setup.hadSexWith(aw.date.npcid, 2)>><<run setup.condition.add({loc: "face", amt: 5, tgt: "pc", wet: 5, type: "cum"})>><<run setup.omni.new("cumMouth")>>while his cock twitches into your mouth shooting blobs of warm sticky cum.<</if>></p><<else>><<set aw.date.enjoy[1] -= 11>><<stress 15 "Embarrassed with your fail at the cinema.">>Using the darkness around you as a cover you get to the floor between <<= aw.date.name>>'s legs.<p>@@.npc;<<= ↂ.pc.main.name>>, what are you...@@ ignoring the whisper you try to force <<if aw.npc[aw.date.npcid].main.female>>her<<else>>his<</if>> legs apart but <<if aw.npc[aw.date.npcid].main.female>>she<<else>>he<</if>> doesn't allow you to do it.<p><p>@@.npc;Are you insane? It's not the right time at all!@@</p><p>@@.npd;Shhhh!@@ @@.npd;We are trying to watch a movie here!@@</p><p>@@.npc;Sorry, she just... lost her glasses! Come on, get up.@@</p><</if>><p>Without saying anything you get back to your seat and resume to watch the movie. You already lost in the plot after missing just the small amount so you spend the rest of the film you spend trying to get who is this 'Major Cummings' and how does he related to the Sperm Whale Man. Occasionally you glance at <<= aw.date.name>> trying to get their attitude but it is hard to tell in the darkness of the cinema. When titles starts you blink from the lights and get up from the chairs <<if $SCresult[1]>>discussing your impressions.<<else>>in awkward silence.<</if>></p>`,
           check() {
               return true;
           },
           prep() {
             aw.cash(random(-15, -20), "misc");
+            aw.date.qual += random(5, 9);
+            aw.S();
+            return true;
+          },
+          gate: [],
+          ai: [],
+        },
+
+        // Anenn events
+        {
+          key: "cineplexWatch",
+          label: '"Watch" a movie',
+          info: "Watch a movie, obviously in the back row.",
+          twee: `DSP-Cine-Suck`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.cash(random(-15, -20), "misc");
+            aw.date.enjoy[1] += random(7, 15);
+            aw.date.qual += random(5, 9);
+            aw.S();
+            return true;
+          },
+          gate: [],
+          ai: [],
+        },
+        {
+          key: "cineplexPussyTouch",
+          label: 'Try watching the movie',
+          info: "Try watching a movie while your little pussy gets touched.",
+          twee: `DSP-cineplexPussyTouch`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.cash(random(-15, -20), "misc");
+            aw.date.enjoy[1] += random(7, 15);
             aw.date.qual += random(5, 9);
             aw.S();
             return true;
@@ -1204,6 +1477,26 @@ class DateSpot {
           label: "Shoot",
           info: "Go and shoot some targets together.",
           twee: `<<addtime 30>><<dialog "Choose your gun">><<print either("You come to the reception with a ", "Approaching the reception you see a")>> <<print either("bearded middle-aged", "pretty girl with tattoos", "sturdy fit woman in a leather jacket")>> standing beneath.<br><br>@@.pc;Welcome to the "Hot loads"! Wanna shoot some today?@@<br><br>After greeting and short safety instructions you are proposed to choose a gun for target shooting. It seems they have some interesting choice of firearms there and you pause for a moment trying to figure out what you like to shoot today.<br><br>@@.npc;I guess I ll try <<print either("Gluck 69", "0.40 Rimmington", "Double action Cunt navy", "Pussberg 500 Pump-action", "Beawer M9")>> today. What will be your choice, mm?@@<br><br>@@.pc;Hmmm...@@<br><br>You take a look on the list again.<br><<button "Gluck 69">><<run Dialog.close()>><</button>><<button "0.40 Rimmington">><<run Dialog.close()>><</button>><<button "Double action Cunt navy">><<run Dialog.close()>><</button>><<button "Pussberg 500 Pump-action">><<run Dialog.close()>><</button>><<button "Beawer M9">><<run Dialog.close()>><</button>><</dialog>>After paying, you get your guns, headphones and a cardboard with rounds.<br><br>@@.npc;<<print either("Good luck and stay safe, folk!", "Have fun and don't forget about safety!", "I hope you know how to handle this, have a nice time!")>>@@<br><br>You go to the range and take a stall next to <<= aw.date.name>>.<<SCX>><<SC "FA" 10>><<if $SCresult[1]>>After loading the gun you start shooting the paper target. <<SC "FA" 20>><<if $SCresult[2]>>You feel pretty confident and after shooting you evaluate your results as <<print either("good", "excellent", "mediocre but still okay")>><<happy 1 "Fun at the shooting range">><br><br>@@.npc;Wow, you are good at it! You are a natural-born shooter!@@<br><br>@@.pc;Thanks!@@<br><br><<stress -5 "Shooting a gun">><<else>>You are still not that familiar with firearms <<print either("so your results are average", "but your results are surprisingly good today", "so your results are mediocre")>><<stress -3 "Shooting a gun">><br><br>@@.npc;Hey, not bad!@@<br><br><</if>><<else>>It takes you a long time and some additional help from <<= aw.date.name>> to finally load and shoot your gun.<br><br>@@.npc;<<print either("It is okay, you just need some practice.", "It seems you are shooting for the first time, right?", "See, you need to pull the trigger softly, do not twitch...")>>@@<br><br>You feel warm breath on your cheek while <<= aw.date.name>> instructs you how to hold a gun. After shooting you evaluate your results and it seems <<print either("you miss most of the time", "you hit the target 3 or 4 times", "somehow you managed to hit the target with more than a half of bullets")>>.<</if>> It seems that <<= either("you was more successful than", "you did worse than", "you got the same results as")>> <<= aw.date.name>>. Still slightly stunned by loud shots you go upstairs and leave the range.`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.cash(random(-20, -25), "misc");
+            aw.date.enjoy[1] += random(9, 14);
+            aw.date.qual += random(3, 6);
+            aw.S();
+            return true;
+          },
+          gate: [],
+          ai: [],
+        },
+
+        // Anenn events
+        {
+          key: "firingrangeShoot",
+          label: "Shoot training",
+          info: "Ask your date for special training.",
+          twee: `DSP-Special_Shoot_training`,
           check() {
               return true;
           },
@@ -1270,6 +1563,30 @@ class DateSpot {
           gate: [],
           ai: [],
         },
+
+        // Anenn Markup
+        {
+          key: "kissBet",
+          label: "Bet a sensual kiss",
+          info: "Bet some caresses on the next move.",
+          twee: `DSP-KissBet`,
+          check() {
+              return true;
+          },
+          gate: [],
+          ai: [],
+        },
+        {
+          key: "hotSitting",
+          label: "Take a snack",
+          info: "After playing with <<= aw.date.name>>, you can relax a little and 'have fun' in the snack bar.",
+          twee: `DSP-LapNack`,
+          check() {
+              return true;
+          },
+          gate: [],
+          ai: [],
+        },
       ],
       aiTags: [["actLover", "neutEthic", "neutral", "group", "casual", "play"]],
       type: "normal",
@@ -1309,6 +1626,44 @@ class DateSpot {
           gate: [],
           ai: [],
         },
+
+        // Anenn Markup
+        {
+          key: "couplesJealousy_1",
+          label: "Couple's massage?",
+          info: "Ask for a simultaneous massage for you two.",
+          twee: `DTS-couplesJealousy_1`,
+          check() {
+            return true;
+          },
+          prep() {
+            aw.cash(random(-25, -35), "misc");
+            aw.date.enjoy[1] += random(9, 15);
+            aw.date.qual += random(12, 18);
+            aw.S();
+            return true;
+          },
+          gate: [],
+          ai: [],
+        },
+        {
+          key: "couplesJealousy_2",
+          label: "Couple's massage, really?",
+          info: "Ask for a simultaneous massage for you two.",
+          twee: `DTS-couplesJealousy_2`,
+          check() {
+            return true;
+          },
+          prep() {
+            aw.cash(random(-25, -35), "misc");
+            aw.date.enjoy[1] += random(9, 15);
+            aw.date.qual += random(12, 18);
+            aw.S();
+            return true;
+          },
+          gate: [],
+          ai: [],
+        },
       ],
       aiTags: [["actLover", "neutEthic", "neutral", "fancy", "intimate"]],
       type: "normal",
@@ -1334,7 +1689,7 @@ class DateSpot {
           key: "springsTan",
           label: "Relax & Tan",
           info: "Lie on the loungers around the pond and enjoy the good things in life.",
-          twee: `<<stress -10 "Relaxation at the springs area">><<addtime 46>><p>You take <<= aw.date.name>> to the free loungers and lie there. <<if setup.time.now()[0] < 9 || setup.time.now()[0] > 21>>There is no sun in the sky so tanning is not an option and you just lie and talk about various stuff. <<else>><<set ↂ.flag.tan += random(0,1)>><<run setup.npcInfo.level(aw.date.npcid, {bodyGeneral: true})>>The sun is up so you decide it is a nice time to get some tan. You undress <<has exhibition>>removing <i>all</i> your clothes<</has>> and lie on your belly so you can bake properly <<if aw.npc[aw.date.npcid].kink.exhibition>><<run setup.npcInfo.level(aw.date.npcid, {bodyJunk: true})>><<run setup.npcInfo.level(aw.date.npcid, {bodyTits: true})>>while <<= aw.date.name>> undresses completly<<has shame>> which makes you a little bit uncomfortable<<or>> which allows you to looks at <<if aw.npc[aw.date.npcid].main.female>>her<<else>>his<</if>> most intimate body features.<</has>>.<<else>>. <<= aw.date.name>> undresses too and lies alongside.<</if>><</if>> <<has exhibition>><<arousal 1>>You can see <<= aw.date.name>> glancing over your naked body and smile. @@.mono;Oh, it is a special thrill to show off your body for sure!@@<<or>>You feel confortable and nice just lying together in this calm spot away from the town hassle just talking about stuff.<</has>></p><<print setup.storythread.getStory(aw.date.npcid)>><p>@@.pc;Oh, I see.@@</p><<status 0>>`,
+          twee: `<<stress -10 "Relaxation at the springs area">><<addtime 46>><p>You take <<= aw.date.name>> to the free loungers and lie there. <<if setup.time.now()[0] < 9 || setup.time.now()[0] > 21>>There is no sun in the sky so tanning is not an option and you just lie and talk about various stuff. <<else>><<set ↂ.flag.tan += random(0,1)>><<run setup.npcInfo.level(aw.date.npcid, {bodyGeneral: true})>>The sun is up so you decide it is a nice time to get some tan. You undress <<has exhibition>>by removing <i>all</i> your clothes<<or>><</has>> and lie on your belly so you can bake properly <<if aw.npc[aw.date.npcid].kink.exhibition>><<run setup.npcInfo.level(aw.date.npcid, {bodyJunk: true})>><<run setup.npcInfo.level(aw.date.npcid, {bodyTits: true})>>while <<= aw.date.name>> undresses completly<<has shame>> which makes you a little bit uncomfortable<<or>> which allows you to looks at <<if aw.npc[aw.date.npcid].main.female>>her<<else>>his<</if>> most intimate body features.<</has>>.<<else>>. <<= aw.date.name>> undresses too and lies alongside.<</if>><</if>> <<has exhibition>><<arousal 1>>You can see <<= aw.date.name>> glancing over your naked body and smile. @@.mono;Oh, it is a special thrill to show off your body for sure!@@<<or>>You feel confortable and nice just lying together in this calm spot away from the town hassle just talking about stuff.<</has>></p><<print setup.storythread.getStory(aw.date.npcid)>><p>@@.pc;Oh, I see.@@</p><<status 0>>`,
           check() {
               return true;
           },
@@ -1352,6 +1707,42 @@ class DateSpot {
           label: "Swim",
           info: "Swim in the lake with <<= aw.date.name>>.",
           twee: `<<happy 1 "Relaxing in the lake was fun">><<anger -1>><<stress -12 "Swimming">><p>@@.pc;Hey, wanna swim in the lake?@@</p><p><<= aw.date.name>> touches the water before answering. @@.npc;Sure! It is a bit chilly outside but the water seems just fine by me.@@</p><p><<has exhibition>>You undress and decide that it is just a right time for your exhibitionist's streak so when <<= aw.date.name>> turns you stand completly naked. <<if aw.npc[aw.date.npcid].kink.liberate || aw.npc[aw.date.npcid].kink.liberate || aw.npc[aw.date.npcid].kink.slut>><<= aw.date.name>> nods with approval and after thinking for a moment undress completly too.<<elseif aw.npc[aw.date.npcid].kink.shame>><<= aw.date.name>> seems shocked and you can notice a blush on <<if aw.npc[aw.date.npcid].main.female>>her<<else>>his<</if>> cheeks. @@.npc;Oh... can you please...@@ @@.pc;Dress?@@ @@.npc;...yeah. At least put something over. Don't think I don't...like it. It is just me being not entirely comfortable with all this nudists stuff.@@ You just giggle and comply.<<else>><<= aw.date.name>> seems a bit surprised by your sudden nudity but doesn't say a thing.<</if>><<or>>You undress and so does <<= aw.date.name>>. @@.npc;I hope they have some towels for rent at that community center over there.@@ @@.pc;Hey, it is not that chill, you'll be okay, pussy!@@<</has>></p><p>You got into the water and apparently it doesn't feel cold. @@.mono;Maybe the spring at the bottom of the lake is warm?@@ The water feels really good and you swim for alomost 20 minutes before <<= aw.date.name>> decides that <<if aw.npc[aw.date.npcid].main.female>>she<<else>>he<</if>> had enough and you go out to your loungers.</p><<status 0>>`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.date.enjoy[1] += random(9, 15);
+            aw.date.qual += random(4, 6);
+            aw.S();
+            return true;
+          },
+          gate: [],
+          ai: [],
+        },
+
+        // Anenn Markup
+        {
+          key: "springsSexySwim",
+          label: "Swim",
+          info: "Swim in the lake with <<= aw.date.name>>.",
+          twee: `DSP-springsSexySwim`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.date.enjoy[1] += random(9, 15);
+            aw.date.qual += random(4, 6);
+            aw.S();
+            return true;
+          },
+          gate: [],
+          ai: [],
+        },
+        {
+          key: "springsSexySwim_2",
+          label: "Swim",
+          info: "Swim in the lake with <<= aw.date.name>>, and tease a lot!",
+          twee: `DSP-springsSexySwim_2`,
           check() {
               return true;
           },
@@ -1419,6 +1810,38 @@ class DateSpot {
           gate: [],
           ai: [],
         },
+
+        // Anenn Markup
+        {
+          key: "couchPussyTeasing",
+          label: "Be served while watching a movie with <<= aw.date.name>>",
+          info: "Try watching a movie while <<= aw.date.name>> playing with your pussy!",
+          twee: `DSP-couchPussyTeasing`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.date.enjoy[1] += random(4, 8);
+            aw.date.qual += random(4, 6);
+            aw.S();
+            return true;
+          },
+        },
+        {
+          key: "couchMakeout",
+          label: "Receive what <<= aw.date.name>> has to give you...",
+          info: "'Watch' a movie with <<= aw.date.name>>.",
+          twee: `DSP-couchMakeout`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.date.enjoy[1] += random(4, 8);
+            aw.date.qual += random(4, 6);
+            aw.S();
+            return true;
+          },
+        },
       ],
       aiTags: [["actLover", "neutEthic", "neutral", "intimate"]],
       type: "yourhome",
@@ -1440,6 +1863,44 @@ class DateSpot {
       quality: 3,
       events: [],
       activities: [
+        // Anenn Markup
+        {
+          key: "cockingDate_1",
+          label: "Prepare some food for <<= aw.date.name>>",
+          info: "Preparing pasta with sauce and vegetables.",
+          twee: `DSP-cockingDate_1`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.date.enjoy[1] += random(4, 8);
+            aw.date.qual += random(4, 6);
+            aw.S();
+            return true;
+          },
+        },
+        {
+          key: "cockingDate_2",
+          label: "Order a pizza",
+          info: "<<= aw.date.name>> said he's bringing a wine, what better with that than pizza?",
+          twee: `DSP-cockingDate_2`,
+          check() {
+            const _verify = either(true, false, false, false);
+
+            if (_verify && !ↂ.flag.marriage.spouseAngry) {
+              return true;
+            }
+            else{
+              return false;
+            }
+          },
+          prep() {
+            aw.date.enjoy[1] += random(4, 8);
+            aw.date.qual += random(4, 6);
+            aw.S();
+            return true;
+          },
+        },
       ],
       aiTags: [["actLover", "neutEthic", "neutral", "intimate"]],
       type: "yourhome",
@@ -1477,6 +1938,38 @@ class DateSpot {
           },
           gate: [],
           ai: [],
+        },
+
+        // Anenn Markup
+        {
+          key: "beRubbed_1",
+          label: "Be rubbed",
+          info: "Receive some special affection from him <<= aw.date.name>>...",
+          twee: `DSP-beRubbed_1`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.date.enjoy[1] += random(4, 8);
+            aw.date.qual += random(4, 6);
+            aw.S();
+            return true;
+          },
+        },
+        {
+          key: "beRubbed_2",
+          label: "Be rubbed... More romantically.",
+          info: "Receive some sensual affection from him <<= aw.date.name>>...",
+          twee: `DSP-beRubbed_2`,
+          check() {
+              return true;
+          },
+          prep() {
+            aw.date.enjoy[1] += random(4, 8);
+            aw.date.qual += random(4, 6);
+            aw.S();
+            return true;
+          },
         },
       ],
       aiTags: [["actLover", "neutEthic", "neutral", "intimate"]],
@@ -1530,10 +2023,10 @@ class DateSpot {
       aiTags: [["actLover", "neutEthic", "neutral", "intimate", "sex", "violence"]],
       type: "yourhome",
       check() {
-        if (aw.date.dateType === "yourhome" && (ↂ.home.item.living.indexOf("Stocks") !== -1 || ↂ.home.item.bedroom.indexOf("Stocks") !== -1 || ↂ.home.item.bed2.indexOf("Stocks") !== -1 || ↂ.home.item.bedroom.indexOf("Stocks") !== -1)) {
-          return true;
-        } else {
+        if (aw.date.dateType !== "yourhome" || (ↂ.home.item.living.indexOf("Stocks") === -1 && ↂ.home.item.bedroom.indexOf("Stocks") === -1 && ↂ.home.item.bed2.indexOf("Stocks") === -1 && ↂ.home.item.bedroom.indexOf("Stocks") === -1)) {
           return false;
+        } else {
+          return true;
         }
       },
     },
@@ -1570,10 +2063,10 @@ class DateSpot {
       aiTags: [["actLover", "intimate", "sex", "violence"]],
       type: "yourhome",
       check() {
-        if (aw.date.dateType === "yourhome" && (ↂ.home.item.living.indexOf("Stocks") !== -1 || ↂ.home.item.bedroom.indexOf("Stocks") !== -1 || ↂ.home.item.bed2.indexOf("Stocks") !== -1 || ↂ.home.item.bedroom.indexOf("Stocks") !== -1)) {
-          return true;
-        } else {
+        if (aw.date.dateType !== "yourhome" || (ↂ.home.item.living.indexOf("Stocks") === -1 && ↂ.home.item.bedroom.indexOf("Stocks") === -1 && ↂ.home.item.bed2.indexOf("Stocks") === -1 && ↂ.home.item.bedroom.indexOf("Stocks") === -1)) {
           return false;
+        } else {
+          return true;
         }
       },
     },

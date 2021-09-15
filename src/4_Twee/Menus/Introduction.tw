@@ -39,7 +39,7 @@
             <<tooltip "Quick Start is unavailable until you have played the opening story once.">><button class="disabled">Quick Start</button><</tooltip>><br>
           <</if>>
         <</if>>
-        <<button "Template Menu">><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go NPCtemplateMenu>><</button>>
+        <<button "Template Menu">><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go npcTemplateMenu>><</button>>
         <<if $swim == "[cheats]" || $swim == "[dev]" || $swim == "[elite]" || $swim == "[backer]" || $swim == "[patron]">>
           <<button "Load Template">><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go LoadCharacterTemplateStrt>><</button>>
         <<else>>
@@ -61,7 +61,7 @@
           <<tooltip "Quick Start is not enabled for the free/public version of the game.">><button class="disabled">Quick Start</button><</tooltip>>
         <</if>>
         <br>
-        <<button "Template Menu">><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go NPCtemplateMenu>><</button>>
+        <<button "Template Menu">><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<go npcTemplateMenu>><</button>>
         <<if $swim == "[cheats]" || $swim == "[dev]" || $swim == "[elite]" || $swim == "[backer]" || $swim == "[patron]">>
           <<button "Load Template">><<set $AW.startMale = false>><<set $AW.cash = 75>><<set $AW.cash += random(0,42)>><<set ↂ.pc.main.surname = "Freeman">><<set ↂ.flag.LilyCoffee = false>><<set ↂ.ward.bottom.push("ttvw")>><<set ↂ.ward.top.push("ttvx")>><<set ↂ.ward.panties.push("ttvv")>><<status 0>><<run setup.initialize.savePrefs()>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>><<set $AW.quickStart = 2>><<go storyStart1a>><</button>>
         <<else>>
@@ -99,13 +99,13 @@
     <dt>Load Template</dt>
     <dd>Use a template file to start a new game using a saved character.</dd>
     <dt>Game Options</dt>
-    <dd>Contains important customization options for a new game such as use of Metric. <span class="import" style="font-size:0.9rem;">Some settings can't be changed after starting a game!</span></dd>
+    <dd>Contains important customization options for a new game such as use of Metric. <span  style="font-size:16px;color:#ddc;">Some settings can't be changed after starting a game!</span></dd>
     <dt>NPC Options</dt>
     <dd>Set numerous options for the NPCs that are generated in the game, to customize them to fit the scenario you'd like.</dd>
     <dt>NPC Templates</dt>
     <dd>this is a super-detailed setup to allow you to control nearly everything about NPC creation. You can share yours or try out other player's setups as well.</dd>
     <dt>Premade Characters</dt>
-    <dd>is where you can select a premade character to play with. <span class="import">[not implemented]</span></dd>
+    <dd>is where you can select a premade character to play with.</dd>
     </dl>
   </div>
   <<if $swim === "[dev]" || $swim === "[elite]">>
@@ -169,7 +169,7 @@
   </td>
   </tr><tr>
   <td>
-    @@.head4;Mutations@@ <<helpPop "Enable Mutations" "Mutations are unusual changes to your character, such as a high likelyhood of multiple pregnancy or less-effective birth control. Enabling mutations also enables certain (less drastic) mutations for NPCs at a very low rate.">><br><<checkboxA "$pref.enableMutation" 0 1>>
+    @@.head4;Mutations@@ <<helpPop "Enable Mutations" "Mutations are unusual changes to your character, such as a high likelihood of multiple pregnancy or less-effective birth control. Enabling mutations also enables certain (less drastic) mutations for NPCs at a very low rate.">><br><<checkboxA "$pref.enableMutation" 0 1>>
   </td>
   <td>
     @@.head4;Show Unavailable@@ <<helpPop "Show Unavailable Sex Acts" "This setting determines whether you will see disabled buttons for sex actions while in a sex scene. If enabled, you will see the disabled buttons, and hovering your mouse over it will give the general reason why the action is unavailable.">><br><<checkboxA "$pref.showUnavailAction" false true>>
@@ -353,7 +353,7 @@
   <br>
   @@.head4;Metric@@ <<helpPop "Metric System" "Whether to use the metric system.<br>@@.import;This can not be changed during play.@@<br><br>@@.note;The metric option changes numeric values/variables to be represented in metric instead of U.S. Imperial. Please report any descriptive measurements that are the wrong system! Units used will generally follow the thousands convention (kilo, regular, milli), except in the case of centimeters due to common usage.@@">><br><<checkboxA "$AW.metric" false true>>
   <br><br>
-  @@.head4;Mutations@@ <<helpPop "Enable Mutations" "Mutations are unusual changes to your character, such as a high likelyhood of multiple pregnancy or less-effective birth control. Enabling mutations also enables certain (less drastic) mutations for NPCs at a very low rate.">><br><<checkboxA "$pref.enableMutation" 0 1>>
+  @@.head4;Mutations@@ <<helpPop "Enable Mutations" "Mutations are unusual changes to your character, such as a high likelihood of multiple pregnancy or less-effective birth control. Enabling mutations also enables certain (less drastic) mutations for NPCs at a very low rate.">><br><<checkboxA "$pref.enableMutation" 0 1>>
 
   </div>
   <div class="megrim" style="position:fixed;top:70px;left:1125px;right:25px;text-align:center;color:goldenrod;font-weight:800;font-size:135%;">Ero-Lich News - Dev Notes</div>

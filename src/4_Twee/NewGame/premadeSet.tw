@@ -1,41 +1,679 @@
 :: premadeSet [nobr]
 
+<<silently>>
+  <<if ndef $gamestate>>
+    <<set $gamestate = {}>>
+    <<set $gamestate.playedIntro = true>>
+    <<set $gamestate.completePrologue = false>>
+    <<set $gamestate.completeGame = false>>
+    <<set $gamestate.points = 0>>
+    <<set $gamestate.characters = 0>>
+    <<set $gamestate.unlocks = []>>
+    <<set $gamestate.lastversion = $ver>>
+    <<run setup.storeState()>>
+  <<elseif $gamestate == null>>
+    <<set $gamestate = {}>>
+    <<set $gamestate.playedIntro = true>>
+    <<set $gamestate.completePrologue = false>>
+    <<set $gamestate.completeGame = false>>
+    <<set $gamestate.points = 0>>
+    <<set $gamestate.characters = 0>>
+    <<set $gamestate.unlocks = []>>
+    <<set $gamestate.lastversion = $ver>>
+    <<run setup.storeState()>>
+  <<elseif not $gamestate.playedIntro>>
+    <<set $gamestate.playedIntro = true>>
+    <<set $gamestate.lastversion = $ver>>
+    <<run setup.storeState()>>
+  <</if>>
+<</silently>>
+
 <div class="blocker dgreyPattern">
   <center>
   <div id="cunt" style="width: 50%; height: 50%;">
-    <h2>Prototype of the premade character system!</h2><br>
-    You can choose one of a series of characters with pre-defined characteristics, and skip the process of making a character for yourself. Currently, you will still need to choose a premade character's skills. In future updates this will not be necessary.<br><br>
+    <h1>Premade char choice</h1><br>
+    You can choose one of a series of characters with pre-defined characteristics, and skip the process of making a character for yourself.<br><br>
 
     <<if aw.premade === "olivia">>
       <h3>Olivia Davis</h3>
       ''The milf:'' An attractive woman of 39 years, full breasts and high fertility accompanying wide hips ideal for childbirths.<br><br>
+    <<elseif aw.premade === "amanda">>
+      <h3>Amanda Williams</h3>
+      ''The Amazon, Besty choice:'' Amanda is a tall and muscular no-nonsense woman with large breasts and a penchant for BDSM activities.<br><br>
+    <<elseif aw.premade === "mitsuko">>
+      <h3>Mitsuko Saito</h3>
+      ''The Asian milf:'' A captivatingly beautiful Asian milf, with full breasts, a curvy body and wide hips, she is the ideal figure for a wife and mother.<br><br>
+    <<elseif aw.premade === "anna">>
+      <h3>Anna Andor</h3>
+      ''Aftermath's Choice:'' An angelically beautiful young woman, blond hair, green eyes and a voluptuous body, exemplary feminine, she can be considered every man's dream to be a wife.<br><br>
+    <<elseif aw.premade === "claire">>
+      <h3>Claire Aileen O'Reilly</h3>
+      ''Irish's Choice:'' A charmingly cute young woman with blond hair, but with a different personality... She loves spending the afternoon at the bar with her favorite drinks.<br><br>
+    <<elseif aw.premade === "sidra">>
+      <h3>Sidra Sumar</h3>
+      ''Anenn's Choice:'' A young woman with a beautiful olive skin tone, ethnicity from the Middle East, she has a charm typical of women like her.<br><br>
+    <<elseif aw.premade === "hannah">>
+      <h3>Mary Miller</h3>
+      A somewhat chubby, busty young woman, with a rebellious and unpredictable personality... Also somewhat bitchy.<br><br>
+    <<elseif aw.premade === "akemi">>
+      <h3>Akemi Shimizu</h3>
+      A very shy Asian girl... Possibly nerdy, but sure of herself, especially in relation to her body.<br><br>
+    <<else>>
+      <h3>Challenge character — <<= setup.challenge.characters[ↂ.flag.challengeMode].fullname>></h3>
+      <<= setup.challenge.characters[ↂ.flag.challengeMode].desc>><br><br>
+    <</if>>
 
-      <<button "Choose This Character">>
+    <<button "Choose premade girl (male start)">>
+      <<set $premadeChar = true>>
+      <<set $AW.startMale = true>>
+      <<set setup.npc.friends = ['n101']>>
+      <<go charSetting>>
+    <</button>>
+    <<button "Choose premade girl (female start)">>
+      <<set $premadeChar = true>>
+      <<set $AW.startMale = false>>
+      <<set 
+        setup.npc.friends = ['n102'],
+        setup.npc.fixedIDs = {},
+        setup.npc.interested = ['n102']
+      >>
+      <<go charSetting>>
+    <</button>>
+    <<button "Return">><<go premade>><</button>>
+  </div>
+  </center>
+</div>
+
+
+:: charSetting [nobr hidden noui]
+
+<div class="blocker dgreyPattern">
+  <<if $AW.startMale>>
+    <<set $AW.cash = 75>>
+    <<set $AW.cash += random(0,42)>>
+    <<set ↂ.flag.LilyCoffee = false>>
+    <<set ↂ.ward.bottom.push("ttvw")>>
+    <<set ↂ.ward.top.push("ttvx")>>
+    <<set ↂ.ward.panties.push("ttvv")>>
+    <<status 0>>
+    <<run setup.initialize.savePrefs()>>
+    <<if $pref.sound.on>>
+      <<if $pref.sound.track === "utopia">>
+        <<playlist "bgm_utopia" loop volume $pref.sound.volume play>>
+      <</if>>
+    <</if>>
+  <<else>>
+    <<set ↂ.ward.bottom.push("tttt")>>
+    <<set ↂ.ward.top.push("tttv")>>
+    <<run setup.initialize.savePrefs()>>
+    <<if $pref.sound.on>>
+      <<if $pref.sound.track === "utopia">>
+        <<playlist "bgm_utopia" loop volume $pref.sound.volume play>>
+      <</if>>
+    <</if>>
+  <</if>>
+
+    <<switch aw.premade>>
+      <<case "akemi">>
+        <<set
+          ↂ.pc.body.face        = 'cute',
+          ↂ.pc.body.beauty      = 4,
+          ↂ.pc.body.eyeColor    = 'blue',
+          ↂ.pc.body.skinColor   = 'olive',
+          ↂ.pc.groom.hairColor  = 'brunette',
+          ↂ.pc.groom.hairLength = 18,
+          ↂ.pc.groom.hairCurl   = 0,
+          ↂ.pc.groom.hairStyle  = 'unkempt',
+
+          ↂ.pc.body.height           = 60,
+          ↂ.pc.body.race             = 'white',
+          ↂ.pc.body.ass              = 3,
+          ↂ.pc.body.pelvis           = 4,
+          ↂ.pc.body.hips             = 3,
+          ↂ.pc.body.waist            = 3,
+          ↂ.pc.body.shoulders        = 2,
+          ↂ.pc.body.weight           = 3,
+          ↂ.pc.body.tone             = 3,
+
+          ↂ.pc.body.tits.areola      = 4,
+          ↂ.pc.body.tits.lact.cup    = "B-cup",
+          ↂ.pc.body.tits.lact.max    = 500,
+          ↂ.pc.body.tits.lact.size   = 360,
+          ↂ.pc.body.tits.nipGirth    = 3,
+          ↂ.pc.body.tits.nipLength   = 5,
+
+          ↂ.pc.body.tits.base.size   = 740,
+
+          ↂ.pc.body.clit             = 2,
+          ↂ.pc.body.labia            = 1,
+          ↂ.pc.body.pussy.wetness    = 2,
+          ↂ.pc.fert.fertility        = 4,
+          ↂ.pc.fert.implant          = 0,
+          ↂ.pc.groom.pubeColor       = 'brunette',
+          ↂ.pc.groom.pubeStyle       = 'trimmed',
+          ↂ.pc.body.pussy.virgin     = true,
+
+          ↂ.pc.fert.egg = 120,
+          ↂ.pc.fert.vagHostile = 0,
+          ↂ.pc.fert.multEgg = 0,
+          ↂ.pc.fert.wombHealth = 0,
+
+          ↂ.pc.kink.anal = false,
+          ↂ.pc.kink.bond = true,
+          ↂ.pc.kink.buttSlut = false,
+          ↂ.pc.kink.cumSlut = false,
+          ↂ.pc.kink.dom = false,
+          ↂ.pc.kink.easy = false,
+          ↂ.pc.kink.exhibition = false,
+          ↂ.pc.kink.fap = false,
+          ↂ.pc.kink.force = false,
+          ↂ.pc.kink.hard = true,
+          ↂ.pc.kink.hyperSlut = false,
+          ↂ.pc.kink.liberate = false,
+          ↂ.pc.kink.masochist = false,
+          ↂ.pc.kink.nips = false,
+          ↂ.pc.kink.oral = false,
+          ↂ.pc.kink.pregnancy = false,
+          ↂ.pc.kink.public = false,
+          ↂ.pc.kink.rape = true,
+          ↂ.pc.kink.risky = false,
+          ↂ.pc.kink.shame = true,
+          ↂ.pc.kink.sizequeen = false,
+          ↂ.pc.kink.slut = false,
+          ↂ.pc.kink.sub = true,
+          ↂ.pc.kink.superSlut = false,
+          ↂ.pc.kink.water = false,
+
+          ↂ.pc.main.age           = 20,
+          ↂ.pc.main.ageID         = 20,
+          ↂ.pc.main.ageOriginal   = 20,
+          ↂ.pc.main.female        = true,
+          ↂ.pc.main.male          = false,
+          ↂ.pc.main.name          = 'Akemi',
+          ↂ.pc.main.surname       = 'Shimizu',
+          ↂ.pc.persona.lookingFor = 'safety',
+          ↂ.pc.persona.mentionFertile = true,
+          ↂ.pc.persona.slutty = false,
+          ↂ.pc.persona.sweet = true,
+
+          ↂ.pc.trait.maternal = 1,
+          ↂ.pc.trait.caring   = 1,
+          ↂ.pc.trait.bitch    = 0,
+          ↂ.pc.trait.romantic = 1,
+          ↂ.pc.trait.deceptive = 0,
+          ↂ.pc.trait.devious   = 0,
+          ↂ.pc.trait.persuasive = -1,
+          ↂ.pc.trait.perceptive = 1,
+          ↂ.pc.trait.forgetful = -1,
+          ↂ.pc.trait.lowEsteem = 1,
+          ↂ.pc.trait.forgiving = 0,
+          ↂ.pc.trait.picky = 1,
+          ↂ.pc.trait.crude = -1,
+          ↂ.pc.trait.friendly = 1,
+          ↂ.pc.trait.approachable = 1,
+          ↂ.pc.trait.relaxed = 0,
+          ↂ.pc.trait.materialist = -1,
+          ↂ.pc.trait.flirty = -1,
+
+          ↂ.pc.trait.libido = 3,
+          ↂ.pc.trait.will = 3,
+          ↂ.pc.trait.vert = 'neither',
+
+          ↂ.pc.mutate.acid = false,
+          ↂ.pc.mutate.acidPre = false,
+          ↂ.pc.mutate.birthCon = false,
+          ↂ.pc.mutate.bitchBreaker = false,
+          ↂ.pc.mutate.contort = false,
+          ↂ.pc.mutate.cumpire = false,
+          ↂ.pc.mutate.fertStorm = true,
+          ↂ.pc.mutate.gestate = false,
+          ↂ.pc.mutate.girth = false,
+          ↂ.pc.mutate.goddess = true,
+          ↂ.pc.mutate.immune = false,
+          ↂ.pc.mutate.iron = false,
+          ↂ.pc.mutate.killerSperm = false,
+          ↂ.pc.mutate.lilithCurse = false,
+          ↂ.pc.mutate.litePhero = false,
+          ↂ.pc.mutate.megaLong = false,
+          ↂ.pc.mutate.megaNuts = false,
+          ↂ.pc.mutate.milk = false,
+          ↂ.pc.mutate.mouth = false,
+          ↂ.pc.mutate.multgasm = false,
+          ↂ.pc.mutate.multiple = false,
+          ↂ.pc.mutate.pseudoPreg = false,
+          ↂ.pc.mutate.twinWomb = false
+        >>
+
+        <<set ↂ.pref.height = [-2, -1, 1, 2, -1]>>
+        <<set ↂ.pref.muscle = [-2, -1, 1, 2, 1, -2]>>
+        <<set ↂ.pref.weight = [-2, -1, 2, -1, -2, -2]>>
+        <<set ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]>>
+
+        <<script>>
+          // Player breasts calc
+          const titsArray = setup.editorCalc(
+            ↂ.pc.body.tits.base.size, ↂ.pc.body.shoulders, ↂ.pc.body.weight
+          );
+          ↂ.pc.body.tits.band = titsArray[0];
+
+          ↂ.pc.body.tits.cupNum = titsArray[1];
+          ↂ.pc.body.tits.base.cupNum = titsArray[1];
+
+          ↂ.pc.body.tits.base.cupRaw = titsArray[2];
+
+          ↂ.pc.body.tits.cup = titsArray[3];
+          ↂ.pc.body.tits.base.cup = titsArray[3];
+
+          ↂ.pc.body.tits.bra = titsArray[4];
+          ↂ.pc.body.tits.base.bra = titsArray[4];
+        <</script>>
+
+        <<script>>
+          let femFertileCalc = Math.round(
+            (
+              Math.round( ↂ.pc.fert.egg / 2 ) + ↂ.pc.fert.implant +
+              Math.round( ↂ.pc.fert.vagHostile / 2 ) +
+              Math.round( ↂ.pc.fert.multEgg / 2 ) -
+              ↂ.pc.fert.wombHealth
+            ) / 5,
+          ) - 3;
+
+          if (femFertileCalc === 1) {
+            femFertileCalc = 2;
+          } else if (femFertileCalc < 1 && femFertileCalc > -2) {
+            femFertileCalc = 1;
+          } else if (femFertileCalc < -1) {
+            femFertileCalc = 0;
+          } else if (femFertileCalc > 8) {
+            femFertileCalc = 8;
+          }
+
+          ↂ.pc.fert.fertility = femFertileCalc;
+        <</script>>
+
+        <<set
+          ↂ.skill.art = 50,
+          ↂ.skill.curArt = 50,
+
+          ↂ.skill.athletic = 0,
+          ↂ.skill.curAthletic = 0,
+
+          ↂ.skill.clean = 30,
+          ↂ.skill.curClean = 30,
+
+          ↂ.skill.comm = 0,
+          ↂ.skill.curComm = 0,
+
+          ↂ.skill.cook = 30,
+          ↂ.skill.curCook = 30,
+
+          ↂ.skill.crime = 0,
+
+          ↂ.skill.curDancing = 0,
+
+          ↂ.skill.curExhibition = 0,
+
+          ↂ.skill.firearms = 0,
+          ↂ.skill.curFirearms = 0,
+
+          ↂ.skill.oral = 0,
+          ↂ.skill.curOral = 0,
+
+          ↂ.skill.org = 50,
+          ↂ.skill.curOrg = 50,
+
+          ↂ.skill.probSolving = 80,
+          ↂ.skill.curProbSolving = 80,
+
+          ↂ.skill.prost = 0,
+
+          ↂ.skill.prostitute = 0,
+          ↂ.skill.curProstitute = 0,
+
+          ↂ.skill.prostitution = 0,
+
+          ↂ.skill.sed = 0,
+          ↂ.skill.curSeduction = 0,
+
+          ↂ.skill.sex = 0,
+          ↂ.skill.curSex = 0,
+
+          ↂ.skill.shop = 30,
+          ↂ.skill.curShop = 30,
+
+          ↂ.skill.dance = 0,
+          ↂ.skill.dancing = 0,
+
+          ↂ.skill.exhib = 0,
+          ↂ.skill.exhibit = 0,
+          ↂ.skill.exhibition = 0,
+
+          ↂ.skill.curFinance = 65,
+          ↂ.skill.finance = 65,
+
+          ↂ.skill.heels = 0,
+
+          ↂ.skill.kegel = 0,
+
+          ↂ.skill.manage = 65,
+
+          ↂ.skill.martial = 15,
+          ↂ.skill.curMartial = 15,
+
+          ↂ.skill.perform = 0,
+          
+          ↂ.skill.probSolve = 0,
+
+          ↂ.skill.seduction = 0,
+
+          ↂ.skill.strip = 0,
+
+          ↂ.skill.whore = 0
+        >>
+
+        <<set ↂ.pc.groom.pubeGrow = 5>>
+
+        <<set ↂ.pc.main.background = 'unemployed'>>
+
+        <<set ↂ.pc.main.bd1 = 21>>
+        <<set ↂ.pc.main.bd2 = 4>>
+
+        <<setPCportrait>>
+      <<case "hannah">>
+        <<set
+          ↂ.pc.body.face        = 'sensual',
+          ↂ.pc.body.beauty      = 4,
+          ↂ.pc.body.eyeColor    = 'blue',
+          ↂ.pc.body.skinColor   = 'fair',
+          ↂ.pc.groom.hairColor  = 'ginger',
+          ↂ.pc.groom.hairLength = 20,
+          ↂ.pc.groom.hairCurl   = 0,
+          ↂ.pc.groom.hairStyle  = 'unkempt',
+
+          ↂ.pc.body.height           = 63,
+          ↂ.pc.body.race             = 'white',
+          ↂ.pc.body.ass              = 4,
+          ↂ.pc.body.pelvis           = 5,
+          ↂ.pc.body.hips             = 4,
+          ↂ.pc.body.waist            = 4,
+          ↂ.pc.body.shoulders        = 2,
+          ↂ.pc.body.weight           = 5,
+          ↂ.pc.body.tone             = 3,
+
+          ↂ.pc.body.tits.areola      = 4,
+          ↂ.pc.body.tits.lact.cup    = "D-cup",
+          ↂ.pc.body.tits.lact.max    = 900,
+          ↂ.pc.body.tits.lact.size   = 660,
+          ↂ.pc.body.tits.nipGirth    = 3,
+          ↂ.pc.body.tits.nipLength   = 5,
+
+          ↂ.pc.body.tits.base.size   = 740,
+
+          ↂ.pc.body.clit             = 2,
+          ↂ.pc.body.labia            = 1,
+          ↂ.pc.body.pussy.wetness    = 2,
+          ↂ.pc.fert.fertility        = 4,
+          ↂ.pc.fert.implant          = 0,
+          ↂ.pc.groom.pubeColor       = 'ginger',
+          ↂ.pc.groom.pubeStyle       = 'trimmed',
+          ↂ.pc.body.pussy.virgin     = true,
+
+          ↂ.pc.fert.egg = 180,
+          ↂ.pc.fert.vagHostile = 0,
+          ↂ.pc.fert.multEgg = 0,
+          ↂ.pc.fert.wombHealth = 0,
+
+          ↂ.pc.kink.anal = false,
+          ↂ.pc.kink.bond = true,
+          ↂ.pc.kink.buttSlut = false,
+          ↂ.pc.kink.cumSlut = false,
+          ↂ.pc.kink.dom = true,
+          ↂ.pc.kink.easy = false,
+          ↂ.pc.kink.exhibition = false,
+          ↂ.pc.kink.fap = false,
+          ↂ.pc.kink.force = true,
+          ↂ.pc.kink.hard = true,
+          ↂ.pc.kink.hyperSlut = false,
+          ↂ.pc.kink.liberate = true,
+          ↂ.pc.kink.masochist = true,
+          ↂ.pc.kink.nips = false,
+          ↂ.pc.kink.oral = false,
+          ↂ.pc.kink.pregnancy = true,
+          ↂ.pc.kink.public = false,
+          ↂ.pc.kink.rape = true,
+          ↂ.pc.kink.risky = false,
+          ↂ.pc.kink.shame = false,
+          ↂ.pc.kink.sizequeen = false,
+          ↂ.pc.kink.slut = true,
+          ↂ.pc.kink.sub = false,
+          ↂ.pc.kink.superSlut = false,
+          ↂ.pc.kink.water = false,
+
+          ↂ.pc.main.age           = 25,
+          ↂ.pc.main.ageID         = 25,
+          ↂ.pc.main.ageOriginal   = 25,
+          ↂ.pc.main.female        = true,
+          ↂ.pc.main.male          = false,
+          ↂ.pc.main.name          = 'Hannah',
+          ↂ.pc.main.surname       = 'Miller',
+          ↂ.pc.persona.lookingFor = 'dominance',
+          ↂ.pc.persona.mentionFertile = false,
+          ↂ.pc.persona.slutty = false,
+          ↂ.pc.persona.sweet = true,
+
+          ↂ.pc.trait.maternal = 0,
+          ↂ.pc.trait.caring   = 0,
+          ↂ.pc.trait.bitch    = 1,
+          ↂ.pc.trait.romantic = 0,
+          ↂ.pc.trait.deceptive = 1,
+          ↂ.pc.trait.devious   = 1,
+          ↂ.pc.trait.persuasive = 1,
+          ↂ.pc.trait.perceptive = 0,
+          ↂ.pc.trait.forgetful = 0,
+          ↂ.pc.trait.lowEsteem = -1,
+          ↂ.pc.trait.forgiving = -1,
+          ↂ.pc.trait.picky = 1,
+          ↂ.pc.trait.crude = -1,
+          ↂ.pc.trait.friendly = 0,
+          ↂ.pc.trait.approachable = 0,
+          ↂ.pc.trait.relaxed = 1,
+          ↂ.pc.trait.materialist = 0,
+          ↂ.pc.trait.flirty = 0,
+
+          ↂ.pc.trait.libido = 4,
+          ↂ.pc.trait.will = 5,
+          ↂ.pc.trait.vert = 'neither',
+
+          ↂ.pc.mutate.acid = false,
+          ↂ.pc.mutate.acidPre = false,
+          ↂ.pc.mutate.birthCon = false,
+          ↂ.pc.mutate.bitchBreaker = false,
+          ↂ.pc.mutate.contort = false,
+          ↂ.pc.mutate.cumpire = false,
+          ↂ.pc.mutate.fertStorm = true,
+          ↂ.pc.mutate.gestate = false,
+          ↂ.pc.mutate.girth = false,
+          ↂ.pc.mutate.goddess = false,
+          ↂ.pc.mutate.immune = false,
+          ↂ.pc.mutate.iron = false,
+          ↂ.pc.mutate.killerSperm = false,
+          ↂ.pc.mutate.lilithCurse = false,
+          ↂ.pc.mutate.litePhero = false,
+          ↂ.pc.mutate.megaLong = false,
+          ↂ.pc.mutate.megaNuts = false,
+          ↂ.pc.mutate.milk = false,
+          ↂ.pc.mutate.mouth = false,
+          ↂ.pc.mutate.multgasm = false,
+          ↂ.pc.mutate.multiple = false,
+          ↂ.pc.mutate.pseudoPreg = false,
+          ↂ.pc.mutate.twinWomb = false
+        >>
+
+        <<set ↂ.pref.height = [-2, -1, 1, 2, -1]>>
+        <<set ↂ.pref.muscle = [-2, -1, 1, 2, 1, -2]>>
+        <<set ↂ.pref.weight = [-2, -1, 2, -1, -2, -2]>>
+        <<set ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]>>
+
+        <<script>>
+          // Player breasts calc
+          const titsArray = setup.editorCalc(
+            ↂ.pc.body.tits.base.size, ↂ.pc.body.shoulders, ↂ.pc.body.weight
+          );
+          ↂ.pc.body.tits.band = titsArray[0];
+
+          ↂ.pc.body.tits.cupNum = titsArray[1];
+          ↂ.pc.body.tits.base.cupNum = titsArray[1];
+
+          ↂ.pc.body.tits.base.cupRaw = titsArray[2];
+
+          ↂ.pc.body.tits.cup = titsArray[3];
+          ↂ.pc.body.tits.base.cup = titsArray[3];
+
+          ↂ.pc.body.tits.bra = titsArray[4];
+          ↂ.pc.body.tits.base.bra = titsArray[4];
+        <</script>>
+
+        <<script>>
+          let femFertileCalc = Math.round(
+            (
+              Math.round( ↂ.pc.fert.egg / 2 ) + ↂ.pc.fert.implant +
+              Math.round( ↂ.pc.fert.vagHostile / 2 ) +
+              Math.round( ↂ.pc.fert.multEgg / 2 ) -
+              ↂ.pc.fert.wombHealth
+            ) / 5,
+          ) - 3;
+
+          if (femFertileCalc === 1) {
+            femFertileCalc = 2;
+          } else if (femFertileCalc < 1 && femFertileCalc > -2) {
+            femFertileCalc = 1;
+          } else if (femFertileCalc < -1) {
+            femFertileCalc = 0;
+          } else if (femFertileCalc > 8) {
+            femFertileCalc = 8;
+          }
+
+          ↂ.pc.fert.fertility = femFertileCalc;
+        <</script>>
+
+        <<set
+          ↂ.skill.art = 0,
+          ↂ.skill.curArt = 0,
+
+          ↂ.skill.athletic = 30,
+          ↂ.skill.curAthletic = 30,
+
+          ↂ.skill.clean = 0,
+          ↂ.skill.curClean = 0,
+
+          ↂ.skill.comm = 0,
+          ↂ.skill.curComm = 0,
+
+          ↂ.skill.cook = 0,
+          ↂ.skill.curCook = 0,
+
+          ↂ.skill.crime = 50,
+
+          ↂ.skill.curDancing = 0,
+
+          ↂ.skill.curExhibition = 0,
+
+          ↂ.skill.firearms = 20,
+          ↂ.skill.curFirearms = 20,
+
+          ↂ.skill.oral = 30,
+          ↂ.skill.curOral = 30,
+
+          ↂ.skill.org = 10,
+          ↂ.skill.curOrg = 10,
+
+          ↂ.skill.probSolving = 20,
+          ↂ.skill.curProbSolving = 20,
+
+          ↂ.skill.prost = 0,
+
+          ↂ.skill.prostitute = 0,
+          ↂ.skill.curProstitute = 0,
+
+          ↂ.skill.prostitution = 0,
+
+          ↂ.skill.sed = 50,
+          ↂ.skill.curSeduction = 50,
+
+          ↂ.skill.sex = 0,
+          ↂ.skill.curSex = 0,
+
+          ↂ.skill.shop = 0,
+          ↂ.skill.curShop = 0,
+
+          ↂ.skill.dance = 35,
+          ↂ.skill.dancing = 35,
+
+          ↂ.skill.exhib = 20,
+          ↂ.skill.exhibit = 20,
+          ↂ.skill.exhibition = 20,
+
+          ↂ.skill.curFinance = 0,
+          ↂ.skill.finance = 0,
+
+          ↂ.skill.heels = 30,
+
+          ↂ.skill.kegel = 0,
+
+          ↂ.skill.manage = 0,
+
+          ↂ.skill.martial = 30,
+          ↂ.skill.curMartial = 30,
+
+          ↂ.skill.perform = 30,
+          
+          ↂ.skill.probSolve = 0,
+
+          ↂ.skill.seduction = 30,
+
+          ↂ.skill.strip = 15,
+
+          ↂ.skill.whore = 0
+        >>
+
+        <<set ↂ.pc.groom.pubeGrow = 5>>
+
+        <<set ↂ.pc.main.background = 'unemployed'>>
+
+        <<set ↂ.pc.main.bd1 = 21>>
+        <<set ↂ.pc.main.bd2 = 4>>
+
+        <<setPCportrait>>
+      <<case "olivia">>
         <<set
           ↂ.pc.body.face        = 'normal',
           ↂ.pc.body.beauty      = 3,
           ↂ.pc.body.eyeColor    = 'brown',
           ↂ.pc.body.skinColor   = 'tanned',
           ↂ.pc.groom.hairColor  = 'dark brown',
-          ↂ.pc.groom.hairLength = 16,
-          ↂ.pc.groom.hairCur    = 3,
+          ↂ.pc.groom.hairLength = 30,
+          ↂ.pc.groom.hairCurl   = 2,
           ↂ.pc.groom.hairStyle  = 'unkempt',
 
           ↂ.pc.body.height           = 65,
           ↂ.pc.body.race             = 'white',
-          ↂ.pc.body.ass              = 5,
+          ↂ.pc.body.ass              = 4,
           ↂ.pc.body.pelvis           = 5,
-          ↂ.pc.body.hips             = 5,
+          ↂ.pc.body.hips             = 4,
           ↂ.pc.body.waist            = 4,
-          ↂ.pc.body.shoulder         = 2,
+          ↂ.pc.body.shoulders        = 2,
           ↂ.pc.body.weight           = 4,
           ↂ.pc.body.tone             = 3,
+
           ↂ.pc.body.tits.areola      = 4,
           ↂ.pc.body.tits.lact.cup    = "D-cup",
           ↂ.pc.body.tits.lact.max    = 800,
           ↂ.pc.body.tits.lact.size   = 660,
           ↂ.pc.body.tits.nipGirth    = 3,
           ↂ.pc.body.tits.nipLength   = 5,
+
+          ↂ.pc.body.tits.base.size   = 740,
+
           ↂ.pc.body.clit             = 2,
           ↂ.pc.body.labia            = 2,
           ↂ.pc.body.pussy.wetness    = 2,
@@ -44,6 +682,11 @@
           ↂ.pc.groom.pubeColor       = 'brunette',
           ↂ.pc.groom.pubeStyle       = 'bushy',
           ↂ.pc.body.pussy.virgin     = false,
+
+          ↂ.pc.fert.egg = 200,
+          ↂ.pc.fert.vagHostile = 0,
+          ↂ.pc.fert.multEgg = 0,
+          ↂ.pc.fert.wombHealth = 0,
 
           ↂ.pc.kink.anal = false,
           ↂ.pc.kink.bond = false,
@@ -74,11 +717,1341 @@
           ↂ.pc.main.age           = 39,
           ↂ.pc.main.ageID         = 39,
           ↂ.pc.main.ageOriginal   = 39,
-          ↂ.pc.main.background    = "Olivia is a 39-year-old woman. She works as a professor of paleontology. Throughout her life, she has had no luck with romantic relationships. She had some bad experiences with men her age. This led to her acquiring a fetish of being forcibly mated by a man younger than her. A little submissive, she will only give herself to a man who will treat her well and wants to breed her several times before she reaches the end of her childbearing age.",
           ↂ.pc.main.female        = true,
           ↂ.pc.main.male          = false,
           ↂ.pc.main.name          = 'Olivia',
           ↂ.pc.main.surname       = 'Davis',
+          ↂ.pc.persona.lookingFor = 'submission',
+          ↂ.pc.persona.mentionFertile = true,
+          ↂ.pc.persona.slutty = false,
+          ↂ.pc.persona.sweet = true,
+
+          ↂ.pc.trait.maternal = 1,
+          ↂ.pc.trait.caring   = 1,
+          ↂ.pc.trait.bitch    = -1,
+          ↂ.pc.trait.romantic = 1,
+          ↂ.pc.trait.deceptive = 0,
+          ↂ.pc.trait.devious   = 0,
+          ↂ.pc.trait.persuasive = 0,
+          ↂ.pc.trait.perceptive = 1,
+          ↂ.pc.trait.forgetful = 0,
+          ↂ.pc.trait.lowEsteem = 0,
+          ↂ.pc.trait.forgiving = 0,
+          ↂ.pc.trait.picky = 1,
+          ↂ.pc.trait.crude = -1,
+          ↂ.pc.trait.friendly = 0,
+          ↂ.pc.trait.approachable = 0,
+          ↂ.pc.trait.relaxed = 0,
+          ↂ.pc.trait.materialist = 0,
+          ↂ.pc.trait.flirty = 0,
+
+          ↂ.pc.trait.libido = 3,
+          ↂ.pc.trait.will = 5,
+          ↂ.pc.trait.vert = 'neither',
+
+          ↂ.pc.mutate.acid = false,
+          ↂ.pc.mutate.acidPre = false,
+          ↂ.pc.mutate.birthCon = false,
+          ↂ.pc.mutate.bitchBreaker = false,
+          ↂ.pc.mutate.contort = false,
+          ↂ.pc.mutate.cumpire = false,
+          ↂ.pc.mutate.fertStorm = false,
+          ↂ.pc.mutate.gestate = false,
+          ↂ.pc.mutate.girth = false,
+          ↂ.pc.mutate.goddess = false,
+          ↂ.pc.mutate.immune = false,
+          ↂ.pc.mutate.iron = false,
+          ↂ.pc.mutate.killerSperm = false,
+          ↂ.pc.mutate.lilithCurse = false,
+          ↂ.pc.mutate.litePhero = false,
+          ↂ.pc.mutate.megaLong = false,
+          ↂ.pc.mutate.megaNuts = false,
+          ↂ.pc.mutate.milk = false,
+          ↂ.pc.mutate.mouth = false,
+          ↂ.pc.mutate.multgasm = false,
+          ↂ.pc.mutate.multiple = false,
+          ↂ.pc.mutate.pseudoPreg = false,
+          ↂ.pc.mutate.twinWomb = false
+        >>
+
+        <<set ↂ.pref.height = [-2, -1, 1, 2, -1]>>
+        <<set ↂ.pref.muscle = [-2, -1, 1, 2, 1, -2]>>
+        <<set ↂ.pref.weight = [-2, -1, 2, -1, -2, -2]>>
+        <<set ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]>>
+
+        <<script>>
+          // Player breasts calc
+          const titsArray = setup.editorCalc(
+            ↂ.pc.body.tits.base.size, ↂ.pc.body.shoulders, ↂ.pc.body.weight
+          );
+          ↂ.pc.body.tits.band = titsArray[0];
+
+          ↂ.pc.body.tits.cupNum = titsArray[1];
+          ↂ.pc.body.tits.base.cupNum = titsArray[1];
+
+          ↂ.pc.body.tits.base.cupRaw = titsArray[2];
+
+          ↂ.pc.body.tits.cup = titsArray[3];
+          ↂ.pc.body.tits.base.cup = titsArray[3];
+
+          ↂ.pc.body.tits.bra = titsArray[4];
+          ↂ.pc.body.tits.base.bra = titsArray[4];
+        <</script>>
+
+        <<script>>
+          let femFertileCalc = Math.round(
+            (
+              Math.round( ↂ.pc.fert.egg / 2 ) + ↂ.pc.fert.implant +
+              Math.round( ↂ.pc.fert.vagHostile / 2 ) +
+              Math.round( ↂ.pc.fert.multEgg / 2 ) -
+              ↂ.pc.fert.wombHealth
+            ) / 5,
+          ) - 3;
+
+          if (femFertileCalc === 1) {
+            femFertileCalc = 2;
+          } else if (femFertileCalc < 1 && femFertileCalc > -2) {
+            femFertileCalc = 1;
+          } else if (femFertileCalc < -1) {
+            femFertileCalc = 0;
+          } else if (femFertileCalc > 8) {
+            femFertileCalc = 8;
+          }
+
+          ↂ.pc.fert.fertility = femFertileCalc;
+        <</script>>
+
+        <<set
+          ↂ.skill.art = 55,
+          ↂ.skill.curArt = 55,
+
+          ↂ.skill.athletic = 10,
+          ↂ.skill.curAthletic = 10,
+
+          ↂ.skill.clean = 80,
+          ↂ.skill.curClean = 80,
+
+          ↂ.skill.comm = 0,
+          ↂ.skill.curComm = 0,
+
+          ↂ.skill.cook = 80,
+          ↂ.skill.curCook = 80,
+
+          ↂ.skill.crime = 0,
+
+          ↂ.skill.curDancing = 20,
+
+          ↂ.skill.curExhibition = 0,
+
+          ↂ.skill.firearms = 0,
+          ↂ.skill.curFirearms = 0,
+
+          ↂ.skill.oral = 15,
+          ↂ.skill.curOral = 15,
+
+          ↂ.skill.org = 0,
+          ↂ.skill.curOrg = 0,
+
+          ↂ.skill.probSolving = 70,
+          ↂ.skill.curProbSolving = 70,
+
+          ↂ.skill.prost = 0,
+
+          ↂ.skill.prostitute = 0,
+          ↂ.skill.curProstitute = 0,
+
+          ↂ.skill.prostitution = 0,
+
+          ↂ.skill.sed = 50,
+          ↂ.skill.curSeduction = 50,
+
+          ↂ.skill.sex = 20,
+          ↂ.skill.curSex = 20,
+
+          ↂ.skill.shop = 0,
+          ↂ.skill.curShop = 0,
+
+          ↂ.skill.dance = 35,
+          ↂ.skill.dancing = 35,
+
+          ↂ.skill.exhib = 0,
+          ↂ.skill.exhibit = 0,
+          ↂ.skill.exhibition = 0,
+
+          ↂ.skill.curFinance = 60,
+          ↂ.skill.finance = 60,
+
+          ↂ.skill.heels = 10,
+
+          ↂ.skill.kegel = 0,
+
+          ↂ.skill.manage = 40,
+
+          ↂ.skill.martial = 0,
+          ↂ.skill.curMartial = 0,
+
+          ↂ.skill.perform = 30,
+          
+          ↂ.skill.probSolve = 60,
+
+          ↂ.skill.seduction = 10,
+
+          ↂ.skill.strip = 0,
+
+          ↂ.skill.whore = 0
+        >>
+
+        <<set ↂ.pc.groom.pubeGrow = 5>>
+
+        <<set ↂ.pc.main.background = 'university professor'>>
+
+        <<set ↂ.pc.main.bd1 = 21>>
+        <<set ↂ.pc.main.bd2 = 4>>
+
+        <<setPCportrait>>
+      <<case "amanda">>
+        <<set
+          ↂ.pc.body.face        = 'sensual',
+          ↂ.pc.body.beauty      = 2,
+          ↂ.pc.body.eyeColor    = 'green',
+          ↂ.pc.body.skinColor   = 'pale',
+          ↂ.pc.groom.hairColor  = 'strawberry blonde',
+          ↂ.pc.groom.hairLength = 16,
+          ↂ.pc.groom.hairCurl   = 1,
+          ↂ.pc.groom.hairStyle  = 'unkempt',
+
+          ↂ.pc.body.height           = 71,
+          ↂ.pc.body.race             = 'Gaelic',
+          ↂ.pc.body.ass              = 4,
+          ↂ.pc.body.pelvis           = 4,
+          ↂ.pc.body.hips             = 4,
+          ↂ.pc.body.waist            = 4,
+          ↂ.pc.body.shoulders        = 3,
+          ↂ.pc.body.weight           = 3,
+          ↂ.pc.body.tone             = 4,
+
+          ↂ.pc.body.tits.areola      = 4,
+          ↂ.pc.body.tits.lact.cup    = "F-cup",
+          ↂ.pc.body.tits.lact.max    = 900,
+          ↂ.pc.body.tits.lact.size   = 760,
+          ↂ.pc.body.tits.puffy       = 3,
+          ↂ.pc.body.tits.nipGirth    = 3,
+          ↂ.pc.body.tits.nipLength   = 2,
+
+          ↂ.pc.body.tits.base.size   = 940,
+
+          ↂ.pc.body.clit             = 2,
+          ↂ.pc.body.labia            = 2,
+          ↂ.pc.body.pussy.wetness    = 3,
+          ↂ.pc.fert.fertility        = 2,
+          ↂ.pc.fert.implant          = 0,
+          ↂ.pc.groom.pubeColor       = 'strawberry blonde',
+          ↂ.pc.groom.pubeStyle       = 'bushy',
+          ↂ.pc.body.pussy.virgin     = true,
+
+          ↂ.pc.fert.egg = 140,
+          ↂ.pc.fert.vagHostile = 0,
+          ↂ.pc.fert.multEgg = 0,
+          ↂ.pc.fert.wombHealth = 0,
+
+          ↂ.pc.kink.anal = true,
+          ↂ.pc.kink.bond = true,
+          ↂ.pc.kink.buttSlut = false,
+          ↂ.pc.kink.cumSlut = false,
+          ↂ.pc.kink.dom = true,
+          ↂ.pc.kink.easy = false,
+          ↂ.pc.kink.exhibition = true,
+          ↂ.pc.kink.fap = false,
+          ↂ.pc.kink.force = false,
+          ↂ.pc.kink.hard = true,
+          ↂ.pc.kink.hyperSlut = false,
+          ↂ.pc.kink.liberate = true,
+          ↂ.pc.kink.masochist = true,
+          ↂ.pc.kink.nips = false,
+          ↂ.pc.kink.oral = true,
+          ↂ.pc.kink.pregnancy = false,
+          ↂ.pc.kink.public = false,
+          ↂ.pc.kink.rape = false,
+          ↂ.pc.kink.risky = false,
+          ↂ.pc.kink.shame = false,
+          ↂ.pc.kink.sizequeen = false,
+          ↂ.pc.kink.slut = false,
+          ↂ.pc.kink.sub = true,
+          ↂ.pc.kink.superSlut = false,
+          ↂ.pc.kink.water = false,
+
+          ↂ.pc.main.age           = 25,
+          ↂ.pc.main.ageID         = 25,
+          ↂ.pc.main.ageOriginal   = 25,
+          ↂ.pc.main.female        = true,
+          ↂ.pc.main.male          = false,
+          ↂ.pc.main.name          = 'Amanda',
+          ↂ.pc.main.surname       = 'Williams',
+          ↂ.pc.persona.lookingFor = 'pain and pleasure',
+          ↂ.pc.persona.mentionFertile = false,
+          ↂ.pc.persona.slutty = false,
+          ↂ.pc.persona.sweet = false,
+
+          ↂ.pc.trait.maternal = -1,
+          ↂ.pc.trait.caring   = -1,
+          ↂ.pc.trait.bitch    = 0,
+          ↂ.pc.trait.romantic = -1,
+          ↂ.pc.trait.deceptive = 0,
+          ↂ.pc.trait.devious   = 1,
+          ↂ.pc.trait.persuasive = 1,
+          ↂ.pc.trait.perceptive = 1,
+          ↂ.pc.trait.forgetful = 0,
+          ↂ.pc.trait.lowEsteem = 0,
+          ↂ.pc.trait.forgiving = 1,
+          ↂ.pc.trait.picky = -1,
+          ↂ.pc.trait.crude = 0,
+          ↂ.pc.trait.friendly = 1,
+          ↂ.pc.trait.approachable = 1,
+          ↂ.pc.trait.relaxed = -1,
+          ↂ.pc.trait.materialist = 1,
+          ↂ.pc.trait.flirty = -1,
+
+          ↂ.pc.trait.libido = 4,
+          ↂ.pc.trait.will = 5,
+          ↂ.pc.trait.vert = 'neither',
+
+          ↂ.pc.mutate.acid = false,
+          ↂ.pc.mutate.acidPre = false,
+          ↂ.pc.mutate.birthCon = false,
+          ↂ.pc.mutate.bitchBreaker = false,
+          ↂ.pc.mutate.contort = false,
+          ↂ.pc.mutate.cumpire = false,
+          ↂ.pc.mutate.fertStorm = false,
+          ↂ.pc.mutate.gestate = false,
+          ↂ.pc.mutate.girth = false,
+          ↂ.pc.mutate.goddess = false,
+          ↂ.pc.mutate.immune = false,
+          ↂ.pc.mutate.iron = false,
+          ↂ.pc.mutate.killerSperm = false,
+          ↂ.pc.mutate.lilithCurse = false,
+          ↂ.pc.mutate.litePhero = false,
+          ↂ.pc.mutate.megaLong = false,
+          ↂ.pc.mutate.megaNuts = false,
+          ↂ.pc.mutate.milk = true,
+          ↂ.pc.mutate.mouth = false,
+          ↂ.pc.mutate.multgasm = false,
+          ↂ.pc.mutate.multiple = false,
+          ↂ.pc.mutate.pseudoPreg = false,
+          ↂ.pc.mutate.twinWomb = false
+        >>
+
+        <<set ↂ.pref.height = [-2, -1, 1, 2, -1]>>
+        <<set ↂ.pref.muscle = [-2, -1, 1, 2, 1, -2]>>
+        <<set ↂ.pref.weight = [-2, -1, 2, -1, -2, -2]>>
+        <<set ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]>>
+
+        <<script>>
+          // Player breasts calc
+          const titsArray = setup.editorCalc(
+            ↂ.pc.body.tits.base.size, ↂ.pc.body.shoulders, ↂ.pc.body.weight
+          );
+          ↂ.pc.body.tits.band = titsArray[0];
+
+          ↂ.pc.body.tits.cupNum = titsArray[1];
+          ↂ.pc.body.tits.base.cupNum = titsArray[1];
+
+          ↂ.pc.body.tits.base.cupRaw = titsArray[2];
+
+          ↂ.pc.body.tits.cup = titsArray[3];
+          ↂ.pc.body.tits.base.cup = titsArray[3];
+
+          ↂ.pc.body.tits.bra = titsArray[4];
+          ↂ.pc.body.tits.base.bra = titsArray[4];
+        <</script>>
+
+        <<script>>
+          let femFertileCalc = Math.round(
+            (
+              Math.round( ↂ.pc.fert.egg / 2 ) + ↂ.pc.fert.implant +
+              Math.round( ↂ.pc.fert.vagHostile / 2 ) +
+              Math.round( ↂ.pc.fert.multEgg / 2 ) -
+              ↂ.pc.fert.wombHealth
+            ) / 5,
+          ) - 3;
+
+          if (femFertileCalc === 1) {
+            femFertileCalc = 2;
+          } else if (femFertileCalc < 1 && femFertileCalc > -2) {
+            femFertileCalc = 1;
+          } else if (femFertileCalc < -1) {
+            femFertileCalc = 0;
+          } else if (femFertileCalc > 8) {
+            femFertileCalc = 8;
+          }
+
+          ↂ.pc.fert.fertility = femFertileCalc;
+        <</script>>
+
+        <<set
+          ↂ.skill.art = 0,
+          ↂ.skill.curArt = 0,
+
+          ↂ.skill.athletic = 75,
+          ↂ.skill.curAthletic = 75,
+
+          ↂ.skill.clean = 20,
+          ↂ.skill.curClean = 20,
+
+          ↂ.skill.comm = 0,
+          ↂ.skill.curComm = 0,
+
+          ↂ.skill.cook = 20,
+          ↂ.skill.curCook = 20,
+
+          ↂ.skill.crime = 30,
+
+          ↂ.skill.curDancing = 0,
+
+          ↂ.skill.curExhibition = 22,
+
+          ↂ.skill.firearms = 20,
+          ↂ.skill.curFirearms = 20,
+
+          ↂ.skill.oral = 15,
+          ↂ.skill.curOral = 15,
+
+          ↂ.skill.org = 20,
+          ↂ.skill.curOrg = 20,
+
+          ↂ.skill.probSolving = 35,
+          ↂ.skill.curProbSolving = 35,
+
+          ↂ.skill.prost = 0,
+
+          ↂ.skill.prostitute = 0,
+          ↂ.skill.curProstitute = 0,
+
+          ↂ.skill.prostitution = 0,
+
+          ↂ.skill.sed = 20,
+          ↂ.skill.curSeduction = 20,
+
+          ↂ.skill.sex = 10,
+          ↂ.skill.curSex = 10,
+
+          ↂ.skill.shop = 0,
+          ↂ.skill.curShop = 0,
+
+          ↂ.skill.dance = 0,
+          ↂ.skill.dancing = 0,
+
+          ↂ.skill.exhib = 12,
+          ↂ.skill.exhibit = 12,
+          ↂ.skill.exhibition = 12,
+
+          ↂ.skill.curFinance = 10,
+          ↂ.skill.finance = 10,
+
+          ↂ.skill.heels = 0,
+
+          ↂ.skill.kegel = 0,
+
+          ↂ.skill.manage = 10,
+
+          ↂ.skill.martial = 80,
+          ↂ.skill.curMartial = 80,
+
+          ↂ.skill.perform = 10,
+          
+          ↂ.skill.probSolve = 50,
+
+          ↂ.skill.seduction = 30,
+
+          ↂ.skill.strip = 10,
+
+          ↂ.skill.whore = 0
+        >>
+
+        <<set ↂ.pc.groom.pubeGrow = 5>>
+
+        <<set ↂ.pc.main.background = 'martial arts trainer'>>
+
+        <<set ↂ.pcskillpoints += 110>>
+
+        <<set ↂ.pc.main.bd1 = 11>>
+        <<set ↂ.pc.main.bd2 = 10>>
+
+        <<setPCportrait>>
+      <<case === "mitsuko">>
+        <<set
+          ↂ.pc.body.face        = 'normal',
+          ↂ.pc.body.beauty      = 3,
+          ↂ.pc.body.eyeColor    = 'brown',
+          ↂ.pc.body.skinColor   = 'fair',
+          ↂ.pc.groom.hairColor  = 'black',
+          ↂ.pc.groom.hairLength = 26,
+          ↂ.pc.groom.hairCurl   = 0,
+          ↂ.pc.groom.hairStyle  = 'neat',
+
+          ↂ.pc.body.height           = 63,
+          ↂ.pc.body.race             = 'asian',
+          ↂ.pc.body.ass              = 4,
+          ↂ.pc.body.pelvis           = 5,
+          ↂ.pc.body.hips             = 4,
+          ↂ.pc.body.waist            = 4,
+          ↂ.pc.body.shoulders        = 2,
+          ↂ.pc.body.weight           = 4,
+          ↂ.pc.body.tone             = 3,
+
+          ↂ.pc.body.tits.areola      = 3,
+          ↂ.pc.body.tits.lact.cup    = "D-cup",
+          ↂ.pc.body.tits.lact.max    = 800,
+          ↂ.pc.body.tits.lact.size   = 660,
+          ↂ.pc.body.tits.nipGirth    = 3,
+          ↂ.pc.body.tits.nipLength   = 5,
+
+          ↂ.pc.body.tits.base.size   = 740,
+
+          ↂ.pc.body.clit             = 2,
+          ↂ.pc.body.labia            = 2,
+          ↂ.pc.body.pussy.wetness    = 2,
+          ↂ.pc.fert.fertility        = 4,
+          ↂ.pc.fert.implant          = 0,
+          ↂ.pc.groom.pubeColor       = 'black',
+          ↂ.pc.groom.pubeStyle       = 'trimmed',
+          ↂ.pc.body.pussy.virgin     = false,
+
+          ↂ.pc.fert.egg = 160,
+          ↂ.pc.fert.vagHostile = 0,
+          ↂ.pc.fert.multEgg = 0,
+          ↂ.pc.fert.wombHealth = 0,
+
+          ↂ.pc.kink.anal = false,
+          ↂ.pc.kink.bond = false,
+          ↂ.pc.kink.buttSlut = false,
+          ↂ.pc.kink.cumSlut = false,
+          ↂ.pc.kink.dom = false,
+          ↂ.pc.kink.easy = false,
+          ↂ.pc.kink.exhibition = false,
+          ↂ.pc.kink.fap = false,
+          ↂ.pc.kink.force = false,
+          ↂ.pc.kink.hard = true,
+          ↂ.pc.kink.hyperSlut = false,
+          ↂ.pc.kink.liberate = false,
+          ↂ.pc.kink.masochist = false,
+          ↂ.pc.kink.nips = false,
+          ↂ.pc.kink.oral = false,
+          ↂ.pc.kink.pregnancy = true,
+          ↂ.pc.kink.public = false,
+          ↂ.pc.kink.rape = false,
+          ↂ.pc.kink.risky = false,
+          ↂ.pc.kink.shame = false,
+          ↂ.pc.kink.sizequeen = false,
+          ↂ.pc.kink.slut = false,
+          ↂ.pc.kink.sub = true,
+          ↂ.pc.kink.superSlut = false,
+          ↂ.pc.kink.water = false,
+
+          ↂ.pc.main.age           = 37,
+          ↂ.pc.main.ageID         = 37,
+          ↂ.pc.main.ageOriginal   = 37,
+          ↂ.pc.main.female        = true,
+          ↂ.pc.main.male          = false,
+          ↂ.pc.main.name          = 'Mitsuko',
+          ↂ.pc.main.surname       = 'Saito',
+          ↂ.pc.persona.lookingFor = 'kids',
+          ↂ.pc.persona.mentionFertile = true,
+          ↂ.pc.persona.slutty = false,
+          ↂ.pc.persona.sweet = false,
+
+          ↂ.pc.trait.maternal = 1,
+          ↂ.pc.trait.caring   = 1,
+          ↂ.pc.trait.bitch    = -1,
+          ↂ.pc.trait.romantic = 1,
+          ↂ.pc.trait.deceptive = 0,
+          ↂ.pc.trait.devious   = -1,
+          ↂ.pc.trait.persuasive = 1,
+          ↂ.pc.trait.perceptive = -1,
+          ↂ.pc.trait.forgetful = 0,
+          ↂ.pc.trait.lowEsteem = -1,
+          ↂ.pc.trait.forgiving = 0,
+          ↂ.pc.trait.picky = 1,
+          ↂ.pc.trait.crude = 0,
+          ↂ.pc.trait.friendly = 0,
+          ↂ.pc.trait.approachable = 1,
+          ↂ.pc.trait.relaxed = 0,
+          ↂ.pc.trait.materialist = 0,
+          ↂ.pc.trait.flirty = -1,
+
+          ↂ.pc.trait.libido = 3,
+          ↂ.pc.trait.will = 3,
+          ↂ.pc.trait.vert = 'neither',
+
+          ↂ.pc.mutate.acid = false,
+          ↂ.pc.mutate.acidPre = false,
+          ↂ.pc.mutate.birthCon = false,
+          ↂ.pc.mutate.bitchBreaker = false,
+          ↂ.pc.mutate.contort = false,
+          ↂ.pc.mutate.cumpire = false,
+          ↂ.pc.mutate.fertStorm = false,
+          ↂ.pc.mutate.gestate = false,
+          ↂ.pc.mutate.girth = false,
+          ↂ.pc.mutate.goddess = false,
+          ↂ.pc.mutate.immune = false,
+          ↂ.pc.mutate.iron = false,
+          ↂ.pc.mutate.killerSperm = false,
+          ↂ.pc.mutate.lilithCurse = false,
+          ↂ.pc.mutate.litePhero = false,
+          ↂ.pc.mutate.megaLong = false,
+          ↂ.pc.mutate.megaNuts = false,
+          ↂ.pc.mutate.milk = true,
+          ↂ.pc.mutate.mouth = false,
+          ↂ.pc.mutate.multgasm = false,
+          ↂ.pc.mutate.multiple = false,
+          ↂ.pc.mutate.pseudoPreg = false,
+          ↂ.pc.mutate.twinWomb = false
+        >>
+
+        <<set ↂ.pref.height = [-2, -1, 1, 2, -1]>>
+        <<set ↂ.pref.muscle = [-2, -1, 1, 2, 1, -2]>>
+        <<set ↂ.pref.weight = [-2, -1, 2, -1, -2, -2]>>
+        <<set ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]>>
+
+        <<script>>
+          // Player breasts calc
+          const titsArray = setup.editorCalc(
+            ↂ.pc.body.tits.base.size, ↂ.pc.body.shoulders, ↂ.pc.body.weight
+          );
+          ↂ.pc.body.tits.band = titsArray[0];
+
+          ↂ.pc.body.tits.cupNum = titsArray[1];
+          ↂ.pc.body.tits.base.cupNum = titsArray[1];
+
+          ↂ.pc.body.tits.base.cupRaw = titsArray[2];
+
+          ↂ.pc.body.tits.cup = titsArray[3];
+          ↂ.pc.body.tits.base.cup = titsArray[3];
+
+          ↂ.pc.body.tits.bra = titsArray[4];
+          ↂ.pc.body.tits.base.bra = titsArray[4];
+        <</script>>
+
+        <<script>>
+          let femFertileCalc = Math.round(
+            (
+              Math.round( ↂ.pc.fert.egg / 2 ) + ↂ.pc.fert.implant +
+              Math.round( ↂ.pc.fert.vagHostile / 2 ) +
+              Math.round( ↂ.pc.fert.multEgg / 2 ) -
+              ↂ.pc.fert.wombHealth
+            ) / 5,
+          ) - 3;
+
+          if (femFertileCalc === 1) {
+            femFertileCalc = 2;
+          } else if (femFertileCalc < 1 && femFertileCalc > -2) {
+            femFertileCalc = 1;
+          } else if (femFertileCalc < -1) {
+            femFertileCalc = 0;
+          } else if (femFertileCalc > 8) {
+            femFertileCalc = 8;
+          }
+
+          ↂ.pc.fert.fertility = femFertileCalc;
+        <</script>>
+
+        <<set
+          ↂ.skill.art = 15,
+          ↂ.skill.curArt = 15,
+
+          ↂ.skill.athletic = 30,
+          ↂ.skill.curAthletic = 30,
+
+          ↂ.skill.clean = 70,
+          ↂ.skill.curClean = 70,
+
+          ↂ.skill.comm = 0,
+          ↂ.skill.curComm = 0,
+
+          ↂ.skill.cook = 70,
+          ↂ.skill.curCook = 70,
+
+          ↂ.skill.crime = 0,
+
+          ↂ.skill.curDancing = 35,
+
+          ↂ.skill.curExhibition = 0,
+
+          ↂ.skill.firearms = 0,
+          ↂ.skill.curFirearms = 0,
+
+          ↂ.skill.oral = 20,
+          ↂ.skill.curOral = 20,
+
+          ↂ.skill.org = 0,
+          ↂ.skill.curOrg = 0,
+
+          ↂ.skill.probSolving = 50,
+          ↂ.skill.curProbSolving = 50,
+
+          ↂ.skill.prost = 0,
+
+          ↂ.skill.prostitute = 0,
+          ↂ.skill.curProstitute = 0,
+
+          ↂ.skill.prostitution = 0,
+
+          ↂ.skill.sed = 65,
+          ↂ.skill.curSeduction = 65,
+
+          ↂ.skill.sex = 30,
+          ↂ.skill.curSex = 30,
+
+          ↂ.skill.shop = 0,
+          ↂ.skill.curShop = 0,
+
+          ↂ.skill.dance = 25,
+          ↂ.skill.dancing = 25,
+
+          ↂ.skill.exhib = 10,
+          ↂ.skill.exhibit = 10,
+          ↂ.skill.exhibition = 10,
+
+          ↂ.skill.curFinance = 25,
+          ↂ.skill.finance = 25,
+
+          ↂ.skill.heels = 0,
+
+          ↂ.skill.kegel = 0,
+
+          ↂ.skill.manage = 10,
+
+          ↂ.skill.martial = 80,
+          ↂ.skill.curMartial = 80,
+
+          ↂ.skill.perform = 10,
+          
+          ↂ.skill.probSolve = 50,
+
+          ↂ.skill.seduction = 30,
+
+          ↂ.skill.strip = 10,
+
+          ↂ.skill.whore = 0
+        >>
+
+        <<set ↂ.pc.groom.pubeGrow = 5>>
+
+        <<set ↂ.pc.main.background = 'ex slave'>>
+
+        <<set ↂ.pc.main.bd1 = 28>>
+        <<set ↂ.pc.main.bd2 = 2>>
+
+        <<setPCportrait>>
+      <<case "anna">>
+        <<set
+          ↂ.pc.body.face        = 'cute',
+          ↂ.pc.body.beauty      = 3,
+          ↂ.pc.body.eyeColor    = 'green',
+          ↂ.pc.body.skinColor   = 'fair',
+          ↂ.pc.groom.hairColor  = 'blonde',
+          ↂ.pc.groom.hairLength = 16,
+          ↂ.pc.groom.hairCurl   = 1,
+          ↂ.pc.groom.hairStyle  = 'messy',
+
+          ↂ.pc.body.height           = 62,
+          ↂ.pc.body.race             = 'white',
+          ↂ.pc.body.ass              = 3,
+          ↂ.pc.body.pelvis           = 4,
+          ↂ.pc.body.hips             = 4,
+          ↂ.pc.body.waist            = 4,
+          ↂ.pc.body.shoulders        = 2,
+          ↂ.pc.body.weight           = 3,
+          ↂ.pc.body.tone             = 3,
+
+          ↂ.pc.body.tits.areola      = 4,
+          ↂ.pc.body.tits.lact.cup    = "D-cup",
+          ↂ.pc.body.tits.lact.max    = 800,
+          ↂ.pc.body.tits.lact.size   = 660,
+          ↂ.pc.body.tits.nipGirth    = 3,
+          ↂ.pc.body.tits.nipLength   = 5,
+
+          ↂ.pc.body.tits.base.size   = 700,
+
+          ↂ.pc.body.clit             = 2,
+          ↂ.pc.body.labia            = 2,
+          ↂ.pc.body.pussy.wetness    = 2,
+          ↂ.pc.fert.fertility        = 4,
+          ↂ.pc.fert.implant          = 0,
+          ↂ.pc.groom.pubeColor       = 'blonde',
+          ↂ.pc.groom.pubeStyle       = 'bushy',
+          ↂ.pc.body.pussy.virgin     = false,
+
+          ↂ.pc.fert.egg = 180,
+          ↂ.pc.fert.vagHostile = 0,
+          ↂ.pc.fert.multEgg = 0,
+          ↂ.pc.fert.wombHealth = 0,
+
+          ↂ.pc.kink.anal = false,
+          ↂ.pc.kink.bond = false,
+          ↂ.pc.kink.buttSlut = false,
+          ↂ.pc.kink.cumSlut = false,
+          ↂ.pc.kink.dom = false,
+          ↂ.pc.kink.easy = false,
+          ↂ.pc.kink.exhibition = false,
+          ↂ.pc.kink.fap = false,
+          ↂ.pc.kink.force = false,
+          ↂ.pc.kink.hard = true,
+          ↂ.pc.kink.hyperSlut = false,
+          ↂ.pc.kink.liberate = true,
+          ↂ.pc.kink.masochist = false,
+          ↂ.pc.kink.nips = false,
+          ↂ.pc.kink.oral = false,
+          ↂ.pc.kink.pregnancy = true,
+          ↂ.pc.kink.public = false,
+          ↂ.pc.kink.rape = false,
+          ↂ.pc.kink.risky = false,
+          ↂ.pc.kink.shame = false,
+          ↂ.pc.kink.sizequeen = false,
+          ↂ.pc.kink.slut = false,
+          ↂ.pc.kink.sub = true,
+          ↂ.pc.kink.superSlut = false,
+          ↂ.pc.kink.water = false,
+
+          ↂ.pc.main.age           = 23,
+          ↂ.pc.main.ageID         = 23,
+          ↂ.pc.main.ageOriginal   = 23,
+          ↂ.pc.main.female        = true,
+          ↂ.pc.main.male          = false,
+          ↂ.pc.main.name          = 'Anna',
+          ↂ.pc.main.surname       = 'Andor',
+          ↂ.pc.persona.lookingFor = 'love',
+          ↂ.pc.persona.mentionFertile = true,
+          ↂ.pc.persona.slutty = false,
+          ↂ.pc.persona.sweet = true,
+
+          ↂ.pc.trait.maternal = 1,
+          ↂ.pc.trait.caring   = 1,
+          ↂ.pc.trait.bitch    = 0,
+          ↂ.pc.trait.romantic = 1,
+          ↂ.pc.trait.deceptive = 0,
+          ↂ.pc.trait.devious   = -1,
+          ↂ.pc.trait.persuasive = -1,
+          ↂ.pc.trait.perceptive = 0,
+          ↂ.pc.trait.forgetful = 1,
+          ↂ.pc.trait.lowEsteem = -1,
+          ↂ.pc.trait.forgiving = 0,
+          ↂ.pc.trait.picky = 0,
+          ↂ.pc.trait.crude = 0,
+          ↂ.pc.trait.friendly = 1,
+          ↂ.pc.trait.approachable = 0,
+          ↂ.pc.trait.relaxed = 1,
+          ↂ.pc.trait.materialist = -1,
+          ↂ.pc.trait.flirty = -1,
+
+          ↂ.pc.trait.libido = 3,
+          ↂ.pc.trait.will = 1,
+          ↂ.pc.trait.vert = 'neither',
+
+          ↂ.pc.mutate.acid = false,
+          ↂ.pc.mutate.acidPre = false,
+          ↂ.pc.mutate.birthCon = false,
+          ↂ.pc.mutate.bitchBreaker = false,
+          ↂ.pc.mutate.contort = false,
+          ↂ.pc.mutate.cumpire = false,
+          ↂ.pc.mutate.fertStorm = false,
+          ↂ.pc.mutate.gestate = false,
+          ↂ.pc.mutate.girth = false,
+          ↂ.pc.mutate.goddess = false,
+          ↂ.pc.mutate.immune = false,
+          ↂ.pc.mutate.iron = false,
+          ↂ.pc.mutate.killerSperm = false,
+          ↂ.pc.mutate.lilithCurse = false,
+          ↂ.pc.mutate.litePhero = false,
+          ↂ.pc.mutate.megaLong = false,
+          ↂ.pc.mutate.megaNuts = false,
+          ↂ.pc.mutate.milk = false,
+          ↂ.pc.mutate.mouth = false,
+          ↂ.pc.mutate.multgasm = false,
+          ↂ.pc.mutate.multiple = false,
+          ↂ.pc.mutate.pseudoPreg = false,
+          ↂ.pc.mutate.twinWomb = false
+        >>
+
+        <<set ↂ.pref.height = [-2, -1, 1, 2, -1]>>
+        <<set ↂ.pref.muscle = [-2, -1, 1, 2, 1, -2]>>
+        <<set ↂ.pref.weight = [-2, -1, 2, -1, -2, -2]>>
+        <<set ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]>>
+
+
+        <<script>>
+          // Player breasts calc
+          const titsArray = setup.editorCalc(
+            ↂ.pc.body.tits.base.size, ↂ.pc.body.shoulders, ↂ.pc.body.weight
+          );
+          ↂ.pc.body.tits.band = titsArray[0];
+
+          ↂ.pc.body.tits.cupNum = titsArray[1];
+          ↂ.pc.body.tits.base.cupNum = titsArray[1];
+
+          ↂ.pc.body.tits.base.cupRaw = titsArray[2];
+
+          ↂ.pc.body.tits.cup = titsArray[3];
+          ↂ.pc.body.tits.base.cup = titsArray[3];
+
+          ↂ.pc.body.tits.bra = titsArray[4];
+          ↂ.pc.body.tits.base.bra = titsArray[4];
+        <</script>>
+
+        <<script>>
+          let femFertileCalc = Math.round(
+            (
+              Math.round( ↂ.pc.fert.egg / 2 ) + ↂ.pc.fert.implant +
+              Math.round( ↂ.pc.fert.vagHostile / 2 ) +
+              Math.round( ↂ.pc.fert.multEgg / 2 ) -
+              ↂ.pc.fert.wombHealth
+            ) / 5,
+          ) - 3;
+
+          if (femFertileCalc === 1) {
+            femFertileCalc = 2;
+          } else if (femFertileCalc < 1 && femFertileCalc > -2) {
+            femFertileCalc = 1;
+          } else if (femFertileCalc < -1) {
+            femFertileCalc = 0;
+          } else if (femFertileCalc > 8) {
+            femFertileCalc = 8;
+          }
+
+          ↂ.pc.fert.fertility = femFertileCalc;
+        <</script>>
+
+        <<set
+          ↂ.skill.art = 12,
+          ↂ.skill.curArt = 12,
+
+          ↂ.skill.athletic = 10,
+          ↂ.skill.curAthletic = 10,
+
+          ↂ.skill.clean = 85,
+          ↂ.skill.curClean = 85,
+
+          ↂ.skill.comm = 0,
+          ↂ.skill.curComm = 0,
+
+          ↂ.skill.cook = 85,
+          ↂ.skill.curCook = 85,
+
+          ↂ.skill.crime = 0,
+
+          ↂ.skill.curDancing = 12,
+
+          ↂ.skill.curExhibition = 0,
+
+          ↂ.skill.firearms = 0,
+          ↂ.skill.curFirearms = 0,
+
+          ↂ.skill.oral = 20,
+          ↂ.skill.curOral = 20,
+
+          ↂ.skill.org = 20,
+          ↂ.skill.curOrg = 20,
+
+          ↂ.skill.probSolving = 35,
+          ↂ.skill.curProbSolving = 35,
+
+          ↂ.skill.prost = 0,
+
+          ↂ.skill.prostitute = 0,
+          ↂ.skill.curProstitute = 0,
+
+          ↂ.skill.prostitution = 0,
+
+          ↂ.skill.sed = 10,
+          ↂ.skill.curSeduction = 10,
+
+          ↂ.skill.sex = 20,
+          ↂ.skill.curSex = 20,
+
+          ↂ.skill.shop = 0,
+          ↂ.skill.curShop = 0,
+
+          ↂ.skill.dance = 20,
+          ↂ.skill.dancing = 20,
+
+          ↂ.skill.exhib = 0,
+          ↂ.skill.exhibit = 0,
+          ↂ.skill.exhibition = 0,
+
+          ↂ.skill.curFinance = 10,
+          ↂ.skill.finance = 10,
+
+          ↂ.skill.heels = 0,
+
+          ↂ.skill.kegel = 0,
+
+          ↂ.skill.manage = 10,
+
+          ↂ.skill.martial = 80,
+          ↂ.skill.curMartial = 80,
+
+          ↂ.skill.perform = 10,
+          
+          ↂ.skill.probSolve = 10,
+
+          ↂ.skill.seduction = 10,
+
+          ↂ.skill.strip = 0,
+
+          ↂ.skill.whore = 0
+        >>
+
+        <<set ↂ.pc.groom.pubeGrow = 5>>
+
+        <<set ↂ.pc.main.background = 'ex slave'>>
+
+        <<set ↂ.pc.main.bd1 = 22>>
+        <<set ↂ.pc.main.bd2 = 6>>
+
+        <<setPCportrait>>
+      <<case "claire">>
+        <<set
+          ↂ.pc.body.face        = 'cute',
+          ↂ.pc.body.beauty      = 4,
+          ↂ.pc.body.eyeColor    = 'brown',
+          ↂ.pc.body.skinColor   = 'fair',
+          ↂ.pc.groom.hairColor  = 'blonde',
+          ↂ.pc.groom.hairLength = 24,
+          ↂ.pc.groom.hairCurl   = 1,
+          ↂ.pc.groom.hairStyle  = 'neat',
+
+          ↂ.pc.body.height           = 55,
+          ↂ.pc.body.race             = 'white',
+          ↂ.pc.body.ass              = 5,
+          ↂ.pc.body.pelvis           = 5,
+          ↂ.pc.body.hips             = 4,
+          ↂ.pc.body.waist            = 4,
+          ↂ.pc.body.shoulders        = 3,
+          ↂ.pc.body.weight           = 4,
+          ↂ.pc.body.tone             = 4,
+
+          ↂ.pc.body.tits.areola      = 3,
+          ↂ.pc.body.tits.lact.cup    = "D-cup",
+          ↂ.pc.body.tits.lact.max    = 800,
+          ↂ.pc.body.tits.lact.size   = 660,
+          ↂ.pc.body.tits.nipGirth    = 2,
+          ↂ.pc.body.tits.nipLength   = 4,
+
+          ↂ.pc.body.tits.base.size   = 700,
+
+          ↂ.pc.body.clit             = 2,
+          ↂ.pc.body.labia            = 1,
+          ↂ.pc.body.pussy.wetness    = 2,
+          ↂ.pc.fert.fertility        = 4,
+          ↂ.pc.fert.implant          = 0,
+          ↂ.pc.groom.pubeColor       = 'blonde',
+          ↂ.pc.groom.pubeStyle       = 'bushy',
+          ↂ.pc.body.pussy.virgin     = false,
+
+          ↂ.pc.fert.egg = 150,
+          ↂ.pc.fert.vagHostile = 0,
+          ↂ.pc.fert.multEgg = 0,
+          ↂ.pc.fert.wombHealth = 0,
+
+          ↂ.pc.kink.anal = false,
+          ↂ.pc.kink.bond = false,
+          ↂ.pc.kink.buttSlut = false,
+          ↂ.pc.kink.cumSlut = false,
+          ↂ.pc.kink.dom = true,
+          ↂ.pc.kink.easy = false,
+          ↂ.pc.kink.exhibition = false,
+          ↂ.pc.kink.fap = false,
+          ↂ.pc.kink.force = false,
+          ↂ.pc.kink.hard = false,
+          ↂ.pc.kink.hyperSlut = false,
+          ↂ.pc.kink.liberate = false,
+          ↂ.pc.kink.masochist = false,
+          ↂ.pc.kink.nips = false,
+          ↂ.pc.kink.oral = false,
+          ↂ.pc.kink.pregnancy = true,
+          ↂ.pc.kink.public = false,
+          ↂ.pc.kink.rape = false,
+          ↂ.pc.kink.risky = false,
+          ↂ.pc.kink.shame = false,
+          ↂ.pc.kink.sizequeen = false,
+          ↂ.pc.kink.slut = false,
+          ↂ.pc.kink.sub = true,
+          ↂ.pc.kink.superSlut = false,
+          ↂ.pc.kink.water = false,
+
+          ↂ.pc.main.age           = 25,
+          ↂ.pc.main.ageID         = 25,
+          ↂ.pc.main.ageOriginal   = 25,
+          ↂ.pc.main.female        = true,
+          ↂ.pc.main.male          = false,
+          ↂ.pc.main.name          = 'Claire',
+          ↂ.pc.main.surname       = "Aileen O'Reilly",
+          ↂ.pc.persona.lookingFor = 'love',
+          ↂ.pc.persona.mentionFertile = true,
+          ↂ.pc.persona.slutty = false,
+          ↂ.pc.persona.sweet = true,
+
+          ↂ.pc.trait.maternal = 1,
+          ↂ.pc.trait.caring   = 1,
+          ↂ.pc.trait.bitch    = 0,
+          ↂ.pc.trait.romantic = 1,
+          ↂ.pc.trait.deceptive = 0,
+          ↂ.pc.trait.devious   = -1,
+          ↂ.pc.trait.persuasive = -1,
+          ↂ.pc.trait.perceptive = 0,
+          ↂ.pc.trait.forgetful = 1,
+          ↂ.pc.trait.lowEsteem = -1,
+          ↂ.pc.trait.forgiving = 0,
+          ↂ.pc.trait.picky = 0,
+          ↂ.pc.trait.crude = 0,
+          ↂ.pc.trait.friendly = 1,
+          ↂ.pc.trait.approachable = 0,
+          ↂ.pc.trait.relaxed = 1,
+          ↂ.pc.trait.materialist = -1,
+          ↂ.pc.trait.flirty = -1,
+
+          ↂ.pc.trait.libido = 3,
+          ↂ.pc.trait.will = 1,
+          ↂ.pc.trait.vert = 'neither',
+
+          ↂ.pc.mutate.acid = false,
+          ↂ.pc.mutate.acidPre = false,
+          ↂ.pc.mutate.birthCon = false,
+          ↂ.pc.mutate.bitchBreaker = false,
+          ↂ.pc.mutate.contort = false,
+          ↂ.pc.mutate.cumpire = false,
+          ↂ.pc.mutate.fertStorm = false,
+          ↂ.pc.mutate.gestate = false,
+          ↂ.pc.mutate.girth = false,
+          ↂ.pc.mutate.goddess = false,
+          ↂ.pc.mutate.immune = false,
+          ↂ.pc.mutate.iron = false,
+          ↂ.pc.mutate.killerSperm = false,
+          ↂ.pc.mutate.lilithCurse = false,
+          ↂ.pc.mutate.litePhero = false,
+          ↂ.pc.mutate.megaLong = false,
+          ↂ.pc.mutate.megaNuts = false,
+          ↂ.pc.mutate.milk = false,
+          ↂ.pc.mutate.mouth = false,
+          ↂ.pc.mutate.multgasm = false,
+          ↂ.pc.mutate.multiple = false,
+          ↂ.pc.mutate.pseudoPreg = false,
+          ↂ.pc.mutate.twinWomb = false
+        >>
+
+        <<set ↂ.pref.height = [-2, -1, 1, 2, -1]>>
+        <<set ↂ.pref.muscle = [-2, -1, 1, 2, 1, -2]>>
+        <<set ↂ.pref.weight = [-2, -1, 2, -1, -2, -2]>>
+        <<set ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]>>
+
+        <<script>>
+          // Player breasts calc
+          const titsArray = setup.editorCalc(
+            ↂ.pc.body.tits.base.size, ↂ.pc.body.shoulders, ↂ.pc.body.weight
+          );
+          ↂ.pc.body.tits.band = titsArray[0];
+
+          ↂ.pc.body.tits.cupNum = titsArray[1];
+          ↂ.pc.body.tits.base.cupNum = titsArray[1];
+
+          ↂ.pc.body.tits.base.cupRaw = titsArray[2];
+
+          ↂ.pc.body.tits.cup = titsArray[3];
+          ↂ.pc.body.tits.base.cup = titsArray[3];
+
+          ↂ.pc.body.tits.bra = titsArray[4];
+          ↂ.pc.body.tits.base.bra = titsArray[4];
+        <</script>>
+
+        <<script>>
+          let femFertileCalc = Math.round(
+            (
+              Math.round( ↂ.pc.fert.egg / 2 ) + ↂ.pc.fert.implant +
+              Math.round( ↂ.pc.fert.vagHostile / 2 ) +
+              Math.round( ↂ.pc.fert.multEgg / 2 ) -
+              ↂ.pc.fert.wombHealth
+            ) / 5,
+          ) - 3;
+
+          if (femFertileCalc === 1) {
+            femFertileCalc = 2;
+          } else if (femFertileCalc < 1 && femFertileCalc > -2) {
+            femFertileCalc = 1;
+          } else if (femFertileCalc < -1) {
+            femFertileCalc = 0;
+          } else if (femFertileCalc > 8) {
+            femFertileCalc = 8;
+          }
+
+          ↂ.pc.fert.fertility = femFertileCalc;
+        <</script>>
+
+        <<set
+          ↂ.skill.art = 12,
+          ↂ.skill.curArt = 12,
+
+          ↂ.skill.athletic = 10,
+          ↂ.skill.curAthletic = 10,
+
+          ↂ.skill.clean = 85,
+          ↂ.skill.curClean = 85,
+
+          ↂ.skill.comm = 0,
+          ↂ.skill.curComm = 0,
+
+          ↂ.skill.cook = 85,
+          ↂ.skill.curCook = 85,
+
+          ↂ.skill.crime = 0,
+
+          ↂ.skill.curDancing = 12,
+
+          ↂ.skill.curExhibition = 0,
+
+          ↂ.skill.firearms = 0,
+          ↂ.skill.curFirearms = 0,
+
+          ↂ.skill.oral = 20,
+          ↂ.skill.curOral = 20,
+
+          ↂ.skill.org = 20,
+          ↂ.skill.curOrg = 20,
+
+          ↂ.skill.probSolving = 35,
+          ↂ.skill.curProbSolving = 35,
+
+          ↂ.skill.prost = 0,
+
+          ↂ.skill.prostitute = 0,
+          ↂ.skill.curProstitute = 0,
+
+          ↂ.skill.prostitution = 0,
+
+          ↂ.skill.sed = 10,
+          ↂ.skill.curSeduction = 10,
+
+          ↂ.skill.sex = 20,
+          ↂ.skill.curSex = 20,
+
+          ↂ.skill.shop = 0,
+          ↂ.skill.curShop = 0,
+
+          ↂ.skill.dance = 20,
+          ↂ.skill.dancing = 20,
+
+          ↂ.skill.exhib = 0,
+          ↂ.skill.exhibit = 0,
+          ↂ.skill.exhibition = 0,
+
+          ↂ.skill.curFinance = 10,
+          ↂ.skill.finance = 10,
+
+          ↂ.skill.heels = 0,
+
+          ↂ.skill.kegel = 0,
+
+          ↂ.skill.manage = 10,
+
+          ↂ.skill.martial = 80,
+          ↂ.skill.curMartial = 80,
+
+          ↂ.skill.perform = 10,
+          
+          ↂ.skill.probSolve = 10,
+
+          ↂ.skill.seduction = 10,
+
+          ↂ.skill.strip = 0,
+
+          ↂ.skill.whore = 0
+        >>
+
+        <<set ↂ.pc.groom.pubeGrow = 5>>
+
+        <<set ↂ.pc.main.background = "general office clerk">>
+        <<set ↂ.skill.comm = 30>>
+        <<set ↂ.skill.org = 10>>
+
+        <<set ↂ.pc.main.bd1 = 18>>
+        <<set ↂ.pc.main.bd2 = 5>>
+
+        <<setPCportrait>>
+      <<case "sidra">>
+        <<set
+          ↂ.pc.body.face        = 'sensual',
+          ↂ.pc.body.beauty      = 4,
+          ↂ.pc.body.eyeColor    = 'hazel',
+          ↂ.pc.body.skinColor   = 'olive',
+          ↂ.pc.groom.hairColor  = 'black',
+          ↂ.pc.groom.hairLength = 20,
+          ↂ.pc.groom.hairCurl   = 2,
+          ↂ.pc.groom.hairStyle  = 'unkempt',
+
+          ↂ.pc.body.height           = 62,
+          ↂ.pc.body.race             = 'middle eastern',
+          ↂ.pc.body.ass              = 3,
+          ↂ.pc.body.pelvis           = 4,
+          ↂ.pc.body.hips             = 4,
+          ↂ.pc.body.waist            = 4,
+          ↂ.pc.body.shoulders        = 2,
+          ↂ.pc.body.weight           = 3,
+          ↂ.pc.body.tone             = 3,
+
+          ↂ.pc.body.tits.areola      = 3,
+          ↂ.pc.body.tits.lact.cup    = "C-cup",
+          ↂ.pc.body.tits.lact.max    = 700,
+          ↂ.pc.body.tits.lact.size   = 530,
+          ↂ.pc.body.tits.nipGirth    = 3,
+          ↂ.pc.body.tits.nipLength   = 5,
+
+          ↂ.pc.body.tits.base.size   = 740,
+
+          ↂ.pc.body.clit             = 2,
+          ↂ.pc.body.labia            = 2,
+          ↂ.pc.body.pussy.wetness    = 2,
+          ↂ.pc.fert.fertility        = 4,
+          ↂ.pc.fert.implant          = 0,
+          ↂ.pc.groom.pubeColor       = 'black',
+          ↂ.pc.groom.pubeStyle       = 'bushy',
+          ↂ.pc.body.pussy.virgin     = true,
+
+          ↂ.pc.fert.egg = 240,
+          ↂ.pc.fert.vagHostile = 0,
+          ↂ.pc.fert.multEgg = 0,
+          ↂ.pc.fert.wombHealth = 0,
+
+          ↂ.pc.kink.anal = false,
+          ↂ.pc.kink.bond = true,
+          ↂ.pc.kink.buttSlut = false,
+          ↂ.pc.kink.cumSlut = false,
+          ↂ.pc.kink.dom = false,
+          ↂ.pc.kink.easy = false,
+          ↂ.pc.kink.exhibition = false,
+          ↂ.pc.kink.fap = false,
+          ↂ.pc.kink.force = false,
+          ↂ.pc.kink.hard = true,
+          ↂ.pc.kink.hyperSlut = false,
+          ↂ.pc.kink.liberate = false,
+          ↂ.pc.kink.masochist = false,
+          ↂ.pc.kink.nips = false,
+          ↂ.pc.kink.oral = false,
+          ↂ.pc.kink.pregnancy = true,
+          ↂ.pc.kink.public = false,
+          ↂ.pc.kink.rape = false,
+          ↂ.pc.kink.risky = false,
+          ↂ.pc.kink.shame = true,
+          ↂ.pc.kink.sizequeen = false,
+          ↂ.pc.kink.slut = false,
+          ↂ.pc.kink.sub = false,
+          ↂ.pc.kink.superSlut = false,
+          ↂ.pc.kink.water = false,
+
+          ↂ.pc.main.age           = 23,
+          ↂ.pc.main.ageID         = 23,
+          ↂ.pc.main.ageOriginal   = 23,
+          ↂ.pc.main.female        = true,
+          ↂ.pc.main.male          = false,
+          ↂ.pc.main.name          = 'Sidra',
+          ↂ.pc.main.surname       = 'Sumar',
           ↂ.pc.persona.lookingFor = 'love',
           ↂ.pc.persona.mentionFertile = true,
           ↂ.pc.persona.slutty = false,
@@ -129,115 +2102,248 @@
           ↂ.pc.mutate.multgasm = false,
           ↂ.pc.mutate.multiple = false,
           ↂ.pc.mutate.pseudoPreg = false,
-          ↂ.pc.mutate.twinWomb = false,
-
-          ↂ.pref.height = [-2, -1, 1, 2, -1],
-          ↂ.pref.muscle = [-2, -1, 1, 2, -2],
-          ↂ.pref.weight = [-2, -1, 2, -1, -2],
-          ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]
+          ↂ.pc.mutate.twinWomb = false
         >>
-        <<set $AW.startMale = true>><<set ↂ.ward.bottom.push("tttt")>><<set ↂ.ward.top.push("tttv")>><<run setup.initialize.savePrefs()>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>>
-        <<go background>>
-      <</button>>
-    <<elseif aw.premade === "amanda">>
-      <h3>Amanda Williams</h3>
-      ''The Amazon:'' Amanda is a tall and muscular no-nonsense woman with large lactating breasts and a penchant for impregnation.<br><br>
 
-      <<button "Choose This Character">>
+        <<set ↂ.pref.height = [-2, -1, 1, 2, -1]>>
+        <<set ↂ.pref.muscle = [-2, -1, 1, 2, 1, -2]>>
+        <<set ↂ.pref.weight = [-2, -1, 2, -1, -2, -2]>>
+        <<set ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]>>
+        
+        <<script>>
+          // Player breasts calc
+          const titsArray = setup.editorCalc(
+            ↂ.pc.body.tits.base.size, ↂ.pc.body.shoulders, ↂ.pc.body.weight
+          );
+          ↂ.pc.body.tits.band = titsArray[0];
+
+          ↂ.pc.body.tits.cupNum = titsArray[1];
+          ↂ.pc.body.tits.base.cupNum = titsArray[1];
+
+          ↂ.pc.body.tits.base.cupRaw = titsArray[2];
+
+          ↂ.pc.body.tits.cup = titsArray[3];
+          ↂ.pc.body.tits.base.cup = titsArray[3];
+
+          ↂ.pc.body.tits.bra = titsArray[4];
+          ↂ.pc.body.tits.base.bra = titsArray[4];
+        <</script>>
+
+        <<script>>
+          let femFertileCalc = Math.round(
+            (
+              Math.round( ↂ.pc.fert.egg / 2 ) + ↂ.pc.fert.implant +
+              Math.round( ↂ.pc.fert.vagHostile / 2 ) +
+              Math.round( ↂ.pc.fert.multEgg / 2 ) -
+              ↂ.pc.fert.wombHealth
+            ) / 5,
+          ) - 3;
+
+          if (femFertileCalc === 1) {
+            femFertileCalc = 2;
+          } else if (femFertileCalc < 1 && femFertileCalc > -2) {
+            femFertileCalc = 1;
+          } else if (femFertileCalc < -1) {
+            femFertileCalc = 0;
+          } else if (femFertileCalc > 8) {
+            femFertileCalc = 8;
+          }
+
+          ↂ.pc.fert.fertility = femFertileCalc;
+        <</script>>
+
         <<set
-          ↂ.pc.body.face        = 'sensual',
-          ↂ.pc.body.beauty      = 2,
-          ↂ.pc.body.eyeColor    = 'dark brown',
-          ↂ.pc.body.skinColor   = 'pale',
-          ↂ.pc.groom.hairColor  = 'brunette',
-          ↂ.pc.groom.hairLength = 16,
-          ↂ.pc.groom.hairCur    = 2,
-          ↂ.pc.groom.hairStyle  = 'straight',
+          ↂ.skill.art = 0,
+          ↂ.skill.curArt = 0,
 
-          ↂ.pc.body.height           = 67,
+          ↂ.skill.athletic = 20,
+          ↂ.skill.curAthletic = 20,
+
+          ↂ.skill.clean = 70,
+          ↂ.skill.curClean = 70,
+
+          ↂ.skill.comm = 0,
+          ↂ.skill.curComm = 0,
+
+          ↂ.skill.cook = 70,
+          ↂ.skill.curCook = 70,
+
+          ↂ.skill.crime = 0,
+
+          ↂ.skill.curDancing = 20,
+
+          ↂ.skill.curExhibition = 0,
+
+          ↂ.skill.firearms = 0,
+          ↂ.skill.curFirearms = 0,
+
+          ↂ.skill.oral = 0,
+          ↂ.skill.curOral = 0,
+
+          ↂ.skill.org = 0,
+          ↂ.skill.curOrg = 0,
+
+          ↂ.skill.probSolving = 80,
+          ↂ.skill.curProbSolving = 80,
+
+          ↂ.skill.prost = 0,
+
+          ↂ.skill.prostitute = 0,
+          ↂ.skill.curProstitute = 0,
+
+          ↂ.skill.prostitution = 0,
+
+          ↂ.skill.sed = 60,
+          ↂ.skill.curSeduction = 60,
+
+          ↂ.skill.sex = 0,
+          ↂ.skill.curSex = 0,
+
+          ↂ.skill.shop = 0,
+          ↂ.skill.curShop = 0,
+
+          ↂ.skill.dance = 12,
+          ↂ.skill.dancing = 12,
+
+          ↂ.skill.exhib = 0,
+          ↂ.skill.exhibit = 0,
+          ↂ.skill.exhibition = 0,
+
+          ↂ.skill.curFinance = 0,
+          ↂ.skill.finance = 0,
+
+          ↂ.skill.heels = 0,
+
+          ↂ.skill.kegel = 0,
+
+          ↂ.skill.manage = 0,
+
+          ↂ.skill.martial = 30,
+          ↂ.skill.curMartial = 30,
+
+          ↂ.skill.perform = 0,
+          
+          ↂ.skill.probSolve = 80,
+
+          ↂ.skill.seduction = 20,
+
+          ↂ.skill.strip = 0,
+
+          ↂ.skill.whore = 0
+        >>
+
+        <<set ↂ.pc.groom.pubeGrow = 5>>
+
+        <<set ↂ.pc.main.background = 'ex slave'>>
+
+        <<set ↂ.pc.main.bd1 = 5>>
+        <<set ↂ.pc.main.bd2 = 4>>
+
+        <<setPCportrait>>
+        /* CHALLNGES */
+        <<case "paris">>
+        <<set
+          ↂ.pc.body.face        = 'normal',
+          ↂ.pc.body.beauty      = 2,
+          ↂ.pc.body.eyeColor    = 'black',
+          ↂ.pc.body.skinColor   = 'pale',
+          ↂ.pc.groom.hairColor  = 'black',
+          ↂ.pc.groom.hairLength = 20,
+          ↂ.pc.groom.hairCurl   = 3,
+          ↂ.pc.groom.hairStyle  = 'unkempt',
+
+          ↂ.pc.body.height           = 62,
           ↂ.pc.body.race             = 'Gaelic',
-          ↂ.pc.body.ass              = 4,
-          ↂ.pc.body.pelvis           = 4,
-          ↂ.pc.body.hips             = 4,
-          ↂ.pc.body.waist            = 4,
-          ↂ.pc.body.shoulder         = 3,
-          ↂ.pc.body.weight           = 3,
-          ↂ.pc.body.tone             = 3,
+          ↂ.pc.body.ass              = 2,
+          ↂ.pc.body.pelvis           = 3,
+          ↂ.pc.body.hips             = 3,
+          ↂ.pc.body.waist            = 3,
+          ↂ.pc.body.shoulders        = 3,
+          ↂ.pc.body.weight           = 4,
+          ↂ.pc.body.tone             = 2,
+
           ↂ.pc.body.tits.areola      = 3,
-          ↂ.pc.body.tits.lact.cup    = "E-cup",
-          ↂ.pc.body.tits.lact.max    = 800,
-          ↂ.pc.body.tits.lact.size   = 660,
-          ↂ.pc.body.tits.nipGirth    = 3,
-          ↂ.pc.body.tits.nipLength   = 5,
-          ↂ.pc.body.clit             = 2,
+          ↂ.pc.body.tits.lact.cup    = "C-cup",
+          ↂ.pc.body.tits.lact.max    = 600,
+          ↂ.pc.body.tits.lact.size   = 530,
+          ↂ.pc.body.tits.nipGirth    = 4,
+          ↂ.pc.body.tits.nipLength   = 2,
+
+          ↂ.pc.body.tits.base.size   = 600,
+
+          ↂ.pc.body.clit             = 3,
           ↂ.pc.body.labia            = 2,
-          ↂ.pc.body.pussy.wetness    = 2,
+          ↂ.pc.body.pussy.wetness    = 5,
           ↂ.pc.fert.fertility        = 4,
           ↂ.pc.fert.implant          = 0,
-          ↂ.pc.groom.pubeColor       = 'brunette',
-          ↂ.pc.groom.pubeStyle       = 'bushy',
+          ↂ.pc.groom.pubeColor       = 'black',
+          ↂ.pc.groom.pubeStyle       = 'trimmed',
           ↂ.pc.body.pussy.virgin     = true,
 
+          ↂ.pc.fert.egg = 240,
+          ↂ.pc.fert.vagHostile = 0,
+          ↂ.pc.fert.multEgg = 0,
+          ↂ.pc.fert.wombHealth = 0,
+
           ↂ.pc.kink.anal = false,
-          ↂ.pc.kink.bond = false,
-          ↂ.pc.kink.buttSlut = false,
+          ↂ.pc.kink.bond = true,
+          ↂ.pc.kink.buttSlut = true,
           ↂ.pc.kink.cumSlut = false,
-          ↂ.pc.kink.dom = true,
-          ↂ.pc.kink.easy = false,
-          ↂ.pc.kink.exhibition = true,
+          ↂ.pc.kink.dom = false,
+          ↂ.pc.kink.easy = true,
+          ↂ.pc.kink.exhibition = false,
           ↂ.pc.kink.fap = false,
           ↂ.pc.kink.force = false,
           ↂ.pc.kink.hard = true,
           ↂ.pc.kink.hyperSlut = false,
           ↂ.pc.kink.liberate = true,
-          ↂ.pc.kink.masochist = false,
+          ↂ.pc.kink.masochist = true,
           ↂ.pc.kink.nips = false,
           ↂ.pc.kink.oral = false,
-          ↂ.pc.kink.pregnancy = true,
+          ↂ.pc.kink.pregnancy = false,
           ↂ.pc.kink.public = false,
           ↂ.pc.kink.rape = false,
           ↂ.pc.kink.risky = false,
           ↂ.pc.kink.shame = false,
           ↂ.pc.kink.sizequeen = false,
-          ↂ.pc.kink.slut = false,
-          ↂ.pc.kink.sub = true,
-          ↂ.pc.kink.superSlut = false,
+          ↂ.pc.kink.slut = true,
+          ↂ.pc.kink.sub = false,
+          ↂ.pc.kink.superSlut = true,
           ↂ.pc.kink.water = false,
 
-          ↂ.pc.main.age           = 25,
-          ↂ.pc.main.ageID         = 25,
-          ↂ.pc.main.ageOriginal   = 25,
-          ↂ.pc.main.background    = "Amanda is a tall and muscular no-nonsense woman with large lactating breasts and a penchant for impregnation.",
+          ↂ.pc.main.age           = 23,
+          ↂ.pc.main.ageID         = 23,
+          ↂ.pc.main.ageOriginal   = 23,
           ↂ.pc.main.female        = true,
           ↂ.pc.main.male          = false,
-          ↂ.pc.main.name          = 'Amanda',
-          ↂ.pc.main.surname       = 'Williams',
-          ↂ.pc.persona.lookingFor = 'love',
+          ↂ.pc.main.name          = 'Paris',
+          ↂ.pc.main.surname       = 'Right',
+          ↂ.pc.persona.lookingFor = 'sex',
           ↂ.pc.persona.mentionFertile = true,
           ↂ.pc.persona.slutty = false,
           ↂ.pc.persona.sweet = false,
 
-          ↂ.pc.trait.maternal = 1,
-          ↂ.pc.trait.caring   = 1,
-          ↂ.pc.trait.bitch    = 0,
+          ↂ.pc.trait.maternal = 0,
+          ↂ.pc.trait.caring   = 0,
+          ↂ.pc.trait.bitch    = 1,
           ↂ.pc.trait.romantic = 0,
-          ↂ.pc.trait.deceptive = 0,
+          ↂ.pc.trait.deceptive = -1,
           ↂ.pc.trait.devious   = -1,
           ↂ.pc.trait.persuasive = 1,
-          ↂ.pc.trait.perceptive = 1,
+          ↂ.pc.trait.perceptive = -1,
           ↂ.pc.trait.forgetful = 0,
-          ↂ.pc.trait.lowEsteem = -1,
-          ↂ.pc.trait.forgiving = 0,
-          ↂ.pc.trait.picky = 1,
-          ↂ.pc.trait.crude = 0,
+          ↂ.pc.trait.lowEsteem = 1,
+          ↂ.pc.trait.forgiving = -1,
+          ↂ.pc.trait.picky = -1,
+          ↂ.pc.trait.crude = 1,
           ↂ.pc.trait.friendly = 0,
-          ↂ.pc.trait.approachable = 1,
+          ↂ.pc.trait.approachable = -1,
           ↂ.pc.trait.relaxed = 0,
           ↂ.pc.trait.materialist = 0,
-          ↂ.pc.trait.flirty = -1,
+          ↂ.pc.trait.flirty = 1,
 
-          ↂ.pc.trait.libido = 3,
-          ↂ.pc.trait.will = 5,
+          ↂ.pc.trait.libido = 11,
+          ↂ.pc.trait.will = 2,
           ↂ.pc.trait.vert = 'neither',
 
           ↂ.pc.mutate.acid = false,
@@ -257,59 +2363,1311 @@
           ↂ.pc.mutate.litePhero = false,
           ↂ.pc.mutate.megaLong = false,
           ↂ.pc.mutate.megaNuts = false,
-          ↂ.pc.mutate.milk = true,
+          ↂ.pc.mutate.milk = false,
           ↂ.pc.mutate.mouth = false,
           ↂ.pc.mutate.multgasm = false,
           ↂ.pc.mutate.multiple = false,
           ↂ.pc.mutate.pseudoPreg = false,
-          ↂ.pc.mutate.twinWomb = false,
-
-          ↂ.pref.height = [-2, -1, 1, 2, -1],
-          ↂ.pref.muscle = [-2, -1, 1, 2, -2],
-          ↂ.pref.weight = [-2, -1, 2, -1, -2],
-          ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]
+          ↂ.pc.mutate.twinWomb = false
         >>
-        <<set $AW.startMale = true>><<set ↂ.ward.bottom.push("tttt")>><<set ↂ.ward.top.push("tttv")>><<run setup.initialize.savePrefs()>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>>
-        <<go background>>
-      <</button>>
-    <<elseif aw.premade === "mitsuko">>
-      <h3>Mitsuko</h3>
-      ''The Asian milf:'' A captivatingly beautiful Asian milf, with full breasts, a curvy body and wide hips, she is the ideal figure for a wife and mother.<br><br>
 
-      <<button "Choose This Character">>
+        <<set ↂ.pref.height = [-2, -1, 1, 2, -1]>>
+        <<set ↂ.pref.muscle = [-2, -1, 1, 2, 1, -2]>>
+        <<set ↂ.pref.weight = [-2, -1, 2, -1, -2, -2]>>
+        <<set ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]>>
+        
+        <<script>>
+          // Player breasts calc
+          const titsArray = setup.editorCalc(
+            ↂ.pc.body.tits.base.size, ↂ.pc.body.shoulders, ↂ.pc.body.weight
+          );
+          ↂ.pc.body.tits.band = titsArray[0];
+
+          ↂ.pc.body.tits.cupNum = titsArray[1];
+          ↂ.pc.body.tits.base.cupNum = titsArray[1];
+
+          ↂ.pc.body.tits.base.cupRaw = titsArray[2];
+
+          ↂ.pc.body.tits.cup = titsArray[3];
+          ↂ.pc.body.tits.base.cup = titsArray[3];
+
+          ↂ.pc.body.tits.bra = titsArray[4];
+          ↂ.pc.body.tits.base.bra = titsArray[4];
+        <</script>>
+
+        <<script>>
+          let femFertileCalc = Math.round(
+            (
+              Math.round( ↂ.pc.fert.egg / 2 ) + ↂ.pc.fert.implant +
+              Math.round( ↂ.pc.fert.vagHostile / 2 ) +
+              Math.round( ↂ.pc.fert.multEgg / 2 ) -
+              ↂ.pc.fert.wombHealth
+            ) / 5,
+          ) - 3;
+          if (femFertileCalc === 1) {
+            femFertileCalc = 2;
+          } else if (femFertileCalc < 1 && femFertileCalc > -2) {
+            femFertileCalc = 1;
+          } else if (femFertileCalc < -1) {
+            femFertileCalc = 0;
+          } else if (femFertileCalc > 8) {
+            femFertileCalc = 8;
+          }
+          ↂ.pc.fert.fertility = femFertileCalc;
+        <</script>>
         <<set
-          ↂ.pc.body.face        = 'normal',
-          ↂ.pc.body.beauty      = 3,
-          ↂ.pc.body.eyeColor    = 'brown',
+          ↂ.skill.art = 5,
+          ↂ.skill.curArt = 5,
+          ↂ.skill.athletic = 5,
+          ↂ.skill.curAthletic = 5,
+          ↂ.skill.clean = 5,
+          ↂ.skill.curClean = 5,
+          ↂ.skill.comm = 5,
+          ↂ.skill.curComm = 5,
+          ↂ.skill.cook = 5,
+          ↂ.skill.curCook = 5,
+          ↂ.skill.crime = 5,
+          ↂ.skill.curDancing = 5,
+          ↂ.skill.curExhibition = 15,
+          ↂ.skill.firearms = 0,
+          ↂ.skill.curFirearms = 0,
+          ↂ.skill.oral = 40,
+          ↂ.skill.curOral = 40,
+          ↂ.skill.org = 5,
+          ↂ.skill.curOrg = 5,
+          ↂ.skill.probSolving = 5,
+          ↂ.skill.curProbSolving = 5,
+          ↂ.skill.prost = 10,
+          ↂ.skill.prostitute = 10,
+          ↂ.skill.curProstitute = 10,
+          ↂ.skill.prostitution = 10,
+          ↂ.skill.sed = 40,
+          ↂ.skill.curSeduction = 40,
+          ↂ.skill.sex = 70,
+          ↂ.skill.curSex = 70,
+          ↂ.skill.shop = 8,
+          ↂ.skill.curShop = 8,
+          ↂ.skill.dance = 5,
+          ↂ.skill.dancing = 5,
+          ↂ.skill.exhib = 10,
+          ↂ.skill.exhibit = 10,
+          ↂ.skill.exhibition = 10,
+          ↂ.skill.curFinance = 12,
+          ↂ.skill.finance = 12,
+          ↂ.skill.heels = 0,
+          ↂ.skill.kegel = 10,
+          ↂ.skill.manage = 0,
+          ↂ.skill.martial = 10,
+          ↂ.skill.curMartial = 10,
+          ↂ.skill.perform = 0,
+          ↂ.skill.probSolve = 5,
+          ↂ.skill.seduction = 5,
+          ↂ.skill.strip = 0,
+          ↂ.skill.whore = 20
+        >>
+        <<set ↂ.pc.groom.pubeGrow = 5>>
+        <<set ↂ.pc.main.background = 'ex slut'>>
+        <<set ↂ.pc.main.bd1 = 5>>
+        <<set ↂ.pc.main.bd2 = 4>>
+          <<setPCportrait>>
+        <<case "evelyn">>
+        <<set
+          ↂ.pc.body.face        = 'sensual',
+          ↂ.pc.body.beauty      = 5,
+          ↂ.pc.body.eyeColor    = 'hazel',
+          ↂ.pc.body.skinColor   = 'tanned',
+          ↂ.pc.groom.hairColor  = 'ginger',
+          ↂ.pc.groom.hairLength = 20,
+          ↂ.pc.groom.hairCurl   = 1,
+          ↂ.pc.groom.hairStyle  = 'unkempt',
+
+          ↂ.pc.body.height           = 66,
+          ↂ.pc.body.race             = 'white',
+          ↂ.pc.body.ass              = 4,
+          ↂ.pc.body.pelvis           = 3,
+          ↂ.pc.body.hips             = 4,
+          ↂ.pc.body.waist            = 2,
+          ↂ.pc.body.shoulders        = 2,
+          ↂ.pc.body.weight           = 3,
+          ↂ.pc.body.tone             = 3,
+
+          ↂ.pc.body.tits.areola      = 2,
+          ↂ.pc.body.tits.lact.cup    = "C-cup",
+          ↂ.pc.body.tits.lact.max    = 900,
+          ↂ.pc.body.tits.lact.size   = 730,
+          ↂ.pc.body.tits.nipGirth    = 3,
+          ↂ.pc.body.tits.nipLength   = 3,
+
+          ↂ.pc.body.tits.base.size   = 900,
+
+          ↂ.pc.body.clit             = 4,
+          ↂ.pc.body.labia            = 3,
+          ↂ.pc.body.pussy.wetness    = 6,
+          ↂ.pc.fert.fertility        = 6,
+          ↂ.pc.fert.implant          = 0,
+          ↂ.pc.groom.pubeColor       = 'ginger',
+          ↂ.pc.groom.pubeStyle       = 'trimmed',
+          ↂ.pc.body.pussy.virgin     = true,
+
+          ↂ.pc.fert.egg = 240,
+          ↂ.pc.fert.vagHostile = 0,
+          ↂ.pc.fert.multEgg = 0,
+          ↂ.pc.fert.wombHealth = 0,
+
+          ↂ.pc.kink.anal = true,
+          ↂ.pc.kink.bond = false,
+          ↂ.pc.kink.buttSlut = false,
+          ↂ.pc.kink.cumSlut = false,
+          ↂ.pc.kink.dom = false,
+          ↂ.pc.kink.easy = true,
+          ↂ.pc.kink.exhibition = false,
+          ↂ.pc.kink.fap = false,
+          ↂ.pc.kink.force = false,
+          ↂ.pc.kink.hard = false,
+          ↂ.pc.kink.hyperSlut = false,
+          ↂ.pc.kink.liberate = true,
+          ↂ.pc.kink.masochist = false,
+          ↂ.pc.kink.nips = true,
+          ↂ.pc.kink.oral = true,
+          ↂ.pc.kink.pregnancy = false,
+          ↂ.pc.kink.public = false,
+          ↂ.pc.kink.rape = false,
+          ↂ.pc.kink.risky = false,
+          ↂ.pc.kink.shame = false,
+          ↂ.pc.kink.sizequeen = false,
+          ↂ.pc.kink.slut = false,
+          ↂ.pc.kink.sub = false,
+          ↂ.pc.kink.superSlut = false,
+          ↂ.pc.kink.water = false,
+
+          ↂ.pc.main.age           = 24,
+          ↂ.pc.main.ageID         = 24,
+          ↂ.pc.main.ageOriginal   = 24,
+          ↂ.pc.main.female        = true,
+          ↂ.pc.main.male          = false,
+          ↂ.pc.main.name          = 'Evelyn',
+          ↂ.pc.main.surname       = 'Green',
+          ↂ.pc.persona.lookingFor = 'love',
+          ↂ.pc.persona.mentionFertile = true,
+          ↂ.pc.persona.slutty = false,
+          ↂ.pc.persona.sweet = false,
+
+          ↂ.pc.trait.maternal = -1,
+          ↂ.pc.trait.caring   = 1,
+          ↂ.pc.trait.bitch    = -1,
+          ↂ.pc.trait.romantic = 1,
+          ↂ.pc.trait.deceptive = -1,
+          ↂ.pc.trait.devious   = 0,
+          ↂ.pc.trait.persuasive = 0,
+          ↂ.pc.trait.perceptive = -1,
+          ↂ.pc.trait.forgetful = 0,
+          ↂ.pc.trait.lowEsteem = 1,
+          ↂ.pc.trait.forgiving = -1,
+          ↂ.pc.trait.picky = 0,
+          ↂ.pc.trait.crude = 0,
+          ↂ.pc.trait.friendly = 1,
+          ↂ.pc.trait.approachable = 1,
+          ↂ.pc.trait.relaxed = 1,
+          ↂ.pc.trait.materialist = 0,
+          ↂ.pc.trait.flirty = 1,
+
+          ↂ.pc.trait.libido = 9,
+          ↂ.pc.trait.will = 4,
+          ↂ.pc.trait.vert = 'neither',
+
+          ↂ.pc.mutate.acid = false,
+          ↂ.pc.mutate.acidPre = false,
+          ↂ.pc.mutate.birthCon = false,
+          ↂ.pc.mutate.bitchBreaker = false,
+          ↂ.pc.mutate.contort = false,
+          ↂ.pc.mutate.cumpire = false,
+          ↂ.pc.mutate.fertStorm = true,
+          ↂ.pc.mutate.gestate = false,
+          ↂ.pc.mutate.girth = false,
+          ↂ.pc.mutate.goddess = false,
+          ↂ.pc.mutate.immune = false,
+          ↂ.pc.mutate.iron = false,
+          ↂ.pc.mutate.killerSperm = false,
+          ↂ.pc.mutate.lilithCurse = false,
+          ↂ.pc.mutate.litePhero = false,
+          ↂ.pc.mutate.megaLong = false,
+          ↂ.pc.mutate.megaNuts = false,
+          ↂ.pc.mutate.milk = false,
+          ↂ.pc.mutate.mouth = false,
+          ↂ.pc.mutate.multgasm = false,
+          ↂ.pc.mutate.multiple = false,
+          ↂ.pc.mutate.pseudoPreg = false,
+          ↂ.pc.mutate.twinWomb = false
+        >>
+
+        <<set ↂ.pref.height = [-2, -1, 1, 2, -1]>>
+        <<set ↂ.pref.muscle = [-2, -1, 1, 2, 1, -2]>>
+        <<set ↂ.pref.weight = [-2, -1, 2, -1, -2, -2]>>
+        <<set ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]>>
+        
+        <<script>>
+          // Player breasts calc
+          const titsArray = setup.editorCalc(
+            ↂ.pc.body.tits.base.size, ↂ.pc.body.shoulders, ↂ.pc.body.weight
+          );
+          ↂ.pc.body.tits.band = titsArray[0];
+
+          ↂ.pc.body.tits.cupNum = titsArray[1];
+          ↂ.pc.body.tits.base.cupNum = titsArray[1];
+
+          ↂ.pc.body.tits.base.cupRaw = titsArray[2];
+
+          ↂ.pc.body.tits.cup = titsArray[3];
+          ↂ.pc.body.tits.base.cup = titsArray[3];
+
+          ↂ.pc.body.tits.bra = titsArray[4];
+          ↂ.pc.body.tits.base.bra = titsArray[4];
+        <</script>>
+
+        <<script>>
+          let femFertileCalc = Math.round(
+            (
+              Math.round( ↂ.pc.fert.egg / 2 ) + ↂ.pc.fert.implant +
+              Math.round( ↂ.pc.fert.vagHostile / 2 ) +
+              Math.round( ↂ.pc.fert.multEgg / 2 ) -
+              ↂ.pc.fert.wombHealth
+            ) / 5,
+          ) - 3;
+          if (femFertileCalc === 1) {
+            femFertileCalc = 2;
+          } else if (femFertileCalc < 1 && femFertileCalc > -2) {
+            femFertileCalc = 1;
+          } else if (femFertileCalc < -1) {
+            femFertileCalc = 0;
+          } else if (femFertileCalc > 8) {
+            femFertileCalc = 8;
+          }
+          ↂ.pc.fert.fertility = femFertileCalc;
+        <</script>>
+        <<set
+          ↂ.skill.art = 20,
+          ↂ.skill.curArt = 20,
+          ↂ.skill.athletic = 25,
+          ↂ.skill.curAthletic = 25,
+          ↂ.skill.clean = 25,
+          ↂ.skill.curClean = 25,
+          ↂ.skill.comm = 35,
+          ↂ.skill.curComm = 35,
+          ↂ.skill.cook = 15,
+          ↂ.skill.curCook = 15,
+          ↂ.skill.crime = 5,
+          ↂ.skill.curDancing = 5,
+          ↂ.skill.curExhibition = 5,
+          ↂ.skill.firearms = 8,
+          ↂ.skill.curFirearms = 8,
+          ↂ.skill.oral = 30,
+          ↂ.skill.curOral = 30,
+          ↂ.skill.org = 45,
+          ↂ.skill.curOrg = 45,
+          ↂ.skill.probSolving = 55,
+          ↂ.skill.curProbSolving = 55,
+          ↂ.skill.prost = 10,
+          ↂ.skill.prostitute = 10,
+          ↂ.skill.curProstitute = 10,
+          ↂ.skill.prostitution = 10,
+          ↂ.skill.sed = 30,
+          ↂ.skill.curSeduction = 30,
+          ↂ.skill.sex = 40,
+          ↂ.skill.curSex = 40,
+          ↂ.skill.shop = 28,
+          ↂ.skill.curShop = 28,
+          ↂ.skill.dance = 35,
+          ↂ.skill.dancing = 35,
+          ↂ.skill.exhib = 10,
+          ↂ.skill.exhibit = 10,
+          ↂ.skill.exhibition = 10,
+          ↂ.skill.curFinance = 42,
+          ↂ.skill.finance = 42,
+          ↂ.skill.heels = 30,
+          ↂ.skill.kegel = 10,
+          ↂ.skill.manage = 0,
+          ↂ.skill.martial = 10,
+          ↂ.skill.curMartial = 10,
+          ↂ.skill.perform = 0,
+          ↂ.skill.probSolve = 5,
+          ↂ.skill.seduction = 5,
+          ↂ.skill.strip = 0,
+          ↂ.skill.whore = 20
+        >>
+        <<set ↂ.pc.groom.pubeGrow = 3>>
+        <<set ↂ.pc.main.background = 'ex manager'>>
+        <<set ↂ.pc.main.bd1 = 5>>
+        <<set ↂ.pc.main.bd2 = 4>>
+        <<setPCportrait>>
+<<case "eve">>
+        <<set
+          ↂ.pc.body.face        = 'cute',
+          ↂ.pc.body.beauty      = 5,
+          ↂ.pc.body.eyeColor    = 'blue',
           ↂ.pc.body.skinColor   = 'fair',
-          ↂ.pc.groom.hairColor  = 'black',
-          ↂ.pc.groom.hairLength = 18,
-          ↂ.pc.groom.hairCur    = 1,
-          ↂ.pc.groom.hairStyle  = 'straight',
+          ↂ.pc.groom.hairColor  = 'blonde',
+          ↂ.pc.groom.hairLength = 10,
+          ↂ.pc.groom.hairCurl   = 2,
+          ↂ.pc.groom.hairStyle  = 'unkempt',
+
+          ↂ.pc.body.height           = 61,
+          ↂ.pc.body.race             = 'white',
+          ↂ.pc.body.ass              = 5,
+          ↂ.pc.body.pelvis           = 3,
+          ↂ.pc.body.hips             = 5,
+          ↂ.pc.body.waist            = 1,
+          ↂ.pc.body.shoulders        = 1,
+          ↂ.pc.body.weight           = 2,
+          ↂ.pc.body.tone             = 3,
+
+          ↂ.pc.body.tits.areola      = 2,
+          ↂ.pc.body.tits.lact.cup    = "I-cup",
+          ↂ.pc.body.tits.lact.max    = 1390,
+          ↂ.pc.body.tits.lact.size   = 1230,
+          ↂ.pc.body.tits.nipGirth    = 3,
+          ↂ.pc.body.tits.nipLength   = 3,
+
+          ↂ.pc.body.tits.base.size   = 1390,
+
+          ↂ.pc.body.clit             = 1,
+          ↂ.pc.body.labia            = 2,
+          ↂ.pc.body.pussy.wetness    = 5,
+          ↂ.pc.fert.fertility        = 6,
+          ↂ.pc.fert.implant          = 0,
+          ↂ.pc.groom.pubeColor       = 'blonde',
+          ↂ.pc.groom.pubeStyle       = 'trimmed',
+          ↂ.pc.body.pussy.virgin     = true,
+
+          ↂ.pc.fert.egg = 340,
+          ↂ.pc.fert.vagHostile = 0,
+          ↂ.pc.fert.multEgg = 0,
+          ↂ.pc.fert.wombHealth = 0,
+
+          ↂ.pc.kink.anal = true,
+          ↂ.pc.kink.bond = false,
+          ↂ.pc.kink.buttSlut = false,
+          ↂ.pc.kink.cumSlut = true,
+          ↂ.pc.kink.dom = false,
+          ↂ.pc.kink.easy = false,
+          ↂ.pc.kink.exhibition = false,
+          ↂ.pc.kink.fap = false,
+          ↂ.pc.kink.force = false,
+          ↂ.pc.kink.hard = false,
+          ↂ.pc.kink.hyperSlut = false,
+          ↂ.pc.kink.liberate = true,
+          ↂ.pc.kink.masochist = false,
+          ↂ.pc.kink.nips = true,
+          ↂ.pc.kink.oral = true,
+          ↂ.pc.kink.pregnancy = false,
+          ↂ.pc.kink.public = false,
+          ↂ.pc.kink.rape = false,
+          ↂ.pc.kink.risky = true,
+          ↂ.pc.kink.shame = false,
+          ↂ.pc.kink.sizequeen = false,
+          ↂ.pc.kink.slut = true,
+          ↂ.pc.kink.sub = false,
+          ↂ.pc.kink.superSlut = false,
+          ↂ.pc.kink.water = false,
+
+          ↂ.pc.main.age           = 20,
+          ↂ.pc.main.ageID         = 20,
+          ↂ.pc.main.ageOriginal   = 20,
+          ↂ.pc.main.female        = true,
+          ↂ.pc.main.male          = false,
+          ↂ.pc.main.name          = 'Eve',
+          ↂ.pc.main.surname       = 'Mendez',
+          ↂ.pc.persona.lookingFor = 'love',
+          ↂ.pc.persona.mentionFertile = true,
+          ↂ.pc.persona.slutty = false,
+          ↂ.pc.persona.sweet = false,
+
+          ↂ.pc.trait.maternal = 1,
+          ↂ.pc.trait.caring   = 0,
+          ↂ.pc.trait.bitch    = 1,
+          ↂ.pc.trait.romantic = 0,
+          ↂ.pc.trait.deceptive = -1,
+          ↂ.pc.trait.devious   = -1,
+          ↂ.pc.trait.persuasive = -1,
+          ↂ.pc.trait.perceptive = -1,
+          ↂ.pc.trait.forgetful = 1,
+          ↂ.pc.trait.lowEsteem = 0,
+          ↂ.pc.trait.forgiving = 1,
+          ↂ.pc.trait.picky = -1,
+          ↂ.pc.trait.crude = 0,
+          ↂ.pc.trait.friendly = 1,
+          ↂ.pc.trait.approachable = 1,
+          ↂ.pc.trait.relaxed = 1,
+          ↂ.pc.trait.materialist = -1,
+          ↂ.pc.trait.flirty = 1,
+
+          ↂ.pc.trait.libido = 10,
+          ↂ.pc.trait.will = 2,
+          ↂ.pc.trait.vert = 'neither',
+
+          ↂ.pc.mutate.acid = true,
+          ↂ.pc.mutate.acidPre = false,
+          ↂ.pc.mutate.birthCon = true,
+          ↂ.pc.mutate.bitchBreaker = false,
+          ↂ.pc.mutate.contort = false,
+          ↂ.pc.mutate.cumpire = false,
+          ↂ.pc.mutate.fertStorm = true,
+          ↂ.pc.mutate.gestate = false,
+          ↂ.pc.mutate.girth = false,
+          ↂ.pc.mutate.goddess = false,
+          ↂ.pc.mutate.immune = false,
+          ↂ.pc.mutate.iron = false,
+          ↂ.pc.mutate.killerSperm = false,
+          ↂ.pc.mutate.lilithCurse = false,
+          ↂ.pc.mutate.litePhero = true,
+          ↂ.pc.mutate.megaLong = false,
+          ↂ.pc.mutate.megaNuts = false,
+          ↂ.pc.mutate.milk = false,
+          ↂ.pc.mutate.mouth = false,
+          ↂ.pc.mutate.multgasm = false,
+          ↂ.pc.mutate.multiple = false,
+          ↂ.pc.mutate.pseudoPreg = false,
+          ↂ.pc.mutate.twinWomb = false
+        >>
+
+        <<set ↂ.pref.height = [-2, -1, 1, 2, -1]>>
+        <<set ↂ.pref.muscle = [-2, -1, 1, 2, 1, -2]>>
+        <<set ↂ.pref.weight = [-2, -1, 2, -1, -2, -2]>>
+        <<set ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]>>
+        
+        <<script>>
+          // Player breasts calc
+          const titsArray = setup.editorCalc(
+            ↂ.pc.body.tits.base.size, ↂ.pc.body.shoulders, ↂ.pc.body.weight
+          );
+          ↂ.pc.body.tits.band = titsArray[0];
+
+          ↂ.pc.body.tits.cupNum = titsArray[1];
+          ↂ.pc.body.tits.base.cupNum = titsArray[1];
+
+          ↂ.pc.body.tits.base.cupRaw = titsArray[2];
+
+          ↂ.pc.body.tits.cup = titsArray[3];
+          ↂ.pc.body.tits.base.cup = titsArray[3];
+
+          ↂ.pc.body.tits.bra = titsArray[4];
+          ↂ.pc.body.tits.base.bra = titsArray[4];
+        <</script>>
+
+        <<script>>
+          let femFertileCalc = Math.round(
+            (
+              Math.round( ↂ.pc.fert.egg / 2 ) + ↂ.pc.fert.implant +
+              Math.round( ↂ.pc.fert.vagHostile / 2 ) +
+              Math.round( ↂ.pc.fert.multEgg / 2 ) -
+              ↂ.pc.fert.wombHealth
+            ) / 5,
+          ) - 3;
+          if (femFertileCalc === 1) {
+            femFertileCalc = 2;
+          } else if (femFertileCalc < 1 && femFertileCalc > -2) {
+            femFertileCalc = 1;
+          } else if (femFertileCalc < -1) {
+            femFertileCalc = 0;
+          } else if (femFertileCalc > 8) {
+            femFertileCalc = 8;
+          }
+          ↂ.pc.fert.fertility = femFertileCalc;
+        <</script>>
+        <<set
+          ↂ.skill.art = 20,
+          ↂ.skill.curArt = 20,
+          ↂ.skill.athletic = 25,
+          ↂ.skill.curAthletic = 25,
+          ↂ.skill.clean = 25,
+          ↂ.skill.curClean = 25,
+          ↂ.skill.comm = 35,
+          ↂ.skill.curComm = 35,
+          ↂ.skill.cook = 15,
+          ↂ.skill.curCook = 15,
+          ↂ.skill.crime = 5,
+          ↂ.skill.curDancing = 5,
+          ↂ.skill.curExhibition = 5,
+          ↂ.skill.firearms = 8,
+          ↂ.skill.curFirearms = 8,
+          ↂ.skill.oral = 30,
+          ↂ.skill.curOral = 30,
+          ↂ.skill.org = 45,
+          ↂ.skill.curOrg = 45,
+          ↂ.skill.probSolving = 55,
+          ↂ.skill.curProbSolving = 55,
+          ↂ.skill.prost = 10,
+          ↂ.skill.prostitute = 10,
+          ↂ.skill.curProstitute = 10,
+          ↂ.skill.prostitution = 10,
+          ↂ.skill.sed = 30,
+          ↂ.skill.curSeduction = 30,
+          ↂ.skill.sex = 40,
+          ↂ.skill.curSex = 40,
+          ↂ.skill.shop = 28,
+          ↂ.skill.curShop = 28,
+          ↂ.skill.dance = 35,
+          ↂ.skill.dancing = 35,
+          ↂ.skill.exhib = 10,
+          ↂ.skill.exhibit = 10,
+          ↂ.skill.exhibition = 10,
+          ↂ.skill.curFinance = 42,
+          ↂ.skill.finance = 42,
+          ↂ.skill.heels = 30,
+          ↂ.skill.kegel = 10,
+          ↂ.skill.manage = 0,
+          ↂ.skill.martial = 10,
+          ↂ.skill.curMartial = 10,
+          ↂ.skill.perform = 0,
+          ↂ.skill.probSolve = 5,
+          ↂ.skill.seduction = 5,
+          ↂ.skill.strip = 0,
+          ↂ.skill.whore = 20
+        >>
+        <<set ↂ.pc.groom.pubeGrow = 2>>
+        <<set ↂ.pc.main.background = 'ex manager'>>
+        <<set ↂ.pc.main.bd1 = 3>>
+        <<set ↂ.pc.main.bd2 = 2>>
+        <<setPCportrait>>
+    <<case "heather">>
+        <<set
+          ↂ.pc.body.face        = 'exotic',
+          ↂ.pc.body.beauty      = 5,
+          ↂ.pc.body.eyeColor    = 'green',
+          ↂ.pc.body.skinColor   = 'light',
+          ↂ.pc.groom.hairColor  = 'copper',
+          ↂ.pc.groom.hairLength = 22,
+          ↂ.pc.groom.hairCurl   = 3,
+          ↂ.pc.groom.hairStyle  = 'unkempt',
 
           ↂ.pc.body.height           = 64,
-          ↂ.pc.body.race             = 'asian',
+          ↂ.pc.body.race             = 'nordic',
           ↂ.pc.body.ass              = 5,
-          ↂ.pc.body.pelvis           = 5,
+          ↂ.pc.body.pelvis           = 3,
           ↂ.pc.body.hips             = 5,
-          ↂ.pc.body.waist            = 5,
-          ↂ.pc.body.shoulder         = 2,
+          ↂ.pc.body.waist            = 1,
+          ↂ.pc.body.shoulders        = 2,
           ↂ.pc.body.weight           = 3,
           ↂ.pc.body.tone             = 4,
+
           ↂ.pc.body.tits.areola      = 3,
-          ↂ.pc.body.tits.lact.cup    = "E-cup",
-          ↂ.pc.body.tits.lact.max    = 800,
-          ↂ.pc.body.tits.lact.size   = 660,
+          ↂ.pc.body.tits.lact.cup    = "J-cup",
+          ↂ.pc.body.tits.lact.max    = 1610,
+          ↂ.pc.body.tits.lact.size   = 1330,
           ↂ.pc.body.tits.nipGirth    = 3,
-          ↂ.pc.body.tits.nipLength   = 5,
-          ↂ.pc.body.clit             = 2,
-          ↂ.pc.body.labia            = 2,
-          ↂ.pc.body.pussy.wetness    = 2,
-          ↂ.pc.fert.fertility        = 4,
+          ↂ.pc.body.tits.nipLength   = 3,
+
+          ↂ.pc.body.tits.base.size   = 1610,
+
+          ↂ.pc.body.clit             = 3,
+          ↂ.pc.body.labia            = 4,
+          ↂ.pc.body.pussy.wetness    = 5,
+          ↂ.pc.fert.fertility        = 6,
+          ↂ.pc.fert.implant          = 0,
+          ↂ.pc.groom.pubeColor       = 'copper',
+          ↂ.pc.groom.pubeStyle       = 'trimmed',
+          ↂ.pc.body.pussy.virgin     = true,
+
+          ↂ.pc.fert.egg = 340,
+          ↂ.pc.fert.vagHostile = 0,
+          ↂ.pc.fert.multEgg = 0,
+          ↂ.pc.fert.wombHealth = 0,
+
+          ↂ.pc.kink.anal = true,
+          ↂ.pc.kink.bond = false,
+          ↂ.pc.kink.buttSlut = false,
+          ↂ.pc.kink.cumSlut = true,
+          ↂ.pc.kink.dom = false,
+          ↂ.pc.kink.easy = false,
+          ↂ.pc.kink.exhibition = false,
+          ↂ.pc.kink.fap = false,
+          ↂ.pc.kink.force = true,
+          ↂ.pc.kink.hard = false,
+          ↂ.pc.kink.hyperSlut = false,
+          ↂ.pc.kink.liberate = true,
+          ↂ.pc.kink.masochist = false,
+          ↂ.pc.kink.nips = false,
+          ↂ.pc.kink.oral = false,
+          ↂ.pc.kink.pregnancy = true,
+          ↂ.pc.kink.public = false,
+          ↂ.pc.kink.rape = true,
+          ↂ.pc.kink.risky = true,
+          ↂ.pc.kink.shame = false,
+          ↂ.pc.kink.sizequeen = false,
+          ↂ.pc.kink.slut = true,
+          ↂ.pc.kink.sub = false,
+          ↂ.pc.kink.superSlut = false,
+          ↂ.pc.kink.water = false,
+
+          ↂ.pc.main.age           = 26,
+          ↂ.pc.main.ageID         = 26,
+          ↂ.pc.main.ageOriginal   = 26,
+          ↂ.pc.main.female        = true,
+          ↂ.pc.main.male          = false,
+          ↂ.pc.main.name          = 'Heather',
+          ↂ.pc.main.surname       = 'Miller',
+          ↂ.pc.persona.lookingFor = 'love',
+          ↂ.pc.persona.mentionFertile = true,
+          ↂ.pc.persona.slutty = false,
+          ↂ.pc.persona.sweet = false,
+
+          ↂ.pc.trait.maternal = 1,
+          ↂ.pc.trait.caring   = 0,
+          ↂ.pc.trait.bitch    = 1,
+          ↂ.pc.trait.romantic = 0,
+          ↂ.pc.trait.deceptive = -1,
+          ↂ.pc.trait.devious   = -1,
+          ↂ.pc.trait.persuasive = -1,
+          ↂ.pc.trait.perceptive = -1,
+          ↂ.pc.trait.forgetful = 1,
+          ↂ.pc.trait.lowEsteem = 0,
+          ↂ.pc.trait.forgiving = 1,
+          ↂ.pc.trait.picky = -1,
+          ↂ.pc.trait.crude = 0,
+          ↂ.pc.trait.friendly = 1,
+          ↂ.pc.trait.approachable = 1,
+          ↂ.pc.trait.relaxed = 1,
+          ↂ.pc.trait.materialist = -1,
+          ↂ.pc.trait.flirty = 1,
+
+          ↂ.pc.trait.libido = 10,
+          ↂ.pc.trait.will = 2,
+          ↂ.pc.trait.vert = 'neither',
+
+          ↂ.pc.mutate.acid = true,
+          ↂ.pc.mutate.acidPre = false,
+          ↂ.pc.mutate.birthCon = true,
+          ↂ.pc.mutate.bitchBreaker = false,
+          ↂ.pc.mutate.contort = false,
+          ↂ.pc.mutate.cumpire = false,
+          ↂ.pc.mutate.fertStorm = true,
+          ↂ.pc.mutate.gestate = false,
+          ↂ.pc.mutate.girth = false,
+          ↂ.pc.mutate.pheromone = true,
+          ↂ.pc.mutate.goddess = false,
+          ↂ.pc.mutate.immune = false,
+          ↂ.pc.mutate.iron = false,
+          ↂ.pc.mutate.killerSperm = false,
+          ↂ.pc.mutate.lilithCurse = false,
+          ↂ.pc.mutate.litePhero = true,
+          ↂ.pc.mutate.megaLong = false,
+          ↂ.pc.mutate.megaNuts = false,
+          ↂ.pc.mutate.milk = false,
+          ↂ.pc.mutate.mouth = true,
+          ↂ.pc.mutate.multgasm = false,
+          ↂ.pc.mutate.multiple = true,
+          ↂ.pc.mutate.pseudoPreg = false,
+          ↂ.pc.mutate.twinWomb = false
+        >>
+
+        <<set ↂ.pref.height = [-2, -1, 1, 2, -1]>>
+        <<set ↂ.pref.muscle = [-2, -1, 1, 2, 1, -2]>>
+        <<set ↂ.pref.weight = [-2, -1, 2, -1, -2, -2]>>
+        <<set ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]>>
+        
+        <<script>>
+          // Player breasts calc
+          const titsArray = setup.editorCalc(
+            ↂ.pc.body.tits.base.size, ↂ.pc.body.shoulders, ↂ.pc.body.weight
+          );
+          ↂ.pc.body.tits.band = titsArray[0];
+
+          ↂ.pc.body.tits.cupNum = titsArray[1];
+          ↂ.pc.body.tits.base.cupNum = titsArray[1];
+
+          ↂ.pc.body.tits.base.cupRaw = titsArray[2];
+
+          ↂ.pc.body.tits.cup = titsArray[3];
+          ↂ.pc.body.tits.base.cup = titsArray[3];
+
+          ↂ.pc.body.tits.bra = titsArray[4];
+          ↂ.pc.body.tits.base.bra = titsArray[4];
+        <</script>>
+
+        <<script>>
+          let femFertileCalc = Math.round(
+            (
+              Math.round( ↂ.pc.fert.egg / 2 ) + ↂ.pc.fert.implant +
+              Math.round( ↂ.pc.fert.vagHostile / 2 ) +
+              Math.round( ↂ.pc.fert.multEgg / 2 ) -
+              ↂ.pc.fert.wombHealth
+            ) / 5,
+          ) - 3;
+          if (femFertileCalc === 1) {
+            femFertileCalc = 2;
+          } else if (femFertileCalc < 1 && femFertileCalc > -2) {
+            femFertileCalc = 1;
+          } else if (femFertileCalc < -1) {
+            femFertileCalc = 0;
+          } else if (femFertileCalc > 8) {
+            femFertileCalc = 8;
+          }
+          ↂ.pc.fert.fertility = femFertileCalc;
+        <</script>>
+        <<set
+          ↂ.skill.art = 20,
+          ↂ.skill.curArt = 20,
+          ↂ.skill.athletic = 25,
+          ↂ.skill.curAthletic = 25,
+          ↂ.skill.clean = 25,
+          ↂ.skill.curClean = 25,
+          ↂ.skill.comm = 35,
+          ↂ.skill.curComm = 35,
+          ↂ.skill.cook = 15,
+          ↂ.skill.curCook = 15,
+          ↂ.skill.crime = 5,
+          ↂ.skill.curDancing = 5,
+          ↂ.skill.curExhibition = 5,
+          ↂ.skill.firearms = 8,
+          ↂ.skill.curFirearms = 8,
+          ↂ.skill.oral = 30,
+          ↂ.skill.curOral = 30,
+          ↂ.skill.org = 45,
+          ↂ.skill.curOrg = 45,
+          ↂ.skill.probSolving = 55,
+          ↂ.skill.curProbSolving = 55,
+          ↂ.skill.prost = 10,
+          ↂ.skill.prostitute = 10,
+          ↂ.skill.curProstitute = 10,
+          ↂ.skill.prostitution = 10,
+          ↂ.skill.sed = 30,
+          ↂ.skill.curSeduction = 30,
+          ↂ.skill.sex = 40,
+          ↂ.skill.curSex = 40,
+          ↂ.skill.shop = 28,
+          ↂ.skill.curShop = 28,
+          ↂ.skill.dance = 35,
+          ↂ.skill.dancing = 35,
+          ↂ.skill.exhib = 10,
+          ↂ.skill.exhibit = 10,
+          ↂ.skill.exhibition = 10,
+          ↂ.skill.curFinance = 42,
+          ↂ.skill.finance = 42,
+          ↂ.skill.heels = 30,
+          ↂ.skill.kegel = 10,
+          ↂ.skill.manage = 0,
+          ↂ.skill.martial = 10,
+          ↂ.skill.curMartial = 10,
+          ↂ.skill.perform = 0,
+          ↂ.skill.probSolve = 5,
+          ↂ.skill.seduction = 5,
+          ↂ.skill.strip = 0,
+          ↂ.skill.whore = 20
+        >>
+        <<set ↂ.pc.groom.pubeGrow = 1>>
+        <<set ↂ.pc.main.background = 'ex librarian'>>
+        <<set ↂ.pc.main.bd1 = 2>>
+        <<set ↂ.pc.main.bd2 = 1>>
+        <<setPCportrait>>
+/* BETH */
+<<case "beth">>
+        <<set
+          ↂ.pc.body.face        = 'cute',
+          ↂ.pc.body.beauty      = 5,
+          ↂ.pc.body.eyeColor    = 'black',
+          ↂ.pc.body.skinColor   = 'pale',
+          ↂ.pc.groom.hairColor  = 'black',
+          ↂ.pc.groom.hairLength = 12,
+          ↂ.pc.groom.hairCurl   = 1,
+          ↂ.pc.groom.hairStyle  = 'neat',
+
+          ↂ.pc.body.height           = 70,
+          ↂ.pc.body.race             = 'white',
+          ↂ.pc.body.ass              = 5,
+          ↂ.pc.body.pelvis           = 7,
+          ↂ.pc.body.hips             = 6,
+          ↂ.pc.body.waist            = 1,
+          ↂ.pc.body.shoulders        = 2,
+          ↂ.pc.body.weight           = 4,
+          ↂ.pc.body.tone             = 3,
+
+          ↂ.pc.body.tits.areola      = 3,
+          ↂ.pc.body.tits.lact.cup    = "J-cup",
+          ↂ.pc.body.tits.lact.max    = 1610,
+          ↂ.pc.body.tits.lact.size   = 1330,
+          ↂ.pc.body.tits.nipGirth    = 4,
+          ↂ.pc.body.tits.nipLength   = 4,
+
+          ↂ.pc.body.tits.base.size   = 1610,
+
+          ↂ.pc.body.clit             = 4,
+          ↂ.pc.body.labia            = 4,
+          ↂ.pc.body.pussy.wetness    = 6,
+          ↂ.pc.fert.fertility        = 5,
           ↂ.pc.fert.implant          = 0,
           ↂ.pc.groom.pubeColor       = 'black',
           ↂ.pc.groom.pubeStyle       = 'trimmed',
-          ↂ.pc.body.pussy.virgin     = false,
+          ↂ.pc.body.pussy.virgin     = true,
+
+          ↂ.pc.fert.egg = 340,
+          ↂ.pc.fert.vagHostile = 0,
+          ↂ.pc.fert.multEgg = 0,
+          ↂ.pc.fert.wombHealth = 0,
+
+          ↂ.pc.kink.anal = true,
+          ↂ.pc.kink.bond = false,
+          ↂ.pc.kink.buttSlut = false,
+          ↂ.pc.kink.cumSlut = false,
+          ↂ.pc.kink.dom = false,
+          ↂ.pc.kink.easy = false,
+          ↂ.pc.kink.exhibition = false,
+          ↂ.pc.kink.fap = false,
+          ↂ.pc.kink.force = false,
+          ↂ.pc.kink.hard = false,
+          ↂ.pc.kink.hyperSlut = false,
+          ↂ.pc.kink.liberate = true,
+          ↂ.pc.kink.masochist = false,
+          ↂ.pc.kink.nips = false,
+          ↂ.pc.kink.oral = false,
+          ↂ.pc.kink.pregnancy = true,
+          ↂ.pc.kink.public = false,
+          ↂ.pc.kink.rape = false,
+          ↂ.pc.kink.risky = true,
+          ↂ.pc.kink.shame = false,
+          ↂ.pc.kink.sizequeen = false,
+          ↂ.pc.kink.slut = false,
+          ↂ.pc.kink.sub = true,
+          ↂ.pc.kink.superSlut = false,
+          ↂ.pc.kink.water = false,
+
+          ↂ.pc.main.age           = 24,
+          ↂ.pc.main.ageID         = 24,
+          ↂ.pc.main.ageOriginal   = 24,
+          ↂ.pc.main.female        = true,
+          ↂ.pc.main.male          = false,
+          ↂ.pc.main.name          = 'Beth',
+          ↂ.pc.main.surname       = 'Davis',
+          ↂ.pc.persona.lookingFor = 'kids',
+          ↂ.pc.persona.mentionFertile = true,
+          ↂ.pc.persona.slutty = false,
+          ↂ.pc.persona.sweet = false,
+
+          ↂ.pc.trait.maternal = 1,
+          ↂ.pc.trait.caring   = 0,
+          ↂ.pc.trait.bitch    = 0,
+          ↂ.pc.trait.romantic = 0,
+          ↂ.pc.trait.deceptive = 1,
+          ↂ.pc.trait.devious   = 1,
+          ↂ.pc.trait.persuasive = -1,
+          ↂ.pc.trait.perceptive = 0,
+          ↂ.pc.trait.forgetful = 0,
+          ↂ.pc.trait.lowEsteem = 1,
+          ↂ.pc.trait.forgiving = 0,
+          ↂ.pc.trait.picky = 0,
+          ↂ.pc.trait.crude = -1,
+          ↂ.pc.trait.friendly = -1,
+          ↂ.pc.trait.approachable = -1,
+          ↂ.pc.trait.relaxed = -1,
+          ↂ.pc.trait.materialist = 0,
+          ↂ.pc.trait.flirty = -1,
+
+          ↂ.pc.trait.libido = 6,
+          ↂ.pc.trait.will = 4,
+          ↂ.pc.trait.vert = 'extroverted',
+
+          ↂ.pc.mutate.acid = false,
+          ↂ.pc.mutate.acidPre = false,
+          ↂ.pc.mutate.birthCon = false,
+          ↂ.pc.mutate.bitchBreaker = false,
+          ↂ.pc.mutate.contort = false,
+          ↂ.pc.mutate.cumpire = false,
+          ↂ.pc.mutate.fertStorm = false,
+          ↂ.pc.mutate.gestate = true,
+          ↂ.pc.mutate.girth = false,
+          ↂ.pc.mutate.pheromone = false,
+          ↂ.pc.mutate.goddess = false,
+          ↂ.pc.mutate.immune = false,
+          ↂ.pc.mutate.iron = false,
+          ↂ.pc.mutate.killerSperm = false,
+          ↂ.pc.mutate.lilithCurse = false,
+          ↂ.pc.mutate.litePhero = false,
+          ↂ.pc.mutate.megaLong = false,
+          ↂ.pc.mutate.megaNuts = false,
+          ↂ.pc.mutate.milk = false,
+          ↂ.pc.mutate.mouth = false,
+          ↂ.pc.mutate.multgasm = false,
+          ↂ.pc.mutate.multiple = true,
+          ↂ.pc.mutate.pseudoPreg = false,
+          ↂ.pc.mutate.twinWomb = false
+        >>
+
+        <<set ↂ.pref.height = [-2, -1, 1, 2, -1]>>
+        <<set ↂ.pref.muscle = [-2, -1, 1, 2, 1, -2]>>
+        <<set ↂ.pref.weight = [-2, -1, 2, -1, -2, -2]>>
+        <<set ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]>>
+        
+        <<script>>
+          setup.omni.new("pregnancyTimer");
+          setup.omni.new("pregnancyTimerWarn");
+          // Player breasts calc
+          const titsArray = setup.editorCalc(
+            ↂ.pc.body.tits.base.size, ↂ.pc.body.shoulders, ↂ.pc.body.weight
+          );
+          ↂ.pc.body.tits.band = titsArray[0];
+
+          ↂ.pc.body.tits.cupNum = titsArray[1];
+          ↂ.pc.body.tits.base.cupNum = titsArray[1];
+
+          ↂ.pc.body.tits.base.cupRaw = titsArray[2];
+
+          ↂ.pc.body.tits.cup = titsArray[3];
+          ↂ.pc.body.tits.base.cup = titsArray[3];
+
+          ↂ.pc.body.tits.bra = titsArray[4];
+          ↂ.pc.body.tits.base.bra = titsArray[4];
+        <</script>>
+
+        <<script>>
+          let femFertileCalc = Math.round(
+            (
+              Math.round( ↂ.pc.fert.egg / 2 ) + ↂ.pc.fert.implant +
+              Math.round( ↂ.pc.fert.vagHostile / 2 ) +
+              Math.round( ↂ.pc.fert.multEgg / 2 ) -
+              ↂ.pc.fert.wombHealth
+            ) / 5,
+          ) - 3;
+          if (femFertileCalc === 1) {
+            femFertileCalc = 2;
+          } else if (femFertileCalc < 1 && femFertileCalc > -2) {
+            femFertileCalc = 1;
+          } else if (femFertileCalc < -1) {
+            femFertileCalc = 0;
+          } else if (femFertileCalc > 8) {
+            femFertileCalc = 8;
+          }
+          ↂ.pc.fert.fertility = femFertileCalc;
+        <</script>>
+        <<set
+          ↂ.skill.art = 20,
+          ↂ.skill.curArt = 20,
+          ↂ.skill.athletic = 25,
+          ↂ.skill.curAthletic = 25,
+          ↂ.skill.clean = 15,
+          ↂ.skill.curClean = 15,
+          ↂ.skill.comm = 25,
+          ↂ.skill.curComm = 25,
+          ↂ.skill.cook = 15,
+          ↂ.skill.curCook = 15,
+          ↂ.skill.crime = 5,
+          ↂ.skill.curDancing = 5,
+          ↂ.skill.curExhibition = 5,
+          ↂ.skill.firearms = 8,
+          ↂ.skill.curFirearms = 8,
+          ↂ.skill.oral = 30,
+          ↂ.skill.curOral = 30,
+          ↂ.skill.org = 25,
+          ↂ.skill.curOrg = 25,
+          ↂ.skill.probSolving = 35,
+          ↂ.skill.curProbSolving = 35,
+          ↂ.skill.prost = 10,
+          ↂ.skill.prostitute = 10,
+          ↂ.skill.curProstitute = 10,
+          ↂ.skill.prostitution = 10,
+          ↂ.skill.sed = 5,
+          ↂ.skill.curSeduction = 5,
+          ↂ.skill.sex = 40,
+          ↂ.skill.curSex = 40,
+          ↂ.skill.shop = 28,
+          ↂ.skill.curShop = 28,
+          ↂ.skill.dance = 15,
+          ↂ.skill.dancing = 15,
+          ↂ.skill.exhib = 10,
+          ↂ.skill.exhibit = 10,
+          ↂ.skill.exhibition = 10,
+          ↂ.skill.curFinance = 30,
+          ↂ.skill.finance = 30,
+          ↂ.skill.heels = 30,
+          ↂ.skill.kegel = 10,
+          ↂ.skill.manage = 0,
+          ↂ.skill.martial = 10,
+          ↂ.skill.curMartial = 10,
+          ↂ.skill.perform = 0,
+          ↂ.skill.probSolve = 5,
+          ↂ.skill.seduction = 5,
+          ↂ.skill.strip = 0,
+          ↂ.skill.whore = 0
+        >>
+        <<set ↂ.pc.groom.pubeGrow = 1>>
+        <<set ↂ.pc.main.background = 'ex cashier'>>
+        <<set ↂ.pc.main.bd1 = 3>>
+        <<set ↂ.pc.main.bd2 = 4>>
+        <<setPCportrait>>
+/* MARGE */
+<<case "marge">>
+        <<set
+          ↂ.pc.body.face        = 'androgynous',
+          ↂ.pc.body.beauty      = 1,
+          ↂ.pc.body.eyeColor    = 'green',
+          ↂ.pc.body.skinColor   = 'pale',
+          ↂ.pc.groom.hairColor  = 'auburn',
+          ↂ.pc.groom.hairLength = 9,
+          ↂ.pc.groom.hairCurl   = 5,
+          ↂ.pc.groom.hairStyle  = 'unkempt',
+
+          ↂ.pc.body.height           = 62,
+          ↂ.pc.body.race             = 'white',
+          ↂ.pc.body.ass              = 6,
+          ↂ.pc.body.pelvis           = 2,
+          ↂ.pc.body.hips             = 2,
+          ↂ.pc.body.waist            = 3,
+          ↂ.pc.body.shoulders        = 4,
+          ↂ.pc.body.weight           = 4,
+          ↂ.pc.body.tone             = 2,
+
+          ↂ.pc.body.tits.areola      = 3,
+          ↂ.pc.body.tits.lact.cup    = "D-cup",
+          ↂ.pc.body.tits.lact.max    = 800,
+          ↂ.pc.body.tits.lact.size   = 660,
+          ↂ.pc.body.tits.nipGirth    = 2,
+          ↂ.pc.body.tits.nipLength   = 4,
+
+          ↂ.pc.body.tits.base.size   = 700,
+
+          ↂ.pc.body.clit             = 3,
+          ↂ.pc.body.labia            = 4,
+          ↂ.pc.body.pussy.wetness    = 1,
+          ↂ.pc.fert.fertility        = 1,
+          ↂ.pc.fert.implant          = 0,
+          ↂ.pc.groom.pubeColor       = 'auburn',
+          ↂ.pc.groom.pubeStyle       = 'trimmed',
+          ↂ.pc.body.pussy.virgin     = true,
+
+          ↂ.pc.fert.egg = 340,
+          ↂ.pc.fert.vagHostile = 0,
+          ↂ.pc.fert.multEgg = 0,
+          ↂ.pc.fert.wombHealth = 0,
+
+          ↂ.pc.kink.anal = true,
+          ↂ.pc.kink.bond = false,
+          ↂ.pc.kink.buttSlut = false,
+          ↂ.pc.kink.cumSlut = false,
+          ↂ.pc.kink.dom = false,
+          ↂ.pc.kink.easy = false,
+          ↂ.pc.kink.exhibition = false,
+          ↂ.pc.kink.fap = true,
+          ↂ.pc.kink.force = false,
+          ↂ.pc.kink.hard = true,
+          ↂ.pc.kink.hyperSlut = false,
+          ↂ.pc.kink.liberate = true,
+          ↂ.pc.kink.masochist = false,
+          ↂ.pc.kink.nips = true,
+          ↂ.pc.kink.oral = false,
+          ↂ.pc.kink.pregnancy = false,
+          ↂ.pc.kink.public = false,
+          ↂ.pc.kink.rape = false,
+          ↂ.pc.kink.risky = false,
+          ↂ.pc.kink.shame = false,
+          ↂ.pc.kink.sizequeen = false,
+          ↂ.pc.kink.slut = false,
+          ↂ.pc.kink.sub = false,
+          ↂ.pc.kink.superSlut = false,
+          ↂ.pc.kink.water = false,
+
+          ↂ.pc.main.age           = 34,
+          ↂ.pc.main.ageID         = 34,
+          ↂ.pc.main.ageOriginal   = 34,
+          ↂ.pc.main.female        = true,
+          ↂ.pc.main.male          = false,
+          ↂ.pc.main.name          = 'Marge',
+          ↂ.pc.main.surname       = 'Flores',
+          ↂ.pc.persona.lookingFor = 'love',
+          ↂ.pc.persona.mentionFertile = true,
+          ↂ.pc.persona.slutty = false,
+          ↂ.pc.persona.sweet = false,
+
+          ↂ.pc.trait.maternal = -1,
+          ↂ.pc.trait.caring   = -1,
+          ↂ.pc.trait.bitch    = 1,
+          ↂ.pc.trait.romantic = 0,
+          ↂ.pc.trait.deceptive = -1,
+          ↂ.pc.trait.devious   = 0,
+          ↂ.pc.trait.persuasive = 1,
+          ↂ.pc.trait.perceptive = -1,
+          ↂ.pc.trait.forgetful = 1,
+          ↂ.pc.trait.lowEsteem = 0,
+          ↂ.pc.trait.forgiving = -1,
+          ↂ.pc.trait.picky = -1,
+          ↂ.pc.trait.crude = 0,
+          ↂ.pc.trait.friendly = -1,
+          ↂ.pc.trait.approachable = 1,
+          ↂ.pc.trait.relaxed = -1,
+          ↂ.pc.trait.materialist = -1,
+          ↂ.pc.trait.flirty = 0,
+
+          ↂ.pc.trait.libido = 4,
+          ↂ.pc.trait.will = 4,
+          ↂ.pc.trait.vert = 'neither',
+
+          ↂ.pc.mutate.acid = false,
+          ↂ.pc.mutate.acidPre = false,
+          ↂ.pc.mutate.birthCon = false,
+          ↂ.pc.mutate.bitchBreaker = false,
+          ↂ.pc.mutate.contort = false,
+          ↂ.pc.mutate.cumpire = false,
+          ↂ.pc.mutate.fertStorm = false,
+          ↂ.pc.mutate.gestate = false,
+          ↂ.pc.mutate.girth = false,
+          ↂ.pc.mutate.pheromone = false,
+          ↂ.pc.mutate.goddess = false,
+          ↂ.pc.mutate.immune = false,
+          ↂ.pc.mutate.iron = false,
+          ↂ.pc.mutate.killerSperm = false,
+          ↂ.pc.mutate.lilithCurse = false,
+          ↂ.pc.mutate.litePhero = false,
+          ↂ.pc.mutate.megaLong = false,
+          ↂ.pc.mutate.megaNuts = false,
+          ↂ.pc.mutate.milk = false,
+          ↂ.pc.mutate.mouth = false,
+          ↂ.pc.mutate.multgasm = false,
+          ↂ.pc.mutate.multiple = false,
+          ↂ.pc.mutate.pseudoPreg = false,
+          ↂ.pc.mutate.twinWomb = false
+        >>
+
+        <<set ↂ.pref.height = [-2, -1, 1, 2, -1]>>
+        <<set ↂ.pref.muscle = [-2, -1, 1, 2, 1, -2]>>
+        <<set ↂ.pref.weight = [-2, -1, 2, -1, -2, -2]>>
+        <<set ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]>>
+        
+        <<script>>
+        setup.omni.new("pregnancyTimer");
+        setup.omni.new("pregnancyTimerWarn");
+          // Player breasts calc
+          const titsArray = setup.editorCalc(
+            ↂ.pc.body.tits.base.size, ↂ.pc.body.shoulders, ↂ.pc.body.weight
+          );
+          ↂ.pc.body.tits.band = titsArray[0];
+
+          ↂ.pc.body.tits.cupNum = titsArray[1];
+          ↂ.pc.body.tits.base.cupNum = titsArray[1];
+
+          ↂ.pc.body.tits.base.cupRaw = titsArray[2];
+
+          ↂ.pc.body.tits.cup = titsArray[3];
+          ↂ.pc.body.tits.base.cup = titsArray[3];
+
+          ↂ.pc.body.tits.bra = titsArray[4];
+          ↂ.pc.body.tits.base.bra = titsArray[4];
+        <</script>>
+
+        <<script>>
+          let femFertileCalc = Math.round(
+            (
+              Math.round( ↂ.pc.fert.egg / 2 ) + ↂ.pc.fert.implant +
+              Math.round( ↂ.pc.fert.vagHostile / 2 ) +
+              Math.round( ↂ.pc.fert.multEgg / 2 ) -
+              ↂ.pc.fert.wombHealth
+            ) / 5,
+          ) - 3;
+          if (femFertileCalc === 1) {
+            femFertileCalc = 2;
+          } else if (femFertileCalc < 1 && femFertileCalc > -2) {
+            femFertileCalc = 1;
+          } else if (femFertileCalc < -1) {
+            femFertileCalc = 0;
+          } else if (femFertileCalc > 8) {
+            femFertileCalc = 8;
+          }
+          ↂ.pc.fert.fertility = femFertileCalc;
+        <</script>>
+        <<set
+          ↂ.skill.art = 20,
+          ↂ.skill.curArt = 20,
+          ↂ.skill.athletic = 25,
+          ↂ.skill.curAthletic = 25,
+          ↂ.skill.clean = 25,
+          ↂ.skill.curClean = 25,
+          ↂ.skill.comm = 35,
+          ↂ.skill.curComm = 35,
+          ↂ.skill.cook = 15,
+          ↂ.skill.curCook = 15,
+          ↂ.skill.crime = 5,
+          ↂ.skill.curDancing = 5,
+          ↂ.skill.curExhibition = 5,
+          ↂ.skill.firearms = 8,
+          ↂ.skill.curFirearms = 8,
+          ↂ.skill.oral = 30,
+          ↂ.skill.curOral = 30,
+          ↂ.skill.org = 45,
+          ↂ.skill.curOrg = 45,
+          ↂ.skill.probSolving = 55,
+          ↂ.skill.curProbSolving = 55,
+          ↂ.skill.prost = 10,
+          ↂ.skill.prostitute = 10,
+          ↂ.skill.curProstitute = 10,
+          ↂ.skill.prostitution = 10,
+          ↂ.skill.sed = 30,
+          ↂ.skill.curSeduction = 30,
+          ↂ.skill.sex = 40,
+          ↂ.skill.curSex = 40,
+          ↂ.skill.shop = 28,
+          ↂ.skill.curShop = 28,
+          ↂ.skill.dance = 35,
+          ↂ.skill.dancing = 35,
+          ↂ.skill.exhib = 10,
+          ↂ.skill.exhibit = 10,
+          ↂ.skill.exhibition = 10,
+          ↂ.skill.curFinance = 42,
+          ↂ.skill.finance = 42,
+          ↂ.skill.heels = 30,
+          ↂ.skill.kegel = 10,
+          ↂ.skill.manage = 0,
+          ↂ.skill.martial = 10,
+          ↂ.skill.curMartial = 10,
+          ↂ.skill.perform = 0,
+          ↂ.skill.probSolve = 5,
+          ↂ.skill.seduction = 5,
+          ↂ.skill.strip = 0,
+          ↂ.skill.whore = 20
+        >>
+        <<set ↂ.pc.groom.pubeGrow = 3>>
+        <<set ↂ.pc.main.background = 'ex librarian'>>
+        <<set ↂ.pc.main.bd1 = 1>>
+        <<set ↂ.pc.main.bd2 = 3>>
+        <<setPCportrait>>
+/* MARY */
+<<case "mary">>
+        <<set
+          ↂ.pc.body.face        = 'normal',
+          ↂ.pc.body.beauty      = 3,
+          ↂ.pc.body.eyeColor    = 'hazel',
+          ↂ.pc.body.skinColor   = 'tanned',
+          ↂ.pc.groom.hairColor  = 'blonde',
+          ↂ.pc.groom.hairLength = 6,
+          ↂ.pc.groom.hairCurl   = 1,
+          ↂ.pc.groom.hairStyle  = 'unkempt',
+
+          ↂ.pc.body.height           = 67,
+          ↂ.pc.body.race             = 'white',
+          ↂ.pc.body.ass              = 4,
+          ↂ.pc.body.pelvis           = 5,
+          ↂ.pc.body.hips             = 5,
+          ↂ.pc.body.waist            = 4,
+          ↂ.pc.body.shoulders        = 3,
+          ↂ.pc.body.weight           = 4,
+          ↂ.pc.body.tone             = 2,
+
+          ↂ.pc.body.tits.areola      = 4,
+          ↂ.pc.body.tits.lact.cup    = "B-cup",
+          ↂ.pc.body.tits.lact.max    = 500,
+          ↂ.pc.body.tits.lact.size   = 360,
+          ↂ.pc.body.tits.nipGirth    = 3,
+          ↂ.pc.body.tits.nipLength   = 5,
+
+          ↂ.pc.body.tits.base.size   = 740,
+
+          ↂ.pc.body.clit             = 2,
+          ↂ.pc.body.labia            = 3,
+          ↂ.pc.body.pussy.wetness    = 4,
+          ↂ.pc.fert.fertility        = 3,
+          ↂ.pc.fert.implant          = 0,
+          ↂ.pc.groom.pubeColor       = 'blonde',
+          ↂ.pc.groom.pubeStyle       = 'trimmed',
+          ↂ.pc.body.pussy.virgin     = true,
+
+          ↂ.pc.fert.egg = 340,
+          ↂ.pc.fert.vagHostile = 0,
+          ↂ.pc.fert.multEgg = 0,
+          ↂ.pc.fert.wombHealth = 0,
 
           ↂ.pc.kink.anal = false,
           ↂ.pc.kink.bond = false,
@@ -319,11 +3677,11 @@
           ↂ.pc.kink.easy = false,
           ↂ.pc.kink.exhibition = false,
           ↂ.pc.kink.fap = false,
-          ↂ.pc.kink.force = false,
-          ↂ.pc.kink.hard = true,
+          ↂ.pc.kink.force = true,
+          ↂ.pc.kink.hard = false,
           ↂ.pc.kink.hyperSlut = false,
-          ↂ.pc.kink.liberate = false,
-          ↂ.pc.kink.masochist = false,
+          ↂ.pc.kink.liberate = true,
+          ↂ.pc.kink.masochist = true,
           ↂ.pc.kink.nips = false,
           ↂ.pc.kink.oral = false,
           ↂ.pc.kink.pregnancy = true,
@@ -337,41 +3695,40 @@
           ↂ.pc.kink.superSlut = false,
           ↂ.pc.kink.water = false,
 
-          ↂ.pc.main.age           = 37,
-          ↂ.pc.main.ageID         = 37,
-          ↂ.pc.main.ageOriginal   = 37,
-          ↂ.pc.main.background    = "A captivatingly beautiful Asian milf, with full breasts, a curvy body and wide hips, she is the ideal figure for a wife and mother.",
+          ↂ.pc.main.age           = 31,
+          ↂ.pc.main.ageID         = 31,
+          ↂ.pc.main.ageOriginal   = 36,
           ↂ.pc.main.female        = true,
           ↂ.pc.main.male          = false,
-          ↂ.pc.main.name          = 'Mitsuko',
-          ↂ.pc.main.surname       = 'Saito',
-          ↂ.pc.persona.lookingFor = 'love',
+          ↂ.pc.main.name          = 'Mary',
+          ↂ.pc.main.surname       = 'Hill',
+          ↂ.pc.persona.lookingFor = 'kids',
           ↂ.pc.persona.mentionFertile = true,
           ↂ.pc.persona.slutty = false,
           ↂ.pc.persona.sweet = false,
 
           ↂ.pc.trait.maternal = 1,
-          ↂ.pc.trait.caring   = 1,
-          ↂ.pc.trait.bitch    = -1,
-          ↂ.pc.trait.romantic = 1,
-          ↂ.pc.trait.deceptive = 0,
-          ↂ.pc.trait.devious   = -1,
-          ↂ.pc.trait.persuasive = 1,
-          ↂ.pc.trait.perceptive = -1,
-          ↂ.pc.trait.forgetful = 0,
+          ↂ.pc.trait.caring   = 0,
+          ↂ.pc.trait.bitch    = 1,
+          ↂ.pc.trait.romantic = 0,
+          ↂ.pc.trait.deceptive = 1,
+          ↂ.pc.trait.devious   = 0,
+          ↂ.pc.trait.persuasive = 0,
+          ↂ.pc.trait.perceptive = 0,
+          ↂ.pc.trait.forgetful = -1,
           ↂ.pc.trait.lowEsteem = -1,
           ↂ.pc.trait.forgiving = 0,
           ↂ.pc.trait.picky = 1,
-          ↂ.pc.trait.crude = 0,
+          ↂ.pc.trait.crude = 1,
           ↂ.pc.trait.friendly = 0,
-          ↂ.pc.trait.approachable = 1,
-          ↂ.pc.trait.relaxed = 0,
-          ↂ.pc.trait.materialist = 0,
+          ↂ.pc.trait.approachable = -1,
+          ↂ.pc.trait.relaxed = 1,
+          ↂ.pc.trait.materialist = 1,
           ↂ.pc.trait.flirty = -1,
 
-          ↂ.pc.trait.libido = 3,
+          ↂ.pc.trait.libido = 5,
           ↂ.pc.trait.will = 3,
-          ↂ.pc.trait.vert = 'neither',
+          ↂ.pc.trait.vert = 'introverted',
 
           ↂ.pc.mutate.acid = false,
           ↂ.pc.mutate.acidPre = false,
@@ -380,8 +3737,9 @@
           ↂ.pc.mutate.contort = false,
           ↂ.pc.mutate.cumpire = false,
           ↂ.pc.mutate.fertStorm = false,
-          ↂ.pc.mutate.gestate = false,
+          ↂ.pc.mutate.gestate = true,
           ↂ.pc.mutate.girth = false,
+          ↂ.pc.mutate.pheromone = true,
           ↂ.pc.mutate.goddess = false,
           ↂ.pc.mutate.immune = false,
           ↂ.pc.mutate.iron = false,
@@ -391,23 +3749,178 @@
           ↂ.pc.mutate.megaLong = false,
           ↂ.pc.mutate.megaNuts = false,
           ↂ.pc.mutate.milk = true,
-          ↂ.pc.mutate.mouth = false,
+          ↂ.pc.mutate.mouth = true,
           ↂ.pc.mutate.multgasm = false,
           ↂ.pc.mutate.multiple = false,
           ↂ.pc.mutate.pseudoPreg = false,
-          ↂ.pc.mutate.twinWomb = false,
-
-          ↂ.pref.height = [-2, -1, 1, 2, -1],
-          ↂ.pref.muscle = [-2, -1, 1, 2, -2],
-          ↂ.pref.weight = [-2, -1, 2, -1, -2],
-          ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]
+          ↂ.pc.mutate.twinWomb = true
         >>
-        <<set $AW.startMale = true>><<set ↂ.ward.bottom.push("tttt")>><<set ↂ.ward.top.push("tttv")>><<run setup.initialize.savePrefs()>><<if $pref.sound.on>><<if $pref.sound.track === "utopia">><<playlist "bgm_utopia" loop volume $pref.sound.volume play>><</if>><</if>>
-        <<go background>>
-      <</button>>
-    <</if>>
-    <<button "Return">><<go premade>><</button>>
-  </div>
-  </center>
-</div>
 
+        <<set ↂ.pref.height = [-2, -1, 1, 2, -1]>>
+        <<set ↂ.pref.muscle = [-2, -1, 1, 2, 1, -2]>>
+        <<set ↂ.pref.weight = [-2, -1, 2, -1, -2, -2]>>
+        <<set ↂ.pref.other = [-1, 0, 1, 2, -2, 1, -1, 1, 1, -2]>>
+        
+        <<script>>
+          setup.omni.new("pregnancyTimer");
+          setup.omni.new("pregnancyTimerWarn");
+          // Player breasts calc
+          const titsArray = setup.editorCalc(
+            ↂ.pc.body.tits.base.size, ↂ.pc.body.shoulders, ↂ.pc.body.weight
+          );
+          ↂ.pc.body.tits.band = titsArray[0];
+
+          ↂ.pc.body.tits.cupNum = titsArray[1];
+          ↂ.pc.body.tits.base.cupNum = titsArray[1];
+
+          ↂ.pc.body.tits.base.cupRaw = titsArray[2];
+
+          ↂ.pc.body.tits.cup = titsArray[3];
+          ↂ.pc.body.tits.base.cup = titsArray[3];
+
+          ↂ.pc.body.tits.bra = titsArray[4];
+          ↂ.pc.body.tits.base.bra = titsArray[4];
+        <</script>>
+
+        <<script>>
+          let femFertileCalc = Math.round(
+            (
+              Math.round( ↂ.pc.fert.egg / 2 ) + ↂ.pc.fert.implant +
+              Math.round( ↂ.pc.fert.vagHostile / 2 ) +
+              Math.round( ↂ.pc.fert.multEgg / 2 ) -
+              ↂ.pc.fert.wombHealth
+            ) / 5,
+          ) - 3;
+          if (femFertileCalc === 1) {
+            femFertileCalc = 2;
+          } else if (femFertileCalc < 1 && femFertileCalc > -2) {
+            femFertileCalc = 1;
+          } else if (femFertileCalc < -1) {
+            femFertileCalc = 0;
+          } else if (femFertileCalc > 8) {
+            femFertileCalc = 8;
+          }
+          ↂ.pc.fert.fertility = femFertileCalc;
+        <</script>>
+        <<set
+          ↂ.skill.art = 20,
+          ↂ.skill.curArt = 20,
+          ↂ.skill.athletic = 25,
+          ↂ.skill.curAthletic = 25,
+          ↂ.skill.clean = 25,
+          ↂ.skill.curClean = 25,
+          ↂ.skill.comm = 35,
+          ↂ.skill.curComm = 35,
+          ↂ.skill.cook = 15,
+          ↂ.skill.curCook = 15,
+          ↂ.skill.crime = 5,
+          ↂ.skill.curDancing = 5,
+          ↂ.skill.curExhibition = 5,
+          ↂ.skill.firearms = 8,
+          ↂ.skill.curFirearms = 8,
+          ↂ.skill.oral = 30,
+          ↂ.skill.curOral = 30,
+          ↂ.skill.org = 45,
+          ↂ.skill.curOrg = 45,
+          ↂ.skill.probSolving = 55,
+          ↂ.skill.curProbSolving = 55,
+          ↂ.skill.prost = 10,
+          ↂ.skill.prostitute = 10,
+          ↂ.skill.curProstitute = 10,
+          ↂ.skill.prostitution = 10,
+          ↂ.skill.sed = 30,
+          ↂ.skill.curSeduction = 30,
+          ↂ.skill.sex = 40,
+          ↂ.skill.curSex = 40,
+          ↂ.skill.shop = 28,
+          ↂ.skill.curShop = 28,
+          ↂ.skill.dance = 35,
+          ↂ.skill.dancing = 35,
+          ↂ.skill.exhib = 10,
+          ↂ.skill.exhibit = 10,
+          ↂ.skill.exhibition = 10,
+          ↂ.skill.curFinance = 42,
+          ↂ.skill.finance = 42,
+          ↂ.skill.heels = 30,
+          ↂ.skill.kegel = 10,
+          ↂ.skill.manage = 0,
+          ↂ.skill.martial = 10,
+          ↂ.skill.curMartial = 10,
+          ↂ.skill.perform = 0,
+          ↂ.skill.probSolve = 5,
+          ↂ.skill.seduction = 5,
+          ↂ.skill.strip = 0,
+          ↂ.skill.whore = 20
+        >>
+        <<set ↂ.pc.groom.pubeGrow = 3>>
+        <<set ↂ.pc.main.background = 'ex waiter'>>
+        <<set ↂ.pc.main.bd1 = 3>>
+        <<set ↂ.pc.main.bd2 = 3>>
+        <<setPCportrait>>
+    <</switch>>
+  <<silently>>
+    <<if ↂ.pc.mutate.milk>>
+      <<set ↂ.pc.body.tits.base.size += 200>>
+      <<if ↂ.pc.body.lactation < 3>>
+        <<set ↂ.pc.body.lactation = 3>>
+      <<else>>
+        <<set ↂ.pc.body.lactation = 4>>
+        <<set ↂ.pc.body.tits.base.size += 100>>
+      <</if>>
+      <<set ↂ.pc.status.milk = 3>>
+    <<elseif ↂ.pc.body.lactation > 3>>
+      <<set ↂ.pc.status.milk = 1>>
+    <</if>>
+    <<if ↂ.pc.kink.easy>>
+      <<set ↂ.pc.body.orgasm -= 4>>
+    <</if>>
+    <<if ↂ.pc.mutate.twinWomb>>
+      <<set ↂ.pc.body.pussy.wetness += 2>>
+      <<set ↂ.pc.fert.fertility += 2>>
+      <<set ↂ.pc.trait.libido += 2>>
+      <<if ↂ.pc.body.hips < 5>>
+        <<set ↂ.pc.body.hips = 5>>
+      <</if>>
+    <</if>>
+    <<if ↂ.pc.mutate.cycle>>
+      <<set ↂ.pc.fert.fertility += 1>>
+      <<set ↂ.pc.body.pussy.wetness += 1>>
+      <<set ↂ.pc.trait.libido += 1>>
+    <</if>>
+    <<if ↂ.pc.mutate.birthCon>>
+      <<set ↂ.pc.fert.fertility += 1>>
+    <</if>>
+    <<if ↂ.pc.mutate.multiple>>
+      <<set ↂ.pc.fert.fertility += 1>>
+      <<if ↂ.pc.body.hips < 4>>
+        <<set ↂ.pc.body.hips = 4>>
+      <</if>>
+    <</if>>
+    <<if ↂ.pc.mutate.gestate>>
+      <<set ↂ.pc.fert.pregTerm = 6>>
+    <</if>>
+    <<pcBreastCalc>>
+    <<if ↂ.pc.body.lactation > 5>>
+      <<set ↂ.pc.body.lactation = 5>>
+    <</if>>
+    <<if ↂ.pc.body.pussy.wetness > 5>>
+      <<set ↂ.pc.body.pussy.wetness = 5>>
+    <</if>>
+    <<if ↂ.pc.fert.fertility > 6>>
+      <<set ↂ.pc.fert.fertility = 6>>
+    <</if>>
+    <<if ↂ.pc.trait.libido > 7>>
+      <<set ↂ.pc.trait.libido = 7>>
+    <</if>>
+    <<if $AW.metric>>
+      <<set ↂ.pc.groom.hairLength *= 2.5>>
+    <</if>>
+    <<if ↂ.pc.status.milk > 0>>
+      <<set ↂ.pc.body.tits.lact.on = true>>
+      <<run setup.status.milk()>><<run setup.status.milk()>>
+      <<run setup.lactBreastCalc()>>
+    <</if>>
+  <</silently>>
+
+  <<go PostSkillStartPrep>>
+</div>

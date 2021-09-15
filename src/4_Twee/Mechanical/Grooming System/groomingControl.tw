@@ -53,9 +53,54 @@
 <<set _options.shaveLeg = _armShave>>
 <<set _options.shaveGroin = _bikiniShave>>
 <<set _options.trimPubes = _pubes>>
-<<run setup.bath.shower(_options)>>
-<<run setup.refresh()>>
+<<set _timersuck = setup.bath.shower(_options)>>
+<<addTime _timersuck>>
 <<run Dialog.close()>>
+<<if $BFlove && ↂ.flag.marriage.spouseAngry < 10>><<set _meOrAnenn = random(1,2)>>
+<<if _meOrAnenn == 2>>
+  <<set _blini = random(0,4)>>
+  <<set _dacha = random(1,8)>>
+  <<set _dacha = _dacha - aw.npc[$BFid].trait.libido>>
+  <<if _blini == 4>>
+    <<dialog "Shower">>
+      <<if aw.npc[$BFid].main.female>>
+        <<set _rand = random(1,3)>>
+        <<switch _rand>>
+        <<case 1>>
+          <center>[img[IMG-ShowerSexLes1]]</center>
+        <<case 2>>
+          <center>[img[IMG-ShowerSexLes2]]</center>
+        <<case 3>>
+          <center>[img[IMG-ShowerSexLes3]]</center>
+        <</switch>>
+      <<elseif aw.npc[$BFid].main.male>>
+        <<set _rand = random(1,3)>>
+        <<switch _rand>>
+        <<case 1>>
+          <center>[img[IMG-ShowerSexHet1]]</center>
+        <<case 2>>
+          <center>[img[IMG-ShowerSexHet2]]</center>
+        <<case 3>>
+          <center>[img[IMG-ShowerSexHet3]]</center>
+        <</switch>>
+      <</if>><br><br>
+    <<f y>>ou open the water and get into the stream. In a minute you notice curtain moves and nude <<name h>> creeps inside. @@.npc;Thought that you may need a company, heh!@@
+    <p>You smile and move a bit to free some space for <<name h>>. <<if _dacha < 2>>Soon you feel <<name h>> groping your <<p ass.q>> <<p ass.n>>. @@.mono;Oh, I see where it's going...@@</p>
+    <<dialogchoice>>
+      <<dbutt "Sex">><<include [[BFshowerSex]]>>
+      <<dtext "bimbo">>Time to fuck!
+      <<dbutt "Reject">><<set ↂ.flag.marriage.vowsControl.slave = false>><<set ↂ.flag.marriage.spouseAngry += 15>><<set aw.npc[$BFid].rship.likePC -= random(1, 4)>><<status 0>><<run Dialog.close()>><<notify>><<name h>> looks disappointed.<</notify>>
+      <<dtext "angry">>You are not in the mood, just taking a shower.
+    <</dialogchoice>>
+    <</dialog>>
+    <<else>>
+      You have a little bit of fun splashing water but mainly just wash yourself helping each other to scrub hard-to-reach places. Finally, you kiss <<name h>> in the lips and jump out to grab a towel. @@.pc;Ha, the biggest towel is mine!@@ @@.npc;Okaaay...@@<<happy 1 "Washing together">><p><<button "Get out">><<run Dialog.close()>><</button>></p>
+    <</if>>
+  <</if>>
+  <<else>>
+    <<dialog "Shower">><<include [[MarriageEvents-ShowerTogether-A1]]>><</dialog>>
+  <</if>>
+<</if>>
 <</button>></span></center><br>
 <i>You can choose extra options for your shower:</i>
 <div style="text-align:center;">
@@ -85,9 +130,33 @@
 </div>
 
 
+:: BFshowerSex [nobr]
+
+<<timed 150ms>>
+<<set ↂ.pc.clothes.worn.coat = "off">>
+<<set ↂ.pc.clothes.worn.legs = "off">>
+<<set ↂ.pc.clothes.worn.top = "off">>
+<<set ↂ.pc.clothes.worn.bottom = "off">>
+<<set ↂ.pc.clothes.worn.panties = "off">>
+<<set ↂ.pc.clothes.worn.bra = "off">>
+<<set ↂ.pc.clothes.worn.shoes = "off">>
+<<set aw.npc[$BFid].rship.lovePC += random(1, 2)>>
+<<set aw.npc[$BFid].rship.likePC += random(1, 2)>>
+<<set ↂ.sex.passage = aw.passage.title>>
+<<set ↂ.sex.pcOutput = "You start touching each other standing in the shower.">>
+<<set ↂ.sex.enviroTags = ["wall"]>>
+<<set aw.npc[$BFid].rship.companion += 15>>
+<<set aw.npc[$BFid].sleptover += 1>>
+<<set setup.sexitimes = $BFid>>
+<<sceneclose>>
+<<script>>
+setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
+<</script>>
+<</timed>>
+
 :: bodyWriting [nobr]
 
-<p>You take the permament marker and hesitate for a second...</p>
+<p>You take the permanent marker and hesitate for a second...</p>
 <<dropdown "$bodyWritingPlace" "face" "neck" "shoulderLeft" "shoulderRight" "armLeft" "armRight" "palmLeft" "palmRight" "breast" "belly" "pubic" "thighLeft" "thighRight" "calfLeft" "calfRight" "feetLeft" "feetRight" "backUpper" "backLower" "butt" "asshole" "vagina">>   <<textbox "$bodyWritingText" $bodyWritingText>> Text
 <br><center>
   <<button "Do it!">>

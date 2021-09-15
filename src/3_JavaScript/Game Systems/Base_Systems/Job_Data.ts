@@ -135,7 +135,14 @@ setup.setNewJob = (place: string, rank: number): boolean => {
     ↂ.job.sick.rate = aw.jobData[place][stringifiedRank].sickRate;
     // I decided to move all the logic of the payment here, work object now only contains 3 variables in array.
     // tslint:disable-next-line:max-line-length
-    ↂ.job.rules.payrate = Math.round((aw.jobData[place][stringifiedRank].pay[0] * State.active.variables.AW.curBase) * aw.jobData[place][stringifiedRank].pay[1] / aw.jobData[place][stringifiedRank].pay[2]);
+    let difMod = 1;
+    if (ↂ.flag.organDonor === 2) {
+      difMod = 1.5;
+    } else if (ↂ.flag.organDonor === 1) {
+      difMod = 2;
+    }
+    ↂ.job.rules.payrate = Math.round(((aw.jobData[place][stringifiedRank].pay[0] * State.active.variables.AW.curBase) * aw.jobData[place][stringifiedRank].pay[1] / aw.jobData[place][stringifiedRank].pay[2]) * difMod);
+
     // tslint:disable-next-line:max-line-length
     ↂ.job.pay = Math.round(ↂ.job.rules.payrate * ↂ.job.rules.worktime[0]),
     ↂ.job.stats.rank = aw.jobData[place][stringifiedRank].statsRank;
@@ -671,6 +678,79 @@ aw.jobData = {
           return false;
         },
       },
+
+      // Anenn markup
+      {
+        rank: [1, 2, 3, 4],
+        passage: "Sexperiment-Trouble-A1",
+        image: "IMG-ServicesSide",
+        content: "none",
+        random: true,
+        odds: [1, 5],
+        title: "A couple of researchers... Arguing?",
+        condition(rank) {
+          if (ↂ.flag.jobEvents.sperm.AyaneCarl_E1) {
+            return false;
+          }
+          return true;
+        },
+      },
+      {
+        rank: [1, 2, 3, 4],
+        passage: "Sexperiment-Trouble-B1",
+        image: "IMG-ServicesSide",
+        content: "none",
+        random: true,
+        odds: [1, 5],
+        title: "She... again?",
+        condition(rank) {
+          if (ↂ.flag.jobEvents.sperm.AyaneCarl_E1 && ↂ.flag.jobEvents.sperm.AyaneCarl_E1 !== 'rejected') {
+            return true;
+          }
+          return false;
+        },
+      },
+      {
+        rank: [1, 2, 3, 4],
+        passage: "NanobotsTrouble-Ev-A1",
+        image: "IMG-ServicesSide",
+        content: "none",
+        random: true,
+        odds: [1, 5],
+        title: "That's a simple job... But wait.",
+        condition(rank) {
+          if (ↂ.flag.jobEvents.sperm.NanobotsTroubleA1) {
+            return false;
+          }
+          return true;
+        },
+      },
+
+      // Random events
+      {
+        rank: [1, 2, 3, 4],
+        passage: "StepAndFuck-1",
+        image: "IMG-ServicesSide",
+        content: "none",
+        random: true,
+        odds: [1, 5],
+        title: "Just another normal day at work, I suppose",
+        condition(rank) {
+          return true;
+        },
+      },
+      {
+        rank: [1, 2, 3, 4],
+        passage: "TripleLesbianFun-1",
+        image: "IMG-ServicesSide",
+        content: "none",
+        random: true,
+        odds: [1, 5],
+        title: "Now thats's a funny day!",
+        condition(rank) {
+          return true;
+        },
+      },
     ],
     jobContent: [
       {
@@ -713,6 +793,49 @@ aw.jobData = {
         passage: "GladysAudioMessages",
         image: "IMG-JobContentInst-Gladys",
         content: "",
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "none",
+        image: "IMG-JobTesting",
+        content: "All personnel was assigned to a scheduled security check today which means physical ans psychological examination as well as some paper tests. @@.mono;Gosh, I hate this stuff. Hmm, 'Do I have any acquaintances or relatives of Chinese descent?' I guess I'll put a mark into a 'no' checkbox... okay, now question 78...@@",
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "none",
+        image: "IMG-JobChat",
+        content: `<<= either("On your break you overheard","Moping the floors you heard","Coming to the cooler to have a cup of water you heard")>> <<= either("your coworkers discussing","two executives discussing", "a group of coworkers talking about")>> the recent <<= either("news","events")>>. <<= either("@@.npc;Have you heard about new security rules?@@","@@.npc;...those changes in corporate policy piss me off so much, god damned! I mean this is so inconvenient...@@","@@.npc;Yeah, well so they said I need a level five security clearance for that, can you imagine?@@")>> <<= either("@@.npd;Oh, that's suck a bag of dicks...@@","@@.npd;I talked with Craig, you know, that security guy from sector B, so, we talked about the stuff last week and it seems it will be this way for a long time now...@@","@@.npd;At this moment I'm just happy that they don't security check our asses every morning. Although, it seems it is a matter of a year or two until they start.@@")>>.`,
+      },
+      // Anenn markup
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "none",
+        image: "",
+        content: "Another day of hard work, you are sent to clean some old equipment, when you get there you are faced with equipment of mysterious shape. @@.mono;I could have sworn it would fit my pussy perfectly...@@ You ponder for a few minutes, after cleaning all the equipment you realize that they have a perfect fit pattern for nipples, pussies and some in buttholes. You leave the room with a strange feeling. @@.mono;what exactly do they use these things for? I think I just cleared someone's... Fun stuff...@@",
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "none",
+        image: "",
+        content: "A new day of simple work, nothing but the normal routine. Cleaning, reviewing cleaning and cleaning again. You also regularly hear gloomy comments about the Institute, some myths about people who have been promoted and never been seen again, sex slaves and breeding slaves who now only serve to make babies for unknown reasons. It's just rumors though, you think your co-workers are probably overreacting. @@.mono;They are, I hope...@@",
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "none",
+        image: "",
+        content: "A group cleaning job with your co-workers, you are responsible for cleaning a large room for possibly another of the Institute's great experiments. The floor of the entire room soon becomes wet with cleaning products, you accidentally slip and fall on top of one of your co-workers, after the impact you realize that he starts to feel your breasts slightly, for a few moments you are without a reaction, but then you get up and after cursing him a bit you go to the locker room to exchange your wet uniform for dry clothes. @@.pc;Asshole...@@",
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "none",
+        image: "IMG-hummingSound",
+        content: `After finishing <<= either("with the toilets","with vacuuming the floors")>> you start to dust the documentation shelves in the <<= either("office D8","B-corps main offices","HR department offices")>>. After a while you realize that some light humming bothers you and turn your head trying to locate it. It takes you a minute or two until it becomes obvious to you that the buzzing comes from one of the desks. You look at the young woman looking busy at in the cubicle and she looks back. Her cheeks are blushing and the expression on her face finally solves the puzzle. The sounds comes not from her computer, it comes from the girl. She blushes even more and hide her eyes. @@.mono;Tee-hee@@ You smirk and return to your job. @@.mono;Somebody decided to spice the boring working day it seems. Maybe this is not the worst idea after all...@@`,
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "none",
+        image: "IMG-WCStallJob",
+        content: `At the afternoon you enter the toilet to clean the stalls. It seems there is nobody in here so you put "Cleaning in progress, please use other WC" sign on the door and go inside the first stall. To your surprise it is occupied. Some women did not close the door and when you open the stall door you see her fucking her ass with a dildo with her skirt raised to her belly. She freeze staring at you still biting her lip and you feel extremely awkward. @@.pc;Ugh... I am sorry, the door was unlocked... ghhh, I'll come later.@@ You quickly leave and stand outside of the WC room. In a minute the woman rush outside trying not to look at you.`,
       },
     ],
     rank0: {
@@ -786,7 +909,7 @@ aw.jobData = {
     code: "IT",
     skills: "Organization, Problem Solving, Cleaning",
     // tslint:disable-next-line:max-line-length
-    desc: "This job is essentially organizing and setting up lab equipment for people several pay grades above you to use. <i>Surely that acronym is unintentional... or at least nobody uses it, right?</i>",
+    desc: "This job is essentially organizing and setting up lab equipment for people several pay grades above you to use. Surely that acronym is unintentional... or at least nobody uses it, right?",
     img: "IMG-JobCover-Sperm",
     title: "Lab Technician",
     loc: ["world", "institute", false],
@@ -795,7 +918,7 @@ aw.jobData = {
     wallPaper: "IMG_InstituteWall",
     clothesRequired() {
       return [true];
-  },
+    },
     jobPercept: 5,
     // tslint:disable-next-line:max-line-length
     schedWorkTime: [40, [8, 0, 17, 0], [8, 0, 17, 0], [8, 0, 17, 0], [8, 0, 17, 0], [8, 0, 17, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
@@ -983,6 +1106,55 @@ aw.jobData = {
           return false;
         },
       },
+
+      // Anenn markup
+      {
+        rank: [2, 3, 4],
+        passage: "SPERMTentacleBreedingExperiment-A1",
+        image: "IMG-SpermSide",
+        content: "",
+        random: true,
+        title: "A common work day",
+        odds: [1, 3],
+        condition(rank) {
+          if (ↂ.flag.jobEvents.sperm.tentacleBreed_A) {
+            return false;
+          }
+          return true;
+        },
+      },
+      {
+        rank: [2, 3, 4],
+        passage: "SPERMTentacleBreedingExperiment-B1",
+        image: "IMG-SpermSide",
+        content: "",
+        random: true,
+        title: "New [REDACTED] proposal",
+        odds: [1, 3],
+        condition(rank) {
+          if (ↂ.flag.jobEvents.sperm.tentacleBreed_A && ↂ.flag.jobEvents.sperm.tentacleBreed_A !== 'rejected') {
+            return true;
+          }
+          return false;
+        },
+      },
+
+      // Casual events
+      {
+        rank: [2, 3, 4],
+        passage: "SPERMCasualTentacleTesting-A1",
+        image: "IMG-SpermSide",
+        content: "",
+        random: true,
+        title: "Irresistible proposal",
+        odds: [1, 3],
+        condition(rank) {
+          if (ↂ.flag.jobEvents.sperm.tentacleBreed_B) {
+            return true;
+          }
+          return false;
+        },
+      },
     ],
     jobContent: [
       {
@@ -1042,6 +1214,18 @@ aw.jobData = {
         passage: "GladysAudioMessages",
         image: "IMG-JobContentInst-Gladys",
         content: "",
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "none",
+        image: "IMG-JobTesting",
+        content: "All personnel were assigned to a scheduled security check today which means physical and psychological examination as well as some paper tests. @@.mono;Gosh, I hate this stuff. Hmm, 'Do I have any acquaintances or relatives of Chinese descent?' I guess I'll put a mark into a 'no' checkbox... okay, now question 78...@@",
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "none",
+        image: "IMG-JobChat",
+        content: `<<= either("On your break you overheard","You heard","Coming to the cooler for a cup of water you heard")>> <<= either("your coworkers discussing","two executives discussing", "a group of coworkers talking about")>> the recent <<= either("news","events")>>. <<= either("@@.npc;Have you heard about new security rules?@@","@@.npc;...those changes in corporate policy piss me off so much, god damned! I mean this is so inconvenient...@@","@@.npc;Yeah, well so they said I need a level five security clearance for that, can you imagine?@@")>> <<= either("@@.npd;Oh, that's suck a bag of dicks...@@","@@.npd;I talked with Craig, you know, that security guy from sector B, so, we talked about the stuff last week and it seems it will be this way for a long time now...@@","@@.npd;At this moment I'm just happy that they don't security check our asses every morning. Although, it seems it is a matter of a year or two until they start.@@")>>.`,
       },
     ],
     rank0: {
@@ -1237,6 +1421,38 @@ aw.jobData = {
         },
         title: "Incident Review Failure",
       },
+
+      // Anenn markup
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "SPERMjobNewCoworker-A1",
+        image: "IMG-CubicleSide",
+        content: "none",
+        random: true,
+        odds: [1, 2],
+        title: "A new coworker!",
+        condition(rank) {
+          if (ↂ.flag.jobEvents.sperm.Aesha_A) {
+            return false;
+          }
+          return true;
+        },
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "SPERMjobNewCoworker-B1",
+        image: "IMG-CubicleSide",
+        content: "none",
+        random: true,
+        odds: [1, 3],
+        title: "A new chance with Aesha",
+        condition(rank) {
+          if (ↂ.flag.jobEvents.sperm.Aesha_A && ↂ.flag.jobEvents.sperm.Aesha_A !== 'rejected') {
+            return true;
+          }
+          return false;
+        },
+      },
     ],
     jobContent: [
       {
@@ -1272,6 +1488,18 @@ aw.jobData = {
         passage: "GladysAudioMessages",
         image: "IMG-JobContentInst-Gladys",
         content: "",
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "none",
+        image: "IMG-JobTesting",
+        content: "All personnel were assigned to a scheduled security check today which means physical and psychological examination as well as some paper tests. @@.mono;Gosh, I hate this stuff. Hmm, 'Do I have any acquaintances or relatives of Chinese descent?' I guess I'll put a mark into a 'no' checkbox... okay, now question 78...@@",
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "none",
+        image: "IMG-JobChat",
+        content: `<<= either("On your break you overheard","You heard","Coming to the cooler for a cup of water you heard")>> <<= either("your coworkers discussing","two executives discussing", "a group of coworkers talking about")>> the recent <<= either("news","events")>>. <<= either("@@.npc;Have you heard about new security rules?@@","@@.npc;...those changes in corporate policy piss me off so much, god damned! I mean this is so inconvenient...@@","@@.npc;Yeah, well so they said I need a level five security clearance for that, can you imagine?@@")>> <<= either("@@.npd;Oh, that's suck a bag of dicks...@@","@@.npd;I talked with Craig, you know, that security guy from sector B, so, we talked about the stuff last week and it seems it will be this way for a long time now...@@","@@.npd;At this moment I'm just happy that they don't security check our asses every morning. Although, it seems it is a matter of a year or two until they start.@@")>>.`,
       },
     ],
     rank0: {
@@ -1345,7 +1573,7 @@ aw.jobData = {
     code: "MD",
     skills: "Cleaning, Aesthetics & Organization",
     // tslint:disable-next-line:max-line-length
-    desc: "This job is all about cleaning houses of the rich twats while getting barely enough for living in return. <i>The job seems to be focused on tidying up the houses of rich clients of that cleaning company. The salary is pretty mediocre but the schedule is quite nice and there is an opportunity for some useful acquaintances...</i>",
+    desc: "This job is all about cleaning houses of the rich twats while getting barely enough for living in return. The job seems to be focused on tidying up the houses of rich clients of that cleaning company. The salary is pretty mediocre but the schedule is quite nice and there is an opportunity for some useful acquaintances...",
     img: "IMG-JobCover-Pouffiasse",
     title: "Maid",
     loc: ["residential", "walkdowntown", false],
@@ -1381,7 +1609,7 @@ aw.jobData = {
     rulesTaskratio: [30, 20, 15, 10, 7, 3],
     rulesTasks: 4,
     // tslint:disable-next-line:max-line-length
-    rulesTaskA: {type: "CL", DC: 8, retry: true, effect: 1, stress: 2, hap: 0, desc: ["moping the floors", "doing the dishes", "vacuuming rooms", "scrubing the dirt", "cleaning windows"]},
+    rulesTaskA: {type: "CL", DC: 8, retry: true, effect: 1, stress: 2, hap: 0, desc: ["moping the floors", "doing the dishes", "vacuuming rooms", "scrubbing the dirt", "cleaning windows"]},
     // tslint:disable-next-line:max-line-length
     rulesTaskB: {type: "CL", DC: 10, retry: true, effect: 1, stress: 5, hap: 0, desc: ["wiping the bathroom", "making beds", "doing laundry", "dusting the shelves"]},
     // tslint:disable-next-line:max-line-length
@@ -1389,7 +1617,7 @@ aw.jobData = {
     // tslint:disable-next-line:max-line-length
     rulesTaskD: {type: "OG", DC: 12, retry: false, effect: 1, stress: 2, hap: 0, desc: ["watering flowers", "arranging things", "instructing the gardener"]},
     // tslint:disable-next-line:max-line-length
-    rulesTaskE: {type: "CL", DC: 8, retry: false, effect: 2, stress: 7, hap: -2, desc: ["dusting the cobwebs", "cleaning the toilet bowl", "shooing the mices"]},
+    rulesTaskE: {type: "CL", DC: 8, retry: false, effect: 2, stress: 7, hap: -2, desc: ["dusting the cobwebs", "cleaning the toilet bowl", "shooing the mice"]},
     // tslint:disable-next-line:max-line-length
     rulesTaskF: {type: "OG", DC: 14, retry: false, effect: 3, stress: 6, hap: -1, desc: ["ordering paper towels", "arguing with the delivery service", "hiding the broken vase"]},
     rulesWorktime: [24, 6, 0, 6, 0, 6, 0, 6],
@@ -1465,6 +1693,27 @@ aw.jobData = {
         image: "IMG-Drawer",
         // tslint:disable-next-line:max-line-length
         content: "Laying things out in the wardrobe you have found silicone vagina in the socks drawer. It seems that client is a pretty lonely guy.",
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "none",
+        image: "IMG-MaidDuster",
+        // tslint:disable-next-line:max-line-length
+        content: "Your feather duster snapped when you dusted the shelves. @@.mono;Gosh, those things are not sturdy at all. If not those stupid company rules I'd switch to just using a mop long ago.@@",
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "none",
+        image: "IMG-MaidSluts",
+        // tslint:disable-next-line:max-line-length
+        content: "It seems that <<= ↂ.job.rules.boss>> is pretty busy today, he didn't show up from his office since those two young and busty 'sales reps' came in the morning. @@.mono;Well, at least this means nobody will bother me today. But cleaning those stains from his table afterwards... brrr!@@",
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "none",
+        image: "IMG-MaidWine",
+        // tslint:disable-next-line:max-line-length
+        content: "This evening <<= ↂ.job.rules.boss>> gathers a party which always means more cleaning and preparing than usual. Boss seems to be in an upbeat mood whistling and checking his wine collection while you make sure that every corner of the mansion is shining clean for the occasion. @@.mono;Ugh, those bastards will get shitfaced again... which always means more cleaning after them...@@",
       },
       {
         rank: [0, 1, 2, 3, 4],
@@ -1617,6 +1866,38 @@ aw.jobData = {
           return true;
         },
       },
+
+      // Anenn Markup
+      {
+        rank: [0, 1],
+        passage: "FairyTail-NewClient-A1",
+        image: "IMG-FairySide",
+        content: "",
+        random: true,
+        odds: [1, 3],
+        title: "A new customer",
+        condition() {
+          if (ↂ.flag.jobEvents.fairyTail.newClient) {
+            false
+          }
+          return true;
+        },
+      },
+      {
+        rank: [0, 1],
+        passage: "FairyTail-NewClient-B1",
+        image: "IMG-FairySide",
+        content: "",
+        random: true,
+        odds: [1, 3],
+        title: "A new customer",
+        condition() {
+          if (ↂ.flag.jobEvents.fairyTail.newClient && ↂ.flag.jobEvents.fairyTail.newClient !== 'rejected') {
+            true
+          }
+          return false;
+        },
+      },
     ],
     jobContent: [
       {
@@ -1631,7 +1912,7 @@ aw.jobData = {
         passage: "none",
         image: "IMG-FairyTale-2",
         // tslint:disable-next-line:max-line-length
-        content: `<<set _namer = setup.nameRandomizer(1,'white')>>Your coworker <<= _namer>> was bragging with her new favorite customer who seems to be extremely rich and heavily into her hands ...and <<= either("prostate massage","cock massage", "happy endings", "midtits massage")>>.`,
+        content: `<<set _namer = setup.nameRandomizer(1,'white')>>Your coworker <<= _namer>> was bragging with her new favorite customer who seems to be extremely rich and heavily into her hands... and <<= either("prostate massage","cock massage", "happy endings", "midtits massage")>>.`,
       },
       {
         rank: [0, 1],
@@ -1646,6 +1927,20 @@ aw.jobData = {
         image: "IMG-FairyTale-4",
         // tslint:disable-next-line:max-line-length
         content: "Passing by the room you notice <<set _namer = setup.nameRandomizer(1,'white')>><<= _namer>> being a bit too enthusiastic about giving a happy ending to the client.",
+      },
+      {
+        rank: [0, 1],
+        passage: "none",
+        image: "IMG-FairyJobTrans",
+        // tslint:disable-next-line:max-line-length
+        content: `<<= either("You","Passing along the office door you")>> <<= either("overhear the dialogue","hear a part of the dialogue")>> between <<= either("your boss and the manager","the owner and the manager")>>. <<= either("From what you can hear,","It seems,")>> the <<= either("business goes pretty well","they think about expanding the parlor")>> and they want to hire additional girls. <<= either("You giggle","You grin")>> when you hear that <<= either("company may need to hire","wants to hire")>> <<= either("some transgender maseusses","more big-breasted girls","maseusses with some oral skills")>>. <<= either("@@.mono;For some customers it would be a pleasant surprise I guess, tee-hee! But who am I to judge them after all?@@","@@.mono;They don't even pretend it is a genuine massage parlor it seems, heh.@@", "@@.mono;It seems they are pretty much aware what is the reason of the parlor's popularity...@@")>>`,
+      },
+      {
+        rank: [0, 1],
+        passage: "none",
+        image: "IMG-FairyTail5",
+        // tslint:disable-next-line:max-line-length
+        content: `You hear three of your colleagues discussing recent events and join them. It turns out that APD came yesterday morning with the inspection because of the reports of prostitution services being provided at the parlor. Luckily for your boss it seems they found nothing and no workers admitted that they did anything sexual for money. Girl are giggling a little too sarcastic about "no sexual services" part. @@.mono;Well we all do it, it would be silly to deny it.@@`,
       },
     ], // TO BE DONE YET
     rank0: {
@@ -1673,8 +1968,8 @@ aw.jobData = {
       promotionBonus: 0,
     },
     acceptance: [
-      `Hi, welcome aboard. Your results are below our expectations but as a qual opportunity employer we accept all candidates. - R.Bells`,
-      `Hi, welcome aboard. Your results are pretty mediocre but as a qual opportunity employer we accept all candidates. - R.Bells`,
+      `Hi, welcome aboard. Your results are below our expectations but as an equal opportunity employer we accept all candidates. - R.Bells`,
+      `Hi, welcome aboard. Your results are pretty mediocre but as an equal opportunity employer we accept all candidates. - R.Bells`,
       `Hi, welcome aboard. Your results are pretty good and we are glad to include you in our team! - R.Bells`,
     ],
   },
@@ -1744,6 +2039,40 @@ aw.jobData = {
           }
         },
       },
+
+      // Anenn Markup
+      {
+        rank: [0, 1, 2],
+        passage: "Stripper-VipEvent-A1",
+        image: "IMG-PoleRiderSide",
+        content: "",
+        random: true,
+        odds: [1, 3],
+        title: "New guy",
+        condition() {
+          if (ↂ.flag.jobEvents.pollRiders.vipClient) {
+            return false;
+          } else {
+            return true;
+          }
+        },
+      },
+      {
+        rank: [0, 1, 2],
+        passage: "Stripper-VipEvent-B1",
+        image: "IMG-PoleRiderSide",
+        content: "",
+        random: true,
+        odds: [1, 4],
+        title: "New guy",
+        condition() {
+          if (ↂ.flag.jobEvents.pollRiders.vipClient === 'accept') {
+            return true;
+          } else {
+            return false;
+          }
+        },
+      },
     ],
     jobContent: [
       {
@@ -1767,7 +2096,14 @@ aw.jobData = {
         passage: "none",
         image: "IMG-SadStripper",
         // tslint:disable-next-line:max-line-length
-        content: `<<set _namer = setup.nameRandomizer(0,'white')>><<= either("In the end of your shift", "Just before closing")>> you was getting ready to dress and leave when you saw <<= _namer>> in obiously sad mood smoking in the dressing room. After a brief talk it turned out that she was caught providing "additional services" by the APD and it seems she got some enormous fine.`,
+        content: `<<set _namer = setup.nameRandomizer(0,'white')>><<= either("In the end of your shift", "Just before closing")>> you was getting ready to dress and leave when you saw <<= _namer>> in obviously sad mood smoking in the dressing room. After a brief talk it turned out that she was caught providing "additional services" by the APD and it seems she got some enormous fine.`,
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "none",
+        image: "IMG-PoleRidersCocktail",
+        // tslint:disable-next-line:max-line-length
+        content: `<<= either("The bartender","Stefanie")>> <<= either("seems bored since there is not too much people today.","stands with a bored look playing with a bottle in her hand at the bar.")>> <<= either("When she notices you she winks and prepares a small cocktail.","@@.npc;Pspsps, <<name>>!@@ With a couple swift motions she prepares a colorful-looking cocktail and puts it onto the counter before you.")>> <<= either("@@.npc;Don't tell anybody, heh.@@","@@.npc;I won't tell anybody.@@","@@.npc;Manager is away today so I decided to spoil my favorite girl a bit.@@")>> <<= either("The cocktail is yummy and smells mango.","The cocktail smells delicious and you genuinely enjoy it.","The cocktail is rather unusual but still pretty lovely.")>> <<= either("You nod Stefanie with a smile and return to your work.","@@.pc;Oh, Stefanie, you are way too nice to me, he-he.@@","@@.pc;You know how to please a hard-working girl for sure, tee-hee!@@")>><<eatdrug "alc" 3>>`,
       },
     ], // TO BE DONE YET
     rank0: {
@@ -1852,9 +2188,24 @@ aw.jobData = {
     events: [
       {
         rank: [0, 1, 2, 3, 4],
+        passage: "FecundateRecordParty",
+        image: "IMG-FecundateSide",
+        content: "<<set ↂ.flag.job.PF.record = false>><<run aw.S('flag')>>",
+        random: false,
+        title: "Birth Record Party!",
+        odds: [1, 1],
+        condition(rank) {
+          if (ↂ.flag.job.PF.record) {
+            return true;
+          }
+          return false;
+        },
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
         passage: "FecundateOrientation",
         image: "IMG-FecundateSide",
-        content: "<<set ↂ.flag.job.PF.briefing = true>>",
+        content: "<<set ↂ.flag.job.PF.briefing = true>><<run aw.S('flag')>>",
         random: false,
         title: "New Employee Exam",
         odds: [1, 1],
@@ -1869,7 +2220,7 @@ aw.jobData = {
         rank: [0, 1, 2, 3, 4],
         passage: "FecundateBirthControl",
         image: "IMG-FecundateSide",
-        content: "<<set ↂ.flag.job.PF.birthCon = true>>",
+        content: "<<set ↂ.flag.job.PF.birthCon = true>><<run aw.S('flag')>>",
         random: false,
         title: "Birth Control Discovery",
         odds: [1, 1],
@@ -2030,6 +2381,38 @@ aw.jobData = {
           return false;
         },
       },
+
+      // Anenn Markup
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "VaginalMedicalResearch-A1",
+        image: "IMG-FecundateSide",
+        content: "",
+        random: true,
+        title: "New medical research",
+        odds: [1, 8],
+        condition(rank) {
+          if (ↂ.pc.status.pregnant || ↂ.flag.jobEvents.progenerate.pussyResearch) {
+            return false;
+          }
+          return true;
+        },
+      },
+      {
+        rank: [0, 1, 2, 3, 4],
+        passage: "VaginalMedicalResearch-B1",
+        image: "IMG-FecundateSide",
+        content: "",
+        random: true,
+        title: "Maybe I want to help them again...?",
+        odds: [1, 8],
+        condition(rank) {
+          if (!ↂ.pc.status.pregnant && ↂ.flag.jobEvents.progenerate.pussyResearch !== 'rejected') {
+            return true;
+          }
+          return false;
+        },
+      },
     ],
     jobContent: [
       {
@@ -2072,7 +2455,7 @@ aw.jobData = {
         passage: "none",
         image: "IMG-JobContent-PF-Cupcake",
         // tslint:disable-next-line:max-line-length
-        content: "Today you all shared cupcakes to celebrate one of your coworkers giving birth to <<= either('two','three','three','four','four','four','five','five','five','six','six','seven','eight','nine','ten')>> healthy babies. She can't wait to get pregnant again, so everyone wished her luck.",
+        content: "Today you all shared cupcakes to celebrate one of your coworkers giving birth to <<= either('seven','eight','nine','ten','eleven','eleven','twelve','twelve','thirteen','thirteen','fourteen','fourteen','fifteen','fifteen','sixteen','seventeen','eighteen')>> healthy babies. She can't wait to get pregnant again, so everyone wished her luck. The cum frosting decorations are always a big hit too.",
       },
     ],
     rank0: {
@@ -2233,13 +2616,66 @@ aw.jobData = {
         odds: [1, 10],
         title: "Outgrowing Bras",
         condition() {
-          if (ↂ.flag.job.HD.smallBras && ↂ.flag.job.HD.hecow) {
+          if (ↂ.flag.job.HD.smallBras && !ↂ.flag.job.HD.hecow) {
             return false;
           } else {
             return true;
           }
         },
       },
+
+      // Anenn markup
+      // Anenn, breeding job
+      {
+        rank: [3, 4],
+        passage: "JobEvent-Hucow-NewJob-A1",
+        image: "IMG-DairySide",
+        content: "",
+        random: true,
+        odds: [1, 4],
+        title: "New farm job",
+        condition() {
+          if (ↂ.flag.job.HD.hecow || ↂ.flag.jobEvents.hucowFarm.newJobBreeding1) {
+            return false;
+          } else {
+            return true;
+          }
+        },
+      },
+      {
+        rank: [3, 4],
+        passage: "JobEvent-Hucow-NewJob-B1",
+        image: "IMG-DairySide",
+        content: "",
+        random: true,
+        odds: [1, 10],
+        title: "Breeding day",
+        condition() {
+          if (ↂ.flag.jobEvents.hucowFarm.newJobBreeding1 === 'accept' && (aw.npc['n1018'].fert.ovuFlag || aw.npc['n1019'].fert.ovuFlag || aw.npc['n1020'].fert.ovuFlag || aw.npc['n1021'].fert.ovuFlag)) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+      },
+
+      // Cows birth ev
+      {
+        rank: [3, 4],
+        passage: "JobEvent-NewJob-CowgirlsBirthing",
+        image: "IMG-DairySide",
+        content: "",
+        random: true,
+        odds: [1, 20],
+        title: "Birth day!",
+        condition() {
+          if (setup.cowsPregCheck() && (ↂ.flag.jobEvents.hucowFarm.newJobBreeding1)) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+      }
     ],
     jobContent: [
       {

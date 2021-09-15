@@ -49,7 +49,7 @@ if(!ↂ.sex.scene){
 
 <<newconsumable "Breast Milk Cryo-Canister" "breastMilkA">>
 <<run aw.L()>>
-<<run aw.cash(3, "milk")>>
+<<run aw.cash(setup.cashDiff(ↂ.flag.farm.milkPrice), "milk")>>
 <<status>>
 <<addTime 3>>
 <<description>>
@@ -119,11 +119,19 @@ Removes makeup, dirt, and bodily fluids from the face. [5-6 minutes]
 <</newconsumable>>
 <</if>>
 
-<<if !setup.consumables.consumableExists("DuremaxSafeT")>>
+
 <<newconsumable "Duremax Safe T Condom" "DuremaxSafeT">>
 <<if ↂ.sex.scene>>
   <<set setup.sexCondomTempType = "duremaxT">>
-  <<run setup.sex.sexAction("requestCondom")>>
+  <<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
+<<elseif $items.has("The French Saboteur")>>
+  <<addTime 15>>
+  <<addconsumable "DuremaxSafeT-Sab2">>
+  <<dialog "French Sabotage">>
+  <center>[img[IMG-Item-Saboteur]]</center><br>
+    Placing the wrapped condom into the rice-cooker-sized French Saboteur, you close the lid and press the only button on the front of the machine. Part of the ring on the top lights up as the box makes a whirring noise. There are a variety of mechanical sounds followed by a steady hum. All the while, more and more of the ring lights up indicating the device's progress. When the ring is almost full, there's some more mechanical noises and then the lid suddenly pops open. You take out the condom, marvelling at how the packaging doesn't look any different than it did before.
+  <</dialog>>
 <<else>>
   <<addTime 8>>
   <<addconsumable "DuremaxSafeT-Sab1">>
@@ -141,13 +149,21 @@ The "Use" command outside of sex scenes is to sabotage the condom. The method of
 </p>
 </div>
 <</newconsumable>>
-<</if>>
 
-<<if !setup.consumables.consumableExists("DuremaxSafePE")>>
+
+
 <<newconsumable "Duremax Safe PE Condom" "DuremaxSafePE">>
 <<if ↂ.sex.scene>>
   <<set setup.sexCondomTempType = "duremaxPE">>
-  <<run setup.sex.sexAction("requestCondom")>>
+  <<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
+<<elseif $items.has("The French Saboteur")>>
+  <<addTime 15>>
+  <<addconsumable "DuremaxSafePE-Sab2">>
+  <<dialog "French Sabotage">>
+  <center>[img[IMG-Item-Saboteur]]</center><br>
+    Placing the wrapped condom into the rice-cooker-sized French Saboteur, you close the lid and press the only button on the front of the machine. Part of the ring on the top lights up as the box makes a whirring noise. There are a variety of mechanical sounds followed by a steady hum. All the while, more and more of the ring lights up indicating the device's progress. When the ring is almost full, there's some more mechanical noises and then the lid suddenly pops open. You take out the condom, marvelling at how the packaging doesn't look any different than it did before.
+  <</dialog>>
 <<else>>
   <<addTime 8>>
   <<addconsumable "DuremaxSafePE-Sab1">>
@@ -165,13 +181,21 @@ The "Use" command outside of sex scenes is to sabotage the condom. The method of
 </p>
 </div>
 <</newconsumable>>
-<</if>>
 
-<<if !setup.consumables.consumableExists("trojancockS")>>
+
+
 <<newconsumable "TrojanCock Sensations Condom" "trojancockS">>
 <<if ↂ.sex.scene>>
   <<set setup.sexCondomTempType = "trojancockS">>
-  <<run setup.sex.sexAction("requestCondom")>>
+  <<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
+<<elseif $items.has("The French Saboteur")>>
+  <<addTime 15>>
+  <<addconsumable "trojancockS-Sab2">>
+  <<dialog "French Sabotage">>
+  <center>[img[IMG-Item-Saboteur]]</center><br>
+    Placing the wrapped condom into the rice-cooker-sized French Saboteur, you close the lid and press the only button on the front of the machine. Part of the ring on the top lights up as the box makes a whirring noise. There are a variety of mechanical sounds followed by a steady hum. All the while, more and more of the ring lights up indicating the device's progress. When the ring is almost full, there's some more mechanical noises and then the lid suddenly pops open. You take out the condom, marvelling at how the packaging doesn't look any different than it did before.
+  <</dialog>>
 <<else>>
   <<addTime 8>>
   <<addconsumable "trojancockS-Sab1">>
@@ -189,13 +213,21 @@ The "Use" command outside of sex scenes is to sabotage the condom. The method of
 </p>
 </div>
 <</newconsumable>>
-<</if>>
 
-<<if !setup.consumables.consumableExists("trojancockUL")>>
+
+
 <<newconsumable "TrojanCock Uber (Lubricated) Condom" "trojancockUL">>
 <<if ↂ.sex.scene>>
   <<set setup.sexCondomTempType = "trojancockUL">>
-  <<run setup.sex.sexAction("requestCondom")>>
+  <<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
+<<elseif $items.has("The French Saboteur")>>
+  <<addTime 15>>
+  <<addconsumable "trojancockUL-Sab2">>
+  <<dialog "French Sabotage">>
+  <center>[img[IMG-Item-Saboteur]]</center><br>
+    Placing the wrapped condom into the rice-cooker-sized French Saboteur, you close the lid and press the only button on the front of the machine. Part of the ring on the top lights up as the box makes a whirring noise. There are a variety of mechanical sounds followed by a steady hum. All the while, more and more of the ring lights up indicating the device's progress. When the ring is almost full, there's some more mechanical noises and then the lid suddenly pops open. You take out the condom, marvelling at how the packaging doesn't look any different than it did before.
+  <</dialog>>
 <<else>>
   <<addTime 8>>
   <<addconsumable "trojancockUL-Sab1">>
@@ -213,13 +245,21 @@ The "Use" command outside of sex scenes is to sabotage the condom. The method of
 </p>
 </div>
 <</newconsumable>>
-<</if>>
 
-<<if !setup.consumables.consumableExists("trojancockUNL")>>
+
+
 <<newconsumable "TrojanCock Uber (Unlubricated) Condom" "trojancockUNL">>
 <<if ↂ.sex.scene>>
   <<set setup.sexCondomTempType = "trojancockUNL">>
-  <<run setup.sex.sexAction("requestCondom")>>
+  <<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
+<<elseif $items.has("The French Saboteur")>>
+  <<addTime 15>>
+  <<addconsumable "trojancockUNL-Sab2">>
+  <<dialog "French Sabotage">>
+  <center>[img[IMG-Item-Saboteur]]</center><br>
+    Placing the wrapped condom into the rice-cooker-sized French Saboteur, you close the lid and press the only button on the front of the machine. Part of the ring on the top lights up as the box makes a whirring noise. There are a variety of mechanical sounds followed by a steady hum. All the while, more and more of the ring lights up indicating the device's progress. When the ring is almost full, there's some more mechanical noises and then the lid suddenly pops open. You take out the condom, marvelling at how the packaging doesn't look any different than it did before.
+  <</dialog>>
 <<else>>
   <<addTime 8>>
   <<addconsumable "trojancockUNL-Sab1">>
@@ -237,13 +277,21 @@ The "Use" command outside of sex scenes is to sabotage the condom. The method of
 </p>
 </div>
 <</newconsumable>>
-<</if>>
 
-<<if !setup.consumables.consumableExists("pleasureburst")>>
+
+
 <<newconsumable "Pleasureburst HEX Condom" "pleasureburst">>
 <<if ↂ.sex.scene>>
   <<set setup.sexCondomTempType = "pleasureburst">>
-  <<run setup.sex.sexAction("requestCondom")>>
+  <<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
+<<elseif $items.has("The French Saboteur")>>
+  <<addTime 15>>
+  <<addconsumable "pleasureburst-Sab2">>
+  <<dialog "French Sabotage">>
+  <center>[img[IMG-Item-Saboteur]]</center><br>
+    Placing the wrapped condom into the rice-cooker-sized French Saboteur, you close the lid and press the only button on the front of the machine. Part of the ring on the top lights up as the box makes a whirring noise. There are a variety of mechanical sounds followed by a steady hum. All the while, more and more of the ring lights up indicating the device's progress. When the ring is almost full, there's some more mechanical noises and then the lid suddenly pops open. You take out the condom, marvelling at how the packaging doesn't look any different than it did before.
+  <</dialog>>
 <<else>>
   <<addTime 8>>
   <<addconsumable "pleasureburst-Sab1">>
@@ -261,7 +309,7 @@ The "Use" command outside of sex scenes is to sabotage the condom. The method of
 </p>
 </div>
 <</newconsumable>>
-<</if>>
+
 
 <<if !setup.consumables.consumableExists("fertilitea")>>
 <<newconsumable "Fertili-Tea Tea Bag Packet" "fertilitea">>
@@ -484,137 +532,199 @@ A standard diaphragm manufactured by a company called "Grandma's Secrets". @@.pr
 <</newconsumable>>
 
 
-<<if !setup.consumables.consumableExists("DuremaxSafeT-Sab1")>>
-<<newconsumable "Duremax Safe T Condom (poorly sabotaged)" "DuremaxSafeT-Sab1">>
+
+<<newconsumable "Duremax Safe T Condom (sabotaged)" "DuremaxSafeT-Sab1">>
 <<set setup.sexCondomTempType = "duremaxT-Sab1">>
-<<run setup.sex.sexAction("requestCondom")>>
+<<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
 <<description>>
 <div class="consumable">
 [img[IMG-DuremaxSafeT]]
 <h3>Duremax Safe T Condom</h3>
 A pretty average condom. You remember these... the thick low-sensation condoms that you hated wearing, but that seemed to be popular with women who were usually more concerned with safety than your pleasure.
 <p>
-The "Use" command outside of sex scenes is to sabotage the condom. The method of sabotage is based on skill and inventory...
+This condom has been sabotaged by sticking a needle straight through the condom and foil wrapper a couple times. It is more likely to fail during sex, but the sabotage will be obvious if given more than a passing glance.
 </p>
 </div>
-<<canuse>>
-if(ↂ.sex.scene){
-  return true;
-}else{
-  return false;
-}
 <</newconsumable>>
-<</if>>
 
-<<if !setup.consumables.consumableExists("DuremaxSafePE-Sab1")>>
-<<newconsumable "Duremax Safe PE Condom (poorly sabotaged)" "DuremaxSafePE-Sab1">>
+
+<<newconsumable "Duremax Safe PE Condom (sabotaged)" "DuremaxSafePE-Sab1">>
 <<set setup.sexCondomTempType = "duremaxPE-Sab1">>
-<<run setup.sex.sexAction("requestCondom")>>
+<<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
 <<description>>
 <div class="consumable">
 [img[IMG-DuremaxSafePE]]
 <h3>Duremax Safe PE Condom</h3>
 A dreaded condom for any man, but now that the shoe's on the other foot... @@.print;"The extra-thick all-natural latex in Safe-PE will stop premature ejaculation in its tracks, with trusted Duremax safety!"@@
 <p>
-The "Use" command outside of sex scenes is to sabotage the condom. The method of sabotage is based on skill and inventory...
+This condom has been sabotaged by sticking a needle straight through the condom and foil wrapper a couple times. It is more likely to fail during sex, but the sabotage will be obvious if given more than a passing glance.
 </p>
 </div>
-<<canuse>>
-if(ↂ.sex.scene){
-  return true;
-}else{
-  return false;
-}
 <</newconsumable>>
-<</if>>
 
-<<if !setup.consumables.consumableExists("trojancockS-Sab1")>>
-<<newconsumable "TrojanCock Sensations Condom (poorly sabotaged)" "trojancockS-Sab1">>
+
+<<newconsumable "TrojanCock Sensations Condom (sabotaged)" "trojancockS-Sab1">>
 <<set setup.sexCondomTempType = "trojancockS-Sab1">>
-<<run setup.sex.sexAction("requestCondom")>>
+<<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
 <<description>>
 <div class="consumable">
 [img[IMG-TrojanCockSensations]]
 <h3>TrojanCock Sensations Condom</h3>
 A pretty average condom. @@.print;"Ribbed for her pleasure, with spermicidal lubricant."@@
 <p>
-The "Use" command outside of sex scenes is to sabotage the condom. The method of sabotage is based on skill and inventory...
+This condom has been sabotaged by sticking a needle straight through the condom and foil wrapper a couple times. It is more likely to fail during sex, but the sabotage will be obvious if given more than a passing glance.
 </p>
 </div>
-<<canuse>>
-if(ↂ.sex.scene){
-  return true;
-}else{
-  return false;
-}
 <</newconsumable>>
-<</if>>
 
-<<if !setup.consumables.consumableExists("trojancockUL-Sab1")>>
-<<newconsumable "TrojanCock Uber (Lubricated) Condom (poorly sabotaged)" "trojancockUL-Sab1">>
+
+<<newconsumable "TrojanCock Uber (Lubricated) Condom (sabotaged)" "trojancockUL-Sab1">>
 <<set setup.sexCondomTempType = "trojancockUL-Sab1">>
-<<run setup.sex.sexAction("requestCondom")>>
+<<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
 <<description>>
 <div class="consumable">
 [img[IMG-TrojanCockUberLube]]
 <h3>TrojanCock Uber (Lubricated) Condom</h3>
 A condom marketed toward men that promises increased pleasure. @@.print;"Uber-thin for Uber-pleasure. Just as strong as a normal condom.† With spermicidal lubricant."@@ The note on the bottom says @@.print;"† +/- 5% when used as directed."@@
 <p>
-The "Use" command outside of sex scenes is to sabotage the condom. The method of sabotage is based on skill and inventory...
+This condom has been sabotaged by sticking a needle straight through the condom and foil wrapper a couple times. It is more likely to fail during sex, but the sabotage will be obvious if given more than a passing glance.
 </p>
 </div>
-<<canuse>>
-if(ↂ.sex.scene){
-  return true;
-}else{
-  return false;
-}
 <</newconsumable>>
-<</if>>
 
-<<if !setup.consumables.consumableExists("trojancockUNL-Sab1")>>
-<<newconsumable "TrojanCock Uber (Unlubricated) Condom (poorly sabotaged)" "trojancockUNL-Sab1">>
+
+<<newconsumable "TrojanCock Uber (Unlubricated) Condom (sabotaged)" "trojancockUNL-Sab1">>
 <<set setup.sexCondomTempType = "trojancockUNL-Sab1">>
-<<run setup.sex.sexAction("requestCondom")>>
+<<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
 <<description>>
 <div class="consumable">
 [img[IMG-TrojanCockUberNolube]]
 <h3>TrojanCock Uber (Unlubricated) Condom</h3>
 A condom marketed toward men that promises increased pleasure. @@.print;"Uber-thin for Uber-pleasure. Just as strong as a normal condom.† Unlubricated for enhanced sensation.‡"@@ The note on the bottom says @@.print;"† +/- 5% when used as directed. ‡ Failure to use proper lubrication can reduce the effectiveness of this product."@@
 <p>
-The "Use" command outside of sex scenes is to sabotage the condom. The method of sabotage is based on skill and inventory...
+This condom has been sabotaged by sticking a needle straight through the condom and foil wrapper a couple times. It is more likely to fail during sex, but the sabotage will be obvious if given more than a passing glance.
 </p>
 </div>
-<<canuse>>
-if(ↂ.sex.scene){
-  return true;
-}else{
-  return false;
-}
 <</newconsumable>>
-<</if>>
 
-<<if !setup.consumables.consumableExists("pleasureburst-Sab1")>>
-<<newconsumable "Pleasureburst Hex Condom (poorly sabotaged)" "pleasureburst-Sab1">>
+
+<<newconsumable "Pleasureburst Hex Condom (sabotaged)" "pleasureburst-Sab1">>
 <<set setup.sexCondomTempType = "pleasureburst-Sab1">>
-<<run setup.sex.sexAction("requestCondom")>>
+<<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
 <<description>>
 <div class="consumable">
 [img[IMG-PleasureBurstHex]]
 <h3>Pleasureburst Hex Condom</h3>
 A condom that seems to promise futuristic pleasure with its hexagonal reinforcement. It seems to be targeted more at disease prevention than contraception... In fact, most of the advertising seems to suggest that semen will "burst out" of the condom.
 <p>
-The "Use" command outside of sex scenes is to sabotage the condom. The method of sabotage is based on skill and inventory...
+This condom has been sabotaged by sticking a needle straight through the condom and foil wrapper a couple times. It is more likely to fail during sex, but the sabotage will be obvious if given more than a passing glance.
 </p>
 </div>
-<<canuse>>
-if(ↂ.sex.scene){
-  return true;
-}else{
-  return false;
-}
 <</newconsumable>>
-<</if>>
+
+
+<<newconsumable "Duremax Safe T Condom (expert-sabotaged)" "DuremaxSafeT-Sab2">>
+<<set setup.sexCondomTempType = "duremaxT-Sab2">>
+<<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
+<<description>>
+<div class="consumable">
+[img[IMG-DuremaxSafeT]]
+<h3>Duremax Safe T Condom</h3>
+A pretty average condom. You remember these... the thick low-sensation condoms that you hated wearing, but that seemed to be popular with women who were usually more concerned with safety than your pleasure.
+<p>
+This condom has been expertly sabotaged with the help of the French Saboteur device. It will almost certainly fail, but is indistinguishable from a normal condom.
+</p>
+</div>
+<</newconsumable>>
+
+
+<<newconsumable "Duremax Safe PE Condom (expert-sabotaged)" "DuremaxSafePE-Sab2">>
+<<set setup.sexCondomTempType = "duremaxPE-Sab2">>
+<<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
+<<description>>
+<div class="consumable">
+[img[IMG-DuremaxSafePE]]
+<h3>Duremax Safe PE Condom</h3>
+A dreaded condom for any man, but now that the shoe's on the other foot... @@.print;"The extra-thick all-natural latex in Safe-PE will stop premature ejaculation in its tracks, with trusted Duremax safety!"@@
+<p>
+This condom has been expertly sabotaged with the help of the French Saboteur device. It will almost certainly fail, but is indistinguishable from a normal condom.
+</p>
+</div>
+<</newconsumable>>
+
+
+<<newconsumable "TrojanCock Sensations Condom (expert-sabotaged)" "trojancockS-Sab2">>
+<<set setup.sexCondomTempType = "trojancockS-Sab2">>
+<<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
+<<description>>
+<div class="consumable">
+[img[IMG-TrojanCockSensations]]
+<h3>TrojanCock Sensations Condom</h3>
+A pretty average condom. @@.print;"Ribbed for her pleasure, with spermicidal lubricant."@@
+<p>
+This condom has been expertly sabotaged with the help of the French Saboteur device. It will almost certainly fail, but is indistinguishable from a normal condom.
+</p>
+</div>
+<</newconsumable>>
+
+
+<<newconsumable "TrojanCock Uber (Lubricated) Condom (expert-sabotaged)" "trojancockUL-Sab2">>
+<<set setup.sexCondomTempType = "trojancockUL-Sab2">>
+<<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
+<<description>>
+<div class="consumable">
+[img[IMG-TrojanCockUberLube]]
+<h3>TrojanCock Uber (Lubricated) Condom</h3>
+A condom marketed toward men that promises increased pleasure. @@.print;"Uber-thin for Uber-pleasure. Just as strong as a normal condom.† With spermicidal lubricant."@@ The note on the bottom says @@.print;"† +/- 5% when used as directed."@@
+<p>
+This condom has been expertly sabotaged with the help of the French Saboteur device. It will almost certainly fail, but is indistinguishable from a normal condom.
+</p>
+</div>
+<</newconsumable>>
+
+
+<<newconsumable "TrojanCock Uber (Unlubricated) Condom (expert-sabotaged)" "trojancockUNL-Sab2">>
+<<set setup.sexCondomTempType = "trojancockUNL-Sab2">>
+<<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
+<<description>>
+<div class="consumable">
+[img[IMG-TrojanCockUberNolube]]
+<h3>TrojanCock Uber (Unlubricated) Condom</h3>
+A condom marketed toward men that promises increased pleasure. @@.print;"Uber-thin for Uber-pleasure. Just as strong as a normal condom.† Unlubricated for enhanced sensation.‡"@@ The note on the bottom says @@.print;"† +/- 5% when used as directed. ‡ Failure to use proper lubrication can reduce the effectiveness of this product."@@
+<p>
+This condom has been expertly sabotaged with the help of the French Saboteur device. It will almost certainly fail, but is indistinguishable from a normal condom.
+</p>
+</div>
+<</newconsumable>>
+
+
+<<newconsumable "Pleasureburst Hex Condom (expert-sabotaged)" "pleasureburst-Sab2">>
+<<set setup.sexCondomTempType = "pleasureburst-Sab2">>
+<<run setup.sex.popupKill()>>
+  <<run setup.sex.sexAction("putOnCondom")>>
+<<description>>
+<div class="consumable">
+[img[IMG-PleasureBurstHex]]
+<h3>Pleasureburst Hex Condom</h3>
+A condom that seems to promise futuristic pleasure with its hexagonal reinforcement. It seems to be targeted more at disease prevention than contraception... In fact, most of the advertising seems to suggest that semen will "burst out" of the condom.
+<p>
+This condom has been expertly sabotaged with the help of the French Saboteur device. It will almost certainly fail, but is indistinguishable from a normal condom.
+</p>
+</div>
+
+<</newconsumable>>
+
 
 <<if !setup.consumables.consumableExists("babyProbe")>>
 <<newconsumable "Probe Response BabyProbe Test" "babyProbe">>
@@ -630,6 +740,12 @@ The Probe Response line of tests is targeted at those who don't want to wait nea
 Note that this test can only detect pregnancy once a zygote has successfully implanted.
 </p>
 </div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
 <</newconsumable>>
 <</if>>
 
@@ -645,7 +761,7 @@ Note that this test can only detect pregnancy once a zygote has successfully imp
 <div class="consumable">
 [img[IMG-Item-FocusTablet40]]
 <h3>Focus 40</h3>
-Performance-enchansing drug for the more intellectually inclined. Focus has a complex effect on the brain, which serves to enchance IQ and memory, affecting willpower and abilities to concentrate. It causes the feeling of confidence, security and control over the user's life. Tablet form.
+Performance-enhancing drug for the more intellectually inclined. Focus has a complex effect on the brain, which serves to enhance IQ and memory, affecting willpower and abilities to concentrate. It causes the feeling of confidence, security and control over the user's life. Tablet form.
 <p>
 Note: Effect can be delayed due to the user metabolic rate.
 </p>
@@ -665,7 +781,7 @@ Note: Effect can be delayed due to the user metabolic rate.
 <div class="consumable">
 [img[IMG-Item-Focus40]]
 <h3>Focus 40</h3>
-Performance-enchansing drug for the more intellectually inclined. Focus has a complex effect on the brain, which serves to enchance IQ and memory, affecting willpower and abilities to concentrate. It causes the feeling of confidence, security and control over the user's life. Injection form.
+Performance-enhancing drug for the more intellectually inclined. Focus has a complex effect on the brain, which serves to enhance IQ and memory, affecting willpower and abilities to concentrate. It causes the feeling of confidence, security and control over the user's life. Injection form.
 </div>
 <</newconsumable>>
 <</if>>
@@ -682,7 +798,7 @@ Performance-enchansing drug for the more intellectually inclined. Focus has a co
 <div class="consumable">
 [img[IMG-Item-Focus80]]
 <h3>Focus 80</h3>
-Performance-enchansing drug for the more intellectually inclined. Focus has a complex effect on the brain, which serves to enchance IQ and memory, affecting willpower and abilities to concentrate. It causes the feeling of confidence, security and control over the user's life. Injection form.
+Performance-enhancing drug for the more intellectually inclined. Focus has a complex effect on the brain, which serves to enhance IQ and memory, affecting willpower and abilities to concentrate. It causes the feeling of confidence, security and control over the user's life. Injection form.
 </div>
 <</newconsumable>>
 <</if>>
@@ -699,7 +815,7 @@ Performance-enchansing drug for the more intellectually inclined. Focus has a co
 <div class="consumable">
 [img[IMG-Item-ZoneBottle1]]
 <h3>Zone 1mg</h3>
-Provokes a feeling of profound calm & serenity, alertness and energy. Pretty effective stimulant and performance enhancer. Can cause addiction and known for psyhotic effects if overdosed. Liquid form.
+Provokes a feeling of profound calm & serenity, alertness and energy. Pretty effective stimulant and performance enhancer. Can cause addiction and known for psychotic effects if overdosed. Liquid form.
 <p>
 Note: Effect can be delayed due to the user metabolic rate.
 </p>
@@ -719,7 +835,7 @@ Note: Effect can be delayed due to the user metabolic rate.
 <div class="consumable">
 [img[IMG-Item-ZoneBottle3]]
 <h3>Zone 3mg</h3>
-Provokes a feeling of profound calm & serenity, alertness and energy. Pretty effective stimulant and performance enhancer. Can cause addiction and known for psyhotic effects if overdosed. Liquid form.
+Provokes a feeling of profound calm & serenity, alertness and energy. Pretty effective stimulant and performance enhancer. Can cause addiction and known for psychotic effects if overdosed. Liquid form.
 <p>
 Note: Effect can be delayed due to the user metabolic rate.
 </p>
@@ -730,10 +846,10 @@ Note: Effect can be delayed due to the user metabolic rate.
 <<if !setup.consumables.consumableExists("ZoneInhaler3")>>
 <<newconsumable "Zone" "ZoneInhaler3">>
   <<dialog "Zone">>
-    The cartridge is already installed into the cheap plastic inhaller so all you need to do is to press the button. You inhale and press it trying to avoid loosing any of the drug to the air. It takes you several pushes to inhale all the content - the slightly sweet almost odorless vapor. Even before you finish you start feeling that drug began working... 
+    The cartridge is already installed into the cheap plastic inhaler so all you need to do is to press the button. You inhale and press it trying to avoid loosing any of the drug to the air. It takes you several pushes to inhale all the content - the slightly sweet almost odorless vapor. Even before you finish you start feeling that drug began working... 
   <</dialog>>
   <<addTime 3>>
-  <<eatdrug "zone" 20>>
+  <<eatdrug "zone" 5>>
   <<script>>
     aw.L("pc");
     let usedTo = Math.round(ↂ.pc.status.addict.zone * 0.1);
@@ -760,7 +876,7 @@ Note: Effect can be delayed due to the user metabolic rate.
 <div class="consumable">
 [img[IMG-Item-ZoneInhaler3]]
 <h3>Zone 3mg inhaler</h3>
-Provokes a feeling of profound calm & serenity, alertness and energy. Pretty effective stimulant and performance enhancer. Can cause addiction and known for psyhotic effects if overdosed. Inhaling form.
+Provokes a feeling of profound calm & serenity, alertness and energy. Pretty effective stimulant and performance enhancer. Can cause addiction and known for psychotic effects if overdosed. Inhaling form.
 <p>
 Note: Effect can be delayed due to the user metabolic rate.
 </p>
@@ -853,7 +969,7 @@ Note: Effect can be delayed due to the user metabolic rate.
     ↂ.pc.trait.libido += (add - 4);
     aw.S("pc");
   <</script>>
-  <<run setup.omni.new("Heat150")>>
+  <<run setup.omni.new("Heat")>>
 <<description>>
 <div class="consumable">
 [img[IMG-Item-Heat150]]
@@ -902,7 +1018,7 @@ Note: Effect can be delayed due to the user metabolic rate.
     ↂ.pc.trait.libido += (add - 4);
     aw.S("pc");
   <</script>>
-  <<run setup.omni.new("Heat300")>>
+  <<run setup.omni.new("Heat")>>
 <<description>>
 <div class="consumable">
 [img[IMG-Item-Heat300]]
@@ -965,6 +1081,12 @@ Note: Effect can be delayed due to the user metabolic rate.
 <h3>Mental Pills</h3>
 Some prescribed drug for keeping you sane. The name is almost unreadable, starting with "Methionylthreonyl..." and going on for about 30 characters more.
 </div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
 <</newconsumable>>
 <</if>>
 
@@ -982,6 +1104,12 @@ Some prescribed drug for keeping you sane. The name is almost unreadable, starti
 <h3>Grunwald beer</h3>
 Imported German beer. 6% of alcohol.
 </div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
 <</newconsumable>>
 <</if>>
 
@@ -999,6 +1127,12 @@ Imported German beer. 6% of alcohol.
 <h3>Spirit of Wisconsin</h3>
 Some beer from Wisconsin. Seems containing 6% of alcohol.
 </div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
 <</newconsumable>>
 <</if>>
 
@@ -1015,6 +1149,12 @@ Some beer from Wisconsin. Seems containing 6% of alcohol.
 <h3>Protein bar</h3>
 Protein bar snack containing preserved cum, good source of imortant minerals and suppliments for the body. This particular one contains BBC cum at least this is what stated on the pack.
 </div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
 <</newconsumable>>
 <</if>>
 
@@ -1022,7 +1162,7 @@ Protein bar snack containing preserved cum, good source of imortant minerals and
 <<newconsumable "Syntetix Bimbo magazine" "syntetix">>
     <<dialog "Syntetix magazine">>
     <center>[IMG[IMG-SyntetixJournal]]</center><br><br>
-      <<if !ↂ.flag.syntetixRead>><<stress -7 "Reading Syntetix">><<happy 1 "Reading Syntetix">><<set ↂ.flag.syntetixRead = true>><<set ↂ.pc.status.bimbo += 11>><<set ↂ.pc.status.perversion += 5>><<set ↂ.skill.art += 1>><<run setup.notify(`<span class="good" style="font-size:1.25rem">Skill Up!</span> Your Aesthetics skill increased!`)>><<status 0>>
+      <<if !ↂ.flag.syntetixRead>><<stress -7 "Reading Syntetix">><<happy 1 "Reading Syntetix">><<set ↂ.flag.syntetixRead = true>><<set ↂ.pc.status.bimbo += 11>><<run setup.status.record("bimbo", 11, "Reading Syntetix")>><<set ↂ.pc.status.perversion += 5>><<set ↂ.skill.art += 1>><<run setup.notify(`<span class="good" style="font-size:1.25rem">Skill Up!</span> Your Aesthetics skill increased!`)>><<status 0>>
         <<if ↂ.pc.status.bimbo > 50>>You have trouble reading and it takes about an hour to read all 7 short articles in the magazine. Luckily, with some help of colorful illustrations you are able to grasp the sense of the texts.<<addTime 52>><<else>><<addTime 28>>You quickly read through all articles in the magazine. The style of the writing makes you feel like it was written for kids, despite of the themes the magazine covers. The idea of a bimbo life style is pretty weird for you, but some ideas from it are worth considering.<</if>> It seems that there are some interesting information. You learned about this new Expand+ option for non surgical breasts expansion. After initial operation you can enlarge your tits with simple injections. Other articles give you a clue about the latest trends in fashion and clothing styles, making you feel more confident in this area.<<timed 2s>><<set ↂ.flag.magazinesCount += 1>><<run setup.notify("Found <<= ↂ.flag.magazinesCount>> of <<= ↂ.flag.magazinesTotal>> magazines.")>><<status 0>><</timed>>
       <<else>><<addTime 7>><<stress -2 "Reading Syntetix">>
       You open the magazine but you still remember the content so it doesn't keep you amused for any long time.
@@ -1034,6 +1174,12 @@ Protein bar snack containing preserved cum, good source of imortant minerals and
 <h3>Syntetix Bimbo magazine</h3>
 A new issue of 'SyntetiX Bimbo', periodical covering the lifestyle of this specific group. The magazine is quite thick. The majority of the pages are ads for different clothing, perfume, and cosmetic surgery services.  The layout includes simple sentences in a large font and lots of colorful, supplemental illustrations. The sentences are simple and the illustrations are focused at the more complicated concepts, like 'managing your shoe collection.'
 </div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
 <</newconsumable>>
 <</if>>
 
@@ -1041,7 +1187,7 @@ A new issue of 'SyntetiX Bimbo', periodical covering the lifestyle of this speci
 <<newconsumable "Shameless magazine" "shameless">>
     <<dialog "Shameless magazine">>
     <center>[IMG[IMG-ShamelessInside]]</center><br><br>
-      <<if !ↂ.flag.shamelessRead>><<stress -7 "Reading Shameless">><<happy 1 "Reading Shameless">><<addTime 26>><<set ↂ.pc.status.bimbo += 2>><<set ↂ.pc.status.perversion += 6>><<set ↂ.skill.exhibition += 1>><<run setup.notify(`<span class="good" style="font-size:1.25rem">Skill Up!</span> Your Exhibition skill increased!`)>><<status 0>>
+      <<if !ↂ.flag.shamelessRead>><<stress -7 "Reading Shameless">><<happy 1 "Reading Shameless">><<addTime 26>><<set ↂ.pc.status.bimbo += 2>><<run setup.status.record("bimbo", 2, "Reading Shameless")>><<set ↂ.pc.status.perversion += 6>><<set ↂ.skill.exhibition += 1>><<run setup.notify(`<span class="good" style="font-size:1.25rem">Skill Up!</span> Your Exhibition skill increased!`)>><<status 0>>
       You open the magazine and start to read it. <<has exhibition>><<arousal 2>>The content, especially the photos of women on the street semi- or full naked make you pretty aroused. Some stories are pretty cool too, you find the confession of anonimous girl pretty hot, she describes her latest adventures going out only in crotchless panties and balcony bra.<<or>><<arousal 1>>The content is pretty specific but you have some amount of fun reading stories and looking at the photos of nude girls on the streets and in the parks.<</has>> There are some useful information as well and you grasp some ways to avoid being fined for going away undressed if you ever decide to do so. Other useful stuff includes advertises of the local school, Freak Dance school seems particularly interesting.<<timed 2s>><<set ↂ.flag.magazinesCount += 1>><<run setup.notify("Found <<= ↂ.flag.magazinesCount>> of <<= ↂ.flag.magazinesTotal>> magazines.")>><<status 0>><</timed>>
       <<else>><<addTime 7>><<stress -2 "Reading Shameless">>
       You open the magazine but you still remember the content so it doesn't keep you amused for any long time.
@@ -1053,6 +1199,12 @@ A new issue of 'SyntetiX Bimbo', periodical covering the lifestyle of this speci
 <h3>Shameless magazine</h3>
 New issue of 'Shameless', periodic magazine centered about exhibitionism and related topics. The journal covers all aspects of this tricky art, starting from getting away from police to most effective ways to flash strangers. Because of the theme, there are not that much clothes advertising inside, mostly shoes, perfume, and sex toys.
 </div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
 <</newconsumable>>
 <</if>>
 
@@ -1063,7 +1215,7 @@ New issue of 'Shameless', periodic magazine centered about exhibitionism and rel
     <<status 1>>
     <<set _booster = false>>
     <<if ↂ.pc.fert.boost < 3>><<set ↂ.pc.fert.boost += 2>><<set _booster = true>><</if>>
-    <<if !ↂ.flag.broodRead>><<stress -7 "Reading Brood magazine">><<happy 1 "Reading Brood magazine">><<set ↂ.pc.status.bimbo += 3>><<set ↂ.skill.sex += 1>><<run setup.notify(`<span class="good" style="font-size:1.25rem">Skill Up!</span> Your Sex Skill increased!`)>><</if>>
+    <<if !ↂ.flag.broodRead>><<stress -7 "Reading Brood magazine">><<happy 1 "Reading Brood magazine">><<set ↂ.pc.status.bimbo += 3>><<run setup.status.record("bimbo", 3, "Reading Brood magazine")>><<set ↂ.skill.sex += 1>><<run setup.notify(`<span class="good" style="font-size:1.25rem">Skill Up!</span> Your Sex Skill increased!`)>><</if>>
     <<status 0>>
     <center>[IMG[IMG-BroodInside]]</center><br><br>
     <<if !ↂ.flag.broodRead>>
@@ -1085,6 +1237,12 @@ New issue of 'Shameless', periodic magazine centered about exhibitionism and rel
 <h3>Brood magazine</h3>
 The latest issue of 'BROOD: Baby Factory', a quarterly magazine all about multiple-child pregnancies. The magazine covers a variety of topics, from fashion and lifestyle tips for pregnant women, to fertility enhancement and conception guides. While the magazine does place an emphasis on the joys of pregnancy and the fulfillment from being a mother, it also acknowledges the financial benefits as well. There are regular profiles on mothers who make a comfortable living from government birth subsidies.
 </div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
 <</newconsumable>>
 <</if>>
 
@@ -1093,7 +1251,7 @@ The latest issue of 'BROOD: Baby Factory', a quarterly magazine all about multip
 <<newconsumable "Work like a German" "wlg">>
     <<dialog "Work like a German">>
     <center>[IMG[IMG-WLG-inside]]</center><br><br>
-      <<if !ↂ.flag.wlgRead>><<stress -7 "Reading WLG magazine">><<set ↂ.flag.wlgRead = true>><<happy 1 "Reading WLG magazine">><<addTime 26>><<set ↂ.pc.status.bimbo += 2>><<set ↂ.skill.probSolving += 1>><<set ↂ.skill.finance += 1>><<run setup.notify(`<span class="good" style="font-size:1.25rem">Skill Up!</span> Your Problem Solving and Finance skills increased!`)>><<status 0>>
+      <<if !ↂ.flag.wlgRead>><<stress -7 "Reading WLG magazine">><<set ↂ.flag.wlgRead = true>><<happy 1 "Reading WLG magazine">><<addTime 26>><<set ↂ.pc.status.bimbo += 2>><<run setup.status.record("bimbo", 2, "Reading WLG magazine")>><<set ↂ.skill.probSolving += 1>><<set ↂ.skill.finance += 1>><<run setup.notify(`<span class="good" style="font-size:1.25rem">Skill Up!</span> Your Problem Solving and Finance skills increased!`)>><<status 0>>
       You open the magazine and start to read it. It seems that most of the content is about getting your way up the carrer ladder using your body but there is also some interesting info on typical work tasks and how to solve them. You catch a couple of interesting tricks regarding solving problems and feel a bit more confident now.<<timed 2s>><<set ↂ.flag.magazinesCount += 1>><<run setup.notify("Found <<= ↂ.flag.magazinesCount>> of <<= ↂ.flag.magazinesTotal>> magazines.")>><<status 0>><</timed>>
       <<else>><<addTime 7>><<stress -2 "Reading WLG magazine">>
       You open the magazine but you still remember the content so it doesn't keep you amused for any long time.
@@ -1105,6 +1263,12 @@ The latest issue of 'BROOD: Baby Factory', a quarterly magazine all about multip
 <h3>Work like a German Magazine</h3>
 The latest issue of 'WLG', a weekly magazine about jobbing hard. You can expect a lot of career advices, ways to boost your productivity and help with self-promoting.
 </div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
 <</newconsumable>>
 <</if>>
 
@@ -1112,7 +1276,7 @@ The latest issue of 'WLG', a weekly magazine about jobbing hard. You can expect 
 <<if !setup.consumables.consumableExists("moonshine1")>>
 <<newconsumable "Moonshine" "moonshine1">>
     <<dialog "Moonshine">>
-    <<addTime 14>><<set _bimbo = random(2,8)>><<stress -3 "Drinking moonshine">><<set ↂ.pc.status.bimbo += _bimbo>><<set ↂ.pc.status.health -= 5>><<run setup.status.record("health", -5, "Awful moonshine")>><<run setup.food.drink("moonshine")>><<status 0>>
+    <<addTime 14>><<set _bimbo = random(2,8)>><<stress -3 "Drinking moonshine">><<set ↂ.pc.status.bimbo += _bimbo>><<run setup.status.record("bimbo", _bimbo, "Drinking moonshine")>><<set ↂ.pc.status.health -= 5>><<run setup.status.record("health", -5, "Awful moonshine")>><<run setup.food.drink("moonshine")>><<status 0>>
       You open a bottle and sip a bit. The moonshine tastes terrible and you are not sure if it is safe to drink at all. Eventually you force most of the bottle into your stomach. The smell reminds you of acetone and it takes some time until you get sure the liquid won't try to return back. For some reason you feel not only tipsy... it seems like it got a little bit harder to think.
       <p>@@.mono;Tee-hee, I hope it is temporary...@@</p>
     <</dialog>>
@@ -1122,13 +1286,19 @@ The latest issue of 'WLG', a weekly magazine about jobbing hard. You can expect 
 <h3>Moonshine</h3>
 The bottle of home-brewed moonshine in a small bottle. Smells awful.
 </div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
 <</newconsumable>>
 <</if>>
 
 <<if !setup.consumables.consumableExists("moonshine2")>>
 <<newconsumable "Moonshine" "moonshine2">>
     <<dialog "Moonshine">>
-    <<addTime 14>><<set _bimbo = random(1,4)>><<stress -5 "Drinking moonshine">><<set ↂ.pc.status.bimbo += _bimbo>><<set ↂ.pc.status.health -= 1>><<run setup.status.record("health", -1, "Bad moonshine")>><<run setup.food.drink("moonshine")>><<status 0>>
+    <<addTime 14>><<set _bimbo = random(1,4)>><<stress -5 "Drinking moonshine">><<set ↂ.pc.status.bimbo += _bimbo>><<run setup.status.record("bimbo", _bimbo, "Drinking moonshine")>><<set ↂ.pc.status.health -= 1>><<run setup.status.record("health", -1, "Bad moonshine")>><<run setup.food.drink("moonshine")>><<status 0>>
       You open a bottle. After a few sips you decide that it is not that bad and you finish the bottle pretty fast. The smell is not that good and the taste is way too hard but overall it can be compared to the cheapest store liquors. You start to feel tipsy and life feels more bright than usually.
       <p>@@.mono;Heh, I feel my mind sooo sloow right now...@@</p>
     <</dialog>>
@@ -1138,6 +1308,12 @@ The bottle of home-brewed moonshine in a small bottle. Smells awful.
 <h3>Moonshine</h3>
 The bottle of home-brewed moonshine in a small bottle. Smells pretty odd.
 </div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
 <</newconsumable>>
 <</if>>
 
@@ -1154,6 +1330,12 @@ The bottle of home-brewed moonshine in a small bottle. Smells pretty odd.
 <h3>Moonshine</h3>
 The bottle of home-brewed moonshine in a small bottle. Smells nice.
 </div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
 <</newconsumable>>
 <</if>>
 
@@ -1169,6 +1351,12 @@ The bottle of home-brewed moonshine in a small bottle. Smells nice.
 <h3>Semen</h3>
 The small bottle of human semen for using in cooking.
 </div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
 <</newconsumable>>
 <</if>>
 
@@ -1183,5 +1371,142 @@ The small bottle of human semen for using in cooking.
 <h3>Rat poison</h3>
 The bottle of poisonous liquid for deratization. Higly toxic for mammals.
 </div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
 <</newconsumable>>
 <</if>>
+
+<<if !setup.consumables.consumableExists("bigBrainer")>>
+<<newconsumable "Big brainer" "bigBrainer">>
+<<status 1>>
+    <<if ↂ.pc.status.bimbo > 30>>
+      <<set _xxx = random(1,2) * -1>>
+      <<set ↂ.pc.status.bimbo += _xxx>>
+      <<run setup.status.record("bimbo", _xxx, "Big Brainer supplement effects")>>
+    <</if>>
+    <<run setup.consumables.add("bigBrainer")>>
+    <<notify>>You swallow one pill.<</notify>>
+<<status 0>>
+<<addTime 3>>
+<<description>>
+<div class="consumable">
+[img[IMG-Item-BigBrainer]]
+<h3>Cognition enchancing suppliment</h3>
+A natural cognitive supplement for stimulating brain activity, memory and cognition. 300 tablets pack.
+</p>
+</div>
+<<canuse>>
+if(!ↂ.sex.scene){
+  return true;
+}else{
+  return false;
+}
+<</newconsumable>>
+<</if>>
+
+<<if !setup.consumables.consumableExists("rubberGirl")>>
+<<newconsumable "Rubber grl" "rubberGirl">>
+<<status 1>>
+    <<set _randomium = random(1,10)>>
+    <<if _randomium == 10 || ↂ.pc.mutate.elastic>>
+      <<set ↂ.pc.status.health -= 4>>
+      <<run setup.status.record("health", -4, "Side effect of Rubber girl supplement.")>>
+      <<run setup.omni.new("rubberGirlFail")>>
+    <<else>>
+      <<set ↂ.pc.mutate.elastic = true>>
+      <<run setup.omni.new("rubberGirl")>>
+    <</if>>
+    <<run setup.consumables.add("rubberGirl")>>
+    <<notify>>You swallow one pill.<</notify>>
+<<status 0>>
+<<addTime 3>>
+<<description>>
+<div class="consumable">
+[img[IMG-Item-RubberGirl]]
+<h3>Cognition enchancing suppliment</h3>
+  A natural supplement enchancing the body elasticity. One pill works for around 24 hours. 300 tablets. Prolonged use or consuming by the individuals with existing tendons and connective tissue abnormalities was not tested and can cause side effects.
+</p>
+</div>
+<<canuse>>
+if(ↂ.sex.scene){
+  return false;
+}else{
+  return true;
+}
+<</newconsumable>>
+<</if>>
+
+
+<<if !setup.consumables.consumableExists("Titilator")>>
+<<newconsumable "Titilator" "Titilator">>
+<<status 1>>
+    <<set _randomium = random(1,10)>>
+    <<if setup.omni.matching("Titilator") !== 0 || setup.omni.matching("Titilator side effects") !== 0>>
+    <<set ↂ.pc.status.health -= 7>>
+      <<run setup.status.record("health", -7, "Side effect of overdosing the supplement.")>>
+      <<run setup.omni.new("TitilatorFail")>>
+    <<elseif _randomium == 10>>
+      <<set ↂ.pc.status.health -= 7>>
+      <<run setup.status.record("health", -7, "Side effect of the supplement.")>>
+      <<run setup.omni.new("TitilatorFail")>>
+    <<else>>
+      <<set ↂ.pc.trait.libido += 1>>
+    <</if>>
+    <<run setup.consumables.add("Titilator")>>
+    <<notify>>You swallow one pill.<</notify>>
+<<status 0>>
+<<addTime 3>>
+<<description>>
+<div class="consumable">
+[img[IMG-Item-RubberGirl]]
+<h3>Libido enchancing suppliment</h3>
+  A natural supplement enchancing the libido, prolonged 12 hours effect. Only for females. Overdosing may cause side effects. 300 tablets.
+</p>
+</div>
+<<canuse>>
+if(!ↂ.sex.scene){
+  return true;
+}else{
+  return false;
+}
+<</newconsumable>>
+<</if>>
+
+<<if !setup.consumables.consumableExists("BullsMilk")>>
+<<newconsumable "Bull's Milk" "BullsMilk">>
+<<status 1>>
+    <<if setup.omni.matching("Bull's Milk effects") === 0>>
+      <<set ↂ.pc.status.health += 1>>
+      <<run setup.status.record("health", 1, "Bull's Milk effects")>>
+    <</if>>
+    <<run setup.omni.kill("Bull's Milk effects")>>
+    <<run setup.omni.new("bullMilk")>>
+<<status 0>>
+<<run setup.drug.eatDrug("cum", 15)>>
+<<addTime 15>>
+<<dialog "Bull's Milk">>
+<center>[img[IMG-BullsMilkAd]]</center>
+<p>
+You take your time and savor the tasty beverage. It tastes pretty much exactly like cum, along with a hint of citrus fruit. The main difference is that somehow the beverage is a lot smoother to drink, with the consistency of heavy cream instead of being somewhat gooey like normal cum. It makes it much easier to drink as a beverage, and before you realize it you manage to finish off the bottle. You somewhat miss the cloying way the flavor sticks in your mouth with real cum, but perhaps the sheer volume of bull's milk makes up for it. @@.mono;Delicious!@@
+</p>
+<</dialog>>
+<<updatebar>>
+<<description>>
+<div class="consumable">
+[img[IMG-Item-BullsMilk]]
+<h3>Bull's Milk</h3>
+  A performance enhancement drink that proudly claims human semen as its primary ingredient. The back of the can has a giant list of helpful proteins, vitamins, amino acids, and other nutrients. The can promises a range of physical and mental health benefits, with the usual caveat that the statements haven't been approved by the FDA.
+</div>
+<<canuse>>
+if(!ↂ.sex.scene){
+  return true;
+}else{
+  return false;
+}
+<</newconsumable>>
+<</if>>
+

@@ -49,11 +49,8 @@
 /*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
-<<hoverrevise hovShop>>
-	@@.disabled;<<button "Shop">><</button>>@@
-<<endhoverrevise>>
 <<hoverrevise hovEnter>>
-	<<button "Enter the Clinic">><<dialog "Bat's Optometry Clinic">><br>Walking into the optometry clinic, you notice a sign in the window that says: "@@.info;Help Wanted! Inquire Within@@". The inside of the clinic looks exactly as you'd expect, with walls covered with glasses displays, and plenty of mirrors. There's a nice little waiting nook with couches and some magazines, and a glassed-in room with machines you assume are there to customize a patient's lenses. You see a fairly handsome man in his late 20s standing behind the reception counter, wearing a doctor's white lab coat.<br><br>He looks up after you walk in, and greets you with a smile. "@@.npc;Welcome to Bat's! Are you a new patient, or did you want to ask about the help wanted sign? I'd be glad to help either way.@@"<br><br>@@.head4;Get an eye exam@@ @@.exp;Will 'discover' a vision defecit, and you will need glasses.@@ @@.note;Not Implemented.@@<br>@@.head4;Ask about employment@@ @@.exp;See what kind of job is being offered.@@ @@.note;Not Implemented.@@<br>@@.head4;Just browse the glasses.@@ @@.exp;Look around for frames that would suit you.@@ @@.note;Also, Not Implemented.@@<</dialog>><</button>>
+	<<button "Enter the Clinic">><<dialog "Bat's Optometry Clinic">><br>Walking into the optometry clinic, you notice a sign in the window that says: "@@.info;Help Wanted! Inquire Within@@". The inside of the clinic looks exactly as you'd expect, with walls covered with glasses displays, and plenty of mirrors. There's a nice little waiting nook with couches and some magazines, and a glassed-in room with machines you assume are there to customize a patient's lenses. You see a fairly handsome man in his late 20s standing behind the reception counter, wearing a doctor's white lab coat.<br><br>He looks up after you walk in, and greets you with a smile. "@@.npc;Welcome to Bat's! Are you a new patient, or did you want to ask about the help wanted sign? I'd be glad to help either way.@@"<br><br>@@.pc;Oh thanks, I am just looking.@@ You look around on various glasses happy that you had a perfect 20/20 sight both prior and after the rejuvenation.<</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -65,7 +62,6 @@
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion hovShop>>@@.exp;Look for items you need, and add them to your cart. [20-40min]@@<<endinsertion>>
 <<insertion hovEnter>>@@.exp;Take a look around, and perhaps even get an eye exam.@@<<endinsertion>>
 <<insertion hovCart>>@@.exp;launches a popup that contains an ordered list of all the items in your cart, along with the price (prior to member discount). @@<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>

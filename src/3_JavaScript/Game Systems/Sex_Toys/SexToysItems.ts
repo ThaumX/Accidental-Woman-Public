@@ -183,6 +183,7 @@ horseCockDildo: {
           }
           if (random(0,40) === 1) {
             ↂ.pc.status.bimbo += 1;
+            setup.status.record("bimbo", 1, "Rare buttplug side effect");
           }
           if (random(0,50) === 1 && !ↂ.pc.kink.buttSlut) {
             ↂ.pc.kink.buttSlut = true;
@@ -233,6 +234,7 @@ horseCockDildo: {
           }
           if (random(0,40) === 1) {
             ↂ.pc.status.bimbo += 1;
+            setup.status.record("bimbo", 1, "Rare buttplug side effect");
           }
           if (random(0,50) === 1 && !ↂ.pc.kink.buttSlut) {
             ↂ.pc.kink.buttSlut = true;
@@ -283,6 +285,7 @@ horseCockDildo: {
           }
           if (random(0,40) === 1) {
             ↂ.pc.status.bimbo += 1;
+            setup.status.record("bimbo", 1, "Rare buttplug side effect");
           }
           if (random(0,40) === 1 && !ↂ.pc.kink.buttSlut) {
             ↂ.pc.kink.buttSlut = true;
@@ -570,6 +573,53 @@ horseCockDildo: {
           }
           if (random(0,40) === 1) {
             ↂ.pc.status.bimbo += 1;
+            setup.status.record("bimbo", 1, "Rare Ben Wa side effect");
+          }
+          ↂ.pc.body.pussy.insert(1);
+          aw.S("pc");`,
+        } as IntOmniData;
+        setup.omni.new(omni);
+      }
+      aw.S();
+    },
+  },
+  golfBall: {
+    key: "golfBall",
+    name: "Golf ball",
+    desc: "The ball for popular game. You probably gonna use it exactly for this purpose, right?",
+    img: "IMG-Item-GolfBall",
+    type: ["pussyPlug"],
+    quality: 1,
+    wearable: true,
+    size: 2,
+    occupied: ["vagina"],
+    removable: true,
+    price: 0,
+    canBuy: true,
+    button: "Insert the golf ball",
+    menu: false,
+    useText: ["Besty error :D", `<center>[img[IMG-GolfBall]]</center><br><<set _tim = random(12, 22)>><<addtime _tim>><<set _freeHole = setup.sexToys.check("pc", "vagina")>><<if _freeHole === true>><<set _result = ↂ.pc.body.pussy.insert(setup.sexToys.toys[_toy].size)>>You press the ball between your <<p 'curwet.q'>> <<p labia.s>> labia <<if _result !== "notfit">><<run setup.sexToys.insert("pc", "vagina", "golfBall")>><<= either("and it pops in with a slurping sound.","and it goes in stretching the walls of your pussy.")>><<else>>but your pussy is too tight and dry to accept it.<</if>>
+    <<else>><<= _freeHole>><</if>><<updatebar>><br><center><<button "Finish">><<run Dialog.close()>><</button>></center>`],
+    onUse(n, toy) {
+      setup.dialog(`${setup.sexToys.toys[toy].name}`, `${setup.sexToys.toys[toy].useText[n]}<<timed 50ms>><<replace "#toysDiv">><<print setup.sexToys.printer()>><</replace>><<set _item = "${toy}">><</timed>>`);
+      aw.con.info(`${toy} action 1`);
+      if (setup.sexToys.check("pc", "groin") === true && State.temporary.result !== "notfit" && ↂ.toys.parts.vagina === "golfBall" && setup.omni.matching(setup.sexToys.toys[toy].name) === 0) {
+        aw.con.info(`golfBall omni started`);
+        const omni = {
+          name: "Golf ball",
+          type: "perpetual",
+          output: "none",
+          interval: 60,
+          icon: "IMGstatus_benWa",
+          text: "Your pussy is filled with Golf ball.",
+          run: `aw.L("pc");
+          if (random(0,3) === 1) {
+              setup.status.arousal(1);
+              setup.notify("You can feel Golf ball moving in your pussy.");
+          }
+          if (random(0,40) === 1) {
+            ↂ.pc.status.bimbo += 1;
+            setup.status.record("bimbo", 1, "Putting a golf ball in your pussy");
           }
           ↂ.pc.body.pussy.insert(1);
           aw.S("pc");`,

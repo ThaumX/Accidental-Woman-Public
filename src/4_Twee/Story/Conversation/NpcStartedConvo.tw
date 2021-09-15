@@ -58,7 +58,7 @@
   <p><<if ↂ.job.code == "MD" && ↂ.flag.npcInducedInteractions.intType !== "school">>You are going to the coffee machine on the break in obligatory maid courses in the office<<else>>You are going to the coffee machine on the break<</if>>. As you approach you notice a <<p tall.q ↂ.flag.npcInducedInteractions.intNPC>> <<p age.q ↂ.flag.npcInducedInteractions.intNPC>> <<if aw.npc[ↂ.flag.npcInducedInteractions.intNPC].main.male>>man<<else>>woman<</if>> you have noticed earlier. You are pretty sure that <<p pronounheshe.q ↂ.flag.npcInducedInteractions.intNPC>> ogled you for some time earlier today.</p>
   <<if ↂ.pc.trait.flirty == -1>>
     <p>@@.mono;I wonder why <<p pronounheshe.q ↂ.flag.npcInducedInteractions.intNPC>> stares on me. I feel uncomfortable with this...@@</p>
-    <p>You just nod in a bit awkard way when <<p pronounheshe.q ↂ.flag.npcInducedInteractions.intNPC>> comes to the coffee machine.</p>
+    <p>You just nod in a bit awkward way when <<p pronounheshe.q ↂ.flag.npcInducedInteractions.intNPC>> comes to the coffee machine.</p>
     <p><<print either("@@.npc;Mmm... <<greetings>>@@","@@.npc;Emm, Hi?@@")>></p>
     <p><<print either("@@.pc;Umm, Hello, I saw you earlier here?@@","@@.pc;Hi! New here?@@")>></p>
     <p><<print either("@@.npc;Yep, and you?@@","@@.npc;Not really, been here for 6 month already. Or wait, is it 5? Yeah, my fifth month here.@@")>></p>
@@ -201,7 +201,7 @@
 <p>You notice that cashier girl is trying to hide her tears.</p>
 <<dialogchoice>>
   <<dbutt "Hey">><<addTime 2>><<intgo "NPCinteraction-cumNgoDaisy-Hey">>
-  <<dtext "smile">>Hey, whats happened? Can I help?
+  <<dtext "smile">>Hey, what's happened? Can I help?
   <<dbutt "Meh">><<intclose>>
   <<dtext "neutral">>That's none of my business.
 <</dialogchoice>>
@@ -210,7 +210,7 @@
 :: NPCinteraction-cumNgoDaisy-Hey [nobr]
 
 <<set _npc = ↂ.flag.npcInducedInteractions.intNPC>>
-<p>@@.pc;Hey, whats happened? Can I help?@@</p>
+<p>@@.pc;Hey, what's happened? Can I help?@@</p>
 <<SCX>><<SC "CM" "5">><<if $SCresult[1]>><<set aw.npc[ↂ.flag.npcInducedInteractions.intNPC].rship.likePC += random(2,5)>>
 <p>@@.npc;It is... just the manager, she cut my bloody wage again! You know, there is some shoplifting from time to time and she forces me to pay for it from my own pocket!@@</p>
 <p>She takes a deep breath and remove tears with a back side of her palm</p>
@@ -233,7 +233,7 @@
 
 <<set _npc = ↂ.flag.npcInducedInteractions.intNPC>>
 <p>@@.pc;It is okay, all of us have bad days. It will be okay!@@</p>
-<p>@@.npc;Oh, thank you, you are really kind! I am Daisy by the way, it is nice and a bit embarassing to meet you like this, but I still happy to find somebody who cares!@@</p>
+<p>@@.npc;Oh, thank you, you are really kind! I am Daisy by the way, it is nice and a bit embarrassing to meet you like this, but I still happy to find somebody who cares!@@</p>
 <p>@@.pc;I am <<print ↂ.pc.main.name>>!@@</p>
 <p><<set _blah = setup.cTag.getTag(3, false)>><p><<set _pff = aw.npc[_npc].main.name>><<print setup.interactionMisc.tagText(_blah, _pff)>></p>
 <<dialogchoice>>
@@ -314,7 +314,23 @@ You take out your phone.
 
 <<set _npc = ↂ.flag.npcInducedInteractions.intNPC>>
 <p><<print either("You see that some <<n $DancingNpc age.q>> guy ogling your body, when he sees that you have noticed him he approaches. ","After some time you find yourself dancing with a <<n $DancingNpc age.q>> guy, he starts talking to you loudly while your bodies almost rub together on a dance floor.")>></p>
-<p><<print either("@@.npc;Having a good time, gorgous?@@","@@.npc;Oh, you dance so good, baby!@@")>></p>
+<p><<print either("@@.npc;Having a good time, gorgeous?@@","@@.npc;Oh, you dance so good, baby!@@")>></p>
+<p><<print either("@@.pc;Tee-hee! I am <<= ↂ.pc.main.name>>!@@","@@.pc;Hello! I am <<= ↂ.pc.main.name>>!@@")>></p>
+<p><<print either("@@.npc;Cool, I am <<= aw.npc[ↂ.flag.npcInducedInteractions.intNPC].main.name>>@@, wanna have some good times together?","@@.npc;<<= aw.npc[ↂ.flag.npcInducedInteractions.intNPC].main.name>>! Looking for some fun?@@")>></p>
+
+  <<dialogchoice>>
+    <<dbutt "Sure">><<intgo "NPCinteraction-DancingNpc-yes">>
+    <<dtext "smile">>Sure, why not, you seem like a nice guy!
+    <<dbutt "Sorry">><<intclose>>
+    <<dtext "confused">>You are not in the mood to make new friends.
+  <</dialogchoice>>
+
+
+:: NPCinteraction-WrenchNpc [nobr]
+
+<<set _npc = ↂ.flag.npcInducedInteractions.intNPC>>
+<p><<print either("You see that some <<n $DancingNpc age.q>> guy ogling your body, when he sees that you have noticed him he approaches. ","After some time you find yourself chatting with a <<n $DancingNpc age.q>> guy, he give your body subtle stares while you chit-chat.")>></p>
+<p><<print either("@@.npc;I am pretty insulted I have have never met such a beuty before!@@","@@.npc;Oh, you look so cool, maybe we should make friends, mm?@@")>></p>
 <p><<print either("@@.pc;Tee-hee! I am <<= ↂ.pc.main.name>>!@@","@@.pc;Hello! I am <<= ↂ.pc.main.name>>!@@")>></p>
 <p><<print either("@@.npc;Cool, I am <<= aw.npc[ↂ.flag.npcInducedInteractions.intNPC].main.name>>@@, wanna have some good times together?","@@.npc;<<= aw.npc[ↂ.flag.npcInducedInteractions.intNPC].main.name>>! Looking for some fun?@@")>></p>
 
@@ -341,7 +357,7 @@ You take out your phone.
 
 :: NPCinteraction-DancingNpc-sex [nobr]
   
-  @@.head3;Y@@ou get to the WC and luckily, there is a free stall there. He pushes you inside not even bothering to lock the door properly. His hands travels over your body and teasing your most intimate parts while you kiss his lips...
+  @@.head3;Y@@ou get to <<if ↂ.map.loc[2] === "wrenchbardance">>the one of the booths at the round area of the club<<else>>the WC and luckily, there is a free stall there. He pushes you inside not even bothering to lock the door properly. <</if>>His hands travels over your body and teasing your most intimate parts while you kiss his lips...
 <<button "Time to fuck!">>
 <<run setup.npcInfo.level($DancingNpc, {bodyGeneral: true})>>
 <<run setup.npcInfo.level($DancingNpc, {bodyJunk: true})>>
@@ -425,7 +441,7 @@ setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
 :: NPCpaysAvisit-sorry [nobr]
 
 <p>@@.pc;Ugh, sorry, I am a little busy right now.@@</p>
-<p><<= either("<<print aw.npc[$visitor].main.name>> sighs.","<<print aw.npc[$visitor].main.name>> looks a bit dissapointed.")>> @@.npc;<<= either("Oh, I see, see you later then!","Oh, sorry for that then! See ya!","Mmmhm... okay, bye!")>>@@</p>
+<p><<= either("<<print aw.npc[$visitor].main.name>> sighs.","<<print aw.npc[$visitor].main.name>> looks a bit disappointed.")>> @@.npc;<<= either("Oh, I see, see you later then!","Oh, sorry for that then! See ya!","Mmmhm... okay, bye!")>>@@</p>
 <center><<button "End">><<intclose>><</button>></center>
 
 
@@ -440,3 +456,188 @@ setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
 <p>@@.pc;Hey, let's go and have fun together!@@</p>
 <p>@@.npc;Oh sure, cool idea! Where should we go first?@@</p>
 <center><<button "Hangout">><<run setup.npcHang.hang($visitor, "amuse")>><</button>></center>
+
+
+:: ResortBeach-beachGuy-1 [nobr]
+
+<<set _daddyspunk = (setup.npc.male.length - 1)>><<set _randDude = random(0, _daddyspunk)>><<set $beachGuy = setup.npc.male[_randDude]>>
+<<f s>>ome <<n $fairyClient age.q>> <<n n102 tone.q>> guy approaches you. His <<n $fairyClient skinColor.q>> is covered with water drops and you can see a bulge of his <<n $fairyClient cocklength.q>> cock thorugh his swim shorts.
+<p>@@.npc;<<greetings>> I am <<= aw.npc[$fairyClient].main.name>>. Hanging out often here?@@</p>
+
+<<dialogchoice>>
+  <<dbutt "Hi!">><<set setup.interact.status.npc = $fairyClient>><<intgo "NPCinteraction-StrangerContinue">>
+  <<dtext "smile">>Chat with <<= aw.npc[$fairyClient].main.name>>
+  <<dbutt "Sorry">><<intclose>>
+  <<dtext "confused">>You don't seek any new friends.
+<</dialogchoice>>
+<<status 0>>
+
+
+:: JobIsShitScene-1 [nobr]
+
+
+<<f y>>ou notice <<name h>> is in an unnaturally bad mood today. You are trying to recall but fail to find any objective reason for that. <<name h>> tries to smile but it seems more like a grimace. @@.mono;What’s wrong?@@
+<p>@@.pc;You have indigestion, sugar, or is it something from outside?@@</p>
+<p>You hear a deep sigh. @@.npc;Better if it was indigestion. I would simply take a pill. But are there pills for job?@@</p>
+<p>@@.pc;You should tell me what happened. Are you fired? Oh, no. If you were, this would be the very pill for job, right?@@</p>
+<p>@@.npc;The management just got crazy. They want us what? Be a group of fucking superheroes remaining creeping nuts at the same time?@@</p>
+<p>You watch <<name h>> sinking into a chair heavily and hiding <<if aw.npc[$BFid].main.female>>Her<<else>>His<</if>> face in <<if aw.npc[$BFid].main.female>>Her<<else>>His<</if>> hands.</p>
+<<dialogchoice>>
+<<dbutt "Reason">><<intgo "JobIsShitScene-1-Reason">>
+<<dtext "suspicious">>Try to reason and ask for more.
+<<dbutt "Comfort">><<intgo "JobIsShitScene-1-Comfort">>
+<<dtext "cute">>Sympathize and make <<name h>> feel better.
+<</dialogchoice>>
+
+
+:: JobIsShitScene-1-Reason [nobr]
+
+<<f y>>ou look at <<name h>> and start thinking that things can’t come to this without a reason. @@.mono;The management got crazy? Like yesterday everything went the regular way and today - bang! - all ruined? There should be something behind...@@
+<p>@@.pc;Did it start today? Or is it today when your patience is over?@@</p>
+<p>@@.npc;The second, unfortunately. I was sure I would be promoted soon so I took all the tasks the management was offering and asked for more. And you know what happens today, dear? They make a meeting and promote a guy who is here for hardly a month! Okay, I told myself, maybe he was just better… But the worst thing was the one I’d heard during the break. That guy appeared to be the boss' relative, and! This is the regular thing they are doing. I’m not a single person overtaken on a bend this way.@@</p>
+<p>You shake your head making sure you haven’t misunderstood.</p>
+<p>@@.pc;You mean this happened before? And no one… Gosh! You know, dear, what will be the first thing you do tomorrow morning after you wake up and we make sex? You should inform your labor union or any other inter-company authority!@@</p>
+<p>You definitely notice that this idea has never gone to <<name h>>’s mind.</p>
+<p>@@.npc;You seriously think that… Well, maybe… Look, there’s really something about it. Probably I’ll do this. What do I lose at least? Oh, sugar, I’ve panicked, but you’ve really helped! Thank you!@@</p>
+<<link "Continue your day.">><<intclose>><</link>>
+<<set aw.npc[$BFid].rship.likePC += 6>><<status 0>>
+
+
+:: JobIsShitScene-1-Comfort [nobr]
+
+<<f y>>ou feel sorry for <<name h>> and tend to comfort <<if aw.npc[$BFid].main.female>>Her<<else>>Him<</if>> instead of fishing out details.
+<p>@@.pc;We both know two things, dear. The first one is that the world is not fair, but everything always changes to better, right? And the second one is… Well, maybe it is the very time to change for the better? Do you remember your CV was accepted by that construction company after you just moved to Appletree? You told me you rejected them because they wanted you to start from eight a.m?@@</p>
+<p>@@.npc;D’you really think they still need me?@@</p>
+<p>You nod inspiringly and take <<name h>>’s hand. @@.pc;They always need people! The town is growing and new facilities and houses are built every day! Give them a chance to get the best specialist in the world!@@</p>
+<p>You see <<name h>> smiles timidly. <<happy 1 "Comforting your partner">></p>
+<p>@@.npc;Let me think this over. And… thank you, dear.@@</p>
+<<link "Continue your day.">><<intclose>><</link>>
+<<set aw.npc[$BFid].rship.lovePC += 6>><<status 0>>
+
+
+:: vowBrokenChat [nobr]
+
+<p>@@.npc;Hey, <<name>>.@@</p>
+<p>@@.pc;What is it, sweetie?@@ You rise your brow looking at your spouse.</p>
+<p>@@.npc;We need to talk.@@</p>
+<p>@@.mono;Oh. This doesn't sound good...@@</p>
+<p>@@.npc;I am pretty sure you have broken the vow we both discussed before the marriage. You know what I am talking about. <<print setup.vow.vowsBroken()>>@@</p>
+<<dialogchoice>>
+  <<dbutt "Sorry">><<intreplace>><<include [[vowBrokenChat-sorry]]>><</intreplace>>
+  <<dtext "confused">>I am so sorry! This won't happen again, I swear!
+  <<dbutt "Fuck it">><<intreplace>><<include [[vowBrokenChat-divorce]]>><</intreplace>>
+  <<dtext "smug">>You know what? You're right, we are divorcing.
+<</dialogchoice>>
+<<status 0>>
+
+
+:: vowBrokenChat-sorry [nobr]
+
+<<set _nam = aw.npc[ↂ.flag.marriage.npc].main.name>><<set _rand = random(1,6)>><<if ↂ.flag.marriage.spouseAngry > 8>><<set _rand = random(1,4)>><</if>><<if _rand == 4>>
+<p>@@.pc;I am sooo sorry, this won't happen again, I swear!@@</p>
+<p>With dread you watch <<= _nam>>'s face getting stern.</p>
+<p>@@.npc;I am sorry. We are divorcing.@@</p>
+<p>@@.pc;No, <<= _nam>>, wait! I can explain everything, really!@@</p>
+<p>@@.npc;There is no need, <<name>>. I got it... and I already made a decision.@@</p>
+<p>You feel tears forming in your eyes. @@.pc;Please...@@ <<= _nam>> stands up. @@.npc;I'll... write you and send you all the papers... later.@@</p>
+<center><<button "Close">><<run setup.wedding.NPCdivorce("npcInducedBad")>><<status 0>><<intclose>><</button>></center>
+<<else>>
+<p>@@.pc;I am sooo sorry, this won't happen again, I swear!@@</p>
+<p><<= _nam>>'s face shows some internal struggle.</p>
+<p>@@.npc;I... I guess we can work it out.@@</p>
+<p>@@.pc;Oh, thanks, <<= _nam>>! I really, really don't want to dissapoint you. I love you!@@</p>
+<p><<= _nam>> smiles. @@.npc;I love you too, baby.@@</p>
+<center><<set aw.npc[ↂ.flag.marriage.npc].rship.likePC -= 20>><<set aw.npc[ↂ.flag.marriage.npc].rship.lovePC -= 20 >><<stress 10 "Broken vow">><<happy -1 "Broken vow">><<status 0>><<intclose>><</button>></center>
+<</if>>
+
+
+:: vowBrokenChat-divorce [nobr]
+
+<<set _nam = aw.npc[ↂ.flag.marriage.npc].main.name>>
+<p>@@.pc;You know what? We are divorcing.@@</p>
+<p>@@.npc;What? Tha-... That's not what I mea...@@</p>
+<p>@@.pc;Enough is enough. I am sick of it all, these rules and more than everything, I am sick of you. I'll send you the divorce papers later.@@</p>
+<p>@@.npc;<<name>>...@@</p>
+<center><<button "Close">><<run setup.wedding.NPCdivorce("pcInducedBad")>><<status 0>><<intclose>><</button>></center>
+
+
+:: vowBrokenTexting [nobr]
+
+<<set _nam = aw.npc[ↂ.flag.marriage.npc].main.name>>
+<<texting _nam>>
+<<textnpc>>I must say I am pretty dissapointed, <<name>>
+<<textpc>>What happened, sweetie?
+<<textnpc>>I am pretty sure you have broken the vow we both discussed before the marriage.
+<<textpc>>Oh...
+<<textnpc>>You know what am I talking about.
+<<textnpc>><<print setup.vow.vowsBroken()>>
+<</texting>>
+<<dialogchoice>>
+    <<dbutt "Sorry">><<intreplace>><<include [[vowBrokenTexting-sorry]]>><</intreplace>>
+    <<dtext "confused">>I am so sorry!
+    <<dbutt "Fuck it">><<intreplace>><<include [[vowBrokenTexting-divorce]]>><</intreplace>>
+    <<dtext "smug">>You know what? We are divorcing.
+  <</dialogchoice>>
+<<status 0>>
+
+
+:: vowBrokenTexting-sorry [nobr]
+
+<<set _rand = random(1,6)>><<if ↂ.flag.marriage.spouseAngry > 8>><<set _rand = random(1,4)>><</if>><<if _rand == 4>>
+<<set _nam = aw.npc[ↂ.flag.marriage.npc].main.name>>
+<<texting _nam>>
+<<textpc>>I am sooo sorry, this won't happen again!
+<<textpc>>I swear!
+<<textnpc>>I am sorry. We are divorcing.
+<<textpc>>Wait! I can explain everything, really!
+<<textpc>><<= _nam>>?
+<<textpc>>Please, don't ignore me!
+<</texting>>
+<center><<button "Close">><<run setup.wedding.NPCdivorce("npcInducedBad")>><<status 0>><<intclose>><</button>></center>
+<<else>>
+<<set _nam = aw.npc[ↂ.flag.marriage.npc].main.name>>
+<<texting _nam>>
+<<textpc>>I am sooo sorry, this won't happen again!
+<<textpc>>I swear!
+<<textnpc>>I need some time.
+<<textpc>>I love you so much!! Sorry! 
+<<textnpc>>I know.
+<<textnpc>>I love you too.
+<</texting>>
+<</if>>
+<center><<set aw.npc[ↂ.flag.marriage.npc].rship.likePC -= 20>><<set aw.npc[ↂ.flag.marriage.npc].rship.lovePC -= 20 >><<stress 10 "Broken vow">><<happy -1 "Broken vow">><<status 0>><<intclose>><</button>></center>
+
+
+:: vowBrokenTexting-divorce [nobr]
+
+<<set _nam = aw.npc[ↂ.flag.marriage.npc].main.name>>
+<<texting _nam>>
+<<textpc>>You know what? We are divorcing.
+<<textnpc>>What?
+<<textpc>>Enough is enough.
+<<textnpc>><<name>>...
+<<textnpc>>Please, don't ignore me!
+<</texting>>
+<center><<button "Close">><<run setup.wedding.NPCdivorce("pcInducedBad")>><<status 0>><<intclose>><</button>></center>
+
+
+:: NPCdivorceChat [nobr]
+
+<<set _nam = aw.npc[ↂ.flag.marriage.npc].main.name>>
+<<texting _nam>>
+<<textnpc>>You know I really tried to save this marriage, <<name>>
+<<textpc>>What?
+<<textnpc>>We are divorcing.
+<<textpc>>Wait, why?!
+<<textnpc>>I am sorry, can't bear this anymore. I'll send you the papers and such.
+<<textpc>>What happenned, <<= _nam>>???
+<<textpc>>Talk to me, dammit!
+<<textnpc>>You know, I was cautious about this marriage before the wedding but I told myself "It is okay, she is just new in the city and in my life, we will work it out." 
+<<textnpc>>But now I don't feel like this is a good idea to continue it.
+<<textnpc>>I don't feel happy with you anymore. I think it all happened too fast.
+<<textnpc>>And was a huge mistake. Sorry, <<name>>.
+<<textpc>>Can we talk it out in person, please? Don't do anything in haste!
+<<textpc>><<= _nam>>?
+<</texting>>
+<center><<button "Close">><<run setup.wedding.NPCdivorce("npcInducedBad")>><<status 0>><<intclose>><</button>></center>
+<<status 0>>

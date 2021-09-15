@@ -36,6 +36,10 @@ setup.omnItems.wombAbirth = {
   duration: 600,
   icon: "none",
   run: `setup.time.add(random(10, 20));
+    if (ↂ.flag.challengeMode === "beth" || ↂ.flag.challengeMode === "mary" || ↂ.flag.challengeMode === "marge") {
+      setup.omni.new("pregnancyTimer");
+      setup.omni.new("pregnancyTimerWarn");
+    };
     const opt = {
       passage: "GivingBirthScenarioA",
       content: "",
@@ -135,4 +139,37 @@ setup.omnItems.killer = {
   duration: 5760,
   icon: "none",
   run: `setup.badEnd("killer");`,
+};
+
+setup.omnItems.pregnancyTimer = {
+  name: "pregnancyTimer",
+  type: "single",
+  output: "none",
+  duration: 172800,
+  icon: "none",
+  run: `setup.badEnd("challenge");`,
+};
+
+setup.omnItems.pregnancyTimerWarn = {
+  name: "pregnancyTimerWarn",
+  type: "single",
+  output: "dialog",
+  duration: 21600,
+  icon: "none",
+  run: `if (!ↂ.pc.status.wombA.preg || !ↂ.pc.status.wombB.preg) {setup.dialog("Challenge warning","Your body kindly reminds you of the need to get pregnant as soon as possible because of your mutation with a slight itch.") };`,
+};
+
+setup.omnItems.weddingDiscussion = {
+  name: "weddingDiscussion",
+  type: "single",
+  output: "dialog",
+  duration: 4000,
+  icon: "none",
+  run: `
+  if (ↂ.flag.marriage.discussion.inProgress) {
+   setup.interact.status.npc = ↂ.flag.marriage.npc;
+    setup.interact.launch({passage: "timeToDiscuss", npcid: ↂ.flag.marriage.npc, content: "", block: false, title: "Phone message", size: 3});
+    aw.S();
+  }
+  `,
 };

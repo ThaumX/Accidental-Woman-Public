@@ -246,7 +246,7 @@ aw.tagContent.acquaintance.practNakedBottomPresentNotsorry = [
 aw.tagContent.acquaintance.buckNaked = [
   `<<print aw.npc[setup.interact.status.npc].main.name>> stares at your nude body <<has exhibition>><<aroused 2>>which makes you more aroused<br>
   @@.mono;Oh yeah, I can't believe I am doing that!@@<br><<orhas slut || liberate>>which you can deal with.<br>
-  @@.mono;That is prety exciting!@@<br><<orhas shame>><<aroused -2>><<stress 25 "Naked Convo">>which makes you panic.<br>
+  @@.mono;That is pretty exciting!@@<br><<orhas shame>><<aroused -2>><<stress 25 "Naked Convo">>which makes you panic.<br>
   @@.mono;AAA! I am totally naked in view of <<print aw.npc[setup.interact.status.npc].main.name>>!!!@@<br><<or>><<stress 15 "Naked Convo">>which makes you feel terrible.<br>
   @@.mono;Oops, I am totally naked.@@<br><</has>>
   <<if aw.npc[setup.interact.status.npc].kink.shame>>
@@ -319,7 +319,7 @@ aw.tagContent.acquaintance.buckNakedBottomPresentNotsorry = [
 ];
 aw.tagContent.acquaintance.wetClothes = [
   `<<if ↂ.pc.clothes.keys.bra === 0>>
-  You notice <<print aw.npc[setup.interact.status.npc].main.name>> looks at your chest and realise that your <<p nipl.q>> <<p nipples.n>> are visible through the wet clothes.<br>
+  You notice <<print aw.npc[setup.interact.status.npc].main.name>> looks at your chest and realize that your <<p nipl.q>> <<p nipples.n>> are visible through the wet clothes.<br>
   <<has exhibition>><<arouse 1>>@@.mono;Oh yeah, I like that.@@<br><<orhas slut>>@@.mono;That is certainly drawing some attention.@@<br><<orhas shame>><<stress 7 "Wet Clothes Convo">>@@.mono;Oh shit, my nipples are showing!@@<br><<or>><<stress 2 "Wet Clothes Convo">>@@.mono;Oops, better cover that!@@<br><</has>>
   <<if aw.npc[setup.interact.status.npc].kink.shame>>It seems, <<if aw.npc[setup.interact.status.npc].main.female>>she is doing her<<else>>he is doing his best<</if>> to ignore your clearly visible nipples.<<else>>It seems, <<print aw.npc[setup.interact.status.npc].main.name>> is pretty okay with your nipples showing.<</if>>
   <<dialogchoice>>
@@ -461,15 +461,15 @@ aw.tagContent.acquaintance.mindbreak = [
   <<if ↂ.pc.trait.will > 4 >>You somehow manage to gain your reason back<br><<set aw.npc[setup.interact.status.npc].rship.likePC += 5 >><<set aw.npc[setup.interact.status.npc].rship.lovePC += 5 >>
   @@.pc;I am so sorry. It was really tough times lately.@@<br>
   @@.npc;Oh, it is okay.@@<br>
-  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10 "Mindbroken Convo">>You start histerically giggling.<br>
+  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10 "Mindbroken Convo">>You start hysterically giggling.<br>
   @@.npc;Oh, poor you. Try to calm down, I ll drive you home...@@<br>
   You cry all the way while <<print aw.npc[setup.interact.status.npc].main.name>> drive the car to your house, but start to feel better when you get to the house. <<print aw.npc[setup.interact.status.npc].main.name>> leaves you in your house after getting sure you are okay now.<br>
   <<link "Say goodbye">><<addtime 54>><<gotomap "home" "foyer">><<run setup.interact.exit()>><</link>>
   <</if>>`,
 ];
 aw.tagContent.acquaintance.flooded = [
-  `<<if ↂ.pc.clothes.keys.panties == 0 || ↂ.pc.clothes.worn.panties === "pulledAside" || ↂ.pc.clothes.worn.panties === "pulledOff" || ↂ.pc.clothes.worn.panties === "off">>You feel your juices running down your inner thights with no panties in a way to stop them<br>
-    <<has exhibition>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will notice that. That is so embarassingly exciting!@@<br><<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<br><</has>>
+  `<<if ↂ.pc.clothes.keys.panties == 0 || ↂ.pc.clothes.worn.panties === "pulledAside" || ↂ.pc.clothes.worn.panties === "pulledOff" || ↂ.pc.clothes.worn.panties === "off">>You feel your juices running down your inner thighs with no panties in a way to stop them<br>
+    <<has exhibition>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will notice that. That is so embarrassingly exciting!@@<br><<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<br><</has>>
   <<else>>You feel your juices making a slippery mess slowly soaking through your panties.<br><<has slut>>@@.mono;Speaking with a person while being flooded like that is so naughty!@@<br><<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<br><</has>>
   <</if>>
   <<include [[NPCinteraction-AcquaintContinue]]>>`,

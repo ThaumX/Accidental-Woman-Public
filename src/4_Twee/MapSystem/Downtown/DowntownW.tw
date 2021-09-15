@@ -47,13 +47,30 @@
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Golden Shower">><</button>>
+  <<button "Golden Shower">><<dialog "Golden Shower">><<print setup.food.fastfood("goldenshower")>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
-  <<button "HindenBurger">><</button>>
+  <<button "HindenBurger">><<if ↂ.flag.main.components[1] == 1 && ↂ.flag.main.oscillatorStage[0] == "meeting">>
+  <<script>>
+      const scene = {
+        passage: "Oscillator-meeting",
+        content: "none",
+        image: "IMG-Oscilator-side",
+        topImage: "IMG-Oscilator-top",
+        title: "Maria",
+        allowSave: true,
+        sidebar: `<h2>Hinden Burger</h2>`,
+        showTime: true,
+        allowMenu: true,
+      };
+      setup.scenario.launch(scene);
+    <</script>>
+  <<else>><<dialog "HindenBurger">><<print setup.food.bar("hindenburger")>><</dialog>><</if>><</button>>
 <<endhoverrevise>>
 <<hoverrevise delta>>
-  <<button "Shop at Strap-On">><</button>>
+  <<button "Shop at Strap-On">><<if ↂ.flag.main.components[3] == 1>><<dialog "Strap-on Tools">><<f Y>>ou enter the shop and look around. There are lots of various tools and you have no idea if they have spectral lenses here. Coming to the counter you ask the cashier. @@.pc;Sorry, do you have spectral lenses sets?@@ The guy frowns for a second and checks his slate. @@.npc;<<greetings>> Umm, let me see... yes, the set from Taikatsu corp for <<mon>>300.@@<br>
+  <center>[img[IMG-Component-Lenses]]</center>
+  <<button "Buy">><<set ↂ.flag.main.components[3] == 2>><<run aw.cash(-300, "misc")>><<status 0>><<run Dialog.close()>><<updatebar>><</button>><</dialog>><<else>><<dialog "Strap-on Tools">><center><<f Y>>ou enter the shop and look at various tools and advertisements. You are a bit curious but don't feel like actually being in need of any of these.<br>[img[IMG-StraponAd]]<br><br>[img[IMG-StraponAd2]]</center><</dialog>><</if>><</button>>
 <<endhoverrevise>>
 <<hoverrevise gamma>>
   <<openhours 16 22>>
@@ -67,7 +84,7 @@
       <<if ↂ.flag.churchAttend.man>>
         <<dialog "The Church of Man">><center>You have already attended church this week, please come back next Sunday.</center><</dialog>>
       <<else>>
-        <<dialog "The Church of Man">><<include [[ChurchMan]]>><</dialog>>
+        <<run setup.churchLaunch("TOG")>>
       <</if>>
     <</button>>
   <<endhoverrevise>>
@@ -86,8 +103,8 @@
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>[not implemented] Eat at Golden Shower. <span class="money">₢₢</span><<endinsertion>>
-<<insertion beta>>[not implemented] Eat at HindenBurger. <span class="money">₢₢</span><<endinsertion>>
+<<insertion alpha>>Eat at Golden Shower. <span class="money">₢₢</span><<endinsertion>>
+<<insertion beta>>Drink at HindenBurger. <span class="money">₢₢</span><<endinsertion>>
 <<insertion delta>>[not implemented] Visit Strap-on tools to shop for tools or hardware.<<endinsertion>>
 <<insertion gamma>>Visit Besty's SlavSquat Academy to check it out or sign up for a course. @@.ship;[ATHLETIC⧫MISC]@@<<endinsertion>>
 <<insertion lambdaB>>The Church of Man is currently closed. Services are available on Sunday from 10am until 4pm. <<ctn>>[mental health boost | 1hr]<</ctn>><<endinsertion>>
@@ -167,8 +184,8 @@
 <p><<f G>>uy nods and asks you to take a seat on the hair salon-looking chair. While he prepares his tattoo machine, needles and transfers the image to your skin with a pen you worry a little about the pain.</p>
 <p>@@.pc;It gonna hurt?@@</p>
 <p>@@.npc;Hmm, not much, I gonna add some anesthetic  so it must be bearable.@@</p>
-<p>He puts on latex gloves and start countouring the image. The tattoo machine creates a steady mesmerising sound just like an electric shaver and the pain is not a thing so you get into some kind of a trance after pretty soon. When he finishes you feel a bit sleepy and stretch carefully to abstain from damaging the fresh tattoo.</p>
-<p>@@.npc;Done, kiddo. Looking good for me. It will take a day or two to heal completely, dont rub it till then.@@</p>
+<p>He puts on latex gloves and start contouring the image. The tattoo machine creates a steady mesmerizing sound just like an electric shaver and the pain is not a thing so you get into some kind of a trance after pretty soon. When he finishes you feel a bit sleepy and stretch carefully to abstain from damaging the fresh tattoo.</p>
+<p>@@.npc;Done, kiddo. Looking good for me. It will take a day or two to heal completely; don't rub it till then.@@</p>
 <p>You pay for the services and leave.</p>
 <p><<button "Exit">><<go DowntownShopNoRagerts>><</button>></p>
 

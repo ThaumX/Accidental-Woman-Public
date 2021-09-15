@@ -162,7 +162,7 @@ Macro.add("his", {
 *************************************************/
 
 aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
-  let ᛔ = State.active.variables; // sortcut reference
+  const ᛔ = State.active.variables; // sortcut reference
   const target = getReference(); // get ref to target - function is hoisted
   cmd = parseCmd(cmd);
   /******************************************************
@@ -549,9 +549,9 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         non = noun.breasts();
       }
       if (random(1, 2) === 2) {
-        size = qual.breast(false, 0) + " ";
+        size = qual.breast(null, 0) + " ";
       } else if (random(1, 2) === 2) {
-        size = qual.breastShape(false, 0) + " ";
+        size = qual.breastShape(null, 0) + " ";
       } else {
         size = "";
       }
@@ -763,7 +763,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       if (size < 71) {
         return eth("titanic", "gargantuan", "humongous");
       } else {
-        return eth("unbelievably-large", "monsterous", "colossal");
+        return eth("unbelievably-large", "monstrous", "colossal");
       }
     },
     shoulder(size, mod = 0) {
@@ -1031,7 +1031,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       size = Number(size) + Number(mod);
       switch (size) {
         case 0:
-          return "non-existant";
+          return "nonexistent";
         case 1:
           return eth("tiny", "vestigial", "miniature");
         case 2:
@@ -1246,7 +1246,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       size = Number(size) + Number(mod);
       switch (size) {
         case 0:
-          return eth("nonexistant", "missing");
+          return eth("nonexistent", "missing");
         case 1:
           return eth({"fully-inverted": 1, "buried": 2, "innie": 1});
         case 2:
@@ -1294,7 +1294,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       size = Number(size) + Number(mod);
       switch (size) {
         case 0:
-          return "nonexistant";
+          return "nonexistent";
         case 1:
           return eth("tiny", "miniature", "oddly small");
         case 2:
@@ -2875,7 +2875,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       // use function to assign weighted value
       const lib = {
         "breasts": a(36, 0),
-        //"rack": a(6, 4),
+        // "rack": a(6, 4),
         "boobs": a(22, 0),
         "boobies": a(2, 0),
         "tits": a(38, 4),
@@ -3253,7 +3253,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         "yam bag": a(3, 4),
         "plum pouch": a(4, 5),
         "nutsack": a(12, 0),
-        //"cherrybag": a(6, 1),
+        // "cherrybag": a(6, 1),
         "gear bag": a(3, 3),
       };
       const list = Object.keys(lib); // get object keys "words"
@@ -3295,27 +3295,27 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       const lib = {
         "pussy": a(40, 0),
         "box": a(6, 0),
-        //"cock pocket": a(2, 3),
+        // "cock pocket": a(2, 3),
         "cooch": a(1, 0),
         "cunny": a(2, 0),
         "cunt": a(12, 0),
         "cherry": a(16, 1),
-        //"bat cave": a(4, 5),
-        //"jizz cave": a(4, 5),
+        // "bat cave": a(4, 5),
+        // "jizz cave": a(4, 5),
         "fuck hole": a(4, 4),
-        //"hoo-hoo": a(2, 1),
+        // "hoo-hoo": a(2, 1),
         "kitty": a(12, 2),
         "nookie": a(2, 0),
         "sausage wallet": a(4, 4),
         "sausage cavern": a(4, 5),
-        //"poon": a(1, 0),
+        // "poon": a(1, 0),
         "quim": a(8, 2),
         "snatch": a(12, 0),
         "love tunnel": a(6, 5),
-        //"cock cave": a(8, 5),
+        // "cock cave": a(8, 5),
         "vag": a(6, 0),
-        //"baby cannon": a(4, 4),
-        //"clown hole": a(2, 4),
+        // "baby cannon": a(4, 4),
+        // "clown hole": a(2, 4),
         "main cum dump": a(12, 4),
       };
       const list = Object.keys(lib); // get object keys "words"
@@ -3372,32 +3372,32 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       }
       // use function to assign weighted value
       const lib = {
-        //"bearded clam": a(4, 0, 2),
+        // "bearded clam": a(4, 0, 2),
         "beaver": a(8, 0, 2),
         "beef curtains": a(6, 5, 1),
         "clunge": a(2, 0, 2),
         "cooter": a(4, 2, 0),
         "fish taco": a(4, 2, 1),
-        //"fur burger": a(2, 3, 2),
-        //"fur pie": a(2, 3, 2),
-        //"ham wallet": a(6, 4, 0),
-        //"axe wound": a(2, 1, 0),
-        //"love taco": a(2, 3, 0),
-        //"meat curtains": a(6, 6, 0),
-        //"meat wallet": a(2, 3, 0),
+        // "fur burger": a(2, 3, 2),
+        // "fur pie": a(2, 3, 2),
+        // "ham wallet": a(6, 4, 0),
+        // "axe wound": a(2, 1, 0),
+        // "love taco": a(2, 3, 0),
+        // "meat curtains": a(6, 6, 0),
+        // "meat wallet": a(2, 3, 0),
         "minge": a(4, 2, 2),
-        //"pink canoe": a(4, 1, 1),
+        // "pink canoe": a(4, 1, 1),
         "muff": a(6, 0, 2),
         "quim": a(2, 2, 0),
-        //"roast beef": a(2, 4, 0),
-        //"roast beef curtains": a(4, 5, 0),
+        // "roast beef": a(2, 4, 0),
+        // "roast beef curtains": a(4, 5, 0),
         "slit": a(24, 2, 1),
         "twat": a(18, 2, 0),
         "trim": a(12, 2, 0),
         "cunt": a(12, 2, 0),
-        //"vertical smile": a(1, 0, 1),
-        //"whisker biscuit": a(2, 0, 2),
-        //"wizard sleeve": a(2, 5, 0),
+        // "vertical smile": a(1, 0, 1),
+        // "whisker biscuit": a(2, 0, 2),
+        // "wizard sleeve": a(2, 5, 0),
       };
       const list = Object.keys(lib); // get object keys "words"
       const pops: string[] = [];
@@ -3430,7 +3430,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
       }
       // use function to assign weighted value
       const lib = {
-        //"cum depository": a(15, 1),
+        // "cum depository": a(15, 1),
         "baby chamber": a(2, 0),
         "baby room": a(2, 1),
         "sperm bank": a(3, 1),
@@ -3438,7 +3438,7 @@ aw.parse = function(npc: string|number, cmd: string, ...args: any[]): string {
         "womb": a(24, 0),
         "uterus": a(9, 0),
         "baby factory": a(18, 0),
-        //"jizz vacuum": a(6, 1),
+        // "jizz vacuum": a(6, 1),
         "mommy bag": a(8, 1),
       };
       const list = Object.keys(lib); // get object keys "words"

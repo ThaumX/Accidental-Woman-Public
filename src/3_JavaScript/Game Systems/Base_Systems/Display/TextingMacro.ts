@@ -31,7 +31,7 @@ Macro.add("texting", {
         start = i + 1;
       }
     }
-    out += `</div><div id="textingSendbox"></div><div id="textingSend"><div id="textingTypewriter"><div class="print-line-1 anim-typewriter"><<print setup.fillerText([20,40])>></div></div> [img[IMG-SendMsgIcon]]</div></div><<timed 50ms>><<scri`;
+    out += `</div><div id="textingSendbox"></div><div id="textingSend"><div id="textingTypewriter"><div class="print-line-1 anim-typewriter"><<print setup.fillerText([20,40])>></div></div> [img[IMG-SendMsgIcon]]</div></div><<timed 100ms>><<scri`;
     for (let i = start; i < leng; i++) {
       if (this.payload[i].name === "textpc") {
         t = "pc";

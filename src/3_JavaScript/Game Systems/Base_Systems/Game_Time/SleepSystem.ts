@@ -123,6 +123,7 @@ setup.sleep = {
   // starts the sleeping process
   start(passage): void {
     aw.replace("#awUIcontainer", ` `);
+    setup.shop.emptyCart();
     aw.L();
     // chintzy code to reset prologue flags
     ↂ.flag.Prologue = false;
@@ -232,6 +233,19 @@ setup.sleep = {
       dream = "uh-oh... looks like a probs";
       console.log(`Making a dream, dream ${dreams[r]}, resulted in error ${e.name}: ${e.message}`);
     }
+    if (!aw.sleep.passedOut) {
+      if (aw.sleep.startLoc[0] === "BFhome") {
+        if (State.active.variables.time[0] < 9 && State.active.variables.time[2]) {
+          output += `<div class='fadeIn animated'>You get into the bed and close your eyes mentally getting away from the events of your day. You feel your spouse joining you soon kissing your head before turning the lights off...</div>`;
+        } else if (State.active.variables.time[0] < 11 && State.active.variables.time[2]) {
+          output += `<div class='fadeIn animated'>You get into the bed with your spouse and cuddle for a bit before getting to sleep together. You close your eyes mentally getting away from the events of your day...</div>`;
+        } else {
+          output += `<div class='fadeIn animated'>You get to the bed trying to be as stealthy as you can be since your spouse is already sleeping. Silently getting under the blanket you close your eyes mentally getting away from the events of your day...</div>`;
+        }
+      } else {
+        output += `<div class='fadeIn animated'>You get into your bed and close your eyes mentally getting away from the events of your day...</div>`;
+      }
+    }
     output += `<div class='fadeIn animated'>${dream}</div>`;
     output += "<div class='fadeIn animated'><center><span class='head1'>. . . . .</span></center></div>";
     setTimeout(function() {
@@ -306,6 +320,16 @@ setup.sleep = {
         aw.sleep.totalmins = aw.sleep.minsToWake;
       }
     }
+    if (aw.sleep.totalmins > 720) {
+      aw.con.warn(`Total sleep minutes calculated are greater than 12 hours! ${aw.sleep.totalmins}`);
+      if (aw.sleep.totalmins > 1440) {
+        aw.con.info("Subtracting 1 day from existing sleep time.");
+        aw.sleep.totalmins = aw.sleep.totalmins - 1440;
+      } else {
+        aw.con.info("setting to flat 12 hours.");
+        aw.sleep.totalmins = 720;
+      }
+    }
     setup.time.add(aw.sleep.totalmins, true);
     setup.time.dateChange();
     try {
@@ -342,10 +366,15 @@ setup.sleep = {
     setup.fert.spermAge("pc");
     // checking fetuses for birth
     setup.fert.birthCheck("pc");
+    if (ↂ.flag.envyTaken) {
+      ↂ.pc.body.pussy.tight = 1;
+      ↂ.pc.body.asshole.tight = 1;
+    }
     aw.S();
     // other items
     setup.sleep.groomItems();
     setup.sleep.goddessCheck();
+    
     ↂ.sched.fastSleep = false;
     ↂ.sched.sleepWarnOn = true;
     ↂ.job.late.called = 0;
@@ -360,14 +389,34 @@ setup.sleep = {
     ↂ.sched.showered = false;
     ↂ.flag.preg.morningSickToday = false;
     ↂ.flag.coffeeToday = 0;
+    ↂ.flag.addictionClinic.visitedToday = false;
     ↂ.flag.bank.faust.appCred = false;
     ↂ.flag.bank.faust.appLoan = false;
     ↂ.flag.bank.indigo.appLoan = false;
     ↂ.flag.bank.indigo.appCred = false;
+    ↂ.flag.skillup = {
+      exhibition: false,
+      prostitute: false,
+      sex: false,
+      oral: false,
+      seduction: false,
+      comm: false,
+      org: false,
+      probSolving: false,
+      finance: false,
+      art: false,
+      athletic: false,
+      dancing: false,
+      clean: false,
+      shop: false,
+      cook: false,
+      heels: false,
+    };
     if (aw.chad.clean) {
       setup.clothes.washing();
     }
     aw.S();
+    setup.bath.shower({quick: true, vagWash: false, enema: false, relax: false, shaveArm: false, shaveLeg: false, shaveGroin: false, trimPubes: false});
     setup.sleep.environmentEffect();
     setup.totalATR();
     setup.calcEnergyRate();
@@ -393,6 +442,16 @@ setup.sleep = {
     aw.sleep.totalmins = aw.sleep.minsToWake;
     aw.sleep.sleepIn = false;
     r = "passedOut";
+    if (aw.sleep.totalmins > 720) {
+      aw.con.warn(`Total sleep minutes calculated are greater than 12 hours! ${aw.sleep.totalmins}`);
+      if (aw.sleep.totalmins > 1440) {
+        aw.con.info("Subtracting 1 day from existing sleep time.");
+        aw.sleep.totalmins = aw.sleep.totalmins - 1440;
+      } else {
+        aw.con.info("setting to flat 12 hours.");
+        aw.sleep.totalmins = 720;
+      }
+    }
     setup.time.add(aw.sleep.totalmins, true);
     setup.time.dateChange();
     try {
@@ -429,6 +488,10 @@ setup.sleep = {
     setup.fert.spermAge("pc");
     // checking fetuses for birth
     setup.fert.birthCheck("pc");
+    if (ↂ.flag.envyTaken) {
+      ↂ.pc.body.pussy.tight = 1;
+      ↂ.pc.body.asshole.tight = 1;
+    }
     aw.S();
     // other items
     setup.sleep.groomItems();
@@ -462,10 +525,11 @@ setup.sleep = {
     ↂ.flag.passedOut++;
     const outcomes = ["fine", "creampie", "hugeCreampie", "bukkake", "stretch", "dongRemoval", "mermaid"];
     let odds = [74, 49, 24, 0];
-    if (ↂ.flag.passedOut > 2) {
-      odds = [98, 95, 90, 75, 60, 20, 0];
-    } else if (ↂ.flag.passedOut === 2) {
-      odds = [95, 85, 70, 50, 30, 5, 0];
+    if (ↂ.flag.passedOut > 3) {
+      const mermchance = Math.min(25, ↂ.flag.passedOut * 2);
+      odds = [98, 95, 90, 75, 40, mermchance, 0];
+    } else if (ↂ.flag.passedOut === 3) {
+      odds = [95, 85, 70, 50, 30, 0];
     }
     const rand = random(1, 100);
     for (let i = 0, c = odds.length; i < c; i++){
@@ -473,6 +537,9 @@ setup.sleep = {
         aw.sleep.passedOutType = outcomes[i];
         break;
       }
+    }
+    if (aw.sleep.passedOutType === "mermaid" && ↂ.flag.organDonor === 1) {
+      aw.sleep.passedOutType = "dongRemoval";
     }
     if (!ↂ.pc.status.inPublic) {
       aw.sleep.passedOutType = "fine";
@@ -1359,7 +1426,7 @@ setup.sleep = {
   morningText(wu: string): string {
     const ᛔ = State.active.variables;
     let msg = '<div class="fadeIn animated"><p style="font-size:1.2rem;"><span class="clock">'
-      + "<<print setup.timeDisp>></span> <<print setup.time.dateDisplay()>><br>";
+      + "<<print setup.timeDisp>></span> <<print setup.time.dateDisplay()>><<tab>>--<<tab>>";
     // setup.time.format
     let minToWork;
     let leftTxt;
@@ -1468,17 +1535,16 @@ setup.sleep = {
 };
 
 setup.getReadySettings = function(): string {
-  State.active.variables.enabledMorning = true;
-  State.active.variables.clothesMorning = "standard";
-  State.active.variables.lingMorning = "standard";
-  State.active.variables.overMorning = "standard";
-  State.active.variables.makeupMorning = "standard";
-  State.active.variables.hairMorning = "standard";
+  State.variables.clothesMorning = "standard";
+  State.variables.lingMorning = "standard";
+  State.variables.overMorning = "standard";
+  State.variables.makeupMorning = "standard";
+  State.variables.hairMorning = "standard";
+
   State.temporary.outfits = Object.keys(setup.outfits);
   State.temporary.hairsets = Object.keys(ↂ.pc.groom.hairSets);
   State.temporary.makeupsets = Object.keys(ↂ.makeupSet);
-  let out = "<div class='fadeIn animated'><p><span class='head3'>Quick Prep:</span><br>";
-  out += `Enabled <<checkboxB "$enabledMorning" false true>><<tab>>Hair<<dropdown "$hairMorning" _hairsets>><<tab>>Makeup<<dropdown "$makeupMorning" _makeupsets>><<tab>>Clothes<<dropdown "$clothesMorning" _outfits>></p></div><br>`;
+  const out = `<<include [[SleepMorningChoices]]>>`;
   return out;
 };
 

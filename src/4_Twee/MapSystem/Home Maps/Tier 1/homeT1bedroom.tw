@@ -147,7 +147,7 @@
       <<else>>
       <div style="width:700px;">
         <center>[img[IMG-HowIsupposedTo]]</center>
-        You realise that you actually can't masturbate with that chastity on.
+        You realize that you actually can't masturbate with that chastity on.
       </div>
       <</if>>
     <</dialog>>
@@ -157,7 +157,7 @@
 <<hoverrevise sexdemo>>
 <<button "Tingler Hookup">>
   <<dialog "Tingler Sex Friends">>
-  <<silently>><<set $temp = 1>>
+  <<silently>><<set $temp = 0>>
   <<set _prin = "<<radioset 'sexchoice' '$temp'>>Choose Your Partner...">>
   <<for _i to 1; _i < 11; _i++>>
   <<set _id = either(setup.npc.ready)>>
@@ -165,7 +165,7 @@
   <<set _prin += "<<radioitem " + _id + ">>" + _tx>>
   <</for>>
   <<set _prin += "<</radioset>>">>
-  <<set $temp2 = 1>>
+  <<set $temp2 = 0>>
   <<set _prin2 = "<<radioset 'sexchoice2' '$temp2'>>Choose Your Rapist...">>
   <<for _i2 to 1; _i2 < 11; _i2++>>
   <<set _id2 = either(setup.npc.ready)>>
@@ -175,21 +175,21 @@
   <<set _prin2 += "<</radioset>>">><</silently>>
     <center>[img[IMG-TinglerApp]]
     <<print _prin>>
-    <<button "!!!GO!!!">><<set ↂ.sex.pcOutput = "Your Tingler date shows up, ready to fuck. You both know what's happening, so you get to it.">><<set ↂ.sex.enviroTags = ["bed","wall"]>><<set ↂ.sex.passage = "homeT1bedroom">>
+    <<button "!!!GO!!!">><<if $temp !== 0>><<set ↂ.sex.pcOutput = "Your Tingler date shows up, ready to fuck. You both know what's happening, so you get to it.">><<set ↂ.sex.enviroTags = ["bed","wall"]>><<set ↂ.sex.passage = "homeT1bedroom">>
     <<if random(1,10) === 1>>
       <<run setup.giveSSTD()>>
     <</if>>
-    <<run aw.S()>><<startSex $temp>><<run Dialog.close()>>
+    <<run aw.S()>><<startSex $temp>><<run Dialog.close()>><</if>>
     <</button>>
     <hr>
     <center>[img[IMG-Coerceme]]<br>
     New app on the market, "CoerceMe" is made for finding consensual non-consent play dates.
     <<print _prin2>>
-    <<button "!!!GO!!!">><<set ↂ.sex.enviroTags = ["bed","wall"]>><<set ↂ.sex.passage = "ResidentialSidewalk">><<set ↂ.sex.rape = true>><<set ↂ.sex.pcOutput = "You decide to meet at  at the sidewalk near your house. You get downstairs and wait nerviously until your CoerceMe date gets from behind from the <<publicPrivacy>>.">>
+    <<button "!!!GO!!!">><<if $temp2 !== 0>><<set ↂ.sex.enviroTags = ["bed","wall"]>><<set ↂ.sex.passage = "ResidentialSidewalk">><<set ↂ.sex.rape = true>><<set ↂ.sex.pcOutput = "You decide to meet at  at the sidewalk near your house. You get downstairs and wait nervously until your CoerceMe date gets from behind from the <<publicPrivacy>>.">>
     <<if random(1, 5) === 1>>
       <<run setup.giveSSTD()>>
     <</if>>
-    <<run aw.S()>><<startSex $temp2>><<run Dialog.close()>>
+    <<run aw.S()>><<startSex $temp2>><<run Dialog.close()>><</if>>
     <</button>>
     </center>
   <</dialog>>

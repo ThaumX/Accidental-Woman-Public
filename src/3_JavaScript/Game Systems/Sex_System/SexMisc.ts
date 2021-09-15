@@ -508,10 +508,13 @@ default: effect = 95;
 setup.sex.equipCondom = function(type: string): void {
   // aw.con.info(`setup.sex.equipCondom Starting`); // TODO Remove eventually
   const bc = ↂ.sex.npcBC[ↂ.sex.target].condom;
-  let sabo = false;
+  let sabo = 0;
   // check for earlier sab -Sab1
   if (type.slice(-5) === "-Sab1") {
-    sabo = true;
+    sabo = 1;
+    type = type.slice(0, -5);
+  } else if (type.slice(-5) === "-Sab2") {
+    sabo = 2;
     type = type.slice(0, -5);
   }
   switch (type) {
@@ -572,10 +575,14 @@ setup.sex.equipCondom = function(type: string): void {
       bc.sabo = 0;
       break;
   }
-  if (sabo) {
+  if (sabo === 1) {
     bc.health += 5;
-    bc.sabo = 20;
-    bc.effect = 60;
+    bc.sabo = 5;
+    bc.effect = 80;
+  } else if (sabo === 2) {
+    bc.health += 15;
+    bc.sabo = 30;
+    bc.effect = 50;
   }
   // aw.con.info(`setup.sex.equipCondom finished`); // TODO Remove eventually
 };

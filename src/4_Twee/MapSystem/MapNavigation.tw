@@ -233,7 +233,13 @@
     setup.map.nav("world","appletree");
   });
   $("area.navwarehouse").click(function(){
-    setup.dialog("Warehouse", "<<f y>>ouy tug on the lock on the door but it is closed.");
+    if (ↂ.flag.main.components[2] === 1 && ↂ.flag.main.capacitorStage[0] === "gotPromised") {
+      setup.dialog("Warehouse", "<<include [[Capacitor-Fedor]]>>");
+    } else if (ↂ.flag.main.components[2] === 1) {
+      setup.dialog("Warehouse", "<<include [[Capacitor-steal]]>>");
+    } else {
+      setup.dialog("Warehouse", "<<f y>>ou tug on the lock on the door but it is closed.");
+    }
   });
 <</script>>
 <</timed>>
@@ -367,7 +373,7 @@
 <</timed>>
 <div id="location-bar">
   <div id="location-bar-map">
-    <img data-passage="IMGdowntownMap" usemap="#downtownMap">
+    <img data-passage="IMG-map-downtown" usemap="#downtownMap">
     <map name="downtownMap" id="downtownMap">
       <area data-passage="" alt="Leave Downtown" title="Leave Downtown" coords="27,499,26,54,138,51,138,0,-1,1,0,499" shape="poly" class="map-red-area navleave">
       <area data-passage="" alt="Leave Downtown" title="Leave Downtown" coords="402,499,402,390,473,391,473,0,498,0,499,499,483,499,430,499" shape="poly" class="map-red-area navleave">
@@ -390,7 +396,7 @@
       <area data-passage="" alt="Adult District" title="Adult District" coords="363,55,471,-1" shape="rect" class="navadult">
     </map>
   </div>
-  <img id="location-bar-cover" data-passage="IMGdowntownMap">
+  <img id="location-bar-cover" data-passage="IMG-map-downtown">
   <div id="location-bar-image">
     <<link [img[ↂ.map.imageName]]>><<set _pasg = aw.passage.title>><<set _pasg += "LOC">><<dialog ↂmap.name>><<include _pasg>><</dialog>><</link>>
     <div id="namediv" class="locationNameDiv head1"><<print ↂ.map.name>></div>
@@ -406,25 +412,55 @@
 <<timed 50ms>>
 <<script>>
   $("area.navshakenpopchillout").click(function(){
-    setup.map.nav("downtown","club","shakenpopchillout");
+    if (setup.time.aftMidnight && (aw.time - setup.time.midnight) > 180) {
+      setup.map.nav("downtown","club","main");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.map.nav("downtown","club","shakenpopchillout");
+    }
   });
   $("area.navshakenpopbar").click(function(){
-    setup.map.nav("downtown","club","shakenpopbar");
+    if (setup.time.aftMidnight && (aw.time - setup.time.midnight) > 180) {
+      setup.map.nav("downtown","club","main");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.map.nav("downtown","club","shakenpopbar");
+    }
   });
   $("area.navshakenpopdance").click(function(){
-    setup.map.nav("downtown","club","shakenpopdance");
+    if (setup.time.aftMidnight && (aw.time - setup.time.midnight) > 180) {
+      setup.map.nav("downtown","club","main");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.map.nav("downtown","club","shakenpopdance");
+    }
   });
   $("area.navshakenpopwc").click(function(){
-    setup.map.nav("downtown","club","shakenpopwc");
+    if (setup.time.aftMidnight && (aw.time - setup.time.midnight) > 180) {
+      setup.map.nav("downtown","club","main");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.map.nav("downtown","club","shakenpopwc");
+    }
   });
   $("area.navshakenpopentrance").click(function(){
-    setup.map.nav("downtown","club","shakenpopentrance");
+    if (setup.time.aftMidnight && (aw.time - setup.time.midnight) > 180) {
+      setup.map.nav("downtown","club","main");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.map.nav("downtown","club","shakenpopentrance");
+    }
   });
   $("area.navshakenpopexit").click(function(){
     UI.alert("Placeholder for checks to make sure you can leave. Please exit via the entrance area for now.");
   });
   $("area.navshakenpopstuff").click(function(){
-    UI.alert("Door is locked. Some interesting noises coming out but they are muffled by loud music from the dance floor.");
+    if (setup.time.aftMidnight && (aw.time - setup.time.midnight) > 180) {
+      setup.map.nav("downtown","club","main");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      UI.alert("Door is locked. Some interesting noises coming out but they are muffled by loud music from the dance floor.");
+    }
   });
 <</script>>
 <</timed>>
@@ -449,6 +485,46 @@
 </div>
 
 
+:: MAPwrench [nobr map]
+
+/*Must be in timer to delay start because script runs before passage render*/
+<<timed 50ms>>
+<<script>>
+  $("area.navwrenchentrance").click(function(){
+    setup.map.nav("downtown","club","wrenchentrance");
+  });
+  $("area.navwrenchbardance").click(function(){
+    setup.map.nav("downtown","club","wrenchbardance");
+  });
+  $("area.navwrenchlounge").click(function(){
+    setup.map.nav("downtown","club","wrenchlounge");
+  });
+  $("area.navwrenchwc").click(function(){
+    setup.map.nav("downtown","club","wrenchwc");
+  });
+  $("area.navwrenchbooths").click(function(){
+    setup.map.nav("downtown","club","wrenchbooths");
+  });
+<</script>>
+<</timed>>
+<div id="location-bar">
+  <div id="location-bar-map">
+    <img data-passage="IMG-WrenchMap" usemap="#wrenchMap">
+    <map name="wrenchMap" id="wrenchMap">
+    <area target="" alt="Entrance" title="Entrance" coords="327,265,419,333" shape="rect" class="navwrenchentrance">
+    <area target="" alt="Bar & dancefloor" title="Bar & dancefloor" coords="56,161,318,334" shape="rect" class="navwrenchbardance">
+    <area target="" alt="Lounge" title="Lounge" coords="55,68,319,156" shape="rect" class="navwrenchlounge">
+    <area target="" alt="WC" title="WC" coords="326,69,419,259" shape="rect" class="navwrenchwc">
+    <area target="" alt="Booths" title="Booths" coords="95,408,73" shape="circle" class="navwrenchbooths">
+    </map>
+  </div>
+  <img id="location-bar-cover" data-passage="IMG-WrenchMap">
+  <div id="location-bar-image">
+    <<link [img[ↂ.map.imageName]]>><<set _pasg = aw.passage.title>><<set _pasg += "LOC">><<dialog ↂmap.name>><<include _pasg>><</dialog>><</link>>
+    <div id="namediv" class="locationNameDiv head1"><<print ↂ.map.name>></div>
+  </div>
+</div>
+
 
 :: MAPpollriders [nobr map]
 
@@ -456,25 +532,55 @@
 <<timed 50ms>>
 <<script>>
   $("area.navpollridersentrance").click(function(){
-    setup.map.nav("downtown", "club", "pollridersentrance");
+    if (setup.time.aftMidnight && (aw.time - setup.time.midnight) > 180) {
+      setup.map.nav("downtown","club","main");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.map.nav("downtown", "club", "pollridersentrance");
+    }
   });
   $("area.navpollriderslounge").click(function(){
-    setup.map.nav("downtown", "club", "pollriderslounge");
+    if (setup.time.aftMidnight && (aw.time - setup.time.midnight) > 180) {
+      setup.map.nav("downtown","club","main");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.map.nav("downtown", "club", "pollriderslounge");
+    }
   });
   $("area.navpollridersprivate").click(function(){
-    setup.dialog("Peeking",`<<include [[DowntownClubRidersPrivatePeek]]>>`);
+    if (setup.time.aftMidnight && (aw.time - setup.time.midnight) > 180) {
+      setup.map.nav("downtown","club","main");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.dialog("Peeking",`<<include [[DowntownClubRidersPrivatePeek]]>>`);
+    }
   });
   $("area.navpollridersbar").click(function(){
-    setup.map.nav("downtown","club","pollridersbar");
+    if (setup.time.aftMidnight && (aw.time - setup.time.midnight) > 180) {
+      setup.map.nav("downtown","club","main");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.map.nav("downtown","club","pollridersbar");
+    }
   });
   $("area.navpollriderswc").click(function(){
-    setup.map.nav("downtown", "club", "pollriderswc");
+    if (setup.time.aftMidnight && (aw.time - setup.time.midnight) > 180) {
+      setup.map.nav("downtown","club","main");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.map.nav("downtown", "club", "pollriderswc");
+    }
   });
   $("area.navpollridersstaff").click(function(){
-    if (ↂ.job.code === "PR") {
-      setup.map.nav("downtown", "club", "pollridersstaff");
+    if (setup.time.aftMidnight && (aw.time - setup.time.midnight) > 180) {
+      setup.map.nav("downtown","club","main");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
     } else {
-      setup.notify(either("Staff only", "Thou shall not pass", "Nope.", "Don't even try", "Still nope", "You are not a valid staff member"));
+      if (ↂ.job.code === "PR") {
+        setup.map.nav("downtown", "club", "pollridersstaff");
+      } else {
+        setup.notify(either("Staff only", "Thou shall not pass", "Nope.", "Don't even try", "Still nope", "You are not a valid staff member"));
+      }
     }
   });
 <</script>>
@@ -511,28 +617,68 @@
     setup.map.nav("downtown","mall","exterior");
   });
   $("area.navpeeper").click(function(){
-    setup.map.nav("downtown","mall","movies");
+    if (setup.time.aftMidnight) {
+      setup.map.nav("downtown","mall","exterior");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.map.nav("downtown","mall","movies");
+    }
   });
   $("area.navfoodcourt").click(function(){
-    setup.map.nav("downtown","mall","foodcourt");
+    if (setup.time.aftMidnight) {
+      setup.map.nav("downtown","mall","exterior");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.map.nav("downtown","mall","foodcourt");
+    }
   });
   $("area.navfitta").click(function(){
-    setup.map.nav("downtown","mall","fitta");
+    if (setup.time.aftMidnight) {
+      setup.map.nav("downtown","mall","exterior");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.map.nav("downtown","mall","fitta");
+    }
   });
   $("area.navwestshop").click(function(){
-    setup.map.nav("downtown","mall","westshop");
+    if (setup.time.aftMidnight) {
+      setup.map.nav("downtown","mall","exterior");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.map.nav("downtown","mall","westshop");
+    }
   });
   $("area.navbbb").click(function(){
-    setup.map.nav("downtown","mall","bbb");
+    if (setup.time.aftMidnight) {
+      setup.map.nav("downtown","mall","exterior");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.map.nav("downtown","mall","bbb");
+    }
   });
   $("area.navnorthshop").click(function(){
-    setup.map.nav("downtown","mall","northshop");
+    if (setup.time.aftMidnight) {
+      setup.map.nav("downtown","mall","exterior");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.map.nav("downtown","mall","northshop");
+    }
   });
   $("area.navsouthshop").click(function(){
-    setup.map.nav("downtown","mall","southshop");
+    if (setup.time.aftMidnight) {
+      setup.map.nav("downtown","mall","exterior");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.map.nav("downtown","mall","southshop");
+    }
   });
   $("area.navvoid").click(function(){
-    setup.map.nav("downtown","mall","voidshop");
+    if (setup.time.aftMidnight) {
+      setup.map.nav("downtown","mall","exterior");
+      setup.dialog("Shown The Door","<<include [[BouncerThrowsOut]]>>");
+    } else {
+      setup.map.nav("downtown","mall","voidshop");
+    }
   });
 <</script>>
 <</timed>>
@@ -631,7 +777,11 @@
 <<timed 50ms>>
 <<script>>
   $("area.navleave").click(function(){
-    setup.map.nav("residential","common","main");
+    if (setup.clothes.exposed.bottom && State.active.variables.AW.tutorials && !ↂ.flag.nudeWarned) {
+      setup.dialog("Bare butt",`<div style="border: 3px solid #ff5d3d;background-color:#000;text-align:center;padding:20px;min-width:500px;color: #ffc16b;"><span style="font-size:1.4rem;color:#ff5d3d;">Nudity Warning</span><br><br>Take a note that going outside naked can cause some nasty consequences. You don't want to get busted by a police or raped, right? Anyway, don't say we haven't warn you!</div><br><center><<button "Don't tell me what to do!">><<run Dialog.close()>><</button>></center><<set ↂ.flag.nudeWarned = true>><<status 0>>`);
+    } else {
+      setup.map.nav("residential","common","main");
+    }
   });
   $("area.navmanage").click(function(){
     State.active.variables.returnTo = aw.passage.title;
@@ -694,7 +844,11 @@
 <<timed 50ms>>
 <<script>>
   $("area.navleave").click(function(){
-    setup.map.nav("residential","common","main");
+    if (setup.clothes.exposed.bottom && State.active.variables.AW.tutorials && !ↂ.flag.nudeWarned) {
+      setup.dialog("Bare butt",`<div style="border: 3px solid #ff5d3d;background-color:#000;text-align:center;padding:20px;min-width:500px;color: #ffc16b;"><span style="font-size:1.4rem;color:#ff5d3d;">Nudity Warning</span><br><br>Take a note that going outside naked can cause some nasty consequences. You don't want to get busted by a police or raped, right? Anyway, don't say we haven't warn you!</div><br><center><<button "Don't tell me what to do!">><<run Dialog.close()>><</button>></center><<set ↂ.flag.nudeWarned = true>><<status 0>>`);
+    } else {
+      setup.map.nav("residential","common","main");
+    }
   });
   $("area.navmanage").click(function(){
     State.active.variables.returnTo = aw.passage.title;
@@ -757,7 +911,11 @@
 <<timed 50ms>>
 <<script>>
   $("area.navleave").click(function(){
-    setup.map.nav("residential","common","main");
+    if (setup.clothes.exposed.bottom && State.active.variables.AW.tutorials && !ↂ.flag.nudeWarned) {
+      setup.dialog("Bare butt",`<div style="border: 3px solid #ff5d3d;background-color:#000;text-align:center;padding:20px;min-width:500px;color: #ffc16b;"><span style="font-size:1.4rem;color:#ff5d3d;">Nudity Warning</span><br><br>Take a note that going outside naked can cause some nasty consequences. You don't want to get busted by a police or raped, right? Anyway, don't say we haven't warn you!</div><br><center><<button "Don't tell me what to do!">><<run Dialog.close()>><</button>></center><<set ↂ.flag.nudeWarned = true>><<status 0>>`);
+    } else {
+      setup.map.nav("residential","common","main");
+    }
   });
   $("area.navmanage").click(function(){
     State.active.variables.returnTo = aw.passage.title;
@@ -825,7 +983,11 @@
 <<timed 50ms>>
 <<script>>
   $("area.navleave").click(function(){
-    setup.map.nav("residential","common","main");
+    if (setup.clothes.exposed.bottom && State.active.variables.AW.tutorials && !ↂ.flag.nudeWarned) {
+      setup.dialog("Bare butt",`<div style="border: 3px solid #ff5d3d;background-color:#000;text-align:center;padding:20px;min-width:500px;color: #ffc16b;"><span style="font-size:1.4rem;color:#ff5d3d;">Nudity Warning</span><br><br>Take a note that going outside naked can cause some nasty consequences. You don't want to get busted by a police or raped, right? Anyway, don't say we haven't warn you!</div><br><center><<button "Don't tell me what to do!">><<run Dialog.close()>><</button>></center><<set ↂ.flag.nudeWarned = true>><<status 0>>`);
+    } else {
+      setup.map.nav("residential","common","main");
+    }
   });
   $("area.navmanage").click(function(){
     State.active.variables.returnTo = aw.passage.title;
@@ -898,7 +1060,11 @@
 <<timed 50ms>>
 <<script>>
   $("area.navleave").click(function(){
-    setup.map.nav("residential","sidewalk");
+    if (setup.clothes.exposed.bottom && State.active.variables.AW.tutorials && !ↂ.flag.nudeWarned) {
+      setup.dialog("Bare butt",`<div style="border: 3px solid #ff5d3d;background-color:#000;text-align:center;padding:20px;min-width:500px;color: #ffc16b;"><span style="font-size:1.4rem;color:#ff5d3d;">Nudity Warning</span><br><br>Take a note that going outside naked can cause some nasty consequences. You don't want to get busted by a police or raped, right? Anyway, don't say we haven't warn you!</div><br><center><<button "Don't tell me what to do!">><<run Dialog.close()>><</button>></center><<set ↂ.flag.nudeWarned = true>><<status 0>>`);
+    } else {
+      setup.map.nav("residential","sidewalk");
+    }
   });
   $("area.navkitchen").click(function(){
     setup.map.nav("BFhome","kitchen");
@@ -912,7 +1078,7 @@
   $("area.navwardrobe").click(function(){
     if (State.active.variables.BFlove) {
       State.variables.returnTo = aw.passage.title;
-      aw.go("wardrobeMain");
+      aw.go("MainWardrobe");
     } else {
       UI.alert("You can't adjust your wardrobe at your friend's house.");
     }
@@ -945,86 +1111,6 @@
 
 
 
-:: MAPworld [nobr map]
-
-
-/*Must be in timer to delay start because script runs before passage render*/
-<<timed 50ms>>
-<<script>>
-  $("area.navappletree").click(function(){
-    setup.map.nav("world","appletree");
-  });
-  $("area.navinstitute").click(function(){
-    setup.map.nav("world","institute");
-  });
-  $("area.navwoods").click(function(){
-    /*setup.map.nav("world","woods");*/
-    setup.notify("<span class='warn'>The woods area is not available yet.</span>");
-  });
-  $("area.navforest").click(function(){
-    /*setup.map.nav("world","forest");*/
-    setup.notify("<span class='warn'>The forest area is not available yet.</span>");
-  });
-  $("area.navspring").click(function(){
-    setup.map.nav("world","spring", "parking");
-    /*setup.dialog("Map System", "<center><h3>Hoden Springs</h3>This area has some recreational activities and some other <i>interesting</i> things going on. It hasn't been implemented yet.<br>[img[IMG-SpringsMap]]</center>");*/
-  });
-  $("area.navcity").click(function(){
-    /*setup.map.nav("world","city");*/
-    setup.notify("<span class='warn'>You can never escape Appletree. <b>Never.</b></span>");
-  });
-  $("area.navbullseye").click(function(){
-    setup.map.nav("bullseye","parking");
-  });
-  $("area.navvisit").click(function(){
-    setup.map.nav("world","visitor","parking");
-    /*setup.dialog("Map System", "<center><h3>Muschi Valley Visitor's Center</h3>This area is where visitors can stop to find interesting activities and places to visit in the valley. It hasn't been implemented yet.<br>[img[IMG-VisitorsMap]]</center>");*/
-  });
-  $("area.navcoop").click(function(){
-    setup.map.nav("world","coop","main");
-  });
-  $("area.navrestricted").click(function(){
-    setup.map.nav("world","restricted","enter");
-    /*setup.dialog("Map System", "<center><span class='warn' style='font-size:1.25rem;'>WARNING: RESTRICTED AREA</span>This area has absolutely nothing interesting, just some agricultural research. Nope, not a place to visit at all. In fact, nobody should care that it hasn't been implemented yet.<br>[img[IMG-RestrictedAreaMap]]</center>");*/
-  });
-  $("area.navinfo").click(function(){
-    /*setup.map.nav("world","info");*/
-    setup.notify("<span class='warn'>I really don't know what's going on.</span>");
-  });
-  $("area.navlake").click(function(){
-    setup.map.nav("world","resort", "hotel");
-    /*setup.notify("<span class='warn'>The lake area is not available yet.</span>");
-    setup.dialog("Map System", "<center><h3>Clitea Lake Resort</h3>Recreational area with a hotel and waterslides! Sadly, it hasn't been implemented yet.<br>[img[IMG-ResortMap]]</center>"); */
-  });
-  $("area.navunknown").click(function(){
-    /*setup.map.nav("world","unknown");*/
-    setup.notify("<span class='warn'>There is nothing in the area that you clicked.</span>");
-  });
-  $("area.navbridge").click(function(){
-    setup.map.nav("world","bridge", "bridge");
-    /*setup.dialog("Map System", "<center>The bridge can't be jumped off of just yet.<br>[img[IMG-BridgeMap]]</center>"); */
-  });
-<</script>>
-<</timed>>
-<img data-passage="IMGmuschivalleyMap" usemap="#worldMap">
-<map name="worldMap" id="worldMap">
-  <area data-passage="" alt="Appletree" title="Appletree" coords="186,354,92" shape="circle" class="map-green-area navappletree">
-  <area data-passage="" alt="The Institute" title="The Institute" coords="55,500,85" shape="circle" class="map-green-area navinstitute">
-  <area data-passage="" alt="Institute Nature Preserve" title="Institute Nature Preserve" coords="31,408,42,380,56,363,63,316,51,290,45,268,49,231,65,220,99,216,107,218,134,217,148,228,201,236,217,259,191,258,159,261,135,272,116,288,103,306,93,330,90,352,92,375,100,395,110,412,126,428,142,439,164,447,184,450,199,450,200,467,190,474,188,491,185,513,171,529,154,539,145,543,141,523,142,507,141,483,134,462,118,438,104,426,87,417,65,413,45,412,29,416" shape="poly" class="map-green-area navwoods">
-  <area data-passage="" alt="Angler Wood" title="Angler Wood" coords="100,194,148,197,168,210,196,204,215,208,228,220,239,233,255,245,275,251,298,257,308,263,315,274,333,281,349,277,362,271,374,266,507,270,514,265,523,258,532,252,543,254,559,260,570,263,584,259,606,252,623,216,618,202,609,183,607,172,613,118,609,101,599,87,581,73,517,63,497,64,485,72,481,85,476,105,468,116,457,128,438,135,417,135,397,130,381,127,366,130,346,135,335,132,330,120,324,77,317,67,301,58,255,46,245,38,235,29,190,28,183,33,174,42,171,51,170,79,166,90,162,97,156,105,144,112,130,117,119,122,105,125,96,131,90,138,84,149,78,162,80,174,88,187" shape="poly" class="navforest">
-  <area data-passage="" alt="Samen Spring Plateau" title="Samen Spring Plateau" coords="7,151,70" shape="circle" class="navspring">
-  <area data-passage="" alt="To The City" title="To The City" coords="805,6,178" shape="circle" class="map-red-area navcity">
-  <area data-passage="" alt="Bullseye Ubercenter" title="Bullseye Ubercenter" coords="685,275,77" shape="circle" class="map-green-area navbullseye">
-  <area data-passage="" alt="Muschi Valley Visitor Center" title="Muschi Valley Visitor Center" coords="497,329,55" shape="circle" class="navvisit">
-  <area data-passage="" alt="Muschi Valley Farm COOP" title="Muschi Valley Farm COOP" coords="627,417,73" shape="circle" class="map-green-area navcoop">
-  <area data-passage="" alt="Institute Controlled Access Zone" title="Institute Controlled Access Zone" coords="321,625,311,608,307,586,302,563,293,548,282,536,295,522,309,501,321,484,338,466,357,464,371,465,391,584,375,589,359,598,339,613" shape="poly" class="navrestricted">
-  <area data-passage="" alt="Information Link" title="Information Link" coords="15,806,14,753,19,738,30,729,42,724,188,724,199,726,208,733,215,742,218,755,217,807" shape="poly" class="map-blue-area navinfo">
-  <area data-passage="" alt="Lake Clitea" title="Lake Clitea" coords="635,640,110" shape="circle" class="map-green-area navlake">
-  <area data-passage="" alt="?????" title="?????" coords="348,805,87" shape="circle" class="navunknown">
-  <area data-passage="" alt="The Bridge" title="The Bridge" coords="318,318,331,296,370,316,353,339" shape="poly" class="navbridge">
-</map>
-
-
 
 :: MAPappletree [nobr map]
 
@@ -1055,7 +1141,7 @@
   });
 <</script>>
 <</timed>>
-<img data-passage="IMGappletreeMap" usemap="#appleMap" style="display:inline-block; float:right; margin:0px 40px 0px 0px;">
+<img data-passage="IMG-CityMapNew" usemap="#appleMap" style="display:inline-block; float:right; margin:0px 40px 0px 0px;">
 <map name="appleMap" id="appleMap">
   <area data-passage="" alt="Residential Area" title="Residential Area" coords="300,710,301,578,188,579,187,431,635,433,634,622,579,622,578,712" shape="poly" class="map-green-area navresidential">
   <area data-passage="" alt="Tesla Reservoir" title="Tesla Reservoir" coords="294,581,294,711,288,721,273,731,256,737,240,738,224,733,212,721,203,705,199,690,194,675,189,662,179,652,167,643,163,628,162,611,166,598,172,587,183,582" shape="poly" class="navreservoir">
@@ -1142,7 +1228,11 @@
     setup.map.nav("world","main");
   });
   $("area.navhole").click(function(){
-    setup.notify("You shall not pass!");
+    if (ↂ.flag.main.components[3] === 1) {
+      setup.dialog("Warehouse", "<<include [[Capacitor-Fedor]]>>");
+    } else {
+      setup.notify("You have zero reasons to risk yourself.");
+    }
     /*setup.map.nav("world","restricted","hole");*/
   });
   $("area.naventer").click(function(){

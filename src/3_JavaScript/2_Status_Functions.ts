@@ -109,8 +109,8 @@ setup.status.mentalUnfuck = function(): void {
   s.underSatisfy = 0;
   const drugs = ["sex", "alc", "heat", "satyr", "focus", "cum", "cream"];
   for (const drug of drugs) {
-    if (s.addict[drug] > 15) {
-      s.addict[drug] = 15;
+    if (s.addict[drug] > 45) {
+      s.addict[drug] = 45;
     }
   }
   const needs = ["sexNeed", "alcNeed", "heatNeed", "satyrNeed", "focusNeed", "cumNeed", "creamNeed"];
@@ -120,9 +120,10 @@ setup.status.mentalUnfuck = function(): void {
   s.addict.jonesing = 0;
   s.addict.withdrawl = false;
   s.mindbreak = false;
-  s.bimbo += random(4, 6);
-  if (s.bimbo > 80) {
-    s.bimbo = 80;
+  const xxx = random(4, 6);
+  if (s.bimbo < 80) {
+    s.bimbo += xxx;
+    setup.status.record("bimbo", xxx, "Emergency Mental Treatment");
   }
   s.perversion += random(3, 5);
   if (s.perversion > 80) {
@@ -183,6 +184,11 @@ setup.status.stress = function(amt, msg = "unknown cause", tgt = -1) {
   const stress = tit.status.stress; // returns character's stress, and we can manipulate freely.
   let mod = 0; // start with zero to make reversing sign easier later.
   // this isn't really necessary, but can save time if you're using the same thing a lot.
+
+  /******************************/
+  /* TRAIT/STATUS MODIFICATION  */
+  /******************************/
+
   const open = tit[trait].op;
   const closed = tit[trait].cl;
   const intro = tit[trait].intro;
@@ -212,14 +218,39 @@ setup.status.stress = function(amt, msg = "unknown cause", tgt = -1) {
     mod += 0.25;
   }
   /******************************/
+  /* DIFFICULY SETTING          */
+  /******************************/
+  if (pc && ↂ.flag.organDonor < 3) {
+    mod -= 0.3;
+    if (ↂ.flag.organDonor === 1) {
+      mod -= 0.2;
+    }
+  }
+
+  /******************************/
   /* SITUATION TAGS PLACEHOLDER */
+  /******************************/
+
+  if (pc) {
+    const drugs = setup.drug.isOn();
+    if (drugs.includes("zone")) { // Zone drug greatly helps stress
+      mod -= 0.75;
+    } else if (drugs.includes("heat") || drugs.includes("focus")) { 
+      mod -= 0.5;
+    } else if (drugs.includes("cum") || drugs.includes("cream") || drugs.includes("alc")) {
+      mod -= 0.25;
+    }
+  }
+
+  /******************************/
+  /* PROBABILITY SECTION
   /******************************/
   // time for sign flip
   if (amt < 0) {
     mod *= -1;
   }
   mod += 1; // adjust to proper multiplier
-  mod = Math.max(0.25, mod); // keep modifier within range
+  mod = Math.max(0.2, mod); // keep modifier within range
   mod = Math.min(2.5, mod);
   amt = amt * mod; // finally adjust amount
   // for cheat
@@ -251,7 +282,7 @@ setup.status.stress = function(amt, msg = "unknown cause", tgt = -1) {
   // make sure amt is a whole number.
   amt = Math.round(amt);
   if (tit.status.overStress && pc) {
-    const thresher = (ↂ.flag.organDonor) ? 3 : 2;
+    const thresher = (ↂ.flag.organDonor === 4) ? 4 : ↂ.flag.organDonor - 1;
     for (let i = 0, cc = Math.abs(amt); i < cc; i++) {
       if (random(0, 9) < thresher) {
         amt += 1;
@@ -262,11 +293,14 @@ setup.status.stress = function(amt, msg = "unknown cause", tgt = -1) {
   const chk = tit.status.stress + amt;
   const total = tit.status.stress + amt;
   tit.status.stress += amt;
+  if (pc && amt > 0) {
+    ↂ.flag.statistics.stress += amt;
+  }
   // check for over or under values
   if (chk > 100 && pc) {
     if (tit.status.overStress) {
       setup.status.badEnd("stress");
-    } else if (ↂ.flag.organDonor) {
+    } else if (ↂ.flag.organDonor === 4) {
       setup.status.badEnd("stress");
     } else {
       tit.status.overStress = true;
@@ -334,6 +368,10 @@ setup.status.anger = function(amt, tgt = -1) {
     }
     return;
   }
+  /******************************/
+  /* TRAIT/STATUS MODIFICATION  */
+  /******************************/
+
   const anger = tit.status.anger;
   let mod = 0;
   const open = tit[trait].op;
@@ -357,8 +395,32 @@ setup.status.anger = function(amt, tgt = -1) {
   } else if (tit.status.need > 0) {
     mod += 0.25;
   }
+
+  /******************************/
+  /* DIFFICULY SETTING          */
+  /******************************/
+  if (pc && ↂ.flag.organDonor < 3) {
+    mod -= 0.3;
+    if (ↂ.flag.organDonor === 1) {
+      mod -= 0.2;
+    }
+  }
+
+
+
   /******************************/
   /* SITUATION TAGS PLACEHOLDER */
+  /******************************/
+
+  if (pc) {
+    const drugs = setup.drug.isOn();
+    if (drugs.includes("zone") || drugs.includes("focus")) { // Zone and Focus drugs greatly helps anger
+      mod -= 0.75;
+    }
+  }
+
+  /******************************/
+  /* PROBABILITY SECTION
   /******************************/
   // time for sign flip
   if (amt < 0) {
@@ -373,7 +435,7 @@ setup.status.anger = function(amt, tgt = -1) {
     amt = 0;
   }
   if (tit.status.overAnger && pc) {
-    const thresher = (ↂ.flag.organDonor) ? 3 : 2;
+    const thresher = (ↂ.flag.organDonor === 4) ? 4 : ↂ.flag.organDonor - 1;
     for (let i = 0, cc = Math.abs(amt); i < cc; i++) {
       if (random(0, 9) < thresher) {
         amt += 1;
@@ -383,12 +445,15 @@ setup.status.anger = function(amt, tgt = -1) {
 
   const chk = tit.status.anger + amt;
   tit.status.anger += amt;
+  if (pc && amt > 0) {
+    ↂ.flag.statistics.anger += amt;
+  }
   // check for over or under values
   if (chk > 10) {
     tit.status.anger = 8;
     if (pc && tit.status.overAnger) {
       setup.status.badEnd("anger");
-    } else if (pc && ↂ.flag.organDonor) {
+    } else if (pc && ↂ.flag.organDonor === 4) {
       setup.status.badEnd("anger");
     } else {
       tit.status.overAnger = true;
@@ -452,6 +517,10 @@ setup.status.happy = function(amt, msg = "unknown cause", tgt = -1) {
   }
   const note = `Status.happy(${amt}) final change`;
   let mod = 0;
+  /******************************/
+  /* TRAIT/STATUS MODIFICATION   */
+  /******************************/
+
   const open = tit[trait].op;
   const closed = tit[trait].cl;
   const intro = tit[trait].intro;
@@ -478,8 +547,34 @@ setup.status.happy = function(amt, msg = "unknown cause", tgt = -1) {
   } else if (tit.status.need > 0) {
     mod -= 0.25;
   }
+
+  /******************************/
+  /* DIFFICULY SETTING          */
+  /******************************/
+  if (pc && ↂ.flag.organDonor < 3) {
+    mod += 0.3;
+    if (ↂ.flag.organDonor === 1) {
+      mod += 0.2;
+    }
+  }
+
   /******************************/
   /* SITUATION TAGS PLACEHOLDER */
+  /******************************/
+
+  if (pc) {
+    const drugs = setup.drug.isOn();
+    if (drugs.includes("zone") || drugs.includes("satyr")) {
+      mod += 0.4;
+    } else if (drugs.includes("focus") || drugs.includes("heat")) {
+      mod += 0.3;
+    } else if (drugs.includes("cum") || drugs.includes("cream")) {
+      mod += 0.2;
+    }
+  }
+
+  /******************************/
+  /* PROBABILITY SECTION
   /******************************/
   // time for sign flip
   if (amt < 0) {
@@ -542,7 +637,7 @@ setup.status.happy = function(amt, msg = "unknown cause", tgt = -1) {
   // make sure amt is a whole number
   amt = Math.round(amt);
   if (tit.status.overDepress && pc) {
-    const thresher = (ↂ.flag.organDonor) ? 3 : 2;
+    const thresher = (ↂ.flag.organDonor === 4) ? 4 : ↂ.flag.organDonor - 1;
     for (let i = 0, cc = Math.abs(amt); i < cc; i++) {
       if (random(0, 9) < thresher) {
         amt -= 1;
@@ -556,7 +651,7 @@ setup.status.happy = function(amt, msg = "unknown cause", tgt = -1) {
   if (chk < -9 && pc) {
     if (pc && tit.status.overDepress) {
       setup.status.badEnd("depression");
-    } else if (pc && ↂ.flag.organDonor) {
+    } else if (pc && ↂ.flag.organDonor === 4) {
       setup.status.badEnd("depression");
     } else {
       tit.status.overDepress = true;
@@ -618,10 +713,41 @@ setup.status.tired = function (amt, msg = "unknown cause", tgt = -1) {
     return;
   }
   let mod = 0;
-  mod += tit.status.disease.length > 1 ? 0.5 : 0;
+  /******************************/
+  /* TRAIT/STATUS MODIFICATION  */
+  /******************************/
+
+  mod += tit.status.disease.length > 1 ? (0.3 * (tit.status.disease.length -1)) : 0;
   mod += tit.status.addict.withdrawl ? 0.3 : 0;
+
+  /******************************/
+  /* DIFFICULY SETTING          */
+  /******************************/
+  if (pc && ↂ.flag.organDonor < 3) {
+    mod -= 0.3;
+    if (ↂ.flag.organDonor === 1) {
+      mod -= 0.2;
+    }
+  }
+
+
+
   /******************************/
   /* SITUATION TAGS PLACEHOLDER */
+  /******************************/
+
+  if (pc) {
+    const drugs = setup.drug.isOn();
+    if (drugs.includes("satyr") || drugs.includes("focus")) { // Satyr and Focus drugs reduce tiredness
+      mod -= 0.15;
+    }
+    if (drugs.includes("alc")) {
+      mod += 0.3;
+    }
+  }
+
+  /******************************/
+  /* PROBABILITY SECTION
   /******************************/
   // time for sign flip
   if (amt < 0) {
@@ -725,6 +851,11 @@ setup.status.arousal = function(amt, tgt = -1) {
     arousal = tit.status.arousal;
     let mod = 0;
     rolls = 0; // start with zero to make reversing sign easier later.
+
+  /******************************/
+  /* TRAIT/STATUS MODIFICATION  */
+  /******************************/
+
     const open = tit[trait].op;
     const closed = tit[trait].cl;
     const extro = tit[trait].extro;
@@ -746,12 +877,37 @@ setup.status.arousal = function(amt, tgt = -1) {
       0.4,
       0.5,
       0.6,
-      0.8,
+      0.7,
     ];
     mod += libmod[libido];
-    /******************************/
-    /* TAG PLACEHOLDER # 1        */
-    /******************************/
+
+  /******************************/
+  /* DIFFICULY SETTING          */
+  /******************************/
+  if (pc && ↂ.flag.organDonor < 3 && amt > 0 && tit.status.arousal > 7) {
+    mod -= 0.4;
+    if (ↂ.flag.organDonor === 1) {
+      mod -= 0.3;
+    }
+  }
+
+  /******************************/
+  /* SITUATION TAGS PLACEHOLDER */
+  /******************************/
+
+  if (pc) {
+    const drugs = setup.drug.isOn();
+    if (drugs.includes("heat") || drugs.includes("satyr")) { // Satyr and Heat drugs increase arousal gain
+      mod += 0.2;
+    }
+    if (drugs.includes("focus") || drugs.includes("alc")) { // d3crease arousal gain
+      mod -= 0.2;
+    }
+  }
+
+  /******************************/
+  /* PROBABILITY SECTION
+  /******************************/
     // time for sign flip
     if (amt < 0) {
       mod *= -1;
@@ -836,9 +992,14 @@ setup.status.arousal = function(amt, tgt = -1) {
     }
     const chk = tit.status.arousal + cunt;
     tit.status.arousal += cunt;
+    if (pc && cunt > 0) {
+      ↂ.flag.statistics.arousal += cunt;
+    }
     // check for over or under values... more complicated!
     if (chk >= (max - 1)) {
-      tit.status.bimbo += random(0, 1) + random(1, 2);
+      const xxx = random(0, 1) + random(1, 2);
+      tit.status.bimbo += xxx;
+      setup.status.record("bimbo", xxx, "Overly high arousal - brain damage");
     }
     if (chk >= (max - 2) && pc && !ↂ.sex.scene) {
       setup.notify("<span class='bad'>You are dangerously aroused!</span>");
@@ -846,16 +1007,20 @@ setup.status.arousal = function(amt, tgt = -1) {
     if (chk > max) {
       tit.status.arousal = max - 1;
       if (pc && tit.status.mindbreak) {
-        if (ↂ.flag.organDonor) {
+        if (ↂ.flag.organDonor === 4) {
           setup.badEnd("mindbreak");
         } else {
           setup.status.badEnd("mindbreak");
         }
-        tit.status.bimbo += random(2, 5);
+        const xxx = random(2, 5);
+        tit.status.bimbo += xxx;
+        setup.status.record("bimbo", xxx, "Overly high arousal - brain damage");
       } else if (!tit.status.mindbreak && random(1, 4) === 1) {
         tit.status.mindbreak = true;
         if (pc) {
-          tit.status.bimbo += random(2, 5);
+          const xxx = random(2, 5);
+          tit.status.bimbo += xxx;
+          setup.status.record("bimbo", xxx, "Overly high arousal - brain damage");
           setup.notify("<span class='bad'>Excessive arousal has fried your brain!</span>");
         }
       }
@@ -924,12 +1089,16 @@ setup.status.satisfact = function (amt, msg = "unknown cause", tgt = -1) {
     const stress = tit.status.stress; // returns character's stress, and we can manipulate freely.
     let mod = 0; // start with zero to make reversing sign easier later.
     // this isn't really necessary, but can save time if you're using the same thing a lot.
+    /******************************/
+    /* TRAIT/STATUS MODIFICATION  */
+    /******************************/
+
     const open = tit[trait].op;
     const closed = tit[trait].cl;
     const intro = tit[trait].intro;
     const extro = tit[trait].extro;
     if (open) {
-      mod += 0.1;
+      mod -= 0.1;
     } else if (closed) {
       mod += 0.1;
     }
@@ -978,9 +1147,41 @@ setup.status.satisfact = function (amt, msg = "unknown cause", tgt = -1) {
     } else if (tit[trait].perversion >= 30 || tit[trait].bimbo >= 30) {
       mod -= 0.2;
     }
-    /******************************/
-    /* SITUATION TAGS PLACEHOLDER */
-    /******************************/
+
+  /******************************/
+  /* DIFFICULY SETTING          */
+  /******************************/
+  if (pc && ↂ.flag.organDonor < 3) {
+    mod += 0.3;
+    if (ↂ.flag.organDonor === 1) {
+      mod += 0.2;
+    }
+  }
+
+  /******************************/
+  /* SITUATION TAGS PLACEHOLDER */
+  /******************************/
+
+  if (pc) {
+    const drugs = setup.drug.isOn();
+    if (drugs.includes("heat") || drugs.includes("satyr")) { // decreases satisfaction gain, but also loss
+      if (amt < 0) {
+        mod -= 0.4;
+      } else {
+        mod += 0.4;
+      }
+    }
+    if (drugs.includes("focus") || drugs.includes("zone")) {
+      mod += 0.2;
+    }
+    if (drugs.includes("cum") || drugs.includes("cream")) {
+      mod += 0.3;
+    }
+  }
+
+  /******************************/
+  /* PROBABILITY SECTION
+  /******************************/
     // time for sign flip
     let r;
     let a = 1;
@@ -1019,7 +1220,7 @@ setup.status.satisfact = function (amt, msg = "unknown cause", tgt = -1) {
     }
     // accelerate loss of satisfaction due to need, and reduce gain. 10% per need level
     if (tit.status.need > 0) {
-      const thresher = (pc && ↂ.flag.organDonor) ? tit.status.need * 2 : tit.status.need;
+      const thresher = (pc && ↂ.flag.organDonor === 4) ? tit.status.need * 2 : tit.status.need;
       for (let i = 0, cc = Math.abs(change); i < cc; i++) {
         if (random(0, 9) < thresher) {
           change -= 1;
@@ -1043,7 +1244,7 @@ setup.status.satisfact = function (amt, msg = "unknown cause", tgt = -1) {
           if (pc) { // only PC gets bad end
             setup.status.badEnd("satisfaction");
           }
-      } else if (pc && tit.status.need > 2 && ↂ.flag.organDonor) {
+      } else if (pc && tit.status.need > 2 && ↂ.flag.organDonor === 4) {
         tit.status.need = 2;
         setup.status.badEnd("satisfaction");
       } else {
@@ -1108,6 +1309,11 @@ setup.status.lonely = function(amt, msg = "unknown cause", tgt = -1): void {
     }
     return;
   }
+
+  /******************************/
+  /* TRAIT/STATUS MODIFICATION  */
+  /******************************/
+
   const extro = tit[trait].extro;
   const intro = tit[trait].intro;
   const open = tit[trait].op;
@@ -1130,7 +1336,7 @@ setup.status.lonely = function(amt, msg = "unknown cause", tgt = -1): void {
       mod -= 5;
     }
     if (intro) {
-      tit.status.stress += random(1, 2);
+      tit.status.stress += random(0, 1);
     } else if (extro) {
       tit.status.stress -= random(0, 1);
     }
@@ -1149,7 +1355,7 @@ setup.status.lonely = function(amt, msg = "unknown cause", tgt = -1): void {
       mod -= 5;
     }
     if (extro) {
-      tit.status.stress += random(1, 2);
+      tit.status.stress += random(0, 2);
     } else if (intro) {
       tit.status.stress -= random(0, 1);
     }
@@ -1211,9 +1417,9 @@ setup.status.lonely = function(amt, msg = "unknown cause", tgt = -1): void {
 
 setup.status.record = function(stat, amt, msg = "unknown cause"): void {
   // adds information about status changes to flag variables!
-  const vars = ["happy", "stress", "lonely", "fatigue", "satisfy", "health"];
-  const neg = ["peepbad", "peepgood", "peepgood", "peepgood", "peepbad", "peepbad"];
-  const pos = ["peepgood", "peepbad", "peepbad", "peepbad", "peepgood", "peepgood"];
+  const vars = ["happy", "stress", "lonely", "fatigue", "satisfy", "health", "bimbo"];
+  const neg = ["peepbad", "peepgood", "peepgood", "peepgood", "peepbad", "peepbad", "peepgood"];
+  const pos = ["peepgood", "peepbad", "peepbad", "peepbad", "peepgood", "peepgood", "peepbad"];
   // check for valid variable name just in case
   if (!vars.includes(stat)) {
     aw.con.warn(`setup.status.record supplied invalid status value ${stat}`);
@@ -1242,7 +1448,7 @@ setup.status.record = function(stat, amt, msg = "unknown cause"): void {
 };
 
 setup.status.rPrint = function(stat) {
-  const vars = ["happy", "stress", "lonely", "fatigue", "satisfy", "health"];
+  const vars = ["happy", "stress", "lonely", "fatigue", "satisfy", "health", "bimbo"];
   if (!vars.includes(stat)) {
     return `Error in status record print function. Bad status variable supplied: ${stat}`;
   }
@@ -1258,10 +1464,10 @@ setup.status.rPrint = function(stat) {
 };
 
 setup.status.badEnd = function(reason: string) {
-  if (ↂ.flag.Prologue) {
+  if (ↂ.flag.Prologue || ↂ.flag.organDonor === 1) {
     return;
   }
-  if (ↂ.flag.badEnd !== "none") {
+  if (ↂ.flag.badEnd !== "none" && reason !== ↂ.flag.badEnd && ↂ.flag.organDonor > 2) {
     // immediate death because 2 doom flag conditions
     aw.con.warn(`Second active doom flag causes immediate bad end.`);
     setup.badEnd(ↂ.flag.badEnd);
@@ -1270,8 +1476,11 @@ setup.status.badEnd = function(reason: string) {
   }
 };
 
+/************************************************/
+/*   BOOBIE STUFFS!!! */
+/************************************************/
 
-setup.status.getMilked = function (pump: "hand" | "manual" | "electric" | "strong" | "super" | "industrial" | "magic" = "hand"): void {
+setup.status.getMilked = function (pump: "hand" | "manual" | "electric" | "strong" | "super" | "industrial" | "magic" | "baby" = "hand"): void {
   aw.L("pc");
   const T = State.temporary;
   T.milk = {};
@@ -1320,6 +1529,14 @@ setup.status.getMilked = function (pump: "hand" | "manual" | "electric" | "stron
   }
   const m = ↂ.pc.status.milk;
   switch (pump) {
+    case "baby":
+      if (m < 7 && random(1, 10) === 10) {
+        ↂ.pc.status.milk += 1;
+        T.milk.incr = true;
+      } else if (m < 4) {
+        ↂ.pc.status.milk += 1;
+        T.milk.incr = true;
+      }
     case "magic":
       if (m < 10 && random(1, 10) === 10) {
         ↂ.pc.status.milk += 1;
@@ -1395,7 +1612,7 @@ setup.status.getMilked = function (pump: "hand" | "manual" | "electric" | "stron
 setup.status.milk = function (): number | void {
   const ᛔ = ↂ.pc;
   const quality = ᛔ.body.lactation;
-  const capacity = ᛔ.body.totalMilkCapacity;
+  const capacity = (aw.chad.springer) ? Math.round(ᛔ.body.totalMilkCapacity / 4) : ᛔ.body.totalMilkCapacity;
   if (ᛔ.status.milk > 10) {
     ᛔ.status.milk = 10;
   }
@@ -1427,10 +1644,16 @@ setup.status.milk = function (): number | void {
   rate = Math.round(rate * q[quality]); // adjust for base lact ability
   rate = Math.round(rate * p[level]); // lactation level adjust
   rate = Math.round(rate / 4); // adjust for 15min increment from hourly calc
-  if (aw.chad.springer) {
-    rate = Math.round(rate / 4);
+
+  // Done with rate which is milk produced in ml
+
+  // check for hucow achievement
+  if (rate >= 2000) {
+    setup.achieve.new("mooHucow");
   }
+
   ᛔ.status.milkStore += rate;
+  ↂ.flag.statistics.milk += rate;
   let titsize = ᛔ.body.tits.base.size + Math.round(ᛔ.status.milkStore / 3);
   if (titsize > ᛔ.body.tits.lact.max) {
     titsize = ᛔ.body.tits.lact.max;

@@ -46,4 +46,6 @@ declare var TempState
 declare var da: any;
 declare var CryptoJS: any;
 declare var minDomActionDelay: number;
+declare var jQuery: any;
+declare var $: any;
 

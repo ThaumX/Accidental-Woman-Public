@@ -460,6 +460,18 @@ class Skills {
   public set curMartial(val: number) {
     aw.con.warn("Attempted to set 'curMartial' skill");
   }
+  public get fight(): number {
+    return Math.max(Math.round((this.martial * 2 + this.athletic) / 3), Math.floor(this.athletic / 2));
+  }
+  public set fight(val: number) {
+    aw.con.warn("Attempted to set a derived skill 'fight'")
+  }
+  public get curFight(): number {
+    return Math.max(Math.round((this.curMartial * 2 + this.curAthletic) / 3), Math.floor(this.curAthletic / 2));
+  }
+  public set curFight(val: number) {
+    aw.con.warn("Attempted to set 'curFight'skill")
+  }
   public get crime(): number {
     return Math.round((this.curComm + (this.curProstitute * 2) + (this.curProbSolving * 2)) / 5);
   }
@@ -512,7 +524,7 @@ class Skills {
   public set firearms(val: number) {
     val = Number(val);
     if (isNaN(val)) {
-      aw.con.warn(`Attempted to set kegel to non-number value!`);
+      aw.con.warn(`Attempted to set firearms to non-number value!`);
     } else {
       if (val > 200) {
         val = 200;

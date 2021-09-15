@@ -61,6 +61,7 @@ setup.npcgen.NPC = function({
     sched: {},
   } as any;
   npc.main.id = npcid;
+  npc.main.child = [];
   /*determine age and birthday*/
   if (Array.isArray(age)) {
     npc.main.age = setup.npcgen.age(age[0], age[1]);
@@ -207,7 +208,7 @@ setup.npcgen.age = function(min: number, max: number): number {
   let res;
   if ((min === 0 && max === 0) || min > max || min === max) {
     /*genning kids will require special age constraints*/
-    /*this determines an age range and genderates between it. This keeps age distribution appropriate for the game*/
+    /*this determines an age range and generates between it. This keeps age distribution appropriate for the game*/
     ar = [3, 8, 7, 4, 2, 1];
     arr = [
       [17, 20],
@@ -961,7 +962,7 @@ setup.npcgen.sexCharMale = function(npc: any, tits: number, cock: number): void 
   let arr;
   let t;
   /*NOW ONTO THE GOODS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-  /*male doesn't have pussy, herm calced seperately*/
+  /*male doesn't have pussy, herm calced separately*/
   npc.body.tits = {};
   npc.body.tits.size = 0;
   npc.body.tits.shape = "flat";

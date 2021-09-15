@@ -11,6 +11,7 @@ interface setupDrug {
   omniGen: (drug: "sex" | "alc" | "heat" | "satyr" | "focus" | "cum" | "zone" | "cream") => {};
   jonesing: (drug) => void;
   reduction: () => void;
+  isOn: () => string[];
 }
 
 if (setup.drug === null || setup.drug === undefined) {
@@ -22,9 +23,12 @@ setup.drug.jonesing = function(drug) {
   if (ↂ.pc.status.addict[drug] !== null && (ↂ.pc.status.addict[drug] + ↂ.pc.status.addict[need]) > 30) {
     const blah = Math.floor(ↂ.pc.status.addict[drug] / 10);
     const curve = [1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    if (random(curve[blah], 10) === 10) {
-      if (random(1, 5) === 7) { // approximate of 24 hours in case of 50 addiction.
-        ↂ.pc.status.addict.jonesing++;
+    const isOn = setup.drug.isOn();
+    if (!isOn.includes(drug)) {
+      if (random(curve[blah], 10) === 10) {
+        if (random(1, 5) === 1) { // approximate of 24 hours in case of 50 addiction.
+          ↂ.pc.status.addict.jonesing++;
+        }
       }
     }
   }
@@ -32,10 +36,10 @@ setup.drug.jonesing = function(drug) {
 
 setup.drug.reduction = function() {
   if (!ↂ.pc.mutate.cumpire) {
-    ↂ.pc.status.addict.cum -= Math.min(8, Math.round(ↂ.pc.status.addict.cum / 3));
+    ↂ.pc.status.addict.cum -= Math.min(6, Math.round(ↂ.pc.status.addict.cum / 4));
   }
-  ↂ.pc.status.addict.cream -= Math.min(8, Math.round(ↂ.pc.status.addict.cream / 3));
-  ↂ.pc.status.addict.sex -= Math.min(8, Math.round(ↂ.pc.status.addict.sex / 3));
+  ↂ.pc.status.addict.cream -= Math.min(6, Math.round(ↂ.pc.status.addict.cream / 4));
+  ↂ.pc.status.addict.sex -= Math.min(6, Math.round(ↂ.pc.status.addict.sex / 4));
   if (ↂ.pc.status.addict.alc < 50) {
     ↂ.pc.status.addict.alc -= Math.min(3, Math.round(ↂ.pc.status.addict.alc / 8));
   }
@@ -99,8 +103,54 @@ setup.drug.eatDrug = function(drug, amt) { // VODKA
       }
     }
     // aw.con.info(`Drug system inf: foo = ${foo}, blah = ${blah}, += = ${Math.floor(foo * curve[blah])}`);
+
+    // creating tracking omni timers
+    switch (drug) {
+      case "alc":
+        setup.omni.new("dose_alc");
+        break;
+      case "cream":
+        setup.omni.new("dose_cream");
+        break;
+      case "cum":
+        setup.omni.new("dose_cum");
+        break;
+      case "focus":
+        setup.omni.new("dose_focus");
+        break;
+      case "heat":
+        setup.omni.new("dose_heatA");
+        setup.omni.new("dose_heatB");
+        break;
+      case "satyr":
+        setup.omni.new("dose_satyrA");
+        setup.omni.new("dose_satyrB");
+        break;
+      case "sex":
+        setup.omni.new("dose_sex");
+        break;
+      case "zone":
+        if (amt === 5) {
+          setup.omni.new("dose_zoneS");
+        } else {
+          setup.omni.new("dose_zoneL");
+        }
+        break;
+    }
     aw.S("pc");
   }
+};
+
+setup.drug.isOn = function (): string[] {
+  const list = ["alc", "heat", "satyr", "focus", "zone", "cum", "cream", "sex", "heatfert", "satyrfert"];
+  const result = ["none"];
+  for (let i = 0; i < 10; i++) {
+    const n = `ison_${list[i]}`;
+    if (setup.omni.matching(n) > 0) {
+      result.push(list[i]);
+    }
+  }
+  return result;
 };
 
 setup.drug.omniGen = function(drug) { // VODKA
@@ -200,7 +250,7 @@ setup.drug.omniGen = function(drug) { // VODKA
     vomit.loc = "stomach";
     vomit.amt = 6;
     setup.condition.add(vomit);
-    setup.Dialog("Nausea","<<include [[WithdrawalThrowingUp]]>>");
+    setup.dialog("Nausea","<<include [[WithdrawalThrowingUp]]>>");
     flagVomit = true;
   }
   `;
@@ -208,7 +258,7 @@ setup.drug.omniGen = function(drug) { // VODKA
   if (random(${(severity + 1)}, 5) === 5 && this.times > 2 && flagVomit !== true && flagPsycho !== true && flagObsession !== true && flagMemoryLoss !== true) {
     setup.status.stress(${(severity * 3)}, "Drugs");
     setup.status.happy(-${(Math.round(severity / 2))}, "Drugs");
-    setup.Dialog("Anxiety","<<include [[WithdrawalAnxiety]]>>");
+    setup.dialog("Anxiety","<<include [[WithdrawalAnxiety]]>>");
     flagAnxiety = true;
   }
   `;
@@ -216,7 +266,7 @@ setup.drug.omniGen = function(drug) { // VODKA
   if (random(${(severity + 1)}, 5) === 5 && this.times > 2 && flagVomit !== true && flagAnxiety !== true && flagObsession !== true && flagMemoryLoss !== true) {
     setup.status.stress(${(severity * 4)}, "Drugs");
     setup.status.lonely(-${random(1, 2)}, "Drugs");
-    setup.Dialog("New friend!","<<include [[WithdrawalPsycho]]>>");
+    setup.dialog("New friend!","<<include [[WithdrawalPsycho]]>>");
     flagPsycho = true;
   }
   `;
@@ -224,14 +274,14 @@ setup.drug.omniGen = function(drug) { // VODKA
   if (random(${(severity + 1)}, 5) === 5 && this.times > 2 && flagVomit !== true && flagAnxiety !== true && flagPsycho !== true && flagMemoryLoss !== true) {
     setup.status.stress(${(severity * 2)}, "Drugs");
     setup.status.happy(-1, "Drugs");
-    setup.Dialog("Craving","<<include [[WithdrawalObsession]]>>");
+    setup.dialog("Craving","<<include [[WithdrawalObsession]]>>");
     flagObsession = true;
   }
   `;
   const memoryLoss = `
   if (random(${(severity + 1)}, 5) === 5 && this.times > 3 && flagVomit !== true && flagAnxiety !== true && flagPsycho !== true && flagObsession !== true) {
     setup.status.stress(${(severity * 2)}, "Drugs");
-    setup.Dialog("Where am I?!","<<include [[WithdrawalMemoryLoss]]>>");
+    setup.dialog("Where am I?!","<<include [[WithdrawalMemoryLoss]]>>");
     flagMemoryLoss = true;
   }
   `;

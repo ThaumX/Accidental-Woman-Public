@@ -281,7 +281,7 @@ setup.job = {
     ↂ.job.att.weekDays += 1;
     ↂ.job.att.showed[ᛔ.date[0]] = true;
     ↂ.job.att.weekHours += Math.round(wkm / 60);
-
+    setup.shop.emptyCart();
     // Adding some random content that fits the rank
     const valid: Content[] = [];
     for (let i = 0, c = aw.jobData[ↂ.job.code].jobContent.length; i < c; i++) {
@@ -317,7 +317,7 @@ setup.job = {
     const ᚥ = aw.jobData[ↂ.job.code];
     // clothes check
     let override = false;
-    if (ᚥ.clothesRequired() !== undefined) {
+    if (typeof ᚥ.clothesRequired === "function" && ᚥ.clothesRequired() !== undefined) {
       const clothesCheck = ᚥ.clothesRequired();
       if (!clothesCheck[0]) {
         override = true;
@@ -374,7 +374,7 @@ setup.job = {
           aw.con.info(`NPC chance is ${NpcChance}`);
           ↂ.flag.npcInducedInteractions.intType = "work";
           ↂ.flag.npcInducedInteractions.intNPC = npc;
-          if (NpcChance > 85) {
+          if (NpcChance > 85 && false) { // turned off temporary
             const args = {
               passage: "NPCinteraction-StrangerSayHi",
               block: false,
@@ -495,7 +495,7 @@ setup.job = {
     setup.status.happy(result.hap, "The grind of being employed");
     const txt2 = setup.job.taskOutcome(result, tCount);
     let junk;
-    if (job.stats.promote) {
+    if (job.stats.promote && (ↂ.job.stats.rank < aw.jobData[ↂ.job.code].ranks)) {
       junk = "<<replace '#jobContent'>><</replace>><<run setup.job.promote()>>";
     } else if (job.stats.fired) {
       junk = "<<replace '#jobContent'>><</replace>><<run setup.job.fire()>>";
@@ -835,12 +835,16 @@ setup.job = {
       ↂ.map.loc = ["world", "institute", false];
     }
     setup.fire();
+    ↂ.job.code = "";
     setup.map.nav(ↂ.map.loc[0], ↂ.map.loc[1]);
     setup.dialog("Quitting Your Job", "<<include [[JobberQuit]]>>");
   },
   // special text for getting promoted w/buttons
   promote(): void {
     let cock = "";
+    if (ↂ.job.stats.rank + 1 > aw.jobData[ↂ.job.code].ranks) {
+      // blep, max rank already, do nothing
+    } else {
     switch (ↂ.job.code) {
       case "IS" || "IB" || "IT":
         cock = "pulls you aside";
@@ -852,6 +856,7 @@ setup.job = {
     // tslint:disable-next-line:max-line-length
     const output = `<div><span class='quest' style='font-size:1.2rem;'>Congratulations!</span><br><p>@@.head3;Y@@our boss ${cock} at the end of the day to give you some good news; it seems your hard work is being rewarded with a promotion! The question is, do you want to accept? If you turn down the offer it may be a while before you get another one, but it'd probably be better than taking a job you aren't prepared for...</p></div><div><center><<button 'Turn it down'>><<set ↂ.job.stats.progress -= random(20,40)>><<status 0>><<run setup.job.endJob()>><</button>><<if ↂ.job.stats.rank >= 4>><span class='disabled'><<button 'Accept!'>><</button>></span><<else>><<button 'Accept!'>><<run setup.promote(false, false)>><<status 0>><<run setup.job.endJob()>><</button>><</if>></center></div>`;
     aw.replace("#jobContent", output);
+  }
   },
   // special text for getting fired
   fire(): void {
@@ -868,7 +873,7 @@ setup.job = {
     const output = `<div><span class='quest' style='font-size:1.2rem;'>Bad News!</span><br><p>@@.head3;Y@@our boss ${cock} at the end of the day to fire your ass. You gather your things and are escorted off the premises.</p></div><div><center><<button 'I Fail'>><<run setup.fire()>><<status 0>><<run setup.job.endJob()>><</button>></center></div>`;
     aw.replace("#jobContent", output);
   },
-  // special text for recieving a warning
+  // special text for receiving a warning
   warning(): void {
     let cock = "";
     switch (ↂ.job.code) {
@@ -1033,6 +1038,11 @@ setup.job = {
     // time to combine outputs
     const exitButton = (restricted === 0) ? `<div style="position:absolute;bottom:10px;right:10px;height:40px;width:100px;"><<button "CANCEL">><<replace "#awUIcontainer">><</replace>><</button>>` : "";
     const out = `<div id="jobChooseCunt"><div id="listCunt">${jobs}</div><div id="infoCunt"><div><h2>Select A Job</h2><b>Caution:</b> To comply with the <<info "guideJDA" "Jobs Distribution Act">> of 2027, the R.A.P.E.S. Job Application System automatically terminates your current employment upon successfully applying to a new position.</div></div>${exitButton}${scrp}</div>`;
+    // help message for new players
+    if (ↂ.flag.jobChooseTut) {
+      ↂ.flag.jobChooseTut = false;
+      setTimeout(() => setup.dialog("Job Selection Tutorial", "<<include [[JobChooseWarning]]>>"), 500);
+    }
     return out;
   },
   apply(code: string): void {

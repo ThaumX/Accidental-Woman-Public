@@ -23,7 +23,7 @@ She barely listens to you. @@.npc;Cool, cool! When I saw you, I just knew knew t
 Despite her cheerful tone, she seems a bit aggressive. <<if ↂ.pc.trait.perceptive > -1>>You realize that she's probably high.<<else>>It seems something is wrong with her, but you can't say what.<</if>> @@.pc;For what?@@
 </p>
 <p>
-She continues, oblivious to your guarded tone. @@.npc;Well, I am selling some stuff which you can use, I mean, for getting more productive and stuff... or maybe you just want some boost to your sexual thingies?@@
+She continues, oblivious to your guarded tone. @@.npc;Well, I am selling some stuff which you can use, I mean, for getting more productive and stuff... or maybe you just want some boost to your sexual drive?@@
 </p>
 <br>
 <<dialogchoice>>
@@ -88,7 +88,7 @@ She seems to be even more happy than before, her eyes widen with rapture at the 
 <<set _npc = "n1014">>
 <p>@@.pc;Why do you sell such stuff in the first place?@@</p>
 <<SCX>><<SC "CM" "10">><<if $SCresult[1]>>
-<p>For a fraction of the second her smile dissappears and her face gets rather sad. Then her smile returns but it is sardonic now.</p>
+<p>For a fraction of the second her smile disappears and her face gets rather sad. Then her smile returns but it is sardonic now.</p>
 <p>@@.npc;Surprised somebody in this dumb world even care. Long story short I am in very tight situation right now. With money, got it, buddy? Because of... this doesn't matter. Anyway, I bet you can get that I'd spend my time any other way than pushing drugs on this fucking street if I'd had any fucking choice. Well this and also...@@</p>
 <p>She seems to be surprised that she was so easy to hook up onto this confession and gets silent for some time.</p>
 <p>@@.npc;Are you going to buy this shit or not?@@</p>
@@ -97,7 +97,7 @@ She seems to be even more happy than before, her eyes widen with rapture at the 
 <<link "Look at the drugs she has.">><<intreplace>><<include "HannaBowen-Buy">><</intreplace>><</link>>
 </p>
 <<else>>
-<p>Her unnatural smile dissapears and she gets rather grim.</p>
+<p>Her unnatural smile disappears and she gets rather grim.</p>
 <p>@@.npc;Nothing of your business, buddy. Are you going to buy this shit or not?@@</p>
 <<link "Look at the drugs she has.">><<intreplace>><<include "HannaBowen-Buy">><</intreplace>><</link>>
 <<set aw.npc.n1014.rship.likePC -= 1>>
@@ -115,7 +115,7 @@ She seems to be even more happy than before, her eyes widen with rapture at the 
   <<set ↂ.flag.drug.residentialHannaSwap = State.active.variables.date[0]>>
   <</if>>
   <</silently>>
-  <br>@@.npc;<<= either("As they say, 'the highest quality for the affordable price', gal.", "You won't be dissapointed, sugarcube. Here:")>>@@<br>
+  <br>@@.npc;<<= either("As they say, 'the highest quality for the affordable price', gal.", "You won't be disappointed, sugarcube. Here:")>>@@<br>
   <br><<print $randomDrugs1>>
   <<print $randomDrugs2>>
   <<print $randomDrugs3>>
@@ -129,7 +129,7 @@ She seems to be even more happy than before, her eyes widen with rapture at the 
 :: HannaBowen-Talk [nobr]
 
 <<if ↂ.flag.hannaStory.stage === "borrowedMoney1">>
-<<f Y>>ou wave Hanna. She seems nervious and uncomfortable to see you.
+<<f Y>>ou wave to Hanna. She seems nervous and uncomfortable to see you.
 <p>@@.pc;Hi, Hanna!@@</p>
 <p>@@.npc;Ugh, hi. Howdy?@@</p>
 <<silently>>
@@ -183,6 +183,10 @@ She seems to be even more happy than before, her eyes widen with rapture at the 
 <<set _int = setup.interact.status.temp.interrupt>>
 <<set _ctag = setup.interact.status.temp.cTag>>
 <</silently>>
+<<if !aw.npc.n1014.rship.acquaint>>
+<p>@@.pc;Hi!@@</p>
+<p>Hanna smiles to you @@.npc;Howdy, sugar!@@</p>
+<<else>><<intgo "HannaBowen-Approach">><</if>>
 <<dialogchoice>>
 <<dbutt "Saying Hello">><<addTime 3>><<intgo "NPCinteraction-AcquaintRandom">>
 <<dtext "happy">>You don't have an objective, you just wanted to say hello since you were nearby.
@@ -216,9 +220,29 @@ She seems to be even more happy than before, her eyes widen with rapture at the 
 <</dialogchoice>>
 
 
+:: Hannaasks [nobr]
+
+<<set _hanna1 = either("Hey","Whats up? Its me, Hanna","<<greetings>>")>><<set _hanna2 = either("I am terribly sorry but I need to borrow some more money from you :(((","I hate to be annoying but I need to ask you once again for additional money...","I know how it sounds, but I really need to ask you for more money :(")>>
+<div id="hannaText">
+  <<texting "Hanna Bowen">>
+    <<textnpc>><<print _hanna1>>
+    <<textpc>>Hi!
+    <<textnpc>><<print _hanna2>>
+    <<textnpc>>I have serious problems here... Can you send me 100 more?
+    <<textpc>>Ugh...
+  <</texting>>
+  <<dialogchoice>>
+      <<dbutt "Sure">><<replace "#hannaText">><<include [[HannaBowen-quest-a-yes]]>><</replace>>
+      <<dtext "happy">>Oh, sure. Just return them and dont forget the money I previously borrowed you please.
+      <<dbutt "No">><<replace "#hannaText">><<include [[HannaBowen-quest-a-no]]>><</replace>>
+      <<dtext "arrogant">>Sorry, you havent returned money I already borrowed to you.
+    <</dialogchoice>>
+</div>
+
+
 :: HannaBowen-quest-a-yes [nobr]
 
-<<silently>><<run setup.omni.new("hannaAsksForMore")>><<set ↂ.flag.hannaStory.money += 100>><<set aw.npc.n1014.likePC += random(10, 15)>><<if ↂ.flag.hannaStory.stage === "none">><<set _hannaAns = "Of course, I'll send it now :)">><<else>><<set _hannaAns = "Oh, sure. Just return them and don't forget the money I previously borrowed you please.">><</if>><<set ↂ.flag.hannaStory.stage = "borrowedMoney1">><<status 0>><</silently>>
+<<silently>><<run setup.omni.new("hannaAsksForMore")>><<set ↂ.flag.hannaStory.money += 100>><<run aw.cash(-100, "misc")>><<set aw.npc.n1014.likePC += random(10, 15)>><<if ↂ.flag.hannaStory.stage === "none">><<set _hannaAns = "Of course, I'll send it now :)">><<else>><<set _hannaAns = "Oh, sure. Just return them and don't forget the money I previously borrowed you please.">><</if>><<set ↂ.flag.hannaStory.stage = "borrowedMoney1">><<status 0>><</silently>>
 <<texting "Hanna Bowen">>
   <<textpc>><<print _hannaAns>>
   <<textpc>>Yup, sent. Did you got them?
@@ -226,7 +250,7 @@ She seems to be even more happy than before, her eyes widen with rapture at the 
   <<textnpc>>Thank you soooo much!
   <<textnpc>>I'll return it at the end of the month, I promise!
   <<textnpc>>Thanks again! XOXO
-<</texting>>
+<</texting>><center>@@.com;To continue conversation, click the 'send' button (blue arrow).@@</center>
 <<safetoclose>>
 
 
@@ -240,13 +264,13 @@ She seems to be even more happy than before, her eyes widen with rapture at the 
   <<textpc>>No.
   <<textnpc>>I see...
   <<textnpc>>Sorry for bothering you :(
-<</texting>>
+<</texting>><center>@@.com;To continue conversation, click the 'send' button (blue arrow).@@</center>
 <<safetoclose>>
 
 
 :: HannaCaptured [nobr]
 
-<<addtime 19>><<stress 15 "Getting deep into gangster's business.">><<f Y>>ou start circling the reservoir from the south following the gravel path near the water. @@.mono;What am I doing here? <<if ↂ.flag.hannaStory.money > 100>>First she borrows <<print ↂ.flag.hannaStory.money>> bucks and now she just texts me some gibberish and here I am, spending my <<print setup.time.dayName()>> looking for her in this shithole...<<else>>She texted me some gibberish and here I am, spending my <<print setup.time.dayName()>> looking for her in this shithole...<</if>>@@ The road slowly skews to the north leading to the gray water-cleaning facility building. @@.npc;I even have no idea if she is in any troubles or just has yet another drug-induced delusions...@@
+<<addtime 19>><<stress 15 "Getting deep into gangster's business.">><<set aw.npc.n1014.likePC += 7>><<f Y>>ou start circling the reservoir from the south following the gravel path near the water. @@.mono;What am I doing here? <<if ↂ.flag.hannaStory.money > 100>>First she borrows <<print ↂ.flag.hannaStory.money>> bucks and now she just texts me some gibberish and here I am, spending my <<print setup.time.dayName()>> looking for her in this shithole...<<else>>She texted me some gibberish and here I am, spending my <<print setup.time.dayName()>> looking for her in this shithole...<</if>>@@ The road slowly skews to the north leading to the gray water-cleaning facility building. @@.npc;I even have no idea if she is in any troubles or just has yet another drug-induced delusions...@@
 <p>Building grows bigger and soon you face its concrete walls. @@.mono;Gosh and why did I ever do all that way? It is just a facility building, Hanna is 100% not here.@@ Just for the sake of pure stubbornness you get to the rusty metal door with "Access restricted" sign and pull the handle. To your surprise, it is unlocked and you see a dim-lit passage luring you inside.</p>
 <p>You watch around but there is nobody in sight. Taking a couple of steps inside you notice that you unconsciously try to make as little noise as you can passing along the various machinery, old wooden and plastic crates, and a "Caution! Wet floor" sign. At the end of the hall, you see the open arc leading to the big darkish void; it takes another minute of cautious sneaking until you got to it. You are ready to step inside when muffled voices make you freeze with your leg still in the mid-air.</p>
 <p>@@.npc;...ease, I will return everything! You must believe me!@@ It is hard to say whose voice it is but you are sure that it belongs to a young woman.</p>
@@ -261,13 +285,14 @@ She seems to be even more happy than before, her eyes widen with rapture at the 
 <<dialogchoice>>
 <<dbutt "Accident">><<addTime 3>><<scenego "HannaCaptured-accident">>
 <<dtext "awkward">>I am here by the accident, I probably should go now!
-<<dbutt "Police">><<addTime 3>><<intgo "HannaCaptured-police">>
+<<dbutt "Police">><<addTime 3>><<scenego "HannaCaptured-police">>
 <<dtext "pain">>What are you doing with her? I'm gonna call the police!
-<<dbutt "Sort out">><<addTime 3>><<intgo "HannaCaptured-sort out">>
+<<dbutt "Sort out">><<addTime 3>><<scenego "HannaCaptured-sortout">>
 <<dtext "smug">>I heard my friend Hanna have some trouble, can we discuss it?
-<<dbutt "Gun" "setup.hasGun()">><<addTime 3>><<intgo "HannaCaptured-gun">>
+<<dbutt "Gun" "setup.hasGun()">><<addTime 3>><<scenego "HannaCaptured-gun">>
 <<dtext "mad">>I have a gun and will use it, bastard. Let her go!
 <</dialogchoice>>
+<<status 0>>
 
 
 :: HannaCaptured-accident [nobr]
@@ -278,7 +303,7 @@ She seems to be even more happy than before, her eyes widen with rapture at the 
 <<dialogchoice>>
 <<dbutt "Lie">><<addTime 3>><<scenego "HannaCaptured-accident-lie">>
 <<dtext "disturbed">>I was just hiking and saw the door was opened...
-<<dbutt "Truth">><<addTime 3>><<intgo "HannaCaptured-sortout">>
+<<dbutt "Truth">><<addTime 3>><<scenego "HannaCaptured-sortout">>
 <<dtext "confused">>Hanna, the friend of mine wrote me so I came here.
 <</dialogchoice>>
 
@@ -299,9 +324,9 @@ She seems to be even more happy than before, her eyes widen with rapture at the 
 <<dialogchoice>>
 <<dbutt "Pay" _cash>><<addTime 27>><<scenego "HannaCaptured-pay">>
 <<dtext "smile">>Can I just pay for her?
-<<dbutt "Sex">><<addTime 3>><<intgo "HannaCaptured-sex">>
+<<dbutt "Sex">><<addTime 3>><<scenego "HannaCaptured-sex">>
 <<dtext "bimbo">>Maybe I can compensate it in some <i>other</i> way?
-<<dbutt "Leave">><<addTime 6>><<intgo "HannaCaptured-leave">>
+<<dbutt "Leave">><<addTime 6>><<scenego "HannaCaptured-leave">>
 <<dtext "confused">>It's her troubles. I won't tell anybody. Can I leave?
 <</dialogchoice>>
 
@@ -331,7 +356,6 @@ She seems to be even more happy than before, her eyes widen with rapture at the 
 <<f Y>>ou try to be as convincing as possible. @@.pc;I was just hiking and saw the door was opened...@@
 <p>@@.npd;Yes, sure. Sounds very plausible, miss. Let me guide you outside.@@ Oleg steps to you. @@.npd;It seems two girls will float today, Fedor.@@ @@.pc;Oh, please, no!..@@ His knuckle flies rapidly to your face...</p> 
 <center><<button "Pass out">><<run setup.badEnd("suicide")>><</button>></center><</if>>
-<</if>>
 
 
 :: HannaCaptured-pay [nobr]
@@ -367,10 +391,57 @@ She seems to be even more happy than before, her eyes widen with rapture at the 
 
 :: HannaCaptured-leave [nobr]
 
-<<run setup.npcInfo.level("n1005", {bodyGeneral: true})>><<set aw.npc.n1005.rship.acquaint = true>><<run setup.npc.acquainted.push("n1005")>><<set aw.npc.n1005.rship.likePC += 20>><<set ↂ.flag.hannaStory.stage = "died">><<script>>delete aw.npc.n1014<</script>><<status 0>>
+<<run setup.npcInfo.level("n1005", {bodyGeneral: true})>><<set aw.npc.n1005.rship.acquaint = true>><<run setup.npc.acquainted.push("n1005")>><<set aw.npc.n1005.rship.likePC += 25>><<set ↂ.flag.hannaStory.stage = "died">><<script>>delete aw.npc.n1014<</script>><<status 0>>
 <p>@@.pc;It's her troubles. I won't tell anybody. Can I leave?@@ Tsar looks at you curiously than shrugs once again. @@.npc;Nooo, please, <<name>>! Don't leave meeeeee...@@ Fedor takes a step to the girl and punches her into her face and Hanna's head twitches cutting off her desperate cry for help.</p>
 <p>@@.npd;Well, I am glad you understand the situation. I will take your word, miss. I am sure you remember that if anything it is a small town, right?@@ You nod. @@.npd;...then I think you are free to leave the place, you certainly don't want to see what will come next. Let me guide you.@@ With a elegant gesture he offers you his hand; dropping last glance at poor Hanna sobbing with Fedor standing over her you accept Tsar's hand and let him to guide you to the exit. @@.mono;Oh, poor Hanna...@@</p>
 <p>You blink a couple of times when you get outside from the dark building. Tsar lits up a cigarette watching the reservoir. @@.npd;You seem like a reasonable women, miss <<surname>>. If you need something, just call...@@ @@.rumble;BAM!@@ @@.npd;...me. I provide a plenty of services in the town.@@ You almost jumped with the sound of the gunshot from behind but squeeze out a polite smile. @@.pc;Thank you, Oleg. I appreciate it.@@</p>
 <p>@@.npd;Then good day to you, miss <<surname>>.@@</p>
 <center><<button "Leave">><<sceneclose>><</button>></center>
 
+
+:: HannaAskingFirst [nobr]
+
+<div id="hannaText"><<texting "Hanna Bowen">>
+  <<textnpc>>Hey, <<name>>!
+  <<textpc>>Hi?
+  <<textnpc>>I know that we are not super close pals but I am in a really tight spot rn -_-
+  <<textnpc>>Can you borrow me <<mon>>100?
+  <</texting>><center>@@.com;To continue conversation, click the 'send' button (blue arrow).@@</center>
+  <<dialogchoice>>
+    <<dbutt "Sure">><<replace "#hannaText">><<include [[HannaBowen-quest-a-yes]]>><</replace>>
+    <<dtext "happy">>Of course, Ill send it now :)
+    <<dbutt "No">><<replace "#hannaText">><<include [[HannaBowen-quest-a-no]]>><</replace>>
+    <<dtext "arrogant">>Sorry, I have no free money now :(
+  <</dialogchoice>>
+</div>
+
+
+:: hannaInTroublesText [nobr]
+
+  <<texting "Hanna Bowen">>
+    <<textnpc>>Help Iam at tesla res they tookme pls co
+    <<textpc>>Umm, what?<br><br>Hello?
+    <<textpc>>Where are you?<br><br>Hey, are you still there?
+  <</texting>>
+  <br>@@.mono;Hmm, thats weird. We are not so close, why did she wrote me in the first place?@@
+  <<safetoclose>><<set ↂ.flag.hannaStory.stage = "askedForHelp">><<run setup.omni.new("hannaDeathCounter")>><<status 0>>
+
+
+:: hannaReturnsMoney [nobr]
+
+  <<set _monHan = 2000 + ↂ.flag.hannaStory.money>><<texting "Hanna Bowen">>
+    <<textnpc>>Hi, sugarcube!
+    <<textnpc>>Just wanted to share some good news!
+    <<textnpc>>I got a job and well
+    <<textnpc>>I am clean for last two weeks too
+    <<textpc>>Oh, thats cool! Congrats!
+    <<textnpc>>Thanks! ^_^ 
+    <<textnpc>>And also, I sent you all my debt, I am really grateful!
+    <<textpc>>Oh, thanks, you shouldnt do that to be honest.
+    <<textnpc>>It is okay, sugar, this is a honestly earned money and I want you to take them.
+    <<textpc>>Oh okay
+    <<textpc>>Well, see ya! ;)
+    <<textpc>>And thanks once again.
+    <</texting>>
+    You check your balance and see that @@.mon;<<mon>><<= _monHan>>@@ got to your balance.
+    <<safetoclose>><<run aw.cash(_monHan, "misc")>>

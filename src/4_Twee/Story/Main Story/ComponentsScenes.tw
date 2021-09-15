@@ -1,0 +1,686 @@
+:: IrFieldCoherer [nobr]
+
+<<silently>>
+<<status 1>>
+<<set ↂ.flag.main.components[0] = 1>>
+<<addtime 4>>
+<<status 0>>
+<</silently>>
+<<f y>>ou look at the notes <<if $AW.startMale>>Lily<<else>>Dr. Richards<</if>> has left for you.<br>
+<center>[img[IMG-Component-Koherer]]</center>
+<p><span class="handwriting wdGray">IR Field Coherer is a pretty common part, it is used in many biologies and genetic scientific equipment. Well, I mean in high-end equipment. The trick is that I already 'borrowed' four of them while building and testing the machine. Rejuvenator needs only one to be built but... well I'll admit I just burned first three trying to tune the coherency, those field coherers were never intended to be used like that in the first place. Anyway, they noticed that valuable parts began to go missing and started the investigation. Right now I am safe but I just can't risk taking one more coherer from work so we need to find it elsewhere. I'd say the most obvious place to find it is the PSGMRI scanners. I saw at least one of those in the hospital here in the town. Maybe they have some replacement parts in the storage in the building too, this is pretty likely since field coherers are not very sturdy. Or you may just break the expensive machine and salvage the part. You won't miss it, it is a black case, just look at the picture. Anyway, please don't put yourself under any risk, the worst thing we can end up with is you get caught red-handed stealing pricey equipment from the hospital.</span></p>
+<p>You think about the task for a minute. @@.mono;I doubt there is way too much security in the hospital... but on the other hand I can guess there are always some people in the building, it is a 24/7 medical facility after all... Not that I have any choice, right?@@</p>
+<p>Still thinking about the details you stand up from the table.</p>
+
+
+:: ResonanceOscillator [nobr]
+
+<<silently>>
+<<status 1>>
+<<set ↂ.flag.main.components[1] = 1>>
+<<addtime 6>>
+<<script>>
+  let date = State.active.variables.date;
+  if (date[0] > 5) {
+    if (date[1] > 3) {
+      date[1] = 1;
+      date[0] = 1;
+    } else {
+      date[1] += 1;
+      date[0] = 1;
+    }
+  } else {
+    date[0] += 2;
+  }
+  let timeo = (setup.time.dateToVal(date) + 1200);
+  setup.sched.new("Meet Maria", "reminder", true, timeo, false, false, false, true, false, "You need to meet Maria at Hinden Burger and take the Oscillator<</if>>.", "Gathering the oscillator");
+  const omni = {
+    name: "Maria",
+    type: "single",
+    output: "interact",
+    duration: 2000,
+    icon: "none",
+    run: `
+    ↂ.flag.main.oscillatorStage[0] = "meeting";
+    aw.S();
+    `,
+  };
+  setup.omni.new(omni);
+<</script>>
+<<status 0>>
+<</silently>>
+<<f y>>ou look at the notes <<if $AW.startMale>>Lily<<else>>Dr. Richards<</if>> has left for you.<br>
+<center>[img[IMG-Component-Oscillator]]</center>
+<p><span class="handwriting wdGray">Getting the Resonance Oscillator is a bit of a gamble. Those are mainly used in military equipment, some kind of missiles targeting, or something. It seems they use those for advanced optics but in our case, it serves as a focusing tool for the helium-argon lasers to control the dynamic frequency of the beam and induce gene rearrangements. Those oscillators have never made their way to the public market so I basically repaired one I have found on the black market while building the first rejuvenator. That one was heavily damaged but the optical fiber coils were still intact so it was just a matter of time and dedication to making it work once again. Luckily for us, I have obtained the contacts of this girl, Maria. I have no idea where she got the oscillator but she claims it works fine and although it is an older version I am almost sure we can use it. We arranged the meeting in two days at "Hinden Burger", she will be wearing a black coat. I know that it sounds like a crazy spy TV series but she insisted on meeting there, she even provided me with a code word, "Astoria", Don't forget it please, we can't afford to lose the chance to put our hands on this oscillator, it can take months to find another one.<br><br>P.S. I already paid for the thing so you just need to say the password and take the box.<br><br>P.P.S. Check it before leaving!</span></p>
+<p>You raise your brow. @@.mono;Looks like the easy task...@@</p>
+<p>Still thinking about the details you stand up from the table.</p>
+
+
+:: MagneticFluxCapacitor [nobr]
+
+<<silently>>
+<<status 1>>
+<<set ↂ.flag.main.components[2] = 1>>
+<<addtime 8>>
+<<status 0>>
+<</silently>>
+<<f y>>ou look at the notes <<if $AW.startMale>>Lily<<else>>Dr. Richards<</if>> has left for you.<br>
+<center>[img[IMG-Component-Capacitor]]</center>
+<p><span class="handwriting wdGray">The Magnetic Flux Capacitor is the important piece we need. To be precise we actually need to salvage it for the impeller but it is nearly impossible to get the thing separately so we are hunting for the Capacitor. Those things are also pretty rare due to the rare materials involved in the manufacturing and the fact that it has not much used out of biology researches at this moment. Due to legal issues and that less-than-sane corporate war with China, high tech things like this are under heave restrictions... Anyway, my good friend told me that this Russian mafia guy, Oleg Bestiarovich may have some. My friend from the town archive told me that there is a pretty big warehouse registered at his wife at the industrial district. Most probably it is the place where he stores all his shady business supplies. Also, he has some legal business in the club district so maybe you can find him there if you want to negotiate the deal. Frankly, I really have no idea how to get it. Flux Capacitors are extremely pricey and buying it on the dark market will crank up the price even higher. I'd say try to test the waters and for the love of God, stay safe! Those guys are shady as heck.</span></p>
+<p>@@.mono;Oh, this certainly doesn't look like an easy task...@@ You frown trying to think about the best way to execute this task. <<if ↂ.flag.hannaStory.stage == "died" && aw.npc.n1005.rship.likePC > 20>>@@.mono;Oleg said that he can help me if I need something, maybe it is good timing for asking for a favor?@@<<elseif aw.npc.n1005.rship.likePC > 10>>@@.mono;It is nice that I know Oleg, I guess it will surely help me.@@<<else>>@@.mono;Ugh, not gonna lie to me, I am a little bit anxious to meet this guy...@@<</if>> You bite your lip. @@.mono;And the other alternative is... to steal it from his warehouse? Gosh, this sounds like the worst plan ever... but to think of... well I better do it in the evening when there are fewer people I guess? <<if setup.hasGun()>>Worst the case I have a gun, right?<<else>>Maybe I should buy a gun? Gosh, this sounds so stupid and blockbuster-level silly...<</if>>@@</p>
+<p>It takes about ten minutes of thinking before you finally decide on your plan. You sigh and stand up.</p>
+
+
+
+:: SpectralLensesSet [nobr]
+
+<<silently>>
+<<status 1>>
+<<set ↂ.flag.main.components[3] = 1>>
+<<status 0>>
+<</silently>>
+<<f y>>ou look at the notes <<if $AW.startMale>>Lily<<else>>Dr. Richards<</if>> has left for you.<br>
+<center>[img[IMG-Component-Lenses]]</center>
+<p><span class="handwriting wdGray">Spectral lenses set is a bit of a gamble. It is pretty legal to buy although I know only two places in the valley we can obtain it. Such lenses are used in some high tech equipment, so try to look at the tools and hardware shops in the town, maybe we could find it for a reasonable price. The second option sounds more like insanity for me so it should be a last resort, to be honest. I know they have a stock of them at the facility to the north of the Freeman Rd. This facility is not what it looks like and I don't know much about it. They pretend it is just a farm but it is certainly has nothing to do with agriculture. Still, I overheard one of the guys working with me talking about lens sets they use so they 100% must have some stock there. I really can't ask you to try to get into well-protected institute location so please try your best at obtaining it legally.</span></p>
+<p>You try to remember if you have seen any hardware stores in the town. @@.mono;Hmmm... I can swear I saw one in the downtown... what was its name?@@</p>
+<p>Still thinking about the details you stand up from the table.</p>
+
+
+:: IrFieldCoherer-hopsital-a [nobr]
+
+<<f y>>ou glance down the main hall, medical personnel, and patients are going on with their business and it seems nobody is particularly interested in you. @@.mono;Okay, <<name>>, stay cool, you aren't doing anything illegal...yet.@@ Trying to look as relaxed as you can you walk down the hall looking at the signs hanging below the ceiling.
+<p><center>[img[IMG-QuestIR-signs]]</center></p>
+<p>@@.mono;Hmmm...@@</p>
+
+<center><<button "Services unit">><<scenego "IrFieldCoherer-hospital-services">><</button>><<tab>><<button "Patient unit">><<scenego "IrFieldCoherer-hospital-patient">><</button>><<tab>><<button "Cardiac care">><<scenego "IrFieldCoherer-hospital-cardiac">><</button>><<tab>><<button "Medical unit">><<scenego "IrFieldCoherer-hospital-medical">><</button>></center>
+
+
+:: IrFieldCoherer-hospital-services [nobr]
+
+<div id="bust">
+<<addtime 4>><<updatebar>><<f y>>ou enter the services unit hall. The place is pretty crowded with lots of visitors and general feeling of a busy public place, you don't look out of the line here. The cafeteria, pharmacy and the gift shop don't pose any interest to you although "Administration wing" may be the one you are looking for. <<if !$IRcard>>You pull the doorknob on the door to the wing but it seems it is locked and can be opened only with a keycard or a code.<br><center><<button "Medical unit">><<scenego "IrFieldCoherer-hospital-medical">><</button>><<tab>><<button "Patient unit">><<scenego "IrFieldCoherer-hospital-patient">><</button>><<tab>><<button "Cardiac care">><<scenego "IrFieldCoherer-hospital-cardiac">><</button>></center><<else>>You push the badge to the door of the administration wing and the lock beeps shining with a green light. You pull the door and <<link "get inside">><<scenego "IrFieldCoherer-hospital-administrative">><</link>>.<</if>>
+<<set _rando = random(1, State.active.variables.bustChance)>><<if _rando > 9>>
+<<include [[IrFieldCoherer-hospital-busted-a]]>>
+<<elseif _rando > 15>>
+<<include [[IrFieldCoherer-hospital-busted-b]]>>
+<</if>>
+<<set $bustChance += 1>><<updatebar>><<status 0>>
+</div>
+
+:: IrFieldCoherer-hospital-medical [nobr]
+
+<div id="bust">
+<<addtime 4>><<updatebar>><div id="choice"><<f y>>You enter the medical ward. It is pretty noisy here with all the medical equipment beeping and personnel chats. Two scrubs pushes the medical bed with a patient along the corridor and you lean to the wall to let them pass. @@.mono;Hmm, do it looks like a place I am looking for?@@ You go deeper the <<link "ward">><<set $bustChance += 1>><<notify>>The room 101 looks empty.<</notify>><</link>> and <<link "looking">><<set $bustChance += 1>><<notify>>102 seems to be a procedure room, the nurse is preparing it for the operation.<</notify>><</link>> at <<link "the signs">><<set $bustChance += 1>><<notify>>A patient at 103 looks at you confused and you apologize.<</notify>><</link>> on <<link "the doors">><<if $IRcard == false>><<set $bustChance += 1>><<replace "#choice">><<f t>>he 104 is empty and you are going to leave but at the last moment you notice the white doctor's coat hanging from the stool. It seems there is a badge. Slipping inside you take the coat.<p><center><<button "Put it on">><<set ↂ.ward.dress.push("tvvc")>><<run setup.clothes.wear("tvvc")>><<run setup.clothes.remove("top")>><<run setup.clothes.remove("bottom")>><<replace "#choice">><<f Y>>ou take the coat and put it on, luckily it fits you. You leave the room.<br><center><<button "Services unit">><<scenego "IrFieldCoherer-hospital-services">><</button>><<tab>><<button "Patient unit">><<scenego "IrFieldCoherer-hospital-patient">><</button>><<tab>><<button "Cardiac care">><<scenego "IrFieldCoherer-hospital-cardiac">><</button>></center><<set $IRcard = true>><<set $bustChance = 3>><</replace>><</button>><<tab>><<button "Just take the badge">><<set $IRcard = true>><<replace "#choice">><<set $IRcard = true>><<set $IRcoat = true>><<f Y>>ou take the badge from the coat and leave the room.<br><center><<button "Services unit">><<scenego "IrFieldCoherer-hospital-services">><</button>><<tab>><<button "Patient unit">><<scenego "IrFieldCoherer-hospital-patient">><</button>><<tab>><<button "Cardiac care">><<scenego "IrFieldCoherer-hospital-cardiac">><</button>></center><</replace>><</button>></center></p><</replace>><<else>><<notify>>Room 104 is empty.<</notify>><</if>><</link>>...
+<center><<button "Services unit">><<scenego "IrFieldCoherer-hospital-services">><</button>><<tab>><<button "Patient unit">><<scenego "IrFieldCoherer-hospital-patient">><</button>><<tab>><<button "Cardiac care">><<scenego "IrFieldCoherer-hospital-cardiac">><</button>></center>
+<<set _rando = random(1, State.active.variables.bustChance)>><<if _rando > 9>>
+<<include [[IrFieldCoherer-hospital-busted-a]]>>
+<<elseif _rando > 15>>
+<<include [[IrFieldCoherer-hospital-busted-b]]>>
+<</if>>
+<<set $bustChance += 1>><<updatebar>><<status 0>>
+</div>
+</div>
+
+
+:: IrFieldCoherer-hospital-administrative [nobr]
+
+<<addtime 5>><<f t>>he door softly clicks closing behind you and you take a step forward trying to look like you belong here. This part is less shiny and classy but you don't see any dirt or scratches; it is just about the walls finish being cheaper since this part is not intended to be visited by the general public.
+<p>As you walk down the area you glance over the open doors and signs trying to find any directions to the storage. @@.mono;"Main archive", no... "Drug storage 4", hmm nope... "Bookkeeping"... certainly not the room... Oh, now it is hit or miss. I won't be able to talk myself out of problems if somebody asks me what the heck I am doing here... I must act quickly if I want to steal this shit.<<if $IRcoat == true>>I hope my little masquerade gonna help me to stay unnoticed...<</if>>@@ <<if $IRcoat == true>>You look down at the badge still hanging on your white coat to see "Mark Zigler, md., Pediatric ward." and a picture of a smiling bald man in his fifties wearing thick glasses. @@.mono;Well... shit.@@<</if>></p>
+<p>Hypnotized by the pattern of the doors you almost miss the door with a "Storage B: equipment, PDI, CT, PSGMRI" sign. @@.mono;Oh, that's it!@@ You glance to the end of the hall from where you came before pushing the door. It seems that everything's clear and you <<link "enter the storage room">><<scenego "IrFieldCoherer-hospital-storage">><</link>>.</p>
+
+
+:: IrFieldCoherer-hospital-storage [nobr]
+
+<<addtime 27>><<f y>>ou blink to let your eyes to adjust to the lighting. For some reason, the place is very well lit and it takes a couple of seconds to get used to it.
+<p>Shelves are going to the end of the spacious room and you sigh. @@.mono;It will take days to find the bloody coherer... if it is here which I still doubt...@@</p>
+You look through the shelves trying to get the system used in this storage. @@.mono;Black box... black box... where the hell are you?@@ You finished checking two rows when you hear the door creaks.
+<p><center><<button "Hide">><<scenego "IrFieldCoherer-hospital-storage-hide">><</button>><<tab>><<button "Talk">><<scenego "IrFieldCoherer-hospital-storage-talk">><</button>></center></p><<status 0>>
+
+
+:: IrFieldCoherer-hospital-storage-talk [nobr]
+
+<<addtime 21>><<set ↂ.flag.main.components[0] = 2>><<stress 5 "Hospital infiltration">><<f y>>ou face the door trying to look like a person who has an absolute right to be here. Two female doctors enter your sight giggling and kissing. One of them notices you and her eyes widen as she pushes the redhead to stop her. @@.npc;Ugh, sorry, we thought it is empty... oh, sorry!@@ she chirps pulling her friend to the exit. 
+<p>They close the door and you are alone once again. @@.mono;Hmm, it seems I interrupted some action, tee-he. At least they were too embarrassed to ask questions. Phew. Okay, now back to searching...@@</p>
+<center>[img[IMG-Component-Koherer]]</center>
+<p>It takes you another twenty minutes to finally locate the box with "PSGMRI Infrared Field Coherer, handle with care" label. You silently gasp and take a couple of deep breaths to keep your heartbeat stable. @@.mono;Here you are! Now come to mommy...@@ Carefully stretching to the shelf you take the small but surprisingly heavy box and explore it. On closer inspection, it seems that the box inside looks the same you remember from <<if $AW.startMale>>Lily's<<else>>Dr. Richards<</if>> notes. @@.mono;Wohoo!@@</p>
+<p>With a determined and bored look you walk back the hall to the services ward. The door doesn't require any identification from the inside you make your way out with your precious box by just pushing the door. Once again in the services ward, you head to the hospital entrance. The security officer looks at you but does nothing and you cross the threshold.</p>
+<p><center><<button "Leave">><<sceneclose>><</button>></center></p><<status 0>>
+
+
+:: IrFieldCoherer-hospital-storage-hide [nobr]
+
+<<addtime 19>><<arousal 1>><<set ↂ.flag.main.components[0] = 2>><<f y>>ou crouch between the shelves hoping that intruders won't go to your row. In a moment or two, you hear footsteps followed by a female giggling and stretch your neck to hear what is happening.
+<p>@@.npc;Oh, right here? But somebody can come here any moment...@@ The second voice is female too but it is deeper and more hoarse. @@.npd;Don't worry, silly, nobody will come here. Come here, I was dreaming of your sweet lips for the whole week long.@@ You hear moist kissing and moans. @@.npc;Which... lips, Alexa?@@ @@.npd;All of them, silly!@@</p>
+<center>[img[IMG-Component-Koherer]]</center>
+<p>Moist sounds continue and you feel like blushing. @@.mono;It seems I stuck here for at least some time... at least they don't seem to pose any threat to me since they are too focused on each other...@@ Sitting on the floor you gaze at the shelves in front of you mindlessly listening to the sounds of Alexa licking off her girlfriend when you suddenly see the cardboard box with a "PSGMRI Infrared Field Coherer, handle with care". You silently gasp and take a couple of deep breaths to keep your heartbeat stable. @@.mono;Here you are! Now come to mommy...@@ Carefully stretching to the shelf you take the small but surprisingly heavy box and explore it. On closer inspection, it seems that the box inside looks the same you remember from <<if $AW.startMale>>Lily<<else>>Dr. Richards<</if>>'s notes. You risk glancing over the shelves to locate the couple. They hid in three or four rows away from you and judging by the sounds they are too busy to pay attention to anything around them.</p>
+<p><center><<button "Sneak away from the storage">><<scenego "IrFieldCoherer-hospital-storage-away">><</button>><<tab>><<button "Wait">><<scenego "IrFieldCoherer-hospital-storage-wait">><</button>></center></p><<status 0>>
+
+
+:: IrFieldCoherer-hospital-storage-away [nobr]
+
+<<f c>>rouching as low as you can you walk out of your hiding spot and head to the door. Turning your head you see raised legs with white sneakers and a brunette in a lab coat between them three rows away from you. @@.npc;Mhmm! Mmmfp!@@ In a minute, twenty light steps, and twice more new gray hairs you get to the door. With a hand on a knob, you wait for a loud moan and turn it. One more step and you are outside leaving two doctors for their intimacy and orgasms. @@.mono;Phew. Now the easy part, just walk outside... you can do it, <<name>>, you can do it...@@
+<p>
+With a determined and bored look, you walk back the hall to the services ward. The door doesn't require any identification from the inside you make your way out with your precious box by just pushing the door. Once again in the services ward, you head to the hospital entrance. The security officer looks at you but does nothing and you cross the threshold.</p>
+<p><center><<button "Leave">><<sceneclose>><</button>></center></p>
+
+
+:: IrFieldCoherer-hospital-storage-wait [nobr]
+
+<<addtime 19>><<f y>>ou wait with the box on your knees and listening to the sex noises. @@.npc;Mhmm! Mmmfp!@@ It takes another ten or so minutes until the girl finally cums under Alexa's tongue. @@.npc;Oh god, ohgoood...@@ @@.npd;Pshh! Quieter!@@ @@.npc;Ohmhmhmhm, yeaaah!@@ Slurping sounds stop just to be replaced with clothes ruffling and kissing. @@.npc;I love you!@@ @@.npd;I know, right? Now let's go until somebody noticed us. I expect you to return me the favor by the way, hah!@@ After one last kiss steps go away from to the door and after a moment or two, you are alone once again. You wait for a minute to let them leave the hall outside and exit the storage yourself.
+<p>With a determined and bored look you walk back the hall to the services ward. The door doesn't require any identification from the inside you make your way out with your precious box by just pushing the door. Once again in the services ward, you head to the hospital entrance. The security officer looks at you but does nothing and you cross the threshold.</p>
+<p><center><<button "Leave">><<sceneclose>><</button>></center></p>
+
+
+:: IrFieldCoherer-hospital-patient [nobr]
+
+<div id="bust">
+<<addtime 6>><<updatebar>><<f y>>ou enter the patient unit. The hall is a maze of corridors with many doors to the patient rooms spiced up with occasional recreation areas with couches and coffee tables. There is not that much people and you risk <<link "trying">><<set $bustChance += 1>><<notify>>Room 207 is empty.<</notify>><</link>> to <<link "peek">><<set $bustChance += 1>><<notify>>208 is locked.<</notify>><</link>> into <<link "some">><<set $bustChance += 1>><<notify>>209 is locked too.<</notify>><</link>> of <<link "the">><<set $bustChance += 1>><<notify>>A patient in 210 is sleeping and you leave silently.<</notify>><</link>> rooms <<link "at">><<set $bustChance += 1>><<notify>>211 is a broomstick cupboard.<</notify>><</link>> the <<link "hall">><<set $bustChance += 1>><<notify>>THe doctor in 212 is filling the papers, you apologize and leave.<</notify>><</link>>
+<center><<button "Services unit">><<scenego "IrFieldCoherer-hospital-services">><</button>><<tab>><<button "Medical unit">><<scenego "IrFieldCoherer-hospital-medical">><</button>><<tab>><<button "Cardiac care">><<scenego "IrFieldCoherer-hospital-cardiac">><</button>></center>
+<<set _rando = random(1, State.active.variables.bustChance)>><<if _rando > 9>>
+<<include [[IrFieldCoherer-hospital-busted-a]]>>
+<<elseif _rando > 15>>
+<<include [[IrFieldCoherer-hospital-busted-b]]>>
+<</if>>
+<<set $bustChance += 1>><<updatebar>><<status 0>>
+</div>
+
+
+:: IrFieldCoherer-hospital-cardiac [nobr]
+
+<div id="bust">
+<<addtime 5>><<updatebar>><<f y>>ou enter the cardiac unit. It seems to be the most high-tech place in the hospital you have seen so far. Walls are made of glass with occasional tinted parts and a lot of futuristic-looking equipment behind it buzzing. Nurses and doctors move around those cubicles in a almost dance-like rhythm making checks in their slates and pushing some buttons on the hardware sustaining lifes of the patients. @@.mono;Oh, It seems it is not the place, I better leave this soon...@@ 
+<center><<button "Services unit">><<scenego "IrFieldCoherer-hospital-services">><</button>><<tab>><<button "Medical unit">><<scenego "IrFieldCoherer-hospital-medical">><</button>><<tab>><<button "Patient unit">><<scenego "IrFieldCoherer-hospital-patient">><</button>><<tab>></center>
+<<set _rando = random(1, State.active.variables.bustChance)>><<if _rando > 9>>
+<<include [[IrFieldCoherer-hospital-busted-a]]>>
+<<elseif _rando > 15>>
+<<include [[IrFieldCoherer-hospital-busted-b]]>>
+<</if>>
+<<set $bustChance += 1>><<updatebar>><<status 0>>
+</div>
+
+
+:: IrFieldCoherer-hospital-busted-a [nobr]
+
+<p>@@.npc;<<print either("Miss? Can I help you?","Miss, are you lost?","Looking for something, maybe I can help?")>>@@ <<print either("You feel anxiousness rising and try to pretend you didn't hear it the call. @@.npc;Miss?@@ Forced to turn to the voice you","You sigh and turn around to ")>> see <<print either("a doctor","a person in scrubs","a nurse")>> looking at you concerned.</p>
+<<SCX>><<SC "LI" 5>><<if $SCresult[1]>><center><<= $SCtext[1]>></center>
+<p>@@.pc;Oh, thanks! It seems I got lost, I had an appointment at the surgery, oh, I forgot the name, you know, the handsome one...@@ You continue to twitter until you are stopped politely and given the directions of the surgery ward. Happily nodding you begin going to the pointed way until the <<print either("he","she")>> goes away. @@.mono;Phew, it seems I pulled it off this time. Must be careful though.@@</p>
+<<else>><<set <<set $bustChance += 3>><<stress 5 "Close call at the hospital">>
+<p>@@.pc;<<= either("Oh, I was looking for... umm, I mean...","I am lost, yeah, I was looking for... umm... House m.d.?")>>@@ It seems <<print either("he","she")>> is concerned if you are a mental ward patient at this point but somehow you manage to get away followed by a long bothering look at your back as you go away. @@.mono;Uh-oh, I am starting to gather the attention of the personnel. I must get to the storage faster...@@</p>
+<</if>><<status 0>>
+
+
+:: IrFieldCoherer-hospital-busted-b [nobr]
+
+<<replace "#bust">>
+<p>Security officer comes to you and your heart sink. @@.npc;Miss? What are you doing here?@@</p>
+<p>@@.pc;Sorry?@@</p>
+<p>@@.npc;You are wandering over the hospital for almost an hour already and I honestly I can't understand what are you doing here.@@</p>
+<<SCX>><<SC "PS" 5>><center><<= $SCtext[1]>></center>
+<<if $SCresult[1]>><<stress 5 "Almost failing the inflitration mission at the hospital">><<set $bustChance -= 4>>
+<p>@@.pc;I am sorry? Are you stating I am loitering here or something? <<has bitch>>Who the fuck are you to tell me what to do?<<or>><</has>>@@ The officer seems confused with your sudden verbal attack and you push forward. @@.pc;I am here for the number of appointments and it is none of your business. Get back to your job or whatever or I'll go straight to the managment.@@ @@.npc;Ugh, I am sorry miss, I was just checking...@@ @@.pc;Yeah, you was.@@ He quickly retreats from the hall and you can't but smile @@.mono;Nice job, <<name>>. Now, where the hell is that storage?@@</p>
+<center><<button "Services unit">><<scenego "IrFieldCoherer-hospital-services">><</button>><<tab>><<button "Patient unit">><<scenego "IrFieldCoherer-hospital-patient">><</button>><<tab>><<button "Cardiac care">><<scenego "IrFieldCoherer-hospital-cardiac">><</button>><<tab>><<button "Medical unit">><<scenego "IrFieldCoherer-hospital-medical">><</button>></center>
+<<else>><<stress 10 "Failing to inflitrate the hospital">>
+<p>@@.pc;Umm... I... was lost and...@@ You give him your best "innocent" look.</p>
+<p>@@.npc;Yeah-yeah, I got it. Let me guide you to the exit, miss.@@ He takes you by the elbow in a  gentle but determined fashion and leads you at the exit of the hopsital. @@.npc;Good day to you, miss.@@ You have no choice than to leave, when you turn you can swear officer saying @@.npc;...junkie...@@ under his breath.</p>
+<center><<button "Leave">><<sceneclose>><</button>></center>
+<</if>>
+<</replace>>
+<<set ↂ.flag.main.IrCooldown = false>>
+<<status 0>>
+
+
+:: Oscillator-meeting [nobr]
+
+<<addtime 5>><<f y>>oy enter the big hall of the beer restaurant and it takes a moment for your eyes to adjust to the dim lighting. There is a lot of clients and you start worrying if you will be able to find Maria in this crowd.
+
+<p>@@.pc;What was in that letter <<if $AW.startMale>>Lily<<else>>Dr. Richards<</if>> wrote? The girl will be in a black coat?@@ Your eyes restlessly jump from one table to another... @@.npc;Welcome to the "Hinden Burger", ma'am. Do you have a reservation?@@ a man with a plate full of beer mugs stops at your side.</p>
+
+<p>@@.pc;Emm... mo thank you, I am here to meet with a friend, she already took a table... I hope.@@ Man excuses and leaves you to search for Maria. You look over the room once again and suddenly notice the young woman sipping beer alone at the far table. A black leather jacket hangs down from her chair. She looks at you.</p>
+
+<p>You come closer and stop at her table. She raises her brow. @@.npd;Can I help you?@@ You feel a little anxious. @@.mono;Password! I need to say it! What it is, damn?@@</p>
+
+<<dialogchoice>>
+  <<dbutt "Hysteria">><<scenego "Oscillator-meeting-wrong">>
+  <<dtext "awkward">>Hysteria?
+  <<dbutt "Euphoria">><<scenego "Oscillator-meeting-wrong">>
+  <<dtext "awkward">>Euphoria?
+  <<dbutt "Victoria">><<scenego "Oscillator-meeting-wrong">>
+  <<dtext "awkward">>Victoria?
+  <<dbutt "Astoria">><<scenego "Oscillator-meeting-right">>
+  <<dtext "awkward">>Astoria?
+<</dialogchoice>>
+
+
+:: Oscillator-meeting-wrong [nobr]
+
+<<addtime 2>><<f s>>he looks at you with bored disbelief. @@.npc;Really? Gosh, It is "Astoria", I thought it is not that hard to remember. Well... You are <<if $AW.startMale>>Lily<<else>>Dr. Richards<</if>>, right?@@
+<p>Feeling particularly stupid you take a seat in front of her. @@.pc;Ermm, not really...@@ Maria's eyes get narrower and you pick a pace with your explanation. @@.pc;She asked me to come here and take the Os<small>ci</small>...@@ @@.npc;Shhhh! I got it.@@ @@.pc;Ugh... sorry. Do you have it with you?@@ She nods. @@.npc;Yes. Not right here. Follow me to the WC stall in a minute after me.@@ She drinks from her cup and stands up. You wait for a minute or so and <<link "go to the restroom">><<scenego "Oscillator-stall">><</link>>. @@.mono;This is getting ridiculous.@@</p>
+
+
+:: Oscillator-meeting-right [nobr]
+
+<<addtime 2>><<f s>>he looks at you and nods. @@.npc;<<if $AW.startMale>>Lily<<else>>Dr. Richards<</if>>, right?@@ You take a seat in front of her. @@.pc;Ermm, not really...@@ Maria's eyes get narrower and you pick a pace with your explanation. @@.pc;She asked me to come here and take the Os<small>ci</small>...@@ @@.npc;Shhhh! I got it.@@ @@.pc;Ugh... sorry. Do you have it with you?@@ She nods. @@.npc;Yes. Not right here. Follow me to the WC stall in a minute after me.@@ She drinks from her cup and stands up. You wait for a minute or so and <<link "go to the restroom">><<scenego "Oscillator-stall">><</link>>. @@.mono;This is getting ridiculous.@@
+
+
+:: Oscillator-stall [nobr]
+
+<<addtime 1>><<f y>>ou enter the WC and see Maria at the mirror. Other than her there is nobody in the restroom. She gestures to the open stall and you follow her. There is not much place so you are pretty much aware of her parfume, thin odor of beer she just drank and the warmth of her boobs almost pressing into yours as you stay in the tiny stall.
+<p>@@.pc;So, where it is?@@ You ask impatiently. @@.npc;Yes, it is right here with me.@@ Maria opens her purse showing you a paper bag. @@.npc;I was hoping to see <<if $AW.startMale>>Lily<<else>>Dr. Richards<</if>> because I wanted to discuss the price.@@ @@.pc;What's wrong with the price? <<if $AW.startMale>>Lily<<else>>Dr. Richards<</if>> said your price was fully paid.@@</p>
+<p>Maria looks a little uncomfortable and you feel her breath on your cheek. @@.npc;Yeah. But you see, there were... complications. I want additional <<mon>>500.@@ Your eyes widens. @@.pc;Five hundred more? Really?@@ She stiffens her face and nods. @@.pc;As you heard. Give it to me or there will be no deal.@@</p>
+<<if $AW.cash > 499>><<set _cash = true>><<else>><<set _cash = false>><</if>>
+<<dialogchoice>>
+  <<dbutt "Okay" _cash>><<scenego "Oscillator-pay">>
+  <<dtext "neutral">>Pay Maria additional 500.
+  <<dbutt "Insist" !ↂ.pc.trait.intro>><<scenego "Oscillator-force">>
+  <<dtext "mad">>Bargain with Maria forcing her to sell the Oscillator for the initial price.
+  <<dbutt "Persuade" !ↂ.pc.kink.shame>><<scenego "Oscillator-sex">>
+  <<dtext "bimbo">>Use your seduction skills to "persuade" Maria.
+  <<dbutt "Refuse">><<scenego "Oscillator-refuse">>
+  <<dtext "cry">>Refuse the deal and leave.
+<</dialogchoice>>
+
+
+:: Oscillator-pay [nobr]
+
+<<set ↂ.flag.main.components[1] = 2>><<run aw.cash(-500, "misc")>>
+<p>@@.pc;Ugh, okay.@@ You take out your phone. It takes a minute or so to transfer the payment and Maria smiles shortly seeing money arriving on her bank account. @@.npc;Very good. It is yours now. And remember, we have never met. Got it?@@ @@.pc;Mhmm.@@</p>
+<center>[img[IMG-Component-Oscillator]]</center>
+<p>Maria gives you the bag and leaves the stall. The oscillator is there, at least the thing looks exactly like the picture <<if $AW.startMale>>Lily<<else>>Dr. Richards<</if>> had in her letter. @@.mono;Damn, five hundred bucks! Ugh, at least this was taken care of.@@ When you exit the restroom Maria has already left, you can only see the half-empty mug of beer at the table.</p><<status 0>>
+<center><<button "Leave">><<sceneclose>><</button>></center>
+
+
+:: Oscillator-force [nobr]
+
+<<SCX>><<SCX>><<SC "PS" 5>><center><<= $SCtext[1]>></center><<if $SCresult[1]>><<set ↂ.flag.main.components[1] = 2>><p>@@.pc;Stop bullshiting me, Maria@@ She looks shocked. @@.npc;Wha-?@@ You lean closer to her. @@.pc;You know what. You already got your money. Either you give it to me or I will call the bloody police. They would be very interested about where you get this shit from.@@</p>
+<p>@@.npc;You don't dare to...@@ Her eyes are wide and she desperately tries to hide the scare so you push her a little bit more. @@.pc;Oh yes I will, Maria. I will. So it is a simple choice now, right?@@ You reach with your open hand to her. She struggles for a moment more and then surrenders. She hands you the heavy bag and leaves the stall hiding her eyes. @@.pc;Smart girl@@ you murmur to her back as she almost run from the restroom.</p>
+<center>[img[IMG-Component-Oscillator]]</center>
+<p>You look into the bag. The oscillator is there, at least the thing looks exactly like the picture <<if $AW.startMale>>Lily<<else>>Dr. Richards<</if>> had in her letter. @@.mono;Nice, this was taken care of.@@ When you exit the restroom Maria has already left, you can only see the half-empty mug of beer at the table.</p><<status 0>>
+<center><<button "Leave">><<sceneclose>><</button>></center>
+<<else>>
+<p>@@.pc;Stop bullshiting me, Maria@@ She rasies her brow. @@.npc;Sorry?@@ You lean closer to her. @@.pc;You know what. You already got your money. Either you give it to me or I will call the bloody police. They would be very interested about where you get this shit from.@@</p>
+<p>Suddenly she smirks to your face. @@.npc;Are you a thinking you are a bloody jedi or what? I know you won't call cops because you and that cunt of yours will be as fucked as me in that case. <<mon>>500 or I am leaving, idiot.@@</p>
+<<if $AW.cash > 499>><<set _cash = true>><<else>><<set _cash = false>><</if>>
+<<dialogchoice>>
+  <<dbutt "Okay" _cash>><<scenego "Oscillator-pay">>
+  <<dtext "neutral">>Pay Maria additional 500.
+  <<dbutt "Persuade" !ↂ.pc.kink.shame>><<scenego "Oscillator-sex">>
+  <<dtext "bimbo">>Use your seduction skills to "persuade" Maria.
+  <<dbutt "Refuse">><<scenego "Oscillator-refuse">>
+  <<dtext "cry">>Refuse the deal and leave.
+<</dialogchoice>>
+<</if>><<status 0>>
+
+
+:: Oscillator-sex [nobr]
+
+<<SCX>><<SC "SD" 5>><<f y>>ou get a little tiny bit closer to Maria so her juicy milk bags finally touches yours and lick your lips. @@.pc;Maybe... we can bring it to terms in some other way, mmhm?@@
+<<if $SCresult[1]>><center><<= $SCtext[1]>></center><<arousal 1>>
+<p>Her jaw drops and she stares at you for a moment. To push it further you put your hand on her chest and brush it a little. It takes a little bit until she melts and her face gives her out. @@.npc;Mmmhm, I guess this is an option...@@ She giggles like a schoolgirl with obvious anxiety and you can't hold a smile. Kneeling before her, you raise her skirt to reveal her cute cotton panties. Tugging them down you glance at Maria to see her biting her lip with her eyes wide open. @@.mono;Tee-hee it seems it is her first time with a girl!@@ Her panties slide down revealing a well-trimmed bush and a delicate set of pink lips. For a second you enjoy the view foretasting the fun you gonna get and then kiss her pussy with your <<p lips.q>> lips making her stretch with arousal.</p>
+<p>After a couple of painfully long slow strokes with your tongue you locate her little clit and play with it. It starts growing immediately getting stiffer and you feel moisture with your chin touching her vulva. Maria clenches still getting used to the new sensation and you pick up the pace polishing her pleasure button and smaller lips. She tugs on your hair and you glance up once again. Her eyes are closed but and she pants as her hips are trembling getting so much pleasure from your nimble tongue. @@.npc;Mmmmhmmm...@@ You start playing with her using your hand pressing two fingers to her entrance still licking her. With the generous amount of her juices already flowing down her tights, it takes almost no effort to slide them into her surprisingly tight pussy. @@.npc;Aaaahhhh! Ohmygod...@@ With a little surprise, you realize that you can't push much deeper. @@.mono;Oh, somebody is a virgin? He-he!@@</p>
+<p>Carefully fucking her wet unused cunt you work on her clit at the same time and her moans, at first suppressed and shy, get louder and louder. It takes just a minute or two until her inexperienced pussy start clenching on your fingers, her grip on your hair gets even harder and the delicate clit begins to pulse under your tongue as Maria gets her first lesbian orgasm. @@.npc;Oh, oh, oooohyeesss!@@ She continues to cum wiggling and moaning until it slowly winds up and she relaxes mindlessly staring into the void.</p>
+<p>You stand up from your sore knees and lick her juices from your fingers. @@.pc;I guess we got it sorted out, mmhm?@@ She can't but nod still breathing heavily. You take the bag from her purse, wink to her and leave the stall.</p>
+<center>[img[IMG-Component-Oscillator]]</center>
+<p>Upon entering the main hall of the pub you look into the bag. The oscillator is there, at least the thing looks exactly like the picture <<if $AW.startMale>>Lily<<else>>Dr. Richards<</if>> had in her letter. @@.mono;Nice, this was taken care of. Heh, she seemed so confident and cool at first... I guess everybody has their own weak points...@@</p><<run setup.condition.add({ loc:"face", amt:7, tgt:"pc", wet:5, type:"femlube"})>><<status 0>>
+<center><<button "Leave">><<sceneclose>><</button>>
+<<else>>
+<p>Her jaw drops and she stares at you for a moment. To push it further you put your hand on her chest but she backs from you. @@.npc;Are you fucki... everybody in this town is bloody insane, gosh! Get your horny hands away from me, we are doing business here, dumbass!@@ Insulted you purse your lips. @@.npc;You... you.@@ She sighs. @@.npc;I need <<mon>>500 more, now if you want this thing.@@</p>
+<<if $AW.cash > 499>><<set _cash = true>><<else>><<set _cash = false>><</if>>
+<<dialogchoice>>
+  <<dbutt "Okay" _cash>><<scenego "Oscillator-pay">>
+  <<dtext "neutral">>Pay Maria additional 500.
+  <<dbutt "Insist" !ↂ.pc.trait.intro>><<scenego "Oscillator-force">>
+  <<dtext "mad">>Bargain with Maria forcing her to sell the Oscillator for the initial price.
+  <<dbutt "Refuse">><<scenego "Oscillator-refuse">>
+  <<dtext "cry">>Refuse the deal and leave.
+<</dialogchoice>>
+<</if>>
+
+
+:: Oscillator-refuse [nobr]
+
+<<set ↂ.flag.main.components[1] = 2>><p>@@.pc;You know what?<<has bitch>>Go fuck yourself with this oscillator then.<<or>>You can keep it. We will find it elsewhere.<</has>> I am waiting for our money back, please.@@</p>
+<p>Maria answers in a confused voice. @@.npc;Wha-? Ermm... Pls, don't... I mean I really need those... gosh, okay, choke on this oscillator it is yours.@@ She pushes the bag into your hands and leaves. @@.mono;Wow, that was easier than I expected...@@</p>
+<center>[img[IMG-Component-Oscillator]]</center>
+<p>You look into the bag. The oscillator is there, at least the thing looks exactly like the picture <<if $AW.startMale>>Lily<<else>>Dr. Richards<</if>> had in her letter. @@.mono;Nice, this was taken care of.@@ When you exit the restroom Maria has already left, you can only see the half-empty mug of beer at the table.</p><<status 0>>
+<center><<button "Leave">><<sceneclose>><</button>></center>
+
+
+:: Oleg-Talk [nobr]
+
+<<set _npc = "n1005">>
+<<if ↂ.flag.main.capacitorStage[0] === "refused">>
+<p>@@.npc;Yes, <<name>>. You got the money?@@</p>
+<<if $AW.cash > 999>><<set _cash = true>><<else>><<set _cash = false>><</if>>
+<<dialogchoice>>
+  <<dbutt "Okay" _cash>><<intreplace>><<include "Oleg-Talk-Pay">><</intreplace>>
+  <<dtext "neutral">>Of course, I'll take it.
+  <<dbutt "No">><<intreplace>><<include "Oleg-Talk-No">><</intreplace>>
+  <<dtext "confused">>Oh, that's a bit too much for me.
+  <<dbutt "discount" false>><<intreplace>><<include "Oleg-Talk-Discount">><</intreplace>>
+  <<dtext "cry">>This is too much! Is there a way to reduce the price? [NOT IMPLEMENTED YET]
+<</dialogchoice>>
+<<elseif ↂ.flag.hannaStory.stage == "died" && aw.npc.n1005.rship.likePC > 20>><<set ↂ.flag.main.capacitorStage[0] = "gotPromised">>
+<<f y>>ou approach Oleg and his mug stretches into smile he probably classifies as a "friendly". @@.npc;<<name>>! Zdravstvui, dorogaya! Nice to see you. How do you do?@@
+<p>@@.pc;Oh, I am fine, thanks, Oleg. You see, I need to get my hands on one thing...@@ Oleg tilts his head to the side, listening while you freeze selecting the right words. @@.npc;Go on.@@ @@.pc;... long story short I need the Magnetic flux capacitor... for reasons. I wonder of you...@@ Your stop having no idea how to hint Oleg's shady business but he nods saving you from the explanation. Taking a phone he presses a couple buttons with his thick index finger and calls somebody while you wonder if he is the only person in the world still using a clamshell design cellphone back from 2000. @@.npc;Fedor? Zdarova otec. Da, eto Oleg. Pomnish ty baby s vodohranilisha? Da. Ei zachem-to nujen...@@ He covers the phone with his palm and turns to you with a silent question. @@.pc;Magnetic flux capacitor.@@ @@.npc;Magnetic flux capapi... cappacic... ti ponyal koroche. Da ya otkuda znay zachem on ei. Khorosho. On dorogo stoyt? Vsyego? Khorosho, upakui dlya nee, ona podyedet zaberet etu hrenovinu.@@ You patiently wait until massive guy finish talking and hope that he actually have the thing and the price will be not that big.</p>
+<p>Folding his phone he smiles again showing a couple of golden teeth. @@.npc;You can get it at my warehouse, Plank street, 57/3. Fedor will give you the thing.@@ @@.pc;Oh, good. How much will it cost?@@ Tsar rises his brow. @@.npc;When we met last time I said that you can ask me if you need anything. I always keep my word. It is free.@@ Your jaw almost drops but you manage to keep it cool. @@.pc;Oh, thank you, Oleg! You are my savior!@@ Tsar chuckles and points to his cheek. @@.npc;Now be a good girl and kiss daddy for his generosity.@@</p>
+<p>You get on your toes to match with his impressive height and peck his cheek giggling. @@.pc;Thank you, daddy!@@ @@.npc;Now go, don't make Fedor wait.@@</p>
+<<safetoclose>>
+<<elseif aw.npc.n1005.rship.likePC > 5>>
+<<f y>>ou approach Oleg and his mug stretch into smile he probably classificate as a "friendly". @@.npc;<<name>>! Zdravstvui, dorogaya! Nice to see you. How do you do?@@
+<p>@@.pc;Oh, I am fine, thanks, Oleg. You see, I need to get my hands on one thing...@@ Oleg tilts his head to the side, listening while you freeze selecting right words. @@.npc;Go on.@@ @@.pc;... long story short I need the Magnetic flux capacitor... for reasons. I wonder of you...@@ Your stop having no idea how to hint Oleg's shady business but he nods saving you from the explanation. Taking a phone he presses a couple buttons with his thick index finger and call somebody while you wonder if he is the only person in the world still using a clamshell design cellphone back from 2000. @@.npc;Fedor? Zdarova otec. Da, eto Oleg. Menya tut sprashivaet odna znakomaya. Ei zachem-to nujen...@@ He covers the phone with his palm and turns to you with a silent question. @@.pc;Magnetic flux capacitor.@@ @@.npc;Magnetic flux capapi... cappacic... ti ponyal koroche. Da ya otkuda znay zachem on ei. Khorosho. On dorogo stoyt?@@ He shortly whistles. @@.npc;Khorosho, ponyal tebya.@@ You patiently wait until massive guy finish talking and hope that he actually have the thing and the price will be not that big.</p>
+<p>Folding his phone he smiles again showing a couple of golden teeth. @@.npc;I got this Capa... @@ @@.pc;...Capacitor...@@ @@.npc;Yes, this thing. Since I know you it will be just one grand.@@
+<<if $AW.cash > 999>><<set _cash = true>><<else>><<set _cash = false>><</if>>
+<<dialogchoice>>
+  <<dbutt "Okay" _cash>><<intreplace>><<include "Oleg-Talk-Pay">><</intreplace>>
+  <<dtext "neutral">>Of course, I'll take it.
+  <<dbutt "No">><<intreplace>><<include "Oleg-Talk-No">><</intreplace>>
+  <<dtext "confused">>Oh, that's a bit too much for me.
+  <<dbutt "discount" false>><<intreplace>><<include "Oleg-Talk-Discount">><</intreplace>>
+  <<dtext "cry">>This is too much! Is there a way to reduce the price? [NOT IMPLEMENTED YET]
+<</dialogchoice>>
+<<else>><<run setup.npcInfo.level("n1005", {bodyGeneral: true})>><<set aw.npc.n1005.rship.acquaint = true>><<run setup.npc.acquainted.push("n1005")>>
+<<f y>>ou approach Oleg and cough a bit to gain his attention. He turns and looks at you and you are impressed by his unattractive mug. @@.npc;<<greetings>>! Can I help you?@@
+<p>@@.pc;I will go straight to the business, don't want to waste your time, mr.Bestarius...@@ He nods encouraging you to continue. @@.pc;...You see, I need to get my hands on one thing, the Magnetic flux capacitor... for reasons. I wonder of you...@@ Your stop having no idea how to hint Oleg's shady business but he nods saving you from the explanation. @@.npc;And why you think I can help you? I am not a machinery dealer.@@ @@.pc;Ugh... I... My friend told me that you often have some spare parts for selling and I decided to ask for it... I can pay for it!@@ He drills you with his heavy stare for some time. @@.pc;You releaze that if you are going to fuck with me, to say you are working for APD, you will get many, many troubles, right?@@ You swallow hard and nod. @@.pc;Yes, mr.Bestarius. I don't want any attention from police or institute as well.@@</p>
+<p>He looks at you for another moment then reach for his pocket. Taking a phone he presses a couple buttons with his thick index finger and calls somebody while you wonder if he is the only person in the world still using a clamshell design cellphone back from 2000. @@.npc;Fedor? Zdarova otec. Da, eto Oleg. Menya tut sprashivaet odna devka. Ei zachem-to nujen...@@ He covers the phone with his palm and turns to you with a silent question. @@.pc;Magnetic flux capacitor.@@ @@.npc;Magnetic flux capapi... cappacic... ti ponyal koroche. Da ya otkuda znay zachem on ei. Khorosho. On dorogo stoyt?@@ He shortly whistles. @@.npc;Khorosho, ponyal tebya.@@ You patiently wait until massive guy finish talking and hope that he actually have the thing and the price will be not that big.</p>
+<p>Folding his phone he thinks for a moment. He is deadly serious and tranquil and you can't ignore the aura of danger irradiating from this man. @@.npc;I got this Capa... @@ @@.pc;...Capacitor...@@ @@.npc;Yes, this thing. One grand.@@</p>
+<<if $AW.cash > 999>><<set _cash = true>><<else>><<set _cash = false>><</if>>
+<<dialogchoice>>
+  <<dbutt "Okay" _cash>><<intreplace>><<include "Oleg-Talk-Pay">><</intreplace>>
+  <<dtext "neutral">>Of course, I'll take it.
+  <<dbutt "No">><<intreplace>><<include "Oleg-Talk-No">><</intreplace>>
+  <<dtext "confused">>Oh, that's a bit too much for me.
+  <<dbutt "discount" false>><<intreplace>><<include "Oleg-Talk-Discount">><</intreplace>>
+  <<dtext "cry">>This is too much! Is there a way to reduce the price? [NOT IMPLEMENTED YET]
+<</dialogchoice>>
+<</if>>
+<<status 0>>
+
+
+:: Oleg-Talk-Pay [nobr]
+
+<p>@@.pc;Of course, I'll take it.@@ You get your phone out and send @@.mon;<<mon>>1000@@ to the account Oleg names. It is obviously not his but this doesn't surprise you much. He texts somebody then smiles. @@.npc;You can get it at my warehouse, Plank street, 57/3. Fedor will give you the thing.@@</p>
+<p>@@.pc;Oh, thank you, Oleg! You are my savior!@@ Tsar chuckles and points to his cheek. @@.npc;Now be a good girl and kiss daddy for his generosity.@@ You get on your toes to match with his impressive height and peck his cheek giggling. @@.pc;Thank you, daddy!@@ @@.npc;Now go, don't make Fedor wait.@@</p>
+<<safetoclose>><<set ↂ.flag.main.capacitorStage[0] = "gotPromised">><<run aw.cash(-1000, "misc")>><<set aw.npc.n1014.likePC += 12>><<status 0>>
+
+
+:: Oleg-Talk-No [nobr]
+
+<p>@@.pc;Oh, that's a bit too much for me.@@ Oleg shrugs. @@.npc;Then get the money and return when you are ready to pay.@@</p>
+<<safetoclose>><<set ↂ.flag.main.capacitorStage[0] = "refused">><<status 0>>
+
+
+:: Capacitor-Fedor [nobr]
+
+<<f y>>ou go along the line of the warehouses and look at the numbers to find the right one. As you aprroach third in the row it gets pretty obvious that it is rented by Oleg — a short haired guy in a black leather jacket and striped sweatpants is smoking near the entrance. @@.mono;This must be Fedor.@@ Noticing you he leisurely drops the butt and without saying anyting gives you the plain plastic bag with a Capacitor. @@.pc;Thank you!@@ He just nods and leave to his black car, parked at the side of the building.<br>
+<center>[img[IMG-Component-Capacitor]]</center>
+<p>You look into the bag and smile. @@.mono;Good work, <<name>>! I can bet <<if $AW.startMale>>Lily<<else>>Dr. Richards<</if>> will be happy to get this thing.@@</p>
+<<addtime 8>><<set ↂ.flag.main.capacitorStage[0] = "finished">><<set ↂ.flag.main.components[2] = 2>><<happy 1 "You got the Capacitor!">><<status 0>><<updatebar>>
+
+
+:: Capacitor-steal [nobr]
+
+<div id="meow"><<addtime 3>><<f y>>ou come closer to the warehouse. @@.mono;It seems it is the right one...@@ You cautionously look around but the area seems empty. Electronic lock on the door flashes with a red light and you frown trying to think of the code.
+<p><center>
+[img[IMG-CodeDoor]]<br>
+<<textbox "ↂ.flag.main.capacitorCode" ↂ.flag.main.capacitorCode>> <<button "Enter">><<replace "#meow">><<include [[Capacitor-steal-testCode]]>><</replace>><</button>><br>
+</center></p></div>
+
+
+:: Capacitor-steal-testCode [nobr]
+
+<<if ↂ.flag.main.capacitorCode == "oleg" || ↂ.flag.main.capacitorCode == "Oleg" || ↂ.flag.main.capacitorCode == "blyat" || ↂ.flag.main.capacitorCode == "cyka" || ↂ.flag.main.capacitorCode == "cyka blyat">>
+  <<f y>>ou press "enter", the panel flashes the green light. You hear the lock inside the door disengages and smile. @@.mono;Woohoo!@@<br><center>
+  <<button "Enter">>
+  <<script>>
+    const scene = {
+        passage: "Capacitor-steal-inside",
+        content: "none",
+        image: "IMG-Capacitor-side",
+        topImage: "IMG-Capacitor-top",
+        title: "Warehouse",
+        allowSave: true,
+        sidebar: `<h2>Warehouse</h2>`,
+        showTime: true,
+        allowMenu: false,
+      };
+      setup.scenario.launch(scene);
+  <</script>>
+  <<run Dialog.close()>>
+  <</button>></center>
+<<else>>
+  <<f y>>ou press "enter" but the panel just beeps and flashes the red light once. @@.mono;Damn...@@
+  <p><center><<button "Try again">><<replace "#meow">><<include [[Capacitor-steal]]>><</replace>><</button>></center></p>
+<</if>>
+
+
+:: Capacitor-steal-inside [nobr]
+
+<<f y>>ou slide the door up and look inside the dark warehouse. A dozen of little red lights of the fire sprinkler system are not enough to lit the place and you block most of the light coming from the doorway so you wonder if you should find a switch and turn the lights on.
+<center><<button "Turn the lights on">><<scenego "Capacitor-steal-light">><</button>><<tab>><<button "Continue in the darkness">><<scenego "Capacitor-steal-dark">><</button>><<tab>><<button "Go away">><<sceneclose>><</button>></center>
+
+
+:: Capacitor-steal-light [nobr]
+
+<<f y>>ou slide your hand over the wall at your right trying to find the switch until you feel the plate with a industrial-type button. 
+<p>@@.rumble;Clack!@@ With the painfully loud sound the light turns on. Lamp after lamp, the warehouse emerges from the darkness and you observe the room.</p>
+<p>It is filled with tons of various stuff without any particular system. Some vintage cars covered with tarpaulins, branded cardboard boxes, olive painted wooden crates with a "U.S Army" labels printed on them, shelves with some high-tech looking equipment... @@.mono;Oh, it must be there! Somewhere...@@</p>
+<center><<button "Look for the Capacitor">><<scenego "Capacitor-steal-light-search">><</button>><<tab>><<button "Roam around and loot">><<scenego "Capacitor-steal-light-loot">><</button>><<tab>><<button "Go away">><<sceneclose>><</button>></center>
+
+
+:: Capacitor-steal-light-search [nobr]
+
+<<addtime 3>>@@.mono;No time to roam around, I need to find the Capacitor before somebody comes here...@@ You quickly go to the shelves and start searching.
+<p>After a couple of minutes you start noticing the system. It seems, things here are placed judging from where they were got, or more probably, stolen. Some shelves are occupied with institute property while the big pile of crates at the corner is something that Russian got from some asian military or paramilitary organisation, although you can't read the hyerogliphs on the boxes full of hand grenades and ammunition.</p>
+<p>After a while, you notice the couple of boxes with capacitor-looking stuff but you need some luxury-looking car is blocking your way. It seems there is no another way to get there but to crawl over the car and you carefully get on top of the car's hood.</p>
+<p>Suddenly the cover starts sliding from the car and you almost fall with it but manage to hold. Struggling with an awkward position it takes you about a minute to get to the ground on near the boxes and you start digging into them immediately. @@.mono;Come on, mommy needs a Capacitor... you must be here, goddamit!.. Ah, here you are, my precious!@@</p>
+<center>[img[IMG-Component-Capacitor]]</center>
+<p>It is a small but pretty heavy piece of equipment and you almost drop it when tuggin it from the box but in the end it is resting in your hands and you smile triumphantly. @@.mono;Okay, now it is time to leave the place before I've been noticed.@@
+<p>Quickly making your way back you almost run to the exit stopping only to turn off the lights. Sliding the door you quickly go away from the warehouse still holding the Capacitor pressed into your <<p tits.n>>. When you are far enough from the building you sigh and catch your breath. @@.mono;Phew, I made it, wohoo!@@</p>
+<center><<button "Go away">><<sceneclose>><</button>></center>
+<<addtime 16>><<set ↂ.flag.main.capacitorStage[0] = "stolen">><<set ↂ.flag.main.components[2] = 2>><<happy 1 "You got the Capacitor!">><<stress 7 "Stealing the Capacitor">><<status 0>><<updatebar>>
+<<set _busted = random(1,3)>><<if _busted == 1>>
+<<run setup.omni.new("olegProblems")>><<run setup.omni.new("olegProblems2")>><<run setup.omni.new("olegProblems3")>>
+<</if>>
+
+
+:: Capacitor-steal-light-loot [nobr]
+
+<<addtime 22>>@@.mono;It may be dangerous but there is so much interesting stuff here!@@ Digging into crates and boxes you read stickers and prints and can't stop but wonder how big is the business of this ganster. There are tons of various interesting stuff and the more you look the more it becomes obvious that everything here was stolen.<<if ↂ.pc.trait.perceptive == 1>><<set _chance = random(1, 10)>><<else>><<set _chance = random(6, 10)>><</if>><<if _chance == 10>>
+<p>After sitting in the luxorious car and looking into a couple of boxes you decide to look into one of the military-painted crates. It seems there was a lock on it but somebody removed it with a crowbar. @@.mono;Wow...@@ There are guns. Lots of them, brand new pistols lying in a rows. @@.mono;Nobody will notice if I take one, right? Since I am going to steal the capacitor anyway...@@ Calming your still small voice you take one and close the lid of the crate.</p><<pickup "$items" "Blyat 22">>
+<<elseif _chance == 9>>
+<p>After sitting in the luxorious car and looking into a couple of boxes you decide to look into one of the black crates with an Thornton logo on them. It seems there was a lock on it but somebody removed it with a crowbar. @@.mono;Wow...@@ There are literally thousands of bottles with Focusol inside. @@.mono;Nobody will notice if I take a dozen, right? Since I am going to steal the capacitor anyway...@@ Calming your still small voice you take a handful of vials and close the lid of the crate.</p><<run setup.shop.pushInv(["FocusVial40", "consume", 0, "FocusVial40", 13]);>>
+<<elseif _chance == 8>>
+<p>After sitting in the luxorious car and looking into a couple of boxes you decide to look into one of bags on the floor. @@.mono;Wow...@@ You see a lot of money, mostly small value. @@.mono;Nobody will notice if I take some, right? Since I am going to steal the capacitor anyway...@@ Calming your still small voice you take around @@.mon;<<mon>>400@@ and close the lid of the crate.</p><<run aw.cash(412);>>
+<<else>>
+<p>After sitting in the luxorious car and looking into a couple of boxes you get bored. There should be tons of interesting things here but you are too frightened to be found to continue looking for something to steal. @@.mono;I must focus on my main task.@@</p><</if>>
+<center><<button "Look for the Capacitor">><<scenego "Capacitor-steal-light-search">><</button>><<tab>><<button "Go away">><<sceneclose>><</button>></center>
+<<status 0>>
+
+
+:: Capacitor-steal-dark [nobr]
+
+<<addtime 29>><<f y>>ou don't risk turning the lights on and slowly walk through the warehouse using only your phone as a source of light.
+<p>It is filled with tons of various stuff without any particular system. Some vintage cars covered with tarpaulins, branded cardboard boxes, olive painted wooden crates with a "U.S. Army" labels printed on them, shelves with some high-tech looking equipment... @@.mono;Oh, it must be there! Somewhere...@@</p>
+<center><<button "Look for the Capacitor">><<scenego "Capacitor-steal-light-search">><</button>><<tab>><<button "Roam around and loot">><<scenego "Capacitor-steal-light-loot">><</button>><<tab>><<button "Go away">><<sceneclose>><</button>></center>
+
+
+:: Oleg-Problems [nobr]
+
+<<texting "Unknown number">>
+  <<textnpc>>You will return everything you have stolen or consider yourself deceased, miss <<surname>>.
+  <<textpc>>Who is it?
+<</texting>>
+<br>You feel sweating. @@.mono;I am soo fucked up...@@
+<<stress 20 "Problems with Mafia">>
+
+
+:: Oleg-Problems-two [nobr]
+
+<<texting "Unknown number">>
+  <<textnpc>>Three days, miss <<surname>>.
+<</texting>>
+<<stress 25 "Problems with Mafia">>
+
+
+:: Oleg-Talk-Problems [nobr]
+
+<<set _npc = "n1005">><<set ↂ.flag.main.capacitorStage[0] = "negotiation">>
+<<f y>>ou approach Oleg and he looks at you with the a grim expression. @@.npc;Yes, miss <<surname>>?@@ You swallow hard.
+<p>@@.pc;Umm, yes. I am... sorry, I just needed...@@ He stops you with a gesture of his hand.</p>
+<<if ↂ.flag.hannaStory.stage == "died" && aw.npc.n1005.rship.likePC > 20>>
+<p>@@.npc;You know you could just ask me for a favor, right? And still you decided to steal from me. I am so dissapointed, miss <<surname>>.@@</p>
+<<else>><p>@@.npc;You have stolen from me.@@</p><</if>>
+<p>@@.pc;I...@@ @@.npc;...Money is not the matter. Your act was disrespectful to me and this is what I care most about. But at least you got courage to come to me and I believe you want to settle our this little misunderstanding up. Right?@@ You nod carefully.</p>
+<<if $AW.cash > 1999>><<set _cash = true>><<else>><<set _cash = false>><</if>>
+<<dialogchoice>>
+  <<dbutt "Pay" _cash>><<intreplace>><<include "Oleg-Talk-Problems-Pay">><</intreplace>>
+  <<dtext "neutral">>I'll pay for everything, Mister Bestarius.
+  <<dbutt "Service">><<intreplace>><<include "Oleg-Talk-Problems-Service">><</intreplace>>
+  <<dtext "confused">>I have no money to pay for the thing I've taken but I will do anything you want!
+<</dialogchoice>>
+<<status 0>>
+
+
+:: Oleg-Talk-Problems-Pay [nobr]
+
+<<addtime 2>><p>@@.pc;I'll pay for everything, Mister Bestarius.@@</p>
+<p>You get your phone out and send @@.mon;<<mon>>2000@@ to the account Oleg tells you. It is obviously not his but this doesn't surprise you much. He texts somebody then nods. @@.npc;Consider yourself lucky, miss <<surname>>. For your own good I hope we will never meet again.@@</p>
+<<safetoclose>><<set ↂ.flag.main.capacitorStage[0] = "saved">><<run aw.cash(-2000, "misc")>><<set aw.npc.n1014.likePC -= 52>><<run setup.omni.kill("olegProblems3")>><<status 0>>
+
+
+:: Oleg-Talk-Problems-Service [nobr]
+
+<<script>>
+  const scene = {
+      passage: "OlegService",
+      content: "none",
+      image: "IMG-BestyService",
+      topImage: "IMG-BestyService-top",
+      title: "Oleg",
+      allowSave: false,
+      sidebar: `<h2>???</h2>`,
+      showTime: false,
+      allowMenu: false,
+    };
+    setup.scenario.launch(scene);
+<</script>>
+<<intclose>>
+
+
+:: OlegService [nobr]
+
+<p>@@.pc;I have no money to pay for the thing I've taken but I will do anything you want!@@</p>
+<p>Oleg gives your figure and clothes a long look thinking. @@.npc;Hmmm... I actually have a thing in mind...@@ He takes out his phone and makes a call. After a short talk he nods. @@.npc;Fedor will come for us in a couple of minutes and take us to the place.@@ @@.pc;Umm, what will it be?@@ Oleg smiles. @@.npc;You'll see.@@</p>
+<p>Soon, the black car stops nearby and short haired guy gets out from the driver seat to open the door for you.</p>
+<center><<button "Get inside">><<scenego "OlegService-2">><</button>></center>
+<<set aw.npc.n1014.likePC -= 32>><<run setup.omni.kill("olegProblems3")>><<status 0>>
+
+:: OlegService-2 [nobr]
+
+<<addtime 11>><<f y>>ou get onto the back seat and Oleg joins you. Fedor drives the car and you notice that you are heading to the rich residential part of the town. @@.mono;Oh, I'd really want to know where he is going to take me and what is his plan but I am too frightened to actually ask him...@@
+<p>For some time you drive in silence until he turns to you. @@.npc;So, miss <<surname>> we are heading to the important meeting and since it was planned only very yesterday I miss... "entertainments" for guests. You see, it is considered rude to come to the party without a present. So my present to Mister Gruber will be <i>you</i>.@@ @@.pc;Oh... I see...@@ @@.npc;I expect you to act politely and do what you've been told. If you manage to make guests happy you can consider your debt paid and you'll be free. Am I clear?@@ You nod. <<has slut>>@@.pc;Of course, Mister Bestarius, I will be happy to please your friends!@@<<or>>@@.mono;Oh, it seems today I will be a whore for those pigs...@@<</has>></p>
+<p>In ten minutes the car stops near the big luxorious-looking villa and Oleg exits the car. Following him and Fedor you stop at the door. @@.rumble;Ring!@@ The door opens and you see a pretty-looking maid in a short dress with a heavy makeup on her plump fuckdoll face. <<if ↂ.job.code == "MD">>You remember her from your work, her name is Abigail. She subtly winks you and you can't but smile.<</if>> @@.npd;Welcome, Mister Gruber is already waiting, Mister Bestarius.@@ Letting you in, she helps Oleg to remove his overcoat and hangs it while ganster brusquely gropes her butt, obscenely peeking under her hem. She just giggles and lean forward to present her ass for him. Giving her a solid slap, Oleg goes down the hall and you follow him. Maid leads the way clinking with her high heels on marble floor. the Fedor stays in the foyer with an indifferent face; you wonder if he is going to guard the door for the whole time you are here.</p>
+<p>You approach big door and can hear music and voices coming from the hall. Maid opens the door and you enter the big room with a panoramic window separating the hall from an outdoor pool. There are around ten people here; most of them are middle-aged males but you notice a couple of females and it seems non of them are here for the entertainment of the guests. @@.npd;Oleg Bestiarus and... @@ People greet him and the owner of the villa comes to hug the ganster. @@.npe;Oleg, old bastard! I thought you will miss the party!@@ @@.npc;How could I? You know I would never miss a chance to visit your place, Gruber!@@ After a minute of active chat Gruber finally notices you. @@.npe;...and who is this cutie you took with you?@@ @@.npc;This is miss <<surname>>, you know, I always take presents with me. Totally at disposal of you and your guests today.@@ Gruber smiles still looking at you. @@.npe;Wonderful, Oleg, what a nice present!@@</p>
+<p>Soon all guests are talking in groups eating, smoking and celebrating some ocassion you are not entirely sure about. You feel pretty much abandoned for some time and <<has slut>>makes you tad dissapointed<<or>>makes you hope that this evening will continue the same way and nobody will make you do anything weird<</has>>.</p>
+<center><<button "Wait">><<scenego "OlegService-3">><</button>></center>
+
+
+:: OlegService-3 [nobr]
+
+<<addtime 146>><<arousal 1>><<SCX>><<SC "OR">><<SC "OR">><<SC "OR">><<SC "OR">><<eatdrug "alc" 4>><<eatdrug "cum" 24>><<f y>>ou are waiting for about half an hour sipping the shampagne that maid serves to the guests. Now her dress is pulled down and her juicy boobs are hanging freely for everybody's pleasure but it seems it is a normal situtation for her.
+<p>Suddenly you notice some of the guys sitting on the couch makes a calling gesture to you. You approach him and bow in a most polite fashion you can. @@.pc;Good evening, have you called, Mister?@@ Balding guy in a pricey jacket pats his crotch and turns back to his pals to continue some business chat. <<has slut>>You don't need to be asked twice and in a moments you are unzipping his pants on your knees.<<or>>You hesitate and he glances at you again with his brow raised. @@.mono;Ugh... you need to do it, <<name>>. You really don't want to upset this Russian gye even more than you did...@@ Still hesitating and feeling pretty awkward you get on your knees in front of him and unzip his pants.<</has>> Judging by the chat going as it were, this is not the unusual situation among this people since nobody actually seem to pay attention to you sucking one of the participants off while they talk. His cock is short but pretty thick <<SCX>><<SC "OR">><<if $SCresult[1]>>but you manage to deepthroat it on the brink<<else>>and you are struggling to swallow it. Still talking, he pushes on the back of your head forcing you down on his meatpole and you gag with a surprise<</if>>. With his wide cockhead just barely tickling the back of your throat you discover that you can actually breath and have all his cock buried inside your mouth for any amount of time. Polishing him with your tongue you move your head with a short strokes massaging his thick pecker with your throat.</p>
+<p>Soon you lose any track of the time and it feels like you was blowing this guy for eternity until he stiffens a bit more and casually cums right down your throat. You chug екнштп to keep his semen out of your lungs and let it to flow right to your stomach gulping it. When his dick stops twitching you carefully remove yourself from his cock. Following the sudden impulse you lick it clean and carefully zip it up back into his pants. He seems to ignore your presence and you are going to stand up but another guy touches your arm and you realize that it will be a long evening for your poor jaw today...</p>
+<center>[img[IMG-BestyServiceSukk]]</center>
+<p>Cock after cock you serve the guests, taking one cumshot after another. Some cocks are thick, some are long, some are short... you even got to lick a pussy of some business woman at some point which felt like a good change after so much blow jobs. Your jaw is sore and tired and your knees ache. @@.mono;I didn't eat anything today but for some reason I don't feel like starwing, giggle!@@ It seems that the party comes to the closure with guests leaving one after another. Finished with pleasuring all the guest who was interested in this you take your place at the corner of the hall feeling <<has liberate>>jealous<<orhas slut>>jelaous<<or>>thankful<</has>> for the maid who is taking two cocks at once at the couch. @@.mono;Well it seems I got only oral fun today while she is enjoying all kinds of hmm... services.@@</p>
+<p>Finally there are just a couple of people left in the room. Maid is still helping two exceptionally horny guests to releive themselves but Oleg stands up and starts to telling goodbye to Gruber. You get a little afraid that he will just leave you here but he nods you to the exit and you sigh with a gratitude. Following him to the car you decide to go vocal which is a bit painful since all the abuse got your throat sore. @@.pc;Mmmm... Mister Bestarius?@@ @@.npc;Yes?@@ You gain courage. @@.pc;Can I consider my debt paid off now?@@ It seems he is pretty drunk. @@.npc;Yes, you did a pretty good job, Mister Gruber said that he liked your skills. I think you are free to go. I hope you won't... forgot the word... mmm... won't... shit. Get out of here and I don't want to see you again, bitch, got it? Get out.@@ @@.pc;Thank you, Mister Bestarius!@@ You are more than happy to get out of all this in one piece and feel a big releive when you get back to the place where you have left your car. @@.mono;Gosh, I am really a lucky one. I thought that I am goner for sure and he just made me suck a bag of dicks and let me go. Maybe he is not that bad guy after all, I was sure it would be much worse...@@</p><<stress 10 "Oleg's party">>
+<center><<button "Close">><<status 0>><<sceneclose>><</button>></center>
+
+
+:: SpectralLensesSet-area [nobr]
+
+<<addtime 12>><<f Y>>ou look through the fence. The farm looks absolutely normal, nothing to write home about. But it is the only farm surrounded by a fence with barbed wire on top. The small booth at the gates is the final detail giving away the true nature of this institution. @@.mono;This place is not what it tries to appear...@@ After a brief moment of hesitation you begin your infiltration.
+<p>Carefully crouching you get under the fence; the tearing in the grid is barely large enough to fit through. You look around, the area looks empty and silent except the man sitting in the booth to your right. He seems to be way too interested in his smartphone to pay attention to his surround. Still keeping low you quickly pass the empty space between the fence and the field.</p>
+<p>@@.mono;Gosh, this is insanity. If they catch me I am soo fucked up...@@</p>
+<p>Wheat are pretty high and you feel much safer since you can't be seen. Crossing the field takes you about ten minutes but finally, you can see a building, disguised as a farmhouse right in front of you. From this distance, the illusion falls apart since you see that wooden siding is actually just painted on a concrete wall. Even funnier, unknown builders also painted the metal door brown to make it look wooden from the distance. You don't see any lock and it seems you can just enter the facility. Nervously you glance around once again getting your courage together. @@.mono;Ugh. Okay, <<name>>, you can do it... You can, right? Oh gosh, maybe I should just go away until it is too late?@@</p>
+<center><<button "Enter">><<script>>
+    const scene = {
+        passage: "SpectralLensesSet-inside",
+        content: "none",
+        image: "IMG-SpectralLensesSet-side",
+        topImage: "IMG-SpectralLensesSet-top",
+        title: "Area 69",
+        allowSave: true,
+        sidebar: `<h2>Area 69</h2>`,
+        showTime: true,
+        allowMenu: false,
+      };
+      setup.scenario.launch(scene);
+  <</script>><<run Dialog.close()>><<button>><<tab>><<button "Return">><<run Dialog.close()>><<button>></center>
+
+
+:: SpectralLensesSet-inside [nobr]
+
+<<f p>>ushing on the heavy door you get inside to find yourself in the small room with metal panel walls and sprinklers on the sides and the celling. Door in front of you has no handles and you make a hesistant step towards it. As you approach both halfs slide into the wall which makes you almost jump. @@.mono;Oh, it was just automatic door, phew...@@ It seems, the building has the long corridor with tons of doors. The place is well lit and you can hear some beeps, humming and mechanical equipment sounds.
+<p>You go along the line of doors with looking at signs you wonder what is the right place and where all the people are. Giving up you decide to open the first door you see, "A-34\Alpha, Dr. Langford, Behavioral revision project.". You can hear some sound mumbling from behind of the door. Pressing the button you make the door slide to the side.</p>
+<center>[img[IMG-Reprogramming]]</center>
+<p>You almost jump seeing a girl fixed to the chair-like implement in front of a big screen. Various cables and tubes go inside her body fixed by a harness. It takes you a while to understand that she doesn't notice you. The screen pushes an image after another in a rapid succession accompanied by a pretty loud female voice mixed with moaning sounds coming from the speakers under the celling.</p>
+<p>@@.rumble;BREED. FUCK. CONCEIVE. BREED. FUCK. CONCEIVE...@@</p>
+<p>Her eyes are fixed to the screen filled with sexual images including some pretty disgusting porn, excessive amounts of ejaculate, moaning female faces and round bellies. Her expression makes you wonder how much time she spent here already since she seems to be ecstatic. Despite her tongue hanging out her lips silently follows the words of the deafening voice from the speakers. A machine on her right pushing the fluids and sends shocks and vibrations through the net of tubes and wires to her body making her squirm, flinch and shiver occasionally.</p>
+<p>@@.mono;<<has pregnancy>>This images tickle something inside me too for some reason. Better leave until I become a moron or something.<</or>>Gosh, I hope they had her informed consent about this... treatment...<</has>>@@</p>
+<p>You suddenly realize that you are staring on the image and following the repeating voices too for a last minute. Shaking your head you return back from the trance and try to concentrate. @@.mono;Okay, <<name>>, don't listen to the voice, listen to yourself... I need to breed... damn, no, fuck, fuck, I need to get out of here and conceive... fuck!@@ Closing your ears with your hands you run outside from the room and the door shuts after you. The voice inside your head slowly dies out.</p>
+<p>@@.npc;Breed... Sex.... Conceive...@@</p>
+<p>After a minute you manage to get back to your old self and continue your search. @@.mono;Better be careful. This place is plain dangerous.@@ Walking along the doors you search for some hint on where the storage may be situated when voices and steps coming from around the corner make yoy freeze.</p>
+<p>@@.npd;...so stage two will not be in effect until the end of...@@</p>
+<center><<button "Run away">><<scenego "SpectralLensesSet-run">><</button>><<tab>><<button "Hide">><<scenego "SpectralLensesSet-hide">><</button>></center>
+<<set _xxx = random(2,3)>><<set ↂ.pc.status.bimbo += _xxx>><<run setup.status.record("bimbo", _xxx, "Something something Spectral Lenses")>><<status 0>>
+
+
+:: SpectralLensesSet-run [nobr]
+
+<<set _shashliki = random(1,3)>><<f w>>ithout hesitation you start running towards the exit. @@.npd;Hey, who are... Security, we have an intruder here, I repeat, we have and intruder, lab D!!!@@ You slap the button on the door to make it open and jump into the entrance chamber and at the same time alarm goes on. Red lights start to flicker on the celling. The door outside is starting to open just to pause on the half way. You heart sinks as you see it closing again and you jerk yourself trough the closing gape scratching your <<p tits.n>> on the cold metal.
+<p>There is nothing suspicious on the outside, despite of alarm, it looks peaceful here and you can't see any personnel. You quickly crouch through the field to the fence...</p>
+<center><<button "Get outside">><<if _shashliki === 3>><<scenego "SpectralLensesSet-badend">><<if _shashliki === 2>><<scenego "SpectralLensesSet-wounded">><<else>><<stress 15 "Almost got caught">><<sceneclose>><</if>><</button>></center>
+
+
+:: SpectralLensesSet-wounded [nobr]
+
+<<stress 30 "Near-death experience.">><<f u>>ou to crouch into the hole and carefully squeeze through...@@.rumble;BANG!!! BANG-BANG!!!@@ @@.mono; Shit!@@
+<p>You double your speed and jump to the road, your stomach feels weird like you was just hit in it but you don't pay much attention to it. @@.npc;Aegida-Borealis, the intruder is running away, engaging!@@ @@.rumble;BANG!!!@@ You run to the car, jump right into the drivers seat and stomp on the gas pedal. @@.rumble;BANG!!! BANG!!!@@ Engine roars as you rapidly leave the area leaving a couple of armed figures running to the road far behind. In a couple of minutes you are already far away from the Area 69 and you feel calm enough to slow down your car.</p>
+<p>@@.mono;Shiit, that was close... Phew... Ha-ha!... Oh...@@ You feel some itching at your belly and look down. Some weird red stain growing on your stomach soaking your clothes. @@.mono;...Oh. Fuck.@@ You cover the wound with your hand and look on the road ahead. @@.mono;...I need to think quick now...@@</p>
+<<button "Drive the car">><<run setup.omni.new("bleeding")>><<run setup.map.nav("world","main")>><<status 0>><<sceneclose>><</button>>
+
+:: SpectralLensesSet-badend [nobr]
+
+<<f u>>ou touch the fence to crouch into the hole...
+@@.rumble;BZZZT!!!@@
+<p>Suddenly you find yourself lying on a ground, your muscles twitch randomly and for some reason you can't get up. Jerking and trying to regain the control over your body you don't notice figures surrounding you. @@.npc;Aegida-Borealis, we got the intruder, copy.@@ One of the persons puts a bag over your head...</p>
+<p><<button "Uh-oh">><<run setup.badEnd("questFail")>><</button>></p>
+
+
+:: SpectralLensesSet-hide [nobr]
+
+<<f w>>ith a couple of quick steps you crouch to the nearest door and push the button to get inside. It opens right in time to hide from a sight of two persons coming to the corridor. Standing still behind the door you hear steps going down the corridor and sigh with relief.
+<p>@@.npc;Ahem.@@ With a cold sweat you turn to see a young guy in a jumpsuit standing with a broom in his hand and a janitor's cart. He looks at you with curiosity.</p>
+
+<<dialogchoice>>
+  <<dbutt "Lie">><<scenego "SpectralLensesSet-hi">>
+  <<dtext "awkward">>Pretend that you are an employee
+  <<dbutt "Run">><<scenego "SpectralLensesSet-run">>
+  <<dtext "cry">>RUNAWAY!!!
+<</dialogchoice>>
+
+
+:: SpectralLensesSet-hi [nobr]
+
+<<f y>>ou try to be as conveincing as you are able to be feeding janitor the best quality bullshit. @@.pc;Ugh, Hello! I am from... main department, just wanted to avoid the attention of doctor... Langford, I missed the deadline for the report...@@
+<<SCX>><<SC "LIE" 10>><<if $SCresult[1]>>
+@@.npc;Ah, <<greetings>>!@@ He obviously trying to act friendly. @@.npc;Yeah, I can imagine, Langford can be a huge pain in the ass. Well, for the records I have never said that, heh.@@ You nod with a serious expression. @@.pc;Of course. Oh, by the way, I need to get to the storage, any ideas?@@ @@.npc;Sure, 42C is the right door, to the right, down the hall.@@ He points the direction and smiles. @@.pc;Oh thanks! Well, I gotta go now, hope won't bump into Langford again.@@ @@.npc;My pleasure, ma'am... @@ @@.pc;...Williams. Tiffany Williams.@@ @@.npc;Josh, it was nice to meet you! Good luck, hehe!@@<<stress "Lying to the janitor" 8>>
+<p>@@.mono;Phew!@@ Trying to act confidently you go back to the corridor and head right. It turns out it was pretty close to the entrance, you just headed the wrong way. You press the button and door slides to the side. The storage is organized very neatly and seems to be robot-operated. Mechanic arms are mounted on the slides going alnog the shelves; a big slate is fixed on the side of the big table near the entrance. @@.mono;Okay, let's see...@@ You type "Spectral lenses" into the search field on the slate and immediately get the result. There are 11 sets of lenses in the storage. You press a button and see a form you need to fill in order to get the component. @@.mono;Hmm... Employee"... dr.Langford, "Purpose"... qweqweqwe. "Amount"... One.@@ One slide start moving and you watch as manipulator retrieves the plastic box from the shelf. Moving to you it puts the box on the table and returns back to the waiting position. @@.mono;He-he. Gotcha!@@</p>
+<center>[img[IMG-Component-Lenses]]</center>
+<<addtime 18>><<set ↂ.flag.main.components[3] = 2>><<happy 1 "You got the Lenses set!">><<status 0>>
+<<button "Leave the place with your bounty.">><<sceneclose>><</button>>
+<<else>>
+<p>@@.pc;Ugh, Hello! I am from... main department, just wanted to avoid the attention of doctor... Langford, I missed the deadline for the report...@@ He frowns and your voice dies out as you know he doesn't belive you. His hand reaches for the walkie-takie on his belt...</p>
+<center><<button "Run away">><<scenego "SpectralLensesSet-run">><</button>></center>
+<</if>>
+<<status 0>>

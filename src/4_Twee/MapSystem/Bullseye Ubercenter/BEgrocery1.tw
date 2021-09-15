@@ -51,7 +51,9 @@
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise hovShop>>
-	@@.disabled;<<button "Shop">><</button>>@@
+	<<button "Shop">><<dialog "Shopping:">><<addtime 16>>
+		<<include [[BEgrocery1food]]>>
+	<</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -78,3 +80,36 @@
 :: BEgrocery1LOC [nobr]
 
 [img[IMGbullseyeBig]]
+
+
+
+:: BEgrocery1food [nobr]
+
+You browse through the shelves.<br><br>
+<table id="noBorder">
+<tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Various goods:</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Cheese
+  <img data-passage="IMG-Item-CookCheese" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  Some fancy cheese made from natural hucow milk.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>3@@ <span id="buyshit2"></span><br><<button "Add to Cart">><<set $cart.push(["Cheese", "simple", 5, "Cheese"])>><<replace "#buyshit2">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Oil
+  <img data-passage="IMG-Item-Oil" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  Cooking oil in a bottle.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>7@@ <span id="buyshitOil"></span><br><<button "Add to Cart">><<set $cart.push(["Oil", "simple", 7, "Oil"])>><<replace "#buyshitOil">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Pickles
+  <img data-passage="IMG-Item-CookPickles" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A jar of pickled cucumbers.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>3@@ <span id="buyshit332"></span><br><<button "Add to Cart">><<set $cart.push(["Pickles", "simple", 5, "Pickles"])>><<replace "#buyshit332">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+</table>

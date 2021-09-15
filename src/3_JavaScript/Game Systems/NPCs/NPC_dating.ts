@@ -114,8 +114,8 @@ setup.npcDate.checkIfFree = function(weekday, next, time, datePlace, npcId) {
         return scheduleCheck(weekday, next, time, npcId);
       }
     } else if (weekday === State.active.variables.date[0]) {
-      if ((time + 1) > State.active.variables.time[0]) {
-        aw.con.info("(time+1) > State.active.variables.time[0]");
+      if (time > State.active.variables.time[0]) {
+        aw.con.info(`time (${(time + 1)}) > State.active.variables.time[0]`);
         if (scheduleCheck(weekday, next, time, npcId) === true) {
           setup.npcDate.scheduleDate(weekday, next, time, datePlace, npcId);
           return "Okay, seems fine!";
@@ -212,7 +212,7 @@ setup.npcDate.remove = function(npcId) {
     delete ↂ.sched.npcDate[npcId];
     return true;
   } else {
-    aw.con.warn(`Date flag ${npcId} not found in the ↂ.flag.schedDates!`);
+    aw.con.info(`Date flag ${npcId} not found in the ↂ.flag.schedDates!`);
     return false;
   }
 };

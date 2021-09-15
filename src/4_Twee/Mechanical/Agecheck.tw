@@ -1,5 +1,21 @@
 :: AgeCheckTooYoung [nobr]
+
 <<if $ageCheckPassage === "AgePassShakeNPop" || $ageCheckPassage === "AgePassPoleRiders">>
+  <div id="ageCheckDiv">
+    <center>[IMG[IMGbouncer]]</center><br>
+    @@.npc;Sorry kid, you've gotta be 21 to get into the club. We can't let underage kids in on account of the alcohol.@@
+    <<dialogchoice>>
+    <<dbutt "Bribe">><<addTime 2>><<replace "#ageCheckDiv">><<include [[AgeCheckBribe]]>><</replace>>
+    <<dtext "wink">>Hey, maybe we can settle it? Let's say I'd help you with some cash... [<<mon>>30]
+    <<dbutt "Seduce" "!ↂ.pc.kink.shame">><<addTime 2>><<replace "#ageCheckDiv">><<include [[AgeCheckSeduce]]>><</replace>>
+    <<dtext "smug">>Hmm, maybe I can convince such big and serious guy as you in some other way?
+    <<dbutt "Convince">><<addTime 2>><<replace "#ageCheckDiv">><<include [[AgeCheckConvince]]>><</replace>>
+    <<dtext "cry">>Please, I really need it!
+    <<dbutt "Okay">><<run Dialog.close()>>
+    <<dtext "sad">>Just go away.
+    <</dialogchoice>>
+  </div>
+<<elseif $ageCheckPassage === "AgePassWrench">>
   <div id="ageCheckDiv">
     <center>[IMG[IMGbouncer]]</center><br>
     @@.npc;Sorry kid, you've gotta be 21 to get into the club. We can't let underage kids in on account of the alcohol.@@
@@ -51,7 +67,7 @@
 
 :: AgeCheckFakeId [nobr]
 
-<<if $ageCheckPassage === "AgePassShakeNPop" || $ageCheckPassage === "AgePassPoleRiders">>
+<<if $ageCheckPassage === "AgePassShakeNPop" || $ageCheckPassage === "AgePassPoleRiders" || $ageCheckPassage === "AgePassWrench">>
   <div id="ageCheckDiv">
     <center>[IMG[IMGbouncer]]</center><br>
     @@.npc;Come on, kid. This I.D. is obviously fake. There's no way you're 21, so I can't let you in.@@
@@ -103,7 +119,7 @@
 
 :: AgeCheckVain [nobr]
 
-<<if $ageCheckPassage === "AgePassShakeNPop" || $ageCheckPassage === "AgePassPoleRiders">>
+<<if $ageCheckPassage === "AgePassShakeNPop" || $ageCheckPassage === "AgePassPoleRiders" || $ageCheckPassage === "AgePassWrench">>
   <div id="ageCheckDiv">
     <center>[IMG[IMGbouncer]]</center><br>
     He stares at your I.D. occasionally glancing up at your face. @@.npc;Hmm, are you really only <<= ↂ.pc.main.ageID>> years old?@@ He shakes his head, mumbling @@.npc;some people...@@ under his breath. He hands you back the I.D. and continues thinking about it for a moment. @@.npc;I guess since you're obviously old enough to be here, I'll let you in. You need to fix up that I.D. though.@@
@@ -170,6 +186,12 @@
 :: AgePassShakeNPop [nobr]
 
 <<gotomap "downtown" "club" "shakenpopentrance">>
+
+
+:: AgePassWrench [nobr]
+
+<<gotomap "downtown" "club" "wrenchentrance">>
+
 
 :: AgePassPoleRiders [nobr]
 

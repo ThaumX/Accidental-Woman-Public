@@ -1,31 +1,32 @@
 :: SleepStart [nobr hidden startmenu]
 
-
 <div class="sky_cunt">
-  <div class="sky_stars"></div>
-  <div class="sky_twinkling"></div>
-  <div class="sky_clouds"></div>
-  <div id="contentBoxer" class="sky_content">
-    <h2>...sleep...</h2>
-    <<if aw.sleep.passedOut>>
-      <<print setup.sleep.passedOutDream()>>
-    <<else>>
-      <<print setup.sleep.dream()>>
-    <</if>>
-  </div>
-  <div id="sky_pbar_rapist" class="bottom_pBar bottom_pBar_full">
-    <<pbarnew "#skypbar" 5 100>>
-  </div>
-  <<timed 50ms>>
-    <<pbarfinish "#skypbar">>
-      <div id="butthold"><<button "Awaken">>
-        <<script>>
-        setup.sleep.opt = jQuery.extend(true, {}, State.temporary.opt);
-        <</script>>
-        <<go SleepForward>>
-      <</button>></div>
-    <</pbarfinish>>
-  <</timed>>
+  <center>
+    <div class="sky_stars"></div>
+    <div class="sky_twinkling"></div>
+    <div class="sky_clouds"></div>
+    <div id="contentBoxer" class="sky_content">
+      <h2>...sleep...</h2>
+      <<if aw.sleep.passedOut>>
+        <<print setup.sleep.passedOutDream()>>
+      <<else>>
+        <<print setup.sleep.dream()>>
+      <</if>>
+    </div>
+    <div id="sky_pbar_rapist" class="bottom_pBar bottom_pBar_full">
+      <<pbarnew "#skypbar" 5 100>>
+    </div>
+    <<timed 50ms>>
+      <<pbarfinish "#skypbar">>
+        <div id="butthold"><<button "Awaken">>
+          <<script>>
+          setup.sleep.opt = jQuery.extend(true, {}, State.temporary.opt);
+          <</script>>
+          <<go SleepForward>>
+        <</button>></div>
+      <</pbarfinish>>
+    <</timed>>
+  </center>
 </div>
 
 /*
@@ -66,15 +67,7 @@
 <<set setup.escape.sit = "morning">>
 <div id="cardback">
 <<set setup.eventAllowed = true>>
-<span style="font-size:1.2rem;color:#ddd;" class="volkhorn">Starting your morning...<br>
-<<if not aw.sleep.passedOut>>
-  <<if State.active.variables.enabledMorning>>
-    Equipping Your stuffs...
-    <<run setup.hair.doSet($hairMorning)>>
-    <<run setup.makeup.applySet($makeupMorning)>>
-    <<run setup.clothes.outfit.wear($clothesMorning)>>
-  <</if>>
-<</if>></span>
+<span style="font-size:1.2rem;color:#ddd;" class="volkhorn">Starting your morning...<br></span>
 <center>
 <img data-passage="IMG-SunriseForest" class="fadeIn animated" style="border-width:6px;border-style:solid;border-color:#222;border-radius:6px;">
 </center>
@@ -135,7 +128,6 @@
 </div>
 
 
-
 :: SleepRestless [nobr]
 
 /* passage variable is forwarded as _psg */
@@ -157,4 +149,106 @@
 <br>
 </center>
 <<ctn>><<hovins sleep>>This will advance time to 2000 and start sleep. [+vigor]<</hovins>><</ctn>>
+<br>
+
+:: SleepMorningChoices [nobr]
+
+<fieldset style="width:800px;">
+<legend><span class="head3">Getting Ready</span></legend>
+<b>CLOTHES:</b> [<span id='choice1'><<= $clothesMorning>></span>]<<tab>>
+<<button "Casual">>
+  <<set $clothesMorning = 'Casual'>>
+  <<replace "#choice1">><<= $clothesMorning>><</replace>>
+  <<run setup.clothes.outfit.wear($clothesMorning)>>
+<</button>>
+<<button "Work">>
+  <<set $clothesMorning = 'Work'>>
+  <<replace "#choice1">><<= $clothesMorning>><</replace>>
+  <<run setup.clothes.outfit.wear($clothesMorning)>>
+<</button>>
+<<button "Fancy">>
+  <<set $clothesMorning = 'Fancy'>>
+  <<replace "#choice1">><<= $clothesMorning>><</replace>>
+  <<run setup.clothes.outfit.wear($clothesMorning)>>
+<</button>>
+<<button "Home">>
+  <<set $clothesMorning = 'Home'>>
+  <<replace "#choice1">><<= $clothesMorning>><</replace>>
+  <<run setup.clothes.outfit.wear($clothesMorning)>>
+<</button>>
+<<button "Nightwear">>
+  <<set $clothesMorning = 'Night'>>
+  <<replace "#choice1">><<= $clothesMorning>><</replace>>
+  <<run setup.clothes.outfit.wear($clothesMorning)>>
+<</button>>
+<br>
+<b>HAIR:</b> [<span id='choice2'><<= $hairMorning>></span>]<<tab>>
+<<button "Casual">>
+  <<set $hairMorning = 'casual'>>
+  <<replace "#choice2">><<= $hairMorning>><</replace>>
+  <<run setup.hair.doSet($hairMorning)>>
+<</button>>
+<<button "Fancy">>
+  <<set $hairMorning = 'fancy'>>
+  <<replace "#choice2">><<= $hairMorning>><</replace>>
+  <<run setup.hair.doSet($hairMorning)>>
+<</button>>
+<<button "standard">>
+  <<set $hairMorning = 'standard'>>
+  <<replace "#choice2">><<= $hairMorning>><</replace>>
+  <<run setup.hair.doSet($hairMorning)>>
+<</button>>
+<<button "Custom 1">>
+  <<set $hairMorning = 'custom 1'>>
+  <<replace "#choice2">><<= $hairMorning>><</replace>>
+  <<run setup.hair.doSet($hairMorning)>>
+<</button>>
+<<button "Custom 2">>
+  <<set $hairMorning = 'custom 2'>>
+  <<replace "#choice2">><<= $hairMorning>><</replace>>
+  <<run setup.hair.doSet($hairMorning)>>
+<</button>>
+<<button "Custom 3">>
+  <<set $hairMorning = 'custom 3'>>
+  <<replace "#choice2">><<= $hairMorning>><</replace>>
+  <<run setup.hair.doSet($hairMorning)>>
+<</button>>
+<br>
+<b>MAKEUP:</b> [<span id='choice3'><<= $makeupMorning>></span>]<<tab>>
+<<button "Casual">>
+  <<set $makeupMorning = 'casual'>>
+  <<replace "#choice3">><<= $makeupMorning>><</replace>>
+  <<run setup.makeup.applySet($makeupMorning)>>
+<</button>>
+<<button "None">>
+  <<set $makeupMorning = 'none'>>
+  <<replace "#choice3">><<= $makeupMorning>><</replace>>
+  <<run setup.makeup.applySet($makeupMorning)>>
+<</button>>
+<<button "Fancy">>
+  <<set $makeupMorning = 'fancy'>>
+  <<replace "#choice3">><<= $makeupMorning>><</replace>>
+  <<run setup.makeup.applySet($makeupMorning)>>
+<</button>>
+<<button "Standard">>
+  <<set $makeupMorning = 'standard'>>
+  <<replace "#choice3">><<= $makeupMorning>><</replace>>
+  <<run setup.makeup.applySet($makeupMorning)>>
+<</button>>
+<<button "Custom 1">>
+  <<set $makeupMorning = 'custom 1'>>
+  <<replace "#choice3">><<= $makeupMorning>><</replace>>
+  <<run setup.makeup.applySet($makeupMorning)>>
+<</button>>
+<<button "Custom 2">>
+  <<set $makeupMorning = 'custom 2'>>
+  <<replace "#choice3">><<= $makeupMorning>><</replace>>
+  <<run setup.makeup.applySet($makeupMorning)>>
+<</button>>
+<<button "Custom 3">>
+  <<set $makeupMorning = 'custom 3'>>
+  <<replace "#choice3">><<= $makeupMorning>><</replace>>
+  <<run setup.makeup.applySet($makeupMorning)>>
+<</button>>
+</fieldset>
 <br>

@@ -1,1 +1,1 @@
-setup.ver = 360; setup.verInc = 554; setup.version = "0.36.0"; setup.swim = "[public]";
+setup.ver = 500; setup.verInc = 698; setup.version = "0.50.0"; setup.swim = "[public]";

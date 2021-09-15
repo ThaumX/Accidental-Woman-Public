@@ -141,7 +141,7 @@ aw.mapNPC = {
           return false;
         },
       },
-      n1010: { // mrs. Swallows - owner of the deep drilling school
+      n1010: { // Mrs. Swallows - owner of the deep drilling school
         times: [15, 23],
         cond(): boolean {
           if (random(1, 2) === 2) {
@@ -164,7 +164,7 @@ aw.mapNPC = {
       n1005: { // Besty - man of many talents having his evening fun
         times: [21, 23],
         cond(): boolean {
-          if (random(1, 5) === 5) {
+          if (random(1, 3) === 3 || ↂ.flag.main.components[2] === 1) {
             return true;
           }
           return false;

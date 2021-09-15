@@ -98,7 +98,7 @@ aw.tagContent.exes.seriousIllnessHelp = [
 `,
 ];
 aw.tagContent.exes.illness = [
-  `@@.npc;You look unhealty. Are you ok?@@<br>
+  `@@.npc;You look unhealthy. Are you ok?@@<br>
   <<dialogchoice>>
     <<dbutt "Bitchy" "ↂ.pc.trait.bitch === 1">><<intreplace>><<ctagcontent "exes" "illnessBitchy">><</intreplace>>
     <<dtext "mad">>Don't even pretend that you care.
@@ -137,11 +137,11 @@ aw.tagContent.exes.nakedBottom = [
       <<dbutt "Act cool">><<intreplace>><<ctagcontent "exes" "NakedBottomCool">><</intreplace>>
       <<dtext "cool">>Just continue with the chat.
       <<dbutt "Run">><<run setup.interact.exit()>>
-      <<dtext "pain">>Run away in embarassment.
+      <<dtext "pain">>Run away in embarrassment.
   <</dialogchoice>>`,
 ];
 aw.tagContent.exes.NakedBottomPresent = [
-  `<<SCX>><<SC "SD" "20">>You lean forward, obcenely exposing your lady bits.<br> @@.mono;Ha, missing that perfect booty now, don't you? I can see it in your eyes.@@<br><<if $SCresult[1]>><<set aw.npc[setup.interact.status.npc].rship.lovePC += 5 >>
+  `<<SCX>><<SC "SD" "20">>You lean forward, obscenely exposing your lady bits.<br> @@.mono;Ha, missing that perfect booty now, don't you? I can see it in your eyes.@@<br><<if $SCresult[1]>><<set aw.npc[setup.interact.status.npc].rship.lovePC += 5 >>
   That arouses <<print aw.npc[setup.interact.status.npc].main.name>>.
   @@.npc;Oh, shit. You are still as gorgeous as the day we met, babe!@@<br>
   @@.pc;Thanks, heh. So...@@<br>
@@ -150,7 +150,7 @@ aw.tagContent.exes.NakedBottomPresent = [
   @@.npc;What for you are doing this? Not to say you are running around the streets with your bare ass visible to all the people but damn, <<print ↂ.pc.main.name>>, that is your way to return me? Really?@@
   <<dialogchoice>>
       <<dbutt "Run" "ↂ.pc.kink.exhibition">><<run setup.interact.exit()>>
-      <<dtext "disturbed">>Run away in embarassment
+      <<dtext "disturbed">>Run away in embarrassment
       <<dbutt "Talk">><<intreplace>><<ctagcontent "exes" "NakedBottomPresentChat">>
       <<dtext "tired">>Oh... Yes, you are right...
   <</dialogchoice>>
@@ -334,7 +334,7 @@ aw.tagContent.exes.clownMakeup = [
   <<else>>@@.pc;What?@@<br>
   @@.npc;Well, it is your makeup, <<print ↂ.pc.main.name>>. Like totally ruined.@@<br>
   @@.pc;Yeah, I am aware of that, thanks.@@<br>
-  @@.mono;Oh shit, I better clean makeup asap. That is just embarassing.@@<br>
+  @@.mono;Oh shit, I better clean makeup asap. That is just embarrassing.@@<br>
   <<include [[NPCinteraction-ExesContinue]]>>
   <</if>>`,
 ];
@@ -358,7 +358,7 @@ aw.tagContent.exes.clownMakeupCool = [
   <<include [[NPCinteraction-ExesContinue]]>>`,
 ];
 aw.tagContent.exes.clownMakeupSarcasm = [
-  `<<set aw.npc[setup.interact.status.npc].rship.likePC -= 5 >>@@.pc;My makeup is so good it made you histerical, yeah?@@<br>
+  `<<set aw.npc[setup.interact.status.npc].rship.likePC -= 5 >>@@.pc;My makeup is so good it made you hysterical, yeah?@@<br>
   @@.npc;What?@@<br>
   @@.pc;Whatever.@@<br>
   <<include [[NPCinteraction-ExesContinue]]>>`,
@@ -422,7 +422,7 @@ aw.tagContent.exes.mindbreak = [
   <<set aw.npc[setup.interact.status.npc].rship.lovePC += 5 >>@@.pc;I am so sorry. It was really tough times lately.@@<br>
   @@.npc;Oh, it is okay.@@<br>
   <<include [[NPCinteraction-ExesContinue]]>>
-  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10 "Mindbroken convo">>You start histerically giggling.<br>
+  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10 "Mindbroken convo">>You start hysterically giggling.<br>
   @@.npc;Oh, I better go, you... just be safe you know? I ll call you later...maybe...@@<br>
   You cry ang laugh alone sitting on the floor for some time before you finally start to feel better.<br>
   <<link "Get up">><<run setup.interact.exit()>><</link>>
@@ -430,8 +430,8 @@ aw.tagContent.exes.mindbreak = [
 ];
 aw.tagContent.exes.flooded = [
   `<<if ↂ.pc.clothes.keys.panties == 0 || ↂ.pc.clothes.worn.panties === "pulledAside" || ↂ.pc.clothes.worn.panties === "pulledOff" || ↂ.pc.clothes.worn.panties === "off">>
-    You feel your juices running down your inner thights with no panties in a way to stop them.<br>
-    <<has exhibition>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will notice that. That is so embarassingly exciting!@@<br><<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will not notice that.@@<br><</has>>
+    You feel your juices running down your inner thighs with no panties in a way to stop them.<br>
+    <<has exhibition>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will notice that. That is so embarrassingly exciting!@@<br><<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will not notice that.@@<br><</has>>
   <<else>>You feel your juices making a slippery mess slowly soaking through your panties.<br><<has slut>>@@.mono;Speaking with a person while being flooded like that is so naughty!@@<br><<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will not notice that.@@<br><</has>>
   <</if>><<include [[NPCinteraction-ExesContinue]]>>`,
 ];

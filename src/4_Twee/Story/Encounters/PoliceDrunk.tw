@@ -1,0 +1,72 @@
+:: AppletreePoliceDrunkMechanical [nobr]
+
+<<script>>
+  const scene = {
+      passage: "AppletreePoliceDrunkDriving",
+      content: "none",
+      image: "IMG-PoliceDrunkSide",
+      topImage: "IMG-PoliceDrunkTop",
+      title: "Police",
+      allowSave: false,
+      sidebar: `<h2>Road</h2>`,
+      showTime: false,
+      allowMenu: false,
+    };
+    setup.scenario.launch(scene);
+<</script>>
+
+
+:: AppletreePoliceDrunkDriving [nobr hidden]
+
+<p>
+<<f y>>ou focus on driving straight which is pretty hard considering your tipsy state. You hear the siren and look to the side mirror to see a police car ordering you to stop. @@.mono;That's not good, <<name>>. Not good at all...@@
+</p>
+<<dialogchoice>>
+<<dbutt "stop">><<addTime 5>><<scenego [[AppletreePoliceDrunkDriving-b]]>>
+<<dtext "confused">> I better obey the officer.
+<<dbutt "escape" "(ↂ.pc.trait.extro || ↂ.pc.trait.cl)">><<run setup.badEnd("prison")>><<intclose>>
+<<dtext "proud">> They ain't gonna catch me! Pedal to the metal, baby!
+<</dialogchoice>>
+
+
+:: AppletreePoliceDrunkDriving-b [nobr hidden]
+
+<p><<if ↂ.pc.status.alcohol > 7>><<set _fine = random(80, 100)>><<else>><<set _fine = random(40, 60)>><</if>><<set _promille = ↂ.pc.status.alcohol - 4>><<f y>>ou stop your car and patiently wait for the redhead busty officer keeping your hands on the steering wheel. She doesn't hurry.
+</p>
+<p>@@.npc;<<greetings>>, Officer Morgan, APD, your documents miss. I have noticed you was driving in a dangerous way...@@ As you do as you're told she leans closer to the window and you see her nosedrills shiver when she smells booze. @@.npc;Have you consumed any alchohol today, miss?@@</p>
+<p>@@.pc;I... maybe a bit.@@ She takes out a small box with a little protruding shaft from her belt. @@.npc;Okay, please put this into your mouth for two seconds.@@ You hesitate and she adds @@.npc;Don't worry, it is just an alcometer, properly sterilized after each use.@@</p>
+<p>You put your lips around the shaft feeling that this scene looks a little tiny bit suggestive. Morgan looks at the little screen. @@.npc;I see you have <<print _promille>>.<<= random(1,8)>> BAC in your blood which means that your fine will be <span class="money">₢<<print _fine>></span>. That's due right now.@@</p>
+
+<<dialogchoice>>
+<<dbutt "pay it">><<set _fine *= -1>><<addTime 5>><<run aw.cash(_fine)>><<sceneclose>>
+<<dtext "cry">> Just pay your fine and get it over with. (costs ₢<<= _fine>>)
+<<dbutt "work it out" "ↂ.pc.kink.slut">><<addTime 5>><<scenego [[AppletreePoliceDrunkDriving-sex]]>>
+<<dtext "bimbo">> Maybe there is a chance to solve this with some "favor", officer?
+<</dialogchoice>>
+
+
+:: AppletreePoliceDrunkDriving-sex [nobr hidden]
+
+<<if _random(1,2) == 2>>
+<p>You wink. @@.pc;Maybe there is a chance to solve this with some "favor", officer?@@</p>
+<p>@@.npc;Are you mad, miss? Are you aware that attempting to bribe an officer on duty is a crime?@@</p>
+<p>@@.pc;I was just... oh...@@</p>
+<p>@@.npc;I am in a good mood today so I'll pretend I heard nothing. So?@@</p>
+<p>You have no choice but to pay your fine before things get even worse.</p>
+<center><<button "Pay and leave">><<set _fine *= -1>><<addTime 5>><<run aw.cash(_fine)>><<sceneclose>><</button>></center>
+<<else>>
+<p>You wink. @@.pc;Maybe there is a chance to solve this with some "favor", officer?@@</p>
+<p>Morgan looks at you for a moment then smiles. @@.npc;We can work it out, little slut. Come here...@@</p>
+<center><<button "Sex">>
+<<set ↂ.sex.passage = aw.passage.title>>
+<<set ↂ.sex.pcOutput = "It doesn't take long before the two of you are naked in the boss bed.">>
+<<set ↂ.sex.enviroTags = ["bed","wall","chair"]>>
+<<set setup.sexitimes = "n1029">>
+<<set ↂ.sex.rape = true>>
+<<set ↂ.sex.pcOutput = "Morgan smiles and shows police brutality by grabbing you to the <<publicPrivacy>>.">>
+<<sceneclose>>
+<<script>>
+setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
+<</script>>
+<</button>></center>
+<</if>>

@@ -51,7 +51,9 @@
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise hovShop>>
-	@@.disabled;<<button "Shop">><</button>>@@
+	<<button "Shop">><<dialog "Shopping:">><<addtime 16>>
+		<<include [[BEgrocery2food]]>>
+	<</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -77,3 +79,44 @@
 :: BEgrocery2LOC [nobr]
 
 [img[IMGbullseyeBig]]
+
+
+
+:: BEgrocery2food [nobr]
+
+You browse through the shelves.<br><br>
+<table id="noBorder">
+<tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Various goods:</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Bread
+  <img data-passage="IMG-Item-CookBread" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  A bag with loafs of bread.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>2@@ <span id="buyshit1"></span><br><<button "Add to Cart">><<set $cart.push(["Bread", "simple", 2, "Bread"])>><<replace "#buyshit1">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Cheese
+  <img data-passage="IMG-Item-CookCheese" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  Some fancy cheese made from natural hucow milk.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>3@@ <span id="buyshit2"></span><br><<button "Add to Cart">><<set $cart.push(["Cheese", "simple", 5, "Cheese"])>><<replace "#buyshit2">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Eggs
+  <img data-passage="IMG-Item-CookEggs" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  6 eggs in a cardboard.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>3@@ <span id="buyshitEggs"></span><br><<button "Add to Cart">><<set $cart.push(["Eggs", "simple", 3, "Eggs"])>><<replace "#buyshitEggs">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Flour
+  <img data-passage="IMG-Item-CookFlour" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  Very well crushed wheat.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>5@@ <span id="buyshitFlour"></span><br><<button "Add to Cart">><<set $cart.push(["Flour", "simple", 5, "Flour"])>><<replace "#buyshitFlour">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+</table>

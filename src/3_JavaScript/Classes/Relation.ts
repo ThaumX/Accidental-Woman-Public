@@ -75,15 +75,15 @@ class Relation {
     }
   }
   public get category(): string {
-    if (this.married) {
+    if (this.data[6]) {
       return "married";
-    } else if (this.engaged) {
+    } else if (this.data[5]) {
       return "engaged";
-    } else if (this.lovers) {
+    } else if (this.data[3]) {
       return "lovers";
-    } else if (this.exclusive) {
+    } else if (this.data[4]) {
       return "exclusive";
-    } else if (this.dating) {
+    } else if (this.data[2]) {
       return "dating";
     } else if (this.friend) {
       return "friend";
@@ -125,14 +125,14 @@ class Relation {
     } else {
       if (this.data[0] !== val) { // make sure it's a change from previous condition
         if (val) { // starting rship
-          this.friendTime = aw.time;
-          this.path = "friend";
+          this.data[24] = aw.time;
+          this.data[23] = "friend";
           if (!setup.npc.friends.includes(this._k)) {
             setup.npc.friends.push(this._k);
           }
-          this.rejected = false;
+          this.data[21] = false;
         } else { // ending the rship
-          this.friendTime = aw.time * -1;
+          this.data[24]  = aw.time * -1;
           setup.npc.friends.delete(this._k);
         }
       }
@@ -148,13 +148,13 @@ class Relation {
     } else {
       if (this.data[1] !== val) {
         if (val) { // starting rship
-          this.acquaintTime = aw.time;
+          this.data[25] = aw.time;
           if (!setup.npc.acquainted.includes(this._k)) {
             setup.npc.acquainted.push(this._k);
           }
-          this.rejected = false;
+          this.data[21] = false;
         } else { // ending the rship
-          this.acquaintTime = aw.time * -1;
+          this.data[25] = aw.time * -1;
           setup.npc.acquainted.delete(this._k);
         }
       }
@@ -170,8 +170,8 @@ class Relation {
     } else {
       if (this.data[2] !== val) {
         if (val) { // starting rship
-          this.datingTime = aw.time;
-          this.path = "date";
+          this.data[26] = aw.time;
+          this.data[23] = "date";
           if (!setup.npc.interested.includes(this._k)) {
             setup.npc.interested.push(this._k);
           }
@@ -179,13 +179,17 @@ class Relation {
             // TODO check if actually had sex first
             setup.npc.fling.push(this._k);
           }
-          this.rejected = false;
+          this.data[21] = false;
         } else { // ending the rship
-          this.datingTime = aw.time * -1;
+          this.data[26] = aw.time * -1;
           setup.npc.interested.delete(this._k);
           // we don't add to exes because this is just a casual rship at this point.
-          this.exclusive = false;
-          this.lovers = false;
+          if (this.data[4]) {
+            this.data[4] = false;
+          }
+          if (this.data[3]) {
+            this.data[3] = false;
+          }
         }
       }
       this.data[2] = val;
@@ -200,19 +204,23 @@ class Relation {
     } else {
       if (this.data[3] !== val) {
         if (val) { // starting rship
-          this.loversTime = aw.time;
+          this.data[27] = aw.time;
           if (!setup.npc.lover.includes(this._k)) {
             setup.npc.lover.push(this._k);
           }
-          this.rejected = false;
+          this.data[21] = false;
         } else { // ending the rship
-          this.loversTime = aw.time * -1;
+          this.data[27] = aw.time * -1;
           setup.npc.lover.delete(this._k);
           if (!setup.npc.exes.includes(this._k)) {
             setup.npc.exes.push(this._k);
           }
-          this.exclusive = false;
-          this.dating = false;
+          if (this.data[4]) {
+            this.data[4] = false;
+          }
+          if (this.data[2]) {
+            this.data[2] = false;
+          }
         }
       }
       this.data[3] = val;
@@ -227,20 +235,24 @@ class Relation {
     } else {
       if (this.data[4] !== val) {
         if (val) { // starting rship
-          this.exclusiveTime = aw.time;
+          this.data[28] = aw.time;
           if (!setup.npc.rShip.includes(this._k)) {
             setup.npc.rShip.push(this._k);
           }
           setup.npc.fling.delete(this._k); // no longer a fling
-          this.rejected = false;
+          this.data[21] = false;
         } else { // ending the rship
-          this.exclusiveTime = aw.time * -1;
+          this.data[28] = aw.time * -1;
           setup.npc.rShip.delete(this._k);
           if (!setup.npc.exes.includes(this._k)) {
             setup.npc.exes.push(this._k);
           }
-          this.lovers = false;
-          this.dating = false;
+          if (this.data[3]) {
+            this.data[3] = false;
+          }
+          if (this.data[2]) {
+            this.data[2] = false;
+          }
         }
       }
       this.data[4] = val;
@@ -255,16 +267,22 @@ class Relation {
     } else {
       if (this.data[5] !== val) {
         if (val) { // starting rship
-          this.engagedTime = aw.time;
-          this.rejected = false;
+          this.data[29] = aw.time;
+          this.data[21] = false;
         } else { // ending the rship
-          this.engagedTime = aw.time * -1;
+          this.data[29] = aw.time * -1;
           if (!setup.npc.exes.includes(this._k)) {
             setup.npc.exes.push(this._k);
           }
-          this.exclusive = false;
-          this.lovers = false;
-          this.dating = false;
+          if (this.data[4]) {
+            this.data[4] = false;
+          }
+          if (this.data[3]) {
+            this.data[3] = false;
+          }
+          if (this.data[2]) {
+            this.data[2] = false;
+          }
         }
       }
       this.data[5] = val;
@@ -279,20 +297,28 @@ class Relation {
     } else {
       if (this.data[6] !== val) {
         if (val) { // starting rship
-          this.marriedTime = aw.time;
-          this.rejected = false;
+          this.data[30] = aw.time;
+          this.data[21] = false;
         } else { // ending the rship
-          this.marriedTime = aw.time * -1;
+          this.data[30] = aw.time * -1;
           if (!setup.npc.exes.includes(this._k)) {
             setup.npc.exes.push(this._k);
           }
           setup.npc.lover.delete(this._k);
           setup.npc.interested.delete(this._k);
           setup.npc.rShip.delete(this._k);
-          this.engaged = false;
-          this.exclusive = false;
-          this.lovers = false;
-          this.dating = false;
+          if (this.data[5]) {
+            this.data[5] = false;
+          }
+          if (this.data[4]) {
+            this.data[4] = false;
+          }
+          if (this.data[3]) {
+            this.data[3] = false;
+          }
+          if (this.data[2]) {
+            this.data[2] = false;
+          }
         }
       }
       this.data[6] = val;
@@ -405,8 +431,8 @@ class Relation {
     if (isNaN(val)) {
       aw.con.warn(`Attempted to set ${this._k} dates to non-number value!`);
     } else {
-      this.daysince = 0;
-      this.met += 1;
+      this.data[14] = 0;
+      this.data[18] += 1;
       this.data[16] = Math.max(0, val);
     }
   }
@@ -418,8 +444,8 @@ class Relation {
     if (isNaN(val)) {
       aw.con.warn(`Attempted to set ${this._k} hangout to non-number value!`);
     } else {
-      this.daysince = 0;
-      this.met += 1;
+      this.data[14] = 0;
+      this.data[18] += 1;
       this.data[17] = Math.max(0, val);
     }
   }
@@ -467,9 +493,9 @@ class Relation {
       aw.con.warn(`Attempted to set ${this._k} rejected to non-boolean value!`);
     } else {
       if (val) {
-        this.rejTime = aw.time;
+        this.data[22] = aw.time;
       } else {
-        this.rejTime = 0;
+        this.data[22] = 0;
       }
       this.data[21] = val;
     }
@@ -573,10 +599,18 @@ class Relation {
     }
   }
   public breakUp(): void {
-    this.engaged = false;
-    this.lovers = false;
-    this.exclusive = false;
-    this.dating = false;
+    if (this.data[5]) {
+      this.data[5] = false;
+    }
+    if (this.data[3]) {
+      this.data[3] = false;
+    }
+    if (this.data[4]) {
+      this.data[4] = false;
+    }
+    if (this.data[2]) {
+      this.data[2] = false;
+    }
     this.lovePC -= 30;
     this.likePC -= 20;
     if (this._k === ↂ.flag.liveWith) {

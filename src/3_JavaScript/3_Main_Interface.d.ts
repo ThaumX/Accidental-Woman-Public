@@ -26,6 +26,7 @@ interface arc {
 
 
 interface setup {
+  initializeFlags: () => void;
   tf: setupTF;
   clothesCreator: clothesCreator;
   drug: setupDrug;
@@ -52,6 +53,7 @@ interface setup {
   seenRefreshWarning: boolean;
   minigames: {};
   npcInfo: NpcInfo;
+  wedding: Wedding;
   npcDate: NpcDate;
   restartChecker: boolean;
   scrollBottom: (id: string) => void;
@@ -129,6 +131,7 @@ interface setup {
   initCond: { (): void };
   fert: setupFert;
   food: setupFood;
+  challenge: setupChallenge;
   cook: setupCook;
   access: setupAccess;
   tattoo: setupTattoo;
@@ -233,7 +236,7 @@ interface setup {
   prop: { (prop: string): string };
   tooltipper: { (): void };
   pubeShape: { (style: string): string };
-  gate: (content: any) => boolean;
+  gate: (...content: any) => boolean;
   forbiddenList: { (): void };
   addAppointment: { (day: number, week: number, { name, type, alert, start, end, place, locmap, missed, npc, msg, disc }: AppointmentInfo): void };
   daysList: { (days: weekdays): string };
@@ -241,6 +244,7 @@ interface setup {
   storeNPC: { (npcid: npcid): boolean };
   textingMacroFunction: { (): void };
   initialize: setupInitialize;
+  settingsSaveObj: any;
   defineFixedNPCs: { (): void };
   ai: setupAI;
   breastCalc: { (): void };
@@ -318,6 +322,7 @@ interface setup {
   devirgin: (hole?: "P" | "A") => void;
   bukkake: () => void;
   bodyPortraitFemale: (char?: string) => string;
+  bodyPortraitMale: (char?: string) => string;
   hasGun: () => boolean;
   lab: setupLab;
   giveSSTD: () => void;
@@ -328,25 +333,38 @@ interface setup {
   parsed: boolean;
   forwardPassage: string | false;
   getNPCs: (type: string) => npcid[];
-  getLovers: () => npcid[];
+  getLovers: () => any;
   getExclusive: () => npcid[];
   getFriends: () => npcid[];
   npcHomes: npcHomes;
   hadSexWith: (npc: npcid, level: number) => void;
   isSuspicious: (npcid: npcid) => boolean;
   npcEditorList: () => string;
+  getLoversHusb: (passage: string) => any;
   churchLaunch: (church: string) => void;
-
+  endOfAllThings: () => void;
+  gameOver: (final :string) => void;
+  future: () => string;
+  skillRandom: () => void;
   // Anenn markup
   editorCalc: (NPC: NPC) => void;
-
+  calcBreastWeight: (size: number) => string;
   camFlag : (value: string) => any;
 
   setCamShow: () => void;
+  setSurrogacy: () => void;
+  getCamReward: () => any;
+
+  saveData: (Object: any) => void;
+  nameChecker: () => void;
+  cowsPregCheck: () => boolean;
   /* ========== */
 
   vow: IntSetupVows;
   npcTemplate: IntSetupNPCtemplate;
+  loadNewStateVars: (save: any) => void;
+  cashDiff: (amt: number) => number;
+  megaCreampie: (name: string) => void;
 }
 
 interface ↂinterface {
@@ -379,6 +397,7 @@ interface ↂinterface {
 }
 
 interface aw {
+  BackwardCompatibilityUsed: boolean;
   besty: {}; // a temporary variable home for Besty that can be burned at will
   npcTemplates: {};
   dialogCloseEvent: () => void;
@@ -484,7 +503,7 @@ interface aw {
     latePreg: { (): string }
   };
   sleep: awSleep;
-  gate: (content: any) => boolean;
+  gate: (...content: string[]) => boolean;
   sexAct: object;
   sexActN: object;
   sexActRef: object;

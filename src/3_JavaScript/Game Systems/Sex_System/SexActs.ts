@@ -27,7 +27,7 @@ Variables used to define SexAct class object
     action; //function that mods letiables
     allowList; //list of relevant keys for content blocking
     req; //object containing tag requirements for action
-      loc; //required location tags like furnature
+      loc; //required location tags like furniture
       pos; //required position tags
       pcCanAccess; //required body access tags by pc hands to npc bodypart
       pcCanMouth; //required access by pc mouth to npc bodypart
@@ -2180,7 +2180,7 @@ class SexAct {
       tab: "kink", // the action tab that this action belongs in.
       cat: "talk", // category of the action ex: makeout sex oral handjob anal
       kink: ["none"], // any kinks action contains/implies for censorship purposes
-      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 20, prostitute: 0 }, // req skill to use action
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 10, prostitute: 0 }, // req skill to use action
       parts: ["skip", "cock"], // the used parts - 0: player 1: target
       effect: { // the effect information for the action
         pleasure: { // pleasure (prog to orgasm) given by action
@@ -2219,8 +2219,12 @@ class SexAct {
           condom = setup.sexCondomTempType;
           delete setup.sexCondomTempType;
         }
+        const vowList = ↂ.flag.marriage.PCvows.concat(ↂ.flag.marriage.NPCvows);
         if (ↂ.sex.npcBC[ↂ.sex.target].condom.worn && !ↂ.sex.npcBC[ↂ.sex.target].condom.break) {
           ↂ.sex.encounter[1] = `${ↂ.T.main.name} gives you a confused look. <span class="npc">What do you mean? I'm already wearing one...</span>`;
+          return;
+        } else if (vowList.includes("noCondom") || vowList.includes("noPill")) {
+          ↂ.sex.encounter[1] = `${ↂ.T.main.name} gives you a concerned look. <span class="npc">Hey, we vowed to never use this kind of protection, remember?</span>`;
           return;
         } else if (ↂ.sex.flag.knowsAcid) {
           ↂ.sex.encounter[1] = `${ↂ.T.main.name} gives you a concerned look. <span class="npc">I don't think that's such a great idea with those enzymes you've got...</span>`;
@@ -2244,13 +2248,13 @@ class SexAct {
         if (condom === "default") { // asks for condom
           // simple random to see if npc owns a condom to use.
           pout = "Realizing that you don't have a condom yourself, you're forced to ask if <<n _t 'heshe.q'>> has one. <span class='pc'>Hey, you wouldn't happen to have a condom on you, would you?</span>";
-          if (condom === "default" && random(1, 3) < 3) {
+          if (condom === "default" && random(1, 4) < 3) {
             owned = false;
           }
           // if pass seduction check and npc has condom
           if (ᛔ.SCresult[1] && owned) {
             // wear condom.
-            condom = "trojancockUL";
+            condom = either("trojancockS","trojancockUL","trojancockUL","trojancockUL","trojancockUNL","pleasureburst","trojancockUNL-Sab1","trojancockUL-Sab2");
             setup.sex.equipCondom(condom);
             output += setup.sex.library("putOnCondom", "N");
           } else if (owned) { // fail check but has condom...
@@ -2266,7 +2270,130 @@ class SexAct {
             trojancockUL: "Trojancock Uber",
             trojancockUNL: "Trojancock Uber",
             pleasureburst: "Pleasureburst",
+            "duremaxT-Sab1": "sabotaged Duremax Safe-T",
+            "duremaxPE-Sab1": "sabotaged Duremax Safe-PE",
+            "trojancockS-Sab1": "sabotaged Trojancock Sensations",
+            "trojancockUL-Sab1": "sabotaged Trojancock Uber",
+            "trojancockUNL-Sab1": "sabotaged Trojancock Uber",
+            "pleasureburst-Sab1": "sabotaged Pleasureburst",
+            "duremaxT-Sab2": "expertly-sabotaged Duremax Safe-T",
+            "duremaxPE-Sab2": "expertly-sabotaged Duremax Safe-PE",
+            "trojancockS-Sab2": "expertly-sabotaged Trojancock Sensations",
+            "trojancockUL-Sab2": "expertly-sabotaged Trojancock Uber",
+            "trojancockUNL-Sab2": "expertly-sabotaged Trojancock Uber",
+            "pleasureburst-Sab2": "expertly-sabotaged Pleasureburst",
           };
+          if (ᛔ.SCresult[1]) {
+            pout = `Grabbing a ${cNames[condom]} with one hand, you deftly tear open the foil wrapper and pull out the condom inside. `;
+            pout += either(`Placing the condom between your lips, you align your face with ${ↂ.T.main.name}'s <<n _t 'cock.q'>> <<n _t 'cock.n'>>. You carefully catch <<n _t 'hisher.q'>> <<n _t 'cockhead.n'>> with the condom, and then slide it into your mouth. You take it as deep as you can, your lips unrolling the condom as you go. Your objective accomplished, you release <<n _t 'hisher.q'>> <<n _t 'cock.n'>>.`, `Grasping ${ↂ.T.main.name}'s <<n _t 'cock.n'>> with one hand, you give it a few sensual strokes before placing the condom on <<n _t 'hisher.q'>> <<n _t 'cockhead.n'>>. You continue your stroking motion, gently rolling the condom down <<n _t 'hisher.q'>> <<n _t 'cocklength.q'>> shaft.`);
+            setup.sex.equipCondom(condom);
+            output += `${ↂ.T.main.name} looks down at <<n _t "hisher.q">> newly-wrapped <<n _t "cock.n">>. <span class="npc">`;
+            output += either("I guess I can wear one this time.", "These things kill the sensation, but I guess it's fine...", "Better safe than sorry, I guess.", "Hey, you're pretty good at that!", "If you want one, I guess I have no choice...");
+            output += "</span>";
+          } else {
+            pout = `Fumbling until you find a ${cNames[condom]}, you toss it at ${ↂ.T.main.name}. <span class="pc">Hey, put that on.</span>`;
+            output += setup.sex.library("denyProtectionRequest", "N");
+          }
+        }
+        ↂ.sex.encounter[0] = pout;
+        ↂ.sex.encounter[1] = output;
+        setup.SCXfunc();
+      }, // special function to be run when action is taken.
+    },
+    giveCondom: {
+      name: "Give Condom", // name of the action
+      key: "giveCondom", // key of the action
+      label: "Give Condom", // label for button/s for action
+      hover: "Take a condom from your inventory and put it on the target's member. <i>You can also ask the target for a condom, but they may not have one available.</i>", // tooltip text
+      tab: "none", // the action tab that this action belongs in.
+      cat: "talk", // category of the action ex: makeout sex oral handjob anal
+      kink: ["none"], // any kinks action contains/implies for censorship purposes
+      skill: { sex: 0, oral: 0, exhibition: 0, seduction: 0, prostitute: 0 }, // req skill to use action
+      parts: ["skip", "skip"], // the used parts - 0: player 1: target
+      effect: { // the effect information for the action
+        pleasure: { // pleasure (prog to orgasm) given by action
+          pcAmt: -250, // actual amount
+          pcMax: 99, // max allowed percent  - won't increase pleasure above that point.
+          npcAmt: -300,
+          npcMax: 99,
+        },
+        arousal: -2,
+        wetness: -1,
+        cum: false, // can override cum destination from position. Needs Object if override!
+        satisfy: [10, 10], // modifier to satisfaction gain from orgasm this way. (value/10)*amt [pc,npc]
+        strong: { // list of traits/kinks that this action is strong for
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+        weak: { // list of traits/kinks that decrease effect/weak for.
+          pcKink: ["none"],
+          pcTrait: ["none"],
+          npcKink: ["none"],
+          npcTrait: ["none"],
+        },
+      },
+      sex: 1, // required sex of the target. 0: none 1: male 2: female
+      menu: false,
+      tags: ["none"], // special tags for action, mainly for unique kink effects
+      req: ["none"], // required environmental tags
+      forbid: ["none"], // forbidden environmental tags
+      condition() { return false; },
+      special() {
+        const ᛔ = State.active.variables;
+        let condom = "default";
+        if (setup.sexCondomTempType != null && setup.sexCondomTempType !== undefined) {
+          condom = setup.sexCondomTempType;
+          delete setup.sexCondomTempType;
+        }
+        const vowList = ↂ.flag.marriage.PCvows.concat(ↂ.flag.marriage.NPCvows);
+        if (ↂ.sex.npcBC[ↂ.sex.target].condom.worn && !ↂ.sex.npcBC[ↂ.sex.target].condom.break) {
+          ↂ.sex.encounter[1] = `${ↂ.T.main.name} gives you a confused look. <span class="npc">What do you mean? I'm already wearing one...</span>`;
+          return;
+        } else if (vowList.includes("noCondom") || vowList.includes("noPill")) {
+          ↂ.sex.encounter[1] = `${ↂ.T.main.name} gives you a concerned look. <span class="npc">Hey, we vowed to never use this kind of protection, remember?</span>`;
+          return;
+        } else if (ↂ.sex.flag.knowsAcid) {
+          ↂ.sex.encounter[1] = `${ↂ.T.main.name} gives you a concerned look. <span class="npc">I don't think that's such a great idea with those enzymes you've got...</span>`;
+          return;
+        } else if (ↂ.sex.flag.askedCondom && !ↂ.sex.npcBC[ↂ.sex.target].condom.worn && condom === "default") {
+          // already asked before
+          ↂ.sex.encounter[1] = `${ↂ.T.main.name} gives you an annoyed look. <span class="npc">Why are you asking again? Didn't I say not to worry about it?</span> With a quick flip of the wrist, the condom you offered goes flying away.`;
+          return;
+        }
+        ↂ.sex.flag.askedCondom = true;
+        // TODO change dc to be based on specific npc
+        const dc = random(10, 15);
+        let owned = true;
+        // seduction check to see if player convinces of condom
+        setup.SCXfunc();
+        setup.SCfunc("SD", dc);
+        // set PC portion text up
+        let pout = "";
+        // set NPC portion text up
+        let output = ᛔ.SCtext[1] + " ";
+        // player gives condom
+        const cNames = {
+          duremaxT: "Duremax Safe-T",
+          duremaxPE: "Duremax Safe-PE",
+          trojancockS: "Trojancock Sensations",
+          trojancockUL: "Trojancock Uber",
+          trojancockUNL: "Trojancock Uber",
+          pleasureburst: "Pleasureburst",
+          "duremaxT-Sab1": "sabotaged Duremax Safe-T",
+          "duremaxPE-Sab1": "sabotaged Duremax Safe-PE",
+          "trojancockS-Sab1": "sabotaged Trojancock Sensations",
+          "trojancockUL-Sab1": "sabotaged Trojancock Uber",
+          "trojancockUNL-Sab1": "sabotaged Trojancock Uber",
+          "pleasureburst-Sab1": "sabotaged Pleasureburst",
+          "duremaxT-Sab2": "expertly-sabotaged Duremax Safe-T",
+          "duremaxPE-Sab2": "expertly-sabotaged Duremax Safe-PE",
+          "trojancockS-Sab2": "expertly-sabotaged Trojancock Sensations",
+          "trojancockUL-Sab2": "expertly-sabotaged Trojancock Uber",
+          "trojancockUNL-Sab2": "expertly-sabotaged Trojancock Uber",
+          "pleasureburst-Sab2": "expertly-sabotaged Pleasureburst",
+        };
           if (ᛔ.SCresult[1]) {
             pout = `Grabbing a ${cNames[condom]} with one hand, you deftly tear open the foil wrapper and pull out the condom inside. `;
             pout += either(`Placing the condom between your lips, you align your face with ${ↂ.T.main.name}'s <<n _t 'cock.q'>> <<n _t 'cock.n'>>. You carefully catch <<n _t 'hisher.q'>> <<n _t 'cockhead.n'>> with the condom, and then slide it into your mouth. You take it as deep as you can, your lips unrolling the condom as you go. Your objective accomplished, you release <<n _t 'hisher.q'>> <<n _t 'cock.n'>>.", "Grasping ${ↂ.T.main.name}'s <<n _t 'cock.n'>> with one hand, you give it a few sensual strokes before placing the condom on <<n _t 'hisher.q'>> <<n _t 'cockhead.n'>>. You continue your stroking motion, gently rolling the condom down <<n _t 'hisher.q'>> <<n _t 'cocklength.q'>> shaft.`);
@@ -2278,7 +2405,6 @@ class SexAct {
             pout = `Fumbling until you find a ${cNames[condom]}, you toss it at ${ↂ.T.main.name}. <span class="pc">Hey, put that on.</span>`;
             output += setup.sex.library("denyProtectionRequest", "N");
           }
-        }
         ↂ.sex.encounter[0] = pout;
         ↂ.sex.encounter[1] = output;
         setup.SCXfunc();
@@ -2888,7 +3014,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       condition() {
-        if (ↂ.pc.kink.dom) {
+        if (ↂ.pc.kink.dom || ↂ.pc.status.anger > 5) {
           return true;
         } else {
           return false;
@@ -2956,7 +3082,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       condition() {
-        if (ↂ.pc.kink.dom) {
+        if (ↂ.pc.kink.dom || ↂ.pc.status.anger > 5) {
           return true;
         } else {
           return false;
@@ -3020,7 +3146,7 @@ class SexAct {
       req: ["none"], // required environmental tags
       forbid: ["none"], // forbidden environmental tags
       condition() {
-        if (ↂ.pc.kink.dom) {
+        if (ↂ.pc.kink.dom || ↂ.pc.status.anger > 5) {
           return true;
         } else {
           return false;

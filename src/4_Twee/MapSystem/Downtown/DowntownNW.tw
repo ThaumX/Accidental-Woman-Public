@@ -46,25 +46,22 @@
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Nacho Daddy">><</button>>
+  <<button "Nacho Daddy">><<dialog "Nacho Daddy">><<print setup.food.fastfood("nachodaddy")>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
-  <<button "Happy Cream">><</button>>
+  <<button "Happy Cream">><<dialog "Happy Cream">><<print setup.food.fastfood("happycream")>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise delta>>
-  <<button "Squash Store">><</button>>
+  <<button "Squash Store">><<dialog "Squash Store">><<include [[SquashStore]]>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise gamma>>
-  <<openhours 12 20>>
+  <<openhours 12 23>>
     <<button "Visit the Dancercise Studio">><<gotoSchool "dancercise">><</button>>
   <<closed "Dancercise Studio">>
   <</openhours>>
 <<endhoverrevise>>
 <<hoverrevise lambda>>
   <<button "Red Light Education Center">><<addTime 3>><<dialog "Red Light Education Center">><<include [[RedLightEducation]]>><</dialog>><</button>>
-<<endhoverrevise>>
-<<hoverrevise phi>>
-  <<button "Unique Location">><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -73,12 +70,11 @@
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>[not implemented] Eat at Nacho Daddy Bar & Grill. <span class="money">₢₢</span><<endinsertion>>
-<<insertion beta>>[not implemented] Eat at Happy Cream Donuts. <span class="money">₢</span><<endinsertion>>
-<<insertion delta>>[not implemented] Shop for overpriced consumer electronics at the Squash Store, or bring said electronics to the Virtuoso Bar to be fixed.<<endinsertion>>
+<<insertion alpha>>Eat at Nacho Daddy Bar & Grill. <span class="money">₢₢₢</span><<endinsertion>>
+<<insertion beta>>Eat at Happy Cream Donuts. <span class="money">₢₢</span><<endinsertion>>
+<<insertion delta>>Shop for overpriced consumer electronics at the Squash Store, or bring said electronics to the Virtuoso Bar to be fixed.<<endinsertion>>
 <<insertion gamma>>Visit Candy Rider's Dancercise Studio to check it out or sign up for a course. @@.ship;[EXERCISE⧫DANCE]@@<<endinsertion>>
 <<insertion lambda>>Visit the Red Light Education Center to see what schools are available there. <span class="ctext ship">[custom schools]</span><<endinsertion>>
-<<insertion phi>>[not implemented]<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
@@ -89,7 +85,8 @@
 
 :: DowntownNWLOC [nobr]
 
-Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<boobgif>><br><span class="import">Not all locations are empty like this one!</span>
+<center>[img[IMG-HappyCreamGirl]]</center>
+<<f t>>rough the window you see a woman enjoying her milkshake in the "Happy cream" cafe.
 
 
 :: RedLightEducation [nobr]
@@ -100,4 +97,14 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 </p>
 <<print setup.school.customLoc()>>
 
+
+:: SquashStore [nobr]
+
+<center>[img[IMG-SquashInside]]</center>
+<<f y>>ou enter the luxurious-looking shop. It is very well lit and its overall sterile appearance reminds you about some laboratory or a morgue for some reason. You are the only customer in the shop and you can't see any employees either. Coming to the table you see phones locked to the surface with a thick metal chains. Judging by the terminal near every phone or slate it is a self-service automated shop. You look closer on the goods...
+<br>
+<center>[img[IMG-SquachAd]]</center>
+<br>
+It seems the cheapest phone they have costs @@.mon;<<mon>>4499@@ and you stay astounished for some time. @@.mono;Are they... fucking kidding me? 4500 for some piece of phone, really? Gosh...@@
+<<if $AW.cash < 4499>><center>@@.disabled;<<button "Buy it!">><</button>>@@</center><<else>><center><<button "Buy it!">><<run setup.notify("You are not a complete idiot yet to spend so much money on this shit.")>><</button>></center><</if>>
 

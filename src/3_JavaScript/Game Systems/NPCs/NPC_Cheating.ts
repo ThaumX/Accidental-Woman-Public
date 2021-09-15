@@ -13,6 +13,8 @@ activity to relevant NPC records.
 
 
 setup.hadSexWith = function(npc: npcid, level: number = 1) {
+  // sets last intercourse date for checking it in challenge characters
+  ↂ.flag.lastSex = aw.time;
   // levels 3 = makeout, 2 = oral, 1 = sex
   const ships = setup.getExclusive();
   if (aw.npc[npc] != null) {

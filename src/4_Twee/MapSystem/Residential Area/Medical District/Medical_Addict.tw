@@ -1,0 +1,321 @@
+:: MedicalAddict [nobr map]
+
+<<silently>>
+/*Basic settings. Most done by map control passage*/
+<</silently>>
+/*Primary map module for the region is in a separate passage and called here. Prevents duplication.*/
+<<include [[MAPmedical]]>>
+/*by default, passage image displays [passagename]LOC in a dialog when clicked.*/
+<div id="mainshits" class="extraRoomRight">
+/*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
+<p></p>
+<div id="storeWindow">
+[img[IMG-Sunrise]]
+</div>
+/* WEATHER displays set weather conditions. For indoors locations, describes weather outside*/
+<p class="weather-disc">
+<<print setup.weather.curWeather()>>
+</p>
+/*Event notification spot*/
+/*<<mapEvent>>*/
+/*LOCATION description of  location*/
+<p>@@.head3;Y@@ou're standing in the lobby of the "Sunrise" clinic. The place looks very professional and high-tech. Some motivational posters on the wall are working overtime to reassure visitors that clean life is a better way to live. 
+</p>
+
+/*Time & furnishing descriptive addon! <<mapHomeRes>>*/
+/*IN-PASSAGE span text*/
+<span id="locact" style="width: 950px; text-align: left;"></span><<selfthought>></div>
+/*Main action button display area. complex actions, or those with many options, should open a dialog display to control, rather than placing numerous buttons here. New content can be added via DOM macro or direct JS using append. (never use replace)*/
+<div id="actionbar">
+/*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
+<<hoverrevise beta>>
+  <<if !ↂ.flag.addictionClinic.visitedToday>>
+    <<button "Enlist">><<dialog "Sunrise clinic">><<include [[MedicalAddictFirst]]>><</dialog>><</button>>
+  <<else>>
+    @@.disabled;<<button "Enlist">><</button>>@@
+  <</if>>
+<<endhoverrevise>>
+<<if !ↂ.flag.addictionClinic.firstTime>>
+  <<if !ↂ.flag.addictionClinic.visitedToday>>
+    <<silently>>
+      <<script>>
+        State.active.variables.AddictDrug = {
+          passage: "MedicalAddictMeetingRepeat",
+          content: "",
+          image: "IMG-AddictionMeetingSide",
+          topImage: "IMG-AddictionMeeting",
+          title: "Drug addiction program",
+          allowSave: false,
+          sidebar: "<h2>Medical district</h2><h3>Sunrise clinic</h3>",
+          showTime: false,
+          allowMenu: false,
+        };
+      <</script>>
+    <</silently>>
+    <<hoverrevise zeta>>
+      <<button "Addiction meeting">><<run setup.scenario.launch($AddictDrug);>><</button>>
+    <<endhoverrevise>>
+  <<else>>
+    <<hoverrevise zeta>>
+      @@.disabled;<<button "Addiction meeting">><</button>>@@
+    <<endhoverrevise>>
+  <</if>>
+<</if>>
+<<if setup.omni.matching("Sex addiction treatment") !== 0>>
+  <<hoverrevise pussyjail>>
+    <<button "Remove chastity plate">><<dialog "Sunrise clinic">><p>@@.head3;Y@@ou enter the clinic and ask for Dr. Stein. Annoyed, you wait for almost 20 minutes until she finishes her work and finally terminates your contract. After another five minutes nurse brings the remote for your chastity from the storage while you politely decline Stein's proposal for the prolongation of the contract. @@.mono;Gosh, finally!@@</p><center><<button "Exit">><<run Dialog.close()>><</button>></center><<addtime 29>><<updatebar>><<pickup "$items" "Cplate 200 remote">><<status 0>><</dialog>><</button>>
+  <<endhoverrevise>>
+<<elseif setup.sexToys.check("pc", "clit") !== true>>
+  <<hoverrevise pussyjailno>>
+    @@.disabled;<<button "Remove chastity plate">><</button>>@@
+  <<endhoverrevise>>
+<</if>>
+</div>
+
+/*Main display for information about actions*/
+<div id="actionInfo">
+<<insertion beta>>Ask about addiction treatments available.<<endinsertion>>
+<<insertion pussyjail>>Terminate the contract and get out of the chastity cage.<<endinsertion>>
+<<insertion pussyjailno>>Too early to terminate your contract.<<endinsertion>>
+<<insertion zeta>>Go to the anonymous junkies meeting. [50min, <<mon>>45-75, -addiction]<<endinsertion>>
+</div>
+
+
+:: MedicalAddictLOC [nobr]
+
+Nothing here for now, such a shame.
+
+
+:: MedicalAddictFirst [nobr]
+
+<<silently>>
+<<script>>
+State.active.variables.AddictDrug = {
+  passage: "MedicalAddict-DrugScene",
+  content: "",
+  image: "IMG-AddictionMeetingSide",
+  topImage: "IMG-AddictionMeeting",
+  title: "Drug addiction program",
+  allowSave: false,
+  sidebar: "<h2>Medical district</h2><h3>Sunrise clinic</h3>",
+  showTime: false,
+  allowMenu: false,
+};
+State.active.variables.AddictCum = {
+  passage: "MedicalAddict-CumScene",
+  content: "",
+  image: "IMG-CumAddictionSide",
+  topImage: "IMG-CumAddictionTop",
+  title: "Cum addiction program",
+  allowSave: false,
+  sidebar: "<h2>Medical district</h2><h3>Sunrise clinic</h3>",
+  showTime: false,
+  allowMenu: false,
+};
+State.active.variables.AddictSex = {
+  passage: "MedicalAddict-SexScene",
+  content: "",
+  image: "IMG-SexAddictionSide",
+  topImage: "IMG-SexAddictionTop",
+  title: "Sex addiction program",
+  allowSave: false,
+  sidebar: "<h2>Medical district</h2><h3>Sunrise clinic</h3>",
+  showTime: false,
+  allowMenu: false,
+};
+State.active.variables.AddictCream = {
+  passage: "MedicalAddict-CreamScene",
+  content: "",
+  image: "IMG-CreamAddictionSide",
+  topImage: "IMG-CreamAddictionTop",
+  title: "Cream addiction program",
+  allowSave: false,
+  sidebar: "<h2>Medical district</h2><h3>Sunrise clinic</h3>",
+  showTime: false,
+  allowMenu: false,
+};
+<</script>>
+<</silently>>
+<<if ↂ.flag.addictionClinic.visitedToday>>
+<p>@@.head3;Y@@ou feel to exhausted to work on your addictions more for today.</p>
+<center><<button "None">><<run Dialog.close()>><</button>></center>
+<<else>>
+<p>@@.head3;Y@@ou clean your throat and come to the counter. A slightly nervous nerdy-looking guy in a polo with a "Sunrise clinic" logo at the desk notices you. He does his best impression of a "heartwarming smile" but you can swear you saw his eyes checked your boobs for a moment.
+@@.npc;Hi! I am Terry and welcome to the "Sunrise"! How can I help you?@@<br><br>
+@@.pc;Ahem... Hi, I am having some minor issues with... addiction.@@<br><br>
+@@.npc;Ah, sure, you got to the right place! Sunrise addiction center is the best of the best! I personally was healed from sex obsession here and proud to say that!@@<br><br>
+<<if ↂ.pc.trait.perceptive == 1>>@@.mono;<<has bitch>>Yeah, healed my ass!<<or>>Hmm, "healed" he says?<</has>> I see him staring at my body and almost licking his lips everytime I blink...@@<br><</if>>@@.pc;Ah, that's cool. So, how to get a... treatment?@@<br><br>
+@@.npc;You need to get to Dr.Stein, let me guide you!@@<br><br>
+Terry leads you down the hall to the door and opens it for you. @@.npc;Good luck and remember - there is always a hope!@@ You smile and enter suspecting that his eyes are fixated at your butt as you go inside.</p>
+<center>[img[IMG-AddictionClinicDesk]]</center>
+<p>Dr.Stein looks less weird, it seems that she is a doc, at least she is wearing a lab coat. After a brief greetings and explanation of your addiction problem she presents you some options on "healing programs" they provide.<br><br>
+@@.npd;As you see, every addiction is different so we take a totally different approach in each case. Stay rest assured, we have the best curing rates in the west coast!@@<br><br>
+@@.pc;Uhm... and what's about the price of the programs?@@<br><br>
+@@.npd;<<if ↂ.flag.Healthcare>>I see you have the Institute Healthcare program insurance. It will be just as low as @@.mon;<<mon>>45@@ per visit. So, what program you want to enlist in?<<else>>It will be @@.mon;<<mon>>75@@ per visit since you don't have Institute Healthcare program. So, what program you want to enlist in?<</if>>@@</p>
+<center><<if ↂ.pc.status.addict.alc > 10>><<button "Alcohol">><<run setup.scenario.launch($AddictDrug);>><<run Dialog.close()>><</button>><<else>>@@.disabled;<<button "Alcohol">><</button>>@@<</if>><<tab>><<if ↂ.pc.status.addict.cum > 10>><<button "Cum">><<run setup.scenario.launch($AddictCum);>><<run Dialog.close()>><</button>><<else>>@@.disabled;<<button "Cum">><</button>>@@<</if>><<tab>><<if ↂ.pc.status.addict.cream > 10>><<button "Cream">><<run setup.scenario.launch($AddictCream);>><<run Dialog.close()>><</button>><<else>>@@.disabled;<<button "Cream">><</button>>@@<</if>><<tab>><<if ↂ.pc.status.addict.sex > 10 && setup.omni.matching("Sex addiction treatment") === 0>><<button "Sex">><<run setup.scenario.launch($AddictSex);>><<run Dialog.close()>><</button>><<else>>@@.disabled;<<button "Sex">><</button>>@@<</if>><<tab>><<if ↂ.pc.status.addict.zone > 10 || ↂ.pc.status.addict.satyr > 10 || ↂ.pc.status.addict.focus > 10 || ↂ.pc.status.addict.heat > 10>><<button "Drugs">><<run setup.scenario.launch($AddictDrug);>><<run Dialog.close()>><</button>><<else>>@@.disabled;<<button "Drugs">><</button>>@@<</if>><<tab>><<button "None">><<run Dialog.close()>><</button>></center>
+<</if>>
+
+
+:: MedicalAddict-CreamScene [nobr]
+
+<p>@@.head3;Y@@ou ponder the options. @@.pc;I'd like to enlist in the creampie addiction treatment.@@ Dr.Stein nods. @@.npc;It is an interesting addiction these days, so there is nothing to be ashamed of. Luckily, we have a new very effective treatment based on the classical conditioning method.@@ She takes <<if ↂ.flag.Healthcare>>@@.mon;<<mon>>75@@<<run aw.cash(-75, "medical")>><<else>>@@.mon;<<mon>>125@@<<run aw.cash(-125, "medical")>><</if>> and leads you to the second room at the far end of the hallway.</p>
+<p>Once you enter, Dr.Stein calls for a nurse. @@.pc;I will conduct the treatment myself since it is a novelty methodic and there are not much experienced specialists.@@</p>
+<p>As you cross the threshold, the door closes behind you with a loud locking sound that startles you. The room is almost devoid of furniture, save a shelf on the wall, a metal gurney without any padding, a stool beside the gurney and a cabinet. Your eyes focus on what lies on top of the cabinet and your eyes go wide as you recognize the cause of your coming here today. Jars of cum, filled to the brim. Your pupils dilate just from the sight and you start panting, getting aroused just by looking at it, imagining it filling your pussy and ass to the brim until it leaks out...</p>
+<p>Then you hear fingers snapping close to your ear, making you focus on the latex covered hand of Dr.Stein.@@.npc;Jeez, you really have it bad. You spent almost a full minute creaming yourself looking at the jars.@@ she says with a grin. As she has your attention, she points towards the shelf. @@.npc;Go on, undress completely facing the wall and set your clothes on the shelf. Then grab the blindfold that's there and put it around your eyes. Don't worry, I'll guide you to the gurney once you're prepared.@@</p>
+<p>You do as she says and start disrobing, folding your clothes as neatly as your frayed nerves allow and setting them on the shelf as instructed. To the side, you see a leather blindfold, the belt already set at the maximum width so you grab it and put it around your head, binding it tight around your head and covering your eyes, leaving you effectively blind.</p>
+<p>Soon you feel a hand softly grabbing your arm and pulling, so you follow it. @@.npc;Okay, the gurney is in front of you. Turn around and scoot back a little and you'll feel it with your <<p ass.n>>. Sit and then lie down.@@. As instructed, you turn and feel the cold metal on your flesh, so you rise and sit on it, then turn your body around with the careful guidance of Dr.Stein and lie down, shivering as your body touches more of the steel.</p>
+<p>@@.npc;Now I'm going to bind you.@@ she says, and you feel leather bands tighten around your wrists and ankles and pulling them towards the gurney so that you can't move much. You tell yourself this is for your own good, but still feel some trepidation because you're effectively blind right now and your sense of touch feels enhanced. @@.npc;This treatment is, as I said, based on classical conditioning... or as it's more famously known, the Pavlovian response method. Your eyes widen and you squirm a little, making a futile attempt at freeing yourself. @@.npc;Now, I'm going to gag you for your own safety and then set electrodes in some parts of your body. While it's not the most comfortable method, it's perfectly safe and you'll be cured as soon as we leave this room...@@ she pauses for a few seconds, allowing you to digest what she said. @@But make no mistake, this is electrotherapy and you'll be shocked in response to your reactions.@@</p>
+<p>As she said, you feel an object against your mouth, even though you're completely helpless, you still try to stave off the coming pain by firmly closing your lips, but Dr.Stein is an old hand at this and clamps your nose shut with her other hand. Eventually, you run out of air and open your mouth and feel as the gag enters your mouth and presses on your tongue. It's almost like a dildo gag, but it just presses on your tongue so that you don't swallow it. Once it's set firmly inside, she lifts your head a little and passes the bindings behind your neck, letting you go and tying the gag firm against your head.</p>
+<p>Then she begins to adhere the electrodes, a couple go over your <<p tits.n>> then another three over your belly and one on each of your big toes. You hear a rolling sound and you assume the doctor is wheeling the cabinet over. You feel as she fiddles with the electrodes on your <<p tits>>. @@.npc;These ones are to keep track of your heart rate. As you might know, this treatment is quite intense and your heart rate will peak a few times, so by having the electrocardiogram on hand, we can safely tune the therapy to avoid causing problems that would require further medical attention.@@ Then you feel the gloved hands touch your belly. @@These ones and the ones on your toes are for the actual therapy, so don't worry. It'll be over soon... if you cooperate.@@ she says with a mocking tone that makes you think she might be smirking as you feel her hands touching your toes for a couple seconds.</p>
+<p>You feel as her hands leave your feet and hear as she sits on the stool. With your eyes covered, all your other senses are enhanced and you hear as she opens the lid of the jars of cum and then smell the pungent aroma of the accumulated jizz. That alone is enough to send your heart into overdrive, your pussy moistening as you imagine that much seed filling your insides as a cock squirts it inside. Just as you were about to cum, electricity courses through your body and you jerk and scream into the gag as your race to an orgasm is brought to an abrupt stop. @@.npc;Tut, tut. We are here to cure you of your creampie addiction and just smelling the cum is enough to make you aroused?@@ she says as she stops the current and lets you rest. @@.npc;We have a bit of a long journey ahead, it seems to me.@@</p>
+<center>[img[IMG-CreamAddiction]]</center>
+<p>@@.npc;We are making some progress at last! Three more shocks and the smell isn't making you aroused...@@ She did do that. Close the jar while you rested from the shock, letting you recover, then opening it again, driving you into the same state of arousal the second time. The third time, you managed to last a full minute with the scent of the jizz wafting around before your body decided to go against your wish to avoid the pain from the electric shocks. The zapping from that one was long enough to think Dr.Stein was going to kill you like an executioner and your brain won the fourth time, your heart beating evenly and normally with the jar open.</p>
+<p>@@.npc;Now, let's go ahead with what the actual treatment would have entailed if you hadn't been such a slut for creampies that the mere smell of one was enough to arouse you.@@ she pauses for effect. @@.npc;Now, I'm actually going to give you what you yearn for: a creampie. And then I'm going to zap you.@@ you squirm in your bindings as you hear the glee in her voice from telling you what is going to happen.@@.npc;As I said, this is Pavlovian conditioning, so if you want to avoid the pain, force yourself to believe that the creampie isn't arousing at all. Or don't. It makes no difference to me. I'm getting paid either way.@@she chuckles.</p>
+<p>After what feels like a long time but was barely a minute of silence since her statement, you hear a sound like someone sucking through a straw and a few seconds later, you feel something large and shaped like a <<p cock.n>> touching your mons, then tracing down your <<p pussy.n>> before penetrating you. The sensation is arousing enough that your heart rate spikes up and you fear a shock. But it doesn't come. @@.npc;We've already established that you're a slut, so I'm not going to zap you for liking to get your <<p pussy.n>> fucked. However, what comes next will definitely bring a shock to you...@@.</p>
+<br>***<br>
+<p>She wasn't lying. As soon as she uttered those words, she pushed something in the object penetrating you and a large squirt of warm cum filled your <<p pussy.n>> and that undid you. You started to orgasm almost instantly. And almost as soon as you began to cum, Dr.Stein began zapping you for what felt like an eternity, almost making you lose consciousness. Then she squirted water inside you to clean the jizz and juices, followed by another injection of semen, another zap and another douche. And after every shock, your responses were more controlled, your body refusing to get aroused for a few seconds at first, then longer and longer.@@.npc;Would you look at that? I've dumped almost two full basters worth of cum inside you and you remain calm. I think you're cured now.@@ she says as she begins to give you a douche to clean your <<p pussy.n>> @@.npc;Though I suspect we'll meet again soon enough. Or not. That depends on you and your life.@@ she says in a knowing tone that implies what both of you know to be true, that you're a slut and will probably get addicted again, despite the fear of electricity that this session has instilled on you.</p>
+<p>@@.npc;Now let's get you dressed up.@@ she says and removes the bindings, the gag and blindfold. You give a look at the jars of cum, one of them open and half empty and though the smell is pungent, it does nothing for you... for now. Putting your clothes back on, you leave the room.</p>
+<center><<button "Finish">><<stress 20 "Cream addiction treatment">><<set ↂ.pc.status.addict.cream -= 35>><<addtime 56>><<status 0>><<sceneclose>><</button>></center>
+
+
+:: MedicalAddict-CumScene [nobr]
+
+<p>@@.head3;Y@@ou ponder the options. @@.pc;I'd want to enlist in the cum addiction treatment.@@ Dr.Stein nods. @@.npc;It is a pretty widespread addiction these days, there is nothing to be ashamed of. Luckily, we have a new very effective treatment based on the reverse gratification method.@@ She takes <<if ↂ.flag.Healthcare>>@@.mon;<<mon>>75@@<<run aw.cash(-75, "medical")>><<else>>@@.mon;<<mon>>125@@<<run aw.cash(-125, "medical")>><</if>> and leads you to the room at the far end of the hallway.</p>
+<p>Once you enter, Dr.Stein calls for a nurse. @@.pc;I will conduct the treatment myself since it is a novelty methodic and there are not much experienced specialists.@@</p>
+<p>@@.pc;Oh, is it safe?@@ You feel a little nervous.</p>
+<p>She smiles softly. @@.npc;Oh, don't worry, it has shown superb results and got a proper FDCA license. Side effects are rare and usually include just mild symptoms never lasting more than a week or so.@@</p>
+<p>Feeling pacified you obey her and undress.<<has shame>>@@.mono;Oh, I understand that it is a medical procedure but I still can't get used to being naked in front of strangers...@@<<or>><</has>> You get closer to the weird saddle-type couch. It looks like a normal bed and even has cushions but the indentation on the surface implies the specific position to be taken by the patient. Some silicone-coated mechanisms are visible and you suspect that most of them will be touching your genitals and nipples when you take the position. The nurse makes preparations coating them with the lubricant. <<if setup.sexToys.check("pc", "clit") === true>><<else>>To your surprise they also have keys and remotes for it seems all types of chastity belts in the drawer and she also unlock and removes your belt. @@.npd;This is only for the treatment, miss! I'll install it back right after.@@<</if>> You take a deep breath and get in your place following her gesture. After some fumbling and turning your legs are parted and your back is arched in a pretty obscene fashion. Despite that, you feel pretty comfortable and the only complaint you have is the temperature of the silicone bulge pressing right to your clitoris. You forget this pretty fast since it heats pretty fast from your body.</p>
+<p>@@.pc;So... what the treatment will be?@@ Dr. Stein is busy pressing some buttons on her slate so the nurse answers while working with some straps near your arms. @@.npd;This machine will teach you to abstain from consuming semen.@@ Suddenly you realize that she just fixed your arms with those straps and you actually can't leave your place now. @@.mono;Oopsie...@@</p>
+<p>Machine starts buzzing and you feel that the whole area under you begin to fondle you gently. It is an odd feeling but once you relax you realize how pleasing it actually is. Stimulating both your hungry pussy and <<has nipples>>sensitive <</has>>nipples the machine makes you pant and squirm shamelessly under the gazes of Dr.Stein and the nurse.<<has hard>>It still takes about ten minutes until you are ready to reach the edge but eventually you get there.<<orhas easy>>It takes just about a minute until you are almost on the edge.<<or>>After some minutes you feel at the edge of the orgasm.<</has>> You feel like cumming but the stimulation subsides leaving you just a step aside from the orgasm. It gets slower and you feel disappointed as the feeling subsides. Soon it gets stronger again and you get very close again just to be held on the brink by the cruel device. @@.npd;Calibration complete, doctor.@@ @@.npc;I see. Let's begin, Cheril.@@</p>
+<p>Through the warm feeling you barely register the wheeled cart nurse puts in front of you. It looks like a weird fuckmachine with a very realistic-looking dildo attached right on the level of your mouth and a basin underneath of it. While Cheril adjusts it and screws a bottle of something to the input on the top part of the machine you can't stop looking at the massive delicious dong wobbling slightly. Slowly getting crazy from the stimulation you salivating. When she finishes Cheril pushes the cart closer to you. You don't hesitate and start sucking it. The warm surface is fantastically life-like and the dildo feels like a real deal with pulsing veins and a strong shaft under the thin soft skin.</p>
+<p>Drooling you provide dildo the sloppiest of blowjobs and after a minute or so you feel it starts pulsing. @@.mono;Oh yes, give to me, yeees!@@ It starts cumming and you push yourself on the dildo to deepthroat it as deep as you can. The thick stream of something splashes your throat and mouth and it takes you a moment to realize that it is not cum. The liquid tastes nasty and you don't like it at all. Worse than that, the stimulation stops abruptly leaving you totally unsatisfied with a mouth full of gruesome fake cum. You spit as much of it as you can and almost cry in frustration. @@.pc;Leeet me cuuuum pleaaase!@@</p>
+<p>They don't pay much attention to your begging. Cheril wipes the dildo and your face with a towel and opens your mouth with her gloved hand. She sprinkles your throat and mouth with some aerosol and the taste instantly disappears. You breathe deeply while she pushes the dildo back closer to your face. After a second or so the bed starts driving you mad with vibrations and gentle massage and your arousal takes the best of you once again. You find yourself sucking the dildo frantically and almost cry when it starts pulsing once again. Another load of the terrible liquid fills your mouth but this time you manage to suppress the instinct to gulp it down that you got in those last months. It seems the machine registers it and the vibrations don't stop completely this time. You spit a new portion down the drench of the basin and let the nurse clean the dildo and your chin once again. The taste is terrible but after another aerosol and towel treatment, you feel ready for a third round.
+</p>
+<p>@@.pc;Please, I really don't want to! Let me go pleeease!@@ Dr.Stein smiles. @@.npc;No, <<name>> you need to continue. I am sure this will help you to be brave...@@ She taps her slate and the bed gets you to the edge in just a couple of seconds. You shake your head with your mouth closed shut but Cheril pushes on your head and moves the cart even closer. The moment dildo touches your lips you give in and start sucking it again, tears running down your cheeks since you know what's going to happen but can't stop yourself. You suck the cruel machine forced to be on the very edge of the orgasm with little to no ability to reason but when the dildo starts to pulse you suddenly get a brilliant idea. You let it go from your mouth and let it cum on your face. Despite you know that this cum-looking substance tastes awful you still feel some regret and fight the urge to lick the big drops splashing against your face and closed shut eyes. This regret disappears immediately as you feel the stimulation gets stronger and stronger and pushes you to the long-awaited orgasm.</p>
+<p>Shaking violently you cum still keeping your mouth shut. @@.pc;Mmmhmmmh!@@ @@.npc;Very good, <<name>>. Let's fixate the results now.@@ Machine doesn't stop after you cum letting you just a brief period of subsided stimulation before getting you back to the edge. It takes a little bit longer this time but after a couple of minutes, you are there with your face cleaned by Cheril and a dong in front of your lips once again. Now you know the routine and start the blowjob with great gusto. You repeat the whole cycle and let the dildo to cum on your face barely feeling it while the bed makes you orgasm... @@.npc;Almost perfect, <<name>>. Let's try this once again...@@</p>
+<p>After an hour you are sitting covered in a blanket on the couch in the corner of the room. Cheril cleans the machine and you massage your chin trying to remove the dull ache of overworked muscles. @@.npc;I always aim for a maximum addiction recovery so I pushed you through the seven cycles just to be sure to reassure new behavioral pattern. How do you feel now?@@ You nod absently. It was a stressful yet weirdly pleasant experience and you actually feel pretty satisfied despite being gravely tired. You shake your head and answer. @@.pc;Mmmm... good I guess... Will it work when I... you know be facing a real deal?@@</p>
+<p>Doctor Stein nods. @@.npc;Of course it will. You didn't realize that the last three times it was a real cum and not a training substitute, have you?@@ You are genuinely surprised with this information but you really feel much more indifferent to the male semen now.</p>
+<p>@@.npd;Let's help you to get dressed up.@@</p>
+<center><<button "Finish">><<stress 20 "Cum addiction treatment">><<satisfaction 50 "Cum addiction treatment">><<set ↂ.pc.status.addict.zone -= 35>><<addtime 71>><<status 0>><<sceneclose>><</button>></center>
+
+
+:: MedicalAddict-SexScene [nobr]
+
+<p>@@.head3;Y@@ou ponder the options. @@.pc;I'd want to try the sex addiction treatment.@@ Dr.Stein nods. @@.npc;Well, I'm afraid there is no effective therapy now. The only way to quit this addiction is time and abstinence. Your addiction will subside over time.@@</p>
+<p>You frown. @@.pc;Oh... I am not sure it would be possible for me to be honest...@@</p>
+<p>@@.npc;Don't worry, we still have some options to help you! Currently we use a special device, Cplate 200 to help our clients with the addiction. It will greatly help you to stay clean until you feel better.@@</p>
+<<if setup.sexToys.check("pc", "clit") === true>>
+<p>@@.pc;Mmhm, that sounds good. But it isn't painful or something?@@</p>
+<p>Stein smiles. @@.npc;Don't worry, it is absolutely safe and you won't even notice wearing it after a few days!@@</p>
+<p>@@.pc;Oh, that's really good! Count me in, those cravings are unbearable! How much will it cost?@@</p>
+<p>@@.npc;This depends on your insurance. Let's see...@@</p>
+<p>You sign a short contract scribbling your name on Dr.Stein's slate. She takes <<if ↂ.flag.Healthcare>>@@.mon;<<mon>>65@@<<run aw.cash(-65, "medical")>><<else>>@@.mon;<<mon>>125@@<<run aw.cash(-125, "medical")>><</if>> and leads you to the room at the far end of the hallway.</p>
+<p>@@.npc;Cheril will help you with fitting the device. Get back to my office when you finished.@@</p>
+<p>Nurse is a pleasant-looking woman in her forties. She prepares the device while you undress behind the screen; you hear some beeping when she pushes some buttons on the remote. You get out of the screen to see the bowl-shaped shiny thing in her hands. <<has shame>>@@.mono;Oh, I understand that it is a medical procedure but I still can't get used to being naked in front of strangers...@@<<or>><</has>> @@.pc;So, what should I do now?@@</p>
+<center>[img[IMG-Item-CPlate]]</center>
+<p>@@.npd;Oh, it is easy. Sit here and spread your legs, darling.@@ You do as you've been told and Cheril wipes your pubic area with a tissue before pressing the plate to your skin. It fully covers your vagina and you feel slight sucking sensation. @@.npd;It uses the nano-adhesive so it wont fall off and shouldn't cause any irritation, you can maintain hygiene easily and it won't be noticeable under the clothes.@@</p>
+<p>@@.pc;Ummm.. that's good I guess...@@</p>
+<p>After a while the bonding with your skin is complete and red led on the plate turns green. @@.npc;Everything is ready now, you can dress, sweety. Be sure to check with Dr.Stein!@@ @@.pc;Thanks...@@</p>
+<p>You dress up and go back down the hallway to the Stein's room. The plate doesn't bother you much, you just feel it tugging your pubic when you walk. Quickly glancing back and getting sure you are alone in the hall you touch the plate under your clothes. It stays firmly in place no matter how hard you pull on it and it seems it doesn't allow you to slip a finger between the plate and your skin. Finishing fumbling with the plate you sigh and knock on Dr.Stein's door.</p>
+<p>She smiles when you enter. @@.npc;Ah, miss <<surname>>! Everything gone well I presume?@@</p>
+<p>@@.pc;Yeah, more or less... So, how long should I wear this thing?@@</p>
+<p>@@.npc;Well, initial period is one month, and of course you can prolong it if you feel that it is necessary. But of course after this first month you will get the remote on first demand although I'd recommend you a longer sentence just to be sure you get used to control your cravings.@@</p>
+<p>@@.pc;Oh. Does that means that I will have no keys for this thing?@@</p>
+<p>She looks at you with her brow raised. @@.npc;I hope you have read the contract well, did you?@@</p>
+<p>@@.pc;Mhmm, of course I did!@@ @@.mono;Well, of course I did not, damn! Who ever read those things?@@</p>
+<p>Dr. Stein relaxes. @@.npc;Well, then we will meet in a month to evaluate your results. I wish you well-being and nice addiction recovery period, miss <<surname>>!@@</p>
+<p>@@.mono;Welp, I am completely fucked now. It can't be that bad, right? I really hope so...@@ You clear you throat trying to sound cheerful. @@.pc;Thanks, Dr.Stein! Until next time!@@</p>
+<center><<button "Finish">><<stress 20 "Sex addiction treatment">><<satisfaction 50 "Cum addiction treatment">><<set ↂ.pc.status.addict.sex -= 5>><<addtime 21>><<pickup "$items" "Cplate 200">><<run setup.sexToys.insert("pc", "groin", "cPlate")>><<status 0>><<sceneclose>><</button>></center>
+<<else>>
+<p>@@.pc;Chastity device you mean? Oh, I am afraid that won't help much, I am actually wearing one right now and the problem persist.@@</p>
+<p>@@.npc;Oh, that's most unfortunate. Well, in that case I am afraid there is not way we can help you. Maybe you should try psychotherapist, I saw some articles that CBT can help in some cases.@@</p>
+<p>@@.pc;CBT?...@@</p>
+<p>@@.npc;Why, yes, Cognitive-behavioral therapy. I know there are some specialists here in town.@@</p>
+<p>You sigh, thank dr.Stain and leave.</p>
+<center><<button "Leave">><<addtime 11>><<sceneclose>><</button>></center>
+<</if>>
+
+
+:: MedicalAddict-DrugScene [nobr]
+
+<p>@@.head3;Y@@ou ponder the options. @@.pc;I'd try the drug addiction program.@@ Dr.Stein nods. @@.npc;Sure, you are lucky since there is a group meeting in just 20 minutes.@@ She takes <<if ↂ.flag.Healthcare>>@@.mon;<<mon>>45@@<<run aw.cash(-45, "medical")>><<else>>@@.mon;<<mon>>75@@<<run aw.cash(-75, "medical")>><</if>> and gives you a badge for a name in return.<br>
+<center>[img[IMG-Badge]]</center><br>
+@@.pc;Huh, so it is like twelve steps system?@@<br><br>
+@@.npc;Not really, we use an adapted 6-step approved by the International Addiction Association... but you'll see it yourself soon. The people are very friendly and ms. Jacobson is a kind spirit!@@<br><br>
+@@.pc;Ah, I see. So, what room it is then?@@<br><br>
+@@.npc;Two-o-three, I guess you can already get there and meet the other participants, I am sure they already start gathering.@@
+</p>
+<p>
+You thank Stein and head to the room 203. It looks exactly like you imagined. There is a circle of stools in the center and a table with some cheap coffee and stone-like cookies in the corner of the spacious room. Some people are already there indeed <<has extro>>so you start making acquaintances<<orhas intro>>and you spend time standing at the coffee table not feeling like making acquaintances<<or>>so you say hi to them but don't talk much.<</has>>
+</p>
+<p>
+More people coming soon and after twenty minutes the meeting begins. It is being led by the short and thick woman in her thirties, she has a lively face and a upbeat personality. She speaks in an absent-minded fashion and often loses her train of thoughts for a second.<br>
+@@.npd;Hello, everyone! For the ones who are first time here, I am Joline Jacobson and I am Focus-free for 7 years!@@ She waits for clapping to subside and continue. @@.npd;Where was I? Ah, right! I am sooo glad you all come today for our meeting! I see three new faces and also 8 of our regular fellows which means it is...@@ She freezes with a rather collected face until some guy helps her. @@.npe;Eleven.@@ @@.npd;...Eleven! Sure, here today are eleven of us, well twelve if we count me, giggle! So... um... Ah, yes! Let's give our new friends a chance to introduce themselves!@@
+</p>
+<p>
+A cute ginger girl on your left stands up awkwardly. @@.npc;Ugh, well... I am Zoe, I am 23 and I have...problems with Heat...@@ You join yet another clapping round. @@.npd;So nice to see you among us, Zara! I hope...@@ @@.npc;It's Zoe.@@ @@.npd;Ah, sure! Sorry, Zoe! So, where was I? Ah, yes, we are glad to meet you! So, who is next?@@<br><br>
+@@.mono;This girl surely should start taking Focus once again, heh...@@</p>
+<p>You realize that it is your turn to introduce yourself so you stand up. @@.pc;Ahem. My name is <<name>> and umm... I have problems too I guess...@@ Everyone start clapping once again <<has bitch>>which becomes really irritating already.<<or>>which is pretty nice, although a bit annoying.<</has>> Joline greets you with some kind words and you sit down. After the last guy names himself (Gary, Satyr addiction), Ms. Jacobson starts the main part of the meeting. It seems that the main part of the event is members telling about their struggles and achievements. Sipping the cheap coffee you <<link "listen to other people who decided to talk today.">><<addtime 32>><<set ↂ.flag.addictionClinic.visitedToday = true>><<status 0>><<scenego "MedicalAddict-DrugScene-2">><</link>>.
+</p>
+
+
+:: MedicalAddictMeetingRepeat [nobr]
+
+<p>@@.head3;Y@@ou <<print either("say hi to Terry","wave to Terry">>, pay <<if ↂ.flag.Healthcare>>@@.mon;<<mon>>45@@<<run aw.cash(-45, "medical")>><<else>>@@.mon;<<mon>>75@@<<run aw.cash(-75, "medical")>><</if>> at the counter and head for the meeting room.</p>
+<p><<print either("There are more people than usual.","Today the place room is not very crowded with just seven people attending the meeting")>> <<print either("You grab a free terrible coffee and take your seat.","You greet some folk you already saw on the earlier meetings and take your seat ignoring the possibility to pour a cup of free tasteless coffee.")>> <<print either("Joline seems to be even more distracted and absent-minded than usual but after some struggling you manage to get to the main part of the meeting.","Joline seems to be more collected than usual and you get through the acquaintanceship in a pretty fast pace.")>> <<print either("Leaning back on your stool you ","Relaxing on your stool you")>> <<link "listen to people who decided to talk today.">><<addtime 22>><<set ↂ.flag.addictionClinic.visitedToday = true>><<set ↂ.flag.addictionClinic.firstTime = false>><<status 0>><<scenego "MedicalAddict-DrugScene-2">><</link>></p>
+
+
+:: MedicalAddict-DrugScene-2 [nobr]
+
+<<silently>>
+<<switch ↂ.flag.addictionClinic.stories>>
+	<<case 0>>
+    <<set _addictStory = 0>>
+	<<case 1>>
+		<<set _addictStory = 1>>
+	<<case 2>>
+		<<set _addictStory = 2>>
+	<<case 3>>
+		<<set _addictStory = 3>>
+	<<case default>>
+    <<set _addictStory = random(0,3)>>
+<</switch>>
+<</silently>>
+<<switch _addictStory>>
+	<<case 0>>
+    <p>@@.head3;T@@he guy named Benjamin starts his speech and you can't but be curious about his story. @@.npc;So, uhm, you know I have told a little about myself already in the past but for the newcomers... I am Ben and I work in the sales and yup, I have...had serious Satyr addiction. I first tried it in 2027 or early 2028, it's hard to tell to be honest. That part of my life is pretty blurry now. I was a party boy and just finished college. You know how Satyr works, right? It gives you like stone-like erection and well, you cum buckets. Not to say you can have sex like five to seven times per night. Well, we all know what most women at the nightclubs are up to and Satyr made me a king of each party. You see, in my teens, I was pretty shy regarding girls, probably because well... usually I cum pretty quickly so I got really into this drug since it makes you a real champ in this case.@@</p>
+    <p>He takes a sip from his cup before continuing.</p>
+    <p>@@.npc;Anyway, drugs are pricey and I had a college loan on my hands so I needed money. Like really needed. So in like three months, I got a day job on the Farm coop. They don't care how you cover hucows needs in sex until you are healthy and willing to do your job. And my god, I did well. There was a hucow, Clarabelle and she was something. She had those thick muscular tights and her pussy was... the best word would be "hungry". I mean it is wrong to fall in love with them since they are basically just livestock, at least she was sent there as a forced laborer from the jail, I didn't ask her about it to be honest. She seemed to like her place much better than jail though. Anyway, I have fallen in love with her pussy and insane appetite. And she was like my favorite hucow, there were many more I shagged almost daily.@@</p>
+    <p>He coughs and goes along with his confession.</p>
+    <p>@@.npc;So, it felt just plain awesome. She was not against some rough treatment if you know what I mean so I felt like a real bull spanking her butt while pounding her. You know, there is nothing more empowering for a guy than slapping a girl's face forcing her to moan your name and see your dripping, no, literally pouring down while you pump more and more into her hot womb... Ahem. What I want to say is that is not healthy. It really drains you if you do it like five times a week, mindblowing orgasm after mindblowing orgasms, again and again. I started to have serious issues with staying hydrated and also couldn't think about anything but sex all the time. And also I really needed to take more and more of Satyr because my willy became sorry and lazy without it. So, in the end, I got to the hospital with severe issues, my mental state was really bad. To say, I started seeing things and tried to molest some people on the streets and such. You see, if you take Satyr long enough, you feel like everybody wants to have sex with you, and well... most people consent usually. So when I got to the hospital it was because I made a spontaneous orgy right in the park with three girls I just met in the middle of the day. I just passed out and thankfully police got me to the ER.@@</p>
+    <p>He raises his brows and keeps silent for a moment.</p>
+    <p>@@.npc;Then I decided that I need to do something with my life. I mean sex is good and all but trying to be such a macho was literally killing me. After paying a fine for that orgy from my last money and getting out of the hospital I started coming here almost daily. The withdrawal was a bitch but luckily I have found a person who helped me to get through all this. Mistress Vanessa is a caring and strict person who helps me to keep my unhealthy urges at bay. She has shown me that I can have sex, love, and be loved without drugs. And also get rid of that pesky toxic masculinity idea. I am clean from Satyr for... 3 years already and, well a chastity cage my Mistress put me into helps me a lot too to keep clean. I got a job, moved in with Mistress Vanessa and have healthy relations, letting her do the masculine role in our relationship, both in and out of the bed. I accepted who I really am and how to live a happy, clean, and purpose-filled life!@@</p>
+    <p>He smiles in a shy fashion and everybody claps for his inspiring story. Joline seems to be pretty proud. @@.npd;Thanks for sharing it, Benjamin! Your story is a true inspiration for all of us! So... what was I about?... Ah, right! I guess we are almost running out of time so if anybody has something to share too we will need to wait until the next meeting. Remember, that we meet daily so don't miss it, the more you come the easier it is for you to stay clean! Until next time, everybody!@@</p>
+    <p>@@.mono;Well, I guess this story is kinda inspiring on some level. But it seems, Ben got changed his life... rather drastically. Well, as long as he is happy...@@</p>
+	<<case 1>>
+		<p>@@.head3;Z@@oe decided to tell about her today. She looks collected today but you notice that she is still under residual effects it seems. She touches and strokes her lips absently and generally has aroused look.@@.npc;Well, I am Zoe, and I am new to all this. I mean, I am a total Heat junkie and I really want to stop but I don't know how. I guess I need to tell about how I got into all this shit first, right?@@</p>
+    <p>She takes a deep breath.</p>
+    <p>@@.npc;Well, I am... well, was a manager at a real estate agency. It was a good solid job my mom got me when we moved in Appletree. Then I have met this guy, let's call him Joe. He was sweet and cool and was really experienced in all kinds of sexual stuff. So he introduced me to the Heat. Oh, Heat is... well it is something. You see, whole your body feels like an erogenous zone when you take it. You can cum by just kissing or something like this and I felt in love, really. I mean first with Joe but then drug became more important to me. We had a perfect sex but in other parts it was an emotional rollercoaster for me. I dumped him after about a year together and even tried to stop doing drugs cold-turkey. Of course I failed. Then I decided that I can just live my life using Heat recreationally and it will not affect me.@@</p>
+    <p>@@.npc;This was a wrong decision. I can see now that I just started taking more and more over time. Also at first I just took a dose in the evening after work and masturbated like hell up until morning and this was pretty much okay. Well, I was sleepy all the day and started failing my job responsibilities but overall I was pretty happy. You should see my sex-toys collection! I have those horse dildos and tentacle vibrator and... well, ahem. So after some time I started craving for another people's touches. I was raised in a old-styled family so it was a line for me that I couldn't cross so easily. I mean dating with a guy or masturbating was one thing and looking for one-night stands was completely another. So first I started going to the masseuse parlor and getting a full body massage. Nothing sexual you know, I mean nothing sexual for them but for me it was bliss, I quietly came like three or four times per session.@@</p>
+    <p>She takes a sip from her cup and slowly licks her lips once again.</p>
+    <p>@@.npc;Well, as you can guess it didn't last long. I craved more, soon I started paying them for the "happy endings" and all kinds of stuff. Officially they don't provide those but you know how it works. About that time I was kicked from my job because, well...@@ She giggles. @@.npc;Customer came earlier than expected caught me in the house I was showing to him. I was humping the corner of the dining table. Well, of course we fucked but then the bastard was caught by his wife and, well, he filled a complain to the company. This was a problem since I needed money so I started working at the massage parlor myself doing all kinds of nasty stuff. And well, long story short now I am also a part-time streetwalker.@@</p>
+    <p>She sighs deeply.</p>
+    <p>@@.npc;So... I am really confused now. I mean I was sent here by my parents and they do care about me I can feel it. They are really concerned by my life style and choices I have made. And on some level I feel that I'm not doing the right things either. But I have all kinds of sex and generally this feels like a time of my life. I can't imagine living without a good daily rude backdoor pounding and it just doesn't feel that good without the drugs... well, I guess that's all for today...thanks for listening to my story...@@
+    <p>People applaud to her. @@.mono;Hmm, not sure about the moral. Does she wants to quit doing drugs or not in the end? I guess it is the choice she still is up to make.@@ Jacobson seems pleased by her story and the fact she shared it. @@.npd;Oh, thank you so much for sharing, Zara!@@ The rest of the meeting goes with her telling the group about "six steps towards the clean life" and you can't but feel skeptical about some parts of the program. Especially, the part about "Setting your desires free" @@.mono;How it is supposed to help us with addiction?@@ The concept is pretty weird and complicated and it seems containing some new-age brain twist that you aren't getting yet.</p>
+	<<case 2>>
+		<p>@@.head3;A@@ black haired fat guy decides to tell about his story and what he has achieved so far today.</p>
+    <p>@@.npc;So... I am Mark and I am an addict.@@ You feel that you are getting used to applaud after each introduction and for a brief moment worry if you would start doing this involuntary outside of the addiction therapy group. @@.npc;I am clean for almost six months already and pretty proud of that. It was a harsh experience to stop using it but on my third try I managed to get through the withdrawal period. The main reason I began using Zone was the sense of calm and that wonderful serenity. You see, I am a trader so I face a lot of stress in my life and after a couple of years anxiety began to take it's toll on me. I had troubles sleeping and even had several panic attacks. One of the guys at the office proposed me to try Zone to cope with stress and being a total fool I was back then I followed his advice. After some time I realized most of guys in the office used Zone and Focus almost on a daily basis.@@</p>
+    <p>He shrugs and continue.</p>
+    <p>@@.npc;Well, the good part is that Zone really removes all the anxiety and makes you feel top-notch. My income rapidly grown, my nerves felt like they are made of steel and I had a perfect eight hour-long sleep every night. Heh, it even cured my erection issues — can't have those when you are so collected and reassured in your abilities, you see? But it all comes with a cost of course. Money was not an issue but taking Zone every 7-8 hours is not very healthy. And well, the more you use it the less it works on you. It is not the drug getting weaker or your body getting accustomed to it. It is your brain not being able to work without doubting itself. So no matter how much you take, after some time your brain overcomes it and old doubts start to return. For me it took more than a year but in the end I was a total mess. I tripled my dosage but no avail. All I got was heart problems and hallucinations. In the end I wound up joining this group and decided to stop abusing my body and mind.@@</p>
+    <p>@@.npc;Most of people in this room know how long it took me to finally drop Zone and how many efforts you need to readjust but I am really proud and glad to say I am clean now and going to stay this way! And what I want to add — you should never give up. I did it so you can do it too!@@</p>
+    <p>You discuss Mark's story for the rest of the meeting and you feel pretty inspired at the end. It look that there is a hope for you to live more clean and drug-free life.</p>
+	<<case 3>>
+		<p>@@.head3;T@@oday Joline tells about her Focus addiction. Since she is not a very collected person it is hard to follow her train of thoughts though.</p>
+     <p>@@.npc;I am Joline and I am a former Focus addict! Well, you all know me already I hope since I am the leader of this addiction group for almost 3 years, giggle! So... Ah, right, the addiction! You see, I always had hard time with all this pesky school and college tasks and such. I am a free mind and can't be restrained by these dull numbers and rules so... right, I had tough time dealing with those. Anyway... my roommate proposed some Focusol to make me less, as she said, "air-head". Back in the times I was much less resistant to persuasion so I tried it. So. Well. Ah, yes, I started taking Focus to be more successful at my study and did well, I became a top-three student at my college and stuff.@@</p>
+     <p>@@.npc;But then I realized that drugs are not an answer. They change you from your true self and make you... emm... make you... ah, a different person!@@ You wonder how this person can even function with her flow of consciousness being that rugged. @@.npc;...so, I decided to abstain from anything that can change me in a way I don't want. And you know what?... mmmm... ah, yeah, I felt wonderful first time in years, no silly complicated thoughts and doubts, I was free once again! After the withdrawal period of course. So... Society can be abusive so I was forced by leave my job as an accountant. They said I became bad at my work! I later sued them for violating the... ummm... forgot what was it called... ah, "2024 Workplace Inclusion act" but this is another story. Now I am a wife and a happy mother of... ah, six and working part time here!@@</p>
+     <p>@@.npc;You see, I decided that it is my duty to be an example for all lost souls and to give them hope for the better life! Never let drugs a chance to alter your inner self!@@</p>
+     <p>While Joline looks triumphally assured that her little speech inspired the group you can't but feel horror from the sudden realization that ms.Jacobson probably has a driver license.</p>
+	<<case default>>
+    <p>Error in retrieving story content, pls report this issue!</p>
+<</switch>>
+<center><<button "Leave">><<set ↂ.pc.status.addict.alc -= 5>><<set ↂ.pc.status.addict.zone -= 5>><<set ↂ.pc.status.addict.satyr -= 5>><<set ↂ.pc.status.addict.heat -= 5>><<set ↂ.pc.status.addict.focus -= 5>><<set ↂ.flag.addictionClinic.stories += 1>><<addtime 31>><<status 0>><<sceneclose>><</button>></center>

@@ -39,13 +39,14 @@ setup.clothesCreator.create = function(): string {
   setup.clothesCreator.temporary.item.subStyleWord = State.active.variables.customSubStyleWord;
   setup.clothesCreator.temporary.item.tertiaryWord = State.active.variables.customTertiaryWord;
   setup.clothesCreator.temporary.item.fabricWord = State.active.variables.customFabricWord;
-  setup.clothesCreator.temporary.item.atr = State.active.variables.customAtr;
+  setup.clothesCreator.temporary.item.atr = Number(State.active.variables.customAtr);
   setup.clothesCreator.temporary.item.img = State.active.variables.customImage;
   setup.clothesCreator.temporary.item.padoImg = State.active.variables.customPadoImg;
-  if (typeof setup.clothesCreator.temporary.item.atr !== "string") {
-    return "Attractiveness is not a number!"
+  if (typeof setup.clothesCreator.temporary.item.atr !== "number") {
+    aw.con.warn("Clothes creator warning: Attractiveness is not a number! Will try fixing it.");
+    setup.clothesCreator.temporary.item.atr = Number(setup.clothesCreator.temporary.item.atr);
   }
-  if (setup.clothesCreator.temporary.item.atr < 0 || setup.clothesCreator.temporary.item.atr > 30) {
+  if (setup.clothesCreator.temporary.item.atr < 0 || setup.clothesCreator.temporary.item.atr > 20) {
     return "Attractiveness is out of bounds!"
   }
   if (setup.clothesCreator.temporary.item.slot === "overwear" || setup.clothesCreator.temporary.item.slot === "shoes") {
@@ -153,13 +154,13 @@ setup.clothesCreator.images = function(): twee {
     "IMG-CIO-Armor",
     "IMG-CIO-leya_top",
     "IMG-CIO-leya_top_2",
-    "IMG-CIOW-Cardigan",
-    "IMG-CIOW-FancyCoat",
-    "IMG-CIOW-Hoodie",
-    "IMG-CIOW-Jacket",
-    "IMG-CIOW-longCoat",
-    "IMG-CIOW-PleatedCoat",
-    "IMG-CIOW-Pullover",
+    "IMG-CI-CardiganOW",
+    "IMG-CI-FancyCoatOW",
+    "IMG-CI-HoodieOW",
+    "IMG-CI-JacketOW",
+    "IMG-CI-longCoatOW",
+    "IMG-CI-PleatedCoatOW",
+    "IMG-CI-PulloverOW",
     "IMG-panties-1",
     "IMG-panties-10",
     "IMG-panties-12",

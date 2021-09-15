@@ -1,5 +1,6 @@
-
-
+/*
+  Relationship selectors
+*/
 
 setup.getLovers = function() {
   const results: npcid[] = [];

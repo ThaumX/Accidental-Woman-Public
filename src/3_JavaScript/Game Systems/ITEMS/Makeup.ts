@@ -1057,7 +1057,7 @@ aw.makeup.gen = {};
       thick: 3,
       garish: 4,
       sexy: 3,
-      image: "IMGplaceholder75",
+      image: "IMGgenEvening",
     },
     prom: {
       name: "flashy prom",
@@ -1072,7 +1072,7 @@ aw.makeup.gen = {};
       thick: 4,
       garish: 4,
       sexy: 2,
-      image: false,
+      image: "IMGgenProm",
     },
     formal: {
       name: "refined formal",
@@ -1102,7 +1102,7 @@ aw.makeup.gen = {};
       thick: 5,
       garish: 4,
       sexy: -1,
-      image: "IMGplaceholder75",
+      image: "IMGgenGothic",
     },
     minimal: {
       name: "light makeup",
@@ -1117,7 +1117,7 @@ aw.makeup.gen = {};
       thick: 2,
       garish: 2,
       sexy: 0,
-      image: "IMGplaceholder75",
+      image: "IMGgenLight",
     },
     classic: {
       name: "50s glamour",
@@ -1132,7 +1132,7 @@ aw.makeup.gen = {};
       thick: 4,
       garish: 3,
       sexy: 3,
-      image: "IMGplaceholder75",
+      image: "IMGgen50",
     },
     whorish: {
       name: "naughty bordello",

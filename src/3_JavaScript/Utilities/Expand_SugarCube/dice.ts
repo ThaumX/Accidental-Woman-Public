@@ -78,10 +78,10 @@ setup.dice = {
       die = Math.floor(Math.random() * roll[1]) + 1;
       result += die; // update result
     }
-    return result; // this prelimary result ignores modifiers; it only rolls the dice
+    return result; // this preliminary result ignores modifiers; it only rolls the dice
   },
   processString(stringo: string) {
-    // recieves strings like '1d6 + 6' or 1d20+3'
+    // receives strings like '1d6 + 6' or 1d20+3'
     let parsed: any = [];
     // remove all whitespace and trim
     stringo = stringo.trim().replace(/\s/g, "");
@@ -170,7 +170,7 @@ if (!Number.prototype.fairmath) {
           this - ((this - op[0]) * (val / op[1])),
         ), op[0], op[1]);
       }
-      if (val > 0) { // number is positive, represeting an increase
+      if (val > 0) { // number is positive, representing an increase
         return Math.clamp(Math.floor(
           this + ((op[1] - this) * (val / op[1])),
         ), op[0], op[1]);

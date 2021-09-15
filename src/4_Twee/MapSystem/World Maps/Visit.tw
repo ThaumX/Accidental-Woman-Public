@@ -98,10 +98,13 @@
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <span class="disabled"><<button "Shop merch">><</button>></span>
+  <<button "Shop merch">><<dialog "Shop">><<include [[MapVisitorCentreShop]]>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
   <<button "History Exhibit">><<addTime 15>><<dialog "Visitor Center Exhibit">><p><<f y>>ou take your time casually looking at the exhibit on the history of Muschi Valley. Being so hard to access, you're a little surprised that Native American civilization seemed to be so advanced in the area. The signs say that the locals were somehow connected to the Mississippian civilization, despite the great distance. Judging by the pottery artifacts on display, it seems like they were very focused on fertility here. The information states that Muschi Valley was a highly religious site, with many priests living here. There are even some theories about long pilgrimages to reach the valley, tied in to other archeological sites stretching out to the west. It seems like the certain people may have traveled up the Ohio river and then made the difficult journey to this location, but the exhibit doesn't explain the reason for it at all.</p><center>[img[IMG-NativePottery1]]<br>[img[IMG-NativePottery2]]</center><</dialog>><</button>>
+<<endhoverrevise>>
+<<hoverrevise checkOut>>
+  <<button "Checkout">><<if $cart.length > 0>><<addTime 5>><<set _result = setup.shop.purchase()>><<if _result == "success">><<notify>><span class="good">Checked out successfully</span><</notify>><<elseif _result === "no afford">><<notify>><span class="bad">Insufficient Funds!</span><</notify>><<elseif _result === "already has">><<notify>><span class="bad">You already has same item in your wardrobe!</span><</notify>><</if>><<else>><<notify>>Nothing to purchase!<</notify>><</if>><</button>>
 <<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
@@ -111,6 +114,11 @@
 /*Main display for information about actions*/
 <div id="actionInfo">
 <<insertion alpha>>Look for some nice magnets <<ctn>>[not implemented]<</ctn>><<endinsertion>>
+<<hoverrevise hovCart>>
+	@@.imgbutton;<<link [img[IMGshopCart]]>><<BEcartDisplay>><</link>>@@
+<<endhoverrevise>>
+<<insertion hovCart>>@@.exp;launches a popup that contains a list of all the items in your cart, along with the total discount price.@@<<endinsertion>>
+<<insertion checkOut>>Pay for the items in your cart<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
@@ -119,3 +127,19 @@
 
 <p><<f s>>omething in the historical exhibit catches your eye. It seems the Native Americans of the Muschi Valley area knew about foreplay...</p>
 <center>[img[IMG-NativePottery3]]</center>
+
+
+:: MapVisitorCentreShop [nobr]
+
+You browse through the shelves.<br><br>
+<table id="noBorder">
+<tr class="labelrow"><td colspan=3 class="labelrow head3" style="border-bottom-style:dashed;">Various goods:</td></tr>
+<tr><td class="storeitem" style="width:20%;">
+  Magnet
+  <img data-passage="IMG-Item-CookBread" style="width:100px;height:auto;display:block;">
+</td><td style="padding-bottom:10px;">
+  'I luv Appletree' magnet.
+</td><td style="width:15%;padding-left:15px;">
+  @@.money;<<mon>>8@@ <span id="buyshit1"></span><br><<button "Add to Cart">><<set $cart.push(["Appletree Magnet", "simple", 8, "Appletree Magnet"])>><<replace "#buyshit1">>@@.exp;Added!@@<</replace>><</button>>
+</td></tr>
+</table>

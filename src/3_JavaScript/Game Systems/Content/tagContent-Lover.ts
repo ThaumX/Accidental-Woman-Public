@@ -107,7 +107,7 @@ aw.tagContent.lover.nakedBottom = [
 `,
 ];
 aw.tagContent.lover.NakedBottomPresent = [
-  `<<SCX>><<SC "SD" "20">>You lean forward, obcenely exposing your lady bits.<br>
+  `<<SCX>><<SC "SD" "20">>You lean forward, obscenely exposing your lady bits.<br>
   <<if $SCresult[1]>><<set aw.npc[setup.interact.status.npc].rship.lovePC += 5 >>That arouses <<print aw.npc[setup.interact.status.npc].main.name>>.<br>
   @@.npc;Oh, shit. You are still as gorgeous as the day we met, babe!@@<br>
   @@.pc;Thanks, heh. So...@@<br>
@@ -116,7 +116,7 @@ aw.tagContent.lover.NakedBottomPresent = [
   @@.npc;What for you are doing this? Damn, <<print ↂ.pc.main.name>>, there are people around!@@
   <<dialogchoice>>
       <<dbutt "Run" "ↂ.pc.kink.exhibition">><<run setup.interact.exit()>>
-      <<dtext "disturbed">>Run away in embarassment
+      <<dtext "disturbed">>Run away in embarrassment
       <<dbutt "Talk">><<intreplace>><<ctagcontent "exes" "NakedBottomPresentChat">>
       <<dtext "tired">>Oh... Yes, you are right...
   <</dialogchoice>>
@@ -146,7 +146,7 @@ aw.tagContent.lover.practNakedBottom = [
   <<orhas slut || liberate>>which is pretty comfortable for you in fact.<br>
   @@.mono;I am pretty sure <<print aw.npc[setup.interact.status.npc].main.name>> likes the view, hehe.@@<br>
   <<orhas shame>><<arouse -2>><<stress 1 "Naked pussy convo">>which makes you a bit nervous.<br>
-  @@.mono;I shoudn't dress like that in a first place, oh, what I was even thinking about?@@
+  @@.mono;I shouldn't dress like that in a first place, oh, what I was even thinking about?@@
   <<or>>which makes you feel pretty okay while you are in company of your lover.<br>
   @@.mono;Well, I am dressed risky today for sure. I wonder if <<print aw.npc[setup.interact.status.npc].main.name>> likes this?@@<br><</has>>
   <<if aw.npc[setup.interact.status.npc].kink.shame>>@@.npc;Oh, this looks pretty slutty actually. Not sure if I want you to dress like that.@@<br>
@@ -161,7 +161,7 @@ aw.tagContent.lover.practNakedBottom = [
   <</dialogchoice>>`,
 ];
 aw.tagContent.lover.practNakedBottomPresent = [
-  `<<SCX>><<SC "SD" "20">>You lean forward, obcenely exposing your lady bits.<br>
+  `<<SCX>><<SC "SD" "20">>You lean forward, obscenely exposing your lady bits.<br>
   @@.mono;Wanna touch this perfect body, don't you? I can see it in your eyes.@@<br><<if $SCresult[1]>><<set aw.npc[setup.interact.status.npc].rship.lovePC += 5 >>
   That arouses <<print aw.npc[setup.interact.status.npc].main.name>>.<br>
   @@.npc;Oh, shit. You are still as gorgeous as the day we met, babe!@@<br>
@@ -171,7 +171,7 @@ aw.tagContent.lover.practNakedBottomPresent = [
   @@.npc;What for you are doing this? Did you completely lost your sense?@@<br>
   <<dialogchoice>>
       <<dbutt "Run" "ↂ.pc.kink.exhibition">><<run setup.interact.exit()>>
-      <<dtext "disturbed">>Run away in embarassment
+      <<dtext "disturbed">>Run away in embarrassment
       <<dbutt "Talk">><<intreplace>><<ctagcontent "exes" "practNakedBottomPresentChat">>
       <<dtext "tired">>Oh... Yes, you are right...sorry.
   <</dialogchoice>>
@@ -200,7 +200,7 @@ aw.tagContent.lover.buckNaked = [
   `<<print aw.npc[setup.interact.status.npc].main.name>> stares at your nude body <<has exhibition>><<aroused 2>>which makes you more aroused.<br>
   @@.mono;Oh yeah, I can't believe I am doing that!@@<br>
   <<orhas slut || liberate>>which you can deal with easily.<br>
-  @@.mono;That is prety exciting!@@<br>
+  @@.mono;That is pretty exciting!@@<br>
   <<orhas shame>><<stress 10 "Naked convo">>which makes you feel uneasy.<br>
   @@.mono;Oh, that is a very wrong place to be naked!@@<br>
   <<or>><<stress 5 "Naked convo">>which makes you feel not really good.<br>
@@ -216,7 +216,7 @@ aw.tagContent.lover.buckNaked = [
   <</dialogchoice>>`,
 ];
 aw.tagContent.lover.buckNakedPresent = [
-  `You turn around, obcenely exposing your body to <<print aw.npc[setup.interact.status.npc].main.name>>.<br>
+  `You turn around, obscenely exposing your body to <<print aw.npc[setup.interact.status.npc].main.name>>.<br>
   @@.pc;Like what you see?@@<br><<if $SCresult[1]>>
   <<if aw.npc[setup.interact.status.npc].kink.shame>><<set aw.npc[setup.interact.status.npc].rship.likePC -= 5>><<set aw.npc[setup.interact.status.npc].rship.lovePC -= 5>>@@.npc;Oh, come on, cover yourself already!@@<br>
   <<include [[NPCinteraction-LoverContinue]]>>
@@ -243,7 +243,7 @@ aw.tagContent.lover.buckNakedBottomPresentRefuse = [
   `,
 ];
 aw.tagContent.lover.wetClothes = [
-  `<<if ↂ.pc.clothes.keys.bra === 0>>You notice <<print aw.npc[setup.interact.status.npc].main.name>> looks at your chest and realise that your <<p nipl.q>> <<p nipples.n>> are visible through the wet clothes.<br>
+  `<<if ↂ.pc.clothes.keys.bra === 0>>You notice <<print aw.npc[setup.interact.status.npc].main.name>> looks at your chest and realize that your <<p nipl.q>> <<p nipples.n>> are visible through the wet clothes.<br>
   <<has exhibition>><<arouse 1>>@@.mono;Oh yeah, I like that.@@<br>
   <<orhas slut>>@@.mono;That is certainly drawing some attention.@@<br>
   <<orhas shame>><<stress 7 "wet clothes convo">>@@.mono;Oh shit, my nipples are showing!@@<br>
@@ -271,12 +271,12 @@ aw.tagContent.lover.wetClothesCool = [
   `,
 ];
 aw.tagContent.lover.lightPheromones = [
-  `@@,npc;Hmm, I felt that smell again. I wonder what it is?@@<br>
+  `@@.npc;Hmm, I felt that smell again. I wonder what it is?@@<br>
   @@.pc;No idea. So...@@<br>
   <<include [[NPCinteraction-LoverContinue]]>>`,
 ];
 aw.tagContent.lover.pheromones = [
-  `@@,npc;Hmm, I felt that smell again. I wonder what it is?@@<br>
+  `@@.npc;Hmm, I felt that smell again. I wonder what it is?@@<br>
   @@.pc;No idea. So...@@<br>
   <<include [[NPCinteraction-LoverContinue]]>>`,
 ];
@@ -371,7 +371,7 @@ aw.tagContent.lover.latePreg = [
   `,
 ];
 aw.tagContent.lover.drunk = [
-  `@@.pc;Hii honey! Its me, srprised?!@@<br>
+  `@@.pc;Hii honey! Its me, surprised?!@@<br>
   @@.npc;Oh, you are so shitfaced. You can't even stand straight, ha-ha!@@
   <<dialogchoice>>
     <<dbutt "Nah" >><<intreplace>><<ctagcontent "lover" "drunkYeah">><</intreplace>>
@@ -417,7 +417,7 @@ aw.tagContent.lover.mindbreak = [
   @@.pc;I am so sorry. It was really tough times lately.@@<br>
   @@.npc;Oh, it is okay, dont take it so close.@@<br>
   <<include [[NPCinteraction-LoverContinue]]>>
-  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10 "Mindbroken convo">>You start histerically giggling.<br>
+  <<else>><<addtime 13>><<set ↂ.pc.groom.makeup.clown = true>><<stress -10 "Mindbroken convo">>You start hysterically giggling.<br>
   @@.npc;Oh, poor you. Try to calm down, I ll drive you home...@@<br>
   You cry all the way while <<print aw.npc[setup.interact.status.npc].main.name>> drive the car to your house, but start to feel better when you get to the house. <<print aw.npc[setup.interact.status.npc].main.name>> leaves you in your house after getting sure you are okay now.<br>
   <<link "Say goodbye">><<addtime 54>><<gotomap "home" "foyer">><<run setup.interact.exit()>><</link>>
@@ -426,8 +426,8 @@ aw.tagContent.lover.mindbreak = [
 ];
 aw.tagContent.lover.flooded = [
   `<<if ↂ.pc.clothes.keys.panties == 0 || ↂ.pc.clothes.worn.panties === "pulledAside" || ↂ.pc.clothes.worn.panties === "pulledOff" || ↂ.pc.clothes.worn.panties === "off">>
-    You feel your juices running down your inner thights with no panties in a way to stop them.<br>
-    <<has exhibition>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will notice that. That is so embarassingly exciting!@@<<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<</has>><br>
+    You feel your juices running down your inner thighs with no panties in a way to stop them.<br>
+    <<has exhibition>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> will notice that. That is so embarrassingly exciting!@@<<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<</has>><br>
   <<else>>You feel your juices making a slippery mess slowly soaking through your panties.<<has slut>>@@.mono;Speaking with a person while being flooded like that is so naughty!@@<<or>>@@.mono;Oh, I hope <<if aw.npc[setup.interact.status.npc].main.female>>she<<else>>he<</if>> won't notice that.@@<</has>><br><</if>>
   <<include [[NPCinteraction-LoverContinue]]>>
   `,
@@ -463,7 +463,7 @@ aw.tagContent.lover.stressedNope = [
 ];
 
 aw.tagContent.lover.stressedAbit = [
-  `<<has extro>>@@.pc;Yeah, so much pressure lately. It was really hard to cope with all this things in my life.@@<<else>>@@.pc;Yeah, so much pressure lately.@@<</if>><<set aw.npc[setup.interact.status.npc].rship.lovePC += 5 >><br>
+  `<<has extro>>@@.pc;Yeah, so much pressure lately. It was really hard to cope with all this things in my life.@@<<or>>@@.pc;Yeah, so much pressure lately.@@<</has>><<set aw.npc[setup.interact.status.npc].rship.lovePC += 5 >><br>
   @@.npc;Oh, poor girl. It will be okay, I promise! Don't you dare to surrender!@@<<stress -8 "stress convo">><br>
   @@.pc;Oh, you are so supportive. I don't know what I'd do without you to be honest.@@<br>
   @@.npc;Because I care about you, silly!@@<br>

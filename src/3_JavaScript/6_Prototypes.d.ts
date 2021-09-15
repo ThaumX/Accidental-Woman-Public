@@ -33,6 +33,7 @@ interface Array<T> {
   findIndex: (arg: any) => number;
   shuffle: () => void;
   random: () => any;
+  pluck: () => any;
 }
 
 interface JSON {

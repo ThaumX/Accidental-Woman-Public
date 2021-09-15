@@ -65,7 +65,7 @@ setup.omnItems.babyHypno = {
 };
 
 setup.omnItems.rejuvSickness = {
-  name: "Rejuvinator Sickness",
+  name: "Rejuvenator Sickness",
   type: "condition",
   output: "none",
   duration: 3400,
@@ -76,9 +76,9 @@ setup.omnItems.rejuvSickness = {
       aw.L("pc");
       const hl = random(3, 5) * -1;
       ↂ.pc.status.health += hl;
-      setup.status.record("health", hl, "Rejuvinator Sickness");
+      setup.status.record("health", hl, "Rejuvenator Sickness");
       aw.S("pc");
-      setup.status.tired(1, "Rejuvinator Sickness");
+      setup.status.tired(1, "Rejuvenator Sickness");
     }`,
 };
 
@@ -163,19 +163,7 @@ setup.omnItems.hannaAsksForMore = {
   duration: 11622,
   icon: "none",
   run: `setup.interact.status.npc = "n1014";
-    setup.interact.launch({passage: "none", npcid: "n1014", content: '<<set _hanna1 = either("Hey","What's up? It's me, Hanna","<<greetings>>")>><<set _hanna2 = either("I am terribly sorry but I need to borrow some more money from you :(((","I hate to be annoying but I need to ask you once again for additional money...","I know how it sounds, but I really need to ask you for more money :(")>><div id="hannaText"><<texting "Hanna Bowen">>
-    <<textnpc>><<print _hanna1>>
-    <<textpc>>Hi!
-    <<textnpc>><<print _hanna2>>
-    <<textnpc>>I have serious problems here... Can you send me 100 more?
-    <<textpc>>Ugh...
-    <<dialogchoice>>
-        <<dbutt "Sure">><<replace "#hannaText">><<include [[HannaBowen-quest-a-yes]]>><</replace>>
-        <<dtext "happy">>Oh, sure. Just return them and don't forget the money I previously borrowed you please.
-        <<dbutt "No">><<replace "#hannaText">><<include [[HannaBowen-quest-a-no]]>><</replace>>
-        <<dtext "arrogant">>Sorry, you haven't returned money I already borrowed to you.
-      <</dialogchoice>></div>
-    ', block: true, title: "Phone message", size: 3});
+    setup.interact.launch({passage: "Hannaasks", npcid: "n1014", content: '', block: true, title: "Phone message", size: 3});
     aw.S();`,
 };
 
@@ -186,18 +174,7 @@ setup.omnItems.hannaInTroubles = {
   duration: 11622,
   icon: "none",
   run: `setup.interact.status.npc = "n1014";
-    setup.interact.launch({passage: "none", npcid: "n1014", content: '<<texting "Hanna Bowen">>
-    <<textnpc>><<name>>
-    <<textpc>>Umm, hi?
-    <<textpc>>Hey, you wanted something?
-    <<textpc>>Hello?
-    <<textnpc>>Iam at tesla res they tookme pls co
-    <<textpc>>What? Where are you?
-    <<textpc>>Hey, are you still there?
-    <</texting>>
-    <br>@@.mono;Hmm, that's weird. We are not so close, why did she wrote me in the first place?@@
-    <<safetoclose>><<set ↂ.flag.hannaStory.stage = "askedForHelp">><<run setup.omni.new("hannaDeathCounter")>>
-    ', block: false, title: "Phone message", size: 3});
+    setup.interact.launch({passage: "hannaInTroublesText", npcid: "n1014", content: '', block: false, title: "Phone message", size: 3});
     aw.mapNPC.downtown.club.n1014.cond = function() { return false };
     aw.S();`,
 };
@@ -215,6 +192,28 @@ setup.omnItems.hannaDeathCounter = {
   `,
 };
 
+setup.omnItems.heartBroken = {
+  name: "Heartbroken",
+  type: "single",
+  output: "none",
+  duration: 2880,
+  icon: "IMGstatus_BrokenHeart",
+  text: "You feel Heartbroken.",
+  run: `
+  `,
+};
+
+setup.omnItems.love = {
+  name: "Love",
+  type: "single",
+  output: "none",
+  duration: 2880,
+  icon: "IMGstatus_Love",
+  text: "You are in love!",
+  run: `
+  `,
+};
+
 setup.omnItems.hannaReturnsMoney = {
   name: "hannaReturnsMoney",
   type: "single",
@@ -223,25 +222,105 @@ setup.omnItems.hannaReturnsMoney = {
   icon: "none",
   run: `
   setup.interact.status.npc = "n1014";
-    setup.interact.launch({passage: "none", npcid: "n1014", content: '<<set _monHan = 2000 + ↂ.flag.hannaStory.money>><<texting "Hanna Bowen">>
-    <<textnpc>>Hi, sugarcube!
-    <<textnpc>>Just wanted to share some good news!
-    <<textnpc>>I got a job and well
-    <<textnpc>>I am clean for last two weeks too
-    <<textpc>>Oh, that's cool! Congrats!
-    <<textnpc>>Thanks! ^_^ 
-    <<textnpc>>And also, I sent you all my debt, I am really grateful!
-    <<textpc>>Oh, thanks, you shouldn't do that to be honest.
-    <<textnpc>>It is okay, sugar, this is a honestly earned money and I want you to take them.
-    <<textpc>>Oh okay
-    <<textpc>>Well, see ya! ;)
-    <<textpc>>And thanks once again.
-    <</texting>>
-    You check your balance and see that @@.mon;<<mon>><<= _monHan>>@@ got to your balance.
-    <<safetoclose>><<run aw.cash(_monHan, "misc")>>
-    ', block: false, title: "Phone message", size: 3});
+    setup.interact.launch({passage: "hannaReturnsMoney", npcid: "n1014", content: "", block: false, title: "Phone message", size: 3});
     aw.mapNPC.downtown.club.n1014.cond = function() { return false };
     aw.S();
   `,
 };
 
+setup.omnItems.phoenixAnswer = {
+  name: "phoenixAnswer",
+  type: "single",
+  output: "none",
+  duration: 2605,
+  icon: "none",
+  run: `
+    let timeo = (setup.time.dateToVal(State.active.variables.date) + 200);
+    setup.sched.new("Phoenix Nest", "reminder", true, timeo, false, false, false, true, false, "You was invited to your first Phoenix club meeting!", "Book club meeting");
+    ↂ.flag.bookClub.timeOpen = timeo;
+    setup.interact.launch({passage: "PhoenixInvite", npcid: "none", content: "", block: false, title: "Phone message", size: 3});
+    aw.S();
+  `,
+};
+
+setup.omnItems.phoenixPartyCall = {
+  name: "phoenixPartyCall",
+  type: "single",
+  output: "none",
+  duration: 9800,
+  icon: "none",
+  run: `
+    let timeo = (setup.time.dateToVal(State.active.variables.date) + 200);
+    setup.sched.new("Phoenix Nest", "reminder", true, timeo, false, false, false, true, false, "You was invited to your first Phoenix club meeting!", "Book club meeting");
+    ↂ.flag.bookClub.timeOpen = timeo;
+    setup.interact.launch({passage: "PhoenixSecondInvite", npcid: "none", content: "", block: false, title: "Phone message", size: 3});
+    aw.S();
+  `,
+};
+
+setup.omnItems.IRcooldown = {
+  name: "IRcooldown",
+  type: "single",
+  output: "none",
+  duration: 1200,
+  icon: "none",
+  run: `
+  ↂ.flag.main.IrCooldown = true;
+  aw.S();
+  `,
+};
+
+setup.omnItems.olegProblems = {
+  name: "olegProblems",
+  type: "single",
+  output: "interact",
+  duration: 4000,
+  icon: "none",
+  run: `
+  setup.interact.status.npc = "n1014";
+    setup.interact.launch({passage: "Oleg-Problems", npcid: "none", content: "", block: false, title: "Phone message", size: 3});
+    ↂ.flag.main.capacitorStage[0] = "warned";
+    aw.S();
+  `,
+};
+
+setup.omnItems.olegProblems2 = {
+  name: "olegProblems2",
+  type: "single",
+  output: "interact",
+  duration: 8300,
+  icon: "none",
+  run: `
+  setup.interact.status.npc = "n1014";
+    setup.interact.launch({passage: "Oleg-Problems-two", npcid: "none", content: "", block: false, title: "Phone message", size: 3});
+    ↂ.flag.main.capacitorStage[0] = "warned";
+    aw.S();
+  `,
+};
+
+setup.omnItems.olegProblems3 = {
+  name: "olegProblems3",
+  type: "single",
+  output: "none",
+  duration: 12620,
+  icon: "none",
+  run: `
+  setup.badEnd("psycho");
+  `,
+};
+
+setup.omnItems.ladyWoods = {
+  name: "Lady of the Woods",
+  type: "recurring",
+  output: "notify",
+  times: 18,
+  interval: 120,
+  icon: "IMGstatus_LadyWoods",
+  text: "You keep thinking of the Lady with happy floaty feelings.",
+  run: `
+    setup.status.stress(-5, "Aftereffect: Giving birth for the Lady of the Woods");
+    setup.status.happy(1, "Aftereffect: Giving birth for the Lady of the Woods")
+    let ntxt = either("I really want to visit the Lady again", "The Lady was so gentle but it felt SO GOOD.", "I hope next time I can give the Lady a child.", "Just remembering the Lady makes me feel good!", "The Lady has me floating on a cloud...", "I can't wait to visit the Lady again!", "I really miss the Lady, I must visit soon!");
+    setup.notify(ntxt);
+    `,
+};

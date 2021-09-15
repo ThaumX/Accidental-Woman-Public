@@ -933,6 +933,14 @@ setup.sex.cum = function(ind: number, type: "playerAction"|"npcAction"|"position
       } else {
         pos.cervix = 1;
       }
+      if (src.mutate.bitchBreaker) {
+        pos.cervix += random(4, 6);
+        pos.deep += random(2, 3);
+      }
+      if (src.mutate.powerEjac) {
+        pos.cervix += random(2, 3);
+        pos.deep += random(4, 6);
+      }
     }
   }
   const keys = Object.keys(pos);
@@ -945,6 +953,7 @@ setup.sex.cum = function(ind: number, type: "playerAction"|"npcAction"|"position
   const m = ["hair", "face", "chest", "back", "stomach", "butt", "groin", "thigh", "legs", "feet"];
   const ccodes = ["A", "O", "P", "Q"];
   // aw.con.info(`the cum volume unit is ${cvu} deci-ml times ${div}. (vol = ${vol})`);
+  let insideVol = 0;
   for (let i = 0; i < c; i++) {
     const key = keys[i];
     let fert = false;
@@ -1054,12 +1063,18 @@ setup.sex.cum = function(ind: number, type: "playerAction"|"npcAction"|"position
           f = "deep";
         }
         ↂ.pc.fert.inseminate(sex.activeNPC[ind], (pos[key] * cvu), f);
+        if (f !== "vulva") {
+          insideVol += pos[key] * cvu;
+        } else {
+          insideVol += (pos[key] * cvu) / 2;
+        }
         risk = true;
       }
     }
   }
   if (risk) {
-    setup.drug.eatDrug("cream", Math.min(3, Math.round(vol / 5)));
+    setup.drug.eatDrug("cream", Math.min(1, Math.round(insideVol / 3)));
+    setup.drug.eatDrug("cum", Math.min(1, Math.round(insideVol / 3)));
   }
   // aw.con.info(`setup.sex.cum is finished! Risk: ${risk} - msg: ${jizz}`); // TODO Remove eventually
   if (jizz === "pulled out") {
@@ -1348,64 +1363,60 @@ setup.sex.sexActionNPC = function(key: string, ind: number = 0): boolean {
 setup.sex.NpcClothes = function(npcId: string): void {
   if (aw.npc[npcId] !== null) {
     let bra = false;
-    if (aw.npc[npcId].clothes.worn.top === false) { // seems like your npc generator doesnt add the right kind of variable. still it works that way
-      const color = ["black", "white", "red", "orange", "yellow", "green", "blue", "violet", "gray", "pink", "brown"];
-      let coordinatedColor = "Error";
-      let coordinated = false;
-      // panties
-      if (aw.npc[npcId].main.female || random(0, 100) === 77) { // because males can wear panties too lol
-        if (random(0, 2) > 0) {
-          coordinated = true;
-          coordinatedColor = either(color);
-        }
-        const pantiesType = ["panties", "briefs", "boyshorts", "bikini", "thongs", "tanga", "g-string", "crotchless panties"];
-        aw.npc[npcId].clothes.outfits.casual.panties = (coordinatedColor + " " + either(pantiesType));
-      } else {
-        aw.npc[npcId].clothes.outfits.casual.panties = (either(color) + " " + "boxers");
+    const color = ["black", "white", "red", "orange", "yellow", "green", "blue", "violet", "gray", "pink", "brown"];
+    let coordinatedColor = "Error";
+    let coordinated = false;
+    // panties
+    if (aw.npc[npcId].main.female || random(0, 100) === 77) { // because males can wear panties too lol
+      if (random(0, 2) > 0) {
+        coordinated = true;
+        coordinatedColor = either(color);
       }
-      // bra
-      if (aw.npc[npcId].main.female && random(0, 10) > 7) {
-        bra = true;
-        const braType = ["open cup", "balconette", "bandeau", "contour", "demi-cup", "plunge ", "push-up", "shelf", "sports"];
-        if (coordinated) {
-          aw.npc[npcId].clothes.outfits.casual.bra = (coordinatedColor + " " + either(braType) + " bra");
-        } else {
-          aw.npc[npcId].clothes.outfits.casual.bra = (either(color) + " " + either(braType) + " bra");
-        }
-      }
-      // legs
-      if (aw.npc[npcId].main.female) {
-        const topType = ["thigh highs", "leg warmers", "stockings"];
-        aw.npc[npcId].clothes.outfits.casual.leg = (either(color) + " " + either(topType));
-      }
-      // top
-      if (aw.npc[npcId].main.female) {
-        const topType = ["shirt", "polo", "blouse", "bustier", "corset top", "tunic"];
-        aw.npc[npcId].clothes.outfits.casual.top = (either(color) + " " + either(topType));
-      } else {
-        const topType = ["shirt", "polo", "t-shirt"];
-        aw.npc[npcId].clothes.outfits.casual.top = (either(color) + " " + either(topType));
-      }
-      // bottom
-      if (aw.npc[npcId].main.female) {
-        const topType = ["leggins", "pants", "trousers", "shorts", "skirt", "mini-skirt"];
-        aw.npc[npcId].clothes.outfits.casual.bottom = (either(color) + " " + either(topType));
-      } else {
-        const topType = ["pants", "trousers", "shorts"];
-        aw.npc[npcId].clothes.outfits.casual.bottom = (either(color) + " " + either(topType));
-      }
-      // shoes
-      if (aw.npc[npcId].main.female) {
-        const topType = ["heels", "boots", "sandals", "high-heels", "flip-flops", "sneakers"];
-        aw.npc[npcId].clothes.outfits.casual.shoes = (either(color) + " " + either(topType));
-      } else {
-        const topType = ["boots", "sandals", "flip-flops", "sneakers"];
-        aw.npc[npcId].clothes.outfits.casual.shoes = (either(color) + " " + either(topType));
-      }
-      aw.con.info(`setup.sex.NpcClothes finished creating an outfit for ${npcId}`);
+      const pantiesType = ["panties", "briefs", "boyshorts", "bikini", "thongs", "tanga", "g-string", "crotchless panties"];
+      aw.npc[npcId].clothes.outfits.casual.panties = (coordinatedColor + " " + either(pantiesType));
     } else {
-      aw.con.warn(`setup.sex.NpcClothes found some outfit for ${npcId}. Let's just straight it out and go.`);
+      aw.npc[npcId].clothes.outfits.casual.panties = (either(color) + " " + "boxers");
     }
+    // bra
+    if (aw.npc[npcId].main.female && random(0, 10) > 7) {
+      bra = true;
+      const braType = ["open cup", "balconette", "bandeau", "contour", "demi-cup", "plunge ", "push-up", "shelf", "sports"];
+      if (coordinated) {
+        aw.npc[npcId].clothes.outfits.casual.bra = (coordinatedColor + " " + either(braType) + " bra");
+      } else {
+        aw.npc[npcId].clothes.outfits.casual.bra = (either(color) + " " + either(braType) + " bra");
+      }
+    }
+    // legs
+    if (aw.npc[npcId].main.female) {
+      const topType = ["thigh highs", "leg warmers", "stockings"];
+      aw.npc[npcId].clothes.outfits.casual.leg = (either(color) + " " + either(topType));
+    }
+    // top
+    if (aw.npc[npcId].main.female) {
+      const topType = ["shirt", "polo", "blouse", "bustier", "corset top", "tunic"];
+      aw.npc[npcId].clothes.outfits.casual.top = (either(color) + " " + either(topType));
+    } else {
+      const topType = ["shirt", "polo", "t-shirt"];
+      aw.npc[npcId].clothes.outfits.casual.top = (either(color) + " " + either(topType));
+    }
+    // bottom
+    if (aw.npc[npcId].main.female) {
+      const topType = ["leggins", "pants", "trousers", "shorts", "skirt", "mini-skirt"];
+      aw.npc[npcId].clothes.outfits.casual.bottom = (either(color) + " " + either(topType));
+    } else {
+      const topType = ["pants", "trousers", "shorts"];
+      aw.npc[npcId].clothes.outfits.casual.bottom = (either(color) + " " + either(topType));
+    }
+    // shoes
+    if (aw.npc[npcId].main.female) {
+      const topType = ["heels", "boots", "sandals", "high-heels", "flip-flops", "sneakers"];
+      aw.npc[npcId].clothes.outfits.casual.shoes = (either(color) + " " + either(topType));
+    } else {
+      const topType = ["boots", "sandals", "flip-flops", "sneakers"];
+      aw.npc[npcId].clothes.outfits.casual.shoes = (either(color) + " " + either(topType));
+    }
+    aw.con.info(`setup.sex.NpcClothes finished creating an outfit for ${npcId}`);
     aw.npc[npcId].clothes.worn.panties = "normal";
     if (bra) {
       aw.npc[npcId].clothes.worn.bra = "normal";

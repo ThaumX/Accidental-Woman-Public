@@ -77,6 +77,9 @@ interface IntSetupVows {
   npcVowsPc: () => string;
   NPCvowsCB: () => string;
   npcVowsFinalize: () => void;
+  marriageVowsExchange: () => string;
+  vowsControl: () => void;
+  vowsBroken: () => string;
   names: string[];
   fullNames: string[];
   fullNamesPC: {};
@@ -154,7 +157,6 @@ setup.vow = {
     return out;
   },
   npcVowsProposal(npcid: npcid): string {
-    
     if (aw.npc[npcid] == null) {
       aw.con.warn(`ERROR: NPC with ID ${npcid} does not exist! (npcVowsProposal)`);
       return `ERROR: NPC with ID ${npcid} does not exist! (npcVowsProposal)`;
@@ -273,7 +275,7 @@ setup.vow = {
     } else if (mostImportant === 20 || mostImportant === 21) {
       addText = `Let's say ${State.active.variables.moneyVow} bucks.`;
     }
-    out += `<p>@@.npc;First important for me is ${setup.vow.fullNames[mostImportant]} ${addText}. I mean this is really a most important thing for me and I don't think I can be happy in marriage if we don't agree on this first.@@</p>`;
+    out += `<p>@@.npc; Well, vows, right? First important for me is ${setup.vow.fullNames[mostImportant]} ${addText}. I mean this is really a most important thing for me and I don't think I can be happy in marriage if we don't agree on this first.@@</p>`;
     out += `<p>@@.pc;Oh, I see.@@</p>`;
     vowsWeight[mostImportant] = 0;
     addText = "";
@@ -282,11 +284,11 @@ setup.vow = {
       second = setup.indexOfMax(vowsWeight);
     }
     if (second === 19) {
-      addText = `Let's say at least ${State.active.variables.boobsizeVow} cc`;
+      addText = ` Let's say at least ${State.active.variables.boobsizeVow} cc.`;
     } else if (second === 20 || second === 21) {
-      addText = `Let's say ${State.active.variables.moneyVow} bucks`;
+      addText = ` Let's say ${State.active.variables.moneyVow} bucks.`;
     }
-    out += `<p>@@.npc;Second I'd wish ${setup.vow.fullNames[second]}. ${addText}. `;
+    out += `<p>@@.npc;Second I'd wish ${setup.vow.fullNames[second]}.${addText} `;
     vowsWeight[second] = 0;
     addText = "";
     let third = setup.indexOfMax(vowsWeight);
@@ -303,13 +305,13 @@ setup.vow = {
     aw.S();
     out += `
     <<dialogchoice>>
-      <<dbutt "Yes">><<replace "#weddingBox">><<include [[Wedding-c]]>><</replace>>
+      <<dbutt "Yes">><<replace "#seriousness">><<include [[Wedding-c]]>><</replace>>
       <<dtext "happy">>You are agree to all of those vows.
-      <<dbutt "second">><<replace "#weddingBox">><<set $vowToDiscuss = 2>><<include [[Wedding-vowsObject]]>><</replace>>
+      <<dbutt "second">><<replace "#seriousness">><<set $vowToDiscuss = 2>><<include [[Wedding-vowsObject]]>><</replace>>
       <<dtext "sad">>You don't feel like second fits you. Maybe we could drop it?
-      <<dbutt "third" >><<replace "#weddingBox">><<set $vowToDiscuss = 3>><<include [[Wedding-vowsObject]]>><</replace>>
+      <<dbutt "third" >><<replace "#seriousness">><<set $vowToDiscuss = 3>><<include [[Wedding-vowsObject]]>><</replace>>
       <<dtext "sad">>You don't feel like third fits you. Maybe we could drop it?
-      <<dbutt "fuck it">><<replace "#weddingBox">><<include [[Wedding-fuckit]]>><</replace>>
+      <<dbutt "fuck it">><<replace "#seriousness">><<include [[Wedding-fuckit]]>><</replace>>
       <<dtext "mad">>You don't want this bloody marriage anymore.
     <</dialogchoice>>
     `;
@@ -359,14 +361,13 @@ setup.vow = {
           out += `<<checkboxA "$vows${vow}" false true>> ${setup.vow.fullNamesPC[vow]}<br>`;
         }
       }
-      out += `<<button "Propose">><<replace "#weddingBox">><<include [[Wedding-d]]>><</replace>><</button>></center>`;
+      out += `<<button "Propose">><<replace "#seriousness">><<include [[Wedding-d]]>><</replace>><</button>></center>`;
     } else {
       return "Error in vow system, pls report it and use emergency exit button!"
     }
     return out;
   },
   NPCvowsCB(): string {
-    let out = true;
     const vows = {
       noCondom: true,
       condom: true,
@@ -392,30 +393,30 @@ setup.vow = {
       moneyNPC: true,
     };
     if (State.active.variables.vowsnoCondom && State.active.variables.vowscondom) {
-      return `<p>@@.npc;Hey, we can't decide on both using and not using the condom, mm?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#weddingBox">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
+      return `<p>@@.npc;Hey, we can't decide on both using and not using the condom, mm?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#seriousness">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
     }
     if (State.active.variables.noIUD && State.active.variables.IUD) {
-      return `<p>@@.npc;So... I don't get it, will you have IUD or not?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#weddingBox">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
+      return `<p>@@.npc;So... I don't get it, will you have IUD or not?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#seriousness">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
     }
     if (State.active.variables.noKids && State.active.variables.kids) {
-      return `<p>@@.npc;Umm, so what's about kids? Do we bring them home or not?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#weddingBox">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
+      return `<p>@@.npc;Umm, so what's about kids? Do we bring them home or not?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#seriousness">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
     }
     if (State.active.variables.sub && State.active.variables.dom) {
-      return `<p>@@.npc;I am quite confused to be honest, who will be the dom and who the sub?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#weddingBox">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
+      return `<p>@@.npc;I am quite confused to be honest, who will be the dom and who the sub?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#seriousness">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
     }
     if (State.active.variables.houseWife && State.active.variables.houseSpouse) {
-      return `<p>@@.npc;Okay, I don't get it. So is it you who will be the house wife? Or you want me to stay home?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#weddingBox">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
+      return `<p>@@.npc;Okay, I don't get it. So is it you who will be the house wife? Or you want me to stay home?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#seriousness">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
     }
     if (State.active.variables.pcCleans && State.active.variables.npcCleans) {
-      return `<p>@@.npc;So, could you clear it, who will clean the house after the marriage?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#weddingBox">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
+      return `<p>@@.npc;So, could you clear it, who will clean the house after the marriage?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#seriousness">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
     }
     if (State.active.variables.moneyVowPC && State.active.variables.moneyVowNPC) {
-      return `<p>@@.npc;Ugh, I am not sure who must financially support who after all?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#weddingBox">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
+      return `<p>@@.npc;Ugh, I am not sure who must financially support who after all?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#seriousness">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
     }
     if (setup.interactionMisc.isDom(aw.date.npcid) && State.active.variables.vowsdom) {
-      return `<p>@@.npc;Hey, pet, I am the dom here, remember?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#weddingBox">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
+      return `<p>@@.npc;Hey, pet, I am the dom here, remember?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#seriousness">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
     } else if (setup.interactionMisc.isSub(aw.date.npcid) && State.active.variables.vowssub) {
-      return `<p>@@.npc;But mistress, I am the sub here, not you, right?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#weddingBox">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
+      return `<p>@@.npc;But mistress, I am the sub here, not you, right?@@</p><p>@@.pc;Ugh... right, silly me!@@</p><<button "New proposition">><<replace "#seriousness">><<include [[Wedding-c-alt]]>><</replace>><</button>>`;
     }
     const keys = Object.keys(vows);
     if (keys.length > 0) {
@@ -425,9 +426,10 @@ setup.vow = {
         }
       }
     }
-    return `<<run setup.vow.npcVowsFinalize()>>@@.npc;Hmm, seems fine by me! I am glad we sorted it out! So, should we continue having fun today I guess?@@<br><br><<= aw.dateSpots[aw.date.spot].buttonGen()>>`;
+    return `<<run setup.vow.npcVowsFinalize()>><<include [[Wedding-e]]>>`;
   },
   npcVowsFinalize(): void {
+    ↂ.flag.vows[aw.date.npcid] = {} as any;
     for (let index = 0; index < ↂ.flag.marriage.NPCvows.length; index++) {
       if (ↂ.flag.marriage.NPCvows[index] === "titSize") {
         ↂ.flag.vows[aw.date.npcid].titSize = State.active.variables.boobsizeVow;
@@ -452,8 +454,135 @@ setup.vow = {
     }
     aw.S();
   },
+  marriageVowsExchange(): string {
+    let out = "";
+    for (let index = 0; index < ↂ.flag.marriage.NPCvows.length; index++) {
+      const temp = setup.vow.names.indexOf(ↂ.flag.marriage.NPCvows[index])
+      out += `@@.npc;I vow that ${setup.vow.fullNames[temp]}. @@`;
+    }
+    out += `<p>Your fiancé's words move you, although they may sound a little strange to the guests, who start whispering, soon they stop when they realize that you are going to declare your vows. You shake hands with your fiancé while you start the statement.</p>`;
+    for (let index = 0; index < ↂ.flag.marriage.PCvows.length; index++) {
+      out += `@@.pc;I solemnly swear ${setup.vow.fullNamesPC[ↂ.flag.marriage.PCvows[index]]}. @@`;
+    }
+    out += `<p>Your bold words cause a similar reaction, although your heart starts to beat faster than before. A few seconds after you finish declaring your vows, the officiator continues, raising his hand to ask for silence and declaring. @@.npd;It is the moment, if someone has something that can prevent this union, speak now or shut up forever.@@</p>`;
+    // BESTY: ADD GUESTS PROTESTING HERE
+    out += `<p>The guests laugh, although the expression of <<print aw.npc[ↂ.flag.marriage.npc].main.name>> is a little nervous when you laugh together with other people, it softens his expression. When you and <<print aw.npc[ↂ.flag.marriage.npc].main.name>> again turn to the officer, he smiles with satisfaction and continues.</p>
+    `;
+    out += `<p><center><<button "Listen">><<scenego "Marriage-c">><</button>></center></p>`;
+    return out;
+  },
+  vowsControl(): void {
+    if (ↂ.flag.marriage.married !== false && (setup.time.dateToVal(ↂ.flag.marriage.date) + 10000) < setup.time.dateToVal(State.active.variables.date)) {
+      if (ↂ.flag.marriage.vowsControl === undefined) {
+        ↂ.flag.marriage.vowsControl = {
+          noCondom: true,
+          condom: true,
+          noPill: true,
+          noIUD: true,
+          IUD: true,
+          pregnant: true,
+          noKids: true,
+          kids: true,
+          sub: true,
+          dom: true,
+          slave: true,
+          exclusiveWomb: true,
+          noTransform: true,
+          houseWife: true,
+          houseSpouse: true,
+          pcCleans: true,
+          npcCleans: true,
+          hucow: true,
+          nudity: true,
+          titSize: true,
+          moneyPC: true,
+          moneyNPC: true,
+        };
+      }
+      if (ↂ.flag.marriage.vowBroken === undefined) {
+        ↂ.flag.marriage.vowBroken = false;
+      }
+      const vowList = ↂ.flag.marriage.PCvows.concat(ↂ.flag.marriage.NPCvows);
+      for (let index = 0; index < vowList.length; index++) {
+        if (vowList[index] !== "") {
+          switch (vowList[index]) {
+            case "noIUD":
+              if (ↂ.pc.fert.iud) {
+                ↂ.flag.marriage.vowsControl.noIUD = false;
+                aw.con.info(`vowsControl - broken vow, noIUD`);
+              }
+              break;
+            case "IUD":
+              if (!ↂ.pc.fert.iud) {
+                ↂ.flag.marriage.vowsControl.IUD = false;
+                aw.con.info(`vowsControl - broken vow, IUD`);
+              }
+              break;
+            case "noPill":
+              if (ↂ.pc.fert.iud) {
+                ↂ.flag.marriage.vowsControl.noPill = false;
+                aw.con.info(`vowsControl - broken vow, noPill`);
+              }
+            case "noKids":
+              if (ↂ.pc.status.pregnant) {
+                ↂ.flag.marriage.vowsControl.noKids = false;
+                aw.con.info(`vowsControl - broken vow, noKids`);
+              }
+            case "houseSpouse":
+              if (ↂ.job.code !== "" && (setup.time.dateToVal(ↂ.flag.marriage.date) + 10800) > aw.time) {
+                ↂ.flag.marriage.vowsControl.houseSpouse = false;
+                aw.con.info(`vowsControl - broken vow, houseSpouse`);
+              }
+              break;
+            case "nudity":
+              if (ↂ.map.loc[0] === "BFhome" && !setup.clothes.exposed.bottom && !setup.clothes.exposed.top) {
+                ↂ.flag.marriage.vowsControl.nudity = false;
+                aw.con.info(`vowsControl - broken vow, nudity`);
+              }
+              break;
+            case "titSize":
+              if (ↂ.pc.body.tits.size < ↂ.flag.vows[ↂ.flag.marriage.npc].titSize) {
+                ↂ.flag.marriage.vowsControl.titSize = false;
+                aw.con.info(`vowsControl - broken vow, titSize`);
+              }
+              break;
+            default:
+              break;
+          }
+        }
+      }
+      for (const key in ↂ.flag.marriage.vowsControl) {
+        if (!key && vowList.includes(key)) {
+          ↂ.flag.marriage.vowBroken = true;
+          ↂ.flag.marriage.NPCvows.delete(key);
+          ↂ.flag.marriage.PCvows.delete(key);
+        }
+      }
+      if (ↂ.flag.marriage.vowBroken) {
+        ↂ.flag.marriage.spouseAngry += random(15, 20);
+        ↂ.flag.marriage.vowBroken = false;
+        if (ↂ.map.NPC.includes(ↂ.flag.marriage.npc) || State.active.variables.BFhome) {
+          setup.interact.launch({passage: "vowBrokenChat", block: true, title: aw.npc[ↂ.flag.marriage.npc].main.name, size: 3});
+        } else {
+          setup.interact.launch({passage: "vowBrokenTexting", block: true, title: aw.npc[ↂ.flag.marriage.npc].main.name, size: 3});
+        }
+      }
+    aw.S();
+    }
+  },
+  vowsBroken(): string {
+    const vowList = ↂ.flag.marriage.PCvows.concat(ↂ.flag.marriage.NPCvows);
+    for (const key in ↂ.flag.marriage.vowsControl) {
+      if (!key && vowList.includes(key)) {
+        return `You said "${setup.vow.fullNamesPC[key]}"`;
+      }
+    }
+    aw.con.warn("Actually game has no idea, seems like an error somewhere in the vow system lol.");
+    return "You know what you have broken, right?";
+  },
+
   names: ["noCondom", "condom", "noPill", "noIUD", "IUD", "pregnant", "noKids", "kids", "sub", "dom", "slave", "exclusiveWomb", "noTransform", "houseWife", "houseSpouse", "pcCleans", "npcCleans", "hucow", "nudity", "titSize", "moneyPC", "moneyNPC"],
-  fullNames: ["to never to use a condom", "to always use a condom", "you never to use any birth control", "you to never get an IUD", "you to keep always have an IUD inserted", "you stay pregnant whenever possible", "no babies at home", "you to bring home your babies", "you always be submissive", "be the dominant partner", "you to be my sex slave", "your womb is only for your partner's use", "not to get any transformative treatments or surgery", "you to be a stay-at-home housewife", "you to be the one who brings money and I will stay-at-home spouse", "you to be responsible for all the cleaning", "you stay away from home cleaning, I'll do it myself", "you to serve as my personal hucow", "you never to wear clothes at home", "to keep your breasts big", "to provide me with money each week", "to get provided with money each week by me"],
+  fullNames: ["to never to use a condom", "to always use a condom", "you never to use any birth control", "you to never get an IUD", "you to keep always have an IUD inserted", "you stay pregnant whenever possible", "no babies", "you to bring home your babies", "you always be submissive", "be the dominant partner", "you to be my sex slave", "your womb is only for my use", "not to get any transformative treatments or surgery", "you to be a stay-at-home housewife", "you to be the one who brings money and I will stay-at-home spouse", "you to be responsible for all the cleaning", "you stay away from home cleaning, I'll do it myself", "you to serve as my personal hucow", "you never to wear clothes at home", "to keep your breasts big", "to provide me with money each week", "to get provided with money each week by me"],
   fullNamesPC: {
       noCondom: "Never to use a condom",
       condom: "To always use a condom",
@@ -461,7 +590,7 @@ setup.vow = {
       noIUD: "Never get an IUD",
       IUD: "I'll always have an IUD inserted",
       pregnant: "I will stay pregnant whenever possible",
-      noKids: "No babies at home",
+      noKids: "We will have no babies",
       kids: "I'll bring home babies",
       sub: "I always be submissive",
       dom: "I'll be the dominant partner",
@@ -485,8 +614,8 @@ setup.vow = {
     "You have vowed to never get an IUD.",
     "You have vowed to keep always have an IUD inserted.",
     "You have vowed to stay pregnant whenever possible.",
-    "The two of you have agreed that you won't bring any babies home.",
-    "The two of you have agreed that you will bring home your babies.",
+    "The two of you have agreed that you won't have any babies.",
+    "The two of you have agreed that you will have many babies.",
     "You have vowed to always be submissive to your partner.",
     "You have vowed to be the dominant partner.",
     "You have vowed to be your partner's sex slave.",
@@ -503,6 +632,7 @@ setup.vow = {
     "Your partner has vowed to provide you with money each week.",
   ],
 };
+
 
 
 /*

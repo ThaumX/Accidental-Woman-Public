@@ -12,6 +12,11 @@ interface SetupInteractMisc {
   isDom: (npcId: string) => boolean;
   isSub: (npcId: string) => boolean;
   coconutBrain: (npcId: string, aiTags: string[]) => [number, string];
+  weddingPlaceCB: (npcId: string) => string;
+  officiator: () => string;
+  selectGuests: () => string;
+  spouseAngry: () => void;
+  divorceCheck: () => void;
 }
 
 setup.interactionMisc = {} as SetupInteractMisc;
@@ -241,7 +246,7 @@ setup.interactionMisc.dateDecision = function(npcId: string): boolean {
     break;
   }
   return out;
-}
+};
 
 setup.interactionMisc.isDom = function(npcId: string): boolean {
   let res = false;
@@ -251,7 +256,7 @@ setup.interactionMisc.isDom = function(npcId: string): boolean {
     }
   }
   return res;
-}
+};
 
 setup.interactionMisc.isSub = function(npcId: string): boolean {
   let res = false;
@@ -261,13 +266,13 @@ setup.interactionMisc.isSub = function(npcId: string): boolean {
     }
   }
   return res;
-}
+};
 
 setup.interactionMisc.coconutBrain = function(npcId: string, aiTags: string[]): [number, string] {
-  const tags = ["actLover", "neutEthic", "group", "sex", "neutral", "casual", "eat", "crowd", "crude", "intimate", "fancy", "sloppy", "nice", "drink", "travel", "play", "violence"];
-  let opinion = 0;
-  const goodReasons = [] as string[];
-  const badReasons = [] as string[];
+  const tags = ["actLover", "neutEthic", "group", "sex", "neutral", "casual", "eat", "crowd", "crude", "intimate", "fancy", "sloppy", "nice", "drink", "travel", "play", "violence", "perversity"];
+  let opinion = 2;
+  let goodReasons = [] as string[];
+  let badReasons = [] as string[];
   if (aw.npc[npcId] !== null) {
     if (aiTags.length < 1) {
       aw.con.warn(`coconutBrain error! aiTags ${aiTags} are empty!`);
@@ -296,6 +301,15 @@ setup.interactionMisc.coconutBrain = function(npcId: string, aiTags: string[]): 
           break;
         case "sex":
           opinion += Math.floor(aw.npc[npcId].trait.libido / 2);
+          if (aw.npc[npcId].kink.slut) {
+            opinion += 1;
+          }
+          if (aw.npc[npcId].kink.liberate) {
+            opinion += 1;
+          }
+          if (aw.npc[npcId].kink.shame) {
+            opinion -= 2;
+          }
           goodReasons.push("Mmm, sounds sexy!");
           break;
         case "casual":
@@ -391,7 +405,32 @@ setup.interactionMisc.coconutBrain = function(npcId: string, aiTags: string[]): 
             badReasons.push("");
           }
           if (goodReasons.length < 1) {
-            goodReasons.push("");
+            goodReasons.push("Sounds thrilling!");
+          }
+          break;
+        case "perversity":
+          opinion -= 2;
+          if (aw.npc[npcId].kink.sub || aw.npc[npcId].kink.dom || aw.npc[npcId].kink.masochist) {
+            opinion += 2;
+          }
+          if (aw.npc[npcId].trait.open) {
+            opinion += 1;
+          }
+          if (aw.npc[npcId].kink.slut) {
+            opinion += 3;
+          }
+          if (aw.npc[npcId].kink.liberate) {
+            opinion += 1;
+          }
+          if (aw.npc[npcId].kink.shame) {
+            opinion -= 5;
+          }
+          opinion += Math.floor(aw.npc[npcId].trait.libido / 2) + Math.floor(aw.npc[npcId].trait.libido / 2);
+          if (badReasons.length < 1) {
+            badReasons.push("Ugh, that's... perverted.");
+          }
+          if (goodReasons.length < 1) {
+            goodReasons.push("Oh, I like this idea!");
           }
           break;
         default:
@@ -405,6 +444,12 @@ setup.interactionMisc.coconutBrain = function(npcId: string, aiTags: string[]): 
     if (opinion < 0) {
       opinion = 0;
     }
+    if (goodReasons.length < 1) {
+      goodReasons = [" "];
+    }
+    if (badReasons.length < 1) {
+      badReasons = [" "];
+    }
     if (opinion > 4) {
       return [opinion, either(goodReasons)];
     } else if (opinion === 4) {
@@ -416,4 +461,114 @@ setup.interactionMisc.coconutBrain = function(npcId: string, aiTags: string[]): 
     aw.con.warn(`coconutBrain error! npcId ${npcId} was not found in aw.npc :(`);
     return [5, "Error in CB system, please report it!"];
   }
+};
+
+setup.interactionMisc.weddingPlaceCB = function(npcId: string): string {
+  let out = "I guess Town hall is the best option."
+  const list = ["Central Park", "Church of the Holy Phallus", "Church of Man", "Temple of Elder gods", "Farm coop", "Rented hall"];
+  const tags = [
+    ["actLover","casual","intimate"],
+    ["perversity","fancy"],
+    ["actLover","intimate"],
+    ["violence"],
+    ["perversity","violence"],
+    ["sloppy","crude"],
+  ];
+  if (aw.npc[npcId] == null) {
+    aw.con.warn(`${setup.interactionMisc.weddingPlaceCB} failed to find ${npcId} npc. Returning random value.`);
+    return either("Central Park", "Church of the Holy Phallus", "Church of Man", "Temple of Elder gods", "Farm coop", "Rented hall");
+  } else {
+    let result = -1;
+    for (let index = 0; index < list.length; index++) {
+      const blini = setup.interactionMisc.coconutBrain(npcId,tags[index])[0];
+      if (blini > result) {
+        result = index;
+      }
+    }
+    out = `@@.npc;Hmm, I'd prefer... I guess ${list[result]}, yup. But to be honest it is up to you to choose. I want this day to be really special for you, my darling!@@`;
+  };
+  return out;
+};
+
+setup.interactionMisc.officiator = function(): string {
+  let out = "<p>";
+  switch (ↂ.flag.marriage.discussion.place) {
+    case "Town hall":
+      out += `<<print aw.npc[ↂ.flag.marriage.npc].main.name>> nods. @@.npc;The place accepts only gov't bureaucrat. So we have not much choice in the matter.@@</p><p>@@.pc;Well, I want to make it quick and easy, never was fond of the pompous weddings so it will work for me.@@</p><p><<print aw.npc[ↂ.flag.marriage.npc].main.name>> shrugs. @@.npc;You do you.@@</p><center><<button "Move on">><<replace "#seriousness">><<include [[Wedding-h]]>><</replace>><</button>></center>`;
+      break;
+    case "Central Park":
+      out += `<<print aw.npc[ↂ.flag.marriage.npc].main.name>> nods. @@.npc;The place accepts any officiator so it is up to you who we book. So just name your choice.@@</p><p>@@.pc;Hmm...@@</p><p>Seeing your confusion, <<print aw.npc[ↂ.flag.marriage.npc].main.name>> starts explaining. @@.npc;Well, for the start we have a standard gov't guy. He will conduct the standard wedding, you know, like in good ol' times. Also there is an option to call the priest from one of the local churches. You probably want to call them if you are a believer I guess...@@ <<if aw.npc.n101.rship.friend && ↂ.flag.marriage.npc !== "n101">><<print aw.npc[ↂ.flag.marriage.npc].main.name>> thinks for a second. @@.npc;Also as far as I know, your friend Lily Richards can handle the ceremony if you want.@@<</if>><<if aw.npc.n102.rship.friend && ↂ.flag.marriage.npc !== "n102">> <<print aw.npc[ↂ.flag.marriage.npc].main.name>> thinks for a second. @@.npc;Toby Jones is the option too.@@<</if>></p><center><<button "Gov't guy">><<set ↂ.flag.marriage.discussion.officiator = "Officiator">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><<tab>><<button "COHP Priest">><<set ↂ.flag.marriage.discussion.officiator = "COHP Priest">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><<tab>><<button "COM Priest">><<set ↂ.flag.marriage.discussion.officiator = "COM Priest">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><<tab>><<button "TEG Priest">><<set ↂ.flag.marriage.discussion.officiator = "TEG Priest">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><<if aw.npc.n101.rship.friend && ↂ.flag.marriage.npc !== "n101">><<tab>><<button "Lily">><<set ↂ.flag.marriage.discussion.officiator = "Lily">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><</if>><<if aw.npc.n102.rship.friend && ↂ.flag.marriage.npc !== "n102">><<tab>><<button "Toby">><<set ↂ.flag.marriage.discussion.officiator = "Toby">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><</if>></center>`;
+      break;
+    case "Church of the Holy Phallus":
+    case "Church of Man":
+    case "Temple of Elder gods":
+      out += `<<print aw.npc[ↂ.flag.marriage.npc].main.name>> nods. @@.npc;The place accepts their priests of course. So we have not much choice in the matter.@@</p><p>@@.pc;Well, this is fine by me.@@</p><p><<print aw.npc[ↂ.flag.marriage.npc].main.name>> shrugs. @@.npc;You do you.@@</p><center><<button "Move on">><<replace "#seriousness">><<include [[Wedding-h]]>><</replace>><</button>></center>`;
+      break;
+    case "Farm coop":
+    case "Rented hall":
+      out += `<<print aw.npc[ↂ.flag.marriage.npc].main.name>> nods. @@.npc;The place accepts any officiator so it is up to you who we book. So just name your choice.@@</p><p>@@.pc;Hmm...@@</p><p>Seeing your confusion, <<print aw.npc[ↂ.flag.marriage.npc].main.name>> starts explaining. @@.npc;Well, for the start we have a standard gov't guy. He will conduct the standard wedding, you know, like in good ol' times. Also there is an option to call the priest from one of the local churches. You probably want to call them if you are a believer I guess...@@ <<if aw.npc.n101.rship.friend && ↂ.flag.marriage.npc !== "n101">><<print aw.npc[ↂ.flag.marriage.npc].main.name>> thinks for a second. @@.npc;Also as far as I know, your friend Lily Richards can handle the ceremony if you want.@@<</if>><<if aw.npc.n102.rship.friend && ↂ.flag.marriage.npc !== "n102">> <<print aw.npc[ↂ.flag.marriage.npc].main.name>> thinks for a second. @@.npc;Toby Jones is the option too.@@<</if>></p><center><<button "Gov't guy">><<set ↂ.flag.marriage.discussion.officiator = "Gov't guy">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><<tab>><<button "COHP Priest">><<set ↂ.flag.marriage.discussion.officiator = "COHP Priest">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><<tab>><<button "COM Priest">><<set ↂ.flag.marriage.discussion.officiator = "COM Priest">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><<tab>><<button "TEG Priest">><<set ↂ.flag.marriage.discussion.officiator = "TEG Priest">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><<if aw.npc.n101.rship.friend && ↂ.flag.marriage.npc !== "n101">><<tab>><<button "Lily">><<set ↂ.flag.marriage.discussion.officiator = "Lily">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><</if>><<if aw.npc.n102.rship.friend && ↂ.flag.marriage.npc !== "n102">><<tab>><<button "Toby">><<set ↂ.flag.marriage.discussion.officiator = "Toby">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><</if>></center>`;
+      break;
+    default:
+      out += `ERROR in setup.interactionMisc.officiator. Please report it! As a back up option here are all of the options for officiators. But this error probably means that you better load a save prior to choosing the place and try another one because some game data can be corrupted.<br><center><<button "Gov't guy">><<set ↂ.flag.marriage.discussion.officiator = "Officiator">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><<tab>><<button "COHP Priest">><<set ↂ.flag.marriage.discussion.officiator = "COHP Priest">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><<tab>><<button "COM Priest">><<set ↂ.flag.marriage.discussion.officiator = "COM Priest">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><<tab>><<button "TEG Priest">><<set ↂ.flag.marriage.discussion.officiator = "TEG Priest">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><<if aw.npc.n101.rship.friend && ↂ.flag.marriage.npc !== "n101">><<tab>><<button "Lily">><<set ↂ.flag.marriage.discussion.officiator = "Lily">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><</if>><<if aw.npc.n102.rship.friend && ↂ.flag.marriage.npc !== "n102">><<tab>><<button "Toby">><<set ↂ.flag.marriage.discussion.officiator = "Toby">><<status 0>><<replace "#seriousness">><<include [[Wedding-j]]>><</replace>><</button>><</if>></center>`;
+      break;
+  }
+  return out;
 }
+
+setup.interactionMisc.selectGuests = function(): string {
+  const keys = Object.keys(aw.npc);
+  const toPrint = [] as string[];
+  // checks all NPCs to see if they match the criteria
+  for (let i = 0, c = keys.length; i < c; i++) {
+      if (aw.npc[keys[i]].rship.acquaint) {
+        toPrint.push(keys[i]);
+      }
+    }
+  let output = "";
+  ↂ.flag.marriage.discussion.guests = [];
+  aw.S();
+  // actually adds the print output from approved NPCs
+  for (let i = 0, c = toPrint.length; i < c; i++) {
+    if (keys[i] !== ↂ.flag.marriage.npc) {
+    output += `<div id="${toPrint[i]}"><<button "${aw.npc[keys[i]].main.name} ${aw.npc[keys[i]].main.surname}">><<set ↂ.flag.marriage.discussion.guests.push("${toPrint[i]}")>><<replace "#${toPrint[i]}">>@@.disabled;<<button "${aw.npc[keys[i]].main.name} ${aw.npc[keys[i]].main.surname}">><</button>>@@<</replace>><</button>></div>`;
+    }
+  }
+  output += `<center><<button "Finish">><<replace "#seriousness">><<include [[Wedding-h]]>><</replace>><</button>></center>`;
+  return output;
+};
+
+setup.interactionMisc.spouseAngry = function(): void {
+  if (ↂ.flag.marriage.npc !== "none" && ↂ.flag.marriage.married) {
+    let tinyPeePee = 2;
+    if (aw.npc[ↂ.flag.marriage.npc].trait.bitch) {
+      tinyPeePee += 2;
+    }
+    if (aw.npc[ↂ.flag.marriage.npc].trait.lowEsteem) {
+      tinyPeePee -= 1;
+    }
+    if (aw.npc[ↂ.flag.marriage.npc].kink.sub) {
+      tinyPeePee -= 1;
+    }
+    if (tinyPeePee < 1) {
+      tinyPeePee = 1;
+    }
+    if (ↂ.flag.marriage.spouseAngry > 0) {
+      if (random(1, tinyPeePee) === 1) {
+        ↂ.flag.marriage.spouseAngry -= 1;
+        ↂ.flag.marriage.spouseAngryOverall =+ 1;
+      }
+    }
+    if (ↂ.flag.marriage.spouseAngry < 0) {
+      ↂ.flag.marriage.spouseAngry = 0;
+    }
+    aw.S();
+  }
+};
+
+setup.interactionMisc.divorceCheck = function(): void {
+  if (ↂ.flag.marriage.npc !== "none" && ↂ.flag.marriage.married) {
+    if (ↂ.flag.marriage.spouseAngryOverall > 50 && random(0,10) > 7) {
+      setup.interact.launch({passage: "NPCdivorceChat", block: true, title: aw.npc[ↂ.flag.marriage.npc].main.name, size: 3});
+    }
+  }
+};

@@ -11,6 +11,7 @@
 <div id="mainshits" class="extraRoomRight">
 <div id="storeWindow">
 [img[IMG-Club-ShakePop]]
+[img[IMG-Wrench]]
 [img[IMG-PoleRidersLogo]]
 [img[IMG-Restaurant-HardCockCafe]]
 [img[IMG-Activity-Karaoke]]
@@ -36,7 +37,7 @@
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p> <<mapEvent>></p>
 <p>
-@@.head3;T@@here are several drinking establishments in this area of town known as the <i>Club District</i> or just <i>Club Row</i>. Unlike most buildings, these don't have many windows. They also seem to be closed from the look of it, though the garish neon sign for the Pole Riders strip club is lit. The sign provides a pretty interesting interpretation of a stripper poll.
+@@.head3;T@@here are several drinking establishments in this area of town known as the <i>Club District</i> or just <i>Club Row</i>. Unlike most buildings, these don't have many windows. <<if $time[0] > 3 || $time[0] < 18>>They also seem to be closed from the look of it, though the garish neon sign for the Pole Riders strip club is lit. The sign provides a pretty interesting interpretation of a stripper poll.<<else>>Neon lights advertise the different entertainment venues, bright light escaping from their entrances into the dim street, as if drawing you inside.<</if>>
 </p>
 <p id="locact"></p>
 <<selfthought>>
@@ -51,7 +52,10 @@
   <</openhours>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
-  @@.disabled;<<button "Visit [name]">><</button>>@@
+  <<openhours 0 3 20 24>>
+      <<button "Visit Wrench">><<addTime 15>><<agecheck 21 3 "AgePassWrench">><</button>>
+    <<closed "Wrench Closed">>
+  <</openhours>>
 <<endhoverrevise>>
 <<hoverrevise delta>>
   @@.disabled;<<button "Visit The Green Nymph">><</button>>@@
@@ -59,7 +63,7 @@
 <<hoverrevise gamma>>
   <<openhours 16 24>>
   <<button "Visit Pole Riders">><<addtime 3>><<agecheck 21 3 "AgePassPoleRiders">><</button>>
-  <<closed "Pole Riders closed">>
+  <<closed "Pole Riders Closed">>
   <</openhours>>
 <<endhoverrevise>>
 <<hoverrevise epsilon>>
@@ -68,6 +72,18 @@
   <<closed "Siren's Call Closed">>
   <</openhours>>
 <<endhoverrevise>>
+<<if ↂ.flag.tentacle.foundShopfront>>
+  <<hoverrevise shop>>
+    <<openhours 16 24>>
+    <<button "Tentacle Shop">><<addTime 3>><<go "TentacleStoreMain">><</button>>
+    <<closed "Tentacle Shop Closed">>
+    <</openhours>>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise explo>>
+    <<button "Explore">><<dialog "Club District">><<include [[DowntownClubExplore]]>><</dialog>><</button>>
+  <<endhoverrevise>>
+<</if>>
 <<hoverrevise whore>>
   <<button "Stand at the Corner">><<set $streetWalkLoc = "clubDistr">><<dialog "Preparing to work">><<include [[StreetWalkerManager]]>><</dialog>><</button>>
 <<endhoverrevise>>
@@ -85,6 +101,8 @@
 <<insertion epsilon>>Visit the local karaoke.<<endinsertion>>
 <<insertion whore>>Strut your stuff at the side of the road. Perhaps someone will ask you out on a "date"! [15min]<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+<<insertion explo>>Explore club row and see what's going on.<<endinsertion>>
+<<insertion shop>>Visit the tentacle shop in the Siren's Call alleyway. <i>The Little Shop of Tentacles</i><<endinsertion>>
 </div>
 
 <<timed 50ms>>
@@ -135,4 +153,24 @@ Currently, there's nothing here, so go ahead and enjoy this instead:<br><br><<bo
 <<insertion hovShopFurniture>>@@.exp;Try to sing something from the stage. [5-8min]@@<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
+
+
+:: DowntownClubExplore [nobr]
+
+<<addTime 10>><<updatebar>>
+<<if ↂ.flag.tentacle.store === -1>>
+  <<if $time[0] >= 18>>
+    <<set ↂ.flag.tentacle.store = 0>><<status 0>><<arouse 1>>
+    <p><<f y>>ou spend a little time walking down 'club row', peering into alleyways and generally looking about the place. Just looking to kill some time, you didn't have any expectations but you thought you might spot a couple making out--or doing something else interesting. You found a couple, and they were doing generally what you expected, but the couple themselves caught you completely by surprise.</p>
+    <center>[img[IMG-AlleyBlowjob]]</center>
+    <p>@@.mono;A woman giving a... pregnant futa a blow job? I guess that's something you don't see every day.@@ You can't resist watching for a short while--the woman on her knees seeming to be extremely enthusiastic--but eventually you force yourself to move on. You have a feeling there's more to discover...</p>
+  <<else>>
+    <p><<f t>>he area is pretty deserted during the day, the large buildings fairly uninteresting to look at. You spend a while walking, but you get the feeling it'd be a lot more interesting to explore at night.</p>
+  <</if>>
+<<else>>
+  <p><<f e>>xploring the club district to satisfy your voyeuristic curiosity, you happen upon a strange door on the side of the Siren's Call building. It looks like it might be an emergency exit or something, but the strange tentacle logo on the door piques your curiosity.</p>
+  <center>[img[IMG-StrangeShopfront]]<br><<button "Try The Door">><<set ↂ.flag.tentacle.foundShopfront = true>><<set ↂ.flag.tentacle.store = 1>><<status 0>><<addTime 5>><<go "TentacleStoreFirstTime">><</button>> <<button "Leave">><<run Dialog.close()>><</button>></center>
+<</if>>
+
+
 

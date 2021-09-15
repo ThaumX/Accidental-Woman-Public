@@ -394,6 +394,8 @@ setup.clothes.paperClothes = function(): string {
           case 8:
           case 9:
             output += '<img data-passage="IMG-PaDo-MermaidDress" style="z-index:220;">';
+          case 667:
+            output += '<img data-passage="IMG-PaDo-LabCoat" style="z-index:220;">';
             break;
         }
       }

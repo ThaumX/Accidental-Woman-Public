@@ -79,12 +79,12 @@ setTimeout(()=>setup.sex.startSex(setup.sexitimes), 500);
 <<= aw.date.name>> gives you a knowing smile. @@.npc;So, would you like me to take you home? You could always come over to my place and hang out though...@@
 </p>
 <<dialogchoice>>
-<<dbutt "my place">><<gotomap "home" "bedroom">>
+<<dbutt "my place">><<if !ↂ.flag.moveInFlag>><<gotomap "home" "bedroom">><<else>><<gotomap "BFhome" "bedroom">><</if>>
 <<set aw.date.npc.rship.likePC += random(2, 3)>>
 <<set aw.date.npc.rship.likeNPC += random(2, 3)>>
 <<set aw.date.npc.rship.lovePC += random(2, 4)>>
 <<set aw.date.npc.rship.loveNPC += random(2, 4)>>
-<<set ↂ.sex.passage = "homeT" + ↂ.home.stats.tier + "bedroom">>
+<<if !ↂ.flag.moveInFlag>><<set ↂ.sex.passage = "homeT" + ↂ.home.stats.tier + "bedroom">><<else>><<set ↂ.sex.passage = aw.passage.title>><</if>>
 <<set ↂ.sex.pcOutput = "It doesn't take long before the two of you are in the bed.">>
 <<set ↂ.sex.enviroTags = ["bed","wall"]>>
 <<set aw.date.npc.rship.companion += 25>>
@@ -183,12 +183,12 @@ setTimeout(()=>setup.sex.startSex(setup.sexitimes), 200);
 <<= aw.date.name>> looks at your body greedily before replying. @@.npc;So, your place, or mine?@@
 </p>
 <<dialogchoice>>
-<<dbutt "my place">><<gotomap "home" "bedroom">>
+<<dbutt "my place">><<if !ↂ.flag.moveInFlag>><<gotomap "home" "bedroom">><<else>><<gotomap "BFhome" "bedroom">><</if>>
 <<set aw.date.npc.rship.likePC += random(2, 3)>>
 <<set aw.date.npc.rship.likeNPC += random(2, 3)>>
 <<set aw.date.npc.rship.lovePC += random(2, 4)>>
 <<set aw.date.npc.rship.loveNPC += random(2, 4)>>
-<<set ↂ.sex.passage = "homeT" + ↂ.home.stats.tier + "bedroom">>
+<<if !ↂ.flag.moveInFlag>><<set ↂ.sex.passage = "homeT" + ↂ.home.stats.tier + "bedroom">><<else>><<set ↂ.sex.passage = aw.passage.title>><</if>>
 <<set ↂ.sex.pcOutput = "It doesn't take long before the two of you in the bed.">>
 <<set ↂ.sex.enviroTags = ["bed","wall"]>>
 <<set aw.date.npc.rship.companion += 25>>
@@ -226,7 +226,7 @@ setTimeout(()=>setup.sex.startSex(setup.sexitimes), 200);
 It seems your little mating display didn't win <<= aw.date.name>> over, judging by their expression.<br><br>@@.npc;Yeah, sorry. I'm really not feeling it... How about we just call it a night instead?@@
 </p>
 <<dialogchoice>>
-<<dbutt "okay then">><<addTime 5>><<set aw.date.npc.rship.dating = false>><<run setup.date.end()>>
+<<dbutt "okay then">><<addTime 5>><<set aw.npc[aw.date.npcid].rship.rejected = true>><<run setup.date.end()>>
 <<dtext "unhappy">>There isn't much to be done about it, and there's no use trying to change things now.
 <<dbutt "doubledown" false>>
 <<dtext "slut">>It's obvious that they just that they don't know how much fun is in store for them. Make it <b>obvious</b>.
@@ -269,7 +269,7 @@ It seems your little mating display didn't win <<= aw.date.name>> over, judging 
 <<= aw.date.name>> looks around a bit, as if unsure of how to handle something. @@.npc;You know <<= ↂ.pc.main.name>>, I'm actually pretty tired... How about we call this a wrap for today?@@
 </p>
 <<dialogchoice>>
-<<dbutt "okay then">><<addTime 5>><<set aw.date.npc.rship.dating = false>><<run setup.date.end()>>
+<<dbutt "okay then">><<addTime 5>><<run setup.date.end()>>
 <<dtext "unhappy">>There isn't much to be done about it, and there's no use trying to drag it out now.
 <<dbutt "is it me" false>>
 <<dtext "sad">>Regardless of how the date went, you'd still like to see them again...

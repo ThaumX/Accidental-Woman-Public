@@ -142,7 +142,7 @@ setup.event.asyncChecker = function(): void {
       const res = ᛞ.check();
       if (res) {
         if (ᛞ.interupt) {
-          return; // stop checking because interupt is turned on
+          return; // stop checking because interrupt is turned on
         } else if (ᛞ.output === "interact") {
           ᚥ.interact = true;
         } else if (ᛞ.output === "scene") {

@@ -382,6 +382,7 @@ class RecurringOmni extends OmniEvent {
   // tests to see if the omni event is ready to fire.
   public test(): boolean {
     if (this.times < 1) {
+      super.die(50);
       return false;
     }
     const nTime = (this.last > 0) ? this.last + this.interval : this.added + this.interval;
@@ -569,7 +570,7 @@ class ConditionOmni extends OmniEvent {
       }
       this.timeArray = clone(timeArray);
     } else if (typeof timeArray === "number") {
-      // if given a number, divide up the time to give a linear decreasing rate of occuring
+      // if given a number, divide up the time to give a linear decreasing rate of occurring
       const mults = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29];
       const pp = (this.duration / timeArray) / timeArray;
       this.timeArray = [];

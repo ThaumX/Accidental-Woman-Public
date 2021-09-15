@@ -30,7 +30,7 @@
 /*ARRIVAL displays walking text based on origin location, sent from map control module    EVENT displays any events that happened while walking*/
 <p> <<mapEvent>></p>
 <p>
-@@.head3;Y@@ou're standing on one of the several paths winding through the Samuel Steele Memorial Park. From here, you can still catch glimpses of the buildings outside the park, but in some areas the trees and brush are quite thick, allowing for a better appreciation of nature. There are several benches where you can sit and relax, and several gravel trails leading to small isolated that dot the northern area of the park.
+@@.head3;Y@@ou're standing on one of the several paths winding through the Samuel Steele Memorial Park. From here, you can still catch glimpses of the buildings outside the park, but in some areas the trees and bushes are quite thick, allowing for a better appreciation of nature. There are several benches where you can sit and relax, and several gravel trails leading to small isolated area that dot the northern area of the park.
 </p>
 <p id="locact"></p>
 <<selfthought>>
@@ -46,9 +46,16 @@
 <<endhoverrevise>>
 
 <<if setup.camFlag("Nude Park")>>
-  <<hoverrevise nudeCam>>
-    <<button "Sit and do a camshow!">><<dialog "Public cam time!">><<include [[ParkCamShow]]>><</dialog>><</button>>
-  <<endhoverrevise>>
+  <<if ↂ.flag.camShow.dailyStream>>
+    @@.mono;No, I've done enough for today, I don't want to draw too much attention to myself.@@<br><Br>
+  <<else>>
+    <<hoverrevise nudeCam1>>
+      <<button "Sit and do a camshow!">><<dialog "Public cam time!">><<include [[ParkCamShow]]>><</dialog>><</button>>
+    <<endhoverrevise>>
+    <<hoverrevise nudeCam2>>
+      <<button "I shouldn't have, but...">><<dialog "Go after him...">><<include [[DogSexCam]]>><</dialog>><</button>>
+    <<endhoverrevise>>
+  <</if>>
 <</if>>
 
 <<hoverrevise delta>>
@@ -105,7 +112,8 @@
 <<insertion gamma>>Walk down to the pond, perhaps you'll see some ducks. <<ctn>>[30 min | -Stress]<</ctn>><<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 
-<<insertion nudeCam>>What better place to do a nude show than a public park?<<endinsertion>>
+<<insertion nudeCam1>>What better place to do a nude show than a public park?<<endinsertion>>
+<<insertion nudeCam2>>A single abandoned German shepherd inhabits the park, which is rare. You notice that he is dominant enough to keep the others dogs away, probably an un neutered type. @@.mono;Am I REALLY thinking about it?@@<<endinsertion>>
 </div>
 
 <<timed 50ms>>

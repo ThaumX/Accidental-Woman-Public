@@ -8,6 +8,7 @@
   <<timed 6s>>
     <<button "LOAD A SAVE">><<script>>UI.saves()<</script>><</button>>
     <<button "RESTART">><<run Engine.restart()>><</button>>
+    <<button "STATISTICS">><<dialog "Statistics">><<include [[Statistics]]>><</dialog>><</button>>
   <</timed>>
   </div>
   <div id="ThisIsTheEndImage">
@@ -22,13 +23,10 @@
   </center>
   <br>
   <<fadein "4s" "5s">>
-    Your life in Appletree has come to an end, one day you just disappeared without any trace and were never found. Nobody knows your fate except you and one middle-aged man who owns a cabin in the Angler Woods. He was never caught though. The missing person case was closed after 6 months. 
+    Your life in Appletree has come to an end, one day you just disappeared without any trace and were never found. <<if ↂ.flag.main.capacitorStage[0] === "warned">>Nobody knows your fate except one Russian ganster.<<else>>Nobody knows your fate except one middle-aged man who owns a cabin in the Angler Woods. He was never caught though.<</if>> The missing person case was closed after 6 months.
   <</fadein>>
   <br><br>
-  <<fadein "4s" "7s">>
-    <b>Game Statistics</b><br>
-    <i>Have not been implemented</i>
-  <</fadein>>
+  
   <<achieve died>>
   </div>
 </div>

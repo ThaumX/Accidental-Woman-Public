@@ -63,8 +63,23 @@
 <<else>>
   <<hoverrevise signup>>
     <span id="buttonkilla">
-    <<button "REGISTER AS MEMBER">><<set ↂ.flag.farm.member = true>><<set ↂ.flag.farm.joinDate = clone($date)>><<set ↂ.flag.farm.milkPrice = 4>><<run UI.alert("You are now a registered member of the Muschi Valley Farm Co-op. NOTE: travel to dairy to purchase drugs")>><<run aw.cash(-50, "misc")>><<addTime 5>><<replace "#buttonkilla">><</replace>><</button>>
+    <<button "REGISTER AS MEMBER">><<run aw.cash(-50, "misc")>><<set ↂ.flag.farm.member = true>><<set ↂ.flag.farm.joinDate = clone($date)>><<set ↂ.flag.farm.milkPrice = 4>><<pickup "$items" "Coop Member Card">><<status 0>><<run UI.alert("It only takes you a few minutes with the receptionist to get yourself set up with a one-year membership. A few answered questions, a quick picture with your breasts exposed, and then you have your own membership card.<center>You are now a registered member of the Muschi Valley Farm Co-op.<br><span class='note'>NOTE: travel to dairy to purchase drugs.</span></center>")>><<addTime 5>><<replace "#buttonkilla">><</replace>><</button>>
     </span>
+  <<endhoverrevise>>
+<</if>>
+<<if !ↂ.flag.farm.member>>
+  <<hoverrevise nope>>
+    <button class="disabled">ASK ABOUT MILKING</button>
+  <<endhoverrevise>>
+<<else>>
+  <<hoverrevise milk>>
+    <<button "ASK ABOUT MILKING">><<addTime 5>><<set ↂ.flag.coopMilkAsk = true>><<run aw.S("flag")>><<updatebar>><<dialog "Getting Milked">>
+      <p><<f Y>>ou walk up the receptionist to ask a question. @@.pc;Hi, I was wondering, since I'm a coop member, is it possible to get milked in the dairy?@@</p>
+      <p>@@.npc;Looking for a taste of the hucow experience?@@ She gives you a knowing smile. @@.npc;Well you're in luck. Just visit the dairy, show the staff your ID card, and ask to get milked. As long as there's an open spot you should be able to use the milkers along with the hucows. That said, you're not going to get paid for the milk that you supply... it's more of an experience thing.@@</p>
+      <p>You nod and smile. @@.pc;Thanks for the info!@@</p>
+      <p>The receptionist leans forward and talks in a lower voice. @@.npc;They opened it up as part of a program for prospective hucows to learn more about what it's like... but just between you and me, I know a few girls who go for a chance to watch one of our bulls go to work on the hucows.@@</p>
+      <p>@@.mono;Well, <i>that</i> sounds interesting!@@</p>
+    <</dialog>><</button>>
   <<endhoverrevise>>
 <</if>>
 <<hoverrevise interaction>>
@@ -77,7 +92,9 @@
 <<insertion already>>You are already registered as a member of the Muschi Valley Farm Cooperative<<endinsertion>>
 <<insertion poorass>>You don't have the required <span class="mon">₢50</span> registration fee.<<endinsertion>>
 <<insertion signup>>Register as a member of the Muschi Valley Farm Cooperative. Doing so grants you access to membership privileges, including increased milk purchase prices and hucow lactation medication support. [<span class="mon">₢50</span> 10min]<<endinsertion>>
+<<insertion nope>>No point asking about this unless you're a COOP member.<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
+<<insertion milk>>Ask about getting milked at the COOP dairy facilities.<<endinsertion>>
 </div>
 
 

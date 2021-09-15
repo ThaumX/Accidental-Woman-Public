@@ -47,13 +47,13 @@
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <<button "Remplir L'uterus">><</button>>
+  <<button "Remplir L'uterus">><<dialog "Remplir L'uterus">><<print setup.food.fastfood("remplir")>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
-  <<button "Grand Peter's Halfway Inn">><</button>>
+  <<button "Grand Peter's Halfway Inn">><<dialog "Grand Peter's Halfway Inn">><<print setup.food.fastfood("peter")>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise delta>>
-  <<button "Pen Island">><</button>>
+  <<button "Pen Island">><<dialog "Pen Island">><center>[img[IMG-Penisland]]</center><br><<f y>>ou enter the shop but you found out you don't really need anything here so you just giggle at the ads and leave.<</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise gamma>>
   <<openhours 9 13 16 20>>
@@ -73,7 +73,7 @@
       <<if ↂ.flag.churchAttend.outer>>
         <<dialog "Temple of the Outer Gods">><center>You have already attended temple this week, please come back next Saturday.</center><</dialog>>
       <<else>>
-        <<dialog "Temple of the Outer Gods">><<include [[TotOG]]>><</dialog>>
+        <<run setup.churchLaunch("TOG")>>
       <</if>>
     <</button>>
   <<endhoverrevise>>
@@ -82,9 +82,6 @@
     <button class="disabled">Visit TotOG</button>
   <<endhoverrevise>>
 <</if>>
-<<hoverrevise phi>>
-  <<button "Unique Location">><</button>>
-<<endhoverrevise>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
@@ -92,14 +89,13 @@
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>>[Why eat alone?] Eat at Remplir L'uterus <span class="money">₢₢₢₢</span><<endinsertion>>
-<<insertion beta>>[not implemented] Eat at Grand Peter's Halfway Inn. <span class="money">₢₢₢₢</span><<endinsertion>>
+<<insertion alpha>>Eat at Remplir L'uterus <span class="money">₢₢₢₢</span><<endinsertion>>
+<<insertion beta>>Eat at Grand Peter's Halfway Inn. <span class="money">₢₢₢₢</span><<endinsertion>>
 <<insertion omega>>The same coffee place that spread to the point of being ubiquitous, and can be found just about everywhere.<<endinsertion>>
-<<insertion delta>>[not implemented] Visit Pen Island, an office supply store.<<endinsertion>>
+<<insertion delta>>Visit Pen Island, an office supply store.<<endinsertion>>
 <<insertion gamma>>Visit Mrs. Fubb's Parlor to check out the school or sign up for a course. @@.ship;[COMMUNICATION⧫MISC]@@<<endinsertion>>
 <<insertion lambdaB>>The Temple of the Outer Gods is currently closed. Services are available on Saturday from noon until 6pm. <<ctn>>[mental health boost | 1hr]<</ctn>><<endinsertion>>
 <<insertion lambdaA>>Attend a church service at the Temple of the Outer Gods. <<ctn>>[mental health boost | 1hr]<</ctn>><<endinsertion>>
-<<insertion phi>>[not implemented]<<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 

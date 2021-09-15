@@ -56,11 +56,37 @@
 <div id="actionbar">
 /*this controls the element that will appear on mouse hover NOTE that for reasons involving the DOM, the closing tag is a bit different. EX: <<macro>><<endmacro>> instead of <</macro>>*/
 <<hoverrevise alpha>>
-  <button class="disabled">Visit the ER</button>
+  <<button "Visit the ER">><<dialog "ER">><<if setup.omni.matching("Bleeding") !== 0 || setup.omni.matching("Miscarriage Bleeding") !== 0>>@@.head3;Y@@ou get to the desk. @@.pc;I need help! I'm bleeding!@@ Nurse evaluates your condition for a moment then quickly nods and presses a button on her slate which immediately gets hospital speakers system going. @@.npc;ATTENTION! ALL PERSONNEL! CODE RED, MAIN HALL!!!@@ You're led to the hospital bed and immediately put under treatment. They ask almost no questions and after a shot of some drugs you <<link "pass out">><<include [[ResidentialMedicalHospital-ER]]>><</link>>. <<else>>@@.head3;Y@@ou get to the desk and ask for the help but after a quick exam doc reassures you that there is nothing urgent and you should go to the standard doctor's appointment at the outpatient area. Nevertheless you are charged @@.money;₢35@@ for the check.<<run aw.cash(-35, "medical")>><center><<updatebar>><<button "Leave">><<run Dialog.close()>><</button>></center><</if>><</dialog>><</button>>
 <<endhoverrevise>>
 <<hoverrevise beta>>
   <button class="disabled">Visit a Specialist</button>
 <<endhoverrevise>>
+<<if ↂ.flag.main.IrCooldown>>
+  <<if ↂ.flag.main.components[0] == 1>>
+  <<hoverrevise quest>>
+    <<button "Sneak inside">><<set $bustChance = 7>><<set $IRcard = false>><<set $IRcoat = false>>
+    <<script>>
+      const scene = {
+        passage: "IrFieldCoherer-hopsital-a",
+        content: "none",
+        image: "IMG-HospitalQuest",
+        topImage: "IMG-HospitalQuest-top",
+        title: "IR Field Coherer",
+        allowSave: true,
+        sidebar: `<h2>Hospital</h2>`,
+        showTime: true,
+        allowMenu: true,
+      };
+      setup.scenario.launch(scene);
+    <</script>>
+    <</button>>
+  <<endhoverrevise>>
+  <</if>>
+<<else>>
+  <<hoverrevise quest>>
+    @@.disabled;<<button "Sneak inside">><</button>>@@
+  <<endhoverrevise>>
+<</if>>
 <<hoverrevise interaction>>
   <<button "INTERACT 🗪">><<npcinteract>><</button>>
 <<endhoverrevise>>
@@ -68,13 +94,56 @@
 
 /*Main display for information about actions*/
 <div id="actionInfo">
-<<insertion alpha>><<ctn>>[not yet implemented]<</ctn>><<endinsertion>>
+<<insertion alpha>><<ctn>>Ask for medical help due to life-threatening condition.<</ctn>><<endinsertion>>
 <<insertion beta>><<ctn>>[not yet implemented]<</ctn>><<endinsertion>>
+<<insertion quest>><<if ↂ.flag.main.IrCooldown>>Try to get into the Hospital's warehouse.<<else>>Too early to try again, better wait for the security shift to change.<</if>><<endinsertion>>
 <<insertion interaction>>Interact with nearby NPCs<<endinsertion>>
 </div>
 
 
 :: ResidentialMedicalHospitalLOC [nobr]
 
-@@.head3;Y@@ou look around and can't see anything interesting, sadly.
+<div id="molestDiv">@@.head3;O@@ne of the doors is slightly ajar. You can't beat your curiosity and glance inside.<br>
+@@.npc;Hey, who are you? Get out and close the bloody door, goddamit!@@<br>
+ <<dialogchoice>>
+      <<dbutt "Sorry">><<run Dialog.close()>>
+      <<dtext "dismay">>Apologize and leave.
+      <<dbutt "Molest" "ↂ.pc.kink.slut || ↂ.pc.kink.dom">><<replace "#molestDiv">>@@.head3;Y@@ou come closer to the bed and close the door behind you. @@.pc;Why, why, no need to be so aggressive. I'll just play with you for a bit, no harm will come out of that, right?@@<p>@@.npc;Y..you what? Get the fuck out of me you creep!!@@ She struggles with an angry face but her plaster doesn't let her to move at all. You sit on the side of the hospital bed and put your palm right onto her exposed pussy. @@.pc;Such a convenience they left this part open, right? Should we inspect it? I'm pretty sure we...@@ @@.npc;...SOMEONE HELP!!! SOMEBODY!!!@@</p><p>@@.pc;Damn, you're a fucking spoilsport!@@ You painfully slap her pussy and head for the hills before guards come.</p><center><<button "Run">><<run Dialog.close()>><</button>></center><</replace>>
+      <<dtext "arrogant">>Play with helpless woman's body.
+  <</dialogchoice>>
+<center>[img[IMG-HospitalHelpless]]</center>
+</div>
 
+
+:: ResidentialMedicalHospital-ER [nobr]
+
+<<run setup.omni.kill("Miscarriage Bleeding")>>
+<<run setup.omni.kill("Bleeding")>>
+<<script>>
+State.active.variables.ErScenario = {
+  passage: "ResidentialMedicalHospital-ER-Sleep",
+  content: "",
+  image: "IMG-PlasicSurgery",
+  topImage: "IMG-ArborVitaeBanner",
+  title: "Surgery",
+  allowSave: false,
+  sidebar: "<h2>Arbor Vitae</h2><h3>ICU Ward</h3>",
+  showTime: false,
+  allowMenu: false,
+};
+<</script>>
+<<run Dialog.close()>>
+<<run setup.scenario.launch($ErScenario);>>
+<<status 0>>
+
+
+:: ResidentialMedicalHospital-ER-Sleep [nobr]
+
+<<if ↂ.flag.Healthcare>>
+  <<run aw.cash(-150, "medical")>>
+<<else>>
+  <<run aw.cash(-300, "medical")>>
+<</if>>
+@@.head3;Y@@ou can't recall most of the events of that day. From time to time you drift to the brink of consciousness and guess that you hear some beeps and the sounds of medical machines servomotors but you can't really tell if it was but a dream...<br>
+<center<<<button "Wake up">><<run setup.sleep.bedtime("ResidentialMedicalHospital");>><<sceneclose>><</button>></center><<set $erWakeUp = true>>
+<<status 0>>

@@ -78,7 +78,7 @@
 <<endhoverrevise>>
 <<hoverrevise gamma>>
 <<openhours 9 18>>
-  <<button "Surrogacy Center">><<addtime 30>><<dialog "Appletree Surrogacy Center">><<include [[ResidentialMedicalSurrogate]]>><</dialog>><</button>>
+  <<button "Surrogacy Center">><<addtime 30>><<run setup.interact.launch({ passage: "SurrogacyCenter", block: true, title: "Surrogacy Center", size: 4})>><</button>>
   <<closed "Surrogacy Center">>
 <</openhours>>
 <<endhoverrevise>>
@@ -103,97 +103,1084 @@
 @@.head3;Y@@ou can hear a part of dialogue between the nurse and a young woman.
 </p>
 <p>
-@@.npc;Oh, mrs. Wilkins, you came to us again?@@
+@@.npc;Oh, Mrs. Wilkins, you came to us again?@@
 </p>
 <p>
 @@.npc;Oh, I know, I know, I just can't help myself! The base is too narrow and it slips inside! And I can't get it out after I, you know...@@
 </p>
 <p>
-@@.npc;Oh. You REALLY should consider buying some conventional toys. This be third time this year! Sigh. All right, let's go, Dr. Hanson will remove it in no time. He knows the drill for sure already, giggle.@@
+@@.npc;Oh. You REALLY should consider buying some conventional toys. This be third time this year! Sigh. All right, let's go, Dr. Handrickson will remove it in no time. He knows the drill for sure already, giggle.@@
 </p>
 
+:: SurrogacyCenter [nobr noui]
+
+  <center>
+    [img[IMG-BestySurrogacy]]<br><br>
+
+    <<if ↂ.flag.surrogateSignUp>>
+      <<if ↂ.flag.surrogate.chosen>>
+        ''You were chosen by some man, although you still don't know who he is, and that is actually a less important detail. You are here being paid for a job, even if it means renting your uterus, or selling your eggs and genes.''<br><br>
+
+        <<if ↂ.flag.surrogate.chosen>>
+          <<if ↂ.flag.surrogate.accept>>
+            <<if ↂ.pc.fert.ovuFlag>>
+              <<button "Go to breeding rooms">><<dialog "Appletree Surrogacy Center">><<include [[SurrogateAppointmentBC_2]]>><</dialog>><</button>>
+            <<else>>
+              @@.disabled;<<button "Go to breeding rooms">><</button>>@@
+              <<if ↂ.flags.surrogate.history.postBreed>>
+                <<button "Pregnancy test" "SurrogacyPregTest">><</buttom>>
+              <<else>>
+                @@.disabled;<<button "Pregnancy test" "SurrogacyPregTest">><</buttom>>@@
+              <</if>>
+            <</if>>
+          <<else>>
+            <<if ↂ.flag.surrogate.type === 'Normal surrogacy'>>
+              <<button "Go talk to nurse">><<dialog "Appletree Surrogacy Center">><<include [[SurrogateAppointmentAI]]>><</dialog>><</button>>
+            <<else>>
+              <<button "Go talk to nurse">><<dialog "Appletree Surrogacy Center">><<include [[SurrogateAppointmentBC_1]]>><</dialog>><</button>>
+            <</if>>
+          <</if>>
+        <<else>>
+          @@.disabled;<<button "Go talk to nurse">><</button>>@@
+        <</if>>
+      <<else>>
+        ''You come to the Appletree Surrogacy Center again, knowing that your registration for the program is done, you can just wait until you are called by someone.''<br><br>
+
+        @@.npc;Sorry but I don't see anything for you in the system, give it a few days and maybe you can be selected.@@<br><br>
+
+        <center>
+          @@.disabled;<<button "Avaliable appointments">><</button>>@@<<button "Leave">><<intclose>><</button>>
+        </center>
+        <</if>>
+    <<else>>
+      The Surrogacy Center is very different from the rest of the hospital, it is very quiet and most of the time there is no one, only a few nurses passing by occasionally.<br><br>
+
+      The nurse attendant at the desk next to the waiting room is the only constant presence you can perceive.<br><br>
+
+      You see a screen showing the recent activity of the girls enrolled, and a short indication for those who wish to enroll. @@.pc;It's an opportunity to make money, right? So... why not?@@<br><br>
+
+      You are not yet registered in the Surrogate Center system, looking around you realize that there is a nurse. It may be a good time for you to think about signing up.<br><br>
+
+      <<button "Sign up">>
+        <<dialog "Appletree Surrogacy Center">>
+          <<include [[SurrogacyRegistration]]>>
+        <</dialog>>
+      <</button>>
+    <</if>>
+  </center>
+
+:: SurrogacyRegistration [nobr]
+
+  <center>
+    <<f y>>ou walk into the nicely-appointed Appletree Surrogacy Center, and are immediately greeted by an employee. @@.npd;Hello, how can I help you today?@@<br><br>
+
+    You're a bit caught off guard. @@.pc;Umm... I wanted to see about becoming a surrogate?@@<br><br>
+
+    The cheerful expression disappears from the woman's face. @@.npd;Oh. Okay, right through here.@@ She walks a couple steps and opens a door leading to a different waiting room.<br><br>
+
+    With a quick @@.pc;thanks@@ you step into the separate waiting room.<br><br>
+
+    [img[IMG-BestySurrogacy]]<br><br>
+
+    An extremely bored-looking nurse calls to you from behind the reception desk. @@.npc;Okay, come on over here.@@<br><br>
+
+    You walk up to the desk. @@.pc;Hi, I'm here to see abou--@@<br><br>
+
+    @@.npc;Yeah, yeah, I know.@@ The nurse interrupts you. @@.npc;ID please so we can get this over with.@@<br><br>
+
+    You hand over the ID, which the nurse proceeds to scan. The nurse seems to be filling out the forms, interrupted only by the occasional request for confirmation. Finally, the nurse looks up from her screen at you. @@.npc;So, do you want to use your own egg, or are you willing to go with in-vitro?@@<br><br>
+
+    You don't quite understand. @@.pc;What do you mean, my own egg?@@<br><br>
+
+    The nurse sighs. @@.npc;Look, using your own egg means that you ovulate, you get inseminated, and your genes and the client's mix to make a baby. While the kid won't be yours legally, it'll still carry half your genes. It's also a pretty easy procedure to get fertilized.@@ She takes a breath before continuing in a bored monotone. @@.npc;Alternatively, you can go the in-vitro route, where one or more already-fertilized zygotes are squirted into your womb. The procedure is less comfortable, and you won't be genetically related to the child. I also have to inform you that there's a risk of large pregnancies, and a greater risk of miscarriage because your DNA is different from the baby. And of course, a miscarriage means no money for your... services.@@<br><br>
+
+    @@.pc;Oh...@@ You think about it for a moment. @@.pc;Let's stick with using my own egg then.@@<br><br>
+
+    @@.npc;Okay then.@@ The nurse taps some keys on the keyboard in front of her. @@.npc;Are you up for doing full service, or just artificial insemination?@@<br><br>
+
+    You give the nurse another confused look. @@.pc;Full service?@@<br><br>
+
+    The nurse gives you an exasperated look and leans back in her chair. @@.npc;Are you willing to make the baby the natural way, that is, letting a client fuck it into you, or do you want him to jizz in a cup so we can squirt it into you?@@ She shrugs. @@.npc;It's up to you, but full service pays better. Some clients are really particular about being part of the process, you know, bullshit with the whole 'paternity fraud epidemic'.@@<br><br>
+
+    You raise your eyebrows. @@.pc;It's bullshit? I thought that was a real thing.@@<br><br>
+
+    The nurse laughs. @@.npc;Oh, it's real all right. It's downright ridiculous, even. Some men have been wising up though. The bullshit part is the customers thinking that fucking you directly is gonna somehow make sure the kid's actually theirs. I mean, who's to say you don't go to a club right after your session and let every cock in the joint run a train on you?@@<br><br>
+
+    You nod. @@.pc;I see... Well, I guess I'd be okay with either then...@@<br><br>
+
+    A few more taps of the keyboard. @@.npc;Good choice. Are you down for keeping the kid?@@<br><br>
+
+    You don't even pretend to understand. @@.pc;What?@@<br><br>
+
+    @@.npc;A lot of our customers are turned on by the idea of knocking a girl up, or spreading their oats or whatever. They pay to make sure you're fertile and that you'll keep the baby... and we transfer a portion of that to you after birth. But you'll be the parent, they don't want anything to do with raising it.@@ She shrugs. @@.npc;If you ask me, it's just a weird type of prostitution. But hey, if you happen to want a kid anyway, and don't care who the father is, you might as well make a little extra money in the process, right?@@ She gives you a conspiratorial smile. @@.npc;Besides, most of these guys are loaded, so their genes can't be any worse than grabbing a guy off the street to knock you up like those Fert Corps freaks do, right?@@<br><br>
+
+    @@.pc;I don't know about keeping it...@@ You pause, thinking about it.<br><br>
+
+    The nurse shrugs. @@.npc;The government will probably keep custody of it anyways to put in the creche. I'm going to put you down as a yes, and if an appointment opens up for it, you can always turn it down, okay?@@
+
+    @@.pc;Okay...@@ You haven't really had time to think it through. @@.mono;Well, I can always just turn down those appointments if I decide I don't want to.@@
+
+    With a few more taps and a loud press of the Enter key, the nurse looks back up at you. @@.npc;You're all set. Unfortunately the supply of wombs seems to be a lot bigger than the supply of people who need to pay to use them... so it might be a while before you get a turn. We'll contact you if an appointment becomes available.@@<br><br>
+
+    You nod and smile. @@.pc;Okay, thanks.@@<br><br>
+    <<set ↂ.flag.surrogateSignUp = true>>
+  </center>
+
+:: SurrogateAppointmentAI [nobr]
+
+  <<if ↂ.flag.surrogate.history.otherKidsConceived > 0 or ↂ.flag.surrogate.rejectedArtf > 0>>
+    <<set _zigotes = random(4, 12)>>
+    <<f y>>ou go back to the surrogacy center again, you have another message on your cell phone indicating a new request. Maybe better than the last one. You are going to talk to the nurse again, this time she doesn't seem particularly upset. @@.npc;Hi again, <<name>>. Girl... you need an alternative source of income.@@ She jokes when she sees you.
+
+    You roll your eyes at her joke. @@.npc;Unless of course you are one of those fetish pregnancy girls... Who love to be mated.@@
+
+    <<has pregnancy>>
+      You immediately blush when she says that, she seems to understand at once what you want as a surrogacy baby. @@.npc;Hah, so this is it... You are waiting for someone to select you to mate. You young girls really are like bitches in heat!@@<br><br>
+    <<or>>
+      @@.pc;Uh... No, really. I don't like the idea of... being mated. I'm just here for the money.@@ She leans back in her chair with a curious look. @@.npc;It is a strange way to make money.@@<br><br>
+    <</has>>
+
+    @@.pc;But anyway, I just want to see the proposal, if it is worth it maybe I will accept it.@@ She gestures, indicating the next screen that indicates the sessions to be scheduled.<br><br>
+
+    It takes a few seconds to see that your name is again on the list of requests for IVF. @@.mono;Again a request for IVF? And... <<= ↂ.flag.surrogate.value>> bucks... Great.@@ <br><br>
+
+    You go back to the nurse thinking about the proposal. @@.npc;So, what will it be?@@<br><br>
+
+    <span class='choice'>
+      <<button "Accept the proposal">>
+        <<set ↂ.flag.surrogate.accept = true>>
+        <<set _money = setup.cashDiff(Math.round( 0.15 * ↂ.flag.surrogate.value ))>>
+        <<set ↂ.flag.surrogate.value = Math.round( ↂ.flag.surrogate.value * 0.85 )>>
+        <<run aw.cash(_money, "surrogate")>>
+        <<replace ".choice">>
+          <<has pregnancy>>
+            @@.pc;I want to accept it again, the last pregnancy was pleasant so I don't think I will have any problems this time.@@ She makes a confused expression, she doesn't seem to like the idea of having multiple children. In fact, the absolute majority of women don't like the idea.<br><br>
+          <<or>>
+            @@.pc;I really don't like it, but I need the money... So... I'm going to do this.@@ The tone of concern is clear in your voice.<br><br>
+          <</has>>
+
+          @@.npc;I really don't think the money is worth it, but the womb is yours...@@ You didn't say it was easy though, but before you can say anything else, she again points you to the elevator.<br><br>
+
+          @@.npc;Floor 5, in case you forgot.@@ You nod positively before going on your way.<br><br>
+
+          A few moments and a few floors up and you find yourself again on the IVF floor. This time Dr. Handrickson is not here, just the young nurse absently looking at her computer screen until you stand in front of her. @@.pc;Hm, hi again. I have one-@@<br><br>
+
+          @@.npc;A new fertilization scheduled for as soon as possible. You are one of the few girls who do this, I can count the number on my fingers.@@ But before you can formulate an answer to that, she says.<br><br>
+
+          @@.npc;Well... You already know the protocol. It is a small clinic, you can change clothes in the dressing room while I will let the doctor know.@@ You are surprised at how casually they handle things around here. @@.pc;O-Okay, thanks.@@<br><br>
+
+          You make a quick path to clothing, thinking about doing it quickly. Whether by maternal instinct plus sexual excitement or simply by money, you have agreed to generate one more, or a few, children. @@.mono;Am I a masochist? I must be becoming... Fuck... Pregnancy of multiple children can wipe out my body.@@ You gather your thoughts while you undress and put on hospital clothes. @@.mono;I hope this is the last time I need the money.@@<br><br>
+
+          You head towards the fertilization room, feeling a cold sensation in your stomach, not knowing if this is arousal or nervousness. When you arrive at the door you see the young nurse walking out slowly wiping her face with a tissue. She sports a mischievous smile on her face, which she tries to hide when she realizes that you are there. @@.npc;O-Oh, the doctor has things... Ready.@@ Before she can receive an answer she leaves with quick steps.<br><br>
+
+          You enter the room to see Dr. Hendrickson on his back when he speaks. @@.npc;I need time, Alice. I'm not a young man anym-@@ He stops immediately when he turns around and realizes that you are there.<br><br>
+
+          He tries to recover his posture, apparently broken. @@.npc;Hi, <<name>>. I have things ready, so you decided to do it again, huh? This time... The <<= ↂ.flag.surrogate.person>> couple chose you to hatch their eggs.@@ She gives a little laugh when she finishes.<br><br>
+
+          @@.pc;Yeah... I thought it would be a good idea.@@ After a few moments of uncomfortable silence... @@.npc;Please sit down, I need to do a check on your... equipment. Only the protocol.@@<br><br>
+
+          You start to wonder if this is really the protocol, but you follow what he says and sit down again, spreading your legs out to the doctor.
+
+          <<run ↂ.pc.body.pussy.insert(1)>><<run ↂ.pc.body.pussy.insert(2)>>Again you watch the doctor insert the same icy equipment inside your pussy, and start to open it, again exposing your cervix and consequently bringing a pleasant sensation to you. @@.mono;C'mon, don't get aroused about this!@@ You try to think of something else, to forget about the activity going on in your pussy now. But it's hard for you to get distracted by a man fingering you.<br><br>
+
+          <<if ↂ.pc.fert.wombHealth >= 16>>
+            After a detailed analysis of your interior... He seems concerned again. @@.npc;I wouldn't think of going through with this if I were you, not before taking good care of your health.@@<br><br>
+          <<elseif ↂ.pc.fert.wombHealth >= 8>>
+            After a few moments you can see that he looks a little worried. @@.npc;When you finish your pregnancy you should go to a gynecologist, care is never too much when it comes to health.@@<br><br>
+          <<else>>
+            It doesn't take long to finish. @@.npc;You maintain your vaginal health well, it improves your chances of having a peaceful pregnancy.@@<br><br>
+          <</if>>
+
+          A few moments later you see him casually bringing the same equipment in the shape of a needle. @@.mono;Fuck... This is the most unpleasant part!@@<br><br>
+
+          You just relax your body while you feel it penetrate your cervix again, you start to wish it were a real cock. @@.mono;I need a real cock when I get out of here.@@ You bite your lower lip when you feel the cold liquid being injected into your uterus, but the doctor quickly removes it.<br><br>
+
+          @@.npc;Okay, now I recommend you not to exercise heavily or anything like that. We need them to stick.@@ You nod your head positively before getting up, ''you have again received some zygotes in your womb''.<br><br>
+
+          Realizing that there is nothing more to do here, you return to the dressing room to get dressed again and leave this strange place. @@.mono;I never liked hospitals...@@<br><br>
+
+          <<has maternal>>You leave the Surrogacy Center feeling your maternal instinct hitting you again, even though the zygotes inside you don't have your DNA you feel an increasing maternal warmth.<<or>>You put a hand under your belly when you leave the Surrogacy Center, in a mix of feelings that is difficult to describe. But perhaps it is the concern that I am going to suffer more morning sickness.<</has>><br><br>
+
+          <<silently>>
+            <<for _i = 0, _zigotes < _i, _i++>>
+              <<set 
+                ↂ.pc.status.wombA.zygotes.push(
+                  new Zygote({mother: ↂ.flag.surrogate.person + "'s wife", father: "PTSC-" + ↂ.flag.surrogate.person})
+                );
+              >>
+            <</for>>
+          <</silently>>
+        <</replace>>
+      <</button>>
+      <<button "Reject the proposal">>
+        <<set ↂ.flag.surrogate.rejectedArtf++>>
+        <<set 
+          ↂ.flag.surrogate.chosen = false,
+          ↂ.flag.surrogate.accept = false,
+          ↂ.flag.surrogate.type = '',
+          ↂ.flag.surrogate.value = 0
+        >>
+        <<replace ".choice">>
+          <<has pregnancy>>
+            @@.pc;Yeah, you know... I don't like the idea of miscarriages. I will refuse this.@@ She does not seem impressed by the decision.<br><br>
+          <<or>>
+            @@.pc;I no longer like the idea of having multiple children inside me, the high risk of a miscarriage is too much.@@<br><br>
+          <</has>>
+
+          @@.npc;This is starting to become repetitive... Do you want to be bred or what?@@ She says, seconds before sending your refusal to the system.<br><br>
+    
+          @@.pc;Being bred... That sounds animalistic.@@<br><br>
+
+          @@.npc;It usually pays more, and most girls prefer it, so...@@ She is speaking in a serious tone.<br><br>
+
+          @@.pc;Yeah, I'll think... thanks again.@@<br><br>
+        <</replace>>
+      <</button>>
+    </span>
+  <<else>>
+    <<f y>>ou go back to the surrogacy center, but this time you have a message on your phone... It looks like you've been "selected". You enter the main room to talk to the bored nurse again, she seems to know that you would be arriving. @@.npd;Hello again, <<name>>... It looks like your turn has come, huh? Yes, you have been selected, the registration of the man and the order is on the screen, if you want to see it.@@<br><br>
+
+    You take a few steps forward, stopping in front of the screen where the orders are scheduled for impregnation. There are two lists, in-vitro fertilization and the breeding section, conceived naturally.<br><br>
+
+    You have been asked for artificial insemination using a couple's fertilized eggs. @@.pc;This can be a little rough if more than one zygote fixes...@@<br><br>
+
+    Artificial inseminations are more risky, can be more painful and pay less. You search for the value offered to you. @@.pc;<<= ↂ.flag.surrogate.value>> bucks? Well I expected the value to be less compared to... The breeding meetings.@@<br><br>
+
+    Once selected you can accept or not accept the request, the choice is yours. <span class="handwriting wdGray">If you accept this you will need to comply with this until the end since the rights of your womb are temporarily passed on to the person who hired you.</span><br><br>
+    <span class='choice'>
+      <<button "Accept the proposal">>
+        <<set ↂ.flag.surrogate.accept = true>>
+        <<set _money = setup.cashDiff(Math.round( 0.15 * ↂ.flag.surrogate.value ))>>
+        <<set ↂ.flag.surrogate.value = Math.round( ↂ.flag.surrogate.value * 0.85 )>>
+        <<run aw.cash(_money, "surrogate")>>
+        <<replace ".choice">>
+          <<has pregnancy>>
+            The whole thing seems complex and difficult, but you immediately feel a mixture of happiness and excitement, even if the child that will grow up inside you does not carry your genes. Your maternal instinct is strongly encouraged by that. @@.mono;I really start to like the idea.@@<br><br>
+          <<or>>
+            The whole thing seems extremely uncomfortable, the risk of a multiple pregnancy is something to be considered but you decide to continue with this and accept the proposal. @@.mono;After all, the value is decent, and I need that money.@@<br><br>
+          <</has>>
+
+          You return to the bored nurse, who absently takes a cup of coffee while leaning back in her chair. @@.pc;I saw the request, I would like to accept artificial insemination. I will receive an advance payment, right?@@<br><br>
+
+          She turns her curious look on you. @@.npc;Girl, you must really be in need of money. You know you could even have triplets with that, don't you? If one baby is tiring, imagine three!@@ She speaks more of a joke than trying to alert you.<br><br>
+
+          @@.npc;I'm just giving you some advice, but if you want to get on with it... Just be aware that you can't give up after signing the terms.@@ She pulls a couple of papers out of the drawer and holds it out to you. @@.npc;And yes, you will receive 15% of the amount in advance, and the rest when you give birth to the child, or the children.@@ You take the papers to read the terms, until the end of pregnancy your uterus is owned by the couple who rented you.<br><br>
+
+          Without saying more, you just sign the terms, after a few seconds and a couple of signatures you turn to the nurse, handing over the papers. @@.pc;Here, what about the money... How can I do to receive the first part?@@<br><br>
+
+          @@.npc;Just give me your bank account details, then I will send it to you.@@ The whole thing seems surprisingly fast, considering that you are dealing with a pregnancy possibly involving multiple children. But you did that, after a brief transaction you have @@.mon;<<mon>><<= _money>>@@ in your account. @@.pc;Thanks, what now?@@<br><br>
+
+          She gestures with her hand, indicating the elevator next to the waiting room hallway. @@.npc; Floor 5... For artificial insemination you don't need to be fertile or anything. As I explained before... The eggs are fertilized zygotes, human beings in the initial stage of life. So they just need to be put in your womb and God will decide if they stay or not.@@ She finishes the brief explanation, taking another sip from her coffee cup and sitting back in her chair.<br><br>
+
+          @@.pc;So... can I do this now?@@ She raises an eyebrow. @@.npc;Yeah, you should. We have everything ready for artificial insemination.@@ With a short sigh, you take the first steps towards the elevator. But before you get in the nurse tells you one last warning.<br><br>
+
+          @@.npc;If you have a miscarriage there are no fines or anything, so relax... Of course, it can only be dangerous for your health too.@@<br><br>
+
+          @@.mono;Yeah... It is very reassuring to know that. Fuck, I need another way to make money.@@<br><br>
+
+          You arrive at the floor indicated by the nurse, it is as empty as the care room, except for another nurse and a doctor, a middle aged man who seems to be flirting openly until you arrive. @@.mono;Seriously, how can anyone think of romance in a place like this?@@<br><br>
+
+          Upon realizing that you are there, the doctor comes to see you. @@.npc;Hi, how can I help you? ...@@ He pauses in his speech. @@.pc;Hi, I'm <<name>>. I'm here for artificial insemination.@@ He reaches out to you in greeting. @@.npc;You can call me Dr.Hendrickson.@@<br><br>
+
+          @@.npc;Just let me check...@@ He touches his cell phone briefly before continuing. @@.npc;<<name>> to receive the <<= ↂ.flag.surrogate.person>> couple's eggs, I see. You can follow me.@@ He treats everything casually, but for you it is different. You've never been doing something like this before, and you're not sure how it happens.<br><br>
+
+          You accompany him in silence until he says. @@.npc;Here is the locker room, you can leave the clothes there and you will find the appropriate outfit for the procedure.@@ @@.pc;Do I need to remove everything?@@ @@.npc;Yeah, everything.@@<br><br>
+
+          You consider it for a moment, but he is a doctor after all, he is probably used to dealing with vaginas, wombs and inseminations.<br><br>
+
+          Changing your clothes takes a brief moment, until when you leave the room you are met by the nurse. @@.npc;Hi, Dr. Hendrickson is preparing the room, this is the way.@@ You walk beside the young nurse, a blonde girl that you could say is the same age as you. @@.pc;Do many girls do this?@@ @@.npc;Insemination? Few, most girls in the surrogacy program end up in breeding chambers. And before you ask me, no, I don't know what it's like there. I have been working on artificial insemination for about a year. And it's very quiet around here.@@<br><br>
+
+          Curiosity speaks louder, and you start fantasizing about what it would be like to be mated. But it doesn't last long, after a few more steps you arrive at the room. @@.npc;Here, good luck with that, I hope everything goes well with your pregnancy.@@ @@pc;Thanks...@@<br><br>
+
+          You enter the room realizing that it is simpler than you thought, a large central chair, some bookcases, a refrigerator and some strange equipment. The doctor notices that you have entered the room and says. @@.npc;You can sit and place your legs on the supports.@@ He indicates the chair, fiddling with what appears to be a small white bottle.<br><br>
+
+          Without wasting time, you sit back, spreading your legs and leaving your femininity exposed. @@.npc;Don't worry, I've dealt with many vaginas in my life.@@ He says in an ironic and playful tone before making a brief analysis of your sexual equipment.<br><br>
+
+          <<run ↂ.pc.body.pussy.insert(1)>><<run ↂ.pc.body.pussy.insert(2)>>He places a metal instrument deep in your pussy, reaching your cervix, it is cold and you get some chills. It opens it up to the point where you feel your inner walls being stretched. But when it feels like a breeze of wind touching your cervix, a totally new sensation.<br><br>
+
+          As he follows the fingering, you start to feel warmer. @@.mono;Not now... Please! This is no time to get wet!@@ You bite your lower lip trying to contain the increasing heat and arousal increase between your legs.<br><br>
+
+          <<if ↂ.pc.fert.wombHealth >= 16>>
+            He uses his fingers for an analysis, opening and feeling your vagina and the surroundings of your cervix, making a worried face after a few moments. @@.npc;You need to take better care of your health, your equipment is not in good condition... This can be a risky pregnancy. You must be careful.@@<br><br>
+          <<elseif ↂ.pc.fert.wombHealth >= 8>>
+            He uses his fingers and with a wide view of your vaginal equipment he gives an opinion. @@.npc;You are fine, but you should be more careful with your pussy. Health care never hurts.@@<br><br>
+          <<else>>
+            He briefly examines your sexual equipment. @@.npc;You are in perfect condition, not all girls your age take care of themselves so well, congratulations.@@<br><br>
+          <</if>>
+
+          After a few moments he brings what appears to be a type of needle. @@.npc;This can be a little uncomfortable, some girls complain. But I guarantee it will be quick.@@ You bite your lip to prepare for this. You can feel it when the tip of the needle touches the entrance of your uterus and starts to penetrate. @@.mono;Ugh...@@ After a few centimeters it stops and you feel discomfort when it touches the uterine wall.<br><br>
+
+          The liquid drains into you, it's really a small amount, less than a man's ejaculation. After a few moments you feel it is coming to an end. Even with the removal of the equipment having your pussy stretched like this and the wind touching the entrance to your uterus was something totally new. @@.npc;The zygotes are on their way, now we expect them to settle... Well, at least one of them.@@<br><br>
+
+          <<has maternal>>You feel strangely maternal, even though you know it's not your DNA in the zygotes... Or maybe just the sensation of the cold liquid inside your womb. Anyway, your job is done here, now you can only wait.<<or>>You don't feel too maternal, knowing it's not your DNA in the zygotes makes it feel different... Or maybe it was the sensation of the cold liquid inside your womb. Anyway, your job is done here, now you can only wait.<br><br><</has>>
+
+          You soon dress back into your clothes and leave the surrogacy clinic with a handful of zygotes inside you. @@.pc;For the love of God, I hope only one of <<has bitch>>little fuckers<<or>>them<</has>> will settle down.@@<br><br>
+
+          <<silently>>
+            <<for _i = 0, _zigotes < _i, _i++>>
+              <<set 
+                ↂ.pc.status.wombA.zygotes.push(
+                  new Zygote({mother: ↂ.flag.surrogate.person + "'s wife", father: "PTSC-" + ↂ.flag.surrogate.person})
+                );
+              >>
+            <</for>>
+          <</silently>>
+        <</replace>>
+      <</button>>
+      <<button "Reject the proposal">>
+        <<set ↂ.flag.surrogate.rejectedArtf++>>
+        <<set 
+          ↂ.flag.surrogate.chosen = false,
+          ↂ.flag.surrogate.accept = false,
+          ↂ.flag.surrogate.type = '',
+          ↂ.flag.surrogate.value = 0
+        >>
+        <<replace ".choice">>
+          <<has pregnancy>>
+            The whole thing is too difficult, and even if you feel good about it and even a little excited, you decide not to accept the request. @@.mono;I really would like to, but the idea of having a miscarriage is not very cool.@@<br><br>
+          <<or>>
+            Money does not outweigh the risks, really. You quickly decide to give up the request when you still can.@@.mono;I really think I will take your advice... This is not a safe thing to do, even with the money.@@<br><br>
+          <</has>>
+
+          @@.npc;Wise choice, you're young... I'm sure you can find better ways to make extra money.@@ It clicks a few times to confirm your refusal for the order in the system.<br><br>
+    
+          @@.pc;And now?@@<br><br>
+
+          @@.npc;Now nothing. There are no fines for refusal or anything like that. You can expect a better offer if you want, although it looks like prostitution... Breeding insemination is always the safest, most pleasurable choice.@@ Her last sentence brings a charged tone. @@.mono;Maybe she...?@@<br><br>
+
+          @@.pc;Well, anyway... Thanks for everything.@@<br><br>
+
+          ''You can always wait to receive a new request.''<br><br>
+        <</replace>>
+      <</button>>
+    </span>
+  <</if>>
+
+:: SurrogateAppointmentBC_1 [nobr]
+
+  <<if ↂ.flag.surrogate.history.breedingMeeting > 0 or ↂ.flag.surrogate.rejectedBred > 0>>
+    <span class='choice'>
+      You return one more time to the Surrogacy Center, a new call on your app is a new chance for profit. And some loving breeding, of course.<br><br>
+
+      <<has pregnancy>>
+        Having a child is your main motivator though, your maternal love and willingness to be a mother is a force of nature that drives you to mate. @@.mono;This is exciting!@@<br><br>
+      <<or>>
+        Having a child is the worst part though, mating and having the son of unknown men is not a girl's dream. At least no mentally healthy girls. @@.mono;What the fuck... Why do I need to make money this way?@@<br><br>
+      <</has>>
+
+      With curious steps you will directly check which request you received this time.<br><br>
+
+      @@.pc;Hmm... The value for this is <<= ↂ.flag.surrogate.value>>...@@<br><br>
+
+      You pause for a moment pondering this, an ever-present factor in your mind is the pleasure of mating although you try to suppress it temporarily.<br><br>
+
+      Soon you go to the nurse Isabella, you became one of the recurring presences here. Isabella greets you with her traditional ironic smile.<br><br>
+
+      @@.npc;Another day, another work for you, eh? What do you decide this time?@@<br><br>
+
+      <<button "Accept the proposal">>
+        <<replace ".choice">>
+          @@.pc;I was asked by a man called-@@<br><br>
+          
+          @@.npc;<<= ↂ.flag.surrogate.person>>, yes I could see it in the system. It looks like you will have one more child on your list. But I think you're here for the thrill of sex, not just money.@@<br><br>
+
+          She plays with you, knowing that most girls here have a fetish for being used. @@.pc;Ah... I have time for your games, Isabella. I... I'm just going to accept this.@@<br><br>
+
+          You receive a critical eye from your nurse friend. @@.pc;Hah, okay... Whatever your reasons, I don't think it's my problem.@@<br><br>
+
+          ''After some quick clicks.''<br><br>
+          
+          @@.npc;There, more sex scheduled for you. Come back when you have your pussy in the most fertile period... Little bitch.@@ She lets out a little laugh.<br><br>
+
+          @@.pc;Eh... Thanks, I think.@@<br><br>
+
+          You get out of there, knowing that you've given your friend enough fun.<br><br>
+          <<set ↂ.flag.surrogate.accept = true>>
+        <</replace>>
+      <</button>>
+      <<button "Reject the breeding request">>
+        <<set ↂ.flag.surrogate.rejectedBred++>>
+        <<set 
+          ↂ.flag.surrogate.chosen = false,
+          ↂ.flag.surrogate.accept = false,
+          ↂ.flag.surrogate.type = '',
+          ↂ.flag.surrogate.value = 0
+        >>
+        <<replace ".choice">>
+          @@.pc;Yeah, but I'm not really interested this time. So I'm going to pass this on.@@<br><br>
+
+          @@.npc;You don't feel excited today, do you?@@ She tries to make a joke. @@.npc;Either way, you decide.@@<br><br>
+
+          ''You reject the proposal, you can receive another one at any time.''<br><br>
+        <</replace>>
+      <</button>>
+    </span>
+  <<else>>
+    <span class='choice'>
+      <<f y>>ou return to the surrogacy center with a new message on your cell phone, you are curious to know what they want you to do. Upon entering the care room, you are greeted by the nurse, who relaxes, with your feet on the table, watching you approach.<br><br>
+
+      @@.npc;Hello again, yes I hear you are being requested by... Oh, no! I don't want to spoil the surprise... You can see the details of the request over there.@@<br><br>
+
+      She points to a TV with schedules near her desk, it will take you a few seconds to find your name. @@.pc;That's... <<= ↂ.flag.surrogate.person>>. A complete reproduction section.@@<br><br>
+
+      This is the first time you are asked to do something like this, you remember the warnings the nurse gave you the first time you were here.<br><br>
+
+      <<has pregnancy>>
+        @@.pc;He wants to have children with me, and he's paying <<= ↂ.flag.surrogate.value>> for it... I think, can this work?@@<br><br>
+      <<or>>
+        @@.pc;He wants to... Ugh, really... I would never expect to do that for money. It's fucking wrong!@@<br><br>
+      <</has>>
+
+      After a few conflicting moments you return to the nurse who is waiting for you with a half smile on her face. She has access to orders in the system and knows what you were asked for. @@.pc;It would be polite to warn, that was a good... Surprise.@@<br><br>
+
+      ''She rolls her eyes slightly.''<br><br>
+
+      @@.npc;It would be, but I couldn't resist... Come on, nothing interesting happens here.@@ She giggles. @@.npc;So, will you accept? If so, we have some protocols that you need to follow before doing this. But you already know the main thing, if you accept this now you will have to go to the end. The rights of your womb will belong to the man who chose you.@@<br><br>
+
+      <<has pregnancy>>
+        @@.mono;Being mated like a bitch in heat... That's... It's really exciting! Totally belonging to a male until he gets pregnant, it's bad that I don't know him, but not everything is perfect, is it?@@<br><br>
+      <<or>>
+        @@.mono;Being mated like an animal in heat, that's fucked up. I really don't like it... But I need money... Of course, I will need to raise the child, but he will help with the alimony after all.@@<br><br>
+      <</has>>
+
+      You can accept or decline the offer, what do you decide?<br><br>
+
+      <<button "Accept the proposal">>
+        <<replace ".choice">>
+          <<has pregnancy>>
+            <<f t>>he mere thought of being taken by a man and mated, belonging to him for a whole day, is terribly arousing. You can feel your heart rate increase just thinking about it. @@.pc;I... I accept, yes I accept that.@@<br><br>
+          <<or>>
+            <<f y>>ou deeply dislike the thought of being bred like a female animal, but you think you need the money, and even though it is painful for your pride you accept it.  @@.pc;Yeah, I need the money, I hope the sex is good.@@<br><br>
+          <</has>>
+
+          She looks at you again with a half smile forming on her lips. @@.npc;I imagined it, you young girls can't even get away from sex for long. You look like bitches in heat, really.@@<br><br>
+
+          She clicks a few more times, and types for a brief moment.<br><br>
+
+          @@.npc;All set, now you can sign this. It shows a sheet with several terms. You can read, but it comes down to one thing, you belong to a man now, when you are fertile you will be notified to come and mate.@@<br><br>
+
+          It takes you a few seconds to sign, while it continues.<br><br>
+          
+          @@.npc;After giving birth to the child you will receive a monthly income from your baby's stick, the government would not stay out of this after all it is still a child. Consider a lifetime benefit.@@<br><br>
+
+          This can be interesting, receiving alimony for your baby. But I will still need to raise the child without the help of a parent. @@.pc;I will think about it later, first of all the money.@@<br><br>
+
+          @@.npc;Oh yes, bank details please, you get 15% of the amount in advance.@@<br><br>
+
+          Good news, after a quick transaction the nurse deposits 100 in your account. You notice that there is a small download request on the phone.<br><br>
+
+          @@.npc;It is the fertility monitoring application, when you enter the fertile period you will be notified together with your partner, so you can meet to... Do the things.@@<br><br>
+
+          @@.pc;I-I understand...@@ After a few moments of details and clarifications, you realize that there is no further doubt pending, so you decide to go home until the time comes.<br><br>
+
+          @@.pc;Again, thanks for the help. She waves to you, crossing her arms as she leans back in her chair.@@<br><br>
+          <<set ↂ.flag.surrogate.accept = true>>
+        <</replace>>
+      <</button>>
+      <<button "Reject the breeding request">>
+        <<set ↂ.flag.surrogate.rejectedBred++>>
+        <<set 
+          ↂ.flag.surrogate.chosen = false,
+          ↂ.flag.surrogate.accept = false,
+          ↂ.flag.surrogate.type = '',
+          ↂ.flag.surrogate.value = 0
+        >>
+        <<replace ".choice">>
+          <<has pregnancy>>
+            <<f a>> lthough if you want it deeply, you decide to decline the proposal. @@.pc;I really wanted to be taken and bred, but I don't think that the amount paid is worth raising a child... Not alone. Not this way.@@<br><br>
+          <<or>>
+            <<f y>> ou refuse without any problem. @@.pc;being mated like a bitch in heat is not something you particularly want, and giving birth to a child without the support of a husband is a terrible thing. I'm not going to do this, not without a husband by my side... Raising a child is fucking hard if I'm married, imagine alone!@@<br><br>
+          <</has>>
+
+          The nurse saw her eyes looking at your face, she seemed to be expecting a different answer. @@.npc;I thought you young girls loved the idea of ​​being ferociously mated until you were pregnant, well... From the number of girls that go to breeding chambers, I assumed that... Sorry.@@<br><br>
+
+          You didn't mean exactly that. @@.pc;I don't mean sex, yes sex is always good... But I don't want to raise a child on my own, I need to work and-@@<br><br>
+
+          @@.npc;Yeah yeah I know, I understand this drama, many women want more than just money to have and raise a child.@@<br><br>
+
+          She reaches out and starts typing on her keyboard, after a few moments she declares.<br><br>
+
+          @@.npc;Request refused, but... I don't know if you have the right profile for a baby surrogacy. Maybe you should reconsider.@@<br><br>
+
+          You start to think about it, maybe a higher value could make you accept being mated. With that in mind, you just thank her for her time and get out of there.<br><br>
+
+          @@.pc;If there is a better proposal, maybe I will do it... Anyway, thanks.@@<br><br>
+
+          ''You can always wait to receive a new request.''<br><br>
+        <</replace>>
+      <</button>>
+    </span>
+  <</if>>
+
+:: SurrogateAppointmentBC_2 [nobr]
+
+  <<if ↂ.flag.surrogate.history.breedingMeeting > 0>>
+    <<f w>>hen you are fertile again you return to the Surrogacy Center, it is as busy as usual. You always bring a little life to the place though. At least you feel that way.<br><br>
+    
+    <<has pregnancy>>
+      Having a child is one of the biggest motivators for you to be doing this, although the first and greatest is always intense sex during the fertile phase. Knowing that you are making a baby and not just sex arouses an intense and primitive desire.<br><br>
+    <<or>>
+      Having a child is the worst part, you still don't like the idea of ​​having children with strange men although your constant concern about your financial situation makes you do this as a guarantee that you will not go hungry.<br><br>
+    <<has>>
+
+    <<if ↂ.flag.surrogate.history.bitchType === 'exclusive'>>
+      ''You have become one of the exclusive bitches of Ethan, a rich young man who loves to make women pregnant. Knowing what you have to do, you quickly pass through Isabella.''<br><br>
+      
+      @@.npc;Hi again, <<name>>. Ethan wants to get you pregnant again? He's one of the most active ones here... He's probably going to have a hundred kids out there in the future. //Heh//@@<br><br>
+
+      @@.pc;What kind of man pays to use women that way? At least the asshole pays well, and...@@<br><br>
+      
+      @@.npc;Does he have a big cock and is he good in bed? This could be worse.@@<br><br>
+
+      @@.pc;Yeah, I'm going to do that, I think he's already waiting.@@ She crosses her arms with a tired expression on her face.<br><br>
+
+      @@.npc;Good luck with another pregnancy, I can't imagine how your belly is now.@@<br><br>
+
+      She teases you by making a joke about pregnancy stretch marks before you go.<br><br>
+    <<else>>
+      ''You have become a normal surrogacy girl, accepting multiple partners makes you feel strange, but in biological terms you are spreading your genes with a wide variety.''<br><br>
+      
+      You greet your friend Isabella before going on to mating. @@.npc;Hi <<name>>, we have a new request for you today, huh? This is... <<= ↂ.flag.surrogate.person>>, he's paying <<= ↂ.flag.surrogate.value>>... Your partner list will grow.@@<br><br>
+      
+      @@.pc;Yeah, at least he's paying a fair amount. Having a baby is fucking hard...@@<br><br>
+
+      @@.npc;I never understood why you decide to lead this life... Must it be some fetish for young girls or something?@@<br><br>
+
+      @@.pc;I would say it is a lack of money.@@ She gives a half ironic smile again. @@.npc;Hah, right... I don't think you want to waste any more time, your partner has been waiting for you up there for some time.@@<br><br>
+      
+      ''You are grateful and withdraw for some more fertile sex.''<br><br>
+    <</if>>
+
+    <<button "Floor 12">>
+      <<replace ".choice">>
+        <<include "BreedingFloor">>
+      <</replace>>
+    <</button>>
+  <<else>>
+    <span class='choice'>
+      <<f y>>ou arrive at the Surrogacy Center at a special time, it looks like a great day has arrived. You, fertile and going to be mated. Technically your body is no longer yours until you give birth to the son of the man who hired you.<br><br>
+
+      <<has pregnancy>>
+        But you don't really care, in fact you are excited and aroused waiting for that moment, your hormones are totally out there.<br><br>
+      <<or>>
+        Although you are not very excited about all this, you feel like an animal being prepared for mating, it makes you feel with hurt pride.<br><br>
+      <</has>>
+
+      You arrive at the surrogacy center's attendance room but for the first time you see the nurse attending a young girl, she is heavily pregnant.<br><br>
+
+      @@.mono;This is new... I probably won't be long in this way either.@@<br><br>
+
+      You decide to sit down to wait, thanks to the silence in the room you can hear their conversation, they also don't seem to care about your presence.<br><br>
+
+      @@.npc;I really need that money, I just gave birth to his son and he... I wanted to have another one.@@<br><br>
+
+      The nurse for the first time gives an open laugh before declaring.<br><br>
+
+      @@.npc;He liked you so much that he is paying to keep you just for him and not other men. The company realized that some men can be... Particularly possessive, and offer it as long as they pay the fee.@@<br><br>
+
+      @@.npc;Yes I know, but I am still raising a child and pregnant with a baby by a man who is not my husband... Money does not play a father.@@<br><br>
+
+      @@.npc;But you accepted that, dear. When you decided to be bred.@@<br><br>
+
+      With a few more movements she ends the transaction, an audible sound inside the room from the young pregnant woman's cell phone when the money enters her account.<br><br>
+
+      @@.npc;Okay, if you really wanted to be mated you could look for an official husband, I guarantee that here in Apletree there are hundreds of men willing to make you a slave wife and fuck you until you are pregnant.@@<br><br>
+
+      The young pregnant woman rolls her eyes, grateful ironically. @@.mono;Do they know each other well?@@<br><br>
+
+      @@.npc;Yes, yes, I know... Thanks again, Isabella.@@<br><br>
+
+      She speaks when she puts her cell phone in her purse, and leaves. @@.mono;So her name is Isabella.@@ When your turn comes, you go to her.<br><br>
+
+      @@.npc;Enjoying the show? Many girls regret mating after seeing the cost of raising a child, and especially raising them without a husband.@@<br><br>
+
+      @@.pc;Yes I know that... But sometimes we have no option, a good husband cannot be found in a single day.@@<br><br>
+
+      She rolls her eyes, looking at her computer screen and opening a mischievous smile. @@.npc;So it's YOUR big day, huh? Going for breeding chambers. Your partner has been waiting for you for over an hour.@@<br><br>
+
+      @@.pc;There is something I need to know before... You know...@@<br><br>
+
+      @@.npc;Let me explain... As you heard before, our clients can pay to keep some girls exclusively for them. The company could be losing money on other requests so they are charged a fee for each girl. Yes, some men are especially jealous and possessive... Additionally, they pay the most as a monthly fee for the child.@@<br><br>
+
+      @@.pc;That... makes sense. Did I get any requests like that?@@<br><br>
+      
+      @@.npc;You have an exclusive request for your first mating, this is the first time I have seen this happen.@@ She says while doing a quick search for the system.<br><br>
+      
+      @@.npc;I sent his data to your cell phone, if you want to see it.@@ Your phone <<button "vibrates">><<dialog "Ethan's file">><<include [[BreederHusbandFile]]>><</button>> with a file from the Surrogacy Center.<br><br>
+
+      @@.npc;You can accept any if you want, or remain open to multiple men. Your decision will be added to your history, of course, but if you choose a steady partner you will only have his children.@@<br><br>
+
+      She pauses in explanation, as she leans back in her chair.<br><br>
+
+      @@.npc;So, what do you decide? Do you want to be an exclusive breeding bitch, or a public breeding bitch?@@<br><br>
+
+      ''You stop for a moment to think about the decision.''<br><br>
+
+      <<button "Exclusive breeding bitch">>
+        <<replace ".choice">>
+          <<has pregnancy>>
+            <<f w>>ell, I really want to try this out so... I better stick with some exclusivity. It would be easier to explain this to my children when they grow up.<br><br>
+          <<or>>
+            <<f i>>t never really pleased me, you know. But I need money, and if I need to do that I will maintain some pride and have only this man's children.<br><br>
+          <</has>>
+
+          For a few seconds she analyzes your expression before declaring. @@.npc;This is almost like prostitution with a hint of slavery, in my opinion. But it is the least worst of the choices...@@<br><br>
+
+          She again pulls out a paper and a pen, placing it in front of you. @@.npc;Ah, you can refuse or accept future requests in any way.@@<br><br>
+
+          After a few moments, you have it signed before she takes the papers and seems to remember something.<br><br>
+
+          @@.npc;Also, your man is Ethan, as you may have seen in his log. He has the "possession" of another girl, you are his second. <<if ↂ.pc.body.race = "Asian" or ↂ.pc.body.race = "SE Asian" or ↂ.pc.body.race = "S Asian">>He has a thing for Asian women, so I'm not surprised that he chose you, he's a clear example of a man with yellow fever... And yes, I'm referring to the desire for Asian girls.<</if>>@@<br><br>
+          
+          You start to feel that at this rate you can end up in a threesome, but when you decided to sell your reproductive services you were aware of having to do some extra kinky activities.<br><br>
+          
+          @@.pc;I think it's better to go with this...@@<br><br>
+
+          She nods understandably to you. @@.npc;Floor 12, there you will be informed of the room number.@@<br><br>
+
+          You finish thanking Isabella before heading towards the elevator.<br><br>
+
+          ''Now you are some man's exclusive <<if ↂ.pc.body.race = "Asian" or ↂ.pc.body.race = "SE Asian" or ↂ.pc.body.race = "S Asian">>asian<</if>> breeding bitch.''<br><br>
+          <<set ↂ.flag.surrogate.history.bitchType = 'exclusive'>>
+
+          <<button "Floor 12">>
+            <<replace ".choice">>
+              <<include "BreedingFloor">>
+            <</replace>>
+          <</button>>
+        <</replace>>
+      <</button>>
+
+      <<button "Public breeding bitch">>
+        <<replace ".choice">>
+          <<has pregnancy>>
+            <<f p>>erhaps because of some level of masochism, or desire for submission, you refuse the request. @@.pc;Maybe I better not get attached to someone, I want to keep it as professional as possible... No ties. Even if the whole pregnancy thing doesn't please me very much.@@<br><br>
+          <<or>>
+            <<f y>>ou are more attracted to the idea of ​​mating with multiple partners, perhaps some repressed feminine instinct within you are surfacing with this decision. @@.pc;Yes I will keep it professional, without ties. And the idea of ​​having kids from other guys... It's really arousing, you know, Isabella...@@<br><br>
+          <</has>>
+
+          @@.npc;My, my... You seem to be one space ahead of the other girls in the Center. You have the face of a wicked girl, you know?@@<br><br>
+
+          It opens up before you start typing, recording your history. @@.npc;You don't seem to have a problem with the thing happening here, even though it looks like prostitution with a hint of sexual slavery... Well, but who am I to judge that. Anyway, your first man will be Ethan. But after that you can wait for new applicants for your list.@@<br><br>
+            
+          You thank Isabella for the help. @@.pc;Where exactly should I go?@@<br><br>
+
+          @@.npc;Floor 12, you can talk to the doctor to receive some additional guidance.@@ You nod your head before making nervous steps towards your "new job".<br><br>
+
+          The nurse relaxes in her chair. @@.npc;I think that from now on you will be a frequent presence here, maybe you will make things a little more fun. //Hehe//@@<br><br>
+
+          ''Now you are a public surrogacy girl, you will be available for any man to do the surrogacy service.''<br><br>
+          <<set ↂ.flag.surrogate.history.bitchType = 'public'>>
+
+          <<button "Floor 12">>
+            <<replace ".choice">>
+              <<include "BreedingFloor">>
+            <</replace>>
+          <</button>>
+        <</replace>>
+      <</button>>
+    </span>
+  <</if>>
+
+:: BreederHusbandFile [nobr]
+
+  <h2><<= aw.npc.n1028.name>></h2>
+
+  Ethnicity: <<= aw.npc.n1028.body.race>><br>
+  Skin: <<= aw.npc.n1028.body.skinColor>><br>
+  Eyes: <<= aw.npc.n1028.body.eyeColor>><br><br>
+
+  <h3>History & fetishes</h3>
+  Ethan is a 23-year-old businessman who inherited his fortune from his family. Like every young man from Appletree he loves sex, but with an added touch: Ethan loves to sit and watch his seed grow in the womb of the women in town. He has a special and strong taste for Asian girls. His profile suggests he would love to have a personal harem and a nursery full of mixed children. His record shows that he has 2 children with one of our girls, who he has reserved exclusively for his personal use.<br>
+
+:: BreedingFloor [nobr]
+
+<<if ↂ.flag.surrogate.history.breedingMeeting > 0>>
+  <<f y>>ou reach floor 12, after a few steps you are totally surprised. Dr. Jenny is in an intense makeout with a man in front of the service desk. @@.mono;Fuck, what do I do?@@<br><br>
+    
+  You stop not knowing what to do for a moment, waiting for her to notice you. What soon happens, as soon as she puts her blue eyes on you she seems to whisper something to her "friend", who stops just before she comes towards you with an uncomfortable expression on her face.<br><br>
+  
+  <<if ↂ.flag.surrogate.history.bitchType === 'exclusive'>>
+    @@.npc;Hi again <<name>>... Listen, I know you're here for a mating session, Ethan always uses room 5 to make it easier for his girls... Now you can go, I need to... Finish something important.@@<br><br>
+
+    She dumps all of this on you and before you can say anything, she goes towards the man and, grabbing his hand, takes him into the office and closes the door. @@.mono;Well, doctors are also people, after all. But that was... Strange, what about this woman?@@<br><br>
+    
+    The sexual climate here probably affects everyone, even doctors. Dedicating it to another time, you go back to the room again, you have a baby to make.<br><br>
+
+    <<button "Enter the room">>
+      <<replace ".choice">>
+        <<include "BreedingSex_1">>
+      <</replace>>
+    <</button>>
+  <<elseif ↂ.flag.surrogate.history.bitchType === 'public'>>
+    @@.npc;Hello again <<name>>, here's the thing... You are marked for a general breeding section with the <<= ↂ.flag.surrogate.person>>. You can go to the main room so just remove your clothes and position yourself in the right place, you will know what to do.@@<br><br>
+
+    You don't have time to respond before she turns to her partner and, with quick steps, takes his hand and takes him into her office. @@.mono;I think I'm not the only one to be taken by hormones... //Hehe//@@<br><br>
+    
+    You decide to ignore this for now, going towards the place where she has indicated you.<br><br>
+
+    <<button "General breeding chambers">>
+      <<replace ".choice">>
+        <<include "BreedingSex_1">>
+      <</replace>>
+    <</button>>
+  <</if>>
+<<else>>
+  <<f y>>ou arrive at the indicated floor and quickly realize that it does not look like a clinic, a simple waiting room connected to a corridor, you can notice two couples glued to each other in kisses and hugs, you immediately conclude that this is the place you should be. You enter and are quickly greeted by a red-haired doctor, the first thing that catches your eye is her beauty.<br><br>
+              
+  @@.npc;Hello, are you the <<name>>, right? The name is Jenny.@@ She says, as she puts her hair behind her ear.<br><br>
+              
+  @@.pc;Yes, I think I can be direct. I have one-@@<br><br>
+
+  @@.npc;Natural breeding section with your partner, Ethan.@@ She interrupts you, finishing your sentence. You certainly wouldn't say it so bluntly though.<br><br>
+              
+  @@.pc;Yes, that's it.@@<br><br>
+              
+  She looks around for a brief moment before saying. @@.npc;I think Ethan is tired of waiting here, he must be in the room waiting for you, room 5. We don't have many rooms so you should have no trouble finding it.@@<br><br>
+
+  You look at the kissing couple, she does not fail to notice your reaction.<br><br>
+              
+  @@.npc;Haha, first time here right? I wonder what you are thinking. But you were lucky, our app allows you to track your menstrual cycle in detail, a few months ago you would need to do a manual check of your cervical mucus before releasing you for mating.@@<br><br>
+
+  Your eyes open with her statement, she is certainly very frank and brazen. @@.npc;Now if you will excuse me, I need to stop those two before they have sex where they shouldn't!@@ She says pointing accusingly at the couple on the benches before heading towards them.<br><br>
+              
+  @@.mono;Fuck, she has a huge ass...@@<br><br>
+
+  You do not fail to notice the doctor's body, out of attraction or admiration, you could say that she is a perfect specimen of a woman, with big breasts, wide hips and exotic details like curly red hair and blue eyes.<br><br>
+
+  //With nervous steps you go to the indicated place.//<br><br>
+
+  <<has pregnancy>>
+    Knowing that you will probably leave here pregnant makes you feel anxiety mixed with increasing maternal warmth.<br><br>
+  <<or>>
+    Bearing in mind that you are likely to become pregnant today, you feel nervous and distressed.<br><br>
+  <</has>>
+
+  <<button "Enter the room...">>
+    <<replace ".choice">>
+      <<include "BreedingSex_1">>
+    <</replace>>
+  <</button>>
+<</if>>
 
 
+:: BreedingSex_1 [nobr]
 
-:: ResidentialMedicalSurrogate [nobr]
+  <<if ↂ.flag.surrogate.history.breedingMeeting > 0>>
+    <<if ↂ.flag.surrogate.history.bitchType === 'exclusive'>>
+      <<f y>>ou enter Ethan's room again, this time without the embarrassment that marked your first time with Ethan. You drop your bag on the nearest shelf and he realizes your presence at that moment.<br><br>
+      
+      He comes to you with a friendly smile on his face. @@.npc;I think we are no longer strangers to each other, maybe... We can get to know each other out there.@@<br><br>
 
+      You are in doubt if he is just creating romance or telling the truth. But he kisses you before you can answer, you decide to start getting in the mood from the beginning this time by returning his kiss and putting your arms around his neck.<br><br>
+      
+      @@.mono;Whatever, if you have a good time this is it... It's fucking sex!@@  You think to yourself as you feel him start to feel your buttocks.<br><br>
 
-<<set ↂ.flag.surrogateSignUp = true>>
-<p>
-<<f y>>ou walk into the nicely-appointed Appletree Surrogacy Center, and are immediately greeted by an employee. @@.npd;Hello, how can I help you today?@@
-</p>
-<p>
-You're a bit caught off guard. @@.pc;Umm... I wanted to see about becoming a surrogate?@@
-</p>
-<p>
-The cheerful expression disappears from the woman's face. @@.npd;Oh. Okay, right through here.@@ She walks a couple steps and opens a door leading to a different waiting room.
-</p>
-<p>
-With a quick @@.pc;thanks@@ you step into the separate waiting room.
-</p>
-<center>[img[IMG-BestySurrogacy]]</center>
-<p>
-An extremely bored-looking nurse calls to you from behind the reception desk. @@.npc;Okay, come on over here.@@
-</p>
-<p>
-You walk up to the desk. @@.pc;Hi, I'm here to see abou--@@
-</p>
-<p>
-@@.npc;Yeah, yeah, I know.@@ The nurse interrupts you. @@.npc;ID please so we can get this over with.@@
-</p>
-<p>
-You hand over the ID, which the nurse proceeds to scan. The nurse seems to be filling out the forms, interrupted only by the occasional request for confirmation. Finally, the nurse looks up from her screen at you. @@.npc;So, do you want to use your own egg, or are you willing to go with in-vitro?@@
-</p>
-<p>
-You don't quite understand. @@.pc;What do you mean, my own egg?@@
-</p>
-<p>
-The nurse sighs. @@.npc;Look, using your own egg means that you ovulate, you get inseminated, and your genes and the client's mix to make a baby. While the kid won't be yours legally, it'll still carry half your genes. It's also a pretty easy procedure to get fertilized.@@ She takes a breath before continuing in a bored monotone. @@.npc;Alternatively, you can go the in-vitro route, where one or more already-fertilized zygotes are squirted into your womb. The procedure is less comfortable, and you won't be genetically related to the child. I also have to inform you that there's a risk of large pregnancies, and a greater risk of miscarriage because your DNA is different from the baby. And of course, a miscarriage means no money for your... services.@@
-</p>
-<p>
-@@.pc;Oh...@@ You think about it for a moment. @@.pc;Let's stick with using my own egg then.@@
-</p>
-<p>
-@@.npc;Okay then.@@ The nurse taps some keys on the keyboard in front of her. @@.npc;Are you up for doing full service, or just artificial insemination?@@
-</p>
-<p>
-You give the nurse another confused look. @@.pc;Full service?@@
-</p>
-<p>
-The nurse gives you an exasperated look and leans back in her chair. @@.npc;Are you willing to make the baby the natural way, that is, letting a client fuck it into you, or do you want him to jizz in a cup so we can squirt it into you?@@ She shrugs. @@.npc;It's up to you, but full service pays better. Some clients are really particular about being part of the process, you know, bullshit with the whole 'paternity fraud epidemic'.@@
-</p>
-<p>
-You raise your eyebrows. @@.pc;It's bullshit? I thought that was a real thing.@@
-</p>
-<p>
-The nurse laughs. @@.npc;Oh, it's real all right. It's downright ridiculous, even. Some men have been wising up though. The bullshit part is the customers thinking that fucking you directly is gonna somehow make sure the kid's actually theirs. I mean, who's to say you don't go to a club right after your session and let every cock in the joint run a train on you?@@
-</p>
-<p>
-You nod. @@.pc;I see... Well, I guess I'd be okay with either then...@@
-</p>
-<p>
-A few more taps of the keyboard. @@.npc;Good choice. Are you down for keeping the kid?@@
-</p>
-<p>
-You don't even pretend to understand. @@.pc;What?@@
-</p>
-<p>
-@@.npc;A lot of our customers are turned on by the idea of knocking a girl up, or spreading their oats or whatever. They pay to make sure you're fertile and that you'll keep the baby... and we transfer a portion of that to you after birth. But you'll be the parent, they don't want anything to do with raising it.@@ She shrugs. @@.npc;If you ask me, it's just a weird type of prostitution. But hey, if you happen to want a kid anyway, and don't care who the father is, you might as well make a little extra money in the process, right?@@ She gives you a conspiratorial smile. @@.npc;Besides, most of these guys are loaded, so their genes can't be any worse than grabbing a guy off the street to knock you up like those Fert Corps freaks do, right?@@
-</p>
-<p>
-@@.pc;I don't know about keeping it...@@ You pause, thinking about it.
-</p>
-<p>
-The nurse shrugs. @@.npc;The government will probably keep custody of it anyways to put in the creche. I'm going to put you down as a yes, and if an appointment opens up for it, you can always turn it down, okay?@@
-</p>
-<p>
-@@.pc;Okay...@@ You haven't really had time to think it through. @@.mono;Well, I can always just turn down those appointments if I decide I don't want to.@@
-</p>
-<p>
-With a few more taps and a loud press of the Enter key, the nurse looks back up at you. @@.npc;You're all set. Unfortunately the supply of wombs seems to be a lot bigger than the supply of people who need to pay to use them... so it might be a while before you get a turn. We'll contact you if an appointment becomes available.@@
-</p>
-<p>
-You nod and smile. @@.pc;Okay, thanks.@@
-</p>
-<center>@@.import;[Appointments not yet implemented]@@</center><br><br>
+      This starts to make you more excited, your body is already naturally prepared and ready for what's to come, you just let it express itself in actions.<br><br>
 
+      Breaking the kiss and taking a step back you take off your shirt and bra, and start taking off your underwear when you feel Ethan behind you, touching your pussy. Probably checking to see if you're aroused and moist enough to bred. You feel his beard brushing your neck when he starts kissing you from behind, after a few moments you feel him putting two fingers inside your pussy, just like the first time. You bite your lower lip with the growing arousal in your groin.<br><br>
+
+      @@.pc;Listen, I'm really in the mood for this. Just take me to bed and fuck me until I get pregnant, okay?@@ You say that, looking into his eyes in a naturally feminine and suspicious way, that is the sign he has been waiting for.<br><br>
+
+      @@.npc;You don't have to ask twice, I would do it anyway.@@ Again he takes you in his arms and takes you to the bed, you pull him into a passionate kiss without letting him slip away from you.<br><br>
+
+      The time for words is gone, now you just give space to your desire to have sex, maybe even too much; You push him against the bed and lay him down, immediately feeling his penis erect against your butt makes you feel especially naughty and provocative, this time you are more in control of the situation.<br><br>
+
+      He seems to like the idea and just relaxes in bed, letting you show what you are capable of when you are surrendered to your sexual intincts. @@.mono;This... It will be really fun. Heh...@@<br><br>
+      
+      You bite your lips again when you take the penis in your hand and touch the tip of it at the entrance to your vagina, you stand up and let the force of gravity act as you feel every inch of Ethan's penis entering deeper and deeper into your pussy. You can feel the moment that it reaches the deepest point of your femininity, your cervix; You let out a soft, feminine groan with the wave of pleasure you feel right now.<br><br>
+
+      You just hover over him for a few seconds enjoying the pleasure of sex, when he touches your thighs you start to move rhythmically to ride him. Starting with slow movements but you quickly start to ride it more ferociously, being controlled by your excitement you just let it go and continue to ride it for several minutes. @@.mono;Ahh this is- Hmm! Better than the first time!@@<br><br>
+
+      The sound that predominates in the room again the humid sound of your thrusts and your occasional moans, with each thrust you feel your pussy stretch more and more, until at some point you are fully stretched to the size of Ethan's penis. He does nothing but let you do the teushow, riding you like a bitch in heat.<br><br>
+      
+      You start to feel your vagina contract and your clit what an orgasm is coming you sit on Ethan's penis, making every inch of his penis be inside your vagina, pressing against your cervix just before you reach orgasm. @@.mono;FUCK! That's nice! DAMN!!! THIS SEX IS THE BEST!@@<br><br>
+
+      At the moment of your orgasm, you are totally lost in the pleasure of sex, without thinking about anything other than the movements you are making driven by the sexual instinct, and the instinct to have children.<br><br>
+      
+      Ethan is not left behind, feeling the contractions of your vagina he quickly reaches orgasm too, letting his semen escape into your most intimate depths, where your egg is at that moment.<br><br>
+      
+      Feeling the waves of Ethan's hot ejaculation on your cervix makes you feel a unique sensation, it is soft, warm and intense. You left your head back when you feel that, placing your hands on Ethan's chest instinctively squeezing tightly, almost scratching him. @@.pc;This fuck is the best thing I've ever felt, I never get tired of it!@@<br><br>
+
+      Soon you two end the climax moment, Ethan has emptied your balls and is probably exhausted while you just hover over him, his penis half erect now coming out of you. You feel the exit of his penis along with a part of Ethan's semen, although most of it is still in your depths and will come out slowly.<br><br>
+      
+      @@.npc;Did you like it? It seemed so... Haha@@ He plays with you, knowing that you have totally let go of sex. @@.pc;Y-Yeah... That was good.@@<br><br>
+      
+      Without saying more, a little embarrassed that you're still making a child with a man you don't know, you lie down next to him. Using his chest as a pillow and putting your arm around his belly, you two just have one more post-sex moment in silence until you fall asleep; It is again time for Ethan's swimmers to do their work within you.<br><br>
+      <<run ↂ.pc.fert.creampie("PTSC-" + aw.npc.n1028.name, 35, "deep")>>
+      <<set ↂ.flag.surrogate.history.breedingMeeting++>>
+      <<set ↂ.flags.surrogate.history.postBreed = true>>
+    <<elseif ↂ.flag.surrogate.history.bitchType === 'public'>>
+      <<f y>>ou reach the entrance to the breeding chambers, it's a large room and the door is open when you enter. Inside there are several bays lined up in two main rows, on the entrance wall you see another screen indicating the names of the couples and an option for you to select an empty bay.
+      
+      @@.pc;I'm starting to feel like a female animal... This is unbelievable.@@<br><br>
+
+      You put your hand on your face for an instant feeling some initial embarrassment for what you are going to do. But you already agreed to do this so you select one of several empty bays, the furthest from the bottom of the breeding chambers.<br><br>
+      
+      @@.pc;At least there is no one here to see this...@@<br><br>
+
+      You reluctantly go to the end of the huge room and enter your bay. You look around, it's a very quiet place with no people, probably due to the low demand for surrogacy girls' services. You enter the stall by closing the door behind you.<br><br>
+      
+      @@.pc;This is... fucking crazy.@@<br><br>
+
+      You tell yourself when you realize that inside the bay there is only one padded device to keep you fixed, attached to all fours. Dr. Jenny said that you would know what to do, now you understand what she meant. You stop for a moment to absorb the situation.<br><br>
+      
+      @@.pc;Okay, I already got into it... Now let's get this over with...@@<br><br>
+
+      With a short sigh you start to remove your clothes, starting with the shirt and bra, feeling your nipples harden with the cold temperature of the room, and then your pants and panties. Once naked, you look at the bay, it's equipment is designed to make breeding comfortable and efficient, in one of the best positions for fertilization.<br><br>
+
+      You begin to imagine how you will be fucked here and let out an ashamed laugh at the thought. @@.pc;Haha, fuck... This is... Ridiculous.@@ But something about you is a little out of place, you start to feel excited by that thought. But you ignore it, for now, approaching and trying to position yourself in your place.<br><br>
+      
+      You get on your knees and then position your waist correctly on the equipment, your upper body is free and you have support to support yourself. @@.pc;At least this is not uncomfortable.@@<br><br>
+
+      The equipment closes, holding your knees and waist in position. You let out a groan of surprise. @@.pc;What the fuck is this? I'm stuck, shit...@@<br><br>
+
+      Although difficult, you put a hand on your face and decide to wait for your partner. @@.pc;This is the most humiliating fuck I've ever been through.@@<br><br>
+
+      He doesn't take long in coming, you hear his footsteps, and when he walks in without saying anything you can hear the sound of him taking off his clothes, and finally the zipper on his pants. It's time to mate, you swallow your saliva once you get ready for it, it's not like you can do much. @@.pc;H-Hey, you can at least take it easy...@@<br><br>
+
+      You speak, although it is difficult to have a detailed notion of your partner in the position you are in and with little lighting inside the bay. Your eyes widen when he starts to massage your clitoris with the tip of his cock.
+      
+      This starts to arouse you more and more, you feel his cock already hard against your vagina, first the clit and then he presses on the entrance, but it doesn't penetrate yet. You let out a breath at the thought of being penetrated and realize that you are getting wet. Your heartbeat is getting faster and your body starts to crave sex. @@.pc;At this rate... I'm going to lose control again. This fucking fertile period ... It drives me crazy!@@<br><br>
+      
+      You feel more likely to lose control these days, the fertile period fills your body with female hormones and libido from another world, which leaves you ready to become almost like a bitch in a literal heat. @@.pc;Eehhh- Listen, stop teasing me like that! Just fuck me soon and get me pregnant.@@<br><br>
+
+      You tell your partner, without getting an answer. But instead, you feel him lean in and kiss your back. Feeling his hands pressing and squeezing your breasts and his beard rubbing on your back with each of his kisses makes you even more excited every moment. He's provoking you to the max.<br><br>
+
+      He starts to squeeze your nipples, once hard from the cold of the bay, now hard from the excitement of the imminent sex about to start. When you let out a high-pitched moan he stops, and puts his hand on your pussy, seeming to analyze every inch of your femininity and realizing how wet and excited you are.<br><br>
+
+      The cold no longer affects you, you are getting hotter as your body becomes aroused. Then you feel the bulbous tip of his penis at the entrance of your femininity when he immediately forces it in, you feel it entering you, stretching you until it reaches your fertile cervix ready to receive your partner's manly semen.<br><br>
+
+      His penis is slightly hotter than your vaginal interior, you analyze this feeling when you feel him put his hands firmly on your waist and start moving slowly. At that moment you realize that the mating has finally started.
+      
+      In a more consistent rhythmic movement, it's forced deeper into your vagina with each stroke of his penis. This forces your inner walls to stretch a little causing cyclic waves of pain and pleasure. @@.pc;Aaaahhhh! A little- Hahhh... CALM DOWN!@@<br><br>
+
+      Every time the tip of his penis touches your cervix, you feel some involuntary movement of your vagina as your vaginal walls contract against his penis. Your vagina does not take long to adjust to the size of your partner's penis, and the discomfort is then replaced by pure pleasure that starts to occupy your mind completely. Soon he starts to increase the rhythm, you feel his touch on your waist, his body heat is also rising as he increases his pace.<br><br>
+
+      More and more the room is occupied with your intense moans and the sound of his attacks against your butt, you start to lose yourself in the pleasures of mating and raise your butt in a better angle for his attacks. It increases the pace a little more after realizing your receptivity.<br><br>
+      
+      //He again rises over you and grabs your breasts gently before whispering in your ear.// @@.npc;You are one of the best girls here, I'm sure you have great genes to pass on to our children! And your little pussy is... GREAT!@@ The sensation the tone of his voice makes you feel is intense, heavy and mainly along with the warmth of his voice.
+
+      You can feel his clean warm breath behind your neck, feel his hands pressing on your nipples as he continues to strike quickly against your butt, the warmth of you two is already the same, now all you feel are the waves of pleasure that echoes through your body every time the tip of his penis touches your fertile cervix while waiting for his virile semen.<br><br>
+
+      Your vagina starts to contract and your body will rebound more quickly with your heart before you can prepare yourself you feel a fast and intense orgasm reaching your body quickly. @@.mono;FUCK YEAAHHHHH!!! THIS IS THE BEST PART OF THIS FUCKING EVER!!!@@<br><br>
+
+      You throw your head back feeling severe waves of pleasure all over your body. Your partner touches your belly while kissing your neck, the feeling of his beard against your skin is a booster for the moment.<br><br>
+      
+      He's not far behind you. Feeling your vagina contracting fiercely as small waves of vaginal fluid run down both of your legs, he holds you tightly before reaching his orgasm. He presses his entire penis into you, you feel the bulbous tip of his penis against your cervix when without any warning you feel the first stream of manly semen against your femininity.<br><br>
+
+      The feeling of being possessed and impregnated has already taken over your body and your mind, you are now a bitch in heat begging your partner to get you pregnant. It's just what you want, you are immersed in the sexual pleasure of mating. @@.pc;THAT FUCK !!! Aahhhh... Get me pregnant !!! I am your- AAHHH!! Your Hmmm... BITCH IN HEAT!!!@@<br><br>
+      
+      Each hot jet that comes out of his penis goes straight to your cervix, a part of which enters your womb releasing millions of sperm that immediately look for your egg. @@.pc;Aaaahhhhhhhh... This is SO GOOD...@@<br><br>
+
+      He stays connected to you, pressing his penis until the moment he finishes coming. After this crazy mating, he again kisses you on the neck before removing his penis, now semi-erect and getting up.<br><br>
+      
+      You can hear his panting, as well as yours. But as soon as he came he gets dressed and leaves, just ending with a sentence. @@.npc;Please get pregnant. I really want to see you have my children, with you... They will be very healthy, I'm sure.@@<br><br>
+      
+      You hear the door close behind you and his hot sperm slowly trickles down your thighs as the equipment releases you, allowing you to get up. @@.pc;That was... crazy. Nobody would believe that... Haha.@@<br><br>
+
+      You laugh to yourself before getting up and, with your legs shaking after the intense and animalistic orgasm, you go towards your clothes to get dressed. @@.pc;This semen will stain my panties... Damn it, but I can't take it off. I need to give swimmers time... to do their job.@@<br><br>
+      
+      Your body is still a little euphoric and your heartbeat is a little faster, but you end the mating session anyway without knowing what to think about that experience.<br><br>
+    <</if>>
+    <<set ↂ.flag.surrogate.history.breedingMeeting++>>
+    <<set ↂ.flags.surrogate.history.postBreed = true>>
+    <<run ↂ.pc.fert.creampie("PTSC-" + ↂ.flag.surrogate.person, 25, "deep")>>
+  <<else>>
+    <<f y>>ou arrive at the room and enter without wasting any more time, deciding that you want to get this over with in order to receive your money.<br><br>
+                    
+    You nervously enter the room, knowing that today is probably this time you are going to be fucked until you get pregnant begins to awaken deep arousal within you. Upon entering the room you see a cozy atmosphere that you would not expect in a clinic.<br><br>
+                    
+    @@.mono;At least this child will be conceived in a decent environment...@@ You think as you scan the room, soon noticing also a man sitting absently on the bed. He soon realizes the sound of your palaces and comes to you with a warm smile on his lips.<br><br>
+                    
+    @@.npc;I was waiting for you, you...@@ He analyzes you from head to toe.<br><br>
+
+    @@.npc;You are as beautiful as your photo on the record. I hope everything goes well between us.@@<br><br>
+                    
+    @@.mono;He doesn't look like a jerk, at least he can't spoil the mood.@@<br><br>
+
+    @@.pc;Thanks, but... How do we get started? I've never been in that kind of situation before.@@ You talk while for some reason you start to feel warmer, the heat in your groin starts to increase along with some initial moisture.<br><br>
+                    
+    @@.mono;I... Am I getting aroused? I'm a breeding bitch.@@<br><br>
+
+    He doesn't say anything but kiss you, you don't know him but he decides to get carried away by the weather. The kiss starts to awaken your body more; You start to answer his kiss after a few seconds when you feel that he starts to remove your clothes. First the pants and panties that fall at your feet, when he breaks the kiss to gently remove your T-shirt and bra.<br><br>
+
+    Once you're naked he quickly undresses and then kisses you again, feeling his cold fingers on your hot pussy, he checks every inch of your femininity from the clit to the entrance to the love hole, and then he sticks both fingers in while he kisses your neck. His effort to get you excited starts to take effect at that moment and he realizes it after your first soft moan.<br><br>
+                    
+    He stops the makeout at that moment, bringing his hand from your pussy, his fingers are covered with your vaginal fluid.<br><br>
+                    
+    @@.npc;Wow, you are really excited... You are at the point that I like the most. Fertile and receptive.@@<br><br>
+
+    He looks at you immediately like a predator looking at his prey, before taking you in his arms and placing you gently on the bed. You start to feel more excited, you can't help but smile with the activity going on, and the heat that builds up in your body as it approaches.<br><br>
+
+    ''When he climbs the bed, you lean over to kiss him.'' @@.mono;Fuck, I want this... I just want it.@@<br><br>
+
+    You feel especially sensitive, your skin vibrates with the touch of it, covering your entire body. The mere smell of it makes you more and more lost in lustful thoughts and your desperation for sex intensifies every moment.<br><br>
+
+    You let yourself be carried away by the growing arousal and put your arms around his neck, while your legs wrap around his waist in a typical lotus position. You feel his cock in your groin, it is huge and hard as steel, as hot as the heat you feel inside you now, you feel a deep connection emerging with Ethan.<br><br>
+
+    The moment of kisses and caresses does not last long though, he puts you lying in bed while hovering between your legs, your pussy is totally lubricated with your vaginal fluids. @@.mono;What's happening to me? I'm... liking this?@@<br><br>
+
+    You find yourself in a deeply thoughtful moment but your body continues to act, you open your legs to the man who is about to take your uterus. He doesn't waste a lot of time until he penetrates you, his libration acts completely and makes his penis enter easily, although not completely, your pussy can't hold anything that big, even when excited.<br><br>
+                    
+    @@.pc;Aaahhhh... Fuck, slow down please!@@ You complain when he gives the first thrust that hits your cervix immediately.<br><br>
+
+    You really feel more pleasure and satisfaction, being possessed and penetrated in your most vibrant and special period is incredible. Ethan's penis is hot, hotter than your insides and the difference between the bodies makes you feel in detail every moment that his penis is touching your cervix, each time the head of his huge penis presses and causes a wave of pleasure that travels down your spine ending in a soft, feminine groan from your mouth.<br><br>
+
+    @@.npc;Sorry, baby. It is difficult to contain myself with something sexy and fertile like you.@@ It says when you thrust your waist again, causing you to let out a high-pitched moan when you feel your cervix being attacked again. He repeats this movement slowly, and slowly your pussy begins to adapt to Ethan's large size making it more comfortable. Knowing you belong to him, all you do is lean against the soft cam and keep your legs open to make things easier for him while he continues to fuck you.<br><br>
+                    
+    For several minutes all that is audible in the room is the rhythmic and cyclical sound of his thrusts in your pussy, making a wet sound that accompanies the almost animalistic moans and grunts of a couple rutting fiercely to conceive a new life. There are no kinky activities involved, just the purest, simplest and most satisfying sex between a man and a woman. At some point you begin to lose yourself in the arousal you feel, closing your legs around Ethan's waist in an attempt to make him go deeper into your femininity that now belongs to him.<br><br>
+
+    You get alarmed when you start to feel the inner walls of your vagina start to contract, you know what’s coming, probably one of the most intense orgasms you’ve had to date, you feel little waves of liquid seeping out of your pussy even rhythm that your heart rate now highly accelerated. The mixture of sensations of intense and maternal sex brings you to a state of pure ecstasy, you put your hands around Ethan's neck and bring him in for a kiss, completely closing your legs in him and preventing him from withdrawing his penis, at the moment that your pussy is totally invaded and Ethan's huge cock touches the entrance to your uterus you feel your orgasm coming, more intensely than you might think.<br><br>
+                    
+    You break the kiss, with your arms around his neck you hold him tightly when you let out a high-pitched moan when you feel the orgasm coming. @@.pc;Fuck! Aaahhhh... That's- Hmmm !!! SO GOOD!!!@@<br><br>
+
+    You feel your pussy contracting with Ethan's big penis, putting pressure on your cervix, which is already relaxed to facilitate impregnation, now it's more open after your orgasm. Surprisingly, you start to feel Ethan's penis warmer too, his breathing becomes slightly more labored, and before you can say another word you feel him start to cum furiously inside you.<br><br>
+
+    You simply get lost in pure ecstasy while you feel him putting his manly seed in your most intimate depths, the feeling that his swimmers are going to find your egg causes you a strong maternal feeling, you feel like you are making a child and like it, you want this.<br><br>
+                    
+    You don't say anything, just throw your head back feeling the huge waves of pleasure and warmth that circulate through your body. Knowing that you are having a child and not just casual sex, pure and simple, is a natural aphrodisiac that has pushed you to the limit. You can do nothing but feel Ethan empty his balls inside you, and so you stay for a few moments even after he finishes cum.<br><br>
+                    
+    After the two of you have recovered some breath, you open your legs and let go of him, allowing him to come out and take his penis, now semi-erect from inside your pussy. You feel his cum in your depths, hot and thick, most of it in the cervix but some of it is inside your womb.<br><br>
+                    
+    You feel some of it seep out of your pussy, but most of it is still in your depths. You look at him affectionately, as if taken by a maternal instinct and submissive to your man; He is the first to say something. @@.pc;You are great, really... I think the best girl here.@@<br><br>
+                    
+    <<if ↂ.flag.surrogate.history.bitchType === 'exclusive'>>
+      @@.pc;I'm glad that you wanted to be exclusively mine.@@<br><br>
+    <<elseif ↂ.flag.surrogate.history.bitchType === 'public'>>
+      @@.pc;It's a pity that you didn't want to be my exclusive girl.@@<br><br>
+    <</if>>
+
+    You would like to answer something, but you feel really tired after the intense mating. He seems to realize this, and he lies down next to you grabbing you from behind, putting his arm around you. @@.pc;I hope you get pregnant, you are great... You are going to generate great children.@@<br><br>
+                    
+    ''That moment ends when you two fall asleep, leaving Ethan's swimmers free to do their job, looking for your egg.''<br><br>
+
+    //Surrogacy content by Anenn//
+    <<set ↂ.flag.surrogate.history.breedingMeeting++>>
+    <<set ↂ.flags.surrogate.history.postBreed = true>>
+    <<run ↂ.pc.fert.creampie("PTSC-" + aw.npc.n1028.name, 35, "deep")>>
+  <</if>>
+
+:: SurrogacyPregTest [nobr]
+
+  <span class='choice'>
+    You arrive at the Surrogacy Center but this time it is to do a pregnancy test, the verification of your impregnation is necessary for you to get the first part of the money, after all.<br><br>
+
+    You again go to Isabella to ask about it.<br><br>
+
+    @@.npc;Our newest girl comes back after of some adventure in breeding chambers... Hehe.@@<br><br>
+
+    You roll your eyes but thanks to experience she already knows what you are going to ask and answers you before you mention it.<br><br>
+
+    @@.npc;As you might imagine... The pregnancy tests are with the hot red-haired doctor on the reproduction floor. I suppose you just came to check that the guys who fucked you did the job correctly?@@<br><br>
+
+    @@.pc;Yes and you could be less... You know, rude.@@<br><br>
+
+    @@.npc;I'm not rude, I just like to be direct. But I'm sorry if you were offended or something.@@<br><br>
+
+    @@.pc;Yeah... Okay, I guess. Anyway thank you.@@<br><br>
+
+    @@.npc;Good luck, I hope everything worked out. I really want to see you knocked up!@@<br><br>
+
+    She jokes on you, as if she is enjoying her work.<br><br>
+
+    <<button "Breeding floor">>
+      <<replace ".choice">>
+        <<set ↂ.flag.surrogate.accept = true>>
+        When you arrive at floor 12 again it stimulates your internal lust, the floor is very charged with an intense aura of sex and even if you are not going to have sex you feel a little hotter.<br><br><<arousal 1>>
+
+        The doctor is nowhere to be seen and there is no one else on the floor, you need to do a quick search to find her in her office, reclining on her chair with a strange expression on her face and seems to blush a lot, where before she was pale skin now it is intensely pink.
+
+        @@.pc;Uh... Hi.@@ You tell her shyly and it takes her attention away from the computer screen for you, after a few seconds she tries to compose herself and adopts a more professional expression.
+
+        @@.npc;Hi, can I help you?@@ Does she try to act like she isn't watching porn in the office? Well, it's not like nobody ever did that, heh @@.pc;I've been doing some... Eh-@@
+
+        @@.npc;Oh yes you were having sex during the week, you want to test for a possible pregnancy, right?@@
+
+        You just nod your head.
+
+        @@.npc;It's not a big mystery, really.@@ She opens a drawer and pulls out a hospital package, after she opens it she gives you what looks like a common pregnancy test.
+
+        @@.npc;The result is accurate and fast, if you got pregnant let me know and we will transfer the first part of the money to your account.@@
+
+        She gestures towards the end of the corridor. @@.npc;Bathroom is there.@@
+
+        @@.pc;Okay, thank you.@@
+
+        <<button "Go test this pussy!">>
+          <<replace ".choice">>
+            The ladies' room is as empty as the rest, you go in and examine the exam, it works the same as any pregnancy test though.
+            <<has pregnancy>>
+              @@.pc;I hope this has happened, it is so exciting!@@ You feel your maternal nature at that moment and your heart is filled with happiness at the thought of having become pregnant.
+            <<or>>
+              @@.pc;Okay, let's see if this really worked...@@ Part of you wants it for the money, part of you doesn't want to get pregnant by an unknown man, but you need to know.
+            <</has>>
+
+            You open the small pot and sit on the toilet, positioning it just below your pussy you take a few seconds to release some pee.
+
+            @@.pc;Okay now...@@ You put the hormonal verification tape on and leave it for a few moments while you are immersed in your thoughts.
+
+            @@.mono;After all... This is usually a moment that women dream of having next to their husband... And not alone in a bathroom of a clinic.@@ 
+
+            ''You don't get too deep in your thoughts though, soon you turn your attention back to the test. You take the tape and see the result...''
+
+            <<if ↂ.pc.status.wombA.preg OR ↂ.pc.status.wombb.preg>>
+              <<set _money = setup.cashDiff(Math.round( 0.15 * ↂ.flag.surrogate.value ))>>
+              <<set ↂ.flag.surrogate.value = Math.round( ↂ.flag.surrogate.value * 0.85 )>>
+              <<run aw.cash(_money, "surrogate")>>
+              <<has pregnancy>>
+                You look carefully at the color of the ribbon and as soon as you notice the result you feel your maternal instinct happier than ever. @@.pc;This... Pink. I really got pregnant!@@
+              <<or>>
+                You look carefully at the color of the ribbon. Pink, @@.pc;I already expected that... I can't say I'm surprised.@@
+              <</has>>
+
+              You put your hand on the belly for a few moments, thinking about the pregnancy path, and hoping that everything goes well. But priorities, right now you have the money to get it.
+
+              You go back to Dr. Jenny, this time she has a more decent posture and notices your expression, receiving it as an answer.
+
+              @@.npc;So, congratulations! I mean... I think? Not all girls are happy to get pregnant here, most are doing it for money... You know.@@
+
+              <<has pregnancy>>
+                @@.pc;I am happy, even if this is not an ideal scenario... My heart is filled with joy at the thought of having my own baby!@@ You declare with a genuine expression on your face.<<happy 1>>
+
+                @@.npc;It is good to hear that, it is difficult to see girls happy to have children without a husband. You must have a great maternal instinct. But now you must want the money, right... Okay, one minute.@@
+
+                She turns to her computer again and after a quick transaction you have ''<<= _money>>'' in your account, a small part of the total amount.
+
+                @@.npc;There, it's done. Now take good care of that baby inside you. One day I will certainly make mine, but not that way of course.@@ She gives a little laugh.
+
+                You make a dull face, but you don't complain about it. @@.npc;Anyway... Thanks for the help... See you later.@@
+              <<or>>
+                @@.pc;Yeah, I know how it is... And I can say that I am not really happy about it but it is a financial need.@@ You speak with a pragmatic tone.
+
+                @@.npc;Well... Anyway, I think you want your money. One minute.@@ The mood in the room gets a little gloomy with your arrival and the news of your pregnancy, but you hope the money will help improve your mood. After a few seconds of typing you get ''<<= _money>>'' bucks in your account.<<stress 1>>
+
+                @@.npc;It is done, I hope you take good care of the baby inside you... I think that a child is always a blessing regardless of the situation. I hope you understand that...@@ 
+
+                You nod your head and say thank you before you leave. @@.pc;Thank you for your help.@@
+              <</has>>
+
+              ''You are now officially pregnant.''
+            <<else>>
+              <<has pregnancy>>
+                @@.pc;Not pregnant... Really? I had so much sex for nothing.@@ You feel an inner emptiness when you discover that you have not become pregnant despite your efforts. More for the wounded maternal instinct than for the thought of the money that you will not receive.<<happy -1>>
+              <<or>>
+                @@.pc;Not pregnant, even though I'm not going to get the money, it's a relief to know that.@@ You are more relieved to learn that you have not become pregnant, although worrying about your bank account getting emptier makes you feel stressed.
+              <</has>>
+
+              You go back to Dr. Jenny to report the negative result. @@.pc;I'm not pregnant.@@
+
+              @@.npc;Really? This happens sometimes, the zygote doesn't always fixes to the uterine wall, don't worry, this is natural. If you keep trying you will succeed. But if you didn't get pregnant I can't transfer the first part of the payment.@@
+
+              @@.pc;I understand, and how is the request from now on?@@
+
+              @@.npc;You can return in your next fertile period to try again, clients are advised that natural inseminations do not always end in pregnancy.@@
+
+              You nod and realizing that there is nothing left to do here, you thank and leave.
+            <</if>>
+            <<set ↂ.flags.surrogate.history.postBreed = false>>
+          <</replace>>
+        <</button>>
+      <</replace>>
+    <</button>>
+  </div>

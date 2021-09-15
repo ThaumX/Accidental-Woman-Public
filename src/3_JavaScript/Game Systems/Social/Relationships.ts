@@ -12,6 +12,7 @@ interface setupRship {
   eligible: (npcid: string) => [string, boolean, string];
   liveTogether: (npcid: string) => void;
   moveOut: () => void;
+  timeToAdvance: (npcid: string) => string;
 }
 
 setup.rship = {} as setupRship;
@@ -62,6 +63,7 @@ setup.rship.eligible = function(npcid: string): [string, boolean, string] {
       like = 20;
       love = 30;
       dest = "exclusive";
+      break;
     case "friend":
       return ["friend", true, "already friends"];
     case "aquaint":
@@ -75,7 +77,7 @@ setup.rship.eligible = function(npcid: string): [string, boolean, string] {
       aw.con.warn("Error determining rship advancement eligibility, not in a relationship!");
       return ["error", false, "error"];
   }
-  if (aw.time - ᚥ.rship.rejTime < sinceRej) {
+  if (/*aw.time - ᚥ.rship.rejTime < sinceRej */ false) {
     result = false;
     reason = "rejection time";
   } else if (aw.time - ᚥ.rship[catTime] < leng) {
@@ -131,4 +133,53 @@ setup.rship.liveTogether = function(npcid: string) {
     oneTime: true,
     duration: 11000,
   });
+};
+
+setup.rship.timeToAdvance = function(npcid: string): string {
+  if (!setup.npcid.test(npcid) || aw.npc[npcid] == null) {
+    aw.con.warn(`Bad npcid value supplied to setup.rship.timeToAdvance function (${npcid})`);
+    return `Bad npcid value supplied to setup.rship.timeToAdvance function (${npcid})`;
+  }
+  const cat = aw.npc[npcid].rship.category;
+  const catTime = cat + "Time";
+  const whereTo = aw.npc[npcid].rship.category;
+  let leng = 0;
+  switch (whereTo) {
+    case "married":
+      return "You are already married!";
+    case "engaged":
+      leng = 100000; // about 2.25 months
+      break;
+    case "lovers":
+      leng = 161280; // 4 months
+      break;
+    case "exclusive":
+      leng = 80640; // 2 months
+      break;
+    case "dating":
+      leng = 20160; // 2 weeks
+    case "friend":
+      return "You are already friends!";
+    case "aquaint":
+      leng = 40320; // 1 month
+      break;
+    default:
+      aw.con.warn("Error determining rship advancement time, not in a relationship!");
+      return "Error in timeToAdvance function, pls report it!";
+  }
+  const timeo = leng - (aw.time - aw.npc[npcid].rship[catTime]);
+  const day = Math.ceil(((timeo / 60) / 24));
+  if (day > 100) {
+    return `Your instincts tell you that it will be more than three month before your relationship is ready to advance.`;
+  } else if (day > 60) {
+    return `Your instincts tell you that it will be more than two month before your relationship is ready to advance.`;
+  } else if (day > 30) {
+    return `Your instincts tell you that it will be more than a month before your relationship is ready to advance.`;
+  } else if (day > 14) {
+    return `Your instincts tell you that it will be more than two weeks before your relationship is ready to advance.`;
+  } else if (day > 1) {
+    return `Your instincts tell you that it will be around ${day} days before your relationship is ready to advance.`;
+  } else {
+    return `Your instincts tell you that your relationship is ready to advance.`;
+  }
 };

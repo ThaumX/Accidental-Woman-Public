@@ -3,7 +3,7 @@
 // default values vol = 10, qual = 6, surv = 4, quant = 12,
 
 class Cum {
-  public owner: npcid | "unknown";
+  public owner: npcid | string;
   public vol: number;
   public qual: number;
   public surv: number;
@@ -13,8 +13,10 @@ class Cum {
   public date: date;
   public killer: boolean;
   public omniTime: number;
-  constructor({ time, date, omniTime, owner = "unknown", vol = -99, qual = -1, surv = -1, quant = -1, amt = -1, killer}: { time?: time, date?: date, omniTime?: number, owner?: npcid | "unknown", vol?: number, qual?: number, surv?: number, quant?: number, amt?: number, killer?: boolean }) {
+  constructor({ time, date, omniTime, owner = "unknown", vol = -99, qual = -1, surv = -1, quant = -1, amt = -1, killer}: { time?: time, date?: date, omniTime?: number, owner?: npcid | string, vol?: number, qual?: number, surv?: number, quant?: number, amt?: number, killer?: boolean }) {
     const ᛔ = State.active.variables;
+    let isNPC = false;
+    let isUnknown = false;
     if (time == null) {
       this.time = jQuery.extend(true, [], ᛔ.time);
     } else {
@@ -43,15 +45,27 @@ class Cum {
     } else {
       this.owner = owner;
     }
+    if (setup.testes.test(owner)) { // check if the owner is a valid NPCID
+      if (aw.npc[owner] == null) { // make sure the owner actually exists though
+        this.owner = "unknown";
+        isUnknown = true;
+      } else {
+        isNPC = true;
+      }
+    } else if (owner === "pc") {
+      // leave both flags false.
+    } else { // must be a name string or "unknown"
+      isUnknown = true;
+    }
     if (vol === -99) {
       this.vol = random(5, 20);
     } else {
       this.vol = vol; // deci-ml
     }
     if (qual === -1) {
-      if (owner === "unknown") {
+      if (isUnknown) {
         this.qual = random(5, 8);
-      } else if (setup.testes.test(owner)) {
+      } else if (isNPC) {
         this.qual = aw.npc[owner].fert.quality;
       } else {
         this.qual = ↂ.pc.fert.quality;
@@ -60,9 +74,9 @@ class Cum {
       this.qual = qual;
     }
     if (surv === -1) {
-      if (owner === "unknown") {
+      if (isUnknown) {
         this.surv = random(3, 5);
-      } else if (setup.testes.test(owner)) {
+      } else if (isNPC) {
         this.surv = aw.npc[owner].fert.surv;
       } else {
         this.surv = ↂ.pc.fert.surv;
@@ -71,9 +85,9 @@ class Cum {
       this.surv = surv;
     }
     if (quant === -1) {
-      if (owner === "unknown") {
+      if (isUnknown) {
         this.quant = random(10, 14);
-      } else if (setup.testes.test(owner)) {
+      } else if (isNPC) {
         this.quant = aw.npc[owner].fert.quantity;
       } else {
         this.quant = ↂ.pc.fert.quantity;
@@ -84,7 +98,7 @@ class Cum {
     try {
     if (killer != null) {
       this.killer = killer;
-    } else if (setup.testes.test(owner)) {
+    } else if (isNPC) {
       this.killer = aw.npc[owner].mutate.killerSperm;
     } else {
       this.killer = (random(1, 10) === 10) ? true : false;
@@ -112,8 +126,8 @@ class Cum {
     // change omniTime so that next halflife is calculated correctly
     this.omniTime = currentTime - (currentTime - initialTime) % 60; // subtract partial hour minutes
     // mod value affects length of halflife, range set -5 to 5
-    const mod = Math.max(-5, Math.min(5, Math.floor((vagHostile - 16) / 4) + (this.surv - 3)));
-    const halflife = 10 + mod;
+    const mod = Math.max(-5, Math.min(10, Math.round((vagHostile) / 3) + Math.round(this.surv / 2) - 6));
+    const halflife = 6 + mod;
     // determine number of halflives in given time;
     const lives = Math.floor(hours / halflife);
     // adjust omniTime backward for leftover hours;

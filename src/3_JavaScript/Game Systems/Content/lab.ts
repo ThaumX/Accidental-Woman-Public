@@ -118,7 +118,7 @@ setup.lab.nightProgress = function () {
         ↂ.flag.main.progress[0] = 1000;
       }
     }
-  } else if(ↂ.flag.main.active[1]) {
+  } else if (ↂ.flag.main.active[1]) {
     // flags reset
     if (ↂ.flag.main.contacts[0]) {
       ↂ.flag.main.contacts[0] = (random(1, 3) > 1) ? false : true;
@@ -136,10 +136,29 @@ setup.lab.nightProgress = function () {
         ↂ.flag.main.progress[1] = 1000;
       }
     } else {
-      ↂ.flag.main.progress[1] += random(0, 5);
+      ↂ.flag.main.progress[1] += random(1, 5);
       if (ↂ.flag.main.progress[1] > 1000) {
         ↂ.flag.main.progress[1] = 1000;
       }
+    }
+  } else if (ↂ.flag.main.active[2]) {
+    // em coil wind
+    if (State.active.variables.AW.startMale) {
+      ↂ.flag.main.progress[2] += random(16, 21);
+      if (ↂ.flag.main.progress[2] > 1000) {
+        ↂ.flag.main.progress[2] = 1000;
+      }
+    } else {
+      ↂ.flag.main.progress[2] += random(10, 18);
+      if (ↂ.flag.main.progress[2] > 1000) {
+        ↂ.flag.main.progress[2] = 1000;
+      }
+    }
+  } else if (ↂ.flag.main.active[3]) {
+    // initial build
+    ↂ.flag.main.progress[3] += 25;
+    if (ↂ.flag.main.progress[3] > 1000) {
+      ↂ.flag.main.progress[3] = 1000;
     }
   }
   aw.S("flag");
@@ -150,7 +169,7 @@ setup.lab.questCheck = function() {
   if (ↂ.flag.main.active[0]) {
     if (ↂ.flag.main.progress[0] > 999) {
       ↂ.flag.main.active[0] = false;
-      ↂ.flag.main.active[1] = true;
+      // ↂ.flag.main.active[1] = true;
       const omni = {
         name: "Task 1 Complete",
         type: "single",
@@ -166,7 +185,7 @@ setup.lab.questCheck = function() {
   } else if (ↂ.flag.main.active[1]) {
     if (ↂ.flag.main.progress[1] > 999) {
       ↂ.flag.main.active[1] = false;
-      ↂ.flag.main.active[2] = true;
+      // ↂ.flag.main.active[2] = true;
       const omni = {
         name: "Task 2 Complete",
         type: "single",
@@ -176,9 +195,59 @@ setup.lab.questCheck = function() {
         run: `setup.interact.launch({passage: "MSM-TaskTwoComplete", block: false, content: "none", npcid: "n101", title: "Text From Lily", size: 3});`,
       } as IntOmniData;
       setup.omni.new(omni);
-    } else if (ↂ.flag.main.progress[0] < 1000 && !State.active.variables.AW.startMale && aw.time > ↂ.flag.main.deadline[1]) {
+    } else if (ↂ.flag.main.progress[1] < 1000 && !State.active.variables.AW.startMale && aw.time > ↂ.flag.main.deadline[1]) {
       setup.omni.new("questFail", {duration: 300});
     }
+  } else if (ↂ.flag.main.active[2]) {
+    if (ↂ.flag.main.progress[2] > 999) {
+      ↂ.flag.main.active[2] = false;
+      // ↂ.flag.main.active[3] = true;
+      const omni = {
+        name: "Task 3 Complete",
+        type: "single",
+        output: "interact",
+        duration: 600,
+        icon: "none",
+        run: `setup.interact.launch({passage: "MSM-TaskThreeComplete", block: false, content: "none", npcid: "n101", title: "Text From Lily", size: 3});`,
+      } as IntOmniData;
+      setup.omni.new(omni);
+    } else if (ↂ.flag.main.progress[2] < 1000 && !State.active.variables.AW.startMale && aw.time > ↂ.flag.main.deadline[2]) {
+      setup.omni.new("questFail", {duration: 300});
+    }
+  } else if (ↂ.flag.main.active[3]) {
+    if (ↂ.flag.main.progress[3] > 999) {
+      ↂ.flag.main.active[3] = false;
+      // ↂ.flag.main.active[4] = true;
+      const omni = {
+        name: "Task 4 Complete",
+        type: "single",
+        output: "interact",
+        duration: 600,
+        icon: "none",
+        run: `setup.interact.launch({passage: "MSM-TaskFourComplete", block: false, content: "none", npcid: "n101", title: "Text From Lily", size: 3});`,
+      } as IntOmniData;
+      setup.omni.new(omni);
+    } else if (ↂ.flag.main.progress[3] < 1000 && !State.active.variables.AW.startMale && aw.time > ↂ.flag.main.deadline[3]) {
+      setup.omni.new("questFail", {duration: 300});
+    }
+  }
+  if (ↂ.flag.main.components[0] === 2 && ↂ.flag.main.components[1] === 2 && ↂ.flag.main.components[2] === 2 && ↂ.flag.main.components[3] === 2 && setup.omni.matching("Rejuvenator complete") === 0) {
+    let omni = {};
+    const time = 1440 + (random (720, 1080));
+    omni = {
+      name: `Rejuvenator complete`,
+      type: "single",
+      output: "none",
+      duration: time,
+      icon: "none",
+      text: "none",
+      run: `
+      setup.endOfAllThings();
+      `,
+    };
+  setup.omni.new(omni as IntOmniData);
+  setup.interact.status.npc = "n101";
+  setup.interact.launch({passage: "Rejuvenator-ready-text", npcid: "n104", content: "none", block: false, title: "Phone message", size: 3});
   }
   aw.S("flag");
 };
@@ -245,18 +314,22 @@ setup.lab.people = function() {
     // lily is in
     State.temporary.labLily = random(1, 10);
   }
-  if (random(1, 10) <= sara) {
-    // sara is in
-    State.temporary.labSara = random(1, 10);
-  }
-  if (random(1, 10) <= kim) {
-    // kim is in
-    State.temporary.labKim = (State.temporary.labLily > 0) ? random(1, 10) : random(2, 10);
+  if (ↂ.flag.main.active[3]) {
+    // sara/kim are not in.
+  } else {
+    if (random(1, 10) <= sara) {
+      // sara is in
+      State.temporary.labSara = random(1, 10);
+    }
+    if (random(1, 10) <= kim) {
+      // kim is in
+      State.temporary.labKim = (State.temporary.labLily > 0) ? random(1, 10) : random(2, 10);
+    }
   }
 };
 
 
-setup.lab.work = function(task: number, type: string): string {
+setup.lab.work = function(task: number, type: string): string { // <<print setup.lab.work(4, "none")>>
   // perform work on task.
   let output = "ERROR!";
   if (task === 0) {
@@ -335,8 +408,76 @@ setup.lab.work = function(task: number, type: string): string {
     } else {
       output += `<button class="disabled">Visit Martin</button></center>`;
     }
+  } else if (task === 2) {
+    // Organize and Inspect the Parts
+    if (ↂ.flag.main.progress[2] > 999) {
+      return `<<f y>>ou get ready to start working only to realize that the task is already complete!`;
+    }
+    setup.time.add(60);
+    setup.SCXfunc();
+    setup.SCfunc("OG", 11);
+    setup.SCfunc(type, 12);
+    let bonus = 2;
+    if (type === "PS") {
+      setup.SCfunc("PS", 13);
+      bonus = 3;
+    } else {
+      setup.SCfunc("OG", 11);
+    }
+    let add = random(1, 3);
+    let cunt = 0;
+    for (let i = 1; i < 4; i++) {
+      add += (State.active.variables.SCresult[i]) ? bonus : 0;
+      cunt += (State.active.variables.SCresult[i]) ? 1 : 0;
+    }
+    switch (type) {
+      case "PS":
+        output = `<center>[img[${either("IMG-StoryEMcoil1", "IMG-StoryEMcoil4", "IMG-StoryEMcoil5")}]]<br>${State.active.variables.SCtext[1]} ${State.active.variables.SCtext[2]} ${State.active.variables.SCtext[3]}</center><p>You spend your time winding some of the more complex EM coils`;
+        break;
+      case "OG":
+        output = `<center>[img[${either("IMG-StoryEMcoil2", "IMG-StoryEMcoil3")}]]<br>${State.active.variables.SCtext[1]} ${State.active.variables.SCtext[2]} ${State.active.variables.SCtext[3]}</center><p>You spend your time winding some of the more basic EM coils`;
+        break;
+    }
+    if (cunt === 0) {
+      output += ", and though your work was slow, you managed to make a little progress.";
+    } else if (cunt < 3) {
+      output += ". You were able to get work done at an average pace, and made some progress.";
+    } else {
+      output += ". Your work was pretty efficient so you made good progress.";
+    }
+    if (State.active.variables.AW.startMale) {
+      add = Math.round(add / 3);
+    }
+    const a = Math.floor(add / 10);
+    const b = add % 10;
+    output += ` Your work brought the task ${a}.${b}% closer to completion.</p>`;
+    ↂ.flag.main.progress[0] += add;
+    if (ↂ.flag.main.progress[0] > 999) {
+      ↂ.flag.main.progress[0] = 1000;
+      output += `<p>@@.good;Congratulations, you finished the task!@@ Now you just need to wait for Lily to check things over so everyone can start working on the next task.</p>`;
+    }
+  } else if (task === 4) {
+    if (JSON.stringify(ↂ.flag.main.components) === "[2, 2, 2, 2]") {
+      return `<<f y>>ou realize that you already got all components Lily needs. @@.mono;Phew, at least this was taken care of already.@@<br><<comment "This is the end of the main quest for this release. We gonna finish it soon, stay tuned!">>`;
+    } else if (ↂ.flag.main.components.indexOf(1) !== -1) {
+      return `<<f y>>ou realize that you already began a acquiring one of the components. @@.mono;I better finish with this one before moving forward.@@`;
+    }
+    output = `<span id="componentsSpan">You look at the list of components you need to acquire...`;
+    if (JSON.stringify(ↂ.flag.main.components) === "[0, 0, 0, 0]") {
+      output += " @@.mono;Well, I wonder what should I get first?@@<br>"
+    } else {
+      output += "<br>"
+    }
+    for (let index = 0; index < ↂ.flag.main.components.length; index++) {
+      if (ↂ.flag.main.components[index] === 0) {
+        output += `<div style="width: 200px; height: 260px; background-color: #380c0c; border-radius: 15px; padding: 15px; float: left; margin-left: 10px; margin-top: 10px;"><img data-passage="${ↂ.flag.main.componentsImages[index]}" style="border-radius: 10px; float: left; margin-right: 10px; margin-bottom: 5px; width: 200px; height: 200px;"><center><span class="wdColor"><b>${ↂ.flag.main.componentsNames[index]}</b></span><br><<button "Acquire">><<replace "#componentsSpan">><<include [[${ↂ.flag.main.componentsStartScene[index]}]]>><</replace>><</button>></center></div>`;
+      } else {
+        output += `<div style="width: 200px; height: 260px; background-color: #3e3e3e; border-radius: 15px; padding: 15px; float: left; margin-left: 10px; margin-top: 10px;"><img data-passage="${ↂ.flag.main.componentsImages[index]}" style="border-radius: 10px; float: left; margin-right: 10px; margin-bottom: 5px; width: 200px; height: 200px;"><center><span class="wdColor"><b>${ↂ.flag.main.componentsNames[index]}</b></span><br>@@.disabled;<<button "Acquired">><</button>>@@</center></div>`;
+      }
+    }
+    output += "</span><br>";
   }
-  aw.S("flag");
+  aw.S();
   aw.go("LilysLab");
   return output;
 };

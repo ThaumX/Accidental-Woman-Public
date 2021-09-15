@@ -725,12 +725,22 @@ class Status {
     }
     if (this._k === "pc") {
       aw.con.info(`Perversion change: ${this.data[29]} to ${val} (${val - this.data[29]})`);
+      /* if (val > 70) { FOR LATER USE
+        ↂ.pc.kink.hyperSlut = true;
+        aw.S();
+      } else if (val > 50) {
+        ↂ.pc.kink.superSlut = true;
+        aw.S();
+      } else if (val > 70) {
+        ↂ.pc.kink.slut = true;
+        aw.S();
+      } */
     }
     this.data[29] = val;
   }
   public get bimbo(): number {
     if (this._k === "pc") {
-      if (this.data[30] > 49) {
+      if (this.data[30] > 69) {
         setup.parse.bimbo = true;
       } else {
         setup.parse.bimbo = false;
@@ -752,7 +762,7 @@ class Status {
     this.data[30] = val;
     if (this._k === "pc") {
       aw.con.info(`Bimbo change: ${this.data[30]} to ${val} (${val - this.data[30]})`);
-      if (this.data[30] > 49) {
+      if (this.data[30] > 69) {
         setup.parse.bimbo = true;
       } else {
         setup.parse.bimbo = false;

@@ -57,7 +57,7 @@
   <<status 1>>
   <<set _milks = setup.consumables.amtOfConsumable("breastMilkA")>>
   <<dropconsumable "breastMilkA" _milks>>
-  <<set _cashes = ↂ.flag.farm.milkPrice * _milks>>
+  <<set _cashes = setup.cashDiff(ↂ.flag.farm.milkPrice * _milks)>>
   <<run aw.cash(_cashes, "milk")>>
   <<addTime 10>>
   <<dialog "Milk Sold">><<updatebar>>You successfully sold <<= _milks>> cryo-canister<<if _milks > 1>>s<</if>> of your breastmilk and earned @@.mon;₢<<= _cashes>>@@.<</dialog>>

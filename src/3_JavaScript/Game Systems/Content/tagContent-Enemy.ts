@@ -47,7 +47,7 @@ aw.tagContent.enemy.nakedBottom = [
   <<has shame>><<stress 20 "Naked Pussy Convo">><<arouse -1>>@@.mono;This is a worst thing that could ever happened! <<if aw.npc[setup.interact.status.npc].main.female>>She<<else>>He<</if>> will tell everyone now!@@<br><<orhas sub>><<stress 3 "Naked Pussy Convo">><<arouse 1>>@@.mono;That is soo humiliating... why it makes me aroused?@@<br><<or>><<stress 15 "Naked Pussy Convo">>@@.mono;Oh, shit.@@<br><</has>>
   <<dialogchoice>>
       <<dbutt "Run">><<run setup.interact.exit()>>
-      <<dtext "pain">>Run away in embarassment.
+      <<dtext "pain">>Run away in embarrassment.
       <<dbutt "Mumble">><<intreplace>><<ctagcontent "enemy" "NakedBottomMumble">><</intreplace>>
       <<dtext "muted">>Well... I...was just...not...
       <<dbutt "Talk back" "ↂ.pc.trait.will > 2">><<intreplace>><<ctagcontent "enemy" "NakedBottomChat">><</intreplace>>
@@ -99,7 +99,7 @@ aw.tagContent.enemy.practNakedBottomNeutral = [
 aw.tagContent.enemy.buckNaked = [
   `<<print aw.npc[setup.interact.status.npc].main.name>> stares at your nude body <<has exhibition>><<aroused 2>>which makes you more aroused.<br>
   @@.mono;Oh yeah, I can't believe I am doing that!@@<br><<orhas slut || liberate>>which you can deal with.<br>
-  @@.mono;That is prety exciting!@@<br><<orhas shame>><<aroused -2>><<stress 25 "Naked Convo">>which makes you panic.<br>
+  @@.mono;That is pretty exciting!@@<br><<orhas shame>><<aroused -2>><<stress 25 "Naked Convo">>which makes you panic.<br>
   @@.mono;AAA! I am totally naked in view of <<print aw.npc[setup.interact.status.npc].main.name>>!!!@@<br><<or>><<stress 15 "Naked Convo">>which makes you feel terrible.<br>
   @@.mono;Oops, I am totally naked.@@<br><</has>>
   @@.npc;Aha-ha-ha! That is most hilarious thing that could happen!@@<br>
@@ -178,7 +178,7 @@ aw.tagContent.enemy.mindbreak = [
   <<link "Get up">><<run setup.interact.exit()>><</link>>`,
 ];
 aw.tagContent.enemy.flooded = [
-  `<<if ↂ.pc.clothes.keys.panties == 0 || ↂ.pc.clothes.worn.panties === "pulledAside" || ↂ.pc.clothes.worn.panties === "pulledOff" || ↂ.pc.clothes.worn.panties === "off">>You feel your juices running down your inner thights with no panties in a way to stop them.<br><<else>>You feel your juices making a slippery mess slowly soaking through your panties.<br><</if>>
+  `<<if ↂ.pc.clothes.keys.panties == 0 || ↂ.pc.clothes.worn.panties === "pulledAside" || ↂ.pc.clothes.worn.panties === "pulledOff" || ↂ.pc.clothes.worn.panties === "off">>You feel your juices running down your inner thighs with no panties in a way to stop them.<br><<else>>You feel your juices making a slippery mess slowly soaking through your panties.<br><</if>>
   <<include [[NPCinteraction-EnemyContinue]]>>`,
 ];
 

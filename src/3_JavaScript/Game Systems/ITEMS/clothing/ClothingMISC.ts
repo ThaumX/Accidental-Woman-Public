@@ -280,6 +280,63 @@ setup.clothes.defineObjects = function(): void {
       return setup.clothes.exposureWord(ᛝ.stats.exposureBot);
     },
   });
+  Object.defineProperty(setup.clothes, "braWord", {
+    set() {},
+    get() {
+      const ᛝ = ↂ.pc.clothes;
+      const wear = ["normal", "strapsOff"];
+      if (aw.slot.bra !== 0 && "object" === typeof aw.slot.bra && wear.includes(ᛝ.worn.bra)) {
+        let type = (aw.slot.bra.swimwear) ? "swimwear" : "bra";
+        type = (random(1, 2) === 2) ? aw.slot.bra.style : type;
+        switch (random(1, 6)) {
+          case 1: return aw.slot.bra.style;
+          case 2: return `${aw.slot.bra.color} ${type}`;
+          case 3: return `${aw.slot.bra.exposure} ${type}`
+          case 4: return `${aw.slot.bra.sexy} ${type}`;
+          case 5: return `${aw.slot.bra.atr} ${type}`;
+          case 6: return type;
+        }
+      } else {
+        return "no bra";
+      }
+    },
+  });
+  Object.defineProperty(setup.clothes, "topWord", {
+    set() {},
+    get() {
+      const ᛝ = ↂ.pc.clothes;
+      const wear = ["normal", "strapsOff", "halfButton"];
+      if (aw.slot.top !== 0 && "object" === typeof aw.slot.top && wear.includes(ᛝ.worn.top)) {
+        const type = (random(1, 4) > 1) ? aw.slot.top.style : "top";
+        switch (random(1, 6)) {
+          case 1: return aw.slot.top.style;
+          case 2: return `${aw.slot.top.color} ${type}`;
+          case 3: return `${aw.slot.top.exposure} ${type}`
+          case 4: return `${aw.slot.top.sexy} ${type}`;
+          case 5: return `${aw.slot.top.atr} ${type}`;
+          case 6: return type;
+        }
+      } else {
+        return "no top";
+      }
+    },
+  });
+  Object.defineProperty(setup.clothes, "topAndBraWord", {
+    set() {},
+    get() {
+      const top = setup.clothes.topWord;
+      const bra = setup.clothes.braWord;
+      if (top === "no top" && bra === "no bra") {
+        return "bare upper body";
+      } else if (top === "no top") {
+        return bra;
+      } else if (bra === "no bra") {
+        return top;
+      } else {
+        return `{bra} and {top}`;
+      }
+    },
+  });
   Object.defineProperty(setup.clothes.access, "nip", {
     set() {},
     get() {
@@ -367,7 +424,7 @@ setup.clothes.defineObjects = function(): void {
       const wear = ["normal", "strapsOff", "unbuttoned", "halfButton"];
       for (let i = 0; i < 6; i++) {
         if (aw.slot[list[i]] !== 0 && "object" === typeof aw.slot[list[i]]) {
-          if (aw.slot[list[i]].values.exposure < 46 && wear.includes(ᛝ.worn[list[i]])) {
+          if (aw.slot[list[i]].curExposure < 46 && wear.includes(ᛝ.worn[list[i]])) {
             return false;
           }
         }
@@ -383,7 +440,7 @@ setup.clothes.defineObjects = function(): void {
       const wear = ["normal", "unzipped", "unbuttoned"];
       for (let i = 0; i < 6; i++) {
         if (aw.slot[list[i]] !== 0 && "object" === typeof aw.slot[list[i]]) {
-          if (aw.slot[list[i]].values.exposure < 46 && wear.includes(ᛝ.worn[list[i]])) {
+          if (aw.slot[list[i]].curExposure < 46 && wear.includes(ᛝ.worn[list[i]])) {
             if (aw.slot[list[i]].slot === "leg") {
               // check if blocks pussy to see if pantyhose
               if (!aw.slot[list[i]].access.pussy) {
@@ -428,6 +485,57 @@ setup.clothes.defineObjects = function(): void {
       return false;
     },
   });
+};
+// some useful functions
+setup.clothes.damage = function (slot: string, amt: number) {
+  const list = ["panties", "bra", "leg", "top", "bottom", "coat", "shoes"];
+  if (!list.includes(slot)) {
+    aw.con.warn(`bad slot "${slot}" sent to clothes damage function`);
+    return;
+  }
+  if (aw.slot[slot] !== 0 && "object" === typeof aw.slot[slot]) {
+    const key = ↂ.pc.clothes.keys[slot];
+    aw.clothes[key].values.damage += amt;
+    aw.slot[slot].values.damage = aw.clothes[key].values.damage;
+    if (aw.clothes[key].values.damage > 19) { // delete clothing if destroyed
+      setup.clothes.delete(key, true);
+      aw.slot[slot] = 0;
+    }
+  } else {
+    aw.con.info(`no equipped ${slot} clothes to damage.`);
+  }
+};
+setup.clothes.makeDirty = function (slot: string, amt: number) {
+  const list = ["panties", "bra", "leg", "top", "bottom", "coat", "shoes"];
+  if (!list.includes(slot)) {
+    aw.con.warn(`bad slot "${slot}" sent to clothes dirty function`);
+    return;
+  }
+  if (aw.slot[slot] !== 0 && "object" === typeof aw.slot[slot]) {
+    const key = ↂ.pc.clothes.keys[slot];
+    aw.clothes[key].values.dirty += amt;
+    aw.slot[slot].values.dirty = aw.clothes[key].values.dirty;
+  } else {
+    aw.con.info(`no equipped ${slot} clothes to dirty.`);
+  }
+};
+setup.clothes.takeOff = function (slot: string) {
+  if (ↂ.pc.clothes.worn[slot] !== 0) {
+    ↂ.pc.clothes.worn[slot] = "off";
+  }
+}
+setup.clothes.timeEffect = function () {
+  const list = ["panties", "bra", "leg", "top", "bottom", "coat", "shoes"];
+  for (let i = 0; i < 7; i++) {
+    if (aw.slot[list[i]] !== 0 && "object" === typeof aw.slot[list[i]]) {
+      if (random(1, 250) === 1) {
+        setup.clothes.damage(list[i], 1);
+      }
+      if (random(1, 50) === 1 && list[i] !== "shoes") {
+        setup.clothes.makeDirty(list[i], 1);
+      }
+    }
+  }
 };
 
 // returns word for attractiveness
@@ -508,15 +616,15 @@ setup.clothes.atrWord = function(val: number): string {
 setup.clothes.dirty = function(val: number): string {
   switch (val) {
     case 0:
+      return "fresh";
     case 1:
       return "clean";
     case 2:
+      return "soiled"
     case 3:
-      return "worn";
+      return "dingy";
     case 4:
       return "dirty";
-    case 5:
-      return "stinky";
     default:
       return "filthy";
   }
@@ -524,10 +632,10 @@ setup.clothes.dirty = function(val: number): string {
 
 // returns health word/s for health number
 setup.clothes.health = function(val: number): string {
-  if (val < 3) {
+  if (val < 2) {
     return "brand new";
   }
-  val = Math.round((val - 2) / 4);
+  val = Math.floor((val - 1) / 4);
   switch (val) {
     case 0:
       return "like new";
@@ -537,8 +645,6 @@ setup.clothes.health = function(val: number): string {
       return "well-worn";
     case 3:
       return "threadbare";
-    case 4:
-      return "rags";
     default:
       return "in tatters";
   }
@@ -857,18 +963,18 @@ setup.clothes.icon = {
   "coat"(num: number, sub: number = 0): string {
     const img = [
       "IMGnotavailable",
-      "IMG-CIOW-PleatedCoat",
-      "IMG-CIOW-Jacket",
-      "IMG-CIOW-FancyCoat",
-      "IMG-CIOW-longCoat",
-      "IMG-CIOW-longCoat",
-      "IMG-CIOW-Jacket",
-      "IMG-CIOW-FancyCoat",
-      "IMG-CIOW-Jacket",
-      "IMG-CIOW-Hoodie",
+      "IMG-CI-PleatedCoatOW",
+      "IMG-CI-JacketOW",
+      "IMG-CI-FancyCoatOW",
+      "IMG-CI-longCoatOW",
+      "IMG-CI-longCoatOW",
+      "IMG-CI-JacketOW",
+      "IMG-CI-FancyCoatOW",
+      "IMG-CI-JacketOW",
+      "IMG-CI-HoodieOW",
       "IMGnotavailable", // cardigan
       "IMGnotavailable", // turtleneck
-      "IMG-CIOW-Hoodie",
+      "IMG-CI-HoodieOW",
     ];
     return img[num] || "IMGnotavailable";
   },

@@ -175,6 +175,7 @@
   <<set _satyrNeed = ↂ.pc.status.addict.satyrNeed>>
   <<set _sexNeed = ↂ.pc.status.addict.sexNeed>>
   <<set _zoneNeed = ↂ.pc.status.addict.zoneNeed>>
+  <<set _drugs = setup.drug.isOn()>>
   <</silently>>
   <table id="invisTable">
     <tr class="head">
@@ -182,21 +183,21 @@
       <td style="width:30%;"><b>ADDICTION</b></td>
       <td style="width:30%;"><b>NEED</b></td>
     </tr><tr>
-      <td><b>Alcohol:</b></td><td><<colorcode _alc _tempScale>></td><td><<colorcode _alcNeed _tempScale>></td>
+      <td><b><<if _drugs.includes("alc")>>@@.good;Alcohol@@<<else>>Alcohol<</if>>:</b></td><td><<colorcode _alc _tempScale>></td><td><<colorcode _alcNeed _tempScale>></td>
     </tr><tr>
-      <td><b>Cum:</b></td><td><<colorcode _cum _tempScale>></td><td><<colorcode _cumNeed _tempScale>></td>
+      <td><b><<if _drugs.includes("cum")>>@@.good;Cum@@<<else>>Cum<</if>>:</b></td><td><<colorcode _cum _tempScale>></td><td><<colorcode _cumNeed _tempScale>></td>
     </tr><tr>
-      <td><b>Creampie:</b></td><td><<colorcode _cream _tempScale>></td><td><<colorcode _creamNeed _tempScale>></td>
+      <td><b><<if _drugs.includes("cream")>>@@.good;Creampie@@<<else>>Creampie<</if>>:</b></td><td><<colorcode _cream _tempScale>></td><td><<colorcode _creamNeed _tempScale>></td>
     </tr><tr>
-      <td><b>Focus:</b></td><td><<colorcode _focus _tempScale>></td><td><<colorcode _focusNeed _tempScale>></td>
+      <td><b><<if _drugs.includes("focus")>>@@.good;Focus@@<<else>>Focus<</if>>:</b></td><td><<colorcode _focus _tempScale>></td><td><<colorcode _focusNeed _tempScale>></td>
     </tr><tr>
-      <td><b>Heat:</b></td><td><<colorcode _heat _tempScale>></td><td><<colorcode _heatNeed _tempScale>></td>
+      <td><b><<if _drugs.includes("heat")>>@@.good;Heat@@<<elseif _drugs.includes("heatfert")>>@@.gold;Heat@@<<else>>Heat<</if>>:</b></td><td><<colorcode _heat _tempScale>></td><td><<colorcode _heatNeed _tempScale>></td>
     </tr><tr>
-      <td><b>Satyr:</b></td><td><<colorcode _satyr _tempScale>></td><td><<colorcode _satyrNeed _tempScale>></td>
+      <td><b><<if _drugs.includes("satyr")>>@@.good;Satyr@@<<elseif _drugs.includes("satyrfert")>>@@.gold;Satyr@@<<else>>Satyr<</if>>:</b></td><td><<colorcode _satyr _tempScale>></td><td><<colorcode _satyrNeed _tempScale>></td>
     </tr><tr>
-      <td><b>Sex:</b></td><td><<colorcode _sex _tempScale>></td><td><<colorcode _sexNeed _tempScale>></td>
+      <td><b><<if _drugs.includes("sex")>>@@.good;Sex@@<<else>>Sex<</if>>:</b></td><td><<colorcode _sex _tempScale>></td><td><<colorcode _sexNeed _tempScale>></td>
     </tr><tr>
-      <td><b>Zone:</b></td><td><<colorcode _zone _tempScale>></td><td><<colorcode _zoneNeed _tempScale>></td>
+      <td><b><<if _drugs.includes("zone")>>@@.good;Zone@@<<else>>Zone<</if>>:</b></td><td><<colorcode _zone _tempScale>></td><td><<colorcode _zoneNeed _tempScale>></td>
     </tr>
   </table>
   <center>
@@ -207,6 +208,7 @@
   <<button "Vigor">><<dialog "Vigor Changes">><<print setup.status.rPrint("fatigue")>><</dialog>><</button>>
   <<button "Satisfaction">><<dialog "Satisfaction Changes">><<print setup.status.rPrint("satisfy")>><</dialog>><</button>>
   <<button "Health">><<dialog "Health Changes">><<print setup.status.rPrint("health")>><</dialog>><</button>>
+  <<button "Bimbo">><<dialog "Bimbo Changes">><<print setup.status.rPrint("bimbo")>><</dialog>><</button>>
   </center>
 </td>
 </tr>
@@ -398,7 +400,7 @@
       <<else>>
       <div style="width:700px;">
         <center>[img[IMG-HowIsupposedTo]]</center>
-        You realise that you actually can't masturbate with that chastity on.
+        You realize that you actually can't masturbate with that chastity on.
       </div>
       <</if>>
     <</dialog>>
@@ -685,6 +687,9 @@
 :: MENU-Character-Detail [nobr]
 
 
+<center>
+<<button "Game Statistics">><<dialog "Statistics">><<include [[Statistics]]>><</dialog>><</button>>
+</center>
 <table class="tablefuckin" style="margin:10px auto;padding:5px;width:98%;">
   <tr><td colspan=6 class="head4">General</td></tr>
   <tr>
@@ -738,7 +743,8 @@
   <tr><td colspan=6 class="head4">Breasts</td></tr>
   <tr>
     <td><b>Size:</b></td>
-    <td><<= ↂ.pc.body.tits.base.size>>cc (base)<br><<= ↂ.pc.body.tits.size>>cc (current)</td>
+    <td><<= ↂ.pc.body.tits.base.size>>cc (base) | <<= ↂ.pc.body.tits.size>>cc (cur)<br>
+    <<= setup.calcBreastWeight(ↂ.pc.body.tits.size)>></td>
     <td><b>Cup Size:</b></td>
     <td><<= ↂ.pc.body.tits.base.cup>> (base)<br><<= ↂ.pc.body.tits.cup>> (cur)</td>
     <td><b>Band Size:</b></td>
@@ -831,20 +837,21 @@
     <<if ↂ.pc.mutate.birthCon>>Abnormal Hormones <i>chemical birth control has a much higher failure rate for you</i><br><</if>>
     <<if ↂ.pc.mutate.contort>>Contortionist <i>you have no penalty for extreme bondage</i><br><</if>>
     <<if ↂ.pc.mutate.immune>>Ethanol Immunity <i>you do not get drunk</i><br><</if>>
-    <<if ↂ.pc.mutate.cycle>>Hyper Menstral Cycle <i>you ovulate multiple times per cycle</i><</if>>
+    <<if ↂ.pc.mutate.cycle>>Hyper Menstrual Cycle <i>you ovulate multiple times per cycle</i><</if>>
     <<if ↂ.pc.mutate.milk>>Hypermilky <i>you always lactate</i><br><</if>>
     <<if ↂ.pc.mutate.multiple>>Multiple Ovulation <i>you release multiple eggs on each ovulation</i><br><</if>>
     <<if ↂ.pc.mutate.gestate>>Rapid Gestation <i>your pregnancies come to term in 6 weeks</i><br><</if>>
     <<if ↂ.pc.mutate.mouth>>Salivary Enzymes <i>your spit damages condoms</i><br><</if>>
     <<if ↂ.pc.mutate.twinWomb>>Twin Wombs <i>you have two functioning uteruses</i><br><</if>>
     <<if ↂ.pc.mutate.acid>>Vaginal Enzymes <i>your femlube damages condoms</i><br><</if>>
-    <<if ↂ.pc.mutate.pheromone>>Vulva Pheromones <i>the smell of your pussy is irresistable to men</i><br><</if>>
+    <<if ↂ.pc.mutate.pheromone>>Vulva Pheromones <i>the smell of your pussy is irresistible to men</i><br><</if>>
     <<if ↂ.pc.mutate.litePhero>>Alluring Pheromones <i>you produce pheromones that make you more attractive to men and less to women</i><br><</if>>
     <<if ↂ.pc.mutate.period>>Amenorrhea <i>you do not normally have a period</i><br><</if>>
     <<if ↂ.pc.mutate.cumpire>>Lilith's Porphyria <i>you must feed on others or take expensive medicine to survive</i><br><</if>>
     <<if ↂ.pc.mutate.pseudoPreg>>Pseudo-Pregnancy <i>non-viable or non-human semen results in a pseudo-pregnancy</i><br><</if>>
     <<if ↂ.pc.mutate.elastic>>Elastic Orifices <i>Your orifices are less likely to become permanently stretched, and recover faster from temporary stretching</i><br><</if>>
-    <<if ↂ.pc.mutate.goddess>>@@.head4;Special Mutations@@<br>@@.good;''Fertility Goddess''@@ <i>your body is so perfect for breeding that it must be divine--literally</i> @@.note;you have a preternatural ability to gauge the fertility of potential mates, an unnatural attractiveness, and unmatched control over your reproductive system. People would probably worship you, if you permitted them to bask in your splendor.@@<<elseif ↂ.pc.mutate.fertStorm>>@@.head4;Special Mutations@@<br>@@.good;''Fertility Storm''@@ <i>your body is a perfect storm of fertility</i> @@.note;You get the feeling that your body has some other unknown advantage...@@<</if>>
+    <<if ↂ.pc.mutate.goddess>>@@.head4;Special Mutations@@<br>@@.good;''Fertility Goddess''@@ <i>your body is so perfect for breeding that it must be divine--literally</i> @@.note;you have a preternatural ability to gauge the fertility of potential mates, an unnatural attractiveness, and unmatched control over your reproductive system. People would probably worship you, if you permitted them to bask in your splendor.@@<br><<elseif ↂ.pc.mutate.fertStorm>>@@.head4;Special Mutations@@<br>@@.good;''Fertility Storm''@@ <i>your body is a perfect storm of fertility</i> @@.note;You get the feeling that your body has some other unknown advantage...@@<br><<if ↂ.pc.fert.fertility == 9>>@@.good;''Broodmother''@@ <i>Your body has been improved by science to be even more fertile than naturally possible.</i> @@.note;you have the highest possible fertility score in the game, but individual fertility stats can still be improved!@@<br><</if>><</if>>
+    <<if ↂ.flag.tentacle.breeder>>Tentacle Fan <i>Your body is more compatible with tentacle species for reproduction.<</if>>
     </td>
   </tr>
 </table>
